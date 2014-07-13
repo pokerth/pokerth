@@ -32,21 +32,23 @@ package gameserver
 
 import (
 	"log"
+	"pokerth"
 	"sync/atomic"
 )
 
 type Dispatcher struct {
-	handler       PacketHandler
-	receiver      chan SessionPacket
+	receiver      chan SessionPokerTHMessage
+	authChan      chan SessionAuthMessage
+	lobbyChan     chan SessionLobbyMessage
 	lastSessionId uint32
 }
 
-func NewDispatcher(handler PacketHandler) *Dispatcher {
-	return &Dispatcher{handler, make(chan SessionPacket, RECV_DISPATCHER_NUM_PACKET_BUF), 0}
+func NewDispatcher(authChan chan SessionAuthMessage, lobbyChan chan SessionLobbyMessage) *Dispatcher {
+	return &Dispatcher{make(chan SessionPokerTHMessage, RECV_DISPATCHER_NUM_PACKET_BUF), authChan, lobbyChan, 0}
 }
 
-func (d *Dispatcher) GetReceiver() *chan SessionPacket {
-	return &d.receiver
+func (d *Dispatcher) GetReceiver() chan SessionPokerTHMessage {
+	return d.receiver
 }
 
 func (d *Dispatcher) GetNextSessionId() uint32 {
@@ -54,12 +56,19 @@ func (d *Dispatcher) GetNextSessionId() uint32 {
 }
 
 func (d *Dispatcher) Run() {
-	var sessionPacket SessionPacket
+	var sessionMsg SessionPokerTHMessage
 	for {
 		select {
-		case sessionPacket = <-d.receiver:
-			log.Printf("Packet in dispatcher session %d type %d", sessionPacket.session.id, sessionPacket.packet.GetMessageType())
-			d.handler.HandlePacket(sessionPacket.session, sessionPacket.packet)
+		case sessionMsg = <-d.receiver:
+			log.Printf("Packet in dispatcher session %d type %d", sessionMsg.session.id, sessionMsg.packet.GetMessageType())
+			switch sessionMsg.packet.GetMessageType() {
+			case pokerth.PokerTHMessage_Type_AuthMessage:
+				d.authChan <- SessionAuthMessage{sessionMsg.session, sessionMsg.packet.GetAuthMessage()}
+			case pokerth.PokerTHMessage_Type_LobbyMessage:
+				d.lobbyChan <- SessionLobbyMessage{sessionMsg.session, sessionMsg.packet.GetLobbyMessage()}
+			default:
+				log.Print("Unknown packet type")
+			}
 		}
 	}
 }

@@ -29,15 +29,9 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-import "src/third_party/gogoprotobuf/gogo.proto";
-
 option java_package = "de.pokerth.protocol";
 option java_outer_classname = "ProtoBuf";
 option optimize_for = LITE_RUNTIME;
-
-option (gogoproto.marshaler_all) = true;
-option (gogoproto.unmarshaler_all) = true;
-option (gogoproto.sizer_all) = true;
 
 // Enumerations used by several messages.
 
@@ -166,6 +160,7 @@ message AuthClientRequestMessage {
 	optional	string			nickName = 5;
 	// Authenticated login data is according to SCRAM SHA-1
 	optional	bytes			clientUserData = 6;
+	optional	bytes			myLastSessionId = 7;
 }
 
 message AuthServerChallengeMessage {
@@ -183,14 +178,13 @@ message AuthServerVerificationMessage {
 }
 
 message InitMessage {
-	optional	bytes			myLastSessionId = 1;
 	// Ignored for guest login.
-	optional	bytes			avatarHash = 2;
+	optional	bytes			avatarHash = 1;
 }
 
 message InitAckMessage {
-	optional	bytes			yourAvatarHash = 3;
-	optional	uint32			rejoinGameId = 4;
+	optional	bytes			yourAvatarHash = 1;
+	optional	uint32			rejoinGameId = 2;
 }
 
 message AvatarRequestMessage {

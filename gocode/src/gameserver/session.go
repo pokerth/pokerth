@@ -47,21 +47,37 @@ const RECV_BUF_SIZE uint32 = 4 * MAX_PACKET_SIZE
 const SEND_BUF_SIZE uint32 = 2 * MAX_PACKET_SIZE
 const SEND_NUM_PACKET_BUF = 2048
 const RECV_DISPATCHER_NUM_PACKET_BUF = 2048
+const RECV_LOBBY_NUM_PACKET_BUF = 2048
 
 type Session struct {
 	id uint32
 	PacketSerializer
 	Connection net.Conn
 	sender     chan *pokerth.PokerTHMessage
-	receiver   *chan SessionPacket
+	receiver   chan SessionPokerTHMessage
 }
 
-type SessionPacket struct {
+type SessionPokerTHMessage struct {
 	session *Session
 	packet  *pokerth.PokerTHMessage
 }
 
-func NewSession(id uint32, serializer PacketSerializer, conn net.Conn, receiver *chan SessionPacket) *Session {
+type SessionAuthMessage struct {
+	session *Session
+	packet  *pokerth.AuthMessage
+}
+
+type SessionLobbyMessage struct {
+	session *Session
+	packet  *pokerth.LobbyMessage
+}
+
+type SessionGameMessage struct {
+	session *Session
+	packet  *pokerth.GameMessage
+}
+
+func NewSession(id uint32, serializer PacketSerializer, conn net.Conn, receiver chan SessionPokerTHMessage) *Session {
 	return &Session{id, serializer, conn, make(chan *pokerth.PokerTHMessage, SEND_NUM_PACKET_BUF), receiver}
 }
 
@@ -93,7 +109,7 @@ func (s *Session) handleReceive() {
 				log.Print("Invalid packet")
 			} else {
 				log.Printf("Packet in: %d\n", packet.GetMessageType())
-				*s.receiver <- SessionPacket{s, packet}
+				s.receiver <- SessionPokerTHMessage{s, packet}
 				remainingBytes := bufPos - bytesScanned
 				if remainingBytes > 0 {
 					copy(buf[0:], buf[bytesScanned:remainingBytes])

@@ -37,16 +37,17 @@ import (
 	"pokerth"
 )
 
-type PacketHandler interface {
-	HandlePacket(session *Session, packet *pokerth.PokerTHMessage)
-}
-
 type Lobby struct {
+	receiver chan SessionLobbyMessage
 	sessions *list.List
 }
 
 func NewLobby() *Lobby {
-	return &Lobby{list.New()}
+	return &Lobby{make(chan SessionLobbyMessage, RECV_LOBBY_NUM_PACKET_BUF), list.New()}
+}
+
+func (l *Lobby) GetReceiver() chan SessionLobbyMessage {
+	return l.receiver
 }
 
 func (l *Lobby) AddSession(session *Session) {
@@ -71,6 +72,12 @@ func (l *Lobby) AddSession(session *Session) {
 	session.sender <- announce
 }
 
-func (l *Lobby) HandlePacket(session *Session, packet *pokerth.PokerTHMessage) {
-	log.Print("packet")
+func (l *Lobby) Run() {
+	var lobbyMsg SessionLobbyMessage
+	for {
+		select {
+		case lobbyMsg = <-l.receiver:
+			log.Printf("Lobby packet %d", lobbyMsg.packet.GetMessageType())
+		}
+	}
 }

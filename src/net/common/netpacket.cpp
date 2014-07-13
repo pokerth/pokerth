@@ -72,17 +72,20 @@ bool
 NetPacket::IsClientActivity() const
 {
 	bool retVal = false;
+	bool isLobbyMsg = m_msg->messagetype() == PokerTHMessage::Type_LobbyMessage;
+	bool isGameManagementMsg = m_msg->messagetype() == PokerTHMessage::Type_GameMessage && m_msg->gamemessage().messagetype() == GameMessage::Type_GameManagementMessage;
+	bool isGameEngineMsg = m_msg->messagetype() == PokerTHMessage::Type_GameMessage && m_msg->gamemessage().messagetype() == GameMessage::Type_GameEngineMessage;
 	if (m_msg &&
-			(m_msg->messagetype() == PokerTHMessage::Type_InitMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_JoinNewGameMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_JoinExistingGameMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_RejoinExistingGameMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_KickPlayerRequestMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_LeaveGameRequestMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_StartEventMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_MyActionRequestMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_ChatRequestMessage)) {
+		(isLobbyMsg && m_msg->lobbymessage().messagetype() == LobbyMessage::Type_InitMessage
+		|| isLobbyMsg && m_msg->lobbymessage().messagetype() == LobbyMessage::Type_CreateGameMessage
+		|| isLobbyMsg && m_msg->lobbymessage().messagetype() == LobbyMessage::Type_ResetTimeoutMessage
+		|| isGameManagementMsg && m_msg->gamemessage().gamemanagementmessage().messagetype() == GameManagementMessage::Type_JoinGameMessage
+		|| isGameManagementMsg && m_msg->gamemessage().gamemanagementmessage().messagetype() == GameManagementMessage::Type_RejoinGameMessage
+		|| isGameManagementMsg && m_msg->gamemessage().gamemanagementmessage().messagetype() == GameManagementMessage::Type_KickPlayerRequestMessage
+		|| isGameManagementMsg && m_msg->gamemessage().gamemanagementmessage().messagetype() == GameManagementMessage::Type_LeaveGameRequestMessage
+		|| isGameManagementMsg && m_msg->gamemessage().gamemanagementmessage().messagetype() == GameManagementMessage::Type_StartEventMessage
+		|| isGameManagementMsg && m_msg->gamemessage().gamemanagementmessage().messagetype() == GameManagementMessage::Type_ChatRequestMessage
+		|| isGameEngineMsg && m_msg->gamemessage().gameenginemessage().messagetype() == GameEngineMessage::Type_MyActionRequestMessage)) {
 		retVal = true;
 	}
 	return retVal;

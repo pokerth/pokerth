@@ -44,8 +44,11 @@ class ClientThread;
 class ClientContext;
 class ClientCallback;
 class Game;
-class NetPacket;
 class DownloadHelper;
+class AnnounceMessage;
+class AuthMessage;
+class LobbyMessage;
+class GameMessage;
 
 class ClientState
 {
@@ -55,7 +58,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client) = 0;
 	virtual void Exit(boost::shared_ptr<ClientThread> client) = 0;
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket) = 0;
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> client, const AnnounceMessage &announceMsg) = 0;
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg) = 0;
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg) = 0;
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg) = 0;
 };
 
 // State: Initialization.
@@ -70,7 +76,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 protected:
 	// Protected constructor - this is a singleton.
@@ -89,7 +98,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 protected:
 
@@ -113,7 +125,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 protected:
 
@@ -132,7 +147,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 	void SetDownloadHelper(boost::shared_ptr<DownloadHelper> helper);
 
@@ -159,7 +177,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 protected:
 
@@ -177,7 +198,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 protected:
 
@@ -199,7 +223,10 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> /*tmpPacket*/) {}
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 
 	void SetRemoteEndpoint(boost::asio::ip::tcp::resolver::iterator endpointIterator);
 
@@ -224,12 +251,18 @@ class AbstractClientStateReceiving : public ClientState
 public:
 	virtual ~AbstractClientStateReceiving();
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+	virtual void HandleAnnounceMsg(boost::shared_ptr<ClientThread> client, const AnnounceMessage &announceMsg);
+	virtual void HandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg);
+	virtual void HandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg);
+	virtual void HandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg);
 
 protected:
 	AbstractClientStateReceiving();
 
-	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket) = 0;
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> client, const AnnounceMessage &announceMsg) = 0;
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg) = 0;
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg) = 0;
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg) = 0;
 };
 
 // State: Session init.
@@ -247,11 +280,14 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateStartSession();
 
-	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> client, const AnnounceMessage &announceMsg);
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 };
 
 // State: Waiting for the user to enter login data.
-class ClientStateWaitEnterLogin : public ClientState
+class ClientStateWaitEnterLogin : public AbstractClientStateReceiving
 {
 public:
 	static ClientStateWaitEnterLogin &Instance();
@@ -260,14 +296,17 @@ public:
 	virtual void Enter(boost::shared_ptr<ClientThread> client);
 	virtual void Exit(boost::shared_ptr<ClientThread> client);
 
-	virtual void HandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
-
 protected:
 
 	// Protected constructor - this is a singleton.
 	ClientStateWaitEnterLogin();
 
 	void TimerLoop(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
+
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg);
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 };
 
 // State: Wait for Authentication Challenge.
@@ -285,7 +324,10 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateWaitAuthChallenge();
 
-	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg);
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 };
 
 // State: Wait for Authentication Verification.
@@ -303,7 +345,10 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateWaitAuthVerify();
 
-	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg);
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 };
 
 // State: Wait for Session ACK.
@@ -321,7 +366,10 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateWaitSession();
 
-	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg);
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 };
 
 // State: Wait for Join.
@@ -340,7 +388,10 @@ protected:
 	// Protected constructor - this is a singleton.
 	ClientStateWaitJoin();
 
-	virtual void InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket);
+	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
+	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
+	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> /*client*/, const LobbyMessage &/*lobbyMsg*/) {}
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg);
 };
 
 // State: Wait for start of the game or start info.

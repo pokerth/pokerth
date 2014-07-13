@@ -43,7 +43,8 @@ var dispatcher *gameserver.Dispatcher
 
 func main() {
 	lobby = gameserver.NewLobby()
-	dispatcher = gameserver.NewDispatcher(lobby)
+	dispatcher = gameserver.NewDispatcher(nil, lobby.GetReceiver())
+	go lobby.Run()
 	go dispatcher.Run()
 
 	listener, err := net.Listen("tcp", ":7234")

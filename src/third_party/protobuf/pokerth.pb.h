@@ -34,10 +34,11 @@ class NetGameInfo;
 class PlayerResult;
 class AnnounceMessage;
 class AnnounceMessage_Version;
-class InitMessage;
+class AuthClientRequestMessage;
 class AuthServerChallengeMessage;
 class AuthClientResponseMessage;
 class AuthServerVerificationMessage;
+class InitMessage;
 class InitAckMessage;
 class AvatarRequestMessage;
 class AvatarHeaderMessage;
@@ -57,9 +58,11 @@ class PlayerInfoReplyMessage;
 class PlayerInfoReplyMessage_PlayerInfoData;
 class PlayerInfoReplyMessage_PlayerInfoData_AvatarData;
 class SubscriptionRequestMessage;
-class JoinExistingGameMessage;
-class JoinNewGameMessage;
-class RejoinExistingGameMessage;
+class SubscriptionReplyMessage;
+class CreateGameMessage;
+class CreateGameFailedMessage;
+class JoinGameMessage;
+class RejoinGameMessage;
 class JoinGameAckMessage;
 class JoinGameFailedMessage;
 class GamePlayerJoinedMessage;
@@ -120,6 +123,11 @@ class AdminRemoveGameMessage;
 class AdminRemoveGameAckMessage;
 class AdminBanPlayerMessage;
 class AdminBanPlayerAckMessage;
+class AuthMessage;
+class LobbyMessage;
+class GameManagementMessage;
+class GameEngineMessage;
+class GameMessage;
 class PokerTHMessage;
 
 enum NetGameInfo_NetGameType {
@@ -162,15 +170,15 @@ const AnnounceMessage_ServerType AnnounceMessage_ServerType_ServerType_MIN = Ann
 const AnnounceMessage_ServerType AnnounceMessage_ServerType_ServerType_MAX = AnnounceMessage_ServerType_serverTypeInternetAuth;
 const int AnnounceMessage_ServerType_ServerType_ARRAYSIZE = AnnounceMessage_ServerType_ServerType_MAX + 1;
 
-enum InitMessage_LoginType {
-  InitMessage_LoginType_guestLogin = 0,
-  InitMessage_LoginType_authenticatedLogin = 1,
-  InitMessage_LoginType_unauthenticatedLogin = 2
+enum AuthClientRequestMessage_LoginType {
+  AuthClientRequestMessage_LoginType_guestLogin = 0,
+  AuthClientRequestMessage_LoginType_authenticatedLogin = 1,
+  AuthClientRequestMessage_LoginType_unauthenticatedLogin = 2
 };
-bool InitMessage_LoginType_IsValid(int value);
-const InitMessage_LoginType InitMessage_LoginType_LoginType_MIN = InitMessage_LoginType_guestLogin;
-const InitMessage_LoginType InitMessage_LoginType_LoginType_MAX = InitMessage_LoginType_unauthenticatedLogin;
-const int InitMessage_LoginType_LoginType_ARRAYSIZE = InitMessage_LoginType_LoginType_MAX + 1;
+bool AuthClientRequestMessage_LoginType_IsValid(int value);
+const AuthClientRequestMessage_LoginType AuthClientRequestMessage_LoginType_LoginType_MIN = AuthClientRequestMessage_LoginType_guestLogin;
+const AuthClientRequestMessage_LoginType AuthClientRequestMessage_LoginType_LoginType_MAX = AuthClientRequestMessage_LoginType_unauthenticatedLogin;
+const int AuthClientRequestMessage_LoginType_LoginType_ARRAYSIZE = AuthClientRequestMessage_LoginType_LoginType_MAX + 1;
 
 enum PlayerListMessage_PlayerListNotification {
   PlayerListMessage_PlayerListNotification_playerListNew = 0,
@@ -190,19 +198,26 @@ const SubscriptionRequestMessage_SubscriptionAction SubscriptionRequestMessage_S
 const SubscriptionRequestMessage_SubscriptionAction SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_MAX = SubscriptionRequestMessage_SubscriptionAction_resubscribeGameList;
 const int SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_ARRAYSIZE = SubscriptionRequestMessage_SubscriptionAction_SubscriptionAction_MAX + 1;
 
+enum CreateGameFailedMessage_CreateGameFailureReason {
+  CreateGameFailedMessage_CreateGameFailureReason_notAllowedAsGuest = 1,
+  CreateGameFailedMessage_CreateGameFailureReason_gameNameInUse = 2,
+  CreateGameFailedMessage_CreateGameFailureReason_badGameName = 3,
+  CreateGameFailedMessage_CreateGameFailureReason_invalidSettings = 4
+};
+bool CreateGameFailedMessage_CreateGameFailureReason_IsValid(int value);
+const CreateGameFailedMessage_CreateGameFailureReason CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_MIN = CreateGameFailedMessage_CreateGameFailureReason_notAllowedAsGuest;
+const CreateGameFailedMessage_CreateGameFailureReason CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_MAX = CreateGameFailedMessage_CreateGameFailureReason_invalidSettings;
+const int CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_ARRAYSIZE = CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_MAX + 1;
+
 enum JoinGameFailedMessage_JoinGameFailureReason {
   JoinGameFailedMessage_JoinGameFailureReason_invalidGame = 1,
   JoinGameFailedMessage_JoinGameFailureReason_gameIsFull = 2,
   JoinGameFailedMessage_JoinGameFailureReason_gameIsRunning = 3,
   JoinGameFailedMessage_JoinGameFailureReason_invalidPassword = 4,
-  JoinGameFailedMessage_JoinGameFailureReason_notAllowedAsGuest = 5,
-  JoinGameFailedMessage_JoinGameFailureReason_notInvited = 6,
-  JoinGameFailedMessage_JoinGameFailureReason_gameNameInUse = 7,
-  JoinGameFailedMessage_JoinGameFailureReason_badGameName = 8,
-  JoinGameFailedMessage_JoinGameFailureReason_invalidSettings = 9,
-  JoinGameFailedMessage_JoinGameFailureReason_ipAddressBlocked = 10,
-  JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed = 11,
-  JoinGameFailedMessage_JoinGameFailureReason_noSpectatorsAllowed = 12
+  JoinGameFailedMessage_JoinGameFailureReason_notInvited = 5,
+  JoinGameFailedMessage_JoinGameFailureReason_ipAddressBlocked = 6,
+  JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed = 7,
+  JoinGameFailedMessage_JoinGameFailureReason_noSpectatorsAllowed = 8
 };
 bool JoinGameFailedMessage_JoinGameFailureReason_IsValid(int value);
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage_JoinGameFailureReason_JoinGameFailureReason_MIN = JoinGameFailedMessage_JoinGameFailureReason_invalidGame;
@@ -303,14 +318,13 @@ const StatisticsMessage_StatisticsData_StatisticsType StatisticsMessage_Statisti
 const int StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_ARRAYSIZE = StatisticsMessage_StatisticsData_StatisticsType_StatisticsType_MAX + 1;
 
 enum ChatMessage_ChatType {
-  ChatMessage_ChatType_chatTypeLobby = 0,
-  ChatMessage_ChatType_chatTypeGame = 1,
-  ChatMessage_ChatType_chatTypeBot = 2,
-  ChatMessage_ChatType_chatTypeBroadcast = 3,
-  ChatMessage_ChatType_chatTypePrivate = 4
+  ChatMessage_ChatType_chatTypeStandard = 0,
+  ChatMessage_ChatType_chatTypeBot = 1,
+  ChatMessage_ChatType_chatTypeBroadcast = 2,
+  ChatMessage_ChatType_chatTypePrivate = 3
 };
 bool ChatMessage_ChatType_IsValid(int value);
-const ChatMessage_ChatType ChatMessage_ChatType_ChatType_MIN = ChatMessage_ChatType_chatTypeLobby;
+const ChatMessage_ChatType ChatMessage_ChatType_ChatType_MIN = ChatMessage_ChatType_chatTypeStandard;
 const ChatMessage_ChatType ChatMessage_ChatType_ChatType_MAX = ChatMessage_ChatType_chatTypePrivate;
 const int ChatMessage_ChatType_ChatType_ARRAYSIZE = ChatMessage_ChatType_ChatType_MAX + 1;
 
@@ -387,92 +401,140 @@ const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage_Adm
 const AdminBanPlayerAckMessage_AdminBanPlayerResult AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_MAX = AdminBanPlayerAckMessage_AdminBanPlayerResult_banPlayerInvalid;
 const int AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_ARRAYSIZE = AdminBanPlayerAckMessage_AdminBanPlayerResult_AdminBanPlayerResult_MAX + 1;
 
+enum AuthMessage_AuthMessageType {
+  AuthMessage_AuthMessageType_Type_AuthClientRequestMessage = 1,
+  AuthMessage_AuthMessageType_Type_AuthServerChallengeMessage = 2,
+  AuthMessage_AuthMessageType_Type_AuthClientResponseMessage = 3,
+  AuthMessage_AuthMessageType_Type_AuthServerVerificationMessage = 4,
+  AuthMessage_AuthMessageType_Type_ErrorMessage = 1024
+};
+bool AuthMessage_AuthMessageType_IsValid(int value);
+const AuthMessage_AuthMessageType AuthMessage_AuthMessageType_AuthMessageType_MIN = AuthMessage_AuthMessageType_Type_AuthClientRequestMessage;
+const AuthMessage_AuthMessageType AuthMessage_AuthMessageType_AuthMessageType_MAX = AuthMessage_AuthMessageType_Type_ErrorMessage;
+const int AuthMessage_AuthMessageType_AuthMessageType_ARRAYSIZE = AuthMessage_AuthMessageType_AuthMessageType_MAX + 1;
+
+enum LobbyMessage_LobbyMessageType {
+  LobbyMessage_LobbyMessageType_Type_InitMessage = 1,
+  LobbyMessage_LobbyMessageType_Type_InitAckMessage = 2,
+  LobbyMessage_LobbyMessageType_Type_AvatarRequestMessage = 3,
+  LobbyMessage_LobbyMessageType_Type_AvatarHeaderMessage = 4,
+  LobbyMessage_LobbyMessageType_Type_AvatarDataMessage = 5,
+  LobbyMessage_LobbyMessageType_Type_AvatarEndMessage = 6,
+  LobbyMessage_LobbyMessageType_Type_UnknownAvatarMessage = 7,
+  LobbyMessage_LobbyMessageType_Type_PlayerListMessage = 8,
+  LobbyMessage_LobbyMessageType_Type_GameListNewMessage = 9,
+  LobbyMessage_LobbyMessageType_Type_GameListUpdateMessage = 10,
+  LobbyMessage_LobbyMessageType_Type_GameListPlayerJoinedMessage = 11,
+  LobbyMessage_LobbyMessageType_Type_GameListPlayerLeftMessage = 12,
+  LobbyMessage_LobbyMessageType_Type_GameListSpectatorJoinedMessage = 13,
+  LobbyMessage_LobbyMessageType_Type_GameListSpectatorLeftMessage = 14,
+  LobbyMessage_LobbyMessageType_Type_GameListAdminChangedMessage = 15,
+  LobbyMessage_LobbyMessageType_Type_PlayerInfoRequestMessage = 16,
+  LobbyMessage_LobbyMessageType_Type_PlayerInfoReplyMessage = 17,
+  LobbyMessage_LobbyMessageType_Type_SubscriptionRequestMessage = 18,
+  LobbyMessage_LobbyMessageType_Type_SubscriptionReplyMessage = 19,
+  LobbyMessage_LobbyMessageType_Type_CreateGameMessage = 20,
+  LobbyMessage_LobbyMessageType_Type_CreateGameFailedMessage = 21,
+  LobbyMessage_LobbyMessageType_Type_InvitePlayerToGameMessage = 22,
+  LobbyMessage_LobbyMessageType_Type_InviteNotifyMessage = 23,
+  LobbyMessage_LobbyMessageType_Type_RejectGameInvitationMessage = 24,
+  LobbyMessage_LobbyMessageType_Type_RejectInvNotifyMessage = 25,
+  LobbyMessage_LobbyMessageType_Type_StatisticsMessage = 26,
+  LobbyMessage_LobbyMessageType_Type_ChatRequestMessage = 27,
+  LobbyMessage_LobbyMessageType_Type_ChatMessage = 28,
+  LobbyMessage_LobbyMessageType_Type_ChatRejectMessage = 29,
+  LobbyMessage_LobbyMessageType_Type_DialogMessage = 30,
+  LobbyMessage_LobbyMessageType_Type_TimeoutWarningMessage = 31,
+  LobbyMessage_LobbyMessageType_Type_ResetTimeoutMessage = 32,
+  LobbyMessage_LobbyMessageType_Type_ReportAvatarMessage = 33,
+  LobbyMessage_LobbyMessageType_Type_ReportAvatarAckMessage = 34,
+  LobbyMessage_LobbyMessageType_Type_ReportGameMessage = 35,
+  LobbyMessage_LobbyMessageType_Type_ReportGameAckMessage = 36,
+  LobbyMessage_LobbyMessageType_Type_AdminRemoveGameMessage = 37,
+  LobbyMessage_LobbyMessageType_Type_AdminRemoveGameAckMessage = 38,
+  LobbyMessage_LobbyMessageType_Type_AdminBanPlayerMessage = 39,
+  LobbyMessage_LobbyMessageType_Type_AdminBanPlayerAckMessage = 40,
+  LobbyMessage_LobbyMessageType_Type_ErrorMessage = 1024
+};
+bool LobbyMessage_LobbyMessageType_IsValid(int value);
+const LobbyMessage_LobbyMessageType LobbyMessage_LobbyMessageType_LobbyMessageType_MIN = LobbyMessage_LobbyMessageType_Type_InitMessage;
+const LobbyMessage_LobbyMessageType LobbyMessage_LobbyMessageType_LobbyMessageType_MAX = LobbyMessage_LobbyMessageType_Type_ErrorMessage;
+const int LobbyMessage_LobbyMessageType_LobbyMessageType_ARRAYSIZE = LobbyMessage_LobbyMessageType_LobbyMessageType_MAX + 1;
+
+enum GameManagementMessage_GameManagementMessageType {
+  GameManagementMessage_GameManagementMessageType_Type_JoinGameMessage = 1,
+  GameManagementMessage_GameManagementMessageType_Type_RejoinGameMessage = 2,
+  GameManagementMessage_GameManagementMessageType_Type_JoinGameAckMessage = 3,
+  GameManagementMessage_GameManagementMessageType_Type_JoinGameFailedMessage = 4,
+  GameManagementMessage_GameManagementMessageType_Type_GamePlayerJoinedMessage = 5,
+  GameManagementMessage_GameManagementMessageType_Type_GamePlayerLeftMessage = 6,
+  GameManagementMessage_GameManagementMessageType_Type_GameSpectatorJoinedMessage = 7,
+  GameManagementMessage_GameManagementMessageType_Type_GameSpectatorLeftMessage = 8,
+  GameManagementMessage_GameManagementMessageType_Type_GameAdminChangedMessage = 9,
+  GameManagementMessage_GameManagementMessageType_Type_RemovedFromGameMessage = 10,
+  GameManagementMessage_GameManagementMessageType_Type_KickPlayerRequestMessage = 11,
+  GameManagementMessage_GameManagementMessageType_Type_LeaveGameRequestMessage = 12,
+  GameManagementMessage_GameManagementMessageType_Type_StartEventMessage = 13,
+  GameManagementMessage_GameManagementMessageType_Type_StartEventAckMessage = 14,
+  GameManagementMessage_GameManagementMessageType_Type_GameStartInitialMessage = 15,
+  GameManagementMessage_GameManagementMessageType_Type_GameStartRejoinMessage = 16,
+  GameManagementMessage_GameManagementMessageType_Type_EndOfGameMessage = 17,
+  GameManagementMessage_GameManagementMessageType_Type_PlayerIdChangedMessage = 18,
+  GameManagementMessage_GameManagementMessageType_Type_AskKickPlayerMessage = 19,
+  GameManagementMessage_GameManagementMessageType_Type_AskKickDeniedMessage = 20,
+  GameManagementMessage_GameManagementMessageType_Type_StartKickPetitionMessage = 21,
+  GameManagementMessage_GameManagementMessageType_Type_VoteKickRequestMessage = 22,
+  GameManagementMessage_GameManagementMessageType_Type_VoteKickReplyMessage = 23,
+  GameManagementMessage_GameManagementMessageType_Type_KickPetitionUpdateMessage = 24,
+  GameManagementMessage_GameManagementMessageType_Type_EndKickPetitionMessage = 25,
+  GameManagementMessage_GameManagementMessageType_Type_ChatRequestMessage = 26,
+  GameManagementMessage_GameManagementMessageType_Type_ChatMessage = 27,
+  GameManagementMessage_GameManagementMessageType_Type_ChatRejectMessage = 28,
+  GameManagementMessage_GameManagementMessageType_Type_ErrorMessage = 1024
+};
+bool GameManagementMessage_GameManagementMessageType_IsValid(int value);
+const GameManagementMessage_GameManagementMessageType GameManagementMessage_GameManagementMessageType_GameManagementMessageType_MIN = GameManagementMessage_GameManagementMessageType_Type_JoinGameMessage;
+const GameManagementMessage_GameManagementMessageType GameManagementMessage_GameManagementMessageType_GameManagementMessageType_MAX = GameManagementMessage_GameManagementMessageType_Type_ErrorMessage;
+const int GameManagementMessage_GameManagementMessageType_GameManagementMessageType_ARRAYSIZE = GameManagementMessage_GameManagementMessageType_GameManagementMessageType_MAX + 1;
+
+enum GameEngineMessage_GameEngineMessageType {
+  GameEngineMessage_GameEngineMessageType_Type_HandStartMessage = 1,
+  GameEngineMessage_GameEngineMessageType_Type_PlayersTurnMessage = 2,
+  GameEngineMessage_GameEngineMessageType_Type_MyActionRequestMessage = 3,
+  GameEngineMessage_GameEngineMessageType_Type_YourActionRejectedMessage = 4,
+  GameEngineMessage_GameEngineMessageType_Type_PlayersActionDoneMessage = 5,
+  GameEngineMessage_GameEngineMessageType_Type_DealFlopCardsMessage = 6,
+  GameEngineMessage_GameEngineMessageType_Type_DealTurnCardMessage = 7,
+  GameEngineMessage_GameEngineMessageType_Type_DealRiverCardMessage = 8,
+  GameEngineMessage_GameEngineMessageType_Type_AllInShowCardsMessage = 9,
+  GameEngineMessage_GameEngineMessageType_Type_EndOfHandShowCardsMessage = 10,
+  GameEngineMessage_GameEngineMessageType_Type_EndOfHandHideCardsMessage = 11,
+  GameEngineMessage_GameEngineMessageType_Type_ShowMyCardsRequestMessage = 12,
+  GameEngineMessage_GameEngineMessageType_Type_AfterHandShowCardsMessage = 13
+};
+bool GameEngineMessage_GameEngineMessageType_IsValid(int value);
+const GameEngineMessage_GameEngineMessageType GameEngineMessage_GameEngineMessageType_GameEngineMessageType_MIN = GameEngineMessage_GameEngineMessageType_Type_HandStartMessage;
+const GameEngineMessage_GameEngineMessageType GameEngineMessage_GameEngineMessageType_GameEngineMessageType_MAX = GameEngineMessage_GameEngineMessageType_Type_AfterHandShowCardsMessage;
+const int GameEngineMessage_GameEngineMessageType_GameEngineMessageType_ARRAYSIZE = GameEngineMessage_GameEngineMessageType_GameEngineMessageType_MAX + 1;
+
+enum GameMessage_GameMessageType {
+  GameMessage_GameMessageType_Type_GameManagementMessage = 1,
+  GameMessage_GameMessageType_Type_GameEngineMessage = 2
+};
+bool GameMessage_GameMessageType_IsValid(int value);
+const GameMessage_GameMessageType GameMessage_GameMessageType_GameMessageType_MIN = GameMessage_GameMessageType_Type_GameManagementMessage;
+const GameMessage_GameMessageType GameMessage_GameMessageType_GameMessageType_MAX = GameMessage_GameMessageType_Type_GameEngineMessage;
+const int GameMessage_GameMessageType_GameMessageType_ARRAYSIZE = GameMessage_GameMessageType_GameMessageType_MAX + 1;
+
 enum PokerTHMessage_PokerTHMessageType {
   PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage = 1,
-  PokerTHMessage_PokerTHMessageType_Type_InitMessage = 2,
-  PokerTHMessage_PokerTHMessageType_Type_AuthServerChallengeMessage = 3,
-  PokerTHMessage_PokerTHMessageType_Type_AuthClientResponseMessage = 4,
-  PokerTHMessage_PokerTHMessageType_Type_AuthServerVerificationMessage = 5,
-  PokerTHMessage_PokerTHMessageType_Type_InitAckMessage = 6,
-  PokerTHMessage_PokerTHMessageType_Type_AvatarRequestMessage = 7,
-  PokerTHMessage_PokerTHMessageType_Type_AvatarHeaderMessage = 8,
-  PokerTHMessage_PokerTHMessageType_Type_AvatarDataMessage = 9,
-  PokerTHMessage_PokerTHMessageType_Type_AvatarEndMessage = 10,
-  PokerTHMessage_PokerTHMessageType_Type_UnknownAvatarMessage = 11,
-  PokerTHMessage_PokerTHMessageType_Type_PlayerListMessage = 12,
-  PokerTHMessage_PokerTHMessageType_Type_GameListNewMessage = 13,
-  PokerTHMessage_PokerTHMessageType_Type_GameListUpdateMessage = 14,
-  PokerTHMessage_PokerTHMessageType_Type_GameListPlayerJoinedMessage = 15,
-  PokerTHMessage_PokerTHMessageType_Type_GameListPlayerLeftMessage = 16,
-  PokerTHMessage_PokerTHMessageType_Type_GameListAdminChangedMessage = 17,
-  PokerTHMessage_PokerTHMessageType_Type_PlayerInfoRequestMessage = 18,
-  PokerTHMessage_PokerTHMessageType_Type_PlayerInfoReplyMessage = 19,
-  PokerTHMessage_PokerTHMessageType_Type_SubscriptionRequestMessage = 20,
-  PokerTHMessage_PokerTHMessageType_Type_JoinExistingGameMessage = 21,
-  PokerTHMessage_PokerTHMessageType_Type_JoinNewGameMessage = 22,
-  PokerTHMessage_PokerTHMessageType_Type_RejoinExistingGameMessage = 23,
-  PokerTHMessage_PokerTHMessageType_Type_JoinGameAckMessage = 24,
-  PokerTHMessage_PokerTHMessageType_Type_JoinGameFailedMessage = 25,
-  PokerTHMessage_PokerTHMessageType_Type_GamePlayerJoinedMessage = 26,
-  PokerTHMessage_PokerTHMessageType_Type_GamePlayerLeftMessage = 27,
-  PokerTHMessage_PokerTHMessageType_Type_GameAdminChangedMessage = 28,
-  PokerTHMessage_PokerTHMessageType_Type_RemovedFromGameMessage = 29,
-  PokerTHMessage_PokerTHMessageType_Type_KickPlayerRequestMessage = 30,
-  PokerTHMessage_PokerTHMessageType_Type_LeaveGameRequestMessage = 31,
-  PokerTHMessage_PokerTHMessageType_Type_InvitePlayerToGameMessage = 32,
-  PokerTHMessage_PokerTHMessageType_Type_InviteNotifyMessage = 33,
-  PokerTHMessage_PokerTHMessageType_Type_RejectGameInvitationMessage = 34,
-  PokerTHMessage_PokerTHMessageType_Type_RejectInvNotifyMessage = 35,
-  PokerTHMessage_PokerTHMessageType_Type_StartEventMessage = 36,
-  PokerTHMessage_PokerTHMessageType_Type_StartEventAckMessage = 37,
-  PokerTHMessage_PokerTHMessageType_Type_GameStartInitialMessage = 38,
-  PokerTHMessage_PokerTHMessageType_Type_GameStartRejoinMessage = 39,
-  PokerTHMessage_PokerTHMessageType_Type_HandStartMessage = 40,
-  PokerTHMessage_PokerTHMessageType_Type_PlayersTurnMessage = 41,
-  PokerTHMessage_PokerTHMessageType_Type_MyActionRequestMessage = 42,
-  PokerTHMessage_PokerTHMessageType_Type_YourActionRejectedMessage = 43,
-  PokerTHMessage_PokerTHMessageType_Type_PlayersActionDoneMessage = 44,
-  PokerTHMessage_PokerTHMessageType_Type_DealFlopCardsMessage = 45,
-  PokerTHMessage_PokerTHMessageType_Type_DealTurnCardMessage = 46,
-  PokerTHMessage_PokerTHMessageType_Type_DealRiverCardMessage = 47,
-  PokerTHMessage_PokerTHMessageType_Type_AllInShowCardsMessage = 48,
-  PokerTHMessage_PokerTHMessageType_Type_EndOfHandShowCardsMessage = 49,
-  PokerTHMessage_PokerTHMessageType_Type_EndOfHandHideCardsMessage = 50,
-  PokerTHMessage_PokerTHMessageType_Type_ShowMyCardsRequestMessage = 51,
-  PokerTHMessage_PokerTHMessageType_Type_AfterHandShowCardsMessage = 52,
-  PokerTHMessage_PokerTHMessageType_Type_EndOfGameMessage = 53,
-  PokerTHMessage_PokerTHMessageType_Type_PlayerIdChangedMessage = 54,
-  PokerTHMessage_PokerTHMessageType_Type_AskKickPlayerMessage = 55,
-  PokerTHMessage_PokerTHMessageType_Type_AskKickDeniedMessage = 56,
-  PokerTHMessage_PokerTHMessageType_Type_StartKickPetitionMessage = 57,
-  PokerTHMessage_PokerTHMessageType_Type_VoteKickRequestMessage = 58,
-  PokerTHMessage_PokerTHMessageType_Type_VoteKickReplyMessage = 59,
-  PokerTHMessage_PokerTHMessageType_Type_KickPetitionUpdateMessage = 60,
-  PokerTHMessage_PokerTHMessageType_Type_EndKickPetitionMessage = 61,
-  PokerTHMessage_PokerTHMessageType_Type_StatisticsMessage = 62,
-  PokerTHMessage_PokerTHMessageType_Type_ChatRequestMessage = 63,
-  PokerTHMessage_PokerTHMessageType_Type_ChatMessage = 64,
-  PokerTHMessage_PokerTHMessageType_Type_ChatRejectMessage = 65,
-  PokerTHMessage_PokerTHMessageType_Type_DialogMessage = 66,
-  PokerTHMessage_PokerTHMessageType_Type_TimeoutWarningMessage = 67,
-  PokerTHMessage_PokerTHMessageType_Type_ResetTimeoutMessage = 68,
-  PokerTHMessage_PokerTHMessageType_Type_ReportAvatarMessage = 69,
-  PokerTHMessage_PokerTHMessageType_Type_ReportAvatarAckMessage = 70,
-  PokerTHMessage_PokerTHMessageType_Type_ReportGameMessage = 71,
-  PokerTHMessage_PokerTHMessageType_Type_ReportGameAckMessage = 72,
-  PokerTHMessage_PokerTHMessageType_Type_ErrorMessage = 73,
-  PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameMessage = 74,
-  PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameAckMessage = 75,
-  PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage = 76,
-  PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage = 77,
-  PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage = 78,
-  PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage = 79,
-  PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage = 80,
-  PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage = 81
+  PokerTHMessage_PokerTHMessageType_Type_AuthMessage = 2,
+  PokerTHMessage_PokerTHMessageType_Type_LobbyMessage = 3,
+  PokerTHMessage_PokerTHMessageType_Type_GameMessage = 4
 };
 bool PokerTHMessage_PokerTHMessageType_IsValid(int value);
 const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MIN = PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage;
-const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_GameMessage;
 const int PokerTHMessage_PokerTHMessageType_PokerTHMessageType_ARRAYSIZE = PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX + 1;
 
 enum NetGameMode {
@@ -1201,38 +1263,38 @@ class AnnounceMessage : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
-class InitMessage : public ::google::protobuf::MessageLite {
+class AuthClientRequestMessage : public ::google::protobuf::MessageLite {
  public:
-  InitMessage();
-  virtual ~InitMessage();
+  AuthClientRequestMessage();
+  virtual ~AuthClientRequestMessage();
 
-  InitMessage(const InitMessage& from);
+  AuthClientRequestMessage(const AuthClientRequestMessage& from);
 
-  inline InitMessage& operator=(const InitMessage& from) {
+  inline AuthClientRequestMessage& operator=(const AuthClientRequestMessage& from) {
     CopyFrom(from);
     return *this;
   }
 
-  static const InitMessage& default_instance();
+  static const AuthClientRequestMessage& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const InitMessage* internal_default_instance() {
+  static inline const AuthClientRequestMessage* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(InitMessage* other);
+  void Swap(AuthClientRequestMessage* other);
 
   // implements Message ----------------------------------------------
 
-  InitMessage* New() const;
+  AuthClientRequestMessage* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const InitMessage& from);
-  void MergeFrom(const InitMessage& from);
+  void CopyFrom(const AuthClientRequestMessage& from);
+  void MergeFrom(const AuthClientRequestMessage& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -1252,19 +1314,19 @@ class InitMessage : public ::google::protobuf::MessageLite {
 
   // nested types ----------------------------------------------------
 
-  typedef InitMessage_LoginType LoginType;
-  static const LoginType guestLogin = InitMessage_LoginType_guestLogin;
-  static const LoginType authenticatedLogin = InitMessage_LoginType_authenticatedLogin;
-  static const LoginType unauthenticatedLogin = InitMessage_LoginType_unauthenticatedLogin;
+  typedef AuthClientRequestMessage_LoginType LoginType;
+  static const LoginType guestLogin = AuthClientRequestMessage_LoginType_guestLogin;
+  static const LoginType authenticatedLogin = AuthClientRequestMessage_LoginType_authenticatedLogin;
+  static const LoginType unauthenticatedLogin = AuthClientRequestMessage_LoginType_unauthenticatedLogin;
   static inline bool LoginType_IsValid(int value) {
-    return InitMessage_LoginType_IsValid(value);
+    return AuthClientRequestMessage_LoginType_IsValid(value);
   }
   static const LoginType LoginType_MIN =
-    InitMessage_LoginType_LoginType_MIN;
+    AuthClientRequestMessage_LoginType_LoginType_MIN;
   static const LoginType LoginType_MAX =
-    InitMessage_LoginType_LoginType_MAX;
+    AuthClientRequestMessage_LoginType_LoginType_MAX;
   static const int LoginType_ARRAYSIZE =
-    InitMessage_LoginType_LoginType_ARRAYSIZE;
+    AuthClientRequestMessage_LoginType_LoginType_ARRAYSIZE;
 
   // accessors -------------------------------------------------------
 
@@ -1284,17 +1346,12 @@ class InitMessage : public ::google::protobuf::MessageLite {
   inline ::google::protobuf::uint32 buildid() const;
   inline void set_buildid(::google::protobuf::uint32 value);
 
-  // optional bytes myLastSessionId = 3;
-  inline bool has_mylastsessionid() const;
-  inline void clear_mylastsessionid();
-  static const int kMyLastSessionIdFieldNumber = 3;
-  inline const ::std::string& mylastsessionid() const;
-  inline void set_mylastsessionid(const ::std::string& value);
-  inline void set_mylastsessionid(const char* value);
-  inline void set_mylastsessionid(const void* value, size_t size);
-  inline ::std::string* mutable_mylastsessionid();
-  inline ::std::string* release_mylastsessionid();
-  inline void set_allocated_mylastsessionid(::std::string* mylastsessionid);
+  // required .AuthClientRequestMessage.LoginType login = 3;
+  inline bool has_login() const;
+  inline void clear_login();
+  static const int kLoginFieldNumber = 3;
+  inline ::AuthClientRequestMessage_LoginType login() const;
+  inline void set_login(::AuthClientRequestMessage_LoginType value);
 
   // optional string authServerPassword = 4;
   inline bool has_authserverpassword() const;
@@ -1308,17 +1365,10 @@ class InitMessage : public ::google::protobuf::MessageLite {
   inline ::std::string* release_authserverpassword();
   inline void set_allocated_authserverpassword(::std::string* authserverpassword);
 
-  // required .InitMessage.LoginType login = 5;
-  inline bool has_login() const;
-  inline void clear_login();
-  static const int kLoginFieldNumber = 5;
-  inline ::InitMessage_LoginType login() const;
-  inline void set_login(::InitMessage_LoginType value);
-
-  // optional string nickName = 6;
+  // optional string nickName = 5;
   inline bool has_nickname() const;
   inline void clear_nickname();
-  static const int kNickNameFieldNumber = 6;
+  static const int kNickNameFieldNumber = 5;
   inline const ::std::string& nickname() const;
   inline void set_nickname(const ::std::string& value);
   inline void set_nickname(const char* value);
@@ -1327,10 +1377,10 @@ class InitMessage : public ::google::protobuf::MessageLite {
   inline ::std::string* release_nickname();
   inline void set_allocated_nickname(::std::string* nickname);
 
-  // optional bytes clientUserData = 7;
+  // optional bytes clientUserData = 6;
   inline bool has_clientuserdata() const;
   inline void clear_clientuserdata();
-  static const int kClientUserDataFieldNumber = 7;
+  static const int kClientUserDataFieldNumber = 6;
   inline const ::std::string& clientuserdata() const;
   inline void set_clientuserdata(const ::std::string& value);
   inline void set_clientuserdata(const char* value);
@@ -1339,48 +1389,45 @@ class InitMessage : public ::google::protobuf::MessageLite {
   inline ::std::string* release_clientuserdata();
   inline void set_allocated_clientuserdata(::std::string* clientuserdata);
 
-  // optional bytes avatarHash = 8;
-  inline bool has_avatarhash() const;
-  inline void clear_avatarhash();
-  static const int kAvatarHashFieldNumber = 8;
-  inline const ::std::string& avatarhash() const;
-  inline void set_avatarhash(const ::std::string& value);
-  inline void set_avatarhash(const char* value);
-  inline void set_avatarhash(const void* value, size_t size);
-  inline ::std::string* mutable_avatarhash();
-  inline ::std::string* release_avatarhash();
-  inline void set_allocated_avatarhash(::std::string* avatarhash);
+  // optional bytes myLastSessionId = 7;
+  inline bool has_mylastsessionid() const;
+  inline void clear_mylastsessionid();
+  static const int kMyLastSessionIdFieldNumber = 7;
+  inline const ::std::string& mylastsessionid() const;
+  inline void set_mylastsessionid(const ::std::string& value);
+  inline void set_mylastsessionid(const char* value);
+  inline void set_mylastsessionid(const void* value, size_t size);
+  inline ::std::string* mutable_mylastsessionid();
+  inline ::std::string* release_mylastsessionid();
+  inline void set_allocated_mylastsessionid(::std::string* mylastsessionid);
 
-  // @@protoc_insertion_point(class_scope:InitMessage)
+  // @@protoc_insertion_point(class_scope:AuthClientRequestMessage)
  private:
   inline void set_has_requestedversion();
   inline void clear_has_requestedversion();
   inline void set_has_buildid();
   inline void clear_has_buildid();
-  inline void set_has_mylastsessionid();
-  inline void clear_has_mylastsessionid();
-  inline void set_has_authserverpassword();
-  inline void clear_has_authserverpassword();
   inline void set_has_login();
   inline void clear_has_login();
+  inline void set_has_authserverpassword();
+  inline void clear_has_authserverpassword();
   inline void set_has_nickname();
   inline void clear_has_nickname();
   inline void set_has_clientuserdata();
   inline void clear_has_clientuserdata();
-  inline void set_has_avatarhash();
-  inline void clear_has_avatarhash();
+  inline void set_has_mylastsessionid();
+  inline void clear_has_mylastsessionid();
 
   ::AnnounceMessage_Version* requestedversion_;
-  ::std::string* mylastsessionid_;
   ::google::protobuf::uint32 buildid_;
   int login_;
   ::std::string* authserverpassword_;
   ::std::string* nickname_;
   ::std::string* clientuserdata_;
-  ::std::string* avatarhash_;
+  ::std::string* mylastsessionid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -1391,7 +1438,7 @@ class InitMessage : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_pokerth_2eproto();
 
   void InitAsDefaultInstance();
-  static InitMessage* default_instance_;
+  static AuthClientRequestMessage* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1624,10 +1671,29 @@ class AuthServerVerificationMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required bytes serverVerification = 1;
+  // required bytes yourSessionId = 1;
+  inline bool has_yoursessionid() const;
+  inline void clear_yoursessionid();
+  static const int kYourSessionIdFieldNumber = 1;
+  inline const ::std::string& yoursessionid() const;
+  inline void set_yoursessionid(const ::std::string& value);
+  inline void set_yoursessionid(const char* value);
+  inline void set_yoursessionid(const void* value, size_t size);
+  inline ::std::string* mutable_yoursessionid();
+  inline ::std::string* release_yoursessionid();
+  inline void set_allocated_yoursessionid(::std::string* yoursessionid);
+
+  // required uint32 yourPlayerId = 2;
+  inline bool has_yourplayerid() const;
+  inline void clear_yourplayerid();
+  static const int kYourPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 yourplayerid() const;
+  inline void set_yourplayerid(::google::protobuf::uint32 value);
+
+  // optional bytes serverVerification = 3;
   inline bool has_serververification() const;
   inline void clear_serververification();
-  static const int kServerVerificationFieldNumber = 1;
+  static const int kServerVerificationFieldNumber = 3;
   inline const ::std::string& serververification() const;
   inline void set_serververification(const ::std::string& value);
   inline void set_serververification(const char* value);
@@ -1638,10 +1704,104 @@ class AuthServerVerificationMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:AuthServerVerificationMessage)
  private:
+  inline void set_has_yoursessionid();
+  inline void clear_has_yoursessionid();
+  inline void set_has_yourplayerid();
+  inline void clear_has_yourplayerid();
   inline void set_has_serververification();
   inline void clear_has_serververification();
 
+  ::std::string* yoursessionid_;
   ::std::string* serververification_;
+  ::google::protobuf::uint32 yourplayerid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static AuthServerVerificationMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class InitMessage : public ::google::protobuf::MessageLite {
+ public:
+  InitMessage();
+  virtual ~InitMessage();
+
+  InitMessage(const InitMessage& from);
+
+  inline InitMessage& operator=(const InitMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const InitMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const InitMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(InitMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  InitMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const InitMessage& from);
+  void MergeFrom(const InitMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bytes avatarHash = 1;
+  inline bool has_avatarhash() const;
+  inline void clear_avatarhash();
+  static const int kAvatarHashFieldNumber = 1;
+  inline const ::std::string& avatarhash() const;
+  inline void set_avatarhash(const ::std::string& value);
+  inline void set_avatarhash(const char* value);
+  inline void set_avatarhash(const void* value, size_t size);
+  inline ::std::string* mutable_avatarhash();
+  inline ::std::string* release_avatarhash();
+  inline void set_allocated_avatarhash(::std::string* avatarhash);
+
+  // @@protoc_insertion_point(class_scope:InitMessage)
+ private:
+  inline void set_has_avatarhash();
+  inline void clear_has_avatarhash();
+
+  ::std::string* avatarhash_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
@@ -1655,7 +1815,7 @@ class AuthServerVerificationMessage : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_pokerth_2eproto();
 
   void InitAsDefaultInstance();
-  static AuthServerVerificationMessage* default_instance_;
+  static InitMessage* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1712,29 +1872,10 @@ class InitAckMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required bytes yourSessionId = 1;
-  inline bool has_yoursessionid() const;
-  inline void clear_yoursessionid();
-  static const int kYourSessionIdFieldNumber = 1;
-  inline const ::std::string& yoursessionid() const;
-  inline void set_yoursessionid(const ::std::string& value);
-  inline void set_yoursessionid(const char* value);
-  inline void set_yoursessionid(const void* value, size_t size);
-  inline ::std::string* mutable_yoursessionid();
-  inline ::std::string* release_yoursessionid();
-  inline void set_allocated_yoursessionid(::std::string* yoursessionid);
-
-  // required uint32 yourPlayerId = 2;
-  inline bool has_yourplayerid() const;
-  inline void clear_yourplayerid();
-  static const int kYourPlayerIdFieldNumber = 2;
-  inline ::google::protobuf::uint32 yourplayerid() const;
-  inline void set_yourplayerid(::google::protobuf::uint32 value);
-
-  // optional bytes yourAvatarHash = 3;
+  // optional bytes yourAvatarHash = 1;
   inline bool has_youravatarhash() const;
   inline void clear_youravatarhash();
-  static const int kYourAvatarHashFieldNumber = 3;
+  static const int kYourAvatarHashFieldNumber = 1;
   inline const ::std::string& youravatarhash() const;
   inline void set_youravatarhash(const ::std::string& value);
   inline void set_youravatarhash(const char* value);
@@ -1743,31 +1884,25 @@ class InitAckMessage : public ::google::protobuf::MessageLite {
   inline ::std::string* release_youravatarhash();
   inline void set_allocated_youravatarhash(::std::string* youravatarhash);
 
-  // optional uint32 rejoinGameId = 4;
+  // optional uint32 rejoinGameId = 2;
   inline bool has_rejoingameid() const;
   inline void clear_rejoingameid();
-  static const int kRejoinGameIdFieldNumber = 4;
+  static const int kRejoinGameIdFieldNumber = 2;
   inline ::google::protobuf::uint32 rejoingameid() const;
   inline void set_rejoingameid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:InitAckMessage)
  private:
-  inline void set_has_yoursessionid();
-  inline void clear_has_yoursessionid();
-  inline void set_has_yourplayerid();
-  inline void clear_has_yourplayerid();
   inline void set_has_youravatarhash();
   inline void clear_has_youravatarhash();
   inline void set_has_rejoingameid();
   inline void clear_has_rejoingameid();
 
-  ::std::string* yoursessionid_;
   ::std::string* youravatarhash_;
-  ::google::protobuf::uint32 yourplayerid_;
   ::google::protobuf::uint32 rejoingameid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -3549,22 +3684,32 @@ class SubscriptionRequestMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;
+  // required uint32 requestId = 1;
+  inline bool has_requestid() const;
+  inline void clear_requestid();
+  static const int kRequestIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 requestid() const;
+  inline void set_requestid(::google::protobuf::uint32 value);
+
+  // required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 2;
   inline bool has_subscriptionaction() const;
   inline void clear_subscriptionaction();
-  static const int kSubscriptionActionFieldNumber = 1;
+  static const int kSubscriptionActionFieldNumber = 2;
   inline ::SubscriptionRequestMessage_SubscriptionAction subscriptionaction() const;
   inline void set_subscriptionaction(::SubscriptionRequestMessage_SubscriptionAction value);
 
   // @@protoc_insertion_point(class_scope:SubscriptionRequestMessage)
  private:
+  inline void set_has_requestid();
+  inline void clear_has_requestid();
   inline void set_has_subscriptionaction();
   inline void clear_has_subscriptionaction();
 
+  ::google::protobuf::uint32 requestid_;
   int subscriptionaction_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -3579,38 +3724,38 @@ class SubscriptionRequestMessage : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
-class JoinExistingGameMessage : public ::google::protobuf::MessageLite {
+class SubscriptionReplyMessage : public ::google::protobuf::MessageLite {
  public:
-  JoinExistingGameMessage();
-  virtual ~JoinExistingGameMessage();
+  SubscriptionReplyMessage();
+  virtual ~SubscriptionReplyMessage();
 
-  JoinExistingGameMessage(const JoinExistingGameMessage& from);
+  SubscriptionReplyMessage(const SubscriptionReplyMessage& from);
 
-  inline JoinExistingGameMessage& operator=(const JoinExistingGameMessage& from) {
+  inline SubscriptionReplyMessage& operator=(const SubscriptionReplyMessage& from) {
     CopyFrom(from);
     return *this;
   }
 
-  static const JoinExistingGameMessage& default_instance();
+  static const SubscriptionReplyMessage& default_instance();
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   // Returns the internal default instance pointer. This function can
   // return NULL thus should not be used by the user. This is intended
   // for Protobuf internal code. Please use default_instance() declared
   // above instead.
-  static inline const JoinExistingGameMessage* internal_default_instance() {
+  static inline const SubscriptionReplyMessage* internal_default_instance() {
     return default_instance_;
   }
   #endif
 
-  void Swap(JoinExistingGameMessage* other);
+  void Swap(SubscriptionReplyMessage* other);
 
   // implements Message ----------------------------------------------
 
-  JoinExistingGameMessage* New() const;
+  SubscriptionReplyMessage* New() const;
   void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const JoinExistingGameMessage& from);
-  void MergeFrom(const JoinExistingGameMessage& from);
+  void CopyFrom(const SubscriptionReplyMessage& from);
+  void MergeFrom(const SubscriptionReplyMessage& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -3632,257 +3777,29 @@ class JoinExistingGameMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
+  // required uint32 requestId = 1;
+  inline bool has_requestid() const;
+  inline void clear_requestid();
+  static const int kRequestIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 requestid() const;
+  inline void set_requestid(::google::protobuf::uint32 value);
 
-  // optional string password = 2;
-  inline bool has_password() const;
-  inline void clear_password();
-  static const int kPasswordFieldNumber = 2;
-  inline const ::std::string& password() const;
-  inline void set_password(const ::std::string& value);
-  inline void set_password(const char* value);
-  inline void set_password(const char* value, size_t size);
-  inline ::std::string* mutable_password();
-  inline ::std::string* release_password();
-  inline void set_allocated_password(::std::string* password);
+  // required bool ack = 2;
+  inline bool has_ack() const;
+  inline void clear_ack();
+  static const int kAckFieldNumber = 2;
+  inline bool ack() const;
+  inline void set_ack(bool value);
 
-  // optional bool autoLeave = 3 [default = false];
-  inline bool has_autoleave() const;
-  inline void clear_autoleave();
-  static const int kAutoLeaveFieldNumber = 3;
-  inline bool autoleave() const;
-  inline void set_autoleave(bool value);
-
-  // optional bool spectateOnly = 4 [default = false];
-  inline bool has_spectateonly() const;
-  inline void clear_spectateonly();
-  static const int kSpectateOnlyFieldNumber = 4;
-  inline bool spectateonly() const;
-  inline void set_spectateonly(bool value);
-
-  // @@protoc_insertion_point(class_scope:JoinExistingGameMessage)
+  // @@protoc_insertion_point(class_scope:SubscriptionReplyMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
-  inline void set_has_password();
-  inline void clear_has_password();
-  inline void set_has_autoleave();
-  inline void clear_has_autoleave();
-  inline void set_has_spectateonly();
-  inline void clear_has_spectateonly();
+  inline void set_has_requestid();
+  inline void clear_has_requestid();
+  inline void set_has_ack();
+  inline void clear_has_ack();
 
-  ::std::string* password_;
-  ::google::protobuf::uint32 gameid_;
-  bool autoleave_;
-  bool spectateonly_;
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
-
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
-  #else
-  friend void  protobuf_AddDesc_pokerth_2eproto();
-  #endif
-  friend void protobuf_AssignDesc_pokerth_2eproto();
-  friend void protobuf_ShutdownFile_pokerth_2eproto();
-
-  void InitAsDefaultInstance();
-  static JoinExistingGameMessage* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class JoinNewGameMessage : public ::google::protobuf::MessageLite {
- public:
-  JoinNewGameMessage();
-  virtual ~JoinNewGameMessage();
-
-  JoinNewGameMessage(const JoinNewGameMessage& from);
-
-  inline JoinNewGameMessage& operator=(const JoinNewGameMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const JoinNewGameMessage& default_instance();
-
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  // Returns the internal default instance pointer. This function can
-  // return NULL thus should not be used by the user. This is intended
-  // for Protobuf internal code. Please use default_instance() declared
-  // above instead.
-  static inline const JoinNewGameMessage* internal_default_instance() {
-    return default_instance_;
-  }
-  #endif
-
-  void Swap(JoinNewGameMessage* other);
-
-  // implements Message ----------------------------------------------
-
-  JoinNewGameMessage* New() const;
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const JoinNewGameMessage& from);
-  void MergeFrom(const JoinNewGameMessage& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::std::string GetTypeName() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // required .NetGameInfo gameInfo = 1;
-  inline bool has_gameinfo() const;
-  inline void clear_gameinfo();
-  static const int kGameInfoFieldNumber = 1;
-  inline const ::NetGameInfo& gameinfo() const;
-  inline ::NetGameInfo* mutable_gameinfo();
-  inline ::NetGameInfo* release_gameinfo();
-  inline void set_allocated_gameinfo(::NetGameInfo* gameinfo);
-
-  // optional string password = 2;
-  inline bool has_password() const;
-  inline void clear_password();
-  static const int kPasswordFieldNumber = 2;
-  inline const ::std::string& password() const;
-  inline void set_password(const ::std::string& value);
-  inline void set_password(const char* value);
-  inline void set_password(const char* value, size_t size);
-  inline ::std::string* mutable_password();
-  inline ::std::string* release_password();
-  inline void set_allocated_password(::std::string* password);
-
-  // optional bool autoLeave = 3;
-  inline bool has_autoleave() const;
-  inline void clear_autoleave();
-  static const int kAutoLeaveFieldNumber = 3;
-  inline bool autoleave() const;
-  inline void set_autoleave(bool value);
-
-  // @@protoc_insertion_point(class_scope:JoinNewGameMessage)
- private:
-  inline void set_has_gameinfo();
-  inline void clear_has_gameinfo();
-  inline void set_has_password();
-  inline void clear_has_password();
-  inline void set_has_autoleave();
-  inline void clear_has_autoleave();
-
-  ::NetGameInfo* gameinfo_;
-  ::std::string* password_;
-  bool autoleave_;
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
-
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
-  #else
-  friend void  protobuf_AddDesc_pokerth_2eproto();
-  #endif
-  friend void protobuf_AssignDesc_pokerth_2eproto();
-  friend void protobuf_ShutdownFile_pokerth_2eproto();
-
-  void InitAsDefaultInstance();
-  static JoinNewGameMessage* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class RejoinExistingGameMessage : public ::google::protobuf::MessageLite {
- public:
-  RejoinExistingGameMessage();
-  virtual ~RejoinExistingGameMessage();
-
-  RejoinExistingGameMessage(const RejoinExistingGameMessage& from);
-
-  inline RejoinExistingGameMessage& operator=(const RejoinExistingGameMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const RejoinExistingGameMessage& default_instance();
-
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  // Returns the internal default instance pointer. This function can
-  // return NULL thus should not be used by the user. This is intended
-  // for Protobuf internal code. Please use default_instance() declared
-  // above instead.
-  static inline const RejoinExistingGameMessage* internal_default_instance() {
-    return default_instance_;
-  }
-  #endif
-
-  void Swap(RejoinExistingGameMessage* other);
-
-  // implements Message ----------------------------------------------
-
-  RejoinExistingGameMessage* New() const;
-  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
-  void CopyFrom(const RejoinExistingGameMessage& from);
-  void MergeFrom(const RejoinExistingGameMessage& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::std::string GetTypeName() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // optional bool autoLeave = 2;
-  inline bool has_autoleave() const;
-  inline void clear_autoleave();
-  static const int kAutoLeaveFieldNumber = 2;
-  inline bool autoleave() const;
-  inline void set_autoleave(bool value);
-
-  // @@protoc_insertion_point(class_scope:RejoinExistingGameMessage)
- private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
-  inline void set_has_autoleave();
-  inline void clear_has_autoleave();
-
-  ::google::protobuf::uint32 gameid_;
-  bool autoleave_;
+  ::google::protobuf::uint32 requestid_;
+  bool ack_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
@@ -3896,7 +3813,426 @@ class RejoinExistingGameMessage : public ::google::protobuf::MessageLite {
   friend void protobuf_ShutdownFile_pokerth_2eproto();
 
   void InitAsDefaultInstance();
-  static RejoinExistingGameMessage* default_instance_;
+  static SubscriptionReplyMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CreateGameMessage : public ::google::protobuf::MessageLite {
+ public:
+  CreateGameMessage();
+  virtual ~CreateGameMessage();
+
+  CreateGameMessage(const CreateGameMessage& from);
+
+  inline CreateGameMessage& operator=(const CreateGameMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CreateGameMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CreateGameMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CreateGameMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  CreateGameMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CreateGameMessage& from);
+  void MergeFrom(const CreateGameMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 requestId = 1;
+  inline bool has_requestid() const;
+  inline void clear_requestid();
+  static const int kRequestIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 requestid() const;
+  inline void set_requestid(::google::protobuf::uint32 value);
+
+  // required .NetGameInfo gameInfo = 2;
+  inline bool has_gameinfo() const;
+  inline void clear_gameinfo();
+  static const int kGameInfoFieldNumber = 2;
+  inline const ::NetGameInfo& gameinfo() const;
+  inline ::NetGameInfo* mutable_gameinfo();
+  inline ::NetGameInfo* release_gameinfo();
+  inline void set_allocated_gameinfo(::NetGameInfo* gameinfo);
+
+  // optional string password = 3;
+  inline bool has_password() const;
+  inline void clear_password();
+  static const int kPasswordFieldNumber = 3;
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  inline ::std::string* release_password();
+  inline void set_allocated_password(::std::string* password);
+
+  // optional bool autoLeave = 4;
+  inline bool has_autoleave() const;
+  inline void clear_autoleave();
+  static const int kAutoLeaveFieldNumber = 4;
+  inline bool autoleave() const;
+  inline void set_autoleave(bool value);
+
+  // @@protoc_insertion_point(class_scope:CreateGameMessage)
+ private:
+  inline void set_has_requestid();
+  inline void clear_has_requestid();
+  inline void set_has_gameinfo();
+  inline void clear_has_gameinfo();
+  inline void set_has_password();
+  inline void clear_has_password();
+  inline void set_has_autoleave();
+  inline void clear_has_autoleave();
+
+  ::NetGameInfo* gameinfo_;
+  ::google::protobuf::uint32 requestid_;
+  bool autoleave_;
+  ::std::string* password_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static CreateGameMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CreateGameFailedMessage : public ::google::protobuf::MessageLite {
+ public:
+  CreateGameFailedMessage();
+  virtual ~CreateGameFailedMessage();
+
+  CreateGameFailedMessage(const CreateGameFailedMessage& from);
+
+  inline CreateGameFailedMessage& operator=(const CreateGameFailedMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const CreateGameFailedMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const CreateGameFailedMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(CreateGameFailedMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  CreateGameFailedMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const CreateGameFailedMessage& from);
+  void MergeFrom(const CreateGameFailedMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef CreateGameFailedMessage_CreateGameFailureReason CreateGameFailureReason;
+  static const CreateGameFailureReason notAllowedAsGuest = CreateGameFailedMessage_CreateGameFailureReason_notAllowedAsGuest;
+  static const CreateGameFailureReason gameNameInUse = CreateGameFailedMessage_CreateGameFailureReason_gameNameInUse;
+  static const CreateGameFailureReason badGameName = CreateGameFailedMessage_CreateGameFailureReason_badGameName;
+  static const CreateGameFailureReason invalidSettings = CreateGameFailedMessage_CreateGameFailureReason_invalidSettings;
+  static inline bool CreateGameFailureReason_IsValid(int value) {
+    return CreateGameFailedMessage_CreateGameFailureReason_IsValid(value);
+  }
+  static const CreateGameFailureReason CreateGameFailureReason_MIN =
+    CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_MIN;
+  static const CreateGameFailureReason CreateGameFailureReason_MAX =
+    CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_MAX;
+  static const int CreateGameFailureReason_ARRAYSIZE =
+    CreateGameFailedMessage_CreateGameFailureReason_CreateGameFailureReason_ARRAYSIZE;
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 requestId = 1;
+  inline bool has_requestid() const;
+  inline void clear_requestid();
+  static const int kRequestIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 requestid() const;
+  inline void set_requestid(::google::protobuf::uint32 value);
+
+  // required .CreateGameFailedMessage.CreateGameFailureReason createGameFailureReason = 2;
+  inline bool has_creategamefailurereason() const;
+  inline void clear_creategamefailurereason();
+  static const int kCreateGameFailureReasonFieldNumber = 2;
+  inline ::CreateGameFailedMessage_CreateGameFailureReason creategamefailurereason() const;
+  inline void set_creategamefailurereason(::CreateGameFailedMessage_CreateGameFailureReason value);
+
+  // @@protoc_insertion_point(class_scope:CreateGameFailedMessage)
+ private:
+  inline void set_has_requestid();
+  inline void clear_has_requestid();
+  inline void set_has_creategamefailurereason();
+  inline void clear_has_creategamefailurereason();
+
+  ::google::protobuf::uint32 requestid_;
+  int creategamefailurereason_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static CreateGameFailedMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class JoinGameMessage : public ::google::protobuf::MessageLite {
+ public:
+  JoinGameMessage();
+  virtual ~JoinGameMessage();
+
+  JoinGameMessage(const JoinGameMessage& from);
+
+  inline JoinGameMessage& operator=(const JoinGameMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const JoinGameMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const JoinGameMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(JoinGameMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  JoinGameMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const JoinGameMessage& from);
+  void MergeFrom(const JoinGameMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string password = 1;
+  inline bool has_password() const;
+  inline void clear_password();
+  static const int kPasswordFieldNumber = 1;
+  inline const ::std::string& password() const;
+  inline void set_password(const ::std::string& value);
+  inline void set_password(const char* value);
+  inline void set_password(const char* value, size_t size);
+  inline ::std::string* mutable_password();
+  inline ::std::string* release_password();
+  inline void set_allocated_password(::std::string* password);
+
+  // optional bool autoLeave = 2 [default = false];
+  inline bool has_autoleave() const;
+  inline void clear_autoleave();
+  static const int kAutoLeaveFieldNumber = 2;
+  inline bool autoleave() const;
+  inline void set_autoleave(bool value);
+
+  // optional bool spectateOnly = 3 [default = false];
+  inline bool has_spectateonly() const;
+  inline void clear_spectateonly();
+  static const int kSpectateOnlyFieldNumber = 3;
+  inline bool spectateonly() const;
+  inline void set_spectateonly(bool value);
+
+  // @@protoc_insertion_point(class_scope:JoinGameMessage)
+ private:
+  inline void set_has_password();
+  inline void clear_has_password();
+  inline void set_has_autoleave();
+  inline void clear_has_autoleave();
+  inline void set_has_spectateonly();
+  inline void clear_has_spectateonly();
+
+  ::std::string* password_;
+  bool autoleave_;
+  bool spectateonly_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static JoinGameMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class RejoinGameMessage : public ::google::protobuf::MessageLite {
+ public:
+  RejoinGameMessage();
+  virtual ~RejoinGameMessage();
+
+  RejoinGameMessage(const RejoinGameMessage& from);
+
+  inline RejoinGameMessage& operator=(const RejoinGameMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const RejoinGameMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const RejoinGameMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(RejoinGameMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  RejoinGameMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const RejoinGameMessage& from);
+  void MergeFrom(const RejoinGameMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bool autoLeave = 1 [default = false];
+  inline bool has_autoleave() const;
+  inline void clear_autoleave();
+  static const int kAutoLeaveFieldNumber = 1;
+  inline bool autoleave() const;
+  inline void set_autoleave(bool value);
+
+  // @@protoc_insertion_point(class_scope:RejoinGameMessage)
+ private:
+  inline void set_has_autoleave();
+  inline void clear_has_autoleave();
+
+  bool autoleave_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static RejoinGameMessage* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -3953,40 +4289,31 @@ class JoinGameAckMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required bool areYouGameAdmin = 2;
+  // required bool areYouGameAdmin = 1;
   inline bool has_areyougameadmin() const;
   inline void clear_areyougameadmin();
-  static const int kAreYouGameAdminFieldNumber = 2;
+  static const int kAreYouGameAdminFieldNumber = 1;
   inline bool areyougameadmin() const;
   inline void set_areyougameadmin(bool value);
 
-  // required .NetGameInfo gameInfo = 3;
+  // required .NetGameInfo gameInfo = 2;
   inline bool has_gameinfo() const;
   inline void clear_gameinfo();
-  static const int kGameInfoFieldNumber = 3;
+  static const int kGameInfoFieldNumber = 2;
   inline const ::NetGameInfo& gameinfo() const;
   inline ::NetGameInfo* mutable_gameinfo();
   inline ::NetGameInfo* release_gameinfo();
   inline void set_allocated_gameinfo(::NetGameInfo* gameinfo);
 
-  // optional bool spectateOnly = 4;
+  // optional bool spectateOnly = 3;
   inline bool has_spectateonly() const;
   inline void clear_spectateonly();
-  static const int kSpectateOnlyFieldNumber = 4;
+  static const int kSpectateOnlyFieldNumber = 3;
   inline bool spectateonly() const;
   inline void set_spectateonly(bool value);
 
   // @@protoc_insertion_point(class_scope:JoinGameAckMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_areyougameadmin();
   inline void clear_has_areyougameadmin();
   inline void set_has_gameinfo();
@@ -3994,13 +4321,12 @@ class JoinGameAckMessage : public ::google::protobuf::MessageLite {
   inline void set_has_spectateonly();
   inline void clear_has_spectateonly();
 
-  ::google::protobuf::uint32 gameid_;
+  ::NetGameInfo* gameinfo_;
   bool areyougameadmin_;
   bool spectateonly_;
-  ::NetGameInfo* gameinfo_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4071,11 +4397,7 @@ class JoinGameFailedMessage : public ::google::protobuf::MessageLite {
   static const JoinGameFailureReason gameIsFull = JoinGameFailedMessage_JoinGameFailureReason_gameIsFull;
   static const JoinGameFailureReason gameIsRunning = JoinGameFailedMessage_JoinGameFailureReason_gameIsRunning;
   static const JoinGameFailureReason invalidPassword = JoinGameFailedMessage_JoinGameFailureReason_invalidPassword;
-  static const JoinGameFailureReason notAllowedAsGuest = JoinGameFailedMessage_JoinGameFailureReason_notAllowedAsGuest;
   static const JoinGameFailureReason notInvited = JoinGameFailedMessage_JoinGameFailureReason_notInvited;
-  static const JoinGameFailureReason gameNameInUse = JoinGameFailedMessage_JoinGameFailureReason_gameNameInUse;
-  static const JoinGameFailureReason badGameName = JoinGameFailedMessage_JoinGameFailureReason_badGameName;
-  static const JoinGameFailureReason invalidSettings = JoinGameFailedMessage_JoinGameFailureReason_invalidSettings;
   static const JoinGameFailureReason ipAddressBlocked = JoinGameFailedMessage_JoinGameFailureReason_ipAddressBlocked;
   static const JoinGameFailureReason rejoinFailed = JoinGameFailedMessage_JoinGameFailureReason_rejoinFailed;
   static const JoinGameFailureReason noSpectatorsAllowed = JoinGameFailedMessage_JoinGameFailureReason_noSpectatorsAllowed;
@@ -4091,32 +4413,22 @@ class JoinGameFailedMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
+  // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
   inline bool has_joingamefailurereason() const;
   inline void clear_joingamefailurereason();
-  static const int kJoinGameFailureReasonFieldNumber = 2;
+  static const int kJoinGameFailureReasonFieldNumber = 1;
   inline ::JoinGameFailedMessage_JoinGameFailureReason joingamefailurereason() const;
   inline void set_joingamefailurereason(::JoinGameFailedMessage_JoinGameFailureReason value);
 
   // @@protoc_insertion_point(class_scope:JoinGameFailedMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_joingamefailurereason();
   inline void clear_has_joingamefailurereason();
 
-  ::google::protobuf::uint32 gameid_;
   int joingamefailurereason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4184,42 +4496,32 @@ class GamePlayerJoinedMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required bool isGameAdmin = 3;
+  // required bool isGameAdmin = 2;
   inline bool has_isgameadmin() const;
   inline void clear_isgameadmin();
-  static const int kIsGameAdminFieldNumber = 3;
+  static const int kIsGameAdminFieldNumber = 2;
   inline bool isgameadmin() const;
   inline void set_isgameadmin(bool value);
 
   // @@protoc_insertion_point(class_scope:GamePlayerJoinedMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_isgameadmin();
   inline void clear_has_isgameadmin();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   bool isgameadmin_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4301,42 +4603,32 @@ class GamePlayerLeftMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;
+  // required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 2;
   inline bool has_gameplayerleftreason() const;
   inline void clear_gameplayerleftreason();
-  static const int kGamePlayerLeftReasonFieldNumber = 3;
+  static const int kGamePlayerLeftReasonFieldNumber = 2;
   inline ::GamePlayerLeftMessage_GamePlayerLeftReason gameplayerleftreason() const;
   inline void set_gameplayerleftreason(::GamePlayerLeftMessage_GamePlayerLeftReason value);
 
   // @@protoc_insertion_point(class_scope:GamePlayerLeftMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_gameplayerleftreason();
   inline void clear_has_gameplayerleftreason();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gameplayerleftreason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4404,32 +4696,22 @@ class GameSpectatorJoinedMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:GameSpectatorJoinedMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4497,42 +4779,32 @@ class GameSpectatorLeftMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+  // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 2;
   inline bool has_gamespectatorleftreason() const;
   inline void clear_gamespectatorleftreason();
-  static const int kGameSpectatorLeftReasonFieldNumber = 3;
+  static const int kGameSpectatorLeftReasonFieldNumber = 2;
   inline ::GamePlayerLeftMessage_GamePlayerLeftReason gamespectatorleftreason() const;
   inline void set_gamespectatorleftreason(::GamePlayerLeftMessage_GamePlayerLeftReason value);
 
   // @@protoc_insertion_point(class_scope:GameSpectatorLeftMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_gamespectatorleftreason();
   inline void clear_has_gamespectatorleftreason();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gamespectatorleftreason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4600,32 +4872,22 @@ class GameAdminChangedMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 newAdminPlayerId = 2;
+  // required uint32 newAdminPlayerId = 1;
   inline bool has_newadminplayerid() const;
   inline void clear_newadminplayerid();
-  static const int kNewAdminPlayerIdFieldNumber = 2;
+  static const int kNewAdminPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 newadminplayerid() const;
   inline void set_newadminplayerid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:GameAdminChangedMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_newadminplayerid();
   inline void clear_has_newadminplayerid();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 newadminplayerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4711,32 +4973,22 @@ class RemovedFromGameMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;
+  // required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 1;
   inline bool has_removedfromgamereason() const;
   inline void clear_removedfromgamereason();
-  static const int kRemovedFromGameReasonFieldNumber = 2;
+  static const int kRemovedFromGameReasonFieldNumber = 1;
   inline ::RemovedFromGameMessage_RemovedFromGameReason removedfromgamereason() const;
   inline void set_removedfromgamereason(::RemovedFromGameMessage_RemovedFromGameReason value);
 
   // @@protoc_insertion_point(class_scope:RemovedFromGameMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_removedfromgamereason();
   inline void clear_has_removedfromgamereason();
 
-  ::google::protobuf::uint32 gameid_;
   int removedfromgamereason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4804,32 +5056,22 @@ class KickPlayerRequestMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:KickPlayerRequestMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -4897,22 +5139,12 @@ class LeaveGameRequestMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
   // @@protoc_insertion_point(class_scope:LeaveGameRequestMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
 
-  ::google::protobuf::uint32 gameid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[1];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -5398,42 +5630,32 @@ class StartEventMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required .StartEventMessage.StartEventType startEventType = 2;
+  // required .StartEventMessage.StartEventType startEventType = 1;
   inline bool has_starteventtype() const;
   inline void clear_starteventtype();
-  static const int kStartEventTypeFieldNumber = 2;
+  static const int kStartEventTypeFieldNumber = 1;
   inline ::StartEventMessage_StartEventType starteventtype() const;
   inline void set_starteventtype(::StartEventMessage_StartEventType value);
 
-  // optional bool fillWithComputerPlayers = 3;
+  // optional bool fillWithComputerPlayers = 2;
   inline bool has_fillwithcomputerplayers() const;
   inline void clear_fillwithcomputerplayers();
-  static const int kFillWithComputerPlayersFieldNumber = 3;
+  static const int kFillWithComputerPlayersFieldNumber = 2;
   inline bool fillwithcomputerplayers() const;
   inline void set_fillwithcomputerplayers(bool value);
 
   // @@protoc_insertion_point(class_scope:StartEventMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_starteventtype();
   inline void clear_has_starteventtype();
   inline void set_has_fillwithcomputerplayers();
   inline void clear_has_fillwithcomputerplayers();
 
-  ::google::protobuf::uint32 gameid_;
   int starteventtype_;
   bool fillwithcomputerplayers_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -5501,22 +5723,12 @@ class StartEventAckMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
   // @@protoc_insertion_point(class_scope:StartEventAckMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
 
-  ::google::protobuf::uint32 gameid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[1];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -5584,24 +5796,17 @@ class GameStartInitialMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 startDealerPlayerId = 2;
+  // required uint32 startDealerPlayerId = 1;
   inline bool has_startdealerplayerid() const;
   inline void clear_startdealerplayerid();
-  static const int kStartDealerPlayerIdFieldNumber = 2;
+  static const int kStartDealerPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 startdealerplayerid() const;
   inline void set_startdealerplayerid(::google::protobuf::uint32 value);
 
-  // repeated uint32 playerSeats = 3 [packed = true];
+  // repeated uint32 playerSeats = 2 [packed = true];
   inline int playerseats_size() const;
   inline void clear_playerseats();
-  static const int kPlayerSeatsFieldNumber = 3;
+  static const int kPlayerSeatsFieldNumber = 2;
   inline ::google::protobuf::uint32 playerseats(int index) const;
   inline void set_playerseats(int index, ::google::protobuf::uint32 value);
   inline void add_playerseats(::google::protobuf::uint32 value);
@@ -5612,18 +5817,15 @@ class GameStartInitialMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:GameStartInitialMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_startdealerplayerid();
   inline void clear_has_startdealerplayerid();
 
-  ::google::protobuf::uint32 gameid_;
-  ::google::protobuf::uint32 startdealerplayerid_;
   ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > playerseats_;
   mutable int _playerseats_cached_byte_size_;
+  ::google::protobuf::uint32 startdealerplayerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -5786,31 +5988,24 @@ class GameStartRejoinMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 startDealerPlayerId = 2;
+  // required uint32 startDealerPlayerId = 1;
   inline bool has_startdealerplayerid() const;
   inline void clear_startdealerplayerid();
-  static const int kStartDealerPlayerIdFieldNumber = 2;
+  static const int kStartDealerPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 startdealerplayerid() const;
   inline void set_startdealerplayerid(::google::protobuf::uint32 value);
 
-  // required uint32 handNum = 3;
+  // required uint32 handNum = 2;
   inline bool has_handnum() const;
   inline void clear_handnum();
-  static const int kHandNumFieldNumber = 3;
+  static const int kHandNumFieldNumber = 2;
   inline ::google::protobuf::uint32 handnum() const;
   inline void set_handnum(::google::protobuf::uint32 value);
 
-  // repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 4;
+  // repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 3;
   inline int rejoinplayerdata_size() const;
   inline void clear_rejoinplayerdata();
-  static const int kRejoinPlayerDataFieldNumber = 4;
+  static const int kRejoinPlayerDataFieldNumber = 3;
   inline const ::GameStartRejoinMessage_RejoinPlayerData& rejoinplayerdata(int index) const;
   inline ::GameStartRejoinMessage_RejoinPlayerData* mutable_rejoinplayerdata(int index);
   inline ::GameStartRejoinMessage_RejoinPlayerData* add_rejoinplayerdata();
@@ -5821,20 +6016,17 @@ class GameStartRejoinMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:GameStartRejoinMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_startdealerplayerid();
   inline void clear_has_startdealerplayerid();
   inline void set_has_handnum();
   inline void clear_has_handnum();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 startdealerplayerid_;
-  ::google::protobuf::RepeatedPtrField< ::GameStartRejoinMessage_RejoinPlayerData > rejoinplayerdata_;
   ::google::protobuf::uint32 handnum_;
+  ::google::protobuf::RepeatedPtrField< ::GameStartRejoinMessage_RejoinPlayerData > rejoinplayerdata_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -5997,26 +6189,19 @@ class HandStartMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // optional .HandStartMessage.PlainCards plainCards = 2;
+  // optional .HandStartMessage.PlainCards plainCards = 1;
   inline bool has_plaincards() const;
   inline void clear_plaincards();
-  static const int kPlainCardsFieldNumber = 2;
+  static const int kPlainCardsFieldNumber = 1;
   inline const ::HandStartMessage_PlainCards& plaincards() const;
   inline ::HandStartMessage_PlainCards* mutable_plaincards();
   inline ::HandStartMessage_PlainCards* release_plaincards();
   inline void set_allocated_plaincards(::HandStartMessage_PlainCards* plaincards);
 
-  // optional bytes encryptedCards = 3;
+  // optional bytes encryptedCards = 2;
   inline bool has_encryptedcards() const;
   inline void clear_encryptedcards();
-  static const int kEncryptedCardsFieldNumber = 3;
+  static const int kEncryptedCardsFieldNumber = 2;
   inline const ::std::string& encryptedcards() const;
   inline void set_encryptedcards(const ::std::string& value);
   inline void set_encryptedcards(const char* value);
@@ -6025,34 +6210,32 @@ class HandStartMessage : public ::google::protobuf::MessageLite {
   inline ::std::string* release_encryptedcards();
   inline void set_allocated_encryptedcards(::std::string* encryptedcards);
 
-  // required uint32 smallBlind = 4;
+  // required uint32 smallBlind = 3;
   inline bool has_smallblind() const;
   inline void clear_smallblind();
-  static const int kSmallBlindFieldNumber = 4;
+  static const int kSmallBlindFieldNumber = 3;
   inline ::google::protobuf::uint32 smallblind() const;
   inline void set_smallblind(::google::protobuf::uint32 value);
 
-  // repeated .NetPlayerState seatStates = 5;
+  // repeated .NetPlayerState seatStates = 4;
   inline int seatstates_size() const;
   inline void clear_seatstates();
-  static const int kSeatStatesFieldNumber = 5;
+  static const int kSeatStatesFieldNumber = 4;
   inline ::NetPlayerState seatstates(int index) const;
   inline void set_seatstates(int index, ::NetPlayerState value);
   inline void add_seatstates(::NetPlayerState value);
   inline const ::google::protobuf::RepeatedField<int>& seatstates() const;
   inline ::google::protobuf::RepeatedField<int>* mutable_seatstates();
 
-  // optional uint32 dealerPlayerId = 6;
+  // optional uint32 dealerPlayerId = 5;
   inline bool has_dealerplayerid() const;
   inline void clear_dealerplayerid();
-  static const int kDealerPlayerIdFieldNumber = 6;
+  static const int kDealerPlayerIdFieldNumber = 5;
   inline ::google::protobuf::uint32 dealerplayerid() const;
   inline void set_dealerplayerid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:HandStartMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_plaincards();
   inline void clear_has_plaincards();
   inline void set_has_encryptedcards();
@@ -6063,14 +6246,13 @@ class HandStartMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_dealerplayerid();
 
   ::HandStartMessage_PlainCards* plaincards_;
-  ::google::protobuf::uint32 gameid_;
-  ::google::protobuf::uint32 smallblind_;
   ::std::string* encryptedcards_;
   ::google::protobuf::RepeatedField<int> seatstates_;
+  ::google::protobuf::uint32 smallblind_;
   ::google::protobuf::uint32 dealerplayerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6138,42 +6320,32 @@ class PlayersTurnMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required .NetGameState gameState = 3;
+  // required .NetGameState gameState = 2;
   inline bool has_gamestate() const;
   inline void clear_gamestate();
-  static const int kGameStateFieldNumber = 3;
+  static const int kGameStateFieldNumber = 2;
   inline ::NetGameState gamestate() const;
   inline void set_gamestate(::NetGameState value);
 
   // @@protoc_insertion_point(class_scope:PlayersTurnMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_gamestate();
   inline void clear_has_gamestate();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gamestate_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6241,45 +6413,36 @@ class MyActionRequestMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 handNum = 2;
+  // required uint32 handNum = 1;
   inline bool has_handnum() const;
   inline void clear_handnum();
-  static const int kHandNumFieldNumber = 2;
+  static const int kHandNumFieldNumber = 1;
   inline ::google::protobuf::uint32 handnum() const;
   inline void set_handnum(::google::protobuf::uint32 value);
 
-  // required .NetGameState gameState = 3;
+  // required .NetGameState gameState = 2;
   inline bool has_gamestate() const;
   inline void clear_gamestate();
-  static const int kGameStateFieldNumber = 3;
+  static const int kGameStateFieldNumber = 2;
   inline ::NetGameState gamestate() const;
   inline void set_gamestate(::NetGameState value);
 
-  // required .NetPlayerAction myAction = 4;
+  // required .NetPlayerAction myAction = 3;
   inline bool has_myaction() const;
   inline void clear_myaction();
-  static const int kMyActionFieldNumber = 4;
+  static const int kMyActionFieldNumber = 3;
   inline ::NetPlayerAction myaction() const;
   inline void set_myaction(::NetPlayerAction value);
 
-  // required uint32 myRelativeBet = 5;
+  // required uint32 myRelativeBet = 4;
   inline bool has_myrelativebet() const;
   inline void clear_myrelativebet();
-  static const int kMyRelativeBetFieldNumber = 5;
+  static const int kMyRelativeBetFieldNumber = 4;
   inline ::google::protobuf::uint32 myrelativebet() const;
   inline void set_myrelativebet(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:MyActionRequestMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_handnum();
   inline void clear_has_handnum();
   inline void set_has_gamestate();
@@ -6289,14 +6452,13 @@ class MyActionRequestMessage : public ::google::protobuf::MessageLite {
   inline void set_has_myrelativebet();
   inline void clear_has_myrelativebet();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 handnum_;
   int gamestate_;
   int myaction_;
   ::google::protobuf::uint32 myrelativebet_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6378,45 +6540,36 @@ class YourActionRejectedMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required .NetGameState gameState = 2;
+  // required .NetGameState gameState = 1;
   inline bool has_gamestate() const;
   inline void clear_gamestate();
-  static const int kGameStateFieldNumber = 2;
+  static const int kGameStateFieldNumber = 1;
   inline ::NetGameState gamestate() const;
   inline void set_gamestate(::NetGameState value);
 
-  // required .NetPlayerAction yourAction = 3;
+  // required .NetPlayerAction yourAction = 2;
   inline bool has_youraction() const;
   inline void clear_youraction();
-  static const int kYourActionFieldNumber = 3;
+  static const int kYourActionFieldNumber = 2;
   inline ::NetPlayerAction youraction() const;
   inline void set_youraction(::NetPlayerAction value);
 
-  // required uint32 yourRelativeBet = 4;
+  // required uint32 yourRelativeBet = 3;
   inline bool has_yourrelativebet() const;
   inline void clear_yourrelativebet();
-  static const int kYourRelativeBetFieldNumber = 4;
+  static const int kYourRelativeBetFieldNumber = 3;
   inline ::google::protobuf::uint32 yourrelativebet() const;
   inline void set_yourrelativebet(::google::protobuf::uint32 value);
 
-  // required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;
+  // required .YourActionRejectedMessage.RejectionReason rejectionReason = 4;
   inline bool has_rejectionreason() const;
   inline void clear_rejectionreason();
-  static const int kRejectionReasonFieldNumber = 5;
+  static const int kRejectionReasonFieldNumber = 4;
   inline ::YourActionRejectedMessage_RejectionReason rejectionreason() const;
   inline void set_rejectionreason(::YourActionRejectedMessage_RejectionReason value);
 
   // @@protoc_insertion_point(class_scope:YourActionRejectedMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_gamestate();
   inline void clear_has_gamestate();
   inline void set_has_youraction();
@@ -6426,14 +6579,13 @@ class YourActionRejectedMessage : public ::google::protobuf::MessageLite {
   inline void set_has_rejectionreason();
   inline void clear_has_rejectionreason();
 
-  ::google::protobuf::uint32 gameid_;
   int gamestate_;
   int youraction_;
   ::google::protobuf::uint32 yourrelativebet_;
   int rejectionreason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6501,66 +6653,57 @@ class PlayersActionDoneMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required .NetGameState gameState = 3;
+  // required .NetGameState gameState = 2;
   inline bool has_gamestate() const;
   inline void clear_gamestate();
-  static const int kGameStateFieldNumber = 3;
+  static const int kGameStateFieldNumber = 2;
   inline ::NetGameState gamestate() const;
   inline void set_gamestate(::NetGameState value);
 
-  // required .NetPlayerAction playerAction = 4;
+  // required .NetPlayerAction playerAction = 3;
   inline bool has_playeraction() const;
   inline void clear_playeraction();
-  static const int kPlayerActionFieldNumber = 4;
+  static const int kPlayerActionFieldNumber = 3;
   inline ::NetPlayerAction playeraction() const;
   inline void set_playeraction(::NetPlayerAction value);
 
-  // required uint32 totalPlayerBet = 5;
+  // required uint32 totalPlayerBet = 4;
   inline bool has_totalplayerbet() const;
   inline void clear_totalplayerbet();
-  static const int kTotalPlayerBetFieldNumber = 5;
+  static const int kTotalPlayerBetFieldNumber = 4;
   inline ::google::protobuf::uint32 totalplayerbet() const;
   inline void set_totalplayerbet(::google::protobuf::uint32 value);
 
-  // required uint32 playerMoney = 6;
+  // required uint32 playerMoney = 5;
   inline bool has_playermoney() const;
   inline void clear_playermoney();
-  static const int kPlayerMoneyFieldNumber = 6;
+  static const int kPlayerMoneyFieldNumber = 5;
   inline ::google::protobuf::uint32 playermoney() const;
   inline void set_playermoney(::google::protobuf::uint32 value);
 
-  // required uint32 highestSet = 7;
+  // required uint32 highestSet = 6;
   inline bool has_highestset() const;
   inline void clear_highestset();
-  static const int kHighestSetFieldNumber = 7;
+  static const int kHighestSetFieldNumber = 6;
   inline ::google::protobuf::uint32 highestset() const;
   inline void set_highestset(::google::protobuf::uint32 value);
 
-  // required uint32 minimumRaise = 8;
+  // required uint32 minimumRaise = 7;
   inline bool has_minimumraise() const;
   inline void clear_minimumraise();
-  static const int kMinimumRaiseFieldNumber = 8;
+  static const int kMinimumRaiseFieldNumber = 7;
   inline ::google::protobuf::uint32 minimumraise() const;
   inline void set_minimumraise(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:PlayersActionDoneMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_gamestate();
@@ -6576,7 +6719,6 @@ class PlayersActionDoneMessage : public ::google::protobuf::MessageLite {
   inline void set_has_minimumraise();
   inline void clear_has_minimumraise();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int gamestate_;
   int playeraction_;
@@ -6586,7 +6728,7 @@ class PlayersActionDoneMessage : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 minimumraise_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6654,38 +6796,29 @@ class DealFlopCardsMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 flopCard1 = 2;
+  // required uint32 flopCard1 = 1;
   inline bool has_flopcard1() const;
   inline void clear_flopcard1();
-  static const int kFlopCard1FieldNumber = 2;
+  static const int kFlopCard1FieldNumber = 1;
   inline ::google::protobuf::uint32 flopcard1() const;
   inline void set_flopcard1(::google::protobuf::uint32 value);
 
-  // required uint32 flopCard2 = 3;
+  // required uint32 flopCard2 = 2;
   inline bool has_flopcard2() const;
   inline void clear_flopcard2();
-  static const int kFlopCard2FieldNumber = 3;
+  static const int kFlopCard2FieldNumber = 2;
   inline ::google::protobuf::uint32 flopcard2() const;
   inline void set_flopcard2(::google::protobuf::uint32 value);
 
-  // required uint32 flopCard3 = 4;
+  // required uint32 flopCard3 = 3;
   inline bool has_flopcard3() const;
   inline void clear_flopcard3();
-  static const int kFlopCard3FieldNumber = 4;
+  static const int kFlopCard3FieldNumber = 3;
   inline ::google::protobuf::uint32 flopcard3() const;
   inline void set_flopcard3(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:DealFlopCardsMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_flopcard1();
   inline void clear_has_flopcard1();
   inline void set_has_flopcard2();
@@ -6693,13 +6826,12 @@ class DealFlopCardsMessage : public ::google::protobuf::MessageLite {
   inline void set_has_flopcard3();
   inline void clear_has_flopcard3();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 flopcard1_;
   ::google::protobuf::uint32 flopcard2_;
   ::google::protobuf::uint32 flopcard3_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6767,32 +6899,22 @@ class DealTurnCardMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 turnCard = 2;
+  // required uint32 turnCard = 1;
   inline bool has_turncard() const;
   inline void clear_turncard();
-  static const int kTurnCardFieldNumber = 2;
+  static const int kTurnCardFieldNumber = 1;
   inline ::google::protobuf::uint32 turncard() const;
   inline void set_turncard(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:DealTurnCardMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_turncard();
   inline void clear_has_turncard();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 turncard_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -6860,32 +6982,22 @@ class DealRiverCardMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 riverCard = 2;
+  // required uint32 riverCard = 1;
   inline bool has_rivercard() const;
   inline void clear_rivercard();
-  static const int kRiverCardFieldNumber = 2;
+  static const int kRiverCardFieldNumber = 1;
   inline ::google::protobuf::uint32 rivercard() const;
   inline void set_rivercard(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:DealRiverCardMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_rivercard();
   inline void clear_has_rivercard();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 rivercard_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7058,17 +7170,10 @@ class AllInShowCardsMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 2;
+  // repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 1;
   inline int playersallin_size() const;
   inline void clear_playersallin();
-  static const int kPlayersAllInFieldNumber = 2;
+  static const int kPlayersAllInFieldNumber = 1;
   inline const ::AllInShowCardsMessage_PlayerAllIn& playersallin(int index) const;
   inline ::AllInShowCardsMessage_PlayerAllIn* mutable_playersallin(int index);
   inline ::AllInShowCardsMessage_PlayerAllIn* add_playersallin();
@@ -7079,14 +7184,11 @@ class AllInShowCardsMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:AllInShowCardsMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
 
   ::google::protobuf::RepeatedPtrField< ::AllInShowCardsMessage_PlayerAllIn > playersallin_;
-  ::google::protobuf::uint32 gameid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7154,17 +7256,10 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // repeated .PlayerResult playerResults = 2;
+  // repeated .PlayerResult playerResults = 1;
   inline int playerresults_size() const;
   inline void clear_playerresults();
-  static const int kPlayerResultsFieldNumber = 2;
+  static const int kPlayerResultsFieldNumber = 1;
   inline const ::PlayerResult& playerresults(int index) const;
   inline ::PlayerResult* mutable_playerresults(int index);
   inline ::PlayerResult* add_playerresults();
@@ -7175,14 +7270,11 @@ class EndOfHandShowCardsMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:EndOfHandShowCardsMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
 
   ::google::protobuf::RepeatedPtrField< ::PlayerResult > playerresults_;
-  ::google::protobuf::uint32 gameid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7250,38 +7342,29 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required uint32 moneyWon = 3;
+  // required uint32 moneyWon = 2;
   inline bool has_moneywon() const;
   inline void clear_moneywon();
-  static const int kMoneyWonFieldNumber = 3;
+  static const int kMoneyWonFieldNumber = 2;
   inline ::google::protobuf::uint32 moneywon() const;
   inline void set_moneywon(::google::protobuf::uint32 value);
 
-  // required uint32 playerMoney = 4;
+  // required uint32 playerMoney = 3;
   inline bool has_playermoney() const;
   inline void clear_playermoney();
-  static const int kPlayerMoneyFieldNumber = 4;
+  static const int kPlayerMoneyFieldNumber = 3;
   inline ::google::protobuf::uint32 playermoney() const;
   inline void set_playermoney(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:EndOfHandHideCardsMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_moneywon();
@@ -7289,13 +7372,12 @@ class EndOfHandHideCardsMessage : public ::google::protobuf::MessageLite {
   inline void set_has_playermoney();
   inline void clear_has_playermoney();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   ::google::protobuf::uint32 moneywon_;
   ::google::protobuf::uint32 playermoney_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7521,32 +7603,22 @@ class EndOfGameMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 winnerPlayerId = 2;
+  // required uint32 winnerPlayerId = 1;
   inline bool has_winnerplayerid() const;
   inline void clear_winnerplayerid();
-  static const int kWinnerPlayerIdFieldNumber = 2;
+  static const int kWinnerPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 winnerplayerid() const;
   inline void set_winnerplayerid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:EndOfGameMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_winnerplayerid();
   inline void clear_has_winnerplayerid();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 winnerplayerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7707,32 +7779,22 @@ class AskKickPlayerMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:AskKickPlayerMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7816,42 +7878,32 @@ class AskKickDeniedMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 playerId = 2;
+  // required uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;
+  // required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 2;
   inline bool has_kickdeniedreason() const;
   inline void clear_kickdeniedreason();
-  static const int kKickDeniedReasonFieldNumber = 3;
+  static const int kKickDeniedReasonFieldNumber = 2;
   inline ::AskKickDeniedMessage_KickDeniedReason kickdeniedreason() const;
   inline void set_kickdeniedreason(::AskKickDeniedMessage_KickDeniedReason value);
 
   // @@protoc_insertion_point(class_scope:AskKickDeniedMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_kickdeniedreason();
   inline void clear_has_kickdeniedreason();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
   int kickdeniedreason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -7919,52 +7971,43 @@ class StartKickPetitionMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 petitionId = 2;
+  // required uint32 petitionId = 1;
   inline bool has_petitionid() const;
   inline void clear_petitionid();
-  static const int kPetitionIdFieldNumber = 2;
+  static const int kPetitionIdFieldNumber = 1;
   inline ::google::protobuf::uint32 petitionid() const;
   inline void set_petitionid(::google::protobuf::uint32 value);
 
-  // required uint32 proposingPlayerId = 3;
+  // required uint32 proposingPlayerId = 2;
   inline bool has_proposingplayerid() const;
   inline void clear_proposingplayerid();
-  static const int kProposingPlayerIdFieldNumber = 3;
+  static const int kProposingPlayerIdFieldNumber = 2;
   inline ::google::protobuf::uint32 proposingplayerid() const;
   inline void set_proposingplayerid(::google::protobuf::uint32 value);
 
-  // required uint32 kickPlayerId = 4;
+  // required uint32 kickPlayerId = 3;
   inline bool has_kickplayerid() const;
   inline void clear_kickplayerid();
-  static const int kKickPlayerIdFieldNumber = 4;
+  static const int kKickPlayerIdFieldNumber = 3;
   inline ::google::protobuf::uint32 kickplayerid() const;
   inline void set_kickplayerid(::google::protobuf::uint32 value);
 
-  // required uint32 kickTimeoutSec = 5;
+  // required uint32 kickTimeoutSec = 4;
   inline bool has_kicktimeoutsec() const;
   inline void clear_kicktimeoutsec();
-  static const int kKickTimeoutSecFieldNumber = 5;
+  static const int kKickTimeoutSecFieldNumber = 4;
   inline ::google::protobuf::uint32 kicktimeoutsec() const;
   inline void set_kicktimeoutsec(::google::protobuf::uint32 value);
 
-  // required uint32 numVotesNeededToKick = 6;
+  // required uint32 numVotesNeededToKick = 5;
   inline bool has_numvotesneededtokick() const;
   inline void clear_numvotesneededtokick();
-  static const int kNumVotesNeededToKickFieldNumber = 6;
+  static const int kNumVotesNeededToKickFieldNumber = 5;
   inline ::google::protobuf::uint32 numvotesneededtokick() const;
   inline void set_numvotesneededtokick(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:StartKickPetitionMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_petitionid();
   inline void clear_has_petitionid();
   inline void set_has_proposingplayerid();
@@ -7976,7 +8019,6 @@ class StartKickPetitionMessage : public ::google::protobuf::MessageLite {
   inline void set_has_numvotesneededtokick();
   inline void clear_has_numvotesneededtokick();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   ::google::protobuf::uint32 proposingplayerid_;
   ::google::protobuf::uint32 kickplayerid_;
@@ -7984,7 +8026,7 @@ class StartKickPetitionMessage : public ::google::protobuf::MessageLite {
   ::google::protobuf::uint32 numvotesneededtokick_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -8052,42 +8094,32 @@ class VoteKickRequestMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 petitionId = 2;
+  // required uint32 petitionId = 1;
   inline bool has_petitionid() const;
   inline void clear_petitionid();
-  static const int kPetitionIdFieldNumber = 2;
+  static const int kPetitionIdFieldNumber = 1;
   inline ::google::protobuf::uint32 petitionid() const;
   inline void set_petitionid(::google::protobuf::uint32 value);
 
-  // required bool voteKick = 3;
+  // required bool voteKick = 2;
   inline bool has_votekick() const;
   inline void clear_votekick();
-  static const int kVoteKickFieldNumber = 3;
+  static const int kVoteKickFieldNumber = 2;
   inline bool votekick() const;
   inline void set_votekick(bool value);
 
   // @@protoc_insertion_point(class_scope:VoteKickRequestMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_petitionid();
   inline void clear_has_petitionid();
   inline void set_has_votekick();
   inline void clear_has_votekick();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   bool votekick_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -8169,42 +8201,32 @@ class VoteKickReplyMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 petitionId = 2;
+  // required uint32 petitionId = 1;
   inline bool has_petitionid() const;
   inline void clear_petitionid();
-  static const int kPetitionIdFieldNumber = 2;
+  static const int kPetitionIdFieldNumber = 1;
   inline ::google::protobuf::uint32 petitionid() const;
   inline void set_petitionid(::google::protobuf::uint32 value);
 
-  // required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;
+  // required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 2;
   inline bool has_votekickreplytype() const;
   inline void clear_votekickreplytype();
-  static const int kVoteKickReplyTypeFieldNumber = 3;
+  static const int kVoteKickReplyTypeFieldNumber = 2;
   inline ::VoteKickReplyMessage_VoteKickReplyType votekickreplytype() const;
   inline void set_votekickreplytype(::VoteKickReplyMessage_VoteKickReplyType value);
 
   // @@protoc_insertion_point(class_scope:VoteKickReplyMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_petitionid();
   inline void clear_has_petitionid();
   inline void set_has_votekickreplytype();
   inline void clear_has_votekickreplytype();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   int votekickreplytype_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -8272,45 +8294,36 @@ class KickPetitionUpdateMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 petitionId = 2;
+  // required uint32 petitionId = 1;
   inline bool has_petitionid() const;
   inline void clear_petitionid();
-  static const int kPetitionIdFieldNumber = 2;
+  static const int kPetitionIdFieldNumber = 1;
   inline ::google::protobuf::uint32 petitionid() const;
   inline void set_petitionid(::google::protobuf::uint32 value);
 
-  // required uint32 numVotesAgainstKicking = 3;
+  // required uint32 numVotesAgainstKicking = 2;
   inline bool has_numvotesagainstkicking() const;
   inline void clear_numvotesagainstkicking();
-  static const int kNumVotesAgainstKickingFieldNumber = 3;
+  static const int kNumVotesAgainstKickingFieldNumber = 2;
   inline ::google::protobuf::uint32 numvotesagainstkicking() const;
   inline void set_numvotesagainstkicking(::google::protobuf::uint32 value);
 
-  // required uint32 numVotesInFavourOfKicking = 4;
+  // required uint32 numVotesInFavourOfKicking = 3;
   inline bool has_numvotesinfavourofkicking() const;
   inline void clear_numvotesinfavourofkicking();
-  static const int kNumVotesInFavourOfKickingFieldNumber = 4;
+  static const int kNumVotesInFavourOfKickingFieldNumber = 3;
   inline ::google::protobuf::uint32 numvotesinfavourofkicking() const;
   inline void set_numvotesinfavourofkicking(::google::protobuf::uint32 value);
 
-  // required uint32 numVotesNeededToKick = 5;
+  // required uint32 numVotesNeededToKick = 4;
   inline bool has_numvotesneededtokick() const;
   inline void clear_numvotesneededtokick();
-  static const int kNumVotesNeededToKickFieldNumber = 5;
+  static const int kNumVotesNeededToKickFieldNumber = 4;
   inline ::google::protobuf::uint32 numvotesneededtokick() const;
   inline void set_numvotesneededtokick(::google::protobuf::uint32 value);
 
   // @@protoc_insertion_point(class_scope:KickPetitionUpdateMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_petitionid();
   inline void clear_has_petitionid();
   inline void set_has_numvotesagainstkicking();
@@ -8320,14 +8333,13 @@ class KickPetitionUpdateMessage : public ::google::protobuf::MessageLite {
   inline void set_has_numvotesneededtokick();
   inline void clear_has_numvotesneededtokick();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   ::google::protobuf::uint32 numvotesagainstkicking_;
   ::google::protobuf::uint32 numvotesinfavourofkicking_;
   ::google::protobuf::uint32 numvotesneededtokick_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -8410,52 +8422,43 @@ class EndKickPetitionMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // required uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // required uint32 petitionId = 2;
+  // required uint32 petitionId = 1;
   inline bool has_petitionid() const;
   inline void clear_petitionid();
-  static const int kPetitionIdFieldNumber = 2;
+  static const int kPetitionIdFieldNumber = 1;
   inline ::google::protobuf::uint32 petitionid() const;
   inline void set_petitionid(::google::protobuf::uint32 value);
 
-  // required uint32 numVotesAgainstKicking = 3;
+  // required uint32 numVotesAgainstKicking = 2;
   inline bool has_numvotesagainstkicking() const;
   inline void clear_numvotesagainstkicking();
-  static const int kNumVotesAgainstKickingFieldNumber = 3;
+  static const int kNumVotesAgainstKickingFieldNumber = 2;
   inline ::google::protobuf::uint32 numvotesagainstkicking() const;
   inline void set_numvotesagainstkicking(::google::protobuf::uint32 value);
 
-  // required uint32 numVotesInFavourOfKicking = 4;
+  // required uint32 numVotesInFavourOfKicking = 3;
   inline bool has_numvotesinfavourofkicking() const;
   inline void clear_numvotesinfavourofkicking();
-  static const int kNumVotesInFavourOfKickingFieldNumber = 4;
+  static const int kNumVotesInFavourOfKickingFieldNumber = 3;
   inline ::google::protobuf::uint32 numvotesinfavourofkicking() const;
   inline void set_numvotesinfavourofkicking(::google::protobuf::uint32 value);
 
-  // required uint32 resultPlayerKicked = 5;
+  // required uint32 resultPlayerKicked = 4;
   inline bool has_resultplayerkicked() const;
   inline void clear_resultplayerkicked();
-  static const int kResultPlayerKickedFieldNumber = 5;
+  static const int kResultPlayerKickedFieldNumber = 4;
   inline ::google::protobuf::uint32 resultplayerkicked() const;
   inline void set_resultplayerkicked(::google::protobuf::uint32 value);
 
-  // required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;
+  // required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 5;
   inline bool has_petitionendreason() const;
   inline void clear_petitionendreason();
-  static const int kPetitionEndReasonFieldNumber = 6;
+  static const int kPetitionEndReasonFieldNumber = 5;
   inline ::EndKickPetitionMessage_PetitionEndReason petitionendreason() const;
   inline void set_petitionendreason(::EndKickPetitionMessage_PetitionEndReason value);
 
   // @@protoc_insertion_point(class_scope:EndKickPetitionMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_petitionid();
   inline void clear_has_petitionid();
   inline void set_has_numvotesagainstkicking();
@@ -8467,7 +8470,6 @@ class EndKickPetitionMessage : public ::google::protobuf::MessageLite {
   inline void set_has_petitionendreason();
   inline void clear_has_petitionendreason();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 petitionid_;
   ::google::protobuf::uint32 numvotesagainstkicking_;
   ::google::protobuf::uint32 numvotesinfavourofkicking_;
@@ -8475,7 +8477,7 @@ class EndKickPetitionMessage : public ::google::protobuf::MessageLite {
   int petitionendreason_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -8736,13 +8738,6 @@ class ChatRequestMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // optional uint32 targetGameId = 1;
-  inline bool has_targetgameid() const;
-  inline void clear_targetgameid();
-  static const int kTargetGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 targetgameid() const;
-  inline void set_targetgameid(::google::protobuf::uint32 value);
-
   // optional uint32 targetPlayerId = 2;
   inline bool has_targetplayerid() const;
   inline void clear_targetplayerid();
@@ -8764,19 +8759,16 @@ class ChatRequestMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:ChatRequestMessage)
  private:
-  inline void set_has_targetgameid();
-  inline void clear_has_targetgameid();
   inline void set_has_targetplayerid();
   inline void clear_has_targetplayerid();
   inline void set_has_chattext();
   inline void clear_has_chattext();
 
-  ::google::protobuf::uint32 targetgameid_;
-  ::google::protobuf::uint32 targetplayerid_;
   ::std::string* chattext_;
+  ::google::protobuf::uint32 targetplayerid_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -8843,8 +8835,7 @@ class ChatMessage : public ::google::protobuf::MessageLite {
   // nested types ----------------------------------------------------
 
   typedef ChatMessage_ChatType ChatType;
-  static const ChatType chatTypeLobby = ChatMessage_ChatType_chatTypeLobby;
-  static const ChatType chatTypeGame = ChatMessage_ChatType_chatTypeGame;
+  static const ChatType chatTypeStandard = ChatMessage_ChatType_chatTypeStandard;
   static const ChatType chatTypeBot = ChatMessage_ChatType_chatTypeBot;
   static const ChatType chatTypeBroadcast = ChatMessage_ChatType_chatTypeBroadcast;
   static const ChatType chatTypePrivate = ChatMessage_ChatType_chatTypePrivate;
@@ -8860,31 +8851,24 @@ class ChatMessage : public ::google::protobuf::MessageLite {
 
   // accessors -------------------------------------------------------
 
-  // optional uint32 gameId = 1;
-  inline bool has_gameid() const;
-  inline void clear_gameid();
-  static const int kGameIdFieldNumber = 1;
-  inline ::google::protobuf::uint32 gameid() const;
-  inline void set_gameid(::google::protobuf::uint32 value);
-
-  // optional uint32 playerId = 2;
+  // optional uint32 playerId = 1;
   inline bool has_playerid() const;
   inline void clear_playerid();
-  static const int kPlayerIdFieldNumber = 2;
+  static const int kPlayerIdFieldNumber = 1;
   inline ::google::protobuf::uint32 playerid() const;
   inline void set_playerid(::google::protobuf::uint32 value);
 
-  // required .ChatMessage.ChatType chatType = 3;
+  // required .ChatMessage.ChatType chatType = 2;
   inline bool has_chattype() const;
   inline void clear_chattype();
-  static const int kChatTypeFieldNumber = 3;
+  static const int kChatTypeFieldNumber = 2;
   inline ::ChatMessage_ChatType chattype() const;
   inline void set_chattype(::ChatMessage_ChatType value);
 
-  // required string chatText = 4;
+  // required string chatText = 3;
   inline bool has_chattext() const;
   inline void clear_chattext();
-  static const int kChatTextFieldNumber = 4;
+  static const int kChatTextFieldNumber = 3;
   inline const ::std::string& chattext() const;
   inline void set_chattext(const ::std::string& value);
   inline void set_chattext(const char* value);
@@ -8895,8 +8879,6 @@ class ChatMessage : public ::google::protobuf::MessageLite {
 
   // @@protoc_insertion_point(class_scope:ChatMessage)
  private:
-  inline void set_has_gameid();
-  inline void clear_has_gameid();
   inline void set_has_playerid();
   inline void clear_has_playerid();
   inline void set_has_chattype();
@@ -8904,13 +8886,12 @@ class ChatMessage : public ::google::protobuf::MessageLite {
   inline void set_has_chattext();
   inline void clear_has_chattext();
 
-  ::google::protobuf::uint32 gameid_;
   ::google::protobuf::uint32 playerid_;
-  ::std::string* chattext_;
   int chattype_;
+  ::std::string* chattext_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -10166,6 +10147,1656 @@ class AdminBanPlayerAckMessage : public ::google::protobuf::MessageLite {
 };
 // -------------------------------------------------------------------
 
+class AuthMessage : public ::google::protobuf::MessageLite {
+ public:
+  AuthMessage();
+  virtual ~AuthMessage();
+
+  AuthMessage(const AuthMessage& from);
+
+  inline AuthMessage& operator=(const AuthMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const AuthMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const AuthMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(AuthMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  AuthMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const AuthMessage& from);
+  void MergeFrom(const AuthMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef AuthMessage_AuthMessageType AuthMessageType;
+  static const AuthMessageType Type_AuthClientRequestMessage = AuthMessage_AuthMessageType_Type_AuthClientRequestMessage;
+  static const AuthMessageType Type_AuthServerChallengeMessage = AuthMessage_AuthMessageType_Type_AuthServerChallengeMessage;
+  static const AuthMessageType Type_AuthClientResponseMessage = AuthMessage_AuthMessageType_Type_AuthClientResponseMessage;
+  static const AuthMessageType Type_AuthServerVerificationMessage = AuthMessage_AuthMessageType_Type_AuthServerVerificationMessage;
+  static const AuthMessageType Type_ErrorMessage = AuthMessage_AuthMessageType_Type_ErrorMessage;
+  static inline bool AuthMessageType_IsValid(int value) {
+    return AuthMessage_AuthMessageType_IsValid(value);
+  }
+  static const AuthMessageType AuthMessageType_MIN =
+    AuthMessage_AuthMessageType_AuthMessageType_MIN;
+  static const AuthMessageType AuthMessageType_MAX =
+    AuthMessage_AuthMessageType_AuthMessageType_MAX;
+  static const int AuthMessageType_ARRAYSIZE =
+    AuthMessage_AuthMessageType_AuthMessageType_ARRAYSIZE;
+
+  // accessors -------------------------------------------------------
+
+  // required .AuthMessage.AuthMessageType messageType = 1;
+  inline bool has_messagetype() const;
+  inline void clear_messagetype();
+  static const int kMessageTypeFieldNumber = 1;
+  inline ::AuthMessage_AuthMessageType messagetype() const;
+  inline void set_messagetype(::AuthMessage_AuthMessageType value);
+
+  // optional .AuthClientRequestMessage authClientRequestMessage = 2;
+  inline bool has_authclientrequestmessage() const;
+  inline void clear_authclientrequestmessage();
+  static const int kAuthClientRequestMessageFieldNumber = 2;
+  inline const ::AuthClientRequestMessage& authclientrequestmessage() const;
+  inline ::AuthClientRequestMessage* mutable_authclientrequestmessage();
+  inline ::AuthClientRequestMessage* release_authclientrequestmessage();
+  inline void set_allocated_authclientrequestmessage(::AuthClientRequestMessage* authclientrequestmessage);
+
+  // optional .AuthServerChallengeMessage authServerChallengeMessage = 3;
+  inline bool has_authserverchallengemessage() const;
+  inline void clear_authserverchallengemessage();
+  static const int kAuthServerChallengeMessageFieldNumber = 3;
+  inline const ::AuthServerChallengeMessage& authserverchallengemessage() const;
+  inline ::AuthServerChallengeMessage* mutable_authserverchallengemessage();
+  inline ::AuthServerChallengeMessage* release_authserverchallengemessage();
+  inline void set_allocated_authserverchallengemessage(::AuthServerChallengeMessage* authserverchallengemessage);
+
+  // optional .AuthClientResponseMessage authClientResponseMessage = 4;
+  inline bool has_authclientresponsemessage() const;
+  inline void clear_authclientresponsemessage();
+  static const int kAuthClientResponseMessageFieldNumber = 4;
+  inline const ::AuthClientResponseMessage& authclientresponsemessage() const;
+  inline ::AuthClientResponseMessage* mutable_authclientresponsemessage();
+  inline ::AuthClientResponseMessage* release_authclientresponsemessage();
+  inline void set_allocated_authclientresponsemessage(::AuthClientResponseMessage* authclientresponsemessage);
+
+  // optional .AuthServerVerificationMessage authServerVerificationMessage = 5;
+  inline bool has_authserververificationmessage() const;
+  inline void clear_authserververificationmessage();
+  static const int kAuthServerVerificationMessageFieldNumber = 5;
+  inline const ::AuthServerVerificationMessage& authserververificationmessage() const;
+  inline ::AuthServerVerificationMessage* mutable_authserververificationmessage();
+  inline ::AuthServerVerificationMessage* release_authserververificationmessage();
+  inline void set_allocated_authserververificationmessage(::AuthServerVerificationMessage* authserververificationmessage);
+
+  // optional .ErrorMessage errorMessage = 1025;
+  inline bool has_errormessage() const;
+  inline void clear_errormessage();
+  static const int kErrorMessageFieldNumber = 1025;
+  inline const ::ErrorMessage& errormessage() const;
+  inline ::ErrorMessage* mutable_errormessage();
+  inline ::ErrorMessage* release_errormessage();
+  inline void set_allocated_errormessage(::ErrorMessage* errormessage);
+
+  // @@protoc_insertion_point(class_scope:AuthMessage)
+ private:
+  inline void set_has_messagetype();
+  inline void clear_has_messagetype();
+  inline void set_has_authclientrequestmessage();
+  inline void clear_has_authclientrequestmessage();
+  inline void set_has_authserverchallengemessage();
+  inline void clear_has_authserverchallengemessage();
+  inline void set_has_authclientresponsemessage();
+  inline void clear_has_authclientresponsemessage();
+  inline void set_has_authserververificationmessage();
+  inline void clear_has_authserververificationmessage();
+  inline void set_has_errormessage();
+  inline void clear_has_errormessage();
+
+  ::AuthClientRequestMessage* authclientrequestmessage_;
+  ::AuthServerChallengeMessage* authserverchallengemessage_;
+  ::AuthClientResponseMessage* authclientresponsemessage_;
+  ::AuthServerVerificationMessage* authserververificationmessage_;
+  ::ErrorMessage* errormessage_;
+  int messagetype_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static AuthMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LobbyMessage : public ::google::protobuf::MessageLite {
+ public:
+  LobbyMessage();
+  virtual ~LobbyMessage();
+
+  LobbyMessage(const LobbyMessage& from);
+
+  inline LobbyMessage& operator=(const LobbyMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const LobbyMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const LobbyMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(LobbyMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  LobbyMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const LobbyMessage& from);
+  void MergeFrom(const LobbyMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef LobbyMessage_LobbyMessageType LobbyMessageType;
+  static const LobbyMessageType Type_InitMessage = LobbyMessage_LobbyMessageType_Type_InitMessage;
+  static const LobbyMessageType Type_InitAckMessage = LobbyMessage_LobbyMessageType_Type_InitAckMessage;
+  static const LobbyMessageType Type_AvatarRequestMessage = LobbyMessage_LobbyMessageType_Type_AvatarRequestMessage;
+  static const LobbyMessageType Type_AvatarHeaderMessage = LobbyMessage_LobbyMessageType_Type_AvatarHeaderMessage;
+  static const LobbyMessageType Type_AvatarDataMessage = LobbyMessage_LobbyMessageType_Type_AvatarDataMessage;
+  static const LobbyMessageType Type_AvatarEndMessage = LobbyMessage_LobbyMessageType_Type_AvatarEndMessage;
+  static const LobbyMessageType Type_UnknownAvatarMessage = LobbyMessage_LobbyMessageType_Type_UnknownAvatarMessage;
+  static const LobbyMessageType Type_PlayerListMessage = LobbyMessage_LobbyMessageType_Type_PlayerListMessage;
+  static const LobbyMessageType Type_GameListNewMessage = LobbyMessage_LobbyMessageType_Type_GameListNewMessage;
+  static const LobbyMessageType Type_GameListUpdateMessage = LobbyMessage_LobbyMessageType_Type_GameListUpdateMessage;
+  static const LobbyMessageType Type_GameListPlayerJoinedMessage = LobbyMessage_LobbyMessageType_Type_GameListPlayerJoinedMessage;
+  static const LobbyMessageType Type_GameListPlayerLeftMessage = LobbyMessage_LobbyMessageType_Type_GameListPlayerLeftMessage;
+  static const LobbyMessageType Type_GameListSpectatorJoinedMessage = LobbyMessage_LobbyMessageType_Type_GameListSpectatorJoinedMessage;
+  static const LobbyMessageType Type_GameListSpectatorLeftMessage = LobbyMessage_LobbyMessageType_Type_GameListSpectatorLeftMessage;
+  static const LobbyMessageType Type_GameListAdminChangedMessage = LobbyMessage_LobbyMessageType_Type_GameListAdminChangedMessage;
+  static const LobbyMessageType Type_PlayerInfoRequestMessage = LobbyMessage_LobbyMessageType_Type_PlayerInfoRequestMessage;
+  static const LobbyMessageType Type_PlayerInfoReplyMessage = LobbyMessage_LobbyMessageType_Type_PlayerInfoReplyMessage;
+  static const LobbyMessageType Type_SubscriptionRequestMessage = LobbyMessage_LobbyMessageType_Type_SubscriptionRequestMessage;
+  static const LobbyMessageType Type_SubscriptionReplyMessage = LobbyMessage_LobbyMessageType_Type_SubscriptionReplyMessage;
+  static const LobbyMessageType Type_CreateGameMessage = LobbyMessage_LobbyMessageType_Type_CreateGameMessage;
+  static const LobbyMessageType Type_CreateGameFailedMessage = LobbyMessage_LobbyMessageType_Type_CreateGameFailedMessage;
+  static const LobbyMessageType Type_InvitePlayerToGameMessage = LobbyMessage_LobbyMessageType_Type_InvitePlayerToGameMessage;
+  static const LobbyMessageType Type_InviteNotifyMessage = LobbyMessage_LobbyMessageType_Type_InviteNotifyMessage;
+  static const LobbyMessageType Type_RejectGameInvitationMessage = LobbyMessage_LobbyMessageType_Type_RejectGameInvitationMessage;
+  static const LobbyMessageType Type_RejectInvNotifyMessage = LobbyMessage_LobbyMessageType_Type_RejectInvNotifyMessage;
+  static const LobbyMessageType Type_StatisticsMessage = LobbyMessage_LobbyMessageType_Type_StatisticsMessage;
+  static const LobbyMessageType Type_ChatRequestMessage = LobbyMessage_LobbyMessageType_Type_ChatRequestMessage;
+  static const LobbyMessageType Type_ChatMessage = LobbyMessage_LobbyMessageType_Type_ChatMessage;
+  static const LobbyMessageType Type_ChatRejectMessage = LobbyMessage_LobbyMessageType_Type_ChatRejectMessage;
+  static const LobbyMessageType Type_DialogMessage = LobbyMessage_LobbyMessageType_Type_DialogMessage;
+  static const LobbyMessageType Type_TimeoutWarningMessage = LobbyMessage_LobbyMessageType_Type_TimeoutWarningMessage;
+  static const LobbyMessageType Type_ResetTimeoutMessage = LobbyMessage_LobbyMessageType_Type_ResetTimeoutMessage;
+  static const LobbyMessageType Type_ReportAvatarMessage = LobbyMessage_LobbyMessageType_Type_ReportAvatarMessage;
+  static const LobbyMessageType Type_ReportAvatarAckMessage = LobbyMessage_LobbyMessageType_Type_ReportAvatarAckMessage;
+  static const LobbyMessageType Type_ReportGameMessage = LobbyMessage_LobbyMessageType_Type_ReportGameMessage;
+  static const LobbyMessageType Type_ReportGameAckMessage = LobbyMessage_LobbyMessageType_Type_ReportGameAckMessage;
+  static const LobbyMessageType Type_AdminRemoveGameMessage = LobbyMessage_LobbyMessageType_Type_AdminRemoveGameMessage;
+  static const LobbyMessageType Type_AdminRemoveGameAckMessage = LobbyMessage_LobbyMessageType_Type_AdminRemoveGameAckMessage;
+  static const LobbyMessageType Type_AdminBanPlayerMessage = LobbyMessage_LobbyMessageType_Type_AdminBanPlayerMessage;
+  static const LobbyMessageType Type_AdminBanPlayerAckMessage = LobbyMessage_LobbyMessageType_Type_AdminBanPlayerAckMessage;
+  static const LobbyMessageType Type_ErrorMessage = LobbyMessage_LobbyMessageType_Type_ErrorMessage;
+  static inline bool LobbyMessageType_IsValid(int value) {
+    return LobbyMessage_LobbyMessageType_IsValid(value);
+  }
+  static const LobbyMessageType LobbyMessageType_MIN =
+    LobbyMessage_LobbyMessageType_LobbyMessageType_MIN;
+  static const LobbyMessageType LobbyMessageType_MAX =
+    LobbyMessage_LobbyMessageType_LobbyMessageType_MAX;
+  static const int LobbyMessageType_ARRAYSIZE =
+    LobbyMessage_LobbyMessageType_LobbyMessageType_ARRAYSIZE;
+
+  // accessors -------------------------------------------------------
+
+  // required .LobbyMessage.LobbyMessageType messageType = 1;
+  inline bool has_messagetype() const;
+  inline void clear_messagetype();
+  static const int kMessageTypeFieldNumber = 1;
+  inline ::LobbyMessage_LobbyMessageType messagetype() const;
+  inline void set_messagetype(::LobbyMessage_LobbyMessageType value);
+
+  // optional .InitMessage initMessage = 2;
+  inline bool has_initmessage() const;
+  inline void clear_initmessage();
+  static const int kInitMessageFieldNumber = 2;
+  inline const ::InitMessage& initmessage() const;
+  inline ::InitMessage* mutable_initmessage();
+  inline ::InitMessage* release_initmessage();
+  inline void set_allocated_initmessage(::InitMessage* initmessage);
+
+  // optional .InitAckMessage initAckMessage = 3;
+  inline bool has_initackmessage() const;
+  inline void clear_initackmessage();
+  static const int kInitAckMessageFieldNumber = 3;
+  inline const ::InitAckMessage& initackmessage() const;
+  inline ::InitAckMessage* mutable_initackmessage();
+  inline ::InitAckMessage* release_initackmessage();
+  inline void set_allocated_initackmessage(::InitAckMessage* initackmessage);
+
+  // optional .AvatarRequestMessage avatarRequestMessage = 4;
+  inline bool has_avatarrequestmessage() const;
+  inline void clear_avatarrequestmessage();
+  static const int kAvatarRequestMessageFieldNumber = 4;
+  inline const ::AvatarRequestMessage& avatarrequestmessage() const;
+  inline ::AvatarRequestMessage* mutable_avatarrequestmessage();
+  inline ::AvatarRequestMessage* release_avatarrequestmessage();
+  inline void set_allocated_avatarrequestmessage(::AvatarRequestMessage* avatarrequestmessage);
+
+  // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
+  inline bool has_avatarheadermessage() const;
+  inline void clear_avatarheadermessage();
+  static const int kAvatarHeaderMessageFieldNumber = 5;
+  inline const ::AvatarHeaderMessage& avatarheadermessage() const;
+  inline ::AvatarHeaderMessage* mutable_avatarheadermessage();
+  inline ::AvatarHeaderMessage* release_avatarheadermessage();
+  inline void set_allocated_avatarheadermessage(::AvatarHeaderMessage* avatarheadermessage);
+
+  // optional .AvatarDataMessage avatarDataMessage = 6;
+  inline bool has_avatardatamessage() const;
+  inline void clear_avatardatamessage();
+  static const int kAvatarDataMessageFieldNumber = 6;
+  inline const ::AvatarDataMessage& avatardatamessage() const;
+  inline ::AvatarDataMessage* mutable_avatardatamessage();
+  inline ::AvatarDataMessage* release_avatardatamessage();
+  inline void set_allocated_avatardatamessage(::AvatarDataMessage* avatardatamessage);
+
+  // optional .AvatarEndMessage avatarEndMessage = 7;
+  inline bool has_avatarendmessage() const;
+  inline void clear_avatarendmessage();
+  static const int kAvatarEndMessageFieldNumber = 7;
+  inline const ::AvatarEndMessage& avatarendmessage() const;
+  inline ::AvatarEndMessage* mutable_avatarendmessage();
+  inline ::AvatarEndMessage* release_avatarendmessage();
+  inline void set_allocated_avatarendmessage(::AvatarEndMessage* avatarendmessage);
+
+  // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
+  inline bool has_unknownavatarmessage() const;
+  inline void clear_unknownavatarmessage();
+  static const int kUnknownAvatarMessageFieldNumber = 8;
+  inline const ::UnknownAvatarMessage& unknownavatarmessage() const;
+  inline ::UnknownAvatarMessage* mutable_unknownavatarmessage();
+  inline ::UnknownAvatarMessage* release_unknownavatarmessage();
+  inline void set_allocated_unknownavatarmessage(::UnknownAvatarMessage* unknownavatarmessage);
+
+  // optional .PlayerListMessage playerListMessage = 9;
+  inline bool has_playerlistmessage() const;
+  inline void clear_playerlistmessage();
+  static const int kPlayerListMessageFieldNumber = 9;
+  inline const ::PlayerListMessage& playerlistmessage() const;
+  inline ::PlayerListMessage* mutable_playerlistmessage();
+  inline ::PlayerListMessage* release_playerlistmessage();
+  inline void set_allocated_playerlistmessage(::PlayerListMessage* playerlistmessage);
+
+  // optional .GameListNewMessage gameListNewMessage = 10;
+  inline bool has_gamelistnewmessage() const;
+  inline void clear_gamelistnewmessage();
+  static const int kGameListNewMessageFieldNumber = 10;
+  inline const ::GameListNewMessage& gamelistnewmessage() const;
+  inline ::GameListNewMessage* mutable_gamelistnewmessage();
+  inline ::GameListNewMessage* release_gamelistnewmessage();
+  inline void set_allocated_gamelistnewmessage(::GameListNewMessage* gamelistnewmessage);
+
+  // optional .GameListUpdateMessage gameListUpdateMessage = 11;
+  inline bool has_gamelistupdatemessage() const;
+  inline void clear_gamelistupdatemessage();
+  static const int kGameListUpdateMessageFieldNumber = 11;
+  inline const ::GameListUpdateMessage& gamelistupdatemessage() const;
+  inline ::GameListUpdateMessage* mutable_gamelistupdatemessage();
+  inline ::GameListUpdateMessage* release_gamelistupdatemessage();
+  inline void set_allocated_gamelistupdatemessage(::GameListUpdateMessage* gamelistupdatemessage);
+
+  // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
+  inline bool has_gamelistplayerjoinedmessage() const;
+  inline void clear_gamelistplayerjoinedmessage();
+  static const int kGameListPlayerJoinedMessageFieldNumber = 12;
+  inline const ::GameListPlayerJoinedMessage& gamelistplayerjoinedmessage() const;
+  inline ::GameListPlayerJoinedMessage* mutable_gamelistplayerjoinedmessage();
+  inline ::GameListPlayerJoinedMessage* release_gamelistplayerjoinedmessage();
+  inline void set_allocated_gamelistplayerjoinedmessage(::GameListPlayerJoinedMessage* gamelistplayerjoinedmessage);
+
+  // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
+  inline bool has_gamelistplayerleftmessage() const;
+  inline void clear_gamelistplayerleftmessage();
+  static const int kGameListPlayerLeftMessageFieldNumber = 13;
+  inline const ::GameListPlayerLeftMessage& gamelistplayerleftmessage() const;
+  inline ::GameListPlayerLeftMessage* mutable_gamelistplayerleftmessage();
+  inline ::GameListPlayerLeftMessage* release_gamelistplayerleftmessage();
+  inline void set_allocated_gamelistplayerleftmessage(::GameListPlayerLeftMessage* gamelistplayerleftmessage);
+
+  // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
+  inline bool has_gamelistspectatorjoinedmessage() const;
+  inline void clear_gamelistspectatorjoinedmessage();
+  static const int kGameListSpectatorJoinedMessageFieldNumber = 14;
+  inline const ::GameListSpectatorJoinedMessage& gamelistspectatorjoinedmessage() const;
+  inline ::GameListSpectatorJoinedMessage* mutable_gamelistspectatorjoinedmessage();
+  inline ::GameListSpectatorJoinedMessage* release_gamelistspectatorjoinedmessage();
+  inline void set_allocated_gamelistspectatorjoinedmessage(::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage);
+
+  // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
+  inline bool has_gamelistspectatorleftmessage() const;
+  inline void clear_gamelistspectatorleftmessage();
+  static const int kGameListSpectatorLeftMessageFieldNumber = 15;
+  inline const ::GameListSpectatorLeftMessage& gamelistspectatorleftmessage() const;
+  inline ::GameListSpectatorLeftMessage* mutable_gamelistspectatorleftmessage();
+  inline ::GameListSpectatorLeftMessage* release_gamelistspectatorleftmessage();
+  inline void set_allocated_gamelistspectatorleftmessage(::GameListSpectatorLeftMessage* gamelistspectatorleftmessage);
+
+  // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
+  inline bool has_gamelistadminchangedmessage() const;
+  inline void clear_gamelistadminchangedmessage();
+  static const int kGameListAdminChangedMessageFieldNumber = 16;
+  inline const ::GameListAdminChangedMessage& gamelistadminchangedmessage() const;
+  inline ::GameListAdminChangedMessage* mutable_gamelistadminchangedmessage();
+  inline ::GameListAdminChangedMessage* release_gamelistadminchangedmessage();
+  inline void set_allocated_gamelistadminchangedmessage(::GameListAdminChangedMessage* gamelistadminchangedmessage);
+
+  // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
+  inline bool has_playerinforequestmessage() const;
+  inline void clear_playerinforequestmessage();
+  static const int kPlayerInfoRequestMessageFieldNumber = 17;
+  inline const ::PlayerInfoRequestMessage& playerinforequestmessage() const;
+  inline ::PlayerInfoRequestMessage* mutable_playerinforequestmessage();
+  inline ::PlayerInfoRequestMessage* release_playerinforequestmessage();
+  inline void set_allocated_playerinforequestmessage(::PlayerInfoRequestMessage* playerinforequestmessage);
+
+  // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
+  inline bool has_playerinforeplymessage() const;
+  inline void clear_playerinforeplymessage();
+  static const int kPlayerInfoReplyMessageFieldNumber = 18;
+  inline const ::PlayerInfoReplyMessage& playerinforeplymessage() const;
+  inline ::PlayerInfoReplyMessage* mutable_playerinforeplymessage();
+  inline ::PlayerInfoReplyMessage* release_playerinforeplymessage();
+  inline void set_allocated_playerinforeplymessage(::PlayerInfoReplyMessage* playerinforeplymessage);
+
+  // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
+  inline bool has_subscriptionrequestmessage() const;
+  inline void clear_subscriptionrequestmessage();
+  static const int kSubscriptionRequestMessageFieldNumber = 19;
+  inline const ::SubscriptionRequestMessage& subscriptionrequestmessage() const;
+  inline ::SubscriptionRequestMessage* mutable_subscriptionrequestmessage();
+  inline ::SubscriptionRequestMessage* release_subscriptionrequestmessage();
+  inline void set_allocated_subscriptionrequestmessage(::SubscriptionRequestMessage* subscriptionrequestmessage);
+
+  // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
+  inline bool has_subscriptionreplymessage() const;
+  inline void clear_subscriptionreplymessage();
+  static const int kSubscriptionReplyMessageFieldNumber = 20;
+  inline const ::SubscriptionReplyMessage& subscriptionreplymessage() const;
+  inline ::SubscriptionReplyMessage* mutable_subscriptionreplymessage();
+  inline ::SubscriptionReplyMessage* release_subscriptionreplymessage();
+  inline void set_allocated_subscriptionreplymessage(::SubscriptionReplyMessage* subscriptionreplymessage);
+
+  // optional .CreateGameMessage createGameMessage = 21;
+  inline bool has_creategamemessage() const;
+  inline void clear_creategamemessage();
+  static const int kCreateGameMessageFieldNumber = 21;
+  inline const ::CreateGameMessage& creategamemessage() const;
+  inline ::CreateGameMessage* mutable_creategamemessage();
+  inline ::CreateGameMessage* release_creategamemessage();
+  inline void set_allocated_creategamemessage(::CreateGameMessage* creategamemessage);
+
+  // optional .CreateGameFailedMessage createGameFailedMessage = 22;
+  inline bool has_creategamefailedmessage() const;
+  inline void clear_creategamefailedmessage();
+  static const int kCreateGameFailedMessageFieldNumber = 22;
+  inline const ::CreateGameFailedMessage& creategamefailedmessage() const;
+  inline ::CreateGameFailedMessage* mutable_creategamefailedmessage();
+  inline ::CreateGameFailedMessage* release_creategamefailedmessage();
+  inline void set_allocated_creategamefailedmessage(::CreateGameFailedMessage* creategamefailedmessage);
+
+  // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
+  inline bool has_inviteplayertogamemessage() const;
+  inline void clear_inviteplayertogamemessage();
+  static const int kInvitePlayerToGameMessageFieldNumber = 23;
+  inline const ::InvitePlayerToGameMessage& inviteplayertogamemessage() const;
+  inline ::InvitePlayerToGameMessage* mutable_inviteplayertogamemessage();
+  inline ::InvitePlayerToGameMessage* release_inviteplayertogamemessage();
+  inline void set_allocated_inviteplayertogamemessage(::InvitePlayerToGameMessage* inviteplayertogamemessage);
+
+  // optional .InviteNotifyMessage inviteNotifyMessage = 24;
+  inline bool has_invitenotifymessage() const;
+  inline void clear_invitenotifymessage();
+  static const int kInviteNotifyMessageFieldNumber = 24;
+  inline const ::InviteNotifyMessage& invitenotifymessage() const;
+  inline ::InviteNotifyMessage* mutable_invitenotifymessage();
+  inline ::InviteNotifyMessage* release_invitenotifymessage();
+  inline void set_allocated_invitenotifymessage(::InviteNotifyMessage* invitenotifymessage);
+
+  // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
+  inline bool has_rejectgameinvitationmessage() const;
+  inline void clear_rejectgameinvitationmessage();
+  static const int kRejectGameInvitationMessageFieldNumber = 25;
+  inline const ::RejectGameInvitationMessage& rejectgameinvitationmessage() const;
+  inline ::RejectGameInvitationMessage* mutable_rejectgameinvitationmessage();
+  inline ::RejectGameInvitationMessage* release_rejectgameinvitationmessage();
+  inline void set_allocated_rejectgameinvitationmessage(::RejectGameInvitationMessage* rejectgameinvitationmessage);
+
+  // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
+  inline bool has_rejectinvnotifymessage() const;
+  inline void clear_rejectinvnotifymessage();
+  static const int kRejectInvNotifyMessageFieldNumber = 26;
+  inline const ::RejectInvNotifyMessage& rejectinvnotifymessage() const;
+  inline ::RejectInvNotifyMessage* mutable_rejectinvnotifymessage();
+  inline ::RejectInvNotifyMessage* release_rejectinvnotifymessage();
+  inline void set_allocated_rejectinvnotifymessage(::RejectInvNotifyMessage* rejectinvnotifymessage);
+
+  // optional .StatisticsMessage statisticsMessage = 27;
+  inline bool has_statisticsmessage() const;
+  inline void clear_statisticsmessage();
+  static const int kStatisticsMessageFieldNumber = 27;
+  inline const ::StatisticsMessage& statisticsmessage() const;
+  inline ::StatisticsMessage* mutable_statisticsmessage();
+  inline ::StatisticsMessage* release_statisticsmessage();
+  inline void set_allocated_statisticsmessage(::StatisticsMessage* statisticsmessage);
+
+  // optional .ChatRequestMessage chatRequestMessage = 28;
+  inline bool has_chatrequestmessage() const;
+  inline void clear_chatrequestmessage();
+  static const int kChatRequestMessageFieldNumber = 28;
+  inline const ::ChatRequestMessage& chatrequestmessage() const;
+  inline ::ChatRequestMessage* mutable_chatrequestmessage();
+  inline ::ChatRequestMessage* release_chatrequestmessage();
+  inline void set_allocated_chatrequestmessage(::ChatRequestMessage* chatrequestmessage);
+
+  // optional .ChatMessage chatMessage = 29;
+  inline bool has_chatmessage() const;
+  inline void clear_chatmessage();
+  static const int kChatMessageFieldNumber = 29;
+  inline const ::ChatMessage& chatmessage() const;
+  inline ::ChatMessage* mutable_chatmessage();
+  inline ::ChatMessage* release_chatmessage();
+  inline void set_allocated_chatmessage(::ChatMessage* chatmessage);
+
+  // optional .ChatRejectMessage chatRejectMessage = 30;
+  inline bool has_chatrejectmessage() const;
+  inline void clear_chatrejectmessage();
+  static const int kChatRejectMessageFieldNumber = 30;
+  inline const ::ChatRejectMessage& chatrejectmessage() const;
+  inline ::ChatRejectMessage* mutable_chatrejectmessage();
+  inline ::ChatRejectMessage* release_chatrejectmessage();
+  inline void set_allocated_chatrejectmessage(::ChatRejectMessage* chatrejectmessage);
+
+  // optional .DialogMessage dialogMessage = 31;
+  inline bool has_dialogmessage() const;
+  inline void clear_dialogmessage();
+  static const int kDialogMessageFieldNumber = 31;
+  inline const ::DialogMessage& dialogmessage() const;
+  inline ::DialogMessage* mutable_dialogmessage();
+  inline ::DialogMessage* release_dialogmessage();
+  inline void set_allocated_dialogmessage(::DialogMessage* dialogmessage);
+
+  // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
+  inline bool has_timeoutwarningmessage() const;
+  inline void clear_timeoutwarningmessage();
+  static const int kTimeoutWarningMessageFieldNumber = 32;
+  inline const ::TimeoutWarningMessage& timeoutwarningmessage() const;
+  inline ::TimeoutWarningMessage* mutable_timeoutwarningmessage();
+  inline ::TimeoutWarningMessage* release_timeoutwarningmessage();
+  inline void set_allocated_timeoutwarningmessage(::TimeoutWarningMessage* timeoutwarningmessage);
+
+  // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
+  inline bool has_resettimeoutmessage() const;
+  inline void clear_resettimeoutmessage();
+  static const int kResetTimeoutMessageFieldNumber = 33;
+  inline const ::ResetTimeoutMessage& resettimeoutmessage() const;
+  inline ::ResetTimeoutMessage* mutable_resettimeoutmessage();
+  inline ::ResetTimeoutMessage* release_resettimeoutmessage();
+  inline void set_allocated_resettimeoutmessage(::ResetTimeoutMessage* resettimeoutmessage);
+
+  // optional .ReportAvatarMessage reportAvatarMessage = 34;
+  inline bool has_reportavatarmessage() const;
+  inline void clear_reportavatarmessage();
+  static const int kReportAvatarMessageFieldNumber = 34;
+  inline const ::ReportAvatarMessage& reportavatarmessage() const;
+  inline ::ReportAvatarMessage* mutable_reportavatarmessage();
+  inline ::ReportAvatarMessage* release_reportavatarmessage();
+  inline void set_allocated_reportavatarmessage(::ReportAvatarMessage* reportavatarmessage);
+
+  // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
+  inline bool has_reportavatarackmessage() const;
+  inline void clear_reportavatarackmessage();
+  static const int kReportAvatarAckMessageFieldNumber = 35;
+  inline const ::ReportAvatarAckMessage& reportavatarackmessage() const;
+  inline ::ReportAvatarAckMessage* mutable_reportavatarackmessage();
+  inline ::ReportAvatarAckMessage* release_reportavatarackmessage();
+  inline void set_allocated_reportavatarackmessage(::ReportAvatarAckMessage* reportavatarackmessage);
+
+  // optional .ReportGameMessage reportGameMessage = 36;
+  inline bool has_reportgamemessage() const;
+  inline void clear_reportgamemessage();
+  static const int kReportGameMessageFieldNumber = 36;
+  inline const ::ReportGameMessage& reportgamemessage() const;
+  inline ::ReportGameMessage* mutable_reportgamemessage();
+  inline ::ReportGameMessage* release_reportgamemessage();
+  inline void set_allocated_reportgamemessage(::ReportGameMessage* reportgamemessage);
+
+  // optional .ReportGameAckMessage reportGameAckMessage = 37;
+  inline bool has_reportgameackmessage() const;
+  inline void clear_reportgameackmessage();
+  static const int kReportGameAckMessageFieldNumber = 37;
+  inline const ::ReportGameAckMessage& reportgameackmessage() const;
+  inline ::ReportGameAckMessage* mutable_reportgameackmessage();
+  inline ::ReportGameAckMessage* release_reportgameackmessage();
+  inline void set_allocated_reportgameackmessage(::ReportGameAckMessage* reportgameackmessage);
+
+  // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
+  inline bool has_adminremovegamemessage() const;
+  inline void clear_adminremovegamemessage();
+  static const int kAdminRemoveGameMessageFieldNumber = 38;
+  inline const ::AdminRemoveGameMessage& adminremovegamemessage() const;
+  inline ::AdminRemoveGameMessage* mutable_adminremovegamemessage();
+  inline ::AdminRemoveGameMessage* release_adminremovegamemessage();
+  inline void set_allocated_adminremovegamemessage(::AdminRemoveGameMessage* adminremovegamemessage);
+
+  // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
+  inline bool has_adminremovegameackmessage() const;
+  inline void clear_adminremovegameackmessage();
+  static const int kAdminRemoveGameAckMessageFieldNumber = 39;
+  inline const ::AdminRemoveGameAckMessage& adminremovegameackmessage() const;
+  inline ::AdminRemoveGameAckMessage* mutable_adminremovegameackmessage();
+  inline ::AdminRemoveGameAckMessage* release_adminremovegameackmessage();
+  inline void set_allocated_adminremovegameackmessage(::AdminRemoveGameAckMessage* adminremovegameackmessage);
+
+  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
+  inline bool has_adminbanplayermessage() const;
+  inline void clear_adminbanplayermessage();
+  static const int kAdminBanPlayerMessageFieldNumber = 40;
+  inline const ::AdminBanPlayerMessage& adminbanplayermessage() const;
+  inline ::AdminBanPlayerMessage* mutable_adminbanplayermessage();
+  inline ::AdminBanPlayerMessage* release_adminbanplayermessage();
+  inline void set_allocated_adminbanplayermessage(::AdminBanPlayerMessage* adminbanplayermessage);
+
+  // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
+  inline bool has_adminbanplayerackmessage() const;
+  inline void clear_adminbanplayerackmessage();
+  static const int kAdminBanPlayerAckMessageFieldNumber = 41;
+  inline const ::AdminBanPlayerAckMessage& adminbanplayerackmessage() const;
+  inline ::AdminBanPlayerAckMessage* mutable_adminbanplayerackmessage();
+  inline ::AdminBanPlayerAckMessage* release_adminbanplayerackmessage();
+  inline void set_allocated_adminbanplayerackmessage(::AdminBanPlayerAckMessage* adminbanplayerackmessage);
+
+  // optional .ErrorMessage errorMessage = 1025;
+  inline bool has_errormessage() const;
+  inline void clear_errormessage();
+  static const int kErrorMessageFieldNumber = 1025;
+  inline const ::ErrorMessage& errormessage() const;
+  inline ::ErrorMessage* mutable_errormessage();
+  inline ::ErrorMessage* release_errormessage();
+  inline void set_allocated_errormessage(::ErrorMessage* errormessage);
+
+  // @@protoc_insertion_point(class_scope:LobbyMessage)
+ private:
+  inline void set_has_messagetype();
+  inline void clear_has_messagetype();
+  inline void set_has_initmessage();
+  inline void clear_has_initmessage();
+  inline void set_has_initackmessage();
+  inline void clear_has_initackmessage();
+  inline void set_has_avatarrequestmessage();
+  inline void clear_has_avatarrequestmessage();
+  inline void set_has_avatarheadermessage();
+  inline void clear_has_avatarheadermessage();
+  inline void set_has_avatardatamessage();
+  inline void clear_has_avatardatamessage();
+  inline void set_has_avatarendmessage();
+  inline void clear_has_avatarendmessage();
+  inline void set_has_unknownavatarmessage();
+  inline void clear_has_unknownavatarmessage();
+  inline void set_has_playerlistmessage();
+  inline void clear_has_playerlistmessage();
+  inline void set_has_gamelistnewmessage();
+  inline void clear_has_gamelistnewmessage();
+  inline void set_has_gamelistupdatemessage();
+  inline void clear_has_gamelistupdatemessage();
+  inline void set_has_gamelistplayerjoinedmessage();
+  inline void clear_has_gamelistplayerjoinedmessage();
+  inline void set_has_gamelistplayerleftmessage();
+  inline void clear_has_gamelistplayerleftmessage();
+  inline void set_has_gamelistspectatorjoinedmessage();
+  inline void clear_has_gamelistspectatorjoinedmessage();
+  inline void set_has_gamelistspectatorleftmessage();
+  inline void clear_has_gamelistspectatorleftmessage();
+  inline void set_has_gamelistadminchangedmessage();
+  inline void clear_has_gamelistadminchangedmessage();
+  inline void set_has_playerinforequestmessage();
+  inline void clear_has_playerinforequestmessage();
+  inline void set_has_playerinforeplymessage();
+  inline void clear_has_playerinforeplymessage();
+  inline void set_has_subscriptionrequestmessage();
+  inline void clear_has_subscriptionrequestmessage();
+  inline void set_has_subscriptionreplymessage();
+  inline void clear_has_subscriptionreplymessage();
+  inline void set_has_creategamemessage();
+  inline void clear_has_creategamemessage();
+  inline void set_has_creategamefailedmessage();
+  inline void clear_has_creategamefailedmessage();
+  inline void set_has_inviteplayertogamemessage();
+  inline void clear_has_inviteplayertogamemessage();
+  inline void set_has_invitenotifymessage();
+  inline void clear_has_invitenotifymessage();
+  inline void set_has_rejectgameinvitationmessage();
+  inline void clear_has_rejectgameinvitationmessage();
+  inline void set_has_rejectinvnotifymessage();
+  inline void clear_has_rejectinvnotifymessage();
+  inline void set_has_statisticsmessage();
+  inline void clear_has_statisticsmessage();
+  inline void set_has_chatrequestmessage();
+  inline void clear_has_chatrequestmessage();
+  inline void set_has_chatmessage();
+  inline void clear_has_chatmessage();
+  inline void set_has_chatrejectmessage();
+  inline void clear_has_chatrejectmessage();
+  inline void set_has_dialogmessage();
+  inline void clear_has_dialogmessage();
+  inline void set_has_timeoutwarningmessage();
+  inline void clear_has_timeoutwarningmessage();
+  inline void set_has_resettimeoutmessage();
+  inline void clear_has_resettimeoutmessage();
+  inline void set_has_reportavatarmessage();
+  inline void clear_has_reportavatarmessage();
+  inline void set_has_reportavatarackmessage();
+  inline void clear_has_reportavatarackmessage();
+  inline void set_has_reportgamemessage();
+  inline void clear_has_reportgamemessage();
+  inline void set_has_reportgameackmessage();
+  inline void clear_has_reportgameackmessage();
+  inline void set_has_adminremovegamemessage();
+  inline void clear_has_adminremovegamemessage();
+  inline void set_has_adminremovegameackmessage();
+  inline void clear_has_adminremovegameackmessage();
+  inline void set_has_adminbanplayermessage();
+  inline void clear_has_adminbanplayermessage();
+  inline void set_has_adminbanplayerackmessage();
+  inline void clear_has_adminbanplayerackmessage();
+  inline void set_has_errormessage();
+  inline void clear_has_errormessage();
+
+  ::InitMessage* initmessage_;
+  ::InitAckMessage* initackmessage_;
+  ::AvatarRequestMessage* avatarrequestmessage_;
+  ::AvatarHeaderMessage* avatarheadermessage_;
+  ::AvatarDataMessage* avatardatamessage_;
+  ::AvatarEndMessage* avatarendmessage_;
+  ::UnknownAvatarMessage* unknownavatarmessage_;
+  ::PlayerListMessage* playerlistmessage_;
+  ::GameListNewMessage* gamelistnewmessage_;
+  ::GameListUpdateMessage* gamelistupdatemessage_;
+  ::GameListPlayerJoinedMessage* gamelistplayerjoinedmessage_;
+  ::GameListPlayerLeftMessage* gamelistplayerleftmessage_;
+  ::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage_;
+  ::GameListSpectatorLeftMessage* gamelistspectatorleftmessage_;
+  ::GameListAdminChangedMessage* gamelistadminchangedmessage_;
+  ::PlayerInfoRequestMessage* playerinforequestmessage_;
+  ::PlayerInfoReplyMessage* playerinforeplymessage_;
+  ::SubscriptionRequestMessage* subscriptionrequestmessage_;
+  ::SubscriptionReplyMessage* subscriptionreplymessage_;
+  ::CreateGameMessage* creategamemessage_;
+  ::CreateGameFailedMessage* creategamefailedmessage_;
+  ::InvitePlayerToGameMessage* inviteplayertogamemessage_;
+  ::InviteNotifyMessage* invitenotifymessage_;
+  ::RejectGameInvitationMessage* rejectgameinvitationmessage_;
+  ::RejectInvNotifyMessage* rejectinvnotifymessage_;
+  ::StatisticsMessage* statisticsmessage_;
+  ::ChatRequestMessage* chatrequestmessage_;
+  ::ChatMessage* chatmessage_;
+  ::ChatRejectMessage* chatrejectmessage_;
+  ::DialogMessage* dialogmessage_;
+  ::TimeoutWarningMessage* timeoutwarningmessage_;
+  ::ResetTimeoutMessage* resettimeoutmessage_;
+  ::ReportAvatarMessage* reportavatarmessage_;
+  ::ReportAvatarAckMessage* reportavatarackmessage_;
+  ::ReportGameMessage* reportgamemessage_;
+  ::ReportGameAckMessage* reportgameackmessage_;
+  ::AdminRemoveGameMessage* adminremovegamemessage_;
+  ::AdminRemoveGameAckMessage* adminremovegameackmessage_;
+  ::AdminBanPlayerMessage* adminbanplayermessage_;
+  ::AdminBanPlayerAckMessage* adminbanplayerackmessage_;
+  ::ErrorMessage* errormessage_;
+  int messagetype_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(42 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static LobbyMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameManagementMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameManagementMessage();
+  virtual ~GameManagementMessage();
+
+  GameManagementMessage(const GameManagementMessage& from);
+
+  inline GameManagementMessage& operator=(const GameManagementMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const GameManagementMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const GameManagementMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(GameManagementMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  GameManagementMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameManagementMessage& from);
+  void MergeFrom(const GameManagementMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef GameManagementMessage_GameManagementMessageType GameManagementMessageType;
+  static const GameManagementMessageType Type_JoinGameMessage = GameManagementMessage_GameManagementMessageType_Type_JoinGameMessage;
+  static const GameManagementMessageType Type_RejoinGameMessage = GameManagementMessage_GameManagementMessageType_Type_RejoinGameMessage;
+  static const GameManagementMessageType Type_JoinGameAckMessage = GameManagementMessage_GameManagementMessageType_Type_JoinGameAckMessage;
+  static const GameManagementMessageType Type_JoinGameFailedMessage = GameManagementMessage_GameManagementMessageType_Type_JoinGameFailedMessage;
+  static const GameManagementMessageType Type_GamePlayerJoinedMessage = GameManagementMessage_GameManagementMessageType_Type_GamePlayerJoinedMessage;
+  static const GameManagementMessageType Type_GamePlayerLeftMessage = GameManagementMessage_GameManagementMessageType_Type_GamePlayerLeftMessage;
+  static const GameManagementMessageType Type_GameSpectatorJoinedMessage = GameManagementMessage_GameManagementMessageType_Type_GameSpectatorJoinedMessage;
+  static const GameManagementMessageType Type_GameSpectatorLeftMessage = GameManagementMessage_GameManagementMessageType_Type_GameSpectatorLeftMessage;
+  static const GameManagementMessageType Type_GameAdminChangedMessage = GameManagementMessage_GameManagementMessageType_Type_GameAdminChangedMessage;
+  static const GameManagementMessageType Type_RemovedFromGameMessage = GameManagementMessage_GameManagementMessageType_Type_RemovedFromGameMessage;
+  static const GameManagementMessageType Type_KickPlayerRequestMessage = GameManagementMessage_GameManagementMessageType_Type_KickPlayerRequestMessage;
+  static const GameManagementMessageType Type_LeaveGameRequestMessage = GameManagementMessage_GameManagementMessageType_Type_LeaveGameRequestMessage;
+  static const GameManagementMessageType Type_StartEventMessage = GameManagementMessage_GameManagementMessageType_Type_StartEventMessage;
+  static const GameManagementMessageType Type_StartEventAckMessage = GameManagementMessage_GameManagementMessageType_Type_StartEventAckMessage;
+  static const GameManagementMessageType Type_GameStartInitialMessage = GameManagementMessage_GameManagementMessageType_Type_GameStartInitialMessage;
+  static const GameManagementMessageType Type_GameStartRejoinMessage = GameManagementMessage_GameManagementMessageType_Type_GameStartRejoinMessage;
+  static const GameManagementMessageType Type_EndOfGameMessage = GameManagementMessage_GameManagementMessageType_Type_EndOfGameMessage;
+  static const GameManagementMessageType Type_PlayerIdChangedMessage = GameManagementMessage_GameManagementMessageType_Type_PlayerIdChangedMessage;
+  static const GameManagementMessageType Type_AskKickPlayerMessage = GameManagementMessage_GameManagementMessageType_Type_AskKickPlayerMessage;
+  static const GameManagementMessageType Type_AskKickDeniedMessage = GameManagementMessage_GameManagementMessageType_Type_AskKickDeniedMessage;
+  static const GameManagementMessageType Type_StartKickPetitionMessage = GameManagementMessage_GameManagementMessageType_Type_StartKickPetitionMessage;
+  static const GameManagementMessageType Type_VoteKickRequestMessage = GameManagementMessage_GameManagementMessageType_Type_VoteKickRequestMessage;
+  static const GameManagementMessageType Type_VoteKickReplyMessage = GameManagementMessage_GameManagementMessageType_Type_VoteKickReplyMessage;
+  static const GameManagementMessageType Type_KickPetitionUpdateMessage = GameManagementMessage_GameManagementMessageType_Type_KickPetitionUpdateMessage;
+  static const GameManagementMessageType Type_EndKickPetitionMessage = GameManagementMessage_GameManagementMessageType_Type_EndKickPetitionMessage;
+  static const GameManagementMessageType Type_ChatRequestMessage = GameManagementMessage_GameManagementMessageType_Type_ChatRequestMessage;
+  static const GameManagementMessageType Type_ChatMessage = GameManagementMessage_GameManagementMessageType_Type_ChatMessage;
+  static const GameManagementMessageType Type_ChatRejectMessage = GameManagementMessage_GameManagementMessageType_Type_ChatRejectMessage;
+  static const GameManagementMessageType Type_ErrorMessage = GameManagementMessage_GameManagementMessageType_Type_ErrorMessage;
+  static inline bool GameManagementMessageType_IsValid(int value) {
+    return GameManagementMessage_GameManagementMessageType_IsValid(value);
+  }
+  static const GameManagementMessageType GameManagementMessageType_MIN =
+    GameManagementMessage_GameManagementMessageType_GameManagementMessageType_MIN;
+  static const GameManagementMessageType GameManagementMessageType_MAX =
+    GameManagementMessage_GameManagementMessageType_GameManagementMessageType_MAX;
+  static const int GameManagementMessageType_ARRAYSIZE =
+    GameManagementMessage_GameManagementMessageType_GameManagementMessageType_ARRAYSIZE;
+
+  // accessors -------------------------------------------------------
+
+  // required .GameManagementMessage.GameManagementMessageType messageType = 1;
+  inline bool has_messagetype() const;
+  inline void clear_messagetype();
+  static const int kMessageTypeFieldNumber = 1;
+  inline ::GameManagementMessage_GameManagementMessageType messagetype() const;
+  inline void set_messagetype(::GameManagementMessage_GameManagementMessageType value);
+
+  // optional .JoinGameMessage joinGameMessage = 2;
+  inline bool has_joingamemessage() const;
+  inline void clear_joingamemessage();
+  static const int kJoinGameMessageFieldNumber = 2;
+  inline const ::JoinGameMessage& joingamemessage() const;
+  inline ::JoinGameMessage* mutable_joingamemessage();
+  inline ::JoinGameMessage* release_joingamemessage();
+  inline void set_allocated_joingamemessage(::JoinGameMessage* joingamemessage);
+
+  // optional .RejoinGameMessage rejoinGameMessage = 3;
+  inline bool has_rejoingamemessage() const;
+  inline void clear_rejoingamemessage();
+  static const int kRejoinGameMessageFieldNumber = 3;
+  inline const ::RejoinGameMessage& rejoingamemessage() const;
+  inline ::RejoinGameMessage* mutable_rejoingamemessage();
+  inline ::RejoinGameMessage* release_rejoingamemessage();
+  inline void set_allocated_rejoingamemessage(::RejoinGameMessage* rejoingamemessage);
+
+  // optional .JoinGameAckMessage joinGameAckMessage = 4;
+  inline bool has_joingameackmessage() const;
+  inline void clear_joingameackmessage();
+  static const int kJoinGameAckMessageFieldNumber = 4;
+  inline const ::JoinGameAckMessage& joingameackmessage() const;
+  inline ::JoinGameAckMessage* mutable_joingameackmessage();
+  inline ::JoinGameAckMessage* release_joingameackmessage();
+  inline void set_allocated_joingameackmessage(::JoinGameAckMessage* joingameackmessage);
+
+  // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
+  inline bool has_joingamefailedmessage() const;
+  inline void clear_joingamefailedmessage();
+  static const int kJoinGameFailedMessageFieldNumber = 5;
+  inline const ::JoinGameFailedMessage& joingamefailedmessage() const;
+  inline ::JoinGameFailedMessage* mutable_joingamefailedmessage();
+  inline ::JoinGameFailedMessage* release_joingamefailedmessage();
+  inline void set_allocated_joingamefailedmessage(::JoinGameFailedMessage* joingamefailedmessage);
+
+  // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
+  inline bool has_gameplayerjoinedmessage() const;
+  inline void clear_gameplayerjoinedmessage();
+  static const int kGamePlayerJoinedMessageFieldNumber = 6;
+  inline const ::GamePlayerJoinedMessage& gameplayerjoinedmessage() const;
+  inline ::GamePlayerJoinedMessage* mutable_gameplayerjoinedmessage();
+  inline ::GamePlayerJoinedMessage* release_gameplayerjoinedmessage();
+  inline void set_allocated_gameplayerjoinedmessage(::GamePlayerJoinedMessage* gameplayerjoinedmessage);
+
+  // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
+  inline bool has_gameplayerleftmessage() const;
+  inline void clear_gameplayerleftmessage();
+  static const int kGamePlayerLeftMessageFieldNumber = 7;
+  inline const ::GamePlayerLeftMessage& gameplayerleftmessage() const;
+  inline ::GamePlayerLeftMessage* mutable_gameplayerleftmessage();
+  inline ::GamePlayerLeftMessage* release_gameplayerleftmessage();
+  inline void set_allocated_gameplayerleftmessage(::GamePlayerLeftMessage* gameplayerleftmessage);
+
+  // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
+  inline bool has_gamespectatorjoinedmessage() const;
+  inline void clear_gamespectatorjoinedmessage();
+  static const int kGameSpectatorJoinedMessageFieldNumber = 8;
+  inline const ::GameSpectatorJoinedMessage& gamespectatorjoinedmessage() const;
+  inline ::GameSpectatorJoinedMessage* mutable_gamespectatorjoinedmessage();
+  inline ::GameSpectatorJoinedMessage* release_gamespectatorjoinedmessage();
+  inline void set_allocated_gamespectatorjoinedmessage(::GameSpectatorJoinedMessage* gamespectatorjoinedmessage);
+
+  // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
+  inline bool has_gamespectatorleftmessage() const;
+  inline void clear_gamespectatorleftmessage();
+  static const int kGameSpectatorLeftMessageFieldNumber = 9;
+  inline const ::GameSpectatorLeftMessage& gamespectatorleftmessage() const;
+  inline ::GameSpectatorLeftMessage* mutable_gamespectatorleftmessage();
+  inline ::GameSpectatorLeftMessage* release_gamespectatorleftmessage();
+  inline void set_allocated_gamespectatorleftmessage(::GameSpectatorLeftMessage* gamespectatorleftmessage);
+
+  // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
+  inline bool has_gameadminchangedmessage() const;
+  inline void clear_gameadminchangedmessage();
+  static const int kGameAdminChangedMessageFieldNumber = 10;
+  inline const ::GameAdminChangedMessage& gameadminchangedmessage() const;
+  inline ::GameAdminChangedMessage* mutable_gameadminchangedmessage();
+  inline ::GameAdminChangedMessage* release_gameadminchangedmessage();
+  inline void set_allocated_gameadminchangedmessage(::GameAdminChangedMessage* gameadminchangedmessage);
+
+  // optional .RemovedFromGameMessage removedFromGameMessage = 11;
+  inline bool has_removedfromgamemessage() const;
+  inline void clear_removedfromgamemessage();
+  static const int kRemovedFromGameMessageFieldNumber = 11;
+  inline const ::RemovedFromGameMessage& removedfromgamemessage() const;
+  inline ::RemovedFromGameMessage* mutable_removedfromgamemessage();
+  inline ::RemovedFromGameMessage* release_removedfromgamemessage();
+  inline void set_allocated_removedfromgamemessage(::RemovedFromGameMessage* removedfromgamemessage);
+
+  // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
+  inline bool has_kickplayerrequestmessage() const;
+  inline void clear_kickplayerrequestmessage();
+  static const int kKickPlayerRequestMessageFieldNumber = 12;
+  inline const ::KickPlayerRequestMessage& kickplayerrequestmessage() const;
+  inline ::KickPlayerRequestMessage* mutable_kickplayerrequestmessage();
+  inline ::KickPlayerRequestMessage* release_kickplayerrequestmessage();
+  inline void set_allocated_kickplayerrequestmessage(::KickPlayerRequestMessage* kickplayerrequestmessage);
+
+  // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
+  inline bool has_leavegamerequestmessage() const;
+  inline void clear_leavegamerequestmessage();
+  static const int kLeaveGameRequestMessageFieldNumber = 13;
+  inline const ::LeaveGameRequestMessage& leavegamerequestmessage() const;
+  inline ::LeaveGameRequestMessage* mutable_leavegamerequestmessage();
+  inline ::LeaveGameRequestMessage* release_leavegamerequestmessage();
+  inline void set_allocated_leavegamerequestmessage(::LeaveGameRequestMessage* leavegamerequestmessage);
+
+  // optional .StartEventMessage startEventMessage = 14;
+  inline bool has_starteventmessage() const;
+  inline void clear_starteventmessage();
+  static const int kStartEventMessageFieldNumber = 14;
+  inline const ::StartEventMessage& starteventmessage() const;
+  inline ::StartEventMessage* mutable_starteventmessage();
+  inline ::StartEventMessage* release_starteventmessage();
+  inline void set_allocated_starteventmessage(::StartEventMessage* starteventmessage);
+
+  // optional .StartEventAckMessage startEventAckMessage = 15;
+  inline bool has_starteventackmessage() const;
+  inline void clear_starteventackmessage();
+  static const int kStartEventAckMessageFieldNumber = 15;
+  inline const ::StartEventAckMessage& starteventackmessage() const;
+  inline ::StartEventAckMessage* mutable_starteventackmessage();
+  inline ::StartEventAckMessage* release_starteventackmessage();
+  inline void set_allocated_starteventackmessage(::StartEventAckMessage* starteventackmessage);
+
+  // optional .GameStartInitialMessage gameStartInitialMessage = 16;
+  inline bool has_gamestartinitialmessage() const;
+  inline void clear_gamestartinitialmessage();
+  static const int kGameStartInitialMessageFieldNumber = 16;
+  inline const ::GameStartInitialMessage& gamestartinitialmessage() const;
+  inline ::GameStartInitialMessage* mutable_gamestartinitialmessage();
+  inline ::GameStartInitialMessage* release_gamestartinitialmessage();
+  inline void set_allocated_gamestartinitialmessage(::GameStartInitialMessage* gamestartinitialmessage);
+
+  // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
+  inline bool has_gamestartrejoinmessage() const;
+  inline void clear_gamestartrejoinmessage();
+  static const int kGameStartRejoinMessageFieldNumber = 17;
+  inline const ::GameStartRejoinMessage& gamestartrejoinmessage() const;
+  inline ::GameStartRejoinMessage* mutable_gamestartrejoinmessage();
+  inline ::GameStartRejoinMessage* release_gamestartrejoinmessage();
+  inline void set_allocated_gamestartrejoinmessage(::GameStartRejoinMessage* gamestartrejoinmessage);
+
+  // optional .EndOfGameMessage endOfGameMessage = 18;
+  inline bool has_endofgamemessage() const;
+  inline void clear_endofgamemessage();
+  static const int kEndOfGameMessageFieldNumber = 18;
+  inline const ::EndOfGameMessage& endofgamemessage() const;
+  inline ::EndOfGameMessage* mutable_endofgamemessage();
+  inline ::EndOfGameMessage* release_endofgamemessage();
+  inline void set_allocated_endofgamemessage(::EndOfGameMessage* endofgamemessage);
+
+  // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
+  inline bool has_playeridchangedmessage() const;
+  inline void clear_playeridchangedmessage();
+  static const int kPlayerIdChangedMessageFieldNumber = 19;
+  inline const ::PlayerIdChangedMessage& playeridchangedmessage() const;
+  inline ::PlayerIdChangedMessage* mutable_playeridchangedmessage();
+  inline ::PlayerIdChangedMessage* release_playeridchangedmessage();
+  inline void set_allocated_playeridchangedmessage(::PlayerIdChangedMessage* playeridchangedmessage);
+
+  // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
+  inline bool has_askkickplayermessage() const;
+  inline void clear_askkickplayermessage();
+  static const int kAskKickPlayerMessageFieldNumber = 20;
+  inline const ::AskKickPlayerMessage& askkickplayermessage() const;
+  inline ::AskKickPlayerMessage* mutable_askkickplayermessage();
+  inline ::AskKickPlayerMessage* release_askkickplayermessage();
+  inline void set_allocated_askkickplayermessage(::AskKickPlayerMessage* askkickplayermessage);
+
+  // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
+  inline bool has_askkickdeniedmessage() const;
+  inline void clear_askkickdeniedmessage();
+  static const int kAskKickDeniedMessageFieldNumber = 21;
+  inline const ::AskKickDeniedMessage& askkickdeniedmessage() const;
+  inline ::AskKickDeniedMessage* mutable_askkickdeniedmessage();
+  inline ::AskKickDeniedMessage* release_askkickdeniedmessage();
+  inline void set_allocated_askkickdeniedmessage(::AskKickDeniedMessage* askkickdeniedmessage);
+
+  // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
+  inline bool has_startkickpetitionmessage() const;
+  inline void clear_startkickpetitionmessage();
+  static const int kStartKickPetitionMessageFieldNumber = 22;
+  inline const ::StartKickPetitionMessage& startkickpetitionmessage() const;
+  inline ::StartKickPetitionMessage* mutable_startkickpetitionmessage();
+  inline ::StartKickPetitionMessage* release_startkickpetitionmessage();
+  inline void set_allocated_startkickpetitionmessage(::StartKickPetitionMessage* startkickpetitionmessage);
+
+  // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
+  inline bool has_votekickrequestmessage() const;
+  inline void clear_votekickrequestmessage();
+  static const int kVoteKickRequestMessageFieldNumber = 23;
+  inline const ::VoteKickRequestMessage& votekickrequestmessage() const;
+  inline ::VoteKickRequestMessage* mutable_votekickrequestmessage();
+  inline ::VoteKickRequestMessage* release_votekickrequestmessage();
+  inline void set_allocated_votekickrequestmessage(::VoteKickRequestMessage* votekickrequestmessage);
+
+  // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
+  inline bool has_votekickreplymessage() const;
+  inline void clear_votekickreplymessage();
+  static const int kVoteKickReplyMessageFieldNumber = 24;
+  inline const ::VoteKickReplyMessage& votekickreplymessage() const;
+  inline ::VoteKickReplyMessage* mutable_votekickreplymessage();
+  inline ::VoteKickReplyMessage* release_votekickreplymessage();
+  inline void set_allocated_votekickreplymessage(::VoteKickReplyMessage* votekickreplymessage);
+
+  // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
+  inline bool has_kickpetitionupdatemessage() const;
+  inline void clear_kickpetitionupdatemessage();
+  static const int kKickPetitionUpdateMessageFieldNumber = 25;
+  inline const ::KickPetitionUpdateMessage& kickpetitionupdatemessage() const;
+  inline ::KickPetitionUpdateMessage* mutable_kickpetitionupdatemessage();
+  inline ::KickPetitionUpdateMessage* release_kickpetitionupdatemessage();
+  inline void set_allocated_kickpetitionupdatemessage(::KickPetitionUpdateMessage* kickpetitionupdatemessage);
+
+  // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
+  inline bool has_endkickpetitionmessage() const;
+  inline void clear_endkickpetitionmessage();
+  static const int kEndKickPetitionMessageFieldNumber = 26;
+  inline const ::EndKickPetitionMessage& endkickpetitionmessage() const;
+  inline ::EndKickPetitionMessage* mutable_endkickpetitionmessage();
+  inline ::EndKickPetitionMessage* release_endkickpetitionmessage();
+  inline void set_allocated_endkickpetitionmessage(::EndKickPetitionMessage* endkickpetitionmessage);
+
+  // optional .ChatRequestMessage chatRequestMessage = 27;
+  inline bool has_chatrequestmessage() const;
+  inline void clear_chatrequestmessage();
+  static const int kChatRequestMessageFieldNumber = 27;
+  inline const ::ChatRequestMessage& chatrequestmessage() const;
+  inline ::ChatRequestMessage* mutable_chatrequestmessage();
+  inline ::ChatRequestMessage* release_chatrequestmessage();
+  inline void set_allocated_chatrequestmessage(::ChatRequestMessage* chatrequestmessage);
+
+  // optional .ChatMessage chatMessage = 28;
+  inline bool has_chatmessage() const;
+  inline void clear_chatmessage();
+  static const int kChatMessageFieldNumber = 28;
+  inline const ::ChatMessage& chatmessage() const;
+  inline ::ChatMessage* mutable_chatmessage();
+  inline ::ChatMessage* release_chatmessage();
+  inline void set_allocated_chatmessage(::ChatMessage* chatmessage);
+
+  // optional .ChatRejectMessage chatRejectMessage = 29;
+  inline bool has_chatrejectmessage() const;
+  inline void clear_chatrejectmessage();
+  static const int kChatRejectMessageFieldNumber = 29;
+  inline const ::ChatRejectMessage& chatrejectmessage() const;
+  inline ::ChatRejectMessage* mutable_chatrejectmessage();
+  inline ::ChatRejectMessage* release_chatrejectmessage();
+  inline void set_allocated_chatrejectmessage(::ChatRejectMessage* chatrejectmessage);
+
+  // optional .ErrorMessage errorMessage = 1025;
+  inline bool has_errormessage() const;
+  inline void clear_errormessage();
+  static const int kErrorMessageFieldNumber = 1025;
+  inline const ::ErrorMessage& errormessage() const;
+  inline ::ErrorMessage* mutable_errormessage();
+  inline ::ErrorMessage* release_errormessage();
+  inline void set_allocated_errormessage(::ErrorMessage* errormessage);
+
+  // @@protoc_insertion_point(class_scope:GameManagementMessage)
+ private:
+  inline void set_has_messagetype();
+  inline void clear_has_messagetype();
+  inline void set_has_joingamemessage();
+  inline void clear_has_joingamemessage();
+  inline void set_has_rejoingamemessage();
+  inline void clear_has_rejoingamemessage();
+  inline void set_has_joingameackmessage();
+  inline void clear_has_joingameackmessage();
+  inline void set_has_joingamefailedmessage();
+  inline void clear_has_joingamefailedmessage();
+  inline void set_has_gameplayerjoinedmessage();
+  inline void clear_has_gameplayerjoinedmessage();
+  inline void set_has_gameplayerleftmessage();
+  inline void clear_has_gameplayerleftmessage();
+  inline void set_has_gamespectatorjoinedmessage();
+  inline void clear_has_gamespectatorjoinedmessage();
+  inline void set_has_gamespectatorleftmessage();
+  inline void clear_has_gamespectatorleftmessage();
+  inline void set_has_gameadminchangedmessage();
+  inline void clear_has_gameadminchangedmessage();
+  inline void set_has_removedfromgamemessage();
+  inline void clear_has_removedfromgamemessage();
+  inline void set_has_kickplayerrequestmessage();
+  inline void clear_has_kickplayerrequestmessage();
+  inline void set_has_leavegamerequestmessage();
+  inline void clear_has_leavegamerequestmessage();
+  inline void set_has_starteventmessage();
+  inline void clear_has_starteventmessage();
+  inline void set_has_starteventackmessage();
+  inline void clear_has_starteventackmessage();
+  inline void set_has_gamestartinitialmessage();
+  inline void clear_has_gamestartinitialmessage();
+  inline void set_has_gamestartrejoinmessage();
+  inline void clear_has_gamestartrejoinmessage();
+  inline void set_has_endofgamemessage();
+  inline void clear_has_endofgamemessage();
+  inline void set_has_playeridchangedmessage();
+  inline void clear_has_playeridchangedmessage();
+  inline void set_has_askkickplayermessage();
+  inline void clear_has_askkickplayermessage();
+  inline void set_has_askkickdeniedmessage();
+  inline void clear_has_askkickdeniedmessage();
+  inline void set_has_startkickpetitionmessage();
+  inline void clear_has_startkickpetitionmessage();
+  inline void set_has_votekickrequestmessage();
+  inline void clear_has_votekickrequestmessage();
+  inline void set_has_votekickreplymessage();
+  inline void clear_has_votekickreplymessage();
+  inline void set_has_kickpetitionupdatemessage();
+  inline void clear_has_kickpetitionupdatemessage();
+  inline void set_has_endkickpetitionmessage();
+  inline void clear_has_endkickpetitionmessage();
+  inline void set_has_chatrequestmessage();
+  inline void clear_has_chatrequestmessage();
+  inline void set_has_chatmessage();
+  inline void clear_has_chatmessage();
+  inline void set_has_chatrejectmessage();
+  inline void clear_has_chatrejectmessage();
+  inline void set_has_errormessage();
+  inline void clear_has_errormessage();
+
+  ::JoinGameMessage* joingamemessage_;
+  ::RejoinGameMessage* rejoingamemessage_;
+  ::JoinGameAckMessage* joingameackmessage_;
+  ::JoinGameFailedMessage* joingamefailedmessage_;
+  ::GamePlayerJoinedMessage* gameplayerjoinedmessage_;
+  ::GamePlayerLeftMessage* gameplayerleftmessage_;
+  ::GameSpectatorJoinedMessage* gamespectatorjoinedmessage_;
+  ::GameSpectatorLeftMessage* gamespectatorleftmessage_;
+  ::GameAdminChangedMessage* gameadminchangedmessage_;
+  ::RemovedFromGameMessage* removedfromgamemessage_;
+  ::KickPlayerRequestMessage* kickplayerrequestmessage_;
+  ::LeaveGameRequestMessage* leavegamerequestmessage_;
+  ::StartEventMessage* starteventmessage_;
+  ::StartEventAckMessage* starteventackmessage_;
+  ::GameStartInitialMessage* gamestartinitialmessage_;
+  ::GameStartRejoinMessage* gamestartrejoinmessage_;
+  ::EndOfGameMessage* endofgamemessage_;
+  ::PlayerIdChangedMessage* playeridchangedmessage_;
+  ::AskKickPlayerMessage* askkickplayermessage_;
+  ::AskKickDeniedMessage* askkickdeniedmessage_;
+  ::StartKickPetitionMessage* startkickpetitionmessage_;
+  ::VoteKickRequestMessage* votekickrequestmessage_;
+  ::VoteKickReplyMessage* votekickreplymessage_;
+  ::KickPetitionUpdateMessage* kickpetitionupdatemessage_;
+  ::EndKickPetitionMessage* endkickpetitionmessage_;
+  ::ChatRequestMessage* chatrequestmessage_;
+  ::ChatMessage* chatmessage_;
+  ::ChatRejectMessage* chatrejectmessage_;
+  ::ErrorMessage* errormessage_;
+  int messagetype_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(30 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static GameManagementMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameEngineMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameEngineMessage();
+  virtual ~GameEngineMessage();
+
+  GameEngineMessage(const GameEngineMessage& from);
+
+  inline GameEngineMessage& operator=(const GameEngineMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const GameEngineMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const GameEngineMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(GameEngineMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  GameEngineMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameEngineMessage& from);
+  void MergeFrom(const GameEngineMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef GameEngineMessage_GameEngineMessageType GameEngineMessageType;
+  static const GameEngineMessageType Type_HandStartMessage = GameEngineMessage_GameEngineMessageType_Type_HandStartMessage;
+  static const GameEngineMessageType Type_PlayersTurnMessage = GameEngineMessage_GameEngineMessageType_Type_PlayersTurnMessage;
+  static const GameEngineMessageType Type_MyActionRequestMessage = GameEngineMessage_GameEngineMessageType_Type_MyActionRequestMessage;
+  static const GameEngineMessageType Type_YourActionRejectedMessage = GameEngineMessage_GameEngineMessageType_Type_YourActionRejectedMessage;
+  static const GameEngineMessageType Type_PlayersActionDoneMessage = GameEngineMessage_GameEngineMessageType_Type_PlayersActionDoneMessage;
+  static const GameEngineMessageType Type_DealFlopCardsMessage = GameEngineMessage_GameEngineMessageType_Type_DealFlopCardsMessage;
+  static const GameEngineMessageType Type_DealTurnCardMessage = GameEngineMessage_GameEngineMessageType_Type_DealTurnCardMessage;
+  static const GameEngineMessageType Type_DealRiverCardMessage = GameEngineMessage_GameEngineMessageType_Type_DealRiverCardMessage;
+  static const GameEngineMessageType Type_AllInShowCardsMessage = GameEngineMessage_GameEngineMessageType_Type_AllInShowCardsMessage;
+  static const GameEngineMessageType Type_EndOfHandShowCardsMessage = GameEngineMessage_GameEngineMessageType_Type_EndOfHandShowCardsMessage;
+  static const GameEngineMessageType Type_EndOfHandHideCardsMessage = GameEngineMessage_GameEngineMessageType_Type_EndOfHandHideCardsMessage;
+  static const GameEngineMessageType Type_ShowMyCardsRequestMessage = GameEngineMessage_GameEngineMessageType_Type_ShowMyCardsRequestMessage;
+  static const GameEngineMessageType Type_AfterHandShowCardsMessage = GameEngineMessage_GameEngineMessageType_Type_AfterHandShowCardsMessage;
+  static inline bool GameEngineMessageType_IsValid(int value) {
+    return GameEngineMessage_GameEngineMessageType_IsValid(value);
+  }
+  static const GameEngineMessageType GameEngineMessageType_MIN =
+    GameEngineMessage_GameEngineMessageType_GameEngineMessageType_MIN;
+  static const GameEngineMessageType GameEngineMessageType_MAX =
+    GameEngineMessage_GameEngineMessageType_GameEngineMessageType_MAX;
+  static const int GameEngineMessageType_ARRAYSIZE =
+    GameEngineMessage_GameEngineMessageType_GameEngineMessageType_ARRAYSIZE;
+
+  // accessors -------------------------------------------------------
+
+  // required .GameEngineMessage.GameEngineMessageType messageType = 1;
+  inline bool has_messagetype() const;
+  inline void clear_messagetype();
+  static const int kMessageTypeFieldNumber = 1;
+  inline ::GameEngineMessage_GameEngineMessageType messagetype() const;
+  inline void set_messagetype(::GameEngineMessage_GameEngineMessageType value);
+
+  // optional .HandStartMessage handStartMessage = 2;
+  inline bool has_handstartmessage() const;
+  inline void clear_handstartmessage();
+  static const int kHandStartMessageFieldNumber = 2;
+  inline const ::HandStartMessage& handstartmessage() const;
+  inline ::HandStartMessage* mutable_handstartmessage();
+  inline ::HandStartMessage* release_handstartmessage();
+  inline void set_allocated_handstartmessage(::HandStartMessage* handstartmessage);
+
+  // optional .PlayersTurnMessage playersTurnMessage = 3;
+  inline bool has_playersturnmessage() const;
+  inline void clear_playersturnmessage();
+  static const int kPlayersTurnMessageFieldNumber = 3;
+  inline const ::PlayersTurnMessage& playersturnmessage() const;
+  inline ::PlayersTurnMessage* mutable_playersturnmessage();
+  inline ::PlayersTurnMessage* release_playersturnmessage();
+  inline void set_allocated_playersturnmessage(::PlayersTurnMessage* playersturnmessage);
+
+  // optional .MyActionRequestMessage myActionRequestMessage = 4;
+  inline bool has_myactionrequestmessage() const;
+  inline void clear_myactionrequestmessage();
+  static const int kMyActionRequestMessageFieldNumber = 4;
+  inline const ::MyActionRequestMessage& myactionrequestmessage() const;
+  inline ::MyActionRequestMessage* mutable_myactionrequestmessage();
+  inline ::MyActionRequestMessage* release_myactionrequestmessage();
+  inline void set_allocated_myactionrequestmessage(::MyActionRequestMessage* myactionrequestmessage);
+
+  // optional .YourActionRejectedMessage yourActionRejectedMessage = 5;
+  inline bool has_youractionrejectedmessage() const;
+  inline void clear_youractionrejectedmessage();
+  static const int kYourActionRejectedMessageFieldNumber = 5;
+  inline const ::YourActionRejectedMessage& youractionrejectedmessage() const;
+  inline ::YourActionRejectedMessage* mutable_youractionrejectedmessage();
+  inline ::YourActionRejectedMessage* release_youractionrejectedmessage();
+  inline void set_allocated_youractionrejectedmessage(::YourActionRejectedMessage* youractionrejectedmessage);
+
+  // optional .PlayersActionDoneMessage playersActionDoneMessage = 6;
+  inline bool has_playersactiondonemessage() const;
+  inline void clear_playersactiondonemessage();
+  static const int kPlayersActionDoneMessageFieldNumber = 6;
+  inline const ::PlayersActionDoneMessage& playersactiondonemessage() const;
+  inline ::PlayersActionDoneMessage* mutable_playersactiondonemessage();
+  inline ::PlayersActionDoneMessage* release_playersactiondonemessage();
+  inline void set_allocated_playersactiondonemessage(::PlayersActionDoneMessage* playersactiondonemessage);
+
+  // optional .DealFlopCardsMessage dealFlopCardsMessage = 7;
+  inline bool has_dealflopcardsmessage() const;
+  inline void clear_dealflopcardsmessage();
+  static const int kDealFlopCardsMessageFieldNumber = 7;
+  inline const ::DealFlopCardsMessage& dealflopcardsmessage() const;
+  inline ::DealFlopCardsMessage* mutable_dealflopcardsmessage();
+  inline ::DealFlopCardsMessage* release_dealflopcardsmessage();
+  inline void set_allocated_dealflopcardsmessage(::DealFlopCardsMessage* dealflopcardsmessage);
+
+  // optional .DealTurnCardMessage dealTurnCardMessage = 8;
+  inline bool has_dealturncardmessage() const;
+  inline void clear_dealturncardmessage();
+  static const int kDealTurnCardMessageFieldNumber = 8;
+  inline const ::DealTurnCardMessage& dealturncardmessage() const;
+  inline ::DealTurnCardMessage* mutable_dealturncardmessage();
+  inline ::DealTurnCardMessage* release_dealturncardmessage();
+  inline void set_allocated_dealturncardmessage(::DealTurnCardMessage* dealturncardmessage);
+
+  // optional .DealRiverCardMessage dealRiverCardMessage = 9;
+  inline bool has_dealrivercardmessage() const;
+  inline void clear_dealrivercardmessage();
+  static const int kDealRiverCardMessageFieldNumber = 9;
+  inline const ::DealRiverCardMessage& dealrivercardmessage() const;
+  inline ::DealRiverCardMessage* mutable_dealrivercardmessage();
+  inline ::DealRiverCardMessage* release_dealrivercardmessage();
+  inline void set_allocated_dealrivercardmessage(::DealRiverCardMessage* dealrivercardmessage);
+
+  // optional .AllInShowCardsMessage allInShowCardsMessage = 10;
+  inline bool has_allinshowcardsmessage() const;
+  inline void clear_allinshowcardsmessage();
+  static const int kAllInShowCardsMessageFieldNumber = 10;
+  inline const ::AllInShowCardsMessage& allinshowcardsmessage() const;
+  inline ::AllInShowCardsMessage* mutable_allinshowcardsmessage();
+  inline ::AllInShowCardsMessage* release_allinshowcardsmessage();
+  inline void set_allocated_allinshowcardsmessage(::AllInShowCardsMessage* allinshowcardsmessage);
+
+  // optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 11;
+  inline bool has_endofhandshowcardsmessage() const;
+  inline void clear_endofhandshowcardsmessage();
+  static const int kEndOfHandShowCardsMessageFieldNumber = 11;
+  inline const ::EndOfHandShowCardsMessage& endofhandshowcardsmessage() const;
+  inline ::EndOfHandShowCardsMessage* mutable_endofhandshowcardsmessage();
+  inline ::EndOfHandShowCardsMessage* release_endofhandshowcardsmessage();
+  inline void set_allocated_endofhandshowcardsmessage(::EndOfHandShowCardsMessage* endofhandshowcardsmessage);
+
+  // optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 12;
+  inline bool has_endofhandhidecardsmessage() const;
+  inline void clear_endofhandhidecardsmessage();
+  static const int kEndOfHandHideCardsMessageFieldNumber = 12;
+  inline const ::EndOfHandHideCardsMessage& endofhandhidecardsmessage() const;
+  inline ::EndOfHandHideCardsMessage* mutable_endofhandhidecardsmessage();
+  inline ::EndOfHandHideCardsMessage* release_endofhandhidecardsmessage();
+  inline void set_allocated_endofhandhidecardsmessage(::EndOfHandHideCardsMessage* endofhandhidecardsmessage);
+
+  // optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 13;
+  inline bool has_showmycardsrequestmessage() const;
+  inline void clear_showmycardsrequestmessage();
+  static const int kShowMyCardsRequestMessageFieldNumber = 13;
+  inline const ::ShowMyCardsRequestMessage& showmycardsrequestmessage() const;
+  inline ::ShowMyCardsRequestMessage* mutable_showmycardsrequestmessage();
+  inline ::ShowMyCardsRequestMessage* release_showmycardsrequestmessage();
+  inline void set_allocated_showmycardsrequestmessage(::ShowMyCardsRequestMessage* showmycardsrequestmessage);
+
+  // optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 14;
+  inline bool has_afterhandshowcardsmessage() const;
+  inline void clear_afterhandshowcardsmessage();
+  static const int kAfterHandShowCardsMessageFieldNumber = 14;
+  inline const ::AfterHandShowCardsMessage& afterhandshowcardsmessage() const;
+  inline ::AfterHandShowCardsMessage* mutable_afterhandshowcardsmessage();
+  inline ::AfterHandShowCardsMessage* release_afterhandshowcardsmessage();
+  inline void set_allocated_afterhandshowcardsmessage(::AfterHandShowCardsMessage* afterhandshowcardsmessage);
+
+  // @@protoc_insertion_point(class_scope:GameEngineMessage)
+ private:
+  inline void set_has_messagetype();
+  inline void clear_has_messagetype();
+  inline void set_has_handstartmessage();
+  inline void clear_has_handstartmessage();
+  inline void set_has_playersturnmessage();
+  inline void clear_has_playersturnmessage();
+  inline void set_has_myactionrequestmessage();
+  inline void clear_has_myactionrequestmessage();
+  inline void set_has_youractionrejectedmessage();
+  inline void clear_has_youractionrejectedmessage();
+  inline void set_has_playersactiondonemessage();
+  inline void clear_has_playersactiondonemessage();
+  inline void set_has_dealflopcardsmessage();
+  inline void clear_has_dealflopcardsmessage();
+  inline void set_has_dealturncardmessage();
+  inline void clear_has_dealturncardmessage();
+  inline void set_has_dealrivercardmessage();
+  inline void clear_has_dealrivercardmessage();
+  inline void set_has_allinshowcardsmessage();
+  inline void clear_has_allinshowcardsmessage();
+  inline void set_has_endofhandshowcardsmessage();
+  inline void clear_has_endofhandshowcardsmessage();
+  inline void set_has_endofhandhidecardsmessage();
+  inline void clear_has_endofhandhidecardsmessage();
+  inline void set_has_showmycardsrequestmessage();
+  inline void clear_has_showmycardsrequestmessage();
+  inline void set_has_afterhandshowcardsmessage();
+  inline void clear_has_afterhandshowcardsmessage();
+
+  ::HandStartMessage* handstartmessage_;
+  ::PlayersTurnMessage* playersturnmessage_;
+  ::MyActionRequestMessage* myactionrequestmessage_;
+  ::YourActionRejectedMessage* youractionrejectedmessage_;
+  ::PlayersActionDoneMessage* playersactiondonemessage_;
+  ::DealFlopCardsMessage* dealflopcardsmessage_;
+  ::DealTurnCardMessage* dealturncardmessage_;
+  ::DealRiverCardMessage* dealrivercardmessage_;
+  ::AllInShowCardsMessage* allinshowcardsmessage_;
+  ::EndOfHandShowCardsMessage* endofhandshowcardsmessage_;
+  ::EndOfHandHideCardsMessage* endofhandhidecardsmessage_;
+  ::ShowMyCardsRequestMessage* showmycardsrequestmessage_;
+  ::AfterHandShowCardsMessage* afterhandshowcardsmessage_;
+  int messagetype_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(14 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static GameEngineMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameMessage();
+  virtual ~GameMessage();
+
+  GameMessage(const GameMessage& from);
+
+  inline GameMessage& operator=(const GameMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const GameMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const GameMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(GameMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  GameMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameMessage& from);
+  void MergeFrom(const GameMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef GameMessage_GameMessageType GameMessageType;
+  static const GameMessageType Type_GameManagementMessage = GameMessage_GameMessageType_Type_GameManagementMessage;
+  static const GameMessageType Type_GameEngineMessage = GameMessage_GameMessageType_Type_GameEngineMessage;
+  static inline bool GameMessageType_IsValid(int value) {
+    return GameMessage_GameMessageType_IsValid(value);
+  }
+  static const GameMessageType GameMessageType_MIN =
+    GameMessage_GameMessageType_GameMessageType_MIN;
+  static const GameMessageType GameMessageType_MAX =
+    GameMessage_GameMessageType_GameMessageType_MAX;
+  static const int GameMessageType_ARRAYSIZE =
+    GameMessage_GameMessageType_GameMessageType_ARRAYSIZE;
+
+  // accessors -------------------------------------------------------
+
+  // required .GameMessage.GameMessageType messageType = 1;
+  inline bool has_messagetype() const;
+  inline void clear_messagetype();
+  static const int kMessageTypeFieldNumber = 1;
+  inline ::GameMessage_GameMessageType messagetype() const;
+  inline void set_messagetype(::GameMessage_GameMessageType value);
+
+  // required uint32 gameId = 2;
+  inline bool has_gameid() const;
+  inline void clear_gameid();
+  static const int kGameIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 gameid() const;
+  inline void set_gameid(::google::protobuf::uint32 value);
+
+  // optional .GameManagementMessage gameManagementMessage = 3;
+  inline bool has_gamemanagementmessage() const;
+  inline void clear_gamemanagementmessage();
+  static const int kGameManagementMessageFieldNumber = 3;
+  inline const ::GameManagementMessage& gamemanagementmessage() const;
+  inline ::GameManagementMessage* mutable_gamemanagementmessage();
+  inline ::GameManagementMessage* release_gamemanagementmessage();
+  inline void set_allocated_gamemanagementmessage(::GameManagementMessage* gamemanagementmessage);
+
+  // optional .GameEngineMessage gameEngineMessage = 4;
+  inline bool has_gameenginemessage() const;
+  inline void clear_gameenginemessage();
+  static const int kGameEngineMessageFieldNumber = 4;
+  inline const ::GameEngineMessage& gameenginemessage() const;
+  inline ::GameEngineMessage* mutable_gameenginemessage();
+  inline ::GameEngineMessage* release_gameenginemessage();
+  inline void set_allocated_gameenginemessage(::GameEngineMessage* gameenginemessage);
+
+  // @@protoc_insertion_point(class_scope:GameMessage)
+ private:
+  inline void set_has_messagetype();
+  inline void clear_has_messagetype();
+  inline void set_has_gameid();
+  inline void clear_has_gameid();
+  inline void set_has_gamemanagementmessage();
+  inline void clear_has_gamemanagementmessage();
+  inline void set_has_gameenginemessage();
+  inline void clear_has_gameenginemessage();
+
+  int messagetype_;
+  ::google::protobuf::uint32 gameid_;
+  ::GameManagementMessage* gamemanagementmessage_;
+  ::GameEngineMessage* gameenginemessage_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static GameMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class PokerTHMessage : public ::google::protobuf::MessageLite {
  public:
   PokerTHMessage();
@@ -10219,86 +11850,9 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
 
   typedef PokerTHMessage_PokerTHMessageType PokerTHMessageType;
   static const PokerTHMessageType Type_AnnounceMessage = PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage;
-  static const PokerTHMessageType Type_InitMessage = PokerTHMessage_PokerTHMessageType_Type_InitMessage;
-  static const PokerTHMessageType Type_AuthServerChallengeMessage = PokerTHMessage_PokerTHMessageType_Type_AuthServerChallengeMessage;
-  static const PokerTHMessageType Type_AuthClientResponseMessage = PokerTHMessage_PokerTHMessageType_Type_AuthClientResponseMessage;
-  static const PokerTHMessageType Type_AuthServerVerificationMessage = PokerTHMessage_PokerTHMessageType_Type_AuthServerVerificationMessage;
-  static const PokerTHMessageType Type_InitAckMessage = PokerTHMessage_PokerTHMessageType_Type_InitAckMessage;
-  static const PokerTHMessageType Type_AvatarRequestMessage = PokerTHMessage_PokerTHMessageType_Type_AvatarRequestMessage;
-  static const PokerTHMessageType Type_AvatarHeaderMessage = PokerTHMessage_PokerTHMessageType_Type_AvatarHeaderMessage;
-  static const PokerTHMessageType Type_AvatarDataMessage = PokerTHMessage_PokerTHMessageType_Type_AvatarDataMessage;
-  static const PokerTHMessageType Type_AvatarEndMessage = PokerTHMessage_PokerTHMessageType_Type_AvatarEndMessage;
-  static const PokerTHMessageType Type_UnknownAvatarMessage = PokerTHMessage_PokerTHMessageType_Type_UnknownAvatarMessage;
-  static const PokerTHMessageType Type_PlayerListMessage = PokerTHMessage_PokerTHMessageType_Type_PlayerListMessage;
-  static const PokerTHMessageType Type_GameListNewMessage = PokerTHMessage_PokerTHMessageType_Type_GameListNewMessage;
-  static const PokerTHMessageType Type_GameListUpdateMessage = PokerTHMessage_PokerTHMessageType_Type_GameListUpdateMessage;
-  static const PokerTHMessageType Type_GameListPlayerJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GameListPlayerJoinedMessage;
-  static const PokerTHMessageType Type_GameListPlayerLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameListPlayerLeftMessage;
-  static const PokerTHMessageType Type_GameListAdminChangedMessage = PokerTHMessage_PokerTHMessageType_Type_GameListAdminChangedMessage;
-  static const PokerTHMessageType Type_PlayerInfoRequestMessage = PokerTHMessage_PokerTHMessageType_Type_PlayerInfoRequestMessage;
-  static const PokerTHMessageType Type_PlayerInfoReplyMessage = PokerTHMessage_PokerTHMessageType_Type_PlayerInfoReplyMessage;
-  static const PokerTHMessageType Type_SubscriptionRequestMessage = PokerTHMessage_PokerTHMessageType_Type_SubscriptionRequestMessage;
-  static const PokerTHMessageType Type_JoinExistingGameMessage = PokerTHMessage_PokerTHMessageType_Type_JoinExistingGameMessage;
-  static const PokerTHMessageType Type_JoinNewGameMessage = PokerTHMessage_PokerTHMessageType_Type_JoinNewGameMessage;
-  static const PokerTHMessageType Type_RejoinExistingGameMessage = PokerTHMessage_PokerTHMessageType_Type_RejoinExistingGameMessage;
-  static const PokerTHMessageType Type_JoinGameAckMessage = PokerTHMessage_PokerTHMessageType_Type_JoinGameAckMessage;
-  static const PokerTHMessageType Type_JoinGameFailedMessage = PokerTHMessage_PokerTHMessageType_Type_JoinGameFailedMessage;
-  static const PokerTHMessageType Type_GamePlayerJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GamePlayerJoinedMessage;
-  static const PokerTHMessageType Type_GamePlayerLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GamePlayerLeftMessage;
-  static const PokerTHMessageType Type_GameAdminChangedMessage = PokerTHMessage_PokerTHMessageType_Type_GameAdminChangedMessage;
-  static const PokerTHMessageType Type_RemovedFromGameMessage = PokerTHMessage_PokerTHMessageType_Type_RemovedFromGameMessage;
-  static const PokerTHMessageType Type_KickPlayerRequestMessage = PokerTHMessage_PokerTHMessageType_Type_KickPlayerRequestMessage;
-  static const PokerTHMessageType Type_LeaveGameRequestMessage = PokerTHMessage_PokerTHMessageType_Type_LeaveGameRequestMessage;
-  static const PokerTHMessageType Type_InvitePlayerToGameMessage = PokerTHMessage_PokerTHMessageType_Type_InvitePlayerToGameMessage;
-  static const PokerTHMessageType Type_InviteNotifyMessage = PokerTHMessage_PokerTHMessageType_Type_InviteNotifyMessage;
-  static const PokerTHMessageType Type_RejectGameInvitationMessage = PokerTHMessage_PokerTHMessageType_Type_RejectGameInvitationMessage;
-  static const PokerTHMessageType Type_RejectInvNotifyMessage = PokerTHMessage_PokerTHMessageType_Type_RejectInvNotifyMessage;
-  static const PokerTHMessageType Type_StartEventMessage = PokerTHMessage_PokerTHMessageType_Type_StartEventMessage;
-  static const PokerTHMessageType Type_StartEventAckMessage = PokerTHMessage_PokerTHMessageType_Type_StartEventAckMessage;
-  static const PokerTHMessageType Type_GameStartInitialMessage = PokerTHMessage_PokerTHMessageType_Type_GameStartInitialMessage;
-  static const PokerTHMessageType Type_GameStartRejoinMessage = PokerTHMessage_PokerTHMessageType_Type_GameStartRejoinMessage;
-  static const PokerTHMessageType Type_HandStartMessage = PokerTHMessage_PokerTHMessageType_Type_HandStartMessage;
-  static const PokerTHMessageType Type_PlayersTurnMessage = PokerTHMessage_PokerTHMessageType_Type_PlayersTurnMessage;
-  static const PokerTHMessageType Type_MyActionRequestMessage = PokerTHMessage_PokerTHMessageType_Type_MyActionRequestMessage;
-  static const PokerTHMessageType Type_YourActionRejectedMessage = PokerTHMessage_PokerTHMessageType_Type_YourActionRejectedMessage;
-  static const PokerTHMessageType Type_PlayersActionDoneMessage = PokerTHMessage_PokerTHMessageType_Type_PlayersActionDoneMessage;
-  static const PokerTHMessageType Type_DealFlopCardsMessage = PokerTHMessage_PokerTHMessageType_Type_DealFlopCardsMessage;
-  static const PokerTHMessageType Type_DealTurnCardMessage = PokerTHMessage_PokerTHMessageType_Type_DealTurnCardMessage;
-  static const PokerTHMessageType Type_DealRiverCardMessage = PokerTHMessage_PokerTHMessageType_Type_DealRiverCardMessage;
-  static const PokerTHMessageType Type_AllInShowCardsMessage = PokerTHMessage_PokerTHMessageType_Type_AllInShowCardsMessage;
-  static const PokerTHMessageType Type_EndOfHandShowCardsMessage = PokerTHMessage_PokerTHMessageType_Type_EndOfHandShowCardsMessage;
-  static const PokerTHMessageType Type_EndOfHandHideCardsMessage = PokerTHMessage_PokerTHMessageType_Type_EndOfHandHideCardsMessage;
-  static const PokerTHMessageType Type_ShowMyCardsRequestMessage = PokerTHMessage_PokerTHMessageType_Type_ShowMyCardsRequestMessage;
-  static const PokerTHMessageType Type_AfterHandShowCardsMessage = PokerTHMessage_PokerTHMessageType_Type_AfterHandShowCardsMessage;
-  static const PokerTHMessageType Type_EndOfGameMessage = PokerTHMessage_PokerTHMessageType_Type_EndOfGameMessage;
-  static const PokerTHMessageType Type_PlayerIdChangedMessage = PokerTHMessage_PokerTHMessageType_Type_PlayerIdChangedMessage;
-  static const PokerTHMessageType Type_AskKickPlayerMessage = PokerTHMessage_PokerTHMessageType_Type_AskKickPlayerMessage;
-  static const PokerTHMessageType Type_AskKickDeniedMessage = PokerTHMessage_PokerTHMessageType_Type_AskKickDeniedMessage;
-  static const PokerTHMessageType Type_StartKickPetitionMessage = PokerTHMessage_PokerTHMessageType_Type_StartKickPetitionMessage;
-  static const PokerTHMessageType Type_VoteKickRequestMessage = PokerTHMessage_PokerTHMessageType_Type_VoteKickRequestMessage;
-  static const PokerTHMessageType Type_VoteKickReplyMessage = PokerTHMessage_PokerTHMessageType_Type_VoteKickReplyMessage;
-  static const PokerTHMessageType Type_KickPetitionUpdateMessage = PokerTHMessage_PokerTHMessageType_Type_KickPetitionUpdateMessage;
-  static const PokerTHMessageType Type_EndKickPetitionMessage = PokerTHMessage_PokerTHMessageType_Type_EndKickPetitionMessage;
-  static const PokerTHMessageType Type_StatisticsMessage = PokerTHMessage_PokerTHMessageType_Type_StatisticsMessage;
-  static const PokerTHMessageType Type_ChatRequestMessage = PokerTHMessage_PokerTHMessageType_Type_ChatRequestMessage;
-  static const PokerTHMessageType Type_ChatMessage = PokerTHMessage_PokerTHMessageType_Type_ChatMessage;
-  static const PokerTHMessageType Type_ChatRejectMessage = PokerTHMessage_PokerTHMessageType_Type_ChatRejectMessage;
-  static const PokerTHMessageType Type_DialogMessage = PokerTHMessage_PokerTHMessageType_Type_DialogMessage;
-  static const PokerTHMessageType Type_TimeoutWarningMessage = PokerTHMessage_PokerTHMessageType_Type_TimeoutWarningMessage;
-  static const PokerTHMessageType Type_ResetTimeoutMessage = PokerTHMessage_PokerTHMessageType_Type_ResetTimeoutMessage;
-  static const PokerTHMessageType Type_ReportAvatarMessage = PokerTHMessage_PokerTHMessageType_Type_ReportAvatarMessage;
-  static const PokerTHMessageType Type_ReportAvatarAckMessage = PokerTHMessage_PokerTHMessageType_Type_ReportAvatarAckMessage;
-  static const PokerTHMessageType Type_ReportGameMessage = PokerTHMessage_PokerTHMessageType_Type_ReportGameMessage;
-  static const PokerTHMessageType Type_ReportGameAckMessage = PokerTHMessage_PokerTHMessageType_Type_ReportGameAckMessage;
-  static const PokerTHMessageType Type_ErrorMessage = PokerTHMessage_PokerTHMessageType_Type_ErrorMessage;
-  static const PokerTHMessageType Type_AdminRemoveGameMessage = PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameMessage;
-  static const PokerTHMessageType Type_AdminRemoveGameAckMessage = PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameAckMessage;
-  static const PokerTHMessageType Type_AdminBanPlayerMessage = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage;
-  static const PokerTHMessageType Type_AdminBanPlayerAckMessage = PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage;
-  static const PokerTHMessageType Type_GameListSpectatorJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage;
-  static const PokerTHMessageType Type_GameListSpectatorLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage;
-  static const PokerTHMessageType Type_GameSpectatorJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage;
-  static const PokerTHMessageType Type_GameSpectatorLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage;
+  static const PokerTHMessageType Type_AuthMessage = PokerTHMessage_PokerTHMessageType_Type_AuthMessage;
+  static const PokerTHMessageType Type_LobbyMessage = PokerTHMessage_PokerTHMessageType_Type_LobbyMessage;
+  static const PokerTHMessageType Type_GameMessage = PokerTHMessage_PokerTHMessageType_Type_GameMessage;
   static inline bool PokerTHMessageType_IsValid(int value) {
     return PokerTHMessage_PokerTHMessageType_IsValid(value);
   }
@@ -10327,725 +11881,32 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline ::AnnounceMessage* release_announcemessage();
   inline void set_allocated_announcemessage(::AnnounceMessage* announcemessage);
 
-  // optional .InitMessage initMessage = 3;
-  inline bool has_initmessage() const;
-  inline void clear_initmessage();
-  static const int kInitMessageFieldNumber = 3;
-  inline const ::InitMessage& initmessage() const;
-  inline ::InitMessage* mutable_initmessage();
-  inline ::InitMessage* release_initmessage();
-  inline void set_allocated_initmessage(::InitMessage* initmessage);
-
-  // optional .AuthServerChallengeMessage authServerChallengeMessage = 4;
-  inline bool has_authserverchallengemessage() const;
-  inline void clear_authserverchallengemessage();
-  static const int kAuthServerChallengeMessageFieldNumber = 4;
-  inline const ::AuthServerChallengeMessage& authserverchallengemessage() const;
-  inline ::AuthServerChallengeMessage* mutable_authserverchallengemessage();
-  inline ::AuthServerChallengeMessage* release_authserverchallengemessage();
-  inline void set_allocated_authserverchallengemessage(::AuthServerChallengeMessage* authserverchallengemessage);
-
-  // optional .AuthClientResponseMessage authClientResponseMessage = 5;
-  inline bool has_authclientresponsemessage() const;
-  inline void clear_authclientresponsemessage();
-  static const int kAuthClientResponseMessageFieldNumber = 5;
-  inline const ::AuthClientResponseMessage& authclientresponsemessage() const;
-  inline ::AuthClientResponseMessage* mutable_authclientresponsemessage();
-  inline ::AuthClientResponseMessage* release_authclientresponsemessage();
-  inline void set_allocated_authclientresponsemessage(::AuthClientResponseMessage* authclientresponsemessage);
-
-  // optional .AuthServerVerificationMessage authServerVerificationMessage = 6;
-  inline bool has_authserververificationmessage() const;
-  inline void clear_authserververificationmessage();
-  static const int kAuthServerVerificationMessageFieldNumber = 6;
-  inline const ::AuthServerVerificationMessage& authserververificationmessage() const;
-  inline ::AuthServerVerificationMessage* mutable_authserververificationmessage();
-  inline ::AuthServerVerificationMessage* release_authserververificationmessage();
-  inline void set_allocated_authserververificationmessage(::AuthServerVerificationMessage* authserververificationmessage);
-
-  // optional .InitAckMessage initAckMessage = 7;
-  inline bool has_initackmessage() const;
-  inline void clear_initackmessage();
-  static const int kInitAckMessageFieldNumber = 7;
-  inline const ::InitAckMessage& initackmessage() const;
-  inline ::InitAckMessage* mutable_initackmessage();
-  inline ::InitAckMessage* release_initackmessage();
-  inline void set_allocated_initackmessage(::InitAckMessage* initackmessage);
-
-  // optional .AvatarRequestMessage avatarRequestMessage = 8;
-  inline bool has_avatarrequestmessage() const;
-  inline void clear_avatarrequestmessage();
-  static const int kAvatarRequestMessageFieldNumber = 8;
-  inline const ::AvatarRequestMessage& avatarrequestmessage() const;
-  inline ::AvatarRequestMessage* mutable_avatarrequestmessage();
-  inline ::AvatarRequestMessage* release_avatarrequestmessage();
-  inline void set_allocated_avatarrequestmessage(::AvatarRequestMessage* avatarrequestmessage);
-
-  // optional .AvatarHeaderMessage avatarHeaderMessage = 9;
-  inline bool has_avatarheadermessage() const;
-  inline void clear_avatarheadermessage();
-  static const int kAvatarHeaderMessageFieldNumber = 9;
-  inline const ::AvatarHeaderMessage& avatarheadermessage() const;
-  inline ::AvatarHeaderMessage* mutable_avatarheadermessage();
-  inline ::AvatarHeaderMessage* release_avatarheadermessage();
-  inline void set_allocated_avatarheadermessage(::AvatarHeaderMessage* avatarheadermessage);
-
-  // optional .AvatarDataMessage avatarDataMessage = 10;
-  inline bool has_avatardatamessage() const;
-  inline void clear_avatardatamessage();
-  static const int kAvatarDataMessageFieldNumber = 10;
-  inline const ::AvatarDataMessage& avatardatamessage() const;
-  inline ::AvatarDataMessage* mutable_avatardatamessage();
-  inline ::AvatarDataMessage* release_avatardatamessage();
-  inline void set_allocated_avatardatamessage(::AvatarDataMessage* avatardatamessage);
-
-  // optional .AvatarEndMessage avatarEndMessage = 11;
-  inline bool has_avatarendmessage() const;
-  inline void clear_avatarendmessage();
-  static const int kAvatarEndMessageFieldNumber = 11;
-  inline const ::AvatarEndMessage& avatarendmessage() const;
-  inline ::AvatarEndMessage* mutable_avatarendmessage();
-  inline ::AvatarEndMessage* release_avatarendmessage();
-  inline void set_allocated_avatarendmessage(::AvatarEndMessage* avatarendmessage);
-
-  // optional .UnknownAvatarMessage unknownAvatarMessage = 12;
-  inline bool has_unknownavatarmessage() const;
-  inline void clear_unknownavatarmessage();
-  static const int kUnknownAvatarMessageFieldNumber = 12;
-  inline const ::UnknownAvatarMessage& unknownavatarmessage() const;
-  inline ::UnknownAvatarMessage* mutable_unknownavatarmessage();
-  inline ::UnknownAvatarMessage* release_unknownavatarmessage();
-  inline void set_allocated_unknownavatarmessage(::UnknownAvatarMessage* unknownavatarmessage);
-
-  // optional .PlayerListMessage playerListMessage = 13;
-  inline bool has_playerlistmessage() const;
-  inline void clear_playerlistmessage();
-  static const int kPlayerListMessageFieldNumber = 13;
-  inline const ::PlayerListMessage& playerlistmessage() const;
-  inline ::PlayerListMessage* mutable_playerlistmessage();
-  inline ::PlayerListMessage* release_playerlistmessage();
-  inline void set_allocated_playerlistmessage(::PlayerListMessage* playerlistmessage);
-
-  // optional .GameListNewMessage gameListNewMessage = 14;
-  inline bool has_gamelistnewmessage() const;
-  inline void clear_gamelistnewmessage();
-  static const int kGameListNewMessageFieldNumber = 14;
-  inline const ::GameListNewMessage& gamelistnewmessage() const;
-  inline ::GameListNewMessage* mutable_gamelistnewmessage();
-  inline ::GameListNewMessage* release_gamelistnewmessage();
-  inline void set_allocated_gamelistnewmessage(::GameListNewMessage* gamelistnewmessage);
-
-  // optional .GameListUpdateMessage gameListUpdateMessage = 15;
-  inline bool has_gamelistupdatemessage() const;
-  inline void clear_gamelistupdatemessage();
-  static const int kGameListUpdateMessageFieldNumber = 15;
-  inline const ::GameListUpdateMessage& gamelistupdatemessage() const;
-  inline ::GameListUpdateMessage* mutable_gamelistupdatemessage();
-  inline ::GameListUpdateMessage* release_gamelistupdatemessage();
-  inline void set_allocated_gamelistupdatemessage(::GameListUpdateMessage* gamelistupdatemessage);
-
-  // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;
-  inline bool has_gamelistplayerjoinedmessage() const;
-  inline void clear_gamelistplayerjoinedmessage();
-  static const int kGameListPlayerJoinedMessageFieldNumber = 16;
-  inline const ::GameListPlayerJoinedMessage& gamelistplayerjoinedmessage() const;
-  inline ::GameListPlayerJoinedMessage* mutable_gamelistplayerjoinedmessage();
-  inline ::GameListPlayerJoinedMessage* release_gamelistplayerjoinedmessage();
-  inline void set_allocated_gamelistplayerjoinedmessage(::GameListPlayerJoinedMessage* gamelistplayerjoinedmessage);
-
-  // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;
-  inline bool has_gamelistplayerleftmessage() const;
-  inline void clear_gamelistplayerleftmessage();
-  static const int kGameListPlayerLeftMessageFieldNumber = 17;
-  inline const ::GameListPlayerLeftMessage& gamelistplayerleftmessage() const;
-  inline ::GameListPlayerLeftMessage* mutable_gamelistplayerleftmessage();
-  inline ::GameListPlayerLeftMessage* release_gamelistplayerleftmessage();
-  inline void set_allocated_gamelistplayerleftmessage(::GameListPlayerLeftMessage* gamelistplayerleftmessage);
-
-  // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;
-  inline bool has_gamelistadminchangedmessage() const;
-  inline void clear_gamelistadminchangedmessage();
-  static const int kGameListAdminChangedMessageFieldNumber = 18;
-  inline const ::GameListAdminChangedMessage& gamelistadminchangedmessage() const;
-  inline ::GameListAdminChangedMessage* mutable_gamelistadminchangedmessage();
-  inline ::GameListAdminChangedMessage* release_gamelistadminchangedmessage();
-  inline void set_allocated_gamelistadminchangedmessage(::GameListAdminChangedMessage* gamelistadminchangedmessage);
-
-  // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;
-  inline bool has_playerinforequestmessage() const;
-  inline void clear_playerinforequestmessage();
-  static const int kPlayerInfoRequestMessageFieldNumber = 19;
-  inline const ::PlayerInfoRequestMessage& playerinforequestmessage() const;
-  inline ::PlayerInfoRequestMessage* mutable_playerinforequestmessage();
-  inline ::PlayerInfoRequestMessage* release_playerinforequestmessage();
-  inline void set_allocated_playerinforequestmessage(::PlayerInfoRequestMessage* playerinforequestmessage);
-
-  // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;
-  inline bool has_playerinforeplymessage() const;
-  inline void clear_playerinforeplymessage();
-  static const int kPlayerInfoReplyMessageFieldNumber = 20;
-  inline const ::PlayerInfoReplyMessage& playerinforeplymessage() const;
-  inline ::PlayerInfoReplyMessage* mutable_playerinforeplymessage();
-  inline ::PlayerInfoReplyMessage* release_playerinforeplymessage();
-  inline void set_allocated_playerinforeplymessage(::PlayerInfoReplyMessage* playerinforeplymessage);
-
-  // optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;
-  inline bool has_subscriptionrequestmessage() const;
-  inline void clear_subscriptionrequestmessage();
-  static const int kSubscriptionRequestMessageFieldNumber = 21;
-  inline const ::SubscriptionRequestMessage& subscriptionrequestmessage() const;
-  inline ::SubscriptionRequestMessage* mutable_subscriptionrequestmessage();
-  inline ::SubscriptionRequestMessage* release_subscriptionrequestmessage();
-  inline void set_allocated_subscriptionrequestmessage(::SubscriptionRequestMessage* subscriptionrequestmessage);
-
-  // optional .JoinExistingGameMessage joinExistingGameMessage = 22;
-  inline bool has_joinexistinggamemessage() const;
-  inline void clear_joinexistinggamemessage();
-  static const int kJoinExistingGameMessageFieldNumber = 22;
-  inline const ::JoinExistingGameMessage& joinexistinggamemessage() const;
-  inline ::JoinExistingGameMessage* mutable_joinexistinggamemessage();
-  inline ::JoinExistingGameMessage* release_joinexistinggamemessage();
-  inline void set_allocated_joinexistinggamemessage(::JoinExistingGameMessage* joinexistinggamemessage);
-
-  // optional .JoinNewGameMessage joinNewGameMessage = 23;
-  inline bool has_joinnewgamemessage() const;
-  inline void clear_joinnewgamemessage();
-  static const int kJoinNewGameMessageFieldNumber = 23;
-  inline const ::JoinNewGameMessage& joinnewgamemessage() const;
-  inline ::JoinNewGameMessage* mutable_joinnewgamemessage();
-  inline ::JoinNewGameMessage* release_joinnewgamemessage();
-  inline void set_allocated_joinnewgamemessage(::JoinNewGameMessage* joinnewgamemessage);
-
-  // optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;
-  inline bool has_rejoinexistinggamemessage() const;
-  inline void clear_rejoinexistinggamemessage();
-  static const int kRejoinExistingGameMessageFieldNumber = 24;
-  inline const ::RejoinExistingGameMessage& rejoinexistinggamemessage() const;
-  inline ::RejoinExistingGameMessage* mutable_rejoinexistinggamemessage();
-  inline ::RejoinExistingGameMessage* release_rejoinexistinggamemessage();
-  inline void set_allocated_rejoinexistinggamemessage(::RejoinExistingGameMessage* rejoinexistinggamemessage);
-
-  // optional .JoinGameAckMessage joinGameAckMessage = 25;
-  inline bool has_joingameackmessage() const;
-  inline void clear_joingameackmessage();
-  static const int kJoinGameAckMessageFieldNumber = 25;
-  inline const ::JoinGameAckMessage& joingameackmessage() const;
-  inline ::JoinGameAckMessage* mutable_joingameackmessage();
-  inline ::JoinGameAckMessage* release_joingameackmessage();
-  inline void set_allocated_joingameackmessage(::JoinGameAckMessage* joingameackmessage);
-
-  // optional .JoinGameFailedMessage joinGameFailedMessage = 26;
-  inline bool has_joingamefailedmessage() const;
-  inline void clear_joingamefailedmessage();
-  static const int kJoinGameFailedMessageFieldNumber = 26;
-  inline const ::JoinGameFailedMessage& joingamefailedmessage() const;
-  inline ::JoinGameFailedMessage* mutable_joingamefailedmessage();
-  inline ::JoinGameFailedMessage* release_joingamefailedmessage();
-  inline void set_allocated_joingamefailedmessage(::JoinGameFailedMessage* joingamefailedmessage);
-
-  // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;
-  inline bool has_gameplayerjoinedmessage() const;
-  inline void clear_gameplayerjoinedmessage();
-  static const int kGamePlayerJoinedMessageFieldNumber = 27;
-  inline const ::GamePlayerJoinedMessage& gameplayerjoinedmessage() const;
-  inline ::GamePlayerJoinedMessage* mutable_gameplayerjoinedmessage();
-  inline ::GamePlayerJoinedMessage* release_gameplayerjoinedmessage();
-  inline void set_allocated_gameplayerjoinedmessage(::GamePlayerJoinedMessage* gameplayerjoinedmessage);
-
-  // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;
-  inline bool has_gameplayerleftmessage() const;
-  inline void clear_gameplayerleftmessage();
-  static const int kGamePlayerLeftMessageFieldNumber = 28;
-  inline const ::GamePlayerLeftMessage& gameplayerleftmessage() const;
-  inline ::GamePlayerLeftMessage* mutable_gameplayerleftmessage();
-  inline ::GamePlayerLeftMessage* release_gameplayerleftmessage();
-  inline void set_allocated_gameplayerleftmessage(::GamePlayerLeftMessage* gameplayerleftmessage);
-
-  // optional .GameAdminChangedMessage gameAdminChangedMessage = 29;
-  inline bool has_gameadminchangedmessage() const;
-  inline void clear_gameadminchangedmessage();
-  static const int kGameAdminChangedMessageFieldNumber = 29;
-  inline const ::GameAdminChangedMessage& gameadminchangedmessage() const;
-  inline ::GameAdminChangedMessage* mutable_gameadminchangedmessage();
-  inline ::GameAdminChangedMessage* release_gameadminchangedmessage();
-  inline void set_allocated_gameadminchangedmessage(::GameAdminChangedMessage* gameadminchangedmessage);
-
-  // optional .RemovedFromGameMessage removedFromGameMessage = 30;
-  inline bool has_removedfromgamemessage() const;
-  inline void clear_removedfromgamemessage();
-  static const int kRemovedFromGameMessageFieldNumber = 30;
-  inline const ::RemovedFromGameMessage& removedfromgamemessage() const;
-  inline ::RemovedFromGameMessage* mutable_removedfromgamemessage();
-  inline ::RemovedFromGameMessage* release_removedfromgamemessage();
-  inline void set_allocated_removedfromgamemessage(::RemovedFromGameMessage* removedfromgamemessage);
-
-  // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;
-  inline bool has_kickplayerrequestmessage() const;
-  inline void clear_kickplayerrequestmessage();
-  static const int kKickPlayerRequestMessageFieldNumber = 31;
-  inline const ::KickPlayerRequestMessage& kickplayerrequestmessage() const;
-  inline ::KickPlayerRequestMessage* mutable_kickplayerrequestmessage();
-  inline ::KickPlayerRequestMessage* release_kickplayerrequestmessage();
-  inline void set_allocated_kickplayerrequestmessage(::KickPlayerRequestMessage* kickplayerrequestmessage);
-
-  // optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;
-  inline bool has_leavegamerequestmessage() const;
-  inline void clear_leavegamerequestmessage();
-  static const int kLeaveGameRequestMessageFieldNumber = 32;
-  inline const ::LeaveGameRequestMessage& leavegamerequestmessage() const;
-  inline ::LeaveGameRequestMessage* mutable_leavegamerequestmessage();
-  inline ::LeaveGameRequestMessage* release_leavegamerequestmessage();
-  inline void set_allocated_leavegamerequestmessage(::LeaveGameRequestMessage* leavegamerequestmessage);
-
-  // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;
-  inline bool has_inviteplayertogamemessage() const;
-  inline void clear_inviteplayertogamemessage();
-  static const int kInvitePlayerToGameMessageFieldNumber = 33;
-  inline const ::InvitePlayerToGameMessage& inviteplayertogamemessage() const;
-  inline ::InvitePlayerToGameMessage* mutable_inviteplayertogamemessage();
-  inline ::InvitePlayerToGameMessage* release_inviteplayertogamemessage();
-  inline void set_allocated_inviteplayertogamemessage(::InvitePlayerToGameMessage* inviteplayertogamemessage);
-
-  // optional .InviteNotifyMessage inviteNotifyMessage = 34;
-  inline bool has_invitenotifymessage() const;
-  inline void clear_invitenotifymessage();
-  static const int kInviteNotifyMessageFieldNumber = 34;
-  inline const ::InviteNotifyMessage& invitenotifymessage() const;
-  inline ::InviteNotifyMessage* mutable_invitenotifymessage();
-  inline ::InviteNotifyMessage* release_invitenotifymessage();
-  inline void set_allocated_invitenotifymessage(::InviteNotifyMessage* invitenotifymessage);
-
-  // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;
-  inline bool has_rejectgameinvitationmessage() const;
-  inline void clear_rejectgameinvitationmessage();
-  static const int kRejectGameInvitationMessageFieldNumber = 35;
-  inline const ::RejectGameInvitationMessage& rejectgameinvitationmessage() const;
-  inline ::RejectGameInvitationMessage* mutable_rejectgameinvitationmessage();
-  inline ::RejectGameInvitationMessage* release_rejectgameinvitationmessage();
-  inline void set_allocated_rejectgameinvitationmessage(::RejectGameInvitationMessage* rejectgameinvitationmessage);
-
-  // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;
-  inline bool has_rejectinvnotifymessage() const;
-  inline void clear_rejectinvnotifymessage();
-  static const int kRejectInvNotifyMessageFieldNumber = 36;
-  inline const ::RejectInvNotifyMessage& rejectinvnotifymessage() const;
-  inline ::RejectInvNotifyMessage* mutable_rejectinvnotifymessage();
-  inline ::RejectInvNotifyMessage* release_rejectinvnotifymessage();
-  inline void set_allocated_rejectinvnotifymessage(::RejectInvNotifyMessage* rejectinvnotifymessage);
-
-  // optional .StartEventMessage startEventMessage = 37;
-  inline bool has_starteventmessage() const;
-  inline void clear_starteventmessage();
-  static const int kStartEventMessageFieldNumber = 37;
-  inline const ::StartEventMessage& starteventmessage() const;
-  inline ::StartEventMessage* mutable_starteventmessage();
-  inline ::StartEventMessage* release_starteventmessage();
-  inline void set_allocated_starteventmessage(::StartEventMessage* starteventmessage);
-
-  // optional .StartEventAckMessage startEventAckMessage = 38;
-  inline bool has_starteventackmessage() const;
-  inline void clear_starteventackmessage();
-  static const int kStartEventAckMessageFieldNumber = 38;
-  inline const ::StartEventAckMessage& starteventackmessage() const;
-  inline ::StartEventAckMessage* mutable_starteventackmessage();
-  inline ::StartEventAckMessage* release_starteventackmessage();
-  inline void set_allocated_starteventackmessage(::StartEventAckMessage* starteventackmessage);
-
-  // optional .GameStartInitialMessage gameStartInitialMessage = 39;
-  inline bool has_gamestartinitialmessage() const;
-  inline void clear_gamestartinitialmessage();
-  static const int kGameStartInitialMessageFieldNumber = 39;
-  inline const ::GameStartInitialMessage& gamestartinitialmessage() const;
-  inline ::GameStartInitialMessage* mutable_gamestartinitialmessage();
-  inline ::GameStartInitialMessage* release_gamestartinitialmessage();
-  inline void set_allocated_gamestartinitialmessage(::GameStartInitialMessage* gamestartinitialmessage);
-
-  // optional .GameStartRejoinMessage gameStartRejoinMessage = 40;
-  inline bool has_gamestartrejoinmessage() const;
-  inline void clear_gamestartrejoinmessage();
-  static const int kGameStartRejoinMessageFieldNumber = 40;
-  inline const ::GameStartRejoinMessage& gamestartrejoinmessage() const;
-  inline ::GameStartRejoinMessage* mutable_gamestartrejoinmessage();
-  inline ::GameStartRejoinMessage* release_gamestartrejoinmessage();
-  inline void set_allocated_gamestartrejoinmessage(::GameStartRejoinMessage* gamestartrejoinmessage);
-
-  // optional .HandStartMessage handStartMessage = 41;
-  inline bool has_handstartmessage() const;
-  inline void clear_handstartmessage();
-  static const int kHandStartMessageFieldNumber = 41;
-  inline const ::HandStartMessage& handstartmessage() const;
-  inline ::HandStartMessage* mutable_handstartmessage();
-  inline ::HandStartMessage* release_handstartmessage();
-  inline void set_allocated_handstartmessage(::HandStartMessage* handstartmessage);
-
-  // optional .PlayersTurnMessage playersTurnMessage = 42;
-  inline bool has_playersturnmessage() const;
-  inline void clear_playersturnmessage();
-  static const int kPlayersTurnMessageFieldNumber = 42;
-  inline const ::PlayersTurnMessage& playersturnmessage() const;
-  inline ::PlayersTurnMessage* mutable_playersturnmessage();
-  inline ::PlayersTurnMessage* release_playersturnmessage();
-  inline void set_allocated_playersturnmessage(::PlayersTurnMessage* playersturnmessage);
-
-  // optional .MyActionRequestMessage myActionRequestMessage = 43;
-  inline bool has_myactionrequestmessage() const;
-  inline void clear_myactionrequestmessage();
-  static const int kMyActionRequestMessageFieldNumber = 43;
-  inline const ::MyActionRequestMessage& myactionrequestmessage() const;
-  inline ::MyActionRequestMessage* mutable_myactionrequestmessage();
-  inline ::MyActionRequestMessage* release_myactionrequestmessage();
-  inline void set_allocated_myactionrequestmessage(::MyActionRequestMessage* myactionrequestmessage);
-
-  // optional .YourActionRejectedMessage yourActionRejectedMessage = 44;
-  inline bool has_youractionrejectedmessage() const;
-  inline void clear_youractionrejectedmessage();
-  static const int kYourActionRejectedMessageFieldNumber = 44;
-  inline const ::YourActionRejectedMessage& youractionrejectedmessage() const;
-  inline ::YourActionRejectedMessage* mutable_youractionrejectedmessage();
-  inline ::YourActionRejectedMessage* release_youractionrejectedmessage();
-  inline void set_allocated_youractionrejectedmessage(::YourActionRejectedMessage* youractionrejectedmessage);
-
-  // optional .PlayersActionDoneMessage playersActionDoneMessage = 45;
-  inline bool has_playersactiondonemessage() const;
-  inline void clear_playersactiondonemessage();
-  static const int kPlayersActionDoneMessageFieldNumber = 45;
-  inline const ::PlayersActionDoneMessage& playersactiondonemessage() const;
-  inline ::PlayersActionDoneMessage* mutable_playersactiondonemessage();
-  inline ::PlayersActionDoneMessage* release_playersactiondonemessage();
-  inline void set_allocated_playersactiondonemessage(::PlayersActionDoneMessage* playersactiondonemessage);
-
-  // optional .DealFlopCardsMessage dealFlopCardsMessage = 46;
-  inline bool has_dealflopcardsmessage() const;
-  inline void clear_dealflopcardsmessage();
-  static const int kDealFlopCardsMessageFieldNumber = 46;
-  inline const ::DealFlopCardsMessage& dealflopcardsmessage() const;
-  inline ::DealFlopCardsMessage* mutable_dealflopcardsmessage();
-  inline ::DealFlopCardsMessage* release_dealflopcardsmessage();
-  inline void set_allocated_dealflopcardsmessage(::DealFlopCardsMessage* dealflopcardsmessage);
-
-  // optional .DealTurnCardMessage dealTurnCardMessage = 47;
-  inline bool has_dealturncardmessage() const;
-  inline void clear_dealturncardmessage();
-  static const int kDealTurnCardMessageFieldNumber = 47;
-  inline const ::DealTurnCardMessage& dealturncardmessage() const;
-  inline ::DealTurnCardMessage* mutable_dealturncardmessage();
-  inline ::DealTurnCardMessage* release_dealturncardmessage();
-  inline void set_allocated_dealturncardmessage(::DealTurnCardMessage* dealturncardmessage);
-
-  // optional .DealRiverCardMessage dealRiverCardMessage = 48;
-  inline bool has_dealrivercardmessage() const;
-  inline void clear_dealrivercardmessage();
-  static const int kDealRiverCardMessageFieldNumber = 48;
-  inline const ::DealRiverCardMessage& dealrivercardmessage() const;
-  inline ::DealRiverCardMessage* mutable_dealrivercardmessage();
-  inline ::DealRiverCardMessage* release_dealrivercardmessage();
-  inline void set_allocated_dealrivercardmessage(::DealRiverCardMessage* dealrivercardmessage);
-
-  // optional .AllInShowCardsMessage allInShowCardsMessage = 49;
-  inline bool has_allinshowcardsmessage() const;
-  inline void clear_allinshowcardsmessage();
-  static const int kAllInShowCardsMessageFieldNumber = 49;
-  inline const ::AllInShowCardsMessage& allinshowcardsmessage() const;
-  inline ::AllInShowCardsMessage* mutable_allinshowcardsmessage();
-  inline ::AllInShowCardsMessage* release_allinshowcardsmessage();
-  inline void set_allocated_allinshowcardsmessage(::AllInShowCardsMessage* allinshowcardsmessage);
-
-  // optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;
-  inline bool has_endofhandshowcardsmessage() const;
-  inline void clear_endofhandshowcardsmessage();
-  static const int kEndOfHandShowCardsMessageFieldNumber = 50;
-  inline const ::EndOfHandShowCardsMessage& endofhandshowcardsmessage() const;
-  inline ::EndOfHandShowCardsMessage* mutable_endofhandshowcardsmessage();
-  inline ::EndOfHandShowCardsMessage* release_endofhandshowcardsmessage();
-  inline void set_allocated_endofhandshowcardsmessage(::EndOfHandShowCardsMessage* endofhandshowcardsmessage);
-
-  // optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;
-  inline bool has_endofhandhidecardsmessage() const;
-  inline void clear_endofhandhidecardsmessage();
-  static const int kEndOfHandHideCardsMessageFieldNumber = 51;
-  inline const ::EndOfHandHideCardsMessage& endofhandhidecardsmessage() const;
-  inline ::EndOfHandHideCardsMessage* mutable_endofhandhidecardsmessage();
-  inline ::EndOfHandHideCardsMessage* release_endofhandhidecardsmessage();
-  inline void set_allocated_endofhandhidecardsmessage(::EndOfHandHideCardsMessage* endofhandhidecardsmessage);
-
-  // optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;
-  inline bool has_showmycardsrequestmessage() const;
-  inline void clear_showmycardsrequestmessage();
-  static const int kShowMyCardsRequestMessageFieldNumber = 52;
-  inline const ::ShowMyCardsRequestMessage& showmycardsrequestmessage() const;
-  inline ::ShowMyCardsRequestMessage* mutable_showmycardsrequestmessage();
-  inline ::ShowMyCardsRequestMessage* release_showmycardsrequestmessage();
-  inline void set_allocated_showmycardsrequestmessage(::ShowMyCardsRequestMessage* showmycardsrequestmessage);
-
-  // optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;
-  inline bool has_afterhandshowcardsmessage() const;
-  inline void clear_afterhandshowcardsmessage();
-  static const int kAfterHandShowCardsMessageFieldNumber = 53;
-  inline const ::AfterHandShowCardsMessage& afterhandshowcardsmessage() const;
-  inline ::AfterHandShowCardsMessage* mutable_afterhandshowcardsmessage();
-  inline ::AfterHandShowCardsMessage* release_afterhandshowcardsmessage();
-  inline void set_allocated_afterhandshowcardsmessage(::AfterHandShowCardsMessage* afterhandshowcardsmessage);
-
-  // optional .EndOfGameMessage endOfGameMessage = 54;
-  inline bool has_endofgamemessage() const;
-  inline void clear_endofgamemessage();
-  static const int kEndOfGameMessageFieldNumber = 54;
-  inline const ::EndOfGameMessage& endofgamemessage() const;
-  inline ::EndOfGameMessage* mutable_endofgamemessage();
-  inline ::EndOfGameMessage* release_endofgamemessage();
-  inline void set_allocated_endofgamemessage(::EndOfGameMessage* endofgamemessage);
-
-  // optional .PlayerIdChangedMessage playerIdChangedMessage = 55;
-  inline bool has_playeridchangedmessage() const;
-  inline void clear_playeridchangedmessage();
-  static const int kPlayerIdChangedMessageFieldNumber = 55;
-  inline const ::PlayerIdChangedMessage& playeridchangedmessage() const;
-  inline ::PlayerIdChangedMessage* mutable_playeridchangedmessage();
-  inline ::PlayerIdChangedMessage* release_playeridchangedmessage();
-  inline void set_allocated_playeridchangedmessage(::PlayerIdChangedMessage* playeridchangedmessage);
-
-  // optional .AskKickPlayerMessage askKickPlayerMessage = 56;
-  inline bool has_askkickplayermessage() const;
-  inline void clear_askkickplayermessage();
-  static const int kAskKickPlayerMessageFieldNumber = 56;
-  inline const ::AskKickPlayerMessage& askkickplayermessage() const;
-  inline ::AskKickPlayerMessage* mutable_askkickplayermessage();
-  inline ::AskKickPlayerMessage* release_askkickplayermessage();
-  inline void set_allocated_askkickplayermessage(::AskKickPlayerMessage* askkickplayermessage);
-
-  // optional .AskKickDeniedMessage askKickDeniedMessage = 57;
-  inline bool has_askkickdeniedmessage() const;
-  inline void clear_askkickdeniedmessage();
-  static const int kAskKickDeniedMessageFieldNumber = 57;
-  inline const ::AskKickDeniedMessage& askkickdeniedmessage() const;
-  inline ::AskKickDeniedMessage* mutable_askkickdeniedmessage();
-  inline ::AskKickDeniedMessage* release_askkickdeniedmessage();
-  inline void set_allocated_askkickdeniedmessage(::AskKickDeniedMessage* askkickdeniedmessage);
-
-  // optional .StartKickPetitionMessage startKickPetitionMessage = 58;
-  inline bool has_startkickpetitionmessage() const;
-  inline void clear_startkickpetitionmessage();
-  static const int kStartKickPetitionMessageFieldNumber = 58;
-  inline const ::StartKickPetitionMessage& startkickpetitionmessage() const;
-  inline ::StartKickPetitionMessage* mutable_startkickpetitionmessage();
-  inline ::StartKickPetitionMessage* release_startkickpetitionmessage();
-  inline void set_allocated_startkickpetitionmessage(::StartKickPetitionMessage* startkickpetitionmessage);
-
-  // optional .VoteKickRequestMessage voteKickRequestMessage = 59;
-  inline bool has_votekickrequestmessage() const;
-  inline void clear_votekickrequestmessage();
-  static const int kVoteKickRequestMessageFieldNumber = 59;
-  inline const ::VoteKickRequestMessage& votekickrequestmessage() const;
-  inline ::VoteKickRequestMessage* mutable_votekickrequestmessage();
-  inline ::VoteKickRequestMessage* release_votekickrequestmessage();
-  inline void set_allocated_votekickrequestmessage(::VoteKickRequestMessage* votekickrequestmessage);
-
-  // optional .VoteKickReplyMessage voteKickReplyMessage = 60;
-  inline bool has_votekickreplymessage() const;
-  inline void clear_votekickreplymessage();
-  static const int kVoteKickReplyMessageFieldNumber = 60;
-  inline const ::VoteKickReplyMessage& votekickreplymessage() const;
-  inline ::VoteKickReplyMessage* mutable_votekickreplymessage();
-  inline ::VoteKickReplyMessage* release_votekickreplymessage();
-  inline void set_allocated_votekickreplymessage(::VoteKickReplyMessage* votekickreplymessage);
-
-  // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;
-  inline bool has_kickpetitionupdatemessage() const;
-  inline void clear_kickpetitionupdatemessage();
-  static const int kKickPetitionUpdateMessageFieldNumber = 61;
-  inline const ::KickPetitionUpdateMessage& kickpetitionupdatemessage() const;
-  inline ::KickPetitionUpdateMessage* mutable_kickpetitionupdatemessage();
-  inline ::KickPetitionUpdateMessage* release_kickpetitionupdatemessage();
-  inline void set_allocated_kickpetitionupdatemessage(::KickPetitionUpdateMessage* kickpetitionupdatemessage);
-
-  // optional .EndKickPetitionMessage endKickPetitionMessage = 62;
-  inline bool has_endkickpetitionmessage() const;
-  inline void clear_endkickpetitionmessage();
-  static const int kEndKickPetitionMessageFieldNumber = 62;
-  inline const ::EndKickPetitionMessage& endkickpetitionmessage() const;
-  inline ::EndKickPetitionMessage* mutable_endkickpetitionmessage();
-  inline ::EndKickPetitionMessage* release_endkickpetitionmessage();
-  inline void set_allocated_endkickpetitionmessage(::EndKickPetitionMessage* endkickpetitionmessage);
-
-  // optional .StatisticsMessage statisticsMessage = 63;
-  inline bool has_statisticsmessage() const;
-  inline void clear_statisticsmessage();
-  static const int kStatisticsMessageFieldNumber = 63;
-  inline const ::StatisticsMessage& statisticsmessage() const;
-  inline ::StatisticsMessage* mutable_statisticsmessage();
-  inline ::StatisticsMessage* release_statisticsmessage();
-  inline void set_allocated_statisticsmessage(::StatisticsMessage* statisticsmessage);
-
-  // optional .ChatRequestMessage chatRequestMessage = 64;
-  inline bool has_chatrequestmessage() const;
-  inline void clear_chatrequestmessage();
-  static const int kChatRequestMessageFieldNumber = 64;
-  inline const ::ChatRequestMessage& chatrequestmessage() const;
-  inline ::ChatRequestMessage* mutable_chatrequestmessage();
-  inline ::ChatRequestMessage* release_chatrequestmessage();
-  inline void set_allocated_chatrequestmessage(::ChatRequestMessage* chatrequestmessage);
-
-  // optional .ChatMessage chatMessage = 65;
-  inline bool has_chatmessage() const;
-  inline void clear_chatmessage();
-  static const int kChatMessageFieldNumber = 65;
-  inline const ::ChatMessage& chatmessage() const;
-  inline ::ChatMessage* mutable_chatmessage();
-  inline ::ChatMessage* release_chatmessage();
-  inline void set_allocated_chatmessage(::ChatMessage* chatmessage);
-
-  // optional .ChatRejectMessage chatRejectMessage = 66;
-  inline bool has_chatrejectmessage() const;
-  inline void clear_chatrejectmessage();
-  static const int kChatRejectMessageFieldNumber = 66;
-  inline const ::ChatRejectMessage& chatrejectmessage() const;
-  inline ::ChatRejectMessage* mutable_chatrejectmessage();
-  inline ::ChatRejectMessage* release_chatrejectmessage();
-  inline void set_allocated_chatrejectmessage(::ChatRejectMessage* chatrejectmessage);
-
-  // optional .DialogMessage dialogMessage = 67;
-  inline bool has_dialogmessage() const;
-  inline void clear_dialogmessage();
-  static const int kDialogMessageFieldNumber = 67;
-  inline const ::DialogMessage& dialogmessage() const;
-  inline ::DialogMessage* mutable_dialogmessage();
-  inline ::DialogMessage* release_dialogmessage();
-  inline void set_allocated_dialogmessage(::DialogMessage* dialogmessage);
-
-  // optional .TimeoutWarningMessage timeoutWarningMessage = 68;
-  inline bool has_timeoutwarningmessage() const;
-  inline void clear_timeoutwarningmessage();
-  static const int kTimeoutWarningMessageFieldNumber = 68;
-  inline const ::TimeoutWarningMessage& timeoutwarningmessage() const;
-  inline ::TimeoutWarningMessage* mutable_timeoutwarningmessage();
-  inline ::TimeoutWarningMessage* release_timeoutwarningmessage();
-  inline void set_allocated_timeoutwarningmessage(::TimeoutWarningMessage* timeoutwarningmessage);
-
-  // optional .ResetTimeoutMessage resetTimeoutMessage = 69;
-  inline bool has_resettimeoutmessage() const;
-  inline void clear_resettimeoutmessage();
-  static const int kResetTimeoutMessageFieldNumber = 69;
-  inline const ::ResetTimeoutMessage& resettimeoutmessage() const;
-  inline ::ResetTimeoutMessage* mutable_resettimeoutmessage();
-  inline ::ResetTimeoutMessage* release_resettimeoutmessage();
-  inline void set_allocated_resettimeoutmessage(::ResetTimeoutMessage* resettimeoutmessage);
-
-  // optional .ReportAvatarMessage reportAvatarMessage = 70;
-  inline bool has_reportavatarmessage() const;
-  inline void clear_reportavatarmessage();
-  static const int kReportAvatarMessageFieldNumber = 70;
-  inline const ::ReportAvatarMessage& reportavatarmessage() const;
-  inline ::ReportAvatarMessage* mutable_reportavatarmessage();
-  inline ::ReportAvatarMessage* release_reportavatarmessage();
-  inline void set_allocated_reportavatarmessage(::ReportAvatarMessage* reportavatarmessage);
-
-  // optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;
-  inline bool has_reportavatarackmessage() const;
-  inline void clear_reportavatarackmessage();
-  static const int kReportAvatarAckMessageFieldNumber = 71;
-  inline const ::ReportAvatarAckMessage& reportavatarackmessage() const;
-  inline ::ReportAvatarAckMessage* mutable_reportavatarackmessage();
-  inline ::ReportAvatarAckMessage* release_reportavatarackmessage();
-  inline void set_allocated_reportavatarackmessage(::ReportAvatarAckMessage* reportavatarackmessage);
-
-  // optional .ReportGameMessage reportGameMessage = 72;
-  inline bool has_reportgamemessage() const;
-  inline void clear_reportgamemessage();
-  static const int kReportGameMessageFieldNumber = 72;
-  inline const ::ReportGameMessage& reportgamemessage() const;
-  inline ::ReportGameMessage* mutable_reportgamemessage();
-  inline ::ReportGameMessage* release_reportgamemessage();
-  inline void set_allocated_reportgamemessage(::ReportGameMessage* reportgamemessage);
-
-  // optional .ReportGameAckMessage reportGameAckMessage = 73;
-  inline bool has_reportgameackmessage() const;
-  inline void clear_reportgameackmessage();
-  static const int kReportGameAckMessageFieldNumber = 73;
-  inline const ::ReportGameAckMessage& reportgameackmessage() const;
-  inline ::ReportGameAckMessage* mutable_reportgameackmessage();
-  inline ::ReportGameAckMessage* release_reportgameackmessage();
-  inline void set_allocated_reportgameackmessage(::ReportGameAckMessage* reportgameackmessage);
-
-  // optional .ErrorMessage errorMessage = 74;
-  inline bool has_errormessage() const;
-  inline void clear_errormessage();
-  static const int kErrorMessageFieldNumber = 74;
-  inline const ::ErrorMessage& errormessage() const;
-  inline ::ErrorMessage* mutable_errormessage();
-  inline ::ErrorMessage* release_errormessage();
-  inline void set_allocated_errormessage(::ErrorMessage* errormessage);
-
-  // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
-  inline bool has_adminremovegamemessage() const;
-  inline void clear_adminremovegamemessage();
-  static const int kAdminRemoveGameMessageFieldNumber = 75;
-  inline const ::AdminRemoveGameMessage& adminremovegamemessage() const;
-  inline ::AdminRemoveGameMessage* mutable_adminremovegamemessage();
-  inline ::AdminRemoveGameMessage* release_adminremovegamemessage();
-  inline void set_allocated_adminremovegamemessage(::AdminRemoveGameMessage* adminremovegamemessage);
-
-  // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
-  inline bool has_adminremovegameackmessage() const;
-  inline void clear_adminremovegameackmessage();
-  static const int kAdminRemoveGameAckMessageFieldNumber = 76;
-  inline const ::AdminRemoveGameAckMessage& adminremovegameackmessage() const;
-  inline ::AdminRemoveGameAckMessage* mutable_adminremovegameackmessage();
-  inline ::AdminRemoveGameAckMessage* release_adminremovegameackmessage();
-  inline void set_allocated_adminremovegameackmessage(::AdminRemoveGameAckMessage* adminremovegameackmessage);
-
-  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
-  inline bool has_adminbanplayermessage() const;
-  inline void clear_adminbanplayermessage();
-  static const int kAdminBanPlayerMessageFieldNumber = 77;
-  inline const ::AdminBanPlayerMessage& adminbanplayermessage() const;
-  inline ::AdminBanPlayerMessage* mutable_adminbanplayermessage();
-  inline ::AdminBanPlayerMessage* release_adminbanplayermessage();
-  inline void set_allocated_adminbanplayermessage(::AdminBanPlayerMessage* adminbanplayermessage);
-
-  // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
-  inline bool has_adminbanplayerackmessage() const;
-  inline void clear_adminbanplayerackmessage();
-  static const int kAdminBanPlayerAckMessageFieldNumber = 78;
-  inline const ::AdminBanPlayerAckMessage& adminbanplayerackmessage() const;
-  inline ::AdminBanPlayerAckMessage* mutable_adminbanplayerackmessage();
-  inline ::AdminBanPlayerAckMessage* release_adminbanplayerackmessage();
-  inline void set_allocated_adminbanplayerackmessage(::AdminBanPlayerAckMessage* adminbanplayerackmessage);
-
-  // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
-  inline bool has_gamelistspectatorjoinedmessage() const;
-  inline void clear_gamelistspectatorjoinedmessage();
-  static const int kGameListSpectatorJoinedMessageFieldNumber = 79;
-  inline const ::GameListSpectatorJoinedMessage& gamelistspectatorjoinedmessage() const;
-  inline ::GameListSpectatorJoinedMessage* mutable_gamelistspectatorjoinedmessage();
-  inline ::GameListSpectatorJoinedMessage* release_gamelistspectatorjoinedmessage();
-  inline void set_allocated_gamelistspectatorjoinedmessage(::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage);
-
-  // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
-  inline bool has_gamelistspectatorleftmessage() const;
-  inline void clear_gamelistspectatorleftmessage();
-  static const int kGameListSpectatorLeftMessageFieldNumber = 80;
-  inline const ::GameListSpectatorLeftMessage& gamelistspectatorleftmessage() const;
-  inline ::GameListSpectatorLeftMessage* mutable_gamelistspectatorleftmessage();
-  inline ::GameListSpectatorLeftMessage* release_gamelistspectatorleftmessage();
-  inline void set_allocated_gamelistspectatorleftmessage(::GameListSpectatorLeftMessage* gamelistspectatorleftmessage);
-
-  // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
-  inline bool has_gamespectatorjoinedmessage() const;
-  inline void clear_gamespectatorjoinedmessage();
-  static const int kGameSpectatorJoinedMessageFieldNumber = 81;
-  inline const ::GameSpectatorJoinedMessage& gamespectatorjoinedmessage() const;
-  inline ::GameSpectatorJoinedMessage* mutable_gamespectatorjoinedmessage();
-  inline ::GameSpectatorJoinedMessage* release_gamespectatorjoinedmessage();
-  inline void set_allocated_gamespectatorjoinedmessage(::GameSpectatorJoinedMessage* gamespectatorjoinedmessage);
-
-  // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
-  inline bool has_gamespectatorleftmessage() const;
-  inline void clear_gamespectatorleftmessage();
-  static const int kGameSpectatorLeftMessageFieldNumber = 82;
-  inline const ::GameSpectatorLeftMessage& gamespectatorleftmessage() const;
-  inline ::GameSpectatorLeftMessage* mutable_gamespectatorleftmessage();
-  inline ::GameSpectatorLeftMessage* release_gamespectatorleftmessage();
-  inline void set_allocated_gamespectatorleftmessage(::GameSpectatorLeftMessage* gamespectatorleftmessage);
+  // optional .AuthMessage authMessage = 3;
+  inline bool has_authmessage() const;
+  inline void clear_authmessage();
+  static const int kAuthMessageFieldNumber = 3;
+  inline const ::AuthMessage& authmessage() const;
+  inline ::AuthMessage* mutable_authmessage();
+  inline ::AuthMessage* release_authmessage();
+  inline void set_allocated_authmessage(::AuthMessage* authmessage);
+
+  // optional .LobbyMessage lobbyMessage = 4;
+  inline bool has_lobbymessage() const;
+  inline void clear_lobbymessage();
+  static const int kLobbyMessageFieldNumber = 4;
+  inline const ::LobbyMessage& lobbymessage() const;
+  inline ::LobbyMessage* mutable_lobbymessage();
+  inline ::LobbyMessage* release_lobbymessage();
+  inline void set_allocated_lobbymessage(::LobbyMessage* lobbymessage);
+
+  // optional .GameMessage gameMessage = 5;
+  inline bool has_gamemessage() const;
+  inline void clear_gamemessage();
+  static const int kGameMessageFieldNumber = 5;
+  inline const ::GameMessage& gamemessage() const;
+  inline ::GameMessage* mutable_gamemessage();
+  inline ::GameMessage* release_gamemessage();
+  inline void set_allocated_gamemessage(::GameMessage* gamemessage);
 
   // @@protoc_insertion_point(class_scope:PokerTHMessage)
  private:
@@ -11053,252 +11914,21 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_messagetype();
   inline void set_has_announcemessage();
   inline void clear_has_announcemessage();
-  inline void set_has_initmessage();
-  inline void clear_has_initmessage();
-  inline void set_has_authserverchallengemessage();
-  inline void clear_has_authserverchallengemessage();
-  inline void set_has_authclientresponsemessage();
-  inline void clear_has_authclientresponsemessage();
-  inline void set_has_authserververificationmessage();
-  inline void clear_has_authserververificationmessage();
-  inline void set_has_initackmessage();
-  inline void clear_has_initackmessage();
-  inline void set_has_avatarrequestmessage();
-  inline void clear_has_avatarrequestmessage();
-  inline void set_has_avatarheadermessage();
-  inline void clear_has_avatarheadermessage();
-  inline void set_has_avatardatamessage();
-  inline void clear_has_avatardatamessage();
-  inline void set_has_avatarendmessage();
-  inline void clear_has_avatarendmessage();
-  inline void set_has_unknownavatarmessage();
-  inline void clear_has_unknownavatarmessage();
-  inline void set_has_playerlistmessage();
-  inline void clear_has_playerlistmessage();
-  inline void set_has_gamelistnewmessage();
-  inline void clear_has_gamelistnewmessage();
-  inline void set_has_gamelistupdatemessage();
-  inline void clear_has_gamelistupdatemessage();
-  inline void set_has_gamelistplayerjoinedmessage();
-  inline void clear_has_gamelistplayerjoinedmessage();
-  inline void set_has_gamelistplayerleftmessage();
-  inline void clear_has_gamelistplayerleftmessage();
-  inline void set_has_gamelistadminchangedmessage();
-  inline void clear_has_gamelistadminchangedmessage();
-  inline void set_has_playerinforequestmessage();
-  inline void clear_has_playerinforequestmessage();
-  inline void set_has_playerinforeplymessage();
-  inline void clear_has_playerinforeplymessage();
-  inline void set_has_subscriptionrequestmessage();
-  inline void clear_has_subscriptionrequestmessage();
-  inline void set_has_joinexistinggamemessage();
-  inline void clear_has_joinexistinggamemessage();
-  inline void set_has_joinnewgamemessage();
-  inline void clear_has_joinnewgamemessage();
-  inline void set_has_rejoinexistinggamemessage();
-  inline void clear_has_rejoinexistinggamemessage();
-  inline void set_has_joingameackmessage();
-  inline void clear_has_joingameackmessage();
-  inline void set_has_joingamefailedmessage();
-  inline void clear_has_joingamefailedmessage();
-  inline void set_has_gameplayerjoinedmessage();
-  inline void clear_has_gameplayerjoinedmessage();
-  inline void set_has_gameplayerleftmessage();
-  inline void clear_has_gameplayerleftmessage();
-  inline void set_has_gameadminchangedmessage();
-  inline void clear_has_gameadminchangedmessage();
-  inline void set_has_removedfromgamemessage();
-  inline void clear_has_removedfromgamemessage();
-  inline void set_has_kickplayerrequestmessage();
-  inline void clear_has_kickplayerrequestmessage();
-  inline void set_has_leavegamerequestmessage();
-  inline void clear_has_leavegamerequestmessage();
-  inline void set_has_inviteplayertogamemessage();
-  inline void clear_has_inviteplayertogamemessage();
-  inline void set_has_invitenotifymessage();
-  inline void clear_has_invitenotifymessage();
-  inline void set_has_rejectgameinvitationmessage();
-  inline void clear_has_rejectgameinvitationmessage();
-  inline void set_has_rejectinvnotifymessage();
-  inline void clear_has_rejectinvnotifymessage();
-  inline void set_has_starteventmessage();
-  inline void clear_has_starteventmessage();
-  inline void set_has_starteventackmessage();
-  inline void clear_has_starteventackmessage();
-  inline void set_has_gamestartinitialmessage();
-  inline void clear_has_gamestartinitialmessage();
-  inline void set_has_gamestartrejoinmessage();
-  inline void clear_has_gamestartrejoinmessage();
-  inline void set_has_handstartmessage();
-  inline void clear_has_handstartmessage();
-  inline void set_has_playersturnmessage();
-  inline void clear_has_playersturnmessage();
-  inline void set_has_myactionrequestmessage();
-  inline void clear_has_myactionrequestmessage();
-  inline void set_has_youractionrejectedmessage();
-  inline void clear_has_youractionrejectedmessage();
-  inline void set_has_playersactiondonemessage();
-  inline void clear_has_playersactiondonemessage();
-  inline void set_has_dealflopcardsmessage();
-  inline void clear_has_dealflopcardsmessage();
-  inline void set_has_dealturncardmessage();
-  inline void clear_has_dealturncardmessage();
-  inline void set_has_dealrivercardmessage();
-  inline void clear_has_dealrivercardmessage();
-  inline void set_has_allinshowcardsmessage();
-  inline void clear_has_allinshowcardsmessage();
-  inline void set_has_endofhandshowcardsmessage();
-  inline void clear_has_endofhandshowcardsmessage();
-  inline void set_has_endofhandhidecardsmessage();
-  inline void clear_has_endofhandhidecardsmessage();
-  inline void set_has_showmycardsrequestmessage();
-  inline void clear_has_showmycardsrequestmessage();
-  inline void set_has_afterhandshowcardsmessage();
-  inline void clear_has_afterhandshowcardsmessage();
-  inline void set_has_endofgamemessage();
-  inline void clear_has_endofgamemessage();
-  inline void set_has_playeridchangedmessage();
-  inline void clear_has_playeridchangedmessage();
-  inline void set_has_askkickplayermessage();
-  inline void clear_has_askkickplayermessage();
-  inline void set_has_askkickdeniedmessage();
-  inline void clear_has_askkickdeniedmessage();
-  inline void set_has_startkickpetitionmessage();
-  inline void clear_has_startkickpetitionmessage();
-  inline void set_has_votekickrequestmessage();
-  inline void clear_has_votekickrequestmessage();
-  inline void set_has_votekickreplymessage();
-  inline void clear_has_votekickreplymessage();
-  inline void set_has_kickpetitionupdatemessage();
-  inline void clear_has_kickpetitionupdatemessage();
-  inline void set_has_endkickpetitionmessage();
-  inline void clear_has_endkickpetitionmessage();
-  inline void set_has_statisticsmessage();
-  inline void clear_has_statisticsmessage();
-  inline void set_has_chatrequestmessage();
-  inline void clear_has_chatrequestmessage();
-  inline void set_has_chatmessage();
-  inline void clear_has_chatmessage();
-  inline void set_has_chatrejectmessage();
-  inline void clear_has_chatrejectmessage();
-  inline void set_has_dialogmessage();
-  inline void clear_has_dialogmessage();
-  inline void set_has_timeoutwarningmessage();
-  inline void clear_has_timeoutwarningmessage();
-  inline void set_has_resettimeoutmessage();
-  inline void clear_has_resettimeoutmessage();
-  inline void set_has_reportavatarmessage();
-  inline void clear_has_reportavatarmessage();
-  inline void set_has_reportavatarackmessage();
-  inline void clear_has_reportavatarackmessage();
-  inline void set_has_reportgamemessage();
-  inline void clear_has_reportgamemessage();
-  inline void set_has_reportgameackmessage();
-  inline void clear_has_reportgameackmessage();
-  inline void set_has_errormessage();
-  inline void clear_has_errormessage();
-  inline void set_has_adminremovegamemessage();
-  inline void clear_has_adminremovegamemessage();
-  inline void set_has_adminremovegameackmessage();
-  inline void clear_has_adminremovegameackmessage();
-  inline void set_has_adminbanplayermessage();
-  inline void clear_has_adminbanplayermessage();
-  inline void set_has_adminbanplayerackmessage();
-  inline void clear_has_adminbanplayerackmessage();
-  inline void set_has_gamelistspectatorjoinedmessage();
-  inline void clear_has_gamelistspectatorjoinedmessage();
-  inline void set_has_gamelistspectatorleftmessage();
-  inline void clear_has_gamelistspectatorleftmessage();
-  inline void set_has_gamespectatorjoinedmessage();
-  inline void clear_has_gamespectatorjoinedmessage();
-  inline void set_has_gamespectatorleftmessage();
-  inline void clear_has_gamespectatorleftmessage();
+  inline void set_has_authmessage();
+  inline void clear_has_authmessage();
+  inline void set_has_lobbymessage();
+  inline void clear_has_lobbymessage();
+  inline void set_has_gamemessage();
+  inline void clear_has_gamemessage();
 
   ::AnnounceMessage* announcemessage_;
-  ::InitMessage* initmessage_;
-  ::AuthServerChallengeMessage* authserverchallengemessage_;
-  ::AuthClientResponseMessage* authclientresponsemessage_;
-  ::AuthServerVerificationMessage* authserververificationmessage_;
-  ::InitAckMessage* initackmessage_;
-  ::AvatarRequestMessage* avatarrequestmessage_;
-  ::AvatarHeaderMessage* avatarheadermessage_;
-  ::AvatarDataMessage* avatardatamessage_;
-  ::AvatarEndMessage* avatarendmessage_;
-  ::UnknownAvatarMessage* unknownavatarmessage_;
-  ::PlayerListMessage* playerlistmessage_;
-  ::GameListNewMessage* gamelistnewmessage_;
-  ::GameListUpdateMessage* gamelistupdatemessage_;
-  ::GameListPlayerJoinedMessage* gamelistplayerjoinedmessage_;
-  ::GameListPlayerLeftMessage* gamelistplayerleftmessage_;
-  ::GameListAdminChangedMessage* gamelistadminchangedmessage_;
-  ::PlayerInfoRequestMessage* playerinforequestmessage_;
-  ::PlayerInfoReplyMessage* playerinforeplymessage_;
-  ::SubscriptionRequestMessage* subscriptionrequestmessage_;
-  ::JoinExistingGameMessage* joinexistinggamemessage_;
-  ::JoinNewGameMessage* joinnewgamemessage_;
-  ::RejoinExistingGameMessage* rejoinexistinggamemessage_;
-  ::JoinGameAckMessage* joingameackmessage_;
-  ::JoinGameFailedMessage* joingamefailedmessage_;
-  ::GamePlayerJoinedMessage* gameplayerjoinedmessage_;
-  ::GamePlayerLeftMessage* gameplayerleftmessage_;
-  ::GameAdminChangedMessage* gameadminchangedmessage_;
-  ::RemovedFromGameMessage* removedfromgamemessage_;
-  ::KickPlayerRequestMessage* kickplayerrequestmessage_;
-  ::LeaveGameRequestMessage* leavegamerequestmessage_;
-  ::InvitePlayerToGameMessage* inviteplayertogamemessage_;
-  ::InviteNotifyMessage* invitenotifymessage_;
-  ::RejectGameInvitationMessage* rejectgameinvitationmessage_;
-  ::RejectInvNotifyMessage* rejectinvnotifymessage_;
-  ::StartEventMessage* starteventmessage_;
-  ::StartEventAckMessage* starteventackmessage_;
-  ::GameStartInitialMessage* gamestartinitialmessage_;
-  ::GameStartRejoinMessage* gamestartrejoinmessage_;
-  ::HandStartMessage* handstartmessage_;
-  ::PlayersTurnMessage* playersturnmessage_;
-  ::MyActionRequestMessage* myactionrequestmessage_;
-  ::YourActionRejectedMessage* youractionrejectedmessage_;
-  ::PlayersActionDoneMessage* playersactiondonemessage_;
-  ::DealFlopCardsMessage* dealflopcardsmessage_;
-  ::DealTurnCardMessage* dealturncardmessage_;
-  ::DealRiverCardMessage* dealrivercardmessage_;
-  ::AllInShowCardsMessage* allinshowcardsmessage_;
-  ::EndOfHandShowCardsMessage* endofhandshowcardsmessage_;
-  ::EndOfHandHideCardsMessage* endofhandhidecardsmessage_;
-  ::ShowMyCardsRequestMessage* showmycardsrequestmessage_;
-  ::AfterHandShowCardsMessage* afterhandshowcardsmessage_;
-  ::EndOfGameMessage* endofgamemessage_;
-  ::PlayerIdChangedMessage* playeridchangedmessage_;
-  ::AskKickPlayerMessage* askkickplayermessage_;
-  ::AskKickDeniedMessage* askkickdeniedmessage_;
-  ::StartKickPetitionMessage* startkickpetitionmessage_;
-  ::VoteKickRequestMessage* votekickrequestmessage_;
-  ::VoteKickReplyMessage* votekickreplymessage_;
-  ::KickPetitionUpdateMessage* kickpetitionupdatemessage_;
-  ::EndKickPetitionMessage* endkickpetitionmessage_;
-  ::StatisticsMessage* statisticsmessage_;
-  ::ChatRequestMessage* chatrequestmessage_;
-  ::ChatMessage* chatmessage_;
-  ::ChatRejectMessage* chatrejectmessage_;
-  ::DialogMessage* dialogmessage_;
-  ::TimeoutWarningMessage* timeoutwarningmessage_;
-  ::ResetTimeoutMessage* resettimeoutmessage_;
-  ::ReportAvatarMessage* reportavatarmessage_;
-  ::ReportAvatarAckMessage* reportavatarackmessage_;
-  ::ReportGameMessage* reportgamemessage_;
-  ::ReportGameAckMessage* reportgameackmessage_;
-  ::ErrorMessage* errormessage_;
-  ::AdminRemoveGameMessage* adminremovegamemessage_;
-  ::AdminRemoveGameAckMessage* adminremovegameackmessage_;
-  ::AdminBanPlayerMessage* adminbanplayermessage_;
-  ::AdminBanPlayerAckMessage* adminbanplayerackmessage_;
-  ::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage_;
-  ::GameListSpectatorLeftMessage* gamelistspectatorleftmessage_;
-  ::GameSpectatorJoinedMessage* gamespectatorjoinedmessage_;
-  ::GameSpectatorLeftMessage* gamespectatorleftmessage_;
+  ::AuthMessage* authmessage_;
+  ::LobbyMessage* lobbymessage_;
+  ::GameMessage* gamemessage_;
   int messagetype_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(82 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -12068,41 +12698,41 @@ inline void AnnounceMessage::set_numplayersonserver(::google::protobuf::uint32 v
 
 // -------------------------------------------------------------------
 
-// InitMessage
+// AuthClientRequestMessage
 
 // required .AnnounceMessage.Version requestedVersion = 1;
-inline bool InitMessage::has_requestedversion() const {
+inline bool AuthClientRequestMessage::has_requestedversion() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void InitMessage::set_has_requestedversion() {
+inline void AuthClientRequestMessage::set_has_requestedversion() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void InitMessage::clear_has_requestedversion() {
+inline void AuthClientRequestMessage::clear_has_requestedversion() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void InitMessage::clear_requestedversion() {
+inline void AuthClientRequestMessage::clear_requestedversion() {
   if (requestedversion_ != NULL) requestedversion_->::AnnounceMessage_Version::Clear();
   clear_has_requestedversion();
 }
-inline const ::AnnounceMessage_Version& InitMessage::requestedversion() const {
+inline const ::AnnounceMessage_Version& AuthClientRequestMessage::requestedversion() const {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   return requestedversion_ != NULL ? *requestedversion_ : *default_instance().requestedversion_;
 #else
   return requestedversion_ != NULL ? *requestedversion_ : *default_instance_->requestedversion_;
 #endif
 }
-inline ::AnnounceMessage_Version* InitMessage::mutable_requestedversion() {
+inline ::AnnounceMessage_Version* AuthClientRequestMessage::mutable_requestedversion() {
   set_has_requestedversion();
   if (requestedversion_ == NULL) requestedversion_ = new ::AnnounceMessage_Version;
   return requestedversion_;
 }
-inline ::AnnounceMessage_Version* InitMessage::release_requestedversion() {
+inline ::AnnounceMessage_Version* AuthClientRequestMessage::release_requestedversion() {
   clear_has_requestedversion();
   ::AnnounceMessage_Version* temp = requestedversion_;
   requestedversion_ = NULL;
   return temp;
 }
-inline void InitMessage::set_allocated_requestedversion(::AnnounceMessage_Version* requestedversion) {
+inline void AuthClientRequestMessage::set_allocated_requestedversion(::AnnounceMessage_Version* requestedversion) {
   delete requestedversion_;
   requestedversion_ = requestedversion;
   if (requestedversion) {
@@ -12113,145 +12743,98 @@ inline void InitMessage::set_allocated_requestedversion(::AnnounceMessage_Versio
 }
 
 // required uint32 buildId = 2;
-inline bool InitMessage::has_buildid() const {
+inline bool AuthClientRequestMessage::has_buildid() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void InitMessage::set_has_buildid() {
+inline void AuthClientRequestMessage::set_has_buildid() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void InitMessage::clear_has_buildid() {
+inline void AuthClientRequestMessage::clear_has_buildid() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void InitMessage::clear_buildid() {
+inline void AuthClientRequestMessage::clear_buildid() {
   buildid_ = 0u;
   clear_has_buildid();
 }
-inline ::google::protobuf::uint32 InitMessage::buildid() const {
+inline ::google::protobuf::uint32 AuthClientRequestMessage::buildid() const {
   return buildid_;
 }
-inline void InitMessage::set_buildid(::google::protobuf::uint32 value) {
+inline void AuthClientRequestMessage::set_buildid(::google::protobuf::uint32 value) {
   set_has_buildid();
   buildid_ = value;
 }
 
-// optional bytes myLastSessionId = 3;
-inline bool InitMessage::has_mylastsessionid() const {
+// required .AuthClientRequestMessage.LoginType login = 3;
+inline bool AuthClientRequestMessage::has_login() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void InitMessage::set_has_mylastsessionid() {
+inline void AuthClientRequestMessage::set_has_login() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void InitMessage::clear_has_mylastsessionid() {
+inline void AuthClientRequestMessage::clear_has_login() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void InitMessage::clear_mylastsessionid() {
-  if (mylastsessionid_ != &::google::protobuf::internal::kEmptyString) {
-    mylastsessionid_->clear();
-  }
-  clear_has_mylastsessionid();
+inline void AuthClientRequestMessage::clear_login() {
+  login_ = 0;
+  clear_has_login();
 }
-inline const ::std::string& InitMessage::mylastsessionid() const {
-  return *mylastsessionid_;
+inline ::AuthClientRequestMessage_LoginType AuthClientRequestMessage::login() const {
+  return static_cast< ::AuthClientRequestMessage_LoginType >(login_);
 }
-inline void InitMessage::set_mylastsessionid(const ::std::string& value) {
-  set_has_mylastsessionid();
-  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
-    mylastsessionid_ = new ::std::string;
-  }
-  mylastsessionid_->assign(value);
-}
-inline void InitMessage::set_mylastsessionid(const char* value) {
-  set_has_mylastsessionid();
-  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
-    mylastsessionid_ = new ::std::string;
-  }
-  mylastsessionid_->assign(value);
-}
-inline void InitMessage::set_mylastsessionid(const void* value, size_t size) {
-  set_has_mylastsessionid();
-  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
-    mylastsessionid_ = new ::std::string;
-  }
-  mylastsessionid_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* InitMessage::mutable_mylastsessionid() {
-  set_has_mylastsessionid();
-  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
-    mylastsessionid_ = new ::std::string;
-  }
-  return mylastsessionid_;
-}
-inline ::std::string* InitMessage::release_mylastsessionid() {
-  clear_has_mylastsessionid();
-  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = mylastsessionid_;
-    mylastsessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void InitMessage::set_allocated_mylastsessionid(::std::string* mylastsessionid) {
-  if (mylastsessionid_ != &::google::protobuf::internal::kEmptyString) {
-    delete mylastsessionid_;
-  }
-  if (mylastsessionid) {
-    set_has_mylastsessionid();
-    mylastsessionid_ = mylastsessionid;
-  } else {
-    clear_has_mylastsessionid();
-    mylastsessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
+inline void AuthClientRequestMessage::set_login(::AuthClientRequestMessage_LoginType value) {
+  assert(::AuthClientRequestMessage_LoginType_IsValid(value));
+  set_has_login();
+  login_ = value;
 }
 
 // optional string authServerPassword = 4;
-inline bool InitMessage::has_authserverpassword() const {
+inline bool AuthClientRequestMessage::has_authserverpassword() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void InitMessage::set_has_authserverpassword() {
+inline void AuthClientRequestMessage::set_has_authserverpassword() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void InitMessage::clear_has_authserverpassword() {
+inline void AuthClientRequestMessage::clear_has_authserverpassword() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void InitMessage::clear_authserverpassword() {
+inline void AuthClientRequestMessage::clear_authserverpassword() {
   if (authserverpassword_ != &::google::protobuf::internal::kEmptyString) {
     authserverpassword_->clear();
   }
   clear_has_authserverpassword();
 }
-inline const ::std::string& InitMessage::authserverpassword() const {
+inline const ::std::string& AuthClientRequestMessage::authserverpassword() const {
   return *authserverpassword_;
 }
-inline void InitMessage::set_authserverpassword(const ::std::string& value) {
+inline void AuthClientRequestMessage::set_authserverpassword(const ::std::string& value) {
   set_has_authserverpassword();
   if (authserverpassword_ == &::google::protobuf::internal::kEmptyString) {
     authserverpassword_ = new ::std::string;
   }
   authserverpassword_->assign(value);
 }
-inline void InitMessage::set_authserverpassword(const char* value) {
+inline void AuthClientRequestMessage::set_authserverpassword(const char* value) {
   set_has_authserverpassword();
   if (authserverpassword_ == &::google::protobuf::internal::kEmptyString) {
     authserverpassword_ = new ::std::string;
   }
   authserverpassword_->assign(value);
 }
-inline void InitMessage::set_authserverpassword(const char* value, size_t size) {
+inline void AuthClientRequestMessage::set_authserverpassword(const char* value, size_t size) {
   set_has_authserverpassword();
   if (authserverpassword_ == &::google::protobuf::internal::kEmptyString) {
     authserverpassword_ = new ::std::string;
   }
   authserverpassword_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* InitMessage::mutable_authserverpassword() {
+inline ::std::string* AuthClientRequestMessage::mutable_authserverpassword() {
   set_has_authserverpassword();
   if (authserverpassword_ == &::google::protobuf::internal::kEmptyString) {
     authserverpassword_ = new ::std::string;
   }
   return authserverpassword_;
 }
-inline ::std::string* InitMessage::release_authserverpassword() {
+inline ::std::string* AuthClientRequestMessage::release_authserverpassword() {
   clear_has_authserverpassword();
   if (authserverpassword_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -12261,7 +12844,7 @@ inline ::std::string* InitMessage::release_authserverpassword() {
     return temp;
   }
 }
-inline void InitMessage::set_allocated_authserverpassword(::std::string* authserverpassword) {
+inline void AuthClientRequestMessage::set_allocated_authserverpassword(::std::string* authserverpassword) {
   if (authserverpassword_ != &::google::protobuf::internal::kEmptyString) {
     delete authserverpassword_;
   }
@@ -12274,77 +12857,54 @@ inline void InitMessage::set_allocated_authserverpassword(::std::string* authser
   }
 }
 
-// required .InitMessage.LoginType login = 5;
-inline bool InitMessage::has_login() const {
+// optional string nickName = 5;
+inline bool AuthClientRequestMessage::has_nickname() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void InitMessage::set_has_login() {
+inline void AuthClientRequestMessage::set_has_nickname() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void InitMessage::clear_has_login() {
+inline void AuthClientRequestMessage::clear_has_nickname() {
   _has_bits_[0] &= ~0x00000010u;
 }
-inline void InitMessage::clear_login() {
-  login_ = 0;
-  clear_has_login();
-}
-inline ::InitMessage_LoginType InitMessage::login() const {
-  return static_cast< ::InitMessage_LoginType >(login_);
-}
-inline void InitMessage::set_login(::InitMessage_LoginType value) {
-  assert(::InitMessage_LoginType_IsValid(value));
-  set_has_login();
-  login_ = value;
-}
-
-// optional string nickName = 6;
-inline bool InitMessage::has_nickname() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void InitMessage::set_has_nickname() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void InitMessage::clear_has_nickname() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void InitMessage::clear_nickname() {
+inline void AuthClientRequestMessage::clear_nickname() {
   if (nickname_ != &::google::protobuf::internal::kEmptyString) {
     nickname_->clear();
   }
   clear_has_nickname();
 }
-inline const ::std::string& InitMessage::nickname() const {
+inline const ::std::string& AuthClientRequestMessage::nickname() const {
   return *nickname_;
 }
-inline void InitMessage::set_nickname(const ::std::string& value) {
+inline void AuthClientRequestMessage::set_nickname(const ::std::string& value) {
   set_has_nickname();
   if (nickname_ == &::google::protobuf::internal::kEmptyString) {
     nickname_ = new ::std::string;
   }
   nickname_->assign(value);
 }
-inline void InitMessage::set_nickname(const char* value) {
+inline void AuthClientRequestMessage::set_nickname(const char* value) {
   set_has_nickname();
   if (nickname_ == &::google::protobuf::internal::kEmptyString) {
     nickname_ = new ::std::string;
   }
   nickname_->assign(value);
 }
-inline void InitMessage::set_nickname(const char* value, size_t size) {
+inline void AuthClientRequestMessage::set_nickname(const char* value, size_t size) {
   set_has_nickname();
   if (nickname_ == &::google::protobuf::internal::kEmptyString) {
     nickname_ = new ::std::string;
   }
   nickname_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* InitMessage::mutable_nickname() {
+inline ::std::string* AuthClientRequestMessage::mutable_nickname() {
   set_has_nickname();
   if (nickname_ == &::google::protobuf::internal::kEmptyString) {
     nickname_ = new ::std::string;
   }
   return nickname_;
 }
-inline ::std::string* InitMessage::release_nickname() {
+inline ::std::string* AuthClientRequestMessage::release_nickname() {
   clear_has_nickname();
   if (nickname_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -12354,7 +12914,7 @@ inline ::std::string* InitMessage::release_nickname() {
     return temp;
   }
 }
-inline void InitMessage::set_allocated_nickname(::std::string* nickname) {
+inline void AuthClientRequestMessage::set_allocated_nickname(::std::string* nickname) {
   if (nickname_ != &::google::protobuf::internal::kEmptyString) {
     delete nickname_;
   }
@@ -12367,54 +12927,54 @@ inline void InitMessage::set_allocated_nickname(::std::string* nickname) {
   }
 }
 
-// optional bytes clientUserData = 7;
-inline bool InitMessage::has_clientuserdata() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
+// optional bytes clientUserData = 6;
+inline bool AuthClientRequestMessage::has_clientuserdata() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
-inline void InitMessage::set_has_clientuserdata() {
-  _has_bits_[0] |= 0x00000040u;
+inline void AuthClientRequestMessage::set_has_clientuserdata() {
+  _has_bits_[0] |= 0x00000020u;
 }
-inline void InitMessage::clear_has_clientuserdata() {
-  _has_bits_[0] &= ~0x00000040u;
+inline void AuthClientRequestMessage::clear_has_clientuserdata() {
+  _has_bits_[0] &= ~0x00000020u;
 }
-inline void InitMessage::clear_clientuserdata() {
+inline void AuthClientRequestMessage::clear_clientuserdata() {
   if (clientuserdata_ != &::google::protobuf::internal::kEmptyString) {
     clientuserdata_->clear();
   }
   clear_has_clientuserdata();
 }
-inline const ::std::string& InitMessage::clientuserdata() const {
+inline const ::std::string& AuthClientRequestMessage::clientuserdata() const {
   return *clientuserdata_;
 }
-inline void InitMessage::set_clientuserdata(const ::std::string& value) {
+inline void AuthClientRequestMessage::set_clientuserdata(const ::std::string& value) {
   set_has_clientuserdata();
   if (clientuserdata_ == &::google::protobuf::internal::kEmptyString) {
     clientuserdata_ = new ::std::string;
   }
   clientuserdata_->assign(value);
 }
-inline void InitMessage::set_clientuserdata(const char* value) {
+inline void AuthClientRequestMessage::set_clientuserdata(const char* value) {
   set_has_clientuserdata();
   if (clientuserdata_ == &::google::protobuf::internal::kEmptyString) {
     clientuserdata_ = new ::std::string;
   }
   clientuserdata_->assign(value);
 }
-inline void InitMessage::set_clientuserdata(const void* value, size_t size) {
+inline void AuthClientRequestMessage::set_clientuserdata(const void* value, size_t size) {
   set_has_clientuserdata();
   if (clientuserdata_ == &::google::protobuf::internal::kEmptyString) {
     clientuserdata_ = new ::std::string;
   }
   clientuserdata_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* InitMessage::mutable_clientuserdata() {
+inline ::std::string* AuthClientRequestMessage::mutable_clientuserdata() {
   set_has_clientuserdata();
   if (clientuserdata_ == &::google::protobuf::internal::kEmptyString) {
     clientuserdata_ = new ::std::string;
   }
   return clientuserdata_;
 }
-inline ::std::string* InitMessage::release_clientuserdata() {
+inline ::std::string* AuthClientRequestMessage::release_clientuserdata() {
   clear_has_clientuserdata();
   if (clientuserdata_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -12424,7 +12984,7 @@ inline ::std::string* InitMessage::release_clientuserdata() {
     return temp;
   }
 }
-inline void InitMessage::set_allocated_clientuserdata(::std::string* clientuserdata) {
+inline void AuthClientRequestMessage::set_allocated_clientuserdata(::std::string* clientuserdata) {
   if (clientuserdata_ != &::google::protobuf::internal::kEmptyString) {
     delete clientuserdata_;
   }
@@ -12437,73 +12997,73 @@ inline void InitMessage::set_allocated_clientuserdata(::std::string* clientuserd
   }
 }
 
-// optional bytes avatarHash = 8;
-inline bool InitMessage::has_avatarhash() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+// optional bytes myLastSessionId = 7;
+inline bool AuthClientRequestMessage::has_mylastsessionid() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
 }
-inline void InitMessage::set_has_avatarhash() {
-  _has_bits_[0] |= 0x00000080u;
+inline void AuthClientRequestMessage::set_has_mylastsessionid() {
+  _has_bits_[0] |= 0x00000040u;
 }
-inline void InitMessage::clear_has_avatarhash() {
-  _has_bits_[0] &= ~0x00000080u;
+inline void AuthClientRequestMessage::clear_has_mylastsessionid() {
+  _has_bits_[0] &= ~0x00000040u;
 }
-inline void InitMessage::clear_avatarhash() {
-  if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
-    avatarhash_->clear();
+inline void AuthClientRequestMessage::clear_mylastsessionid() {
+  if (mylastsessionid_ != &::google::protobuf::internal::kEmptyString) {
+    mylastsessionid_->clear();
   }
-  clear_has_avatarhash();
+  clear_has_mylastsessionid();
 }
-inline const ::std::string& InitMessage::avatarhash() const {
-  return *avatarhash_;
+inline const ::std::string& AuthClientRequestMessage::mylastsessionid() const {
+  return *mylastsessionid_;
 }
-inline void InitMessage::set_avatarhash(const ::std::string& value) {
-  set_has_avatarhash();
-  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
-    avatarhash_ = new ::std::string;
+inline void AuthClientRequestMessage::set_mylastsessionid(const ::std::string& value) {
+  set_has_mylastsessionid();
+  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
+    mylastsessionid_ = new ::std::string;
   }
-  avatarhash_->assign(value);
+  mylastsessionid_->assign(value);
 }
-inline void InitMessage::set_avatarhash(const char* value) {
-  set_has_avatarhash();
-  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
-    avatarhash_ = new ::std::string;
+inline void AuthClientRequestMessage::set_mylastsessionid(const char* value) {
+  set_has_mylastsessionid();
+  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
+    mylastsessionid_ = new ::std::string;
   }
-  avatarhash_->assign(value);
+  mylastsessionid_->assign(value);
 }
-inline void InitMessage::set_avatarhash(const void* value, size_t size) {
-  set_has_avatarhash();
-  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
-    avatarhash_ = new ::std::string;
+inline void AuthClientRequestMessage::set_mylastsessionid(const void* value, size_t size) {
+  set_has_mylastsessionid();
+  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
+    mylastsessionid_ = new ::std::string;
   }
-  avatarhash_->assign(reinterpret_cast<const char*>(value), size);
+  mylastsessionid_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* InitMessage::mutable_avatarhash() {
-  set_has_avatarhash();
-  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
-    avatarhash_ = new ::std::string;
+inline ::std::string* AuthClientRequestMessage::mutable_mylastsessionid() {
+  set_has_mylastsessionid();
+  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
+    mylastsessionid_ = new ::std::string;
   }
-  return avatarhash_;
+  return mylastsessionid_;
 }
-inline ::std::string* InitMessage::release_avatarhash() {
-  clear_has_avatarhash();
-  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
+inline ::std::string* AuthClientRequestMessage::release_mylastsessionid() {
+  clear_has_mylastsessionid();
+  if (mylastsessionid_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
   } else {
-    ::std::string* temp = avatarhash_;
-    avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    ::std::string* temp = mylastsessionid_;
+    mylastsessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
     return temp;
   }
 }
-inline void InitMessage::set_allocated_avatarhash(::std::string* avatarhash) {
-  if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
-    delete avatarhash_;
+inline void AuthClientRequestMessage::set_allocated_mylastsessionid(::std::string* mylastsessionid) {
+  if (mylastsessionid_ != &::google::protobuf::internal::kEmptyString) {
+    delete mylastsessionid_;
   }
-  if (avatarhash) {
-    set_has_avatarhash();
-    avatarhash_ = avatarhash;
+  if (mylastsessionid) {
+    set_has_mylastsessionid();
+    mylastsessionid_ = mylastsessionid;
   } else {
-    clear_has_avatarhash();
-    avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    clear_has_mylastsessionid();
+    mylastsessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   }
 }
 
@@ -12659,15 +13219,107 @@ inline void AuthClientResponseMessage::set_allocated_clientresponse(::std::strin
 
 // AuthServerVerificationMessage
 
-// required bytes serverVerification = 1;
-inline bool AuthServerVerificationMessage::has_serververification() const {
+// required bytes yourSessionId = 1;
+inline bool AuthServerVerificationMessage::has_yoursessionid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void AuthServerVerificationMessage::set_has_serververification() {
+inline void AuthServerVerificationMessage::set_has_yoursessionid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void AuthServerVerificationMessage::clear_has_serververification() {
+inline void AuthServerVerificationMessage::clear_has_yoursessionid() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void AuthServerVerificationMessage::clear_yoursessionid() {
+  if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
+    yoursessionid_->clear();
+  }
+  clear_has_yoursessionid();
+}
+inline const ::std::string& AuthServerVerificationMessage::yoursessionid() const {
+  return *yoursessionid_;
+}
+inline void AuthServerVerificationMessage::set_yoursessionid(const ::std::string& value) {
+  set_has_yoursessionid();
+  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
+    yoursessionid_ = new ::std::string;
+  }
+  yoursessionid_->assign(value);
+}
+inline void AuthServerVerificationMessage::set_yoursessionid(const char* value) {
+  set_has_yoursessionid();
+  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
+    yoursessionid_ = new ::std::string;
+  }
+  yoursessionid_->assign(value);
+}
+inline void AuthServerVerificationMessage::set_yoursessionid(const void* value, size_t size) {
+  set_has_yoursessionid();
+  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
+    yoursessionid_ = new ::std::string;
+  }
+  yoursessionid_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* AuthServerVerificationMessage::mutable_yoursessionid() {
+  set_has_yoursessionid();
+  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
+    yoursessionid_ = new ::std::string;
+  }
+  return yoursessionid_;
+}
+inline ::std::string* AuthServerVerificationMessage::release_yoursessionid() {
+  clear_has_yoursessionid();
+  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = yoursessionid_;
+    yoursessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void AuthServerVerificationMessage::set_allocated_yoursessionid(::std::string* yoursessionid) {
+  if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
+    delete yoursessionid_;
+  }
+  if (yoursessionid) {
+    set_has_yoursessionid();
+    yoursessionid_ = yoursessionid;
+  } else {
+    clear_has_yoursessionid();
+    yoursessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required uint32 yourPlayerId = 2;
+inline bool AuthServerVerificationMessage::has_yourplayerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void AuthServerVerificationMessage::set_has_yourplayerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void AuthServerVerificationMessage::clear_has_yourplayerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void AuthServerVerificationMessage::clear_yourplayerid() {
+  yourplayerid_ = 0u;
+  clear_has_yourplayerid();
+}
+inline ::google::protobuf::uint32 AuthServerVerificationMessage::yourplayerid() const {
+  return yourplayerid_;
+}
+inline void AuthServerVerificationMessage::set_yourplayerid(::google::protobuf::uint32 value) {
+  set_has_yourplayerid();
+  yourplayerid_ = value;
+}
+
+// optional bytes serverVerification = 3;
+inline bool AuthServerVerificationMessage::has_serververification() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void AuthServerVerificationMessage::set_has_serververification() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void AuthServerVerificationMessage::clear_has_serververification() {
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void AuthServerVerificationMessage::clear_serververification() {
   if (serververification_ != &::google::protobuf::internal::kEmptyString) {
@@ -12731,109 +13383,91 @@ inline void AuthServerVerificationMessage::set_allocated_serververification(::st
 
 // -------------------------------------------------------------------
 
-// InitAckMessage
+// InitMessage
 
-// required bytes yourSessionId = 1;
-inline bool InitAckMessage::has_yoursessionid() const {
+// optional bytes avatarHash = 1;
+inline bool InitMessage::has_avatarhash() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void InitAckMessage::set_has_yoursessionid() {
+inline void InitMessage::set_has_avatarhash() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void InitAckMessage::clear_has_yoursessionid() {
+inline void InitMessage::clear_has_avatarhash() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void InitAckMessage::clear_yoursessionid() {
-  if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
-    yoursessionid_->clear();
+inline void InitMessage::clear_avatarhash() {
+  if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
+    avatarhash_->clear();
   }
-  clear_has_yoursessionid();
+  clear_has_avatarhash();
 }
-inline const ::std::string& InitAckMessage::yoursessionid() const {
-  return *yoursessionid_;
+inline const ::std::string& InitMessage::avatarhash() const {
+  return *avatarhash_;
 }
-inline void InitAckMessage::set_yoursessionid(const ::std::string& value) {
-  set_has_yoursessionid();
-  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
-    yoursessionid_ = new ::std::string;
+inline void InitMessage::set_avatarhash(const ::std::string& value) {
+  set_has_avatarhash();
+  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
+    avatarhash_ = new ::std::string;
   }
-  yoursessionid_->assign(value);
+  avatarhash_->assign(value);
 }
-inline void InitAckMessage::set_yoursessionid(const char* value) {
-  set_has_yoursessionid();
-  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
-    yoursessionid_ = new ::std::string;
+inline void InitMessage::set_avatarhash(const char* value) {
+  set_has_avatarhash();
+  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
+    avatarhash_ = new ::std::string;
   }
-  yoursessionid_->assign(value);
+  avatarhash_->assign(value);
 }
-inline void InitAckMessage::set_yoursessionid(const void* value, size_t size) {
-  set_has_yoursessionid();
-  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
-    yoursessionid_ = new ::std::string;
+inline void InitMessage::set_avatarhash(const void* value, size_t size) {
+  set_has_avatarhash();
+  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
+    avatarhash_ = new ::std::string;
   }
-  yoursessionid_->assign(reinterpret_cast<const char*>(value), size);
+  avatarhash_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* InitAckMessage::mutable_yoursessionid() {
-  set_has_yoursessionid();
-  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
-    yoursessionid_ = new ::std::string;
+inline ::std::string* InitMessage::mutable_avatarhash() {
+  set_has_avatarhash();
+  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
+    avatarhash_ = new ::std::string;
   }
-  return yoursessionid_;
+  return avatarhash_;
 }
-inline ::std::string* InitAckMessage::release_yoursessionid() {
-  clear_has_yoursessionid();
-  if (yoursessionid_ == &::google::protobuf::internal::kEmptyString) {
+inline ::std::string* InitMessage::release_avatarhash() {
+  clear_has_avatarhash();
+  if (avatarhash_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
   } else {
-    ::std::string* temp = yoursessionid_;
-    yoursessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    ::std::string* temp = avatarhash_;
+    avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
     return temp;
   }
 }
-inline void InitAckMessage::set_allocated_yoursessionid(::std::string* yoursessionid) {
-  if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
-    delete yoursessionid_;
+inline void InitMessage::set_allocated_avatarhash(::std::string* avatarhash) {
+  if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
+    delete avatarhash_;
   }
-  if (yoursessionid) {
-    set_has_yoursessionid();
-    yoursessionid_ = yoursessionid;
+  if (avatarhash) {
+    set_has_avatarhash();
+    avatarhash_ = avatarhash;
   } else {
-    clear_has_yoursessionid();
-    yoursessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    clear_has_avatarhash();
+    avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   }
 }
 
-// required uint32 yourPlayerId = 2;
-inline bool InitAckMessage::has_yourplayerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void InitAckMessage::set_has_yourplayerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void InitAckMessage::clear_has_yourplayerid() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void InitAckMessage::clear_yourplayerid() {
-  yourplayerid_ = 0u;
-  clear_has_yourplayerid();
-}
-inline ::google::protobuf::uint32 InitAckMessage::yourplayerid() const {
-  return yourplayerid_;
-}
-inline void InitAckMessage::set_yourplayerid(::google::protobuf::uint32 value) {
-  set_has_yourplayerid();
-  yourplayerid_ = value;
-}
+// -------------------------------------------------------------------
 
-// optional bytes yourAvatarHash = 3;
+// InitAckMessage
+
+// optional bytes yourAvatarHash = 1;
 inline bool InitAckMessage::has_youravatarhash() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
 inline void InitAckMessage::set_has_youravatarhash() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000001u;
 }
 inline void InitAckMessage::clear_has_youravatarhash() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void InitAckMessage::clear_youravatarhash() {
   if (youravatarhash_ != &::google::protobuf::internal::kEmptyString) {
@@ -12895,15 +13529,15 @@ inline void InitAckMessage::set_allocated_youravatarhash(::std::string* youravat
   }
 }
 
-// optional uint32 rejoinGameId = 4;
+// optional uint32 rejoinGameId = 2;
 inline bool InitAckMessage::has_rejoingameid() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void InitAckMessage::set_has_rejoingameid() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void InitAckMessage::clear_has_rejoingameid() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void InitAckMessage::clear_rejoingameid() {
   rejoingameid_ = 0u;
@@ -14184,15 +14818,37 @@ inline void PlayerInfoReplyMessage::set_allocated_playerinfodata(::PlayerInfoRep
 
 // SubscriptionRequestMessage
 
-// required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;
-inline bool SubscriptionRequestMessage::has_subscriptionaction() const {
+// required uint32 requestId = 1;
+inline bool SubscriptionRequestMessage::has_requestid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void SubscriptionRequestMessage::set_has_subscriptionaction() {
+inline void SubscriptionRequestMessage::set_has_requestid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void SubscriptionRequestMessage::clear_has_subscriptionaction() {
+inline void SubscriptionRequestMessage::clear_has_requestid() {
   _has_bits_[0] &= ~0x00000001u;
+}
+inline void SubscriptionRequestMessage::clear_requestid() {
+  requestid_ = 0u;
+  clear_has_requestid();
+}
+inline ::google::protobuf::uint32 SubscriptionRequestMessage::requestid() const {
+  return requestid_;
+}
+inline void SubscriptionRequestMessage::set_requestid(::google::protobuf::uint32 value) {
+  set_has_requestid();
+  requestid_ = value;
+}
+
+// required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 2;
+inline bool SubscriptionRequestMessage::has_subscriptionaction() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void SubscriptionRequestMessage::set_has_subscriptionaction() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void SubscriptionRequestMessage::clear_has_subscriptionaction() {
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void SubscriptionRequestMessage::clear_subscriptionaction() {
   subscriptionaction_ = 1;
@@ -14209,181 +14865,111 @@ inline void SubscriptionRequestMessage::set_subscriptionaction(::SubscriptionReq
 
 // -------------------------------------------------------------------
 
-// JoinExistingGameMessage
+// SubscriptionReplyMessage
 
-// required uint32 gameId = 1;
-inline bool JoinExistingGameMessage::has_gameid() const {
+// required uint32 requestId = 1;
+inline bool SubscriptionReplyMessage::has_requestid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void JoinExistingGameMessage::set_has_gameid() {
+inline void SubscriptionReplyMessage::set_has_requestid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void JoinExistingGameMessage::clear_has_gameid() {
+inline void SubscriptionReplyMessage::clear_has_requestid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void JoinExistingGameMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
+inline void SubscriptionReplyMessage::clear_requestid() {
+  requestid_ = 0u;
+  clear_has_requestid();
 }
-inline ::google::protobuf::uint32 JoinExistingGameMessage::gameid() const {
-  return gameid_;
+inline ::google::protobuf::uint32 SubscriptionReplyMessage::requestid() const {
+  return requestid_;
 }
-inline void JoinExistingGameMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
+inline void SubscriptionReplyMessage::set_requestid(::google::protobuf::uint32 value) {
+  set_has_requestid();
+  requestid_ = value;
 }
 
-// optional string password = 2;
-inline bool JoinExistingGameMessage::has_password() const {
+// required bool ack = 2;
+inline bool SubscriptionReplyMessage::has_ack() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void JoinExistingGameMessage::set_has_password() {
+inline void SubscriptionReplyMessage::set_has_ack() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void JoinExistingGameMessage::clear_has_password() {
+inline void SubscriptionReplyMessage::clear_has_ack() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void JoinExistingGameMessage::clear_password() {
-  if (password_ != &::google::protobuf::internal::kEmptyString) {
-    password_->clear();
-  }
-  clear_has_password();
+inline void SubscriptionReplyMessage::clear_ack() {
+  ack_ = false;
+  clear_has_ack();
 }
-inline const ::std::string& JoinExistingGameMessage::password() const {
-  return *password_;
+inline bool SubscriptionReplyMessage::ack() const {
+  return ack_;
 }
-inline void JoinExistingGameMessage::set_password(const ::std::string& value) {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
-  }
-  password_->assign(value);
-}
-inline void JoinExistingGameMessage::set_password(const char* value) {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
-  }
-  password_->assign(value);
-}
-inline void JoinExistingGameMessage::set_password(const char* value, size_t size) {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
-  }
-  password_->assign(reinterpret_cast<const char*>(value), size);
-}
-inline ::std::string* JoinExistingGameMessage::mutable_password() {
-  set_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    password_ = new ::std::string;
-  }
-  return password_;
-}
-inline ::std::string* JoinExistingGameMessage::release_password() {
-  clear_has_password();
-  if (password_ == &::google::protobuf::internal::kEmptyString) {
-    return NULL;
-  } else {
-    ::std::string* temp = password_;
-    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-    return temp;
-  }
-}
-inline void JoinExistingGameMessage::set_allocated_password(::std::string* password) {
-  if (password_ != &::google::protobuf::internal::kEmptyString) {
-    delete password_;
-  }
-  if (password) {
-    set_has_password();
-    password_ = password;
-  } else {
-    clear_has_password();
-    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  }
-}
-
-// optional bool autoLeave = 3 [default = false];
-inline bool JoinExistingGameMessage::has_autoleave() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void JoinExistingGameMessage::set_has_autoleave() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void JoinExistingGameMessage::clear_has_autoleave() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void JoinExistingGameMessage::clear_autoleave() {
-  autoleave_ = false;
-  clear_has_autoleave();
-}
-inline bool JoinExistingGameMessage::autoleave() const {
-  return autoleave_;
-}
-inline void JoinExistingGameMessage::set_autoleave(bool value) {
-  set_has_autoleave();
-  autoleave_ = value;
-}
-
-// optional bool spectateOnly = 4 [default = false];
-inline bool JoinExistingGameMessage::has_spectateonly() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void JoinExistingGameMessage::set_has_spectateonly() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void JoinExistingGameMessage::clear_has_spectateonly() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void JoinExistingGameMessage::clear_spectateonly() {
-  spectateonly_ = false;
-  clear_has_spectateonly();
-}
-inline bool JoinExistingGameMessage::spectateonly() const {
-  return spectateonly_;
-}
-inline void JoinExistingGameMessage::set_spectateonly(bool value) {
-  set_has_spectateonly();
-  spectateonly_ = value;
+inline void SubscriptionReplyMessage::set_ack(bool value) {
+  set_has_ack();
+  ack_ = value;
 }
 
 // -------------------------------------------------------------------
 
-// JoinNewGameMessage
+// CreateGameMessage
 
-// required .NetGameInfo gameInfo = 1;
-inline bool JoinNewGameMessage::has_gameinfo() const {
+// required uint32 requestId = 1;
+inline bool CreateGameMessage::has_requestid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void JoinNewGameMessage::set_has_gameinfo() {
+inline void CreateGameMessage::set_has_requestid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void JoinNewGameMessage::clear_has_gameinfo() {
+inline void CreateGameMessage::clear_has_requestid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void JoinNewGameMessage::clear_gameinfo() {
+inline void CreateGameMessage::clear_requestid() {
+  requestid_ = 0u;
+  clear_has_requestid();
+}
+inline ::google::protobuf::uint32 CreateGameMessage::requestid() const {
+  return requestid_;
+}
+inline void CreateGameMessage::set_requestid(::google::protobuf::uint32 value) {
+  set_has_requestid();
+  requestid_ = value;
+}
+
+// required .NetGameInfo gameInfo = 2;
+inline bool CreateGameMessage::has_gameinfo() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CreateGameMessage::set_has_gameinfo() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CreateGameMessage::clear_has_gameinfo() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CreateGameMessage::clear_gameinfo() {
   if (gameinfo_ != NULL) gameinfo_->::NetGameInfo::Clear();
   clear_has_gameinfo();
 }
-inline const ::NetGameInfo& JoinNewGameMessage::gameinfo() const {
+inline const ::NetGameInfo& CreateGameMessage::gameinfo() const {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   return gameinfo_ != NULL ? *gameinfo_ : *default_instance().gameinfo_;
 #else
   return gameinfo_ != NULL ? *gameinfo_ : *default_instance_->gameinfo_;
 #endif
 }
-inline ::NetGameInfo* JoinNewGameMessage::mutable_gameinfo() {
+inline ::NetGameInfo* CreateGameMessage::mutable_gameinfo() {
   set_has_gameinfo();
   if (gameinfo_ == NULL) gameinfo_ = new ::NetGameInfo;
   return gameinfo_;
 }
-inline ::NetGameInfo* JoinNewGameMessage::release_gameinfo() {
+inline ::NetGameInfo* CreateGameMessage::release_gameinfo() {
   clear_has_gameinfo();
   ::NetGameInfo* temp = gameinfo_;
   gameinfo_ = NULL;
   return temp;
 }
-inline void JoinNewGameMessage::set_allocated_gameinfo(::NetGameInfo* gameinfo) {
+inline void CreateGameMessage::set_allocated_gameinfo(::NetGameInfo* gameinfo) {
   delete gameinfo_;
   gameinfo_ = gameinfo;
   if (gameinfo) {
@@ -14393,54 +14979,54 @@ inline void JoinNewGameMessage::set_allocated_gameinfo(::NetGameInfo* gameinfo) 
   }
 }
 
-// optional string password = 2;
-inline bool JoinNewGameMessage::has_password() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+// optional string password = 3;
+inline bool CreateGameMessage::has_password() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void JoinNewGameMessage::set_has_password() {
-  _has_bits_[0] |= 0x00000002u;
+inline void CreateGameMessage::set_has_password() {
+  _has_bits_[0] |= 0x00000004u;
 }
-inline void JoinNewGameMessage::clear_has_password() {
-  _has_bits_[0] &= ~0x00000002u;
+inline void CreateGameMessage::clear_has_password() {
+  _has_bits_[0] &= ~0x00000004u;
 }
-inline void JoinNewGameMessage::clear_password() {
+inline void CreateGameMessage::clear_password() {
   if (password_ != &::google::protobuf::internal::kEmptyString) {
     password_->clear();
   }
   clear_has_password();
 }
-inline const ::std::string& JoinNewGameMessage::password() const {
+inline const ::std::string& CreateGameMessage::password() const {
   return *password_;
 }
-inline void JoinNewGameMessage::set_password(const ::std::string& value) {
+inline void CreateGameMessage::set_password(const ::std::string& value) {
   set_has_password();
   if (password_ == &::google::protobuf::internal::kEmptyString) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
-inline void JoinNewGameMessage::set_password(const char* value) {
+inline void CreateGameMessage::set_password(const char* value) {
   set_has_password();
   if (password_ == &::google::protobuf::internal::kEmptyString) {
     password_ = new ::std::string;
   }
   password_->assign(value);
 }
-inline void JoinNewGameMessage::set_password(const char* value, size_t size) {
+inline void CreateGameMessage::set_password(const char* value, size_t size) {
   set_has_password();
   if (password_ == &::google::protobuf::internal::kEmptyString) {
     password_ = new ::std::string;
   }
   password_->assign(reinterpret_cast<const char*>(value), size);
 }
-inline ::std::string* JoinNewGameMessage::mutable_password() {
+inline ::std::string* CreateGameMessage::mutable_password() {
   set_has_password();
   if (password_ == &::google::protobuf::internal::kEmptyString) {
     password_ = new ::std::string;
   }
   return password_;
 }
-inline ::std::string* JoinNewGameMessage::release_password() {
+inline ::std::string* CreateGameMessage::release_password() {
   clear_has_password();
   if (password_ == &::google::protobuf::internal::kEmptyString) {
     return NULL;
@@ -14450,7 +15036,7 @@ inline ::std::string* JoinNewGameMessage::release_password() {
     return temp;
   }
 }
-inline void JoinNewGameMessage::set_allocated_password(::std::string* password) {
+inline void CreateGameMessage::set_allocated_password(::std::string* password) {
   if (password_ != &::google::protobuf::internal::kEmptyString) {
     delete password_;
   }
@@ -14463,72 +15049,217 @@ inline void JoinNewGameMessage::set_allocated_password(::std::string* password) 
   }
 }
 
-// optional bool autoLeave = 3;
-inline bool JoinNewGameMessage::has_autoleave() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+// optional bool autoLeave = 4;
+inline bool CreateGameMessage::has_autoleave() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void JoinNewGameMessage::set_has_autoleave() {
-  _has_bits_[0] |= 0x00000004u;
+inline void CreateGameMessage::set_has_autoleave() {
+  _has_bits_[0] |= 0x00000008u;
 }
-inline void JoinNewGameMessage::clear_has_autoleave() {
-  _has_bits_[0] &= ~0x00000004u;
+inline void CreateGameMessage::clear_has_autoleave() {
+  _has_bits_[0] &= ~0x00000008u;
 }
-inline void JoinNewGameMessage::clear_autoleave() {
+inline void CreateGameMessage::clear_autoleave() {
   autoleave_ = false;
   clear_has_autoleave();
 }
-inline bool JoinNewGameMessage::autoleave() const {
+inline bool CreateGameMessage::autoleave() const {
   return autoleave_;
 }
-inline void JoinNewGameMessage::set_autoleave(bool value) {
+inline void CreateGameMessage::set_autoleave(bool value) {
   set_has_autoleave();
   autoleave_ = value;
 }
 
 // -------------------------------------------------------------------
 
-// RejoinExistingGameMessage
+// CreateGameFailedMessage
 
-// required uint32 gameId = 1;
-inline bool RejoinExistingGameMessage::has_gameid() const {
+// required uint32 requestId = 1;
+inline bool CreateGameFailedMessage::has_requestid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void RejoinExistingGameMessage::set_has_gameid() {
+inline void CreateGameFailedMessage::set_has_requestid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void RejoinExistingGameMessage::clear_has_gameid() {
+inline void CreateGameFailedMessage::clear_has_requestid() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void RejoinExistingGameMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
+inline void CreateGameFailedMessage::clear_requestid() {
+  requestid_ = 0u;
+  clear_has_requestid();
 }
-inline ::google::protobuf::uint32 RejoinExistingGameMessage::gameid() const {
-  return gameid_;
+inline ::google::protobuf::uint32 CreateGameFailedMessage::requestid() const {
+  return requestid_;
 }
-inline void RejoinExistingGameMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
+inline void CreateGameFailedMessage::set_requestid(::google::protobuf::uint32 value) {
+  set_has_requestid();
+  requestid_ = value;
 }
 
-// optional bool autoLeave = 2;
-inline bool RejoinExistingGameMessage::has_autoleave() const {
+// required .CreateGameFailedMessage.CreateGameFailureReason createGameFailureReason = 2;
+inline bool CreateGameFailedMessage::has_creategamefailurereason() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void RejoinExistingGameMessage::set_has_autoleave() {
+inline void CreateGameFailedMessage::set_has_creategamefailurereason() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void RejoinExistingGameMessage::clear_has_autoleave() {
+inline void CreateGameFailedMessage::clear_has_creategamefailurereason() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void RejoinExistingGameMessage::clear_autoleave() {
+inline void CreateGameFailedMessage::clear_creategamefailurereason() {
+  creategamefailurereason_ = 1;
+  clear_has_creategamefailurereason();
+}
+inline ::CreateGameFailedMessage_CreateGameFailureReason CreateGameFailedMessage::creategamefailurereason() const {
+  return static_cast< ::CreateGameFailedMessage_CreateGameFailureReason >(creategamefailurereason_);
+}
+inline void CreateGameFailedMessage::set_creategamefailurereason(::CreateGameFailedMessage_CreateGameFailureReason value) {
+  assert(::CreateGameFailedMessage_CreateGameFailureReason_IsValid(value));
+  set_has_creategamefailurereason();
+  creategamefailurereason_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// JoinGameMessage
+
+// optional string password = 1;
+inline bool JoinGameMessage::has_password() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void JoinGameMessage::set_has_password() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void JoinGameMessage::clear_has_password() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void JoinGameMessage::clear_password() {
+  if (password_ != &::google::protobuf::internal::kEmptyString) {
+    password_->clear();
+  }
+  clear_has_password();
+}
+inline const ::std::string& JoinGameMessage::password() const {
+  return *password_;
+}
+inline void JoinGameMessage::set_password(const ::std::string& value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::kEmptyString) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+}
+inline void JoinGameMessage::set_password(const char* value) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::kEmptyString) {
+    password_ = new ::std::string;
+  }
+  password_->assign(value);
+}
+inline void JoinGameMessage::set_password(const char* value, size_t size) {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::kEmptyString) {
+    password_ = new ::std::string;
+  }
+  password_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* JoinGameMessage::mutable_password() {
+  set_has_password();
+  if (password_ == &::google::protobuf::internal::kEmptyString) {
+    password_ = new ::std::string;
+  }
+  return password_;
+}
+inline ::std::string* JoinGameMessage::release_password() {
+  clear_has_password();
+  if (password_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = password_;
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void JoinGameMessage::set_allocated_password(::std::string* password) {
+  if (password_ != &::google::protobuf::internal::kEmptyString) {
+    delete password_;
+  }
+  if (password) {
+    set_has_password();
+    password_ = password;
+  } else {
+    clear_has_password();
+    password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// optional bool autoLeave = 2 [default = false];
+inline bool JoinGameMessage::has_autoleave() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void JoinGameMessage::set_has_autoleave() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void JoinGameMessage::clear_has_autoleave() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void JoinGameMessage::clear_autoleave() {
   autoleave_ = false;
   clear_has_autoleave();
 }
-inline bool RejoinExistingGameMessage::autoleave() const {
+inline bool JoinGameMessage::autoleave() const {
   return autoleave_;
 }
-inline void RejoinExistingGameMessage::set_autoleave(bool value) {
+inline void JoinGameMessage::set_autoleave(bool value) {
+  set_has_autoleave();
+  autoleave_ = value;
+}
+
+// optional bool spectateOnly = 3 [default = false];
+inline bool JoinGameMessage::has_spectateonly() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void JoinGameMessage::set_has_spectateonly() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void JoinGameMessage::clear_has_spectateonly() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void JoinGameMessage::clear_spectateonly() {
+  spectateonly_ = false;
+  clear_has_spectateonly();
+}
+inline bool JoinGameMessage::spectateonly() const {
+  return spectateonly_;
+}
+inline void JoinGameMessage::set_spectateonly(bool value) {
+  set_has_spectateonly();
+  spectateonly_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// RejoinGameMessage
+
+// optional bool autoLeave = 1 [default = false];
+inline bool RejoinGameMessage::has_autoleave() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RejoinGameMessage::set_has_autoleave() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RejoinGameMessage::clear_has_autoleave() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RejoinGameMessage::clear_autoleave() {
+  autoleave_ = false;
+  clear_has_autoleave();
+}
+inline bool RejoinGameMessage::autoleave() const {
+  return autoleave_;
+}
+inline void RejoinGameMessage::set_autoleave(bool value) {
   set_has_autoleave();
   autoleave_ = value;
 }
@@ -14537,37 +15268,15 @@ inline void RejoinExistingGameMessage::set_autoleave(bool value) {
 
 // JoinGameAckMessage
 
-// required uint32 gameId = 1;
-inline bool JoinGameAckMessage::has_gameid() const {
+// required bool areYouGameAdmin = 1;
+inline bool JoinGameAckMessage::has_areyougameadmin() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void JoinGameAckMessage::set_has_gameid() {
+inline void JoinGameAckMessage::set_has_areyougameadmin() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void JoinGameAckMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void JoinGameAckMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 JoinGameAckMessage::gameid() const {
-  return gameid_;
-}
-inline void JoinGameAckMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required bool areYouGameAdmin = 2;
-inline bool JoinGameAckMessage::has_areyougameadmin() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void JoinGameAckMessage::set_has_areyougameadmin() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void JoinGameAckMessage::clear_has_areyougameadmin() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void JoinGameAckMessage::clear_areyougameadmin() {
   areyougameadmin_ = false;
@@ -14581,15 +15290,15 @@ inline void JoinGameAckMessage::set_areyougameadmin(bool value) {
   areyougameadmin_ = value;
 }
 
-// required .NetGameInfo gameInfo = 3;
+// required .NetGameInfo gameInfo = 2;
 inline bool JoinGameAckMessage::has_gameinfo() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void JoinGameAckMessage::set_has_gameinfo() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void JoinGameAckMessage::clear_has_gameinfo() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void JoinGameAckMessage::clear_gameinfo() {
   if (gameinfo_ != NULL) gameinfo_->::NetGameInfo::Clear();
@@ -14623,15 +15332,15 @@ inline void JoinGameAckMessage::set_allocated_gameinfo(::NetGameInfo* gameinfo) 
   }
 }
 
-// optional bool spectateOnly = 4;
+// optional bool spectateOnly = 3;
 inline bool JoinGameAckMessage::has_spectateonly() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void JoinGameAckMessage::set_has_spectateonly() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void JoinGameAckMessage::clear_has_spectateonly() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void JoinGameAckMessage::clear_spectateonly() {
   spectateonly_ = false;
@@ -14649,37 +15358,15 @@ inline void JoinGameAckMessage::set_spectateonly(bool value) {
 
 // JoinGameFailedMessage
 
-// required uint32 gameId = 1;
-inline bool JoinGameFailedMessage::has_gameid() const {
+// required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
+inline bool JoinGameFailedMessage::has_joingamefailurereason() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void JoinGameFailedMessage::set_has_gameid() {
+inline void JoinGameFailedMessage::set_has_joingamefailurereason() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void JoinGameFailedMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void JoinGameFailedMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 JoinGameFailedMessage::gameid() const {
-  return gameid_;
-}
-inline void JoinGameFailedMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
-inline bool JoinGameFailedMessage::has_joingamefailurereason() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void JoinGameFailedMessage::set_has_joingamefailurereason() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void JoinGameFailedMessage::clear_has_joingamefailurereason() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void JoinGameFailedMessage::clear_joingamefailurereason() {
   joingamefailurereason_ = 1;
@@ -14698,37 +15385,15 @@ inline void JoinGameFailedMessage::set_joingamefailurereason(::JoinGameFailedMes
 
 // GamePlayerJoinedMessage
 
-// required uint32 gameId = 1;
-inline bool GamePlayerJoinedMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool GamePlayerJoinedMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GamePlayerJoinedMessage::set_has_gameid() {
+inline void GamePlayerJoinedMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GamePlayerJoinedMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GamePlayerJoinedMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GamePlayerJoinedMessage::gameid() const {
-  return gameid_;
-}
-inline void GamePlayerJoinedMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool GamePlayerJoinedMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GamePlayerJoinedMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GamePlayerJoinedMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GamePlayerJoinedMessage::clear_playerid() {
   playerid_ = 0u;
@@ -14742,15 +15407,15 @@ inline void GamePlayerJoinedMessage::set_playerid(::google::protobuf::uint32 val
   playerid_ = value;
 }
 
-// required bool isGameAdmin = 3;
+// required bool isGameAdmin = 2;
 inline bool GamePlayerJoinedMessage::has_isgameadmin() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void GamePlayerJoinedMessage::set_has_isgameadmin() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void GamePlayerJoinedMessage::clear_has_isgameadmin() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void GamePlayerJoinedMessage::clear_isgameadmin() {
   isgameadmin_ = false;
@@ -14768,37 +15433,15 @@ inline void GamePlayerJoinedMessage::set_isgameadmin(bool value) {
 
 // GamePlayerLeftMessage
 
-// required uint32 gameId = 1;
-inline bool GamePlayerLeftMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool GamePlayerLeftMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GamePlayerLeftMessage::set_has_gameid() {
+inline void GamePlayerLeftMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GamePlayerLeftMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GamePlayerLeftMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GamePlayerLeftMessage::gameid() const {
-  return gameid_;
-}
-inline void GamePlayerLeftMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool GamePlayerLeftMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GamePlayerLeftMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GamePlayerLeftMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GamePlayerLeftMessage::clear_playerid() {
   playerid_ = 0u;
@@ -14812,15 +15455,15 @@ inline void GamePlayerLeftMessage::set_playerid(::google::protobuf::uint32 value
   playerid_ = value;
 }
 
-// required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;
+// required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 2;
 inline bool GamePlayerLeftMessage::has_gameplayerleftreason() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void GamePlayerLeftMessage::set_has_gameplayerleftreason() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void GamePlayerLeftMessage::clear_has_gameplayerleftreason() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void GamePlayerLeftMessage::clear_gameplayerleftreason() {
   gameplayerleftreason_ = 0;
@@ -14839,37 +15482,15 @@ inline void GamePlayerLeftMessage::set_gameplayerleftreason(::GamePlayerLeftMess
 
 // GameSpectatorJoinedMessage
 
-// required uint32 gameId = 1;
-inline bool GameSpectatorJoinedMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool GameSpectatorJoinedMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GameSpectatorJoinedMessage::set_has_gameid() {
+inline void GameSpectatorJoinedMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GameSpectatorJoinedMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GameSpectatorJoinedMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GameSpectatorJoinedMessage::gameid() const {
-  return gameid_;
-}
-inline void GameSpectatorJoinedMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool GameSpectatorJoinedMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GameSpectatorJoinedMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GameSpectatorJoinedMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GameSpectatorJoinedMessage::clear_playerid() {
   playerid_ = 0u;
@@ -14887,37 +15508,15 @@ inline void GameSpectatorJoinedMessage::set_playerid(::google::protobuf::uint32 
 
 // GameSpectatorLeftMessage
 
-// required uint32 gameId = 1;
-inline bool GameSpectatorLeftMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool GameSpectatorLeftMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GameSpectatorLeftMessage::set_has_gameid() {
+inline void GameSpectatorLeftMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GameSpectatorLeftMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GameSpectatorLeftMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GameSpectatorLeftMessage::gameid() const {
-  return gameid_;
-}
-inline void GameSpectatorLeftMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool GameSpectatorLeftMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GameSpectatorLeftMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GameSpectatorLeftMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GameSpectatorLeftMessage::clear_playerid() {
   playerid_ = 0u;
@@ -14931,15 +15530,15 @@ inline void GameSpectatorLeftMessage::set_playerid(::google::protobuf::uint32 va
   playerid_ = value;
 }
 
-// required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
+// required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 2;
 inline bool GameSpectatorLeftMessage::has_gamespectatorleftreason() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void GameSpectatorLeftMessage::set_has_gamespectatorleftreason() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void GameSpectatorLeftMessage::clear_has_gamespectatorleftreason() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void GameSpectatorLeftMessage::clear_gamespectatorleftreason() {
   gamespectatorleftreason_ = 0;
@@ -14958,37 +15557,15 @@ inline void GameSpectatorLeftMessage::set_gamespectatorleftreason(::GamePlayerLe
 
 // GameAdminChangedMessage
 
-// required uint32 gameId = 1;
-inline bool GameAdminChangedMessage::has_gameid() const {
+// required uint32 newAdminPlayerId = 1;
+inline bool GameAdminChangedMessage::has_newadminplayerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GameAdminChangedMessage::set_has_gameid() {
+inline void GameAdminChangedMessage::set_has_newadminplayerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GameAdminChangedMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GameAdminChangedMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GameAdminChangedMessage::gameid() const {
-  return gameid_;
-}
-inline void GameAdminChangedMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 newAdminPlayerId = 2;
-inline bool GameAdminChangedMessage::has_newadminplayerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GameAdminChangedMessage::set_has_newadminplayerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GameAdminChangedMessage::clear_has_newadminplayerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GameAdminChangedMessage::clear_newadminplayerid() {
   newadminplayerid_ = 0u;
@@ -15006,37 +15583,15 @@ inline void GameAdminChangedMessage::set_newadminplayerid(::google::protobuf::ui
 
 // RemovedFromGameMessage
 
-// required uint32 gameId = 1;
-inline bool RemovedFromGameMessage::has_gameid() const {
+// required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 1;
+inline bool RemovedFromGameMessage::has_removedfromgamereason() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void RemovedFromGameMessage::set_has_gameid() {
+inline void RemovedFromGameMessage::set_has_removedfromgamereason() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void RemovedFromGameMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void RemovedFromGameMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 RemovedFromGameMessage::gameid() const {
-  return gameid_;
-}
-inline void RemovedFromGameMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;
-inline bool RemovedFromGameMessage::has_removedfromgamereason() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void RemovedFromGameMessage::set_has_removedfromgamereason() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void RemovedFromGameMessage::clear_has_removedfromgamereason() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void RemovedFromGameMessage::clear_removedfromgamereason() {
   removedfromgamereason_ = 0;
@@ -15055,37 +15610,15 @@ inline void RemovedFromGameMessage::set_removedfromgamereason(::RemovedFromGameM
 
 // KickPlayerRequestMessage
 
-// required uint32 gameId = 1;
-inline bool KickPlayerRequestMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool KickPlayerRequestMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void KickPlayerRequestMessage::set_has_gameid() {
+inline void KickPlayerRequestMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void KickPlayerRequestMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void KickPlayerRequestMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 KickPlayerRequestMessage::gameid() const {
-  return gameid_;
-}
-inline void KickPlayerRequestMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool KickPlayerRequestMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void KickPlayerRequestMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void KickPlayerRequestMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void KickPlayerRequestMessage::clear_playerid() {
   playerid_ = 0u;
@@ -15102,28 +15635,6 @@ inline void KickPlayerRequestMessage::set_playerid(::google::protobuf::uint32 va
 // -------------------------------------------------------------------
 
 // LeaveGameRequestMessage
-
-// required uint32 gameId = 1;
-inline bool LeaveGameRequestMessage::has_gameid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void LeaveGameRequestMessage::set_has_gameid() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void LeaveGameRequestMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void LeaveGameRequestMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 LeaveGameRequestMessage::gameid() const {
-  return gameid_;
-}
-inline void LeaveGameRequestMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
 
 // -------------------------------------------------------------------
 
@@ -15367,37 +15878,15 @@ inline void RejectInvNotifyMessage::set_playerrejectreason(::RejectGameInvitatio
 
 // StartEventMessage
 
-// required uint32 gameId = 1;
-inline bool StartEventMessage::has_gameid() const {
+// required .StartEventMessage.StartEventType startEventType = 1;
+inline bool StartEventMessage::has_starteventtype() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void StartEventMessage::set_has_gameid() {
+inline void StartEventMessage::set_has_starteventtype() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void StartEventMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void StartEventMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 StartEventMessage::gameid() const {
-  return gameid_;
-}
-inline void StartEventMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required .StartEventMessage.StartEventType startEventType = 2;
-inline bool StartEventMessage::has_starteventtype() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void StartEventMessage::set_has_starteventtype() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void StartEventMessage::clear_has_starteventtype() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void StartEventMessage::clear_starteventtype() {
   starteventtype_ = 0;
@@ -15412,15 +15901,15 @@ inline void StartEventMessage::set_starteventtype(::StartEventMessage_StartEvent
   starteventtype_ = value;
 }
 
-// optional bool fillWithComputerPlayers = 3;
+// optional bool fillWithComputerPlayers = 2;
 inline bool StartEventMessage::has_fillwithcomputerplayers() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void StartEventMessage::set_has_fillwithcomputerplayers() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void StartEventMessage::clear_has_fillwithcomputerplayers() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void StartEventMessage::clear_fillwithcomputerplayers() {
   fillwithcomputerplayers_ = false;
@@ -15438,63 +15927,19 @@ inline void StartEventMessage::set_fillwithcomputerplayers(bool value) {
 
 // StartEventAckMessage
 
-// required uint32 gameId = 1;
-inline bool StartEventAckMessage::has_gameid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void StartEventAckMessage::set_has_gameid() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void StartEventAckMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void StartEventAckMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 StartEventAckMessage::gameid() const {
-  return gameid_;
-}
-inline void StartEventAckMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
 // -------------------------------------------------------------------
 
 // GameStartInitialMessage
 
-// required uint32 gameId = 1;
-inline bool GameStartInitialMessage::has_gameid() const {
+// required uint32 startDealerPlayerId = 1;
+inline bool GameStartInitialMessage::has_startdealerplayerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GameStartInitialMessage::set_has_gameid() {
+inline void GameStartInitialMessage::set_has_startdealerplayerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GameStartInitialMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GameStartInitialMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GameStartInitialMessage::gameid() const {
-  return gameid_;
-}
-inline void GameStartInitialMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 startDealerPlayerId = 2;
-inline bool GameStartInitialMessage::has_startdealerplayerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GameStartInitialMessage::set_has_startdealerplayerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GameStartInitialMessage::clear_has_startdealerplayerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GameStartInitialMessage::clear_startdealerplayerid() {
   startdealerplayerid_ = 0u;
@@ -15508,7 +15953,7 @@ inline void GameStartInitialMessage::set_startdealerplayerid(::google::protobuf:
   startdealerplayerid_ = value;
 }
 
-// repeated uint32 playerSeats = 3 [packed = true];
+// repeated uint32 playerSeats = 2 [packed = true];
 inline int GameStartInitialMessage::playerseats_size() const {
   return playerseats_.size();
 }
@@ -15585,37 +16030,15 @@ inline void GameStartRejoinMessage_RejoinPlayerData::set_playermoney(::google::p
 
 // GameStartRejoinMessage
 
-// required uint32 gameId = 1;
-inline bool GameStartRejoinMessage::has_gameid() const {
+// required uint32 startDealerPlayerId = 1;
+inline bool GameStartRejoinMessage::has_startdealerplayerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void GameStartRejoinMessage::set_has_gameid() {
+inline void GameStartRejoinMessage::set_has_startdealerplayerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void GameStartRejoinMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void GameStartRejoinMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 GameStartRejoinMessage::gameid() const {
-  return gameid_;
-}
-inline void GameStartRejoinMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 startDealerPlayerId = 2;
-inline bool GameStartRejoinMessage::has_startdealerplayerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void GameStartRejoinMessage::set_has_startdealerplayerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void GameStartRejoinMessage::clear_has_startdealerplayerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void GameStartRejoinMessage::clear_startdealerplayerid() {
   startdealerplayerid_ = 0u;
@@ -15629,15 +16052,15 @@ inline void GameStartRejoinMessage::set_startdealerplayerid(::google::protobuf::
   startdealerplayerid_ = value;
 }
 
-// required uint32 handNum = 3;
+// required uint32 handNum = 2;
 inline bool GameStartRejoinMessage::has_handnum() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void GameStartRejoinMessage::set_has_handnum() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void GameStartRejoinMessage::clear_has_handnum() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void GameStartRejoinMessage::clear_handnum() {
   handnum_ = 0u;
@@ -15651,7 +16074,7 @@ inline void GameStartRejoinMessage::set_handnum(::google::protobuf::uint32 value
   handnum_ = value;
 }
 
-// repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 4;
+// repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 3;
 inline int GameStartRejoinMessage::rejoinplayerdata_size() const {
   return rejoinplayerdata_.size();
 }
@@ -15728,37 +16151,15 @@ inline void HandStartMessage_PlainCards::set_plaincard2(::google::protobuf::uint
 
 // HandStartMessage
 
-// required uint32 gameId = 1;
-inline bool HandStartMessage::has_gameid() const {
+// optional .HandStartMessage.PlainCards plainCards = 1;
+inline bool HandStartMessage::has_plaincards() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void HandStartMessage::set_has_gameid() {
+inline void HandStartMessage::set_has_plaincards() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void HandStartMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void HandStartMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 HandStartMessage::gameid() const {
-  return gameid_;
-}
-inline void HandStartMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// optional .HandStartMessage.PlainCards plainCards = 2;
-inline bool HandStartMessage::has_plaincards() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void HandStartMessage::set_has_plaincards() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void HandStartMessage::clear_has_plaincards() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void HandStartMessage::clear_plaincards() {
   if (plaincards_ != NULL) plaincards_->::HandStartMessage_PlainCards::Clear();
@@ -15792,15 +16193,15 @@ inline void HandStartMessage::set_allocated_plaincards(::HandStartMessage_PlainC
   }
 }
 
-// optional bytes encryptedCards = 3;
+// optional bytes encryptedCards = 2;
 inline bool HandStartMessage::has_encryptedcards() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void HandStartMessage::set_has_encryptedcards() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void HandStartMessage::clear_has_encryptedcards() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void HandStartMessage::clear_encryptedcards() {
   if (encryptedcards_ != &::google::protobuf::internal::kEmptyString) {
@@ -15862,15 +16263,15 @@ inline void HandStartMessage::set_allocated_encryptedcards(::std::string* encryp
   }
 }
 
-// required uint32 smallBlind = 4;
+// required uint32 smallBlind = 3;
 inline bool HandStartMessage::has_smallblind() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void HandStartMessage::set_has_smallblind() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void HandStartMessage::clear_has_smallblind() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void HandStartMessage::clear_smallblind() {
   smallblind_ = 0u;
@@ -15884,7 +16285,7 @@ inline void HandStartMessage::set_smallblind(::google::protobuf::uint32 value) {
   smallblind_ = value;
 }
 
-// repeated .NetPlayerState seatStates = 5;
+// repeated .NetPlayerState seatStates = 4;
 inline int HandStartMessage::seatstates_size() const {
   return seatstates_.size();
 }
@@ -15911,15 +16312,15 @@ HandStartMessage::mutable_seatstates() {
   return &seatstates_;
 }
 
-// optional uint32 dealerPlayerId = 6;
+// optional uint32 dealerPlayerId = 5;
 inline bool HandStartMessage::has_dealerplayerid() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void HandStartMessage::set_has_dealerplayerid() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void HandStartMessage::clear_has_dealerplayerid() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void HandStartMessage::clear_dealerplayerid() {
   dealerplayerid_ = 0u;
@@ -15937,37 +16338,15 @@ inline void HandStartMessage::set_dealerplayerid(::google::protobuf::uint32 valu
 
 // PlayersTurnMessage
 
-// required uint32 gameId = 1;
-inline bool PlayersTurnMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool PlayersTurnMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void PlayersTurnMessage::set_has_gameid() {
+inline void PlayersTurnMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void PlayersTurnMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void PlayersTurnMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 PlayersTurnMessage::gameid() const {
-  return gameid_;
-}
-inline void PlayersTurnMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool PlayersTurnMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void PlayersTurnMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void PlayersTurnMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void PlayersTurnMessage::clear_playerid() {
   playerid_ = 0u;
@@ -15981,15 +16360,15 @@ inline void PlayersTurnMessage::set_playerid(::google::protobuf::uint32 value) {
   playerid_ = value;
 }
 
-// required .NetGameState gameState = 3;
+// required .NetGameState gameState = 2;
 inline bool PlayersTurnMessage::has_gamestate() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void PlayersTurnMessage::set_has_gamestate() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void PlayersTurnMessage::clear_has_gamestate() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void PlayersTurnMessage::clear_gamestate() {
   gamestate_ = 0;
@@ -16008,37 +16387,15 @@ inline void PlayersTurnMessage::set_gamestate(::NetGameState value) {
 
 // MyActionRequestMessage
 
-// required uint32 gameId = 1;
-inline bool MyActionRequestMessage::has_gameid() const {
+// required uint32 handNum = 1;
+inline bool MyActionRequestMessage::has_handnum() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void MyActionRequestMessage::set_has_gameid() {
+inline void MyActionRequestMessage::set_has_handnum() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void MyActionRequestMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void MyActionRequestMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 MyActionRequestMessage::gameid() const {
-  return gameid_;
-}
-inline void MyActionRequestMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 handNum = 2;
-inline bool MyActionRequestMessage::has_handnum() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void MyActionRequestMessage::set_has_handnum() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void MyActionRequestMessage::clear_has_handnum() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void MyActionRequestMessage::clear_handnum() {
   handnum_ = 0u;
@@ -16052,15 +16409,15 @@ inline void MyActionRequestMessage::set_handnum(::google::protobuf::uint32 value
   handnum_ = value;
 }
 
-// required .NetGameState gameState = 3;
+// required .NetGameState gameState = 2;
 inline bool MyActionRequestMessage::has_gamestate() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void MyActionRequestMessage::set_has_gamestate() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void MyActionRequestMessage::clear_has_gamestate() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void MyActionRequestMessage::clear_gamestate() {
   gamestate_ = 0;
@@ -16075,15 +16432,15 @@ inline void MyActionRequestMessage::set_gamestate(::NetGameState value) {
   gamestate_ = value;
 }
 
-// required .NetPlayerAction myAction = 4;
+// required .NetPlayerAction myAction = 3;
 inline bool MyActionRequestMessage::has_myaction() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void MyActionRequestMessage::set_has_myaction() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void MyActionRequestMessage::clear_has_myaction() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void MyActionRequestMessage::clear_myaction() {
   myaction_ = 0;
@@ -16098,15 +16455,15 @@ inline void MyActionRequestMessage::set_myaction(::NetPlayerAction value) {
   myaction_ = value;
 }
 
-// required uint32 myRelativeBet = 5;
+// required uint32 myRelativeBet = 4;
 inline bool MyActionRequestMessage::has_myrelativebet() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void MyActionRequestMessage::set_has_myrelativebet() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void MyActionRequestMessage::clear_has_myrelativebet() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void MyActionRequestMessage::clear_myrelativebet() {
   myrelativebet_ = 0u;
@@ -16124,37 +16481,15 @@ inline void MyActionRequestMessage::set_myrelativebet(::google::protobuf::uint32
 
 // YourActionRejectedMessage
 
-// required uint32 gameId = 1;
-inline bool YourActionRejectedMessage::has_gameid() const {
+// required .NetGameState gameState = 1;
+inline bool YourActionRejectedMessage::has_gamestate() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void YourActionRejectedMessage::set_has_gameid() {
+inline void YourActionRejectedMessage::set_has_gamestate() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void YourActionRejectedMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void YourActionRejectedMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 YourActionRejectedMessage::gameid() const {
-  return gameid_;
-}
-inline void YourActionRejectedMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required .NetGameState gameState = 2;
-inline bool YourActionRejectedMessage::has_gamestate() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void YourActionRejectedMessage::set_has_gamestate() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void YourActionRejectedMessage::clear_has_gamestate() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void YourActionRejectedMessage::clear_gamestate() {
   gamestate_ = 0;
@@ -16169,15 +16504,15 @@ inline void YourActionRejectedMessage::set_gamestate(::NetGameState value) {
   gamestate_ = value;
 }
 
-// required .NetPlayerAction yourAction = 3;
+// required .NetPlayerAction yourAction = 2;
 inline bool YourActionRejectedMessage::has_youraction() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void YourActionRejectedMessage::set_has_youraction() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void YourActionRejectedMessage::clear_has_youraction() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void YourActionRejectedMessage::clear_youraction() {
   youraction_ = 0;
@@ -16192,15 +16527,15 @@ inline void YourActionRejectedMessage::set_youraction(::NetPlayerAction value) {
   youraction_ = value;
 }
 
-// required uint32 yourRelativeBet = 4;
+// required uint32 yourRelativeBet = 3;
 inline bool YourActionRejectedMessage::has_yourrelativebet() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void YourActionRejectedMessage::set_has_yourrelativebet() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void YourActionRejectedMessage::clear_has_yourrelativebet() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void YourActionRejectedMessage::clear_yourrelativebet() {
   yourrelativebet_ = 0u;
@@ -16214,15 +16549,15 @@ inline void YourActionRejectedMessage::set_yourrelativebet(::google::protobuf::u
   yourrelativebet_ = value;
 }
 
-// required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;
+// required .YourActionRejectedMessage.RejectionReason rejectionReason = 4;
 inline bool YourActionRejectedMessage::has_rejectionreason() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void YourActionRejectedMessage::set_has_rejectionreason() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void YourActionRejectedMessage::clear_has_rejectionreason() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void YourActionRejectedMessage::clear_rejectionreason() {
   rejectionreason_ = 1;
@@ -16241,37 +16576,15 @@ inline void YourActionRejectedMessage::set_rejectionreason(::YourActionRejectedM
 
 // PlayersActionDoneMessage
 
-// required uint32 gameId = 1;
-inline bool PlayersActionDoneMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool PlayersActionDoneMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void PlayersActionDoneMessage::set_has_gameid() {
+inline void PlayersActionDoneMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void PlayersActionDoneMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void PlayersActionDoneMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 PlayersActionDoneMessage::gameid() const {
-  return gameid_;
-}
-inline void PlayersActionDoneMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool PlayersActionDoneMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void PlayersActionDoneMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void PlayersActionDoneMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void PlayersActionDoneMessage::clear_playerid() {
   playerid_ = 0u;
@@ -16285,15 +16598,15 @@ inline void PlayersActionDoneMessage::set_playerid(::google::protobuf::uint32 va
   playerid_ = value;
 }
 
-// required .NetGameState gameState = 3;
+// required .NetGameState gameState = 2;
 inline bool PlayersActionDoneMessage::has_gamestate() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void PlayersActionDoneMessage::set_has_gamestate() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void PlayersActionDoneMessage::clear_has_gamestate() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void PlayersActionDoneMessage::clear_gamestate() {
   gamestate_ = 0;
@@ -16308,15 +16621,15 @@ inline void PlayersActionDoneMessage::set_gamestate(::NetGameState value) {
   gamestate_ = value;
 }
 
-// required .NetPlayerAction playerAction = 4;
+// required .NetPlayerAction playerAction = 3;
 inline bool PlayersActionDoneMessage::has_playeraction() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void PlayersActionDoneMessage::set_has_playeraction() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void PlayersActionDoneMessage::clear_has_playeraction() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void PlayersActionDoneMessage::clear_playeraction() {
   playeraction_ = 0;
@@ -16331,15 +16644,15 @@ inline void PlayersActionDoneMessage::set_playeraction(::NetPlayerAction value) 
   playeraction_ = value;
 }
 
-// required uint32 totalPlayerBet = 5;
+// required uint32 totalPlayerBet = 4;
 inline bool PlayersActionDoneMessage::has_totalplayerbet() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void PlayersActionDoneMessage::set_has_totalplayerbet() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void PlayersActionDoneMessage::clear_has_totalplayerbet() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void PlayersActionDoneMessage::clear_totalplayerbet() {
   totalplayerbet_ = 0u;
@@ -16353,15 +16666,15 @@ inline void PlayersActionDoneMessage::set_totalplayerbet(::google::protobuf::uin
   totalplayerbet_ = value;
 }
 
-// required uint32 playerMoney = 6;
+// required uint32 playerMoney = 5;
 inline bool PlayersActionDoneMessage::has_playermoney() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void PlayersActionDoneMessage::set_has_playermoney() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void PlayersActionDoneMessage::clear_has_playermoney() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void PlayersActionDoneMessage::clear_playermoney() {
   playermoney_ = 0u;
@@ -16375,15 +16688,15 @@ inline void PlayersActionDoneMessage::set_playermoney(::google::protobuf::uint32
   playermoney_ = value;
 }
 
-// required uint32 highestSet = 7;
+// required uint32 highestSet = 6;
 inline bool PlayersActionDoneMessage::has_highestset() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
 inline void PlayersActionDoneMessage::set_has_highestset() {
-  _has_bits_[0] |= 0x00000040u;
+  _has_bits_[0] |= 0x00000020u;
 }
 inline void PlayersActionDoneMessage::clear_has_highestset() {
-  _has_bits_[0] &= ~0x00000040u;
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void PlayersActionDoneMessage::clear_highestset() {
   highestset_ = 0u;
@@ -16397,15 +16710,15 @@ inline void PlayersActionDoneMessage::set_highestset(::google::protobuf::uint32 
   highestset_ = value;
 }
 
-// required uint32 minimumRaise = 8;
+// required uint32 minimumRaise = 7;
 inline bool PlayersActionDoneMessage::has_minimumraise() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+  return (_has_bits_[0] & 0x00000040u) != 0;
 }
 inline void PlayersActionDoneMessage::set_has_minimumraise() {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000040u;
 }
 inline void PlayersActionDoneMessage::clear_has_minimumraise() {
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000040u;
 }
 inline void PlayersActionDoneMessage::clear_minimumraise() {
   minimumraise_ = 0u;
@@ -16423,37 +16736,15 @@ inline void PlayersActionDoneMessage::set_minimumraise(::google::protobuf::uint3
 
 // DealFlopCardsMessage
 
-// required uint32 gameId = 1;
-inline bool DealFlopCardsMessage::has_gameid() const {
+// required uint32 flopCard1 = 1;
+inline bool DealFlopCardsMessage::has_flopcard1() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void DealFlopCardsMessage::set_has_gameid() {
+inline void DealFlopCardsMessage::set_has_flopcard1() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void DealFlopCardsMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void DealFlopCardsMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 DealFlopCardsMessage::gameid() const {
-  return gameid_;
-}
-inline void DealFlopCardsMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 flopCard1 = 2;
-inline bool DealFlopCardsMessage::has_flopcard1() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void DealFlopCardsMessage::set_has_flopcard1() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void DealFlopCardsMessage::clear_has_flopcard1() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void DealFlopCardsMessage::clear_flopcard1() {
   flopcard1_ = 0u;
@@ -16467,15 +16758,15 @@ inline void DealFlopCardsMessage::set_flopcard1(::google::protobuf::uint32 value
   flopcard1_ = value;
 }
 
-// required uint32 flopCard2 = 3;
+// required uint32 flopCard2 = 2;
 inline bool DealFlopCardsMessage::has_flopcard2() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void DealFlopCardsMessage::set_has_flopcard2() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void DealFlopCardsMessage::clear_has_flopcard2() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void DealFlopCardsMessage::clear_flopcard2() {
   flopcard2_ = 0u;
@@ -16489,15 +16780,15 @@ inline void DealFlopCardsMessage::set_flopcard2(::google::protobuf::uint32 value
   flopcard2_ = value;
 }
 
-// required uint32 flopCard3 = 4;
+// required uint32 flopCard3 = 3;
 inline bool DealFlopCardsMessage::has_flopcard3() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void DealFlopCardsMessage::set_has_flopcard3() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void DealFlopCardsMessage::clear_has_flopcard3() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void DealFlopCardsMessage::clear_flopcard3() {
   flopcard3_ = 0u;
@@ -16515,37 +16806,15 @@ inline void DealFlopCardsMessage::set_flopcard3(::google::protobuf::uint32 value
 
 // DealTurnCardMessage
 
-// required uint32 gameId = 1;
-inline bool DealTurnCardMessage::has_gameid() const {
+// required uint32 turnCard = 1;
+inline bool DealTurnCardMessage::has_turncard() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void DealTurnCardMessage::set_has_gameid() {
+inline void DealTurnCardMessage::set_has_turncard() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void DealTurnCardMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void DealTurnCardMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 DealTurnCardMessage::gameid() const {
-  return gameid_;
-}
-inline void DealTurnCardMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 turnCard = 2;
-inline bool DealTurnCardMessage::has_turncard() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void DealTurnCardMessage::set_has_turncard() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void DealTurnCardMessage::clear_has_turncard() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void DealTurnCardMessage::clear_turncard() {
   turncard_ = 0u;
@@ -16563,37 +16832,15 @@ inline void DealTurnCardMessage::set_turncard(::google::protobuf::uint32 value) 
 
 // DealRiverCardMessage
 
-// required uint32 gameId = 1;
-inline bool DealRiverCardMessage::has_gameid() const {
+// required uint32 riverCard = 1;
+inline bool DealRiverCardMessage::has_rivercard() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void DealRiverCardMessage::set_has_gameid() {
+inline void DealRiverCardMessage::set_has_rivercard() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void DealRiverCardMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void DealRiverCardMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 DealRiverCardMessage::gameid() const {
-  return gameid_;
-}
-inline void DealRiverCardMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 riverCard = 2;
-inline bool DealRiverCardMessage::has_rivercard() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void DealRiverCardMessage::set_has_rivercard() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void DealRiverCardMessage::clear_has_rivercard() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void DealRiverCardMessage::clear_rivercard() {
   rivercard_ = 0u;
@@ -16681,29 +16928,7 @@ inline void AllInShowCardsMessage_PlayerAllIn::set_allincard2(::google::protobuf
 
 // AllInShowCardsMessage
 
-// required uint32 gameId = 1;
-inline bool AllInShowCardsMessage::has_gameid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void AllInShowCardsMessage::set_has_gameid() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void AllInShowCardsMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void AllInShowCardsMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 AllInShowCardsMessage::gameid() const {
-  return gameid_;
-}
-inline void AllInShowCardsMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 2;
+// repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 1;
 inline int AllInShowCardsMessage::playersallin_size() const {
   return playersallin_.size();
 }
@@ -16732,29 +16957,7 @@ AllInShowCardsMessage::mutable_playersallin() {
 
 // EndOfHandShowCardsMessage
 
-// required uint32 gameId = 1;
-inline bool EndOfHandShowCardsMessage::has_gameid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void EndOfHandShowCardsMessage::set_has_gameid() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void EndOfHandShowCardsMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void EndOfHandShowCardsMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 EndOfHandShowCardsMessage::gameid() const {
-  return gameid_;
-}
-inline void EndOfHandShowCardsMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// repeated .PlayerResult playerResults = 2;
+// repeated .PlayerResult playerResults = 1;
 inline int EndOfHandShowCardsMessage::playerresults_size() const {
   return playerresults_.size();
 }
@@ -16783,37 +16986,15 @@ EndOfHandShowCardsMessage::mutable_playerresults() {
 
 // EndOfHandHideCardsMessage
 
-// required uint32 gameId = 1;
-inline bool EndOfHandHideCardsMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool EndOfHandHideCardsMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void EndOfHandHideCardsMessage::set_has_gameid() {
+inline void EndOfHandHideCardsMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void EndOfHandHideCardsMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void EndOfHandHideCardsMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 EndOfHandHideCardsMessage::gameid() const {
-  return gameid_;
-}
-inline void EndOfHandHideCardsMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool EndOfHandHideCardsMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void EndOfHandHideCardsMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void EndOfHandHideCardsMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void EndOfHandHideCardsMessage::clear_playerid() {
   playerid_ = 0u;
@@ -16827,15 +17008,15 @@ inline void EndOfHandHideCardsMessage::set_playerid(::google::protobuf::uint32 v
   playerid_ = value;
 }
 
-// required uint32 moneyWon = 3;
+// required uint32 moneyWon = 2;
 inline bool EndOfHandHideCardsMessage::has_moneywon() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void EndOfHandHideCardsMessage::set_has_moneywon() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void EndOfHandHideCardsMessage::clear_has_moneywon() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void EndOfHandHideCardsMessage::clear_moneywon() {
   moneywon_ = 0u;
@@ -16849,15 +17030,15 @@ inline void EndOfHandHideCardsMessage::set_moneywon(::google::protobuf::uint32 v
   moneywon_ = value;
 }
 
-// required uint32 playerMoney = 4;
+// required uint32 playerMoney = 3;
 inline bool EndOfHandHideCardsMessage::has_playermoney() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void EndOfHandHideCardsMessage::set_has_playermoney() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void EndOfHandHideCardsMessage::clear_has_playermoney() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void EndOfHandHideCardsMessage::clear_playermoney() {
   playermoney_ = 0u;
@@ -16925,37 +17106,15 @@ inline void AfterHandShowCardsMessage::set_allocated_playerresult(::PlayerResult
 
 // EndOfGameMessage
 
-// required uint32 gameId = 1;
-inline bool EndOfGameMessage::has_gameid() const {
+// required uint32 winnerPlayerId = 1;
+inline bool EndOfGameMessage::has_winnerplayerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void EndOfGameMessage::set_has_gameid() {
+inline void EndOfGameMessage::set_has_winnerplayerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void EndOfGameMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void EndOfGameMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 EndOfGameMessage::gameid() const {
-  return gameid_;
-}
-inline void EndOfGameMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 winnerPlayerId = 2;
-inline bool EndOfGameMessage::has_winnerplayerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void EndOfGameMessage::set_has_winnerplayerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void EndOfGameMessage::clear_has_winnerplayerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void EndOfGameMessage::clear_winnerplayerid() {
   winnerplayerid_ = 0u;
@@ -17021,37 +17180,15 @@ inline void PlayerIdChangedMessage::set_newplayerid(::google::protobuf::uint32 v
 
 // AskKickPlayerMessage
 
-// required uint32 gameId = 1;
-inline bool AskKickPlayerMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool AskKickPlayerMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void AskKickPlayerMessage::set_has_gameid() {
+inline void AskKickPlayerMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void AskKickPlayerMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void AskKickPlayerMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 AskKickPlayerMessage::gameid() const {
-  return gameid_;
-}
-inline void AskKickPlayerMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool AskKickPlayerMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void AskKickPlayerMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void AskKickPlayerMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void AskKickPlayerMessage::clear_playerid() {
   playerid_ = 0u;
@@ -17069,37 +17206,15 @@ inline void AskKickPlayerMessage::set_playerid(::google::protobuf::uint32 value)
 
 // AskKickDeniedMessage
 
-// required uint32 gameId = 1;
-inline bool AskKickDeniedMessage::has_gameid() const {
+// required uint32 playerId = 1;
+inline bool AskKickDeniedMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void AskKickDeniedMessage::set_has_gameid() {
+inline void AskKickDeniedMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void AskKickDeniedMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void AskKickDeniedMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 AskKickDeniedMessage::gameid() const {
-  return gameid_;
-}
-inline void AskKickDeniedMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 playerId = 2;
-inline bool AskKickDeniedMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void AskKickDeniedMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void AskKickDeniedMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void AskKickDeniedMessage::clear_playerid() {
   playerid_ = 0u;
@@ -17113,15 +17228,15 @@ inline void AskKickDeniedMessage::set_playerid(::google::protobuf::uint32 value)
   playerid_ = value;
 }
 
-// required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;
+// required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 2;
 inline bool AskKickDeniedMessage::has_kickdeniedreason() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void AskKickDeniedMessage::set_has_kickdeniedreason() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void AskKickDeniedMessage::clear_has_kickdeniedreason() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void AskKickDeniedMessage::clear_kickdeniedreason() {
   kickdeniedreason_ = 0;
@@ -17140,37 +17255,15 @@ inline void AskKickDeniedMessage::set_kickdeniedreason(::AskKickDeniedMessage_Ki
 
 // StartKickPetitionMessage
 
-// required uint32 gameId = 1;
-inline bool StartKickPetitionMessage::has_gameid() const {
+// required uint32 petitionId = 1;
+inline bool StartKickPetitionMessage::has_petitionid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void StartKickPetitionMessage::set_has_gameid() {
+inline void StartKickPetitionMessage::set_has_petitionid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void StartKickPetitionMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void StartKickPetitionMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 StartKickPetitionMessage::gameid() const {
-  return gameid_;
-}
-inline void StartKickPetitionMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 petitionId = 2;
-inline bool StartKickPetitionMessage::has_petitionid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void StartKickPetitionMessage::set_has_petitionid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void StartKickPetitionMessage::clear_has_petitionid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void StartKickPetitionMessage::clear_petitionid() {
   petitionid_ = 0u;
@@ -17184,15 +17277,15 @@ inline void StartKickPetitionMessage::set_petitionid(::google::protobuf::uint32 
   petitionid_ = value;
 }
 
-// required uint32 proposingPlayerId = 3;
+// required uint32 proposingPlayerId = 2;
 inline bool StartKickPetitionMessage::has_proposingplayerid() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void StartKickPetitionMessage::set_has_proposingplayerid() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void StartKickPetitionMessage::clear_has_proposingplayerid() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void StartKickPetitionMessage::clear_proposingplayerid() {
   proposingplayerid_ = 0u;
@@ -17206,15 +17299,15 @@ inline void StartKickPetitionMessage::set_proposingplayerid(::google::protobuf::
   proposingplayerid_ = value;
 }
 
-// required uint32 kickPlayerId = 4;
+// required uint32 kickPlayerId = 3;
 inline bool StartKickPetitionMessage::has_kickplayerid() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void StartKickPetitionMessage::set_has_kickplayerid() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void StartKickPetitionMessage::clear_has_kickplayerid() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void StartKickPetitionMessage::clear_kickplayerid() {
   kickplayerid_ = 0u;
@@ -17228,15 +17321,15 @@ inline void StartKickPetitionMessage::set_kickplayerid(::google::protobuf::uint3
   kickplayerid_ = value;
 }
 
-// required uint32 kickTimeoutSec = 5;
+// required uint32 kickTimeoutSec = 4;
 inline bool StartKickPetitionMessage::has_kicktimeoutsec() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void StartKickPetitionMessage::set_has_kicktimeoutsec() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void StartKickPetitionMessage::clear_has_kicktimeoutsec() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void StartKickPetitionMessage::clear_kicktimeoutsec() {
   kicktimeoutsec_ = 0u;
@@ -17250,15 +17343,15 @@ inline void StartKickPetitionMessage::set_kicktimeoutsec(::google::protobuf::uin
   kicktimeoutsec_ = value;
 }
 
-// required uint32 numVotesNeededToKick = 6;
+// required uint32 numVotesNeededToKick = 5;
 inline bool StartKickPetitionMessage::has_numvotesneededtokick() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void StartKickPetitionMessage::set_has_numvotesneededtokick() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void StartKickPetitionMessage::clear_has_numvotesneededtokick() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void StartKickPetitionMessage::clear_numvotesneededtokick() {
   numvotesneededtokick_ = 0u;
@@ -17276,37 +17369,15 @@ inline void StartKickPetitionMessage::set_numvotesneededtokick(::google::protobu
 
 // VoteKickRequestMessage
 
-// required uint32 gameId = 1;
-inline bool VoteKickRequestMessage::has_gameid() const {
+// required uint32 petitionId = 1;
+inline bool VoteKickRequestMessage::has_petitionid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void VoteKickRequestMessage::set_has_gameid() {
+inline void VoteKickRequestMessage::set_has_petitionid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void VoteKickRequestMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void VoteKickRequestMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 VoteKickRequestMessage::gameid() const {
-  return gameid_;
-}
-inline void VoteKickRequestMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 petitionId = 2;
-inline bool VoteKickRequestMessage::has_petitionid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void VoteKickRequestMessage::set_has_petitionid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void VoteKickRequestMessage::clear_has_petitionid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void VoteKickRequestMessage::clear_petitionid() {
   petitionid_ = 0u;
@@ -17320,15 +17391,15 @@ inline void VoteKickRequestMessage::set_petitionid(::google::protobuf::uint32 va
   petitionid_ = value;
 }
 
-// required bool voteKick = 3;
+// required bool voteKick = 2;
 inline bool VoteKickRequestMessage::has_votekick() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void VoteKickRequestMessage::set_has_votekick() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void VoteKickRequestMessage::clear_has_votekick() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void VoteKickRequestMessage::clear_votekick() {
   votekick_ = false;
@@ -17346,37 +17417,15 @@ inline void VoteKickRequestMessage::set_votekick(bool value) {
 
 // VoteKickReplyMessage
 
-// required uint32 gameId = 1;
-inline bool VoteKickReplyMessage::has_gameid() const {
+// required uint32 petitionId = 1;
+inline bool VoteKickReplyMessage::has_petitionid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void VoteKickReplyMessage::set_has_gameid() {
+inline void VoteKickReplyMessage::set_has_petitionid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void VoteKickReplyMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void VoteKickReplyMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 VoteKickReplyMessage::gameid() const {
-  return gameid_;
-}
-inline void VoteKickReplyMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 petitionId = 2;
-inline bool VoteKickReplyMessage::has_petitionid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void VoteKickReplyMessage::set_has_petitionid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void VoteKickReplyMessage::clear_has_petitionid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void VoteKickReplyMessage::clear_petitionid() {
   petitionid_ = 0u;
@@ -17390,15 +17439,15 @@ inline void VoteKickReplyMessage::set_petitionid(::google::protobuf::uint32 valu
   petitionid_ = value;
 }
 
-// required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;
+// required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 2;
 inline bool VoteKickReplyMessage::has_votekickreplytype() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void VoteKickReplyMessage::set_has_votekickreplytype() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void VoteKickReplyMessage::clear_has_votekickreplytype() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void VoteKickReplyMessage::clear_votekickreplytype() {
   votekickreplytype_ = 0;
@@ -17417,37 +17466,15 @@ inline void VoteKickReplyMessage::set_votekickreplytype(::VoteKickReplyMessage_V
 
 // KickPetitionUpdateMessage
 
-// required uint32 gameId = 1;
-inline bool KickPetitionUpdateMessage::has_gameid() const {
+// required uint32 petitionId = 1;
+inline bool KickPetitionUpdateMessage::has_petitionid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void KickPetitionUpdateMessage::set_has_gameid() {
+inline void KickPetitionUpdateMessage::set_has_petitionid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void KickPetitionUpdateMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void KickPetitionUpdateMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 KickPetitionUpdateMessage::gameid() const {
-  return gameid_;
-}
-inline void KickPetitionUpdateMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 petitionId = 2;
-inline bool KickPetitionUpdateMessage::has_petitionid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void KickPetitionUpdateMessage::set_has_petitionid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void KickPetitionUpdateMessage::clear_has_petitionid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void KickPetitionUpdateMessage::clear_petitionid() {
   petitionid_ = 0u;
@@ -17461,15 +17488,15 @@ inline void KickPetitionUpdateMessage::set_petitionid(::google::protobuf::uint32
   petitionid_ = value;
 }
 
-// required uint32 numVotesAgainstKicking = 3;
+// required uint32 numVotesAgainstKicking = 2;
 inline bool KickPetitionUpdateMessage::has_numvotesagainstkicking() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void KickPetitionUpdateMessage::set_has_numvotesagainstkicking() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void KickPetitionUpdateMessage::clear_has_numvotesagainstkicking() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void KickPetitionUpdateMessage::clear_numvotesagainstkicking() {
   numvotesagainstkicking_ = 0u;
@@ -17483,15 +17510,15 @@ inline void KickPetitionUpdateMessage::set_numvotesagainstkicking(::google::prot
   numvotesagainstkicking_ = value;
 }
 
-// required uint32 numVotesInFavourOfKicking = 4;
+// required uint32 numVotesInFavourOfKicking = 3;
 inline bool KickPetitionUpdateMessage::has_numvotesinfavourofkicking() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void KickPetitionUpdateMessage::set_has_numvotesinfavourofkicking() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void KickPetitionUpdateMessage::clear_has_numvotesinfavourofkicking() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void KickPetitionUpdateMessage::clear_numvotesinfavourofkicking() {
   numvotesinfavourofkicking_ = 0u;
@@ -17505,15 +17532,15 @@ inline void KickPetitionUpdateMessage::set_numvotesinfavourofkicking(::google::p
   numvotesinfavourofkicking_ = value;
 }
 
-// required uint32 numVotesNeededToKick = 5;
+// required uint32 numVotesNeededToKick = 4;
 inline bool KickPetitionUpdateMessage::has_numvotesneededtokick() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void KickPetitionUpdateMessage::set_has_numvotesneededtokick() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void KickPetitionUpdateMessage::clear_has_numvotesneededtokick() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void KickPetitionUpdateMessage::clear_numvotesneededtokick() {
   numvotesneededtokick_ = 0u;
@@ -17531,37 +17558,15 @@ inline void KickPetitionUpdateMessage::set_numvotesneededtokick(::google::protob
 
 // EndKickPetitionMessage
 
-// required uint32 gameId = 1;
-inline bool EndKickPetitionMessage::has_gameid() const {
+// required uint32 petitionId = 1;
+inline bool EndKickPetitionMessage::has_petitionid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void EndKickPetitionMessage::set_has_gameid() {
+inline void EndKickPetitionMessage::set_has_petitionid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void EndKickPetitionMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void EndKickPetitionMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 EndKickPetitionMessage::gameid() const {
-  return gameid_;
-}
-inline void EndKickPetitionMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// required uint32 petitionId = 2;
-inline bool EndKickPetitionMessage::has_petitionid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void EndKickPetitionMessage::set_has_petitionid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void EndKickPetitionMessage::clear_has_petitionid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void EndKickPetitionMessage::clear_petitionid() {
   petitionid_ = 0u;
@@ -17575,15 +17580,15 @@ inline void EndKickPetitionMessage::set_petitionid(::google::protobuf::uint32 va
   petitionid_ = value;
 }
 
-// required uint32 numVotesAgainstKicking = 3;
+// required uint32 numVotesAgainstKicking = 2;
 inline bool EndKickPetitionMessage::has_numvotesagainstkicking() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void EndKickPetitionMessage::set_has_numvotesagainstkicking() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void EndKickPetitionMessage::clear_has_numvotesagainstkicking() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void EndKickPetitionMessage::clear_numvotesagainstkicking() {
   numvotesagainstkicking_ = 0u;
@@ -17597,15 +17602,15 @@ inline void EndKickPetitionMessage::set_numvotesagainstkicking(::google::protobu
   numvotesagainstkicking_ = value;
 }
 
-// required uint32 numVotesInFavourOfKicking = 4;
+// required uint32 numVotesInFavourOfKicking = 3;
 inline bool EndKickPetitionMessage::has_numvotesinfavourofkicking() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void EndKickPetitionMessage::set_has_numvotesinfavourofkicking() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void EndKickPetitionMessage::clear_has_numvotesinfavourofkicking() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void EndKickPetitionMessage::clear_numvotesinfavourofkicking() {
   numvotesinfavourofkicking_ = 0u;
@@ -17619,15 +17624,15 @@ inline void EndKickPetitionMessage::set_numvotesinfavourofkicking(::google::prot
   numvotesinfavourofkicking_ = value;
 }
 
-// required uint32 resultPlayerKicked = 5;
+// required uint32 resultPlayerKicked = 4;
 inline bool EndKickPetitionMessage::has_resultplayerkicked() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void EndKickPetitionMessage::set_has_resultplayerkicked() {
-  _has_bits_[0] |= 0x00000010u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void EndKickPetitionMessage::clear_has_resultplayerkicked() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void EndKickPetitionMessage::clear_resultplayerkicked() {
   resultplayerkicked_ = 0u;
@@ -17641,15 +17646,15 @@ inline void EndKickPetitionMessage::set_resultplayerkicked(::google::protobuf::u
   resultplayerkicked_ = value;
 }
 
-// required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;
+// required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 5;
 inline bool EndKickPetitionMessage::has_petitionendreason() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void EndKickPetitionMessage::set_has_petitionendreason() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void EndKickPetitionMessage::clear_has_petitionendreason() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void EndKickPetitionMessage::clear_petitionendreason() {
   petitionendreason_ = 0;
@@ -17746,37 +17751,15 @@ StatisticsMessage::mutable_statisticsdata() {
 
 // ChatRequestMessage
 
-// optional uint32 targetGameId = 1;
-inline bool ChatRequestMessage::has_targetgameid() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void ChatRequestMessage::set_has_targetgameid() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void ChatRequestMessage::clear_has_targetgameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void ChatRequestMessage::clear_targetgameid() {
-  targetgameid_ = 0u;
-  clear_has_targetgameid();
-}
-inline ::google::protobuf::uint32 ChatRequestMessage::targetgameid() const {
-  return targetgameid_;
-}
-inline void ChatRequestMessage::set_targetgameid(::google::protobuf::uint32 value) {
-  set_has_targetgameid();
-  targetgameid_ = value;
-}
-
 // optional uint32 targetPlayerId = 2;
 inline bool ChatRequestMessage::has_targetplayerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
 inline void ChatRequestMessage::set_has_targetplayerid() {
-  _has_bits_[0] |= 0x00000002u;
+  _has_bits_[0] |= 0x00000001u;
 }
 inline void ChatRequestMessage::clear_has_targetplayerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void ChatRequestMessage::clear_targetplayerid() {
   targetplayerid_ = 0u;
@@ -17792,13 +17775,13 @@ inline void ChatRequestMessage::set_targetplayerid(::google::protobuf::uint32 va
 
 // required string chatText = 3;
 inline bool ChatRequestMessage::has_chattext() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void ChatRequestMessage::set_has_chattext() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void ChatRequestMessage::clear_has_chattext() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void ChatRequestMessage::clear_chattext() {
   if (chattext_ != &::google::protobuf::internal::kEmptyString) {
@@ -17864,37 +17847,15 @@ inline void ChatRequestMessage::set_allocated_chattext(::std::string* chattext) 
 
 // ChatMessage
 
-// optional uint32 gameId = 1;
-inline bool ChatMessage::has_gameid() const {
+// optional uint32 playerId = 1;
+inline bool ChatMessage::has_playerid() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void ChatMessage::set_has_gameid() {
+inline void ChatMessage::set_has_playerid() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void ChatMessage::clear_has_gameid() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void ChatMessage::clear_gameid() {
-  gameid_ = 0u;
-  clear_has_gameid();
-}
-inline ::google::protobuf::uint32 ChatMessage::gameid() const {
-  return gameid_;
-}
-inline void ChatMessage::set_gameid(::google::protobuf::uint32 value) {
-  set_has_gameid();
-  gameid_ = value;
-}
-
-// optional uint32 playerId = 2;
-inline bool ChatMessage::has_playerid() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void ChatMessage::set_has_playerid() {
-  _has_bits_[0] |= 0x00000002u;
-}
 inline void ChatMessage::clear_has_playerid() {
-  _has_bits_[0] &= ~0x00000002u;
+  _has_bits_[0] &= ~0x00000001u;
 }
 inline void ChatMessage::clear_playerid() {
   playerid_ = 0u;
@@ -17908,15 +17869,15 @@ inline void ChatMessage::set_playerid(::google::protobuf::uint32 value) {
   playerid_ = value;
 }
 
-// required .ChatMessage.ChatType chatType = 3;
+// required .ChatMessage.ChatType chatType = 2;
 inline bool ChatMessage::has_chattype() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+  return (_has_bits_[0] & 0x00000002u) != 0;
 }
 inline void ChatMessage::set_has_chattype() {
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000002u;
 }
 inline void ChatMessage::clear_has_chattype() {
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline void ChatMessage::clear_chattype() {
   chattype_ = 0;
@@ -17931,15 +17892,15 @@ inline void ChatMessage::set_chattype(::ChatMessage_ChatType value) {
   chattype_ = value;
 }
 
-// required string chatText = 4;
+// required string chatText = 3;
 inline bool ChatMessage::has_chattext() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void ChatMessage::set_has_chattext() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void ChatMessage::clear_has_chattext() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void ChatMessage::clear_chattext() {
   if (chattext_ != &::google::protobuf::internal::kEmptyString) {
@@ -18601,6 +18562,3943 @@ inline void AdminBanPlayerAckMessage::set_banplayerresult(::AdminBanPlayerAckMes
 
 // -------------------------------------------------------------------
 
+// AuthMessage
+
+// required .AuthMessage.AuthMessageType messageType = 1;
+inline bool AuthMessage::has_messagetype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void AuthMessage::set_has_messagetype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void AuthMessage::clear_has_messagetype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void AuthMessage::clear_messagetype() {
+  messagetype_ = 1;
+  clear_has_messagetype();
+}
+inline ::AuthMessage_AuthMessageType AuthMessage::messagetype() const {
+  return static_cast< ::AuthMessage_AuthMessageType >(messagetype_);
+}
+inline void AuthMessage::set_messagetype(::AuthMessage_AuthMessageType value) {
+  assert(::AuthMessage_AuthMessageType_IsValid(value));
+  set_has_messagetype();
+  messagetype_ = value;
+}
+
+// optional .AuthClientRequestMessage authClientRequestMessage = 2;
+inline bool AuthMessage::has_authclientrequestmessage() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void AuthMessage::set_has_authclientrequestmessage() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void AuthMessage::clear_has_authclientrequestmessage() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void AuthMessage::clear_authclientrequestmessage() {
+  if (authclientrequestmessage_ != NULL) authclientrequestmessage_->::AuthClientRequestMessage::Clear();
+  clear_has_authclientrequestmessage();
+}
+inline const ::AuthClientRequestMessage& AuthMessage::authclientrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return authclientrequestmessage_ != NULL ? *authclientrequestmessage_ : *default_instance().authclientrequestmessage_;
+#else
+  return authclientrequestmessage_ != NULL ? *authclientrequestmessage_ : *default_instance_->authclientrequestmessage_;
+#endif
+}
+inline ::AuthClientRequestMessage* AuthMessage::mutable_authclientrequestmessage() {
+  set_has_authclientrequestmessage();
+  if (authclientrequestmessage_ == NULL) authclientrequestmessage_ = new ::AuthClientRequestMessage;
+  return authclientrequestmessage_;
+}
+inline ::AuthClientRequestMessage* AuthMessage::release_authclientrequestmessage() {
+  clear_has_authclientrequestmessage();
+  ::AuthClientRequestMessage* temp = authclientrequestmessage_;
+  authclientrequestmessage_ = NULL;
+  return temp;
+}
+inline void AuthMessage::set_allocated_authclientrequestmessage(::AuthClientRequestMessage* authclientrequestmessage) {
+  delete authclientrequestmessage_;
+  authclientrequestmessage_ = authclientrequestmessage;
+  if (authclientrequestmessage) {
+    set_has_authclientrequestmessage();
+  } else {
+    clear_has_authclientrequestmessage();
+  }
+}
+
+// optional .AuthServerChallengeMessage authServerChallengeMessage = 3;
+inline bool AuthMessage::has_authserverchallengemessage() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void AuthMessage::set_has_authserverchallengemessage() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void AuthMessage::clear_has_authserverchallengemessage() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void AuthMessage::clear_authserverchallengemessage() {
+  if (authserverchallengemessage_ != NULL) authserverchallengemessage_->::AuthServerChallengeMessage::Clear();
+  clear_has_authserverchallengemessage();
+}
+inline const ::AuthServerChallengeMessage& AuthMessage::authserverchallengemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return authserverchallengemessage_ != NULL ? *authserverchallengemessage_ : *default_instance().authserverchallengemessage_;
+#else
+  return authserverchallengemessage_ != NULL ? *authserverchallengemessage_ : *default_instance_->authserverchallengemessage_;
+#endif
+}
+inline ::AuthServerChallengeMessage* AuthMessage::mutable_authserverchallengemessage() {
+  set_has_authserverchallengemessage();
+  if (authserverchallengemessage_ == NULL) authserverchallengemessage_ = new ::AuthServerChallengeMessage;
+  return authserverchallengemessage_;
+}
+inline ::AuthServerChallengeMessage* AuthMessage::release_authserverchallengemessage() {
+  clear_has_authserverchallengemessage();
+  ::AuthServerChallengeMessage* temp = authserverchallengemessage_;
+  authserverchallengemessage_ = NULL;
+  return temp;
+}
+inline void AuthMessage::set_allocated_authserverchallengemessage(::AuthServerChallengeMessage* authserverchallengemessage) {
+  delete authserverchallengemessage_;
+  authserverchallengemessage_ = authserverchallengemessage;
+  if (authserverchallengemessage) {
+    set_has_authserverchallengemessage();
+  } else {
+    clear_has_authserverchallengemessage();
+  }
+}
+
+// optional .AuthClientResponseMessage authClientResponseMessage = 4;
+inline bool AuthMessage::has_authclientresponsemessage() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void AuthMessage::set_has_authclientresponsemessage() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void AuthMessage::clear_has_authclientresponsemessage() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void AuthMessage::clear_authclientresponsemessage() {
+  if (authclientresponsemessage_ != NULL) authclientresponsemessage_->::AuthClientResponseMessage::Clear();
+  clear_has_authclientresponsemessage();
+}
+inline const ::AuthClientResponseMessage& AuthMessage::authclientresponsemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return authclientresponsemessage_ != NULL ? *authclientresponsemessage_ : *default_instance().authclientresponsemessage_;
+#else
+  return authclientresponsemessage_ != NULL ? *authclientresponsemessage_ : *default_instance_->authclientresponsemessage_;
+#endif
+}
+inline ::AuthClientResponseMessage* AuthMessage::mutable_authclientresponsemessage() {
+  set_has_authclientresponsemessage();
+  if (authclientresponsemessage_ == NULL) authclientresponsemessage_ = new ::AuthClientResponseMessage;
+  return authclientresponsemessage_;
+}
+inline ::AuthClientResponseMessage* AuthMessage::release_authclientresponsemessage() {
+  clear_has_authclientresponsemessage();
+  ::AuthClientResponseMessage* temp = authclientresponsemessage_;
+  authclientresponsemessage_ = NULL;
+  return temp;
+}
+inline void AuthMessage::set_allocated_authclientresponsemessage(::AuthClientResponseMessage* authclientresponsemessage) {
+  delete authclientresponsemessage_;
+  authclientresponsemessage_ = authclientresponsemessage;
+  if (authclientresponsemessage) {
+    set_has_authclientresponsemessage();
+  } else {
+    clear_has_authclientresponsemessage();
+  }
+}
+
+// optional .AuthServerVerificationMessage authServerVerificationMessage = 5;
+inline bool AuthMessage::has_authserververificationmessage() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void AuthMessage::set_has_authserververificationmessage() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void AuthMessage::clear_has_authserververificationmessage() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void AuthMessage::clear_authserververificationmessage() {
+  if (authserververificationmessage_ != NULL) authserververificationmessage_->::AuthServerVerificationMessage::Clear();
+  clear_has_authserververificationmessage();
+}
+inline const ::AuthServerVerificationMessage& AuthMessage::authserververificationmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return authserververificationmessage_ != NULL ? *authserververificationmessage_ : *default_instance().authserververificationmessage_;
+#else
+  return authserververificationmessage_ != NULL ? *authserververificationmessage_ : *default_instance_->authserververificationmessage_;
+#endif
+}
+inline ::AuthServerVerificationMessage* AuthMessage::mutable_authserververificationmessage() {
+  set_has_authserververificationmessage();
+  if (authserververificationmessage_ == NULL) authserververificationmessage_ = new ::AuthServerVerificationMessage;
+  return authserververificationmessage_;
+}
+inline ::AuthServerVerificationMessage* AuthMessage::release_authserververificationmessage() {
+  clear_has_authserververificationmessage();
+  ::AuthServerVerificationMessage* temp = authserververificationmessage_;
+  authserververificationmessage_ = NULL;
+  return temp;
+}
+inline void AuthMessage::set_allocated_authserververificationmessage(::AuthServerVerificationMessage* authserververificationmessage) {
+  delete authserververificationmessage_;
+  authserververificationmessage_ = authserververificationmessage;
+  if (authserververificationmessage) {
+    set_has_authserververificationmessage();
+  } else {
+    clear_has_authserververificationmessage();
+  }
+}
+
+// optional .ErrorMessage errorMessage = 1025;
+inline bool AuthMessage::has_errormessage() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void AuthMessage::set_has_errormessage() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void AuthMessage::clear_has_errormessage() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void AuthMessage::clear_errormessage() {
+  if (errormessage_ != NULL) errormessage_->::ErrorMessage::Clear();
+  clear_has_errormessage();
+}
+inline const ::ErrorMessage& AuthMessage::errormessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return errormessage_ != NULL ? *errormessage_ : *default_instance().errormessage_;
+#else
+  return errormessage_ != NULL ? *errormessage_ : *default_instance_->errormessage_;
+#endif
+}
+inline ::ErrorMessage* AuthMessage::mutable_errormessage() {
+  set_has_errormessage();
+  if (errormessage_ == NULL) errormessage_ = new ::ErrorMessage;
+  return errormessage_;
+}
+inline ::ErrorMessage* AuthMessage::release_errormessage() {
+  clear_has_errormessage();
+  ::ErrorMessage* temp = errormessage_;
+  errormessage_ = NULL;
+  return temp;
+}
+inline void AuthMessage::set_allocated_errormessage(::ErrorMessage* errormessage) {
+  delete errormessage_;
+  errormessage_ = errormessage;
+  if (errormessage) {
+    set_has_errormessage();
+  } else {
+    clear_has_errormessage();
+  }
+}
+
+// -------------------------------------------------------------------
+
+// LobbyMessage
+
+// required .LobbyMessage.LobbyMessageType messageType = 1;
+inline bool LobbyMessage::has_messagetype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void LobbyMessage::set_has_messagetype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void LobbyMessage::clear_has_messagetype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void LobbyMessage::clear_messagetype() {
+  messagetype_ = 1;
+  clear_has_messagetype();
+}
+inline ::LobbyMessage_LobbyMessageType LobbyMessage::messagetype() const {
+  return static_cast< ::LobbyMessage_LobbyMessageType >(messagetype_);
+}
+inline void LobbyMessage::set_messagetype(::LobbyMessage_LobbyMessageType value) {
+  assert(::LobbyMessage_LobbyMessageType_IsValid(value));
+  set_has_messagetype();
+  messagetype_ = value;
+}
+
+// optional .InitMessage initMessage = 2;
+inline bool LobbyMessage::has_initmessage() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void LobbyMessage::set_has_initmessage() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void LobbyMessage::clear_has_initmessage() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void LobbyMessage::clear_initmessage() {
+  if (initmessage_ != NULL) initmessage_->::InitMessage::Clear();
+  clear_has_initmessage();
+}
+inline const ::InitMessage& LobbyMessage::initmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return initmessage_ != NULL ? *initmessage_ : *default_instance().initmessage_;
+#else
+  return initmessage_ != NULL ? *initmessage_ : *default_instance_->initmessage_;
+#endif
+}
+inline ::InitMessage* LobbyMessage::mutable_initmessage() {
+  set_has_initmessage();
+  if (initmessage_ == NULL) initmessage_ = new ::InitMessage;
+  return initmessage_;
+}
+inline ::InitMessage* LobbyMessage::release_initmessage() {
+  clear_has_initmessage();
+  ::InitMessage* temp = initmessage_;
+  initmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_initmessage(::InitMessage* initmessage) {
+  delete initmessage_;
+  initmessage_ = initmessage;
+  if (initmessage) {
+    set_has_initmessage();
+  } else {
+    clear_has_initmessage();
+  }
+}
+
+// optional .InitAckMessage initAckMessage = 3;
+inline bool LobbyMessage::has_initackmessage() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void LobbyMessage::set_has_initackmessage() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void LobbyMessage::clear_has_initackmessage() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void LobbyMessage::clear_initackmessage() {
+  if (initackmessage_ != NULL) initackmessage_->::InitAckMessage::Clear();
+  clear_has_initackmessage();
+}
+inline const ::InitAckMessage& LobbyMessage::initackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return initackmessage_ != NULL ? *initackmessage_ : *default_instance().initackmessage_;
+#else
+  return initackmessage_ != NULL ? *initackmessage_ : *default_instance_->initackmessage_;
+#endif
+}
+inline ::InitAckMessage* LobbyMessage::mutable_initackmessage() {
+  set_has_initackmessage();
+  if (initackmessage_ == NULL) initackmessage_ = new ::InitAckMessage;
+  return initackmessage_;
+}
+inline ::InitAckMessage* LobbyMessage::release_initackmessage() {
+  clear_has_initackmessage();
+  ::InitAckMessage* temp = initackmessage_;
+  initackmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_initackmessage(::InitAckMessage* initackmessage) {
+  delete initackmessage_;
+  initackmessage_ = initackmessage;
+  if (initackmessage) {
+    set_has_initackmessage();
+  } else {
+    clear_has_initackmessage();
+  }
+}
+
+// optional .AvatarRequestMessage avatarRequestMessage = 4;
+inline bool LobbyMessage::has_avatarrequestmessage() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void LobbyMessage::set_has_avatarrequestmessage() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void LobbyMessage::clear_has_avatarrequestmessage() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void LobbyMessage::clear_avatarrequestmessage() {
+  if (avatarrequestmessage_ != NULL) avatarrequestmessage_->::AvatarRequestMessage::Clear();
+  clear_has_avatarrequestmessage();
+}
+inline const ::AvatarRequestMessage& LobbyMessage::avatarrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return avatarrequestmessage_ != NULL ? *avatarrequestmessage_ : *default_instance().avatarrequestmessage_;
+#else
+  return avatarrequestmessage_ != NULL ? *avatarrequestmessage_ : *default_instance_->avatarrequestmessage_;
+#endif
+}
+inline ::AvatarRequestMessage* LobbyMessage::mutable_avatarrequestmessage() {
+  set_has_avatarrequestmessage();
+  if (avatarrequestmessage_ == NULL) avatarrequestmessage_ = new ::AvatarRequestMessage;
+  return avatarrequestmessage_;
+}
+inline ::AvatarRequestMessage* LobbyMessage::release_avatarrequestmessage() {
+  clear_has_avatarrequestmessage();
+  ::AvatarRequestMessage* temp = avatarrequestmessage_;
+  avatarrequestmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_avatarrequestmessage(::AvatarRequestMessage* avatarrequestmessage) {
+  delete avatarrequestmessage_;
+  avatarrequestmessage_ = avatarrequestmessage;
+  if (avatarrequestmessage) {
+    set_has_avatarrequestmessage();
+  } else {
+    clear_has_avatarrequestmessage();
+  }
+}
+
+// optional .AvatarHeaderMessage avatarHeaderMessage = 5;
+inline bool LobbyMessage::has_avatarheadermessage() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void LobbyMessage::set_has_avatarheadermessage() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void LobbyMessage::clear_has_avatarheadermessage() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void LobbyMessage::clear_avatarheadermessage() {
+  if (avatarheadermessage_ != NULL) avatarheadermessage_->::AvatarHeaderMessage::Clear();
+  clear_has_avatarheadermessage();
+}
+inline const ::AvatarHeaderMessage& LobbyMessage::avatarheadermessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return avatarheadermessage_ != NULL ? *avatarheadermessage_ : *default_instance().avatarheadermessage_;
+#else
+  return avatarheadermessage_ != NULL ? *avatarheadermessage_ : *default_instance_->avatarheadermessage_;
+#endif
+}
+inline ::AvatarHeaderMessage* LobbyMessage::mutable_avatarheadermessage() {
+  set_has_avatarheadermessage();
+  if (avatarheadermessage_ == NULL) avatarheadermessage_ = new ::AvatarHeaderMessage;
+  return avatarheadermessage_;
+}
+inline ::AvatarHeaderMessage* LobbyMessage::release_avatarheadermessage() {
+  clear_has_avatarheadermessage();
+  ::AvatarHeaderMessage* temp = avatarheadermessage_;
+  avatarheadermessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_avatarheadermessage(::AvatarHeaderMessage* avatarheadermessage) {
+  delete avatarheadermessage_;
+  avatarheadermessage_ = avatarheadermessage;
+  if (avatarheadermessage) {
+    set_has_avatarheadermessage();
+  } else {
+    clear_has_avatarheadermessage();
+  }
+}
+
+// optional .AvatarDataMessage avatarDataMessage = 6;
+inline bool LobbyMessage::has_avatardatamessage() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void LobbyMessage::set_has_avatardatamessage() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void LobbyMessage::clear_has_avatardatamessage() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void LobbyMessage::clear_avatardatamessage() {
+  if (avatardatamessage_ != NULL) avatardatamessage_->::AvatarDataMessage::Clear();
+  clear_has_avatardatamessage();
+}
+inline const ::AvatarDataMessage& LobbyMessage::avatardatamessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return avatardatamessage_ != NULL ? *avatardatamessage_ : *default_instance().avatardatamessage_;
+#else
+  return avatardatamessage_ != NULL ? *avatardatamessage_ : *default_instance_->avatardatamessage_;
+#endif
+}
+inline ::AvatarDataMessage* LobbyMessage::mutable_avatardatamessage() {
+  set_has_avatardatamessage();
+  if (avatardatamessage_ == NULL) avatardatamessage_ = new ::AvatarDataMessage;
+  return avatardatamessage_;
+}
+inline ::AvatarDataMessage* LobbyMessage::release_avatardatamessage() {
+  clear_has_avatardatamessage();
+  ::AvatarDataMessage* temp = avatardatamessage_;
+  avatardatamessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_avatardatamessage(::AvatarDataMessage* avatardatamessage) {
+  delete avatardatamessage_;
+  avatardatamessage_ = avatardatamessage;
+  if (avatardatamessage) {
+    set_has_avatardatamessage();
+  } else {
+    clear_has_avatardatamessage();
+  }
+}
+
+// optional .AvatarEndMessage avatarEndMessage = 7;
+inline bool LobbyMessage::has_avatarendmessage() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void LobbyMessage::set_has_avatarendmessage() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void LobbyMessage::clear_has_avatarendmessage() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void LobbyMessage::clear_avatarendmessage() {
+  if (avatarendmessage_ != NULL) avatarendmessage_->::AvatarEndMessage::Clear();
+  clear_has_avatarendmessage();
+}
+inline const ::AvatarEndMessage& LobbyMessage::avatarendmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return avatarendmessage_ != NULL ? *avatarendmessage_ : *default_instance().avatarendmessage_;
+#else
+  return avatarendmessage_ != NULL ? *avatarendmessage_ : *default_instance_->avatarendmessage_;
+#endif
+}
+inline ::AvatarEndMessage* LobbyMessage::mutable_avatarendmessage() {
+  set_has_avatarendmessage();
+  if (avatarendmessage_ == NULL) avatarendmessage_ = new ::AvatarEndMessage;
+  return avatarendmessage_;
+}
+inline ::AvatarEndMessage* LobbyMessage::release_avatarendmessage() {
+  clear_has_avatarendmessage();
+  ::AvatarEndMessage* temp = avatarendmessage_;
+  avatarendmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_avatarendmessage(::AvatarEndMessage* avatarendmessage) {
+  delete avatarendmessage_;
+  avatarendmessage_ = avatarendmessage;
+  if (avatarendmessage) {
+    set_has_avatarendmessage();
+  } else {
+    clear_has_avatarendmessage();
+  }
+}
+
+// optional .UnknownAvatarMessage unknownAvatarMessage = 8;
+inline bool LobbyMessage::has_unknownavatarmessage() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void LobbyMessage::set_has_unknownavatarmessage() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void LobbyMessage::clear_has_unknownavatarmessage() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void LobbyMessage::clear_unknownavatarmessage() {
+  if (unknownavatarmessage_ != NULL) unknownavatarmessage_->::UnknownAvatarMessage::Clear();
+  clear_has_unknownavatarmessage();
+}
+inline const ::UnknownAvatarMessage& LobbyMessage::unknownavatarmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return unknownavatarmessage_ != NULL ? *unknownavatarmessage_ : *default_instance().unknownavatarmessage_;
+#else
+  return unknownavatarmessage_ != NULL ? *unknownavatarmessage_ : *default_instance_->unknownavatarmessage_;
+#endif
+}
+inline ::UnknownAvatarMessage* LobbyMessage::mutable_unknownavatarmessage() {
+  set_has_unknownavatarmessage();
+  if (unknownavatarmessage_ == NULL) unknownavatarmessage_ = new ::UnknownAvatarMessage;
+  return unknownavatarmessage_;
+}
+inline ::UnknownAvatarMessage* LobbyMessage::release_unknownavatarmessage() {
+  clear_has_unknownavatarmessage();
+  ::UnknownAvatarMessage* temp = unknownavatarmessage_;
+  unknownavatarmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_unknownavatarmessage(::UnknownAvatarMessage* unknownavatarmessage) {
+  delete unknownavatarmessage_;
+  unknownavatarmessage_ = unknownavatarmessage;
+  if (unknownavatarmessage) {
+    set_has_unknownavatarmessage();
+  } else {
+    clear_has_unknownavatarmessage();
+  }
+}
+
+// optional .PlayerListMessage playerListMessage = 9;
+inline bool LobbyMessage::has_playerlistmessage() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void LobbyMessage::set_has_playerlistmessage() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void LobbyMessage::clear_has_playerlistmessage() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void LobbyMessage::clear_playerlistmessage() {
+  if (playerlistmessage_ != NULL) playerlistmessage_->::PlayerListMessage::Clear();
+  clear_has_playerlistmessage();
+}
+inline const ::PlayerListMessage& LobbyMessage::playerlistmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return playerlistmessage_ != NULL ? *playerlistmessage_ : *default_instance().playerlistmessage_;
+#else
+  return playerlistmessage_ != NULL ? *playerlistmessage_ : *default_instance_->playerlistmessage_;
+#endif
+}
+inline ::PlayerListMessage* LobbyMessage::mutable_playerlistmessage() {
+  set_has_playerlistmessage();
+  if (playerlistmessage_ == NULL) playerlistmessage_ = new ::PlayerListMessage;
+  return playerlistmessage_;
+}
+inline ::PlayerListMessage* LobbyMessage::release_playerlistmessage() {
+  clear_has_playerlistmessage();
+  ::PlayerListMessage* temp = playerlistmessage_;
+  playerlistmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_playerlistmessage(::PlayerListMessage* playerlistmessage) {
+  delete playerlistmessage_;
+  playerlistmessage_ = playerlistmessage;
+  if (playerlistmessage) {
+    set_has_playerlistmessage();
+  } else {
+    clear_has_playerlistmessage();
+  }
+}
+
+// optional .GameListNewMessage gameListNewMessage = 10;
+inline bool LobbyMessage::has_gamelistnewmessage() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistnewmessage() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void LobbyMessage::clear_has_gamelistnewmessage() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void LobbyMessage::clear_gamelistnewmessage() {
+  if (gamelistnewmessage_ != NULL) gamelistnewmessage_->::GameListNewMessage::Clear();
+  clear_has_gamelistnewmessage();
+}
+inline const ::GameListNewMessage& LobbyMessage::gamelistnewmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistnewmessage_ != NULL ? *gamelistnewmessage_ : *default_instance().gamelistnewmessage_;
+#else
+  return gamelistnewmessage_ != NULL ? *gamelistnewmessage_ : *default_instance_->gamelistnewmessage_;
+#endif
+}
+inline ::GameListNewMessage* LobbyMessage::mutable_gamelistnewmessage() {
+  set_has_gamelistnewmessage();
+  if (gamelistnewmessage_ == NULL) gamelistnewmessage_ = new ::GameListNewMessage;
+  return gamelistnewmessage_;
+}
+inline ::GameListNewMessage* LobbyMessage::release_gamelistnewmessage() {
+  clear_has_gamelistnewmessage();
+  ::GameListNewMessage* temp = gamelistnewmessage_;
+  gamelistnewmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistnewmessage(::GameListNewMessage* gamelistnewmessage) {
+  delete gamelistnewmessage_;
+  gamelistnewmessage_ = gamelistnewmessage;
+  if (gamelistnewmessage) {
+    set_has_gamelistnewmessage();
+  } else {
+    clear_has_gamelistnewmessage();
+  }
+}
+
+// optional .GameListUpdateMessage gameListUpdateMessage = 11;
+inline bool LobbyMessage::has_gamelistupdatemessage() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistupdatemessage() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void LobbyMessage::clear_has_gamelistupdatemessage() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void LobbyMessage::clear_gamelistupdatemessage() {
+  if (gamelistupdatemessage_ != NULL) gamelistupdatemessage_->::GameListUpdateMessage::Clear();
+  clear_has_gamelistupdatemessage();
+}
+inline const ::GameListUpdateMessage& LobbyMessage::gamelistupdatemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistupdatemessage_ != NULL ? *gamelistupdatemessage_ : *default_instance().gamelistupdatemessage_;
+#else
+  return gamelistupdatemessage_ != NULL ? *gamelistupdatemessage_ : *default_instance_->gamelistupdatemessage_;
+#endif
+}
+inline ::GameListUpdateMessage* LobbyMessage::mutable_gamelistupdatemessage() {
+  set_has_gamelistupdatemessage();
+  if (gamelistupdatemessage_ == NULL) gamelistupdatemessage_ = new ::GameListUpdateMessage;
+  return gamelistupdatemessage_;
+}
+inline ::GameListUpdateMessage* LobbyMessage::release_gamelistupdatemessage() {
+  clear_has_gamelistupdatemessage();
+  ::GameListUpdateMessage* temp = gamelistupdatemessage_;
+  gamelistupdatemessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistupdatemessage(::GameListUpdateMessage* gamelistupdatemessage) {
+  delete gamelistupdatemessage_;
+  gamelistupdatemessage_ = gamelistupdatemessage;
+  if (gamelistupdatemessage) {
+    set_has_gamelistupdatemessage();
+  } else {
+    clear_has_gamelistupdatemessage();
+  }
+}
+
+// optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
+inline bool LobbyMessage::has_gamelistplayerjoinedmessage() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistplayerjoinedmessage() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void LobbyMessage::clear_has_gamelistplayerjoinedmessage() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void LobbyMessage::clear_gamelistplayerjoinedmessage() {
+  if (gamelistplayerjoinedmessage_ != NULL) gamelistplayerjoinedmessage_->::GameListPlayerJoinedMessage::Clear();
+  clear_has_gamelistplayerjoinedmessage();
+}
+inline const ::GameListPlayerJoinedMessage& LobbyMessage::gamelistplayerjoinedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistplayerjoinedmessage_ != NULL ? *gamelistplayerjoinedmessage_ : *default_instance().gamelistplayerjoinedmessage_;
+#else
+  return gamelistplayerjoinedmessage_ != NULL ? *gamelistplayerjoinedmessage_ : *default_instance_->gamelistplayerjoinedmessage_;
+#endif
+}
+inline ::GameListPlayerJoinedMessage* LobbyMessage::mutable_gamelistplayerjoinedmessage() {
+  set_has_gamelistplayerjoinedmessage();
+  if (gamelistplayerjoinedmessage_ == NULL) gamelistplayerjoinedmessage_ = new ::GameListPlayerJoinedMessage;
+  return gamelistplayerjoinedmessage_;
+}
+inline ::GameListPlayerJoinedMessage* LobbyMessage::release_gamelistplayerjoinedmessage() {
+  clear_has_gamelistplayerjoinedmessage();
+  ::GameListPlayerJoinedMessage* temp = gamelistplayerjoinedmessage_;
+  gamelistplayerjoinedmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistplayerjoinedmessage(::GameListPlayerJoinedMessage* gamelistplayerjoinedmessage) {
+  delete gamelistplayerjoinedmessage_;
+  gamelistplayerjoinedmessage_ = gamelistplayerjoinedmessage;
+  if (gamelistplayerjoinedmessage) {
+    set_has_gamelistplayerjoinedmessage();
+  } else {
+    clear_has_gamelistplayerjoinedmessage();
+  }
+}
+
+// optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
+inline bool LobbyMessage::has_gamelistplayerleftmessage() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistplayerleftmessage() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void LobbyMessage::clear_has_gamelistplayerleftmessage() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void LobbyMessage::clear_gamelistplayerleftmessage() {
+  if (gamelistplayerleftmessage_ != NULL) gamelistplayerleftmessage_->::GameListPlayerLeftMessage::Clear();
+  clear_has_gamelistplayerleftmessage();
+}
+inline const ::GameListPlayerLeftMessage& LobbyMessage::gamelistplayerleftmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistplayerleftmessage_ != NULL ? *gamelistplayerleftmessage_ : *default_instance().gamelistplayerleftmessage_;
+#else
+  return gamelistplayerleftmessage_ != NULL ? *gamelistplayerleftmessage_ : *default_instance_->gamelistplayerleftmessage_;
+#endif
+}
+inline ::GameListPlayerLeftMessage* LobbyMessage::mutable_gamelistplayerleftmessage() {
+  set_has_gamelistplayerleftmessage();
+  if (gamelistplayerleftmessage_ == NULL) gamelistplayerleftmessage_ = new ::GameListPlayerLeftMessage;
+  return gamelistplayerleftmessage_;
+}
+inline ::GameListPlayerLeftMessage* LobbyMessage::release_gamelistplayerleftmessage() {
+  clear_has_gamelistplayerleftmessage();
+  ::GameListPlayerLeftMessage* temp = gamelistplayerleftmessage_;
+  gamelistplayerleftmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistplayerleftmessage(::GameListPlayerLeftMessage* gamelistplayerleftmessage) {
+  delete gamelistplayerleftmessage_;
+  gamelistplayerleftmessage_ = gamelistplayerleftmessage;
+  if (gamelistplayerleftmessage) {
+    set_has_gamelistplayerleftmessage();
+  } else {
+    clear_has_gamelistplayerleftmessage();
+  }
+}
+
+// optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
+inline bool LobbyMessage::has_gamelistspectatorjoinedmessage() const {
+  return (_has_bits_[0] & 0x00002000u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistspectatorjoinedmessage() {
+  _has_bits_[0] |= 0x00002000u;
+}
+inline void LobbyMessage::clear_has_gamelistspectatorjoinedmessage() {
+  _has_bits_[0] &= ~0x00002000u;
+}
+inline void LobbyMessage::clear_gamelistspectatorjoinedmessage() {
+  if (gamelistspectatorjoinedmessage_ != NULL) gamelistspectatorjoinedmessage_->::GameListSpectatorJoinedMessage::Clear();
+  clear_has_gamelistspectatorjoinedmessage();
+}
+inline const ::GameListSpectatorJoinedMessage& LobbyMessage::gamelistspectatorjoinedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistspectatorjoinedmessage_ != NULL ? *gamelistspectatorjoinedmessage_ : *default_instance().gamelistspectatorjoinedmessage_;
+#else
+  return gamelistspectatorjoinedmessage_ != NULL ? *gamelistspectatorjoinedmessage_ : *default_instance_->gamelistspectatorjoinedmessage_;
+#endif
+}
+inline ::GameListSpectatorJoinedMessage* LobbyMessage::mutable_gamelistspectatorjoinedmessage() {
+  set_has_gamelistspectatorjoinedmessage();
+  if (gamelistspectatorjoinedmessage_ == NULL) gamelistspectatorjoinedmessage_ = new ::GameListSpectatorJoinedMessage;
+  return gamelistspectatorjoinedmessage_;
+}
+inline ::GameListSpectatorJoinedMessage* LobbyMessage::release_gamelistspectatorjoinedmessage() {
+  clear_has_gamelistspectatorjoinedmessage();
+  ::GameListSpectatorJoinedMessage* temp = gamelistspectatorjoinedmessage_;
+  gamelistspectatorjoinedmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistspectatorjoinedmessage(::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage) {
+  delete gamelistspectatorjoinedmessage_;
+  gamelistspectatorjoinedmessage_ = gamelistspectatorjoinedmessage;
+  if (gamelistspectatorjoinedmessage) {
+    set_has_gamelistspectatorjoinedmessage();
+  } else {
+    clear_has_gamelistspectatorjoinedmessage();
+  }
+}
+
+// optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
+inline bool LobbyMessage::has_gamelistspectatorleftmessage() const {
+  return (_has_bits_[0] & 0x00004000u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistspectatorleftmessage() {
+  _has_bits_[0] |= 0x00004000u;
+}
+inline void LobbyMessage::clear_has_gamelistspectatorleftmessage() {
+  _has_bits_[0] &= ~0x00004000u;
+}
+inline void LobbyMessage::clear_gamelistspectatorleftmessage() {
+  if (gamelistspectatorleftmessage_ != NULL) gamelistspectatorleftmessage_->::GameListSpectatorLeftMessage::Clear();
+  clear_has_gamelistspectatorleftmessage();
+}
+inline const ::GameListSpectatorLeftMessage& LobbyMessage::gamelistspectatorleftmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistspectatorleftmessage_ != NULL ? *gamelistspectatorleftmessage_ : *default_instance().gamelistspectatorleftmessage_;
+#else
+  return gamelistspectatorleftmessage_ != NULL ? *gamelistspectatorleftmessage_ : *default_instance_->gamelistspectatorleftmessage_;
+#endif
+}
+inline ::GameListSpectatorLeftMessage* LobbyMessage::mutable_gamelistspectatorleftmessage() {
+  set_has_gamelistspectatorleftmessage();
+  if (gamelistspectatorleftmessage_ == NULL) gamelistspectatorleftmessage_ = new ::GameListSpectatorLeftMessage;
+  return gamelistspectatorleftmessage_;
+}
+inline ::GameListSpectatorLeftMessage* LobbyMessage::release_gamelistspectatorleftmessage() {
+  clear_has_gamelistspectatorleftmessage();
+  ::GameListSpectatorLeftMessage* temp = gamelistspectatorleftmessage_;
+  gamelistspectatorleftmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistspectatorleftmessage(::GameListSpectatorLeftMessage* gamelistspectatorleftmessage) {
+  delete gamelistspectatorleftmessage_;
+  gamelistspectatorleftmessage_ = gamelistspectatorleftmessage;
+  if (gamelistspectatorleftmessage) {
+    set_has_gamelistspectatorleftmessage();
+  } else {
+    clear_has_gamelistspectatorleftmessage();
+  }
+}
+
+// optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
+inline bool LobbyMessage::has_gamelistadminchangedmessage() const {
+  return (_has_bits_[0] & 0x00008000u) != 0;
+}
+inline void LobbyMessage::set_has_gamelistadminchangedmessage() {
+  _has_bits_[0] |= 0x00008000u;
+}
+inline void LobbyMessage::clear_has_gamelistadminchangedmessage() {
+  _has_bits_[0] &= ~0x00008000u;
+}
+inline void LobbyMessage::clear_gamelistadminchangedmessage() {
+  if (gamelistadminchangedmessage_ != NULL) gamelistadminchangedmessage_->::GameListAdminChangedMessage::Clear();
+  clear_has_gamelistadminchangedmessage();
+}
+inline const ::GameListAdminChangedMessage& LobbyMessage::gamelistadminchangedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamelistadminchangedmessage_ != NULL ? *gamelistadminchangedmessage_ : *default_instance().gamelistadminchangedmessage_;
+#else
+  return gamelistadminchangedmessage_ != NULL ? *gamelistadminchangedmessage_ : *default_instance_->gamelistadminchangedmessage_;
+#endif
+}
+inline ::GameListAdminChangedMessage* LobbyMessage::mutable_gamelistadminchangedmessage() {
+  set_has_gamelistadminchangedmessage();
+  if (gamelistadminchangedmessage_ == NULL) gamelistadminchangedmessage_ = new ::GameListAdminChangedMessage;
+  return gamelistadminchangedmessage_;
+}
+inline ::GameListAdminChangedMessage* LobbyMessage::release_gamelistadminchangedmessage() {
+  clear_has_gamelistadminchangedmessage();
+  ::GameListAdminChangedMessage* temp = gamelistadminchangedmessage_;
+  gamelistadminchangedmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_gamelistadminchangedmessage(::GameListAdminChangedMessage* gamelistadminchangedmessage) {
+  delete gamelistadminchangedmessage_;
+  gamelistadminchangedmessage_ = gamelistadminchangedmessage;
+  if (gamelistadminchangedmessage) {
+    set_has_gamelistadminchangedmessage();
+  } else {
+    clear_has_gamelistadminchangedmessage();
+  }
+}
+
+// optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
+inline bool LobbyMessage::has_playerinforequestmessage() const {
+  return (_has_bits_[0] & 0x00010000u) != 0;
+}
+inline void LobbyMessage::set_has_playerinforequestmessage() {
+  _has_bits_[0] |= 0x00010000u;
+}
+inline void LobbyMessage::clear_has_playerinforequestmessage() {
+  _has_bits_[0] &= ~0x00010000u;
+}
+inline void LobbyMessage::clear_playerinforequestmessage() {
+  if (playerinforequestmessage_ != NULL) playerinforequestmessage_->::PlayerInfoRequestMessage::Clear();
+  clear_has_playerinforequestmessage();
+}
+inline const ::PlayerInfoRequestMessage& LobbyMessage::playerinforequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return playerinforequestmessage_ != NULL ? *playerinforequestmessage_ : *default_instance().playerinforequestmessage_;
+#else
+  return playerinforequestmessage_ != NULL ? *playerinforequestmessage_ : *default_instance_->playerinforequestmessage_;
+#endif
+}
+inline ::PlayerInfoRequestMessage* LobbyMessage::mutable_playerinforequestmessage() {
+  set_has_playerinforequestmessage();
+  if (playerinforequestmessage_ == NULL) playerinforequestmessage_ = new ::PlayerInfoRequestMessage;
+  return playerinforequestmessage_;
+}
+inline ::PlayerInfoRequestMessage* LobbyMessage::release_playerinforequestmessage() {
+  clear_has_playerinforequestmessage();
+  ::PlayerInfoRequestMessage* temp = playerinforequestmessage_;
+  playerinforequestmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_playerinforequestmessage(::PlayerInfoRequestMessage* playerinforequestmessage) {
+  delete playerinforequestmessage_;
+  playerinforequestmessage_ = playerinforequestmessage;
+  if (playerinforequestmessage) {
+    set_has_playerinforequestmessage();
+  } else {
+    clear_has_playerinforequestmessage();
+  }
+}
+
+// optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
+inline bool LobbyMessage::has_playerinforeplymessage() const {
+  return (_has_bits_[0] & 0x00020000u) != 0;
+}
+inline void LobbyMessage::set_has_playerinforeplymessage() {
+  _has_bits_[0] |= 0x00020000u;
+}
+inline void LobbyMessage::clear_has_playerinforeplymessage() {
+  _has_bits_[0] &= ~0x00020000u;
+}
+inline void LobbyMessage::clear_playerinforeplymessage() {
+  if (playerinforeplymessage_ != NULL) playerinforeplymessage_->::PlayerInfoReplyMessage::Clear();
+  clear_has_playerinforeplymessage();
+}
+inline const ::PlayerInfoReplyMessage& LobbyMessage::playerinforeplymessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return playerinforeplymessage_ != NULL ? *playerinforeplymessage_ : *default_instance().playerinforeplymessage_;
+#else
+  return playerinforeplymessage_ != NULL ? *playerinforeplymessage_ : *default_instance_->playerinforeplymessage_;
+#endif
+}
+inline ::PlayerInfoReplyMessage* LobbyMessage::mutable_playerinforeplymessage() {
+  set_has_playerinforeplymessage();
+  if (playerinforeplymessage_ == NULL) playerinforeplymessage_ = new ::PlayerInfoReplyMessage;
+  return playerinforeplymessage_;
+}
+inline ::PlayerInfoReplyMessage* LobbyMessage::release_playerinforeplymessage() {
+  clear_has_playerinforeplymessage();
+  ::PlayerInfoReplyMessage* temp = playerinforeplymessage_;
+  playerinforeplymessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_playerinforeplymessage(::PlayerInfoReplyMessage* playerinforeplymessage) {
+  delete playerinforeplymessage_;
+  playerinforeplymessage_ = playerinforeplymessage;
+  if (playerinforeplymessage) {
+    set_has_playerinforeplymessage();
+  } else {
+    clear_has_playerinforeplymessage();
+  }
+}
+
+// optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
+inline bool LobbyMessage::has_subscriptionrequestmessage() const {
+  return (_has_bits_[0] & 0x00040000u) != 0;
+}
+inline void LobbyMessage::set_has_subscriptionrequestmessage() {
+  _has_bits_[0] |= 0x00040000u;
+}
+inline void LobbyMessage::clear_has_subscriptionrequestmessage() {
+  _has_bits_[0] &= ~0x00040000u;
+}
+inline void LobbyMessage::clear_subscriptionrequestmessage() {
+  if (subscriptionrequestmessage_ != NULL) subscriptionrequestmessage_->::SubscriptionRequestMessage::Clear();
+  clear_has_subscriptionrequestmessage();
+}
+inline const ::SubscriptionRequestMessage& LobbyMessage::subscriptionrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return subscriptionrequestmessage_ != NULL ? *subscriptionrequestmessage_ : *default_instance().subscriptionrequestmessage_;
+#else
+  return subscriptionrequestmessage_ != NULL ? *subscriptionrequestmessage_ : *default_instance_->subscriptionrequestmessage_;
+#endif
+}
+inline ::SubscriptionRequestMessage* LobbyMessage::mutable_subscriptionrequestmessage() {
+  set_has_subscriptionrequestmessage();
+  if (subscriptionrequestmessage_ == NULL) subscriptionrequestmessage_ = new ::SubscriptionRequestMessage;
+  return subscriptionrequestmessage_;
+}
+inline ::SubscriptionRequestMessage* LobbyMessage::release_subscriptionrequestmessage() {
+  clear_has_subscriptionrequestmessage();
+  ::SubscriptionRequestMessage* temp = subscriptionrequestmessage_;
+  subscriptionrequestmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_subscriptionrequestmessage(::SubscriptionRequestMessage* subscriptionrequestmessage) {
+  delete subscriptionrequestmessage_;
+  subscriptionrequestmessage_ = subscriptionrequestmessage;
+  if (subscriptionrequestmessage) {
+    set_has_subscriptionrequestmessage();
+  } else {
+    clear_has_subscriptionrequestmessage();
+  }
+}
+
+// optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
+inline bool LobbyMessage::has_subscriptionreplymessage() const {
+  return (_has_bits_[0] & 0x00080000u) != 0;
+}
+inline void LobbyMessage::set_has_subscriptionreplymessage() {
+  _has_bits_[0] |= 0x00080000u;
+}
+inline void LobbyMessage::clear_has_subscriptionreplymessage() {
+  _has_bits_[0] &= ~0x00080000u;
+}
+inline void LobbyMessage::clear_subscriptionreplymessage() {
+  if (subscriptionreplymessage_ != NULL) subscriptionreplymessage_->::SubscriptionReplyMessage::Clear();
+  clear_has_subscriptionreplymessage();
+}
+inline const ::SubscriptionReplyMessage& LobbyMessage::subscriptionreplymessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return subscriptionreplymessage_ != NULL ? *subscriptionreplymessage_ : *default_instance().subscriptionreplymessage_;
+#else
+  return subscriptionreplymessage_ != NULL ? *subscriptionreplymessage_ : *default_instance_->subscriptionreplymessage_;
+#endif
+}
+inline ::SubscriptionReplyMessage* LobbyMessage::mutable_subscriptionreplymessage() {
+  set_has_subscriptionreplymessage();
+  if (subscriptionreplymessage_ == NULL) subscriptionreplymessage_ = new ::SubscriptionReplyMessage;
+  return subscriptionreplymessage_;
+}
+inline ::SubscriptionReplyMessage* LobbyMessage::release_subscriptionreplymessage() {
+  clear_has_subscriptionreplymessage();
+  ::SubscriptionReplyMessage* temp = subscriptionreplymessage_;
+  subscriptionreplymessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_subscriptionreplymessage(::SubscriptionReplyMessage* subscriptionreplymessage) {
+  delete subscriptionreplymessage_;
+  subscriptionreplymessage_ = subscriptionreplymessage;
+  if (subscriptionreplymessage) {
+    set_has_subscriptionreplymessage();
+  } else {
+    clear_has_subscriptionreplymessage();
+  }
+}
+
+// optional .CreateGameMessage createGameMessage = 21;
+inline bool LobbyMessage::has_creategamemessage() const {
+  return (_has_bits_[0] & 0x00100000u) != 0;
+}
+inline void LobbyMessage::set_has_creategamemessage() {
+  _has_bits_[0] |= 0x00100000u;
+}
+inline void LobbyMessage::clear_has_creategamemessage() {
+  _has_bits_[0] &= ~0x00100000u;
+}
+inline void LobbyMessage::clear_creategamemessage() {
+  if (creategamemessage_ != NULL) creategamemessage_->::CreateGameMessage::Clear();
+  clear_has_creategamemessage();
+}
+inline const ::CreateGameMessage& LobbyMessage::creategamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return creategamemessage_ != NULL ? *creategamemessage_ : *default_instance().creategamemessage_;
+#else
+  return creategamemessage_ != NULL ? *creategamemessage_ : *default_instance_->creategamemessage_;
+#endif
+}
+inline ::CreateGameMessage* LobbyMessage::mutable_creategamemessage() {
+  set_has_creategamemessage();
+  if (creategamemessage_ == NULL) creategamemessage_ = new ::CreateGameMessage;
+  return creategamemessage_;
+}
+inline ::CreateGameMessage* LobbyMessage::release_creategamemessage() {
+  clear_has_creategamemessage();
+  ::CreateGameMessage* temp = creategamemessage_;
+  creategamemessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_creategamemessage(::CreateGameMessage* creategamemessage) {
+  delete creategamemessage_;
+  creategamemessage_ = creategamemessage;
+  if (creategamemessage) {
+    set_has_creategamemessage();
+  } else {
+    clear_has_creategamemessage();
+  }
+}
+
+// optional .CreateGameFailedMessage createGameFailedMessage = 22;
+inline bool LobbyMessage::has_creategamefailedmessage() const {
+  return (_has_bits_[0] & 0x00200000u) != 0;
+}
+inline void LobbyMessage::set_has_creategamefailedmessage() {
+  _has_bits_[0] |= 0x00200000u;
+}
+inline void LobbyMessage::clear_has_creategamefailedmessage() {
+  _has_bits_[0] &= ~0x00200000u;
+}
+inline void LobbyMessage::clear_creategamefailedmessage() {
+  if (creategamefailedmessage_ != NULL) creategamefailedmessage_->::CreateGameFailedMessage::Clear();
+  clear_has_creategamefailedmessage();
+}
+inline const ::CreateGameFailedMessage& LobbyMessage::creategamefailedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return creategamefailedmessage_ != NULL ? *creategamefailedmessage_ : *default_instance().creategamefailedmessage_;
+#else
+  return creategamefailedmessage_ != NULL ? *creategamefailedmessage_ : *default_instance_->creategamefailedmessage_;
+#endif
+}
+inline ::CreateGameFailedMessage* LobbyMessage::mutable_creategamefailedmessage() {
+  set_has_creategamefailedmessage();
+  if (creategamefailedmessage_ == NULL) creategamefailedmessage_ = new ::CreateGameFailedMessage;
+  return creategamefailedmessage_;
+}
+inline ::CreateGameFailedMessage* LobbyMessage::release_creategamefailedmessage() {
+  clear_has_creategamefailedmessage();
+  ::CreateGameFailedMessage* temp = creategamefailedmessage_;
+  creategamefailedmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_creategamefailedmessage(::CreateGameFailedMessage* creategamefailedmessage) {
+  delete creategamefailedmessage_;
+  creategamefailedmessage_ = creategamefailedmessage;
+  if (creategamefailedmessage) {
+    set_has_creategamefailedmessage();
+  } else {
+    clear_has_creategamefailedmessage();
+  }
+}
+
+// optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
+inline bool LobbyMessage::has_inviteplayertogamemessage() const {
+  return (_has_bits_[0] & 0x00400000u) != 0;
+}
+inline void LobbyMessage::set_has_inviteplayertogamemessage() {
+  _has_bits_[0] |= 0x00400000u;
+}
+inline void LobbyMessage::clear_has_inviteplayertogamemessage() {
+  _has_bits_[0] &= ~0x00400000u;
+}
+inline void LobbyMessage::clear_inviteplayertogamemessage() {
+  if (inviteplayertogamemessage_ != NULL) inviteplayertogamemessage_->::InvitePlayerToGameMessage::Clear();
+  clear_has_inviteplayertogamemessage();
+}
+inline const ::InvitePlayerToGameMessage& LobbyMessage::inviteplayertogamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return inviteplayertogamemessage_ != NULL ? *inviteplayertogamemessage_ : *default_instance().inviteplayertogamemessage_;
+#else
+  return inviteplayertogamemessage_ != NULL ? *inviteplayertogamemessage_ : *default_instance_->inviteplayertogamemessage_;
+#endif
+}
+inline ::InvitePlayerToGameMessage* LobbyMessage::mutable_inviteplayertogamemessage() {
+  set_has_inviteplayertogamemessage();
+  if (inviteplayertogamemessage_ == NULL) inviteplayertogamemessage_ = new ::InvitePlayerToGameMessage;
+  return inviteplayertogamemessage_;
+}
+inline ::InvitePlayerToGameMessage* LobbyMessage::release_inviteplayertogamemessage() {
+  clear_has_inviteplayertogamemessage();
+  ::InvitePlayerToGameMessage* temp = inviteplayertogamemessage_;
+  inviteplayertogamemessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_inviteplayertogamemessage(::InvitePlayerToGameMessage* inviteplayertogamemessage) {
+  delete inviteplayertogamemessage_;
+  inviteplayertogamemessage_ = inviteplayertogamemessage;
+  if (inviteplayertogamemessage) {
+    set_has_inviteplayertogamemessage();
+  } else {
+    clear_has_inviteplayertogamemessage();
+  }
+}
+
+// optional .InviteNotifyMessage inviteNotifyMessage = 24;
+inline bool LobbyMessage::has_invitenotifymessage() const {
+  return (_has_bits_[0] & 0x00800000u) != 0;
+}
+inline void LobbyMessage::set_has_invitenotifymessage() {
+  _has_bits_[0] |= 0x00800000u;
+}
+inline void LobbyMessage::clear_has_invitenotifymessage() {
+  _has_bits_[0] &= ~0x00800000u;
+}
+inline void LobbyMessage::clear_invitenotifymessage() {
+  if (invitenotifymessage_ != NULL) invitenotifymessage_->::InviteNotifyMessage::Clear();
+  clear_has_invitenotifymessage();
+}
+inline const ::InviteNotifyMessage& LobbyMessage::invitenotifymessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return invitenotifymessage_ != NULL ? *invitenotifymessage_ : *default_instance().invitenotifymessage_;
+#else
+  return invitenotifymessage_ != NULL ? *invitenotifymessage_ : *default_instance_->invitenotifymessage_;
+#endif
+}
+inline ::InviteNotifyMessage* LobbyMessage::mutable_invitenotifymessage() {
+  set_has_invitenotifymessage();
+  if (invitenotifymessage_ == NULL) invitenotifymessage_ = new ::InviteNotifyMessage;
+  return invitenotifymessage_;
+}
+inline ::InviteNotifyMessage* LobbyMessage::release_invitenotifymessage() {
+  clear_has_invitenotifymessage();
+  ::InviteNotifyMessage* temp = invitenotifymessage_;
+  invitenotifymessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_invitenotifymessage(::InviteNotifyMessage* invitenotifymessage) {
+  delete invitenotifymessage_;
+  invitenotifymessage_ = invitenotifymessage;
+  if (invitenotifymessage) {
+    set_has_invitenotifymessage();
+  } else {
+    clear_has_invitenotifymessage();
+  }
+}
+
+// optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
+inline bool LobbyMessage::has_rejectgameinvitationmessage() const {
+  return (_has_bits_[0] & 0x01000000u) != 0;
+}
+inline void LobbyMessage::set_has_rejectgameinvitationmessage() {
+  _has_bits_[0] |= 0x01000000u;
+}
+inline void LobbyMessage::clear_has_rejectgameinvitationmessage() {
+  _has_bits_[0] &= ~0x01000000u;
+}
+inline void LobbyMessage::clear_rejectgameinvitationmessage() {
+  if (rejectgameinvitationmessage_ != NULL) rejectgameinvitationmessage_->::RejectGameInvitationMessage::Clear();
+  clear_has_rejectgameinvitationmessage();
+}
+inline const ::RejectGameInvitationMessage& LobbyMessage::rejectgameinvitationmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return rejectgameinvitationmessage_ != NULL ? *rejectgameinvitationmessage_ : *default_instance().rejectgameinvitationmessage_;
+#else
+  return rejectgameinvitationmessage_ != NULL ? *rejectgameinvitationmessage_ : *default_instance_->rejectgameinvitationmessage_;
+#endif
+}
+inline ::RejectGameInvitationMessage* LobbyMessage::mutable_rejectgameinvitationmessage() {
+  set_has_rejectgameinvitationmessage();
+  if (rejectgameinvitationmessage_ == NULL) rejectgameinvitationmessage_ = new ::RejectGameInvitationMessage;
+  return rejectgameinvitationmessage_;
+}
+inline ::RejectGameInvitationMessage* LobbyMessage::release_rejectgameinvitationmessage() {
+  clear_has_rejectgameinvitationmessage();
+  ::RejectGameInvitationMessage* temp = rejectgameinvitationmessage_;
+  rejectgameinvitationmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_rejectgameinvitationmessage(::RejectGameInvitationMessage* rejectgameinvitationmessage) {
+  delete rejectgameinvitationmessage_;
+  rejectgameinvitationmessage_ = rejectgameinvitationmessage;
+  if (rejectgameinvitationmessage) {
+    set_has_rejectgameinvitationmessage();
+  } else {
+    clear_has_rejectgameinvitationmessage();
+  }
+}
+
+// optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
+inline bool LobbyMessage::has_rejectinvnotifymessage() const {
+  return (_has_bits_[0] & 0x02000000u) != 0;
+}
+inline void LobbyMessage::set_has_rejectinvnotifymessage() {
+  _has_bits_[0] |= 0x02000000u;
+}
+inline void LobbyMessage::clear_has_rejectinvnotifymessage() {
+  _has_bits_[0] &= ~0x02000000u;
+}
+inline void LobbyMessage::clear_rejectinvnotifymessage() {
+  if (rejectinvnotifymessage_ != NULL) rejectinvnotifymessage_->::RejectInvNotifyMessage::Clear();
+  clear_has_rejectinvnotifymessage();
+}
+inline const ::RejectInvNotifyMessage& LobbyMessage::rejectinvnotifymessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return rejectinvnotifymessage_ != NULL ? *rejectinvnotifymessage_ : *default_instance().rejectinvnotifymessage_;
+#else
+  return rejectinvnotifymessage_ != NULL ? *rejectinvnotifymessage_ : *default_instance_->rejectinvnotifymessage_;
+#endif
+}
+inline ::RejectInvNotifyMessage* LobbyMessage::mutable_rejectinvnotifymessage() {
+  set_has_rejectinvnotifymessage();
+  if (rejectinvnotifymessage_ == NULL) rejectinvnotifymessage_ = new ::RejectInvNotifyMessage;
+  return rejectinvnotifymessage_;
+}
+inline ::RejectInvNotifyMessage* LobbyMessage::release_rejectinvnotifymessage() {
+  clear_has_rejectinvnotifymessage();
+  ::RejectInvNotifyMessage* temp = rejectinvnotifymessage_;
+  rejectinvnotifymessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_rejectinvnotifymessage(::RejectInvNotifyMessage* rejectinvnotifymessage) {
+  delete rejectinvnotifymessage_;
+  rejectinvnotifymessage_ = rejectinvnotifymessage;
+  if (rejectinvnotifymessage) {
+    set_has_rejectinvnotifymessage();
+  } else {
+    clear_has_rejectinvnotifymessage();
+  }
+}
+
+// optional .StatisticsMessage statisticsMessage = 27;
+inline bool LobbyMessage::has_statisticsmessage() const {
+  return (_has_bits_[0] & 0x04000000u) != 0;
+}
+inline void LobbyMessage::set_has_statisticsmessage() {
+  _has_bits_[0] |= 0x04000000u;
+}
+inline void LobbyMessage::clear_has_statisticsmessage() {
+  _has_bits_[0] &= ~0x04000000u;
+}
+inline void LobbyMessage::clear_statisticsmessage() {
+  if (statisticsmessage_ != NULL) statisticsmessage_->::StatisticsMessage::Clear();
+  clear_has_statisticsmessage();
+}
+inline const ::StatisticsMessage& LobbyMessage::statisticsmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return statisticsmessage_ != NULL ? *statisticsmessage_ : *default_instance().statisticsmessage_;
+#else
+  return statisticsmessage_ != NULL ? *statisticsmessage_ : *default_instance_->statisticsmessage_;
+#endif
+}
+inline ::StatisticsMessage* LobbyMessage::mutable_statisticsmessage() {
+  set_has_statisticsmessage();
+  if (statisticsmessage_ == NULL) statisticsmessage_ = new ::StatisticsMessage;
+  return statisticsmessage_;
+}
+inline ::StatisticsMessage* LobbyMessage::release_statisticsmessage() {
+  clear_has_statisticsmessage();
+  ::StatisticsMessage* temp = statisticsmessage_;
+  statisticsmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_statisticsmessage(::StatisticsMessage* statisticsmessage) {
+  delete statisticsmessage_;
+  statisticsmessage_ = statisticsmessage;
+  if (statisticsmessage) {
+    set_has_statisticsmessage();
+  } else {
+    clear_has_statisticsmessage();
+  }
+}
+
+// optional .ChatRequestMessage chatRequestMessage = 28;
+inline bool LobbyMessage::has_chatrequestmessage() const {
+  return (_has_bits_[0] & 0x08000000u) != 0;
+}
+inline void LobbyMessage::set_has_chatrequestmessage() {
+  _has_bits_[0] |= 0x08000000u;
+}
+inline void LobbyMessage::clear_has_chatrequestmessage() {
+  _has_bits_[0] &= ~0x08000000u;
+}
+inline void LobbyMessage::clear_chatrequestmessage() {
+  if (chatrequestmessage_ != NULL) chatrequestmessage_->::ChatRequestMessage::Clear();
+  clear_has_chatrequestmessage();
+}
+inline const ::ChatRequestMessage& LobbyMessage::chatrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return chatrequestmessage_ != NULL ? *chatrequestmessage_ : *default_instance().chatrequestmessage_;
+#else
+  return chatrequestmessage_ != NULL ? *chatrequestmessage_ : *default_instance_->chatrequestmessage_;
+#endif
+}
+inline ::ChatRequestMessage* LobbyMessage::mutable_chatrequestmessage() {
+  set_has_chatrequestmessage();
+  if (chatrequestmessage_ == NULL) chatrequestmessage_ = new ::ChatRequestMessage;
+  return chatrequestmessage_;
+}
+inline ::ChatRequestMessage* LobbyMessage::release_chatrequestmessage() {
+  clear_has_chatrequestmessage();
+  ::ChatRequestMessage* temp = chatrequestmessage_;
+  chatrequestmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_chatrequestmessage(::ChatRequestMessage* chatrequestmessage) {
+  delete chatrequestmessage_;
+  chatrequestmessage_ = chatrequestmessage;
+  if (chatrequestmessage) {
+    set_has_chatrequestmessage();
+  } else {
+    clear_has_chatrequestmessage();
+  }
+}
+
+// optional .ChatMessage chatMessage = 29;
+inline bool LobbyMessage::has_chatmessage() const {
+  return (_has_bits_[0] & 0x10000000u) != 0;
+}
+inline void LobbyMessage::set_has_chatmessage() {
+  _has_bits_[0] |= 0x10000000u;
+}
+inline void LobbyMessage::clear_has_chatmessage() {
+  _has_bits_[0] &= ~0x10000000u;
+}
+inline void LobbyMessage::clear_chatmessage() {
+  if (chatmessage_ != NULL) chatmessage_->::ChatMessage::Clear();
+  clear_has_chatmessage();
+}
+inline const ::ChatMessage& LobbyMessage::chatmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return chatmessage_ != NULL ? *chatmessage_ : *default_instance().chatmessage_;
+#else
+  return chatmessage_ != NULL ? *chatmessage_ : *default_instance_->chatmessage_;
+#endif
+}
+inline ::ChatMessage* LobbyMessage::mutable_chatmessage() {
+  set_has_chatmessage();
+  if (chatmessage_ == NULL) chatmessage_ = new ::ChatMessage;
+  return chatmessage_;
+}
+inline ::ChatMessage* LobbyMessage::release_chatmessage() {
+  clear_has_chatmessage();
+  ::ChatMessage* temp = chatmessage_;
+  chatmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_chatmessage(::ChatMessage* chatmessage) {
+  delete chatmessage_;
+  chatmessage_ = chatmessage;
+  if (chatmessage) {
+    set_has_chatmessage();
+  } else {
+    clear_has_chatmessage();
+  }
+}
+
+// optional .ChatRejectMessage chatRejectMessage = 30;
+inline bool LobbyMessage::has_chatrejectmessage() const {
+  return (_has_bits_[0] & 0x20000000u) != 0;
+}
+inline void LobbyMessage::set_has_chatrejectmessage() {
+  _has_bits_[0] |= 0x20000000u;
+}
+inline void LobbyMessage::clear_has_chatrejectmessage() {
+  _has_bits_[0] &= ~0x20000000u;
+}
+inline void LobbyMessage::clear_chatrejectmessage() {
+  if (chatrejectmessage_ != NULL) chatrejectmessage_->::ChatRejectMessage::Clear();
+  clear_has_chatrejectmessage();
+}
+inline const ::ChatRejectMessage& LobbyMessage::chatrejectmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return chatrejectmessage_ != NULL ? *chatrejectmessage_ : *default_instance().chatrejectmessage_;
+#else
+  return chatrejectmessage_ != NULL ? *chatrejectmessage_ : *default_instance_->chatrejectmessage_;
+#endif
+}
+inline ::ChatRejectMessage* LobbyMessage::mutable_chatrejectmessage() {
+  set_has_chatrejectmessage();
+  if (chatrejectmessage_ == NULL) chatrejectmessage_ = new ::ChatRejectMessage;
+  return chatrejectmessage_;
+}
+inline ::ChatRejectMessage* LobbyMessage::release_chatrejectmessage() {
+  clear_has_chatrejectmessage();
+  ::ChatRejectMessage* temp = chatrejectmessage_;
+  chatrejectmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_chatrejectmessage(::ChatRejectMessage* chatrejectmessage) {
+  delete chatrejectmessage_;
+  chatrejectmessage_ = chatrejectmessage;
+  if (chatrejectmessage) {
+    set_has_chatrejectmessage();
+  } else {
+    clear_has_chatrejectmessage();
+  }
+}
+
+// optional .DialogMessage dialogMessage = 31;
+inline bool LobbyMessage::has_dialogmessage() const {
+  return (_has_bits_[0] & 0x40000000u) != 0;
+}
+inline void LobbyMessage::set_has_dialogmessage() {
+  _has_bits_[0] |= 0x40000000u;
+}
+inline void LobbyMessage::clear_has_dialogmessage() {
+  _has_bits_[0] &= ~0x40000000u;
+}
+inline void LobbyMessage::clear_dialogmessage() {
+  if (dialogmessage_ != NULL) dialogmessage_->::DialogMessage::Clear();
+  clear_has_dialogmessage();
+}
+inline const ::DialogMessage& LobbyMessage::dialogmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return dialogmessage_ != NULL ? *dialogmessage_ : *default_instance().dialogmessage_;
+#else
+  return dialogmessage_ != NULL ? *dialogmessage_ : *default_instance_->dialogmessage_;
+#endif
+}
+inline ::DialogMessage* LobbyMessage::mutable_dialogmessage() {
+  set_has_dialogmessage();
+  if (dialogmessage_ == NULL) dialogmessage_ = new ::DialogMessage;
+  return dialogmessage_;
+}
+inline ::DialogMessage* LobbyMessage::release_dialogmessage() {
+  clear_has_dialogmessage();
+  ::DialogMessage* temp = dialogmessage_;
+  dialogmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_dialogmessage(::DialogMessage* dialogmessage) {
+  delete dialogmessage_;
+  dialogmessage_ = dialogmessage;
+  if (dialogmessage) {
+    set_has_dialogmessage();
+  } else {
+    clear_has_dialogmessage();
+  }
+}
+
+// optional .TimeoutWarningMessage timeoutWarningMessage = 32;
+inline bool LobbyMessage::has_timeoutwarningmessage() const {
+  return (_has_bits_[0] & 0x80000000u) != 0;
+}
+inline void LobbyMessage::set_has_timeoutwarningmessage() {
+  _has_bits_[0] |= 0x80000000u;
+}
+inline void LobbyMessage::clear_has_timeoutwarningmessage() {
+  _has_bits_[0] &= ~0x80000000u;
+}
+inline void LobbyMessage::clear_timeoutwarningmessage() {
+  if (timeoutwarningmessage_ != NULL) timeoutwarningmessage_->::TimeoutWarningMessage::Clear();
+  clear_has_timeoutwarningmessage();
+}
+inline const ::TimeoutWarningMessage& LobbyMessage::timeoutwarningmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return timeoutwarningmessage_ != NULL ? *timeoutwarningmessage_ : *default_instance().timeoutwarningmessage_;
+#else
+  return timeoutwarningmessage_ != NULL ? *timeoutwarningmessage_ : *default_instance_->timeoutwarningmessage_;
+#endif
+}
+inline ::TimeoutWarningMessage* LobbyMessage::mutable_timeoutwarningmessage() {
+  set_has_timeoutwarningmessage();
+  if (timeoutwarningmessage_ == NULL) timeoutwarningmessage_ = new ::TimeoutWarningMessage;
+  return timeoutwarningmessage_;
+}
+inline ::TimeoutWarningMessage* LobbyMessage::release_timeoutwarningmessage() {
+  clear_has_timeoutwarningmessage();
+  ::TimeoutWarningMessage* temp = timeoutwarningmessage_;
+  timeoutwarningmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_timeoutwarningmessage(::TimeoutWarningMessage* timeoutwarningmessage) {
+  delete timeoutwarningmessage_;
+  timeoutwarningmessage_ = timeoutwarningmessage;
+  if (timeoutwarningmessage) {
+    set_has_timeoutwarningmessage();
+  } else {
+    clear_has_timeoutwarningmessage();
+  }
+}
+
+// optional .ResetTimeoutMessage resetTimeoutMessage = 33;
+inline bool LobbyMessage::has_resettimeoutmessage() const {
+  return (_has_bits_[1] & 0x00000001u) != 0;
+}
+inline void LobbyMessage::set_has_resettimeoutmessage() {
+  _has_bits_[1] |= 0x00000001u;
+}
+inline void LobbyMessage::clear_has_resettimeoutmessage() {
+  _has_bits_[1] &= ~0x00000001u;
+}
+inline void LobbyMessage::clear_resettimeoutmessage() {
+  if (resettimeoutmessage_ != NULL) resettimeoutmessage_->::ResetTimeoutMessage::Clear();
+  clear_has_resettimeoutmessage();
+}
+inline const ::ResetTimeoutMessage& LobbyMessage::resettimeoutmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return resettimeoutmessage_ != NULL ? *resettimeoutmessage_ : *default_instance().resettimeoutmessage_;
+#else
+  return resettimeoutmessage_ != NULL ? *resettimeoutmessage_ : *default_instance_->resettimeoutmessage_;
+#endif
+}
+inline ::ResetTimeoutMessage* LobbyMessage::mutable_resettimeoutmessage() {
+  set_has_resettimeoutmessage();
+  if (resettimeoutmessage_ == NULL) resettimeoutmessage_ = new ::ResetTimeoutMessage;
+  return resettimeoutmessage_;
+}
+inline ::ResetTimeoutMessage* LobbyMessage::release_resettimeoutmessage() {
+  clear_has_resettimeoutmessage();
+  ::ResetTimeoutMessage* temp = resettimeoutmessage_;
+  resettimeoutmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_resettimeoutmessage(::ResetTimeoutMessage* resettimeoutmessage) {
+  delete resettimeoutmessage_;
+  resettimeoutmessage_ = resettimeoutmessage;
+  if (resettimeoutmessage) {
+    set_has_resettimeoutmessage();
+  } else {
+    clear_has_resettimeoutmessage();
+  }
+}
+
+// optional .ReportAvatarMessage reportAvatarMessage = 34;
+inline bool LobbyMessage::has_reportavatarmessage() const {
+  return (_has_bits_[1] & 0x00000002u) != 0;
+}
+inline void LobbyMessage::set_has_reportavatarmessage() {
+  _has_bits_[1] |= 0x00000002u;
+}
+inline void LobbyMessage::clear_has_reportavatarmessage() {
+  _has_bits_[1] &= ~0x00000002u;
+}
+inline void LobbyMessage::clear_reportavatarmessage() {
+  if (reportavatarmessage_ != NULL) reportavatarmessage_->::ReportAvatarMessage::Clear();
+  clear_has_reportavatarmessage();
+}
+inline const ::ReportAvatarMessage& LobbyMessage::reportavatarmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return reportavatarmessage_ != NULL ? *reportavatarmessage_ : *default_instance().reportavatarmessage_;
+#else
+  return reportavatarmessage_ != NULL ? *reportavatarmessage_ : *default_instance_->reportavatarmessage_;
+#endif
+}
+inline ::ReportAvatarMessage* LobbyMessage::mutable_reportavatarmessage() {
+  set_has_reportavatarmessage();
+  if (reportavatarmessage_ == NULL) reportavatarmessage_ = new ::ReportAvatarMessage;
+  return reportavatarmessage_;
+}
+inline ::ReportAvatarMessage* LobbyMessage::release_reportavatarmessage() {
+  clear_has_reportavatarmessage();
+  ::ReportAvatarMessage* temp = reportavatarmessage_;
+  reportavatarmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_reportavatarmessage(::ReportAvatarMessage* reportavatarmessage) {
+  delete reportavatarmessage_;
+  reportavatarmessage_ = reportavatarmessage;
+  if (reportavatarmessage) {
+    set_has_reportavatarmessage();
+  } else {
+    clear_has_reportavatarmessage();
+  }
+}
+
+// optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
+inline bool LobbyMessage::has_reportavatarackmessage() const {
+  return (_has_bits_[1] & 0x00000004u) != 0;
+}
+inline void LobbyMessage::set_has_reportavatarackmessage() {
+  _has_bits_[1] |= 0x00000004u;
+}
+inline void LobbyMessage::clear_has_reportavatarackmessage() {
+  _has_bits_[1] &= ~0x00000004u;
+}
+inline void LobbyMessage::clear_reportavatarackmessage() {
+  if (reportavatarackmessage_ != NULL) reportavatarackmessage_->::ReportAvatarAckMessage::Clear();
+  clear_has_reportavatarackmessage();
+}
+inline const ::ReportAvatarAckMessage& LobbyMessage::reportavatarackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return reportavatarackmessage_ != NULL ? *reportavatarackmessage_ : *default_instance().reportavatarackmessage_;
+#else
+  return reportavatarackmessage_ != NULL ? *reportavatarackmessage_ : *default_instance_->reportavatarackmessage_;
+#endif
+}
+inline ::ReportAvatarAckMessage* LobbyMessage::mutable_reportavatarackmessage() {
+  set_has_reportavatarackmessage();
+  if (reportavatarackmessage_ == NULL) reportavatarackmessage_ = new ::ReportAvatarAckMessage;
+  return reportavatarackmessage_;
+}
+inline ::ReportAvatarAckMessage* LobbyMessage::release_reportavatarackmessage() {
+  clear_has_reportavatarackmessage();
+  ::ReportAvatarAckMessage* temp = reportavatarackmessage_;
+  reportavatarackmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_reportavatarackmessage(::ReportAvatarAckMessage* reportavatarackmessage) {
+  delete reportavatarackmessage_;
+  reportavatarackmessage_ = reportavatarackmessage;
+  if (reportavatarackmessage) {
+    set_has_reportavatarackmessage();
+  } else {
+    clear_has_reportavatarackmessage();
+  }
+}
+
+// optional .ReportGameMessage reportGameMessage = 36;
+inline bool LobbyMessage::has_reportgamemessage() const {
+  return (_has_bits_[1] & 0x00000008u) != 0;
+}
+inline void LobbyMessage::set_has_reportgamemessage() {
+  _has_bits_[1] |= 0x00000008u;
+}
+inline void LobbyMessage::clear_has_reportgamemessage() {
+  _has_bits_[1] &= ~0x00000008u;
+}
+inline void LobbyMessage::clear_reportgamemessage() {
+  if (reportgamemessage_ != NULL) reportgamemessage_->::ReportGameMessage::Clear();
+  clear_has_reportgamemessage();
+}
+inline const ::ReportGameMessage& LobbyMessage::reportgamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return reportgamemessage_ != NULL ? *reportgamemessage_ : *default_instance().reportgamemessage_;
+#else
+  return reportgamemessage_ != NULL ? *reportgamemessage_ : *default_instance_->reportgamemessage_;
+#endif
+}
+inline ::ReportGameMessage* LobbyMessage::mutable_reportgamemessage() {
+  set_has_reportgamemessage();
+  if (reportgamemessage_ == NULL) reportgamemessage_ = new ::ReportGameMessage;
+  return reportgamemessage_;
+}
+inline ::ReportGameMessage* LobbyMessage::release_reportgamemessage() {
+  clear_has_reportgamemessage();
+  ::ReportGameMessage* temp = reportgamemessage_;
+  reportgamemessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_reportgamemessage(::ReportGameMessage* reportgamemessage) {
+  delete reportgamemessage_;
+  reportgamemessage_ = reportgamemessage;
+  if (reportgamemessage) {
+    set_has_reportgamemessage();
+  } else {
+    clear_has_reportgamemessage();
+  }
+}
+
+// optional .ReportGameAckMessage reportGameAckMessage = 37;
+inline bool LobbyMessage::has_reportgameackmessage() const {
+  return (_has_bits_[1] & 0x00000010u) != 0;
+}
+inline void LobbyMessage::set_has_reportgameackmessage() {
+  _has_bits_[1] |= 0x00000010u;
+}
+inline void LobbyMessage::clear_has_reportgameackmessage() {
+  _has_bits_[1] &= ~0x00000010u;
+}
+inline void LobbyMessage::clear_reportgameackmessage() {
+  if (reportgameackmessage_ != NULL) reportgameackmessage_->::ReportGameAckMessage::Clear();
+  clear_has_reportgameackmessage();
+}
+inline const ::ReportGameAckMessage& LobbyMessage::reportgameackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return reportgameackmessage_ != NULL ? *reportgameackmessage_ : *default_instance().reportgameackmessage_;
+#else
+  return reportgameackmessage_ != NULL ? *reportgameackmessage_ : *default_instance_->reportgameackmessage_;
+#endif
+}
+inline ::ReportGameAckMessage* LobbyMessage::mutable_reportgameackmessage() {
+  set_has_reportgameackmessage();
+  if (reportgameackmessage_ == NULL) reportgameackmessage_ = new ::ReportGameAckMessage;
+  return reportgameackmessage_;
+}
+inline ::ReportGameAckMessage* LobbyMessage::release_reportgameackmessage() {
+  clear_has_reportgameackmessage();
+  ::ReportGameAckMessage* temp = reportgameackmessage_;
+  reportgameackmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_reportgameackmessage(::ReportGameAckMessage* reportgameackmessage) {
+  delete reportgameackmessage_;
+  reportgameackmessage_ = reportgameackmessage;
+  if (reportgameackmessage) {
+    set_has_reportgameackmessage();
+  } else {
+    clear_has_reportgameackmessage();
+  }
+}
+
+// optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
+inline bool LobbyMessage::has_adminremovegamemessage() const {
+  return (_has_bits_[1] & 0x00000020u) != 0;
+}
+inline void LobbyMessage::set_has_adminremovegamemessage() {
+  _has_bits_[1] |= 0x00000020u;
+}
+inline void LobbyMessage::clear_has_adminremovegamemessage() {
+  _has_bits_[1] &= ~0x00000020u;
+}
+inline void LobbyMessage::clear_adminremovegamemessage() {
+  if (adminremovegamemessage_ != NULL) adminremovegamemessage_->::AdminRemoveGameMessage::Clear();
+  clear_has_adminremovegamemessage();
+}
+inline const ::AdminRemoveGameMessage& LobbyMessage::adminremovegamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return adminremovegamemessage_ != NULL ? *adminremovegamemessage_ : *default_instance().adminremovegamemessage_;
+#else
+  return adminremovegamemessage_ != NULL ? *adminremovegamemessage_ : *default_instance_->adminremovegamemessage_;
+#endif
+}
+inline ::AdminRemoveGameMessage* LobbyMessage::mutable_adminremovegamemessage() {
+  set_has_adminremovegamemessage();
+  if (adminremovegamemessage_ == NULL) adminremovegamemessage_ = new ::AdminRemoveGameMessage;
+  return adminremovegamemessage_;
+}
+inline ::AdminRemoveGameMessage* LobbyMessage::release_adminremovegamemessage() {
+  clear_has_adminremovegamemessage();
+  ::AdminRemoveGameMessage* temp = adminremovegamemessage_;
+  adminremovegamemessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_adminremovegamemessage(::AdminRemoveGameMessage* adminremovegamemessage) {
+  delete adminremovegamemessage_;
+  adminremovegamemessage_ = adminremovegamemessage;
+  if (adminremovegamemessage) {
+    set_has_adminremovegamemessage();
+  } else {
+    clear_has_adminremovegamemessage();
+  }
+}
+
+// optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
+inline bool LobbyMessage::has_adminremovegameackmessage() const {
+  return (_has_bits_[1] & 0x00000040u) != 0;
+}
+inline void LobbyMessage::set_has_adminremovegameackmessage() {
+  _has_bits_[1] |= 0x00000040u;
+}
+inline void LobbyMessage::clear_has_adminremovegameackmessage() {
+  _has_bits_[1] &= ~0x00000040u;
+}
+inline void LobbyMessage::clear_adminremovegameackmessage() {
+  if (adminremovegameackmessage_ != NULL) adminremovegameackmessage_->::AdminRemoveGameAckMessage::Clear();
+  clear_has_adminremovegameackmessage();
+}
+inline const ::AdminRemoveGameAckMessage& LobbyMessage::adminremovegameackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return adminremovegameackmessage_ != NULL ? *adminremovegameackmessage_ : *default_instance().adminremovegameackmessage_;
+#else
+  return adminremovegameackmessage_ != NULL ? *adminremovegameackmessage_ : *default_instance_->adminremovegameackmessage_;
+#endif
+}
+inline ::AdminRemoveGameAckMessage* LobbyMessage::mutable_adminremovegameackmessage() {
+  set_has_adminremovegameackmessage();
+  if (adminremovegameackmessage_ == NULL) adminremovegameackmessage_ = new ::AdminRemoveGameAckMessage;
+  return adminremovegameackmessage_;
+}
+inline ::AdminRemoveGameAckMessage* LobbyMessage::release_adminremovegameackmessage() {
+  clear_has_adminremovegameackmessage();
+  ::AdminRemoveGameAckMessage* temp = adminremovegameackmessage_;
+  adminremovegameackmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_adminremovegameackmessage(::AdminRemoveGameAckMessage* adminremovegameackmessage) {
+  delete adminremovegameackmessage_;
+  adminremovegameackmessage_ = adminremovegameackmessage;
+  if (adminremovegameackmessage) {
+    set_has_adminremovegameackmessage();
+  } else {
+    clear_has_adminremovegameackmessage();
+  }
+}
+
+// optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
+inline bool LobbyMessage::has_adminbanplayermessage() const {
+  return (_has_bits_[1] & 0x00000080u) != 0;
+}
+inline void LobbyMessage::set_has_adminbanplayermessage() {
+  _has_bits_[1] |= 0x00000080u;
+}
+inline void LobbyMessage::clear_has_adminbanplayermessage() {
+  _has_bits_[1] &= ~0x00000080u;
+}
+inline void LobbyMessage::clear_adminbanplayermessage() {
+  if (adminbanplayermessage_ != NULL) adminbanplayermessage_->::AdminBanPlayerMessage::Clear();
+  clear_has_adminbanplayermessage();
+}
+inline const ::AdminBanPlayerMessage& LobbyMessage::adminbanplayermessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return adminbanplayermessage_ != NULL ? *adminbanplayermessage_ : *default_instance().adminbanplayermessage_;
+#else
+  return adminbanplayermessage_ != NULL ? *adminbanplayermessage_ : *default_instance_->adminbanplayermessage_;
+#endif
+}
+inline ::AdminBanPlayerMessage* LobbyMessage::mutable_adminbanplayermessage() {
+  set_has_adminbanplayermessage();
+  if (adminbanplayermessage_ == NULL) adminbanplayermessage_ = new ::AdminBanPlayerMessage;
+  return adminbanplayermessage_;
+}
+inline ::AdminBanPlayerMessage* LobbyMessage::release_adminbanplayermessage() {
+  clear_has_adminbanplayermessage();
+  ::AdminBanPlayerMessage* temp = adminbanplayermessage_;
+  adminbanplayermessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_adminbanplayermessage(::AdminBanPlayerMessage* adminbanplayermessage) {
+  delete adminbanplayermessage_;
+  adminbanplayermessage_ = adminbanplayermessage;
+  if (adminbanplayermessage) {
+    set_has_adminbanplayermessage();
+  } else {
+    clear_has_adminbanplayermessage();
+  }
+}
+
+// optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
+inline bool LobbyMessage::has_adminbanplayerackmessage() const {
+  return (_has_bits_[1] & 0x00000100u) != 0;
+}
+inline void LobbyMessage::set_has_adminbanplayerackmessage() {
+  _has_bits_[1] |= 0x00000100u;
+}
+inline void LobbyMessage::clear_has_adminbanplayerackmessage() {
+  _has_bits_[1] &= ~0x00000100u;
+}
+inline void LobbyMessage::clear_adminbanplayerackmessage() {
+  if (adminbanplayerackmessage_ != NULL) adminbanplayerackmessage_->::AdminBanPlayerAckMessage::Clear();
+  clear_has_adminbanplayerackmessage();
+}
+inline const ::AdminBanPlayerAckMessage& LobbyMessage::adminbanplayerackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return adminbanplayerackmessage_ != NULL ? *adminbanplayerackmessage_ : *default_instance().adminbanplayerackmessage_;
+#else
+  return adminbanplayerackmessage_ != NULL ? *adminbanplayerackmessage_ : *default_instance_->adminbanplayerackmessage_;
+#endif
+}
+inline ::AdminBanPlayerAckMessage* LobbyMessage::mutable_adminbanplayerackmessage() {
+  set_has_adminbanplayerackmessage();
+  if (adminbanplayerackmessage_ == NULL) adminbanplayerackmessage_ = new ::AdminBanPlayerAckMessage;
+  return adminbanplayerackmessage_;
+}
+inline ::AdminBanPlayerAckMessage* LobbyMessage::release_adminbanplayerackmessage() {
+  clear_has_adminbanplayerackmessage();
+  ::AdminBanPlayerAckMessage* temp = adminbanplayerackmessage_;
+  adminbanplayerackmessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_adminbanplayerackmessage(::AdminBanPlayerAckMessage* adminbanplayerackmessage) {
+  delete adminbanplayerackmessage_;
+  adminbanplayerackmessage_ = adminbanplayerackmessage;
+  if (adminbanplayerackmessage) {
+    set_has_adminbanplayerackmessage();
+  } else {
+    clear_has_adminbanplayerackmessage();
+  }
+}
+
+// optional .ErrorMessage errorMessage = 1025;
+inline bool LobbyMessage::has_errormessage() const {
+  return (_has_bits_[1] & 0x00000200u) != 0;
+}
+inline void LobbyMessage::set_has_errormessage() {
+  _has_bits_[1] |= 0x00000200u;
+}
+inline void LobbyMessage::clear_has_errormessage() {
+  _has_bits_[1] &= ~0x00000200u;
+}
+inline void LobbyMessage::clear_errormessage() {
+  if (errormessage_ != NULL) errormessage_->::ErrorMessage::Clear();
+  clear_has_errormessage();
+}
+inline const ::ErrorMessage& LobbyMessage::errormessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return errormessage_ != NULL ? *errormessage_ : *default_instance().errormessage_;
+#else
+  return errormessage_ != NULL ? *errormessage_ : *default_instance_->errormessage_;
+#endif
+}
+inline ::ErrorMessage* LobbyMessage::mutable_errormessage() {
+  set_has_errormessage();
+  if (errormessage_ == NULL) errormessage_ = new ::ErrorMessage;
+  return errormessage_;
+}
+inline ::ErrorMessage* LobbyMessage::release_errormessage() {
+  clear_has_errormessage();
+  ::ErrorMessage* temp = errormessage_;
+  errormessage_ = NULL;
+  return temp;
+}
+inline void LobbyMessage::set_allocated_errormessage(::ErrorMessage* errormessage) {
+  delete errormessage_;
+  errormessage_ = errormessage;
+  if (errormessage) {
+    set_has_errormessage();
+  } else {
+    clear_has_errormessage();
+  }
+}
+
+// -------------------------------------------------------------------
+
+// GameManagementMessage
+
+// required .GameManagementMessage.GameManagementMessageType messageType = 1;
+inline bool GameManagementMessage::has_messagetype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameManagementMessage::set_has_messagetype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameManagementMessage::clear_has_messagetype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameManagementMessage::clear_messagetype() {
+  messagetype_ = 1;
+  clear_has_messagetype();
+}
+inline ::GameManagementMessage_GameManagementMessageType GameManagementMessage::messagetype() const {
+  return static_cast< ::GameManagementMessage_GameManagementMessageType >(messagetype_);
+}
+inline void GameManagementMessage::set_messagetype(::GameManagementMessage_GameManagementMessageType value) {
+  assert(::GameManagementMessage_GameManagementMessageType_IsValid(value));
+  set_has_messagetype();
+  messagetype_ = value;
+}
+
+// optional .JoinGameMessage joinGameMessage = 2;
+inline bool GameManagementMessage::has_joingamemessage() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameManagementMessage::set_has_joingamemessage() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameManagementMessage::clear_has_joingamemessage() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameManagementMessage::clear_joingamemessage() {
+  if (joingamemessage_ != NULL) joingamemessage_->::JoinGameMessage::Clear();
+  clear_has_joingamemessage();
+}
+inline const ::JoinGameMessage& GameManagementMessage::joingamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return joingamemessage_ != NULL ? *joingamemessage_ : *default_instance().joingamemessage_;
+#else
+  return joingamemessage_ != NULL ? *joingamemessage_ : *default_instance_->joingamemessage_;
+#endif
+}
+inline ::JoinGameMessage* GameManagementMessage::mutable_joingamemessage() {
+  set_has_joingamemessage();
+  if (joingamemessage_ == NULL) joingamemessage_ = new ::JoinGameMessage;
+  return joingamemessage_;
+}
+inline ::JoinGameMessage* GameManagementMessage::release_joingamemessage() {
+  clear_has_joingamemessage();
+  ::JoinGameMessage* temp = joingamemessage_;
+  joingamemessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_joingamemessage(::JoinGameMessage* joingamemessage) {
+  delete joingamemessage_;
+  joingamemessage_ = joingamemessage;
+  if (joingamemessage) {
+    set_has_joingamemessage();
+  } else {
+    clear_has_joingamemessage();
+  }
+}
+
+// optional .RejoinGameMessage rejoinGameMessage = 3;
+inline bool GameManagementMessage::has_rejoingamemessage() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GameManagementMessage::set_has_rejoingamemessage() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GameManagementMessage::clear_has_rejoingamemessage() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GameManagementMessage::clear_rejoingamemessage() {
+  if (rejoingamemessage_ != NULL) rejoingamemessage_->::RejoinGameMessage::Clear();
+  clear_has_rejoingamemessage();
+}
+inline const ::RejoinGameMessage& GameManagementMessage::rejoingamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return rejoingamemessage_ != NULL ? *rejoingamemessage_ : *default_instance().rejoingamemessage_;
+#else
+  return rejoingamemessage_ != NULL ? *rejoingamemessage_ : *default_instance_->rejoingamemessage_;
+#endif
+}
+inline ::RejoinGameMessage* GameManagementMessage::mutable_rejoingamemessage() {
+  set_has_rejoingamemessage();
+  if (rejoingamemessage_ == NULL) rejoingamemessage_ = new ::RejoinGameMessage;
+  return rejoingamemessage_;
+}
+inline ::RejoinGameMessage* GameManagementMessage::release_rejoingamemessage() {
+  clear_has_rejoingamemessage();
+  ::RejoinGameMessage* temp = rejoingamemessage_;
+  rejoingamemessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_rejoingamemessage(::RejoinGameMessage* rejoingamemessage) {
+  delete rejoingamemessage_;
+  rejoingamemessage_ = rejoingamemessage;
+  if (rejoingamemessage) {
+    set_has_rejoingamemessage();
+  } else {
+    clear_has_rejoingamemessage();
+  }
+}
+
+// optional .JoinGameAckMessage joinGameAckMessage = 4;
+inline bool GameManagementMessage::has_joingameackmessage() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GameManagementMessage::set_has_joingameackmessage() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GameManagementMessage::clear_has_joingameackmessage() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void GameManagementMessage::clear_joingameackmessage() {
+  if (joingameackmessage_ != NULL) joingameackmessage_->::JoinGameAckMessage::Clear();
+  clear_has_joingameackmessage();
+}
+inline const ::JoinGameAckMessage& GameManagementMessage::joingameackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return joingameackmessage_ != NULL ? *joingameackmessage_ : *default_instance().joingameackmessage_;
+#else
+  return joingameackmessage_ != NULL ? *joingameackmessage_ : *default_instance_->joingameackmessage_;
+#endif
+}
+inline ::JoinGameAckMessage* GameManagementMessage::mutable_joingameackmessage() {
+  set_has_joingameackmessage();
+  if (joingameackmessage_ == NULL) joingameackmessage_ = new ::JoinGameAckMessage;
+  return joingameackmessage_;
+}
+inline ::JoinGameAckMessage* GameManagementMessage::release_joingameackmessage() {
+  clear_has_joingameackmessage();
+  ::JoinGameAckMessage* temp = joingameackmessage_;
+  joingameackmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_joingameackmessage(::JoinGameAckMessage* joingameackmessage) {
+  delete joingameackmessage_;
+  joingameackmessage_ = joingameackmessage;
+  if (joingameackmessage) {
+    set_has_joingameackmessage();
+  } else {
+    clear_has_joingameackmessage();
+  }
+}
+
+// optional .JoinGameFailedMessage joinGameFailedMessage = 5;
+inline bool GameManagementMessage::has_joingamefailedmessage() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void GameManagementMessage::set_has_joingamefailedmessage() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void GameManagementMessage::clear_has_joingamefailedmessage() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void GameManagementMessage::clear_joingamefailedmessage() {
+  if (joingamefailedmessage_ != NULL) joingamefailedmessage_->::JoinGameFailedMessage::Clear();
+  clear_has_joingamefailedmessage();
+}
+inline const ::JoinGameFailedMessage& GameManagementMessage::joingamefailedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return joingamefailedmessage_ != NULL ? *joingamefailedmessage_ : *default_instance().joingamefailedmessage_;
+#else
+  return joingamefailedmessage_ != NULL ? *joingamefailedmessage_ : *default_instance_->joingamefailedmessage_;
+#endif
+}
+inline ::JoinGameFailedMessage* GameManagementMessage::mutable_joingamefailedmessage() {
+  set_has_joingamefailedmessage();
+  if (joingamefailedmessage_ == NULL) joingamefailedmessage_ = new ::JoinGameFailedMessage;
+  return joingamefailedmessage_;
+}
+inline ::JoinGameFailedMessage* GameManagementMessage::release_joingamefailedmessage() {
+  clear_has_joingamefailedmessage();
+  ::JoinGameFailedMessage* temp = joingamefailedmessage_;
+  joingamefailedmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_joingamefailedmessage(::JoinGameFailedMessage* joingamefailedmessage) {
+  delete joingamefailedmessage_;
+  joingamefailedmessage_ = joingamefailedmessage;
+  if (joingamefailedmessage) {
+    set_has_joingamefailedmessage();
+  } else {
+    clear_has_joingamefailedmessage();
+  }
+}
+
+// optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
+inline bool GameManagementMessage::has_gameplayerjoinedmessage() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void GameManagementMessage::set_has_gameplayerjoinedmessage() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void GameManagementMessage::clear_has_gameplayerjoinedmessage() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void GameManagementMessage::clear_gameplayerjoinedmessage() {
+  if (gameplayerjoinedmessage_ != NULL) gameplayerjoinedmessage_->::GamePlayerJoinedMessage::Clear();
+  clear_has_gameplayerjoinedmessage();
+}
+inline const ::GamePlayerJoinedMessage& GameManagementMessage::gameplayerjoinedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gameplayerjoinedmessage_ != NULL ? *gameplayerjoinedmessage_ : *default_instance().gameplayerjoinedmessage_;
+#else
+  return gameplayerjoinedmessage_ != NULL ? *gameplayerjoinedmessage_ : *default_instance_->gameplayerjoinedmessage_;
+#endif
+}
+inline ::GamePlayerJoinedMessage* GameManagementMessage::mutable_gameplayerjoinedmessage() {
+  set_has_gameplayerjoinedmessage();
+  if (gameplayerjoinedmessage_ == NULL) gameplayerjoinedmessage_ = new ::GamePlayerJoinedMessage;
+  return gameplayerjoinedmessage_;
+}
+inline ::GamePlayerJoinedMessage* GameManagementMessage::release_gameplayerjoinedmessage() {
+  clear_has_gameplayerjoinedmessage();
+  ::GamePlayerJoinedMessage* temp = gameplayerjoinedmessage_;
+  gameplayerjoinedmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gameplayerjoinedmessage(::GamePlayerJoinedMessage* gameplayerjoinedmessage) {
+  delete gameplayerjoinedmessage_;
+  gameplayerjoinedmessage_ = gameplayerjoinedmessage;
+  if (gameplayerjoinedmessage) {
+    set_has_gameplayerjoinedmessage();
+  } else {
+    clear_has_gameplayerjoinedmessage();
+  }
+}
+
+// optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
+inline bool GameManagementMessage::has_gameplayerleftmessage() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void GameManagementMessage::set_has_gameplayerleftmessage() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void GameManagementMessage::clear_has_gameplayerleftmessage() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void GameManagementMessage::clear_gameplayerleftmessage() {
+  if (gameplayerleftmessage_ != NULL) gameplayerleftmessage_->::GamePlayerLeftMessage::Clear();
+  clear_has_gameplayerleftmessage();
+}
+inline const ::GamePlayerLeftMessage& GameManagementMessage::gameplayerleftmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gameplayerleftmessage_ != NULL ? *gameplayerleftmessage_ : *default_instance().gameplayerleftmessage_;
+#else
+  return gameplayerleftmessage_ != NULL ? *gameplayerleftmessage_ : *default_instance_->gameplayerleftmessage_;
+#endif
+}
+inline ::GamePlayerLeftMessage* GameManagementMessage::mutable_gameplayerleftmessage() {
+  set_has_gameplayerleftmessage();
+  if (gameplayerleftmessage_ == NULL) gameplayerleftmessage_ = new ::GamePlayerLeftMessage;
+  return gameplayerleftmessage_;
+}
+inline ::GamePlayerLeftMessage* GameManagementMessage::release_gameplayerleftmessage() {
+  clear_has_gameplayerleftmessage();
+  ::GamePlayerLeftMessage* temp = gameplayerleftmessage_;
+  gameplayerleftmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gameplayerleftmessage(::GamePlayerLeftMessage* gameplayerleftmessage) {
+  delete gameplayerleftmessage_;
+  gameplayerleftmessage_ = gameplayerleftmessage;
+  if (gameplayerleftmessage) {
+    set_has_gameplayerleftmessage();
+  } else {
+    clear_has_gameplayerleftmessage();
+  }
+}
+
+// optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
+inline bool GameManagementMessage::has_gamespectatorjoinedmessage() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void GameManagementMessage::set_has_gamespectatorjoinedmessage() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void GameManagementMessage::clear_has_gamespectatorjoinedmessage() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void GameManagementMessage::clear_gamespectatorjoinedmessage() {
+  if (gamespectatorjoinedmessage_ != NULL) gamespectatorjoinedmessage_->::GameSpectatorJoinedMessage::Clear();
+  clear_has_gamespectatorjoinedmessage();
+}
+inline const ::GameSpectatorJoinedMessage& GameManagementMessage::gamespectatorjoinedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamespectatorjoinedmessage_ != NULL ? *gamespectatorjoinedmessage_ : *default_instance().gamespectatorjoinedmessage_;
+#else
+  return gamespectatorjoinedmessage_ != NULL ? *gamespectatorjoinedmessage_ : *default_instance_->gamespectatorjoinedmessage_;
+#endif
+}
+inline ::GameSpectatorJoinedMessage* GameManagementMessage::mutable_gamespectatorjoinedmessage() {
+  set_has_gamespectatorjoinedmessage();
+  if (gamespectatorjoinedmessage_ == NULL) gamespectatorjoinedmessage_ = new ::GameSpectatorJoinedMessage;
+  return gamespectatorjoinedmessage_;
+}
+inline ::GameSpectatorJoinedMessage* GameManagementMessage::release_gamespectatorjoinedmessage() {
+  clear_has_gamespectatorjoinedmessage();
+  ::GameSpectatorJoinedMessage* temp = gamespectatorjoinedmessage_;
+  gamespectatorjoinedmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gamespectatorjoinedmessage(::GameSpectatorJoinedMessage* gamespectatorjoinedmessage) {
+  delete gamespectatorjoinedmessage_;
+  gamespectatorjoinedmessage_ = gamespectatorjoinedmessage;
+  if (gamespectatorjoinedmessage) {
+    set_has_gamespectatorjoinedmessage();
+  } else {
+    clear_has_gamespectatorjoinedmessage();
+  }
+}
+
+// optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
+inline bool GameManagementMessage::has_gamespectatorleftmessage() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void GameManagementMessage::set_has_gamespectatorleftmessage() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void GameManagementMessage::clear_has_gamespectatorleftmessage() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void GameManagementMessage::clear_gamespectatorleftmessage() {
+  if (gamespectatorleftmessage_ != NULL) gamespectatorleftmessage_->::GameSpectatorLeftMessage::Clear();
+  clear_has_gamespectatorleftmessage();
+}
+inline const ::GameSpectatorLeftMessage& GameManagementMessage::gamespectatorleftmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamespectatorleftmessage_ != NULL ? *gamespectatorleftmessage_ : *default_instance().gamespectatorleftmessage_;
+#else
+  return gamespectatorleftmessage_ != NULL ? *gamespectatorleftmessage_ : *default_instance_->gamespectatorleftmessage_;
+#endif
+}
+inline ::GameSpectatorLeftMessage* GameManagementMessage::mutable_gamespectatorleftmessage() {
+  set_has_gamespectatorleftmessage();
+  if (gamespectatorleftmessage_ == NULL) gamespectatorleftmessage_ = new ::GameSpectatorLeftMessage;
+  return gamespectatorleftmessage_;
+}
+inline ::GameSpectatorLeftMessage* GameManagementMessage::release_gamespectatorleftmessage() {
+  clear_has_gamespectatorleftmessage();
+  ::GameSpectatorLeftMessage* temp = gamespectatorleftmessage_;
+  gamespectatorleftmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gamespectatorleftmessage(::GameSpectatorLeftMessage* gamespectatorleftmessage) {
+  delete gamespectatorleftmessage_;
+  gamespectatorleftmessage_ = gamespectatorleftmessage;
+  if (gamespectatorleftmessage) {
+    set_has_gamespectatorleftmessage();
+  } else {
+    clear_has_gamespectatorleftmessage();
+  }
+}
+
+// optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
+inline bool GameManagementMessage::has_gameadminchangedmessage() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void GameManagementMessage::set_has_gameadminchangedmessage() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void GameManagementMessage::clear_has_gameadminchangedmessage() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void GameManagementMessage::clear_gameadminchangedmessage() {
+  if (gameadminchangedmessage_ != NULL) gameadminchangedmessage_->::GameAdminChangedMessage::Clear();
+  clear_has_gameadminchangedmessage();
+}
+inline const ::GameAdminChangedMessage& GameManagementMessage::gameadminchangedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gameadminchangedmessage_ != NULL ? *gameadminchangedmessage_ : *default_instance().gameadminchangedmessage_;
+#else
+  return gameadminchangedmessage_ != NULL ? *gameadminchangedmessage_ : *default_instance_->gameadminchangedmessage_;
+#endif
+}
+inline ::GameAdminChangedMessage* GameManagementMessage::mutable_gameadminchangedmessage() {
+  set_has_gameadminchangedmessage();
+  if (gameadminchangedmessage_ == NULL) gameadminchangedmessage_ = new ::GameAdminChangedMessage;
+  return gameadminchangedmessage_;
+}
+inline ::GameAdminChangedMessage* GameManagementMessage::release_gameadminchangedmessage() {
+  clear_has_gameadminchangedmessage();
+  ::GameAdminChangedMessage* temp = gameadminchangedmessage_;
+  gameadminchangedmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gameadminchangedmessage(::GameAdminChangedMessage* gameadminchangedmessage) {
+  delete gameadminchangedmessage_;
+  gameadminchangedmessage_ = gameadminchangedmessage;
+  if (gameadminchangedmessage) {
+    set_has_gameadminchangedmessage();
+  } else {
+    clear_has_gameadminchangedmessage();
+  }
+}
+
+// optional .RemovedFromGameMessage removedFromGameMessage = 11;
+inline bool GameManagementMessage::has_removedfromgamemessage() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void GameManagementMessage::set_has_removedfromgamemessage() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void GameManagementMessage::clear_has_removedfromgamemessage() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void GameManagementMessage::clear_removedfromgamemessage() {
+  if (removedfromgamemessage_ != NULL) removedfromgamemessage_->::RemovedFromGameMessage::Clear();
+  clear_has_removedfromgamemessage();
+}
+inline const ::RemovedFromGameMessage& GameManagementMessage::removedfromgamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return removedfromgamemessage_ != NULL ? *removedfromgamemessage_ : *default_instance().removedfromgamemessage_;
+#else
+  return removedfromgamemessage_ != NULL ? *removedfromgamemessage_ : *default_instance_->removedfromgamemessage_;
+#endif
+}
+inline ::RemovedFromGameMessage* GameManagementMessage::mutable_removedfromgamemessage() {
+  set_has_removedfromgamemessage();
+  if (removedfromgamemessage_ == NULL) removedfromgamemessage_ = new ::RemovedFromGameMessage;
+  return removedfromgamemessage_;
+}
+inline ::RemovedFromGameMessage* GameManagementMessage::release_removedfromgamemessage() {
+  clear_has_removedfromgamemessage();
+  ::RemovedFromGameMessage* temp = removedfromgamemessage_;
+  removedfromgamemessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_removedfromgamemessage(::RemovedFromGameMessage* removedfromgamemessage) {
+  delete removedfromgamemessage_;
+  removedfromgamemessage_ = removedfromgamemessage;
+  if (removedfromgamemessage) {
+    set_has_removedfromgamemessage();
+  } else {
+    clear_has_removedfromgamemessage();
+  }
+}
+
+// optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
+inline bool GameManagementMessage::has_kickplayerrequestmessage() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void GameManagementMessage::set_has_kickplayerrequestmessage() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void GameManagementMessage::clear_has_kickplayerrequestmessage() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void GameManagementMessage::clear_kickplayerrequestmessage() {
+  if (kickplayerrequestmessage_ != NULL) kickplayerrequestmessage_->::KickPlayerRequestMessage::Clear();
+  clear_has_kickplayerrequestmessage();
+}
+inline const ::KickPlayerRequestMessage& GameManagementMessage::kickplayerrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return kickplayerrequestmessage_ != NULL ? *kickplayerrequestmessage_ : *default_instance().kickplayerrequestmessage_;
+#else
+  return kickplayerrequestmessage_ != NULL ? *kickplayerrequestmessage_ : *default_instance_->kickplayerrequestmessage_;
+#endif
+}
+inline ::KickPlayerRequestMessage* GameManagementMessage::mutable_kickplayerrequestmessage() {
+  set_has_kickplayerrequestmessage();
+  if (kickplayerrequestmessage_ == NULL) kickplayerrequestmessage_ = new ::KickPlayerRequestMessage;
+  return kickplayerrequestmessage_;
+}
+inline ::KickPlayerRequestMessage* GameManagementMessage::release_kickplayerrequestmessage() {
+  clear_has_kickplayerrequestmessage();
+  ::KickPlayerRequestMessage* temp = kickplayerrequestmessage_;
+  kickplayerrequestmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_kickplayerrequestmessage(::KickPlayerRequestMessage* kickplayerrequestmessage) {
+  delete kickplayerrequestmessage_;
+  kickplayerrequestmessage_ = kickplayerrequestmessage;
+  if (kickplayerrequestmessage) {
+    set_has_kickplayerrequestmessage();
+  } else {
+    clear_has_kickplayerrequestmessage();
+  }
+}
+
+// optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
+inline bool GameManagementMessage::has_leavegamerequestmessage() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void GameManagementMessage::set_has_leavegamerequestmessage() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void GameManagementMessage::clear_has_leavegamerequestmessage() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void GameManagementMessage::clear_leavegamerequestmessage() {
+  if (leavegamerequestmessage_ != NULL) leavegamerequestmessage_->::LeaveGameRequestMessage::Clear();
+  clear_has_leavegamerequestmessage();
+}
+inline const ::LeaveGameRequestMessage& GameManagementMessage::leavegamerequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return leavegamerequestmessage_ != NULL ? *leavegamerequestmessage_ : *default_instance().leavegamerequestmessage_;
+#else
+  return leavegamerequestmessage_ != NULL ? *leavegamerequestmessage_ : *default_instance_->leavegamerequestmessage_;
+#endif
+}
+inline ::LeaveGameRequestMessage* GameManagementMessage::mutable_leavegamerequestmessage() {
+  set_has_leavegamerequestmessage();
+  if (leavegamerequestmessage_ == NULL) leavegamerequestmessage_ = new ::LeaveGameRequestMessage;
+  return leavegamerequestmessage_;
+}
+inline ::LeaveGameRequestMessage* GameManagementMessage::release_leavegamerequestmessage() {
+  clear_has_leavegamerequestmessage();
+  ::LeaveGameRequestMessage* temp = leavegamerequestmessage_;
+  leavegamerequestmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_leavegamerequestmessage(::LeaveGameRequestMessage* leavegamerequestmessage) {
+  delete leavegamerequestmessage_;
+  leavegamerequestmessage_ = leavegamerequestmessage;
+  if (leavegamerequestmessage) {
+    set_has_leavegamerequestmessage();
+  } else {
+    clear_has_leavegamerequestmessage();
+  }
+}
+
+// optional .StartEventMessage startEventMessage = 14;
+inline bool GameManagementMessage::has_starteventmessage() const {
+  return (_has_bits_[0] & 0x00002000u) != 0;
+}
+inline void GameManagementMessage::set_has_starteventmessage() {
+  _has_bits_[0] |= 0x00002000u;
+}
+inline void GameManagementMessage::clear_has_starteventmessage() {
+  _has_bits_[0] &= ~0x00002000u;
+}
+inline void GameManagementMessage::clear_starteventmessage() {
+  if (starteventmessage_ != NULL) starteventmessage_->::StartEventMessage::Clear();
+  clear_has_starteventmessage();
+}
+inline const ::StartEventMessage& GameManagementMessage::starteventmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return starteventmessage_ != NULL ? *starteventmessage_ : *default_instance().starteventmessage_;
+#else
+  return starteventmessage_ != NULL ? *starteventmessage_ : *default_instance_->starteventmessage_;
+#endif
+}
+inline ::StartEventMessage* GameManagementMessage::mutable_starteventmessage() {
+  set_has_starteventmessage();
+  if (starteventmessage_ == NULL) starteventmessage_ = new ::StartEventMessage;
+  return starteventmessage_;
+}
+inline ::StartEventMessage* GameManagementMessage::release_starteventmessage() {
+  clear_has_starteventmessage();
+  ::StartEventMessage* temp = starteventmessage_;
+  starteventmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_starteventmessage(::StartEventMessage* starteventmessage) {
+  delete starteventmessage_;
+  starteventmessage_ = starteventmessage;
+  if (starteventmessage) {
+    set_has_starteventmessage();
+  } else {
+    clear_has_starteventmessage();
+  }
+}
+
+// optional .StartEventAckMessage startEventAckMessage = 15;
+inline bool GameManagementMessage::has_starteventackmessage() const {
+  return (_has_bits_[0] & 0x00004000u) != 0;
+}
+inline void GameManagementMessage::set_has_starteventackmessage() {
+  _has_bits_[0] |= 0x00004000u;
+}
+inline void GameManagementMessage::clear_has_starteventackmessage() {
+  _has_bits_[0] &= ~0x00004000u;
+}
+inline void GameManagementMessage::clear_starteventackmessage() {
+  if (starteventackmessage_ != NULL) starteventackmessage_->::StartEventAckMessage::Clear();
+  clear_has_starteventackmessage();
+}
+inline const ::StartEventAckMessage& GameManagementMessage::starteventackmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return starteventackmessage_ != NULL ? *starteventackmessage_ : *default_instance().starteventackmessage_;
+#else
+  return starteventackmessage_ != NULL ? *starteventackmessage_ : *default_instance_->starteventackmessage_;
+#endif
+}
+inline ::StartEventAckMessage* GameManagementMessage::mutable_starteventackmessage() {
+  set_has_starteventackmessage();
+  if (starteventackmessage_ == NULL) starteventackmessage_ = new ::StartEventAckMessage;
+  return starteventackmessage_;
+}
+inline ::StartEventAckMessage* GameManagementMessage::release_starteventackmessage() {
+  clear_has_starteventackmessage();
+  ::StartEventAckMessage* temp = starteventackmessage_;
+  starteventackmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_starteventackmessage(::StartEventAckMessage* starteventackmessage) {
+  delete starteventackmessage_;
+  starteventackmessage_ = starteventackmessage;
+  if (starteventackmessage) {
+    set_has_starteventackmessage();
+  } else {
+    clear_has_starteventackmessage();
+  }
+}
+
+// optional .GameStartInitialMessage gameStartInitialMessage = 16;
+inline bool GameManagementMessage::has_gamestartinitialmessage() const {
+  return (_has_bits_[0] & 0x00008000u) != 0;
+}
+inline void GameManagementMessage::set_has_gamestartinitialmessage() {
+  _has_bits_[0] |= 0x00008000u;
+}
+inline void GameManagementMessage::clear_has_gamestartinitialmessage() {
+  _has_bits_[0] &= ~0x00008000u;
+}
+inline void GameManagementMessage::clear_gamestartinitialmessage() {
+  if (gamestartinitialmessage_ != NULL) gamestartinitialmessage_->::GameStartInitialMessage::Clear();
+  clear_has_gamestartinitialmessage();
+}
+inline const ::GameStartInitialMessage& GameManagementMessage::gamestartinitialmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamestartinitialmessage_ != NULL ? *gamestartinitialmessage_ : *default_instance().gamestartinitialmessage_;
+#else
+  return gamestartinitialmessage_ != NULL ? *gamestartinitialmessage_ : *default_instance_->gamestartinitialmessage_;
+#endif
+}
+inline ::GameStartInitialMessage* GameManagementMessage::mutable_gamestartinitialmessage() {
+  set_has_gamestartinitialmessage();
+  if (gamestartinitialmessage_ == NULL) gamestartinitialmessage_ = new ::GameStartInitialMessage;
+  return gamestartinitialmessage_;
+}
+inline ::GameStartInitialMessage* GameManagementMessage::release_gamestartinitialmessage() {
+  clear_has_gamestartinitialmessage();
+  ::GameStartInitialMessage* temp = gamestartinitialmessage_;
+  gamestartinitialmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gamestartinitialmessage(::GameStartInitialMessage* gamestartinitialmessage) {
+  delete gamestartinitialmessage_;
+  gamestartinitialmessage_ = gamestartinitialmessage;
+  if (gamestartinitialmessage) {
+    set_has_gamestartinitialmessage();
+  } else {
+    clear_has_gamestartinitialmessage();
+  }
+}
+
+// optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
+inline bool GameManagementMessage::has_gamestartrejoinmessage() const {
+  return (_has_bits_[0] & 0x00010000u) != 0;
+}
+inline void GameManagementMessage::set_has_gamestartrejoinmessage() {
+  _has_bits_[0] |= 0x00010000u;
+}
+inline void GameManagementMessage::clear_has_gamestartrejoinmessage() {
+  _has_bits_[0] &= ~0x00010000u;
+}
+inline void GameManagementMessage::clear_gamestartrejoinmessage() {
+  if (gamestartrejoinmessage_ != NULL) gamestartrejoinmessage_->::GameStartRejoinMessage::Clear();
+  clear_has_gamestartrejoinmessage();
+}
+inline const ::GameStartRejoinMessage& GameManagementMessage::gamestartrejoinmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamestartrejoinmessage_ != NULL ? *gamestartrejoinmessage_ : *default_instance().gamestartrejoinmessage_;
+#else
+  return gamestartrejoinmessage_ != NULL ? *gamestartrejoinmessage_ : *default_instance_->gamestartrejoinmessage_;
+#endif
+}
+inline ::GameStartRejoinMessage* GameManagementMessage::mutable_gamestartrejoinmessage() {
+  set_has_gamestartrejoinmessage();
+  if (gamestartrejoinmessage_ == NULL) gamestartrejoinmessage_ = new ::GameStartRejoinMessage;
+  return gamestartrejoinmessage_;
+}
+inline ::GameStartRejoinMessage* GameManagementMessage::release_gamestartrejoinmessage() {
+  clear_has_gamestartrejoinmessage();
+  ::GameStartRejoinMessage* temp = gamestartrejoinmessage_;
+  gamestartrejoinmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_gamestartrejoinmessage(::GameStartRejoinMessage* gamestartrejoinmessage) {
+  delete gamestartrejoinmessage_;
+  gamestartrejoinmessage_ = gamestartrejoinmessage;
+  if (gamestartrejoinmessage) {
+    set_has_gamestartrejoinmessage();
+  } else {
+    clear_has_gamestartrejoinmessage();
+  }
+}
+
+// optional .EndOfGameMessage endOfGameMessage = 18;
+inline bool GameManagementMessage::has_endofgamemessage() const {
+  return (_has_bits_[0] & 0x00020000u) != 0;
+}
+inline void GameManagementMessage::set_has_endofgamemessage() {
+  _has_bits_[0] |= 0x00020000u;
+}
+inline void GameManagementMessage::clear_has_endofgamemessage() {
+  _has_bits_[0] &= ~0x00020000u;
+}
+inline void GameManagementMessage::clear_endofgamemessage() {
+  if (endofgamemessage_ != NULL) endofgamemessage_->::EndOfGameMessage::Clear();
+  clear_has_endofgamemessage();
+}
+inline const ::EndOfGameMessage& GameManagementMessage::endofgamemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return endofgamemessage_ != NULL ? *endofgamemessage_ : *default_instance().endofgamemessage_;
+#else
+  return endofgamemessage_ != NULL ? *endofgamemessage_ : *default_instance_->endofgamemessage_;
+#endif
+}
+inline ::EndOfGameMessage* GameManagementMessage::mutable_endofgamemessage() {
+  set_has_endofgamemessage();
+  if (endofgamemessage_ == NULL) endofgamemessage_ = new ::EndOfGameMessage;
+  return endofgamemessage_;
+}
+inline ::EndOfGameMessage* GameManagementMessage::release_endofgamemessage() {
+  clear_has_endofgamemessage();
+  ::EndOfGameMessage* temp = endofgamemessage_;
+  endofgamemessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_endofgamemessage(::EndOfGameMessage* endofgamemessage) {
+  delete endofgamemessage_;
+  endofgamemessage_ = endofgamemessage;
+  if (endofgamemessage) {
+    set_has_endofgamemessage();
+  } else {
+    clear_has_endofgamemessage();
+  }
+}
+
+// optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
+inline bool GameManagementMessage::has_playeridchangedmessage() const {
+  return (_has_bits_[0] & 0x00040000u) != 0;
+}
+inline void GameManagementMessage::set_has_playeridchangedmessage() {
+  _has_bits_[0] |= 0x00040000u;
+}
+inline void GameManagementMessage::clear_has_playeridchangedmessage() {
+  _has_bits_[0] &= ~0x00040000u;
+}
+inline void GameManagementMessage::clear_playeridchangedmessage() {
+  if (playeridchangedmessage_ != NULL) playeridchangedmessage_->::PlayerIdChangedMessage::Clear();
+  clear_has_playeridchangedmessage();
+}
+inline const ::PlayerIdChangedMessage& GameManagementMessage::playeridchangedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return playeridchangedmessage_ != NULL ? *playeridchangedmessage_ : *default_instance().playeridchangedmessage_;
+#else
+  return playeridchangedmessage_ != NULL ? *playeridchangedmessage_ : *default_instance_->playeridchangedmessage_;
+#endif
+}
+inline ::PlayerIdChangedMessage* GameManagementMessage::mutable_playeridchangedmessage() {
+  set_has_playeridchangedmessage();
+  if (playeridchangedmessage_ == NULL) playeridchangedmessage_ = new ::PlayerIdChangedMessage;
+  return playeridchangedmessage_;
+}
+inline ::PlayerIdChangedMessage* GameManagementMessage::release_playeridchangedmessage() {
+  clear_has_playeridchangedmessage();
+  ::PlayerIdChangedMessage* temp = playeridchangedmessage_;
+  playeridchangedmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_playeridchangedmessage(::PlayerIdChangedMessage* playeridchangedmessage) {
+  delete playeridchangedmessage_;
+  playeridchangedmessage_ = playeridchangedmessage;
+  if (playeridchangedmessage) {
+    set_has_playeridchangedmessage();
+  } else {
+    clear_has_playeridchangedmessage();
+  }
+}
+
+// optional .AskKickPlayerMessage askKickPlayerMessage = 20;
+inline bool GameManagementMessage::has_askkickplayermessage() const {
+  return (_has_bits_[0] & 0x00080000u) != 0;
+}
+inline void GameManagementMessage::set_has_askkickplayermessage() {
+  _has_bits_[0] |= 0x00080000u;
+}
+inline void GameManagementMessage::clear_has_askkickplayermessage() {
+  _has_bits_[0] &= ~0x00080000u;
+}
+inline void GameManagementMessage::clear_askkickplayermessage() {
+  if (askkickplayermessage_ != NULL) askkickplayermessage_->::AskKickPlayerMessage::Clear();
+  clear_has_askkickplayermessage();
+}
+inline const ::AskKickPlayerMessage& GameManagementMessage::askkickplayermessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return askkickplayermessage_ != NULL ? *askkickplayermessage_ : *default_instance().askkickplayermessage_;
+#else
+  return askkickplayermessage_ != NULL ? *askkickplayermessage_ : *default_instance_->askkickplayermessage_;
+#endif
+}
+inline ::AskKickPlayerMessage* GameManagementMessage::mutable_askkickplayermessage() {
+  set_has_askkickplayermessage();
+  if (askkickplayermessage_ == NULL) askkickplayermessage_ = new ::AskKickPlayerMessage;
+  return askkickplayermessage_;
+}
+inline ::AskKickPlayerMessage* GameManagementMessage::release_askkickplayermessage() {
+  clear_has_askkickplayermessage();
+  ::AskKickPlayerMessage* temp = askkickplayermessage_;
+  askkickplayermessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_askkickplayermessage(::AskKickPlayerMessage* askkickplayermessage) {
+  delete askkickplayermessage_;
+  askkickplayermessage_ = askkickplayermessage;
+  if (askkickplayermessage) {
+    set_has_askkickplayermessage();
+  } else {
+    clear_has_askkickplayermessage();
+  }
+}
+
+// optional .AskKickDeniedMessage askKickDeniedMessage = 21;
+inline bool GameManagementMessage::has_askkickdeniedmessage() const {
+  return (_has_bits_[0] & 0x00100000u) != 0;
+}
+inline void GameManagementMessage::set_has_askkickdeniedmessage() {
+  _has_bits_[0] |= 0x00100000u;
+}
+inline void GameManagementMessage::clear_has_askkickdeniedmessage() {
+  _has_bits_[0] &= ~0x00100000u;
+}
+inline void GameManagementMessage::clear_askkickdeniedmessage() {
+  if (askkickdeniedmessage_ != NULL) askkickdeniedmessage_->::AskKickDeniedMessage::Clear();
+  clear_has_askkickdeniedmessage();
+}
+inline const ::AskKickDeniedMessage& GameManagementMessage::askkickdeniedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return askkickdeniedmessage_ != NULL ? *askkickdeniedmessage_ : *default_instance().askkickdeniedmessage_;
+#else
+  return askkickdeniedmessage_ != NULL ? *askkickdeniedmessage_ : *default_instance_->askkickdeniedmessage_;
+#endif
+}
+inline ::AskKickDeniedMessage* GameManagementMessage::mutable_askkickdeniedmessage() {
+  set_has_askkickdeniedmessage();
+  if (askkickdeniedmessage_ == NULL) askkickdeniedmessage_ = new ::AskKickDeniedMessage;
+  return askkickdeniedmessage_;
+}
+inline ::AskKickDeniedMessage* GameManagementMessage::release_askkickdeniedmessage() {
+  clear_has_askkickdeniedmessage();
+  ::AskKickDeniedMessage* temp = askkickdeniedmessage_;
+  askkickdeniedmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_askkickdeniedmessage(::AskKickDeniedMessage* askkickdeniedmessage) {
+  delete askkickdeniedmessage_;
+  askkickdeniedmessage_ = askkickdeniedmessage;
+  if (askkickdeniedmessage) {
+    set_has_askkickdeniedmessage();
+  } else {
+    clear_has_askkickdeniedmessage();
+  }
+}
+
+// optional .StartKickPetitionMessage startKickPetitionMessage = 22;
+inline bool GameManagementMessage::has_startkickpetitionmessage() const {
+  return (_has_bits_[0] & 0x00200000u) != 0;
+}
+inline void GameManagementMessage::set_has_startkickpetitionmessage() {
+  _has_bits_[0] |= 0x00200000u;
+}
+inline void GameManagementMessage::clear_has_startkickpetitionmessage() {
+  _has_bits_[0] &= ~0x00200000u;
+}
+inline void GameManagementMessage::clear_startkickpetitionmessage() {
+  if (startkickpetitionmessage_ != NULL) startkickpetitionmessage_->::StartKickPetitionMessage::Clear();
+  clear_has_startkickpetitionmessage();
+}
+inline const ::StartKickPetitionMessage& GameManagementMessage::startkickpetitionmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return startkickpetitionmessage_ != NULL ? *startkickpetitionmessage_ : *default_instance().startkickpetitionmessage_;
+#else
+  return startkickpetitionmessage_ != NULL ? *startkickpetitionmessage_ : *default_instance_->startkickpetitionmessage_;
+#endif
+}
+inline ::StartKickPetitionMessage* GameManagementMessage::mutable_startkickpetitionmessage() {
+  set_has_startkickpetitionmessage();
+  if (startkickpetitionmessage_ == NULL) startkickpetitionmessage_ = new ::StartKickPetitionMessage;
+  return startkickpetitionmessage_;
+}
+inline ::StartKickPetitionMessage* GameManagementMessage::release_startkickpetitionmessage() {
+  clear_has_startkickpetitionmessage();
+  ::StartKickPetitionMessage* temp = startkickpetitionmessage_;
+  startkickpetitionmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_startkickpetitionmessage(::StartKickPetitionMessage* startkickpetitionmessage) {
+  delete startkickpetitionmessage_;
+  startkickpetitionmessage_ = startkickpetitionmessage;
+  if (startkickpetitionmessage) {
+    set_has_startkickpetitionmessage();
+  } else {
+    clear_has_startkickpetitionmessage();
+  }
+}
+
+// optional .VoteKickRequestMessage voteKickRequestMessage = 23;
+inline bool GameManagementMessage::has_votekickrequestmessage() const {
+  return (_has_bits_[0] & 0x00400000u) != 0;
+}
+inline void GameManagementMessage::set_has_votekickrequestmessage() {
+  _has_bits_[0] |= 0x00400000u;
+}
+inline void GameManagementMessage::clear_has_votekickrequestmessage() {
+  _has_bits_[0] &= ~0x00400000u;
+}
+inline void GameManagementMessage::clear_votekickrequestmessage() {
+  if (votekickrequestmessage_ != NULL) votekickrequestmessage_->::VoteKickRequestMessage::Clear();
+  clear_has_votekickrequestmessage();
+}
+inline const ::VoteKickRequestMessage& GameManagementMessage::votekickrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return votekickrequestmessage_ != NULL ? *votekickrequestmessage_ : *default_instance().votekickrequestmessage_;
+#else
+  return votekickrequestmessage_ != NULL ? *votekickrequestmessage_ : *default_instance_->votekickrequestmessage_;
+#endif
+}
+inline ::VoteKickRequestMessage* GameManagementMessage::mutable_votekickrequestmessage() {
+  set_has_votekickrequestmessage();
+  if (votekickrequestmessage_ == NULL) votekickrequestmessage_ = new ::VoteKickRequestMessage;
+  return votekickrequestmessage_;
+}
+inline ::VoteKickRequestMessage* GameManagementMessage::release_votekickrequestmessage() {
+  clear_has_votekickrequestmessage();
+  ::VoteKickRequestMessage* temp = votekickrequestmessage_;
+  votekickrequestmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_votekickrequestmessage(::VoteKickRequestMessage* votekickrequestmessage) {
+  delete votekickrequestmessage_;
+  votekickrequestmessage_ = votekickrequestmessage;
+  if (votekickrequestmessage) {
+    set_has_votekickrequestmessage();
+  } else {
+    clear_has_votekickrequestmessage();
+  }
+}
+
+// optional .VoteKickReplyMessage voteKickReplyMessage = 24;
+inline bool GameManagementMessage::has_votekickreplymessage() const {
+  return (_has_bits_[0] & 0x00800000u) != 0;
+}
+inline void GameManagementMessage::set_has_votekickreplymessage() {
+  _has_bits_[0] |= 0x00800000u;
+}
+inline void GameManagementMessage::clear_has_votekickreplymessage() {
+  _has_bits_[0] &= ~0x00800000u;
+}
+inline void GameManagementMessage::clear_votekickreplymessage() {
+  if (votekickreplymessage_ != NULL) votekickreplymessage_->::VoteKickReplyMessage::Clear();
+  clear_has_votekickreplymessage();
+}
+inline const ::VoteKickReplyMessage& GameManagementMessage::votekickreplymessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return votekickreplymessage_ != NULL ? *votekickreplymessage_ : *default_instance().votekickreplymessage_;
+#else
+  return votekickreplymessage_ != NULL ? *votekickreplymessage_ : *default_instance_->votekickreplymessage_;
+#endif
+}
+inline ::VoteKickReplyMessage* GameManagementMessage::mutable_votekickreplymessage() {
+  set_has_votekickreplymessage();
+  if (votekickreplymessage_ == NULL) votekickreplymessage_ = new ::VoteKickReplyMessage;
+  return votekickreplymessage_;
+}
+inline ::VoteKickReplyMessage* GameManagementMessage::release_votekickreplymessage() {
+  clear_has_votekickreplymessage();
+  ::VoteKickReplyMessage* temp = votekickreplymessage_;
+  votekickreplymessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_votekickreplymessage(::VoteKickReplyMessage* votekickreplymessage) {
+  delete votekickreplymessage_;
+  votekickreplymessage_ = votekickreplymessage;
+  if (votekickreplymessage) {
+    set_has_votekickreplymessage();
+  } else {
+    clear_has_votekickreplymessage();
+  }
+}
+
+// optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
+inline bool GameManagementMessage::has_kickpetitionupdatemessage() const {
+  return (_has_bits_[0] & 0x01000000u) != 0;
+}
+inline void GameManagementMessage::set_has_kickpetitionupdatemessage() {
+  _has_bits_[0] |= 0x01000000u;
+}
+inline void GameManagementMessage::clear_has_kickpetitionupdatemessage() {
+  _has_bits_[0] &= ~0x01000000u;
+}
+inline void GameManagementMessage::clear_kickpetitionupdatemessage() {
+  if (kickpetitionupdatemessage_ != NULL) kickpetitionupdatemessage_->::KickPetitionUpdateMessage::Clear();
+  clear_has_kickpetitionupdatemessage();
+}
+inline const ::KickPetitionUpdateMessage& GameManagementMessage::kickpetitionupdatemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return kickpetitionupdatemessage_ != NULL ? *kickpetitionupdatemessage_ : *default_instance().kickpetitionupdatemessage_;
+#else
+  return kickpetitionupdatemessage_ != NULL ? *kickpetitionupdatemessage_ : *default_instance_->kickpetitionupdatemessage_;
+#endif
+}
+inline ::KickPetitionUpdateMessage* GameManagementMessage::mutable_kickpetitionupdatemessage() {
+  set_has_kickpetitionupdatemessage();
+  if (kickpetitionupdatemessage_ == NULL) kickpetitionupdatemessage_ = new ::KickPetitionUpdateMessage;
+  return kickpetitionupdatemessage_;
+}
+inline ::KickPetitionUpdateMessage* GameManagementMessage::release_kickpetitionupdatemessage() {
+  clear_has_kickpetitionupdatemessage();
+  ::KickPetitionUpdateMessage* temp = kickpetitionupdatemessage_;
+  kickpetitionupdatemessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_kickpetitionupdatemessage(::KickPetitionUpdateMessage* kickpetitionupdatemessage) {
+  delete kickpetitionupdatemessage_;
+  kickpetitionupdatemessage_ = kickpetitionupdatemessage;
+  if (kickpetitionupdatemessage) {
+    set_has_kickpetitionupdatemessage();
+  } else {
+    clear_has_kickpetitionupdatemessage();
+  }
+}
+
+// optional .EndKickPetitionMessage endKickPetitionMessage = 26;
+inline bool GameManagementMessage::has_endkickpetitionmessage() const {
+  return (_has_bits_[0] & 0x02000000u) != 0;
+}
+inline void GameManagementMessage::set_has_endkickpetitionmessage() {
+  _has_bits_[0] |= 0x02000000u;
+}
+inline void GameManagementMessage::clear_has_endkickpetitionmessage() {
+  _has_bits_[0] &= ~0x02000000u;
+}
+inline void GameManagementMessage::clear_endkickpetitionmessage() {
+  if (endkickpetitionmessage_ != NULL) endkickpetitionmessage_->::EndKickPetitionMessage::Clear();
+  clear_has_endkickpetitionmessage();
+}
+inline const ::EndKickPetitionMessage& GameManagementMessage::endkickpetitionmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return endkickpetitionmessage_ != NULL ? *endkickpetitionmessage_ : *default_instance().endkickpetitionmessage_;
+#else
+  return endkickpetitionmessage_ != NULL ? *endkickpetitionmessage_ : *default_instance_->endkickpetitionmessage_;
+#endif
+}
+inline ::EndKickPetitionMessage* GameManagementMessage::mutable_endkickpetitionmessage() {
+  set_has_endkickpetitionmessage();
+  if (endkickpetitionmessage_ == NULL) endkickpetitionmessage_ = new ::EndKickPetitionMessage;
+  return endkickpetitionmessage_;
+}
+inline ::EndKickPetitionMessage* GameManagementMessage::release_endkickpetitionmessage() {
+  clear_has_endkickpetitionmessage();
+  ::EndKickPetitionMessage* temp = endkickpetitionmessage_;
+  endkickpetitionmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_endkickpetitionmessage(::EndKickPetitionMessage* endkickpetitionmessage) {
+  delete endkickpetitionmessage_;
+  endkickpetitionmessage_ = endkickpetitionmessage;
+  if (endkickpetitionmessage) {
+    set_has_endkickpetitionmessage();
+  } else {
+    clear_has_endkickpetitionmessage();
+  }
+}
+
+// optional .ChatRequestMessage chatRequestMessage = 27;
+inline bool GameManagementMessage::has_chatrequestmessage() const {
+  return (_has_bits_[0] & 0x04000000u) != 0;
+}
+inline void GameManagementMessage::set_has_chatrequestmessage() {
+  _has_bits_[0] |= 0x04000000u;
+}
+inline void GameManagementMessage::clear_has_chatrequestmessage() {
+  _has_bits_[0] &= ~0x04000000u;
+}
+inline void GameManagementMessage::clear_chatrequestmessage() {
+  if (chatrequestmessage_ != NULL) chatrequestmessage_->::ChatRequestMessage::Clear();
+  clear_has_chatrequestmessage();
+}
+inline const ::ChatRequestMessage& GameManagementMessage::chatrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return chatrequestmessage_ != NULL ? *chatrequestmessage_ : *default_instance().chatrequestmessage_;
+#else
+  return chatrequestmessage_ != NULL ? *chatrequestmessage_ : *default_instance_->chatrequestmessage_;
+#endif
+}
+inline ::ChatRequestMessage* GameManagementMessage::mutable_chatrequestmessage() {
+  set_has_chatrequestmessage();
+  if (chatrequestmessage_ == NULL) chatrequestmessage_ = new ::ChatRequestMessage;
+  return chatrequestmessage_;
+}
+inline ::ChatRequestMessage* GameManagementMessage::release_chatrequestmessage() {
+  clear_has_chatrequestmessage();
+  ::ChatRequestMessage* temp = chatrequestmessage_;
+  chatrequestmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_chatrequestmessage(::ChatRequestMessage* chatrequestmessage) {
+  delete chatrequestmessage_;
+  chatrequestmessage_ = chatrequestmessage;
+  if (chatrequestmessage) {
+    set_has_chatrequestmessage();
+  } else {
+    clear_has_chatrequestmessage();
+  }
+}
+
+// optional .ChatMessage chatMessage = 28;
+inline bool GameManagementMessage::has_chatmessage() const {
+  return (_has_bits_[0] & 0x08000000u) != 0;
+}
+inline void GameManagementMessage::set_has_chatmessage() {
+  _has_bits_[0] |= 0x08000000u;
+}
+inline void GameManagementMessage::clear_has_chatmessage() {
+  _has_bits_[0] &= ~0x08000000u;
+}
+inline void GameManagementMessage::clear_chatmessage() {
+  if (chatmessage_ != NULL) chatmessage_->::ChatMessage::Clear();
+  clear_has_chatmessage();
+}
+inline const ::ChatMessage& GameManagementMessage::chatmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return chatmessage_ != NULL ? *chatmessage_ : *default_instance().chatmessage_;
+#else
+  return chatmessage_ != NULL ? *chatmessage_ : *default_instance_->chatmessage_;
+#endif
+}
+inline ::ChatMessage* GameManagementMessage::mutable_chatmessage() {
+  set_has_chatmessage();
+  if (chatmessage_ == NULL) chatmessage_ = new ::ChatMessage;
+  return chatmessage_;
+}
+inline ::ChatMessage* GameManagementMessage::release_chatmessage() {
+  clear_has_chatmessage();
+  ::ChatMessage* temp = chatmessage_;
+  chatmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_chatmessage(::ChatMessage* chatmessage) {
+  delete chatmessage_;
+  chatmessage_ = chatmessage;
+  if (chatmessage) {
+    set_has_chatmessage();
+  } else {
+    clear_has_chatmessage();
+  }
+}
+
+// optional .ChatRejectMessage chatRejectMessage = 29;
+inline bool GameManagementMessage::has_chatrejectmessage() const {
+  return (_has_bits_[0] & 0x10000000u) != 0;
+}
+inline void GameManagementMessage::set_has_chatrejectmessage() {
+  _has_bits_[0] |= 0x10000000u;
+}
+inline void GameManagementMessage::clear_has_chatrejectmessage() {
+  _has_bits_[0] &= ~0x10000000u;
+}
+inline void GameManagementMessage::clear_chatrejectmessage() {
+  if (chatrejectmessage_ != NULL) chatrejectmessage_->::ChatRejectMessage::Clear();
+  clear_has_chatrejectmessage();
+}
+inline const ::ChatRejectMessage& GameManagementMessage::chatrejectmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return chatrejectmessage_ != NULL ? *chatrejectmessage_ : *default_instance().chatrejectmessage_;
+#else
+  return chatrejectmessage_ != NULL ? *chatrejectmessage_ : *default_instance_->chatrejectmessage_;
+#endif
+}
+inline ::ChatRejectMessage* GameManagementMessage::mutable_chatrejectmessage() {
+  set_has_chatrejectmessage();
+  if (chatrejectmessage_ == NULL) chatrejectmessage_ = new ::ChatRejectMessage;
+  return chatrejectmessage_;
+}
+inline ::ChatRejectMessage* GameManagementMessage::release_chatrejectmessage() {
+  clear_has_chatrejectmessage();
+  ::ChatRejectMessage* temp = chatrejectmessage_;
+  chatrejectmessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_chatrejectmessage(::ChatRejectMessage* chatrejectmessage) {
+  delete chatrejectmessage_;
+  chatrejectmessage_ = chatrejectmessage;
+  if (chatrejectmessage) {
+    set_has_chatrejectmessage();
+  } else {
+    clear_has_chatrejectmessage();
+  }
+}
+
+// optional .ErrorMessage errorMessage = 1025;
+inline bool GameManagementMessage::has_errormessage() const {
+  return (_has_bits_[0] & 0x20000000u) != 0;
+}
+inline void GameManagementMessage::set_has_errormessage() {
+  _has_bits_[0] |= 0x20000000u;
+}
+inline void GameManagementMessage::clear_has_errormessage() {
+  _has_bits_[0] &= ~0x20000000u;
+}
+inline void GameManagementMessage::clear_errormessage() {
+  if (errormessage_ != NULL) errormessage_->::ErrorMessage::Clear();
+  clear_has_errormessage();
+}
+inline const ::ErrorMessage& GameManagementMessage::errormessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return errormessage_ != NULL ? *errormessage_ : *default_instance().errormessage_;
+#else
+  return errormessage_ != NULL ? *errormessage_ : *default_instance_->errormessage_;
+#endif
+}
+inline ::ErrorMessage* GameManagementMessage::mutable_errormessage() {
+  set_has_errormessage();
+  if (errormessage_ == NULL) errormessage_ = new ::ErrorMessage;
+  return errormessage_;
+}
+inline ::ErrorMessage* GameManagementMessage::release_errormessage() {
+  clear_has_errormessage();
+  ::ErrorMessage* temp = errormessage_;
+  errormessage_ = NULL;
+  return temp;
+}
+inline void GameManagementMessage::set_allocated_errormessage(::ErrorMessage* errormessage) {
+  delete errormessage_;
+  errormessage_ = errormessage;
+  if (errormessage) {
+    set_has_errormessage();
+  } else {
+    clear_has_errormessage();
+  }
+}
+
+// -------------------------------------------------------------------
+
+// GameEngineMessage
+
+// required .GameEngineMessage.GameEngineMessageType messageType = 1;
+inline bool GameEngineMessage::has_messagetype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameEngineMessage::set_has_messagetype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameEngineMessage::clear_has_messagetype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameEngineMessage::clear_messagetype() {
+  messagetype_ = 1;
+  clear_has_messagetype();
+}
+inline ::GameEngineMessage_GameEngineMessageType GameEngineMessage::messagetype() const {
+  return static_cast< ::GameEngineMessage_GameEngineMessageType >(messagetype_);
+}
+inline void GameEngineMessage::set_messagetype(::GameEngineMessage_GameEngineMessageType value) {
+  assert(::GameEngineMessage_GameEngineMessageType_IsValid(value));
+  set_has_messagetype();
+  messagetype_ = value;
+}
+
+// optional .HandStartMessage handStartMessage = 2;
+inline bool GameEngineMessage::has_handstartmessage() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameEngineMessage::set_has_handstartmessage() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameEngineMessage::clear_has_handstartmessage() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameEngineMessage::clear_handstartmessage() {
+  if (handstartmessage_ != NULL) handstartmessage_->::HandStartMessage::Clear();
+  clear_has_handstartmessage();
+}
+inline const ::HandStartMessage& GameEngineMessage::handstartmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return handstartmessage_ != NULL ? *handstartmessage_ : *default_instance().handstartmessage_;
+#else
+  return handstartmessage_ != NULL ? *handstartmessage_ : *default_instance_->handstartmessage_;
+#endif
+}
+inline ::HandStartMessage* GameEngineMessage::mutable_handstartmessage() {
+  set_has_handstartmessage();
+  if (handstartmessage_ == NULL) handstartmessage_ = new ::HandStartMessage;
+  return handstartmessage_;
+}
+inline ::HandStartMessage* GameEngineMessage::release_handstartmessage() {
+  clear_has_handstartmessage();
+  ::HandStartMessage* temp = handstartmessage_;
+  handstartmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_handstartmessage(::HandStartMessage* handstartmessage) {
+  delete handstartmessage_;
+  handstartmessage_ = handstartmessage;
+  if (handstartmessage) {
+    set_has_handstartmessage();
+  } else {
+    clear_has_handstartmessage();
+  }
+}
+
+// optional .PlayersTurnMessage playersTurnMessage = 3;
+inline bool GameEngineMessage::has_playersturnmessage() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GameEngineMessage::set_has_playersturnmessage() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GameEngineMessage::clear_has_playersturnmessage() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GameEngineMessage::clear_playersturnmessage() {
+  if (playersturnmessage_ != NULL) playersturnmessage_->::PlayersTurnMessage::Clear();
+  clear_has_playersturnmessage();
+}
+inline const ::PlayersTurnMessage& GameEngineMessage::playersturnmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return playersturnmessage_ != NULL ? *playersturnmessage_ : *default_instance().playersturnmessage_;
+#else
+  return playersturnmessage_ != NULL ? *playersturnmessage_ : *default_instance_->playersturnmessage_;
+#endif
+}
+inline ::PlayersTurnMessage* GameEngineMessage::mutable_playersturnmessage() {
+  set_has_playersturnmessage();
+  if (playersturnmessage_ == NULL) playersturnmessage_ = new ::PlayersTurnMessage;
+  return playersturnmessage_;
+}
+inline ::PlayersTurnMessage* GameEngineMessage::release_playersturnmessage() {
+  clear_has_playersturnmessage();
+  ::PlayersTurnMessage* temp = playersturnmessage_;
+  playersturnmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_playersturnmessage(::PlayersTurnMessage* playersturnmessage) {
+  delete playersturnmessage_;
+  playersturnmessage_ = playersturnmessage;
+  if (playersturnmessage) {
+    set_has_playersturnmessage();
+  } else {
+    clear_has_playersturnmessage();
+  }
+}
+
+// optional .MyActionRequestMessage myActionRequestMessage = 4;
+inline bool GameEngineMessage::has_myactionrequestmessage() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GameEngineMessage::set_has_myactionrequestmessage() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GameEngineMessage::clear_has_myactionrequestmessage() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void GameEngineMessage::clear_myactionrequestmessage() {
+  if (myactionrequestmessage_ != NULL) myactionrequestmessage_->::MyActionRequestMessage::Clear();
+  clear_has_myactionrequestmessage();
+}
+inline const ::MyActionRequestMessage& GameEngineMessage::myactionrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return myactionrequestmessage_ != NULL ? *myactionrequestmessage_ : *default_instance().myactionrequestmessage_;
+#else
+  return myactionrequestmessage_ != NULL ? *myactionrequestmessage_ : *default_instance_->myactionrequestmessage_;
+#endif
+}
+inline ::MyActionRequestMessage* GameEngineMessage::mutable_myactionrequestmessage() {
+  set_has_myactionrequestmessage();
+  if (myactionrequestmessage_ == NULL) myactionrequestmessage_ = new ::MyActionRequestMessage;
+  return myactionrequestmessage_;
+}
+inline ::MyActionRequestMessage* GameEngineMessage::release_myactionrequestmessage() {
+  clear_has_myactionrequestmessage();
+  ::MyActionRequestMessage* temp = myactionrequestmessage_;
+  myactionrequestmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_myactionrequestmessage(::MyActionRequestMessage* myactionrequestmessage) {
+  delete myactionrequestmessage_;
+  myactionrequestmessage_ = myactionrequestmessage;
+  if (myactionrequestmessage) {
+    set_has_myactionrequestmessage();
+  } else {
+    clear_has_myactionrequestmessage();
+  }
+}
+
+// optional .YourActionRejectedMessage yourActionRejectedMessage = 5;
+inline bool GameEngineMessage::has_youractionrejectedmessage() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void GameEngineMessage::set_has_youractionrejectedmessage() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void GameEngineMessage::clear_has_youractionrejectedmessage() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void GameEngineMessage::clear_youractionrejectedmessage() {
+  if (youractionrejectedmessage_ != NULL) youractionrejectedmessage_->::YourActionRejectedMessage::Clear();
+  clear_has_youractionrejectedmessage();
+}
+inline const ::YourActionRejectedMessage& GameEngineMessage::youractionrejectedmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return youractionrejectedmessage_ != NULL ? *youractionrejectedmessage_ : *default_instance().youractionrejectedmessage_;
+#else
+  return youractionrejectedmessage_ != NULL ? *youractionrejectedmessage_ : *default_instance_->youractionrejectedmessage_;
+#endif
+}
+inline ::YourActionRejectedMessage* GameEngineMessage::mutable_youractionrejectedmessage() {
+  set_has_youractionrejectedmessage();
+  if (youractionrejectedmessage_ == NULL) youractionrejectedmessage_ = new ::YourActionRejectedMessage;
+  return youractionrejectedmessage_;
+}
+inline ::YourActionRejectedMessage* GameEngineMessage::release_youractionrejectedmessage() {
+  clear_has_youractionrejectedmessage();
+  ::YourActionRejectedMessage* temp = youractionrejectedmessage_;
+  youractionrejectedmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_youractionrejectedmessage(::YourActionRejectedMessage* youractionrejectedmessage) {
+  delete youractionrejectedmessage_;
+  youractionrejectedmessage_ = youractionrejectedmessage;
+  if (youractionrejectedmessage) {
+    set_has_youractionrejectedmessage();
+  } else {
+    clear_has_youractionrejectedmessage();
+  }
+}
+
+// optional .PlayersActionDoneMessage playersActionDoneMessage = 6;
+inline bool GameEngineMessage::has_playersactiondonemessage() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void GameEngineMessage::set_has_playersactiondonemessage() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void GameEngineMessage::clear_has_playersactiondonemessage() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void GameEngineMessage::clear_playersactiondonemessage() {
+  if (playersactiondonemessage_ != NULL) playersactiondonemessage_->::PlayersActionDoneMessage::Clear();
+  clear_has_playersactiondonemessage();
+}
+inline const ::PlayersActionDoneMessage& GameEngineMessage::playersactiondonemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return playersactiondonemessage_ != NULL ? *playersactiondonemessage_ : *default_instance().playersactiondonemessage_;
+#else
+  return playersactiondonemessage_ != NULL ? *playersactiondonemessage_ : *default_instance_->playersactiondonemessage_;
+#endif
+}
+inline ::PlayersActionDoneMessage* GameEngineMessage::mutable_playersactiondonemessage() {
+  set_has_playersactiondonemessage();
+  if (playersactiondonemessage_ == NULL) playersactiondonemessage_ = new ::PlayersActionDoneMessage;
+  return playersactiondonemessage_;
+}
+inline ::PlayersActionDoneMessage* GameEngineMessage::release_playersactiondonemessage() {
+  clear_has_playersactiondonemessage();
+  ::PlayersActionDoneMessage* temp = playersactiondonemessage_;
+  playersactiondonemessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_playersactiondonemessage(::PlayersActionDoneMessage* playersactiondonemessage) {
+  delete playersactiondonemessage_;
+  playersactiondonemessage_ = playersactiondonemessage;
+  if (playersactiondonemessage) {
+    set_has_playersactiondonemessage();
+  } else {
+    clear_has_playersactiondonemessage();
+  }
+}
+
+// optional .DealFlopCardsMessage dealFlopCardsMessage = 7;
+inline bool GameEngineMessage::has_dealflopcardsmessage() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void GameEngineMessage::set_has_dealflopcardsmessage() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void GameEngineMessage::clear_has_dealflopcardsmessage() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void GameEngineMessage::clear_dealflopcardsmessage() {
+  if (dealflopcardsmessage_ != NULL) dealflopcardsmessage_->::DealFlopCardsMessage::Clear();
+  clear_has_dealflopcardsmessage();
+}
+inline const ::DealFlopCardsMessage& GameEngineMessage::dealflopcardsmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return dealflopcardsmessage_ != NULL ? *dealflopcardsmessage_ : *default_instance().dealflopcardsmessage_;
+#else
+  return dealflopcardsmessage_ != NULL ? *dealflopcardsmessage_ : *default_instance_->dealflopcardsmessage_;
+#endif
+}
+inline ::DealFlopCardsMessage* GameEngineMessage::mutable_dealflopcardsmessage() {
+  set_has_dealflopcardsmessage();
+  if (dealflopcardsmessage_ == NULL) dealflopcardsmessage_ = new ::DealFlopCardsMessage;
+  return dealflopcardsmessage_;
+}
+inline ::DealFlopCardsMessage* GameEngineMessage::release_dealflopcardsmessage() {
+  clear_has_dealflopcardsmessage();
+  ::DealFlopCardsMessage* temp = dealflopcardsmessage_;
+  dealflopcardsmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_dealflopcardsmessage(::DealFlopCardsMessage* dealflopcardsmessage) {
+  delete dealflopcardsmessage_;
+  dealflopcardsmessage_ = dealflopcardsmessage;
+  if (dealflopcardsmessage) {
+    set_has_dealflopcardsmessage();
+  } else {
+    clear_has_dealflopcardsmessage();
+  }
+}
+
+// optional .DealTurnCardMessage dealTurnCardMessage = 8;
+inline bool GameEngineMessage::has_dealturncardmessage() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void GameEngineMessage::set_has_dealturncardmessage() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void GameEngineMessage::clear_has_dealturncardmessage() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void GameEngineMessage::clear_dealturncardmessage() {
+  if (dealturncardmessage_ != NULL) dealturncardmessage_->::DealTurnCardMessage::Clear();
+  clear_has_dealturncardmessage();
+}
+inline const ::DealTurnCardMessage& GameEngineMessage::dealturncardmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return dealturncardmessage_ != NULL ? *dealturncardmessage_ : *default_instance().dealturncardmessage_;
+#else
+  return dealturncardmessage_ != NULL ? *dealturncardmessage_ : *default_instance_->dealturncardmessage_;
+#endif
+}
+inline ::DealTurnCardMessage* GameEngineMessage::mutable_dealturncardmessage() {
+  set_has_dealturncardmessage();
+  if (dealturncardmessage_ == NULL) dealturncardmessage_ = new ::DealTurnCardMessage;
+  return dealturncardmessage_;
+}
+inline ::DealTurnCardMessage* GameEngineMessage::release_dealturncardmessage() {
+  clear_has_dealturncardmessage();
+  ::DealTurnCardMessage* temp = dealturncardmessage_;
+  dealturncardmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_dealturncardmessage(::DealTurnCardMessage* dealturncardmessage) {
+  delete dealturncardmessage_;
+  dealturncardmessage_ = dealturncardmessage;
+  if (dealturncardmessage) {
+    set_has_dealturncardmessage();
+  } else {
+    clear_has_dealturncardmessage();
+  }
+}
+
+// optional .DealRiverCardMessage dealRiverCardMessage = 9;
+inline bool GameEngineMessage::has_dealrivercardmessage() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void GameEngineMessage::set_has_dealrivercardmessage() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void GameEngineMessage::clear_has_dealrivercardmessage() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void GameEngineMessage::clear_dealrivercardmessage() {
+  if (dealrivercardmessage_ != NULL) dealrivercardmessage_->::DealRiverCardMessage::Clear();
+  clear_has_dealrivercardmessage();
+}
+inline const ::DealRiverCardMessage& GameEngineMessage::dealrivercardmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return dealrivercardmessage_ != NULL ? *dealrivercardmessage_ : *default_instance().dealrivercardmessage_;
+#else
+  return dealrivercardmessage_ != NULL ? *dealrivercardmessage_ : *default_instance_->dealrivercardmessage_;
+#endif
+}
+inline ::DealRiverCardMessage* GameEngineMessage::mutable_dealrivercardmessage() {
+  set_has_dealrivercardmessage();
+  if (dealrivercardmessage_ == NULL) dealrivercardmessage_ = new ::DealRiverCardMessage;
+  return dealrivercardmessage_;
+}
+inline ::DealRiverCardMessage* GameEngineMessage::release_dealrivercardmessage() {
+  clear_has_dealrivercardmessage();
+  ::DealRiverCardMessage* temp = dealrivercardmessage_;
+  dealrivercardmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_dealrivercardmessage(::DealRiverCardMessage* dealrivercardmessage) {
+  delete dealrivercardmessage_;
+  dealrivercardmessage_ = dealrivercardmessage;
+  if (dealrivercardmessage) {
+    set_has_dealrivercardmessage();
+  } else {
+    clear_has_dealrivercardmessage();
+  }
+}
+
+// optional .AllInShowCardsMessage allInShowCardsMessage = 10;
+inline bool GameEngineMessage::has_allinshowcardsmessage() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void GameEngineMessage::set_has_allinshowcardsmessage() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void GameEngineMessage::clear_has_allinshowcardsmessage() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void GameEngineMessage::clear_allinshowcardsmessage() {
+  if (allinshowcardsmessage_ != NULL) allinshowcardsmessage_->::AllInShowCardsMessage::Clear();
+  clear_has_allinshowcardsmessage();
+}
+inline const ::AllInShowCardsMessage& GameEngineMessage::allinshowcardsmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return allinshowcardsmessage_ != NULL ? *allinshowcardsmessage_ : *default_instance().allinshowcardsmessage_;
+#else
+  return allinshowcardsmessage_ != NULL ? *allinshowcardsmessage_ : *default_instance_->allinshowcardsmessage_;
+#endif
+}
+inline ::AllInShowCardsMessage* GameEngineMessage::mutable_allinshowcardsmessage() {
+  set_has_allinshowcardsmessage();
+  if (allinshowcardsmessage_ == NULL) allinshowcardsmessage_ = new ::AllInShowCardsMessage;
+  return allinshowcardsmessage_;
+}
+inline ::AllInShowCardsMessage* GameEngineMessage::release_allinshowcardsmessage() {
+  clear_has_allinshowcardsmessage();
+  ::AllInShowCardsMessage* temp = allinshowcardsmessage_;
+  allinshowcardsmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_allinshowcardsmessage(::AllInShowCardsMessage* allinshowcardsmessage) {
+  delete allinshowcardsmessage_;
+  allinshowcardsmessage_ = allinshowcardsmessage;
+  if (allinshowcardsmessage) {
+    set_has_allinshowcardsmessage();
+  } else {
+    clear_has_allinshowcardsmessage();
+  }
+}
+
+// optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 11;
+inline bool GameEngineMessage::has_endofhandshowcardsmessage() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void GameEngineMessage::set_has_endofhandshowcardsmessage() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void GameEngineMessage::clear_has_endofhandshowcardsmessage() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void GameEngineMessage::clear_endofhandshowcardsmessage() {
+  if (endofhandshowcardsmessage_ != NULL) endofhandshowcardsmessage_->::EndOfHandShowCardsMessage::Clear();
+  clear_has_endofhandshowcardsmessage();
+}
+inline const ::EndOfHandShowCardsMessage& GameEngineMessage::endofhandshowcardsmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return endofhandshowcardsmessage_ != NULL ? *endofhandshowcardsmessage_ : *default_instance().endofhandshowcardsmessage_;
+#else
+  return endofhandshowcardsmessage_ != NULL ? *endofhandshowcardsmessage_ : *default_instance_->endofhandshowcardsmessage_;
+#endif
+}
+inline ::EndOfHandShowCardsMessage* GameEngineMessage::mutable_endofhandshowcardsmessage() {
+  set_has_endofhandshowcardsmessage();
+  if (endofhandshowcardsmessage_ == NULL) endofhandshowcardsmessage_ = new ::EndOfHandShowCardsMessage;
+  return endofhandshowcardsmessage_;
+}
+inline ::EndOfHandShowCardsMessage* GameEngineMessage::release_endofhandshowcardsmessage() {
+  clear_has_endofhandshowcardsmessage();
+  ::EndOfHandShowCardsMessage* temp = endofhandshowcardsmessage_;
+  endofhandshowcardsmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_endofhandshowcardsmessage(::EndOfHandShowCardsMessage* endofhandshowcardsmessage) {
+  delete endofhandshowcardsmessage_;
+  endofhandshowcardsmessage_ = endofhandshowcardsmessage;
+  if (endofhandshowcardsmessage) {
+    set_has_endofhandshowcardsmessage();
+  } else {
+    clear_has_endofhandshowcardsmessage();
+  }
+}
+
+// optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 12;
+inline bool GameEngineMessage::has_endofhandhidecardsmessage() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void GameEngineMessage::set_has_endofhandhidecardsmessage() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void GameEngineMessage::clear_has_endofhandhidecardsmessage() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void GameEngineMessage::clear_endofhandhidecardsmessage() {
+  if (endofhandhidecardsmessage_ != NULL) endofhandhidecardsmessage_->::EndOfHandHideCardsMessage::Clear();
+  clear_has_endofhandhidecardsmessage();
+}
+inline const ::EndOfHandHideCardsMessage& GameEngineMessage::endofhandhidecardsmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return endofhandhidecardsmessage_ != NULL ? *endofhandhidecardsmessage_ : *default_instance().endofhandhidecardsmessage_;
+#else
+  return endofhandhidecardsmessage_ != NULL ? *endofhandhidecardsmessage_ : *default_instance_->endofhandhidecardsmessage_;
+#endif
+}
+inline ::EndOfHandHideCardsMessage* GameEngineMessage::mutable_endofhandhidecardsmessage() {
+  set_has_endofhandhidecardsmessage();
+  if (endofhandhidecardsmessage_ == NULL) endofhandhidecardsmessage_ = new ::EndOfHandHideCardsMessage;
+  return endofhandhidecardsmessage_;
+}
+inline ::EndOfHandHideCardsMessage* GameEngineMessage::release_endofhandhidecardsmessage() {
+  clear_has_endofhandhidecardsmessage();
+  ::EndOfHandHideCardsMessage* temp = endofhandhidecardsmessage_;
+  endofhandhidecardsmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_endofhandhidecardsmessage(::EndOfHandHideCardsMessage* endofhandhidecardsmessage) {
+  delete endofhandhidecardsmessage_;
+  endofhandhidecardsmessage_ = endofhandhidecardsmessage;
+  if (endofhandhidecardsmessage) {
+    set_has_endofhandhidecardsmessage();
+  } else {
+    clear_has_endofhandhidecardsmessage();
+  }
+}
+
+// optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 13;
+inline bool GameEngineMessage::has_showmycardsrequestmessage() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void GameEngineMessage::set_has_showmycardsrequestmessage() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void GameEngineMessage::clear_has_showmycardsrequestmessage() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void GameEngineMessage::clear_showmycardsrequestmessage() {
+  if (showmycardsrequestmessage_ != NULL) showmycardsrequestmessage_->::ShowMyCardsRequestMessage::Clear();
+  clear_has_showmycardsrequestmessage();
+}
+inline const ::ShowMyCardsRequestMessage& GameEngineMessage::showmycardsrequestmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return showmycardsrequestmessage_ != NULL ? *showmycardsrequestmessage_ : *default_instance().showmycardsrequestmessage_;
+#else
+  return showmycardsrequestmessage_ != NULL ? *showmycardsrequestmessage_ : *default_instance_->showmycardsrequestmessage_;
+#endif
+}
+inline ::ShowMyCardsRequestMessage* GameEngineMessage::mutable_showmycardsrequestmessage() {
+  set_has_showmycardsrequestmessage();
+  if (showmycardsrequestmessage_ == NULL) showmycardsrequestmessage_ = new ::ShowMyCardsRequestMessage;
+  return showmycardsrequestmessage_;
+}
+inline ::ShowMyCardsRequestMessage* GameEngineMessage::release_showmycardsrequestmessage() {
+  clear_has_showmycardsrequestmessage();
+  ::ShowMyCardsRequestMessage* temp = showmycardsrequestmessage_;
+  showmycardsrequestmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_showmycardsrequestmessage(::ShowMyCardsRequestMessage* showmycardsrequestmessage) {
+  delete showmycardsrequestmessage_;
+  showmycardsrequestmessage_ = showmycardsrequestmessage;
+  if (showmycardsrequestmessage) {
+    set_has_showmycardsrequestmessage();
+  } else {
+    clear_has_showmycardsrequestmessage();
+  }
+}
+
+// optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 14;
+inline bool GameEngineMessage::has_afterhandshowcardsmessage() const {
+  return (_has_bits_[0] & 0x00002000u) != 0;
+}
+inline void GameEngineMessage::set_has_afterhandshowcardsmessage() {
+  _has_bits_[0] |= 0x00002000u;
+}
+inline void GameEngineMessage::clear_has_afterhandshowcardsmessage() {
+  _has_bits_[0] &= ~0x00002000u;
+}
+inline void GameEngineMessage::clear_afterhandshowcardsmessage() {
+  if (afterhandshowcardsmessage_ != NULL) afterhandshowcardsmessage_->::AfterHandShowCardsMessage::Clear();
+  clear_has_afterhandshowcardsmessage();
+}
+inline const ::AfterHandShowCardsMessage& GameEngineMessage::afterhandshowcardsmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return afterhandshowcardsmessage_ != NULL ? *afterhandshowcardsmessage_ : *default_instance().afterhandshowcardsmessage_;
+#else
+  return afterhandshowcardsmessage_ != NULL ? *afterhandshowcardsmessage_ : *default_instance_->afterhandshowcardsmessage_;
+#endif
+}
+inline ::AfterHandShowCardsMessage* GameEngineMessage::mutable_afterhandshowcardsmessage() {
+  set_has_afterhandshowcardsmessage();
+  if (afterhandshowcardsmessage_ == NULL) afterhandshowcardsmessage_ = new ::AfterHandShowCardsMessage;
+  return afterhandshowcardsmessage_;
+}
+inline ::AfterHandShowCardsMessage* GameEngineMessage::release_afterhandshowcardsmessage() {
+  clear_has_afterhandshowcardsmessage();
+  ::AfterHandShowCardsMessage* temp = afterhandshowcardsmessage_;
+  afterhandshowcardsmessage_ = NULL;
+  return temp;
+}
+inline void GameEngineMessage::set_allocated_afterhandshowcardsmessage(::AfterHandShowCardsMessage* afterhandshowcardsmessage) {
+  delete afterhandshowcardsmessage_;
+  afterhandshowcardsmessage_ = afterhandshowcardsmessage;
+  if (afterhandshowcardsmessage) {
+    set_has_afterhandshowcardsmessage();
+  } else {
+    clear_has_afterhandshowcardsmessage();
+  }
+}
+
+// -------------------------------------------------------------------
+
+// GameMessage
+
+// required .GameMessage.GameMessageType messageType = 1;
+inline bool GameMessage::has_messagetype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameMessage::set_has_messagetype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameMessage::clear_has_messagetype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameMessage::clear_messagetype() {
+  messagetype_ = 1;
+  clear_has_messagetype();
+}
+inline ::GameMessage_GameMessageType GameMessage::messagetype() const {
+  return static_cast< ::GameMessage_GameMessageType >(messagetype_);
+}
+inline void GameMessage::set_messagetype(::GameMessage_GameMessageType value) {
+  assert(::GameMessage_GameMessageType_IsValid(value));
+  set_has_messagetype();
+  messagetype_ = value;
+}
+
+// required uint32 gameId = 2;
+inline bool GameMessage::has_gameid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameMessage::set_has_gameid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameMessage::clear_has_gameid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameMessage::clear_gameid() {
+  gameid_ = 0u;
+  clear_has_gameid();
+}
+inline ::google::protobuf::uint32 GameMessage::gameid() const {
+  return gameid_;
+}
+inline void GameMessage::set_gameid(::google::protobuf::uint32 value) {
+  set_has_gameid();
+  gameid_ = value;
+}
+
+// optional .GameManagementMessage gameManagementMessage = 3;
+inline bool GameMessage::has_gamemanagementmessage() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GameMessage::set_has_gamemanagementmessage() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GameMessage::clear_has_gamemanagementmessage() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GameMessage::clear_gamemanagementmessage() {
+  if (gamemanagementmessage_ != NULL) gamemanagementmessage_->::GameManagementMessage::Clear();
+  clear_has_gamemanagementmessage();
+}
+inline const ::GameManagementMessage& GameMessage::gamemanagementmessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamemanagementmessage_ != NULL ? *gamemanagementmessage_ : *default_instance().gamemanagementmessage_;
+#else
+  return gamemanagementmessage_ != NULL ? *gamemanagementmessage_ : *default_instance_->gamemanagementmessage_;
+#endif
+}
+inline ::GameManagementMessage* GameMessage::mutable_gamemanagementmessage() {
+  set_has_gamemanagementmessage();
+  if (gamemanagementmessage_ == NULL) gamemanagementmessage_ = new ::GameManagementMessage;
+  return gamemanagementmessage_;
+}
+inline ::GameManagementMessage* GameMessage::release_gamemanagementmessage() {
+  clear_has_gamemanagementmessage();
+  ::GameManagementMessage* temp = gamemanagementmessage_;
+  gamemanagementmessage_ = NULL;
+  return temp;
+}
+inline void GameMessage::set_allocated_gamemanagementmessage(::GameManagementMessage* gamemanagementmessage) {
+  delete gamemanagementmessage_;
+  gamemanagementmessage_ = gamemanagementmessage;
+  if (gamemanagementmessage) {
+    set_has_gamemanagementmessage();
+  } else {
+    clear_has_gamemanagementmessage();
+  }
+}
+
+// optional .GameEngineMessage gameEngineMessage = 4;
+inline bool GameMessage::has_gameenginemessage() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void GameMessage::set_has_gameenginemessage() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void GameMessage::clear_has_gameenginemessage() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void GameMessage::clear_gameenginemessage() {
+  if (gameenginemessage_ != NULL) gameenginemessage_->::GameEngineMessage::Clear();
+  clear_has_gameenginemessage();
+}
+inline const ::GameEngineMessage& GameMessage::gameenginemessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gameenginemessage_ != NULL ? *gameenginemessage_ : *default_instance().gameenginemessage_;
+#else
+  return gameenginemessage_ != NULL ? *gameenginemessage_ : *default_instance_->gameenginemessage_;
+#endif
+}
+inline ::GameEngineMessage* GameMessage::mutable_gameenginemessage() {
+  set_has_gameenginemessage();
+  if (gameenginemessage_ == NULL) gameenginemessage_ = new ::GameEngineMessage;
+  return gameenginemessage_;
+}
+inline ::GameEngineMessage* GameMessage::release_gameenginemessage() {
+  clear_has_gameenginemessage();
+  ::GameEngineMessage* temp = gameenginemessage_;
+  gameenginemessage_ = NULL;
+  return temp;
+}
+inline void GameMessage::set_allocated_gameenginemessage(::GameEngineMessage* gameenginemessage) {
+  delete gameenginemessage_;
+  gameenginemessage_ = gameenginemessage;
+  if (gameenginemessage) {
+    set_has_gameenginemessage();
+  } else {
+    clear_has_gameenginemessage();
+  }
+}
+
+// -------------------------------------------------------------------
+
 // PokerTHMessage
 
 // required .PokerTHMessage.PokerTHMessageType messageType = 1;
@@ -18668,3363 +22566,129 @@ inline void PokerTHMessage::set_allocated_announcemessage(::AnnounceMessage* ann
   }
 }
 
-// optional .InitMessage initMessage = 3;
-inline bool PokerTHMessage::has_initmessage() const {
+// optional .AuthMessage authMessage = 3;
+inline bool PokerTHMessage::has_authmessage() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void PokerTHMessage::set_has_initmessage() {
+inline void PokerTHMessage::set_has_authmessage() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void PokerTHMessage::clear_has_initmessage() {
+inline void PokerTHMessage::clear_has_authmessage() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void PokerTHMessage::clear_initmessage() {
-  if (initmessage_ != NULL) initmessage_->::InitMessage::Clear();
-  clear_has_initmessage();
+inline void PokerTHMessage::clear_authmessage() {
+  if (authmessage_ != NULL) authmessage_->::AuthMessage::Clear();
+  clear_has_authmessage();
 }
-inline const ::InitMessage& PokerTHMessage::initmessage() const {
+inline const ::AuthMessage& PokerTHMessage::authmessage() const {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return initmessage_ != NULL ? *initmessage_ : *default_instance().initmessage_;
+  return authmessage_ != NULL ? *authmessage_ : *default_instance().authmessage_;
 #else
-  return initmessage_ != NULL ? *initmessage_ : *default_instance_->initmessage_;
+  return authmessage_ != NULL ? *authmessage_ : *default_instance_->authmessage_;
 #endif
 }
-inline ::InitMessage* PokerTHMessage::mutable_initmessage() {
-  set_has_initmessage();
-  if (initmessage_ == NULL) initmessage_ = new ::InitMessage;
-  return initmessage_;
+inline ::AuthMessage* PokerTHMessage::mutable_authmessage() {
+  set_has_authmessage();
+  if (authmessage_ == NULL) authmessage_ = new ::AuthMessage;
+  return authmessage_;
 }
-inline ::InitMessage* PokerTHMessage::release_initmessage() {
-  clear_has_initmessage();
-  ::InitMessage* temp = initmessage_;
-  initmessage_ = NULL;
+inline ::AuthMessage* PokerTHMessage::release_authmessage() {
+  clear_has_authmessage();
+  ::AuthMessage* temp = authmessage_;
+  authmessage_ = NULL;
   return temp;
 }
-inline void PokerTHMessage::set_allocated_initmessage(::InitMessage* initmessage) {
-  delete initmessage_;
-  initmessage_ = initmessage;
-  if (initmessage) {
-    set_has_initmessage();
+inline void PokerTHMessage::set_allocated_authmessage(::AuthMessage* authmessage) {
+  delete authmessage_;
+  authmessage_ = authmessage;
+  if (authmessage) {
+    set_has_authmessage();
   } else {
-    clear_has_initmessage();
+    clear_has_authmessage();
   }
 }
 
-// optional .AuthServerChallengeMessage authServerChallengeMessage = 4;
-inline bool PokerTHMessage::has_authserverchallengemessage() const {
+// optional .LobbyMessage lobbyMessage = 4;
+inline bool PokerTHMessage::has_lobbymessage() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void PokerTHMessage::set_has_authserverchallengemessage() {
+inline void PokerTHMessage::set_has_lobbymessage() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void PokerTHMessage::clear_has_authserverchallengemessage() {
+inline void PokerTHMessage::clear_has_lobbymessage() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void PokerTHMessage::clear_authserverchallengemessage() {
-  if (authserverchallengemessage_ != NULL) authserverchallengemessage_->::AuthServerChallengeMessage::Clear();
-  clear_has_authserverchallengemessage();
+inline void PokerTHMessage::clear_lobbymessage() {
+  if (lobbymessage_ != NULL) lobbymessage_->::LobbyMessage::Clear();
+  clear_has_lobbymessage();
 }
-inline const ::AuthServerChallengeMessage& PokerTHMessage::authserverchallengemessage() const {
+inline const ::LobbyMessage& PokerTHMessage::lobbymessage() const {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return authserverchallengemessage_ != NULL ? *authserverchallengemessage_ : *default_instance().authserverchallengemessage_;
+  return lobbymessage_ != NULL ? *lobbymessage_ : *default_instance().lobbymessage_;
 #else
-  return authserverchallengemessage_ != NULL ? *authserverchallengemessage_ : *default_instance_->authserverchallengemessage_;
+  return lobbymessage_ != NULL ? *lobbymessage_ : *default_instance_->lobbymessage_;
 #endif
 }
-inline ::AuthServerChallengeMessage* PokerTHMessage::mutable_authserverchallengemessage() {
-  set_has_authserverchallengemessage();
-  if (authserverchallengemessage_ == NULL) authserverchallengemessage_ = new ::AuthServerChallengeMessage;
-  return authserverchallengemessage_;
+inline ::LobbyMessage* PokerTHMessage::mutable_lobbymessage() {
+  set_has_lobbymessage();
+  if (lobbymessage_ == NULL) lobbymessage_ = new ::LobbyMessage;
+  return lobbymessage_;
 }
-inline ::AuthServerChallengeMessage* PokerTHMessage::release_authserverchallengemessage() {
-  clear_has_authserverchallengemessage();
-  ::AuthServerChallengeMessage* temp = authserverchallengemessage_;
-  authserverchallengemessage_ = NULL;
+inline ::LobbyMessage* PokerTHMessage::release_lobbymessage() {
+  clear_has_lobbymessage();
+  ::LobbyMessage* temp = lobbymessage_;
+  lobbymessage_ = NULL;
   return temp;
 }
-inline void PokerTHMessage::set_allocated_authserverchallengemessage(::AuthServerChallengeMessage* authserverchallengemessage) {
-  delete authserverchallengemessage_;
-  authserverchallengemessage_ = authserverchallengemessage;
-  if (authserverchallengemessage) {
-    set_has_authserverchallengemessage();
+inline void PokerTHMessage::set_allocated_lobbymessage(::LobbyMessage* lobbymessage) {
+  delete lobbymessage_;
+  lobbymessage_ = lobbymessage;
+  if (lobbymessage) {
+    set_has_lobbymessage();
   } else {
-    clear_has_authserverchallengemessage();
+    clear_has_lobbymessage();
   }
 }
 
-// optional .AuthClientResponseMessage authClientResponseMessage = 5;
-inline bool PokerTHMessage::has_authclientresponsemessage() const {
+// optional .GameMessage gameMessage = 5;
+inline bool PokerTHMessage::has_gamemessage() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void PokerTHMessage::set_has_authclientresponsemessage() {
+inline void PokerTHMessage::set_has_gamemessage() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void PokerTHMessage::clear_has_authclientresponsemessage() {
+inline void PokerTHMessage::clear_has_gamemessage() {
   _has_bits_[0] &= ~0x00000010u;
 }
-inline void PokerTHMessage::clear_authclientresponsemessage() {
-  if (authclientresponsemessage_ != NULL) authclientresponsemessage_->::AuthClientResponseMessage::Clear();
-  clear_has_authclientresponsemessage();
+inline void PokerTHMessage::clear_gamemessage() {
+  if (gamemessage_ != NULL) gamemessage_->::GameMessage::Clear();
+  clear_has_gamemessage();
 }
-inline const ::AuthClientResponseMessage& PokerTHMessage::authclientresponsemessage() const {
+inline const ::GameMessage& PokerTHMessage::gamemessage() const {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return authclientresponsemessage_ != NULL ? *authclientresponsemessage_ : *default_instance().authclientresponsemessage_;
+  return gamemessage_ != NULL ? *gamemessage_ : *default_instance().gamemessage_;
 #else
-  return authclientresponsemessage_ != NULL ? *authclientresponsemessage_ : *default_instance_->authclientresponsemessage_;
+  return gamemessage_ != NULL ? *gamemessage_ : *default_instance_->gamemessage_;
 #endif
 }
-inline ::AuthClientResponseMessage* PokerTHMessage::mutable_authclientresponsemessage() {
-  set_has_authclientresponsemessage();
-  if (authclientresponsemessage_ == NULL) authclientresponsemessage_ = new ::AuthClientResponseMessage;
-  return authclientresponsemessage_;
+inline ::GameMessage* PokerTHMessage::mutable_gamemessage() {
+  set_has_gamemessage();
+  if (gamemessage_ == NULL) gamemessage_ = new ::GameMessage;
+  return gamemessage_;
 }
-inline ::AuthClientResponseMessage* PokerTHMessage::release_authclientresponsemessage() {
-  clear_has_authclientresponsemessage();
-  ::AuthClientResponseMessage* temp = authclientresponsemessage_;
-  authclientresponsemessage_ = NULL;
+inline ::GameMessage* PokerTHMessage::release_gamemessage() {
+  clear_has_gamemessage();
+  ::GameMessage* temp = gamemessage_;
+  gamemessage_ = NULL;
   return temp;
 }
-inline void PokerTHMessage::set_allocated_authclientresponsemessage(::AuthClientResponseMessage* authclientresponsemessage) {
-  delete authclientresponsemessage_;
-  authclientresponsemessage_ = authclientresponsemessage;
-  if (authclientresponsemessage) {
-    set_has_authclientresponsemessage();
+inline void PokerTHMessage::set_allocated_gamemessage(::GameMessage* gamemessage) {
+  delete gamemessage_;
+  gamemessage_ = gamemessage;
+  if (gamemessage) {
+    set_has_gamemessage();
   } else {
-    clear_has_authclientresponsemessage();
-  }
-}
-
-// optional .AuthServerVerificationMessage authServerVerificationMessage = 6;
-inline bool PokerTHMessage::has_authserververificationmessage() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
-}
-inline void PokerTHMessage::set_has_authserververificationmessage() {
-  _has_bits_[0] |= 0x00000020u;
-}
-inline void PokerTHMessage::clear_has_authserververificationmessage() {
-  _has_bits_[0] &= ~0x00000020u;
-}
-inline void PokerTHMessage::clear_authserververificationmessage() {
-  if (authserververificationmessage_ != NULL) authserververificationmessage_->::AuthServerVerificationMessage::Clear();
-  clear_has_authserververificationmessage();
-}
-inline const ::AuthServerVerificationMessage& PokerTHMessage::authserververificationmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return authserververificationmessage_ != NULL ? *authserververificationmessage_ : *default_instance().authserververificationmessage_;
-#else
-  return authserververificationmessage_ != NULL ? *authserververificationmessage_ : *default_instance_->authserververificationmessage_;
-#endif
-}
-inline ::AuthServerVerificationMessage* PokerTHMessage::mutable_authserververificationmessage() {
-  set_has_authserververificationmessage();
-  if (authserververificationmessage_ == NULL) authserververificationmessage_ = new ::AuthServerVerificationMessage;
-  return authserververificationmessage_;
-}
-inline ::AuthServerVerificationMessage* PokerTHMessage::release_authserververificationmessage() {
-  clear_has_authserververificationmessage();
-  ::AuthServerVerificationMessage* temp = authserververificationmessage_;
-  authserververificationmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_authserververificationmessage(::AuthServerVerificationMessage* authserververificationmessage) {
-  delete authserververificationmessage_;
-  authserververificationmessage_ = authserververificationmessage;
-  if (authserververificationmessage) {
-    set_has_authserververificationmessage();
-  } else {
-    clear_has_authserververificationmessage();
-  }
-}
-
-// optional .InitAckMessage initAckMessage = 7;
-inline bool PokerTHMessage::has_initackmessage() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
-}
-inline void PokerTHMessage::set_has_initackmessage() {
-  _has_bits_[0] |= 0x00000040u;
-}
-inline void PokerTHMessage::clear_has_initackmessage() {
-  _has_bits_[0] &= ~0x00000040u;
-}
-inline void PokerTHMessage::clear_initackmessage() {
-  if (initackmessage_ != NULL) initackmessage_->::InitAckMessage::Clear();
-  clear_has_initackmessage();
-}
-inline const ::InitAckMessage& PokerTHMessage::initackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return initackmessage_ != NULL ? *initackmessage_ : *default_instance().initackmessage_;
-#else
-  return initackmessage_ != NULL ? *initackmessage_ : *default_instance_->initackmessage_;
-#endif
-}
-inline ::InitAckMessage* PokerTHMessage::mutable_initackmessage() {
-  set_has_initackmessage();
-  if (initackmessage_ == NULL) initackmessage_ = new ::InitAckMessage;
-  return initackmessage_;
-}
-inline ::InitAckMessage* PokerTHMessage::release_initackmessage() {
-  clear_has_initackmessage();
-  ::InitAckMessage* temp = initackmessage_;
-  initackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_initackmessage(::InitAckMessage* initackmessage) {
-  delete initackmessage_;
-  initackmessage_ = initackmessage;
-  if (initackmessage) {
-    set_has_initackmessage();
-  } else {
-    clear_has_initackmessage();
-  }
-}
-
-// optional .AvatarRequestMessage avatarRequestMessage = 8;
-inline bool PokerTHMessage::has_avatarrequestmessage() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
-}
-inline void PokerTHMessage::set_has_avatarrequestmessage() {
-  _has_bits_[0] |= 0x00000080u;
-}
-inline void PokerTHMessage::clear_has_avatarrequestmessage() {
-  _has_bits_[0] &= ~0x00000080u;
-}
-inline void PokerTHMessage::clear_avatarrequestmessage() {
-  if (avatarrequestmessage_ != NULL) avatarrequestmessage_->::AvatarRequestMessage::Clear();
-  clear_has_avatarrequestmessage();
-}
-inline const ::AvatarRequestMessage& PokerTHMessage::avatarrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return avatarrequestmessage_ != NULL ? *avatarrequestmessage_ : *default_instance().avatarrequestmessage_;
-#else
-  return avatarrequestmessage_ != NULL ? *avatarrequestmessage_ : *default_instance_->avatarrequestmessage_;
-#endif
-}
-inline ::AvatarRequestMessage* PokerTHMessage::mutable_avatarrequestmessage() {
-  set_has_avatarrequestmessage();
-  if (avatarrequestmessage_ == NULL) avatarrequestmessage_ = new ::AvatarRequestMessage;
-  return avatarrequestmessage_;
-}
-inline ::AvatarRequestMessage* PokerTHMessage::release_avatarrequestmessage() {
-  clear_has_avatarrequestmessage();
-  ::AvatarRequestMessage* temp = avatarrequestmessage_;
-  avatarrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_avatarrequestmessage(::AvatarRequestMessage* avatarrequestmessage) {
-  delete avatarrequestmessage_;
-  avatarrequestmessage_ = avatarrequestmessage;
-  if (avatarrequestmessage) {
-    set_has_avatarrequestmessage();
-  } else {
-    clear_has_avatarrequestmessage();
-  }
-}
-
-// optional .AvatarHeaderMessage avatarHeaderMessage = 9;
-inline bool PokerTHMessage::has_avatarheadermessage() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
-}
-inline void PokerTHMessage::set_has_avatarheadermessage() {
-  _has_bits_[0] |= 0x00000100u;
-}
-inline void PokerTHMessage::clear_has_avatarheadermessage() {
-  _has_bits_[0] &= ~0x00000100u;
-}
-inline void PokerTHMessage::clear_avatarheadermessage() {
-  if (avatarheadermessage_ != NULL) avatarheadermessage_->::AvatarHeaderMessage::Clear();
-  clear_has_avatarheadermessage();
-}
-inline const ::AvatarHeaderMessage& PokerTHMessage::avatarheadermessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return avatarheadermessage_ != NULL ? *avatarheadermessage_ : *default_instance().avatarheadermessage_;
-#else
-  return avatarheadermessage_ != NULL ? *avatarheadermessage_ : *default_instance_->avatarheadermessage_;
-#endif
-}
-inline ::AvatarHeaderMessage* PokerTHMessage::mutable_avatarheadermessage() {
-  set_has_avatarheadermessage();
-  if (avatarheadermessage_ == NULL) avatarheadermessage_ = new ::AvatarHeaderMessage;
-  return avatarheadermessage_;
-}
-inline ::AvatarHeaderMessage* PokerTHMessage::release_avatarheadermessage() {
-  clear_has_avatarheadermessage();
-  ::AvatarHeaderMessage* temp = avatarheadermessage_;
-  avatarheadermessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_avatarheadermessage(::AvatarHeaderMessage* avatarheadermessage) {
-  delete avatarheadermessage_;
-  avatarheadermessage_ = avatarheadermessage;
-  if (avatarheadermessage) {
-    set_has_avatarheadermessage();
-  } else {
-    clear_has_avatarheadermessage();
-  }
-}
-
-// optional .AvatarDataMessage avatarDataMessage = 10;
-inline bool PokerTHMessage::has_avatardatamessage() const {
-  return (_has_bits_[0] & 0x00000200u) != 0;
-}
-inline void PokerTHMessage::set_has_avatardatamessage() {
-  _has_bits_[0] |= 0x00000200u;
-}
-inline void PokerTHMessage::clear_has_avatardatamessage() {
-  _has_bits_[0] &= ~0x00000200u;
-}
-inline void PokerTHMessage::clear_avatardatamessage() {
-  if (avatardatamessage_ != NULL) avatardatamessage_->::AvatarDataMessage::Clear();
-  clear_has_avatardatamessage();
-}
-inline const ::AvatarDataMessage& PokerTHMessage::avatardatamessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return avatardatamessage_ != NULL ? *avatardatamessage_ : *default_instance().avatardatamessage_;
-#else
-  return avatardatamessage_ != NULL ? *avatardatamessage_ : *default_instance_->avatardatamessage_;
-#endif
-}
-inline ::AvatarDataMessage* PokerTHMessage::mutable_avatardatamessage() {
-  set_has_avatardatamessage();
-  if (avatardatamessage_ == NULL) avatardatamessage_ = new ::AvatarDataMessage;
-  return avatardatamessage_;
-}
-inline ::AvatarDataMessage* PokerTHMessage::release_avatardatamessage() {
-  clear_has_avatardatamessage();
-  ::AvatarDataMessage* temp = avatardatamessage_;
-  avatardatamessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_avatardatamessage(::AvatarDataMessage* avatardatamessage) {
-  delete avatardatamessage_;
-  avatardatamessage_ = avatardatamessage;
-  if (avatardatamessage) {
-    set_has_avatardatamessage();
-  } else {
-    clear_has_avatardatamessage();
-  }
-}
-
-// optional .AvatarEndMessage avatarEndMessage = 11;
-inline bool PokerTHMessage::has_avatarendmessage() const {
-  return (_has_bits_[0] & 0x00000400u) != 0;
-}
-inline void PokerTHMessage::set_has_avatarendmessage() {
-  _has_bits_[0] |= 0x00000400u;
-}
-inline void PokerTHMessage::clear_has_avatarendmessage() {
-  _has_bits_[0] &= ~0x00000400u;
-}
-inline void PokerTHMessage::clear_avatarendmessage() {
-  if (avatarendmessage_ != NULL) avatarendmessage_->::AvatarEndMessage::Clear();
-  clear_has_avatarendmessage();
-}
-inline const ::AvatarEndMessage& PokerTHMessage::avatarendmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return avatarendmessage_ != NULL ? *avatarendmessage_ : *default_instance().avatarendmessage_;
-#else
-  return avatarendmessage_ != NULL ? *avatarendmessage_ : *default_instance_->avatarendmessage_;
-#endif
-}
-inline ::AvatarEndMessage* PokerTHMessage::mutable_avatarendmessage() {
-  set_has_avatarendmessage();
-  if (avatarendmessage_ == NULL) avatarendmessage_ = new ::AvatarEndMessage;
-  return avatarendmessage_;
-}
-inline ::AvatarEndMessage* PokerTHMessage::release_avatarendmessage() {
-  clear_has_avatarendmessage();
-  ::AvatarEndMessage* temp = avatarendmessage_;
-  avatarendmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_avatarendmessage(::AvatarEndMessage* avatarendmessage) {
-  delete avatarendmessage_;
-  avatarendmessage_ = avatarendmessage;
-  if (avatarendmessage) {
-    set_has_avatarendmessage();
-  } else {
-    clear_has_avatarendmessage();
-  }
-}
-
-// optional .UnknownAvatarMessage unknownAvatarMessage = 12;
-inline bool PokerTHMessage::has_unknownavatarmessage() const {
-  return (_has_bits_[0] & 0x00000800u) != 0;
-}
-inline void PokerTHMessage::set_has_unknownavatarmessage() {
-  _has_bits_[0] |= 0x00000800u;
-}
-inline void PokerTHMessage::clear_has_unknownavatarmessage() {
-  _has_bits_[0] &= ~0x00000800u;
-}
-inline void PokerTHMessage::clear_unknownavatarmessage() {
-  if (unknownavatarmessage_ != NULL) unknownavatarmessage_->::UnknownAvatarMessage::Clear();
-  clear_has_unknownavatarmessage();
-}
-inline const ::UnknownAvatarMessage& PokerTHMessage::unknownavatarmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return unknownavatarmessage_ != NULL ? *unknownavatarmessage_ : *default_instance().unknownavatarmessage_;
-#else
-  return unknownavatarmessage_ != NULL ? *unknownavatarmessage_ : *default_instance_->unknownavatarmessage_;
-#endif
-}
-inline ::UnknownAvatarMessage* PokerTHMessage::mutable_unknownavatarmessage() {
-  set_has_unknownavatarmessage();
-  if (unknownavatarmessage_ == NULL) unknownavatarmessage_ = new ::UnknownAvatarMessage;
-  return unknownavatarmessage_;
-}
-inline ::UnknownAvatarMessage* PokerTHMessage::release_unknownavatarmessage() {
-  clear_has_unknownavatarmessage();
-  ::UnknownAvatarMessage* temp = unknownavatarmessage_;
-  unknownavatarmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_unknownavatarmessage(::UnknownAvatarMessage* unknownavatarmessage) {
-  delete unknownavatarmessage_;
-  unknownavatarmessage_ = unknownavatarmessage;
-  if (unknownavatarmessage) {
-    set_has_unknownavatarmessage();
-  } else {
-    clear_has_unknownavatarmessage();
-  }
-}
-
-// optional .PlayerListMessage playerListMessage = 13;
-inline bool PokerTHMessage::has_playerlistmessage() const {
-  return (_has_bits_[0] & 0x00001000u) != 0;
-}
-inline void PokerTHMessage::set_has_playerlistmessage() {
-  _has_bits_[0] |= 0x00001000u;
-}
-inline void PokerTHMessage::clear_has_playerlistmessage() {
-  _has_bits_[0] &= ~0x00001000u;
-}
-inline void PokerTHMessage::clear_playerlistmessage() {
-  if (playerlistmessage_ != NULL) playerlistmessage_->::PlayerListMessage::Clear();
-  clear_has_playerlistmessage();
-}
-inline const ::PlayerListMessage& PokerTHMessage::playerlistmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return playerlistmessage_ != NULL ? *playerlistmessage_ : *default_instance().playerlistmessage_;
-#else
-  return playerlistmessage_ != NULL ? *playerlistmessage_ : *default_instance_->playerlistmessage_;
-#endif
-}
-inline ::PlayerListMessage* PokerTHMessage::mutable_playerlistmessage() {
-  set_has_playerlistmessage();
-  if (playerlistmessage_ == NULL) playerlistmessage_ = new ::PlayerListMessage;
-  return playerlistmessage_;
-}
-inline ::PlayerListMessage* PokerTHMessage::release_playerlistmessage() {
-  clear_has_playerlistmessage();
-  ::PlayerListMessage* temp = playerlistmessage_;
-  playerlistmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_playerlistmessage(::PlayerListMessage* playerlistmessage) {
-  delete playerlistmessage_;
-  playerlistmessage_ = playerlistmessage;
-  if (playerlistmessage) {
-    set_has_playerlistmessage();
-  } else {
-    clear_has_playerlistmessage();
-  }
-}
-
-// optional .GameListNewMessage gameListNewMessage = 14;
-inline bool PokerTHMessage::has_gamelistnewmessage() const {
-  return (_has_bits_[0] & 0x00002000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistnewmessage() {
-  _has_bits_[0] |= 0x00002000u;
-}
-inline void PokerTHMessage::clear_has_gamelistnewmessage() {
-  _has_bits_[0] &= ~0x00002000u;
-}
-inline void PokerTHMessage::clear_gamelistnewmessage() {
-  if (gamelistnewmessage_ != NULL) gamelistnewmessage_->::GameListNewMessage::Clear();
-  clear_has_gamelistnewmessage();
-}
-inline const ::GameListNewMessage& PokerTHMessage::gamelistnewmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistnewmessage_ != NULL ? *gamelistnewmessage_ : *default_instance().gamelistnewmessage_;
-#else
-  return gamelistnewmessage_ != NULL ? *gamelistnewmessage_ : *default_instance_->gamelistnewmessage_;
-#endif
-}
-inline ::GameListNewMessage* PokerTHMessage::mutable_gamelistnewmessage() {
-  set_has_gamelistnewmessage();
-  if (gamelistnewmessage_ == NULL) gamelistnewmessage_ = new ::GameListNewMessage;
-  return gamelistnewmessage_;
-}
-inline ::GameListNewMessage* PokerTHMessage::release_gamelistnewmessage() {
-  clear_has_gamelistnewmessage();
-  ::GameListNewMessage* temp = gamelistnewmessage_;
-  gamelistnewmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistnewmessage(::GameListNewMessage* gamelistnewmessage) {
-  delete gamelistnewmessage_;
-  gamelistnewmessage_ = gamelistnewmessage;
-  if (gamelistnewmessage) {
-    set_has_gamelistnewmessage();
-  } else {
-    clear_has_gamelistnewmessage();
-  }
-}
-
-// optional .GameListUpdateMessage gameListUpdateMessage = 15;
-inline bool PokerTHMessage::has_gamelistupdatemessage() const {
-  return (_has_bits_[0] & 0x00004000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistupdatemessage() {
-  _has_bits_[0] |= 0x00004000u;
-}
-inline void PokerTHMessage::clear_has_gamelistupdatemessage() {
-  _has_bits_[0] &= ~0x00004000u;
-}
-inline void PokerTHMessage::clear_gamelistupdatemessage() {
-  if (gamelistupdatemessage_ != NULL) gamelistupdatemessage_->::GameListUpdateMessage::Clear();
-  clear_has_gamelistupdatemessage();
-}
-inline const ::GameListUpdateMessage& PokerTHMessage::gamelistupdatemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistupdatemessage_ != NULL ? *gamelistupdatemessage_ : *default_instance().gamelistupdatemessage_;
-#else
-  return gamelistupdatemessage_ != NULL ? *gamelistupdatemessage_ : *default_instance_->gamelistupdatemessage_;
-#endif
-}
-inline ::GameListUpdateMessage* PokerTHMessage::mutable_gamelistupdatemessage() {
-  set_has_gamelistupdatemessage();
-  if (gamelistupdatemessage_ == NULL) gamelistupdatemessage_ = new ::GameListUpdateMessage;
-  return gamelistupdatemessage_;
-}
-inline ::GameListUpdateMessage* PokerTHMessage::release_gamelistupdatemessage() {
-  clear_has_gamelistupdatemessage();
-  ::GameListUpdateMessage* temp = gamelistupdatemessage_;
-  gamelistupdatemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistupdatemessage(::GameListUpdateMessage* gamelistupdatemessage) {
-  delete gamelistupdatemessage_;
-  gamelistupdatemessage_ = gamelistupdatemessage;
-  if (gamelistupdatemessage) {
-    set_has_gamelistupdatemessage();
-  } else {
-    clear_has_gamelistupdatemessage();
-  }
-}
-
-// optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;
-inline bool PokerTHMessage::has_gamelistplayerjoinedmessage() const {
-  return (_has_bits_[0] & 0x00008000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistplayerjoinedmessage() {
-  _has_bits_[0] |= 0x00008000u;
-}
-inline void PokerTHMessage::clear_has_gamelistplayerjoinedmessage() {
-  _has_bits_[0] &= ~0x00008000u;
-}
-inline void PokerTHMessage::clear_gamelistplayerjoinedmessage() {
-  if (gamelistplayerjoinedmessage_ != NULL) gamelistplayerjoinedmessage_->::GameListPlayerJoinedMessage::Clear();
-  clear_has_gamelistplayerjoinedmessage();
-}
-inline const ::GameListPlayerJoinedMessage& PokerTHMessage::gamelistplayerjoinedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistplayerjoinedmessage_ != NULL ? *gamelistplayerjoinedmessage_ : *default_instance().gamelistplayerjoinedmessage_;
-#else
-  return gamelistplayerjoinedmessage_ != NULL ? *gamelistplayerjoinedmessage_ : *default_instance_->gamelistplayerjoinedmessage_;
-#endif
-}
-inline ::GameListPlayerJoinedMessage* PokerTHMessage::mutable_gamelistplayerjoinedmessage() {
-  set_has_gamelistplayerjoinedmessage();
-  if (gamelistplayerjoinedmessage_ == NULL) gamelistplayerjoinedmessage_ = new ::GameListPlayerJoinedMessage;
-  return gamelistplayerjoinedmessage_;
-}
-inline ::GameListPlayerJoinedMessage* PokerTHMessage::release_gamelistplayerjoinedmessage() {
-  clear_has_gamelistplayerjoinedmessage();
-  ::GameListPlayerJoinedMessage* temp = gamelistplayerjoinedmessage_;
-  gamelistplayerjoinedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistplayerjoinedmessage(::GameListPlayerJoinedMessage* gamelistplayerjoinedmessage) {
-  delete gamelistplayerjoinedmessage_;
-  gamelistplayerjoinedmessage_ = gamelistplayerjoinedmessage;
-  if (gamelistplayerjoinedmessage) {
-    set_has_gamelistplayerjoinedmessage();
-  } else {
-    clear_has_gamelistplayerjoinedmessage();
-  }
-}
-
-// optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;
-inline bool PokerTHMessage::has_gamelistplayerleftmessage() const {
-  return (_has_bits_[0] & 0x00010000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistplayerleftmessage() {
-  _has_bits_[0] |= 0x00010000u;
-}
-inline void PokerTHMessage::clear_has_gamelistplayerleftmessage() {
-  _has_bits_[0] &= ~0x00010000u;
-}
-inline void PokerTHMessage::clear_gamelistplayerleftmessage() {
-  if (gamelistplayerleftmessage_ != NULL) gamelistplayerleftmessage_->::GameListPlayerLeftMessage::Clear();
-  clear_has_gamelistplayerleftmessage();
-}
-inline const ::GameListPlayerLeftMessage& PokerTHMessage::gamelistplayerleftmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistplayerleftmessage_ != NULL ? *gamelistplayerleftmessage_ : *default_instance().gamelistplayerleftmessage_;
-#else
-  return gamelistplayerleftmessage_ != NULL ? *gamelistplayerleftmessage_ : *default_instance_->gamelistplayerleftmessage_;
-#endif
-}
-inline ::GameListPlayerLeftMessage* PokerTHMessage::mutable_gamelistplayerleftmessage() {
-  set_has_gamelistplayerleftmessage();
-  if (gamelistplayerleftmessage_ == NULL) gamelistplayerleftmessage_ = new ::GameListPlayerLeftMessage;
-  return gamelistplayerleftmessage_;
-}
-inline ::GameListPlayerLeftMessage* PokerTHMessage::release_gamelistplayerleftmessage() {
-  clear_has_gamelistplayerleftmessage();
-  ::GameListPlayerLeftMessage* temp = gamelistplayerleftmessage_;
-  gamelistplayerleftmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistplayerleftmessage(::GameListPlayerLeftMessage* gamelistplayerleftmessage) {
-  delete gamelistplayerleftmessage_;
-  gamelistplayerleftmessage_ = gamelistplayerleftmessage;
-  if (gamelistplayerleftmessage) {
-    set_has_gamelistplayerleftmessage();
-  } else {
-    clear_has_gamelistplayerleftmessage();
-  }
-}
-
-// optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;
-inline bool PokerTHMessage::has_gamelistadminchangedmessage() const {
-  return (_has_bits_[0] & 0x00020000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistadminchangedmessage() {
-  _has_bits_[0] |= 0x00020000u;
-}
-inline void PokerTHMessage::clear_has_gamelistadminchangedmessage() {
-  _has_bits_[0] &= ~0x00020000u;
-}
-inline void PokerTHMessage::clear_gamelistadminchangedmessage() {
-  if (gamelistadminchangedmessage_ != NULL) gamelistadminchangedmessage_->::GameListAdminChangedMessage::Clear();
-  clear_has_gamelistadminchangedmessage();
-}
-inline const ::GameListAdminChangedMessage& PokerTHMessage::gamelistadminchangedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistadminchangedmessage_ != NULL ? *gamelistadminchangedmessage_ : *default_instance().gamelistadminchangedmessage_;
-#else
-  return gamelistadminchangedmessage_ != NULL ? *gamelistadminchangedmessage_ : *default_instance_->gamelistadminchangedmessage_;
-#endif
-}
-inline ::GameListAdminChangedMessage* PokerTHMessage::mutable_gamelistadminchangedmessage() {
-  set_has_gamelistadminchangedmessage();
-  if (gamelistadminchangedmessage_ == NULL) gamelistadminchangedmessage_ = new ::GameListAdminChangedMessage;
-  return gamelistadminchangedmessage_;
-}
-inline ::GameListAdminChangedMessage* PokerTHMessage::release_gamelistadminchangedmessage() {
-  clear_has_gamelistadminchangedmessage();
-  ::GameListAdminChangedMessage* temp = gamelistadminchangedmessage_;
-  gamelistadminchangedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistadminchangedmessage(::GameListAdminChangedMessage* gamelistadminchangedmessage) {
-  delete gamelistadminchangedmessage_;
-  gamelistadminchangedmessage_ = gamelistadminchangedmessage;
-  if (gamelistadminchangedmessage) {
-    set_has_gamelistadminchangedmessage();
-  } else {
-    clear_has_gamelistadminchangedmessage();
-  }
-}
-
-// optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;
-inline bool PokerTHMessage::has_playerinforequestmessage() const {
-  return (_has_bits_[0] & 0x00040000u) != 0;
-}
-inline void PokerTHMessage::set_has_playerinforequestmessage() {
-  _has_bits_[0] |= 0x00040000u;
-}
-inline void PokerTHMessage::clear_has_playerinforequestmessage() {
-  _has_bits_[0] &= ~0x00040000u;
-}
-inline void PokerTHMessage::clear_playerinforequestmessage() {
-  if (playerinforequestmessage_ != NULL) playerinforequestmessage_->::PlayerInfoRequestMessage::Clear();
-  clear_has_playerinforequestmessage();
-}
-inline const ::PlayerInfoRequestMessage& PokerTHMessage::playerinforequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return playerinforequestmessage_ != NULL ? *playerinforequestmessage_ : *default_instance().playerinforequestmessage_;
-#else
-  return playerinforequestmessage_ != NULL ? *playerinforequestmessage_ : *default_instance_->playerinforequestmessage_;
-#endif
-}
-inline ::PlayerInfoRequestMessage* PokerTHMessage::mutable_playerinforequestmessage() {
-  set_has_playerinforequestmessage();
-  if (playerinforequestmessage_ == NULL) playerinforequestmessage_ = new ::PlayerInfoRequestMessage;
-  return playerinforequestmessage_;
-}
-inline ::PlayerInfoRequestMessage* PokerTHMessage::release_playerinforequestmessage() {
-  clear_has_playerinforequestmessage();
-  ::PlayerInfoRequestMessage* temp = playerinforequestmessage_;
-  playerinforequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_playerinforequestmessage(::PlayerInfoRequestMessage* playerinforequestmessage) {
-  delete playerinforequestmessage_;
-  playerinforequestmessage_ = playerinforequestmessage;
-  if (playerinforequestmessage) {
-    set_has_playerinforequestmessage();
-  } else {
-    clear_has_playerinforequestmessage();
-  }
-}
-
-// optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;
-inline bool PokerTHMessage::has_playerinforeplymessage() const {
-  return (_has_bits_[0] & 0x00080000u) != 0;
-}
-inline void PokerTHMessage::set_has_playerinforeplymessage() {
-  _has_bits_[0] |= 0x00080000u;
-}
-inline void PokerTHMessage::clear_has_playerinforeplymessage() {
-  _has_bits_[0] &= ~0x00080000u;
-}
-inline void PokerTHMessage::clear_playerinforeplymessage() {
-  if (playerinforeplymessage_ != NULL) playerinforeplymessage_->::PlayerInfoReplyMessage::Clear();
-  clear_has_playerinforeplymessage();
-}
-inline const ::PlayerInfoReplyMessage& PokerTHMessage::playerinforeplymessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return playerinforeplymessage_ != NULL ? *playerinforeplymessage_ : *default_instance().playerinforeplymessage_;
-#else
-  return playerinforeplymessage_ != NULL ? *playerinforeplymessage_ : *default_instance_->playerinforeplymessage_;
-#endif
-}
-inline ::PlayerInfoReplyMessage* PokerTHMessage::mutable_playerinforeplymessage() {
-  set_has_playerinforeplymessage();
-  if (playerinforeplymessage_ == NULL) playerinforeplymessage_ = new ::PlayerInfoReplyMessage;
-  return playerinforeplymessage_;
-}
-inline ::PlayerInfoReplyMessage* PokerTHMessage::release_playerinforeplymessage() {
-  clear_has_playerinforeplymessage();
-  ::PlayerInfoReplyMessage* temp = playerinforeplymessage_;
-  playerinforeplymessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_playerinforeplymessage(::PlayerInfoReplyMessage* playerinforeplymessage) {
-  delete playerinforeplymessage_;
-  playerinforeplymessage_ = playerinforeplymessage;
-  if (playerinforeplymessage) {
-    set_has_playerinforeplymessage();
-  } else {
-    clear_has_playerinforeplymessage();
-  }
-}
-
-// optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;
-inline bool PokerTHMessage::has_subscriptionrequestmessage() const {
-  return (_has_bits_[0] & 0x00100000u) != 0;
-}
-inline void PokerTHMessage::set_has_subscriptionrequestmessage() {
-  _has_bits_[0] |= 0x00100000u;
-}
-inline void PokerTHMessage::clear_has_subscriptionrequestmessage() {
-  _has_bits_[0] &= ~0x00100000u;
-}
-inline void PokerTHMessage::clear_subscriptionrequestmessage() {
-  if (subscriptionrequestmessage_ != NULL) subscriptionrequestmessage_->::SubscriptionRequestMessage::Clear();
-  clear_has_subscriptionrequestmessage();
-}
-inline const ::SubscriptionRequestMessage& PokerTHMessage::subscriptionrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return subscriptionrequestmessage_ != NULL ? *subscriptionrequestmessage_ : *default_instance().subscriptionrequestmessage_;
-#else
-  return subscriptionrequestmessage_ != NULL ? *subscriptionrequestmessage_ : *default_instance_->subscriptionrequestmessage_;
-#endif
-}
-inline ::SubscriptionRequestMessage* PokerTHMessage::mutable_subscriptionrequestmessage() {
-  set_has_subscriptionrequestmessage();
-  if (subscriptionrequestmessage_ == NULL) subscriptionrequestmessage_ = new ::SubscriptionRequestMessage;
-  return subscriptionrequestmessage_;
-}
-inline ::SubscriptionRequestMessage* PokerTHMessage::release_subscriptionrequestmessage() {
-  clear_has_subscriptionrequestmessage();
-  ::SubscriptionRequestMessage* temp = subscriptionrequestmessage_;
-  subscriptionrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_subscriptionrequestmessage(::SubscriptionRequestMessage* subscriptionrequestmessage) {
-  delete subscriptionrequestmessage_;
-  subscriptionrequestmessage_ = subscriptionrequestmessage;
-  if (subscriptionrequestmessage) {
-    set_has_subscriptionrequestmessage();
-  } else {
-    clear_has_subscriptionrequestmessage();
-  }
-}
-
-// optional .JoinExistingGameMessage joinExistingGameMessage = 22;
-inline bool PokerTHMessage::has_joinexistinggamemessage() const {
-  return (_has_bits_[0] & 0x00200000u) != 0;
-}
-inline void PokerTHMessage::set_has_joinexistinggamemessage() {
-  _has_bits_[0] |= 0x00200000u;
-}
-inline void PokerTHMessage::clear_has_joinexistinggamemessage() {
-  _has_bits_[0] &= ~0x00200000u;
-}
-inline void PokerTHMessage::clear_joinexistinggamemessage() {
-  if (joinexistinggamemessage_ != NULL) joinexistinggamemessage_->::JoinExistingGameMessage::Clear();
-  clear_has_joinexistinggamemessage();
-}
-inline const ::JoinExistingGameMessage& PokerTHMessage::joinexistinggamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return joinexistinggamemessage_ != NULL ? *joinexistinggamemessage_ : *default_instance().joinexistinggamemessage_;
-#else
-  return joinexistinggamemessage_ != NULL ? *joinexistinggamemessage_ : *default_instance_->joinexistinggamemessage_;
-#endif
-}
-inline ::JoinExistingGameMessage* PokerTHMessage::mutable_joinexistinggamemessage() {
-  set_has_joinexistinggamemessage();
-  if (joinexistinggamemessage_ == NULL) joinexistinggamemessage_ = new ::JoinExistingGameMessage;
-  return joinexistinggamemessage_;
-}
-inline ::JoinExistingGameMessage* PokerTHMessage::release_joinexistinggamemessage() {
-  clear_has_joinexistinggamemessage();
-  ::JoinExistingGameMessage* temp = joinexistinggamemessage_;
-  joinexistinggamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_joinexistinggamemessage(::JoinExistingGameMessage* joinexistinggamemessage) {
-  delete joinexistinggamemessage_;
-  joinexistinggamemessage_ = joinexistinggamemessage;
-  if (joinexistinggamemessage) {
-    set_has_joinexistinggamemessage();
-  } else {
-    clear_has_joinexistinggamemessage();
-  }
-}
-
-// optional .JoinNewGameMessage joinNewGameMessage = 23;
-inline bool PokerTHMessage::has_joinnewgamemessage() const {
-  return (_has_bits_[0] & 0x00400000u) != 0;
-}
-inline void PokerTHMessage::set_has_joinnewgamemessage() {
-  _has_bits_[0] |= 0x00400000u;
-}
-inline void PokerTHMessage::clear_has_joinnewgamemessage() {
-  _has_bits_[0] &= ~0x00400000u;
-}
-inline void PokerTHMessage::clear_joinnewgamemessage() {
-  if (joinnewgamemessage_ != NULL) joinnewgamemessage_->::JoinNewGameMessage::Clear();
-  clear_has_joinnewgamemessage();
-}
-inline const ::JoinNewGameMessage& PokerTHMessage::joinnewgamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return joinnewgamemessage_ != NULL ? *joinnewgamemessage_ : *default_instance().joinnewgamemessage_;
-#else
-  return joinnewgamemessage_ != NULL ? *joinnewgamemessage_ : *default_instance_->joinnewgamemessage_;
-#endif
-}
-inline ::JoinNewGameMessage* PokerTHMessage::mutable_joinnewgamemessage() {
-  set_has_joinnewgamemessage();
-  if (joinnewgamemessage_ == NULL) joinnewgamemessage_ = new ::JoinNewGameMessage;
-  return joinnewgamemessage_;
-}
-inline ::JoinNewGameMessage* PokerTHMessage::release_joinnewgamemessage() {
-  clear_has_joinnewgamemessage();
-  ::JoinNewGameMessage* temp = joinnewgamemessage_;
-  joinnewgamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_joinnewgamemessage(::JoinNewGameMessage* joinnewgamemessage) {
-  delete joinnewgamemessage_;
-  joinnewgamemessage_ = joinnewgamemessage;
-  if (joinnewgamemessage) {
-    set_has_joinnewgamemessage();
-  } else {
-    clear_has_joinnewgamemessage();
-  }
-}
-
-// optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;
-inline bool PokerTHMessage::has_rejoinexistinggamemessage() const {
-  return (_has_bits_[0] & 0x00800000u) != 0;
-}
-inline void PokerTHMessage::set_has_rejoinexistinggamemessage() {
-  _has_bits_[0] |= 0x00800000u;
-}
-inline void PokerTHMessage::clear_has_rejoinexistinggamemessage() {
-  _has_bits_[0] &= ~0x00800000u;
-}
-inline void PokerTHMessage::clear_rejoinexistinggamemessage() {
-  if (rejoinexistinggamemessage_ != NULL) rejoinexistinggamemessage_->::RejoinExistingGameMessage::Clear();
-  clear_has_rejoinexistinggamemessage();
-}
-inline const ::RejoinExistingGameMessage& PokerTHMessage::rejoinexistinggamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return rejoinexistinggamemessage_ != NULL ? *rejoinexistinggamemessage_ : *default_instance().rejoinexistinggamemessage_;
-#else
-  return rejoinexistinggamemessage_ != NULL ? *rejoinexistinggamemessage_ : *default_instance_->rejoinexistinggamemessage_;
-#endif
-}
-inline ::RejoinExistingGameMessage* PokerTHMessage::mutable_rejoinexistinggamemessage() {
-  set_has_rejoinexistinggamemessage();
-  if (rejoinexistinggamemessage_ == NULL) rejoinexistinggamemessage_ = new ::RejoinExistingGameMessage;
-  return rejoinexistinggamemessage_;
-}
-inline ::RejoinExistingGameMessage* PokerTHMessage::release_rejoinexistinggamemessage() {
-  clear_has_rejoinexistinggamemessage();
-  ::RejoinExistingGameMessage* temp = rejoinexistinggamemessage_;
-  rejoinexistinggamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_rejoinexistinggamemessage(::RejoinExistingGameMessage* rejoinexistinggamemessage) {
-  delete rejoinexistinggamemessage_;
-  rejoinexistinggamemessage_ = rejoinexistinggamemessage;
-  if (rejoinexistinggamemessage) {
-    set_has_rejoinexistinggamemessage();
-  } else {
-    clear_has_rejoinexistinggamemessage();
-  }
-}
-
-// optional .JoinGameAckMessage joinGameAckMessage = 25;
-inline bool PokerTHMessage::has_joingameackmessage() const {
-  return (_has_bits_[0] & 0x01000000u) != 0;
-}
-inline void PokerTHMessage::set_has_joingameackmessage() {
-  _has_bits_[0] |= 0x01000000u;
-}
-inline void PokerTHMessage::clear_has_joingameackmessage() {
-  _has_bits_[0] &= ~0x01000000u;
-}
-inline void PokerTHMessage::clear_joingameackmessage() {
-  if (joingameackmessage_ != NULL) joingameackmessage_->::JoinGameAckMessage::Clear();
-  clear_has_joingameackmessage();
-}
-inline const ::JoinGameAckMessage& PokerTHMessage::joingameackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return joingameackmessage_ != NULL ? *joingameackmessage_ : *default_instance().joingameackmessage_;
-#else
-  return joingameackmessage_ != NULL ? *joingameackmessage_ : *default_instance_->joingameackmessage_;
-#endif
-}
-inline ::JoinGameAckMessage* PokerTHMessage::mutable_joingameackmessage() {
-  set_has_joingameackmessage();
-  if (joingameackmessage_ == NULL) joingameackmessage_ = new ::JoinGameAckMessage;
-  return joingameackmessage_;
-}
-inline ::JoinGameAckMessage* PokerTHMessage::release_joingameackmessage() {
-  clear_has_joingameackmessage();
-  ::JoinGameAckMessage* temp = joingameackmessage_;
-  joingameackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_joingameackmessage(::JoinGameAckMessage* joingameackmessage) {
-  delete joingameackmessage_;
-  joingameackmessage_ = joingameackmessage;
-  if (joingameackmessage) {
-    set_has_joingameackmessage();
-  } else {
-    clear_has_joingameackmessage();
-  }
-}
-
-// optional .JoinGameFailedMessage joinGameFailedMessage = 26;
-inline bool PokerTHMessage::has_joingamefailedmessage() const {
-  return (_has_bits_[0] & 0x02000000u) != 0;
-}
-inline void PokerTHMessage::set_has_joingamefailedmessage() {
-  _has_bits_[0] |= 0x02000000u;
-}
-inline void PokerTHMessage::clear_has_joingamefailedmessage() {
-  _has_bits_[0] &= ~0x02000000u;
-}
-inline void PokerTHMessage::clear_joingamefailedmessage() {
-  if (joingamefailedmessage_ != NULL) joingamefailedmessage_->::JoinGameFailedMessage::Clear();
-  clear_has_joingamefailedmessage();
-}
-inline const ::JoinGameFailedMessage& PokerTHMessage::joingamefailedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return joingamefailedmessage_ != NULL ? *joingamefailedmessage_ : *default_instance().joingamefailedmessage_;
-#else
-  return joingamefailedmessage_ != NULL ? *joingamefailedmessage_ : *default_instance_->joingamefailedmessage_;
-#endif
-}
-inline ::JoinGameFailedMessage* PokerTHMessage::mutable_joingamefailedmessage() {
-  set_has_joingamefailedmessage();
-  if (joingamefailedmessage_ == NULL) joingamefailedmessage_ = new ::JoinGameFailedMessage;
-  return joingamefailedmessage_;
-}
-inline ::JoinGameFailedMessage* PokerTHMessage::release_joingamefailedmessage() {
-  clear_has_joingamefailedmessage();
-  ::JoinGameFailedMessage* temp = joingamefailedmessage_;
-  joingamefailedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_joingamefailedmessage(::JoinGameFailedMessage* joingamefailedmessage) {
-  delete joingamefailedmessage_;
-  joingamefailedmessage_ = joingamefailedmessage;
-  if (joingamefailedmessage) {
-    set_has_joingamefailedmessage();
-  } else {
-    clear_has_joingamefailedmessage();
-  }
-}
-
-// optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;
-inline bool PokerTHMessage::has_gameplayerjoinedmessage() const {
-  return (_has_bits_[0] & 0x04000000u) != 0;
-}
-inline void PokerTHMessage::set_has_gameplayerjoinedmessage() {
-  _has_bits_[0] |= 0x04000000u;
-}
-inline void PokerTHMessage::clear_has_gameplayerjoinedmessage() {
-  _has_bits_[0] &= ~0x04000000u;
-}
-inline void PokerTHMessage::clear_gameplayerjoinedmessage() {
-  if (gameplayerjoinedmessage_ != NULL) gameplayerjoinedmessage_->::GamePlayerJoinedMessage::Clear();
-  clear_has_gameplayerjoinedmessage();
-}
-inline const ::GamePlayerJoinedMessage& PokerTHMessage::gameplayerjoinedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gameplayerjoinedmessage_ != NULL ? *gameplayerjoinedmessage_ : *default_instance().gameplayerjoinedmessage_;
-#else
-  return gameplayerjoinedmessage_ != NULL ? *gameplayerjoinedmessage_ : *default_instance_->gameplayerjoinedmessage_;
-#endif
-}
-inline ::GamePlayerJoinedMessage* PokerTHMessage::mutable_gameplayerjoinedmessage() {
-  set_has_gameplayerjoinedmessage();
-  if (gameplayerjoinedmessage_ == NULL) gameplayerjoinedmessage_ = new ::GamePlayerJoinedMessage;
-  return gameplayerjoinedmessage_;
-}
-inline ::GamePlayerJoinedMessage* PokerTHMessage::release_gameplayerjoinedmessage() {
-  clear_has_gameplayerjoinedmessage();
-  ::GamePlayerJoinedMessage* temp = gameplayerjoinedmessage_;
-  gameplayerjoinedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gameplayerjoinedmessage(::GamePlayerJoinedMessage* gameplayerjoinedmessage) {
-  delete gameplayerjoinedmessage_;
-  gameplayerjoinedmessage_ = gameplayerjoinedmessage;
-  if (gameplayerjoinedmessage) {
-    set_has_gameplayerjoinedmessage();
-  } else {
-    clear_has_gameplayerjoinedmessage();
-  }
-}
-
-// optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;
-inline bool PokerTHMessage::has_gameplayerleftmessage() const {
-  return (_has_bits_[0] & 0x08000000u) != 0;
-}
-inline void PokerTHMessage::set_has_gameplayerleftmessage() {
-  _has_bits_[0] |= 0x08000000u;
-}
-inline void PokerTHMessage::clear_has_gameplayerleftmessage() {
-  _has_bits_[0] &= ~0x08000000u;
-}
-inline void PokerTHMessage::clear_gameplayerleftmessage() {
-  if (gameplayerleftmessage_ != NULL) gameplayerleftmessage_->::GamePlayerLeftMessage::Clear();
-  clear_has_gameplayerleftmessage();
-}
-inline const ::GamePlayerLeftMessage& PokerTHMessage::gameplayerleftmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gameplayerleftmessage_ != NULL ? *gameplayerleftmessage_ : *default_instance().gameplayerleftmessage_;
-#else
-  return gameplayerleftmessage_ != NULL ? *gameplayerleftmessage_ : *default_instance_->gameplayerleftmessage_;
-#endif
-}
-inline ::GamePlayerLeftMessage* PokerTHMessage::mutable_gameplayerleftmessage() {
-  set_has_gameplayerleftmessage();
-  if (gameplayerleftmessage_ == NULL) gameplayerleftmessage_ = new ::GamePlayerLeftMessage;
-  return gameplayerleftmessage_;
-}
-inline ::GamePlayerLeftMessage* PokerTHMessage::release_gameplayerleftmessage() {
-  clear_has_gameplayerleftmessage();
-  ::GamePlayerLeftMessage* temp = gameplayerleftmessage_;
-  gameplayerleftmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gameplayerleftmessage(::GamePlayerLeftMessage* gameplayerleftmessage) {
-  delete gameplayerleftmessage_;
-  gameplayerleftmessage_ = gameplayerleftmessage;
-  if (gameplayerleftmessage) {
-    set_has_gameplayerleftmessage();
-  } else {
-    clear_has_gameplayerleftmessage();
-  }
-}
-
-// optional .GameAdminChangedMessage gameAdminChangedMessage = 29;
-inline bool PokerTHMessage::has_gameadminchangedmessage() const {
-  return (_has_bits_[0] & 0x10000000u) != 0;
-}
-inline void PokerTHMessage::set_has_gameadminchangedmessage() {
-  _has_bits_[0] |= 0x10000000u;
-}
-inline void PokerTHMessage::clear_has_gameadminchangedmessage() {
-  _has_bits_[0] &= ~0x10000000u;
-}
-inline void PokerTHMessage::clear_gameadminchangedmessage() {
-  if (gameadminchangedmessage_ != NULL) gameadminchangedmessage_->::GameAdminChangedMessage::Clear();
-  clear_has_gameadminchangedmessage();
-}
-inline const ::GameAdminChangedMessage& PokerTHMessage::gameadminchangedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gameadminchangedmessage_ != NULL ? *gameadminchangedmessage_ : *default_instance().gameadminchangedmessage_;
-#else
-  return gameadminchangedmessage_ != NULL ? *gameadminchangedmessage_ : *default_instance_->gameadminchangedmessage_;
-#endif
-}
-inline ::GameAdminChangedMessage* PokerTHMessage::mutable_gameadminchangedmessage() {
-  set_has_gameadminchangedmessage();
-  if (gameadminchangedmessage_ == NULL) gameadminchangedmessage_ = new ::GameAdminChangedMessage;
-  return gameadminchangedmessage_;
-}
-inline ::GameAdminChangedMessage* PokerTHMessage::release_gameadminchangedmessage() {
-  clear_has_gameadminchangedmessage();
-  ::GameAdminChangedMessage* temp = gameadminchangedmessage_;
-  gameadminchangedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gameadminchangedmessage(::GameAdminChangedMessage* gameadminchangedmessage) {
-  delete gameadminchangedmessage_;
-  gameadminchangedmessage_ = gameadminchangedmessage;
-  if (gameadminchangedmessage) {
-    set_has_gameadminchangedmessage();
-  } else {
-    clear_has_gameadminchangedmessage();
-  }
-}
-
-// optional .RemovedFromGameMessage removedFromGameMessage = 30;
-inline bool PokerTHMessage::has_removedfromgamemessage() const {
-  return (_has_bits_[0] & 0x20000000u) != 0;
-}
-inline void PokerTHMessage::set_has_removedfromgamemessage() {
-  _has_bits_[0] |= 0x20000000u;
-}
-inline void PokerTHMessage::clear_has_removedfromgamemessage() {
-  _has_bits_[0] &= ~0x20000000u;
-}
-inline void PokerTHMessage::clear_removedfromgamemessage() {
-  if (removedfromgamemessage_ != NULL) removedfromgamemessage_->::RemovedFromGameMessage::Clear();
-  clear_has_removedfromgamemessage();
-}
-inline const ::RemovedFromGameMessage& PokerTHMessage::removedfromgamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return removedfromgamemessage_ != NULL ? *removedfromgamemessage_ : *default_instance().removedfromgamemessage_;
-#else
-  return removedfromgamemessage_ != NULL ? *removedfromgamemessage_ : *default_instance_->removedfromgamemessage_;
-#endif
-}
-inline ::RemovedFromGameMessage* PokerTHMessage::mutable_removedfromgamemessage() {
-  set_has_removedfromgamemessage();
-  if (removedfromgamemessage_ == NULL) removedfromgamemessage_ = new ::RemovedFromGameMessage;
-  return removedfromgamemessage_;
-}
-inline ::RemovedFromGameMessage* PokerTHMessage::release_removedfromgamemessage() {
-  clear_has_removedfromgamemessage();
-  ::RemovedFromGameMessage* temp = removedfromgamemessage_;
-  removedfromgamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_removedfromgamemessage(::RemovedFromGameMessage* removedfromgamemessage) {
-  delete removedfromgamemessage_;
-  removedfromgamemessage_ = removedfromgamemessage;
-  if (removedfromgamemessage) {
-    set_has_removedfromgamemessage();
-  } else {
-    clear_has_removedfromgamemessage();
-  }
-}
-
-// optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;
-inline bool PokerTHMessage::has_kickplayerrequestmessage() const {
-  return (_has_bits_[0] & 0x40000000u) != 0;
-}
-inline void PokerTHMessage::set_has_kickplayerrequestmessage() {
-  _has_bits_[0] |= 0x40000000u;
-}
-inline void PokerTHMessage::clear_has_kickplayerrequestmessage() {
-  _has_bits_[0] &= ~0x40000000u;
-}
-inline void PokerTHMessage::clear_kickplayerrequestmessage() {
-  if (kickplayerrequestmessage_ != NULL) kickplayerrequestmessage_->::KickPlayerRequestMessage::Clear();
-  clear_has_kickplayerrequestmessage();
-}
-inline const ::KickPlayerRequestMessage& PokerTHMessage::kickplayerrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return kickplayerrequestmessage_ != NULL ? *kickplayerrequestmessage_ : *default_instance().kickplayerrequestmessage_;
-#else
-  return kickplayerrequestmessage_ != NULL ? *kickplayerrequestmessage_ : *default_instance_->kickplayerrequestmessage_;
-#endif
-}
-inline ::KickPlayerRequestMessage* PokerTHMessage::mutable_kickplayerrequestmessage() {
-  set_has_kickplayerrequestmessage();
-  if (kickplayerrequestmessage_ == NULL) kickplayerrequestmessage_ = new ::KickPlayerRequestMessage;
-  return kickplayerrequestmessage_;
-}
-inline ::KickPlayerRequestMessage* PokerTHMessage::release_kickplayerrequestmessage() {
-  clear_has_kickplayerrequestmessage();
-  ::KickPlayerRequestMessage* temp = kickplayerrequestmessage_;
-  kickplayerrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_kickplayerrequestmessage(::KickPlayerRequestMessage* kickplayerrequestmessage) {
-  delete kickplayerrequestmessage_;
-  kickplayerrequestmessage_ = kickplayerrequestmessage;
-  if (kickplayerrequestmessage) {
-    set_has_kickplayerrequestmessage();
-  } else {
-    clear_has_kickplayerrequestmessage();
-  }
-}
-
-// optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;
-inline bool PokerTHMessage::has_leavegamerequestmessage() const {
-  return (_has_bits_[0] & 0x80000000u) != 0;
-}
-inline void PokerTHMessage::set_has_leavegamerequestmessage() {
-  _has_bits_[0] |= 0x80000000u;
-}
-inline void PokerTHMessage::clear_has_leavegamerequestmessage() {
-  _has_bits_[0] &= ~0x80000000u;
-}
-inline void PokerTHMessage::clear_leavegamerequestmessage() {
-  if (leavegamerequestmessage_ != NULL) leavegamerequestmessage_->::LeaveGameRequestMessage::Clear();
-  clear_has_leavegamerequestmessage();
-}
-inline const ::LeaveGameRequestMessage& PokerTHMessage::leavegamerequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return leavegamerequestmessage_ != NULL ? *leavegamerequestmessage_ : *default_instance().leavegamerequestmessage_;
-#else
-  return leavegamerequestmessage_ != NULL ? *leavegamerequestmessage_ : *default_instance_->leavegamerequestmessage_;
-#endif
-}
-inline ::LeaveGameRequestMessage* PokerTHMessage::mutable_leavegamerequestmessage() {
-  set_has_leavegamerequestmessage();
-  if (leavegamerequestmessage_ == NULL) leavegamerequestmessage_ = new ::LeaveGameRequestMessage;
-  return leavegamerequestmessage_;
-}
-inline ::LeaveGameRequestMessage* PokerTHMessage::release_leavegamerequestmessage() {
-  clear_has_leavegamerequestmessage();
-  ::LeaveGameRequestMessage* temp = leavegamerequestmessage_;
-  leavegamerequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_leavegamerequestmessage(::LeaveGameRequestMessage* leavegamerequestmessage) {
-  delete leavegamerequestmessage_;
-  leavegamerequestmessage_ = leavegamerequestmessage;
-  if (leavegamerequestmessage) {
-    set_has_leavegamerequestmessage();
-  } else {
-    clear_has_leavegamerequestmessage();
-  }
-}
-
-// optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;
-inline bool PokerTHMessage::has_inviteplayertogamemessage() const {
-  return (_has_bits_[1] & 0x00000001u) != 0;
-}
-inline void PokerTHMessage::set_has_inviteplayertogamemessage() {
-  _has_bits_[1] |= 0x00000001u;
-}
-inline void PokerTHMessage::clear_has_inviteplayertogamemessage() {
-  _has_bits_[1] &= ~0x00000001u;
-}
-inline void PokerTHMessage::clear_inviteplayertogamemessage() {
-  if (inviteplayertogamemessage_ != NULL) inviteplayertogamemessage_->::InvitePlayerToGameMessage::Clear();
-  clear_has_inviteplayertogamemessage();
-}
-inline const ::InvitePlayerToGameMessage& PokerTHMessage::inviteplayertogamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return inviteplayertogamemessage_ != NULL ? *inviteplayertogamemessage_ : *default_instance().inviteplayertogamemessage_;
-#else
-  return inviteplayertogamemessage_ != NULL ? *inviteplayertogamemessage_ : *default_instance_->inviteplayertogamemessage_;
-#endif
-}
-inline ::InvitePlayerToGameMessage* PokerTHMessage::mutable_inviteplayertogamemessage() {
-  set_has_inviteplayertogamemessage();
-  if (inviteplayertogamemessage_ == NULL) inviteplayertogamemessage_ = new ::InvitePlayerToGameMessage;
-  return inviteplayertogamemessage_;
-}
-inline ::InvitePlayerToGameMessage* PokerTHMessage::release_inviteplayertogamemessage() {
-  clear_has_inviteplayertogamemessage();
-  ::InvitePlayerToGameMessage* temp = inviteplayertogamemessage_;
-  inviteplayertogamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_inviteplayertogamemessage(::InvitePlayerToGameMessage* inviteplayertogamemessage) {
-  delete inviteplayertogamemessage_;
-  inviteplayertogamemessage_ = inviteplayertogamemessage;
-  if (inviteplayertogamemessage) {
-    set_has_inviteplayertogamemessage();
-  } else {
-    clear_has_inviteplayertogamemessage();
-  }
-}
-
-// optional .InviteNotifyMessage inviteNotifyMessage = 34;
-inline bool PokerTHMessage::has_invitenotifymessage() const {
-  return (_has_bits_[1] & 0x00000002u) != 0;
-}
-inline void PokerTHMessage::set_has_invitenotifymessage() {
-  _has_bits_[1] |= 0x00000002u;
-}
-inline void PokerTHMessage::clear_has_invitenotifymessage() {
-  _has_bits_[1] &= ~0x00000002u;
-}
-inline void PokerTHMessage::clear_invitenotifymessage() {
-  if (invitenotifymessage_ != NULL) invitenotifymessage_->::InviteNotifyMessage::Clear();
-  clear_has_invitenotifymessage();
-}
-inline const ::InviteNotifyMessage& PokerTHMessage::invitenotifymessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return invitenotifymessage_ != NULL ? *invitenotifymessage_ : *default_instance().invitenotifymessage_;
-#else
-  return invitenotifymessage_ != NULL ? *invitenotifymessage_ : *default_instance_->invitenotifymessage_;
-#endif
-}
-inline ::InviteNotifyMessage* PokerTHMessage::mutable_invitenotifymessage() {
-  set_has_invitenotifymessage();
-  if (invitenotifymessage_ == NULL) invitenotifymessage_ = new ::InviteNotifyMessage;
-  return invitenotifymessage_;
-}
-inline ::InviteNotifyMessage* PokerTHMessage::release_invitenotifymessage() {
-  clear_has_invitenotifymessage();
-  ::InviteNotifyMessage* temp = invitenotifymessage_;
-  invitenotifymessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_invitenotifymessage(::InviteNotifyMessage* invitenotifymessage) {
-  delete invitenotifymessage_;
-  invitenotifymessage_ = invitenotifymessage;
-  if (invitenotifymessage) {
-    set_has_invitenotifymessage();
-  } else {
-    clear_has_invitenotifymessage();
-  }
-}
-
-// optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;
-inline bool PokerTHMessage::has_rejectgameinvitationmessage() const {
-  return (_has_bits_[1] & 0x00000004u) != 0;
-}
-inline void PokerTHMessage::set_has_rejectgameinvitationmessage() {
-  _has_bits_[1] |= 0x00000004u;
-}
-inline void PokerTHMessage::clear_has_rejectgameinvitationmessage() {
-  _has_bits_[1] &= ~0x00000004u;
-}
-inline void PokerTHMessage::clear_rejectgameinvitationmessage() {
-  if (rejectgameinvitationmessage_ != NULL) rejectgameinvitationmessage_->::RejectGameInvitationMessage::Clear();
-  clear_has_rejectgameinvitationmessage();
-}
-inline const ::RejectGameInvitationMessage& PokerTHMessage::rejectgameinvitationmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return rejectgameinvitationmessage_ != NULL ? *rejectgameinvitationmessage_ : *default_instance().rejectgameinvitationmessage_;
-#else
-  return rejectgameinvitationmessage_ != NULL ? *rejectgameinvitationmessage_ : *default_instance_->rejectgameinvitationmessage_;
-#endif
-}
-inline ::RejectGameInvitationMessage* PokerTHMessage::mutable_rejectgameinvitationmessage() {
-  set_has_rejectgameinvitationmessage();
-  if (rejectgameinvitationmessage_ == NULL) rejectgameinvitationmessage_ = new ::RejectGameInvitationMessage;
-  return rejectgameinvitationmessage_;
-}
-inline ::RejectGameInvitationMessage* PokerTHMessage::release_rejectgameinvitationmessage() {
-  clear_has_rejectgameinvitationmessage();
-  ::RejectGameInvitationMessage* temp = rejectgameinvitationmessage_;
-  rejectgameinvitationmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_rejectgameinvitationmessage(::RejectGameInvitationMessage* rejectgameinvitationmessage) {
-  delete rejectgameinvitationmessage_;
-  rejectgameinvitationmessage_ = rejectgameinvitationmessage;
-  if (rejectgameinvitationmessage) {
-    set_has_rejectgameinvitationmessage();
-  } else {
-    clear_has_rejectgameinvitationmessage();
-  }
-}
-
-// optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;
-inline bool PokerTHMessage::has_rejectinvnotifymessage() const {
-  return (_has_bits_[1] & 0x00000008u) != 0;
-}
-inline void PokerTHMessage::set_has_rejectinvnotifymessage() {
-  _has_bits_[1] |= 0x00000008u;
-}
-inline void PokerTHMessage::clear_has_rejectinvnotifymessage() {
-  _has_bits_[1] &= ~0x00000008u;
-}
-inline void PokerTHMessage::clear_rejectinvnotifymessage() {
-  if (rejectinvnotifymessage_ != NULL) rejectinvnotifymessage_->::RejectInvNotifyMessage::Clear();
-  clear_has_rejectinvnotifymessage();
-}
-inline const ::RejectInvNotifyMessage& PokerTHMessage::rejectinvnotifymessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return rejectinvnotifymessage_ != NULL ? *rejectinvnotifymessage_ : *default_instance().rejectinvnotifymessage_;
-#else
-  return rejectinvnotifymessage_ != NULL ? *rejectinvnotifymessage_ : *default_instance_->rejectinvnotifymessage_;
-#endif
-}
-inline ::RejectInvNotifyMessage* PokerTHMessage::mutable_rejectinvnotifymessage() {
-  set_has_rejectinvnotifymessage();
-  if (rejectinvnotifymessage_ == NULL) rejectinvnotifymessage_ = new ::RejectInvNotifyMessage;
-  return rejectinvnotifymessage_;
-}
-inline ::RejectInvNotifyMessage* PokerTHMessage::release_rejectinvnotifymessage() {
-  clear_has_rejectinvnotifymessage();
-  ::RejectInvNotifyMessage* temp = rejectinvnotifymessage_;
-  rejectinvnotifymessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_rejectinvnotifymessage(::RejectInvNotifyMessage* rejectinvnotifymessage) {
-  delete rejectinvnotifymessage_;
-  rejectinvnotifymessage_ = rejectinvnotifymessage;
-  if (rejectinvnotifymessage) {
-    set_has_rejectinvnotifymessage();
-  } else {
-    clear_has_rejectinvnotifymessage();
-  }
-}
-
-// optional .StartEventMessage startEventMessage = 37;
-inline bool PokerTHMessage::has_starteventmessage() const {
-  return (_has_bits_[1] & 0x00000010u) != 0;
-}
-inline void PokerTHMessage::set_has_starteventmessage() {
-  _has_bits_[1] |= 0x00000010u;
-}
-inline void PokerTHMessage::clear_has_starteventmessage() {
-  _has_bits_[1] &= ~0x00000010u;
-}
-inline void PokerTHMessage::clear_starteventmessage() {
-  if (starteventmessage_ != NULL) starteventmessage_->::StartEventMessage::Clear();
-  clear_has_starteventmessage();
-}
-inline const ::StartEventMessage& PokerTHMessage::starteventmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return starteventmessage_ != NULL ? *starteventmessage_ : *default_instance().starteventmessage_;
-#else
-  return starteventmessage_ != NULL ? *starteventmessage_ : *default_instance_->starteventmessage_;
-#endif
-}
-inline ::StartEventMessage* PokerTHMessage::mutable_starteventmessage() {
-  set_has_starteventmessage();
-  if (starteventmessage_ == NULL) starteventmessage_ = new ::StartEventMessage;
-  return starteventmessage_;
-}
-inline ::StartEventMessage* PokerTHMessage::release_starteventmessage() {
-  clear_has_starteventmessage();
-  ::StartEventMessage* temp = starteventmessage_;
-  starteventmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_starteventmessage(::StartEventMessage* starteventmessage) {
-  delete starteventmessage_;
-  starteventmessage_ = starteventmessage;
-  if (starteventmessage) {
-    set_has_starteventmessage();
-  } else {
-    clear_has_starteventmessage();
-  }
-}
-
-// optional .StartEventAckMessage startEventAckMessage = 38;
-inline bool PokerTHMessage::has_starteventackmessage() const {
-  return (_has_bits_[1] & 0x00000020u) != 0;
-}
-inline void PokerTHMessage::set_has_starteventackmessage() {
-  _has_bits_[1] |= 0x00000020u;
-}
-inline void PokerTHMessage::clear_has_starteventackmessage() {
-  _has_bits_[1] &= ~0x00000020u;
-}
-inline void PokerTHMessage::clear_starteventackmessage() {
-  if (starteventackmessage_ != NULL) starteventackmessage_->::StartEventAckMessage::Clear();
-  clear_has_starteventackmessage();
-}
-inline const ::StartEventAckMessage& PokerTHMessage::starteventackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return starteventackmessage_ != NULL ? *starteventackmessage_ : *default_instance().starteventackmessage_;
-#else
-  return starteventackmessage_ != NULL ? *starteventackmessage_ : *default_instance_->starteventackmessage_;
-#endif
-}
-inline ::StartEventAckMessage* PokerTHMessage::mutable_starteventackmessage() {
-  set_has_starteventackmessage();
-  if (starteventackmessage_ == NULL) starteventackmessage_ = new ::StartEventAckMessage;
-  return starteventackmessage_;
-}
-inline ::StartEventAckMessage* PokerTHMessage::release_starteventackmessage() {
-  clear_has_starteventackmessage();
-  ::StartEventAckMessage* temp = starteventackmessage_;
-  starteventackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_starteventackmessage(::StartEventAckMessage* starteventackmessage) {
-  delete starteventackmessage_;
-  starteventackmessage_ = starteventackmessage;
-  if (starteventackmessage) {
-    set_has_starteventackmessage();
-  } else {
-    clear_has_starteventackmessage();
-  }
-}
-
-// optional .GameStartInitialMessage gameStartInitialMessage = 39;
-inline bool PokerTHMessage::has_gamestartinitialmessage() const {
-  return (_has_bits_[1] & 0x00000040u) != 0;
-}
-inline void PokerTHMessage::set_has_gamestartinitialmessage() {
-  _has_bits_[1] |= 0x00000040u;
-}
-inline void PokerTHMessage::clear_has_gamestartinitialmessage() {
-  _has_bits_[1] &= ~0x00000040u;
-}
-inline void PokerTHMessage::clear_gamestartinitialmessage() {
-  if (gamestartinitialmessage_ != NULL) gamestartinitialmessage_->::GameStartInitialMessage::Clear();
-  clear_has_gamestartinitialmessage();
-}
-inline const ::GameStartInitialMessage& PokerTHMessage::gamestartinitialmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamestartinitialmessage_ != NULL ? *gamestartinitialmessage_ : *default_instance().gamestartinitialmessage_;
-#else
-  return gamestartinitialmessage_ != NULL ? *gamestartinitialmessage_ : *default_instance_->gamestartinitialmessage_;
-#endif
-}
-inline ::GameStartInitialMessage* PokerTHMessage::mutable_gamestartinitialmessage() {
-  set_has_gamestartinitialmessage();
-  if (gamestartinitialmessage_ == NULL) gamestartinitialmessage_ = new ::GameStartInitialMessage;
-  return gamestartinitialmessage_;
-}
-inline ::GameStartInitialMessage* PokerTHMessage::release_gamestartinitialmessage() {
-  clear_has_gamestartinitialmessage();
-  ::GameStartInitialMessage* temp = gamestartinitialmessage_;
-  gamestartinitialmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamestartinitialmessage(::GameStartInitialMessage* gamestartinitialmessage) {
-  delete gamestartinitialmessage_;
-  gamestartinitialmessage_ = gamestartinitialmessage;
-  if (gamestartinitialmessage) {
-    set_has_gamestartinitialmessage();
-  } else {
-    clear_has_gamestartinitialmessage();
-  }
-}
-
-// optional .GameStartRejoinMessage gameStartRejoinMessage = 40;
-inline bool PokerTHMessage::has_gamestartrejoinmessage() const {
-  return (_has_bits_[1] & 0x00000080u) != 0;
-}
-inline void PokerTHMessage::set_has_gamestartrejoinmessage() {
-  _has_bits_[1] |= 0x00000080u;
-}
-inline void PokerTHMessage::clear_has_gamestartrejoinmessage() {
-  _has_bits_[1] &= ~0x00000080u;
-}
-inline void PokerTHMessage::clear_gamestartrejoinmessage() {
-  if (gamestartrejoinmessage_ != NULL) gamestartrejoinmessage_->::GameStartRejoinMessage::Clear();
-  clear_has_gamestartrejoinmessage();
-}
-inline const ::GameStartRejoinMessage& PokerTHMessage::gamestartrejoinmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamestartrejoinmessage_ != NULL ? *gamestartrejoinmessage_ : *default_instance().gamestartrejoinmessage_;
-#else
-  return gamestartrejoinmessage_ != NULL ? *gamestartrejoinmessage_ : *default_instance_->gamestartrejoinmessage_;
-#endif
-}
-inline ::GameStartRejoinMessage* PokerTHMessage::mutable_gamestartrejoinmessage() {
-  set_has_gamestartrejoinmessage();
-  if (gamestartrejoinmessage_ == NULL) gamestartrejoinmessage_ = new ::GameStartRejoinMessage;
-  return gamestartrejoinmessage_;
-}
-inline ::GameStartRejoinMessage* PokerTHMessage::release_gamestartrejoinmessage() {
-  clear_has_gamestartrejoinmessage();
-  ::GameStartRejoinMessage* temp = gamestartrejoinmessage_;
-  gamestartrejoinmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamestartrejoinmessage(::GameStartRejoinMessage* gamestartrejoinmessage) {
-  delete gamestartrejoinmessage_;
-  gamestartrejoinmessage_ = gamestartrejoinmessage;
-  if (gamestartrejoinmessage) {
-    set_has_gamestartrejoinmessage();
-  } else {
-    clear_has_gamestartrejoinmessage();
-  }
-}
-
-// optional .HandStartMessage handStartMessage = 41;
-inline bool PokerTHMessage::has_handstartmessage() const {
-  return (_has_bits_[1] & 0x00000100u) != 0;
-}
-inline void PokerTHMessage::set_has_handstartmessage() {
-  _has_bits_[1] |= 0x00000100u;
-}
-inline void PokerTHMessage::clear_has_handstartmessage() {
-  _has_bits_[1] &= ~0x00000100u;
-}
-inline void PokerTHMessage::clear_handstartmessage() {
-  if (handstartmessage_ != NULL) handstartmessage_->::HandStartMessage::Clear();
-  clear_has_handstartmessage();
-}
-inline const ::HandStartMessage& PokerTHMessage::handstartmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return handstartmessage_ != NULL ? *handstartmessage_ : *default_instance().handstartmessage_;
-#else
-  return handstartmessage_ != NULL ? *handstartmessage_ : *default_instance_->handstartmessage_;
-#endif
-}
-inline ::HandStartMessage* PokerTHMessage::mutable_handstartmessage() {
-  set_has_handstartmessage();
-  if (handstartmessage_ == NULL) handstartmessage_ = new ::HandStartMessage;
-  return handstartmessage_;
-}
-inline ::HandStartMessage* PokerTHMessage::release_handstartmessage() {
-  clear_has_handstartmessage();
-  ::HandStartMessage* temp = handstartmessage_;
-  handstartmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_handstartmessage(::HandStartMessage* handstartmessage) {
-  delete handstartmessage_;
-  handstartmessage_ = handstartmessage;
-  if (handstartmessage) {
-    set_has_handstartmessage();
-  } else {
-    clear_has_handstartmessage();
-  }
-}
-
-// optional .PlayersTurnMessage playersTurnMessage = 42;
-inline bool PokerTHMessage::has_playersturnmessage() const {
-  return (_has_bits_[1] & 0x00000200u) != 0;
-}
-inline void PokerTHMessage::set_has_playersturnmessage() {
-  _has_bits_[1] |= 0x00000200u;
-}
-inline void PokerTHMessage::clear_has_playersturnmessage() {
-  _has_bits_[1] &= ~0x00000200u;
-}
-inline void PokerTHMessage::clear_playersturnmessage() {
-  if (playersturnmessage_ != NULL) playersturnmessage_->::PlayersTurnMessage::Clear();
-  clear_has_playersturnmessage();
-}
-inline const ::PlayersTurnMessage& PokerTHMessage::playersturnmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return playersturnmessage_ != NULL ? *playersturnmessage_ : *default_instance().playersturnmessage_;
-#else
-  return playersturnmessage_ != NULL ? *playersturnmessage_ : *default_instance_->playersturnmessage_;
-#endif
-}
-inline ::PlayersTurnMessage* PokerTHMessage::mutable_playersturnmessage() {
-  set_has_playersturnmessage();
-  if (playersturnmessage_ == NULL) playersturnmessage_ = new ::PlayersTurnMessage;
-  return playersturnmessage_;
-}
-inline ::PlayersTurnMessage* PokerTHMessage::release_playersturnmessage() {
-  clear_has_playersturnmessage();
-  ::PlayersTurnMessage* temp = playersturnmessage_;
-  playersturnmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_playersturnmessage(::PlayersTurnMessage* playersturnmessage) {
-  delete playersturnmessage_;
-  playersturnmessage_ = playersturnmessage;
-  if (playersturnmessage) {
-    set_has_playersturnmessage();
-  } else {
-    clear_has_playersturnmessage();
-  }
-}
-
-// optional .MyActionRequestMessage myActionRequestMessage = 43;
-inline bool PokerTHMessage::has_myactionrequestmessage() const {
-  return (_has_bits_[1] & 0x00000400u) != 0;
-}
-inline void PokerTHMessage::set_has_myactionrequestmessage() {
-  _has_bits_[1] |= 0x00000400u;
-}
-inline void PokerTHMessage::clear_has_myactionrequestmessage() {
-  _has_bits_[1] &= ~0x00000400u;
-}
-inline void PokerTHMessage::clear_myactionrequestmessage() {
-  if (myactionrequestmessage_ != NULL) myactionrequestmessage_->::MyActionRequestMessage::Clear();
-  clear_has_myactionrequestmessage();
-}
-inline const ::MyActionRequestMessage& PokerTHMessage::myactionrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return myactionrequestmessage_ != NULL ? *myactionrequestmessage_ : *default_instance().myactionrequestmessage_;
-#else
-  return myactionrequestmessage_ != NULL ? *myactionrequestmessage_ : *default_instance_->myactionrequestmessage_;
-#endif
-}
-inline ::MyActionRequestMessage* PokerTHMessage::mutable_myactionrequestmessage() {
-  set_has_myactionrequestmessage();
-  if (myactionrequestmessage_ == NULL) myactionrequestmessage_ = new ::MyActionRequestMessage;
-  return myactionrequestmessage_;
-}
-inline ::MyActionRequestMessage* PokerTHMessage::release_myactionrequestmessage() {
-  clear_has_myactionrequestmessage();
-  ::MyActionRequestMessage* temp = myactionrequestmessage_;
-  myactionrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_myactionrequestmessage(::MyActionRequestMessage* myactionrequestmessage) {
-  delete myactionrequestmessage_;
-  myactionrequestmessage_ = myactionrequestmessage;
-  if (myactionrequestmessage) {
-    set_has_myactionrequestmessage();
-  } else {
-    clear_has_myactionrequestmessage();
-  }
-}
-
-// optional .YourActionRejectedMessage yourActionRejectedMessage = 44;
-inline bool PokerTHMessage::has_youractionrejectedmessage() const {
-  return (_has_bits_[1] & 0x00000800u) != 0;
-}
-inline void PokerTHMessage::set_has_youractionrejectedmessage() {
-  _has_bits_[1] |= 0x00000800u;
-}
-inline void PokerTHMessage::clear_has_youractionrejectedmessage() {
-  _has_bits_[1] &= ~0x00000800u;
-}
-inline void PokerTHMessage::clear_youractionrejectedmessage() {
-  if (youractionrejectedmessage_ != NULL) youractionrejectedmessage_->::YourActionRejectedMessage::Clear();
-  clear_has_youractionrejectedmessage();
-}
-inline const ::YourActionRejectedMessage& PokerTHMessage::youractionrejectedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return youractionrejectedmessage_ != NULL ? *youractionrejectedmessage_ : *default_instance().youractionrejectedmessage_;
-#else
-  return youractionrejectedmessage_ != NULL ? *youractionrejectedmessage_ : *default_instance_->youractionrejectedmessage_;
-#endif
-}
-inline ::YourActionRejectedMessage* PokerTHMessage::mutable_youractionrejectedmessage() {
-  set_has_youractionrejectedmessage();
-  if (youractionrejectedmessage_ == NULL) youractionrejectedmessage_ = new ::YourActionRejectedMessage;
-  return youractionrejectedmessage_;
-}
-inline ::YourActionRejectedMessage* PokerTHMessage::release_youractionrejectedmessage() {
-  clear_has_youractionrejectedmessage();
-  ::YourActionRejectedMessage* temp = youractionrejectedmessage_;
-  youractionrejectedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_youractionrejectedmessage(::YourActionRejectedMessage* youractionrejectedmessage) {
-  delete youractionrejectedmessage_;
-  youractionrejectedmessage_ = youractionrejectedmessage;
-  if (youractionrejectedmessage) {
-    set_has_youractionrejectedmessage();
-  } else {
-    clear_has_youractionrejectedmessage();
-  }
-}
-
-// optional .PlayersActionDoneMessage playersActionDoneMessage = 45;
-inline bool PokerTHMessage::has_playersactiondonemessage() const {
-  return (_has_bits_[1] & 0x00001000u) != 0;
-}
-inline void PokerTHMessage::set_has_playersactiondonemessage() {
-  _has_bits_[1] |= 0x00001000u;
-}
-inline void PokerTHMessage::clear_has_playersactiondonemessage() {
-  _has_bits_[1] &= ~0x00001000u;
-}
-inline void PokerTHMessage::clear_playersactiondonemessage() {
-  if (playersactiondonemessage_ != NULL) playersactiondonemessage_->::PlayersActionDoneMessage::Clear();
-  clear_has_playersactiondonemessage();
-}
-inline const ::PlayersActionDoneMessage& PokerTHMessage::playersactiondonemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return playersactiondonemessage_ != NULL ? *playersactiondonemessage_ : *default_instance().playersactiondonemessage_;
-#else
-  return playersactiondonemessage_ != NULL ? *playersactiondonemessage_ : *default_instance_->playersactiondonemessage_;
-#endif
-}
-inline ::PlayersActionDoneMessage* PokerTHMessage::mutable_playersactiondonemessage() {
-  set_has_playersactiondonemessage();
-  if (playersactiondonemessage_ == NULL) playersactiondonemessage_ = new ::PlayersActionDoneMessage;
-  return playersactiondonemessage_;
-}
-inline ::PlayersActionDoneMessage* PokerTHMessage::release_playersactiondonemessage() {
-  clear_has_playersactiondonemessage();
-  ::PlayersActionDoneMessage* temp = playersactiondonemessage_;
-  playersactiondonemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_playersactiondonemessage(::PlayersActionDoneMessage* playersactiondonemessage) {
-  delete playersactiondonemessage_;
-  playersactiondonemessage_ = playersactiondonemessage;
-  if (playersactiondonemessage) {
-    set_has_playersactiondonemessage();
-  } else {
-    clear_has_playersactiondonemessage();
-  }
-}
-
-// optional .DealFlopCardsMessage dealFlopCardsMessage = 46;
-inline bool PokerTHMessage::has_dealflopcardsmessage() const {
-  return (_has_bits_[1] & 0x00002000u) != 0;
-}
-inline void PokerTHMessage::set_has_dealflopcardsmessage() {
-  _has_bits_[1] |= 0x00002000u;
-}
-inline void PokerTHMessage::clear_has_dealflopcardsmessage() {
-  _has_bits_[1] &= ~0x00002000u;
-}
-inline void PokerTHMessage::clear_dealflopcardsmessage() {
-  if (dealflopcardsmessage_ != NULL) dealflopcardsmessage_->::DealFlopCardsMessage::Clear();
-  clear_has_dealflopcardsmessage();
-}
-inline const ::DealFlopCardsMessage& PokerTHMessage::dealflopcardsmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return dealflopcardsmessage_ != NULL ? *dealflopcardsmessage_ : *default_instance().dealflopcardsmessage_;
-#else
-  return dealflopcardsmessage_ != NULL ? *dealflopcardsmessage_ : *default_instance_->dealflopcardsmessage_;
-#endif
-}
-inline ::DealFlopCardsMessage* PokerTHMessage::mutable_dealflopcardsmessage() {
-  set_has_dealflopcardsmessage();
-  if (dealflopcardsmessage_ == NULL) dealflopcardsmessage_ = new ::DealFlopCardsMessage;
-  return dealflopcardsmessage_;
-}
-inline ::DealFlopCardsMessage* PokerTHMessage::release_dealflopcardsmessage() {
-  clear_has_dealflopcardsmessage();
-  ::DealFlopCardsMessage* temp = dealflopcardsmessage_;
-  dealflopcardsmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_dealflopcardsmessage(::DealFlopCardsMessage* dealflopcardsmessage) {
-  delete dealflopcardsmessage_;
-  dealflopcardsmessage_ = dealflopcardsmessage;
-  if (dealflopcardsmessage) {
-    set_has_dealflopcardsmessage();
-  } else {
-    clear_has_dealflopcardsmessage();
-  }
-}
-
-// optional .DealTurnCardMessage dealTurnCardMessage = 47;
-inline bool PokerTHMessage::has_dealturncardmessage() const {
-  return (_has_bits_[1] & 0x00004000u) != 0;
-}
-inline void PokerTHMessage::set_has_dealturncardmessage() {
-  _has_bits_[1] |= 0x00004000u;
-}
-inline void PokerTHMessage::clear_has_dealturncardmessage() {
-  _has_bits_[1] &= ~0x00004000u;
-}
-inline void PokerTHMessage::clear_dealturncardmessage() {
-  if (dealturncardmessage_ != NULL) dealturncardmessage_->::DealTurnCardMessage::Clear();
-  clear_has_dealturncardmessage();
-}
-inline const ::DealTurnCardMessage& PokerTHMessage::dealturncardmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return dealturncardmessage_ != NULL ? *dealturncardmessage_ : *default_instance().dealturncardmessage_;
-#else
-  return dealturncardmessage_ != NULL ? *dealturncardmessage_ : *default_instance_->dealturncardmessage_;
-#endif
-}
-inline ::DealTurnCardMessage* PokerTHMessage::mutable_dealturncardmessage() {
-  set_has_dealturncardmessage();
-  if (dealturncardmessage_ == NULL) dealturncardmessage_ = new ::DealTurnCardMessage;
-  return dealturncardmessage_;
-}
-inline ::DealTurnCardMessage* PokerTHMessage::release_dealturncardmessage() {
-  clear_has_dealturncardmessage();
-  ::DealTurnCardMessage* temp = dealturncardmessage_;
-  dealturncardmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_dealturncardmessage(::DealTurnCardMessage* dealturncardmessage) {
-  delete dealturncardmessage_;
-  dealturncardmessage_ = dealturncardmessage;
-  if (dealturncardmessage) {
-    set_has_dealturncardmessage();
-  } else {
-    clear_has_dealturncardmessage();
-  }
-}
-
-// optional .DealRiverCardMessage dealRiverCardMessage = 48;
-inline bool PokerTHMessage::has_dealrivercardmessage() const {
-  return (_has_bits_[1] & 0x00008000u) != 0;
-}
-inline void PokerTHMessage::set_has_dealrivercardmessage() {
-  _has_bits_[1] |= 0x00008000u;
-}
-inline void PokerTHMessage::clear_has_dealrivercardmessage() {
-  _has_bits_[1] &= ~0x00008000u;
-}
-inline void PokerTHMessage::clear_dealrivercardmessage() {
-  if (dealrivercardmessage_ != NULL) dealrivercardmessage_->::DealRiverCardMessage::Clear();
-  clear_has_dealrivercardmessage();
-}
-inline const ::DealRiverCardMessage& PokerTHMessage::dealrivercardmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return dealrivercardmessage_ != NULL ? *dealrivercardmessage_ : *default_instance().dealrivercardmessage_;
-#else
-  return dealrivercardmessage_ != NULL ? *dealrivercardmessage_ : *default_instance_->dealrivercardmessage_;
-#endif
-}
-inline ::DealRiverCardMessage* PokerTHMessage::mutable_dealrivercardmessage() {
-  set_has_dealrivercardmessage();
-  if (dealrivercardmessage_ == NULL) dealrivercardmessage_ = new ::DealRiverCardMessage;
-  return dealrivercardmessage_;
-}
-inline ::DealRiverCardMessage* PokerTHMessage::release_dealrivercardmessage() {
-  clear_has_dealrivercardmessage();
-  ::DealRiverCardMessage* temp = dealrivercardmessage_;
-  dealrivercardmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_dealrivercardmessage(::DealRiverCardMessage* dealrivercardmessage) {
-  delete dealrivercardmessage_;
-  dealrivercardmessage_ = dealrivercardmessage;
-  if (dealrivercardmessage) {
-    set_has_dealrivercardmessage();
-  } else {
-    clear_has_dealrivercardmessage();
-  }
-}
-
-// optional .AllInShowCardsMessage allInShowCardsMessage = 49;
-inline bool PokerTHMessage::has_allinshowcardsmessage() const {
-  return (_has_bits_[1] & 0x00010000u) != 0;
-}
-inline void PokerTHMessage::set_has_allinshowcardsmessage() {
-  _has_bits_[1] |= 0x00010000u;
-}
-inline void PokerTHMessage::clear_has_allinshowcardsmessage() {
-  _has_bits_[1] &= ~0x00010000u;
-}
-inline void PokerTHMessage::clear_allinshowcardsmessage() {
-  if (allinshowcardsmessage_ != NULL) allinshowcardsmessage_->::AllInShowCardsMessage::Clear();
-  clear_has_allinshowcardsmessage();
-}
-inline const ::AllInShowCardsMessage& PokerTHMessage::allinshowcardsmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return allinshowcardsmessage_ != NULL ? *allinshowcardsmessage_ : *default_instance().allinshowcardsmessage_;
-#else
-  return allinshowcardsmessage_ != NULL ? *allinshowcardsmessage_ : *default_instance_->allinshowcardsmessage_;
-#endif
-}
-inline ::AllInShowCardsMessage* PokerTHMessage::mutable_allinshowcardsmessage() {
-  set_has_allinshowcardsmessage();
-  if (allinshowcardsmessage_ == NULL) allinshowcardsmessage_ = new ::AllInShowCardsMessage;
-  return allinshowcardsmessage_;
-}
-inline ::AllInShowCardsMessage* PokerTHMessage::release_allinshowcardsmessage() {
-  clear_has_allinshowcardsmessage();
-  ::AllInShowCardsMessage* temp = allinshowcardsmessage_;
-  allinshowcardsmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_allinshowcardsmessage(::AllInShowCardsMessage* allinshowcardsmessage) {
-  delete allinshowcardsmessage_;
-  allinshowcardsmessage_ = allinshowcardsmessage;
-  if (allinshowcardsmessage) {
-    set_has_allinshowcardsmessage();
-  } else {
-    clear_has_allinshowcardsmessage();
-  }
-}
-
-// optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;
-inline bool PokerTHMessage::has_endofhandshowcardsmessage() const {
-  return (_has_bits_[1] & 0x00020000u) != 0;
-}
-inline void PokerTHMessage::set_has_endofhandshowcardsmessage() {
-  _has_bits_[1] |= 0x00020000u;
-}
-inline void PokerTHMessage::clear_has_endofhandshowcardsmessage() {
-  _has_bits_[1] &= ~0x00020000u;
-}
-inline void PokerTHMessage::clear_endofhandshowcardsmessage() {
-  if (endofhandshowcardsmessage_ != NULL) endofhandshowcardsmessage_->::EndOfHandShowCardsMessage::Clear();
-  clear_has_endofhandshowcardsmessage();
-}
-inline const ::EndOfHandShowCardsMessage& PokerTHMessage::endofhandshowcardsmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return endofhandshowcardsmessage_ != NULL ? *endofhandshowcardsmessage_ : *default_instance().endofhandshowcardsmessage_;
-#else
-  return endofhandshowcardsmessage_ != NULL ? *endofhandshowcardsmessage_ : *default_instance_->endofhandshowcardsmessage_;
-#endif
-}
-inline ::EndOfHandShowCardsMessage* PokerTHMessage::mutable_endofhandshowcardsmessage() {
-  set_has_endofhandshowcardsmessage();
-  if (endofhandshowcardsmessage_ == NULL) endofhandshowcardsmessage_ = new ::EndOfHandShowCardsMessage;
-  return endofhandshowcardsmessage_;
-}
-inline ::EndOfHandShowCardsMessage* PokerTHMessage::release_endofhandshowcardsmessage() {
-  clear_has_endofhandshowcardsmessage();
-  ::EndOfHandShowCardsMessage* temp = endofhandshowcardsmessage_;
-  endofhandshowcardsmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_endofhandshowcardsmessage(::EndOfHandShowCardsMessage* endofhandshowcardsmessage) {
-  delete endofhandshowcardsmessage_;
-  endofhandshowcardsmessage_ = endofhandshowcardsmessage;
-  if (endofhandshowcardsmessage) {
-    set_has_endofhandshowcardsmessage();
-  } else {
-    clear_has_endofhandshowcardsmessage();
-  }
-}
-
-// optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;
-inline bool PokerTHMessage::has_endofhandhidecardsmessage() const {
-  return (_has_bits_[1] & 0x00040000u) != 0;
-}
-inline void PokerTHMessage::set_has_endofhandhidecardsmessage() {
-  _has_bits_[1] |= 0x00040000u;
-}
-inline void PokerTHMessage::clear_has_endofhandhidecardsmessage() {
-  _has_bits_[1] &= ~0x00040000u;
-}
-inline void PokerTHMessage::clear_endofhandhidecardsmessage() {
-  if (endofhandhidecardsmessage_ != NULL) endofhandhidecardsmessage_->::EndOfHandHideCardsMessage::Clear();
-  clear_has_endofhandhidecardsmessage();
-}
-inline const ::EndOfHandHideCardsMessage& PokerTHMessage::endofhandhidecardsmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return endofhandhidecardsmessage_ != NULL ? *endofhandhidecardsmessage_ : *default_instance().endofhandhidecardsmessage_;
-#else
-  return endofhandhidecardsmessage_ != NULL ? *endofhandhidecardsmessage_ : *default_instance_->endofhandhidecardsmessage_;
-#endif
-}
-inline ::EndOfHandHideCardsMessage* PokerTHMessage::mutable_endofhandhidecardsmessage() {
-  set_has_endofhandhidecardsmessage();
-  if (endofhandhidecardsmessage_ == NULL) endofhandhidecardsmessage_ = new ::EndOfHandHideCardsMessage;
-  return endofhandhidecardsmessage_;
-}
-inline ::EndOfHandHideCardsMessage* PokerTHMessage::release_endofhandhidecardsmessage() {
-  clear_has_endofhandhidecardsmessage();
-  ::EndOfHandHideCardsMessage* temp = endofhandhidecardsmessage_;
-  endofhandhidecardsmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_endofhandhidecardsmessage(::EndOfHandHideCardsMessage* endofhandhidecardsmessage) {
-  delete endofhandhidecardsmessage_;
-  endofhandhidecardsmessage_ = endofhandhidecardsmessage;
-  if (endofhandhidecardsmessage) {
-    set_has_endofhandhidecardsmessage();
-  } else {
-    clear_has_endofhandhidecardsmessage();
-  }
-}
-
-// optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;
-inline bool PokerTHMessage::has_showmycardsrequestmessage() const {
-  return (_has_bits_[1] & 0x00080000u) != 0;
-}
-inline void PokerTHMessage::set_has_showmycardsrequestmessage() {
-  _has_bits_[1] |= 0x00080000u;
-}
-inline void PokerTHMessage::clear_has_showmycardsrequestmessage() {
-  _has_bits_[1] &= ~0x00080000u;
-}
-inline void PokerTHMessage::clear_showmycardsrequestmessage() {
-  if (showmycardsrequestmessage_ != NULL) showmycardsrequestmessage_->::ShowMyCardsRequestMessage::Clear();
-  clear_has_showmycardsrequestmessage();
-}
-inline const ::ShowMyCardsRequestMessage& PokerTHMessage::showmycardsrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return showmycardsrequestmessage_ != NULL ? *showmycardsrequestmessage_ : *default_instance().showmycardsrequestmessage_;
-#else
-  return showmycardsrequestmessage_ != NULL ? *showmycardsrequestmessage_ : *default_instance_->showmycardsrequestmessage_;
-#endif
-}
-inline ::ShowMyCardsRequestMessage* PokerTHMessage::mutable_showmycardsrequestmessage() {
-  set_has_showmycardsrequestmessage();
-  if (showmycardsrequestmessage_ == NULL) showmycardsrequestmessage_ = new ::ShowMyCardsRequestMessage;
-  return showmycardsrequestmessage_;
-}
-inline ::ShowMyCardsRequestMessage* PokerTHMessage::release_showmycardsrequestmessage() {
-  clear_has_showmycardsrequestmessage();
-  ::ShowMyCardsRequestMessage* temp = showmycardsrequestmessage_;
-  showmycardsrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_showmycardsrequestmessage(::ShowMyCardsRequestMessage* showmycardsrequestmessage) {
-  delete showmycardsrequestmessage_;
-  showmycardsrequestmessage_ = showmycardsrequestmessage;
-  if (showmycardsrequestmessage) {
-    set_has_showmycardsrequestmessage();
-  } else {
-    clear_has_showmycardsrequestmessage();
-  }
-}
-
-// optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;
-inline bool PokerTHMessage::has_afterhandshowcardsmessage() const {
-  return (_has_bits_[1] & 0x00100000u) != 0;
-}
-inline void PokerTHMessage::set_has_afterhandshowcardsmessage() {
-  _has_bits_[1] |= 0x00100000u;
-}
-inline void PokerTHMessage::clear_has_afterhandshowcardsmessage() {
-  _has_bits_[1] &= ~0x00100000u;
-}
-inline void PokerTHMessage::clear_afterhandshowcardsmessage() {
-  if (afterhandshowcardsmessage_ != NULL) afterhandshowcardsmessage_->::AfterHandShowCardsMessage::Clear();
-  clear_has_afterhandshowcardsmessage();
-}
-inline const ::AfterHandShowCardsMessage& PokerTHMessage::afterhandshowcardsmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return afterhandshowcardsmessage_ != NULL ? *afterhandshowcardsmessage_ : *default_instance().afterhandshowcardsmessage_;
-#else
-  return afterhandshowcardsmessage_ != NULL ? *afterhandshowcardsmessage_ : *default_instance_->afterhandshowcardsmessage_;
-#endif
-}
-inline ::AfterHandShowCardsMessage* PokerTHMessage::mutable_afterhandshowcardsmessage() {
-  set_has_afterhandshowcardsmessage();
-  if (afterhandshowcardsmessage_ == NULL) afterhandshowcardsmessage_ = new ::AfterHandShowCardsMessage;
-  return afterhandshowcardsmessage_;
-}
-inline ::AfterHandShowCardsMessage* PokerTHMessage::release_afterhandshowcardsmessage() {
-  clear_has_afterhandshowcardsmessage();
-  ::AfterHandShowCardsMessage* temp = afterhandshowcardsmessage_;
-  afterhandshowcardsmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_afterhandshowcardsmessage(::AfterHandShowCardsMessage* afterhandshowcardsmessage) {
-  delete afterhandshowcardsmessage_;
-  afterhandshowcardsmessage_ = afterhandshowcardsmessage;
-  if (afterhandshowcardsmessage) {
-    set_has_afterhandshowcardsmessage();
-  } else {
-    clear_has_afterhandshowcardsmessage();
-  }
-}
-
-// optional .EndOfGameMessage endOfGameMessage = 54;
-inline bool PokerTHMessage::has_endofgamemessage() const {
-  return (_has_bits_[1] & 0x00200000u) != 0;
-}
-inline void PokerTHMessage::set_has_endofgamemessage() {
-  _has_bits_[1] |= 0x00200000u;
-}
-inline void PokerTHMessage::clear_has_endofgamemessage() {
-  _has_bits_[1] &= ~0x00200000u;
-}
-inline void PokerTHMessage::clear_endofgamemessage() {
-  if (endofgamemessage_ != NULL) endofgamemessage_->::EndOfGameMessage::Clear();
-  clear_has_endofgamemessage();
-}
-inline const ::EndOfGameMessage& PokerTHMessage::endofgamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return endofgamemessage_ != NULL ? *endofgamemessage_ : *default_instance().endofgamemessage_;
-#else
-  return endofgamemessage_ != NULL ? *endofgamemessage_ : *default_instance_->endofgamemessage_;
-#endif
-}
-inline ::EndOfGameMessage* PokerTHMessage::mutable_endofgamemessage() {
-  set_has_endofgamemessage();
-  if (endofgamemessage_ == NULL) endofgamemessage_ = new ::EndOfGameMessage;
-  return endofgamemessage_;
-}
-inline ::EndOfGameMessage* PokerTHMessage::release_endofgamemessage() {
-  clear_has_endofgamemessage();
-  ::EndOfGameMessage* temp = endofgamemessage_;
-  endofgamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_endofgamemessage(::EndOfGameMessage* endofgamemessage) {
-  delete endofgamemessage_;
-  endofgamemessage_ = endofgamemessage;
-  if (endofgamemessage) {
-    set_has_endofgamemessage();
-  } else {
-    clear_has_endofgamemessage();
-  }
-}
-
-// optional .PlayerIdChangedMessage playerIdChangedMessage = 55;
-inline bool PokerTHMessage::has_playeridchangedmessage() const {
-  return (_has_bits_[1] & 0x00400000u) != 0;
-}
-inline void PokerTHMessage::set_has_playeridchangedmessage() {
-  _has_bits_[1] |= 0x00400000u;
-}
-inline void PokerTHMessage::clear_has_playeridchangedmessage() {
-  _has_bits_[1] &= ~0x00400000u;
-}
-inline void PokerTHMessage::clear_playeridchangedmessage() {
-  if (playeridchangedmessage_ != NULL) playeridchangedmessage_->::PlayerIdChangedMessage::Clear();
-  clear_has_playeridchangedmessage();
-}
-inline const ::PlayerIdChangedMessage& PokerTHMessage::playeridchangedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return playeridchangedmessage_ != NULL ? *playeridchangedmessage_ : *default_instance().playeridchangedmessage_;
-#else
-  return playeridchangedmessage_ != NULL ? *playeridchangedmessage_ : *default_instance_->playeridchangedmessage_;
-#endif
-}
-inline ::PlayerIdChangedMessage* PokerTHMessage::mutable_playeridchangedmessage() {
-  set_has_playeridchangedmessage();
-  if (playeridchangedmessage_ == NULL) playeridchangedmessage_ = new ::PlayerIdChangedMessage;
-  return playeridchangedmessage_;
-}
-inline ::PlayerIdChangedMessage* PokerTHMessage::release_playeridchangedmessage() {
-  clear_has_playeridchangedmessage();
-  ::PlayerIdChangedMessage* temp = playeridchangedmessage_;
-  playeridchangedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_playeridchangedmessage(::PlayerIdChangedMessage* playeridchangedmessage) {
-  delete playeridchangedmessage_;
-  playeridchangedmessage_ = playeridchangedmessage;
-  if (playeridchangedmessage) {
-    set_has_playeridchangedmessage();
-  } else {
-    clear_has_playeridchangedmessage();
-  }
-}
-
-// optional .AskKickPlayerMessage askKickPlayerMessage = 56;
-inline bool PokerTHMessage::has_askkickplayermessage() const {
-  return (_has_bits_[1] & 0x00800000u) != 0;
-}
-inline void PokerTHMessage::set_has_askkickplayermessage() {
-  _has_bits_[1] |= 0x00800000u;
-}
-inline void PokerTHMessage::clear_has_askkickplayermessage() {
-  _has_bits_[1] &= ~0x00800000u;
-}
-inline void PokerTHMessage::clear_askkickplayermessage() {
-  if (askkickplayermessage_ != NULL) askkickplayermessage_->::AskKickPlayerMessage::Clear();
-  clear_has_askkickplayermessage();
-}
-inline const ::AskKickPlayerMessage& PokerTHMessage::askkickplayermessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return askkickplayermessage_ != NULL ? *askkickplayermessage_ : *default_instance().askkickplayermessage_;
-#else
-  return askkickplayermessage_ != NULL ? *askkickplayermessage_ : *default_instance_->askkickplayermessage_;
-#endif
-}
-inline ::AskKickPlayerMessage* PokerTHMessage::mutable_askkickplayermessage() {
-  set_has_askkickplayermessage();
-  if (askkickplayermessage_ == NULL) askkickplayermessage_ = new ::AskKickPlayerMessage;
-  return askkickplayermessage_;
-}
-inline ::AskKickPlayerMessage* PokerTHMessage::release_askkickplayermessage() {
-  clear_has_askkickplayermessage();
-  ::AskKickPlayerMessage* temp = askkickplayermessage_;
-  askkickplayermessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_askkickplayermessage(::AskKickPlayerMessage* askkickplayermessage) {
-  delete askkickplayermessage_;
-  askkickplayermessage_ = askkickplayermessage;
-  if (askkickplayermessage) {
-    set_has_askkickplayermessage();
-  } else {
-    clear_has_askkickplayermessage();
-  }
-}
-
-// optional .AskKickDeniedMessage askKickDeniedMessage = 57;
-inline bool PokerTHMessage::has_askkickdeniedmessage() const {
-  return (_has_bits_[1] & 0x01000000u) != 0;
-}
-inline void PokerTHMessage::set_has_askkickdeniedmessage() {
-  _has_bits_[1] |= 0x01000000u;
-}
-inline void PokerTHMessage::clear_has_askkickdeniedmessage() {
-  _has_bits_[1] &= ~0x01000000u;
-}
-inline void PokerTHMessage::clear_askkickdeniedmessage() {
-  if (askkickdeniedmessage_ != NULL) askkickdeniedmessage_->::AskKickDeniedMessage::Clear();
-  clear_has_askkickdeniedmessage();
-}
-inline const ::AskKickDeniedMessage& PokerTHMessage::askkickdeniedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return askkickdeniedmessage_ != NULL ? *askkickdeniedmessage_ : *default_instance().askkickdeniedmessage_;
-#else
-  return askkickdeniedmessage_ != NULL ? *askkickdeniedmessage_ : *default_instance_->askkickdeniedmessage_;
-#endif
-}
-inline ::AskKickDeniedMessage* PokerTHMessage::mutable_askkickdeniedmessage() {
-  set_has_askkickdeniedmessage();
-  if (askkickdeniedmessage_ == NULL) askkickdeniedmessage_ = new ::AskKickDeniedMessage;
-  return askkickdeniedmessage_;
-}
-inline ::AskKickDeniedMessage* PokerTHMessage::release_askkickdeniedmessage() {
-  clear_has_askkickdeniedmessage();
-  ::AskKickDeniedMessage* temp = askkickdeniedmessage_;
-  askkickdeniedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_askkickdeniedmessage(::AskKickDeniedMessage* askkickdeniedmessage) {
-  delete askkickdeniedmessage_;
-  askkickdeniedmessage_ = askkickdeniedmessage;
-  if (askkickdeniedmessage) {
-    set_has_askkickdeniedmessage();
-  } else {
-    clear_has_askkickdeniedmessage();
-  }
-}
-
-// optional .StartKickPetitionMessage startKickPetitionMessage = 58;
-inline bool PokerTHMessage::has_startkickpetitionmessage() const {
-  return (_has_bits_[1] & 0x02000000u) != 0;
-}
-inline void PokerTHMessage::set_has_startkickpetitionmessage() {
-  _has_bits_[1] |= 0x02000000u;
-}
-inline void PokerTHMessage::clear_has_startkickpetitionmessage() {
-  _has_bits_[1] &= ~0x02000000u;
-}
-inline void PokerTHMessage::clear_startkickpetitionmessage() {
-  if (startkickpetitionmessage_ != NULL) startkickpetitionmessage_->::StartKickPetitionMessage::Clear();
-  clear_has_startkickpetitionmessage();
-}
-inline const ::StartKickPetitionMessage& PokerTHMessage::startkickpetitionmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return startkickpetitionmessage_ != NULL ? *startkickpetitionmessage_ : *default_instance().startkickpetitionmessage_;
-#else
-  return startkickpetitionmessage_ != NULL ? *startkickpetitionmessage_ : *default_instance_->startkickpetitionmessage_;
-#endif
-}
-inline ::StartKickPetitionMessage* PokerTHMessage::mutable_startkickpetitionmessage() {
-  set_has_startkickpetitionmessage();
-  if (startkickpetitionmessage_ == NULL) startkickpetitionmessage_ = new ::StartKickPetitionMessage;
-  return startkickpetitionmessage_;
-}
-inline ::StartKickPetitionMessage* PokerTHMessage::release_startkickpetitionmessage() {
-  clear_has_startkickpetitionmessage();
-  ::StartKickPetitionMessage* temp = startkickpetitionmessage_;
-  startkickpetitionmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_startkickpetitionmessage(::StartKickPetitionMessage* startkickpetitionmessage) {
-  delete startkickpetitionmessage_;
-  startkickpetitionmessage_ = startkickpetitionmessage;
-  if (startkickpetitionmessage) {
-    set_has_startkickpetitionmessage();
-  } else {
-    clear_has_startkickpetitionmessage();
-  }
-}
-
-// optional .VoteKickRequestMessage voteKickRequestMessage = 59;
-inline bool PokerTHMessage::has_votekickrequestmessage() const {
-  return (_has_bits_[1] & 0x04000000u) != 0;
-}
-inline void PokerTHMessage::set_has_votekickrequestmessage() {
-  _has_bits_[1] |= 0x04000000u;
-}
-inline void PokerTHMessage::clear_has_votekickrequestmessage() {
-  _has_bits_[1] &= ~0x04000000u;
-}
-inline void PokerTHMessage::clear_votekickrequestmessage() {
-  if (votekickrequestmessage_ != NULL) votekickrequestmessage_->::VoteKickRequestMessage::Clear();
-  clear_has_votekickrequestmessage();
-}
-inline const ::VoteKickRequestMessage& PokerTHMessage::votekickrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return votekickrequestmessage_ != NULL ? *votekickrequestmessage_ : *default_instance().votekickrequestmessage_;
-#else
-  return votekickrequestmessage_ != NULL ? *votekickrequestmessage_ : *default_instance_->votekickrequestmessage_;
-#endif
-}
-inline ::VoteKickRequestMessage* PokerTHMessage::mutable_votekickrequestmessage() {
-  set_has_votekickrequestmessage();
-  if (votekickrequestmessage_ == NULL) votekickrequestmessage_ = new ::VoteKickRequestMessage;
-  return votekickrequestmessage_;
-}
-inline ::VoteKickRequestMessage* PokerTHMessage::release_votekickrequestmessage() {
-  clear_has_votekickrequestmessage();
-  ::VoteKickRequestMessage* temp = votekickrequestmessage_;
-  votekickrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_votekickrequestmessage(::VoteKickRequestMessage* votekickrequestmessage) {
-  delete votekickrequestmessage_;
-  votekickrequestmessage_ = votekickrequestmessage;
-  if (votekickrequestmessage) {
-    set_has_votekickrequestmessage();
-  } else {
-    clear_has_votekickrequestmessage();
-  }
-}
-
-// optional .VoteKickReplyMessage voteKickReplyMessage = 60;
-inline bool PokerTHMessage::has_votekickreplymessage() const {
-  return (_has_bits_[1] & 0x08000000u) != 0;
-}
-inline void PokerTHMessage::set_has_votekickreplymessage() {
-  _has_bits_[1] |= 0x08000000u;
-}
-inline void PokerTHMessage::clear_has_votekickreplymessage() {
-  _has_bits_[1] &= ~0x08000000u;
-}
-inline void PokerTHMessage::clear_votekickreplymessage() {
-  if (votekickreplymessage_ != NULL) votekickreplymessage_->::VoteKickReplyMessage::Clear();
-  clear_has_votekickreplymessage();
-}
-inline const ::VoteKickReplyMessage& PokerTHMessage::votekickreplymessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return votekickreplymessage_ != NULL ? *votekickreplymessage_ : *default_instance().votekickreplymessage_;
-#else
-  return votekickreplymessage_ != NULL ? *votekickreplymessage_ : *default_instance_->votekickreplymessage_;
-#endif
-}
-inline ::VoteKickReplyMessage* PokerTHMessage::mutable_votekickreplymessage() {
-  set_has_votekickreplymessage();
-  if (votekickreplymessage_ == NULL) votekickreplymessage_ = new ::VoteKickReplyMessage;
-  return votekickreplymessage_;
-}
-inline ::VoteKickReplyMessage* PokerTHMessage::release_votekickreplymessage() {
-  clear_has_votekickreplymessage();
-  ::VoteKickReplyMessage* temp = votekickreplymessage_;
-  votekickreplymessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_votekickreplymessage(::VoteKickReplyMessage* votekickreplymessage) {
-  delete votekickreplymessage_;
-  votekickreplymessage_ = votekickreplymessage;
-  if (votekickreplymessage) {
-    set_has_votekickreplymessage();
-  } else {
-    clear_has_votekickreplymessage();
-  }
-}
-
-// optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;
-inline bool PokerTHMessage::has_kickpetitionupdatemessage() const {
-  return (_has_bits_[1] & 0x10000000u) != 0;
-}
-inline void PokerTHMessage::set_has_kickpetitionupdatemessage() {
-  _has_bits_[1] |= 0x10000000u;
-}
-inline void PokerTHMessage::clear_has_kickpetitionupdatemessage() {
-  _has_bits_[1] &= ~0x10000000u;
-}
-inline void PokerTHMessage::clear_kickpetitionupdatemessage() {
-  if (kickpetitionupdatemessage_ != NULL) kickpetitionupdatemessage_->::KickPetitionUpdateMessage::Clear();
-  clear_has_kickpetitionupdatemessage();
-}
-inline const ::KickPetitionUpdateMessage& PokerTHMessage::kickpetitionupdatemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return kickpetitionupdatemessage_ != NULL ? *kickpetitionupdatemessage_ : *default_instance().kickpetitionupdatemessage_;
-#else
-  return kickpetitionupdatemessage_ != NULL ? *kickpetitionupdatemessage_ : *default_instance_->kickpetitionupdatemessage_;
-#endif
-}
-inline ::KickPetitionUpdateMessage* PokerTHMessage::mutable_kickpetitionupdatemessage() {
-  set_has_kickpetitionupdatemessage();
-  if (kickpetitionupdatemessage_ == NULL) kickpetitionupdatemessage_ = new ::KickPetitionUpdateMessage;
-  return kickpetitionupdatemessage_;
-}
-inline ::KickPetitionUpdateMessage* PokerTHMessage::release_kickpetitionupdatemessage() {
-  clear_has_kickpetitionupdatemessage();
-  ::KickPetitionUpdateMessage* temp = kickpetitionupdatemessage_;
-  kickpetitionupdatemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_kickpetitionupdatemessage(::KickPetitionUpdateMessage* kickpetitionupdatemessage) {
-  delete kickpetitionupdatemessage_;
-  kickpetitionupdatemessage_ = kickpetitionupdatemessage;
-  if (kickpetitionupdatemessage) {
-    set_has_kickpetitionupdatemessage();
-  } else {
-    clear_has_kickpetitionupdatemessage();
-  }
-}
-
-// optional .EndKickPetitionMessage endKickPetitionMessage = 62;
-inline bool PokerTHMessage::has_endkickpetitionmessage() const {
-  return (_has_bits_[1] & 0x20000000u) != 0;
-}
-inline void PokerTHMessage::set_has_endkickpetitionmessage() {
-  _has_bits_[1] |= 0x20000000u;
-}
-inline void PokerTHMessage::clear_has_endkickpetitionmessage() {
-  _has_bits_[1] &= ~0x20000000u;
-}
-inline void PokerTHMessage::clear_endkickpetitionmessage() {
-  if (endkickpetitionmessage_ != NULL) endkickpetitionmessage_->::EndKickPetitionMessage::Clear();
-  clear_has_endkickpetitionmessage();
-}
-inline const ::EndKickPetitionMessage& PokerTHMessage::endkickpetitionmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return endkickpetitionmessage_ != NULL ? *endkickpetitionmessage_ : *default_instance().endkickpetitionmessage_;
-#else
-  return endkickpetitionmessage_ != NULL ? *endkickpetitionmessage_ : *default_instance_->endkickpetitionmessage_;
-#endif
-}
-inline ::EndKickPetitionMessage* PokerTHMessage::mutable_endkickpetitionmessage() {
-  set_has_endkickpetitionmessage();
-  if (endkickpetitionmessage_ == NULL) endkickpetitionmessage_ = new ::EndKickPetitionMessage;
-  return endkickpetitionmessage_;
-}
-inline ::EndKickPetitionMessage* PokerTHMessage::release_endkickpetitionmessage() {
-  clear_has_endkickpetitionmessage();
-  ::EndKickPetitionMessage* temp = endkickpetitionmessage_;
-  endkickpetitionmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_endkickpetitionmessage(::EndKickPetitionMessage* endkickpetitionmessage) {
-  delete endkickpetitionmessage_;
-  endkickpetitionmessage_ = endkickpetitionmessage;
-  if (endkickpetitionmessage) {
-    set_has_endkickpetitionmessage();
-  } else {
-    clear_has_endkickpetitionmessage();
-  }
-}
-
-// optional .StatisticsMessage statisticsMessage = 63;
-inline bool PokerTHMessage::has_statisticsmessage() const {
-  return (_has_bits_[1] & 0x40000000u) != 0;
-}
-inline void PokerTHMessage::set_has_statisticsmessage() {
-  _has_bits_[1] |= 0x40000000u;
-}
-inline void PokerTHMessage::clear_has_statisticsmessage() {
-  _has_bits_[1] &= ~0x40000000u;
-}
-inline void PokerTHMessage::clear_statisticsmessage() {
-  if (statisticsmessage_ != NULL) statisticsmessage_->::StatisticsMessage::Clear();
-  clear_has_statisticsmessage();
-}
-inline const ::StatisticsMessage& PokerTHMessage::statisticsmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return statisticsmessage_ != NULL ? *statisticsmessage_ : *default_instance().statisticsmessage_;
-#else
-  return statisticsmessage_ != NULL ? *statisticsmessage_ : *default_instance_->statisticsmessage_;
-#endif
-}
-inline ::StatisticsMessage* PokerTHMessage::mutable_statisticsmessage() {
-  set_has_statisticsmessage();
-  if (statisticsmessage_ == NULL) statisticsmessage_ = new ::StatisticsMessage;
-  return statisticsmessage_;
-}
-inline ::StatisticsMessage* PokerTHMessage::release_statisticsmessage() {
-  clear_has_statisticsmessage();
-  ::StatisticsMessage* temp = statisticsmessage_;
-  statisticsmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_statisticsmessage(::StatisticsMessage* statisticsmessage) {
-  delete statisticsmessage_;
-  statisticsmessage_ = statisticsmessage;
-  if (statisticsmessage) {
-    set_has_statisticsmessage();
-  } else {
-    clear_has_statisticsmessage();
-  }
-}
-
-// optional .ChatRequestMessage chatRequestMessage = 64;
-inline bool PokerTHMessage::has_chatrequestmessage() const {
-  return (_has_bits_[1] & 0x80000000u) != 0;
-}
-inline void PokerTHMessage::set_has_chatrequestmessage() {
-  _has_bits_[1] |= 0x80000000u;
-}
-inline void PokerTHMessage::clear_has_chatrequestmessage() {
-  _has_bits_[1] &= ~0x80000000u;
-}
-inline void PokerTHMessage::clear_chatrequestmessage() {
-  if (chatrequestmessage_ != NULL) chatrequestmessage_->::ChatRequestMessage::Clear();
-  clear_has_chatrequestmessage();
-}
-inline const ::ChatRequestMessage& PokerTHMessage::chatrequestmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return chatrequestmessage_ != NULL ? *chatrequestmessage_ : *default_instance().chatrequestmessage_;
-#else
-  return chatrequestmessage_ != NULL ? *chatrequestmessage_ : *default_instance_->chatrequestmessage_;
-#endif
-}
-inline ::ChatRequestMessage* PokerTHMessage::mutable_chatrequestmessage() {
-  set_has_chatrequestmessage();
-  if (chatrequestmessage_ == NULL) chatrequestmessage_ = new ::ChatRequestMessage;
-  return chatrequestmessage_;
-}
-inline ::ChatRequestMessage* PokerTHMessage::release_chatrequestmessage() {
-  clear_has_chatrequestmessage();
-  ::ChatRequestMessage* temp = chatrequestmessage_;
-  chatrequestmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_chatrequestmessage(::ChatRequestMessage* chatrequestmessage) {
-  delete chatrequestmessage_;
-  chatrequestmessage_ = chatrequestmessage;
-  if (chatrequestmessage) {
-    set_has_chatrequestmessage();
-  } else {
-    clear_has_chatrequestmessage();
-  }
-}
-
-// optional .ChatMessage chatMessage = 65;
-inline bool PokerTHMessage::has_chatmessage() const {
-  return (_has_bits_[2] & 0x00000001u) != 0;
-}
-inline void PokerTHMessage::set_has_chatmessage() {
-  _has_bits_[2] |= 0x00000001u;
-}
-inline void PokerTHMessage::clear_has_chatmessage() {
-  _has_bits_[2] &= ~0x00000001u;
-}
-inline void PokerTHMessage::clear_chatmessage() {
-  if (chatmessage_ != NULL) chatmessage_->::ChatMessage::Clear();
-  clear_has_chatmessage();
-}
-inline const ::ChatMessage& PokerTHMessage::chatmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return chatmessage_ != NULL ? *chatmessage_ : *default_instance().chatmessage_;
-#else
-  return chatmessage_ != NULL ? *chatmessage_ : *default_instance_->chatmessage_;
-#endif
-}
-inline ::ChatMessage* PokerTHMessage::mutable_chatmessage() {
-  set_has_chatmessage();
-  if (chatmessage_ == NULL) chatmessage_ = new ::ChatMessage;
-  return chatmessage_;
-}
-inline ::ChatMessage* PokerTHMessage::release_chatmessage() {
-  clear_has_chatmessage();
-  ::ChatMessage* temp = chatmessage_;
-  chatmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_chatmessage(::ChatMessage* chatmessage) {
-  delete chatmessage_;
-  chatmessage_ = chatmessage;
-  if (chatmessage) {
-    set_has_chatmessage();
-  } else {
-    clear_has_chatmessage();
-  }
-}
-
-// optional .ChatRejectMessage chatRejectMessage = 66;
-inline bool PokerTHMessage::has_chatrejectmessage() const {
-  return (_has_bits_[2] & 0x00000002u) != 0;
-}
-inline void PokerTHMessage::set_has_chatrejectmessage() {
-  _has_bits_[2] |= 0x00000002u;
-}
-inline void PokerTHMessage::clear_has_chatrejectmessage() {
-  _has_bits_[2] &= ~0x00000002u;
-}
-inline void PokerTHMessage::clear_chatrejectmessage() {
-  if (chatrejectmessage_ != NULL) chatrejectmessage_->::ChatRejectMessage::Clear();
-  clear_has_chatrejectmessage();
-}
-inline const ::ChatRejectMessage& PokerTHMessage::chatrejectmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return chatrejectmessage_ != NULL ? *chatrejectmessage_ : *default_instance().chatrejectmessage_;
-#else
-  return chatrejectmessage_ != NULL ? *chatrejectmessage_ : *default_instance_->chatrejectmessage_;
-#endif
-}
-inline ::ChatRejectMessage* PokerTHMessage::mutable_chatrejectmessage() {
-  set_has_chatrejectmessage();
-  if (chatrejectmessage_ == NULL) chatrejectmessage_ = new ::ChatRejectMessage;
-  return chatrejectmessage_;
-}
-inline ::ChatRejectMessage* PokerTHMessage::release_chatrejectmessage() {
-  clear_has_chatrejectmessage();
-  ::ChatRejectMessage* temp = chatrejectmessage_;
-  chatrejectmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_chatrejectmessage(::ChatRejectMessage* chatrejectmessage) {
-  delete chatrejectmessage_;
-  chatrejectmessage_ = chatrejectmessage;
-  if (chatrejectmessage) {
-    set_has_chatrejectmessage();
-  } else {
-    clear_has_chatrejectmessage();
-  }
-}
-
-// optional .DialogMessage dialogMessage = 67;
-inline bool PokerTHMessage::has_dialogmessage() const {
-  return (_has_bits_[2] & 0x00000004u) != 0;
-}
-inline void PokerTHMessage::set_has_dialogmessage() {
-  _has_bits_[2] |= 0x00000004u;
-}
-inline void PokerTHMessage::clear_has_dialogmessage() {
-  _has_bits_[2] &= ~0x00000004u;
-}
-inline void PokerTHMessage::clear_dialogmessage() {
-  if (dialogmessage_ != NULL) dialogmessage_->::DialogMessage::Clear();
-  clear_has_dialogmessage();
-}
-inline const ::DialogMessage& PokerTHMessage::dialogmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return dialogmessage_ != NULL ? *dialogmessage_ : *default_instance().dialogmessage_;
-#else
-  return dialogmessage_ != NULL ? *dialogmessage_ : *default_instance_->dialogmessage_;
-#endif
-}
-inline ::DialogMessage* PokerTHMessage::mutable_dialogmessage() {
-  set_has_dialogmessage();
-  if (dialogmessage_ == NULL) dialogmessage_ = new ::DialogMessage;
-  return dialogmessage_;
-}
-inline ::DialogMessage* PokerTHMessage::release_dialogmessage() {
-  clear_has_dialogmessage();
-  ::DialogMessage* temp = dialogmessage_;
-  dialogmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_dialogmessage(::DialogMessage* dialogmessage) {
-  delete dialogmessage_;
-  dialogmessage_ = dialogmessage;
-  if (dialogmessage) {
-    set_has_dialogmessage();
-  } else {
-    clear_has_dialogmessage();
-  }
-}
-
-// optional .TimeoutWarningMessage timeoutWarningMessage = 68;
-inline bool PokerTHMessage::has_timeoutwarningmessage() const {
-  return (_has_bits_[2] & 0x00000008u) != 0;
-}
-inline void PokerTHMessage::set_has_timeoutwarningmessage() {
-  _has_bits_[2] |= 0x00000008u;
-}
-inline void PokerTHMessage::clear_has_timeoutwarningmessage() {
-  _has_bits_[2] &= ~0x00000008u;
-}
-inline void PokerTHMessage::clear_timeoutwarningmessage() {
-  if (timeoutwarningmessage_ != NULL) timeoutwarningmessage_->::TimeoutWarningMessage::Clear();
-  clear_has_timeoutwarningmessage();
-}
-inline const ::TimeoutWarningMessage& PokerTHMessage::timeoutwarningmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return timeoutwarningmessage_ != NULL ? *timeoutwarningmessage_ : *default_instance().timeoutwarningmessage_;
-#else
-  return timeoutwarningmessage_ != NULL ? *timeoutwarningmessage_ : *default_instance_->timeoutwarningmessage_;
-#endif
-}
-inline ::TimeoutWarningMessage* PokerTHMessage::mutable_timeoutwarningmessage() {
-  set_has_timeoutwarningmessage();
-  if (timeoutwarningmessage_ == NULL) timeoutwarningmessage_ = new ::TimeoutWarningMessage;
-  return timeoutwarningmessage_;
-}
-inline ::TimeoutWarningMessage* PokerTHMessage::release_timeoutwarningmessage() {
-  clear_has_timeoutwarningmessage();
-  ::TimeoutWarningMessage* temp = timeoutwarningmessage_;
-  timeoutwarningmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_timeoutwarningmessage(::TimeoutWarningMessage* timeoutwarningmessage) {
-  delete timeoutwarningmessage_;
-  timeoutwarningmessage_ = timeoutwarningmessage;
-  if (timeoutwarningmessage) {
-    set_has_timeoutwarningmessage();
-  } else {
-    clear_has_timeoutwarningmessage();
-  }
-}
-
-// optional .ResetTimeoutMessage resetTimeoutMessage = 69;
-inline bool PokerTHMessage::has_resettimeoutmessage() const {
-  return (_has_bits_[2] & 0x00000010u) != 0;
-}
-inline void PokerTHMessage::set_has_resettimeoutmessage() {
-  _has_bits_[2] |= 0x00000010u;
-}
-inline void PokerTHMessage::clear_has_resettimeoutmessage() {
-  _has_bits_[2] &= ~0x00000010u;
-}
-inline void PokerTHMessage::clear_resettimeoutmessage() {
-  if (resettimeoutmessage_ != NULL) resettimeoutmessage_->::ResetTimeoutMessage::Clear();
-  clear_has_resettimeoutmessage();
-}
-inline const ::ResetTimeoutMessage& PokerTHMessage::resettimeoutmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return resettimeoutmessage_ != NULL ? *resettimeoutmessage_ : *default_instance().resettimeoutmessage_;
-#else
-  return resettimeoutmessage_ != NULL ? *resettimeoutmessage_ : *default_instance_->resettimeoutmessage_;
-#endif
-}
-inline ::ResetTimeoutMessage* PokerTHMessage::mutable_resettimeoutmessage() {
-  set_has_resettimeoutmessage();
-  if (resettimeoutmessage_ == NULL) resettimeoutmessage_ = new ::ResetTimeoutMessage;
-  return resettimeoutmessage_;
-}
-inline ::ResetTimeoutMessage* PokerTHMessage::release_resettimeoutmessage() {
-  clear_has_resettimeoutmessage();
-  ::ResetTimeoutMessage* temp = resettimeoutmessage_;
-  resettimeoutmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_resettimeoutmessage(::ResetTimeoutMessage* resettimeoutmessage) {
-  delete resettimeoutmessage_;
-  resettimeoutmessage_ = resettimeoutmessage;
-  if (resettimeoutmessage) {
-    set_has_resettimeoutmessage();
-  } else {
-    clear_has_resettimeoutmessage();
-  }
-}
-
-// optional .ReportAvatarMessage reportAvatarMessage = 70;
-inline bool PokerTHMessage::has_reportavatarmessage() const {
-  return (_has_bits_[2] & 0x00000020u) != 0;
-}
-inline void PokerTHMessage::set_has_reportavatarmessage() {
-  _has_bits_[2] |= 0x00000020u;
-}
-inline void PokerTHMessage::clear_has_reportavatarmessage() {
-  _has_bits_[2] &= ~0x00000020u;
-}
-inline void PokerTHMessage::clear_reportavatarmessage() {
-  if (reportavatarmessage_ != NULL) reportavatarmessage_->::ReportAvatarMessage::Clear();
-  clear_has_reportavatarmessage();
-}
-inline const ::ReportAvatarMessage& PokerTHMessage::reportavatarmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return reportavatarmessage_ != NULL ? *reportavatarmessage_ : *default_instance().reportavatarmessage_;
-#else
-  return reportavatarmessage_ != NULL ? *reportavatarmessage_ : *default_instance_->reportavatarmessage_;
-#endif
-}
-inline ::ReportAvatarMessage* PokerTHMessage::mutable_reportavatarmessage() {
-  set_has_reportavatarmessage();
-  if (reportavatarmessage_ == NULL) reportavatarmessage_ = new ::ReportAvatarMessage;
-  return reportavatarmessage_;
-}
-inline ::ReportAvatarMessage* PokerTHMessage::release_reportavatarmessage() {
-  clear_has_reportavatarmessage();
-  ::ReportAvatarMessage* temp = reportavatarmessage_;
-  reportavatarmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_reportavatarmessage(::ReportAvatarMessage* reportavatarmessage) {
-  delete reportavatarmessage_;
-  reportavatarmessage_ = reportavatarmessage;
-  if (reportavatarmessage) {
-    set_has_reportavatarmessage();
-  } else {
-    clear_has_reportavatarmessage();
-  }
-}
-
-// optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;
-inline bool PokerTHMessage::has_reportavatarackmessage() const {
-  return (_has_bits_[2] & 0x00000040u) != 0;
-}
-inline void PokerTHMessage::set_has_reportavatarackmessage() {
-  _has_bits_[2] |= 0x00000040u;
-}
-inline void PokerTHMessage::clear_has_reportavatarackmessage() {
-  _has_bits_[2] &= ~0x00000040u;
-}
-inline void PokerTHMessage::clear_reportavatarackmessage() {
-  if (reportavatarackmessage_ != NULL) reportavatarackmessage_->::ReportAvatarAckMessage::Clear();
-  clear_has_reportavatarackmessage();
-}
-inline const ::ReportAvatarAckMessage& PokerTHMessage::reportavatarackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return reportavatarackmessage_ != NULL ? *reportavatarackmessage_ : *default_instance().reportavatarackmessage_;
-#else
-  return reportavatarackmessage_ != NULL ? *reportavatarackmessage_ : *default_instance_->reportavatarackmessage_;
-#endif
-}
-inline ::ReportAvatarAckMessage* PokerTHMessage::mutable_reportavatarackmessage() {
-  set_has_reportavatarackmessage();
-  if (reportavatarackmessage_ == NULL) reportavatarackmessage_ = new ::ReportAvatarAckMessage;
-  return reportavatarackmessage_;
-}
-inline ::ReportAvatarAckMessage* PokerTHMessage::release_reportavatarackmessage() {
-  clear_has_reportavatarackmessage();
-  ::ReportAvatarAckMessage* temp = reportavatarackmessage_;
-  reportavatarackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_reportavatarackmessage(::ReportAvatarAckMessage* reportavatarackmessage) {
-  delete reportavatarackmessage_;
-  reportavatarackmessage_ = reportavatarackmessage;
-  if (reportavatarackmessage) {
-    set_has_reportavatarackmessage();
-  } else {
-    clear_has_reportavatarackmessage();
-  }
-}
-
-// optional .ReportGameMessage reportGameMessage = 72;
-inline bool PokerTHMessage::has_reportgamemessage() const {
-  return (_has_bits_[2] & 0x00000080u) != 0;
-}
-inline void PokerTHMessage::set_has_reportgamemessage() {
-  _has_bits_[2] |= 0x00000080u;
-}
-inline void PokerTHMessage::clear_has_reportgamemessage() {
-  _has_bits_[2] &= ~0x00000080u;
-}
-inline void PokerTHMessage::clear_reportgamemessage() {
-  if (reportgamemessage_ != NULL) reportgamemessage_->::ReportGameMessage::Clear();
-  clear_has_reportgamemessage();
-}
-inline const ::ReportGameMessage& PokerTHMessage::reportgamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return reportgamemessage_ != NULL ? *reportgamemessage_ : *default_instance().reportgamemessage_;
-#else
-  return reportgamemessage_ != NULL ? *reportgamemessage_ : *default_instance_->reportgamemessage_;
-#endif
-}
-inline ::ReportGameMessage* PokerTHMessage::mutable_reportgamemessage() {
-  set_has_reportgamemessage();
-  if (reportgamemessage_ == NULL) reportgamemessage_ = new ::ReportGameMessage;
-  return reportgamemessage_;
-}
-inline ::ReportGameMessage* PokerTHMessage::release_reportgamemessage() {
-  clear_has_reportgamemessage();
-  ::ReportGameMessage* temp = reportgamemessage_;
-  reportgamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_reportgamemessage(::ReportGameMessage* reportgamemessage) {
-  delete reportgamemessage_;
-  reportgamemessage_ = reportgamemessage;
-  if (reportgamemessage) {
-    set_has_reportgamemessage();
-  } else {
-    clear_has_reportgamemessage();
-  }
-}
-
-// optional .ReportGameAckMessage reportGameAckMessage = 73;
-inline bool PokerTHMessage::has_reportgameackmessage() const {
-  return (_has_bits_[2] & 0x00000100u) != 0;
-}
-inline void PokerTHMessage::set_has_reportgameackmessage() {
-  _has_bits_[2] |= 0x00000100u;
-}
-inline void PokerTHMessage::clear_has_reportgameackmessage() {
-  _has_bits_[2] &= ~0x00000100u;
-}
-inline void PokerTHMessage::clear_reportgameackmessage() {
-  if (reportgameackmessage_ != NULL) reportgameackmessage_->::ReportGameAckMessage::Clear();
-  clear_has_reportgameackmessage();
-}
-inline const ::ReportGameAckMessage& PokerTHMessage::reportgameackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return reportgameackmessage_ != NULL ? *reportgameackmessage_ : *default_instance().reportgameackmessage_;
-#else
-  return reportgameackmessage_ != NULL ? *reportgameackmessage_ : *default_instance_->reportgameackmessage_;
-#endif
-}
-inline ::ReportGameAckMessage* PokerTHMessage::mutable_reportgameackmessage() {
-  set_has_reportgameackmessage();
-  if (reportgameackmessage_ == NULL) reportgameackmessage_ = new ::ReportGameAckMessage;
-  return reportgameackmessage_;
-}
-inline ::ReportGameAckMessage* PokerTHMessage::release_reportgameackmessage() {
-  clear_has_reportgameackmessage();
-  ::ReportGameAckMessage* temp = reportgameackmessage_;
-  reportgameackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_reportgameackmessage(::ReportGameAckMessage* reportgameackmessage) {
-  delete reportgameackmessage_;
-  reportgameackmessage_ = reportgameackmessage;
-  if (reportgameackmessage) {
-    set_has_reportgameackmessage();
-  } else {
-    clear_has_reportgameackmessage();
-  }
-}
-
-// optional .ErrorMessage errorMessage = 74;
-inline bool PokerTHMessage::has_errormessage() const {
-  return (_has_bits_[2] & 0x00000200u) != 0;
-}
-inline void PokerTHMessage::set_has_errormessage() {
-  _has_bits_[2] |= 0x00000200u;
-}
-inline void PokerTHMessage::clear_has_errormessage() {
-  _has_bits_[2] &= ~0x00000200u;
-}
-inline void PokerTHMessage::clear_errormessage() {
-  if (errormessage_ != NULL) errormessage_->::ErrorMessage::Clear();
-  clear_has_errormessage();
-}
-inline const ::ErrorMessage& PokerTHMessage::errormessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return errormessage_ != NULL ? *errormessage_ : *default_instance().errormessage_;
-#else
-  return errormessage_ != NULL ? *errormessage_ : *default_instance_->errormessage_;
-#endif
-}
-inline ::ErrorMessage* PokerTHMessage::mutable_errormessage() {
-  set_has_errormessage();
-  if (errormessage_ == NULL) errormessage_ = new ::ErrorMessage;
-  return errormessage_;
-}
-inline ::ErrorMessage* PokerTHMessage::release_errormessage() {
-  clear_has_errormessage();
-  ::ErrorMessage* temp = errormessage_;
-  errormessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_errormessage(::ErrorMessage* errormessage) {
-  delete errormessage_;
-  errormessage_ = errormessage;
-  if (errormessage) {
-    set_has_errormessage();
-  } else {
-    clear_has_errormessage();
-  }
-}
-
-// optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
-inline bool PokerTHMessage::has_adminremovegamemessage() const {
-  return (_has_bits_[2] & 0x00000400u) != 0;
-}
-inline void PokerTHMessage::set_has_adminremovegamemessage() {
-  _has_bits_[2] |= 0x00000400u;
-}
-inline void PokerTHMessage::clear_has_adminremovegamemessage() {
-  _has_bits_[2] &= ~0x00000400u;
-}
-inline void PokerTHMessage::clear_adminremovegamemessage() {
-  if (adminremovegamemessage_ != NULL) adminremovegamemessage_->::AdminRemoveGameMessage::Clear();
-  clear_has_adminremovegamemessage();
-}
-inline const ::AdminRemoveGameMessage& PokerTHMessage::adminremovegamemessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return adminremovegamemessage_ != NULL ? *adminremovegamemessage_ : *default_instance().adminremovegamemessage_;
-#else
-  return adminremovegamemessage_ != NULL ? *adminremovegamemessage_ : *default_instance_->adminremovegamemessage_;
-#endif
-}
-inline ::AdminRemoveGameMessage* PokerTHMessage::mutable_adminremovegamemessage() {
-  set_has_adminremovegamemessage();
-  if (adminremovegamemessage_ == NULL) adminremovegamemessage_ = new ::AdminRemoveGameMessage;
-  return adminremovegamemessage_;
-}
-inline ::AdminRemoveGameMessage* PokerTHMessage::release_adminremovegamemessage() {
-  clear_has_adminremovegamemessage();
-  ::AdminRemoveGameMessage* temp = adminremovegamemessage_;
-  adminremovegamemessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_adminremovegamemessage(::AdminRemoveGameMessage* adminremovegamemessage) {
-  delete adminremovegamemessage_;
-  adminremovegamemessage_ = adminremovegamemessage;
-  if (adminremovegamemessage) {
-    set_has_adminremovegamemessage();
-  } else {
-    clear_has_adminremovegamemessage();
-  }
-}
-
-// optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
-inline bool PokerTHMessage::has_adminremovegameackmessage() const {
-  return (_has_bits_[2] & 0x00000800u) != 0;
-}
-inline void PokerTHMessage::set_has_adminremovegameackmessage() {
-  _has_bits_[2] |= 0x00000800u;
-}
-inline void PokerTHMessage::clear_has_adminremovegameackmessage() {
-  _has_bits_[2] &= ~0x00000800u;
-}
-inline void PokerTHMessage::clear_adminremovegameackmessage() {
-  if (adminremovegameackmessage_ != NULL) adminremovegameackmessage_->::AdminRemoveGameAckMessage::Clear();
-  clear_has_adminremovegameackmessage();
-}
-inline const ::AdminRemoveGameAckMessage& PokerTHMessage::adminremovegameackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return adminremovegameackmessage_ != NULL ? *adminremovegameackmessage_ : *default_instance().adminremovegameackmessage_;
-#else
-  return adminremovegameackmessage_ != NULL ? *adminremovegameackmessage_ : *default_instance_->adminremovegameackmessage_;
-#endif
-}
-inline ::AdminRemoveGameAckMessage* PokerTHMessage::mutable_adminremovegameackmessage() {
-  set_has_adminremovegameackmessage();
-  if (adminremovegameackmessage_ == NULL) adminremovegameackmessage_ = new ::AdminRemoveGameAckMessage;
-  return adminremovegameackmessage_;
-}
-inline ::AdminRemoveGameAckMessage* PokerTHMessage::release_adminremovegameackmessage() {
-  clear_has_adminremovegameackmessage();
-  ::AdminRemoveGameAckMessage* temp = adminremovegameackmessage_;
-  adminremovegameackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_adminremovegameackmessage(::AdminRemoveGameAckMessage* adminremovegameackmessage) {
-  delete adminremovegameackmessage_;
-  adminremovegameackmessage_ = adminremovegameackmessage;
-  if (adminremovegameackmessage) {
-    set_has_adminremovegameackmessage();
-  } else {
-    clear_has_adminremovegameackmessage();
-  }
-}
-
-// optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
-inline bool PokerTHMessage::has_adminbanplayermessage() const {
-  return (_has_bits_[2] & 0x00001000u) != 0;
-}
-inline void PokerTHMessage::set_has_adminbanplayermessage() {
-  _has_bits_[2] |= 0x00001000u;
-}
-inline void PokerTHMessage::clear_has_adminbanplayermessage() {
-  _has_bits_[2] &= ~0x00001000u;
-}
-inline void PokerTHMessage::clear_adminbanplayermessage() {
-  if (adminbanplayermessage_ != NULL) adminbanplayermessage_->::AdminBanPlayerMessage::Clear();
-  clear_has_adminbanplayermessage();
-}
-inline const ::AdminBanPlayerMessage& PokerTHMessage::adminbanplayermessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return adminbanplayermessage_ != NULL ? *adminbanplayermessage_ : *default_instance().adminbanplayermessage_;
-#else
-  return adminbanplayermessage_ != NULL ? *adminbanplayermessage_ : *default_instance_->adminbanplayermessage_;
-#endif
-}
-inline ::AdminBanPlayerMessage* PokerTHMessage::mutable_adminbanplayermessage() {
-  set_has_adminbanplayermessage();
-  if (adminbanplayermessage_ == NULL) adminbanplayermessage_ = new ::AdminBanPlayerMessage;
-  return adminbanplayermessage_;
-}
-inline ::AdminBanPlayerMessage* PokerTHMessage::release_adminbanplayermessage() {
-  clear_has_adminbanplayermessage();
-  ::AdminBanPlayerMessage* temp = adminbanplayermessage_;
-  adminbanplayermessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_adminbanplayermessage(::AdminBanPlayerMessage* adminbanplayermessage) {
-  delete adminbanplayermessage_;
-  adminbanplayermessage_ = adminbanplayermessage;
-  if (adminbanplayermessage) {
-    set_has_adminbanplayermessage();
-  } else {
-    clear_has_adminbanplayermessage();
-  }
-}
-
-// optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
-inline bool PokerTHMessage::has_adminbanplayerackmessage() const {
-  return (_has_bits_[2] & 0x00002000u) != 0;
-}
-inline void PokerTHMessage::set_has_adminbanplayerackmessage() {
-  _has_bits_[2] |= 0x00002000u;
-}
-inline void PokerTHMessage::clear_has_adminbanplayerackmessage() {
-  _has_bits_[2] &= ~0x00002000u;
-}
-inline void PokerTHMessage::clear_adminbanplayerackmessage() {
-  if (adminbanplayerackmessage_ != NULL) adminbanplayerackmessage_->::AdminBanPlayerAckMessage::Clear();
-  clear_has_adminbanplayerackmessage();
-}
-inline const ::AdminBanPlayerAckMessage& PokerTHMessage::adminbanplayerackmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return adminbanplayerackmessage_ != NULL ? *adminbanplayerackmessage_ : *default_instance().adminbanplayerackmessage_;
-#else
-  return adminbanplayerackmessage_ != NULL ? *adminbanplayerackmessage_ : *default_instance_->adminbanplayerackmessage_;
-#endif
-}
-inline ::AdminBanPlayerAckMessage* PokerTHMessage::mutable_adminbanplayerackmessage() {
-  set_has_adminbanplayerackmessage();
-  if (adminbanplayerackmessage_ == NULL) adminbanplayerackmessage_ = new ::AdminBanPlayerAckMessage;
-  return adminbanplayerackmessage_;
-}
-inline ::AdminBanPlayerAckMessage* PokerTHMessage::release_adminbanplayerackmessage() {
-  clear_has_adminbanplayerackmessage();
-  ::AdminBanPlayerAckMessage* temp = adminbanplayerackmessage_;
-  adminbanplayerackmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_adminbanplayerackmessage(::AdminBanPlayerAckMessage* adminbanplayerackmessage) {
-  delete adminbanplayerackmessage_;
-  adminbanplayerackmessage_ = adminbanplayerackmessage;
-  if (adminbanplayerackmessage) {
-    set_has_adminbanplayerackmessage();
-  } else {
-    clear_has_adminbanplayerackmessage();
-  }
-}
-
-// optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
-inline bool PokerTHMessage::has_gamelistspectatorjoinedmessage() const {
-  return (_has_bits_[2] & 0x00004000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistspectatorjoinedmessage() {
-  _has_bits_[2] |= 0x00004000u;
-}
-inline void PokerTHMessage::clear_has_gamelistspectatorjoinedmessage() {
-  _has_bits_[2] &= ~0x00004000u;
-}
-inline void PokerTHMessage::clear_gamelistspectatorjoinedmessage() {
-  if (gamelistspectatorjoinedmessage_ != NULL) gamelistspectatorjoinedmessage_->::GameListSpectatorJoinedMessage::Clear();
-  clear_has_gamelistspectatorjoinedmessage();
-}
-inline const ::GameListSpectatorJoinedMessage& PokerTHMessage::gamelistspectatorjoinedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistspectatorjoinedmessage_ != NULL ? *gamelistspectatorjoinedmessage_ : *default_instance().gamelistspectatorjoinedmessage_;
-#else
-  return gamelistspectatorjoinedmessage_ != NULL ? *gamelistspectatorjoinedmessage_ : *default_instance_->gamelistspectatorjoinedmessage_;
-#endif
-}
-inline ::GameListSpectatorJoinedMessage* PokerTHMessage::mutable_gamelistspectatorjoinedmessage() {
-  set_has_gamelistspectatorjoinedmessage();
-  if (gamelistspectatorjoinedmessage_ == NULL) gamelistspectatorjoinedmessage_ = new ::GameListSpectatorJoinedMessage;
-  return gamelistspectatorjoinedmessage_;
-}
-inline ::GameListSpectatorJoinedMessage* PokerTHMessage::release_gamelistspectatorjoinedmessage() {
-  clear_has_gamelistspectatorjoinedmessage();
-  ::GameListSpectatorJoinedMessage* temp = gamelistspectatorjoinedmessage_;
-  gamelistspectatorjoinedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistspectatorjoinedmessage(::GameListSpectatorJoinedMessage* gamelistspectatorjoinedmessage) {
-  delete gamelistspectatorjoinedmessage_;
-  gamelistspectatorjoinedmessage_ = gamelistspectatorjoinedmessage;
-  if (gamelistspectatorjoinedmessage) {
-    set_has_gamelistspectatorjoinedmessage();
-  } else {
-    clear_has_gamelistspectatorjoinedmessage();
-  }
-}
-
-// optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
-inline bool PokerTHMessage::has_gamelistspectatorleftmessage() const {
-  return (_has_bits_[2] & 0x00008000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamelistspectatorleftmessage() {
-  _has_bits_[2] |= 0x00008000u;
-}
-inline void PokerTHMessage::clear_has_gamelistspectatorleftmessage() {
-  _has_bits_[2] &= ~0x00008000u;
-}
-inline void PokerTHMessage::clear_gamelistspectatorleftmessage() {
-  if (gamelistspectatorleftmessage_ != NULL) gamelistspectatorleftmessage_->::GameListSpectatorLeftMessage::Clear();
-  clear_has_gamelistspectatorleftmessage();
-}
-inline const ::GameListSpectatorLeftMessage& PokerTHMessage::gamelistspectatorleftmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamelistspectatorleftmessage_ != NULL ? *gamelistspectatorleftmessage_ : *default_instance().gamelistspectatorleftmessage_;
-#else
-  return gamelistspectatorleftmessage_ != NULL ? *gamelistspectatorleftmessage_ : *default_instance_->gamelistspectatorleftmessage_;
-#endif
-}
-inline ::GameListSpectatorLeftMessage* PokerTHMessage::mutable_gamelistspectatorleftmessage() {
-  set_has_gamelistspectatorleftmessage();
-  if (gamelistspectatorleftmessage_ == NULL) gamelistspectatorleftmessage_ = new ::GameListSpectatorLeftMessage;
-  return gamelistspectatorleftmessage_;
-}
-inline ::GameListSpectatorLeftMessage* PokerTHMessage::release_gamelistspectatorleftmessage() {
-  clear_has_gamelistspectatorleftmessage();
-  ::GameListSpectatorLeftMessage* temp = gamelistspectatorleftmessage_;
-  gamelistspectatorleftmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamelistspectatorleftmessage(::GameListSpectatorLeftMessage* gamelistspectatorleftmessage) {
-  delete gamelistspectatorleftmessage_;
-  gamelistspectatorleftmessage_ = gamelistspectatorleftmessage;
-  if (gamelistspectatorleftmessage) {
-    set_has_gamelistspectatorleftmessage();
-  } else {
-    clear_has_gamelistspectatorleftmessage();
-  }
-}
-
-// optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
-inline bool PokerTHMessage::has_gamespectatorjoinedmessage() const {
-  return (_has_bits_[2] & 0x00010000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamespectatorjoinedmessage() {
-  _has_bits_[2] |= 0x00010000u;
-}
-inline void PokerTHMessage::clear_has_gamespectatorjoinedmessage() {
-  _has_bits_[2] &= ~0x00010000u;
-}
-inline void PokerTHMessage::clear_gamespectatorjoinedmessage() {
-  if (gamespectatorjoinedmessage_ != NULL) gamespectatorjoinedmessage_->::GameSpectatorJoinedMessage::Clear();
-  clear_has_gamespectatorjoinedmessage();
-}
-inline const ::GameSpectatorJoinedMessage& PokerTHMessage::gamespectatorjoinedmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamespectatorjoinedmessage_ != NULL ? *gamespectatorjoinedmessage_ : *default_instance().gamespectatorjoinedmessage_;
-#else
-  return gamespectatorjoinedmessage_ != NULL ? *gamespectatorjoinedmessage_ : *default_instance_->gamespectatorjoinedmessage_;
-#endif
-}
-inline ::GameSpectatorJoinedMessage* PokerTHMessage::mutable_gamespectatorjoinedmessage() {
-  set_has_gamespectatorjoinedmessage();
-  if (gamespectatorjoinedmessage_ == NULL) gamespectatorjoinedmessage_ = new ::GameSpectatorJoinedMessage;
-  return gamespectatorjoinedmessage_;
-}
-inline ::GameSpectatorJoinedMessage* PokerTHMessage::release_gamespectatorjoinedmessage() {
-  clear_has_gamespectatorjoinedmessage();
-  ::GameSpectatorJoinedMessage* temp = gamespectatorjoinedmessage_;
-  gamespectatorjoinedmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamespectatorjoinedmessage(::GameSpectatorJoinedMessage* gamespectatorjoinedmessage) {
-  delete gamespectatorjoinedmessage_;
-  gamespectatorjoinedmessage_ = gamespectatorjoinedmessage;
-  if (gamespectatorjoinedmessage) {
-    set_has_gamespectatorjoinedmessage();
-  } else {
-    clear_has_gamespectatorjoinedmessage();
-  }
-}
-
-// optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
-inline bool PokerTHMessage::has_gamespectatorleftmessage() const {
-  return (_has_bits_[2] & 0x00020000u) != 0;
-}
-inline void PokerTHMessage::set_has_gamespectatorleftmessage() {
-  _has_bits_[2] |= 0x00020000u;
-}
-inline void PokerTHMessage::clear_has_gamespectatorleftmessage() {
-  _has_bits_[2] &= ~0x00020000u;
-}
-inline void PokerTHMessage::clear_gamespectatorleftmessage() {
-  if (gamespectatorleftmessage_ != NULL) gamespectatorleftmessage_->::GameSpectatorLeftMessage::Clear();
-  clear_has_gamespectatorleftmessage();
-}
-inline const ::GameSpectatorLeftMessage& PokerTHMessage::gamespectatorleftmessage() const {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  return gamespectatorleftmessage_ != NULL ? *gamespectatorleftmessage_ : *default_instance().gamespectatorleftmessage_;
-#else
-  return gamespectatorleftmessage_ != NULL ? *gamespectatorleftmessage_ : *default_instance_->gamespectatorleftmessage_;
-#endif
-}
-inline ::GameSpectatorLeftMessage* PokerTHMessage::mutable_gamespectatorleftmessage() {
-  set_has_gamespectatorleftmessage();
-  if (gamespectatorleftmessage_ == NULL) gamespectatorleftmessage_ = new ::GameSpectatorLeftMessage;
-  return gamespectatorleftmessage_;
-}
-inline ::GameSpectatorLeftMessage* PokerTHMessage::release_gamespectatorleftmessage() {
-  clear_has_gamespectatorleftmessage();
-  ::GameSpectatorLeftMessage* temp = gamespectatorleftmessage_;
-  gamespectatorleftmessage_ = NULL;
-  return temp;
-}
-inline void PokerTHMessage::set_allocated_gamespectatorleftmessage(::GameSpectatorLeftMessage* gamespectatorleftmessage) {
-  delete gamespectatorleftmessage_;
-  gamespectatorleftmessage_ = gamespectatorleftmessage;
-  if (gamespectatorleftmessage) {
-    set_has_gamespectatorleftmessage();
-  } else {
-    clear_has_gamespectatorleftmessage();
+    clear_has_gamemessage();
   }
 }
 

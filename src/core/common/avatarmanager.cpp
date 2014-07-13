@@ -195,13 +195,17 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 	AvatarFileType fileType;
 	boost::shared_ptr<AvatarFileState> tmpState = OpenAvatarFileForChunkRead(fileName, fileSize, fileType);
 	if (tmpState.get() && fileSize && fileType != AVATAR_FILE_TYPE_UNKNOWN) {
-		boost::shared_ptr<NetPacket> avatarHeader(new NetPacket);
-		avatarHeader->GetMsg()->set_messagetype(PokerTHMessage::Type_AvatarHeaderMessage);
-		AvatarHeaderMessage *netHeader = avatarHeader->GetMsg()->mutable_avatarheadermessage();
-		netHeader->set_requestid(requestId);
-		netHeader->set_avatartype(static_cast<NetAvatarType>(fileType));
-		netHeader->set_avatarsize(fileSize);
-		packets.push_back(avatarHeader);
+		{
+			boost::shared_ptr<NetPacket> avatarHeader(new NetPacket);
+			avatarHeader->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+			LobbyMessage *netLobby = avatarHeader->GetMsg()->mutable_lobbymessage();
+			netLobby->set_messagetype(LobbyMessage::Type_AvatarHeaderMessage);
+			AvatarHeaderMessage *netHeader = netLobby->mutable_avatarheadermessage();
+			netHeader->set_requestid(requestId);
+			netHeader->set_avatartype(static_cast<NetAvatarType>(fileType));
+			netHeader->set_avatarsize(fileSize);
+			packets.push_back(avatarHeader);
+		}
 
 		unsigned numBytes = 0;
 		unsigned totalBytesRead = 0;
@@ -212,8 +216,10 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 				totalBytesRead += numBytes;
 
 				boost::shared_ptr<NetPacket> avatarFile(new NetPacket);
-				avatarFile->GetMsg()->set_messagetype(PokerTHMessage::Type_AvatarDataMessage);
-				AvatarDataMessage *netFile = avatarFile->GetMsg()->mutable_avatardatamessage();
+				avatarFile->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+				LobbyMessage *netLobby = avatarFile->GetMsg()->mutable_lobbymessage();
+				netLobby->set_messagetype(LobbyMessage::Type_AvatarDataMessage);
+				AvatarDataMessage *netFile = netLobby->mutable_avatardatamessage();
 				netFile->set_requestid(requestId);
 				netFile->set_avatarblock((const char *)&tmpData[0], numBytes);
 				packets.push_back(avatarFile);
@@ -224,8 +230,10 @@ AvatarManager::AvatarFileToNetPackets(const string &fileName, unsigned requestId
 			retVal = ERR_NET_WRONG_AVATAR_SIZE;
 		else {
 			boost::shared_ptr<NetPacket> avatarEnd(new NetPacket);
-			avatarEnd->GetMsg()->set_messagetype(PokerTHMessage::Type_AvatarEndMessage);
-			AvatarEndMessage *netEnd = avatarEnd->GetMsg()->mutable_avatarendmessage();
+			avatarEnd->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+			LobbyMessage *netLobby = avatarEnd->GetMsg()->mutable_lobbymessage();
+			netLobby->set_messagetype(LobbyMessage::Type_AvatarEndMessage);
+			AvatarEndMessage *netEnd = netLobby->mutable_avatarendmessage();
 			netEnd->set_requestid(requestId);
 			packets.push_back(avatarEnd);
 			retVal = 0;
