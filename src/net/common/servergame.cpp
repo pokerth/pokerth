@@ -1138,7 +1138,7 @@ bool
 ServerGame::CheckSettings(const GameData &data, const string &password, ServerMode mode)
 {
 	bool retVal = true;
-	if (mode != SERVER_MODE_LAN) {
+	if (mode != SERVER_MODE_LAN && mode != SERVER_MODE_LAN_LOCAL) {
 		if (data.playerActionTimeoutSec < 5) {
 			retVal = false;
 		}

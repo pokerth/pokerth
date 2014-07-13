@@ -126,6 +126,15 @@ public:
 
 	void KickPlayer(unsigned playerId);
 
+#ifdef NEW_LOCAL_GAME
+	bool getLanLocal() {
+		return lan_local;
+	}
+	void setLanLocal(bool theValue) {
+		lan_local = theValue;
+	}
+#endif
+
 protected:
 
 	struct RankingData {
@@ -252,6 +261,11 @@ private:
 	friend class ServerGameStateHand;
 	friend class ServerGameStateWaitPlayerAction;
 	friend class ServerGameStateWaitNextHand;
+
+#ifdef NEW_LOCAL_GAME
+	bool lan_local;
+#endif
+
 };
 
 #endif

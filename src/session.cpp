@@ -310,7 +310,7 @@ void Session::clientRejoinGame(unsigned gameId)
 	);
 }
 
-void Session::startNetworkServer(bool dedicated)
+void Session::startNetworkServer(bool dedicated, bool lan_local)
 {
 	if (myNetServer) {
 		assert(false);
@@ -325,7 +325,8 @@ void Session::startNetworkServer(bool dedicated)
 		mode = SERVER_MODE_INTERNET_NOAUTH;
 #endif
 	} else {
-		mode = SERVER_MODE_LAN;
+		if(lan_local) mode = SERVER_MODE_LAN_LOCAL;
+		else mode = SERVER_MODE_LAN;
 	}
 
 	myNetServer = ServerManagerFactory::CreateServerManager(*myConfig, *myGui, mode, *myAvatarManager);
