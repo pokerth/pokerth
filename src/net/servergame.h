@@ -39,6 +39,7 @@
 #include <map>
 
 #include <net/sessionmanager.h>
+#include <net/serverdelaytime.h>
 #include <db/serverdbcallback.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
@@ -57,7 +58,7 @@ class ServerGame : public boost::enable_shared_from_this<ServerGame>
 public:
 	ServerGame(
 		boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const std::string &name, const std::string &pwd, const GameData &gameData,
-		unsigned adminPlayerId, unsigned creatorPlayerDBId, GuiInterface &gui, ConfigFile &playerConfig);
+		unsigned adminPlayerId, unsigned creatorPlayerDBId, GuiInterface &gui, ConfigFile &playerConfig, const ServerMode mode);
 	virtual ~ServerGame();
 
 	void Init();
@@ -126,15 +127,6 @@ public:
 
 	void KickPlayer(unsigned playerId);
 
-#ifdef NEW_LOCAL_GAME
-	bool getLanLocal() {
-		return lan_local;
-	}
-	void setLanLocal(bool theValue) {
-		lan_local = theValue;
-	}
-#endif
-
 protected:
 
 	struct RankingData {
@@ -200,6 +192,7 @@ protected:
 	const SessionManager &GetSessionManager() const;
 	SessionManager &GetSessionManager();
 	ServerDBInterface &GetDatabase();
+	const ServerDelayTime GetServerDelayTime() const;
 
 private:
 	ServerGame(const ServerGame &other);
@@ -235,6 +228,8 @@ private:
 	boost::shared_ptr<ServerDBInterface> m_database;
 	GuiInterface &m_gui;
 
+	ServerDelayTime m_serverDelayTime;
+
 	const GameData		m_gameData;
 	StartData			m_startData;
 	boost::shared_ptr<Game>	 m_game;
@@ -261,10 +256,6 @@ private:
 	friend class ServerGameStateHand;
 	friend class ServerGameStateWaitPlayerAction;
 	friend class ServerGameStateWaitNextHand;
-
-#ifdef NEW_LOCAL_GAME
-	bool lan_local;
-#endif
 
 };
 

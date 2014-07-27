@@ -1353,10 +1353,9 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 				session->GetPlayerData()->GetUniqueId(),
 				session->GetPlayerData()->GetDBId(),
 				GetGui(),
-				m_serverConfig));
-#ifdef NEW_LOCAL_GAME
-		if(m_mode == SERVER_MODE_LAN_LOCAL) game->setLanLocal(true);
-#endif
+				m_serverConfig,
+				m_mode));
+
 		game->Init();
 
 		// Add game to list of games.

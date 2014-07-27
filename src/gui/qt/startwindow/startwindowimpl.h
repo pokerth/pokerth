@@ -162,7 +162,7 @@ public slots:
 	void callLogFileDialog();
 
 	void startNewLocalGame(newGameDialogImpl* =0);
-    void startNewLocalGameNew(newGameDialogImpl* =0);
+	void startNewLocalGameNew(newGameDialogImpl* =0);
 
 	void showTimeoutDialog(int msgID, unsigned duration);
 	void hideTimeoutDialog();

@@ -256,11 +256,9 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	connect(this, SIGNAL(signalPlayerGameInvitation(unsigned, unsigned, unsigned)), myGameLobbyDialog, SLOT(chatInfoPlayerInvitation(unsigned, unsigned, unsigned)));
 	connect(this, SIGNAL(signalRejectedGameInvitation(unsigned, unsigned, DenyGameInvitationReason)), myGameLobbyDialog, SLOT(chatInfoPlayerRejectedInvitation(unsigned, unsigned, DenyGameInvitationReason)));
 
-#ifdef NEW_LOCAL_GAME
 	QAction *actionStart_Local_Game_new = new QAction("Start (new) local game ...",this);
 	menuPokerTH->addAction(actionStart_Local_Game_new);
 	connect( actionStart_Local_Game_new, SIGNAL( triggered() ), this, SLOT( callNewGameDialogNew() ) );
-#endif
 
 	this->show();
 

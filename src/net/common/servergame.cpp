@@ -66,13 +66,13 @@ static bool LessThanPlayerHandStartMoney(const boost::shared_ptr<PlayerInterface
 
 
 ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32_t id, const string &name, const string &pwd, const GameData &gameData,
-					   unsigned adminPlayerId, unsigned creatorPlayerDBId, GuiInterface &gui, ConfigFile &playerConfig)
+					   unsigned adminPlayerId, unsigned creatorPlayerDBId, GuiInterface &gui, ConfigFile &playerConfig, const ServerMode mode)
 	: m_adminPlayerId(adminPlayerId), m_lobbyThread(lobbyThread), m_gui(gui),
 	  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name),
 	  m_password(pwd), m_creatorPlayerDBId(creatorPlayerDBId), m_playerConfig(playerConfig),
 	  m_gameNum(1), m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()),
 	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService()),
-	  m_isNameReported(false)
+	  m_isNameReported(false), m_serverDelayTime(mode)
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 }
@@ -1040,6 +1040,12 @@ const SessionManager &
 ServerGame::GetSessionManager() const
 {
 	return m_sessionManager;
+}
+
+const ServerDelayTime
+ServerGame::GetServerDelayTime() const
+{
+	return m_serverDelayTime;
 }
 
 ServerDBInterface &
