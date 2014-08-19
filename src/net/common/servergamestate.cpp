@@ -58,39 +58,6 @@ using namespace std::chrono;
 using namespace boost::chrono;
 #endif
 
-//#define POKERTH_SERVER_TEST
-
-#ifdef POKERTH_SERVER_TEST
-#define SERVER_DELAY_NEXT_GAME_SEC				0
-#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
-#define SERVER_DEAL_TURN_CARD_DELAY_SEC			0
-#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		0
-#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		0
-#define SERVER_SHOW_CARDS_DELAY_SEC				0
-#define SERVER_COMPUTER_ACTION_DELAY_SEC		0
-#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		1
-#else
-#define SERVER_DELAY_NEXT_GAME_SEC              10
-#define SERVER_DEAL_FLOP_CARDS_DELAY_SEC		5
-#define SERVER_DEAL_TURN_CARD_DELAY_SEC			2
-#define SERVER_DEAL_RIVER_CARD_DELAY_SEC		2
-#define SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		2
-#define SERVER_SHOW_CARDS_DELAY_SEC				2
-#define SERVER_COMPUTER_ACTION_DELAY_SEC		2
-#define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
-#endif
-
-#ifdef NEW_LOCAL_GAME
-#define LAN_LOCAL_SERVER_DELAY_NEXT_GAME_SEC			0
-#define LAN_LOCAL_SERVER_DEAL_FLOP_CARDS_DELAY_SEC		0
-#define LAN_LOCAL_SERVER_DEAL_TURN_CARD_DELAY_SEC		0
-#define LAN_LOCAL_SERVER_DEAL_RIVER_CARD_DELAY_SEC		0
-#define LAN_LOCAL_SERVER_DEAL_ADD_ALL_IN_DELAY_SEC		0
-#define LAN_LOCAL_SERVER_SHOW_CARDS_DELAY_SEC			0
-#define LAN_LOCAL_SERVER_COMPUTER_ACTION_DELAY_SEC		0
-#define LAN_LOCAL_SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC   0
-#endif
-
 #define SERVER_START_GAME_TIMEOUT_SEC				10
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
@@ -1018,12 +985,9 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			server->SendToAllPlayers(allIn, SessionData::Game | SessionData::Spectating);
 			curGame.getCurrentHand()->setCardsShown(true);
 
-#ifdef NEW_LOCAL_GAME
-			if(server->getLanLocal()) server->GetStateTimer1().expires_from_now(seconds(LAN_LOCAL_SERVER_SHOW_CARDS_DELAY_SEC));
-			else server->GetStateTimer1().expires_from_now(seconds(SERVER_SHOW_CARDS_DELAY_SEC));
-#else
-			server->GetStateTimer1().expires_from_now(seconds(SERVER_SHOW_CARDS_DELAY_SEC));
-#endif
+			server->GetStateTimer1().expires_from_now(
+				seconds(server->GetServerDelayTime().getShowCardsDelay()));
+
 			server->GetStateTimer1().async_wait(
 				boost::bind(
 					&ServerGameStateHand::TimerShowCards, this, boost::asio::placeholders::error, server));
@@ -1058,12 +1022,9 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 
 			// If the player is computer controlled, let the engine act.
 			if (curPlayer->getMyType() == PLAYER_TYPE_COMPUTER) {
-#ifdef NEW_LOCAL_GAME
-				if(server->getLanLocal()) server->GetStateTimer1().expires_from_now(seconds(LAN_LOCAL_SERVER_COMPUTER_ACTION_DELAY_SEC));
-				else server->GetStateTimer1().expires_from_now(seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
-#else
-				server->GetStateTimer1().expires_from_now(seconds(SERVER_COMPUTER_ACTION_DELAY_SEC));
-#endif
+				server->GetStateTimer1().expires_from_now(
+					seconds(server->GetServerDelayTime().getComputerActionDelay()));
+
 				server->GetStateTimer1().async_wait(
 					boost::bind(
 						&ServerGameStateHand::TimerComputerAction, this, boost::asio::placeholders::error, server));
@@ -1141,18 +1102,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				server->InternalEndGame();
 
 				// View a dialog for a new game - delayed.
-#ifdef NEW_LOCAL_GAME
-				if(server->getLanLocal()) {
-					server->GetStateTimer1().expires_from_now(
-						seconds(LAN_LOCAL_SERVER_DELAY_NEXT_GAME_SEC));
-				} else {
-					server->GetStateTimer1().expires_from_now(
-						seconds(SERVER_DELAY_NEXT_GAME_SEC));
-				}
-#else
 				server->GetStateTimer1().expires_from_now(
-					seconds(SERVER_DELAY_NEXT_GAME_SEC));
-#endif
+					seconds(server->GetServerDelayTime().getNextGameDelay()));
 
 				server->GetStateTimer1().async_wait(
 					boost::bind(
@@ -1230,42 +1181,18 @@ int
 ServerGameStateHand::GetDealCardsDelaySec(ServerGame &server)
 {
 	Game &curGame = server.GetGame();
-#ifdef NEW_LOCAL_GAME
-	int allInDelay;
-	if(server.getLanLocal()) {
-		allInDelay = curGame.getCurrentHand()->getAllInCondition() ? LAN_LOCAL_SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
-	} else {
-		allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
-	}
-#else
-	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? SERVER_DEAL_ADD_ALL_IN_DELAY_SEC : 0;
-#endif
+	int allInDelay = curGame.getCurrentHand()->getAllInCondition() ? server.GetServerDelayTime().getDealAddAllInDelay() : 0;
 	int delay = 0;
 
 	switch(curGame.getCurrentHand()->getCurrentRound()) {
 	case GAME_STATE_FLOP:
-#ifdef NEW_LOCAL_GAME
-		if(server.getLanLocal()) delay = LAN_LOCAL_SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
-		else delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
-#else
-		delay = SERVER_DEAL_FLOP_CARDS_DELAY_SEC;
-#endif
+		delay = server.GetServerDelayTime().getDealFlopCardsDelay();
 		break;
 	case GAME_STATE_TURN:
-#ifdef NEW_LOCAL_GAME
-		if(server.getLanLocal()) delay = LAN_LOCAL_SERVER_DEAL_TURN_CARD_DELAY_SEC + allInDelay;
-		else delay = SERVER_DEAL_TURN_CARD_DELAY_SEC + allInDelay;
-#else
-		delay = SERVER_DEAL_TURN_CARD_DELAY_SEC + allInDelay;
-#endif
+		delay = server.GetServerDelayTime().getDealTurnCardsDelay() + allInDelay;
 		break;
 	case GAME_STATE_RIVER:
-#ifdef NEW_LOCAL_GAME
-		if(server.getLanLocal()) delay = LAN_LOCAL_SERVER_DEAL_RIVER_CARD_DELAY_SEC;
-		else delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
-#else
-		delay = SERVER_DEAL_RIVER_CARD_DELAY_SEC;
-#endif
+		delay = server.GetServerDelayTime().getDealRiverCardsDelay();
 		break;
 	default:
 		break;
@@ -1562,15 +1489,9 @@ ServerGameStateWaitPlayerAction::Enter(boost::shared_ptr<ServerGame> server)
 {
 	if (server->GetGameData().playerActionTimeoutSec > 0) { // zero means unlimited thinking time
 #ifdef POKERTH_SERVER_TEST
-		int timeoutSec = SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
+		int timeoutSec = server->GetServerDelayTime().getPlayerTimeoutAddDelay();
 #else
-#ifdef NEW_LOCAL_GAME
-		int timeoutSec;
-		if(server->getLanLocal()) timeoutSec = server->GetGameData().playerActionTimeoutSec + LAN_LOCAL_SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
-		else timeoutSec = server->GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
-#else
-		int timeoutSec = server->GetGameData().playerActionTimeoutSec + SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC;
-#endif
+		int timeoutSec = server->GetServerDelayTime().getPlayerTimeoutAddDelay() + server->GetGameData().playerActionTimeoutSec;
 #endif
 
 		server->GetStateTimer1().expires_from_now(seconds(timeoutSec));

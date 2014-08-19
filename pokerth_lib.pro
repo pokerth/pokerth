@@ -192,6 +192,7 @@ SOURCES += \
 		src/net/common/servergame.cpp \
 		src/net/common/servergamestate.cpp \
 		src/net/common/serverlobbythread.cpp \
+		src/net/common/serverdelaytime.cpp \
 		src/net/common/serverbanmanager.cpp \
 		src/net/common/servercallback.cpp \
 		src/net/common/serveradminbot.cpp \

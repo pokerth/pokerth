@@ -70,6 +70,7 @@ HEADERS += \
 		src/net/senderhelper.h \
 		src/net/serveraccepthelper.h \
 		src/net/serverlobbythread.h \
+		src/net/serverdelaytime.h \
 		src/net/socket_helper.h \
 		src/net/socket_msg.h \
 		src/net/socket_startup.h \
