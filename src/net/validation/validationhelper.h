@@ -28,14 +28,12 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* PokerTH network packet validation. */
+/* PokerTH network packet validation helpers. */
 
-#ifndef _POKERTHMESSAGEVALIDATOR_H_
-#define _POKERTHMESSAGEVALIDATOR_H_
+#ifndef _VALIDATIONHELPER_H_
+#define _VALIDATIONHELPER_H_
 
-#include <map>
-
-class PokerTHMessage;
+#include <net/netpacket.h>
 
 #define VALIDATE_IS_UINT16(__val) ((__val) <= 65535)
 #define VALIDATE_STRING_SIZE(__str, __minsize, __maxsize) ((__str).size() >= (__minsize) && (__str).size() <= (__maxsize))
@@ -43,25 +41,18 @@ class PokerTHMessage;
 #define VALIDATE_UINT_UPPER(__val, __maxval) ((__val) <= (__maxval))
 #define VALIDATE_LIST_SIZE(__l, __minsize, __maxsize) ((__l).size() >= (__minsize) && (__l).size() <= (__maxsize))
 
-class PokerTHMessageValidator
+inline bool
+ValidateListIntRange(const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > &l, ::google::protobuf::uint32 minval, ::google::protobuf::uint32 maxval)
 {
-public:
-	PokerTHMessageValidator();
-
-	bool IsValidMessage(const PokerTHMessage &msg) const;
-
-protected:
-	static bool ValidateAnnounceMessage(const PokerTHMessage &msg);
-	static bool ValidateAuthMessage(const PokerTHMessage &msg);
-	static bool ValidateLobbyMessage(const PokerTHMessage &msg);
-	static bool ValidateGameMessage(const PokerTHMessage &msg);
-
-	typedef bool (*ValidateFunctor)(const PokerTHMessage &msg);
-	typedef std::map<int, ValidateFunctor> ValidateFunctorMap;
-private:
-
-	ValidateFunctorMap m_validationMap;
-};
+	bool retVal = true;
+	for (int i = 0; i < l.size(); i++) {
+		if (!VALIDATE_UINT_RANGE(l.Get(i), minval, maxval)) {
+			retVal = false;
+			break;
+		}
+	}
+	return retVal;
+}
 
 #endif
 

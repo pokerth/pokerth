@@ -391,7 +391,7 @@ protected:
 	virtual void InternalHandleAnnounceMsg(boost::shared_ptr<ClientThread> /*client*/, const AnnounceMessage &/*announceMsg*/) {}
 	virtual void InternalHandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &/*authMsg*/) {}
 	virtual void InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg);
-	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg);
+	virtual void InternalHandleGameMsg(boost::shared_ptr<ClientThread> /*client*/, const GameMessage &/*gameMsg*/) {}
 };
 
 // State: Wait for start of the game or start info.

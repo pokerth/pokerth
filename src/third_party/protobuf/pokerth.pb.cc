@@ -21,8 +21,7 @@ void protobuf_ShutdownFile_pokerth_2eproto() {
   delete AuthServerChallengeMessage::default_instance_;
   delete AuthClientResponseMessage::default_instance_;
   delete AuthServerVerificationMessage::default_instance_;
-  delete InitMessage::default_instance_;
-  delete InitAckMessage::default_instance_;
+  delete InitDoneMessage::default_instance_;
   delete AvatarRequestMessage::default_instance_;
   delete AvatarHeaderMessage::default_instance_;
   delete AvatarDataMessage::default_instance_;
@@ -134,8 +133,7 @@ void protobuf_AddDesc_pokerth_2eproto() {
   AuthServerChallengeMessage::default_instance_ = new AuthServerChallengeMessage();
   AuthClientResponseMessage::default_instance_ = new AuthClientResponseMessage();
   AuthServerVerificationMessage::default_instance_ = new AuthServerVerificationMessage();
-  InitMessage::default_instance_ = new InitMessage();
-  InitAckMessage::default_instance_ = new InitAckMessage();
+  InitDoneMessage::default_instance_ = new InitDoneMessage();
   AvatarRequestMessage::default_instance_ = new AvatarRequestMessage();
   AvatarHeaderMessage::default_instance_ = new AvatarHeaderMessage();
   AvatarDataMessage::default_instance_ = new AvatarDataMessage();
@@ -233,8 +231,7 @@ void protobuf_AddDesc_pokerth_2eproto() {
   AuthServerChallengeMessage::default_instance_->InitAsDefaultInstance();
   AuthClientResponseMessage::default_instance_->InitAsDefaultInstance();
   AuthServerVerificationMessage::default_instance_->InitAsDefaultInstance();
-  InitMessage::default_instance_->InitAsDefaultInstance();
-  InitAckMessage::default_instance_->InitAsDefaultInstance();
+  InitDoneMessage::default_instance_->InitAsDefaultInstance();
   AvatarRequestMessage::default_instance_->InitAsDefaultInstance();
   AvatarHeaderMessage::default_instance_->InitAsDefaultInstance();
   AvatarDataMessage::default_instance_->InitAsDefaultInstance();
@@ -2145,6 +2142,7 @@ const int AuthClientRequestMessage::kAuthServerPasswordFieldNumber;
 const int AuthClientRequestMessage::kNickNameFieldNumber;
 const int AuthClientRequestMessage::kClientUserDataFieldNumber;
 const int AuthClientRequestMessage::kMyLastSessionIdFieldNumber;
+const int AuthClientRequestMessage::kAvatarHashFieldNumber;
 #endif  // !_MSC_VER
 
 AuthClientRequestMessage::AuthClientRequestMessage()
@@ -2176,6 +2174,7 @@ void AuthClientRequestMessage::SharedCtor() {
   nickname_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   clientuserdata_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   mylastsessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2195,6 +2194,9 @@ void AuthClientRequestMessage::SharedDtor() {
   }
   if (mylastsessionid_ != &::google::protobuf::internal::kEmptyString) {
     delete mylastsessionid_;
+  }
+  if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
+    delete avatarhash_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   if (this != &default_instance()) {
@@ -2250,6 +2252,11 @@ void AuthClientRequestMessage::Clear() {
     if (has_mylastsessionid()) {
       if (mylastsessionid_ != &::google::protobuf::internal::kEmptyString) {
         mylastsessionid_->clear();
+      }
+    }
+    if (has_avatarhash()) {
+      if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
+        avatarhash_->clear();
       }
     }
   }
@@ -2362,6 +2369,20 @@ bool AuthClientRequestMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(66)) goto parse_avatarHash;
+        break;
+      }
+
+      // optional bytes avatarHash = 8;
+      case 8: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_avatarHash:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_avatarhash()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -2424,6 +2445,12 @@ void AuthClientRequestMessage::SerializeWithCachedSizes(
       7, this->mylastsessionid(), output);
   }
 
+  // optional bytes avatarHash = 8;
+  if (has_avatarhash()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+      8, this->avatarhash(), output);
+  }
+
 }
 
 int AuthClientRequestMessage::ByteSize() const {
@@ -2478,6 +2505,13 @@ int AuthClientRequestMessage::ByteSize() const {
           this->mylastsessionid());
     }
 
+    // optional bytes avatarHash = 8;
+    if (has_avatarhash()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->avatarhash());
+    }
+
   }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
@@ -2514,6 +2548,9 @@ void AuthClientRequestMessage::MergeFrom(const AuthClientRequestMessage& from) {
     if (from.has_mylastsessionid()) {
       set_mylastsessionid(from.mylastsessionid());
     }
+    if (from.has_avatarhash()) {
+      set_avatarhash(from.avatarhash());
+    }
   }
 }
 
@@ -2541,6 +2578,7 @@ void AuthClientRequestMessage::Swap(AuthClientRequestMessage* other) {
     std::swap(nickname_, other->nickname_);
     std::swap(clientuserdata_, other->clientuserdata_);
     std::swap(mylastsessionid_, other->mylastsessionid_);
+    std::swap(avatarhash_, other->avatarhash_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
   }
@@ -2902,8 +2940,6 @@ void AuthClientResponseMessage::Swap(AuthClientResponseMessage* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int AuthServerVerificationMessage::kYourSessionIdFieldNumber;
-const int AuthServerVerificationMessage::kYourPlayerIdFieldNumber;
 const int AuthServerVerificationMessage::kServerVerificationFieldNumber;
 #endif  // !_MSC_VER
 
@@ -2923,8 +2959,6 @@ AuthServerVerificationMessage::AuthServerVerificationMessage(const AuthServerVer
 
 void AuthServerVerificationMessage::SharedCtor() {
   _cached_size_ = 0;
-  yoursessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  yourplayerid_ = 0u;
   serververification_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -2934,9 +2968,6 @@ AuthServerVerificationMessage::~AuthServerVerificationMessage() {
 }
 
 void AuthServerVerificationMessage::SharedDtor() {
-  if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
-    delete yoursessionid_;
-  }
   if (serververification_ != &::google::protobuf::internal::kEmptyString) {
     delete serververification_;
   }
@@ -2970,12 +3001,6 @@ AuthServerVerificationMessage* AuthServerVerificationMessage::New() const {
 
 void AuthServerVerificationMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (has_yoursessionid()) {
-      if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
-        yoursessionid_->clear();
-      }
-    }
-    yourplayerid_ = 0u;
     if (has_serververification()) {
       if (serververification_ != &::google::protobuf::internal::kEmptyString) {
         serververification_->clear();
@@ -2986,6 +3011,196 @@ void AuthServerVerificationMessage::Clear() {
 }
 
 bool AuthServerVerificationMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required bytes serverVerification = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_serververification()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AuthServerVerificationMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required bytes serverVerification = 1;
+  if (has_serververification()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+      1, this->serververification(), output);
+  }
+
+}
+
+int AuthServerVerificationMessage::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required bytes serverVerification = 1;
+    if (has_serververification()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->serververification());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AuthServerVerificationMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const AuthServerVerificationMessage*>(&from));
+}
+
+void AuthServerVerificationMessage::MergeFrom(const AuthServerVerificationMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_serververification()) {
+      set_serververification(from.serververification());
+    }
+  }
+}
+
+void AuthServerVerificationMessage::CopyFrom(const AuthServerVerificationMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AuthServerVerificationMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  return true;
+}
+
+void AuthServerVerificationMessage::Swap(AuthServerVerificationMessage* other) {
+  if (other != this) {
+    std::swap(serververification_, other->serververification_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string AuthServerVerificationMessage::GetTypeName() const {
+  return "AuthServerVerificationMessage";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int InitDoneMessage::kYourSessionIdFieldNumber;
+const int InitDoneMessage::kYourPlayerIdFieldNumber;
+const int InitDoneMessage::kYourAvatarHashFieldNumber;
+const int InitDoneMessage::kRejoinGameIdFieldNumber;
+#endif  // !_MSC_VER
+
+InitDoneMessage::InitDoneMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void InitDoneMessage::InitAsDefaultInstance() {
+}
+
+InitDoneMessage::InitDoneMessage(const InitDoneMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void InitDoneMessage::SharedCtor() {
+  _cached_size_ = 0;
+  yoursessionid_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  yourplayerid_ = 0u;
+  youravatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  rejoingameid_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+InitDoneMessage::~InitDoneMessage() {
+  SharedDtor();
+}
+
+void InitDoneMessage::SharedDtor() {
+  if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
+    delete yoursessionid_;
+  }
+  if (youravatarhash_ != &::google::protobuf::internal::kEmptyString) {
+    delete youravatarhash_;
+  }
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void InitDoneMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const InitDoneMessage& InitDoneMessage::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_pokerth_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();
+#endif
+  return *default_instance_;
+}
+
+InitDoneMessage* InitDoneMessage::default_instance_ = NULL;
+
+InitDoneMessage* InitDoneMessage::New() const {
+  return new InitDoneMessage;
+}
+
+void InitDoneMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (has_yoursessionid()) {
+      if (yoursessionid_ != &::google::protobuf::internal::kEmptyString) {
+        yoursessionid_->clear();
+      }
+    }
+    yourplayerid_ = 0u;
+    if (has_youravatarhash()) {
+      if (youravatarhash_ != &::google::protobuf::internal::kEmptyString) {
+        youravatarhash_->clear();
+      }
+    }
+    rejoingameid_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool InitDoneMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
@@ -3016,409 +3231,26 @@ bool AuthServerVerificationMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_serverVerification;
+        if (input->ExpectTag(26)) goto parse_yourAvatarHash;
         break;
       }
 
-      // optional bytes serverVerification = 3;
+      // optional bytes yourAvatarHash = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_serverVerification:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_serververification()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectAtEnd()) return true;
-        break;
-      }
-
-      default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-  return true;
-#undef DO_
-}
-
-void AuthServerVerificationMessage::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // required bytes yourSessionId = 1;
-  if (has_yoursessionid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytes(
-      1, this->yoursessionid(), output);
-  }
-
-  // required uint32 yourPlayerId = 2;
-  if (has_yourplayerid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->yourplayerid(), output);
-  }
-
-  // optional bytes serverVerification = 3;
-  if (has_serververification()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytes(
-      3, this->serververification(), output);
-  }
-
-}
-
-int AuthServerVerificationMessage::ByteSize() const {
-  int total_size = 0;
-
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required bytes yourSessionId = 1;
-    if (has_yoursessionid()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::BytesSize(
-          this->yoursessionid());
-    }
-
-    // required uint32 yourPlayerId = 2;
-    if (has_yourplayerid()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->yourplayerid());
-    }
-
-    // optional bytes serverVerification = 3;
-    if (has_serververification()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::BytesSize(
-          this->serververification());
-    }
-
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void AuthServerVerificationMessage::CheckTypeAndMergeFrom(
-    const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const AuthServerVerificationMessage*>(&from));
-}
-
-void AuthServerVerificationMessage::MergeFrom(const AuthServerVerificationMessage& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_yoursessionid()) {
-      set_yoursessionid(from.yoursessionid());
-    }
-    if (from.has_yourplayerid()) {
-      set_yourplayerid(from.yourplayerid());
-    }
-    if (from.has_serververification()) {
-      set_serververification(from.serververification());
-    }
-  }
-}
-
-void AuthServerVerificationMessage::CopyFrom(const AuthServerVerificationMessage& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool AuthServerVerificationMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
-
-  return true;
-}
-
-void AuthServerVerificationMessage::Swap(AuthServerVerificationMessage* other) {
-  if (other != this) {
-    std::swap(yoursessionid_, other->yoursessionid_);
-    std::swap(yourplayerid_, other->yourplayerid_);
-    std::swap(serververification_, other->serververification_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::std::string AuthServerVerificationMessage::GetTypeName() const {
-  return "AuthServerVerificationMessage";
-}
-
-
-// ===================================================================
-
-#ifndef _MSC_VER
-const int InitMessage::kAvatarHashFieldNumber;
-#endif  // !_MSC_VER
-
-InitMessage::InitMessage()
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-}
-
-void InitMessage::InitAsDefaultInstance() {
-}
-
-InitMessage::InitMessage(const InitMessage& from)
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-  MergeFrom(from);
-}
-
-void InitMessage::SharedCtor() {
-  _cached_size_ = 0;
-  avatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-InitMessage::~InitMessage() {
-  SharedDtor();
-}
-
-void InitMessage::SharedDtor() {
-  if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
-    delete avatarhash_;
-  }
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  if (this != &default_instance()) {
-  #else
-  if (this != default_instance_) {
-  #endif
-  }
-}
-
-void InitMessage::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const InitMessage& InitMessage::default_instance() {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  protobuf_AddDesc_pokerth_2eproto();
-#else
-  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();
-#endif
-  return *default_instance_;
-}
-
-InitMessage* InitMessage::default_instance_ = NULL;
-
-InitMessage* InitMessage::New() const {
-  return new InitMessage;
-}
-
-void InitMessage::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (has_avatarhash()) {
-      if (avatarhash_ != &::google::protobuf::internal::kEmptyString) {
-        avatarhash_->clear();
-      }
-    }
-  }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-bool InitMessage::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
-  ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional bytes avatarHash = 1;
-      case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
-                input, this->mutable_avatarhash()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectAtEnd()) return true;
-        break;
-      }
-
-      default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-  return true;
-#undef DO_
-}
-
-void InitMessage::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // optional bytes avatarHash = 1;
-  if (has_avatarhash()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytes(
-      1, this->avatarhash(), output);
-  }
-
-}
-
-int InitMessage::ByteSize() const {
-  int total_size = 0;
-
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional bytes avatarHash = 1;
-    if (has_avatarhash()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::BytesSize(
-          this->avatarhash());
-    }
-
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void InitMessage::CheckTypeAndMergeFrom(
-    const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const InitMessage*>(&from));
-}
-
-void InitMessage::MergeFrom(const InitMessage& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_avatarhash()) {
-      set_avatarhash(from.avatarhash());
-    }
-  }
-}
-
-void InitMessage::CopyFrom(const InitMessage& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool InitMessage::IsInitialized() const {
-
-  return true;
-}
-
-void InitMessage::Swap(InitMessage* other) {
-  if (other != this) {
-    std::swap(avatarhash_, other->avatarhash_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::std::string InitMessage::GetTypeName() const {
-  return "InitMessage";
-}
-
-
-// ===================================================================
-
-#ifndef _MSC_VER
-const int InitAckMessage::kYourAvatarHashFieldNumber;
-const int InitAckMessage::kRejoinGameIdFieldNumber;
-#endif  // !_MSC_VER
-
-InitAckMessage::InitAckMessage()
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-}
-
-void InitAckMessage::InitAsDefaultInstance() {
-}
-
-InitAckMessage::InitAckMessage(const InitAckMessage& from)
-  : ::google::protobuf::MessageLite() {
-  SharedCtor();
-  MergeFrom(from);
-}
-
-void InitAckMessage::SharedCtor() {
-  _cached_size_ = 0;
-  youravatarhash_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  rejoingameid_ = 0u;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-InitAckMessage::~InitAckMessage() {
-  SharedDtor();
-}
-
-void InitAckMessage::SharedDtor() {
-  if (youravatarhash_ != &::google::protobuf::internal::kEmptyString) {
-    delete youravatarhash_;
-  }
-  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  if (this != &default_instance()) {
-  #else
-  if (this != default_instance_) {
-  #endif
-  }
-}
-
-void InitAckMessage::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const InitAckMessage& InitAckMessage::default_instance() {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  protobuf_AddDesc_pokerth_2eproto();
-#else
-  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();
-#endif
-  return *default_instance_;
-}
-
-InitAckMessage* InitAckMessage::default_instance_ = NULL;
-
-InitAckMessage* InitAckMessage::New() const {
-  return new InitAckMessage;
-}
-
-void InitAckMessage::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (has_youravatarhash()) {
-      if (youravatarhash_ != &::google::protobuf::internal::kEmptyString) {
-        youravatarhash_->clear();
-      }
-    }
-    rejoingameid_ = 0u;
-  }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-bool InitAckMessage::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
-  ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional bytes yourAvatarHash = 1;
-      case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_yourAvatarHash:
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_youravatarhash()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(16)) goto parse_rejoinGameId;
+        if (input->ExpectTag(32)) goto parse_rejoinGameId;
         break;
       }
 
-      // optional uint32 rejoinGameId = 2;
-      case 2: {
+      // optional uint32 rejoinGameId = 4;
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_rejoinGameId:
@@ -3448,33 +3280,58 @@ bool InitAckMessage::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void InitAckMessage::SerializeWithCachedSizes(
+void InitDoneMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // optional bytes yourAvatarHash = 1;
-  if (has_youravatarhash()) {
+  // required bytes yourSessionId = 1;
+  if (has_yoursessionid()) {
     ::google::protobuf::internal::WireFormatLite::WriteBytes(
-      1, this->youravatarhash(), output);
+      1, this->yoursessionid(), output);
   }
 
-  // optional uint32 rejoinGameId = 2;
+  // required uint32 yourPlayerId = 2;
+  if (has_yourplayerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->yourplayerid(), output);
+  }
+
+  // optional bytes yourAvatarHash = 3;
+  if (has_youravatarhash()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+      3, this->youravatarhash(), output);
+  }
+
+  // optional uint32 rejoinGameId = 4;
   if (has_rejoingameid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->rejoingameid(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->rejoingameid(), output);
   }
 
 }
 
-int InitAckMessage::ByteSize() const {
+int InitDoneMessage::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional bytes yourAvatarHash = 1;
+    // required bytes yourSessionId = 1;
+    if (has_yoursessionid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->yoursessionid());
+    }
+
+    // required uint32 yourPlayerId = 2;
+    if (has_yourplayerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->yourplayerid());
+    }
+
+    // optional bytes yourAvatarHash = 3;
     if (has_youravatarhash()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::BytesSize(
           this->youravatarhash());
     }
 
-    // optional uint32 rejoinGameId = 2;
+    // optional uint32 rejoinGameId = 4;
     if (has_rejoingameid()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
@@ -3488,14 +3345,20 @@ int InitAckMessage::ByteSize() const {
   return total_size;
 }
 
-void InitAckMessage::CheckTypeAndMergeFrom(
+void InitDoneMessage::CheckTypeAndMergeFrom(
     const ::google::protobuf::MessageLite& from) {
-  MergeFrom(*::google::protobuf::down_cast<const InitAckMessage*>(&from));
+  MergeFrom(*::google::protobuf::down_cast<const InitDoneMessage*>(&from));
 }
 
-void InitAckMessage::MergeFrom(const InitAckMessage& from) {
+void InitDoneMessage::MergeFrom(const InitDoneMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_yoursessionid()) {
+      set_yoursessionid(from.yoursessionid());
+    }
+    if (from.has_yourplayerid()) {
+      set_yourplayerid(from.yourplayerid());
+    }
     if (from.has_youravatarhash()) {
       set_youravatarhash(from.youravatarhash());
     }
@@ -3505,19 +3368,22 @@ void InitAckMessage::MergeFrom(const InitAckMessage& from) {
   }
 }
 
-void InitAckMessage::CopyFrom(const InitAckMessage& from) {
+void InitDoneMessage::CopyFrom(const InitDoneMessage& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool InitAckMessage::IsInitialized() const {
+bool InitDoneMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
 
-void InitAckMessage::Swap(InitAckMessage* other) {
+void InitDoneMessage::Swap(InitDoneMessage* other) {
   if (other != this) {
+    std::swap(yoursessionid_, other->yoursessionid_);
+    std::swap(yourplayerid_, other->yourplayerid_);
     std::swap(youravatarhash_, other->youravatarhash_);
     std::swap(rejoingameid_, other->rejoingameid_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
@@ -3525,8 +3391,8 @@ void InitAckMessage::Swap(InitAckMessage* other) {
   }
 }
 
-::std::string InitAckMessage::GetTypeName() const {
-  return "InitAckMessage";
+::std::string InitDoneMessage::GetTypeName() const {
+  return "InitDoneMessage";
 }
 
 
@@ -8271,6 +8137,7 @@ void CreateGameFailedMessage::Swap(CreateGameFailedMessage* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int JoinGameMessage::kGameIdFieldNumber;
 const int JoinGameMessage::kPasswordFieldNumber;
 const int JoinGameMessage::kAutoLeaveFieldNumber;
 const int JoinGameMessage::kSpectateOnlyFieldNumber;
@@ -8292,6 +8159,7 @@ JoinGameMessage::JoinGameMessage(const JoinGameMessage& from)
 
 void JoinGameMessage::SharedCtor() {
   _cached_size_ = 0;
+  gameid_ = 0u;
   password_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   autoleave_ = false;
   spectateonly_ = false;
@@ -8336,6 +8204,7 @@ JoinGameMessage* JoinGameMessage::New() const {
 
 void JoinGameMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
     if (has_password()) {
       if (password_ != &::google::protobuf::internal::kEmptyString) {
         password_->clear();
@@ -8353,21 +8222,37 @@ bool JoinGameMessage::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional string password = 1;
+      // required uint32 gameId = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_password;
+        break;
+      }
+
+      // optional string password = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_password:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_password()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(16)) goto parse_autoLeave;
+        if (input->ExpectTag(24)) goto parse_autoLeave;
         break;
       }
 
-      // optional bool autoLeave = 2 [default = false];
-      case 2: {
+      // optional bool autoLeave = 3 [default = false];
+      case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_autoLeave:
@@ -8378,12 +8263,12 @@ bool JoinGameMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(24)) goto parse_spectateOnly;
+        if (input->ExpectTag(32)) goto parse_spectateOnly;
         break;
       }
 
-      // optional bool spectateOnly = 3 [default = false];
-      case 3: {
+      // optional bool spectateOnly = 4 [default = false];
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_spectateOnly:
@@ -8415,20 +8300,25 @@ bool JoinGameMessage::MergePartialFromCodedStream(
 
 void JoinGameMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // optional string password = 1;
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+
+  // optional string password = 2;
   if (has_password()) {
     ::google::protobuf::internal::WireFormatLite::WriteString(
-      1, this->password(), output);
+      2, this->password(), output);
   }
 
-  // optional bool autoLeave = 2 [default = false];
+  // optional bool autoLeave = 3 [default = false];
   if (has_autoleave()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(2, this->autoleave(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->autoleave(), output);
   }
 
-  // optional bool spectateOnly = 3 [default = false];
+  // optional bool spectateOnly = 4 [default = false];
   if (has_spectateonly()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->spectateonly(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->spectateonly(), output);
   }
 
 }
@@ -8437,19 +8327,26 @@ int JoinGameMessage::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional string password = 1;
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+
+    // optional string password = 2;
     if (has_password()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
           this->password());
     }
 
-    // optional bool autoLeave = 2 [default = false];
+    // optional bool autoLeave = 3 [default = false];
     if (has_autoleave()) {
       total_size += 1 + 1;
     }
 
-    // optional bool spectateOnly = 3 [default = false];
+    // optional bool spectateOnly = 4 [default = false];
     if (has_spectateonly()) {
       total_size += 1 + 1;
     }
@@ -8469,6 +8366,9 @@ void JoinGameMessage::CheckTypeAndMergeFrom(
 void JoinGameMessage::MergeFrom(const JoinGameMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
     if (from.has_password()) {
       set_password(from.password());
     }
@@ -8488,12 +8388,14 @@ void JoinGameMessage::CopyFrom(const JoinGameMessage& from) {
 }
 
 bool JoinGameMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
   return true;
 }
 
 void JoinGameMessage::Swap(JoinGameMessage* other) {
   if (other != this) {
+    std::swap(gameid_, other->gameid_);
     std::swap(password_, other->password_);
     std::swap(autoleave_, other->autoleave_);
     std::swap(spectateonly_, other->spectateonly_);
@@ -8510,6 +8412,7 @@ void JoinGameMessage::Swap(JoinGameMessage* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int RejoinGameMessage::kGameIdFieldNumber;
 const int RejoinGameMessage::kAutoLeaveFieldNumber;
 #endif  // !_MSC_VER
 
@@ -8529,6 +8432,7 @@ RejoinGameMessage::RejoinGameMessage(const RejoinGameMessage& from)
 
 void RejoinGameMessage::SharedCtor() {
   _cached_size_ = 0;
+  gameid_ = 0u;
   autoleave_ = false;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -8568,6 +8472,7 @@ RejoinGameMessage* RejoinGameMessage::New() const {
 
 void RejoinGameMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
     autoleave_ = false;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -8579,10 +8484,26 @@ bool RejoinGameMessage::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional bool autoLeave = 1 [default = false];
+      // required uint32 gameId = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_autoLeave;
+        break;
+      }
+
+      // optional bool autoLeave = 2 [default = false];
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_autoLeave:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &autoleave_)));
@@ -8611,9 +8532,14 @@ bool RejoinGameMessage::MergePartialFromCodedStream(
 
 void RejoinGameMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // optional bool autoLeave = 1 [default = false];
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+
+  // optional bool autoLeave = 2 [default = false];
   if (has_autoleave()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->autoleave(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(2, this->autoleave(), output);
   }
 
 }
@@ -8622,7 +8548,14 @@ int RejoinGameMessage::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional bool autoLeave = 1 [default = false];
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+
+    // optional bool autoLeave = 2 [default = false];
     if (has_autoleave()) {
       total_size += 1 + 1;
     }
@@ -8642,6 +8575,9 @@ void RejoinGameMessage::CheckTypeAndMergeFrom(
 void RejoinGameMessage::MergeFrom(const RejoinGameMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
     if (from.has_autoleave()) {
       set_autoleave(from.autoleave());
     }
@@ -8655,12 +8591,14 @@ void RejoinGameMessage::CopyFrom(const RejoinGameMessage& from) {
 }
 
 bool RejoinGameMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
   return true;
 }
 
 void RejoinGameMessage::Swap(RejoinGameMessage* other) {
   if (other != this) {
+    std::swap(gameid_, other->gameid_);
     std::swap(autoleave_, other->autoleave_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
@@ -8675,6 +8613,7 @@ void RejoinGameMessage::Swap(RejoinGameMessage* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int JoinGameAckMessage::kGameIdFieldNumber;
 const int JoinGameAckMessage::kAreYouGameAdminFieldNumber;
 const int JoinGameAckMessage::kGameInfoFieldNumber;
 const int JoinGameAckMessage::kSpectateOnlyFieldNumber;
@@ -8702,6 +8641,7 @@ JoinGameAckMessage::JoinGameAckMessage(const JoinGameAckMessage& from)
 
 void JoinGameAckMessage::SharedCtor() {
   _cached_size_ = 0;
+  gameid_ = 0u;
   areyougameadmin_ = false;
   gameinfo_ = NULL;
   spectateonly_ = false;
@@ -8744,6 +8684,7 @@ JoinGameAckMessage* JoinGameAckMessage::New() const {
 
 void JoinGameAckMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
     areyougameadmin_ = false;
     if (has_gameinfo()) {
       if (gameinfo_ != NULL) gameinfo_->::NetGameInfo::Clear();
@@ -8759,10 +8700,26 @@ bool JoinGameAckMessage::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required bool areYouGameAdmin = 1;
+      // required uint32 gameId = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_areYouGameAdmin;
+        break;
+      }
+
+      // required bool areYouGameAdmin = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_areYouGameAdmin:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
                  input, &areyougameadmin_)));
@@ -8770,12 +8727,12 @@ bool JoinGameAckMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_gameInfo;
+        if (input->ExpectTag(26)) goto parse_gameInfo;
         break;
       }
 
-      // required .NetGameInfo gameInfo = 2;
-      case 2: {
+      // required .NetGameInfo gameInfo = 3;
+      case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameInfo:
@@ -8784,12 +8741,12 @@ bool JoinGameAckMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(24)) goto parse_spectateOnly;
+        if (input->ExpectTag(32)) goto parse_spectateOnly;
         break;
       }
 
-      // optional bool spectateOnly = 3;
-      case 3: {
+      // optional bool spectateOnly = 4;
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_spectateOnly:
@@ -8821,20 +8778,25 @@ bool JoinGameAckMessage::MergePartialFromCodedStream(
 
 void JoinGameAckMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required bool areYouGameAdmin = 1;
-  if (has_areyougameadmin()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->areyougameadmin(), output);
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
   }
 
-  // required .NetGameInfo gameInfo = 2;
+  // required bool areYouGameAdmin = 2;
+  if (has_areyougameadmin()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(2, this->areyougameadmin(), output);
+  }
+
+  // required .NetGameInfo gameInfo = 3;
   if (has_gameinfo()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      2, this->gameinfo(), output);
+      3, this->gameinfo(), output);
   }
 
-  // optional bool spectateOnly = 3;
+  // optional bool spectateOnly = 4;
   if (has_spectateonly()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBool(3, this->spectateonly(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteBool(4, this->spectateonly(), output);
   }
 
 }
@@ -8843,19 +8805,26 @@ int JoinGameAckMessage::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required bool areYouGameAdmin = 1;
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+
+    // required bool areYouGameAdmin = 2;
     if (has_areyougameadmin()) {
       total_size += 1 + 1;
     }
 
-    // required .NetGameInfo gameInfo = 2;
+    // required .NetGameInfo gameInfo = 3;
     if (has_gameinfo()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gameinfo());
     }
 
-    // optional bool spectateOnly = 3;
+    // optional bool spectateOnly = 4;
     if (has_spectateonly()) {
       total_size += 1 + 1;
     }
@@ -8875,6 +8844,9 @@ void JoinGameAckMessage::CheckTypeAndMergeFrom(
 void JoinGameAckMessage::MergeFrom(const JoinGameAckMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
     if (from.has_areyougameadmin()) {
       set_areyougameadmin(from.areyougameadmin());
     }
@@ -8894,7 +8866,7 @@ void JoinGameAckMessage::CopyFrom(const JoinGameAckMessage& from) {
 }
 
 bool JoinGameAckMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
 
   if (has_gameinfo()) {
     if (!this->gameinfo().IsInitialized()) return false;
@@ -8904,6 +8876,7 @@ bool JoinGameAckMessage::IsInitialized() const {
 
 void JoinGameAckMessage::Swap(JoinGameAckMessage* other) {
   if (other != this) {
+    std::swap(gameid_, other->gameid_);
     std::swap(areyougameadmin_, other->areyougameadmin_);
     std::swap(gameinfo_, other->gameinfo_);
     std::swap(spectateonly_, other->spectateonly_);
@@ -8929,6 +8902,7 @@ bool JoinGameFailedMessage_JoinGameFailureReason_IsValid(int value) {
     case 6:
     case 7:
     case 8:
+    case 9:
       return true;
     default:
       return false;
@@ -8939,6 +8913,7 @@ bool JoinGameFailedMessage_JoinGameFailureReason_IsValid(int value) {
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::invalidGame;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::gameIsFull;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::gameIsRunning;
+const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::notAllowedAsGuest;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::invalidPassword;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::notInvited;
 const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::ipAddressBlocked;
@@ -8949,6 +8924,7 @@ const JoinGameFailedMessage_JoinGameFailureReason JoinGameFailedMessage::JoinGam
 const int JoinGameFailedMessage::JoinGameFailureReason_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
+const int JoinGameFailedMessage::kGameIdFieldNumber;
 const int JoinGameFailedMessage::kJoinGameFailureReasonFieldNumber;
 #endif  // !_MSC_VER
 
@@ -8968,6 +8944,7 @@ JoinGameFailedMessage::JoinGameFailedMessage(const JoinGameFailedMessage& from)
 
 void JoinGameFailedMessage::SharedCtor() {
   _cached_size_ = 0;
+  gameid_ = 0u;
   joingamefailurereason_ = 1;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -9007,6 +8984,7 @@ JoinGameFailedMessage* JoinGameFailedMessage::New() const {
 
 void JoinGameFailedMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
     joingamefailurereason_ = 1;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -9018,10 +8996,26 @@ bool JoinGameFailedMessage::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
+      // required uint32 gameId = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_joinGameFailureReason;
+        break;
+      }
+
+      // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_joinGameFailureReason:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -9053,10 +9047,15 @@ bool JoinGameFailedMessage::MergePartialFromCodedStream(
 
 void JoinGameFailedMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+
+  // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
   if (has_joingamefailurereason()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->joingamefailurereason(), output);
+      2, this->joingamefailurereason(), output);
   }
 
 }
@@ -9065,7 +9064,14 @@ int JoinGameFailedMessage::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+
+    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
     if (has_joingamefailurereason()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->joingamefailurereason());
@@ -9086,6 +9092,9 @@ void JoinGameFailedMessage::CheckTypeAndMergeFrom(
 void JoinGameFailedMessage::MergeFrom(const JoinGameFailedMessage& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
     if (from.has_joingamefailurereason()) {
       set_joingamefailurereason(from.joingamefailurereason());
     }
@@ -9099,13 +9108,14 @@ void JoinGameFailedMessage::CopyFrom(const JoinGameFailedMessage& from) {
 }
 
 bool JoinGameFailedMessage::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
 
   return true;
 }
 
 void JoinGameFailedMessage::Swap(JoinGameFailedMessage* other) {
   if (other != this) {
+    std::swap(gameid_, other->gameid_);
     std::swap(joingamefailurereason_, other->joingamefailurereason_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);
@@ -21822,6 +21832,8 @@ bool LobbyMessage_LobbyMessageType_IsValid(int value) {
     case 38:
     case 39:
     case 40:
+    case 41:
+    case 42:
     case 1024:
       return true;
     default:
@@ -21830,8 +21842,7 @@ bool LobbyMessage_LobbyMessageType_IsValid(int value) {
 }
 
 #ifndef _MSC_VER
-const LobbyMessage_LobbyMessageType LobbyMessage::Type_InitMessage;
-const LobbyMessage_LobbyMessageType LobbyMessage::Type_InitAckMessage;
+const LobbyMessage_LobbyMessageType LobbyMessage::Type_InitDoneMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_AvatarRequestMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_AvatarHeaderMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_AvatarDataMessage;
@@ -21851,7 +21862,10 @@ const LobbyMessage_LobbyMessageType LobbyMessage::Type_SubscriptionRequestMessag
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_SubscriptionReplyMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_CreateGameMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_CreateGameFailedMessage;
-const LobbyMessage_LobbyMessageType LobbyMessage::Type_InvitePlayerToGameMessage;
+const LobbyMessage_LobbyMessageType LobbyMessage::Type_JoinGameMessage;
+const LobbyMessage_LobbyMessageType LobbyMessage::Type_RejoinGameMessage;
+const LobbyMessage_LobbyMessageType LobbyMessage::Type_JoinGameAckMessage;
+const LobbyMessage_LobbyMessageType LobbyMessage::Type_JoinGameFailedMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_InviteNotifyMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_RejectGameInvitationMessage;
 const LobbyMessage_LobbyMessageType LobbyMessage::Type_RejectInvNotifyMessage;
@@ -21877,8 +21891,7 @@ const int LobbyMessage::LobbyMessageType_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
 const int LobbyMessage::kMessageTypeFieldNumber;
-const int LobbyMessage::kInitMessageFieldNumber;
-const int LobbyMessage::kInitAckMessageFieldNumber;
+const int LobbyMessage::kInitDoneMessageFieldNumber;
 const int LobbyMessage::kAvatarRequestMessageFieldNumber;
 const int LobbyMessage::kAvatarHeaderMessageFieldNumber;
 const int LobbyMessage::kAvatarDataMessageFieldNumber;
@@ -21898,7 +21911,10 @@ const int LobbyMessage::kSubscriptionRequestMessageFieldNumber;
 const int LobbyMessage::kSubscriptionReplyMessageFieldNumber;
 const int LobbyMessage::kCreateGameMessageFieldNumber;
 const int LobbyMessage::kCreateGameFailedMessageFieldNumber;
-const int LobbyMessage::kInvitePlayerToGameMessageFieldNumber;
+const int LobbyMessage::kJoinGameMessageFieldNumber;
+const int LobbyMessage::kRejoinGameMessageFieldNumber;
+const int LobbyMessage::kJoinGameAckMessageFieldNumber;
+const int LobbyMessage::kJoinGameFailedMessageFieldNumber;
 const int LobbyMessage::kInviteNotifyMessageFieldNumber;
 const int LobbyMessage::kRejectGameInvitationMessageFieldNumber;
 const int LobbyMessage::kRejectInvNotifyMessageFieldNumber;
@@ -21927,16 +21943,10 @@ LobbyMessage::LobbyMessage()
 
 void LobbyMessage::InitAsDefaultInstance() {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  initmessage_ = const_cast< ::InitMessage*>(
-      ::InitMessage::internal_default_instance());
+  initdonemessage_ = const_cast< ::InitDoneMessage*>(
+      ::InitDoneMessage::internal_default_instance());
 #else
-  initmessage_ = const_cast< ::InitMessage*>(&::InitMessage::default_instance());
-#endif
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  initackmessage_ = const_cast< ::InitAckMessage*>(
-      ::InitAckMessage::internal_default_instance());
-#else
-  initackmessage_ = const_cast< ::InitAckMessage*>(&::InitAckMessage::default_instance());
+  initdonemessage_ = const_cast< ::InitDoneMessage*>(&::InitDoneMessage::default_instance());
 #endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   avatarrequestmessage_ = const_cast< ::AvatarRequestMessage*>(
@@ -22053,10 +22063,28 @@ void LobbyMessage::InitAsDefaultInstance() {
   creategamefailedmessage_ = const_cast< ::CreateGameFailedMessage*>(&::CreateGameFailedMessage::default_instance());
 #endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  inviteplayertogamemessage_ = const_cast< ::InvitePlayerToGameMessage*>(
-      ::InvitePlayerToGameMessage::internal_default_instance());
+  joingamemessage_ = const_cast< ::JoinGameMessage*>(
+      ::JoinGameMessage::internal_default_instance());
 #else
-  inviteplayertogamemessage_ = const_cast< ::InvitePlayerToGameMessage*>(&::InvitePlayerToGameMessage::default_instance());
+  joingamemessage_ = const_cast< ::JoinGameMessage*>(&::JoinGameMessage::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  rejoingamemessage_ = const_cast< ::RejoinGameMessage*>(
+      ::RejoinGameMessage::internal_default_instance());
+#else
+  rejoingamemessage_ = const_cast< ::RejoinGameMessage*>(&::RejoinGameMessage::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  joingameackmessage_ = const_cast< ::JoinGameAckMessage*>(
+      ::JoinGameAckMessage::internal_default_instance());
+#else
+  joingameackmessage_ = const_cast< ::JoinGameAckMessage*>(&::JoinGameAckMessage::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  joingamefailedmessage_ = const_cast< ::JoinGameFailedMessage*>(
+      ::JoinGameFailedMessage::internal_default_instance());
+#else
+  joingamefailedmessage_ = const_cast< ::JoinGameFailedMessage*>(&::JoinGameFailedMessage::default_instance());
 #endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   invitenotifymessage_ = const_cast< ::InviteNotifyMessage*>(
@@ -22183,8 +22211,7 @@ LobbyMessage::LobbyMessage(const LobbyMessage& from)
 void LobbyMessage::SharedCtor() {
   _cached_size_ = 0;
   messagetype_ = 1;
-  initmessage_ = NULL;
-  initackmessage_ = NULL;
+  initdonemessage_ = NULL;
   avatarrequestmessage_ = NULL;
   avatarheadermessage_ = NULL;
   avatardatamessage_ = NULL;
@@ -22204,7 +22231,10 @@ void LobbyMessage::SharedCtor() {
   subscriptionreplymessage_ = NULL;
   creategamemessage_ = NULL;
   creategamefailedmessage_ = NULL;
-  inviteplayertogamemessage_ = NULL;
+  joingamemessage_ = NULL;
+  rejoingamemessage_ = NULL;
+  joingameackmessage_ = NULL;
+  joingamefailedmessage_ = NULL;
   invitenotifymessage_ = NULL;
   rejectgameinvitationmessage_ = NULL;
   rejectinvnotifymessage_ = NULL;
@@ -22237,8 +22267,7 @@ void LobbyMessage::SharedDtor() {
   #else
   if (this != default_instance_) {
   #endif
-    delete initmessage_;
-    delete initackmessage_;
+    delete initdonemessage_;
     delete avatarrequestmessage_;
     delete avatarheadermessage_;
     delete avatardatamessage_;
@@ -22258,7 +22287,10 @@ void LobbyMessage::SharedDtor() {
     delete subscriptionreplymessage_;
     delete creategamemessage_;
     delete creategamefailedmessage_;
-    delete inviteplayertogamemessage_;
+    delete joingamemessage_;
+    delete rejoingamemessage_;
+    delete joingameackmessage_;
+    delete joingamefailedmessage_;
     delete invitenotifymessage_;
     delete rejectgameinvitationmessage_;
     delete rejectinvnotifymessage_;
@@ -22304,11 +22336,8 @@ LobbyMessage* LobbyMessage::New() const {
 void LobbyMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     messagetype_ = 1;
-    if (has_initmessage()) {
-      if (initmessage_ != NULL) initmessage_->::InitMessage::Clear();
-    }
-    if (has_initackmessage()) {
-      if (initackmessage_ != NULL) initackmessage_->::InitAckMessage::Clear();
+    if (has_initdonemessage()) {
+      if (initdonemessage_ != NULL) initdonemessage_->::InitDoneMessage::Clear();
     }
     if (has_avatarrequestmessage()) {
       if (avatarrequestmessage_ != NULL) avatarrequestmessage_->::AvatarRequestMessage::Clear();
@@ -22325,11 +22354,11 @@ void LobbyMessage::Clear() {
     if (has_unknownavatarmessage()) {
       if (unknownavatarmessage_ != NULL) unknownavatarmessage_->::UnknownAvatarMessage::Clear();
     }
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (has_playerlistmessage()) {
       if (playerlistmessage_ != NULL) playerlistmessage_->::PlayerListMessage::Clear();
     }
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (has_gamelistnewmessage()) {
       if (gamelistnewmessage_ != NULL) gamelistnewmessage_->::GameListNewMessage::Clear();
     }
@@ -22351,11 +22380,11 @@ void LobbyMessage::Clear() {
     if (has_gamelistadminchangedmessage()) {
       if (gamelistadminchangedmessage_ != NULL) gamelistadminchangedmessage_->::GameListAdminChangedMessage::Clear();
     }
-  }
-  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (has_playerinforequestmessage()) {
       if (playerinforequestmessage_ != NULL) playerinforequestmessage_->::PlayerInfoRequestMessage::Clear();
     }
+  }
+  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (has_playerinforeplymessage()) {
       if (playerinforeplymessage_ != NULL) playerinforeplymessage_->::PlayerInfoReplyMessage::Clear();
     }
@@ -22371,14 +22400,23 @@ void LobbyMessage::Clear() {
     if (has_creategamefailedmessage()) {
       if (creategamefailedmessage_ != NULL) creategamefailedmessage_->::CreateGameFailedMessage::Clear();
     }
-    if (has_inviteplayertogamemessage()) {
-      if (inviteplayertogamemessage_ != NULL) inviteplayertogamemessage_->::InvitePlayerToGameMessage::Clear();
+    if (has_joingamemessage()) {
+      if (joingamemessage_ != NULL) joingamemessage_->::JoinGameMessage::Clear();
+    }
+    if (has_rejoingamemessage()) {
+      if (rejoingamemessage_ != NULL) rejoingamemessage_->::RejoinGameMessage::Clear();
+    }
+    if (has_joingameackmessage()) {
+      if (joingameackmessage_ != NULL) joingameackmessage_->::JoinGameAckMessage::Clear();
+    }
+  }
+  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
+    if (has_joingamefailedmessage()) {
+      if (joingamefailedmessage_ != NULL) joingamefailedmessage_->::JoinGameFailedMessage::Clear();
     }
     if (has_invitenotifymessage()) {
       if (invitenotifymessage_ != NULL) invitenotifymessage_->::InviteNotifyMessage::Clear();
     }
-  }
-  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
     if (has_rejectgameinvitationmessage()) {
       if (rejectgameinvitationmessage_ != NULL) rejectgameinvitationmessage_->::RejectGameInvitationMessage::Clear();
     }
@@ -22397,14 +22435,14 @@ void LobbyMessage::Clear() {
     if (has_chatrejectmessage()) {
       if (chatrejectmessage_ != NULL) chatrejectmessage_->::ChatRejectMessage::Clear();
     }
+  }
+  if (_has_bits_[32 / 32] & (0xffu << (32 % 32))) {
     if (has_dialogmessage()) {
       if (dialogmessage_ != NULL) dialogmessage_->::DialogMessage::Clear();
     }
     if (has_timeoutwarningmessage()) {
       if (timeoutwarningmessage_ != NULL) timeoutwarningmessage_->::TimeoutWarningMessage::Clear();
     }
-  }
-  if (_has_bits_[32 / 32] & (0xffu << (32 % 32))) {
     if (has_resettimeoutmessage()) {
       if (resettimeoutmessage_ != NULL) resettimeoutmessage_->::ResetTimeoutMessage::Clear();
     }
@@ -22423,14 +22461,14 @@ void LobbyMessage::Clear() {
     if (has_adminremovegamemessage()) {
       if (adminremovegamemessage_ != NULL) adminremovegamemessage_->::AdminRemoveGameMessage::Clear();
     }
+  }
+  if (_has_bits_[40 / 32] & (0xffu << (40 % 32))) {
     if (has_adminremovegameackmessage()) {
       if (adminremovegameackmessage_ != NULL) adminremovegameackmessage_->::AdminRemoveGameAckMessage::Clear();
     }
     if (has_adminbanplayermessage()) {
       if (adminbanplayermessage_ != NULL) adminbanplayermessage_->::AdminBanPlayerMessage::Clear();
     }
-  }
-  if (_has_bits_[40 / 32] & (0xffu << (40 % 32))) {
     if (has_adminbanplayerackmessage()) {
       if (adminbanplayerackmessage_ != NULL) adminbanplayerackmessage_->::AdminBanPlayerAckMessage::Clear();
     }
@@ -22461,40 +22499,26 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_initMessage;
+        if (input->ExpectTag(18)) goto parse_initDoneMessage;
         break;
       }
 
-      // optional .InitMessage initMessage = 2;
+      // optional .InitDoneMessage initDoneMessage = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_initMessage:
+         parse_initDoneMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_initmessage()));
+               input, mutable_initdonemessage()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_initAckMessage;
+        if (input->ExpectTag(26)) goto parse_avatarRequestMessage;
         break;
       }
 
-      // optional .InitAckMessage initAckMessage = 3;
+      // optional .AvatarRequestMessage avatarRequestMessage = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_initAckMessage:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_initackmessage()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(34)) goto parse_avatarRequestMessage;
-        break;
-      }
-
-      // optional .AvatarRequestMessage avatarRequestMessage = 4;
-      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_avatarRequestMessage:
@@ -22503,12 +22527,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(42)) goto parse_avatarHeaderMessage;
+        if (input->ExpectTag(34)) goto parse_avatarHeaderMessage;
         break;
       }
 
-      // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
-      case 5: {
+      // optional .AvatarHeaderMessage avatarHeaderMessage = 4;
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_avatarHeaderMessage:
@@ -22517,12 +22541,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(50)) goto parse_avatarDataMessage;
+        if (input->ExpectTag(42)) goto parse_avatarDataMessage;
         break;
       }
 
-      // optional .AvatarDataMessage avatarDataMessage = 6;
-      case 6: {
+      // optional .AvatarDataMessage avatarDataMessage = 5;
+      case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_avatarDataMessage:
@@ -22531,12 +22555,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(58)) goto parse_avatarEndMessage;
+        if (input->ExpectTag(50)) goto parse_avatarEndMessage;
         break;
       }
 
-      // optional .AvatarEndMessage avatarEndMessage = 7;
-      case 7: {
+      // optional .AvatarEndMessage avatarEndMessage = 6;
+      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_avatarEndMessage:
@@ -22545,12 +22569,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(66)) goto parse_unknownAvatarMessage;
+        if (input->ExpectTag(58)) goto parse_unknownAvatarMessage;
         break;
       }
 
-      // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
-      case 8: {
+      // optional .UnknownAvatarMessage unknownAvatarMessage = 7;
+      case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_unknownAvatarMessage:
@@ -22559,12 +22583,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(74)) goto parse_playerListMessage;
+        if (input->ExpectTag(66)) goto parse_playerListMessage;
         break;
       }
 
-      // optional .PlayerListMessage playerListMessage = 9;
-      case 9: {
+      // optional .PlayerListMessage playerListMessage = 8;
+      case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_playerListMessage:
@@ -22573,12 +22597,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(82)) goto parse_gameListNewMessage;
+        if (input->ExpectTag(74)) goto parse_gameListNewMessage;
         break;
       }
 
-      // optional .GameListNewMessage gameListNewMessage = 10;
-      case 10: {
+      // optional .GameListNewMessage gameListNewMessage = 9;
+      case 9: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListNewMessage:
@@ -22587,12 +22611,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(90)) goto parse_gameListUpdateMessage;
+        if (input->ExpectTag(82)) goto parse_gameListUpdateMessage;
         break;
       }
 
-      // optional .GameListUpdateMessage gameListUpdateMessage = 11;
-      case 11: {
+      // optional .GameListUpdateMessage gameListUpdateMessage = 10;
+      case 10: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListUpdateMessage:
@@ -22601,12 +22625,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(98)) goto parse_gameListPlayerJoinedMessage;
+        if (input->ExpectTag(90)) goto parse_gameListPlayerJoinedMessage;
         break;
       }
 
-      // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
-      case 12: {
+      // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;
+      case 11: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListPlayerJoinedMessage:
@@ -22615,12 +22639,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(106)) goto parse_gameListPlayerLeftMessage;
+        if (input->ExpectTag(98)) goto parse_gameListPlayerLeftMessage;
         break;
       }
 
-      // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
-      case 13: {
+      // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;
+      case 12: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListPlayerLeftMessage:
@@ -22629,12 +22653,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(114)) goto parse_gameListSpectatorJoinedMessage;
+        if (input->ExpectTag(106)) goto parse_gameListSpectatorJoinedMessage;
         break;
       }
 
-      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
-      case 14: {
+      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;
+      case 13: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListSpectatorJoinedMessage:
@@ -22643,12 +22667,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(122)) goto parse_gameListSpectatorLeftMessage;
+        if (input->ExpectTag(114)) goto parse_gameListSpectatorLeftMessage;
         break;
       }
 
-      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
-      case 15: {
+      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;
+      case 14: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListSpectatorLeftMessage:
@@ -22657,12 +22681,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(130)) goto parse_gameListAdminChangedMessage;
+        if (input->ExpectTag(122)) goto parse_gameListAdminChangedMessage;
         break;
       }
 
-      // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
-      case 16: {
+      // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;
+      case 15: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameListAdminChangedMessage:
@@ -22671,12 +22695,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(138)) goto parse_playerInfoRequestMessage;
+        if (input->ExpectTag(130)) goto parse_playerInfoRequestMessage;
         break;
       }
 
-      // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
-      case 17: {
+      // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;
+      case 16: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_playerInfoRequestMessage:
@@ -22685,12 +22709,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(146)) goto parse_playerInfoReplyMessage;
+        if (input->ExpectTag(138)) goto parse_playerInfoReplyMessage;
         break;
       }
 
-      // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
-      case 18: {
+      // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;
+      case 17: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_playerInfoReplyMessage:
@@ -22699,12 +22723,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(154)) goto parse_subscriptionRequestMessage;
+        if (input->ExpectTag(146)) goto parse_subscriptionRequestMessage;
         break;
       }
 
-      // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
-      case 19: {
+      // optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;
+      case 18: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_subscriptionRequestMessage:
@@ -22713,12 +22737,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(162)) goto parse_subscriptionReplyMessage;
+        if (input->ExpectTag(154)) goto parse_subscriptionReplyMessage;
         break;
       }
 
-      // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
-      case 20: {
+      // optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;
+      case 19: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_subscriptionReplyMessage:
@@ -22727,12 +22751,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(170)) goto parse_createGameMessage;
+        if (input->ExpectTag(162)) goto parse_createGameMessage;
         break;
       }
 
-      // optional .CreateGameMessage createGameMessage = 21;
-      case 21: {
+      // optional .CreateGameMessage createGameMessage = 20;
+      case 20: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_createGameMessage:
@@ -22741,12 +22765,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(178)) goto parse_createGameFailedMessage;
+        if (input->ExpectTag(170)) goto parse_createGameFailedMessage;
         break;
       }
 
-      // optional .CreateGameFailedMessage createGameFailedMessage = 22;
-      case 22: {
+      // optional .CreateGameFailedMessage createGameFailedMessage = 21;
+      case 21: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_createGameFailedMessage:
@@ -22755,26 +22779,68 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(186)) goto parse_invitePlayerToGameMessage;
+        if (input->ExpectTag(178)) goto parse_joinGameMessage;
         break;
       }
 
-      // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
-      case 23: {
+      // optional .JoinGameMessage joinGameMessage = 22;
+      case 22: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_invitePlayerToGameMessage:
+         parse_joinGameMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_inviteplayertogamemessage()));
+               input, mutable_joingamemessage()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(194)) goto parse_inviteNotifyMessage;
+        if (input->ExpectTag(186)) goto parse_rejoinGameMessage;
         break;
       }
 
-      // optional .InviteNotifyMessage inviteNotifyMessage = 24;
+      // optional .RejoinGameMessage rejoinGameMessage = 23;
+      case 23: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_rejoinGameMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_rejoingamemessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(194)) goto parse_joinGameAckMessage;
+        break;
+      }
+
+      // optional .JoinGameAckMessage joinGameAckMessage = 24;
       case 24: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_joinGameAckMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_joingameackmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(202)) goto parse_joinGameFailedMessage;
+        break;
+      }
+
+      // optional .JoinGameFailedMessage joinGameFailedMessage = 25;
+      case 25: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_joinGameFailedMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_joingamefailedmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(210)) goto parse_inviteNotifyMessage;
+        break;
+      }
+
+      // optional .InviteNotifyMessage inviteNotifyMessage = 26;
+      case 26: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_inviteNotifyMessage:
@@ -22783,12 +22849,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(202)) goto parse_rejectGameInvitationMessage;
+        if (input->ExpectTag(218)) goto parse_rejectGameInvitationMessage;
         break;
       }
 
-      // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
-      case 25: {
+      // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;
+      case 27: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_rejectGameInvitationMessage:
@@ -22797,12 +22863,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(210)) goto parse_rejectInvNotifyMessage;
+        if (input->ExpectTag(226)) goto parse_rejectInvNotifyMessage;
         break;
       }
 
-      // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
-      case 26: {
+      // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;
+      case 28: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_rejectInvNotifyMessage:
@@ -22811,12 +22877,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(218)) goto parse_statisticsMessage;
+        if (input->ExpectTag(234)) goto parse_statisticsMessage;
         break;
       }
 
-      // optional .StatisticsMessage statisticsMessage = 27;
-      case 27: {
+      // optional .StatisticsMessage statisticsMessage = 29;
+      case 29: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_statisticsMessage:
@@ -22825,12 +22891,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(226)) goto parse_chatRequestMessage;
+        if (input->ExpectTag(242)) goto parse_chatRequestMessage;
         break;
       }
 
-      // optional .ChatRequestMessage chatRequestMessage = 28;
-      case 28: {
+      // optional .ChatRequestMessage chatRequestMessage = 30;
+      case 30: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatRequestMessage:
@@ -22839,12 +22905,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(234)) goto parse_chatMessage;
+        if (input->ExpectTag(250)) goto parse_chatMessage;
         break;
       }
 
-      // optional .ChatMessage chatMessage = 29;
-      case 29: {
+      // optional .ChatMessage chatMessage = 31;
+      case 31: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatMessage:
@@ -22853,12 +22919,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(242)) goto parse_chatRejectMessage;
+        if (input->ExpectTag(258)) goto parse_chatRejectMessage;
         break;
       }
 
-      // optional .ChatRejectMessage chatRejectMessage = 30;
-      case 30: {
+      // optional .ChatRejectMessage chatRejectMessage = 32;
+      case 32: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatRejectMessage:
@@ -22867,12 +22933,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(250)) goto parse_dialogMessage;
+        if (input->ExpectTag(266)) goto parse_dialogMessage;
         break;
       }
 
-      // optional .DialogMessage dialogMessage = 31;
-      case 31: {
+      // optional .DialogMessage dialogMessage = 33;
+      case 33: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_dialogMessage:
@@ -22881,12 +22947,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(258)) goto parse_timeoutWarningMessage;
+        if (input->ExpectTag(274)) goto parse_timeoutWarningMessage;
         break;
       }
 
-      // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
-      case 32: {
+      // optional .TimeoutWarningMessage timeoutWarningMessage = 34;
+      case 34: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_timeoutWarningMessage:
@@ -22895,12 +22961,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(266)) goto parse_resetTimeoutMessage;
+        if (input->ExpectTag(282)) goto parse_resetTimeoutMessage;
         break;
       }
 
-      // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
-      case 33: {
+      // optional .ResetTimeoutMessage resetTimeoutMessage = 35;
+      case 35: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_resetTimeoutMessage:
@@ -22909,12 +22975,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(274)) goto parse_reportAvatarMessage;
+        if (input->ExpectTag(290)) goto parse_reportAvatarMessage;
         break;
       }
 
-      // optional .ReportAvatarMessage reportAvatarMessage = 34;
-      case 34: {
+      // optional .ReportAvatarMessage reportAvatarMessage = 36;
+      case 36: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_reportAvatarMessage:
@@ -22923,12 +22989,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(282)) goto parse_reportAvatarAckMessage;
+        if (input->ExpectTag(298)) goto parse_reportAvatarAckMessage;
         break;
       }
 
-      // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
-      case 35: {
+      // optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;
+      case 37: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_reportAvatarAckMessage:
@@ -22937,12 +23003,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(290)) goto parse_reportGameMessage;
+        if (input->ExpectTag(306)) goto parse_reportGameMessage;
         break;
       }
 
-      // optional .ReportGameMessage reportGameMessage = 36;
-      case 36: {
+      // optional .ReportGameMessage reportGameMessage = 38;
+      case 38: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_reportGameMessage:
@@ -22951,12 +23017,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(298)) goto parse_reportGameAckMessage;
+        if (input->ExpectTag(314)) goto parse_reportGameAckMessage;
         break;
       }
 
-      // optional .ReportGameAckMessage reportGameAckMessage = 37;
-      case 37: {
+      // optional .ReportGameAckMessage reportGameAckMessage = 39;
+      case 39: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_reportGameAckMessage:
@@ -22965,12 +23031,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(306)) goto parse_adminRemoveGameMessage;
+        if (input->ExpectTag(322)) goto parse_adminRemoveGameMessage;
         break;
       }
 
-      // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
-      case 38: {
+      // optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;
+      case 40: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_adminRemoveGameMessage:
@@ -22979,12 +23045,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(314)) goto parse_adminRemoveGameAckMessage;
+        if (input->ExpectTag(330)) goto parse_adminRemoveGameAckMessage;
         break;
       }
 
-      // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
-      case 39: {
+      // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;
+      case 41: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_adminRemoveGameAckMessage:
@@ -22993,12 +23059,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(322)) goto parse_adminBanPlayerMessage;
+        if (input->ExpectTag(338)) goto parse_adminBanPlayerMessage;
         break;
       }
 
-      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
-      case 40: {
+      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;
+      case 42: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_adminBanPlayerMessage:
@@ -23007,12 +23073,12 @@ bool LobbyMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(330)) goto parse_adminBanPlayerAckMessage;
+        if (input->ExpectTag(346)) goto parse_adminBanPlayerAckMessage;
         break;
       }
 
-      // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
-      case 41: {
+      // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;
+      case 43: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_adminBanPlayerAckMessage:
@@ -23062,244 +23128,256 @@ void LobbyMessage::SerializeWithCachedSizes(
       1, this->messagetype(), output);
   }
 
-  // optional .InitMessage initMessage = 2;
-  if (has_initmessage()) {
+  // optional .InitDoneMessage initDoneMessage = 2;
+  if (has_initdonemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      2, this->initmessage(), output);
+      2, this->initdonemessage(), output);
   }
 
-  // optional .InitAckMessage initAckMessage = 3;
-  if (has_initackmessage()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      3, this->initackmessage(), output);
-  }
-
-  // optional .AvatarRequestMessage avatarRequestMessage = 4;
+  // optional .AvatarRequestMessage avatarRequestMessage = 3;
   if (has_avatarrequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      4, this->avatarrequestmessage(), output);
+      3, this->avatarrequestmessage(), output);
   }
 
-  // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
+  // optional .AvatarHeaderMessage avatarHeaderMessage = 4;
   if (has_avatarheadermessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      5, this->avatarheadermessage(), output);
+      4, this->avatarheadermessage(), output);
   }
 
-  // optional .AvatarDataMessage avatarDataMessage = 6;
+  // optional .AvatarDataMessage avatarDataMessage = 5;
   if (has_avatardatamessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      6, this->avatardatamessage(), output);
+      5, this->avatardatamessage(), output);
   }
 
-  // optional .AvatarEndMessage avatarEndMessage = 7;
+  // optional .AvatarEndMessage avatarEndMessage = 6;
   if (has_avatarendmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      7, this->avatarendmessage(), output);
+      6, this->avatarendmessage(), output);
   }
 
-  // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
+  // optional .UnknownAvatarMessage unknownAvatarMessage = 7;
   if (has_unknownavatarmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      8, this->unknownavatarmessage(), output);
+      7, this->unknownavatarmessage(), output);
   }
 
-  // optional .PlayerListMessage playerListMessage = 9;
+  // optional .PlayerListMessage playerListMessage = 8;
   if (has_playerlistmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      9, this->playerlistmessage(), output);
+      8, this->playerlistmessage(), output);
   }
 
-  // optional .GameListNewMessage gameListNewMessage = 10;
+  // optional .GameListNewMessage gameListNewMessage = 9;
   if (has_gamelistnewmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      10, this->gamelistnewmessage(), output);
+      9, this->gamelistnewmessage(), output);
   }
 
-  // optional .GameListUpdateMessage gameListUpdateMessage = 11;
+  // optional .GameListUpdateMessage gameListUpdateMessage = 10;
   if (has_gamelistupdatemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      11, this->gamelistupdatemessage(), output);
+      10, this->gamelistupdatemessage(), output);
   }
 
-  // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
+  // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;
   if (has_gamelistplayerjoinedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      12, this->gamelistplayerjoinedmessage(), output);
+      11, this->gamelistplayerjoinedmessage(), output);
   }
 
-  // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
+  // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;
   if (has_gamelistplayerleftmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      13, this->gamelistplayerleftmessage(), output);
+      12, this->gamelistplayerleftmessage(), output);
   }
 
-  // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
+  // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;
   if (has_gamelistspectatorjoinedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      14, this->gamelistspectatorjoinedmessage(), output);
+      13, this->gamelistspectatorjoinedmessage(), output);
   }
 
-  // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
+  // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;
   if (has_gamelistspectatorleftmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      15, this->gamelistspectatorleftmessage(), output);
+      14, this->gamelistspectatorleftmessage(), output);
   }
 
-  // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
+  // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;
   if (has_gamelistadminchangedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      16, this->gamelistadminchangedmessage(), output);
+      15, this->gamelistadminchangedmessage(), output);
   }
 
-  // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
+  // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;
   if (has_playerinforequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      17, this->playerinforequestmessage(), output);
+      16, this->playerinforequestmessage(), output);
   }
 
-  // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
+  // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;
   if (has_playerinforeplymessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      18, this->playerinforeplymessage(), output);
+      17, this->playerinforeplymessage(), output);
   }
 
-  // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
+  // optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;
   if (has_subscriptionrequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      19, this->subscriptionrequestmessage(), output);
+      18, this->subscriptionrequestmessage(), output);
   }
 
-  // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
+  // optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;
   if (has_subscriptionreplymessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      20, this->subscriptionreplymessage(), output);
+      19, this->subscriptionreplymessage(), output);
   }
 
-  // optional .CreateGameMessage createGameMessage = 21;
+  // optional .CreateGameMessage createGameMessage = 20;
   if (has_creategamemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      21, this->creategamemessage(), output);
+      20, this->creategamemessage(), output);
   }
 
-  // optional .CreateGameFailedMessage createGameFailedMessage = 22;
+  // optional .CreateGameFailedMessage createGameFailedMessage = 21;
   if (has_creategamefailedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      22, this->creategamefailedmessage(), output);
+      21, this->creategamefailedmessage(), output);
   }
 
-  // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
-  if (has_inviteplayertogamemessage()) {
+  // optional .JoinGameMessage joinGameMessage = 22;
+  if (has_joingamemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      23, this->inviteplayertogamemessage(), output);
+      22, this->joingamemessage(), output);
   }
 
-  // optional .InviteNotifyMessage inviteNotifyMessage = 24;
+  // optional .RejoinGameMessage rejoinGameMessage = 23;
+  if (has_rejoingamemessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      23, this->rejoingamemessage(), output);
+  }
+
+  // optional .JoinGameAckMessage joinGameAckMessage = 24;
+  if (has_joingameackmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      24, this->joingameackmessage(), output);
+  }
+
+  // optional .JoinGameFailedMessage joinGameFailedMessage = 25;
+  if (has_joingamefailedmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      25, this->joingamefailedmessage(), output);
+  }
+
+  // optional .InviteNotifyMessage inviteNotifyMessage = 26;
   if (has_invitenotifymessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      24, this->invitenotifymessage(), output);
+      26, this->invitenotifymessage(), output);
   }
 
-  // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
+  // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;
   if (has_rejectgameinvitationmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      25, this->rejectgameinvitationmessage(), output);
+      27, this->rejectgameinvitationmessage(), output);
   }
 
-  // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
+  // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;
   if (has_rejectinvnotifymessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      26, this->rejectinvnotifymessage(), output);
+      28, this->rejectinvnotifymessage(), output);
   }
 
-  // optional .StatisticsMessage statisticsMessage = 27;
+  // optional .StatisticsMessage statisticsMessage = 29;
   if (has_statisticsmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      27, this->statisticsmessage(), output);
+      29, this->statisticsmessage(), output);
   }
 
-  // optional .ChatRequestMessage chatRequestMessage = 28;
+  // optional .ChatRequestMessage chatRequestMessage = 30;
   if (has_chatrequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      28, this->chatrequestmessage(), output);
+      30, this->chatrequestmessage(), output);
   }
 
-  // optional .ChatMessage chatMessage = 29;
+  // optional .ChatMessage chatMessage = 31;
   if (has_chatmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      29, this->chatmessage(), output);
+      31, this->chatmessage(), output);
   }
 
-  // optional .ChatRejectMessage chatRejectMessage = 30;
+  // optional .ChatRejectMessage chatRejectMessage = 32;
   if (has_chatrejectmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      30, this->chatrejectmessage(), output);
+      32, this->chatrejectmessage(), output);
   }
 
-  // optional .DialogMessage dialogMessage = 31;
+  // optional .DialogMessage dialogMessage = 33;
   if (has_dialogmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      31, this->dialogmessage(), output);
+      33, this->dialogmessage(), output);
   }
 
-  // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
+  // optional .TimeoutWarningMessage timeoutWarningMessage = 34;
   if (has_timeoutwarningmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      32, this->timeoutwarningmessage(), output);
+      34, this->timeoutwarningmessage(), output);
   }
 
-  // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
+  // optional .ResetTimeoutMessage resetTimeoutMessage = 35;
   if (has_resettimeoutmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      33, this->resettimeoutmessage(), output);
+      35, this->resettimeoutmessage(), output);
   }
 
-  // optional .ReportAvatarMessage reportAvatarMessage = 34;
+  // optional .ReportAvatarMessage reportAvatarMessage = 36;
   if (has_reportavatarmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      34, this->reportavatarmessage(), output);
+      36, this->reportavatarmessage(), output);
   }
 
-  // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
+  // optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;
   if (has_reportavatarackmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      35, this->reportavatarackmessage(), output);
+      37, this->reportavatarackmessage(), output);
   }
 
-  // optional .ReportGameMessage reportGameMessage = 36;
+  // optional .ReportGameMessage reportGameMessage = 38;
   if (has_reportgamemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      36, this->reportgamemessage(), output);
+      38, this->reportgamemessage(), output);
   }
 
-  // optional .ReportGameAckMessage reportGameAckMessage = 37;
+  // optional .ReportGameAckMessage reportGameAckMessage = 39;
   if (has_reportgameackmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      37, this->reportgameackmessage(), output);
+      39, this->reportgameackmessage(), output);
   }
 
-  // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
+  // optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;
   if (has_adminremovegamemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      38, this->adminremovegamemessage(), output);
+      40, this->adminremovegamemessage(), output);
   }
 
-  // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
+  // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;
   if (has_adminremovegameackmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      39, this->adminremovegameackmessage(), output);
+      41, this->adminremovegameackmessage(), output);
   }
 
-  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
+  // optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;
   if (has_adminbanplayermessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      40, this->adminbanplayermessage(), output);
+      42, this->adminbanplayermessage(), output);
   }
 
-  // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
+  // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;
   if (has_adminbanplayerackmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      41, this->adminbanplayerackmessage(), output);
+      43, this->adminbanplayerackmessage(), output);
   }
 
   // optional .ErrorMessage errorMessage = 1025;
@@ -23320,290 +23398,304 @@ int LobbyMessage::ByteSize() const {
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->messagetype());
     }
 
-    // optional .InitMessage initMessage = 2;
-    if (has_initmessage()) {
+    // optional .InitDoneMessage initDoneMessage = 2;
+    if (has_initdonemessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->initmessage());
+          this->initdonemessage());
     }
 
-    // optional .InitAckMessage initAckMessage = 3;
-    if (has_initackmessage()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->initackmessage());
-    }
-
-    // optional .AvatarRequestMessage avatarRequestMessage = 4;
+    // optional .AvatarRequestMessage avatarRequestMessage = 3;
     if (has_avatarrequestmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->avatarrequestmessage());
     }
 
-    // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
+    // optional .AvatarHeaderMessage avatarHeaderMessage = 4;
     if (has_avatarheadermessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->avatarheadermessage());
     }
 
-    // optional .AvatarDataMessage avatarDataMessage = 6;
+    // optional .AvatarDataMessage avatarDataMessage = 5;
     if (has_avatardatamessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->avatardatamessage());
     }
 
-    // optional .AvatarEndMessage avatarEndMessage = 7;
+    // optional .AvatarEndMessage avatarEndMessage = 6;
     if (has_avatarendmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->avatarendmessage());
     }
 
-    // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
+    // optional .UnknownAvatarMessage unknownAvatarMessage = 7;
     if (has_unknownavatarmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->unknownavatarmessage());
     }
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional .PlayerListMessage playerListMessage = 9;
+    // optional .PlayerListMessage playerListMessage = 8;
     if (has_playerlistmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->playerlistmessage());
     }
 
-    // optional .GameListNewMessage gameListNewMessage = 10;
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // optional .GameListNewMessage gameListNewMessage = 9;
     if (has_gamelistnewmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistnewmessage());
     }
 
-    // optional .GameListUpdateMessage gameListUpdateMessage = 11;
+    // optional .GameListUpdateMessage gameListUpdateMessage = 10;
     if (has_gamelistupdatemessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistupdatemessage());
     }
 
-    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
+    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;
     if (has_gamelistplayerjoinedmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistplayerjoinedmessage());
     }
 
-    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
+    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;
     if (has_gamelistplayerleftmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistplayerleftmessage());
     }
 
-    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;
     if (has_gamelistspectatorjoinedmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistspectatorjoinedmessage());
     }
 
-    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;
     if (has_gamelistspectatorleftmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistspectatorleftmessage());
     }
 
-    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
+    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;
     if (has_gamelistadminchangedmessage()) {
-      total_size += 2 +
+      total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamelistadminchangedmessage());
     }
 
-  }
-  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
-    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
+    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;
     if (has_playerinforequestmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->playerinforequestmessage());
     }
 
-    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
+  }
+  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
+    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;
     if (has_playerinforeplymessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->playerinforeplymessage());
     }
 
-    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
+    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;
     if (has_subscriptionrequestmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->subscriptionrequestmessage());
     }
 
-    // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
+    // optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;
     if (has_subscriptionreplymessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->subscriptionreplymessage());
     }
 
-    // optional .CreateGameMessage createGameMessage = 21;
+    // optional .CreateGameMessage createGameMessage = 20;
     if (has_creategamemessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->creategamemessage());
     }
 
-    // optional .CreateGameFailedMessage createGameFailedMessage = 22;
+    // optional .CreateGameFailedMessage createGameFailedMessage = 21;
     if (has_creategamefailedmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->creategamefailedmessage());
     }
 
-    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
-    if (has_inviteplayertogamemessage()) {
+    // optional .JoinGameMessage joinGameMessage = 22;
+    if (has_joingamemessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->inviteplayertogamemessage());
+          this->joingamemessage());
     }
 
-    // optional .InviteNotifyMessage inviteNotifyMessage = 24;
+    // optional .RejoinGameMessage rejoinGameMessage = 23;
+    if (has_rejoingamemessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->rejoingamemessage());
+    }
+
+    // optional .JoinGameAckMessage joinGameAckMessage = 24;
+    if (has_joingameackmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->joingameackmessage());
+    }
+
+  }
+  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
+    // optional .JoinGameFailedMessage joinGameFailedMessage = 25;
+    if (has_joingamefailedmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->joingamefailedmessage());
+    }
+
+    // optional .InviteNotifyMessage inviteNotifyMessage = 26;
     if (has_invitenotifymessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->invitenotifymessage());
     }
 
-  }
-  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
-    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
+    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;
     if (has_rejectgameinvitationmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->rejectgameinvitationmessage());
     }
 
-    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
+    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;
     if (has_rejectinvnotifymessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->rejectinvnotifymessage());
     }
 
-    // optional .StatisticsMessage statisticsMessage = 27;
+    // optional .StatisticsMessage statisticsMessage = 29;
     if (has_statisticsmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->statisticsmessage());
     }
 
-    // optional .ChatRequestMessage chatRequestMessage = 28;
+    // optional .ChatRequestMessage chatRequestMessage = 30;
     if (has_chatrequestmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->chatrequestmessage());
     }
 
-    // optional .ChatMessage chatMessage = 29;
+    // optional .ChatMessage chatMessage = 31;
     if (has_chatmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->chatmessage());
     }
 
-    // optional .ChatRejectMessage chatRejectMessage = 30;
+    // optional .ChatRejectMessage chatRejectMessage = 32;
     if (has_chatrejectmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->chatrejectmessage());
     }
 
-    // optional .DialogMessage dialogMessage = 31;
+  }
+  if (_has_bits_[32 / 32] & (0xffu << (32 % 32))) {
+    // optional .DialogMessage dialogMessage = 33;
     if (has_dialogmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->dialogmessage());
     }
 
-    // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 34;
     if (has_timeoutwarningmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->timeoutwarningmessage());
     }
 
-  }
-  if (_has_bits_[32 / 32] & (0xffu << (32 % 32))) {
-    // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 35;
     if (has_resettimeoutmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->resettimeoutmessage());
     }
 
-    // optional .ReportAvatarMessage reportAvatarMessage = 34;
+    // optional .ReportAvatarMessage reportAvatarMessage = 36;
     if (has_reportavatarmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->reportavatarmessage());
     }
 
-    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
+    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;
     if (has_reportavatarackmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->reportavatarackmessage());
     }
 
-    // optional .ReportGameMessage reportGameMessage = 36;
+    // optional .ReportGameMessage reportGameMessage = 38;
     if (has_reportgamemessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->reportgamemessage());
     }
 
-    // optional .ReportGameAckMessage reportGameAckMessage = 37;
+    // optional .ReportGameAckMessage reportGameAckMessage = 39;
     if (has_reportgameackmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->reportgameackmessage());
     }
 
-    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;
     if (has_adminremovegamemessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->adminremovegamemessage());
     }
 
-    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
+  }
+  if (_has_bits_[40 / 32] & (0xffu << (40 % 32))) {
+    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;
     if (has_adminremovegameackmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->adminremovegameackmessage());
     }
 
-    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;
     if (has_adminbanplayermessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->adminbanplayermessage());
     }
 
-  }
-  if (_has_bits_[40 / 32] & (0xffu << (40 % 32))) {
-    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
+    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;
     if (has_adminbanplayerackmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -23635,11 +23727,8 @@ void LobbyMessage::MergeFrom(const LobbyMessage& from) {
     if (from.has_messagetype()) {
       set_messagetype(from.messagetype());
     }
-    if (from.has_initmessage()) {
-      mutable_initmessage()->::InitMessage::MergeFrom(from.initmessage());
-    }
-    if (from.has_initackmessage()) {
-      mutable_initackmessage()->::InitAckMessage::MergeFrom(from.initackmessage());
+    if (from.has_initdonemessage()) {
+      mutable_initdonemessage()->::InitDoneMessage::MergeFrom(from.initdonemessage());
     }
     if (from.has_avatarrequestmessage()) {
       mutable_avatarrequestmessage()->::AvatarRequestMessage::MergeFrom(from.avatarrequestmessage());
@@ -23656,11 +23745,11 @@ void LobbyMessage::MergeFrom(const LobbyMessage& from) {
     if (from.has_unknownavatarmessage()) {
       mutable_unknownavatarmessage()->::UnknownAvatarMessage::MergeFrom(from.unknownavatarmessage());
     }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_playerlistmessage()) {
       mutable_playerlistmessage()->::PlayerListMessage::MergeFrom(from.playerlistmessage());
     }
+  }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_gamelistnewmessage()) {
       mutable_gamelistnewmessage()->::GameListNewMessage::MergeFrom(from.gamelistnewmessage());
     }
@@ -23682,11 +23771,11 @@ void LobbyMessage::MergeFrom(const LobbyMessage& from) {
     if (from.has_gamelistadminchangedmessage()) {
       mutable_gamelistadminchangedmessage()->::GameListAdminChangedMessage::MergeFrom(from.gamelistadminchangedmessage());
     }
-  }
-  if (from._has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (from.has_playerinforequestmessage()) {
       mutable_playerinforequestmessage()->::PlayerInfoRequestMessage::MergeFrom(from.playerinforequestmessage());
     }
+  }
+  if (from._has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (from.has_playerinforeplymessage()) {
       mutable_playerinforeplymessage()->::PlayerInfoReplyMessage::MergeFrom(from.playerinforeplymessage());
     }
@@ -23702,14 +23791,23 @@ void LobbyMessage::MergeFrom(const LobbyMessage& from) {
     if (from.has_creategamefailedmessage()) {
       mutable_creategamefailedmessage()->::CreateGameFailedMessage::MergeFrom(from.creategamefailedmessage());
     }
-    if (from.has_inviteplayertogamemessage()) {
-      mutable_inviteplayertogamemessage()->::InvitePlayerToGameMessage::MergeFrom(from.inviteplayertogamemessage());
+    if (from.has_joingamemessage()) {
+      mutable_joingamemessage()->::JoinGameMessage::MergeFrom(from.joingamemessage());
+    }
+    if (from.has_rejoingamemessage()) {
+      mutable_rejoingamemessage()->::RejoinGameMessage::MergeFrom(from.rejoingamemessage());
+    }
+    if (from.has_joingameackmessage()) {
+      mutable_joingameackmessage()->::JoinGameAckMessage::MergeFrom(from.joingameackmessage());
+    }
+  }
+  if (from._has_bits_[24 / 32] & (0xffu << (24 % 32))) {
+    if (from.has_joingamefailedmessage()) {
+      mutable_joingamefailedmessage()->::JoinGameFailedMessage::MergeFrom(from.joingamefailedmessage());
     }
     if (from.has_invitenotifymessage()) {
       mutable_invitenotifymessage()->::InviteNotifyMessage::MergeFrom(from.invitenotifymessage());
     }
-  }
-  if (from._has_bits_[24 / 32] & (0xffu << (24 % 32))) {
     if (from.has_rejectgameinvitationmessage()) {
       mutable_rejectgameinvitationmessage()->::RejectGameInvitationMessage::MergeFrom(from.rejectgameinvitationmessage());
     }
@@ -23728,14 +23826,14 @@ void LobbyMessage::MergeFrom(const LobbyMessage& from) {
     if (from.has_chatrejectmessage()) {
       mutable_chatrejectmessage()->::ChatRejectMessage::MergeFrom(from.chatrejectmessage());
     }
+  }
+  if (from._has_bits_[32 / 32] & (0xffu << (32 % 32))) {
     if (from.has_dialogmessage()) {
       mutable_dialogmessage()->::DialogMessage::MergeFrom(from.dialogmessage());
     }
     if (from.has_timeoutwarningmessage()) {
       mutable_timeoutwarningmessage()->::TimeoutWarningMessage::MergeFrom(from.timeoutwarningmessage());
     }
-  }
-  if (from._has_bits_[32 / 32] & (0xffu << (32 % 32))) {
     if (from.has_resettimeoutmessage()) {
       mutable_resettimeoutmessage()->::ResetTimeoutMessage::MergeFrom(from.resettimeoutmessage());
     }
@@ -23754,14 +23852,14 @@ void LobbyMessage::MergeFrom(const LobbyMessage& from) {
     if (from.has_adminremovegamemessage()) {
       mutable_adminremovegamemessage()->::AdminRemoveGameMessage::MergeFrom(from.adminremovegamemessage());
     }
+  }
+  if (from._has_bits_[40 / 32] & (0xffu << (40 % 32))) {
     if (from.has_adminremovegameackmessage()) {
       mutable_adminremovegameackmessage()->::AdminRemoveGameAckMessage::MergeFrom(from.adminremovegameackmessage());
     }
     if (from.has_adminbanplayermessage()) {
       mutable_adminbanplayermessage()->::AdminBanPlayerMessage::MergeFrom(from.adminbanplayermessage());
     }
-  }
-  if (from._has_bits_[40 / 32] & (0xffu << (40 % 32))) {
     if (from.has_adminbanplayerackmessage()) {
       mutable_adminbanplayerackmessage()->::AdminBanPlayerAckMessage::MergeFrom(from.adminbanplayerackmessage());
     }
@@ -23780,6 +23878,9 @@ void LobbyMessage::CopyFrom(const LobbyMessage& from) {
 bool LobbyMessage::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
+  if (has_initdonemessage()) {
+    if (!this->initdonemessage().IsInitialized()) return false;
+  }
   if (has_avatarrequestmessage()) {
     if (!this->avatarrequestmessage().IsInitialized()) return false;
   }
@@ -23834,8 +23935,17 @@ bool LobbyMessage::IsInitialized() const {
   if (has_creategamefailedmessage()) {
     if (!this->creategamefailedmessage().IsInitialized()) return false;
   }
-  if (has_inviteplayertogamemessage()) {
-    if (!this->inviteplayertogamemessage().IsInitialized()) return false;
+  if (has_joingamemessage()) {
+    if (!this->joingamemessage().IsInitialized()) return false;
+  }
+  if (has_rejoingamemessage()) {
+    if (!this->rejoingamemessage().IsInitialized()) return false;
+  }
+  if (has_joingameackmessage()) {
+    if (!this->joingameackmessage().IsInitialized()) return false;
+  }
+  if (has_joingamefailedmessage()) {
+    if (!this->joingamefailedmessage().IsInitialized()) return false;
   }
   if (has_invitenotifymessage()) {
     if (!this->invitenotifymessage().IsInitialized()) return false;
@@ -23897,8 +24007,7 @@ bool LobbyMessage::IsInitialized() const {
 void LobbyMessage::Swap(LobbyMessage* other) {
   if (other != this) {
     std::swap(messagetype_, other->messagetype_);
-    std::swap(initmessage_, other->initmessage_);
-    std::swap(initackmessage_, other->initackmessage_);
+    std::swap(initdonemessage_, other->initdonemessage_);
     std::swap(avatarrequestmessage_, other->avatarrequestmessage_);
     std::swap(avatarheadermessage_, other->avatarheadermessage_);
     std::swap(avatardatamessage_, other->avatardatamessage_);
@@ -23918,7 +24027,10 @@ void LobbyMessage::Swap(LobbyMessage* other) {
     std::swap(subscriptionreplymessage_, other->subscriptionreplymessage_);
     std::swap(creategamemessage_, other->creategamemessage_);
     std::swap(creategamefailedmessage_, other->creategamefailedmessage_);
-    std::swap(inviteplayertogamemessage_, other->inviteplayertogamemessage_);
+    std::swap(joingamemessage_, other->joingamemessage_);
+    std::swap(rejoingamemessage_, other->rejoingamemessage_);
+    std::swap(joingameackmessage_, other->joingameackmessage_);
+    std::swap(joingamefailedmessage_, other->joingamefailedmessage_);
     std::swap(invitenotifymessage_, other->invitenotifymessage_);
     std::swap(rejectgameinvitationmessage_, other->rejectgameinvitationmessage_);
     std::swap(rejectinvnotifymessage_, other->rejectinvnotifymessage_);
@@ -23980,7 +24092,6 @@ bool GameManagementMessage_GameManagementMessageType_IsValid(int value) {
     case 25:
     case 26:
     case 27:
-    case 28:
     case 1024:
       return true;
     default:
@@ -23989,10 +24100,6 @@ bool GameManagementMessage_GameManagementMessageType_IsValid(int value) {
 }
 
 #ifndef _MSC_VER
-const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_JoinGameMessage;
-const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_RejoinGameMessage;
-const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_JoinGameAckMessage;
-const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_JoinGameFailedMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_GamePlayerJoinedMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_GamePlayerLeftMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_GameSpectatorJoinedMessage;
@@ -24001,6 +24108,7 @@ const GameManagementMessage_GameManagementMessageType GameManagementMessage::Typ
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_RemovedFromGameMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_KickPlayerRequestMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_LeaveGameRequestMessage;
+const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_InvitePlayerToGameMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_StartEventMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_StartEventAckMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_GameStartInitialMessage;
@@ -24017,6 +24125,8 @@ const GameManagementMessage_GameManagementMessageType GameManagementMessage::Typ
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_ChatRequestMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_ChatMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_ChatRejectMessage;
+const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_TimeoutWarningMessage;
+const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_ResetTimeoutMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::Type_ErrorMessage;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::GameManagementMessageType_MIN;
 const GameManagementMessage_GameManagementMessageType GameManagementMessage::GameManagementMessageType_MAX;
@@ -24024,10 +24134,6 @@ const int GameManagementMessage::GameManagementMessageType_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
 const int GameManagementMessage::kMessageTypeFieldNumber;
-const int GameManagementMessage::kJoinGameMessageFieldNumber;
-const int GameManagementMessage::kRejoinGameMessageFieldNumber;
-const int GameManagementMessage::kJoinGameAckMessageFieldNumber;
-const int GameManagementMessage::kJoinGameFailedMessageFieldNumber;
 const int GameManagementMessage::kGamePlayerJoinedMessageFieldNumber;
 const int GameManagementMessage::kGamePlayerLeftMessageFieldNumber;
 const int GameManagementMessage::kGameSpectatorJoinedMessageFieldNumber;
@@ -24036,6 +24142,7 @@ const int GameManagementMessage::kGameAdminChangedMessageFieldNumber;
 const int GameManagementMessage::kRemovedFromGameMessageFieldNumber;
 const int GameManagementMessage::kKickPlayerRequestMessageFieldNumber;
 const int GameManagementMessage::kLeaveGameRequestMessageFieldNumber;
+const int GameManagementMessage::kInvitePlayerToGameMessageFieldNumber;
 const int GameManagementMessage::kStartEventMessageFieldNumber;
 const int GameManagementMessage::kStartEventAckMessageFieldNumber;
 const int GameManagementMessage::kGameStartInitialMessageFieldNumber;
@@ -24052,6 +24159,8 @@ const int GameManagementMessage::kEndKickPetitionMessageFieldNumber;
 const int GameManagementMessage::kChatRequestMessageFieldNumber;
 const int GameManagementMessage::kChatMessageFieldNumber;
 const int GameManagementMessage::kChatRejectMessageFieldNumber;
+const int GameManagementMessage::kTimeoutWarningMessageFieldNumber;
+const int GameManagementMessage::kResetTimeoutMessageFieldNumber;
 const int GameManagementMessage::kErrorMessageFieldNumber;
 #endif  // !_MSC_VER
 
@@ -24061,30 +24170,6 @@ GameManagementMessage::GameManagementMessage()
 }
 
 void GameManagementMessage::InitAsDefaultInstance() {
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  joingamemessage_ = const_cast< ::JoinGameMessage*>(
-      ::JoinGameMessage::internal_default_instance());
-#else
-  joingamemessage_ = const_cast< ::JoinGameMessage*>(&::JoinGameMessage::default_instance());
-#endif
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  rejoingamemessage_ = const_cast< ::RejoinGameMessage*>(
-      ::RejoinGameMessage::internal_default_instance());
-#else
-  rejoingamemessage_ = const_cast< ::RejoinGameMessage*>(&::RejoinGameMessage::default_instance());
-#endif
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  joingameackmessage_ = const_cast< ::JoinGameAckMessage*>(
-      ::JoinGameAckMessage::internal_default_instance());
-#else
-  joingameackmessage_ = const_cast< ::JoinGameAckMessage*>(&::JoinGameAckMessage::default_instance());
-#endif
-#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
-  joingamefailedmessage_ = const_cast< ::JoinGameFailedMessage*>(
-      ::JoinGameFailedMessage::internal_default_instance());
-#else
-  joingamefailedmessage_ = const_cast< ::JoinGameFailedMessage*>(&::JoinGameFailedMessage::default_instance());
-#endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   gameplayerjoinedmessage_ = const_cast< ::GamePlayerJoinedMessage*>(
       ::GamePlayerJoinedMessage::internal_default_instance());
@@ -24132,6 +24217,12 @@ void GameManagementMessage::InitAsDefaultInstance() {
       ::LeaveGameRequestMessage::internal_default_instance());
 #else
   leavegamerequestmessage_ = const_cast< ::LeaveGameRequestMessage*>(&::LeaveGameRequestMessage::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  inviteplayertogamemessage_ = const_cast< ::InvitePlayerToGameMessage*>(
+      ::InvitePlayerToGameMessage::internal_default_instance());
+#else
+  inviteplayertogamemessage_ = const_cast< ::InvitePlayerToGameMessage*>(&::InvitePlayerToGameMessage::default_instance());
 #endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   starteventmessage_ = const_cast< ::StartEventMessage*>(
@@ -24230,6 +24321,18 @@ void GameManagementMessage::InitAsDefaultInstance() {
   chatrejectmessage_ = const_cast< ::ChatRejectMessage*>(&::ChatRejectMessage::default_instance());
 #endif
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  timeoutwarningmessage_ = const_cast< ::TimeoutWarningMessage*>(
+      ::TimeoutWarningMessage::internal_default_instance());
+#else
+  timeoutwarningmessage_ = const_cast< ::TimeoutWarningMessage*>(&::TimeoutWarningMessage::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  resettimeoutmessage_ = const_cast< ::ResetTimeoutMessage*>(
+      ::ResetTimeoutMessage::internal_default_instance());
+#else
+  resettimeoutmessage_ = const_cast< ::ResetTimeoutMessage*>(&::ResetTimeoutMessage::default_instance());
+#endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   errormessage_ = const_cast< ::ErrorMessage*>(
       ::ErrorMessage::internal_default_instance());
 #else
@@ -24246,10 +24349,6 @@ GameManagementMessage::GameManagementMessage(const GameManagementMessage& from)
 void GameManagementMessage::SharedCtor() {
   _cached_size_ = 0;
   messagetype_ = 1;
-  joingamemessage_ = NULL;
-  rejoingamemessage_ = NULL;
-  joingameackmessage_ = NULL;
-  joingamefailedmessage_ = NULL;
   gameplayerjoinedmessage_ = NULL;
   gameplayerleftmessage_ = NULL;
   gamespectatorjoinedmessage_ = NULL;
@@ -24258,6 +24357,7 @@ void GameManagementMessage::SharedCtor() {
   removedfromgamemessage_ = NULL;
   kickplayerrequestmessage_ = NULL;
   leavegamerequestmessage_ = NULL;
+  inviteplayertogamemessage_ = NULL;
   starteventmessage_ = NULL;
   starteventackmessage_ = NULL;
   gamestartinitialmessage_ = NULL;
@@ -24274,6 +24374,8 @@ void GameManagementMessage::SharedCtor() {
   chatrequestmessage_ = NULL;
   chatmessage_ = NULL;
   chatrejectmessage_ = NULL;
+  timeoutwarningmessage_ = NULL;
+  resettimeoutmessage_ = NULL;
   errormessage_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
@@ -24288,10 +24390,6 @@ void GameManagementMessage::SharedDtor() {
   #else
   if (this != default_instance_) {
   #endif
-    delete joingamemessage_;
-    delete rejoingamemessage_;
-    delete joingameackmessage_;
-    delete joingamefailedmessage_;
     delete gameplayerjoinedmessage_;
     delete gameplayerleftmessage_;
     delete gamespectatorjoinedmessage_;
@@ -24300,6 +24398,7 @@ void GameManagementMessage::SharedDtor() {
     delete removedfromgamemessage_;
     delete kickplayerrequestmessage_;
     delete leavegamerequestmessage_;
+    delete inviteplayertogamemessage_;
     delete starteventmessage_;
     delete starteventackmessage_;
     delete gamestartinitialmessage_;
@@ -24316,6 +24415,8 @@ void GameManagementMessage::SharedDtor() {
     delete chatrequestmessage_;
     delete chatmessage_;
     delete chatrejectmessage_;
+    delete timeoutwarningmessage_;
+    delete resettimeoutmessage_;
     delete errormessage_;
   }
 }
@@ -24343,18 +24444,6 @@ GameManagementMessage* GameManagementMessage::New() const {
 void GameManagementMessage::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     messagetype_ = 1;
-    if (has_joingamemessage()) {
-      if (joingamemessage_ != NULL) joingamemessage_->::JoinGameMessage::Clear();
-    }
-    if (has_rejoingamemessage()) {
-      if (rejoingamemessage_ != NULL) rejoingamemessage_->::RejoinGameMessage::Clear();
-    }
-    if (has_joingameackmessage()) {
-      if (joingameackmessage_ != NULL) joingameackmessage_->::JoinGameAckMessage::Clear();
-    }
-    if (has_joingamefailedmessage()) {
-      if (joingamefailedmessage_ != NULL) joingamefailedmessage_->::JoinGameFailedMessage::Clear();
-    }
     if (has_gameplayerjoinedmessage()) {
       if (gameplayerjoinedmessage_ != NULL) gameplayerjoinedmessage_->::GamePlayerJoinedMessage::Clear();
     }
@@ -24364,8 +24453,6 @@ void GameManagementMessage::Clear() {
     if (has_gamespectatorjoinedmessage()) {
       if (gamespectatorjoinedmessage_ != NULL) gamespectatorjoinedmessage_->::GameSpectatorJoinedMessage::Clear();
     }
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (has_gamespectatorleftmessage()) {
       if (gamespectatorleftmessage_ != NULL) gamespectatorleftmessage_->::GameSpectatorLeftMessage::Clear();
     }
@@ -24378,8 +24465,13 @@ void GameManagementMessage::Clear() {
     if (has_kickplayerrequestmessage()) {
       if (kickplayerrequestmessage_ != NULL) kickplayerrequestmessage_->::KickPlayerRequestMessage::Clear();
     }
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (has_leavegamerequestmessage()) {
       if (leavegamerequestmessage_ != NULL) leavegamerequestmessage_->::LeaveGameRequestMessage::Clear();
+    }
+    if (has_inviteplayertogamemessage()) {
+      if (inviteplayertogamemessage_ != NULL) inviteplayertogamemessage_->::InvitePlayerToGameMessage::Clear();
     }
     if (has_starteventmessage()) {
       if (starteventmessage_ != NULL) starteventmessage_->::StartEventMessage::Clear();
@@ -24390,8 +24482,6 @@ void GameManagementMessage::Clear() {
     if (has_gamestartinitialmessage()) {
       if (gamestartinitialmessage_ != NULL) gamestartinitialmessage_->::GameStartInitialMessage::Clear();
     }
-  }
-  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (has_gamestartrejoinmessage()) {
       if (gamestartrejoinmessage_ != NULL) gamestartrejoinmessage_->::GameStartRejoinMessage::Clear();
     }
@@ -24401,6 +24491,8 @@ void GameManagementMessage::Clear() {
     if (has_playeridchangedmessage()) {
       if (playeridchangedmessage_ != NULL) playeridchangedmessage_->::PlayerIdChangedMessage::Clear();
     }
+  }
+  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (has_askkickplayermessage()) {
       if (askkickplayermessage_ != NULL) askkickplayermessage_->::AskKickPlayerMessage::Clear();
     }
@@ -24416,8 +24508,6 @@ void GameManagementMessage::Clear() {
     if (has_votekickreplymessage()) {
       if (votekickreplymessage_ != NULL) votekickreplymessage_->::VoteKickReplyMessage::Clear();
     }
-  }
-  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
     if (has_kickpetitionupdatemessage()) {
       if (kickpetitionupdatemessage_ != NULL) kickpetitionupdatemessage_->::KickPetitionUpdateMessage::Clear();
     }
@@ -24427,11 +24517,19 @@ void GameManagementMessage::Clear() {
     if (has_chatrequestmessage()) {
       if (chatrequestmessage_ != NULL) chatrequestmessage_->::ChatRequestMessage::Clear();
     }
+  }
+  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
     if (has_chatmessage()) {
       if (chatmessage_ != NULL) chatmessage_->::ChatMessage::Clear();
     }
     if (has_chatrejectmessage()) {
       if (chatrejectmessage_ != NULL) chatrejectmessage_->::ChatRejectMessage::Clear();
+    }
+    if (has_timeoutwarningmessage()) {
+      if (timeoutwarningmessage_ != NULL) timeoutwarningmessage_->::TimeoutWarningMessage::Clear();
+    }
+    if (has_resettimeoutmessage()) {
+      if (resettimeoutmessage_ != NULL) resettimeoutmessage_->::ResetTimeoutMessage::Clear();
     }
     if (has_errormessage()) {
       if (errormessage_ != NULL) errormessage_->::ErrorMessage::Clear();
@@ -24460,68 +24558,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_joinGameMessage;
+        if (input->ExpectTag(18)) goto parse_gamePlayerJoinedMessage;
         break;
       }
 
-      // optional .JoinGameMessage joinGameMessage = 2;
+      // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_joinGameMessage:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_joingamemessage()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(26)) goto parse_rejoinGameMessage;
-        break;
-      }
-
-      // optional .RejoinGameMessage rejoinGameMessage = 3;
-      case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_rejoinGameMessage:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_rejoingamemessage()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(34)) goto parse_joinGameAckMessage;
-        break;
-      }
-
-      // optional .JoinGameAckMessage joinGameAckMessage = 4;
-      case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_joinGameAckMessage:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_joingameackmessage()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(42)) goto parse_joinGameFailedMessage;
-        break;
-      }
-
-      // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
-      case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_joinGameFailedMessage:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_joingamefailedmessage()));
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(50)) goto parse_gamePlayerJoinedMessage;
-        break;
-      }
-
-      // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
-      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gamePlayerJoinedMessage:
@@ -24530,12 +24572,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(58)) goto parse_gamePlayerLeftMessage;
+        if (input->ExpectTag(26)) goto parse_gamePlayerLeftMessage;
         break;
       }
 
-      // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
-      case 7: {
+      // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;
+      case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gamePlayerLeftMessage:
@@ -24544,12 +24586,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(66)) goto parse_gameSpectatorJoinedMessage;
+        if (input->ExpectTag(34)) goto parse_gameSpectatorJoinedMessage;
         break;
       }
 
-      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
-      case 8: {
+      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameSpectatorJoinedMessage:
@@ -24558,12 +24600,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(74)) goto parse_gameSpectatorLeftMessage;
+        if (input->ExpectTag(42)) goto parse_gameSpectatorLeftMessage;
         break;
       }
 
-      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
-      case 9: {
+      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;
+      case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameSpectatorLeftMessage:
@@ -24572,12 +24614,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(82)) goto parse_gameAdminChangedMessage;
+        if (input->ExpectTag(50)) goto parse_gameAdminChangedMessage;
         break;
       }
 
-      // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
-      case 10: {
+      // optional .GameAdminChangedMessage gameAdminChangedMessage = 6;
+      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameAdminChangedMessage:
@@ -24586,12 +24628,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(90)) goto parse_removedFromGameMessage;
+        if (input->ExpectTag(58)) goto parse_removedFromGameMessage;
         break;
       }
 
-      // optional .RemovedFromGameMessage removedFromGameMessage = 11;
-      case 11: {
+      // optional .RemovedFromGameMessage removedFromGameMessage = 7;
+      case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_removedFromGameMessage:
@@ -24600,12 +24642,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(98)) goto parse_kickPlayerRequestMessage;
+        if (input->ExpectTag(66)) goto parse_kickPlayerRequestMessage;
         break;
       }
 
-      // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
-      case 12: {
+      // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;
+      case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_kickPlayerRequestMessage:
@@ -24614,12 +24656,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(106)) goto parse_leaveGameRequestMessage;
+        if (input->ExpectTag(74)) goto parse_leaveGameRequestMessage;
         break;
       }
 
-      // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
-      case 13: {
+      // optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;
+      case 9: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_leaveGameRequestMessage:
@@ -24628,12 +24670,26 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(114)) goto parse_startEventMessage;
+        if (input->ExpectTag(82)) goto parse_invitePlayerToGameMessage;
         break;
       }
 
-      // optional .StartEventMessage startEventMessage = 14;
-      case 14: {
+      // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;
+      case 10: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_invitePlayerToGameMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_inviteplayertogamemessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(90)) goto parse_startEventMessage;
+        break;
+      }
+
+      // optional .StartEventMessage startEventMessage = 11;
+      case 11: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_startEventMessage:
@@ -24642,12 +24698,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(122)) goto parse_startEventAckMessage;
+        if (input->ExpectTag(98)) goto parse_startEventAckMessage;
         break;
       }
 
-      // optional .StartEventAckMessage startEventAckMessage = 15;
-      case 15: {
+      // optional .StartEventAckMessage startEventAckMessage = 12;
+      case 12: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_startEventAckMessage:
@@ -24656,12 +24712,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(130)) goto parse_gameStartInitialMessage;
+        if (input->ExpectTag(106)) goto parse_gameStartInitialMessage;
         break;
       }
 
-      // optional .GameStartInitialMessage gameStartInitialMessage = 16;
-      case 16: {
+      // optional .GameStartInitialMessage gameStartInitialMessage = 13;
+      case 13: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameStartInitialMessage:
@@ -24670,12 +24726,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(138)) goto parse_gameStartRejoinMessage;
+        if (input->ExpectTag(114)) goto parse_gameStartRejoinMessage;
         break;
       }
 
-      // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
-      case 17: {
+      // optional .GameStartRejoinMessage gameStartRejoinMessage = 14;
+      case 14: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_gameStartRejoinMessage:
@@ -24684,12 +24740,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(146)) goto parse_endOfGameMessage;
+        if (input->ExpectTag(122)) goto parse_endOfGameMessage;
         break;
       }
 
-      // optional .EndOfGameMessage endOfGameMessage = 18;
-      case 18: {
+      // optional .EndOfGameMessage endOfGameMessage = 15;
+      case 15: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_endOfGameMessage:
@@ -24698,12 +24754,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(154)) goto parse_playerIdChangedMessage;
+        if (input->ExpectTag(130)) goto parse_playerIdChangedMessage;
         break;
       }
 
-      // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
-      case 19: {
+      // optional .PlayerIdChangedMessage playerIdChangedMessage = 16;
+      case 16: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_playerIdChangedMessage:
@@ -24712,12 +24768,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(162)) goto parse_askKickPlayerMessage;
+        if (input->ExpectTag(138)) goto parse_askKickPlayerMessage;
         break;
       }
 
-      // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
-      case 20: {
+      // optional .AskKickPlayerMessage askKickPlayerMessage = 17;
+      case 17: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_askKickPlayerMessage:
@@ -24726,12 +24782,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(170)) goto parse_askKickDeniedMessage;
+        if (input->ExpectTag(146)) goto parse_askKickDeniedMessage;
         break;
       }
 
-      // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
-      case 21: {
+      // optional .AskKickDeniedMessage askKickDeniedMessage = 18;
+      case 18: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_askKickDeniedMessage:
@@ -24740,12 +24796,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(178)) goto parse_startKickPetitionMessage;
+        if (input->ExpectTag(154)) goto parse_startKickPetitionMessage;
         break;
       }
 
-      // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
-      case 22: {
+      // optional .StartKickPetitionMessage startKickPetitionMessage = 19;
+      case 19: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_startKickPetitionMessage:
@@ -24754,12 +24810,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(186)) goto parse_voteKickRequestMessage;
+        if (input->ExpectTag(162)) goto parse_voteKickRequestMessage;
         break;
       }
 
-      // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
-      case 23: {
+      // optional .VoteKickRequestMessage voteKickRequestMessage = 20;
+      case 20: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_voteKickRequestMessage:
@@ -24768,12 +24824,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(194)) goto parse_voteKickReplyMessage;
+        if (input->ExpectTag(170)) goto parse_voteKickReplyMessage;
         break;
       }
 
-      // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
-      case 24: {
+      // optional .VoteKickReplyMessage voteKickReplyMessage = 21;
+      case 21: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_voteKickReplyMessage:
@@ -24782,12 +24838,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(202)) goto parse_kickPetitionUpdateMessage;
+        if (input->ExpectTag(178)) goto parse_kickPetitionUpdateMessage;
         break;
       }
 
-      // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
-      case 25: {
+      // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;
+      case 22: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_kickPetitionUpdateMessage:
@@ -24796,12 +24852,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(210)) goto parse_endKickPetitionMessage;
+        if (input->ExpectTag(186)) goto parse_endKickPetitionMessage;
         break;
       }
 
-      // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
-      case 26: {
+      // optional .EndKickPetitionMessage endKickPetitionMessage = 23;
+      case 23: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_endKickPetitionMessage:
@@ -24810,12 +24866,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(218)) goto parse_chatRequestMessage;
+        if (input->ExpectTag(194)) goto parse_chatRequestMessage;
         break;
       }
 
-      // optional .ChatRequestMessage chatRequestMessage = 27;
-      case 27: {
+      // optional .ChatRequestMessage chatRequestMessage = 24;
+      case 24: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatRequestMessage:
@@ -24824,12 +24880,12 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(226)) goto parse_chatMessage;
+        if (input->ExpectTag(202)) goto parse_chatMessage;
         break;
       }
 
-      // optional .ChatMessage chatMessage = 28;
-      case 28: {
+      // optional .ChatMessage chatMessage = 25;
+      case 25: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatMessage:
@@ -24838,17 +24894,45 @@ bool GameManagementMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(234)) goto parse_chatRejectMessage;
+        if (input->ExpectTag(210)) goto parse_chatRejectMessage;
         break;
       }
 
-      // optional .ChatRejectMessage chatRejectMessage = 29;
-      case 29: {
+      // optional .ChatRejectMessage chatRejectMessage = 26;
+      case 26: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatRejectMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_chatrejectmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(218)) goto parse_timeoutWarningMessage;
+        break;
+      }
+
+      // optional .TimeoutWarningMessage timeoutWarningMessage = 27;
+      case 27: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_timeoutWarningMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_timeoutwarningmessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(226)) goto parse_resetTimeoutMessage;
+        break;
+      }
+
+      // optional .ResetTimeoutMessage resetTimeoutMessage = 28;
+      case 28: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_resetTimeoutMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_resettimeoutmessage()));
         } else {
           goto handle_uninterpreted;
         }
@@ -24893,172 +24977,166 @@ void GameManagementMessage::SerializeWithCachedSizes(
       1, this->messagetype(), output);
   }
 
-  // optional .JoinGameMessage joinGameMessage = 2;
-  if (has_joingamemessage()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      2, this->joingamemessage(), output);
-  }
-
-  // optional .RejoinGameMessage rejoinGameMessage = 3;
-  if (has_rejoingamemessage()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      3, this->rejoingamemessage(), output);
-  }
-
-  // optional .JoinGameAckMessage joinGameAckMessage = 4;
-  if (has_joingameackmessage()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      4, this->joingameackmessage(), output);
-  }
-
-  // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
-  if (has_joingamefailedmessage()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      5, this->joingamefailedmessage(), output);
-  }
-
-  // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
+  // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;
   if (has_gameplayerjoinedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      6, this->gameplayerjoinedmessage(), output);
+      2, this->gameplayerjoinedmessage(), output);
   }
 
-  // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
+  // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;
   if (has_gameplayerleftmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      7, this->gameplayerleftmessage(), output);
+      3, this->gameplayerleftmessage(), output);
   }
 
-  // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
+  // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;
   if (has_gamespectatorjoinedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      8, this->gamespectatorjoinedmessage(), output);
+      4, this->gamespectatorjoinedmessage(), output);
   }
 
-  // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
+  // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;
   if (has_gamespectatorleftmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      9, this->gamespectatorleftmessage(), output);
+      5, this->gamespectatorleftmessage(), output);
   }
 
-  // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
+  // optional .GameAdminChangedMessage gameAdminChangedMessage = 6;
   if (has_gameadminchangedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      10, this->gameadminchangedmessage(), output);
+      6, this->gameadminchangedmessage(), output);
   }
 
-  // optional .RemovedFromGameMessage removedFromGameMessage = 11;
+  // optional .RemovedFromGameMessage removedFromGameMessage = 7;
   if (has_removedfromgamemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      11, this->removedfromgamemessage(), output);
+      7, this->removedfromgamemessage(), output);
   }
 
-  // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
+  // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;
   if (has_kickplayerrequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      12, this->kickplayerrequestmessage(), output);
+      8, this->kickplayerrequestmessage(), output);
   }
 
-  // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
+  // optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;
   if (has_leavegamerequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      13, this->leavegamerequestmessage(), output);
+      9, this->leavegamerequestmessage(), output);
   }
 
-  // optional .StartEventMessage startEventMessage = 14;
+  // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;
+  if (has_inviteplayertogamemessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      10, this->inviteplayertogamemessage(), output);
+  }
+
+  // optional .StartEventMessage startEventMessage = 11;
   if (has_starteventmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      14, this->starteventmessage(), output);
+      11, this->starteventmessage(), output);
   }
 
-  // optional .StartEventAckMessage startEventAckMessage = 15;
+  // optional .StartEventAckMessage startEventAckMessage = 12;
   if (has_starteventackmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      15, this->starteventackmessage(), output);
+      12, this->starteventackmessage(), output);
   }
 
-  // optional .GameStartInitialMessage gameStartInitialMessage = 16;
+  // optional .GameStartInitialMessage gameStartInitialMessage = 13;
   if (has_gamestartinitialmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      16, this->gamestartinitialmessage(), output);
+      13, this->gamestartinitialmessage(), output);
   }
 
-  // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
+  // optional .GameStartRejoinMessage gameStartRejoinMessage = 14;
   if (has_gamestartrejoinmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      17, this->gamestartrejoinmessage(), output);
+      14, this->gamestartrejoinmessage(), output);
   }
 
-  // optional .EndOfGameMessage endOfGameMessage = 18;
+  // optional .EndOfGameMessage endOfGameMessage = 15;
   if (has_endofgamemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      18, this->endofgamemessage(), output);
+      15, this->endofgamemessage(), output);
   }
 
-  // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
+  // optional .PlayerIdChangedMessage playerIdChangedMessage = 16;
   if (has_playeridchangedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      19, this->playeridchangedmessage(), output);
+      16, this->playeridchangedmessage(), output);
   }
 
-  // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
+  // optional .AskKickPlayerMessage askKickPlayerMessage = 17;
   if (has_askkickplayermessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      20, this->askkickplayermessage(), output);
+      17, this->askkickplayermessage(), output);
   }
 
-  // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
+  // optional .AskKickDeniedMessage askKickDeniedMessage = 18;
   if (has_askkickdeniedmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      21, this->askkickdeniedmessage(), output);
+      18, this->askkickdeniedmessage(), output);
   }
 
-  // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
+  // optional .StartKickPetitionMessage startKickPetitionMessage = 19;
   if (has_startkickpetitionmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      22, this->startkickpetitionmessage(), output);
+      19, this->startkickpetitionmessage(), output);
   }
 
-  // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
+  // optional .VoteKickRequestMessage voteKickRequestMessage = 20;
   if (has_votekickrequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      23, this->votekickrequestmessage(), output);
+      20, this->votekickrequestmessage(), output);
   }
 
-  // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
+  // optional .VoteKickReplyMessage voteKickReplyMessage = 21;
   if (has_votekickreplymessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      24, this->votekickreplymessage(), output);
+      21, this->votekickreplymessage(), output);
   }
 
-  // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
+  // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;
   if (has_kickpetitionupdatemessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      25, this->kickpetitionupdatemessage(), output);
+      22, this->kickpetitionupdatemessage(), output);
   }
 
-  // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
+  // optional .EndKickPetitionMessage endKickPetitionMessage = 23;
   if (has_endkickpetitionmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      26, this->endkickpetitionmessage(), output);
+      23, this->endkickpetitionmessage(), output);
   }
 
-  // optional .ChatRequestMessage chatRequestMessage = 27;
+  // optional .ChatRequestMessage chatRequestMessage = 24;
   if (has_chatrequestmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      27, this->chatrequestmessage(), output);
+      24, this->chatrequestmessage(), output);
   }
 
-  // optional .ChatMessage chatMessage = 28;
+  // optional .ChatMessage chatMessage = 25;
   if (has_chatmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      28, this->chatmessage(), output);
+      25, this->chatmessage(), output);
   }
 
-  // optional .ChatRejectMessage chatRejectMessage = 29;
+  // optional .ChatRejectMessage chatRejectMessage = 26;
   if (has_chatrejectmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
-      29, this->chatrejectmessage(), output);
+      26, this->chatrejectmessage(), output);
+  }
+
+  // optional .TimeoutWarningMessage timeoutWarningMessage = 27;
+  if (has_timeoutwarningmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      27, this->timeoutwarningmessage(), output);
+  }
+
+  // optional .ResetTimeoutMessage resetTimeoutMessage = 28;
+  if (has_resettimeoutmessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      28, this->resettimeoutmessage(), output);
   }
 
   // optional .ErrorMessage errorMessage = 1025;
@@ -25079,206 +25157,199 @@ int GameManagementMessage::ByteSize() const {
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->messagetype());
     }
 
-    // optional .JoinGameMessage joinGameMessage = 2;
-    if (has_joingamemessage()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->joingamemessage());
-    }
-
-    // optional .RejoinGameMessage rejoinGameMessage = 3;
-    if (has_rejoingamemessage()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->rejoingamemessage());
-    }
-
-    // optional .JoinGameAckMessage joinGameAckMessage = 4;
-    if (has_joingameackmessage()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->joingameackmessage());
-    }
-
-    // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
-    if (has_joingamefailedmessage()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->joingamefailedmessage());
-    }
-
-    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
+    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;
     if (has_gameplayerjoinedmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gameplayerjoinedmessage());
     }
 
-    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
+    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;
     if (has_gameplayerleftmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gameplayerleftmessage());
     }
 
-    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;
     if (has_gamespectatorjoinedmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamespectatorjoinedmessage());
     }
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;
     if (has_gamespectatorleftmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamespectatorleftmessage());
     }
 
-    // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
+    // optional .GameAdminChangedMessage gameAdminChangedMessage = 6;
     if (has_gameadminchangedmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gameadminchangedmessage());
     }
 
-    // optional .RemovedFromGameMessage removedFromGameMessage = 11;
+    // optional .RemovedFromGameMessage removedFromGameMessage = 7;
     if (has_removedfromgamemessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->removedfromgamemessage());
     }
 
-    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
+    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;
     if (has_kickplayerrequestmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->kickplayerrequestmessage());
     }
 
-    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;
     if (has_leavegamerequestmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->leavegamerequestmessage());
     }
 
-    // optional .StartEventMessage startEventMessage = 14;
+    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;
+    if (has_inviteplayertogamemessage()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->inviteplayertogamemessage());
+    }
+
+    // optional .StartEventMessage startEventMessage = 11;
     if (has_starteventmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->starteventmessage());
     }
 
-    // optional .StartEventAckMessage startEventAckMessage = 15;
+    // optional .StartEventAckMessage startEventAckMessage = 12;
     if (has_starteventackmessage()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->starteventackmessage());
     }
 
-    // optional .GameStartInitialMessage gameStartInitialMessage = 16;
+    // optional .GameStartInitialMessage gameStartInitialMessage = 13;
     if (has_gamestartinitialmessage()) {
-      total_size += 2 +
+      total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamestartinitialmessage());
     }
 
-  }
-  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
-    // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
+    // optional .GameStartRejoinMessage gameStartRejoinMessage = 14;
     if (has_gamestartrejoinmessage()) {
-      total_size += 2 +
+      total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->gamestartrejoinmessage());
     }
 
-    // optional .EndOfGameMessage endOfGameMessage = 18;
+    // optional .EndOfGameMessage endOfGameMessage = 15;
     if (has_endofgamemessage()) {
-      total_size += 2 +
+      total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->endofgamemessage());
     }
 
-    // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
+    // optional .PlayerIdChangedMessage playerIdChangedMessage = 16;
     if (has_playeridchangedmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->playeridchangedmessage());
     }
 
-    // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
+  }
+  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
+    // optional .AskKickPlayerMessage askKickPlayerMessage = 17;
     if (has_askkickplayermessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->askkickplayermessage());
     }
 
-    // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
+    // optional .AskKickDeniedMessage askKickDeniedMessage = 18;
     if (has_askkickdeniedmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->askkickdeniedmessage());
     }
 
-    // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
+    // optional .StartKickPetitionMessage startKickPetitionMessage = 19;
     if (has_startkickpetitionmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->startkickpetitionmessage());
     }
 
-    // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
+    // optional .VoteKickRequestMessage voteKickRequestMessage = 20;
     if (has_votekickrequestmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->votekickrequestmessage());
     }
 
-    // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
+    // optional .VoteKickReplyMessage voteKickReplyMessage = 21;
     if (has_votekickreplymessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->votekickreplymessage());
     }
 
-  }
-  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
-    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
+    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;
     if (has_kickpetitionupdatemessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->kickpetitionupdatemessage());
     }
 
-    // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
+    // optional .EndKickPetitionMessage endKickPetitionMessage = 23;
     if (has_endkickpetitionmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->endkickpetitionmessage());
     }
 
-    // optional .ChatRequestMessage chatRequestMessage = 27;
+    // optional .ChatRequestMessage chatRequestMessage = 24;
     if (has_chatrequestmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->chatrequestmessage());
     }
 
-    // optional .ChatMessage chatMessage = 28;
+  }
+  if (_has_bits_[24 / 32] & (0xffu << (24 % 32))) {
+    // optional .ChatMessage chatMessage = 25;
     if (has_chatmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->chatmessage());
     }
 
-    // optional .ChatRejectMessage chatRejectMessage = 29;
+    // optional .ChatRejectMessage chatRejectMessage = 26;
     if (has_chatrejectmessage()) {
       total_size += 2 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->chatrejectmessage());
+    }
+
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 27;
+    if (has_timeoutwarningmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->timeoutwarningmessage());
+    }
+
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 28;
+    if (has_resettimeoutmessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->resettimeoutmessage());
     }
 
     // optional .ErrorMessage errorMessage = 1025;
@@ -25306,18 +25377,6 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_messagetype()) {
       set_messagetype(from.messagetype());
     }
-    if (from.has_joingamemessage()) {
-      mutable_joingamemessage()->::JoinGameMessage::MergeFrom(from.joingamemessage());
-    }
-    if (from.has_rejoingamemessage()) {
-      mutable_rejoingamemessage()->::RejoinGameMessage::MergeFrom(from.rejoingamemessage());
-    }
-    if (from.has_joingameackmessage()) {
-      mutable_joingameackmessage()->::JoinGameAckMessage::MergeFrom(from.joingameackmessage());
-    }
-    if (from.has_joingamefailedmessage()) {
-      mutable_joingamefailedmessage()->::JoinGameFailedMessage::MergeFrom(from.joingamefailedmessage());
-    }
     if (from.has_gameplayerjoinedmessage()) {
       mutable_gameplayerjoinedmessage()->::GamePlayerJoinedMessage::MergeFrom(from.gameplayerjoinedmessage());
     }
@@ -25327,8 +25386,6 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_gamespectatorjoinedmessage()) {
       mutable_gamespectatorjoinedmessage()->::GameSpectatorJoinedMessage::MergeFrom(from.gamespectatorjoinedmessage());
     }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_gamespectatorleftmessage()) {
       mutable_gamespectatorleftmessage()->::GameSpectatorLeftMessage::MergeFrom(from.gamespectatorleftmessage());
     }
@@ -25341,8 +25398,13 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_kickplayerrequestmessage()) {
       mutable_kickplayerrequestmessage()->::KickPlayerRequestMessage::MergeFrom(from.kickplayerrequestmessage());
     }
+  }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_leavegamerequestmessage()) {
       mutable_leavegamerequestmessage()->::LeaveGameRequestMessage::MergeFrom(from.leavegamerequestmessage());
+    }
+    if (from.has_inviteplayertogamemessage()) {
+      mutable_inviteplayertogamemessage()->::InvitePlayerToGameMessage::MergeFrom(from.inviteplayertogamemessage());
     }
     if (from.has_starteventmessage()) {
       mutable_starteventmessage()->::StartEventMessage::MergeFrom(from.starteventmessage());
@@ -25353,8 +25415,6 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_gamestartinitialmessage()) {
       mutable_gamestartinitialmessage()->::GameStartInitialMessage::MergeFrom(from.gamestartinitialmessage());
     }
-  }
-  if (from._has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (from.has_gamestartrejoinmessage()) {
       mutable_gamestartrejoinmessage()->::GameStartRejoinMessage::MergeFrom(from.gamestartrejoinmessage());
     }
@@ -25364,6 +25424,8 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_playeridchangedmessage()) {
       mutable_playeridchangedmessage()->::PlayerIdChangedMessage::MergeFrom(from.playeridchangedmessage());
     }
+  }
+  if (from._has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (from.has_askkickplayermessage()) {
       mutable_askkickplayermessage()->::AskKickPlayerMessage::MergeFrom(from.askkickplayermessage());
     }
@@ -25379,8 +25441,6 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_votekickreplymessage()) {
       mutable_votekickreplymessage()->::VoteKickReplyMessage::MergeFrom(from.votekickreplymessage());
     }
-  }
-  if (from._has_bits_[24 / 32] & (0xffu << (24 % 32))) {
     if (from.has_kickpetitionupdatemessage()) {
       mutable_kickpetitionupdatemessage()->::KickPetitionUpdateMessage::MergeFrom(from.kickpetitionupdatemessage());
     }
@@ -25390,11 +25450,19 @@ void GameManagementMessage::MergeFrom(const GameManagementMessage& from) {
     if (from.has_chatrequestmessage()) {
       mutable_chatrequestmessage()->::ChatRequestMessage::MergeFrom(from.chatrequestmessage());
     }
+  }
+  if (from._has_bits_[24 / 32] & (0xffu << (24 % 32))) {
     if (from.has_chatmessage()) {
       mutable_chatmessage()->::ChatMessage::MergeFrom(from.chatmessage());
     }
     if (from.has_chatrejectmessage()) {
       mutable_chatrejectmessage()->::ChatRejectMessage::MergeFrom(from.chatrejectmessage());
+    }
+    if (from.has_timeoutwarningmessage()) {
+      mutable_timeoutwarningmessage()->::TimeoutWarningMessage::MergeFrom(from.timeoutwarningmessage());
+    }
+    if (from.has_resettimeoutmessage()) {
+      mutable_resettimeoutmessage()->::ResetTimeoutMessage::MergeFrom(from.resettimeoutmessage());
     }
     if (from.has_errormessage()) {
       mutable_errormessage()->::ErrorMessage::MergeFrom(from.errormessage());
@@ -25411,12 +25479,6 @@ void GameManagementMessage::CopyFrom(const GameManagementMessage& from) {
 bool GameManagementMessage::IsInitialized() const {
   if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
-  if (has_joingameackmessage()) {
-    if (!this->joingameackmessage().IsInitialized()) return false;
-  }
-  if (has_joingamefailedmessage()) {
-    if (!this->joingamefailedmessage().IsInitialized()) return false;
-  }
   if (has_gameplayerjoinedmessage()) {
     if (!this->gameplayerjoinedmessage().IsInitialized()) return false;
   }
@@ -25437,6 +25499,9 @@ bool GameManagementMessage::IsInitialized() const {
   }
   if (has_kickplayerrequestmessage()) {
     if (!this->kickplayerrequestmessage().IsInitialized()) return false;
+  }
+  if (has_inviteplayertogamemessage()) {
+    if (!this->inviteplayertogamemessage().IsInitialized()) return false;
   }
   if (has_starteventmessage()) {
     if (!this->starteventmessage().IsInitialized()) return false;
@@ -25483,6 +25548,9 @@ bool GameManagementMessage::IsInitialized() const {
   if (has_chatrejectmessage()) {
     if (!this->chatrejectmessage().IsInitialized()) return false;
   }
+  if (has_timeoutwarningmessage()) {
+    if (!this->timeoutwarningmessage().IsInitialized()) return false;
+  }
   if (has_errormessage()) {
     if (!this->errormessage().IsInitialized()) return false;
   }
@@ -25492,10 +25560,6 @@ bool GameManagementMessage::IsInitialized() const {
 void GameManagementMessage::Swap(GameManagementMessage* other) {
   if (other != this) {
     std::swap(messagetype_, other->messagetype_);
-    std::swap(joingamemessage_, other->joingamemessage_);
-    std::swap(rejoingamemessage_, other->rejoingamemessage_);
-    std::swap(joingameackmessage_, other->joingameackmessage_);
-    std::swap(joingamefailedmessage_, other->joingamefailedmessage_);
     std::swap(gameplayerjoinedmessage_, other->gameplayerjoinedmessage_);
     std::swap(gameplayerleftmessage_, other->gameplayerleftmessage_);
     std::swap(gamespectatorjoinedmessage_, other->gamespectatorjoinedmessage_);
@@ -25504,6 +25568,7 @@ void GameManagementMessage::Swap(GameManagementMessage* other) {
     std::swap(removedfromgamemessage_, other->removedfromgamemessage_);
     std::swap(kickplayerrequestmessage_, other->kickplayerrequestmessage_);
     std::swap(leavegamerequestmessage_, other->leavegamerequestmessage_);
+    std::swap(inviteplayertogamemessage_, other->inviteplayertogamemessage_);
     std::swap(starteventmessage_, other->starteventmessage_);
     std::swap(starteventackmessage_, other->starteventackmessage_);
     std::swap(gamestartinitialmessage_, other->gamestartinitialmessage_);
@@ -25520,6 +25585,8 @@ void GameManagementMessage::Swap(GameManagementMessage* other) {
     std::swap(chatrequestmessage_, other->chatrequestmessage_);
     std::swap(chatmessage_, other->chatmessage_);
     std::swap(chatrejectmessage_, other->chatrejectmessage_);
+    std::swap(timeoutwarningmessage_, other->timeoutwarningmessage_);
+    std::swap(resettimeoutmessage_, other->resettimeoutmessage_);
     std::swap(errormessage_, other->errormessage_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_cached_size_, other->_cached_size_);

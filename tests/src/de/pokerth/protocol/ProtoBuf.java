@@ -4791,6 +4791,24 @@ public final class ProtoBuf {
      * <code>optional bytes myLastSessionId = 7;</code>
      */
     com.google.protobuf.ByteString getMyLastSessionId();
+
+    // optional bytes avatarHash = 8;
+    /**
+     * <code>optional bytes avatarHash = 8;</code>
+     *
+     * <pre>
+     * Ignored for guest login.
+     * </pre>
+     */
+    boolean hasAvatarHash();
+    /**
+     * <code>optional bytes avatarHash = 8;</code>
+     *
+     * <pre>
+     * Ignored for guest login.
+     * </pre>
+     */
+    com.google.protobuf.ByteString getAvatarHash();
   }
   /**
    * Protobuf type {@code AuthClientRequestMessage}
@@ -4880,6 +4898,11 @@ public final class ProtoBuf {
             case 58: {
               bitField0_ |= 0x00000040;
               myLastSessionId_ = input.readBytes();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000080;
+              avatarHash_ = input.readBytes();
               break;
             }
           }
@@ -5168,6 +5191,30 @@ public final class ProtoBuf {
       return myLastSessionId_;
     }
 
+    // optional bytes avatarHash = 8;
+    public static final int AVATARHASH_FIELD_NUMBER = 8;
+    private com.google.protobuf.ByteString avatarHash_;
+    /**
+     * <code>optional bytes avatarHash = 8;</code>
+     *
+     * <pre>
+     * Ignored for guest login.
+     * </pre>
+     */
+    public boolean hasAvatarHash() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional bytes avatarHash = 8;</code>
+     *
+     * <pre>
+     * Ignored for guest login.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getAvatarHash() {
+      return avatarHash_;
+    }
+
     private void initFields() {
       requestedVersion_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version.getDefaultInstance();
       buildId_ = 0;
@@ -5176,6 +5223,7 @@ public final class ProtoBuf {
       nickName_ = "";
       clientUserData_ = com.google.protobuf.ByteString.EMPTY;
       myLastSessionId_ = com.google.protobuf.ByteString.EMPTY;
+      avatarHash_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5226,6 +5274,9 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBytes(7, myLastSessionId_);
       }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(8, avatarHash_);
+      }
     }
 
     private int memoizedSerializedSize = -1;
@@ -5261,6 +5312,10 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, myLastSessionId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, avatarHash_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -5367,6 +5422,8 @@ public final class ProtoBuf {
         bitField0_ = (bitField0_ & ~0x00000020);
         myLastSessionId_ = com.google.protobuf.ByteString.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000040);
+        avatarHash_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -5418,6 +5475,10 @@ public final class ProtoBuf {
           to_bitField0_ |= 0x00000040;
         }
         result.myLastSessionId_ = myLastSessionId_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.avatarHash_ = avatarHash_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -5448,6 +5509,9 @@ public final class ProtoBuf {
         }
         if (other.hasMyLastSessionId()) {
           setMyLastSessionId(other.getMyLastSessionId());
+        }
+        if (other.hasAvatarHash()) {
+          setAvatarHash(other.getAvatarHash());
         }
         return this;
       }
@@ -5893,6 +5957,58 @@ public final class ProtoBuf {
       public Builder clearMyLastSessionId() {
         bitField0_ = (bitField0_ & ~0x00000040);
         myLastSessionId_ = getDefaultInstance().getMyLastSessionId();
+        
+        return this;
+      }
+
+      // optional bytes avatarHash = 8;
+      private com.google.protobuf.ByteString avatarHash_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes avatarHash = 8;</code>
+       *
+       * <pre>
+       * Ignored for guest login.
+       * </pre>
+       */
+      public boolean hasAvatarHash() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional bytes avatarHash = 8;</code>
+       *
+       * <pre>
+       * Ignored for guest login.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getAvatarHash() {
+        return avatarHash_;
+      }
+      /**
+       * <code>optional bytes avatarHash = 8;</code>
+       *
+       * <pre>
+       * Ignored for guest login.
+       * </pre>
+       */
+      public Builder setAvatarHash(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        avatarHash_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional bytes avatarHash = 8;</code>
+       *
+       * <pre>
+       * Ignored for guest login.
+       * </pre>
+       */
+      public Builder clearAvatarHash() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        avatarHash_ = getDefaultInstance().getAvatarHash();
         
         return this;
       }
@@ -6599,33 +6715,13 @@ public final class ProtoBuf {
   public interface AuthServerVerificationMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
 
-    // required bytes yourSessionId = 1;
+    // required bytes serverVerification = 1;
     /**
-     * <code>required bytes yourSessionId = 1;</code>
-     */
-    boolean hasYourSessionId();
-    /**
-     * <code>required bytes yourSessionId = 1;</code>
-     */
-    com.google.protobuf.ByteString getYourSessionId();
-
-    // required uint32 yourPlayerId = 2;
-    /**
-     * <code>required uint32 yourPlayerId = 2;</code>
-     */
-    boolean hasYourPlayerId();
-    /**
-     * <code>required uint32 yourPlayerId = 2;</code>
-     */
-    int getYourPlayerId();
-
-    // optional bytes serverVerification = 3;
-    /**
-     * <code>optional bytes serverVerification = 3;</code>
+     * <code>required bytes serverVerification = 1;</code>
      */
     boolean hasServerVerification();
     /**
-     * <code>optional bytes serverVerification = 3;</code>
+     * <code>required bytes serverVerification = 1;</code>
      */
     com.google.protobuf.ByteString getServerVerification();
   }
@@ -6674,16 +6770,6 @@ public final class ProtoBuf {
             }
             case 10: {
               bitField0_ |= 0x00000001;
-              yourSessionId_ = input.readBytes();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              yourPlayerId_ = input.readUInt32();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
               serverVerification_ = input.readBytes();
               break;
             }
@@ -6714,57 +6800,23 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
-    // required bytes yourSessionId = 1;
-    public static final int YOURSESSIONID_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString yourSessionId_;
+    // required bytes serverVerification = 1;
+    public static final int SERVERVERIFICATION_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString serverVerification_;
     /**
-     * <code>required bytes yourSessionId = 1;</code>
+     * <code>required bytes serverVerification = 1;</code>
      */
-    public boolean hasYourSessionId() {
+    public boolean hasServerVerification() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required bytes yourSessionId = 1;</code>
-     */
-    public com.google.protobuf.ByteString getYourSessionId() {
-      return yourSessionId_;
-    }
-
-    // required uint32 yourPlayerId = 2;
-    public static final int YOURPLAYERID_FIELD_NUMBER = 2;
-    private int yourPlayerId_;
-    /**
-     * <code>required uint32 yourPlayerId = 2;</code>
-     */
-    public boolean hasYourPlayerId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required uint32 yourPlayerId = 2;</code>
-     */
-    public int getYourPlayerId() {
-      return yourPlayerId_;
-    }
-
-    // optional bytes serverVerification = 3;
-    public static final int SERVERVERIFICATION_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString serverVerification_;
-    /**
-     * <code>optional bytes serverVerification = 3;</code>
-     */
-    public boolean hasServerVerification() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional bytes serverVerification = 3;</code>
+     * <code>required bytes serverVerification = 1;</code>
      */
     public com.google.protobuf.ByteString getServerVerification() {
       return serverVerification_;
     }
 
     private void initFields() {
-      yourSessionId_ = com.google.protobuf.ByteString.EMPTY;
-      yourPlayerId_ = 0;
       serverVerification_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
@@ -6772,11 +6824,7 @@ public final class ProtoBuf {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasYourSessionId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasYourPlayerId()) {
+      if (!hasServerVerification()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -6788,13 +6836,7 @@ public final class ProtoBuf {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, yourSessionId_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeUInt32(2, yourPlayerId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, serverVerification_);
+        output.writeBytes(1, serverVerification_);
       }
     }
 
@@ -6806,15 +6848,7 @@ public final class ProtoBuf {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, yourSessionId_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, yourPlayerId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, serverVerification_);
+          .computeBytesSize(1, serverVerification_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -6907,12 +6941,8 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        yourSessionId_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        yourPlayerId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
         serverVerification_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -6939,6 +6969,477 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.serverVerification_ = serverVerification_;
+        result.bitField0_ = to_bitField0_;
+        return result;
+      }
+
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage.getDefaultInstance()) return this;
+        if (other.hasServerVerification()) {
+          setServerVerification(other.getServerVerification());
+        }
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasServerVerification()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required bytes serverVerification = 1;
+      private com.google.protobuf.ByteString serverVerification_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes serverVerification = 1;</code>
+       */
+      public boolean hasServerVerification() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bytes serverVerification = 1;</code>
+       */
+      public com.google.protobuf.ByteString getServerVerification() {
+        return serverVerification_;
+      }
+      /**
+       * <code>required bytes serverVerification = 1;</code>
+       */
+      public Builder setServerVerification(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        serverVerification_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required bytes serverVerification = 1;</code>
+       */
+      public Builder clearServerVerification() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        serverVerification_ = getDefaultInstance().getServerVerification();
+        
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:AuthServerVerificationMessage)
+    }
+
+    static {
+      defaultInstance = new AuthServerVerificationMessage(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:AuthServerVerificationMessage)
+  }
+
+  public interface InitDoneMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
+
+    // required bytes yourSessionId = 1;
+    /**
+     * <code>required bytes yourSessionId = 1;</code>
+     */
+    boolean hasYourSessionId();
+    /**
+     * <code>required bytes yourSessionId = 1;</code>
+     */
+    com.google.protobuf.ByteString getYourSessionId();
+
+    // required uint32 yourPlayerId = 2;
+    /**
+     * <code>required uint32 yourPlayerId = 2;</code>
+     */
+    boolean hasYourPlayerId();
+    /**
+     * <code>required uint32 yourPlayerId = 2;</code>
+     */
+    int getYourPlayerId();
+
+    // optional bytes yourAvatarHash = 3;
+    /**
+     * <code>optional bytes yourAvatarHash = 3;</code>
+     */
+    boolean hasYourAvatarHash();
+    /**
+     * <code>optional bytes yourAvatarHash = 3;</code>
+     */
+    com.google.protobuf.ByteString getYourAvatarHash();
+
+    // optional uint32 rejoinGameId = 4;
+    /**
+     * <code>optional uint32 rejoinGameId = 4;</code>
+     */
+    boolean hasRejoinGameId();
+    /**
+     * <code>optional uint32 rejoinGameId = 4;</code>
+     */
+    int getRejoinGameId();
+  }
+  /**
+   * Protobuf type {@code InitDoneMessage}
+   */
+  public static final class InitDoneMessage extends
+      com.google.protobuf.GeneratedMessageLite
+      implements InitDoneMessageOrBuilder {
+    // Use InitDoneMessage.newBuilder() to construct.
+    private InitDoneMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
+      super(builder);
+
+    }
+    private InitDoneMessage(boolean noInit) {}
+
+    private static final InitDoneMessage defaultInstance;
+    public static InitDoneMessage getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public InitDoneMessage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private InitDoneMessage(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              yourSessionId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              yourPlayerId_ = input.readUInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              yourAvatarHash_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              rejoinGameId_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static com.google.protobuf.Parser<InitDoneMessage> PARSER =
+        new com.google.protobuf.AbstractParser<InitDoneMessage>() {
+      public InitDoneMessage parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new InitDoneMessage(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<InitDoneMessage> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required bytes yourSessionId = 1;
+    public static final int YOURSESSIONID_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString yourSessionId_;
+    /**
+     * <code>required bytes yourSessionId = 1;</code>
+     */
+    public boolean hasYourSessionId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bytes yourSessionId = 1;</code>
+     */
+    public com.google.protobuf.ByteString getYourSessionId() {
+      return yourSessionId_;
+    }
+
+    // required uint32 yourPlayerId = 2;
+    public static final int YOURPLAYERID_FIELD_NUMBER = 2;
+    private int yourPlayerId_;
+    /**
+     * <code>required uint32 yourPlayerId = 2;</code>
+     */
+    public boolean hasYourPlayerId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required uint32 yourPlayerId = 2;</code>
+     */
+    public int getYourPlayerId() {
+      return yourPlayerId_;
+    }
+
+    // optional bytes yourAvatarHash = 3;
+    public static final int YOURAVATARHASH_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString yourAvatarHash_;
+    /**
+     * <code>optional bytes yourAvatarHash = 3;</code>
+     */
+    public boolean hasYourAvatarHash() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes yourAvatarHash = 3;</code>
+     */
+    public com.google.protobuf.ByteString getYourAvatarHash() {
+      return yourAvatarHash_;
+    }
+
+    // optional uint32 rejoinGameId = 4;
+    public static final int REJOINGAMEID_FIELD_NUMBER = 4;
+    private int rejoinGameId_;
+    /**
+     * <code>optional uint32 rejoinGameId = 4;</code>
+     */
+    public boolean hasRejoinGameId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional uint32 rejoinGameId = 4;</code>
+     */
+    public int getRejoinGameId() {
+      return rejoinGameId_;
+    }
+
+    private void initFields() {
+      yourSessionId_ = com.google.protobuf.ByteString.EMPTY;
+      yourPlayerId_ = 0;
+      yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
+      rejoinGameId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasYourSessionId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasYourPlayerId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, yourSessionId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeUInt32(2, yourPlayerId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, yourAvatarHash_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeUInt32(4, rejoinGameId_);
+      }
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, yourSessionId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, yourPlayerId_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, yourAvatarHash_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, rejoinGameId_);
+      }
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static de.pokerth.protocol.ProtoBuf.InitDoneMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.InitDoneMessage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    /**
+     * Protobuf type {@code InitDoneMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          de.pokerth.protocol.ProtoBuf.InitDoneMessage, Builder>
+        implements de.pokerth.protocol.ProtoBuf.InitDoneMessageOrBuilder {
+      // Construct using de.pokerth.protocol.ProtoBuf.InitDoneMessage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private void maybeForceBuilderInitialization() {
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        yourSessionId_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        yourPlayerId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        rejoinGameId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public de.pokerth.protocol.ProtoBuf.InitDoneMessage getDefaultInstanceForType() {
+        return de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance();
+      }
+
+      public de.pokerth.protocol.ProtoBuf.InitDoneMessage build() {
+        de.pokerth.protocol.ProtoBuf.InitDoneMessage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public de.pokerth.protocol.ProtoBuf.InitDoneMessage buildPartial() {
+        de.pokerth.protocol.ProtoBuf.InitDoneMessage result = new de.pokerth.protocol.ProtoBuf.InitDoneMessage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
         result.yourSessionId_ = yourSessionId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
@@ -6947,21 +7448,28 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.serverVerification_ = serverVerification_;
+        result.yourAvatarHash_ = yourAvatarHash_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.rejoinGameId_ = rejoinGameId_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
 
-      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage other) {
-        if (other == de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage.getDefaultInstance()) return this;
+      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.InitDoneMessage other) {
+        if (other == de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance()) return this;
         if (other.hasYourSessionId()) {
           setYourSessionId(other.getYourSessionId());
         }
         if (other.hasYourPlayerId()) {
           setYourPlayerId(other.getYourPlayerId());
         }
-        if (other.hasServerVerification()) {
-          setServerVerification(other.getServerVerification());
+        if (other.hasYourAvatarHash()) {
+          setYourAvatarHash(other.getYourAvatarHash());
+        }
+        if (other.hasRejoinGameId()) {
+          setRejoinGameId(other.getRejoinGameId());
         }
         return this;
       }
@@ -6982,11 +7490,11 @@ public final class ProtoBuf {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage parsedMessage = null;
+        de.pokerth.protocol.ProtoBuf.InitDoneMessage parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage) e.getUnfinishedMessage();
+          parsedMessage = (de.pokerth.protocol.ProtoBuf.InitDoneMessage) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -7066,836 +7574,84 @@ public final class ProtoBuf {
         return this;
       }
 
-      // optional bytes serverVerification = 3;
-      private com.google.protobuf.ByteString serverVerification_ = com.google.protobuf.ByteString.EMPTY;
+      // optional bytes yourAvatarHash = 3;
+      private com.google.protobuf.ByteString yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>optional bytes serverVerification = 3;</code>
+       * <code>optional bytes yourAvatarHash = 3;</code>
        */
-      public boolean hasServerVerification() {
+      public boolean hasYourAvatarHash() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional bytes serverVerification = 3;</code>
-       */
-      public com.google.protobuf.ByteString getServerVerification() {
-        return serverVerification_;
-      }
-      /**
-       * <code>optional bytes serverVerification = 3;</code>
-       */
-      public Builder setServerVerification(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        serverVerification_ = value;
-        
-        return this;
-      }
-      /**
-       * <code>optional bytes serverVerification = 3;</code>
-       */
-      public Builder clearServerVerification() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        serverVerification_ = getDefaultInstance().getServerVerification();
-        
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:AuthServerVerificationMessage)
-    }
-
-    static {
-      defaultInstance = new AuthServerVerificationMessage(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:AuthServerVerificationMessage)
-  }
-
-  public interface InitMessageOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
-
-    // optional bytes avatarHash = 1;
-    /**
-     * <code>optional bytes avatarHash = 1;</code>
-     *
-     * <pre>
-     * Ignored for guest login.
-     * </pre>
-     */
-    boolean hasAvatarHash();
-    /**
-     * <code>optional bytes avatarHash = 1;</code>
-     *
-     * <pre>
-     * Ignored for guest login.
-     * </pre>
-     */
-    com.google.protobuf.ByteString getAvatarHash();
-  }
-  /**
-   * Protobuf type {@code InitMessage}
-   */
-  public static final class InitMessage extends
-      com.google.protobuf.GeneratedMessageLite
-      implements InitMessageOrBuilder {
-    // Use InitMessage.newBuilder() to construct.
-    private InitMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
-      super(builder);
-
-    }
-    private InitMessage(boolean noInit) {}
-
-    private static final InitMessage defaultInstance;
-    public static InitMessage getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public InitMessage getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private InitMessage(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              avatarHash_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        makeExtensionsImmutable();
-      }
-    }
-    public static com.google.protobuf.Parser<InitMessage> PARSER =
-        new com.google.protobuf.AbstractParser<InitMessage>() {
-      public InitMessage parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new InitMessage(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<InitMessage> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional bytes avatarHash = 1;
-    public static final int AVATARHASH_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString avatarHash_;
-    /**
-     * <code>optional bytes avatarHash = 1;</code>
-     *
-     * <pre>
-     * Ignored for guest login.
-     * </pre>
-     */
-    public boolean hasAvatarHash() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional bytes avatarHash = 1;</code>
-     *
-     * <pre>
-     * Ignored for guest login.
-     * </pre>
-     */
-    public com.google.protobuf.ByteString getAvatarHash() {
-      return avatarHash_;
-    }
-
-    private void initFields() {
-      avatarHash_ = com.google.protobuf.ByteString.EMPTY;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, avatarHash_);
-      }
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, avatarHash_);
-      }
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitMessage parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.InitMessage prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    /**
-     * Protobuf type {@code InitMessage}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          de.pokerth.protocol.ProtoBuf.InitMessage, Builder>
-        implements de.pokerth.protocol.ProtoBuf.InitMessageOrBuilder {
-      // Construct using de.pokerth.protocol.ProtoBuf.InitMessage.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private void maybeForceBuilderInitialization() {
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        avatarHash_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public de.pokerth.protocol.ProtoBuf.InitMessage getDefaultInstanceForType() {
-        return de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance();
-      }
-
-      public de.pokerth.protocol.ProtoBuf.InitMessage build() {
-        de.pokerth.protocol.ProtoBuf.InitMessage result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public de.pokerth.protocol.ProtoBuf.InitMessage buildPartial() {
-        de.pokerth.protocol.ProtoBuf.InitMessage result = new de.pokerth.protocol.ProtoBuf.InitMessage(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.avatarHash_ = avatarHash_;
-        result.bitField0_ = to_bitField0_;
-        return result;
-      }
-
-      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.InitMessage other) {
-        if (other == de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance()) return this;
-        if (other.hasAvatarHash()) {
-          setAvatarHash(other.getAvatarHash());
-        }
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        de.pokerth.protocol.ProtoBuf.InitMessage parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (de.pokerth.protocol.ProtoBuf.InitMessage) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional bytes avatarHash = 1;
-      private com.google.protobuf.ByteString avatarHash_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes avatarHash = 1;</code>
-       *
-       * <pre>
-       * Ignored for guest login.
-       * </pre>
-       */
-      public boolean hasAvatarHash() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional bytes avatarHash = 1;</code>
-       *
-       * <pre>
-       * Ignored for guest login.
-       * </pre>
-       */
-      public com.google.protobuf.ByteString getAvatarHash() {
-        return avatarHash_;
-      }
-      /**
-       * <code>optional bytes avatarHash = 1;</code>
-       *
-       * <pre>
-       * Ignored for guest login.
-       * </pre>
-       */
-      public Builder setAvatarHash(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        avatarHash_ = value;
-        
-        return this;
-      }
-      /**
-       * <code>optional bytes avatarHash = 1;</code>
-       *
-       * <pre>
-       * Ignored for guest login.
-       * </pre>
-       */
-      public Builder clearAvatarHash() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        avatarHash_ = getDefaultInstance().getAvatarHash();
-        
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:InitMessage)
-    }
-
-    static {
-      defaultInstance = new InitMessage(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:InitMessage)
-  }
-
-  public interface InitAckMessageOrBuilder
-      extends com.google.protobuf.MessageLiteOrBuilder {
-
-    // optional bytes yourAvatarHash = 1;
-    /**
-     * <code>optional bytes yourAvatarHash = 1;</code>
-     */
-    boolean hasYourAvatarHash();
-    /**
-     * <code>optional bytes yourAvatarHash = 1;</code>
-     */
-    com.google.protobuf.ByteString getYourAvatarHash();
-
-    // optional uint32 rejoinGameId = 2;
-    /**
-     * <code>optional uint32 rejoinGameId = 2;</code>
-     */
-    boolean hasRejoinGameId();
-    /**
-     * <code>optional uint32 rejoinGameId = 2;</code>
-     */
-    int getRejoinGameId();
-  }
-  /**
-   * Protobuf type {@code InitAckMessage}
-   */
-  public static final class InitAckMessage extends
-      com.google.protobuf.GeneratedMessageLite
-      implements InitAckMessageOrBuilder {
-    // Use InitAckMessage.newBuilder() to construct.
-    private InitAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
-      super(builder);
-
-    }
-    private InitAckMessage(boolean noInit) {}
-
-    private static final InitAckMessage defaultInstance;
-    public static InitAckMessage getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public InitAckMessage getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private InitAckMessage(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              yourAvatarHash_ = input.readBytes();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              rejoinGameId_ = input.readUInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        makeExtensionsImmutable();
-      }
-    }
-    public static com.google.protobuf.Parser<InitAckMessage> PARSER =
-        new com.google.protobuf.AbstractParser<InitAckMessage>() {
-      public InitAckMessage parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new InitAckMessage(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<InitAckMessage> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional bytes yourAvatarHash = 1;
-    public static final int YOURAVATARHASH_FIELD_NUMBER = 1;
-    private com.google.protobuf.ByteString yourAvatarHash_;
-    /**
-     * <code>optional bytes yourAvatarHash = 1;</code>
-     */
-    public boolean hasYourAvatarHash() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional bytes yourAvatarHash = 1;</code>
-     */
-    public com.google.protobuf.ByteString getYourAvatarHash() {
-      return yourAvatarHash_;
-    }
-
-    // optional uint32 rejoinGameId = 2;
-    public static final int REJOINGAMEID_FIELD_NUMBER = 2;
-    private int rejoinGameId_;
-    /**
-     * <code>optional uint32 rejoinGameId = 2;</code>
-     */
-    public boolean hasRejoinGameId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional uint32 rejoinGameId = 2;</code>
-     */
-    public int getRejoinGameId() {
-      return rejoinGameId_;
-    }
-
-    private void initFields() {
-      yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
-      rejoinGameId_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, yourAvatarHash_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeUInt32(2, rejoinGameId_);
-      }
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, yourAvatarHash_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(2, rejoinGameId_);
-      }
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static de.pokerth.protocol.ProtoBuf.InitAckMessage parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(de.pokerth.protocol.ProtoBuf.InitAckMessage prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    /**
-     * Protobuf type {@code InitAckMessage}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          de.pokerth.protocol.ProtoBuf.InitAckMessage, Builder>
-        implements de.pokerth.protocol.ProtoBuf.InitAckMessageOrBuilder {
-      // Construct using de.pokerth.protocol.ProtoBuf.InitAckMessage.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private void maybeForceBuilderInitialization() {
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        rejoinGameId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public de.pokerth.protocol.ProtoBuf.InitAckMessage getDefaultInstanceForType() {
-        return de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance();
-      }
-
-      public de.pokerth.protocol.ProtoBuf.InitAckMessage build() {
-        de.pokerth.protocol.ProtoBuf.InitAckMessage result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public de.pokerth.protocol.ProtoBuf.InitAckMessage buildPartial() {
-        de.pokerth.protocol.ProtoBuf.InitAckMessage result = new de.pokerth.protocol.ProtoBuf.InitAckMessage(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.yourAvatarHash_ = yourAvatarHash_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.rejoinGameId_ = rejoinGameId_;
-        result.bitField0_ = to_bitField0_;
-        return result;
-      }
-
-      public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.InitAckMessage other) {
-        if (other == de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance()) return this;
-        if (other.hasYourAvatarHash()) {
-          setYourAvatarHash(other.getYourAvatarHash());
-        }
-        if (other.hasRejoinGameId()) {
-          setRejoinGameId(other.getRejoinGameId());
-        }
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        de.pokerth.protocol.ProtoBuf.InitAckMessage parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (de.pokerth.protocol.ProtoBuf.InitAckMessage) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional bytes yourAvatarHash = 1;
-      private com.google.protobuf.ByteString yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>optional bytes yourAvatarHash = 1;</code>
-       */
-      public boolean hasYourAvatarHash() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional bytes yourAvatarHash = 1;</code>
+       * <code>optional bytes yourAvatarHash = 3;</code>
        */
       public com.google.protobuf.ByteString getYourAvatarHash() {
         return yourAvatarHash_;
       }
       /**
-       * <code>optional bytes yourAvatarHash = 1;</code>
+       * <code>optional bytes yourAvatarHash = 3;</code>
        */
       public Builder setYourAvatarHash(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000004;
         yourAvatarHash_ = value;
         
         return this;
       }
       /**
-       * <code>optional bytes yourAvatarHash = 1;</code>
+       * <code>optional bytes yourAvatarHash = 3;</code>
        */
       public Builder clearYourAvatarHash() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000004);
         yourAvatarHash_ = getDefaultInstance().getYourAvatarHash();
         
         return this;
       }
 
-      // optional uint32 rejoinGameId = 2;
+      // optional uint32 rejoinGameId = 4;
       private int rejoinGameId_ ;
       /**
-       * <code>optional uint32 rejoinGameId = 2;</code>
+       * <code>optional uint32 rejoinGameId = 4;</code>
        */
       public boolean hasRejoinGameId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional uint32 rejoinGameId = 2;</code>
+       * <code>optional uint32 rejoinGameId = 4;</code>
        */
       public int getRejoinGameId() {
         return rejoinGameId_;
       }
       /**
-       * <code>optional uint32 rejoinGameId = 2;</code>
+       * <code>optional uint32 rejoinGameId = 4;</code>
        */
       public Builder setRejoinGameId(int value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000008;
         rejoinGameId_ = value;
         
         return this;
       }
       /**
-       * <code>optional uint32 rejoinGameId = 2;</code>
+       * <code>optional uint32 rejoinGameId = 4;</code>
        */
       public Builder clearRejoinGameId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000008);
         rejoinGameId_ = 0;
         
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:InitAckMessage)
+      // @@protoc_insertion_point(builder_scope:InitDoneMessage)
     }
 
     static {
-      defaultInstance = new InitAckMessage(true);
+      defaultInstance = new InitDoneMessage(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:InitAckMessage)
+    // @@protoc_insertion_point(class_scope:InitDoneMessage)
   }
 
   public interface AvatarRequestMessageOrBuilder
@@ -18502,38 +18258,48 @@ public final class ProtoBuf {
   public interface JoinGameMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
 
-    // optional string password = 1;
+    // required uint32 gameId = 1;
     /**
-     * <code>optional string password = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    boolean hasGameId();
+    /**
+     * <code>required uint32 gameId = 1;</code>
+     */
+    int getGameId();
+
+    // optional string password = 2;
+    /**
+     * <code>optional string password = 2;</code>
      */
     boolean hasPassword();
     /**
-     * <code>optional string password = 1;</code>
+     * <code>optional string password = 2;</code>
      */
     java.lang.String getPassword();
     /**
-     * <code>optional string password = 1;</code>
+     * <code>optional string password = 2;</code>
      */
     com.google.protobuf.ByteString
         getPasswordBytes();
 
-    // optional bool autoLeave = 2 [default = false];
+    // optional bool autoLeave = 3 [default = false];
     /**
-     * <code>optional bool autoLeave = 2 [default = false];</code>
+     * <code>optional bool autoLeave = 3 [default = false];</code>
      */
     boolean hasAutoLeave();
     /**
-     * <code>optional bool autoLeave = 2 [default = false];</code>
+     * <code>optional bool autoLeave = 3 [default = false];</code>
      */
     boolean getAutoLeave();
 
-    // optional bool spectateOnly = 3 [default = false];
+    // optional bool spectateOnly = 4 [default = false];
     /**
-     * <code>optional bool spectateOnly = 3 [default = false];</code>
+     * <code>optional bool spectateOnly = 4 [default = false];</code>
      */
     boolean hasSpectateOnly();
     /**
-     * <code>optional bool spectateOnly = 3 [default = false];</code>
+     * <code>optional bool spectateOnly = 4 [default = false];</code>
      */
     boolean getSpectateOnly();
   }
@@ -18580,18 +18346,23 @@ public final class ProtoBuf {
               }
               break;
             }
-            case 10: {
+            case 8: {
               bitField0_ |= 0x00000001;
-              password_ = input.readBytes();
+              gameId_ = input.readUInt32();
               break;
             }
-            case 16: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              autoLeave_ = input.readBool();
+              password_ = input.readBytes();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
+              autoLeave_ = input.readBool();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
               spectateOnly_ = input.readBool();
               break;
             }
@@ -18622,17 +18393,33 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
-    // optional string password = 1;
-    public static final int PASSWORD_FIELD_NUMBER = 1;
-    private java.lang.Object password_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
     /**
-     * <code>optional string password = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
      */
-    public boolean hasPassword() {
+    public boolean hasGameId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string password = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    public int getGameId() {
+      return gameId_;
+    }
+
+    // optional string password = 2;
+    public static final int PASSWORD_FIELD_NUMBER = 2;
+    private java.lang.Object password_;
+    /**
+     * <code>optional string password = 2;</code>
+     */
+    public boolean hasPassword() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string password = 2;</code>
      */
     public java.lang.String getPassword() {
       java.lang.Object ref = password_;
@@ -18649,7 +18436,7 @@ public final class ProtoBuf {
       }
     }
     /**
-     * <code>optional string password = 1;</code>
+     * <code>optional string password = 2;</code>
      */
     public com.google.protobuf.ByteString
         getPasswordBytes() {
@@ -18665,39 +18452,40 @@ public final class ProtoBuf {
       }
     }
 
-    // optional bool autoLeave = 2 [default = false];
-    public static final int AUTOLEAVE_FIELD_NUMBER = 2;
+    // optional bool autoLeave = 3 [default = false];
+    public static final int AUTOLEAVE_FIELD_NUMBER = 3;
     private boolean autoLeave_;
     /**
-     * <code>optional bool autoLeave = 2 [default = false];</code>
+     * <code>optional bool autoLeave = 3 [default = false];</code>
      */
     public boolean hasAutoLeave() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bool autoLeave = 2 [default = false];</code>
+     * <code>optional bool autoLeave = 3 [default = false];</code>
      */
     public boolean getAutoLeave() {
       return autoLeave_;
     }
 
-    // optional bool spectateOnly = 3 [default = false];
-    public static final int SPECTATEONLY_FIELD_NUMBER = 3;
+    // optional bool spectateOnly = 4 [default = false];
+    public static final int SPECTATEONLY_FIELD_NUMBER = 4;
     private boolean spectateOnly_;
     /**
-     * <code>optional bool spectateOnly = 3 [default = false];</code>
+     * <code>optional bool spectateOnly = 4 [default = false];</code>
      */
     public boolean hasSpectateOnly() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional bool spectateOnly = 3 [default = false];</code>
+     * <code>optional bool spectateOnly = 4 [default = false];</code>
      */
     public boolean getSpectateOnly() {
       return spectateOnly_;
     }
 
     private void initFields() {
+      gameId_ = 0;
       password_ = "";
       autoLeave_ = false;
       spectateOnly_ = false;
@@ -18707,6 +18495,10 @@ public final class ProtoBuf {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -18715,13 +18507,16 @@ public final class ProtoBuf {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getPasswordBytes());
+        output.writeUInt32(1, gameId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, autoLeave_);
+        output.writeBytes(2, getPasswordBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBool(3, spectateOnly_);
+        output.writeBool(3, autoLeave_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, spectateOnly_);
       }
     }
 
@@ -18733,15 +18528,19 @@ public final class ProtoBuf {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getPasswordBytes());
+          .computeUInt32Size(1, gameId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, autoLeave_);
+          .computeBytesSize(2, getPasswordBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, spectateOnly_);
+          .computeBoolSize(3, autoLeave_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, spectateOnly_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -18834,12 +18633,14 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        password_ = "";
+        gameId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        autoLeave_ = false;
+        password_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        spectateOnly_ = false;
+        autoLeave_ = false;
         bitField0_ = (bitField0_ & ~0x00000004);
+        spectateOnly_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -18866,13 +18667,17 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.password_ = password_;
+        result.gameId_ = gameId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.autoLeave_ = autoLeave_;
+        result.password_ = password_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.autoLeave_ = autoLeave_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.spectateOnly_ = spectateOnly_;
         result.bitField0_ = to_bitField0_;
@@ -18881,8 +18686,11 @@ public final class ProtoBuf {
 
       public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.JoinGameMessage other) {
         if (other == de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
         if (other.hasPassword()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           password_ = other.password_;
           
         }
@@ -18896,6 +18704,10 @@ public final class ProtoBuf {
       }
 
       public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -18918,16 +18730,49 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
-      // optional string password = 1;
-      private java.lang.Object password_ = "";
+      // required uint32 gameId = 1;
+      private int gameId_ ;
       /**
-       * <code>optional string password = 1;</code>
+       * <code>required uint32 gameId = 1;</code>
        */
-      public boolean hasPassword() {
+      public boolean hasGameId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string password = 1;</code>
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public int getGameId() {
+        return gameId_;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+
+      // optional string password = 2;
+      private java.lang.Object password_ = "";
+      /**
+       * <code>optional string password = 2;</code>
+       */
+      public boolean hasPassword() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string password = 2;</code>
        */
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
@@ -18941,7 +18786,7 @@ public final class ProtoBuf {
         }
       }
       /**
-       * <code>optional string password = 1;</code>
+       * <code>optional string password = 2;</code>
        */
       public com.google.protobuf.ByteString
           getPasswordBytes() {
@@ -18957,102 +18802,102 @@ public final class ProtoBuf {
         }
       }
       /**
-       * <code>optional string password = 1;</code>
+       * <code>optional string password = 2;</code>
        */
       public Builder setPassword(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         password_ = value;
         
         return this;
       }
       /**
-       * <code>optional string password = 1;</code>
+       * <code>optional string password = 2;</code>
        */
       public Builder clearPassword() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         password_ = getDefaultInstance().getPassword();
         
         return this;
       }
       /**
-       * <code>optional string password = 1;</code>
+       * <code>optional string password = 2;</code>
        */
       public Builder setPasswordBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000002;
         password_ = value;
         
         return this;
       }
 
-      // optional bool autoLeave = 2 [default = false];
+      // optional bool autoLeave = 3 [default = false];
       private boolean autoLeave_ ;
       /**
-       * <code>optional bool autoLeave = 2 [default = false];</code>
+       * <code>optional bool autoLeave = 3 [default = false];</code>
        */
       public boolean hasAutoLeave() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional bool autoLeave = 2 [default = false];</code>
+       * <code>optional bool autoLeave = 3 [default = false];</code>
        */
       public boolean getAutoLeave() {
         return autoLeave_;
       }
       /**
-       * <code>optional bool autoLeave = 2 [default = false];</code>
+       * <code>optional bool autoLeave = 3 [default = false];</code>
        */
       public Builder setAutoLeave(boolean value) {
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         autoLeave_ = value;
         
         return this;
       }
       /**
-       * <code>optional bool autoLeave = 2 [default = false];</code>
+       * <code>optional bool autoLeave = 3 [default = false];</code>
        */
       public Builder clearAutoLeave() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         autoLeave_ = false;
         
         return this;
       }
 
-      // optional bool spectateOnly = 3 [default = false];
+      // optional bool spectateOnly = 4 [default = false];
       private boolean spectateOnly_ ;
       /**
-       * <code>optional bool spectateOnly = 3 [default = false];</code>
+       * <code>optional bool spectateOnly = 4 [default = false];</code>
        */
       public boolean hasSpectateOnly() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bool spectateOnly = 3 [default = false];</code>
+       * <code>optional bool spectateOnly = 4 [default = false];</code>
        */
       public boolean getSpectateOnly() {
         return spectateOnly_;
       }
       /**
-       * <code>optional bool spectateOnly = 3 [default = false];</code>
+       * <code>optional bool spectateOnly = 4 [default = false];</code>
        */
       public Builder setSpectateOnly(boolean value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         spectateOnly_ = value;
         
         return this;
       }
       /**
-       * <code>optional bool spectateOnly = 3 [default = false];</code>
+       * <code>optional bool spectateOnly = 4 [default = false];</code>
        */
       public Builder clearSpectateOnly() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         spectateOnly_ = false;
         
         return this;
@@ -19072,13 +18917,23 @@ public final class ProtoBuf {
   public interface RejoinGameMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
 
-    // optional bool autoLeave = 1 [default = false];
+    // required uint32 gameId = 1;
     /**
-     * <code>optional bool autoLeave = 1 [default = false];</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    boolean hasGameId();
+    /**
+     * <code>required uint32 gameId = 1;</code>
+     */
+    int getGameId();
+
+    // optional bool autoLeave = 2 [default = false];
+    /**
+     * <code>optional bool autoLeave = 2 [default = false];</code>
      */
     boolean hasAutoLeave();
     /**
-     * <code>optional bool autoLeave = 1 [default = false];</code>
+     * <code>optional bool autoLeave = 2 [default = false];</code>
      */
     boolean getAutoLeave();
   }
@@ -19127,6 +18982,11 @@ public final class ProtoBuf {
             }
             case 8: {
               bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
               autoLeave_ = input.readBool();
               break;
             }
@@ -19157,23 +19017,40 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
-    // optional bool autoLeave = 1 [default = false];
-    public static final int AUTOLEAVE_FIELD_NUMBER = 1;
-    private boolean autoLeave_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
     /**
-     * <code>optional bool autoLeave = 1 [default = false];</code>
+     * <code>required uint32 gameId = 1;</code>
      */
-    public boolean hasAutoLeave() {
+    public boolean hasGameId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional bool autoLeave = 1 [default = false];</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    public int getGameId() {
+      return gameId_;
+    }
+
+    // optional bool autoLeave = 2 [default = false];
+    public static final int AUTOLEAVE_FIELD_NUMBER = 2;
+    private boolean autoLeave_;
+    /**
+     * <code>optional bool autoLeave = 2 [default = false];</code>
+     */
+    public boolean hasAutoLeave() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional bool autoLeave = 2 [default = false];</code>
      */
     public boolean getAutoLeave() {
       return autoLeave_;
     }
 
     private void initFields() {
+      gameId_ = 0;
       autoLeave_ = false;
     }
     private byte memoizedIsInitialized = -1;
@@ -19181,6 +19058,10 @@ public final class ProtoBuf {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -19189,7 +19070,10 @@ public final class ProtoBuf {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, autoLeave_);
+        output.writeUInt32(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(2, autoLeave_);
       }
     }
 
@@ -19201,7 +19085,11 @@ public final class ProtoBuf {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, autoLeave_);
+          .computeUInt32Size(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(2, autoLeave_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -19294,8 +19182,10 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        autoLeave_ = false;
+        gameId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        autoLeave_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -19322,6 +19212,10 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.gameId_ = gameId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
         result.autoLeave_ = autoLeave_;
         result.bitField0_ = to_bitField0_;
         return result;
@@ -19329,6 +19223,9 @@ public final class ProtoBuf {
 
       public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.RejoinGameMessage other) {
         if (other == de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
         if (other.hasAutoLeave()) {
           setAutoLeave(other.getAutoLeave());
         }
@@ -19336,6 +19233,10 @@ public final class ProtoBuf {
       }
 
       public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
         return true;
       }
 
@@ -19358,34 +19259,67 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
-      // optional bool autoLeave = 1 [default = false];
-      private boolean autoLeave_ ;
+      // required uint32 gameId = 1;
+      private int gameId_ ;
       /**
-       * <code>optional bool autoLeave = 1 [default = false];</code>
+       * <code>required uint32 gameId = 1;</code>
        */
-      public boolean hasAutoLeave() {
+      public boolean hasGameId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional bool autoLeave = 1 [default = false];</code>
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public int getGameId() {
+        return gameId_;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+
+      // optional bool autoLeave = 2 [default = false];
+      private boolean autoLeave_ ;
+      /**
+       * <code>optional bool autoLeave = 2 [default = false];</code>
+       */
+      public boolean hasAutoLeave() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional bool autoLeave = 2 [default = false];</code>
        */
       public boolean getAutoLeave() {
         return autoLeave_;
       }
       /**
-       * <code>optional bool autoLeave = 1 [default = false];</code>
+       * <code>optional bool autoLeave = 2 [default = false];</code>
        */
       public Builder setAutoLeave(boolean value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         autoLeave_ = value;
         
         return this;
       }
       /**
-       * <code>optional bool autoLeave = 1 [default = false];</code>
+       * <code>optional bool autoLeave = 2 [default = false];</code>
        */
       public Builder clearAutoLeave() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         autoLeave_ = false;
         
         return this;
@@ -19405,33 +19339,43 @@ public final class ProtoBuf {
   public interface JoinGameAckMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
 
-    // required bool areYouGameAdmin = 1;
+    // required uint32 gameId = 1;
     /**
-     * <code>required bool areYouGameAdmin = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    boolean hasGameId();
+    /**
+     * <code>required uint32 gameId = 1;</code>
+     */
+    int getGameId();
+
+    // required bool areYouGameAdmin = 2;
+    /**
+     * <code>required bool areYouGameAdmin = 2;</code>
      */
     boolean hasAreYouGameAdmin();
     /**
-     * <code>required bool areYouGameAdmin = 1;</code>
+     * <code>required bool areYouGameAdmin = 2;</code>
      */
     boolean getAreYouGameAdmin();
 
-    // required .NetGameInfo gameInfo = 2;
+    // required .NetGameInfo gameInfo = 3;
     /**
-     * <code>required .NetGameInfo gameInfo = 2;</code>
+     * <code>required .NetGameInfo gameInfo = 3;</code>
      */
     boolean hasGameInfo();
     /**
-     * <code>required .NetGameInfo gameInfo = 2;</code>
+     * <code>required .NetGameInfo gameInfo = 3;</code>
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo();
 
-    // optional bool spectateOnly = 3;
+    // optional bool spectateOnly = 4;
     /**
-     * <code>optional bool spectateOnly = 3;</code>
+     * <code>optional bool spectateOnly = 4;</code>
      */
     boolean hasSpectateOnly();
     /**
-     * <code>optional bool spectateOnly = 3;</code>
+     * <code>optional bool spectateOnly = 4;</code>
      */
     boolean getSpectateOnly();
   }
@@ -19480,12 +19424,17 @@ public final class ProtoBuf {
             }
             case 8: {
               bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
               areYouGameAdmin_ = input.readBool();
               break;
             }
-            case 18: {
+            case 26: {
               de.pokerth.protocol.ProtoBuf.NetGameInfo.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = gameInfo_.toBuilder();
               }
               gameInfo_ = input.readMessage(de.pokerth.protocol.ProtoBuf.NetGameInfo.PARSER, extensionRegistry);
@@ -19493,11 +19442,11 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameInfo_);
                 gameInfo_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000002;
+              bitField0_ |= 0x00000004;
               break;
             }
-            case 24: {
-              bitField0_ |= 0x00000004;
+            case 32: {
+              bitField0_ |= 0x00000008;
               spectateOnly_ = input.readBool();
               break;
             }
@@ -19528,55 +19477,72 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
-    // required bool areYouGameAdmin = 1;
-    public static final int AREYOUGAMEADMIN_FIELD_NUMBER = 1;
-    private boolean areYouGameAdmin_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
     /**
-     * <code>required bool areYouGameAdmin = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
      */
-    public boolean hasAreYouGameAdmin() {
+    public boolean hasGameId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required bool areYouGameAdmin = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    public int getGameId() {
+      return gameId_;
+    }
+
+    // required bool areYouGameAdmin = 2;
+    public static final int AREYOUGAMEADMIN_FIELD_NUMBER = 2;
+    private boolean areYouGameAdmin_;
+    /**
+     * <code>required bool areYouGameAdmin = 2;</code>
+     */
+    public boolean hasAreYouGameAdmin() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool areYouGameAdmin = 2;</code>
      */
     public boolean getAreYouGameAdmin() {
       return areYouGameAdmin_;
     }
 
-    // required .NetGameInfo gameInfo = 2;
-    public static final int GAMEINFO_FIELD_NUMBER = 2;
+    // required .NetGameInfo gameInfo = 3;
+    public static final int GAMEINFO_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_;
     /**
-     * <code>required .NetGameInfo gameInfo = 2;</code>
+     * <code>required .NetGameInfo gameInfo = 3;</code>
      */
     public boolean hasGameInfo() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required .NetGameInfo gameInfo = 2;</code>
+     * <code>required .NetGameInfo gameInfo = 3;</code>
      */
     public de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo() {
       return gameInfo_;
     }
 
-    // optional bool spectateOnly = 3;
-    public static final int SPECTATEONLY_FIELD_NUMBER = 3;
+    // optional bool spectateOnly = 4;
+    public static final int SPECTATEONLY_FIELD_NUMBER = 4;
     private boolean spectateOnly_;
     /**
-     * <code>optional bool spectateOnly = 3;</code>
+     * <code>optional bool spectateOnly = 4;</code>
      */
     public boolean hasSpectateOnly() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional bool spectateOnly = 3;</code>
+     * <code>optional bool spectateOnly = 4;</code>
      */
     public boolean getSpectateOnly() {
       return spectateOnly_;
     }
 
     private void initFields() {
+      gameId_ = 0;
       areYouGameAdmin_ = false;
       gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
       spectateOnly_ = false;
@@ -19586,6 +19552,10 @@ public final class ProtoBuf {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasAreYouGameAdmin()) {
         memoizedIsInitialized = 0;
         return false;
@@ -19606,13 +19576,16 @@ public final class ProtoBuf {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, areYouGameAdmin_);
+        output.writeUInt32(1, gameId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, gameInfo_);
+        output.writeBool(2, areYouGameAdmin_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBool(3, spectateOnly_);
+        output.writeMessage(3, gameInfo_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(4, spectateOnly_);
       }
     }
 
@@ -19624,15 +19597,19 @@ public final class ProtoBuf {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, areYouGameAdmin_);
+          .computeUInt32Size(1, gameId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, gameInfo_);
+          .computeBoolSize(2, areYouGameAdmin_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, spectateOnly_);
+          .computeMessageSize(3, gameInfo_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(4, spectateOnly_);
       }
       memoizedSerializedSize = size;
       return size;
@@ -19725,12 +19702,14 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        areYouGameAdmin_ = false;
+        gameId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
+        areYouGameAdmin_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
-        spectateOnly_ = false;
+        gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00000004);
+        spectateOnly_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -19757,13 +19736,17 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.areYouGameAdmin_ = areYouGameAdmin_;
+        result.gameId_ = gameId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.gameInfo_ = gameInfo_;
+        result.areYouGameAdmin_ = areYouGameAdmin_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.gameInfo_ = gameInfo_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.spectateOnly_ = spectateOnly_;
         result.bitField0_ = to_bitField0_;
@@ -19772,6 +19755,9 @@ public final class ProtoBuf {
 
       public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage other) {
         if (other == de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
         if (other.hasAreYouGameAdmin()) {
           setAreYouGameAdmin(other.getAreYouGameAdmin());
         }
@@ -19785,6 +19771,10 @@ public final class ProtoBuf {
       }
 
       public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
         if (!hasAreYouGameAdmin()) {
           
           return false;
@@ -19819,55 +19809,88 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
-      // required bool areYouGameAdmin = 1;
-      private boolean areYouGameAdmin_ ;
+      // required uint32 gameId = 1;
+      private int gameId_ ;
       /**
-       * <code>required bool areYouGameAdmin = 1;</code>
+       * <code>required uint32 gameId = 1;</code>
        */
-      public boolean hasAreYouGameAdmin() {
+      public boolean hasGameId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required bool areYouGameAdmin = 1;</code>
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public int getGameId() {
+        return gameId_;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+
+      // required bool areYouGameAdmin = 2;
+      private boolean areYouGameAdmin_ ;
+      /**
+       * <code>required bool areYouGameAdmin = 2;</code>
+       */
+      public boolean hasAreYouGameAdmin() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool areYouGameAdmin = 2;</code>
        */
       public boolean getAreYouGameAdmin() {
         return areYouGameAdmin_;
       }
       /**
-       * <code>required bool areYouGameAdmin = 1;</code>
+       * <code>required bool areYouGameAdmin = 2;</code>
        */
       public Builder setAreYouGameAdmin(boolean value) {
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         areYouGameAdmin_ = value;
         
         return this;
       }
       /**
-       * <code>required bool areYouGameAdmin = 1;</code>
+       * <code>required bool areYouGameAdmin = 2;</code>
        */
       public Builder clearAreYouGameAdmin() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         areYouGameAdmin_ = false;
         
         return this;
       }
 
-      // required .NetGameInfo gameInfo = 2;
+      // required .NetGameInfo gameInfo = 3;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
       /**
-       * <code>required .NetGameInfo gameInfo = 2;</code>
+       * <code>required .NetGameInfo gameInfo = 3;</code>
        */
       public boolean hasGameInfo() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required .NetGameInfo gameInfo = 2;</code>
+       * <code>required .NetGameInfo gameInfo = 3;</code>
        */
       public de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo() {
         return gameInfo_;
       }
       /**
-       * <code>required .NetGameInfo gameInfo = 2;</code>
+       * <code>required .NetGameInfo gameInfo = 3;</code>
        */
       public Builder setGameInfo(de.pokerth.protocol.ProtoBuf.NetGameInfo value) {
         if (value == null) {
@@ -19875,24 +19898,24 @@ public final class ProtoBuf {
         }
         gameInfo_ = value;
 
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .NetGameInfo gameInfo = 2;</code>
+       * <code>required .NetGameInfo gameInfo = 3;</code>
        */
       public Builder setGameInfo(
           de.pokerth.protocol.ProtoBuf.NetGameInfo.Builder builderForValue) {
         gameInfo_ = builderForValue.build();
 
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .NetGameInfo gameInfo = 2;</code>
+       * <code>required .NetGameInfo gameInfo = 3;</code>
        */
       public Builder mergeGameInfo(de.pokerth.protocol.ProtoBuf.NetGameInfo value) {
-        if (((bitField0_ & 0x00000002) == 0x00000002) &&
+        if (((bitField0_ & 0x00000004) == 0x00000004) &&
             gameInfo_ != de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance()) {
           gameInfo_ =
             de.pokerth.protocol.ProtoBuf.NetGameInfo.newBuilder(gameInfo_).mergeFrom(value).buildPartial();
@@ -19900,47 +19923,47 @@ public final class ProtoBuf {
           gameInfo_ = value;
         }
 
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>required .NetGameInfo gameInfo = 2;</code>
+       * <code>required .NetGameInfo gameInfo = 3;</code>
        */
       public Builder clearGameInfo() {
         gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
-      // optional bool spectateOnly = 3;
+      // optional bool spectateOnly = 4;
       private boolean spectateOnly_ ;
       /**
-       * <code>optional bool spectateOnly = 3;</code>
+       * <code>optional bool spectateOnly = 4;</code>
        */
       public boolean hasSpectateOnly() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bool spectateOnly = 3;</code>
+       * <code>optional bool spectateOnly = 4;</code>
        */
       public boolean getSpectateOnly() {
         return spectateOnly_;
       }
       /**
-       * <code>optional bool spectateOnly = 3;</code>
+       * <code>optional bool spectateOnly = 4;</code>
        */
       public Builder setSpectateOnly(boolean value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         spectateOnly_ = value;
         
         return this;
       }
       /**
-       * <code>optional bool spectateOnly = 3;</code>
+       * <code>optional bool spectateOnly = 4;</code>
        */
       public Builder clearSpectateOnly() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         spectateOnly_ = false;
         
         return this;
@@ -19960,13 +19983,23 @@ public final class ProtoBuf {
   public interface JoinGameFailedMessageOrBuilder
       extends com.google.protobuf.MessageLiteOrBuilder {
 
-    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
+    // required uint32 gameId = 1;
     /**
-     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    boolean hasGameId();
+    /**
+     * <code>required uint32 gameId = 1;</code>
+     */
+    int getGameId();
+
+    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
+    /**
+     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
      */
     boolean hasJoinGameFailureReason();
     /**
-     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
      */
     de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason getJoinGameFailureReason();
   }
@@ -20014,10 +20047,15 @@ public final class ProtoBuf {
               break;
             }
             case 8: {
+              bitField0_ |= 0x00000001;
+              gameId_ = input.readUInt32();
+              break;
+            }
+            case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason value = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.valueOf(rawValue);
               if (value != null) {
-                bitField0_ |= 0x00000001;
+                bitField0_ |= 0x00000002;
                 joinGameFailureReason_ = value;
               }
               break;
@@ -20066,25 +20104,29 @@ public final class ProtoBuf {
        */
       gameIsRunning(2, 3),
       /**
-       * <code>invalidPassword = 4;</code>
+       * <code>notAllowedAsGuest = 4;</code>
        */
-      invalidPassword(3, 4),
+      notAllowedAsGuest(3, 4),
       /**
-       * <code>notInvited = 5;</code>
+       * <code>invalidPassword = 5;</code>
        */
-      notInvited(4, 5),
+      invalidPassword(4, 5),
       /**
-       * <code>ipAddressBlocked = 6;</code>
+       * <code>notInvited = 6;</code>
        */
-      ipAddressBlocked(5, 6),
+      notInvited(5, 6),
       /**
-       * <code>rejoinFailed = 7;</code>
+       * <code>ipAddressBlocked = 7;</code>
        */
-      rejoinFailed(6, 7),
+      ipAddressBlocked(6, 7),
       /**
-       * <code>noSpectatorsAllowed = 8;</code>
+       * <code>rejoinFailed = 8;</code>
        */
-      noSpectatorsAllowed(7, 8),
+      rejoinFailed(7, 8),
+      /**
+       * <code>noSpectatorsAllowed = 9;</code>
+       */
+      noSpectatorsAllowed(8, 9),
       ;
 
       /**
@@ -20100,25 +20142,29 @@ public final class ProtoBuf {
        */
       public static final int gameIsRunning_VALUE = 3;
       /**
-       * <code>invalidPassword = 4;</code>
+       * <code>notAllowedAsGuest = 4;</code>
        */
-      public static final int invalidPassword_VALUE = 4;
+      public static final int notAllowedAsGuest_VALUE = 4;
       /**
-       * <code>notInvited = 5;</code>
+       * <code>invalidPassword = 5;</code>
        */
-      public static final int notInvited_VALUE = 5;
+      public static final int invalidPassword_VALUE = 5;
       /**
-       * <code>ipAddressBlocked = 6;</code>
+       * <code>notInvited = 6;</code>
        */
-      public static final int ipAddressBlocked_VALUE = 6;
+      public static final int notInvited_VALUE = 6;
       /**
-       * <code>rejoinFailed = 7;</code>
+       * <code>ipAddressBlocked = 7;</code>
        */
-      public static final int rejoinFailed_VALUE = 7;
+      public static final int ipAddressBlocked_VALUE = 7;
       /**
-       * <code>noSpectatorsAllowed = 8;</code>
+       * <code>rejoinFailed = 8;</code>
        */
-      public static final int noSpectatorsAllowed_VALUE = 8;
+      public static final int rejoinFailed_VALUE = 8;
+      /**
+       * <code>noSpectatorsAllowed = 9;</code>
+       */
+      public static final int noSpectatorsAllowed_VALUE = 9;
 
 
       public final int getNumber() { return value; }
@@ -20128,11 +20174,12 @@ public final class ProtoBuf {
           case 1: return invalidGame;
           case 2: return gameIsFull;
           case 3: return gameIsRunning;
-          case 4: return invalidPassword;
-          case 5: return notInvited;
-          case 6: return ipAddressBlocked;
-          case 7: return rejoinFailed;
-          case 8: return noSpectatorsAllowed;
+          case 4: return notAllowedAsGuest;
+          case 5: return invalidPassword;
+          case 6: return notInvited;
+          case 7: return ipAddressBlocked;
+          case 8: return rejoinFailed;
+          case 9: return noSpectatorsAllowed;
           default: return null;
         }
       }
@@ -20159,23 +20206,40 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
-    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
-    public static final int JOINGAMEFAILUREREASON_FIELD_NUMBER = 1;
-    private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason_;
+    // required uint32 gameId = 1;
+    public static final int GAMEID_FIELD_NUMBER = 1;
+    private int gameId_;
     /**
-     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
      */
-    public boolean hasJoinGameFailureReason() {
+    public boolean hasGameId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+     * <code>required uint32 gameId = 1;</code>
+     */
+    public int getGameId() {
+      return gameId_;
+    }
+
+    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
+    public static final int JOINGAMEFAILUREREASON_FIELD_NUMBER = 2;
+    private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason_;
+    /**
+     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
+     */
+    public boolean hasJoinGameFailureReason() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
      */
     public de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason getJoinGameFailureReason() {
       return joinGameFailureReason_;
     }
 
     private void initFields() {
+      gameId_ = 0;
       joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
     }
     private byte memoizedIsInitialized = -1;
@@ -20183,6 +20247,10 @@ public final class ProtoBuf {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasGameId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasJoinGameFailureReason()) {
         memoizedIsInitialized = 0;
         return false;
@@ -20195,7 +20263,10 @@ public final class ProtoBuf {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, joinGameFailureReason_.getNumber());
+        output.writeUInt32(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, joinGameFailureReason_.getNumber());
       }
     }
 
@@ -20207,7 +20278,11 @@ public final class ProtoBuf {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, joinGameFailureReason_.getNumber());
+          .computeUInt32Size(1, gameId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, joinGameFailureReason_.getNumber());
       }
       memoizedSerializedSize = size;
       return size;
@@ -20300,8 +20375,10 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
+        gameId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -20328,6 +20405,10 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
+        result.gameId_ = gameId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
         result.joinGameFailureReason_ = joinGameFailureReason_;
         result.bitField0_ = to_bitField0_;
         return result;
@@ -20335,6 +20416,9 @@ public final class ProtoBuf {
 
       public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage other) {
         if (other == de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance()) return this;
+        if (other.hasGameId()) {
+          setGameId(other.getGameId());
+        }
         if (other.hasJoinGameFailureReason()) {
           setJoinGameFailureReason(other.getJoinGameFailureReason());
         }
@@ -20342,6 +20426,10 @@ public final class ProtoBuf {
       }
 
       public final boolean isInitialized() {
+        if (!hasGameId()) {
+          
+          return false;
+        }
         if (!hasJoinGameFailureReason()) {
           
           return false;
@@ -20368,37 +20456,70 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
-      // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;
-      private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
+      // required uint32 gameId = 1;
+      private int gameId_ ;
       /**
-       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+       * <code>required uint32 gameId = 1;</code>
        */
-      public boolean hasJoinGameFailureReason() {
+      public boolean hasGameId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public int getGameId() {
+        return gameId_;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder setGameId(int value) {
+        bitField0_ |= 0x00000001;
+        gameId_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>required uint32 gameId = 1;</code>
+       */
+      public Builder clearGameId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        gameId_ = 0;
+        
+        return this;
+      }
+
+      // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
+      private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
+      /**
+       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
+       */
+      public boolean hasJoinGameFailureReason() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
        */
       public de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason getJoinGameFailureReason() {
         return joinGameFailureReason_;
       }
       /**
-       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
        */
       public Builder setJoinGameFailureReason(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         joinGameFailureReason_ = value;
         
         return this;
       }
       /**
-       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 1;</code>
+       * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
        */
       public Builder clearJoinGameFailureReason() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
         
         return this;
@@ -48925,403 +49046,423 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType getMessageType();
 
-    // optional .InitMessage initMessage = 2;
+    // optional .InitDoneMessage initDoneMessage = 2;
     /**
-     * <code>optional .InitMessage initMessage = 2;</code>
+     * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
      */
-    boolean hasInitMessage();
+    boolean hasInitDoneMessage();
     /**
-     * <code>optional .InitMessage initMessage = 2;</code>
+     * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
      */
-    de.pokerth.protocol.ProtoBuf.InitMessage getInitMessage();
+    de.pokerth.protocol.ProtoBuf.InitDoneMessage getInitDoneMessage();
 
-    // optional .InitAckMessage initAckMessage = 3;
+    // optional .AvatarRequestMessage avatarRequestMessage = 3;
     /**
-     * <code>optional .InitAckMessage initAckMessage = 3;</code>
-     */
-    boolean hasInitAckMessage();
-    /**
-     * <code>optional .InitAckMessage initAckMessage = 3;</code>
-     */
-    de.pokerth.protocol.ProtoBuf.InitAckMessage getInitAckMessage();
-
-    // optional .AvatarRequestMessage avatarRequestMessage = 4;
-    /**
-     * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+     * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
      */
     boolean hasAvatarRequestMessage();
     /**
-     * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+     * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
      */
     de.pokerth.protocol.ProtoBuf.AvatarRequestMessage getAvatarRequestMessage();
 
-    // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
+    // optional .AvatarHeaderMessage avatarHeaderMessage = 4;
     /**
-     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
      */
     boolean hasAvatarHeaderMessage();
     /**
-     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
      */
     de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage getAvatarHeaderMessage();
 
-    // optional .AvatarDataMessage avatarDataMessage = 6;
+    // optional .AvatarDataMessage avatarDataMessage = 5;
     /**
-     * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+     * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
      */
     boolean hasAvatarDataMessage();
     /**
-     * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+     * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
      */
     de.pokerth.protocol.ProtoBuf.AvatarDataMessage getAvatarDataMessage();
 
-    // optional .AvatarEndMessage avatarEndMessage = 7;
+    // optional .AvatarEndMessage avatarEndMessage = 6;
     /**
-     * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+     * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
      */
     boolean hasAvatarEndMessage();
     /**
-     * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+     * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
      */
     de.pokerth.protocol.ProtoBuf.AvatarEndMessage getAvatarEndMessage();
 
-    // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
+    // optional .UnknownAvatarMessage unknownAvatarMessage = 7;
     /**
-     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
      */
     boolean hasUnknownAvatarMessage();
     /**
-     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
      */
     de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage getUnknownAvatarMessage();
 
-    // optional .PlayerListMessage playerListMessage = 9;
+    // optional .PlayerListMessage playerListMessage = 8;
     /**
-     * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+     * <code>optional .PlayerListMessage playerListMessage = 8;</code>
      */
     boolean hasPlayerListMessage();
     /**
-     * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+     * <code>optional .PlayerListMessage playerListMessage = 8;</code>
      */
     de.pokerth.protocol.ProtoBuf.PlayerListMessage getPlayerListMessage();
 
-    // optional .GameListNewMessage gameListNewMessage = 10;
+    // optional .GameListNewMessage gameListNewMessage = 9;
     /**
-     * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+     * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
      */
     boolean hasGameListNewMessage();
     /**
-     * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+     * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListNewMessage getGameListNewMessage();
 
-    // optional .GameListUpdateMessage gameListUpdateMessage = 11;
+    // optional .GameListUpdateMessage gameListUpdateMessage = 10;
     /**
-     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
      */
     boolean hasGameListUpdateMessage();
     /**
-     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListUpdateMessage getGameListUpdateMessage();
 
-    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
+    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;
     /**
-     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
      */
     boolean hasGameListPlayerJoinedMessage();
     /**
-     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage getGameListPlayerJoinedMessage();
 
-    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
+    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;
     /**
-     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
      */
     boolean hasGameListPlayerLeftMessage();
     /**
-     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage getGameListPlayerLeftMessage();
 
-    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;
     /**
-     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
      */
     boolean hasGameListSpectatorJoinedMessage();
     /**
-     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage();
 
-    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;
     /**
-     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
      */
     boolean hasGameListSpectatorLeftMessage();
     /**
-     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage();
 
-    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
+    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;
     /**
-     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
      */
     boolean hasGameListAdminChangedMessage();
     /**
-     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage getGameListAdminChangedMessage();
 
-    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
+    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;
     /**
-     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
      */
     boolean hasPlayerInfoRequestMessage();
     /**
-     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
      */
     de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage getPlayerInfoRequestMessage();
 
-    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
+    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;
     /**
-     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
      */
     boolean hasPlayerInfoReplyMessage();
     /**
-     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
      */
     de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage getPlayerInfoReplyMessage();
 
-    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
+    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;
     /**
-     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
      */
     boolean hasSubscriptionRequestMessage();
     /**
-     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
      */
     de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage getSubscriptionRequestMessage();
 
-    // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
+    // optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;
     /**
-     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
      */
     boolean hasSubscriptionReplyMessage();
     /**
-     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
      */
     de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage getSubscriptionReplyMessage();
 
-    // optional .CreateGameMessage createGameMessage = 21;
+    // optional .CreateGameMessage createGameMessage = 20;
     /**
-     * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+     * <code>optional .CreateGameMessage createGameMessage = 20;</code>
      */
     boolean hasCreateGameMessage();
     /**
-     * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+     * <code>optional .CreateGameMessage createGameMessage = 20;</code>
      */
     de.pokerth.protocol.ProtoBuf.CreateGameMessage getCreateGameMessage();
 
-    // optional .CreateGameFailedMessage createGameFailedMessage = 22;
+    // optional .CreateGameFailedMessage createGameFailedMessage = 21;
     /**
-     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
      */
     boolean hasCreateGameFailedMessage();
     /**
-     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
      */
     de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage getCreateGameFailedMessage();
 
-    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
+    // optional .JoinGameMessage joinGameMessage = 22;
     /**
-     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+     * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
      */
-    boolean hasInvitePlayerToGameMessage();
+    boolean hasJoinGameMessage();
     /**
-     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+     * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
      */
-    de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage();
+    de.pokerth.protocol.ProtoBuf.JoinGameMessage getJoinGameMessage();
 
-    // optional .InviteNotifyMessage inviteNotifyMessage = 24;
+    // optional .RejoinGameMessage rejoinGameMessage = 23;
     /**
-     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+     * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
+     */
+    boolean hasRejoinGameMessage();
+    /**
+     * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
+     */
+    de.pokerth.protocol.ProtoBuf.RejoinGameMessage getRejoinGameMessage();
+
+    // optional .JoinGameAckMessage joinGameAckMessage = 24;
+    /**
+     * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+     */
+    boolean hasJoinGameAckMessage();
+    /**
+     * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+     */
+    de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage();
+
+    // optional .JoinGameFailedMessage joinGameFailedMessage = 25;
+    /**
+     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+     */
+    boolean hasJoinGameFailedMessage();
+    /**
+     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+     */
+    de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage();
+
+    // optional .InviteNotifyMessage inviteNotifyMessage = 26;
+    /**
+     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
      */
     boolean hasInviteNotifyMessage();
     /**
-     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
      */
     de.pokerth.protocol.ProtoBuf.InviteNotifyMessage getInviteNotifyMessage();
 
-    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
+    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;
     /**
-     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
      */
     boolean hasRejectGameInvitationMessage();
     /**
-     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
      */
     de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage getRejectGameInvitationMessage();
 
-    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
+    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;
     /**
-     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
      */
     boolean hasRejectInvNotifyMessage();
     /**
-     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
      */
     de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage getRejectInvNotifyMessage();
 
-    // optional .StatisticsMessage statisticsMessage = 27;
+    // optional .StatisticsMessage statisticsMessage = 29;
     /**
-     * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+     * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
      */
     boolean hasStatisticsMessage();
     /**
-     * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+     * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
      */
     de.pokerth.protocol.ProtoBuf.StatisticsMessage getStatisticsMessage();
 
-    // optional .ChatRequestMessage chatRequestMessage = 28;
+    // optional .ChatRequestMessage chatRequestMessage = 30;
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
      */
     boolean hasChatRequestMessage();
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
      */
     de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage();
 
-    // optional .ChatMessage chatMessage = 29;
+    // optional .ChatMessage chatMessage = 31;
     /**
-     * <code>optional .ChatMessage chatMessage = 29;</code>
+     * <code>optional .ChatMessage chatMessage = 31;</code>
      */
     boolean hasChatMessage();
     /**
-     * <code>optional .ChatMessage chatMessage = 29;</code>
+     * <code>optional .ChatMessage chatMessage = 31;</code>
      */
     de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage();
 
-    // optional .ChatRejectMessage chatRejectMessage = 30;
+    // optional .ChatRejectMessage chatRejectMessage = 32;
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
      */
     boolean hasChatRejectMessage();
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
      */
     de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage();
 
-    // optional .DialogMessage dialogMessage = 31;
+    // optional .DialogMessage dialogMessage = 33;
     /**
-     * <code>optional .DialogMessage dialogMessage = 31;</code>
+     * <code>optional .DialogMessage dialogMessage = 33;</code>
      */
     boolean hasDialogMessage();
     /**
-     * <code>optional .DialogMessage dialogMessage = 31;</code>
+     * <code>optional .DialogMessage dialogMessage = 33;</code>
      */
     de.pokerth.protocol.ProtoBuf.DialogMessage getDialogMessage();
 
-    // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 34;
     /**
-     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
      */
     boolean hasTimeoutWarningMessage();
     /**
-     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
      */
     de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage();
 
-    // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 35;
     /**
-     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
      */
     boolean hasResetTimeoutMessage();
     /**
-     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
      */
     de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage();
 
-    // optional .ReportAvatarMessage reportAvatarMessage = 34;
+    // optional .ReportAvatarMessage reportAvatarMessage = 36;
     /**
-     * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+     * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
      */
     boolean hasReportAvatarMessage();
     /**
-     * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+     * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
      */
     de.pokerth.protocol.ProtoBuf.ReportAvatarMessage getReportAvatarMessage();
 
-    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
+    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;
     /**
-     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
      */
     boolean hasReportAvatarAckMessage();
     /**
-     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
      */
     de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage getReportAvatarAckMessage();
 
-    // optional .ReportGameMessage reportGameMessage = 36;
+    // optional .ReportGameMessage reportGameMessage = 38;
     /**
-     * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+     * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
      */
     boolean hasReportGameMessage();
     /**
-     * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+     * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
      */
     de.pokerth.protocol.ProtoBuf.ReportGameMessage getReportGameMessage();
 
-    // optional .ReportGameAckMessage reportGameAckMessage = 37;
+    // optional .ReportGameAckMessage reportGameAckMessage = 39;
     /**
-     * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+     * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
      */
     boolean hasReportGameAckMessage();
     /**
-     * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+     * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
      */
     de.pokerth.protocol.ProtoBuf.ReportGameAckMessage getReportGameAckMessage();
 
-    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;
     /**
-     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
      */
     boolean hasAdminRemoveGameMessage();
     /**
-     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
      */
     de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage();
 
-    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
+    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;
     /**
-     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
      */
     boolean hasAdminRemoveGameAckMessage();
     /**
-     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
      */
     de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage getAdminRemoveGameAckMessage();
 
-    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;
     /**
-     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
      */
     boolean hasAdminBanPlayerMessage();
     /**
-     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
      */
     de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage();
 
-    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
+    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;
     /**
-     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
      */
     boolean hasAdminBanPlayerAckMessage();
     /**
-     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
      */
     de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage getAdminBanPlayerAckMessage();
 
@@ -49389,34 +49530,21 @@ public final class ProtoBuf {
               break;
             }
             case 18: {
-              de.pokerth.protocol.ProtoBuf.InitMessage.Builder subBuilder = null;
+              de.pokerth.protocol.ProtoBuf.InitDoneMessage.Builder subBuilder = null;
               if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = initMessage_.toBuilder();
+                subBuilder = initDoneMessage_.toBuilder();
               }
-              initMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.InitMessage.PARSER, extensionRegistry);
+              initDoneMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.InitDoneMessage.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(initMessage_);
-                initMessage_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(initDoneMessage_);
+                initDoneMessage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000002;
               break;
             }
             case 26: {
-              de.pokerth.protocol.ProtoBuf.InitAckMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                subBuilder = initAckMessage_.toBuilder();
-              }
-              initAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.InitAckMessage.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(initAckMessage_);
-                initAckMessage_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000004;
-              break;
-            }
-            case 34: {
               de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = avatarRequestMessage_.toBuilder();
               }
               avatarRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.PARSER, extensionRegistry);
@@ -49424,12 +49552,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(avatarRequestMessage_);
                 avatarRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000004;
               break;
             }
-            case 42: {
+            case 34: {
               de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = avatarHeaderMessage_.toBuilder();
               }
               avatarHeaderMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.PARSER, extensionRegistry);
@@ -49437,12 +49565,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(avatarHeaderMessage_);
                 avatarHeaderMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000008;
               break;
             }
-            case 50: {
+            case 42: {
               de.pokerth.protocol.ProtoBuf.AvatarDataMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 subBuilder = avatarDataMessage_.toBuilder();
               }
               avatarDataMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AvatarDataMessage.PARSER, extensionRegistry);
@@ -49450,12 +49578,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(avatarDataMessage_);
                 avatarDataMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000010;
               break;
             }
-            case 58: {
+            case 50: {
               de.pokerth.protocol.ProtoBuf.AvatarEndMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = avatarEndMessage_.toBuilder();
               }
               avatarEndMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AvatarEndMessage.PARSER, extensionRegistry);
@@ -49463,12 +49591,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(avatarEndMessage_);
                 avatarEndMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000020;
               break;
             }
-            case 66: {
+            case 58: {
               de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000080) == 0x00000080)) {
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
                 subBuilder = unknownAvatarMessage_.toBuilder();
               }
               unknownAvatarMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.PARSER, extensionRegistry);
@@ -49476,12 +49604,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(unknownAvatarMessage_);
                 unknownAvatarMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000040;
               break;
             }
-            case 74: {
+            case 66: {
               de.pokerth.protocol.ProtoBuf.PlayerListMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000100) == 0x00000100)) {
+              if (((bitField0_ & 0x00000080) == 0x00000080)) {
                 subBuilder = playerListMessage_.toBuilder();
               }
               playerListMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.PlayerListMessage.PARSER, extensionRegistry);
@@ -49489,12 +49617,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(playerListMessage_);
                 playerListMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000080;
               break;
             }
-            case 82: {
+            case 74: {
               de.pokerth.protocol.ProtoBuf.GameListNewMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000200) == 0x00000200)) {
+              if (((bitField0_ & 0x00000100) == 0x00000100)) {
                 subBuilder = gameListNewMessage_.toBuilder();
               }
               gameListNewMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListNewMessage.PARSER, extensionRegistry);
@@ -49502,12 +49630,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListNewMessage_);
                 gameListNewMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000200;
+              bitField0_ |= 0x00000100;
               break;
             }
-            case 90: {
+            case 82: {
               de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000400) == 0x00000400)) {
+              if (((bitField0_ & 0x00000200) == 0x00000200)) {
                 subBuilder = gameListUpdateMessage_.toBuilder();
               }
               gameListUpdateMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.PARSER, extensionRegistry);
@@ -49515,12 +49643,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListUpdateMessage_);
                 gameListUpdateMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000400;
+              bitField0_ |= 0x00000200;
               break;
             }
-            case 98: {
+            case 90: {
               de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000800) == 0x00000800)) {
+              if (((bitField0_ & 0x00000400) == 0x00000400)) {
                 subBuilder = gameListPlayerJoinedMessage_.toBuilder();
               }
               gameListPlayerJoinedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.PARSER, extensionRegistry);
@@ -49528,12 +49656,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListPlayerJoinedMessage_);
                 gameListPlayerJoinedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000800;
+              bitField0_ |= 0x00000400;
               break;
             }
-            case 106: {
+            case 98: {
               de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00001000) == 0x00001000)) {
+              if (((bitField0_ & 0x00000800) == 0x00000800)) {
                 subBuilder = gameListPlayerLeftMessage_.toBuilder();
               }
               gameListPlayerLeftMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.PARSER, extensionRegistry);
@@ -49541,12 +49669,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListPlayerLeftMessage_);
                 gameListPlayerLeftMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00001000;
+              bitField0_ |= 0x00000800;
               break;
             }
-            case 114: {
+            case 106: {
               de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00002000) == 0x00002000)) {
+              if (((bitField0_ & 0x00001000) == 0x00001000)) {
                 subBuilder = gameListSpectatorJoinedMessage_.toBuilder();
               }
               gameListSpectatorJoinedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.PARSER, extensionRegistry);
@@ -49554,12 +49682,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListSpectatorJoinedMessage_);
                 gameListSpectatorJoinedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00002000;
+              bitField0_ |= 0x00001000;
               break;
             }
-            case 122: {
+            case 114: {
               de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00004000) == 0x00004000)) {
+              if (((bitField0_ & 0x00002000) == 0x00002000)) {
                 subBuilder = gameListSpectatorLeftMessage_.toBuilder();
               }
               gameListSpectatorLeftMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.PARSER, extensionRegistry);
@@ -49567,12 +49695,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListSpectatorLeftMessage_);
                 gameListSpectatorLeftMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00004000;
+              bitField0_ |= 0x00002000;
               break;
             }
-            case 130: {
+            case 122: {
               de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00008000) == 0x00008000)) {
+              if (((bitField0_ & 0x00004000) == 0x00004000)) {
                 subBuilder = gameListAdminChangedMessage_.toBuilder();
               }
               gameListAdminChangedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.PARSER, extensionRegistry);
@@ -49580,12 +49708,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameListAdminChangedMessage_);
                 gameListAdminChangedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00008000;
+              bitField0_ |= 0x00004000;
               break;
             }
-            case 138: {
+            case 130: {
               de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00010000) == 0x00010000)) {
+              if (((bitField0_ & 0x00008000) == 0x00008000)) {
                 subBuilder = playerInfoRequestMessage_.toBuilder();
               }
               playerInfoRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.PARSER, extensionRegistry);
@@ -49593,12 +49721,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(playerInfoRequestMessage_);
                 playerInfoRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00010000;
+              bitField0_ |= 0x00008000;
               break;
             }
-            case 146: {
+            case 138: {
               de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00020000) == 0x00020000)) {
+              if (((bitField0_ & 0x00010000) == 0x00010000)) {
                 subBuilder = playerInfoReplyMessage_.toBuilder();
               }
               playerInfoReplyMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PARSER, extensionRegistry);
@@ -49606,12 +49734,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(playerInfoReplyMessage_);
                 playerInfoReplyMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00020000;
+              bitField0_ |= 0x00010000;
               break;
             }
-            case 154: {
+            case 146: {
               de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00040000) == 0x00040000)) {
+              if (((bitField0_ & 0x00020000) == 0x00020000)) {
                 subBuilder = subscriptionRequestMessage_.toBuilder();
               }
               subscriptionRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.PARSER, extensionRegistry);
@@ -49619,12 +49747,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(subscriptionRequestMessage_);
                 subscriptionRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00040000;
+              bitField0_ |= 0x00020000;
               break;
             }
-            case 162: {
+            case 154: {
               de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00080000) == 0x00080000)) {
+              if (((bitField0_ & 0x00040000) == 0x00040000)) {
                 subBuilder = subscriptionReplyMessage_.toBuilder();
               }
               subscriptionReplyMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.PARSER, extensionRegistry);
@@ -49632,12 +49760,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(subscriptionReplyMessage_);
                 subscriptionReplyMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00080000;
+              bitField0_ |= 0x00040000;
               break;
             }
-            case 170: {
+            case 162: {
               de.pokerth.protocol.ProtoBuf.CreateGameMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00100000) == 0x00100000)) {
+              if (((bitField0_ & 0x00080000) == 0x00080000)) {
                 subBuilder = createGameMessage_.toBuilder();
               }
               createGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.CreateGameMessage.PARSER, extensionRegistry);
@@ -49645,12 +49773,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(createGameMessage_);
                 createGameMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00100000;
+              bitField0_ |= 0x00080000;
               break;
             }
-            case 178: {
+            case 170: {
               de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00200000) == 0x00200000)) {
+              if (((bitField0_ & 0x00100000) == 0x00100000)) {
                 subBuilder = createGameFailedMessage_.toBuilder();
               }
               createGameFailedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.PARSER, extensionRegistry);
@@ -49658,25 +49786,64 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(createGameFailedMessage_);
                 createGameFailedMessage_ = subBuilder.buildPartial();
               }
+              bitField0_ |= 0x00100000;
+              break;
+            }
+            case 178: {
+              de.pokerth.protocol.ProtoBuf.JoinGameMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x00200000) == 0x00200000)) {
+                subBuilder = joinGameMessage_.toBuilder();
+              }
+              joinGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.JoinGameMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(joinGameMessage_);
+                joinGameMessage_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00200000;
               break;
             }
             case 186: {
-              de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.Builder subBuilder = null;
+              de.pokerth.protocol.ProtoBuf.RejoinGameMessage.Builder subBuilder = null;
               if (((bitField0_ & 0x00400000) == 0x00400000)) {
-                subBuilder = invitePlayerToGameMessage_.toBuilder();
+                subBuilder = rejoinGameMessage_.toBuilder();
               }
-              invitePlayerToGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.PARSER, extensionRegistry);
+              rejoinGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.RejoinGameMessage.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(invitePlayerToGameMessage_);
-                invitePlayerToGameMessage_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(rejoinGameMessage_);
+                rejoinGameMessage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00400000;
               break;
             }
             case 194: {
-              de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.Builder subBuilder = null;
+              de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.Builder subBuilder = null;
               if (((bitField0_ & 0x00800000) == 0x00800000)) {
+                subBuilder = joinGameAckMessage_.toBuilder();
+              }
+              joinGameAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(joinGameAckMessage_);
+                joinGameAckMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00800000;
+              break;
+            }
+            case 202: {
+              de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x01000000) == 0x01000000)) {
+                subBuilder = joinGameFailedMessage_.toBuilder();
+              }
+              joinGameFailedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(joinGameFailedMessage_);
+                joinGameFailedMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x01000000;
+              break;
+            }
+            case 210: {
+              de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x02000000) == 0x02000000)) {
                 subBuilder = inviteNotifyMessage_.toBuilder();
               }
               inviteNotifyMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.PARSER, extensionRegistry);
@@ -49684,12 +49851,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(inviteNotifyMessage_);
                 inviteNotifyMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00800000;
+              bitField0_ |= 0x02000000;
               break;
             }
-            case 202: {
+            case 218: {
               de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x01000000) == 0x01000000)) {
+              if (((bitField0_ & 0x04000000) == 0x04000000)) {
                 subBuilder = rejectGameInvitationMessage_.toBuilder();
               }
               rejectGameInvitationMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.PARSER, extensionRegistry);
@@ -49697,12 +49864,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(rejectGameInvitationMessage_);
                 rejectGameInvitationMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x01000000;
+              bitField0_ |= 0x04000000;
               break;
             }
-            case 210: {
+            case 226: {
               de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x02000000) == 0x02000000)) {
+              if (((bitField0_ & 0x08000000) == 0x08000000)) {
                 subBuilder = rejectInvNotifyMessage_.toBuilder();
               }
               rejectInvNotifyMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.PARSER, extensionRegistry);
@@ -49710,12 +49877,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(rejectInvNotifyMessage_);
                 rejectInvNotifyMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x02000000;
+              bitField0_ |= 0x08000000;
               break;
             }
-            case 218: {
+            case 234: {
               de.pokerth.protocol.ProtoBuf.StatisticsMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x04000000) == 0x04000000)) {
+              if (((bitField0_ & 0x10000000) == 0x10000000)) {
                 subBuilder = statisticsMessage_.toBuilder();
               }
               statisticsMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.StatisticsMessage.PARSER, extensionRegistry);
@@ -49723,12 +49890,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(statisticsMessage_);
                 statisticsMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x04000000;
+              bitField0_ |= 0x10000000;
               break;
             }
-            case 226: {
+            case 242: {
               de.pokerth.protocol.ProtoBuf.ChatRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x08000000) == 0x08000000)) {
+              if (((bitField0_ & 0x20000000) == 0x20000000)) {
                 subBuilder = chatRequestMessage_.toBuilder();
               }
               chatRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ChatRequestMessage.PARSER, extensionRegistry);
@@ -49736,12 +49903,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(chatRequestMessage_);
                 chatRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x08000000;
+              bitField0_ |= 0x20000000;
               break;
             }
-            case 234: {
+            case 250: {
               de.pokerth.protocol.ProtoBuf.ChatMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x10000000) == 0x10000000)) {
+              if (((bitField0_ & 0x40000000) == 0x40000000)) {
                 subBuilder = chatMessage_.toBuilder();
               }
               chatMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ChatMessage.PARSER, extensionRegistry);
@@ -49749,12 +49916,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(chatMessage_);
                 chatMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x10000000;
+              bitField0_ |= 0x40000000;
               break;
             }
-            case 242: {
+            case 258: {
               de.pokerth.protocol.ProtoBuf.ChatRejectMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x20000000) == 0x20000000)) {
+              if (((bitField0_ & 0x80000000) == 0x80000000)) {
                 subBuilder = chatRejectMessage_.toBuilder();
               }
               chatRejectMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ChatRejectMessage.PARSER, extensionRegistry);
@@ -49762,12 +49929,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(chatRejectMessage_);
                 chatRejectMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x20000000;
+              bitField0_ |= 0x80000000;
               break;
             }
-            case 250: {
+            case 266: {
               de.pokerth.protocol.ProtoBuf.DialogMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x40000000) == 0x40000000)) {
+              if (((bitField1_ & 0x00000001) == 0x00000001)) {
                 subBuilder = dialogMessage_.toBuilder();
               }
               dialogMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.DialogMessage.PARSER, extensionRegistry);
@@ -49775,12 +49942,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(dialogMessage_);
                 dialogMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x40000000;
+              bitField1_ |= 0x00000001;
               break;
             }
-            case 258: {
+            case 274: {
               de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x80000000) == 0x80000000)) {
+              if (((bitField1_ & 0x00000002) == 0x00000002)) {
                 subBuilder = timeoutWarningMessage_.toBuilder();
               }
               timeoutWarningMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.PARSER, extensionRegistry);
@@ -49788,12 +49955,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(timeoutWarningMessage_);
                 timeoutWarningMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x80000000;
+              bitField1_ |= 0x00000002;
               break;
             }
-            case 266: {
+            case 282: {
               de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000001) == 0x00000001)) {
+              if (((bitField1_ & 0x00000004) == 0x00000004)) {
                 subBuilder = resetTimeoutMessage_.toBuilder();
               }
               resetTimeoutMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.PARSER, extensionRegistry);
@@ -49801,12 +49968,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(resetTimeoutMessage_);
                 resetTimeoutMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000001;
+              bitField1_ |= 0x00000004;
               break;
             }
-            case 274: {
+            case 290: {
               de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000002) == 0x00000002)) {
+              if (((bitField1_ & 0x00000008) == 0x00000008)) {
                 subBuilder = reportAvatarMessage_.toBuilder();
               }
               reportAvatarMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.PARSER, extensionRegistry);
@@ -49814,12 +49981,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(reportAvatarMessage_);
                 reportAvatarMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000002;
+              bitField1_ |= 0x00000008;
               break;
             }
-            case 282: {
+            case 298: {
               de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000004) == 0x00000004)) {
+              if (((bitField1_ & 0x00000010) == 0x00000010)) {
                 subBuilder = reportAvatarAckMessage_.toBuilder();
               }
               reportAvatarAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.PARSER, extensionRegistry);
@@ -49827,12 +49994,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(reportAvatarAckMessage_);
                 reportAvatarAckMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000004;
+              bitField1_ |= 0x00000010;
               break;
             }
-            case 290: {
+            case 306: {
               de.pokerth.protocol.ProtoBuf.ReportGameMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000008) == 0x00000008)) {
+              if (((bitField1_ & 0x00000020) == 0x00000020)) {
                 subBuilder = reportGameMessage_.toBuilder();
               }
               reportGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ReportGameMessage.PARSER, extensionRegistry);
@@ -49840,12 +50007,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(reportGameMessage_);
                 reportGameMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000008;
+              bitField1_ |= 0x00000020;
               break;
             }
-            case 298: {
+            case 314: {
               de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000010) == 0x00000010)) {
+              if (((bitField1_ & 0x00000040) == 0x00000040)) {
                 subBuilder = reportGameAckMessage_.toBuilder();
               }
               reportGameAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.PARSER, extensionRegistry);
@@ -49853,12 +50020,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(reportGameAckMessage_);
                 reportGameAckMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000010;
+              bitField1_ |= 0x00000040;
               break;
             }
-            case 306: {
+            case 322: {
               de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000020) == 0x00000020)) {
+              if (((bitField1_ & 0x00000080) == 0x00000080)) {
                 subBuilder = adminRemoveGameMessage_.toBuilder();
               }
               adminRemoveGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.PARSER, extensionRegistry);
@@ -49866,12 +50033,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(adminRemoveGameMessage_);
                 adminRemoveGameMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000020;
+              bitField1_ |= 0x00000080;
               break;
             }
-            case 314: {
+            case 330: {
               de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000040) == 0x00000040)) {
+              if (((bitField1_ & 0x00000100) == 0x00000100)) {
                 subBuilder = adminRemoveGameAckMessage_.toBuilder();
               }
               adminRemoveGameAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.PARSER, extensionRegistry);
@@ -49879,12 +50046,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(adminRemoveGameAckMessage_);
                 adminRemoveGameAckMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000040;
+              bitField1_ |= 0x00000100;
               break;
             }
-            case 322: {
+            case 338: {
               de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000080) == 0x00000080)) {
+              if (((bitField1_ & 0x00000200) == 0x00000200)) {
                 subBuilder = adminBanPlayerMessage_.toBuilder();
               }
               adminBanPlayerMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.PARSER, extensionRegistry);
@@ -49892,12 +50059,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(adminBanPlayerMessage_);
                 adminBanPlayerMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000080;
+              bitField1_ |= 0x00000200;
               break;
             }
-            case 330: {
+            case 346: {
               de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000100) == 0x00000100)) {
+              if (((bitField1_ & 0x00000400) == 0x00000400)) {
                 subBuilder = adminBanPlayerAckMessage_.toBuilder();
               }
               adminBanPlayerAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.PARSER, extensionRegistry);
@@ -49905,12 +50072,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(adminBanPlayerAckMessage_);
                 adminBanPlayerAckMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000100;
+              bitField1_ |= 0x00000400;
               break;
             }
             case 8202: {
               de.pokerth.protocol.ProtoBuf.ErrorMessage.Builder subBuilder = null;
-              if (((bitField1_ & 0x00000200) == 0x00000200)) {
+              if (((bitField1_ & 0x00000800) == 0x00000800)) {
                 subBuilder = errorMessage_.toBuilder();
               }
               errorMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ErrorMessage.PARSER, extensionRegistry);
@@ -49918,7 +50085,7 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(errorMessage_);
                 errorMessage_ = subBuilder.buildPartial();
               }
-              bitField1_ |= 0x00000200;
+              bitField1_ |= 0x00000800;
               break;
             }
           }
@@ -49953,331 +50120,347 @@ public final class ProtoBuf {
     public enum LobbyMessageType
         implements com.google.protobuf.Internal.EnumLite {
       /**
-       * <code>Type_InitMessage = 1;</code>
+       * <code>Type_InitDoneMessage = 1;</code>
        */
-      Type_InitMessage(0, 1),
+      Type_InitDoneMessage(0, 1),
       /**
-       * <code>Type_InitAckMessage = 2;</code>
+       * <code>Type_AvatarRequestMessage = 2;</code>
        */
-      Type_InitAckMessage(1, 2),
+      Type_AvatarRequestMessage(1, 2),
       /**
-       * <code>Type_AvatarRequestMessage = 3;</code>
+       * <code>Type_AvatarHeaderMessage = 3;</code>
        */
-      Type_AvatarRequestMessage(2, 3),
+      Type_AvatarHeaderMessage(2, 3),
       /**
-       * <code>Type_AvatarHeaderMessage = 4;</code>
+       * <code>Type_AvatarDataMessage = 4;</code>
        */
-      Type_AvatarHeaderMessage(3, 4),
+      Type_AvatarDataMessage(3, 4),
       /**
-       * <code>Type_AvatarDataMessage = 5;</code>
+       * <code>Type_AvatarEndMessage = 5;</code>
        */
-      Type_AvatarDataMessage(4, 5),
+      Type_AvatarEndMessage(4, 5),
       /**
-       * <code>Type_AvatarEndMessage = 6;</code>
+       * <code>Type_UnknownAvatarMessage = 6;</code>
        */
-      Type_AvatarEndMessage(5, 6),
+      Type_UnknownAvatarMessage(5, 6),
       /**
-       * <code>Type_UnknownAvatarMessage = 7;</code>
+       * <code>Type_PlayerListMessage = 7;</code>
        */
-      Type_UnknownAvatarMessage(6, 7),
+      Type_PlayerListMessage(6, 7),
       /**
-       * <code>Type_PlayerListMessage = 8;</code>
+       * <code>Type_GameListNewMessage = 8;</code>
        */
-      Type_PlayerListMessage(7, 8),
+      Type_GameListNewMessage(7, 8),
       /**
-       * <code>Type_GameListNewMessage = 9;</code>
+       * <code>Type_GameListUpdateMessage = 9;</code>
        */
-      Type_GameListNewMessage(8, 9),
+      Type_GameListUpdateMessage(8, 9),
       /**
-       * <code>Type_GameListUpdateMessage = 10;</code>
+       * <code>Type_GameListPlayerJoinedMessage = 10;</code>
        */
-      Type_GameListUpdateMessage(9, 10),
+      Type_GameListPlayerJoinedMessage(9, 10),
       /**
-       * <code>Type_GameListPlayerJoinedMessage = 11;</code>
+       * <code>Type_GameListPlayerLeftMessage = 11;</code>
        */
-      Type_GameListPlayerJoinedMessage(10, 11),
+      Type_GameListPlayerLeftMessage(10, 11),
       /**
-       * <code>Type_GameListPlayerLeftMessage = 12;</code>
+       * <code>Type_GameListSpectatorJoinedMessage = 12;</code>
        */
-      Type_GameListPlayerLeftMessage(11, 12),
+      Type_GameListSpectatorJoinedMessage(11, 12),
       /**
-       * <code>Type_GameListSpectatorJoinedMessage = 13;</code>
+       * <code>Type_GameListSpectatorLeftMessage = 13;</code>
        */
-      Type_GameListSpectatorJoinedMessage(12, 13),
+      Type_GameListSpectatorLeftMessage(12, 13),
       /**
-       * <code>Type_GameListSpectatorLeftMessage = 14;</code>
+       * <code>Type_GameListAdminChangedMessage = 14;</code>
        */
-      Type_GameListSpectatorLeftMessage(13, 14),
+      Type_GameListAdminChangedMessage(13, 14),
       /**
-       * <code>Type_GameListAdminChangedMessage = 15;</code>
+       * <code>Type_PlayerInfoRequestMessage = 15;</code>
        */
-      Type_GameListAdminChangedMessage(14, 15),
+      Type_PlayerInfoRequestMessage(14, 15),
       /**
-       * <code>Type_PlayerInfoRequestMessage = 16;</code>
+       * <code>Type_PlayerInfoReplyMessage = 16;</code>
        */
-      Type_PlayerInfoRequestMessage(15, 16),
+      Type_PlayerInfoReplyMessage(15, 16),
       /**
-       * <code>Type_PlayerInfoReplyMessage = 17;</code>
+       * <code>Type_SubscriptionRequestMessage = 17;</code>
        */
-      Type_PlayerInfoReplyMessage(16, 17),
+      Type_SubscriptionRequestMessage(16, 17),
       /**
-       * <code>Type_SubscriptionRequestMessage = 18;</code>
+       * <code>Type_SubscriptionReplyMessage = 18;</code>
        */
-      Type_SubscriptionRequestMessage(17, 18),
+      Type_SubscriptionReplyMessage(17, 18),
       /**
-       * <code>Type_SubscriptionReplyMessage = 19;</code>
+       * <code>Type_CreateGameMessage = 19;</code>
        */
-      Type_SubscriptionReplyMessage(18, 19),
+      Type_CreateGameMessage(18, 19),
       /**
-       * <code>Type_CreateGameMessage = 20;</code>
+       * <code>Type_CreateGameFailedMessage = 20;</code>
        */
-      Type_CreateGameMessage(19, 20),
+      Type_CreateGameFailedMessage(19, 20),
       /**
-       * <code>Type_CreateGameFailedMessage = 21;</code>
+       * <code>Type_JoinGameMessage = 21;</code>
        */
-      Type_CreateGameFailedMessage(20, 21),
+      Type_JoinGameMessage(20, 21),
       /**
-       * <code>Type_InvitePlayerToGameMessage = 22;</code>
+       * <code>Type_RejoinGameMessage = 22;</code>
        */
-      Type_InvitePlayerToGameMessage(21, 22),
+      Type_RejoinGameMessage(21, 22),
       /**
-       * <code>Type_InviteNotifyMessage = 23;</code>
+       * <code>Type_JoinGameAckMessage = 23;</code>
        */
-      Type_InviteNotifyMessage(22, 23),
+      Type_JoinGameAckMessage(22, 23),
       /**
-       * <code>Type_RejectGameInvitationMessage = 24;</code>
+       * <code>Type_JoinGameFailedMessage = 24;</code>
        */
-      Type_RejectGameInvitationMessage(23, 24),
+      Type_JoinGameFailedMessage(23, 24),
       /**
-       * <code>Type_RejectInvNotifyMessage = 25;</code>
+       * <code>Type_InviteNotifyMessage = 25;</code>
        */
-      Type_RejectInvNotifyMessage(24, 25),
+      Type_InviteNotifyMessage(24, 25),
       /**
-       * <code>Type_StatisticsMessage = 26;</code>
+       * <code>Type_RejectGameInvitationMessage = 26;</code>
        */
-      Type_StatisticsMessage(25, 26),
+      Type_RejectGameInvitationMessage(25, 26),
       /**
-       * <code>Type_ChatRequestMessage = 27;</code>
+       * <code>Type_RejectInvNotifyMessage = 27;</code>
        */
-      Type_ChatRequestMessage(26, 27),
+      Type_RejectInvNotifyMessage(26, 27),
       /**
-       * <code>Type_ChatMessage = 28;</code>
+       * <code>Type_StatisticsMessage = 28;</code>
        */
-      Type_ChatMessage(27, 28),
+      Type_StatisticsMessage(27, 28),
       /**
-       * <code>Type_ChatRejectMessage = 29;</code>
+       * <code>Type_ChatRequestMessage = 29;</code>
        */
-      Type_ChatRejectMessage(28, 29),
+      Type_ChatRequestMessage(28, 29),
       /**
-       * <code>Type_DialogMessage = 30;</code>
+       * <code>Type_ChatMessage = 30;</code>
        */
-      Type_DialogMessage(29, 30),
+      Type_ChatMessage(29, 30),
       /**
-       * <code>Type_TimeoutWarningMessage = 31;</code>
+       * <code>Type_ChatRejectMessage = 31;</code>
        */
-      Type_TimeoutWarningMessage(30, 31),
+      Type_ChatRejectMessage(30, 31),
       /**
-       * <code>Type_ResetTimeoutMessage = 32;</code>
+       * <code>Type_DialogMessage = 32;</code>
        */
-      Type_ResetTimeoutMessage(31, 32),
+      Type_DialogMessage(31, 32),
       /**
-       * <code>Type_ReportAvatarMessage = 33;</code>
+       * <code>Type_TimeoutWarningMessage = 33;</code>
        */
-      Type_ReportAvatarMessage(32, 33),
+      Type_TimeoutWarningMessage(32, 33),
       /**
-       * <code>Type_ReportAvatarAckMessage = 34;</code>
+       * <code>Type_ResetTimeoutMessage = 34;</code>
        */
-      Type_ReportAvatarAckMessage(33, 34),
+      Type_ResetTimeoutMessage(33, 34),
       /**
-       * <code>Type_ReportGameMessage = 35;</code>
+       * <code>Type_ReportAvatarMessage = 35;</code>
        */
-      Type_ReportGameMessage(34, 35),
+      Type_ReportAvatarMessage(34, 35),
       /**
-       * <code>Type_ReportGameAckMessage = 36;</code>
+       * <code>Type_ReportAvatarAckMessage = 36;</code>
        */
-      Type_ReportGameAckMessage(35, 36),
+      Type_ReportAvatarAckMessage(35, 36),
       /**
-       * <code>Type_AdminRemoveGameMessage = 37;</code>
+       * <code>Type_ReportGameMessage = 37;</code>
        */
-      Type_AdminRemoveGameMessage(36, 37),
+      Type_ReportGameMessage(36, 37),
       /**
-       * <code>Type_AdminRemoveGameAckMessage = 38;</code>
+       * <code>Type_ReportGameAckMessage = 38;</code>
        */
-      Type_AdminRemoveGameAckMessage(37, 38),
+      Type_ReportGameAckMessage(37, 38),
       /**
-       * <code>Type_AdminBanPlayerMessage = 39;</code>
+       * <code>Type_AdminRemoveGameMessage = 39;</code>
        */
-      Type_AdminBanPlayerMessage(38, 39),
+      Type_AdminRemoveGameMessage(38, 39),
       /**
-       * <code>Type_AdminBanPlayerAckMessage = 40;</code>
+       * <code>Type_AdminRemoveGameAckMessage = 40;</code>
        */
-      Type_AdminBanPlayerAckMessage(39, 40),
+      Type_AdminRemoveGameAckMessage(39, 40),
+      /**
+       * <code>Type_AdminBanPlayerMessage = 41;</code>
+       */
+      Type_AdminBanPlayerMessage(40, 41),
+      /**
+       * <code>Type_AdminBanPlayerAckMessage = 42;</code>
+       */
+      Type_AdminBanPlayerAckMessage(41, 42),
       /**
        * <code>Type_ErrorMessage = 1024;</code>
        */
-      Type_ErrorMessage(40, 1024),
+      Type_ErrorMessage(42, 1024),
       ;
 
       /**
-       * <code>Type_InitMessage = 1;</code>
+       * <code>Type_InitDoneMessage = 1;</code>
        */
-      public static final int Type_InitMessage_VALUE = 1;
+      public static final int Type_InitDoneMessage_VALUE = 1;
       /**
-       * <code>Type_InitAckMessage = 2;</code>
+       * <code>Type_AvatarRequestMessage = 2;</code>
        */
-      public static final int Type_InitAckMessage_VALUE = 2;
+      public static final int Type_AvatarRequestMessage_VALUE = 2;
       /**
-       * <code>Type_AvatarRequestMessage = 3;</code>
+       * <code>Type_AvatarHeaderMessage = 3;</code>
        */
-      public static final int Type_AvatarRequestMessage_VALUE = 3;
+      public static final int Type_AvatarHeaderMessage_VALUE = 3;
       /**
-       * <code>Type_AvatarHeaderMessage = 4;</code>
+       * <code>Type_AvatarDataMessage = 4;</code>
        */
-      public static final int Type_AvatarHeaderMessage_VALUE = 4;
+      public static final int Type_AvatarDataMessage_VALUE = 4;
       /**
-       * <code>Type_AvatarDataMessage = 5;</code>
+       * <code>Type_AvatarEndMessage = 5;</code>
        */
-      public static final int Type_AvatarDataMessage_VALUE = 5;
+      public static final int Type_AvatarEndMessage_VALUE = 5;
       /**
-       * <code>Type_AvatarEndMessage = 6;</code>
+       * <code>Type_UnknownAvatarMessage = 6;</code>
        */
-      public static final int Type_AvatarEndMessage_VALUE = 6;
+      public static final int Type_UnknownAvatarMessage_VALUE = 6;
       /**
-       * <code>Type_UnknownAvatarMessage = 7;</code>
+       * <code>Type_PlayerListMessage = 7;</code>
        */
-      public static final int Type_UnknownAvatarMessage_VALUE = 7;
+      public static final int Type_PlayerListMessage_VALUE = 7;
       /**
-       * <code>Type_PlayerListMessage = 8;</code>
+       * <code>Type_GameListNewMessage = 8;</code>
        */
-      public static final int Type_PlayerListMessage_VALUE = 8;
+      public static final int Type_GameListNewMessage_VALUE = 8;
       /**
-       * <code>Type_GameListNewMessage = 9;</code>
+       * <code>Type_GameListUpdateMessage = 9;</code>
        */
-      public static final int Type_GameListNewMessage_VALUE = 9;
+      public static final int Type_GameListUpdateMessage_VALUE = 9;
       /**
-       * <code>Type_GameListUpdateMessage = 10;</code>
+       * <code>Type_GameListPlayerJoinedMessage = 10;</code>
        */
-      public static final int Type_GameListUpdateMessage_VALUE = 10;
+      public static final int Type_GameListPlayerJoinedMessage_VALUE = 10;
       /**
-       * <code>Type_GameListPlayerJoinedMessage = 11;</code>
+       * <code>Type_GameListPlayerLeftMessage = 11;</code>
        */
-      public static final int Type_GameListPlayerJoinedMessage_VALUE = 11;
+      public static final int Type_GameListPlayerLeftMessage_VALUE = 11;
       /**
-       * <code>Type_GameListPlayerLeftMessage = 12;</code>
+       * <code>Type_GameListSpectatorJoinedMessage = 12;</code>
        */
-      public static final int Type_GameListPlayerLeftMessage_VALUE = 12;
+      public static final int Type_GameListSpectatorJoinedMessage_VALUE = 12;
       /**
-       * <code>Type_GameListSpectatorJoinedMessage = 13;</code>
+       * <code>Type_GameListSpectatorLeftMessage = 13;</code>
        */
-      public static final int Type_GameListSpectatorJoinedMessage_VALUE = 13;
+      public static final int Type_GameListSpectatorLeftMessage_VALUE = 13;
       /**
-       * <code>Type_GameListSpectatorLeftMessage = 14;</code>
+       * <code>Type_GameListAdminChangedMessage = 14;</code>
        */
-      public static final int Type_GameListSpectatorLeftMessage_VALUE = 14;
+      public static final int Type_GameListAdminChangedMessage_VALUE = 14;
       /**
-       * <code>Type_GameListAdminChangedMessage = 15;</code>
+       * <code>Type_PlayerInfoRequestMessage = 15;</code>
        */
-      public static final int Type_GameListAdminChangedMessage_VALUE = 15;
+      public static final int Type_PlayerInfoRequestMessage_VALUE = 15;
       /**
-       * <code>Type_PlayerInfoRequestMessage = 16;</code>
+       * <code>Type_PlayerInfoReplyMessage = 16;</code>
        */
-      public static final int Type_PlayerInfoRequestMessage_VALUE = 16;
+      public static final int Type_PlayerInfoReplyMessage_VALUE = 16;
       /**
-       * <code>Type_PlayerInfoReplyMessage = 17;</code>
+       * <code>Type_SubscriptionRequestMessage = 17;</code>
        */
-      public static final int Type_PlayerInfoReplyMessage_VALUE = 17;
+      public static final int Type_SubscriptionRequestMessage_VALUE = 17;
       /**
-       * <code>Type_SubscriptionRequestMessage = 18;</code>
+       * <code>Type_SubscriptionReplyMessage = 18;</code>
        */
-      public static final int Type_SubscriptionRequestMessage_VALUE = 18;
+      public static final int Type_SubscriptionReplyMessage_VALUE = 18;
       /**
-       * <code>Type_SubscriptionReplyMessage = 19;</code>
+       * <code>Type_CreateGameMessage = 19;</code>
        */
-      public static final int Type_SubscriptionReplyMessage_VALUE = 19;
+      public static final int Type_CreateGameMessage_VALUE = 19;
       /**
-       * <code>Type_CreateGameMessage = 20;</code>
+       * <code>Type_CreateGameFailedMessage = 20;</code>
        */
-      public static final int Type_CreateGameMessage_VALUE = 20;
+      public static final int Type_CreateGameFailedMessage_VALUE = 20;
       /**
-       * <code>Type_CreateGameFailedMessage = 21;</code>
+       * <code>Type_JoinGameMessage = 21;</code>
        */
-      public static final int Type_CreateGameFailedMessage_VALUE = 21;
+      public static final int Type_JoinGameMessage_VALUE = 21;
       /**
-       * <code>Type_InvitePlayerToGameMessage = 22;</code>
+       * <code>Type_RejoinGameMessage = 22;</code>
        */
-      public static final int Type_InvitePlayerToGameMessage_VALUE = 22;
+      public static final int Type_RejoinGameMessage_VALUE = 22;
       /**
-       * <code>Type_InviteNotifyMessage = 23;</code>
+       * <code>Type_JoinGameAckMessage = 23;</code>
        */
-      public static final int Type_InviteNotifyMessage_VALUE = 23;
+      public static final int Type_JoinGameAckMessage_VALUE = 23;
       /**
-       * <code>Type_RejectGameInvitationMessage = 24;</code>
+       * <code>Type_JoinGameFailedMessage = 24;</code>
        */
-      public static final int Type_RejectGameInvitationMessage_VALUE = 24;
+      public static final int Type_JoinGameFailedMessage_VALUE = 24;
       /**
-       * <code>Type_RejectInvNotifyMessage = 25;</code>
+       * <code>Type_InviteNotifyMessage = 25;</code>
        */
-      public static final int Type_RejectInvNotifyMessage_VALUE = 25;
+      public static final int Type_InviteNotifyMessage_VALUE = 25;
       /**
-       * <code>Type_StatisticsMessage = 26;</code>
+       * <code>Type_RejectGameInvitationMessage = 26;</code>
        */
-      public static final int Type_StatisticsMessage_VALUE = 26;
+      public static final int Type_RejectGameInvitationMessage_VALUE = 26;
       /**
-       * <code>Type_ChatRequestMessage = 27;</code>
+       * <code>Type_RejectInvNotifyMessage = 27;</code>
        */
-      public static final int Type_ChatRequestMessage_VALUE = 27;
+      public static final int Type_RejectInvNotifyMessage_VALUE = 27;
       /**
-       * <code>Type_ChatMessage = 28;</code>
+       * <code>Type_StatisticsMessage = 28;</code>
        */
-      public static final int Type_ChatMessage_VALUE = 28;
+      public static final int Type_StatisticsMessage_VALUE = 28;
       /**
-       * <code>Type_ChatRejectMessage = 29;</code>
+       * <code>Type_ChatRequestMessage = 29;</code>
        */
-      public static final int Type_ChatRejectMessage_VALUE = 29;
+      public static final int Type_ChatRequestMessage_VALUE = 29;
       /**
-       * <code>Type_DialogMessage = 30;</code>
+       * <code>Type_ChatMessage = 30;</code>
        */
-      public static final int Type_DialogMessage_VALUE = 30;
+      public static final int Type_ChatMessage_VALUE = 30;
       /**
-       * <code>Type_TimeoutWarningMessage = 31;</code>
+       * <code>Type_ChatRejectMessage = 31;</code>
        */
-      public static final int Type_TimeoutWarningMessage_VALUE = 31;
+      public static final int Type_ChatRejectMessage_VALUE = 31;
       /**
-       * <code>Type_ResetTimeoutMessage = 32;</code>
+       * <code>Type_DialogMessage = 32;</code>
        */
-      public static final int Type_ResetTimeoutMessage_VALUE = 32;
+      public static final int Type_DialogMessage_VALUE = 32;
       /**
-       * <code>Type_ReportAvatarMessage = 33;</code>
+       * <code>Type_TimeoutWarningMessage = 33;</code>
        */
-      public static final int Type_ReportAvatarMessage_VALUE = 33;
+      public static final int Type_TimeoutWarningMessage_VALUE = 33;
       /**
-       * <code>Type_ReportAvatarAckMessage = 34;</code>
+       * <code>Type_ResetTimeoutMessage = 34;</code>
        */
-      public static final int Type_ReportAvatarAckMessage_VALUE = 34;
+      public static final int Type_ResetTimeoutMessage_VALUE = 34;
       /**
-       * <code>Type_ReportGameMessage = 35;</code>
+       * <code>Type_ReportAvatarMessage = 35;</code>
        */
-      public static final int Type_ReportGameMessage_VALUE = 35;
+      public static final int Type_ReportAvatarMessage_VALUE = 35;
       /**
-       * <code>Type_ReportGameAckMessage = 36;</code>
+       * <code>Type_ReportAvatarAckMessage = 36;</code>
        */
-      public static final int Type_ReportGameAckMessage_VALUE = 36;
+      public static final int Type_ReportAvatarAckMessage_VALUE = 36;
       /**
-       * <code>Type_AdminRemoveGameMessage = 37;</code>
+       * <code>Type_ReportGameMessage = 37;</code>
        */
-      public static final int Type_AdminRemoveGameMessage_VALUE = 37;
+      public static final int Type_ReportGameMessage_VALUE = 37;
       /**
-       * <code>Type_AdminRemoveGameAckMessage = 38;</code>
+       * <code>Type_ReportGameAckMessage = 38;</code>
        */
-      public static final int Type_AdminRemoveGameAckMessage_VALUE = 38;
+      public static final int Type_ReportGameAckMessage_VALUE = 38;
       /**
-       * <code>Type_AdminBanPlayerMessage = 39;</code>
+       * <code>Type_AdminRemoveGameMessage = 39;</code>
        */
-      public static final int Type_AdminBanPlayerMessage_VALUE = 39;
+      public static final int Type_AdminRemoveGameMessage_VALUE = 39;
       /**
-       * <code>Type_AdminBanPlayerAckMessage = 40;</code>
+       * <code>Type_AdminRemoveGameAckMessage = 40;</code>
        */
-      public static final int Type_AdminBanPlayerAckMessage_VALUE = 40;
+      public static final int Type_AdminRemoveGameAckMessage_VALUE = 40;
+      /**
+       * <code>Type_AdminBanPlayerMessage = 41;</code>
+       */
+      public static final int Type_AdminBanPlayerMessage_VALUE = 41;
+      /**
+       * <code>Type_AdminBanPlayerAckMessage = 42;</code>
+       */
+      public static final int Type_AdminBanPlayerAckMessage_VALUE = 42;
       /**
        * <code>Type_ErrorMessage = 1024;</code>
        */
@@ -50288,46 +50471,48 @@ public final class ProtoBuf {
 
       public static LobbyMessageType valueOf(int value) {
         switch (value) {
-          case 1: return Type_InitMessage;
-          case 2: return Type_InitAckMessage;
-          case 3: return Type_AvatarRequestMessage;
-          case 4: return Type_AvatarHeaderMessage;
-          case 5: return Type_AvatarDataMessage;
-          case 6: return Type_AvatarEndMessage;
-          case 7: return Type_UnknownAvatarMessage;
-          case 8: return Type_PlayerListMessage;
-          case 9: return Type_GameListNewMessage;
-          case 10: return Type_GameListUpdateMessage;
-          case 11: return Type_GameListPlayerJoinedMessage;
-          case 12: return Type_GameListPlayerLeftMessage;
-          case 13: return Type_GameListSpectatorJoinedMessage;
-          case 14: return Type_GameListSpectatorLeftMessage;
-          case 15: return Type_GameListAdminChangedMessage;
-          case 16: return Type_PlayerInfoRequestMessage;
-          case 17: return Type_PlayerInfoReplyMessage;
-          case 18: return Type_SubscriptionRequestMessage;
-          case 19: return Type_SubscriptionReplyMessage;
-          case 20: return Type_CreateGameMessage;
-          case 21: return Type_CreateGameFailedMessage;
-          case 22: return Type_InvitePlayerToGameMessage;
-          case 23: return Type_InviteNotifyMessage;
-          case 24: return Type_RejectGameInvitationMessage;
-          case 25: return Type_RejectInvNotifyMessage;
-          case 26: return Type_StatisticsMessage;
-          case 27: return Type_ChatRequestMessage;
-          case 28: return Type_ChatMessage;
-          case 29: return Type_ChatRejectMessage;
-          case 30: return Type_DialogMessage;
-          case 31: return Type_TimeoutWarningMessage;
-          case 32: return Type_ResetTimeoutMessage;
-          case 33: return Type_ReportAvatarMessage;
-          case 34: return Type_ReportAvatarAckMessage;
-          case 35: return Type_ReportGameMessage;
-          case 36: return Type_ReportGameAckMessage;
-          case 37: return Type_AdminRemoveGameMessage;
-          case 38: return Type_AdminRemoveGameAckMessage;
-          case 39: return Type_AdminBanPlayerMessage;
-          case 40: return Type_AdminBanPlayerAckMessage;
+          case 1: return Type_InitDoneMessage;
+          case 2: return Type_AvatarRequestMessage;
+          case 3: return Type_AvatarHeaderMessage;
+          case 4: return Type_AvatarDataMessage;
+          case 5: return Type_AvatarEndMessage;
+          case 6: return Type_UnknownAvatarMessage;
+          case 7: return Type_PlayerListMessage;
+          case 8: return Type_GameListNewMessage;
+          case 9: return Type_GameListUpdateMessage;
+          case 10: return Type_GameListPlayerJoinedMessage;
+          case 11: return Type_GameListPlayerLeftMessage;
+          case 12: return Type_GameListSpectatorJoinedMessage;
+          case 13: return Type_GameListSpectatorLeftMessage;
+          case 14: return Type_GameListAdminChangedMessage;
+          case 15: return Type_PlayerInfoRequestMessage;
+          case 16: return Type_PlayerInfoReplyMessage;
+          case 17: return Type_SubscriptionRequestMessage;
+          case 18: return Type_SubscriptionReplyMessage;
+          case 19: return Type_CreateGameMessage;
+          case 20: return Type_CreateGameFailedMessage;
+          case 21: return Type_JoinGameMessage;
+          case 22: return Type_RejoinGameMessage;
+          case 23: return Type_JoinGameAckMessage;
+          case 24: return Type_JoinGameFailedMessage;
+          case 25: return Type_InviteNotifyMessage;
+          case 26: return Type_RejectGameInvitationMessage;
+          case 27: return Type_RejectInvNotifyMessage;
+          case 28: return Type_StatisticsMessage;
+          case 29: return Type_ChatRequestMessage;
+          case 30: return Type_ChatMessage;
+          case 31: return Type_ChatRejectMessage;
+          case 32: return Type_DialogMessage;
+          case 33: return Type_TimeoutWarningMessage;
+          case 34: return Type_ResetTimeoutMessage;
+          case 35: return Type_ReportAvatarMessage;
+          case 36: return Type_ReportAvatarAckMessage;
+          case 37: return Type_ReportGameMessage;
+          case 38: return Type_ReportGameAckMessage;
+          case 39: return Type_AdminRemoveGameMessage;
+          case 40: return Type_AdminRemoveGameAckMessage;
+          case 41: return Type_AdminBanPlayerMessage;
+          case 42: return Type_AdminBanPlayerAckMessage;
           case 1024: return Type_ErrorMessage;
           default: return null;
         }
@@ -50372,641 +50557,673 @@ public final class ProtoBuf {
       return messageType_;
     }
 
-    // optional .InitMessage initMessage = 2;
-    public static final int INITMESSAGE_FIELD_NUMBER = 2;
-    private de.pokerth.protocol.ProtoBuf.InitMessage initMessage_;
+    // optional .InitDoneMessage initDoneMessage = 2;
+    public static final int INITDONEMESSAGE_FIELD_NUMBER = 2;
+    private de.pokerth.protocol.ProtoBuf.InitDoneMessage initDoneMessage_;
     /**
-     * <code>optional .InitMessage initMessage = 2;</code>
+     * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
      */
-    public boolean hasInitMessage() {
+    public boolean hasInitDoneMessage() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .InitMessage initMessage = 2;</code>
+     * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
      */
-    public de.pokerth.protocol.ProtoBuf.InitMessage getInitMessage() {
-      return initMessage_;
+    public de.pokerth.protocol.ProtoBuf.InitDoneMessage getInitDoneMessage() {
+      return initDoneMessage_;
     }
 
-    // optional .InitAckMessage initAckMessage = 3;
-    public static final int INITACKMESSAGE_FIELD_NUMBER = 3;
-    private de.pokerth.protocol.ProtoBuf.InitAckMessage initAckMessage_;
+    // optional .AvatarRequestMessage avatarRequestMessage = 3;
+    public static final int AVATARREQUESTMESSAGE_FIELD_NUMBER = 3;
+    private de.pokerth.protocol.ProtoBuf.AvatarRequestMessage avatarRequestMessage_;
     /**
-     * <code>optional .InitAckMessage initAckMessage = 3;</code>
+     * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
      */
-    public boolean hasInitAckMessage() {
+    public boolean hasAvatarRequestMessage() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .InitAckMessage initAckMessage = 3;</code>
-     */
-    public de.pokerth.protocol.ProtoBuf.InitAckMessage getInitAckMessage() {
-      return initAckMessage_;
-    }
-
-    // optional .AvatarRequestMessage avatarRequestMessage = 4;
-    public static final int AVATARREQUESTMESSAGE_FIELD_NUMBER = 4;
-    private de.pokerth.protocol.ProtoBuf.AvatarRequestMessage avatarRequestMessage_;
-    /**
-     * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
-     */
-    public boolean hasAvatarRequestMessage() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+     * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AvatarRequestMessage getAvatarRequestMessage() {
       return avatarRequestMessage_;
     }
 
-    // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
-    public static final int AVATARHEADERMESSAGE_FIELD_NUMBER = 5;
+    // optional .AvatarHeaderMessage avatarHeaderMessage = 4;
+    public static final int AVATARHEADERMESSAGE_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage avatarHeaderMessage_;
     /**
-     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
      */
     public boolean hasAvatarHeaderMessage() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+     * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage getAvatarHeaderMessage() {
       return avatarHeaderMessage_;
     }
 
-    // optional .AvatarDataMessage avatarDataMessage = 6;
-    public static final int AVATARDATAMESSAGE_FIELD_NUMBER = 6;
+    // optional .AvatarDataMessage avatarDataMessage = 5;
+    public static final int AVATARDATAMESSAGE_FIELD_NUMBER = 5;
     private de.pokerth.protocol.ProtoBuf.AvatarDataMessage avatarDataMessage_;
     /**
-     * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+     * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
      */
     public boolean hasAvatarDataMessage() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+     * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AvatarDataMessage getAvatarDataMessage() {
       return avatarDataMessage_;
     }
 
-    // optional .AvatarEndMessage avatarEndMessage = 7;
-    public static final int AVATARENDMESSAGE_FIELD_NUMBER = 7;
+    // optional .AvatarEndMessage avatarEndMessage = 6;
+    public static final int AVATARENDMESSAGE_FIELD_NUMBER = 6;
     private de.pokerth.protocol.ProtoBuf.AvatarEndMessage avatarEndMessage_;
     /**
-     * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+     * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
      */
     public boolean hasAvatarEndMessage() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+     * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AvatarEndMessage getAvatarEndMessage() {
       return avatarEndMessage_;
     }
 
-    // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
-    public static final int UNKNOWNAVATARMESSAGE_FIELD_NUMBER = 8;
+    // optional .UnknownAvatarMessage unknownAvatarMessage = 7;
+    public static final int UNKNOWNAVATARMESSAGE_FIELD_NUMBER = 7;
     private de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage unknownAvatarMessage_;
     /**
-     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
      */
     public boolean hasUnknownAvatarMessage() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+     * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
      */
     public de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage getUnknownAvatarMessage() {
       return unknownAvatarMessage_;
     }
 
-    // optional .PlayerListMessage playerListMessage = 9;
-    public static final int PLAYERLISTMESSAGE_FIELD_NUMBER = 9;
+    // optional .PlayerListMessage playerListMessage = 8;
+    public static final int PLAYERLISTMESSAGE_FIELD_NUMBER = 8;
     private de.pokerth.protocol.ProtoBuf.PlayerListMessage playerListMessage_;
     /**
-     * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+     * <code>optional .PlayerListMessage playerListMessage = 8;</code>
      */
     public boolean hasPlayerListMessage() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+     * <code>optional .PlayerListMessage playerListMessage = 8;</code>
      */
     public de.pokerth.protocol.ProtoBuf.PlayerListMessage getPlayerListMessage() {
       return playerListMessage_;
     }
 
-    // optional .GameListNewMessage gameListNewMessage = 10;
-    public static final int GAMELISTNEWMESSAGE_FIELD_NUMBER = 10;
+    // optional .GameListNewMessage gameListNewMessage = 9;
+    public static final int GAMELISTNEWMESSAGE_FIELD_NUMBER = 9;
     private de.pokerth.protocol.ProtoBuf.GameListNewMessage gameListNewMessage_;
     /**
-     * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+     * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
      */
     public boolean hasGameListNewMessage() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+     * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListNewMessage getGameListNewMessage() {
       return gameListNewMessage_;
     }
 
-    // optional .GameListUpdateMessage gameListUpdateMessage = 11;
-    public static final int GAMELISTUPDATEMESSAGE_FIELD_NUMBER = 11;
+    // optional .GameListUpdateMessage gameListUpdateMessage = 10;
+    public static final int GAMELISTUPDATEMESSAGE_FIELD_NUMBER = 10;
     private de.pokerth.protocol.ProtoBuf.GameListUpdateMessage gameListUpdateMessage_;
     /**
-     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
      */
     public boolean hasGameListUpdateMessage() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+     * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListUpdateMessage getGameListUpdateMessage() {
       return gameListUpdateMessage_;
     }
 
-    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
-    public static final int GAMELISTPLAYERJOINEDMESSAGE_FIELD_NUMBER = 12;
+    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;
+    public static final int GAMELISTPLAYERJOINEDMESSAGE_FIELD_NUMBER = 11;
     private de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage gameListPlayerJoinedMessage_;
     /**
-     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
      */
     public boolean hasGameListPlayerJoinedMessage() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000400) == 0x00000400);
     }
     /**
-     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+     * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage getGameListPlayerJoinedMessage() {
       return gameListPlayerJoinedMessage_;
     }
 
-    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
-    public static final int GAMELISTPLAYERLEFTMESSAGE_FIELD_NUMBER = 13;
+    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;
+    public static final int GAMELISTPLAYERLEFTMESSAGE_FIELD_NUMBER = 12;
     private de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage gameListPlayerLeftMessage_;
     /**
-     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
      */
     public boolean hasGameListPlayerLeftMessage() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+     * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage getGameListPlayerLeftMessage() {
       return gameListPlayerLeftMessage_;
     }
 
-    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
-    public static final int GAMELISTSPECTATORJOINEDMESSAGE_FIELD_NUMBER = 14;
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;
+    public static final int GAMELISTSPECTATORJOINEDMESSAGE_FIELD_NUMBER = 13;
     private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage_;
     /**
-     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
      */
     public boolean hasGameListSpectatorJoinedMessage() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
-     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+     * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage() {
       return gameListSpectatorJoinedMessage_;
     }
 
-    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
-    public static final int GAMELISTSPECTATORLEFTMESSAGE_FIELD_NUMBER = 15;
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;
+    public static final int GAMELISTSPECTATORLEFTMESSAGE_FIELD_NUMBER = 14;
     private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage gameListSpectatorLeftMessage_;
     /**
-     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
      */
     public boolean hasGameListSpectatorLeftMessage() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
+      return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
-     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+     * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage() {
       return gameListSpectatorLeftMessage_;
     }
 
-    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
-    public static final int GAMELISTADMINCHANGEDMESSAGE_FIELD_NUMBER = 16;
+    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;
+    public static final int GAMELISTADMINCHANGEDMESSAGE_FIELD_NUMBER = 15;
     private de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage gameListAdminChangedMessage_;
     /**
-     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
      */
     public boolean hasGameListAdminChangedMessage() {
-      return ((bitField0_ & 0x00008000) == 0x00008000);
+      return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
-     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+     * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage getGameListAdminChangedMessage() {
       return gameListAdminChangedMessage_;
     }
 
-    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
-    public static final int PLAYERINFOREQUESTMESSAGE_FIELD_NUMBER = 17;
+    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;
+    public static final int PLAYERINFOREQUESTMESSAGE_FIELD_NUMBER = 16;
     private de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage playerInfoRequestMessage_;
     /**
-     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
      */
     public boolean hasPlayerInfoRequestMessage() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00008000) == 0x00008000);
     }
     /**
-     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+     * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
      */
     public de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage getPlayerInfoRequestMessage() {
       return playerInfoRequestMessage_;
     }
 
-    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
-    public static final int PLAYERINFOREPLYMESSAGE_FIELD_NUMBER = 18;
+    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;
+    public static final int PLAYERINFOREPLYMESSAGE_FIELD_NUMBER = 17;
     private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage playerInfoReplyMessage_;
     /**
-     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
      */
     public boolean hasPlayerInfoReplyMessage() {
-      return ((bitField0_ & 0x00020000) == 0x00020000);
+      return ((bitField0_ & 0x00010000) == 0x00010000);
     }
     /**
-     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+     * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
      */
     public de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage getPlayerInfoReplyMessage() {
       return playerInfoReplyMessage_;
     }
 
-    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
-    public static final int SUBSCRIPTIONREQUESTMESSAGE_FIELD_NUMBER = 19;
+    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;
+    public static final int SUBSCRIPTIONREQUESTMESSAGE_FIELD_NUMBER = 18;
     private de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage subscriptionRequestMessage_;
     /**
-     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
      */
     public boolean hasSubscriptionRequestMessage() {
-      return ((bitField0_ & 0x00040000) == 0x00040000);
+      return ((bitField0_ & 0x00020000) == 0x00020000);
     }
     /**
-     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+     * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
      */
     public de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage getSubscriptionRequestMessage() {
       return subscriptionRequestMessage_;
     }
 
-    // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
-    public static final int SUBSCRIPTIONREPLYMESSAGE_FIELD_NUMBER = 20;
+    // optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;
+    public static final int SUBSCRIPTIONREPLYMESSAGE_FIELD_NUMBER = 19;
     private de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage subscriptionReplyMessage_;
     /**
-     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
      */
     public boolean hasSubscriptionReplyMessage() {
-      return ((bitField0_ & 0x00080000) == 0x00080000);
+      return ((bitField0_ & 0x00040000) == 0x00040000);
     }
     /**
-     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+     * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
      */
     public de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage getSubscriptionReplyMessage() {
       return subscriptionReplyMessage_;
     }
 
-    // optional .CreateGameMessage createGameMessage = 21;
-    public static final int CREATEGAMEMESSAGE_FIELD_NUMBER = 21;
+    // optional .CreateGameMessage createGameMessage = 20;
+    public static final int CREATEGAMEMESSAGE_FIELD_NUMBER = 20;
     private de.pokerth.protocol.ProtoBuf.CreateGameMessage createGameMessage_;
     /**
-     * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+     * <code>optional .CreateGameMessage createGameMessage = 20;</code>
      */
     public boolean hasCreateGameMessage() {
-      return ((bitField0_ & 0x00100000) == 0x00100000);
+      return ((bitField0_ & 0x00080000) == 0x00080000);
     }
     /**
-     * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+     * <code>optional .CreateGameMessage createGameMessage = 20;</code>
      */
     public de.pokerth.protocol.ProtoBuf.CreateGameMessage getCreateGameMessage() {
       return createGameMessage_;
     }
 
-    // optional .CreateGameFailedMessage createGameFailedMessage = 22;
-    public static final int CREATEGAMEFAILEDMESSAGE_FIELD_NUMBER = 22;
+    // optional .CreateGameFailedMessage createGameFailedMessage = 21;
+    public static final int CREATEGAMEFAILEDMESSAGE_FIELD_NUMBER = 21;
     private de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage createGameFailedMessage_;
     /**
-     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
      */
     public boolean hasCreateGameFailedMessage() {
-      return ((bitField0_ & 0x00200000) == 0x00200000);
+      return ((bitField0_ & 0x00100000) == 0x00100000);
     }
     /**
-     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+     * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
      */
     public de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage getCreateGameFailedMessage() {
       return createGameFailedMessage_;
     }
 
-    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
-    public static final int INVITEPLAYERTOGAMEMESSAGE_FIELD_NUMBER = 23;
-    private de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage invitePlayerToGameMessage_;
+    // optional .JoinGameMessage joinGameMessage = 22;
+    public static final int JOINGAMEMESSAGE_FIELD_NUMBER = 22;
+    private de.pokerth.protocol.ProtoBuf.JoinGameMessage joinGameMessage_;
     /**
-     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+     * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
      */
-    public boolean hasInvitePlayerToGameMessage() {
+    public boolean hasJoinGameMessage() {
+      return ((bitField0_ & 0x00200000) == 0x00200000);
+    }
+    /**
+     * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
+     */
+    public de.pokerth.protocol.ProtoBuf.JoinGameMessage getJoinGameMessage() {
+      return joinGameMessage_;
+    }
+
+    // optional .RejoinGameMessage rejoinGameMessage = 23;
+    public static final int REJOINGAMEMESSAGE_FIELD_NUMBER = 23;
+    private de.pokerth.protocol.ProtoBuf.RejoinGameMessage rejoinGameMessage_;
+    /**
+     * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
+     */
+    public boolean hasRejoinGameMessage() {
       return ((bitField0_ & 0x00400000) == 0x00400000);
     }
     /**
-     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+     * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
      */
-    public de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage() {
-      return invitePlayerToGameMessage_;
+    public de.pokerth.protocol.ProtoBuf.RejoinGameMessage getRejoinGameMessage() {
+      return rejoinGameMessage_;
     }
 
-    // optional .InviteNotifyMessage inviteNotifyMessage = 24;
-    public static final int INVITENOTIFYMESSAGE_FIELD_NUMBER = 24;
-    private de.pokerth.protocol.ProtoBuf.InviteNotifyMessage inviteNotifyMessage_;
+    // optional .JoinGameAckMessage joinGameAckMessage = 24;
+    public static final int JOINGAMEACKMESSAGE_FIELD_NUMBER = 24;
+    private de.pokerth.protocol.ProtoBuf.JoinGameAckMessage joinGameAckMessage_;
     /**
-     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+     * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
      */
-    public boolean hasInviteNotifyMessage() {
+    public boolean hasJoinGameAckMessage() {
       return ((bitField0_ & 0x00800000) == 0x00800000);
     }
     /**
-     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+     * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+     */
+    public de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage() {
+      return joinGameAckMessage_;
+    }
+
+    // optional .JoinGameFailedMessage joinGameFailedMessage = 25;
+    public static final int JOINGAMEFAILEDMESSAGE_FIELD_NUMBER = 25;
+    private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage joinGameFailedMessage_;
+    /**
+     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+     */
+    public boolean hasJoinGameFailedMessage() {
+      return ((bitField0_ & 0x01000000) == 0x01000000);
+    }
+    /**
+     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+     */
+    public de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage() {
+      return joinGameFailedMessage_;
+    }
+
+    // optional .InviteNotifyMessage inviteNotifyMessage = 26;
+    public static final int INVITENOTIFYMESSAGE_FIELD_NUMBER = 26;
+    private de.pokerth.protocol.ProtoBuf.InviteNotifyMessage inviteNotifyMessage_;
+    /**
+     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
+     */
+    public boolean hasInviteNotifyMessage() {
+      return ((bitField0_ & 0x02000000) == 0x02000000);
+    }
+    /**
+     * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
      */
     public de.pokerth.protocol.ProtoBuf.InviteNotifyMessage getInviteNotifyMessage() {
       return inviteNotifyMessage_;
     }
 
-    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
-    public static final int REJECTGAMEINVITATIONMESSAGE_FIELD_NUMBER = 25;
+    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;
+    public static final int REJECTGAMEINVITATIONMESSAGE_FIELD_NUMBER = 27;
     private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage rejectGameInvitationMessage_;
     /**
-     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
      */
     public boolean hasRejectGameInvitationMessage() {
-      return ((bitField0_ & 0x01000000) == 0x01000000);
+      return ((bitField0_ & 0x04000000) == 0x04000000);
     }
     /**
-     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+     * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
      */
     public de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage getRejectGameInvitationMessage() {
       return rejectGameInvitationMessage_;
     }
 
-    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
-    public static final int REJECTINVNOTIFYMESSAGE_FIELD_NUMBER = 26;
+    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;
+    public static final int REJECTINVNOTIFYMESSAGE_FIELD_NUMBER = 28;
     private de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage rejectInvNotifyMessage_;
     /**
-     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
      */
     public boolean hasRejectInvNotifyMessage() {
-      return ((bitField0_ & 0x02000000) == 0x02000000);
+      return ((bitField0_ & 0x08000000) == 0x08000000);
     }
     /**
-     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+     * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
      */
     public de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage getRejectInvNotifyMessage() {
       return rejectInvNotifyMessage_;
     }
 
-    // optional .StatisticsMessage statisticsMessage = 27;
-    public static final int STATISTICSMESSAGE_FIELD_NUMBER = 27;
+    // optional .StatisticsMessage statisticsMessage = 29;
+    public static final int STATISTICSMESSAGE_FIELD_NUMBER = 29;
     private de.pokerth.protocol.ProtoBuf.StatisticsMessage statisticsMessage_;
     /**
-     * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+     * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
      */
     public boolean hasStatisticsMessage() {
-      return ((bitField0_ & 0x04000000) == 0x04000000);
+      return ((bitField0_ & 0x10000000) == 0x10000000);
     }
     /**
-     * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+     * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
      */
     public de.pokerth.protocol.ProtoBuf.StatisticsMessage getStatisticsMessage() {
       return statisticsMessage_;
     }
 
-    // optional .ChatRequestMessage chatRequestMessage = 28;
-    public static final int CHATREQUESTMESSAGE_FIELD_NUMBER = 28;
+    // optional .ChatRequestMessage chatRequestMessage = 30;
+    public static final int CHATREQUESTMESSAGE_FIELD_NUMBER = 30;
     private de.pokerth.protocol.ProtoBuf.ChatRequestMessage chatRequestMessage_;
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
      */
     public boolean hasChatRequestMessage() {
-      return ((bitField0_ & 0x08000000) == 0x08000000);
+      return ((bitField0_ & 0x20000000) == 0x20000000);
     }
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage() {
       return chatRequestMessage_;
     }
 
-    // optional .ChatMessage chatMessage = 29;
-    public static final int CHATMESSAGE_FIELD_NUMBER = 29;
+    // optional .ChatMessage chatMessage = 31;
+    public static final int CHATMESSAGE_FIELD_NUMBER = 31;
     private de.pokerth.protocol.ProtoBuf.ChatMessage chatMessage_;
     /**
-     * <code>optional .ChatMessage chatMessage = 29;</code>
+     * <code>optional .ChatMessage chatMessage = 31;</code>
      */
     public boolean hasChatMessage() {
-      return ((bitField0_ & 0x10000000) == 0x10000000);
+      return ((bitField0_ & 0x40000000) == 0x40000000);
     }
     /**
-     * <code>optional .ChatMessage chatMessage = 29;</code>
+     * <code>optional .ChatMessage chatMessage = 31;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage() {
       return chatMessage_;
     }
 
-    // optional .ChatRejectMessage chatRejectMessage = 30;
-    public static final int CHATREJECTMESSAGE_FIELD_NUMBER = 30;
+    // optional .ChatRejectMessage chatRejectMessage = 32;
+    public static final int CHATREJECTMESSAGE_FIELD_NUMBER = 32;
     private de.pokerth.protocol.ProtoBuf.ChatRejectMessage chatRejectMessage_;
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
      */
     public boolean hasChatRejectMessage() {
-      return ((bitField0_ & 0x20000000) == 0x20000000);
+      return ((bitField0_ & 0x80000000) == 0x80000000);
     }
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage() {
       return chatRejectMessage_;
     }
 
-    // optional .DialogMessage dialogMessage = 31;
-    public static final int DIALOGMESSAGE_FIELD_NUMBER = 31;
+    // optional .DialogMessage dialogMessage = 33;
+    public static final int DIALOGMESSAGE_FIELD_NUMBER = 33;
     private de.pokerth.protocol.ProtoBuf.DialogMessage dialogMessage_;
     /**
-     * <code>optional .DialogMessage dialogMessage = 31;</code>
+     * <code>optional .DialogMessage dialogMessage = 33;</code>
      */
     public boolean hasDialogMessage() {
-      return ((bitField0_ & 0x40000000) == 0x40000000);
+      return ((bitField1_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional .DialogMessage dialogMessage = 31;</code>
+     * <code>optional .DialogMessage dialogMessage = 33;</code>
      */
     public de.pokerth.protocol.ProtoBuf.DialogMessage getDialogMessage() {
       return dialogMessage_;
     }
 
-    // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
-    public static final int TIMEOUTWARNINGMESSAGE_FIELD_NUMBER = 32;
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 34;
+    public static final int TIMEOUTWARNINGMESSAGE_FIELD_NUMBER = 34;
     private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage timeoutWarningMessage_;
     /**
-     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
      */
     public boolean hasTimeoutWarningMessage() {
-      return ((bitField0_ & 0x80000000) == 0x80000000);
+      return ((bitField1_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
      */
     public de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage() {
       return timeoutWarningMessage_;
     }
 
-    // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
-    public static final int RESETTIMEOUTMESSAGE_FIELD_NUMBER = 33;
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 35;
+    public static final int RESETTIMEOUTMESSAGE_FIELD_NUMBER = 35;
     private de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage resetTimeoutMessage_;
     /**
-     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
      */
     public boolean hasResetTimeoutMessage() {
-      return ((bitField1_ & 0x00000001) == 0x00000001);
+      return ((bitField1_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage() {
       return resetTimeoutMessage_;
     }
 
-    // optional .ReportAvatarMessage reportAvatarMessage = 34;
-    public static final int REPORTAVATARMESSAGE_FIELD_NUMBER = 34;
+    // optional .ReportAvatarMessage reportAvatarMessage = 36;
+    public static final int REPORTAVATARMESSAGE_FIELD_NUMBER = 36;
     private de.pokerth.protocol.ProtoBuf.ReportAvatarMessage reportAvatarMessage_;
     /**
-     * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+     * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
      */
     public boolean hasReportAvatarMessage() {
-      return ((bitField1_ & 0x00000002) == 0x00000002);
+      return ((bitField1_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+     * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ReportAvatarMessage getReportAvatarMessage() {
       return reportAvatarMessage_;
     }
 
-    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
-    public static final int REPORTAVATARACKMESSAGE_FIELD_NUMBER = 35;
+    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;
+    public static final int REPORTAVATARACKMESSAGE_FIELD_NUMBER = 37;
     private de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage reportAvatarAckMessage_;
     /**
-     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
      */
     public boolean hasReportAvatarAckMessage() {
-      return ((bitField1_ & 0x00000004) == 0x00000004);
+      return ((bitField1_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+     * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage getReportAvatarAckMessage() {
       return reportAvatarAckMessage_;
     }
 
-    // optional .ReportGameMessage reportGameMessage = 36;
-    public static final int REPORTGAMEMESSAGE_FIELD_NUMBER = 36;
+    // optional .ReportGameMessage reportGameMessage = 38;
+    public static final int REPORTGAMEMESSAGE_FIELD_NUMBER = 38;
     private de.pokerth.protocol.ProtoBuf.ReportGameMessage reportGameMessage_;
     /**
-     * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+     * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
      */
     public boolean hasReportGameMessage() {
-      return ((bitField1_ & 0x00000008) == 0x00000008);
+      return ((bitField1_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+     * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ReportGameMessage getReportGameMessage() {
       return reportGameMessage_;
     }
 
-    // optional .ReportGameAckMessage reportGameAckMessage = 37;
-    public static final int REPORTGAMEACKMESSAGE_FIELD_NUMBER = 37;
+    // optional .ReportGameAckMessage reportGameAckMessage = 39;
+    public static final int REPORTGAMEACKMESSAGE_FIELD_NUMBER = 39;
     private de.pokerth.protocol.ProtoBuf.ReportGameAckMessage reportGameAckMessage_;
     /**
-     * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+     * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
      */
     public boolean hasReportGameAckMessage() {
-      return ((bitField1_ & 0x00000010) == 0x00000010);
+      return ((bitField1_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+     * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ReportGameAckMessage getReportGameAckMessage() {
       return reportGameAckMessage_;
     }
 
-    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
-    public static final int ADMINREMOVEGAMEMESSAGE_FIELD_NUMBER = 38;
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;
+    public static final int ADMINREMOVEGAMEMESSAGE_FIELD_NUMBER = 40;
     private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage adminRemoveGameMessage_;
     /**
-     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
      */
     public boolean hasAdminRemoveGameMessage() {
-      return ((bitField1_ & 0x00000020) == 0x00000020);
+      return ((bitField1_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+     * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage() {
       return adminRemoveGameMessage_;
     }
 
-    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
-    public static final int ADMINREMOVEGAMEACKMESSAGE_FIELD_NUMBER = 39;
+    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;
+    public static final int ADMINREMOVEGAMEACKMESSAGE_FIELD_NUMBER = 41;
     private de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage adminRemoveGameAckMessage_;
     /**
-     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
      */
     public boolean hasAdminRemoveGameAckMessage() {
-      return ((bitField1_ & 0x00000040) == 0x00000040);
+      return ((bitField1_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+     * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage getAdminRemoveGameAckMessage() {
       return adminRemoveGameAckMessage_;
     }
 
-    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
-    public static final int ADMINBANPLAYERMESSAGE_FIELD_NUMBER = 40;
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;
+    public static final int ADMINBANPLAYERMESSAGE_FIELD_NUMBER = 42;
     private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage adminBanPlayerMessage_;
     /**
-     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
      */
     public boolean hasAdminBanPlayerMessage() {
-      return ((bitField1_ & 0x00000080) == 0x00000080);
+      return ((bitField1_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+     * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage() {
       return adminBanPlayerMessage_;
     }
 
-    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
-    public static final int ADMINBANPLAYERACKMESSAGE_FIELD_NUMBER = 41;
+    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;
+    public static final int ADMINBANPLAYERACKMESSAGE_FIELD_NUMBER = 43;
     private de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage adminBanPlayerAckMessage_;
     /**
-     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
      */
     public boolean hasAdminBanPlayerAckMessage() {
-      return ((bitField1_ & 0x00000100) == 0x00000100);
+      return ((bitField1_ & 0x00000400) == 0x00000400);
     }
     /**
-     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+     * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage getAdminBanPlayerAckMessage() {
       return adminBanPlayerAckMessage_;
@@ -51019,7 +51236,7 @@ public final class ProtoBuf {
      * <code>optional .ErrorMessage errorMessage = 1025;</code>
      */
     public boolean hasErrorMessage() {
-      return ((bitField1_ & 0x00000200) == 0x00000200);
+      return ((bitField1_ & 0x00000800) == 0x00000800);
     }
     /**
      * <code>optional .ErrorMessage errorMessage = 1025;</code>
@@ -51029,9 +51246,8 @@ public final class ProtoBuf {
     }
 
     private void initFields() {
-      messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitMessage;
-      initMessage_ = de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance();
-      initAckMessage_ = de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance();
+      messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitDoneMessage;
+      initDoneMessage_ = de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance();
       avatarRequestMessage_ = de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance();
       avatarHeaderMessage_ = de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.getDefaultInstance();
       avatarDataMessage_ = de.pokerth.protocol.ProtoBuf.AvatarDataMessage.getDefaultInstance();
@@ -51051,7 +51267,10 @@ public final class ProtoBuf {
       subscriptionReplyMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.getDefaultInstance();
       createGameMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameMessage.getDefaultInstance();
       createGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.getDefaultInstance();
-      invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
+      joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
+      rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
+      joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
+      joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
       inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
       rejectGameInvitationMessage_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance();
       rejectInvNotifyMessage_ = de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance();
@@ -51080,6 +51299,12 @@ public final class ProtoBuf {
       if (!hasMessageType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasInitDoneMessage()) {
+        if (!getInitDoneMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       if (hasAvatarRequestMessage()) {
         if (!getAvatarRequestMessage().isInitialized()) {
@@ -51189,8 +51414,26 @@ public final class ProtoBuf {
           return false;
         }
       }
-      if (hasInvitePlayerToGameMessage()) {
-        if (!getInvitePlayerToGameMessage().isInitialized()) {
+      if (hasJoinGameMessage()) {
+        if (!getJoinGameMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRejoinGameMessage()) {
+        if (!getRejoinGameMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasJoinGameAckMessage()) {
+        if (!getJoinGameAckMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasJoinGameFailedMessage()) {
+        if (!getJoinGameFailedMessage().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -51314,126 +51557,132 @@ public final class ProtoBuf {
         output.writeEnum(1, messageType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, initMessage_);
+        output.writeMessage(2, initDoneMessage_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, initAckMessage_);
+        output.writeMessage(3, avatarRequestMessage_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, avatarRequestMessage_);
+        output.writeMessage(4, avatarHeaderMessage_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(5, avatarHeaderMessage_);
+        output.writeMessage(5, avatarDataMessage_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeMessage(6, avatarDataMessage_);
+        output.writeMessage(6, avatarEndMessage_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeMessage(7, avatarEndMessage_);
+        output.writeMessage(7, unknownAvatarMessage_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeMessage(8, unknownAvatarMessage_);
+        output.writeMessage(8, playerListMessage_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeMessage(9, playerListMessage_);
+        output.writeMessage(9, gameListNewMessage_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeMessage(10, gameListNewMessage_);
+        output.writeMessage(10, gameListUpdateMessage_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeMessage(11, gameListUpdateMessage_);
+        output.writeMessage(11, gameListPlayerJoinedMessage_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeMessage(12, gameListPlayerJoinedMessage_);
+        output.writeMessage(12, gameListPlayerLeftMessage_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
-        output.writeMessage(13, gameListPlayerLeftMessage_);
+        output.writeMessage(13, gameListSpectatorJoinedMessage_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
-        output.writeMessage(14, gameListSpectatorJoinedMessage_);
+        output.writeMessage(14, gameListSpectatorLeftMessage_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
-        output.writeMessage(15, gameListSpectatorLeftMessage_);
+        output.writeMessage(15, gameListAdminChangedMessage_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
-        output.writeMessage(16, gameListAdminChangedMessage_);
+        output.writeMessage(16, playerInfoRequestMessage_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
-        output.writeMessage(17, playerInfoRequestMessage_);
+        output.writeMessage(17, playerInfoReplyMessage_);
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
-        output.writeMessage(18, playerInfoReplyMessage_);
+        output.writeMessage(18, subscriptionRequestMessage_);
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        output.writeMessage(19, subscriptionRequestMessage_);
+        output.writeMessage(19, subscriptionReplyMessage_);
       }
       if (((bitField0_ & 0x00080000) == 0x00080000)) {
-        output.writeMessage(20, subscriptionReplyMessage_);
+        output.writeMessage(20, createGameMessage_);
       }
       if (((bitField0_ & 0x00100000) == 0x00100000)) {
-        output.writeMessage(21, createGameMessage_);
+        output.writeMessage(21, createGameFailedMessage_);
       }
       if (((bitField0_ & 0x00200000) == 0x00200000)) {
-        output.writeMessage(22, createGameFailedMessage_);
+        output.writeMessage(22, joinGameMessage_);
       }
       if (((bitField0_ & 0x00400000) == 0x00400000)) {
-        output.writeMessage(23, invitePlayerToGameMessage_);
+        output.writeMessage(23, rejoinGameMessage_);
       }
       if (((bitField0_ & 0x00800000) == 0x00800000)) {
-        output.writeMessage(24, inviteNotifyMessage_);
+        output.writeMessage(24, joinGameAckMessage_);
       }
       if (((bitField0_ & 0x01000000) == 0x01000000)) {
-        output.writeMessage(25, rejectGameInvitationMessage_);
+        output.writeMessage(25, joinGameFailedMessage_);
       }
       if (((bitField0_ & 0x02000000) == 0x02000000)) {
-        output.writeMessage(26, rejectInvNotifyMessage_);
+        output.writeMessage(26, inviteNotifyMessage_);
       }
       if (((bitField0_ & 0x04000000) == 0x04000000)) {
-        output.writeMessage(27, statisticsMessage_);
+        output.writeMessage(27, rejectGameInvitationMessage_);
       }
       if (((bitField0_ & 0x08000000) == 0x08000000)) {
-        output.writeMessage(28, chatRequestMessage_);
+        output.writeMessage(28, rejectInvNotifyMessage_);
       }
       if (((bitField0_ & 0x10000000) == 0x10000000)) {
-        output.writeMessage(29, chatMessage_);
+        output.writeMessage(29, statisticsMessage_);
       }
       if (((bitField0_ & 0x20000000) == 0x20000000)) {
-        output.writeMessage(30, chatRejectMessage_);
+        output.writeMessage(30, chatRequestMessage_);
       }
       if (((bitField0_ & 0x40000000) == 0x40000000)) {
-        output.writeMessage(31, dialogMessage_);
+        output.writeMessage(31, chatMessage_);
       }
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
-        output.writeMessage(32, timeoutWarningMessage_);
+        output.writeMessage(32, chatRejectMessage_);
       }
       if (((bitField1_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(33, resetTimeoutMessage_);
+        output.writeMessage(33, dialogMessage_);
       }
       if (((bitField1_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(34, reportAvatarMessage_);
+        output.writeMessage(34, timeoutWarningMessage_);
       }
       if (((bitField1_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(35, reportAvatarAckMessage_);
+        output.writeMessage(35, resetTimeoutMessage_);
       }
       if (((bitField1_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(36, reportGameMessage_);
+        output.writeMessage(36, reportAvatarMessage_);
       }
       if (((bitField1_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(37, reportGameAckMessage_);
+        output.writeMessage(37, reportAvatarAckMessage_);
       }
       if (((bitField1_ & 0x00000020) == 0x00000020)) {
-        output.writeMessage(38, adminRemoveGameMessage_);
+        output.writeMessage(38, reportGameMessage_);
       }
       if (((bitField1_ & 0x00000040) == 0x00000040)) {
-        output.writeMessage(39, adminRemoveGameAckMessage_);
+        output.writeMessage(39, reportGameAckMessage_);
       }
       if (((bitField1_ & 0x00000080) == 0x00000080)) {
-        output.writeMessage(40, adminBanPlayerMessage_);
+        output.writeMessage(40, adminRemoveGameMessage_);
       }
       if (((bitField1_ & 0x00000100) == 0x00000100)) {
-        output.writeMessage(41, adminBanPlayerAckMessage_);
+        output.writeMessage(41, adminRemoveGameAckMessage_);
       }
       if (((bitField1_ & 0x00000200) == 0x00000200)) {
+        output.writeMessage(42, adminBanPlayerMessage_);
+      }
+      if (((bitField1_ & 0x00000400) == 0x00000400)) {
+        output.writeMessage(43, adminBanPlayerAckMessage_);
+      }
+      if (((bitField1_ & 0x00000800) == 0x00000800)) {
         output.writeMessage(1025, errorMessage_);
       }
     }
@@ -51450,165 +51699,173 @@ public final class ProtoBuf {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, initMessage_);
+          .computeMessageSize(2, initDoneMessage_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, initAckMessage_);
+          .computeMessageSize(3, avatarRequestMessage_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, avatarRequestMessage_);
+          .computeMessageSize(4, avatarHeaderMessage_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, avatarHeaderMessage_);
+          .computeMessageSize(5, avatarDataMessage_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, avatarDataMessage_);
+          .computeMessageSize(6, avatarEndMessage_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, avatarEndMessage_);
+          .computeMessageSize(7, unknownAvatarMessage_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, unknownAvatarMessage_);
+          .computeMessageSize(8, playerListMessage_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, playerListMessage_);
+          .computeMessageSize(9, gameListNewMessage_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, gameListNewMessage_);
+          .computeMessageSize(10, gameListUpdateMessage_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, gameListUpdateMessage_);
+          .computeMessageSize(11, gameListPlayerJoinedMessage_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(12, gameListPlayerJoinedMessage_);
+          .computeMessageSize(12, gameListPlayerLeftMessage_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(13, gameListPlayerLeftMessage_);
+          .computeMessageSize(13, gameListSpectatorJoinedMessage_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(14, gameListSpectatorJoinedMessage_);
+          .computeMessageSize(14, gameListSpectatorLeftMessage_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(15, gameListSpectatorLeftMessage_);
+          .computeMessageSize(15, gameListAdminChangedMessage_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(16, gameListAdminChangedMessage_);
+          .computeMessageSize(16, playerInfoRequestMessage_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(17, playerInfoRequestMessage_);
+          .computeMessageSize(17, playerInfoReplyMessage_);
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(18, playerInfoReplyMessage_);
+          .computeMessageSize(18, subscriptionRequestMessage_);
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(19, subscriptionRequestMessage_);
+          .computeMessageSize(19, subscriptionReplyMessage_);
       }
       if (((bitField0_ & 0x00080000) == 0x00080000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(20, subscriptionReplyMessage_);
+          .computeMessageSize(20, createGameMessage_);
       }
       if (((bitField0_ & 0x00100000) == 0x00100000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(21, createGameMessage_);
+          .computeMessageSize(21, createGameFailedMessage_);
       }
       if (((bitField0_ & 0x00200000) == 0x00200000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(22, createGameFailedMessage_);
+          .computeMessageSize(22, joinGameMessage_);
       }
       if (((bitField0_ & 0x00400000) == 0x00400000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(23, invitePlayerToGameMessage_);
+          .computeMessageSize(23, rejoinGameMessage_);
       }
       if (((bitField0_ & 0x00800000) == 0x00800000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(24, inviteNotifyMessage_);
+          .computeMessageSize(24, joinGameAckMessage_);
       }
       if (((bitField0_ & 0x01000000) == 0x01000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(25, rejectGameInvitationMessage_);
+          .computeMessageSize(25, joinGameFailedMessage_);
       }
       if (((bitField0_ & 0x02000000) == 0x02000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(26, rejectInvNotifyMessage_);
+          .computeMessageSize(26, inviteNotifyMessage_);
       }
       if (((bitField0_ & 0x04000000) == 0x04000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(27, statisticsMessage_);
+          .computeMessageSize(27, rejectGameInvitationMessage_);
       }
       if (((bitField0_ & 0x08000000) == 0x08000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(28, chatRequestMessage_);
+          .computeMessageSize(28, rejectInvNotifyMessage_);
       }
       if (((bitField0_ & 0x10000000) == 0x10000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(29, chatMessage_);
+          .computeMessageSize(29, statisticsMessage_);
       }
       if (((bitField0_ & 0x20000000) == 0x20000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(30, chatRejectMessage_);
+          .computeMessageSize(30, chatRequestMessage_);
       }
       if (((bitField0_ & 0x40000000) == 0x40000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(31, dialogMessage_);
+          .computeMessageSize(31, chatMessage_);
       }
       if (((bitField0_ & 0x80000000) == 0x80000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(32, timeoutWarningMessage_);
+          .computeMessageSize(32, chatRejectMessage_);
       }
       if (((bitField1_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(33, resetTimeoutMessage_);
+          .computeMessageSize(33, dialogMessage_);
       }
       if (((bitField1_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(34, reportAvatarMessage_);
+          .computeMessageSize(34, timeoutWarningMessage_);
       }
       if (((bitField1_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(35, reportAvatarAckMessage_);
+          .computeMessageSize(35, resetTimeoutMessage_);
       }
       if (((bitField1_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(36, reportGameMessage_);
+          .computeMessageSize(36, reportAvatarMessage_);
       }
       if (((bitField1_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(37, reportGameAckMessage_);
+          .computeMessageSize(37, reportAvatarAckMessage_);
       }
       if (((bitField1_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(38, adminRemoveGameMessage_);
+          .computeMessageSize(38, reportGameMessage_);
       }
       if (((bitField1_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(39, adminRemoveGameAckMessage_);
+          .computeMessageSize(39, reportGameAckMessage_);
       }
       if (((bitField1_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(40, adminBanPlayerMessage_);
+          .computeMessageSize(40, adminRemoveGameMessage_);
       }
       if (((bitField1_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(41, adminBanPlayerAckMessage_);
+          .computeMessageSize(41, adminRemoveGameAckMessage_);
       }
       if (((bitField1_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(42, adminBanPlayerMessage_);
+      }
+      if (((bitField1_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(43, adminBanPlayerAckMessage_);
+      }
+      if (((bitField1_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1025, errorMessage_);
       }
@@ -51703,90 +51960,94 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitMessage;
+        messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitDoneMessage;
         bitField0_ = (bitField0_ & ~0x00000001);
-        initMessage_ = de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance();
+        initDoneMessage_ = de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00000002);
-        initAckMessage_ = de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000004);
         avatarRequestMessage_ = de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         avatarHeaderMessage_ = de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         avatarDataMessage_ = de.pokerth.protocol.ProtoBuf.AvatarDataMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000010);
         avatarEndMessage_ = de.pokerth.protocol.ProtoBuf.AvatarEndMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         unknownAvatarMessage_ = de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000040);
         playerListMessage_ = de.pokerth.protocol.ProtoBuf.PlayerListMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         gameListNewMessage_ = de.pokerth.protocol.ProtoBuf.GameListNewMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000100);
         gameListUpdateMessage_ = de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000200);
         gameListPlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000400);
         gameListPlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00000800);
         gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00001000);
         gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         gameListAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         playerInfoRequestMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         playerInfoReplyMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         subscriptionRequestMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         subscriptionReplyMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         createGameMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         createGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.getDefaultInstance();
+        bitField0_ = (bitField0_ & ~0x00100000);
+        joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00200000);
-        invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
+        rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00400000);
-        inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
+        joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x00800000);
-        rejectGameInvitationMessage_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance();
+        joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x01000000);
-        rejectInvNotifyMessage_ = de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance();
+        inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x02000000);
-        statisticsMessage_ = de.pokerth.protocol.ProtoBuf.StatisticsMessage.getDefaultInstance();
+        rejectGameInvitationMessage_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x04000000);
-        chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
+        rejectInvNotifyMessage_ = de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x08000000);
-        chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
+        statisticsMessage_ = de.pokerth.protocol.ProtoBuf.StatisticsMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x10000000);
-        chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
+        chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x20000000);
-        dialogMessage_ = de.pokerth.protocol.ProtoBuf.DialogMessage.getDefaultInstance();
+        chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x40000000);
-        timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
+        chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
         bitField0_ = (bitField0_ & ~0x80000000);
-        resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
+        dialogMessage_ = de.pokerth.protocol.ProtoBuf.DialogMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000001);
-        reportAvatarMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.getDefaultInstance();
+        timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000002);
-        reportAvatarAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.getDefaultInstance();
+        resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000004);
-        reportGameMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance();
+        reportAvatarMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000008);
-        reportGameAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance();
+        reportAvatarAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000010);
-        adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
+        reportGameMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000020);
-        adminRemoveGameAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance();
+        reportGameAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000040);
-        adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
+        adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000080);
-        adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
+        adminRemoveGameAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000100);
-        errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
+        adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
         bitField1_ = (bitField1_ & ~0x00000200);
+        adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
+        bitField1_ = (bitField1_ & ~0x00000400);
+        errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
+        bitField1_ = (bitField1_ & ~0x00000800);
         return this;
       }
 
@@ -51819,165 +52080,173 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.initMessage_ = initMessage_;
+        result.initDoneMessage_ = initDoneMessage_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.initAckMessage_ = initAckMessage_;
+        result.avatarRequestMessage_ = avatarRequestMessage_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.avatarRequestMessage_ = avatarRequestMessage_;
+        result.avatarHeaderMessage_ = avatarHeaderMessage_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.avatarHeaderMessage_ = avatarHeaderMessage_;
+        result.avatarDataMessage_ = avatarDataMessage_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.avatarDataMessage_ = avatarDataMessage_;
+        result.avatarEndMessage_ = avatarEndMessage_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.avatarEndMessage_ = avatarEndMessage_;
+        result.unknownAvatarMessage_ = unknownAvatarMessage_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.unknownAvatarMessage_ = unknownAvatarMessage_;
+        result.playerListMessage_ = playerListMessage_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.playerListMessage_ = playerListMessage_;
+        result.gameListNewMessage_ = gameListNewMessage_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.gameListNewMessage_ = gameListNewMessage_;
+        result.gameListUpdateMessage_ = gameListUpdateMessage_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.gameListUpdateMessage_ = gameListUpdateMessage_;
+        result.gameListPlayerJoinedMessage_ = gameListPlayerJoinedMessage_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.gameListPlayerJoinedMessage_ = gameListPlayerJoinedMessage_;
+        result.gameListPlayerLeftMessage_ = gameListPlayerLeftMessage_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00001000;
         }
-        result.gameListPlayerLeftMessage_ = gameListPlayerLeftMessage_;
+        result.gameListSpectatorJoinedMessage_ = gameListSpectatorJoinedMessage_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00002000;
         }
-        result.gameListSpectatorJoinedMessage_ = gameListSpectatorJoinedMessage_;
+        result.gameListSpectatorLeftMessage_ = gameListSpectatorLeftMessage_;
         if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
           to_bitField0_ |= 0x00004000;
         }
-        result.gameListSpectatorLeftMessage_ = gameListSpectatorLeftMessage_;
+        result.gameListAdminChangedMessage_ = gameListAdminChangedMessage_;
         if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
           to_bitField0_ |= 0x00008000;
         }
-        result.gameListAdminChangedMessage_ = gameListAdminChangedMessage_;
+        result.playerInfoRequestMessage_ = playerInfoRequestMessage_;
         if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
           to_bitField0_ |= 0x00010000;
         }
-        result.playerInfoRequestMessage_ = playerInfoRequestMessage_;
+        result.playerInfoReplyMessage_ = playerInfoReplyMessage_;
         if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
           to_bitField0_ |= 0x00020000;
         }
-        result.playerInfoReplyMessage_ = playerInfoReplyMessage_;
+        result.subscriptionRequestMessage_ = subscriptionRequestMessage_;
         if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
           to_bitField0_ |= 0x00040000;
         }
-        result.subscriptionRequestMessage_ = subscriptionRequestMessage_;
+        result.subscriptionReplyMessage_ = subscriptionReplyMessage_;
         if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
           to_bitField0_ |= 0x00080000;
         }
-        result.subscriptionReplyMessage_ = subscriptionReplyMessage_;
+        result.createGameMessage_ = createGameMessage_;
         if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
           to_bitField0_ |= 0x00100000;
         }
-        result.createGameMessage_ = createGameMessage_;
+        result.createGameFailedMessage_ = createGameFailedMessage_;
         if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
           to_bitField0_ |= 0x00200000;
         }
-        result.createGameFailedMessage_ = createGameFailedMessage_;
+        result.joinGameMessage_ = joinGameMessage_;
         if (((from_bitField0_ & 0x00400000) == 0x00400000)) {
           to_bitField0_ |= 0x00400000;
         }
-        result.invitePlayerToGameMessage_ = invitePlayerToGameMessage_;
+        result.rejoinGameMessage_ = rejoinGameMessage_;
         if (((from_bitField0_ & 0x00800000) == 0x00800000)) {
           to_bitField0_ |= 0x00800000;
         }
-        result.inviteNotifyMessage_ = inviteNotifyMessage_;
+        result.joinGameAckMessage_ = joinGameAckMessage_;
         if (((from_bitField0_ & 0x01000000) == 0x01000000)) {
           to_bitField0_ |= 0x01000000;
         }
-        result.rejectGameInvitationMessage_ = rejectGameInvitationMessage_;
+        result.joinGameFailedMessage_ = joinGameFailedMessage_;
         if (((from_bitField0_ & 0x02000000) == 0x02000000)) {
           to_bitField0_ |= 0x02000000;
         }
-        result.rejectInvNotifyMessage_ = rejectInvNotifyMessage_;
+        result.inviteNotifyMessage_ = inviteNotifyMessage_;
         if (((from_bitField0_ & 0x04000000) == 0x04000000)) {
           to_bitField0_ |= 0x04000000;
         }
-        result.statisticsMessage_ = statisticsMessage_;
+        result.rejectGameInvitationMessage_ = rejectGameInvitationMessage_;
         if (((from_bitField0_ & 0x08000000) == 0x08000000)) {
           to_bitField0_ |= 0x08000000;
         }
-        result.chatRequestMessage_ = chatRequestMessage_;
+        result.rejectInvNotifyMessage_ = rejectInvNotifyMessage_;
         if (((from_bitField0_ & 0x10000000) == 0x10000000)) {
           to_bitField0_ |= 0x10000000;
         }
-        result.chatMessage_ = chatMessage_;
+        result.statisticsMessage_ = statisticsMessage_;
         if (((from_bitField0_ & 0x20000000) == 0x20000000)) {
           to_bitField0_ |= 0x20000000;
         }
-        result.chatRejectMessage_ = chatRejectMessage_;
+        result.chatRequestMessage_ = chatRequestMessage_;
         if (((from_bitField0_ & 0x40000000) == 0x40000000)) {
           to_bitField0_ |= 0x40000000;
         }
-        result.dialogMessage_ = dialogMessage_;
+        result.chatMessage_ = chatMessage_;
         if (((from_bitField0_ & 0x80000000) == 0x80000000)) {
           to_bitField0_ |= 0x80000000;
         }
-        result.timeoutWarningMessage_ = timeoutWarningMessage_;
+        result.chatRejectMessage_ = chatRejectMessage_;
         if (((from_bitField1_ & 0x00000001) == 0x00000001)) {
           to_bitField1_ |= 0x00000001;
         }
-        result.resetTimeoutMessage_ = resetTimeoutMessage_;
+        result.dialogMessage_ = dialogMessage_;
         if (((from_bitField1_ & 0x00000002) == 0x00000002)) {
           to_bitField1_ |= 0x00000002;
         }
-        result.reportAvatarMessage_ = reportAvatarMessage_;
+        result.timeoutWarningMessage_ = timeoutWarningMessage_;
         if (((from_bitField1_ & 0x00000004) == 0x00000004)) {
           to_bitField1_ |= 0x00000004;
         }
-        result.reportAvatarAckMessage_ = reportAvatarAckMessage_;
+        result.resetTimeoutMessage_ = resetTimeoutMessage_;
         if (((from_bitField1_ & 0x00000008) == 0x00000008)) {
           to_bitField1_ |= 0x00000008;
         }
-        result.reportGameMessage_ = reportGameMessage_;
+        result.reportAvatarMessage_ = reportAvatarMessage_;
         if (((from_bitField1_ & 0x00000010) == 0x00000010)) {
           to_bitField1_ |= 0x00000010;
         }
-        result.reportGameAckMessage_ = reportGameAckMessage_;
+        result.reportAvatarAckMessage_ = reportAvatarAckMessage_;
         if (((from_bitField1_ & 0x00000020) == 0x00000020)) {
           to_bitField1_ |= 0x00000020;
         }
-        result.adminRemoveGameMessage_ = adminRemoveGameMessage_;
+        result.reportGameMessage_ = reportGameMessage_;
         if (((from_bitField1_ & 0x00000040) == 0x00000040)) {
           to_bitField1_ |= 0x00000040;
         }
-        result.adminRemoveGameAckMessage_ = adminRemoveGameAckMessage_;
+        result.reportGameAckMessage_ = reportGameAckMessage_;
         if (((from_bitField1_ & 0x00000080) == 0x00000080)) {
           to_bitField1_ |= 0x00000080;
         }
-        result.adminBanPlayerMessage_ = adminBanPlayerMessage_;
+        result.adminRemoveGameMessage_ = adminRemoveGameMessage_;
         if (((from_bitField1_ & 0x00000100) == 0x00000100)) {
           to_bitField1_ |= 0x00000100;
         }
-        result.adminBanPlayerAckMessage_ = adminBanPlayerAckMessage_;
+        result.adminRemoveGameAckMessage_ = adminRemoveGameAckMessage_;
         if (((from_bitField1_ & 0x00000200) == 0x00000200)) {
           to_bitField1_ |= 0x00000200;
+        }
+        result.adminBanPlayerMessage_ = adminBanPlayerMessage_;
+        if (((from_bitField1_ & 0x00000400) == 0x00000400)) {
+          to_bitField1_ |= 0x00000400;
+        }
+        result.adminBanPlayerAckMessage_ = adminBanPlayerAckMessage_;
+        if (((from_bitField1_ & 0x00000800) == 0x00000800)) {
+          to_bitField1_ |= 0x00000800;
         }
         result.errorMessage_ = errorMessage_;
         result.bitField0_ = to_bitField0_;
@@ -51990,11 +52259,8 @@ public final class ProtoBuf {
         if (other.hasMessageType()) {
           setMessageType(other.getMessageType());
         }
-        if (other.hasInitMessage()) {
-          mergeInitMessage(other.getInitMessage());
-        }
-        if (other.hasInitAckMessage()) {
-          mergeInitAckMessage(other.getInitAckMessage());
+        if (other.hasInitDoneMessage()) {
+          mergeInitDoneMessage(other.getInitDoneMessage());
         }
         if (other.hasAvatarRequestMessage()) {
           mergeAvatarRequestMessage(other.getAvatarRequestMessage());
@@ -52053,8 +52319,17 @@ public final class ProtoBuf {
         if (other.hasCreateGameFailedMessage()) {
           mergeCreateGameFailedMessage(other.getCreateGameFailedMessage());
         }
-        if (other.hasInvitePlayerToGameMessage()) {
-          mergeInvitePlayerToGameMessage(other.getInvitePlayerToGameMessage());
+        if (other.hasJoinGameMessage()) {
+          mergeJoinGameMessage(other.getJoinGameMessage());
+        }
+        if (other.hasRejoinGameMessage()) {
+          mergeRejoinGameMessage(other.getRejoinGameMessage());
+        }
+        if (other.hasJoinGameAckMessage()) {
+          mergeJoinGameAckMessage(other.getJoinGameAckMessage());
+        }
+        if (other.hasJoinGameFailedMessage()) {
+          mergeJoinGameFailedMessage(other.getJoinGameFailedMessage());
         }
         if (other.hasInviteNotifyMessage()) {
           mergeInviteNotifyMessage(other.getInviteNotifyMessage());
@@ -52120,6 +52395,12 @@ public final class ProtoBuf {
         if (!hasMessageType()) {
           
           return false;
+        }
+        if (hasInitDoneMessage()) {
+          if (!getInitDoneMessage().isInitialized()) {
+            
+            return false;
+          }
         }
         if (hasAvatarRequestMessage()) {
           if (!getAvatarRequestMessage().isInitialized()) {
@@ -52229,8 +52510,26 @@ public final class ProtoBuf {
             return false;
           }
         }
-        if (hasInvitePlayerToGameMessage()) {
-          if (!getInvitePlayerToGameMessage().isInitialized()) {
+        if (hasJoinGameMessage()) {
+          if (!getJoinGameMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRejoinGameMessage()) {
+          if (!getRejoinGameMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasJoinGameAckMessage()) {
+          if (!getJoinGameAckMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasJoinGameFailedMessage()) {
+          if (!getJoinGameFailedMessage().isInitialized()) {
             
             return false;
           }
@@ -52367,7 +52666,7 @@ public final class ProtoBuf {
       private int bitField1_;
 
       // required .LobbyMessage.LobbyMessageType messageType = 1;
-      private de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitMessage;
+      private de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitDoneMessage;
       /**
        * <code>required .LobbyMessage.LobbyMessageType messageType = 1;</code>
        */
@@ -52397,149 +52696,88 @@ public final class ProtoBuf {
        */
       public Builder clearMessageType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitMessage;
+        messageType_ = de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType.Type_InitDoneMessage;
         
         return this;
       }
 
-      // optional .InitMessage initMessage = 2;
-      private de.pokerth.protocol.ProtoBuf.InitMessage initMessage_ = de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance();
+      // optional .InitDoneMessage initDoneMessage = 2;
+      private de.pokerth.protocol.ProtoBuf.InitDoneMessage initDoneMessage_ = de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance();
       /**
-       * <code>optional .InitMessage initMessage = 2;</code>
+       * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
        */
-      public boolean hasInitMessage() {
+      public boolean hasInitDoneMessage() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .InitMessage initMessage = 2;</code>
+       * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
        */
-      public de.pokerth.protocol.ProtoBuf.InitMessage getInitMessage() {
-        return initMessage_;
+      public de.pokerth.protocol.ProtoBuf.InitDoneMessage getInitDoneMessage() {
+        return initDoneMessage_;
       }
       /**
-       * <code>optional .InitMessage initMessage = 2;</code>
+       * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
        */
-      public Builder setInitMessage(de.pokerth.protocol.ProtoBuf.InitMessage value) {
+      public Builder setInitDoneMessage(de.pokerth.protocol.ProtoBuf.InitDoneMessage value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        initMessage_ = value;
+        initDoneMessage_ = value;
 
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .InitMessage initMessage = 2;</code>
+       * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
        */
-      public Builder setInitMessage(
-          de.pokerth.protocol.ProtoBuf.InitMessage.Builder builderForValue) {
-        initMessage_ = builderForValue.build();
+      public Builder setInitDoneMessage(
+          de.pokerth.protocol.ProtoBuf.InitDoneMessage.Builder builderForValue) {
+        initDoneMessage_ = builderForValue.build();
 
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .InitMessage initMessage = 2;</code>
+       * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
        */
-      public Builder mergeInitMessage(de.pokerth.protocol.ProtoBuf.InitMessage value) {
+      public Builder mergeInitDoneMessage(de.pokerth.protocol.ProtoBuf.InitDoneMessage value) {
         if (((bitField0_ & 0x00000002) == 0x00000002) &&
-            initMessage_ != de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance()) {
-          initMessage_ =
-            de.pokerth.protocol.ProtoBuf.InitMessage.newBuilder(initMessage_).mergeFrom(value).buildPartial();
+            initDoneMessage_ != de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance()) {
+          initDoneMessage_ =
+            de.pokerth.protocol.ProtoBuf.InitDoneMessage.newBuilder(initDoneMessage_).mergeFrom(value).buildPartial();
         } else {
-          initMessage_ = value;
+          initDoneMessage_ = value;
         }
 
         bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .InitMessage initMessage = 2;</code>
+       * <code>optional .InitDoneMessage initDoneMessage = 2;</code>
        */
-      public Builder clearInitMessage() {
-        initMessage_ = de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance();
+      public Builder clearInitDoneMessage() {
+        initDoneMessage_ = de.pokerth.protocol.ProtoBuf.InitDoneMessage.getDefaultInstance();
 
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
-      // optional .InitAckMessage initAckMessage = 3;
-      private de.pokerth.protocol.ProtoBuf.InitAckMessage initAckMessage_ = de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance();
+      // optional .AvatarRequestMessage avatarRequestMessage = 3;
+      private de.pokerth.protocol.ProtoBuf.AvatarRequestMessage avatarRequestMessage_ = de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .InitAckMessage initAckMessage = 3;</code>
+       * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
        */
-      public boolean hasInitAckMessage() {
+      public boolean hasAvatarRequestMessage() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .InitAckMessage initAckMessage = 3;</code>
-       */
-      public de.pokerth.protocol.ProtoBuf.InitAckMessage getInitAckMessage() {
-        return initAckMessage_;
-      }
-      /**
-       * <code>optional .InitAckMessage initAckMessage = 3;</code>
-       */
-      public Builder setInitAckMessage(de.pokerth.protocol.ProtoBuf.InitAckMessage value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        initAckMessage_ = value;
-
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .InitAckMessage initAckMessage = 3;</code>
-       */
-      public Builder setInitAckMessage(
-          de.pokerth.protocol.ProtoBuf.InitAckMessage.Builder builderForValue) {
-        initAckMessage_ = builderForValue.build();
-
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .InitAckMessage initAckMessage = 3;</code>
-       */
-      public Builder mergeInitAckMessage(de.pokerth.protocol.ProtoBuf.InitAckMessage value) {
-        if (((bitField0_ & 0x00000004) == 0x00000004) &&
-            initAckMessage_ != de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance()) {
-          initAckMessage_ =
-            de.pokerth.protocol.ProtoBuf.InitAckMessage.newBuilder(initAckMessage_).mergeFrom(value).buildPartial();
-        } else {
-          initAckMessage_ = value;
-        }
-
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .InitAckMessage initAckMessage = 3;</code>
-       */
-      public Builder clearInitAckMessage() {
-        initAckMessage_ = de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance();
-
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      // optional .AvatarRequestMessage avatarRequestMessage = 4;
-      private de.pokerth.protocol.ProtoBuf.AvatarRequestMessage avatarRequestMessage_ = de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance();
-      /**
-       * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
-       */
-      public boolean hasAvatarRequestMessage() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+       * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AvatarRequestMessage getAvatarRequestMessage() {
         return avatarRequestMessage_;
       }
       /**
-       * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+       * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
        */
       public Builder setAvatarRequestMessage(de.pokerth.protocol.ProtoBuf.AvatarRequestMessage value) {
         if (value == null) {
@@ -52547,24 +52785,24 @@ public final class ProtoBuf {
         }
         avatarRequestMessage_ = value;
 
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+       * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
        */
       public Builder setAvatarRequestMessage(
           de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.Builder builderForValue) {
         avatarRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+       * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
        */
       public Builder mergeAvatarRequestMessage(de.pokerth.protocol.ProtoBuf.AvatarRequestMessage value) {
-        if (((bitField0_ & 0x00000008) == 0x00000008) &&
+        if (((bitField0_ & 0x00000004) == 0x00000004) &&
             avatarRequestMessage_ != de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance()) {
           avatarRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.newBuilder(avatarRequestMessage_).mergeFrom(value).buildPartial();
@@ -52572,35 +52810,35 @@ public final class ProtoBuf {
           avatarRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .AvatarRequestMessage avatarRequestMessage = 4;</code>
+       * <code>optional .AvatarRequestMessage avatarRequestMessage = 3;</code>
        */
       public Builder clearAvatarRequestMessage() {
         avatarRequestMessage_ = de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
-      // optional .AvatarHeaderMessage avatarHeaderMessage = 5;
+      // optional .AvatarHeaderMessage avatarHeaderMessage = 4;
       private de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage avatarHeaderMessage_ = de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.getDefaultInstance();
       /**
-       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
        */
       public boolean hasAvatarHeaderMessage() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage getAvatarHeaderMessage() {
         return avatarHeaderMessage_;
       }
       /**
-       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
        */
       public Builder setAvatarHeaderMessage(de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage value) {
         if (value == null) {
@@ -52608,24 +52846,24 @@ public final class ProtoBuf {
         }
         avatarHeaderMessage_ = value;
 
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
        */
       public Builder setAvatarHeaderMessage(
           de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.Builder builderForValue) {
         avatarHeaderMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
        */
       public Builder mergeAvatarHeaderMessage(de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage value) {
-        if (((bitField0_ & 0x00000010) == 0x00000010) &&
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
             avatarHeaderMessage_ != de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.getDefaultInstance()) {
           avatarHeaderMessage_ =
             de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.newBuilder(avatarHeaderMessage_).mergeFrom(value).buildPartial();
@@ -52633,35 +52871,35 @@ public final class ProtoBuf {
           avatarHeaderMessage_ = value;
         }
 
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 5;</code>
+       * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 4;</code>
        */
       public Builder clearAvatarHeaderMessage() {
         avatarHeaderMessage_ = de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
-      // optional .AvatarDataMessage avatarDataMessage = 6;
+      // optional .AvatarDataMessage avatarDataMessage = 5;
       private de.pokerth.protocol.ProtoBuf.AvatarDataMessage avatarDataMessage_ = de.pokerth.protocol.ProtoBuf.AvatarDataMessage.getDefaultInstance();
       /**
-       * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+       * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
        */
       public boolean hasAvatarDataMessage() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+       * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AvatarDataMessage getAvatarDataMessage() {
         return avatarDataMessage_;
       }
       /**
-       * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+       * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
        */
       public Builder setAvatarDataMessage(de.pokerth.protocol.ProtoBuf.AvatarDataMessage value) {
         if (value == null) {
@@ -52669,24 +52907,24 @@ public final class ProtoBuf {
         }
         avatarDataMessage_ = value;
 
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+       * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
        */
       public Builder setAvatarDataMessage(
           de.pokerth.protocol.ProtoBuf.AvatarDataMessage.Builder builderForValue) {
         avatarDataMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+       * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
        */
       public Builder mergeAvatarDataMessage(de.pokerth.protocol.ProtoBuf.AvatarDataMessage value) {
-        if (((bitField0_ & 0x00000020) == 0x00000020) &&
+        if (((bitField0_ & 0x00000010) == 0x00000010) &&
             avatarDataMessage_ != de.pokerth.protocol.ProtoBuf.AvatarDataMessage.getDefaultInstance()) {
           avatarDataMessage_ =
             de.pokerth.protocol.ProtoBuf.AvatarDataMessage.newBuilder(avatarDataMessage_).mergeFrom(value).buildPartial();
@@ -52694,35 +52932,35 @@ public final class ProtoBuf {
           avatarDataMessage_ = value;
         }
 
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .AvatarDataMessage avatarDataMessage = 6;</code>
+       * <code>optional .AvatarDataMessage avatarDataMessage = 5;</code>
        */
       public Builder clearAvatarDataMessage() {
         avatarDataMessage_ = de.pokerth.protocol.ProtoBuf.AvatarDataMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
-      // optional .AvatarEndMessage avatarEndMessage = 7;
+      // optional .AvatarEndMessage avatarEndMessage = 6;
       private de.pokerth.protocol.ProtoBuf.AvatarEndMessage avatarEndMessage_ = de.pokerth.protocol.ProtoBuf.AvatarEndMessage.getDefaultInstance();
       /**
-       * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+       * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
        */
       public boolean hasAvatarEndMessage() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+       * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AvatarEndMessage getAvatarEndMessage() {
         return avatarEndMessage_;
       }
       /**
-       * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+       * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
        */
       public Builder setAvatarEndMessage(de.pokerth.protocol.ProtoBuf.AvatarEndMessage value) {
         if (value == null) {
@@ -52730,24 +52968,24 @@ public final class ProtoBuf {
         }
         avatarEndMessage_ = value;
 
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+       * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
        */
       public Builder setAvatarEndMessage(
           de.pokerth.protocol.ProtoBuf.AvatarEndMessage.Builder builderForValue) {
         avatarEndMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+       * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
        */
       public Builder mergeAvatarEndMessage(de.pokerth.protocol.ProtoBuf.AvatarEndMessage value) {
-        if (((bitField0_ & 0x00000040) == 0x00000040) &&
+        if (((bitField0_ & 0x00000020) == 0x00000020) &&
             avatarEndMessage_ != de.pokerth.protocol.ProtoBuf.AvatarEndMessage.getDefaultInstance()) {
           avatarEndMessage_ =
             de.pokerth.protocol.ProtoBuf.AvatarEndMessage.newBuilder(avatarEndMessage_).mergeFrom(value).buildPartial();
@@ -52755,35 +52993,35 @@ public final class ProtoBuf {
           avatarEndMessage_ = value;
         }
 
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .AvatarEndMessage avatarEndMessage = 7;</code>
+       * <code>optional .AvatarEndMessage avatarEndMessage = 6;</code>
        */
       public Builder clearAvatarEndMessage() {
         avatarEndMessage_ = de.pokerth.protocol.ProtoBuf.AvatarEndMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
-      // optional .UnknownAvatarMessage unknownAvatarMessage = 8;
+      // optional .UnknownAvatarMessage unknownAvatarMessage = 7;
       private de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage unknownAvatarMessage_ = de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.getDefaultInstance();
       /**
-       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
        */
       public boolean hasUnknownAvatarMessage() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
        */
       public de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage getUnknownAvatarMessage() {
         return unknownAvatarMessage_;
       }
       /**
-       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
        */
       public Builder setUnknownAvatarMessage(de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage value) {
         if (value == null) {
@@ -52791,24 +53029,24 @@ public final class ProtoBuf {
         }
         unknownAvatarMessage_ = value;
 
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
        */
       public Builder setUnknownAvatarMessage(
           de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.Builder builderForValue) {
         unknownAvatarMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
        */
       public Builder mergeUnknownAvatarMessage(de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage value) {
-        if (((bitField0_ & 0x00000080) == 0x00000080) &&
+        if (((bitField0_ & 0x00000040) == 0x00000040) &&
             unknownAvatarMessage_ != de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.getDefaultInstance()) {
           unknownAvatarMessage_ =
             de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.newBuilder(unknownAvatarMessage_).mergeFrom(value).buildPartial();
@@ -52816,35 +53054,35 @@ public final class ProtoBuf {
           unknownAvatarMessage_ = value;
         }
 
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 8;</code>
+       * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 7;</code>
        */
       public Builder clearUnknownAvatarMessage() {
         unknownAvatarMessage_ = de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
-      // optional .PlayerListMessage playerListMessage = 9;
+      // optional .PlayerListMessage playerListMessage = 8;
       private de.pokerth.protocol.ProtoBuf.PlayerListMessage playerListMessage_ = de.pokerth.protocol.ProtoBuf.PlayerListMessage.getDefaultInstance();
       /**
-       * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+       * <code>optional .PlayerListMessage playerListMessage = 8;</code>
        */
       public boolean hasPlayerListMessage() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+       * <code>optional .PlayerListMessage playerListMessage = 8;</code>
        */
       public de.pokerth.protocol.ProtoBuf.PlayerListMessage getPlayerListMessage() {
         return playerListMessage_;
       }
       /**
-       * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+       * <code>optional .PlayerListMessage playerListMessage = 8;</code>
        */
       public Builder setPlayerListMessage(de.pokerth.protocol.ProtoBuf.PlayerListMessage value) {
         if (value == null) {
@@ -52852,24 +53090,24 @@ public final class ProtoBuf {
         }
         playerListMessage_ = value;
 
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+       * <code>optional .PlayerListMessage playerListMessage = 8;</code>
        */
       public Builder setPlayerListMessage(
           de.pokerth.protocol.ProtoBuf.PlayerListMessage.Builder builderForValue) {
         playerListMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+       * <code>optional .PlayerListMessage playerListMessage = 8;</code>
        */
       public Builder mergePlayerListMessage(de.pokerth.protocol.ProtoBuf.PlayerListMessage value) {
-        if (((bitField0_ & 0x00000100) == 0x00000100) &&
+        if (((bitField0_ & 0x00000080) == 0x00000080) &&
             playerListMessage_ != de.pokerth.protocol.ProtoBuf.PlayerListMessage.getDefaultInstance()) {
           playerListMessage_ =
             de.pokerth.protocol.ProtoBuf.PlayerListMessage.newBuilder(playerListMessage_).mergeFrom(value).buildPartial();
@@ -52877,35 +53115,35 @@ public final class ProtoBuf {
           playerListMessage_ = value;
         }
 
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .PlayerListMessage playerListMessage = 9;</code>
+       * <code>optional .PlayerListMessage playerListMessage = 8;</code>
        */
       public Builder clearPlayerListMessage() {
         playerListMessage_ = de.pokerth.protocol.ProtoBuf.PlayerListMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
-      // optional .GameListNewMessage gameListNewMessage = 10;
+      // optional .GameListNewMessage gameListNewMessage = 9;
       private de.pokerth.protocol.ProtoBuf.GameListNewMessage gameListNewMessage_ = de.pokerth.protocol.ProtoBuf.GameListNewMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+       * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
        */
       public boolean hasGameListNewMessage() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+       * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListNewMessage getGameListNewMessage() {
         return gameListNewMessage_;
       }
       /**
-       * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+       * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
        */
       public Builder setGameListNewMessage(de.pokerth.protocol.ProtoBuf.GameListNewMessage value) {
         if (value == null) {
@@ -52913,24 +53151,24 @@ public final class ProtoBuf {
         }
         gameListNewMessage_ = value;
 
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+       * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
        */
       public Builder setGameListNewMessage(
           de.pokerth.protocol.ProtoBuf.GameListNewMessage.Builder builderForValue) {
         gameListNewMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+       * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
        */
       public Builder mergeGameListNewMessage(de.pokerth.protocol.ProtoBuf.GameListNewMessage value) {
-        if (((bitField0_ & 0x00000200) == 0x00000200) &&
+        if (((bitField0_ & 0x00000100) == 0x00000100) &&
             gameListNewMessage_ != de.pokerth.protocol.ProtoBuf.GameListNewMessage.getDefaultInstance()) {
           gameListNewMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListNewMessage.newBuilder(gameListNewMessage_).mergeFrom(value).buildPartial();
@@ -52938,35 +53176,35 @@ public final class ProtoBuf {
           gameListNewMessage_ = value;
         }
 
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .GameListNewMessage gameListNewMessage = 10;</code>
+       * <code>optional .GameListNewMessage gameListNewMessage = 9;</code>
        */
       public Builder clearGameListNewMessage() {
         gameListNewMessage_ = de.pokerth.protocol.ProtoBuf.GameListNewMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
-      // optional .GameListUpdateMessage gameListUpdateMessage = 11;
+      // optional .GameListUpdateMessage gameListUpdateMessage = 10;
       private de.pokerth.protocol.ProtoBuf.GameListUpdateMessage gameListUpdateMessage_ = de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
        */
       public boolean hasGameListUpdateMessage() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListUpdateMessage getGameListUpdateMessage() {
         return gameListUpdateMessage_;
       }
       /**
-       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
        */
       public Builder setGameListUpdateMessage(de.pokerth.protocol.ProtoBuf.GameListUpdateMessage value) {
         if (value == null) {
@@ -52974,24 +53212,24 @@ public final class ProtoBuf {
         }
         gameListUpdateMessage_ = value;
 
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
        */
       public Builder setGameListUpdateMessage(
           de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.Builder builderForValue) {
         gameListUpdateMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
        */
       public Builder mergeGameListUpdateMessage(de.pokerth.protocol.ProtoBuf.GameListUpdateMessage value) {
-        if (((bitField0_ & 0x00000400) == 0x00000400) &&
+        if (((bitField0_ & 0x00000200) == 0x00000200) &&
             gameListUpdateMessage_ != de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.getDefaultInstance()) {
           gameListUpdateMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.newBuilder(gameListUpdateMessage_).mergeFrom(value).buildPartial();
@@ -52999,35 +53237,35 @@ public final class ProtoBuf {
           gameListUpdateMessage_ = value;
         }
 
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 11;</code>
+       * <code>optional .GameListUpdateMessage gameListUpdateMessage = 10;</code>
        */
       public Builder clearGameListUpdateMessage() {
         gameListUpdateMessage_ = de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
-      // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;
+      // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;
       private de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage gameListPlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
        */
       public boolean hasGameListPlayerJoinedMessage() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage getGameListPlayerJoinedMessage() {
         return gameListPlayerJoinedMessage_;
       }
       /**
-       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
        */
       public Builder setGameListPlayerJoinedMessage(de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage value) {
         if (value == null) {
@@ -53035,24 +53273,24 @@ public final class ProtoBuf {
         }
         gameListPlayerJoinedMessage_ = value;
 
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
        */
       public Builder setGameListPlayerJoinedMessage(
           de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.Builder builderForValue) {
         gameListPlayerJoinedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
        */
       public Builder mergeGameListPlayerJoinedMessage(de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage value) {
-        if (((bitField0_ & 0x00000800) == 0x00000800) &&
+        if (((bitField0_ & 0x00000400) == 0x00000400) &&
             gameListPlayerJoinedMessage_ != de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.getDefaultInstance()) {
           gameListPlayerJoinedMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.newBuilder(gameListPlayerJoinedMessage_).mergeFrom(value).buildPartial();
@@ -53060,35 +53298,35 @@ public final class ProtoBuf {
           gameListPlayerJoinedMessage_ = value;
         }
 
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 12;</code>
+       * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 11;</code>
        */
       public Builder clearGameListPlayerJoinedMessage() {
         gameListPlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
-      // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;
+      // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;
       private de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage gameListPlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
        */
       public boolean hasGameListPlayerLeftMessage() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage getGameListPlayerLeftMessage() {
         return gameListPlayerLeftMessage_;
       }
       /**
-       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
        */
       public Builder setGameListPlayerLeftMessage(de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage value) {
         if (value == null) {
@@ -53096,24 +53334,24 @@ public final class ProtoBuf {
         }
         gameListPlayerLeftMessage_ = value;
 
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
        */
       public Builder setGameListPlayerLeftMessage(
           de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.Builder builderForValue) {
         gameListPlayerLeftMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
        */
       public Builder mergeGameListPlayerLeftMessage(de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage value) {
-        if (((bitField0_ & 0x00001000) == 0x00001000) &&
+        if (((bitField0_ & 0x00000800) == 0x00000800) &&
             gameListPlayerLeftMessage_ != de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.getDefaultInstance()) {
           gameListPlayerLeftMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.newBuilder(gameListPlayerLeftMessage_).mergeFrom(value).buildPartial();
@@ -53121,35 +53359,35 @@ public final class ProtoBuf {
           gameListPlayerLeftMessage_ = value;
         }
 
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 13;</code>
+       * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 12;</code>
        */
       public Builder clearGameListPlayerLeftMessage() {
         gameListPlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
-      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;
+      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;
       private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
        */
       public boolean hasGameListSpectatorJoinedMessage() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
-       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage() {
         return gameListSpectatorJoinedMessage_;
       }
       /**
-       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
        */
       public Builder setGameListSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage value) {
         if (value == null) {
@@ -53157,24 +53395,24 @@ public final class ProtoBuf {
         }
         gameListSpectatorJoinedMessage_ = value;
 
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00001000;
         return this;
       }
       /**
-       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
        */
       public Builder setGameListSpectatorJoinedMessage(
           de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.Builder builderForValue) {
         gameListSpectatorJoinedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00001000;
         return this;
       }
       /**
-       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
        */
       public Builder mergeGameListSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage value) {
-        if (((bitField0_ & 0x00002000) == 0x00002000) &&
+        if (((bitField0_ & 0x00001000) == 0x00001000) &&
             gameListSpectatorJoinedMessage_ != de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance()) {
           gameListSpectatorJoinedMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.newBuilder(gameListSpectatorJoinedMessage_).mergeFrom(value).buildPartial();
@@ -53182,35 +53420,35 @@ public final class ProtoBuf {
           gameListSpectatorJoinedMessage_ = value;
         }
 
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00001000;
         return this;
       }
       /**
-       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 14;</code>
+       * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 13;</code>
        */
       public Builder clearGameListSpectatorJoinedMessage() {
         gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
-      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;
+      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;
       private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
        */
       public boolean hasGameListSpectatorLeftMessage() {
-        return ((bitField0_ & 0x00004000) == 0x00004000);
+        return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
-       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage() {
         return gameListSpectatorLeftMessage_;
       }
       /**
-       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
        */
       public Builder setGameListSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage value) {
         if (value == null) {
@@ -53218,24 +53456,24 @@ public final class ProtoBuf {
         }
         gameListSpectatorLeftMessage_ = value;
 
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00002000;
         return this;
       }
       /**
-       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
        */
       public Builder setGameListSpectatorLeftMessage(
           de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.Builder builderForValue) {
         gameListSpectatorLeftMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00002000;
         return this;
       }
       /**
-       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
        */
       public Builder mergeGameListSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage value) {
-        if (((bitField0_ & 0x00004000) == 0x00004000) &&
+        if (((bitField0_ & 0x00002000) == 0x00002000) &&
             gameListSpectatorLeftMessage_ != de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance()) {
           gameListSpectatorLeftMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.newBuilder(gameListSpectatorLeftMessage_).mergeFrom(value).buildPartial();
@@ -53243,35 +53481,35 @@ public final class ProtoBuf {
           gameListSpectatorLeftMessage_ = value;
         }
 
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00002000;
         return this;
       }
       /**
-       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 15;</code>
+       * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 14;</code>
        */
       public Builder clearGameListSpectatorLeftMessage() {
         gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
-      // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;
+      // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;
       private de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage gameListAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.getDefaultInstance();
       /**
-       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
        */
       public boolean hasGameListAdminChangedMessage() {
-        return ((bitField0_ & 0x00008000) == 0x00008000);
+        return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
-       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage getGameListAdminChangedMessage() {
         return gameListAdminChangedMessage_;
       }
       /**
-       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
        */
       public Builder setGameListAdminChangedMessage(de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage value) {
         if (value == null) {
@@ -53279,24 +53517,24 @@ public final class ProtoBuf {
         }
         gameListAdminChangedMessage_ = value;
 
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
        */
       public Builder setGameListAdminChangedMessage(
           de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.Builder builderForValue) {
         gameListAdminChangedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
        */
       public Builder mergeGameListAdminChangedMessage(de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage value) {
-        if (((bitField0_ & 0x00008000) == 0x00008000) &&
+        if (((bitField0_ & 0x00004000) == 0x00004000) &&
             gameListAdminChangedMessage_ != de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.getDefaultInstance()) {
           gameListAdminChangedMessage_ =
             de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.newBuilder(gameListAdminChangedMessage_).mergeFrom(value).buildPartial();
@@ -53304,35 +53542,35 @@ public final class ProtoBuf {
           gameListAdminChangedMessage_ = value;
         }
 
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 16;</code>
+       * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 15;</code>
        */
       public Builder clearGameListAdminChangedMessage() {
         gameListAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
-      // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;
+      // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;
       private de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage playerInfoRequestMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
        */
       public boolean hasPlayerInfoRequestMessage() {
-        return ((bitField0_ & 0x00010000) == 0x00010000);
+        return ((bitField0_ & 0x00008000) == 0x00008000);
       }
       /**
-       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
        */
       public de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage getPlayerInfoRequestMessage() {
         return playerInfoRequestMessage_;
       }
       /**
-       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
        */
       public Builder setPlayerInfoRequestMessage(de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage value) {
         if (value == null) {
@@ -53340,24 +53578,24 @@ public final class ProtoBuf {
         }
         playerInfoRequestMessage_ = value;
 
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00008000;
         return this;
       }
       /**
-       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
        */
       public Builder setPlayerInfoRequestMessage(
           de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.Builder builderForValue) {
         playerInfoRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00008000;
         return this;
       }
       /**
-       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
        */
       public Builder mergePlayerInfoRequestMessage(de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage value) {
-        if (((bitField0_ & 0x00010000) == 0x00010000) &&
+        if (((bitField0_ & 0x00008000) == 0x00008000) &&
             playerInfoRequestMessage_ != de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.getDefaultInstance()) {
           playerInfoRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.newBuilder(playerInfoRequestMessage_).mergeFrom(value).buildPartial();
@@ -53365,35 +53603,35 @@ public final class ProtoBuf {
           playerInfoRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00008000;
         return this;
       }
       /**
-       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 17;</code>
+       * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 16;</code>
        */
       public Builder clearPlayerInfoRequestMessage() {
         playerInfoRequestMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
 
-      // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;
+      // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;
       private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage playerInfoReplyMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.getDefaultInstance();
       /**
-       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
        */
       public boolean hasPlayerInfoReplyMessage() {
-        return ((bitField0_ & 0x00020000) == 0x00020000);
+        return ((bitField0_ & 0x00010000) == 0x00010000);
       }
       /**
-       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
        */
       public de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage getPlayerInfoReplyMessage() {
         return playerInfoReplyMessage_;
       }
       /**
-       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
        */
       public Builder setPlayerInfoReplyMessage(de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage value) {
         if (value == null) {
@@ -53401,24 +53639,24 @@ public final class ProtoBuf {
         }
         playerInfoReplyMessage_ = value;
 
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00010000;
         return this;
       }
       /**
-       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
        */
       public Builder setPlayerInfoReplyMessage(
           de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.Builder builderForValue) {
         playerInfoReplyMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00010000;
         return this;
       }
       /**
-       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
        */
       public Builder mergePlayerInfoReplyMessage(de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage value) {
-        if (((bitField0_ & 0x00020000) == 0x00020000) &&
+        if (((bitField0_ & 0x00010000) == 0x00010000) &&
             playerInfoReplyMessage_ != de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.getDefaultInstance()) {
           playerInfoReplyMessage_ =
             de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.newBuilder(playerInfoReplyMessage_).mergeFrom(value).buildPartial();
@@ -53426,35 +53664,35 @@ public final class ProtoBuf {
           playerInfoReplyMessage_ = value;
         }
 
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00010000;
         return this;
       }
       /**
-       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 18;</code>
+       * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 17;</code>
        */
       public Builder clearPlayerInfoReplyMessage() {
         playerInfoReplyMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         return this;
       }
 
-      // optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;
+      // optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;
       private de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage subscriptionRequestMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
        */
       public boolean hasSubscriptionRequestMessage() {
-        return ((bitField0_ & 0x00040000) == 0x00040000);
+        return ((bitField0_ & 0x00020000) == 0x00020000);
       }
       /**
-       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
        */
       public de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage getSubscriptionRequestMessage() {
         return subscriptionRequestMessage_;
       }
       /**
-       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
        */
       public Builder setSubscriptionRequestMessage(de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage value) {
         if (value == null) {
@@ -53462,24 +53700,24 @@ public final class ProtoBuf {
         }
         subscriptionRequestMessage_ = value;
 
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00020000;
         return this;
       }
       /**
-       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
        */
       public Builder setSubscriptionRequestMessage(
           de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.Builder builderForValue) {
         subscriptionRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00020000;
         return this;
       }
       /**
-       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
        */
       public Builder mergeSubscriptionRequestMessage(de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage value) {
-        if (((bitField0_ & 0x00040000) == 0x00040000) &&
+        if (((bitField0_ & 0x00020000) == 0x00020000) &&
             subscriptionRequestMessage_ != de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.getDefaultInstance()) {
           subscriptionRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.newBuilder(subscriptionRequestMessage_).mergeFrom(value).buildPartial();
@@ -53487,35 +53725,35 @@ public final class ProtoBuf {
           subscriptionRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00020000;
         return this;
       }
       /**
-       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 19;</code>
+       * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 18;</code>
        */
       public Builder clearSubscriptionRequestMessage() {
         subscriptionRequestMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         return this;
       }
 
-      // optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;
+      // optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;
       private de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage subscriptionReplyMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.getDefaultInstance();
       /**
-       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
        */
       public boolean hasSubscriptionReplyMessage() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
+        return ((bitField0_ & 0x00040000) == 0x00040000);
       }
       /**
-       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
        */
       public de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage getSubscriptionReplyMessage() {
         return subscriptionReplyMessage_;
       }
       /**
-       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
        */
       public Builder setSubscriptionReplyMessage(de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage value) {
         if (value == null) {
@@ -53523,24 +53761,24 @@ public final class ProtoBuf {
         }
         subscriptionReplyMessage_ = value;
 
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00040000;
         return this;
       }
       /**
-       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
        */
       public Builder setSubscriptionReplyMessage(
           de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.Builder builderForValue) {
         subscriptionReplyMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00040000;
         return this;
       }
       /**
-       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
        */
       public Builder mergeSubscriptionReplyMessage(de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage value) {
-        if (((bitField0_ & 0x00080000) == 0x00080000) &&
+        if (((bitField0_ & 0x00040000) == 0x00040000) &&
             subscriptionReplyMessage_ != de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.getDefaultInstance()) {
           subscriptionReplyMessage_ =
             de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.newBuilder(subscriptionReplyMessage_).mergeFrom(value).buildPartial();
@@ -53548,35 +53786,35 @@ public final class ProtoBuf {
           subscriptionReplyMessage_ = value;
         }
 
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00040000;
         return this;
       }
       /**
-       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 20;</code>
+       * <code>optional .SubscriptionReplyMessage subscriptionReplyMessage = 19;</code>
        */
       public Builder clearSubscriptionReplyMessage() {
         subscriptionReplyMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionReplyMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
-      // optional .CreateGameMessage createGameMessage = 21;
+      // optional .CreateGameMessage createGameMessage = 20;
       private de.pokerth.protocol.ProtoBuf.CreateGameMessage createGameMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameMessage.getDefaultInstance();
       /**
-       * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+       * <code>optional .CreateGameMessage createGameMessage = 20;</code>
        */
       public boolean hasCreateGameMessage() {
-        return ((bitField0_ & 0x00100000) == 0x00100000);
+        return ((bitField0_ & 0x00080000) == 0x00080000);
       }
       /**
-       * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+       * <code>optional .CreateGameMessage createGameMessage = 20;</code>
        */
       public de.pokerth.protocol.ProtoBuf.CreateGameMessage getCreateGameMessage() {
         return createGameMessage_;
       }
       /**
-       * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+       * <code>optional .CreateGameMessage createGameMessage = 20;</code>
        */
       public Builder setCreateGameMessage(de.pokerth.protocol.ProtoBuf.CreateGameMessage value) {
         if (value == null) {
@@ -53584,24 +53822,24 @@ public final class ProtoBuf {
         }
         createGameMessage_ = value;
 
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00080000;
         return this;
       }
       /**
-       * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+       * <code>optional .CreateGameMessage createGameMessage = 20;</code>
        */
       public Builder setCreateGameMessage(
           de.pokerth.protocol.ProtoBuf.CreateGameMessage.Builder builderForValue) {
         createGameMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00080000;
         return this;
       }
       /**
-       * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+       * <code>optional .CreateGameMessage createGameMessage = 20;</code>
        */
       public Builder mergeCreateGameMessage(de.pokerth.protocol.ProtoBuf.CreateGameMessage value) {
-        if (((bitField0_ & 0x00100000) == 0x00100000) &&
+        if (((bitField0_ & 0x00080000) == 0x00080000) &&
             createGameMessage_ != de.pokerth.protocol.ProtoBuf.CreateGameMessage.getDefaultInstance()) {
           createGameMessage_ =
             de.pokerth.protocol.ProtoBuf.CreateGameMessage.newBuilder(createGameMessage_).mergeFrom(value).buildPartial();
@@ -53609,35 +53847,35 @@ public final class ProtoBuf {
           createGameMessage_ = value;
         }
 
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00080000;
         return this;
       }
       /**
-       * <code>optional .CreateGameMessage createGameMessage = 21;</code>
+       * <code>optional .CreateGameMessage createGameMessage = 20;</code>
        */
       public Builder clearCreateGameMessage() {
         createGameMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         return this;
       }
 
-      // optional .CreateGameFailedMessage createGameFailedMessage = 22;
+      // optional .CreateGameFailedMessage createGameFailedMessage = 21;
       private de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage createGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.getDefaultInstance();
       /**
-       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
        */
       public boolean hasCreateGameFailedMessage() {
-        return ((bitField0_ & 0x00200000) == 0x00200000);
+        return ((bitField0_ & 0x00100000) == 0x00100000);
       }
       /**
-       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
        */
       public de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage getCreateGameFailedMessage() {
         return createGameFailedMessage_;
       }
       /**
-       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
        */
       public Builder setCreateGameFailedMessage(de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage value) {
         if (value == null) {
@@ -53645,24 +53883,24 @@ public final class ProtoBuf {
         }
         createGameFailedMessage_ = value;
 
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00100000;
         return this;
       }
       /**
-       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
        */
       public Builder setCreateGameFailedMessage(
           de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.Builder builderForValue) {
         createGameFailedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00100000;
         return this;
       }
       /**
-       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
        */
       public Builder mergeCreateGameFailedMessage(de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage value) {
-        if (((bitField0_ & 0x00200000) == 0x00200000) &&
+        if (((bitField0_ & 0x00100000) == 0x00100000) &&
             createGameFailedMessage_ != de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.getDefaultInstance()) {
           createGameFailedMessage_ =
             de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.newBuilder(createGameFailedMessage_).mergeFrom(value).buildPartial();
@@ -53670,96 +53908,279 @@ public final class ProtoBuf {
           createGameFailedMessage_ = value;
         }
 
+        bitField0_ |= 0x00100000;
+        return this;
+      }
+      /**
+       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 21;</code>
+       */
+      public Builder clearCreateGameFailedMessage() {
+        createGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.getDefaultInstance();
+
+        bitField0_ = (bitField0_ & ~0x00100000);
+        return this;
+      }
+
+      // optional .JoinGameMessage joinGameMessage = 22;
+      private de.pokerth.protocol.ProtoBuf.JoinGameMessage joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
+      /**
+       * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
+       */
+      public boolean hasJoinGameMessage() {
+        return ((bitField0_ & 0x00200000) == 0x00200000);
+      }
+      /**
+       * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
+       */
+      public de.pokerth.protocol.ProtoBuf.JoinGameMessage getJoinGameMessage() {
+        return joinGameMessage_;
+      }
+      /**
+       * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
+       */
+      public Builder setJoinGameMessage(de.pokerth.protocol.ProtoBuf.JoinGameMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        joinGameMessage_ = value;
+
         bitField0_ |= 0x00200000;
         return this;
       }
       /**
-       * <code>optional .CreateGameFailedMessage createGameFailedMessage = 22;</code>
+       * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
        */
-      public Builder clearCreateGameFailedMessage() {
-        createGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.CreateGameFailedMessage.getDefaultInstance();
+      public Builder setJoinGameMessage(
+          de.pokerth.protocol.ProtoBuf.JoinGameMessage.Builder builderForValue) {
+        joinGameMessage_ = builderForValue.build();
+
+        bitField0_ |= 0x00200000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
+       */
+      public Builder mergeJoinGameMessage(de.pokerth.protocol.ProtoBuf.JoinGameMessage value) {
+        if (((bitField0_ & 0x00200000) == 0x00200000) &&
+            joinGameMessage_ != de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance()) {
+          joinGameMessage_ =
+            de.pokerth.protocol.ProtoBuf.JoinGameMessage.newBuilder(joinGameMessage_).mergeFrom(value).buildPartial();
+        } else {
+          joinGameMessage_ = value;
+        }
+
+        bitField0_ |= 0x00200000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameMessage joinGameMessage = 22;</code>
+       */
+      public Builder clearJoinGameMessage() {
+        joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
 
         bitField0_ = (bitField0_ & ~0x00200000);
         return this;
       }
 
-      // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;
-      private de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
+      // optional .RejoinGameMessage rejoinGameMessage = 23;
+      private de.pokerth.protocol.ProtoBuf.RejoinGameMessage rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
       /**
-       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+       * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
        */
-      public boolean hasInvitePlayerToGameMessage() {
+      public boolean hasRejoinGameMessage() {
         return ((bitField0_ & 0x00400000) == 0x00400000);
       }
       /**
-       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+       * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
        */
-      public de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage() {
-        return invitePlayerToGameMessage_;
+      public de.pokerth.protocol.ProtoBuf.RejoinGameMessage getRejoinGameMessage() {
+        return rejoinGameMessage_;
       }
       /**
-       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+       * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
        */
-      public Builder setInvitePlayerToGameMessage(de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage value) {
+      public Builder setRejoinGameMessage(de.pokerth.protocol.ProtoBuf.RejoinGameMessage value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        invitePlayerToGameMessage_ = value;
+        rejoinGameMessage_ = value;
 
         bitField0_ |= 0x00400000;
         return this;
       }
       /**
-       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+       * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
        */
-      public Builder setInvitePlayerToGameMessage(
-          de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.Builder builderForValue) {
-        invitePlayerToGameMessage_ = builderForValue.build();
+      public Builder setRejoinGameMessage(
+          de.pokerth.protocol.ProtoBuf.RejoinGameMessage.Builder builderForValue) {
+        rejoinGameMessage_ = builderForValue.build();
 
         bitField0_ |= 0x00400000;
         return this;
       }
       /**
-       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+       * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
        */
-      public Builder mergeInvitePlayerToGameMessage(de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage value) {
+      public Builder mergeRejoinGameMessage(de.pokerth.protocol.ProtoBuf.RejoinGameMessage value) {
         if (((bitField0_ & 0x00400000) == 0x00400000) &&
-            invitePlayerToGameMessage_ != de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance()) {
-          invitePlayerToGameMessage_ =
-            de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.newBuilder(invitePlayerToGameMessage_).mergeFrom(value).buildPartial();
+            rejoinGameMessage_ != de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance()) {
+          rejoinGameMessage_ =
+            de.pokerth.protocol.ProtoBuf.RejoinGameMessage.newBuilder(rejoinGameMessage_).mergeFrom(value).buildPartial();
         } else {
-          invitePlayerToGameMessage_ = value;
+          rejoinGameMessage_ = value;
         }
 
         bitField0_ |= 0x00400000;
         return this;
       }
       /**
-       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 23;</code>
+       * <code>optional .RejoinGameMessage rejoinGameMessage = 23;</code>
        */
-      public Builder clearInvitePlayerToGameMessage() {
-        invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
+      public Builder clearRejoinGameMessage() {
+        rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
 
         bitField0_ = (bitField0_ & ~0x00400000);
         return this;
       }
 
-      // optional .InviteNotifyMessage inviteNotifyMessage = 24;
-      private de.pokerth.protocol.ProtoBuf.InviteNotifyMessage inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
+      // optional .JoinGameAckMessage joinGameAckMessage = 24;
+      private de.pokerth.protocol.ProtoBuf.JoinGameAckMessage joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
       /**
-       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+       * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
        */
-      public boolean hasInviteNotifyMessage() {
+      public boolean hasJoinGameAckMessage() {
         return ((bitField0_ & 0x00800000) == 0x00800000);
       }
       /**
-       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+       * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+       */
+      public de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage() {
+        return joinGameAckMessage_;
+      }
+      /**
+       * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+       */
+      public Builder setJoinGameAckMessage(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        joinGameAckMessage_ = value;
+
+        bitField0_ |= 0x00800000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+       */
+      public Builder setJoinGameAckMessage(
+          de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.Builder builderForValue) {
+        joinGameAckMessage_ = builderForValue.build();
+
+        bitField0_ |= 0x00800000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+       */
+      public Builder mergeJoinGameAckMessage(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage value) {
+        if (((bitField0_ & 0x00800000) == 0x00800000) &&
+            joinGameAckMessage_ != de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance()) {
+          joinGameAckMessage_ =
+            de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.newBuilder(joinGameAckMessage_).mergeFrom(value).buildPartial();
+        } else {
+          joinGameAckMessage_ = value;
+        }
+
+        bitField0_ |= 0x00800000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameAckMessage joinGameAckMessage = 24;</code>
+       */
+      public Builder clearJoinGameAckMessage() {
+        joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
+
+        bitField0_ = (bitField0_ & ~0x00800000);
+        return this;
+      }
+
+      // optional .JoinGameFailedMessage joinGameFailedMessage = 25;
+      private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
+      /**
+       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+       */
+      public boolean hasJoinGameFailedMessage() {
+        return ((bitField0_ & 0x01000000) == 0x01000000);
+      }
+      /**
+       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+       */
+      public de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage() {
+        return joinGameFailedMessage_;
+      }
+      /**
+       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+       */
+      public Builder setJoinGameFailedMessage(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        joinGameFailedMessage_ = value;
+
+        bitField0_ |= 0x01000000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+       */
+      public Builder setJoinGameFailedMessage(
+          de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.Builder builderForValue) {
+        joinGameFailedMessage_ = builderForValue.build();
+
+        bitField0_ |= 0x01000000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+       */
+      public Builder mergeJoinGameFailedMessage(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage value) {
+        if (((bitField0_ & 0x01000000) == 0x01000000) &&
+            joinGameFailedMessage_ != de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance()) {
+          joinGameFailedMessage_ =
+            de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.newBuilder(joinGameFailedMessage_).mergeFrom(value).buildPartial();
+        } else {
+          joinGameFailedMessage_ = value;
+        }
+
+        bitField0_ |= 0x01000000;
+        return this;
+      }
+      /**
+       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 25;</code>
+       */
+      public Builder clearJoinGameFailedMessage() {
+        joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
+
+        bitField0_ = (bitField0_ & ~0x01000000);
+        return this;
+      }
+
+      // optional .InviteNotifyMessage inviteNotifyMessage = 26;
+      private de.pokerth.protocol.ProtoBuf.InviteNotifyMessage inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
+      /**
+       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
+       */
+      public boolean hasInviteNotifyMessage() {
+        return ((bitField0_ & 0x02000000) == 0x02000000);
+      }
+      /**
+       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
        */
       public de.pokerth.protocol.ProtoBuf.InviteNotifyMessage getInviteNotifyMessage() {
         return inviteNotifyMessage_;
       }
       /**
-       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
        */
       public Builder setInviteNotifyMessage(de.pokerth.protocol.ProtoBuf.InviteNotifyMessage value) {
         if (value == null) {
@@ -53767,24 +54188,24 @@ public final class ProtoBuf {
         }
         inviteNotifyMessage_ = value;
 
-        bitField0_ |= 0x00800000;
+        bitField0_ |= 0x02000000;
         return this;
       }
       /**
-       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
        */
       public Builder setInviteNotifyMessage(
           de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.Builder builderForValue) {
         inviteNotifyMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00800000;
+        bitField0_ |= 0x02000000;
         return this;
       }
       /**
-       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
        */
       public Builder mergeInviteNotifyMessage(de.pokerth.protocol.ProtoBuf.InviteNotifyMessage value) {
-        if (((bitField0_ & 0x00800000) == 0x00800000) &&
+        if (((bitField0_ & 0x02000000) == 0x02000000) &&
             inviteNotifyMessage_ != de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance()) {
           inviteNotifyMessage_ =
             de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.newBuilder(inviteNotifyMessage_).mergeFrom(value).buildPartial();
@@ -53792,35 +54213,35 @@ public final class ProtoBuf {
           inviteNotifyMessage_ = value;
         }
 
-        bitField0_ |= 0x00800000;
+        bitField0_ |= 0x02000000;
         return this;
       }
       /**
-       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 24;</code>
+       * <code>optional .InviteNotifyMessage inviteNotifyMessage = 26;</code>
        */
       public Builder clearInviteNotifyMessage() {
         inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00800000);
+        bitField0_ = (bitField0_ & ~0x02000000);
         return this;
       }
 
-      // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;
+      // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;
       private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage rejectGameInvitationMessage_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance();
       /**
-       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
        */
       public boolean hasRejectGameInvitationMessage() {
-        return ((bitField0_ & 0x01000000) == 0x01000000);
+        return ((bitField0_ & 0x04000000) == 0x04000000);
       }
       /**
-       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
        */
       public de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage getRejectGameInvitationMessage() {
         return rejectGameInvitationMessage_;
       }
       /**
-       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
        */
       public Builder setRejectGameInvitationMessage(de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage value) {
         if (value == null) {
@@ -53828,24 +54249,24 @@ public final class ProtoBuf {
         }
         rejectGameInvitationMessage_ = value;
 
-        bitField0_ |= 0x01000000;
+        bitField0_ |= 0x04000000;
         return this;
       }
       /**
-       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
        */
       public Builder setRejectGameInvitationMessage(
           de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.Builder builderForValue) {
         rejectGameInvitationMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x01000000;
+        bitField0_ |= 0x04000000;
         return this;
       }
       /**
-       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
        */
       public Builder mergeRejectGameInvitationMessage(de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage value) {
-        if (((bitField0_ & 0x01000000) == 0x01000000) &&
+        if (((bitField0_ & 0x04000000) == 0x04000000) &&
             rejectGameInvitationMessage_ != de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance()) {
           rejectGameInvitationMessage_ =
             de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.newBuilder(rejectGameInvitationMessage_).mergeFrom(value).buildPartial();
@@ -53853,35 +54274,35 @@ public final class ProtoBuf {
           rejectGameInvitationMessage_ = value;
         }
 
-        bitField0_ |= 0x01000000;
+        bitField0_ |= 0x04000000;
         return this;
       }
       /**
-       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 25;</code>
+       * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 27;</code>
        */
       public Builder clearRejectGameInvitationMessage() {
         rejectGameInvitationMessage_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x01000000);
+        bitField0_ = (bitField0_ & ~0x04000000);
         return this;
       }
 
-      // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;
+      // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;
       private de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage rejectInvNotifyMessage_ = de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance();
       /**
-       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
        */
       public boolean hasRejectInvNotifyMessage() {
-        return ((bitField0_ & 0x02000000) == 0x02000000);
+        return ((bitField0_ & 0x08000000) == 0x08000000);
       }
       /**
-       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
        */
       public de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage getRejectInvNotifyMessage() {
         return rejectInvNotifyMessage_;
       }
       /**
-       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
        */
       public Builder setRejectInvNotifyMessage(de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage value) {
         if (value == null) {
@@ -53889,24 +54310,24 @@ public final class ProtoBuf {
         }
         rejectInvNotifyMessage_ = value;
 
-        bitField0_ |= 0x02000000;
+        bitField0_ |= 0x08000000;
         return this;
       }
       /**
-       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
        */
       public Builder setRejectInvNotifyMessage(
           de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.Builder builderForValue) {
         rejectInvNotifyMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x02000000;
+        bitField0_ |= 0x08000000;
         return this;
       }
       /**
-       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
        */
       public Builder mergeRejectInvNotifyMessage(de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage value) {
-        if (((bitField0_ & 0x02000000) == 0x02000000) &&
+        if (((bitField0_ & 0x08000000) == 0x08000000) &&
             rejectInvNotifyMessage_ != de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance()) {
           rejectInvNotifyMessage_ =
             de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.newBuilder(rejectInvNotifyMessage_).mergeFrom(value).buildPartial();
@@ -53914,35 +54335,35 @@ public final class ProtoBuf {
           rejectInvNotifyMessage_ = value;
         }
 
-        bitField0_ |= 0x02000000;
+        bitField0_ |= 0x08000000;
         return this;
       }
       /**
-       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 26;</code>
+       * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 28;</code>
        */
       public Builder clearRejectInvNotifyMessage() {
         rejectInvNotifyMessage_ = de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x02000000);
+        bitField0_ = (bitField0_ & ~0x08000000);
         return this;
       }
 
-      // optional .StatisticsMessage statisticsMessage = 27;
+      // optional .StatisticsMessage statisticsMessage = 29;
       private de.pokerth.protocol.ProtoBuf.StatisticsMessage statisticsMessage_ = de.pokerth.protocol.ProtoBuf.StatisticsMessage.getDefaultInstance();
       /**
-       * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+       * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
        */
       public boolean hasStatisticsMessage() {
-        return ((bitField0_ & 0x04000000) == 0x04000000);
+        return ((bitField0_ & 0x10000000) == 0x10000000);
       }
       /**
-       * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+       * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
        */
       public de.pokerth.protocol.ProtoBuf.StatisticsMessage getStatisticsMessage() {
         return statisticsMessage_;
       }
       /**
-       * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+       * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
        */
       public Builder setStatisticsMessage(de.pokerth.protocol.ProtoBuf.StatisticsMessage value) {
         if (value == null) {
@@ -53950,24 +54371,24 @@ public final class ProtoBuf {
         }
         statisticsMessage_ = value;
 
-        bitField0_ |= 0x04000000;
+        bitField0_ |= 0x10000000;
         return this;
       }
       /**
-       * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+       * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
        */
       public Builder setStatisticsMessage(
           de.pokerth.protocol.ProtoBuf.StatisticsMessage.Builder builderForValue) {
         statisticsMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x04000000;
+        bitField0_ |= 0x10000000;
         return this;
       }
       /**
-       * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+       * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
        */
       public Builder mergeStatisticsMessage(de.pokerth.protocol.ProtoBuf.StatisticsMessage value) {
-        if (((bitField0_ & 0x04000000) == 0x04000000) &&
+        if (((bitField0_ & 0x10000000) == 0x10000000) &&
             statisticsMessage_ != de.pokerth.protocol.ProtoBuf.StatisticsMessage.getDefaultInstance()) {
           statisticsMessage_ =
             de.pokerth.protocol.ProtoBuf.StatisticsMessage.newBuilder(statisticsMessage_).mergeFrom(value).buildPartial();
@@ -53975,35 +54396,35 @@ public final class ProtoBuf {
           statisticsMessage_ = value;
         }
 
-        bitField0_ |= 0x04000000;
+        bitField0_ |= 0x10000000;
         return this;
       }
       /**
-       * <code>optional .StatisticsMessage statisticsMessage = 27;</code>
+       * <code>optional .StatisticsMessage statisticsMessage = 29;</code>
        */
       public Builder clearStatisticsMessage() {
         statisticsMessage_ = de.pokerth.protocol.ProtoBuf.StatisticsMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x04000000);
+        bitField0_ = (bitField0_ & ~0x10000000);
         return this;
       }
 
-      // optional .ChatRequestMessage chatRequestMessage = 28;
+      // optional .ChatRequestMessage chatRequestMessage = 30;
       private de.pokerth.protocol.ProtoBuf.ChatRequestMessage chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
        */
       public boolean hasChatRequestMessage() {
-        return ((bitField0_ & 0x08000000) == 0x08000000);
+        return ((bitField0_ & 0x20000000) == 0x20000000);
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage() {
         return chatRequestMessage_;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
        */
       public Builder setChatRequestMessage(de.pokerth.protocol.ProtoBuf.ChatRequestMessage value) {
         if (value == null) {
@@ -54011,24 +54432,24 @@ public final class ProtoBuf {
         }
         chatRequestMessage_ = value;
 
-        bitField0_ |= 0x08000000;
+        bitField0_ |= 0x20000000;
         return this;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
        */
       public Builder setChatRequestMessage(
           de.pokerth.protocol.ProtoBuf.ChatRequestMessage.Builder builderForValue) {
         chatRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x08000000;
+        bitField0_ |= 0x20000000;
         return this;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
        */
       public Builder mergeChatRequestMessage(de.pokerth.protocol.ProtoBuf.ChatRequestMessage value) {
-        if (((bitField0_ & 0x08000000) == 0x08000000) &&
+        if (((bitField0_ & 0x20000000) == 0x20000000) &&
             chatRequestMessage_ != de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance()) {
           chatRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.ChatRequestMessage.newBuilder(chatRequestMessage_).mergeFrom(value).buildPartial();
@@ -54036,35 +54457,35 @@ public final class ProtoBuf {
           chatRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x08000000;
+        bitField0_ |= 0x20000000;
         return this;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 28;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 30;</code>
        */
       public Builder clearChatRequestMessage() {
         chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x08000000);
+        bitField0_ = (bitField0_ & ~0x20000000);
         return this;
       }
 
-      // optional .ChatMessage chatMessage = 29;
+      // optional .ChatMessage chatMessage = 31;
       private de.pokerth.protocol.ProtoBuf.ChatMessage chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
       /**
-       * <code>optional .ChatMessage chatMessage = 29;</code>
+       * <code>optional .ChatMessage chatMessage = 31;</code>
        */
       public boolean hasChatMessage() {
-        return ((bitField0_ & 0x10000000) == 0x10000000);
+        return ((bitField0_ & 0x40000000) == 0x40000000);
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 29;</code>
+       * <code>optional .ChatMessage chatMessage = 31;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage() {
         return chatMessage_;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 29;</code>
+       * <code>optional .ChatMessage chatMessage = 31;</code>
        */
       public Builder setChatMessage(de.pokerth.protocol.ProtoBuf.ChatMessage value) {
         if (value == null) {
@@ -54072,24 +54493,24 @@ public final class ProtoBuf {
         }
         chatMessage_ = value;
 
-        bitField0_ |= 0x10000000;
+        bitField0_ |= 0x40000000;
         return this;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 29;</code>
+       * <code>optional .ChatMessage chatMessage = 31;</code>
        */
       public Builder setChatMessage(
           de.pokerth.protocol.ProtoBuf.ChatMessage.Builder builderForValue) {
         chatMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x10000000;
+        bitField0_ |= 0x40000000;
         return this;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 29;</code>
+       * <code>optional .ChatMessage chatMessage = 31;</code>
        */
       public Builder mergeChatMessage(de.pokerth.protocol.ProtoBuf.ChatMessage value) {
-        if (((bitField0_ & 0x10000000) == 0x10000000) &&
+        if (((bitField0_ & 0x40000000) == 0x40000000) &&
             chatMessage_ != de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance()) {
           chatMessage_ =
             de.pokerth.protocol.ProtoBuf.ChatMessage.newBuilder(chatMessage_).mergeFrom(value).buildPartial();
@@ -54097,35 +54518,35 @@ public final class ProtoBuf {
           chatMessage_ = value;
         }
 
-        bitField0_ |= 0x10000000;
+        bitField0_ |= 0x40000000;
         return this;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 29;</code>
+       * <code>optional .ChatMessage chatMessage = 31;</code>
        */
       public Builder clearChatMessage() {
         chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x10000000);
+        bitField0_ = (bitField0_ & ~0x40000000);
         return this;
       }
 
-      // optional .ChatRejectMessage chatRejectMessage = 30;
+      // optional .ChatRejectMessage chatRejectMessage = 32;
       private de.pokerth.protocol.ProtoBuf.ChatRejectMessage chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
        */
       public boolean hasChatRejectMessage() {
-        return ((bitField0_ & 0x20000000) == 0x20000000);
+        return ((bitField0_ & 0x80000000) == 0x80000000);
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage() {
         return chatRejectMessage_;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
        */
       public Builder setChatRejectMessage(de.pokerth.protocol.ProtoBuf.ChatRejectMessage value) {
         if (value == null) {
@@ -54133,24 +54554,24 @@ public final class ProtoBuf {
         }
         chatRejectMessage_ = value;
 
-        bitField0_ |= 0x20000000;
+        bitField0_ |= 0x80000000;
         return this;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
        */
       public Builder setChatRejectMessage(
           de.pokerth.protocol.ProtoBuf.ChatRejectMessage.Builder builderForValue) {
         chatRejectMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x20000000;
+        bitField0_ |= 0x80000000;
         return this;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
        */
       public Builder mergeChatRejectMessage(de.pokerth.protocol.ProtoBuf.ChatRejectMessage value) {
-        if (((bitField0_ & 0x20000000) == 0x20000000) &&
+        if (((bitField0_ & 0x80000000) == 0x80000000) &&
             chatRejectMessage_ != de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance()) {
           chatRejectMessage_ =
             de.pokerth.protocol.ProtoBuf.ChatRejectMessage.newBuilder(chatRejectMessage_).mergeFrom(value).buildPartial();
@@ -54158,35 +54579,35 @@ public final class ProtoBuf {
           chatRejectMessage_ = value;
         }
 
-        bitField0_ |= 0x20000000;
+        bitField0_ |= 0x80000000;
         return this;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 30;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 32;</code>
        */
       public Builder clearChatRejectMessage() {
         chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x20000000);
+        bitField0_ = (bitField0_ & ~0x80000000);
         return this;
       }
 
-      // optional .DialogMessage dialogMessage = 31;
+      // optional .DialogMessage dialogMessage = 33;
       private de.pokerth.protocol.ProtoBuf.DialogMessage dialogMessage_ = de.pokerth.protocol.ProtoBuf.DialogMessage.getDefaultInstance();
       /**
-       * <code>optional .DialogMessage dialogMessage = 31;</code>
+       * <code>optional .DialogMessage dialogMessage = 33;</code>
        */
       public boolean hasDialogMessage() {
-        return ((bitField0_ & 0x40000000) == 0x40000000);
+        return ((bitField1_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional .DialogMessage dialogMessage = 31;</code>
+       * <code>optional .DialogMessage dialogMessage = 33;</code>
        */
       public de.pokerth.protocol.ProtoBuf.DialogMessage getDialogMessage() {
         return dialogMessage_;
       }
       /**
-       * <code>optional .DialogMessage dialogMessage = 31;</code>
+       * <code>optional .DialogMessage dialogMessage = 33;</code>
        */
       public Builder setDialogMessage(de.pokerth.protocol.ProtoBuf.DialogMessage value) {
         if (value == null) {
@@ -54194,24 +54615,24 @@ public final class ProtoBuf {
         }
         dialogMessage_ = value;
 
-        bitField0_ |= 0x40000000;
+        bitField1_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .DialogMessage dialogMessage = 31;</code>
+       * <code>optional .DialogMessage dialogMessage = 33;</code>
        */
       public Builder setDialogMessage(
           de.pokerth.protocol.ProtoBuf.DialogMessage.Builder builderForValue) {
         dialogMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x40000000;
+        bitField1_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .DialogMessage dialogMessage = 31;</code>
+       * <code>optional .DialogMessage dialogMessage = 33;</code>
        */
       public Builder mergeDialogMessage(de.pokerth.protocol.ProtoBuf.DialogMessage value) {
-        if (((bitField0_ & 0x40000000) == 0x40000000) &&
+        if (((bitField1_ & 0x00000001) == 0x00000001) &&
             dialogMessage_ != de.pokerth.protocol.ProtoBuf.DialogMessage.getDefaultInstance()) {
           dialogMessage_ =
             de.pokerth.protocol.ProtoBuf.DialogMessage.newBuilder(dialogMessage_).mergeFrom(value).buildPartial();
@@ -54219,35 +54640,35 @@ public final class ProtoBuf {
           dialogMessage_ = value;
         }
 
-        bitField0_ |= 0x40000000;
+        bitField1_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .DialogMessage dialogMessage = 31;</code>
+       * <code>optional .DialogMessage dialogMessage = 33;</code>
        */
       public Builder clearDialogMessage() {
         dialogMessage_ = de.pokerth.protocol.ProtoBuf.DialogMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x40000000);
+        bitField1_ = (bitField1_ & ~0x00000001);
         return this;
       }
 
-      // optional .TimeoutWarningMessage timeoutWarningMessage = 32;
+      // optional .TimeoutWarningMessage timeoutWarningMessage = 34;
       private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
       /**
-       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
        */
       public boolean hasTimeoutWarningMessage() {
-        return ((bitField0_ & 0x80000000) == 0x80000000);
+        return ((bitField1_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
        */
       public de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage() {
         return timeoutWarningMessage_;
       }
       /**
-       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
        */
       public Builder setTimeoutWarningMessage(de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage value) {
         if (value == null) {
@@ -54255,24 +54676,24 @@ public final class ProtoBuf {
         }
         timeoutWarningMessage_ = value;
 
-        bitField0_ |= 0x80000000;
+        bitField1_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
        */
       public Builder setTimeoutWarningMessage(
           de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.Builder builderForValue) {
         timeoutWarningMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x80000000;
+        bitField1_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
        */
       public Builder mergeTimeoutWarningMessage(de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage value) {
-        if (((bitField0_ & 0x80000000) == 0x80000000) &&
+        if (((bitField1_ & 0x00000002) == 0x00000002) &&
             timeoutWarningMessage_ != de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance()) {
           timeoutWarningMessage_ =
             de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.newBuilder(timeoutWarningMessage_).mergeFrom(value).buildPartial();
@@ -54280,35 +54701,35 @@ public final class ProtoBuf {
           timeoutWarningMessage_ = value;
         }
 
-        bitField0_ |= 0x80000000;
+        bitField1_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 32;</code>
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 34;</code>
        */
       public Builder clearTimeoutWarningMessage() {
         timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x80000000);
+        bitField1_ = (bitField1_ & ~0x00000002);
         return this;
       }
 
-      // optional .ResetTimeoutMessage resetTimeoutMessage = 33;
+      // optional .ResetTimeoutMessage resetTimeoutMessage = 35;
       private de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
       /**
-       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
        */
       public boolean hasResetTimeoutMessage() {
-        return ((bitField1_ & 0x00000001) == 0x00000001);
+        return ((bitField1_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage() {
         return resetTimeoutMessage_;
       }
       /**
-       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
        */
       public Builder setResetTimeoutMessage(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage value) {
         if (value == null) {
@@ -54316,24 +54737,24 @@ public final class ProtoBuf {
         }
         resetTimeoutMessage_ = value;
 
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
        */
       public Builder setResetTimeoutMessage(
           de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.Builder builderForValue) {
         resetTimeoutMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
        */
       public Builder mergeResetTimeoutMessage(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage value) {
-        if (((bitField1_ & 0x00000001) == 0x00000001) &&
+        if (((bitField1_ & 0x00000004) == 0x00000004) &&
             resetTimeoutMessage_ != de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance()) {
           resetTimeoutMessage_ =
             de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.newBuilder(resetTimeoutMessage_).mergeFrom(value).buildPartial();
@@ -54341,35 +54762,35 @@ public final class ProtoBuf {
           resetTimeoutMessage_ = value;
         }
 
-        bitField1_ |= 0x00000001;
+        bitField1_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 33;</code>
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 35;</code>
        */
       public Builder clearResetTimeoutMessage() {
         resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000001);
+        bitField1_ = (bitField1_ & ~0x00000004);
         return this;
       }
 
-      // optional .ReportAvatarMessage reportAvatarMessage = 34;
+      // optional .ReportAvatarMessage reportAvatarMessage = 36;
       private de.pokerth.protocol.ProtoBuf.ReportAvatarMessage reportAvatarMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.getDefaultInstance();
       /**
-       * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+       * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
        */
       public boolean hasReportAvatarMessage() {
-        return ((bitField1_ & 0x00000002) == 0x00000002);
+        return ((bitField1_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+       * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ReportAvatarMessage getReportAvatarMessage() {
         return reportAvatarMessage_;
       }
       /**
-       * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+       * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
        */
       public Builder setReportAvatarMessage(de.pokerth.protocol.ProtoBuf.ReportAvatarMessage value) {
         if (value == null) {
@@ -54377,24 +54798,24 @@ public final class ProtoBuf {
         }
         reportAvatarMessage_ = value;
 
-        bitField1_ |= 0x00000002;
+        bitField1_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+       * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
        */
       public Builder setReportAvatarMessage(
           de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.Builder builderForValue) {
         reportAvatarMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000002;
+        bitField1_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+       * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
        */
       public Builder mergeReportAvatarMessage(de.pokerth.protocol.ProtoBuf.ReportAvatarMessage value) {
-        if (((bitField1_ & 0x00000002) == 0x00000002) &&
+        if (((bitField1_ & 0x00000008) == 0x00000008) &&
             reportAvatarMessage_ != de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.getDefaultInstance()) {
           reportAvatarMessage_ =
             de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.newBuilder(reportAvatarMessage_).mergeFrom(value).buildPartial();
@@ -54402,35 +54823,35 @@ public final class ProtoBuf {
           reportAvatarMessage_ = value;
         }
 
-        bitField1_ |= 0x00000002;
+        bitField1_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .ReportAvatarMessage reportAvatarMessage = 34;</code>
+       * <code>optional .ReportAvatarMessage reportAvatarMessage = 36;</code>
        */
       public Builder clearReportAvatarMessage() {
         reportAvatarMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000002);
+        bitField1_ = (bitField1_ & ~0x00000008);
         return this;
       }
 
-      // optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;
+      // optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;
       private de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage reportAvatarAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.getDefaultInstance();
       /**
-       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
        */
       public boolean hasReportAvatarAckMessage() {
-        return ((bitField1_ & 0x00000004) == 0x00000004);
+        return ((bitField1_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage getReportAvatarAckMessage() {
         return reportAvatarAckMessage_;
       }
       /**
-       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
        */
       public Builder setReportAvatarAckMessage(de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage value) {
         if (value == null) {
@@ -54438,24 +54859,24 @@ public final class ProtoBuf {
         }
         reportAvatarAckMessage_ = value;
 
-        bitField1_ |= 0x00000004;
+        bitField1_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
        */
       public Builder setReportAvatarAckMessage(
           de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.Builder builderForValue) {
         reportAvatarAckMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000004;
+        bitField1_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
        */
       public Builder mergeReportAvatarAckMessage(de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage value) {
-        if (((bitField1_ & 0x00000004) == 0x00000004) &&
+        if (((bitField1_ & 0x00000010) == 0x00000010) &&
             reportAvatarAckMessage_ != de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.getDefaultInstance()) {
           reportAvatarAckMessage_ =
             de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.newBuilder(reportAvatarAckMessage_).mergeFrom(value).buildPartial();
@@ -54463,35 +54884,35 @@ public final class ProtoBuf {
           reportAvatarAckMessage_ = value;
         }
 
-        bitField1_ |= 0x00000004;
+        bitField1_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 35;</code>
+       * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 37;</code>
        */
       public Builder clearReportAvatarAckMessage() {
         reportAvatarAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000004);
+        bitField1_ = (bitField1_ & ~0x00000010);
         return this;
       }
 
-      // optional .ReportGameMessage reportGameMessage = 36;
+      // optional .ReportGameMessage reportGameMessage = 38;
       private de.pokerth.protocol.ProtoBuf.ReportGameMessage reportGameMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance();
       /**
-       * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+       * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
        */
       public boolean hasReportGameMessage() {
-        return ((bitField1_ & 0x00000008) == 0x00000008);
+        return ((bitField1_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+       * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ReportGameMessage getReportGameMessage() {
         return reportGameMessage_;
       }
       /**
-       * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+       * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
        */
       public Builder setReportGameMessage(de.pokerth.protocol.ProtoBuf.ReportGameMessage value) {
         if (value == null) {
@@ -54499,24 +54920,24 @@ public final class ProtoBuf {
         }
         reportGameMessage_ = value;
 
-        bitField1_ |= 0x00000008;
+        bitField1_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+       * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
        */
       public Builder setReportGameMessage(
           de.pokerth.protocol.ProtoBuf.ReportGameMessage.Builder builderForValue) {
         reportGameMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000008;
+        bitField1_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+       * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
        */
       public Builder mergeReportGameMessage(de.pokerth.protocol.ProtoBuf.ReportGameMessage value) {
-        if (((bitField1_ & 0x00000008) == 0x00000008) &&
+        if (((bitField1_ & 0x00000020) == 0x00000020) &&
             reportGameMessage_ != de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance()) {
           reportGameMessage_ =
             de.pokerth.protocol.ProtoBuf.ReportGameMessage.newBuilder(reportGameMessage_).mergeFrom(value).buildPartial();
@@ -54524,35 +54945,35 @@ public final class ProtoBuf {
           reportGameMessage_ = value;
         }
 
-        bitField1_ |= 0x00000008;
+        bitField1_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .ReportGameMessage reportGameMessage = 36;</code>
+       * <code>optional .ReportGameMessage reportGameMessage = 38;</code>
        */
       public Builder clearReportGameMessage() {
         reportGameMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000008);
+        bitField1_ = (bitField1_ & ~0x00000020);
         return this;
       }
 
-      // optional .ReportGameAckMessage reportGameAckMessage = 37;
+      // optional .ReportGameAckMessage reportGameAckMessage = 39;
       private de.pokerth.protocol.ProtoBuf.ReportGameAckMessage reportGameAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance();
       /**
-       * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+       * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
        */
       public boolean hasReportGameAckMessage() {
-        return ((bitField1_ & 0x00000010) == 0x00000010);
+        return ((bitField1_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+       * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ReportGameAckMessage getReportGameAckMessage() {
         return reportGameAckMessage_;
       }
       /**
-       * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+       * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
        */
       public Builder setReportGameAckMessage(de.pokerth.protocol.ProtoBuf.ReportGameAckMessage value) {
         if (value == null) {
@@ -54560,24 +54981,24 @@ public final class ProtoBuf {
         }
         reportGameAckMessage_ = value;
 
-        bitField1_ |= 0x00000010;
+        bitField1_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+       * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
        */
       public Builder setReportGameAckMessage(
           de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.Builder builderForValue) {
         reportGameAckMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000010;
+        bitField1_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+       * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
        */
       public Builder mergeReportGameAckMessage(de.pokerth.protocol.ProtoBuf.ReportGameAckMessage value) {
-        if (((bitField1_ & 0x00000010) == 0x00000010) &&
+        if (((bitField1_ & 0x00000040) == 0x00000040) &&
             reportGameAckMessage_ != de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance()) {
           reportGameAckMessage_ =
             de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.newBuilder(reportGameAckMessage_).mergeFrom(value).buildPartial();
@@ -54585,35 +55006,35 @@ public final class ProtoBuf {
           reportGameAckMessage_ = value;
         }
 
-        bitField1_ |= 0x00000010;
+        bitField1_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .ReportGameAckMessage reportGameAckMessage = 37;</code>
+       * <code>optional .ReportGameAckMessage reportGameAckMessage = 39;</code>
        */
       public Builder clearReportGameAckMessage() {
         reportGameAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000010);
+        bitField1_ = (bitField1_ & ~0x00000040);
         return this;
       }
 
-      // optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;
+      // optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;
       private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
       /**
-       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
        */
       public boolean hasAdminRemoveGameMessage() {
-        return ((bitField1_ & 0x00000020) == 0x00000020);
+        return ((bitField1_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage() {
         return adminRemoveGameMessage_;
       }
       /**
-       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
        */
       public Builder setAdminRemoveGameMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage value) {
         if (value == null) {
@@ -54621,24 +55042,24 @@ public final class ProtoBuf {
         }
         adminRemoveGameMessage_ = value;
 
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
        */
       public Builder setAdminRemoveGameMessage(
           de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.Builder builderForValue) {
         adminRemoveGameMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
        */
       public Builder mergeAdminRemoveGameMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage value) {
-        if (((bitField1_ & 0x00000020) == 0x00000020) &&
+        if (((bitField1_ & 0x00000080) == 0x00000080) &&
             adminRemoveGameMessage_ != de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance()) {
           adminRemoveGameMessage_ =
             de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.newBuilder(adminRemoveGameMessage_).mergeFrom(value).buildPartial();
@@ -54646,35 +55067,35 @@ public final class ProtoBuf {
           adminRemoveGameMessage_ = value;
         }
 
-        bitField1_ |= 0x00000020;
+        bitField1_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 38;</code>
+       * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 40;</code>
        */
       public Builder clearAdminRemoveGameMessage() {
         adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000020);
+        bitField1_ = (bitField1_ & ~0x00000080);
         return this;
       }
 
-      // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;
+      // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;
       private de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage adminRemoveGameAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance();
       /**
-       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
        */
       public boolean hasAdminRemoveGameAckMessage() {
-        return ((bitField1_ & 0x00000040) == 0x00000040);
+        return ((bitField1_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage getAdminRemoveGameAckMessage() {
         return adminRemoveGameAckMessage_;
       }
       /**
-       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
        */
       public Builder setAdminRemoveGameAckMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage value) {
         if (value == null) {
@@ -54682,24 +55103,24 @@ public final class ProtoBuf {
         }
         adminRemoveGameAckMessage_ = value;
 
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
        */
       public Builder setAdminRemoveGameAckMessage(
           de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.Builder builderForValue) {
         adminRemoveGameAckMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
        */
       public Builder mergeAdminRemoveGameAckMessage(de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage value) {
-        if (((bitField1_ & 0x00000040) == 0x00000040) &&
+        if (((bitField1_ & 0x00000100) == 0x00000100) &&
             adminRemoveGameAckMessage_ != de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance()) {
           adminRemoveGameAckMessage_ =
             de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.newBuilder(adminRemoveGameAckMessage_).mergeFrom(value).buildPartial();
@@ -54707,35 +55128,35 @@ public final class ProtoBuf {
           adminRemoveGameAckMessage_ = value;
         }
 
-        bitField1_ |= 0x00000040;
+        bitField1_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 39;</code>
+       * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 41;</code>
        */
       public Builder clearAdminRemoveGameAckMessage() {
         adminRemoveGameAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000040);
+        bitField1_ = (bitField1_ & ~0x00000100);
         return this;
       }
 
-      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;
+      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;
       private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
       /**
-       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
        */
       public boolean hasAdminBanPlayerMessage() {
-        return ((bitField1_ & 0x00000080) == 0x00000080);
+        return ((bitField1_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage() {
         return adminBanPlayerMessage_;
       }
       /**
-       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
        */
       public Builder setAdminBanPlayerMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage value) {
         if (value == null) {
@@ -54743,24 +55164,24 @@ public final class ProtoBuf {
         }
         adminBanPlayerMessage_ = value;
 
-        bitField1_ |= 0x00000080;
+        bitField1_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
        */
       public Builder setAdminBanPlayerMessage(
           de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.Builder builderForValue) {
         adminBanPlayerMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000080;
+        bitField1_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
        */
       public Builder mergeAdminBanPlayerMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage value) {
-        if (((bitField1_ & 0x00000080) == 0x00000080) &&
+        if (((bitField1_ & 0x00000200) == 0x00000200) &&
             adminBanPlayerMessage_ != de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance()) {
           adminBanPlayerMessage_ =
             de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.newBuilder(adminBanPlayerMessage_).mergeFrom(value).buildPartial();
@@ -54768,35 +55189,35 @@ public final class ProtoBuf {
           adminBanPlayerMessage_ = value;
         }
 
-        bitField1_ |= 0x00000080;
+        bitField1_ |= 0x00000200;
         return this;
       }
       /**
-       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 40;</code>
+       * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 42;</code>
        */
       public Builder clearAdminBanPlayerMessage() {
         adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000080);
+        bitField1_ = (bitField1_ & ~0x00000200);
         return this;
       }
 
-      // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;
+      // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;
       private de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
       /**
-       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
        */
       public boolean hasAdminBanPlayerAckMessage() {
-        return ((bitField1_ & 0x00000100) == 0x00000100);
+        return ((bitField1_ & 0x00000400) == 0x00000400);
       }
       /**
-       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage getAdminBanPlayerAckMessage() {
         return adminBanPlayerAckMessage_;
       }
       /**
-       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
        */
       public Builder setAdminBanPlayerAckMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage value) {
         if (value == null) {
@@ -54804,24 +55225,24 @@ public final class ProtoBuf {
         }
         adminBanPlayerAckMessage_ = value;
 
-        bitField1_ |= 0x00000100;
+        bitField1_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
        */
       public Builder setAdminBanPlayerAckMessage(
           de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.Builder builderForValue) {
         adminBanPlayerAckMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000100;
+        bitField1_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
        */
       public Builder mergeAdminBanPlayerAckMessage(de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage value) {
-        if (((bitField1_ & 0x00000100) == 0x00000100) &&
+        if (((bitField1_ & 0x00000400) == 0x00000400) &&
             adminBanPlayerAckMessage_ != de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance()) {
           adminBanPlayerAckMessage_ =
             de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.newBuilder(adminBanPlayerAckMessage_).mergeFrom(value).buildPartial();
@@ -54829,16 +55250,16 @@ public final class ProtoBuf {
           adminBanPlayerAckMessage_ = value;
         }
 
-        bitField1_ |= 0x00000100;
+        bitField1_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 41;</code>
+       * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 43;</code>
        */
       public Builder clearAdminBanPlayerAckMessage() {
         adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000100);
+        bitField1_ = (bitField1_ & ~0x00000400);
         return this;
       }
 
@@ -54848,7 +55269,7 @@ public final class ProtoBuf {
        * <code>optional .ErrorMessage errorMessage = 1025;</code>
        */
       public boolean hasErrorMessage() {
-        return ((bitField1_ & 0x00000200) == 0x00000200);
+        return ((bitField1_ & 0x00000800) == 0x00000800);
       }
       /**
        * <code>optional .ErrorMessage errorMessage = 1025;</code>
@@ -54865,7 +55286,7 @@ public final class ProtoBuf {
         }
         errorMessage_ = value;
 
-        bitField1_ |= 0x00000200;
+        bitField1_ |= 0x00000800;
         return this;
       }
       /**
@@ -54875,14 +55296,14 @@ public final class ProtoBuf {
           de.pokerth.protocol.ProtoBuf.ErrorMessage.Builder builderForValue) {
         errorMessage_ = builderForValue.build();
 
-        bitField1_ |= 0x00000200;
+        bitField1_ |= 0x00000800;
         return this;
       }
       /**
        * <code>optional .ErrorMessage errorMessage = 1025;</code>
        */
       public Builder mergeErrorMessage(de.pokerth.protocol.ProtoBuf.ErrorMessage value) {
-        if (((bitField1_ & 0x00000200) == 0x00000200) &&
+        if (((bitField1_ & 0x00000800) == 0x00000800) &&
             errorMessage_ != de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance()) {
           errorMessage_ =
             de.pokerth.protocol.ProtoBuf.ErrorMessage.newBuilder(errorMessage_).mergeFrom(value).buildPartial();
@@ -54890,7 +55311,7 @@ public final class ProtoBuf {
           errorMessage_ = value;
         }
 
-        bitField1_ |= 0x00000200;
+        bitField1_ |= 0x00000800;
         return this;
       }
       /**
@@ -54899,7 +55320,7 @@ public final class ProtoBuf {
       public Builder clearErrorMessage() {
         errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
 
-        bitField1_ = (bitField1_ & ~0x00000200);
+        bitField1_ = (bitField1_ & ~0x00000800);
         return this;
       }
 
@@ -54927,285 +55348,275 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType getMessageType();
 
-    // optional .JoinGameMessage joinGameMessage = 2;
+    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;
     /**
-     * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-     */
-    boolean hasJoinGameMessage();
-    /**
-     * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-     */
-    de.pokerth.protocol.ProtoBuf.JoinGameMessage getJoinGameMessage();
-
-    // optional .RejoinGameMessage rejoinGameMessage = 3;
-    /**
-     * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-     */
-    boolean hasRejoinGameMessage();
-    /**
-     * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-     */
-    de.pokerth.protocol.ProtoBuf.RejoinGameMessage getRejoinGameMessage();
-
-    // optional .JoinGameAckMessage joinGameAckMessage = 4;
-    /**
-     * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-     */
-    boolean hasJoinGameAckMessage();
-    /**
-     * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-     */
-    de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage();
-
-    // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
-    /**
-     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-     */
-    boolean hasJoinGameFailedMessage();
-    /**
-     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-     */
-    de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage();
-
-    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
-    /**
-     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
      */
     boolean hasGamePlayerJoinedMessage();
     /**
-     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
      */
     de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage getGamePlayerJoinedMessage();
 
-    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
+    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;
     /**
-     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
      */
     boolean hasGamePlayerLeftMessage();
     /**
-     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
      */
     de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage getGamePlayerLeftMessage();
 
-    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;
     /**
-     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
      */
     boolean hasGameSpectatorJoinedMessage();
     /**
-     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage();
 
-    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;
     /**
-     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
      */
     boolean hasGameSpectatorLeftMessage();
     /**
-     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getGameSpectatorLeftMessage();
 
-    // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
+    // optional .GameAdminChangedMessage gameAdminChangedMessage = 6;
     /**
-     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
      */
     boolean hasGameAdminChangedMessage();
     /**
-     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage getGameAdminChangedMessage();
 
-    // optional .RemovedFromGameMessage removedFromGameMessage = 11;
+    // optional .RemovedFromGameMessage removedFromGameMessage = 7;
     /**
-     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
      */
     boolean hasRemovedFromGameMessage();
     /**
-     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
      */
     de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage getRemovedFromGameMessage();
 
-    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
+    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;
     /**
-     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
      */
     boolean hasKickPlayerRequestMessage();
     /**
-     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
      */
     de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage getKickPlayerRequestMessage();
 
-    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
+    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;
     /**
-     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
      */
     boolean hasLeaveGameRequestMessage();
     /**
-     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
      */
     de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage getLeaveGameRequestMessage();
 
-    // optional .StartEventMessage startEventMessage = 14;
+    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;
     /**
-     * <code>optional .StartEventMessage startEventMessage = 14;</code>
+     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+     */
+    boolean hasInvitePlayerToGameMessage();
+    /**
+     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+     */
+    de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage();
+
+    // optional .StartEventMessage startEventMessage = 11;
+    /**
+     * <code>optional .StartEventMessage startEventMessage = 11;</code>
      */
     boolean hasStartEventMessage();
     /**
-     * <code>optional .StartEventMessage startEventMessage = 14;</code>
+     * <code>optional .StartEventMessage startEventMessage = 11;</code>
      */
     de.pokerth.protocol.ProtoBuf.StartEventMessage getStartEventMessage();
 
-    // optional .StartEventAckMessage startEventAckMessage = 15;
+    // optional .StartEventAckMessage startEventAckMessage = 12;
     /**
-     * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+     * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
      */
     boolean hasStartEventAckMessage();
     /**
-     * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+     * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
      */
     de.pokerth.protocol.ProtoBuf.StartEventAckMessage getStartEventAckMessage();
 
-    // optional .GameStartInitialMessage gameStartInitialMessage = 16;
+    // optional .GameStartInitialMessage gameStartInitialMessage = 13;
     /**
-     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
      */
     boolean hasGameStartInitialMessage();
     /**
-     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameStartInitialMessage getGameStartInitialMessage();
 
-    // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
+    // optional .GameStartRejoinMessage gameStartRejoinMessage = 14;
     /**
-     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
      */
     boolean hasGameStartRejoinMessage();
     /**
-     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
      */
     de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage getGameStartRejoinMessage();
 
-    // optional .EndOfGameMessage endOfGameMessage = 18;
+    // optional .EndOfGameMessage endOfGameMessage = 15;
     /**
-     * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+     * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
      */
     boolean hasEndOfGameMessage();
     /**
-     * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+     * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
      */
     de.pokerth.protocol.ProtoBuf.EndOfGameMessage getEndOfGameMessage();
 
-    // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
+    // optional .PlayerIdChangedMessage playerIdChangedMessage = 16;
     /**
-     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
      */
     boolean hasPlayerIdChangedMessage();
     /**
-     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
      */
     de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage getPlayerIdChangedMessage();
 
-    // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
+    // optional .AskKickPlayerMessage askKickPlayerMessage = 17;
     /**
-     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
      */
     boolean hasAskKickPlayerMessage();
     /**
-     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
      */
     de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage getAskKickPlayerMessage();
 
-    // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
+    // optional .AskKickDeniedMessage askKickDeniedMessage = 18;
     /**
-     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
      */
     boolean hasAskKickDeniedMessage();
     /**
-     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
      */
     de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage getAskKickDeniedMessage();
 
-    // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
+    // optional .StartKickPetitionMessage startKickPetitionMessage = 19;
     /**
-     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
      */
     boolean hasStartKickPetitionMessage();
     /**
-     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
      */
     de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage getStartKickPetitionMessage();
 
-    // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
+    // optional .VoteKickRequestMessage voteKickRequestMessage = 20;
     /**
-     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
      */
     boolean hasVoteKickRequestMessage();
     /**
-     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
      */
     de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage getVoteKickRequestMessage();
 
-    // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
+    // optional .VoteKickReplyMessage voteKickReplyMessage = 21;
     /**
-     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
      */
     boolean hasVoteKickReplyMessage();
     /**
-     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
      */
     de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage getVoteKickReplyMessage();
 
-    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
+    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;
     /**
-     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
      */
     boolean hasKickPetitionUpdateMessage();
     /**
-     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
      */
     de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage getKickPetitionUpdateMessage();
 
-    // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
+    // optional .EndKickPetitionMessage endKickPetitionMessage = 23;
     /**
-     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
      */
     boolean hasEndKickPetitionMessage();
     /**
-     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
      */
     de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage getEndKickPetitionMessage();
 
-    // optional .ChatRequestMessage chatRequestMessage = 27;
+    // optional .ChatRequestMessage chatRequestMessage = 24;
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
      */
     boolean hasChatRequestMessage();
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
      */
     de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage();
 
-    // optional .ChatMessage chatMessage = 28;
+    // optional .ChatMessage chatMessage = 25;
     /**
-     * <code>optional .ChatMessage chatMessage = 28;</code>
+     * <code>optional .ChatMessage chatMessage = 25;</code>
      */
     boolean hasChatMessage();
     /**
-     * <code>optional .ChatMessage chatMessage = 28;</code>
+     * <code>optional .ChatMessage chatMessage = 25;</code>
      */
     de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage();
 
-    // optional .ChatRejectMessage chatRejectMessage = 29;
+    // optional .ChatRejectMessage chatRejectMessage = 26;
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
      */
     boolean hasChatRejectMessage();
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
      */
     de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage();
+
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 27;
+    /**
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+     */
+    boolean hasTimeoutWarningMessage();
+    /**
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+     */
+    de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage();
+
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 28;
+    /**
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+     */
+    boolean hasResetTimeoutMessage();
+    /**
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+     */
+    de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage();
 
     // optional .ErrorMessage errorMessage = 1025;
     /**
@@ -55270,60 +55681,8 @@ public final class ProtoBuf {
               break;
             }
             case 18: {
-              de.pokerth.protocol.ProtoBuf.JoinGameMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = joinGameMessage_.toBuilder();
-              }
-              joinGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.JoinGameMessage.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(joinGameMessage_);
-                joinGameMessage_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-            case 26: {
-              de.pokerth.protocol.ProtoBuf.RejoinGameMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                subBuilder = rejoinGameMessage_.toBuilder();
-              }
-              rejoinGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.RejoinGameMessage.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(rejoinGameMessage_);
-                rejoinGameMessage_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000004;
-              break;
-            }
-            case 34: {
-              de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = joinGameAckMessage_.toBuilder();
-              }
-              joinGameAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(joinGameAckMessage_);
-                joinGameAckMessage_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000008;
-              break;
-            }
-            case 42: {
-              de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000010) == 0x00000010)) {
-                subBuilder = joinGameFailedMessage_.toBuilder();
-              }
-              joinGameFailedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(joinGameFailedMessage_);
-                joinGameFailedMessage_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000010;
-              break;
-            }
-            case 50: {
               de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
                 subBuilder = gamePlayerJoinedMessage_.toBuilder();
               }
               gamePlayerJoinedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.PARSER, extensionRegistry);
@@ -55331,12 +55690,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gamePlayerJoinedMessage_);
                 gamePlayerJoinedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000002;
               break;
             }
-            case 58: {
+            case 26: {
               de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = gamePlayerLeftMessage_.toBuilder();
               }
               gamePlayerLeftMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.PARSER, extensionRegistry);
@@ -55344,12 +55703,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gamePlayerLeftMessage_);
                 gamePlayerLeftMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000004;
               break;
             }
-            case 66: {
+            case 34: {
               de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000080) == 0x00000080)) {
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
                 subBuilder = gameSpectatorJoinedMessage_.toBuilder();
               }
               gameSpectatorJoinedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.PARSER, extensionRegistry);
@@ -55357,12 +55716,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameSpectatorJoinedMessage_);
                 gameSpectatorJoinedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000008;
               break;
             }
-            case 74: {
+            case 42: {
               de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000100) == 0x00000100)) {
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
                 subBuilder = gameSpectatorLeftMessage_.toBuilder();
               }
               gameSpectatorLeftMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.PARSER, extensionRegistry);
@@ -55370,12 +55729,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameSpectatorLeftMessage_);
                 gameSpectatorLeftMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000010;
               break;
             }
-            case 82: {
+            case 50: {
               de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000200) == 0x00000200)) {
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = gameAdminChangedMessage_.toBuilder();
               }
               gameAdminChangedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.PARSER, extensionRegistry);
@@ -55383,12 +55742,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameAdminChangedMessage_);
                 gameAdminChangedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000200;
+              bitField0_ |= 0x00000020;
               break;
             }
-            case 90: {
+            case 58: {
               de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000400) == 0x00000400)) {
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
                 subBuilder = removedFromGameMessage_.toBuilder();
               }
               removedFromGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.PARSER, extensionRegistry);
@@ -55396,12 +55755,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(removedFromGameMessage_);
                 removedFromGameMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000400;
+              bitField0_ |= 0x00000040;
               break;
             }
-            case 98: {
+            case 66: {
               de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000800) == 0x00000800)) {
+              if (((bitField0_ & 0x00000080) == 0x00000080)) {
                 subBuilder = kickPlayerRequestMessage_.toBuilder();
               }
               kickPlayerRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.PARSER, extensionRegistry);
@@ -55409,12 +55768,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(kickPlayerRequestMessage_);
                 kickPlayerRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000800;
+              bitField0_ |= 0x00000080;
               break;
             }
-            case 106: {
+            case 74: {
               de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00001000) == 0x00001000)) {
+              if (((bitField0_ & 0x00000100) == 0x00000100)) {
                 subBuilder = leaveGameRequestMessage_.toBuilder();
               }
               leaveGameRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.PARSER, extensionRegistry);
@@ -55422,12 +55781,25 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(leaveGameRequestMessage_);
                 leaveGameRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00001000;
+              bitField0_ |= 0x00000100;
               break;
             }
-            case 114: {
+            case 82: {
+              de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000200) == 0x00000200)) {
+                subBuilder = invitePlayerToGameMessage_.toBuilder();
+              }
+              invitePlayerToGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(invitePlayerToGameMessage_);
+                invitePlayerToGameMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000200;
+              break;
+            }
+            case 90: {
               de.pokerth.protocol.ProtoBuf.StartEventMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00002000) == 0x00002000)) {
+              if (((bitField0_ & 0x00000400) == 0x00000400)) {
                 subBuilder = startEventMessage_.toBuilder();
               }
               startEventMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.StartEventMessage.PARSER, extensionRegistry);
@@ -55435,12 +55807,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(startEventMessage_);
                 startEventMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00002000;
+              bitField0_ |= 0x00000400;
               break;
             }
-            case 122: {
+            case 98: {
               de.pokerth.protocol.ProtoBuf.StartEventAckMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00004000) == 0x00004000)) {
+              if (((bitField0_ & 0x00000800) == 0x00000800)) {
                 subBuilder = startEventAckMessage_.toBuilder();
               }
               startEventAckMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.StartEventAckMessage.PARSER, extensionRegistry);
@@ -55448,12 +55820,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(startEventAckMessage_);
                 startEventAckMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00004000;
+              bitField0_ |= 0x00000800;
               break;
             }
-            case 130: {
+            case 106: {
               de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00008000) == 0x00008000)) {
+              if (((bitField0_ & 0x00001000) == 0x00001000)) {
                 subBuilder = gameStartInitialMessage_.toBuilder();
               }
               gameStartInitialMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.PARSER, extensionRegistry);
@@ -55461,12 +55833,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameStartInitialMessage_);
                 gameStartInitialMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00008000;
+              bitField0_ |= 0x00001000;
               break;
             }
-            case 138: {
+            case 114: {
               de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00010000) == 0x00010000)) {
+              if (((bitField0_ & 0x00002000) == 0x00002000)) {
                 subBuilder = gameStartRejoinMessage_.toBuilder();
               }
               gameStartRejoinMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.PARSER, extensionRegistry);
@@ -55474,12 +55846,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(gameStartRejoinMessage_);
                 gameStartRejoinMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00010000;
+              bitField0_ |= 0x00002000;
               break;
             }
-            case 146: {
+            case 122: {
               de.pokerth.protocol.ProtoBuf.EndOfGameMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00020000) == 0x00020000)) {
+              if (((bitField0_ & 0x00004000) == 0x00004000)) {
                 subBuilder = endOfGameMessage_.toBuilder();
               }
               endOfGameMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.EndOfGameMessage.PARSER, extensionRegistry);
@@ -55487,12 +55859,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(endOfGameMessage_);
                 endOfGameMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00020000;
+              bitField0_ |= 0x00004000;
               break;
             }
-            case 154: {
+            case 130: {
               de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00040000) == 0x00040000)) {
+              if (((bitField0_ & 0x00008000) == 0x00008000)) {
                 subBuilder = playerIdChangedMessage_.toBuilder();
               }
               playerIdChangedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.PARSER, extensionRegistry);
@@ -55500,12 +55872,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(playerIdChangedMessage_);
                 playerIdChangedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00040000;
+              bitField0_ |= 0x00008000;
               break;
             }
-            case 162: {
+            case 138: {
               de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00080000) == 0x00080000)) {
+              if (((bitField0_ & 0x00010000) == 0x00010000)) {
                 subBuilder = askKickPlayerMessage_.toBuilder();
               }
               askKickPlayerMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.PARSER, extensionRegistry);
@@ -55513,12 +55885,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(askKickPlayerMessage_);
                 askKickPlayerMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00080000;
+              bitField0_ |= 0x00010000;
               break;
             }
-            case 170: {
+            case 146: {
               de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00100000) == 0x00100000)) {
+              if (((bitField0_ & 0x00020000) == 0x00020000)) {
                 subBuilder = askKickDeniedMessage_.toBuilder();
               }
               askKickDeniedMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.PARSER, extensionRegistry);
@@ -55526,12 +55898,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(askKickDeniedMessage_);
                 askKickDeniedMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00100000;
+              bitField0_ |= 0x00020000;
               break;
             }
-            case 178: {
+            case 154: {
               de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00200000) == 0x00200000)) {
+              if (((bitField0_ & 0x00040000) == 0x00040000)) {
                 subBuilder = startKickPetitionMessage_.toBuilder();
               }
               startKickPetitionMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.PARSER, extensionRegistry);
@@ -55539,12 +55911,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(startKickPetitionMessage_);
                 startKickPetitionMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00200000;
+              bitField0_ |= 0x00040000;
               break;
             }
-            case 186: {
+            case 162: {
               de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00400000) == 0x00400000)) {
+              if (((bitField0_ & 0x00080000) == 0x00080000)) {
                 subBuilder = voteKickRequestMessage_.toBuilder();
               }
               voteKickRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.PARSER, extensionRegistry);
@@ -55552,12 +55924,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(voteKickRequestMessage_);
                 voteKickRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00400000;
+              bitField0_ |= 0x00080000;
               break;
             }
-            case 194: {
+            case 170: {
               de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x00800000) == 0x00800000)) {
+              if (((bitField0_ & 0x00100000) == 0x00100000)) {
                 subBuilder = voteKickReplyMessage_.toBuilder();
               }
               voteKickReplyMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.PARSER, extensionRegistry);
@@ -55565,12 +55937,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(voteKickReplyMessage_);
                 voteKickReplyMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00800000;
+              bitField0_ |= 0x00100000;
               break;
             }
-            case 202: {
+            case 178: {
               de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x01000000) == 0x01000000)) {
+              if (((bitField0_ & 0x00200000) == 0x00200000)) {
                 subBuilder = kickPetitionUpdateMessage_.toBuilder();
               }
               kickPetitionUpdateMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.PARSER, extensionRegistry);
@@ -55578,12 +55950,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(kickPetitionUpdateMessage_);
                 kickPetitionUpdateMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x01000000;
+              bitField0_ |= 0x00200000;
               break;
             }
-            case 210: {
+            case 186: {
               de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x02000000) == 0x02000000)) {
+              if (((bitField0_ & 0x00400000) == 0x00400000)) {
                 subBuilder = endKickPetitionMessage_.toBuilder();
               }
               endKickPetitionMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.PARSER, extensionRegistry);
@@ -55591,12 +55963,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(endKickPetitionMessage_);
                 endKickPetitionMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x02000000;
+              bitField0_ |= 0x00400000;
               break;
             }
-            case 218: {
+            case 194: {
               de.pokerth.protocol.ProtoBuf.ChatRequestMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x04000000) == 0x04000000)) {
+              if (((bitField0_ & 0x00800000) == 0x00800000)) {
                 subBuilder = chatRequestMessage_.toBuilder();
               }
               chatRequestMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ChatRequestMessage.PARSER, extensionRegistry);
@@ -55604,12 +55976,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(chatRequestMessage_);
                 chatRequestMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x04000000;
+              bitField0_ |= 0x00800000;
               break;
             }
-            case 226: {
+            case 202: {
               de.pokerth.protocol.ProtoBuf.ChatMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x08000000) == 0x08000000)) {
+              if (((bitField0_ & 0x01000000) == 0x01000000)) {
                 subBuilder = chatMessage_.toBuilder();
               }
               chatMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ChatMessage.PARSER, extensionRegistry);
@@ -55617,12 +55989,12 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(chatMessage_);
                 chatMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x08000000;
+              bitField0_ |= 0x01000000;
               break;
             }
-            case 234: {
+            case 210: {
               de.pokerth.protocol.ProtoBuf.ChatRejectMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x10000000) == 0x10000000)) {
+              if (((bitField0_ & 0x02000000) == 0x02000000)) {
                 subBuilder = chatRejectMessage_.toBuilder();
               }
               chatRejectMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ChatRejectMessage.PARSER, extensionRegistry);
@@ -55630,12 +56002,38 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(chatRejectMessage_);
                 chatRejectMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x10000000;
+              bitField0_ |= 0x02000000;
+              break;
+            }
+            case 218: {
+              de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x04000000) == 0x04000000)) {
+                subBuilder = timeoutWarningMessage_.toBuilder();
+              }
+              timeoutWarningMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(timeoutWarningMessage_);
+                timeoutWarningMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x04000000;
+              break;
+            }
+            case 226: {
+              de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.Builder subBuilder = null;
+              if (((bitField0_ & 0x08000000) == 0x08000000)) {
+                subBuilder = resetTimeoutMessage_.toBuilder();
+              }
+              resetTimeoutMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(resetTimeoutMessage_);
+                resetTimeoutMessage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x08000000;
               break;
             }
             case 8202: {
               de.pokerth.protocol.ProtoBuf.ErrorMessage.Builder subBuilder = null;
-              if (((bitField0_ & 0x20000000) == 0x20000000)) {
+              if (((bitField0_ & 0x10000000) == 0x10000000)) {
                 subBuilder = errorMessage_.toBuilder();
               }
               errorMessage_ = input.readMessage(de.pokerth.protocol.ProtoBuf.ErrorMessage.PARSER, extensionRegistry);
@@ -55643,7 +56041,7 @@ public final class ProtoBuf {
                 subBuilder.mergeFrom(errorMessage_);
                 errorMessage_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x20000000;
+              bitField0_ |= 0x10000000;
               break;
             }
           }
@@ -55678,235 +56076,227 @@ public final class ProtoBuf {
     public enum GameManagementMessageType
         implements com.google.protobuf.Internal.EnumLite {
       /**
-       * <code>Type_JoinGameMessage = 1;</code>
+       * <code>Type_GamePlayerJoinedMessage = 1;</code>
        */
-      Type_JoinGameMessage(0, 1),
+      Type_GamePlayerJoinedMessage(0, 1),
       /**
-       * <code>Type_RejoinGameMessage = 2;</code>
+       * <code>Type_GamePlayerLeftMessage = 2;</code>
        */
-      Type_RejoinGameMessage(1, 2),
+      Type_GamePlayerLeftMessage(1, 2),
       /**
-       * <code>Type_JoinGameAckMessage = 3;</code>
+       * <code>Type_GameSpectatorJoinedMessage = 3;</code>
        */
-      Type_JoinGameAckMessage(2, 3),
+      Type_GameSpectatorJoinedMessage(2, 3),
       /**
-       * <code>Type_JoinGameFailedMessage = 4;</code>
+       * <code>Type_GameSpectatorLeftMessage = 4;</code>
        */
-      Type_JoinGameFailedMessage(3, 4),
+      Type_GameSpectatorLeftMessage(3, 4),
       /**
-       * <code>Type_GamePlayerJoinedMessage = 5;</code>
+       * <code>Type_GameAdminChangedMessage = 5;</code>
        */
-      Type_GamePlayerJoinedMessage(4, 5),
+      Type_GameAdminChangedMessage(4, 5),
       /**
-       * <code>Type_GamePlayerLeftMessage = 6;</code>
+       * <code>Type_RemovedFromGameMessage = 6;</code>
        */
-      Type_GamePlayerLeftMessage(5, 6),
+      Type_RemovedFromGameMessage(5, 6),
       /**
-       * <code>Type_GameSpectatorJoinedMessage = 7;</code>
+       * <code>Type_KickPlayerRequestMessage = 7;</code>
        */
-      Type_GameSpectatorJoinedMessage(6, 7),
+      Type_KickPlayerRequestMessage(6, 7),
       /**
-       * <code>Type_GameSpectatorLeftMessage = 8;</code>
+       * <code>Type_LeaveGameRequestMessage = 8;</code>
        */
-      Type_GameSpectatorLeftMessage(7, 8),
+      Type_LeaveGameRequestMessage(7, 8),
       /**
-       * <code>Type_GameAdminChangedMessage = 9;</code>
+       * <code>Type_InvitePlayerToGameMessage = 9;</code>
        */
-      Type_GameAdminChangedMessage(8, 9),
+      Type_InvitePlayerToGameMessage(8, 9),
       /**
-       * <code>Type_RemovedFromGameMessage = 10;</code>
+       * <code>Type_StartEventMessage = 10;</code>
        */
-      Type_RemovedFromGameMessage(9, 10),
+      Type_StartEventMessage(9, 10),
       /**
-       * <code>Type_KickPlayerRequestMessage = 11;</code>
+       * <code>Type_StartEventAckMessage = 11;</code>
        */
-      Type_KickPlayerRequestMessage(10, 11),
+      Type_StartEventAckMessage(10, 11),
       /**
-       * <code>Type_LeaveGameRequestMessage = 12;</code>
+       * <code>Type_GameStartInitialMessage = 12;</code>
        */
-      Type_LeaveGameRequestMessage(11, 12),
+      Type_GameStartInitialMessage(11, 12),
       /**
-       * <code>Type_StartEventMessage = 13;</code>
+       * <code>Type_GameStartRejoinMessage = 13;</code>
        */
-      Type_StartEventMessage(12, 13),
+      Type_GameStartRejoinMessage(12, 13),
       /**
-       * <code>Type_StartEventAckMessage = 14;</code>
+       * <code>Type_EndOfGameMessage = 14;</code>
        */
-      Type_StartEventAckMessage(13, 14),
+      Type_EndOfGameMessage(13, 14),
       /**
-       * <code>Type_GameStartInitialMessage = 15;</code>
+       * <code>Type_PlayerIdChangedMessage = 15;</code>
        */
-      Type_GameStartInitialMessage(14, 15),
+      Type_PlayerIdChangedMessage(14, 15),
       /**
-       * <code>Type_GameStartRejoinMessage = 16;</code>
+       * <code>Type_AskKickPlayerMessage = 16;</code>
        */
-      Type_GameStartRejoinMessage(15, 16),
+      Type_AskKickPlayerMessage(15, 16),
       /**
-       * <code>Type_EndOfGameMessage = 17;</code>
+       * <code>Type_AskKickDeniedMessage = 17;</code>
        */
-      Type_EndOfGameMessage(16, 17),
+      Type_AskKickDeniedMessage(16, 17),
       /**
-       * <code>Type_PlayerIdChangedMessage = 18;</code>
+       * <code>Type_StartKickPetitionMessage = 18;</code>
        */
-      Type_PlayerIdChangedMessage(17, 18),
+      Type_StartKickPetitionMessage(17, 18),
       /**
-       * <code>Type_AskKickPlayerMessage = 19;</code>
+       * <code>Type_VoteKickRequestMessage = 19;</code>
        */
-      Type_AskKickPlayerMessage(18, 19),
+      Type_VoteKickRequestMessage(18, 19),
       /**
-       * <code>Type_AskKickDeniedMessage = 20;</code>
+       * <code>Type_VoteKickReplyMessage = 20;</code>
        */
-      Type_AskKickDeniedMessage(19, 20),
+      Type_VoteKickReplyMessage(19, 20),
       /**
-       * <code>Type_StartKickPetitionMessage = 21;</code>
+       * <code>Type_KickPetitionUpdateMessage = 21;</code>
        */
-      Type_StartKickPetitionMessage(20, 21),
+      Type_KickPetitionUpdateMessage(20, 21),
       /**
-       * <code>Type_VoteKickRequestMessage = 22;</code>
+       * <code>Type_EndKickPetitionMessage = 22;</code>
        */
-      Type_VoteKickRequestMessage(21, 22),
+      Type_EndKickPetitionMessage(21, 22),
       /**
-       * <code>Type_VoteKickReplyMessage = 23;</code>
+       * <code>Type_ChatRequestMessage = 23;</code>
        */
-      Type_VoteKickReplyMessage(22, 23),
+      Type_ChatRequestMessage(22, 23),
       /**
-       * <code>Type_KickPetitionUpdateMessage = 24;</code>
+       * <code>Type_ChatMessage = 24;</code>
        */
-      Type_KickPetitionUpdateMessage(23, 24),
+      Type_ChatMessage(23, 24),
       /**
-       * <code>Type_EndKickPetitionMessage = 25;</code>
+       * <code>Type_ChatRejectMessage = 25;</code>
        */
-      Type_EndKickPetitionMessage(24, 25),
+      Type_ChatRejectMessage(24, 25),
       /**
-       * <code>Type_ChatRequestMessage = 26;</code>
+       * <code>Type_TimeoutWarningMessage = 26;</code>
        */
-      Type_ChatRequestMessage(25, 26),
+      Type_TimeoutWarningMessage(25, 26),
       /**
-       * <code>Type_ChatMessage = 27;</code>
+       * <code>Type_ResetTimeoutMessage = 27;</code>
        */
-      Type_ChatMessage(26, 27),
-      /**
-       * <code>Type_ChatRejectMessage = 28;</code>
-       */
-      Type_ChatRejectMessage(27, 28),
+      Type_ResetTimeoutMessage(26, 27),
       /**
        * <code>Type_ErrorMessage = 1024;</code>
        */
-      Type_ErrorMessage(28, 1024),
+      Type_ErrorMessage(27, 1024),
       ;
 
       /**
-       * <code>Type_JoinGameMessage = 1;</code>
+       * <code>Type_GamePlayerJoinedMessage = 1;</code>
        */
-      public static final int Type_JoinGameMessage_VALUE = 1;
+      public static final int Type_GamePlayerJoinedMessage_VALUE = 1;
       /**
-       * <code>Type_RejoinGameMessage = 2;</code>
+       * <code>Type_GamePlayerLeftMessage = 2;</code>
        */
-      public static final int Type_RejoinGameMessage_VALUE = 2;
+      public static final int Type_GamePlayerLeftMessage_VALUE = 2;
       /**
-       * <code>Type_JoinGameAckMessage = 3;</code>
+       * <code>Type_GameSpectatorJoinedMessage = 3;</code>
        */
-      public static final int Type_JoinGameAckMessage_VALUE = 3;
+      public static final int Type_GameSpectatorJoinedMessage_VALUE = 3;
       /**
-       * <code>Type_JoinGameFailedMessage = 4;</code>
+       * <code>Type_GameSpectatorLeftMessage = 4;</code>
        */
-      public static final int Type_JoinGameFailedMessage_VALUE = 4;
+      public static final int Type_GameSpectatorLeftMessage_VALUE = 4;
       /**
-       * <code>Type_GamePlayerJoinedMessage = 5;</code>
+       * <code>Type_GameAdminChangedMessage = 5;</code>
        */
-      public static final int Type_GamePlayerJoinedMessage_VALUE = 5;
+      public static final int Type_GameAdminChangedMessage_VALUE = 5;
       /**
-       * <code>Type_GamePlayerLeftMessage = 6;</code>
+       * <code>Type_RemovedFromGameMessage = 6;</code>
        */
-      public static final int Type_GamePlayerLeftMessage_VALUE = 6;
+      public static final int Type_RemovedFromGameMessage_VALUE = 6;
       /**
-       * <code>Type_GameSpectatorJoinedMessage = 7;</code>
+       * <code>Type_KickPlayerRequestMessage = 7;</code>
        */
-      public static final int Type_GameSpectatorJoinedMessage_VALUE = 7;
+      public static final int Type_KickPlayerRequestMessage_VALUE = 7;
       /**
-       * <code>Type_GameSpectatorLeftMessage = 8;</code>
+       * <code>Type_LeaveGameRequestMessage = 8;</code>
        */
-      public static final int Type_GameSpectatorLeftMessage_VALUE = 8;
+      public static final int Type_LeaveGameRequestMessage_VALUE = 8;
       /**
-       * <code>Type_GameAdminChangedMessage = 9;</code>
+       * <code>Type_InvitePlayerToGameMessage = 9;</code>
        */
-      public static final int Type_GameAdminChangedMessage_VALUE = 9;
+      public static final int Type_InvitePlayerToGameMessage_VALUE = 9;
       /**
-       * <code>Type_RemovedFromGameMessage = 10;</code>
+       * <code>Type_StartEventMessage = 10;</code>
        */
-      public static final int Type_RemovedFromGameMessage_VALUE = 10;
+      public static final int Type_StartEventMessage_VALUE = 10;
       /**
-       * <code>Type_KickPlayerRequestMessage = 11;</code>
+       * <code>Type_StartEventAckMessage = 11;</code>
        */
-      public static final int Type_KickPlayerRequestMessage_VALUE = 11;
+      public static final int Type_StartEventAckMessage_VALUE = 11;
       /**
-       * <code>Type_LeaveGameRequestMessage = 12;</code>
+       * <code>Type_GameStartInitialMessage = 12;</code>
        */
-      public static final int Type_LeaveGameRequestMessage_VALUE = 12;
+      public static final int Type_GameStartInitialMessage_VALUE = 12;
       /**
-       * <code>Type_StartEventMessage = 13;</code>
+       * <code>Type_GameStartRejoinMessage = 13;</code>
        */
-      public static final int Type_StartEventMessage_VALUE = 13;
+      public static final int Type_GameStartRejoinMessage_VALUE = 13;
       /**
-       * <code>Type_StartEventAckMessage = 14;</code>
+       * <code>Type_EndOfGameMessage = 14;</code>
        */
-      public static final int Type_StartEventAckMessage_VALUE = 14;
+      public static final int Type_EndOfGameMessage_VALUE = 14;
       /**
-       * <code>Type_GameStartInitialMessage = 15;</code>
+       * <code>Type_PlayerIdChangedMessage = 15;</code>
        */
-      public static final int Type_GameStartInitialMessage_VALUE = 15;
+      public static final int Type_PlayerIdChangedMessage_VALUE = 15;
       /**
-       * <code>Type_GameStartRejoinMessage = 16;</code>
+       * <code>Type_AskKickPlayerMessage = 16;</code>
        */
-      public static final int Type_GameStartRejoinMessage_VALUE = 16;
+      public static final int Type_AskKickPlayerMessage_VALUE = 16;
       /**
-       * <code>Type_EndOfGameMessage = 17;</code>
+       * <code>Type_AskKickDeniedMessage = 17;</code>
        */
-      public static final int Type_EndOfGameMessage_VALUE = 17;
+      public static final int Type_AskKickDeniedMessage_VALUE = 17;
       /**
-       * <code>Type_PlayerIdChangedMessage = 18;</code>
+       * <code>Type_StartKickPetitionMessage = 18;</code>
        */
-      public static final int Type_PlayerIdChangedMessage_VALUE = 18;
+      public static final int Type_StartKickPetitionMessage_VALUE = 18;
       /**
-       * <code>Type_AskKickPlayerMessage = 19;</code>
+       * <code>Type_VoteKickRequestMessage = 19;</code>
        */
-      public static final int Type_AskKickPlayerMessage_VALUE = 19;
+      public static final int Type_VoteKickRequestMessage_VALUE = 19;
       /**
-       * <code>Type_AskKickDeniedMessage = 20;</code>
+       * <code>Type_VoteKickReplyMessage = 20;</code>
        */
-      public static final int Type_AskKickDeniedMessage_VALUE = 20;
+      public static final int Type_VoteKickReplyMessage_VALUE = 20;
       /**
-       * <code>Type_StartKickPetitionMessage = 21;</code>
+       * <code>Type_KickPetitionUpdateMessage = 21;</code>
        */
-      public static final int Type_StartKickPetitionMessage_VALUE = 21;
+      public static final int Type_KickPetitionUpdateMessage_VALUE = 21;
       /**
-       * <code>Type_VoteKickRequestMessage = 22;</code>
+       * <code>Type_EndKickPetitionMessage = 22;</code>
        */
-      public static final int Type_VoteKickRequestMessage_VALUE = 22;
+      public static final int Type_EndKickPetitionMessage_VALUE = 22;
       /**
-       * <code>Type_VoteKickReplyMessage = 23;</code>
+       * <code>Type_ChatRequestMessage = 23;</code>
        */
-      public static final int Type_VoteKickReplyMessage_VALUE = 23;
+      public static final int Type_ChatRequestMessage_VALUE = 23;
       /**
-       * <code>Type_KickPetitionUpdateMessage = 24;</code>
+       * <code>Type_ChatMessage = 24;</code>
        */
-      public static final int Type_KickPetitionUpdateMessage_VALUE = 24;
+      public static final int Type_ChatMessage_VALUE = 24;
       /**
-       * <code>Type_EndKickPetitionMessage = 25;</code>
+       * <code>Type_ChatRejectMessage = 25;</code>
        */
-      public static final int Type_EndKickPetitionMessage_VALUE = 25;
+      public static final int Type_ChatRejectMessage_VALUE = 25;
       /**
-       * <code>Type_ChatRequestMessage = 26;</code>
+       * <code>Type_TimeoutWarningMessage = 26;</code>
        */
-      public static final int Type_ChatRequestMessage_VALUE = 26;
+      public static final int Type_TimeoutWarningMessage_VALUE = 26;
       /**
-       * <code>Type_ChatMessage = 27;</code>
+       * <code>Type_ResetTimeoutMessage = 27;</code>
        */
-      public static final int Type_ChatMessage_VALUE = 27;
-      /**
-       * <code>Type_ChatRejectMessage = 28;</code>
-       */
-      public static final int Type_ChatRejectMessage_VALUE = 28;
+      public static final int Type_ResetTimeoutMessage_VALUE = 27;
       /**
        * <code>Type_ErrorMessage = 1024;</code>
        */
@@ -55917,34 +56307,33 @@ public final class ProtoBuf {
 
       public static GameManagementMessageType valueOf(int value) {
         switch (value) {
-          case 1: return Type_JoinGameMessage;
-          case 2: return Type_RejoinGameMessage;
-          case 3: return Type_JoinGameAckMessage;
-          case 4: return Type_JoinGameFailedMessage;
-          case 5: return Type_GamePlayerJoinedMessage;
-          case 6: return Type_GamePlayerLeftMessage;
-          case 7: return Type_GameSpectatorJoinedMessage;
-          case 8: return Type_GameSpectatorLeftMessage;
-          case 9: return Type_GameAdminChangedMessage;
-          case 10: return Type_RemovedFromGameMessage;
-          case 11: return Type_KickPlayerRequestMessage;
-          case 12: return Type_LeaveGameRequestMessage;
-          case 13: return Type_StartEventMessage;
-          case 14: return Type_StartEventAckMessage;
-          case 15: return Type_GameStartInitialMessage;
-          case 16: return Type_GameStartRejoinMessage;
-          case 17: return Type_EndOfGameMessage;
-          case 18: return Type_PlayerIdChangedMessage;
-          case 19: return Type_AskKickPlayerMessage;
-          case 20: return Type_AskKickDeniedMessage;
-          case 21: return Type_StartKickPetitionMessage;
-          case 22: return Type_VoteKickRequestMessage;
-          case 23: return Type_VoteKickReplyMessage;
-          case 24: return Type_KickPetitionUpdateMessage;
-          case 25: return Type_EndKickPetitionMessage;
-          case 26: return Type_ChatRequestMessage;
-          case 27: return Type_ChatMessage;
-          case 28: return Type_ChatRejectMessage;
+          case 1: return Type_GamePlayerJoinedMessage;
+          case 2: return Type_GamePlayerLeftMessage;
+          case 3: return Type_GameSpectatorJoinedMessage;
+          case 4: return Type_GameSpectatorLeftMessage;
+          case 5: return Type_GameAdminChangedMessage;
+          case 6: return Type_RemovedFromGameMessage;
+          case 7: return Type_KickPlayerRequestMessage;
+          case 8: return Type_LeaveGameRequestMessage;
+          case 9: return Type_InvitePlayerToGameMessage;
+          case 10: return Type_StartEventMessage;
+          case 11: return Type_StartEventAckMessage;
+          case 12: return Type_GameStartInitialMessage;
+          case 13: return Type_GameStartRejoinMessage;
+          case 14: return Type_EndOfGameMessage;
+          case 15: return Type_PlayerIdChangedMessage;
+          case 16: return Type_AskKickPlayerMessage;
+          case 17: return Type_AskKickDeniedMessage;
+          case 18: return Type_StartKickPetitionMessage;
+          case 19: return Type_VoteKickRequestMessage;
+          case 20: return Type_VoteKickReplyMessage;
+          case 21: return Type_KickPetitionUpdateMessage;
+          case 22: return Type_EndKickPetitionMessage;
+          case 23: return Type_ChatRequestMessage;
+          case 24: return Type_ChatMessage;
+          case 25: return Type_ChatRejectMessage;
+          case 26: return Type_TimeoutWarningMessage;
+          case 27: return Type_ResetTimeoutMessage;
           case 1024: return Type_ErrorMessage;
           default: return null;
         }
@@ -55988,452 +56377,436 @@ public final class ProtoBuf {
       return messageType_;
     }
 
-    // optional .JoinGameMessage joinGameMessage = 2;
-    public static final int JOINGAMEMESSAGE_FIELD_NUMBER = 2;
-    private de.pokerth.protocol.ProtoBuf.JoinGameMessage joinGameMessage_;
+    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;
+    public static final int GAMEPLAYERJOINEDMESSAGE_FIELD_NUMBER = 2;
+    private de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage gamePlayerJoinedMessage_;
     /**
-     * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
+     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
      */
-    public boolean hasJoinGameMessage() {
+    public boolean hasGamePlayerJoinedMessage() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-     */
-    public de.pokerth.protocol.ProtoBuf.JoinGameMessage getJoinGameMessage() {
-      return joinGameMessage_;
-    }
-
-    // optional .RejoinGameMessage rejoinGameMessage = 3;
-    public static final int REJOINGAMEMESSAGE_FIELD_NUMBER = 3;
-    private de.pokerth.protocol.ProtoBuf.RejoinGameMessage rejoinGameMessage_;
-    /**
-     * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-     */
-    public boolean hasRejoinGameMessage() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-     */
-    public de.pokerth.protocol.ProtoBuf.RejoinGameMessage getRejoinGameMessage() {
-      return rejoinGameMessage_;
-    }
-
-    // optional .JoinGameAckMessage joinGameAckMessage = 4;
-    public static final int JOINGAMEACKMESSAGE_FIELD_NUMBER = 4;
-    private de.pokerth.protocol.ProtoBuf.JoinGameAckMessage joinGameAckMessage_;
-    /**
-     * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-     */
-    public boolean hasJoinGameAckMessage() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-     */
-    public de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage() {
-      return joinGameAckMessage_;
-    }
-
-    // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
-    public static final int JOINGAMEFAILEDMESSAGE_FIELD_NUMBER = 5;
-    private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage joinGameFailedMessage_;
-    /**
-     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-     */
-    public boolean hasJoinGameFailedMessage() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-     */
-    public de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage() {
-      return joinGameFailedMessage_;
-    }
-
-    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
-    public static final int GAMEPLAYERJOINEDMESSAGE_FIELD_NUMBER = 6;
-    private de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage gamePlayerJoinedMessage_;
-    /**
-     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
-     */
-    public boolean hasGamePlayerJoinedMessage() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
-    }
-    /**
-     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+     * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage getGamePlayerJoinedMessage() {
       return gamePlayerJoinedMessage_;
     }
 
-    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
-    public static final int GAMEPLAYERLEFTMESSAGE_FIELD_NUMBER = 7;
+    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;
+    public static final int GAMEPLAYERLEFTMESSAGE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage gamePlayerLeftMessage_;
     /**
-     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
      */
     public boolean hasGamePlayerLeftMessage() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+     * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage getGamePlayerLeftMessage() {
       return gamePlayerLeftMessage_;
     }
 
-    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
-    public static final int GAMESPECTATORJOINEDMESSAGE_FIELD_NUMBER = 8;
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;
+    public static final int GAMESPECTATORJOINEDMESSAGE_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage gameSpectatorJoinedMessage_;
     /**
-     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
      */
     public boolean hasGameSpectatorJoinedMessage() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+     * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage() {
       return gameSpectatorJoinedMessage_;
     }
 
-    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
-    public static final int GAMESPECTATORLEFTMESSAGE_FIELD_NUMBER = 9;
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;
+    public static final int GAMESPECTATORLEFTMESSAGE_FIELD_NUMBER = 5;
     private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage gameSpectatorLeftMessage_;
     /**
-     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
      */
     public boolean hasGameSpectatorLeftMessage() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+     * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getGameSpectatorLeftMessage() {
       return gameSpectatorLeftMessage_;
     }
 
-    // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
-    public static final int GAMEADMINCHANGEDMESSAGE_FIELD_NUMBER = 10;
+    // optional .GameAdminChangedMessage gameAdminChangedMessage = 6;
+    public static final int GAMEADMINCHANGEDMESSAGE_FIELD_NUMBER = 6;
     private de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage gameAdminChangedMessage_;
     /**
-     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
      */
     public boolean hasGameAdminChangedMessage() {
-      return ((bitField0_ & 0x00000200) == 0x00000200);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+     * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage getGameAdminChangedMessage() {
       return gameAdminChangedMessage_;
     }
 
-    // optional .RemovedFromGameMessage removedFromGameMessage = 11;
-    public static final int REMOVEDFROMGAMEMESSAGE_FIELD_NUMBER = 11;
+    // optional .RemovedFromGameMessage removedFromGameMessage = 7;
+    public static final int REMOVEDFROMGAMEMESSAGE_FIELD_NUMBER = 7;
     private de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage removedFromGameMessage_;
     /**
-     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
      */
     public boolean hasRemovedFromGameMessage() {
-      return ((bitField0_ & 0x00000400) == 0x00000400);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+     * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
      */
     public de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage getRemovedFromGameMessage() {
       return removedFromGameMessage_;
     }
 
-    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
-    public static final int KICKPLAYERREQUESTMESSAGE_FIELD_NUMBER = 12;
+    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;
+    public static final int KICKPLAYERREQUESTMESSAGE_FIELD_NUMBER = 8;
     private de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage kickPlayerRequestMessage_;
     /**
-     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
      */
     public boolean hasKickPlayerRequestMessage() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
-     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+     * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
      */
     public de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage getKickPlayerRequestMessage() {
       return kickPlayerRequestMessage_;
     }
 
-    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
-    public static final int LEAVEGAMEREQUESTMESSAGE_FIELD_NUMBER = 13;
+    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;
+    public static final int LEAVEGAMEREQUESTMESSAGE_FIELD_NUMBER = 9;
     private de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage leaveGameRequestMessage_;
     /**
-     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
      */
     public boolean hasLeaveGameRequestMessage() {
-      return ((bitField0_ & 0x00001000) == 0x00001000);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
-     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+     * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
      */
     public de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage getLeaveGameRequestMessage() {
       return leaveGameRequestMessage_;
     }
 
-    // optional .StartEventMessage startEventMessage = 14;
-    public static final int STARTEVENTMESSAGE_FIELD_NUMBER = 14;
-    private de.pokerth.protocol.ProtoBuf.StartEventMessage startEventMessage_;
+    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;
+    public static final int INVITEPLAYERTOGAMEMESSAGE_FIELD_NUMBER = 10;
+    private de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage invitePlayerToGameMessage_;
     /**
-     * <code>optional .StartEventMessage startEventMessage = 14;</code>
+     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
      */
-    public boolean hasStartEventMessage() {
-      return ((bitField0_ & 0x00002000) == 0x00002000);
+    public boolean hasInvitePlayerToGameMessage() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional .StartEventMessage startEventMessage = 14;</code>
+     * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+     */
+    public de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage() {
+      return invitePlayerToGameMessage_;
+    }
+
+    // optional .StartEventMessage startEventMessage = 11;
+    public static final int STARTEVENTMESSAGE_FIELD_NUMBER = 11;
+    private de.pokerth.protocol.ProtoBuf.StartEventMessage startEventMessage_;
+    /**
+     * <code>optional .StartEventMessage startEventMessage = 11;</code>
+     */
+    public boolean hasStartEventMessage() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional .StartEventMessage startEventMessage = 11;</code>
      */
     public de.pokerth.protocol.ProtoBuf.StartEventMessage getStartEventMessage() {
       return startEventMessage_;
     }
 
-    // optional .StartEventAckMessage startEventAckMessage = 15;
-    public static final int STARTEVENTACKMESSAGE_FIELD_NUMBER = 15;
+    // optional .StartEventAckMessage startEventAckMessage = 12;
+    public static final int STARTEVENTACKMESSAGE_FIELD_NUMBER = 12;
     private de.pokerth.protocol.ProtoBuf.StartEventAckMessage startEventAckMessage_;
     /**
-     * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+     * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
      */
     public boolean hasStartEventAckMessage() {
-      return ((bitField0_ & 0x00004000) == 0x00004000);
+      return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+     * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
      */
     public de.pokerth.protocol.ProtoBuf.StartEventAckMessage getStartEventAckMessage() {
       return startEventAckMessage_;
     }
 
-    // optional .GameStartInitialMessage gameStartInitialMessage = 16;
-    public static final int GAMESTARTINITIALMESSAGE_FIELD_NUMBER = 16;
+    // optional .GameStartInitialMessage gameStartInitialMessage = 13;
+    public static final int GAMESTARTINITIALMESSAGE_FIELD_NUMBER = 13;
     private de.pokerth.protocol.ProtoBuf.GameStartInitialMessage gameStartInitialMessage_;
     /**
-     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
      */
     public boolean hasGameStartInitialMessage() {
-      return ((bitField0_ & 0x00008000) == 0x00008000);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
-     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+     * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameStartInitialMessage getGameStartInitialMessage() {
       return gameStartInitialMessage_;
     }
 
-    // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
-    public static final int GAMESTARTREJOINMESSAGE_FIELD_NUMBER = 17;
+    // optional .GameStartRejoinMessage gameStartRejoinMessage = 14;
+    public static final int GAMESTARTREJOINMESSAGE_FIELD_NUMBER = 14;
     private de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage gameStartRejoinMessage_;
     /**
-     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
      */
     public boolean hasGameStartRejoinMessage() {
-      return ((bitField0_ & 0x00010000) == 0x00010000);
+      return ((bitField0_ & 0x00002000) == 0x00002000);
     }
     /**
-     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+     * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
      */
     public de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage getGameStartRejoinMessage() {
       return gameStartRejoinMessage_;
     }
 
-    // optional .EndOfGameMessage endOfGameMessage = 18;
-    public static final int ENDOFGAMEMESSAGE_FIELD_NUMBER = 18;
+    // optional .EndOfGameMessage endOfGameMessage = 15;
+    public static final int ENDOFGAMEMESSAGE_FIELD_NUMBER = 15;
     private de.pokerth.protocol.ProtoBuf.EndOfGameMessage endOfGameMessage_;
     /**
-     * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+     * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
      */
     public boolean hasEndOfGameMessage() {
-      return ((bitField0_ & 0x00020000) == 0x00020000);
+      return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
-     * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+     * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
      */
     public de.pokerth.protocol.ProtoBuf.EndOfGameMessage getEndOfGameMessage() {
       return endOfGameMessage_;
     }
 
-    // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
-    public static final int PLAYERIDCHANGEDMESSAGE_FIELD_NUMBER = 19;
+    // optional .PlayerIdChangedMessage playerIdChangedMessage = 16;
+    public static final int PLAYERIDCHANGEDMESSAGE_FIELD_NUMBER = 16;
     private de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage playerIdChangedMessage_;
     /**
-     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
      */
     public boolean hasPlayerIdChangedMessage() {
-      return ((bitField0_ & 0x00040000) == 0x00040000);
+      return ((bitField0_ & 0x00008000) == 0x00008000);
     }
     /**
-     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+     * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
      */
     public de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage getPlayerIdChangedMessage() {
       return playerIdChangedMessage_;
     }
 
-    // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
-    public static final int ASKKICKPLAYERMESSAGE_FIELD_NUMBER = 20;
+    // optional .AskKickPlayerMessage askKickPlayerMessage = 17;
+    public static final int ASKKICKPLAYERMESSAGE_FIELD_NUMBER = 17;
     private de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage askKickPlayerMessage_;
     /**
-     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
      */
     public boolean hasAskKickPlayerMessage() {
-      return ((bitField0_ & 0x00080000) == 0x00080000);
+      return ((bitField0_ & 0x00010000) == 0x00010000);
     }
     /**
-     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+     * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage getAskKickPlayerMessage() {
       return askKickPlayerMessage_;
     }
 
-    // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
-    public static final int ASKKICKDENIEDMESSAGE_FIELD_NUMBER = 21;
+    // optional .AskKickDeniedMessage askKickDeniedMessage = 18;
+    public static final int ASKKICKDENIEDMESSAGE_FIELD_NUMBER = 18;
     private de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage askKickDeniedMessage_;
     /**
-     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
      */
     public boolean hasAskKickDeniedMessage() {
-      return ((bitField0_ & 0x00100000) == 0x00100000);
+      return ((bitField0_ & 0x00020000) == 0x00020000);
     }
     /**
-     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+     * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
      */
     public de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage getAskKickDeniedMessage() {
       return askKickDeniedMessage_;
     }
 
-    // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
-    public static final int STARTKICKPETITIONMESSAGE_FIELD_NUMBER = 22;
+    // optional .StartKickPetitionMessage startKickPetitionMessage = 19;
+    public static final int STARTKICKPETITIONMESSAGE_FIELD_NUMBER = 19;
     private de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage startKickPetitionMessage_;
     /**
-     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
      */
     public boolean hasStartKickPetitionMessage() {
-      return ((bitField0_ & 0x00200000) == 0x00200000);
+      return ((bitField0_ & 0x00040000) == 0x00040000);
     }
     /**
-     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+     * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
      */
     public de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage getStartKickPetitionMessage() {
       return startKickPetitionMessage_;
     }
 
-    // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
-    public static final int VOTEKICKREQUESTMESSAGE_FIELD_NUMBER = 23;
+    // optional .VoteKickRequestMessage voteKickRequestMessage = 20;
+    public static final int VOTEKICKREQUESTMESSAGE_FIELD_NUMBER = 20;
     private de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage voteKickRequestMessage_;
     /**
-     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
      */
     public boolean hasVoteKickRequestMessage() {
-      return ((bitField0_ & 0x00400000) == 0x00400000);
+      return ((bitField0_ & 0x00080000) == 0x00080000);
     }
     /**
-     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+     * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
      */
     public de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage getVoteKickRequestMessage() {
       return voteKickRequestMessage_;
     }
 
-    // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
-    public static final int VOTEKICKREPLYMESSAGE_FIELD_NUMBER = 24;
+    // optional .VoteKickReplyMessage voteKickReplyMessage = 21;
+    public static final int VOTEKICKREPLYMESSAGE_FIELD_NUMBER = 21;
     private de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage voteKickReplyMessage_;
     /**
-     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
      */
     public boolean hasVoteKickReplyMessage() {
-      return ((bitField0_ & 0x00800000) == 0x00800000);
+      return ((bitField0_ & 0x00100000) == 0x00100000);
     }
     /**
-     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+     * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
      */
     public de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage getVoteKickReplyMessage() {
       return voteKickReplyMessage_;
     }
 
-    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
-    public static final int KICKPETITIONUPDATEMESSAGE_FIELD_NUMBER = 25;
+    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;
+    public static final int KICKPETITIONUPDATEMESSAGE_FIELD_NUMBER = 22;
     private de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage kickPetitionUpdateMessage_;
     /**
-     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
      */
     public boolean hasKickPetitionUpdateMessage() {
-      return ((bitField0_ & 0x01000000) == 0x01000000);
+      return ((bitField0_ & 0x00200000) == 0x00200000);
     }
     /**
-     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+     * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
      */
     public de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage getKickPetitionUpdateMessage() {
       return kickPetitionUpdateMessage_;
     }
 
-    // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
-    public static final int ENDKICKPETITIONMESSAGE_FIELD_NUMBER = 26;
+    // optional .EndKickPetitionMessage endKickPetitionMessage = 23;
+    public static final int ENDKICKPETITIONMESSAGE_FIELD_NUMBER = 23;
     private de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage endKickPetitionMessage_;
     /**
-     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
      */
     public boolean hasEndKickPetitionMessage() {
-      return ((bitField0_ & 0x02000000) == 0x02000000);
+      return ((bitField0_ & 0x00400000) == 0x00400000);
     }
     /**
-     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+     * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
      */
     public de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage getEndKickPetitionMessage() {
       return endKickPetitionMessage_;
     }
 
-    // optional .ChatRequestMessage chatRequestMessage = 27;
-    public static final int CHATREQUESTMESSAGE_FIELD_NUMBER = 27;
+    // optional .ChatRequestMessage chatRequestMessage = 24;
+    public static final int CHATREQUESTMESSAGE_FIELD_NUMBER = 24;
     private de.pokerth.protocol.ProtoBuf.ChatRequestMessage chatRequestMessage_;
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
      */
     public boolean hasChatRequestMessage() {
-      return ((bitField0_ & 0x04000000) == 0x04000000);
+      return ((bitField0_ & 0x00800000) == 0x00800000);
     }
     /**
-     * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+     * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage() {
       return chatRequestMessage_;
     }
 
-    // optional .ChatMessage chatMessage = 28;
-    public static final int CHATMESSAGE_FIELD_NUMBER = 28;
+    // optional .ChatMessage chatMessage = 25;
+    public static final int CHATMESSAGE_FIELD_NUMBER = 25;
     private de.pokerth.protocol.ProtoBuf.ChatMessage chatMessage_;
     /**
-     * <code>optional .ChatMessage chatMessage = 28;</code>
+     * <code>optional .ChatMessage chatMessage = 25;</code>
      */
     public boolean hasChatMessage() {
-      return ((bitField0_ & 0x08000000) == 0x08000000);
+      return ((bitField0_ & 0x01000000) == 0x01000000);
     }
     /**
-     * <code>optional .ChatMessage chatMessage = 28;</code>
+     * <code>optional .ChatMessage chatMessage = 25;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage() {
       return chatMessage_;
     }
 
-    // optional .ChatRejectMessage chatRejectMessage = 29;
-    public static final int CHATREJECTMESSAGE_FIELD_NUMBER = 29;
+    // optional .ChatRejectMessage chatRejectMessage = 26;
+    public static final int CHATREJECTMESSAGE_FIELD_NUMBER = 26;
     private de.pokerth.protocol.ProtoBuf.ChatRejectMessage chatRejectMessage_;
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
      */
     public boolean hasChatRejectMessage() {
-      return ((bitField0_ & 0x10000000) == 0x10000000);
+      return ((bitField0_ & 0x02000000) == 0x02000000);
     }
     /**
-     * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+     * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
      */
     public de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage() {
       return chatRejectMessage_;
+    }
+
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 27;
+    public static final int TIMEOUTWARNINGMESSAGE_FIELD_NUMBER = 27;
+    private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage timeoutWarningMessage_;
+    /**
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+     */
+    public boolean hasTimeoutWarningMessage() {
+      return ((bitField0_ & 0x04000000) == 0x04000000);
+    }
+    /**
+     * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+     */
+    public de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage() {
+      return timeoutWarningMessage_;
+    }
+
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 28;
+    public static final int RESETTIMEOUTMESSAGE_FIELD_NUMBER = 28;
+    private de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage resetTimeoutMessage_;
+    /**
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+     */
+    public boolean hasResetTimeoutMessage() {
+      return ((bitField0_ & 0x08000000) == 0x08000000);
+    }
+    /**
+     * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+     */
+    public de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage() {
+      return resetTimeoutMessage_;
     }
 
     // optional .ErrorMessage errorMessage = 1025;
@@ -56443,7 +56816,7 @@ public final class ProtoBuf {
      * <code>optional .ErrorMessage errorMessage = 1025;</code>
      */
     public boolean hasErrorMessage() {
-      return ((bitField0_ & 0x20000000) == 0x20000000);
+      return ((bitField0_ & 0x10000000) == 0x10000000);
     }
     /**
      * <code>optional .ErrorMessage errorMessage = 1025;</code>
@@ -56453,11 +56826,7 @@ public final class ProtoBuf {
     }
 
     private void initFields() {
-      messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_JoinGameMessage;
-      joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
-      rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
-      joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
-      joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
+      messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_GamePlayerJoinedMessage;
       gamePlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance();
       gamePlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.getDefaultInstance();
       gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
@@ -56466,6 +56835,7 @@ public final class ProtoBuf {
       removedFromGameMessage_ = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.getDefaultInstance();
       kickPlayerRequestMessage_ = de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.getDefaultInstance();
       leaveGameRequestMessage_ = de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.getDefaultInstance();
+      invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
       startEventMessage_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance();
       startEventAckMessage_ = de.pokerth.protocol.ProtoBuf.StartEventAckMessage.getDefaultInstance();
       gameStartInitialMessage_ = de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.getDefaultInstance();
@@ -56482,6 +56852,8 @@ public final class ProtoBuf {
       chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
       chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
       chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
+      timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
+      resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
       errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -56492,18 +56864,6 @@ public final class ProtoBuf {
       if (!hasMessageType()) {
         memoizedIsInitialized = 0;
         return false;
-      }
-      if (hasJoinGameAckMessage()) {
-        if (!getJoinGameAckMessage().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasJoinGameFailedMessage()) {
-        if (!getJoinGameFailedMessage().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
       }
       if (hasGamePlayerJoinedMessage()) {
         if (!getGamePlayerJoinedMessage().isInitialized()) {
@@ -56543,6 +56903,12 @@ public final class ProtoBuf {
       }
       if (hasKickPlayerRequestMessage()) {
         if (!getKickPlayerRequestMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasInvitePlayerToGameMessage()) {
+        if (!getInvitePlayerToGameMessage().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -56637,6 +57003,12 @@ public final class ProtoBuf {
           return false;
         }
       }
+      if (hasTimeoutWarningMessage()) {
+        if (!getTimeoutWarningMessage().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       if (hasErrorMessage()) {
         if (!getErrorMessage().isInitialized()) {
           memoizedIsInitialized = 0;
@@ -56654,90 +57026,87 @@ public final class ProtoBuf {
         output.writeEnum(1, messageType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, joinGameMessage_);
+        output.writeMessage(2, gamePlayerJoinedMessage_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, rejoinGameMessage_);
+        output.writeMessage(3, gamePlayerLeftMessage_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, joinGameAckMessage_);
+        output.writeMessage(4, gameSpectatorJoinedMessage_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(5, joinGameFailedMessage_);
+        output.writeMessage(5, gameSpectatorLeftMessage_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeMessage(6, gamePlayerJoinedMessage_);
+        output.writeMessage(6, gameAdminChangedMessage_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeMessage(7, gamePlayerLeftMessage_);
+        output.writeMessage(7, removedFromGameMessage_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
-        output.writeMessage(8, gameSpectatorJoinedMessage_);
+        output.writeMessage(8, kickPlayerRequestMessage_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
-        output.writeMessage(9, gameSpectatorLeftMessage_);
+        output.writeMessage(9, leaveGameRequestMessage_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeMessage(10, gameAdminChangedMessage_);
+        output.writeMessage(10, invitePlayerToGameMessage_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
-        output.writeMessage(11, removedFromGameMessage_);
+        output.writeMessage(11, startEventMessage_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeMessage(12, kickPlayerRequestMessage_);
+        output.writeMessage(12, startEventAckMessage_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
-        output.writeMessage(13, leaveGameRequestMessage_);
+        output.writeMessage(13, gameStartInitialMessage_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
-        output.writeMessage(14, startEventMessage_);
+        output.writeMessage(14, gameStartRejoinMessage_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
-        output.writeMessage(15, startEventAckMessage_);
+        output.writeMessage(15, endOfGameMessage_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
-        output.writeMessage(16, gameStartInitialMessage_);
+        output.writeMessage(16, playerIdChangedMessage_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
-        output.writeMessage(17, gameStartRejoinMessage_);
+        output.writeMessage(17, askKickPlayerMessage_);
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
-        output.writeMessage(18, endOfGameMessage_);
+        output.writeMessage(18, askKickDeniedMessage_);
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
-        output.writeMessage(19, playerIdChangedMessage_);
+        output.writeMessage(19, startKickPetitionMessage_);
       }
       if (((bitField0_ & 0x00080000) == 0x00080000)) {
-        output.writeMessage(20, askKickPlayerMessage_);
+        output.writeMessage(20, voteKickRequestMessage_);
       }
       if (((bitField0_ & 0x00100000) == 0x00100000)) {
-        output.writeMessage(21, askKickDeniedMessage_);
+        output.writeMessage(21, voteKickReplyMessage_);
       }
       if (((bitField0_ & 0x00200000) == 0x00200000)) {
-        output.writeMessage(22, startKickPetitionMessage_);
+        output.writeMessage(22, kickPetitionUpdateMessage_);
       }
       if (((bitField0_ & 0x00400000) == 0x00400000)) {
-        output.writeMessage(23, voteKickRequestMessage_);
+        output.writeMessage(23, endKickPetitionMessage_);
       }
       if (((bitField0_ & 0x00800000) == 0x00800000)) {
-        output.writeMessage(24, voteKickReplyMessage_);
+        output.writeMessage(24, chatRequestMessage_);
       }
       if (((bitField0_ & 0x01000000) == 0x01000000)) {
-        output.writeMessage(25, kickPetitionUpdateMessage_);
+        output.writeMessage(25, chatMessage_);
       }
       if (((bitField0_ & 0x02000000) == 0x02000000)) {
-        output.writeMessage(26, endKickPetitionMessage_);
+        output.writeMessage(26, chatRejectMessage_);
       }
       if (((bitField0_ & 0x04000000) == 0x04000000)) {
-        output.writeMessage(27, chatRequestMessage_);
+        output.writeMessage(27, timeoutWarningMessage_);
       }
       if (((bitField0_ & 0x08000000) == 0x08000000)) {
-        output.writeMessage(28, chatMessage_);
+        output.writeMessage(28, resetTimeoutMessage_);
       }
       if (((bitField0_ & 0x10000000) == 0x10000000)) {
-        output.writeMessage(29, chatRejectMessage_);
-      }
-      if (((bitField0_ & 0x20000000) == 0x20000000)) {
         output.writeMessage(1025, errorMessage_);
       }
     }
@@ -56754,117 +57123,113 @@ public final class ProtoBuf {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, joinGameMessage_);
+          .computeMessageSize(2, gamePlayerJoinedMessage_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, rejoinGameMessage_);
+          .computeMessageSize(3, gamePlayerLeftMessage_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, joinGameAckMessage_);
+          .computeMessageSize(4, gameSpectatorJoinedMessage_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, joinGameFailedMessage_);
+          .computeMessageSize(5, gameSpectatorLeftMessage_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, gamePlayerJoinedMessage_);
+          .computeMessageSize(6, gameAdminChangedMessage_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, gamePlayerLeftMessage_);
+          .computeMessageSize(7, removedFromGameMessage_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(8, gameSpectatorJoinedMessage_);
+          .computeMessageSize(8, kickPlayerRequestMessage_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(9, gameSpectatorLeftMessage_);
+          .computeMessageSize(9, leaveGameRequestMessage_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(10, gameAdminChangedMessage_);
+          .computeMessageSize(10, invitePlayerToGameMessage_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(11, removedFromGameMessage_);
+          .computeMessageSize(11, startEventMessage_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(12, kickPlayerRequestMessage_);
+          .computeMessageSize(12, startEventAckMessage_);
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(13, leaveGameRequestMessage_);
+          .computeMessageSize(13, gameStartInitialMessage_);
       }
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(14, startEventMessage_);
+          .computeMessageSize(14, gameStartRejoinMessage_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(15, startEventAckMessage_);
+          .computeMessageSize(15, endOfGameMessage_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(16, gameStartInitialMessage_);
+          .computeMessageSize(16, playerIdChangedMessage_);
       }
       if (((bitField0_ & 0x00010000) == 0x00010000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(17, gameStartRejoinMessage_);
+          .computeMessageSize(17, askKickPlayerMessage_);
       }
       if (((bitField0_ & 0x00020000) == 0x00020000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(18, endOfGameMessage_);
+          .computeMessageSize(18, askKickDeniedMessage_);
       }
       if (((bitField0_ & 0x00040000) == 0x00040000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(19, playerIdChangedMessage_);
+          .computeMessageSize(19, startKickPetitionMessage_);
       }
       if (((bitField0_ & 0x00080000) == 0x00080000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(20, askKickPlayerMessage_);
+          .computeMessageSize(20, voteKickRequestMessage_);
       }
       if (((bitField0_ & 0x00100000) == 0x00100000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(21, askKickDeniedMessage_);
+          .computeMessageSize(21, voteKickReplyMessage_);
       }
       if (((bitField0_ & 0x00200000) == 0x00200000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(22, startKickPetitionMessage_);
+          .computeMessageSize(22, kickPetitionUpdateMessage_);
       }
       if (((bitField0_ & 0x00400000) == 0x00400000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(23, voteKickRequestMessage_);
+          .computeMessageSize(23, endKickPetitionMessage_);
       }
       if (((bitField0_ & 0x00800000) == 0x00800000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(24, voteKickReplyMessage_);
+          .computeMessageSize(24, chatRequestMessage_);
       }
       if (((bitField0_ & 0x01000000) == 0x01000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(25, kickPetitionUpdateMessage_);
+          .computeMessageSize(25, chatMessage_);
       }
       if (((bitField0_ & 0x02000000) == 0x02000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(26, endKickPetitionMessage_);
+          .computeMessageSize(26, chatRejectMessage_);
       }
       if (((bitField0_ & 0x04000000) == 0x04000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(27, chatRequestMessage_);
+          .computeMessageSize(27, timeoutWarningMessage_);
       }
       if (((bitField0_ & 0x08000000) == 0x08000000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(28, chatMessage_);
+          .computeMessageSize(28, resetTimeoutMessage_);
       }
       if (((bitField0_ & 0x10000000) == 0x10000000)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(29, chatRejectMessage_);
-      }
-      if (((bitField0_ & 0x20000000) == 0x20000000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1025, errorMessage_);
       }
@@ -56959,66 +57324,64 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_JoinGameMessage;
+        messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_GamePlayerJoinedMessage;
         bitField0_ = (bitField0_ & ~0x00000001);
-        joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000002);
-        rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000008);
-        joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000010);
         gamePlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000002);
         gamePlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000004);
         gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000008);
         gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000010);
         gameAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000020);
         removedFromGameMessage_ = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000040);
         kickPlayerRequestMessage_ = de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000080);
         leaveGameRequestMessage_ = de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00000100);
+        invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
+        bitField0_ = (bitField0_ & ~0x00000200);
         startEventMessage_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00000400);
         startEventAckMessage_ = de.pokerth.protocol.ProtoBuf.StartEventAckMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00000800);
         gameStartInitialMessage_ = de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00001000);
         gameStartRejoinMessage_ = de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         endOfGameMessage_ = de.pokerth.protocol.ProtoBuf.EndOfGameMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         playerIdChangedMessage_ = de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         askKickPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         askKickDeniedMessage_ = de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         startKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         voteKickRequestMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00400000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         voteKickReplyMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x00800000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         kickPetitionUpdateMessage_ = de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x01000000);
+        bitField0_ = (bitField0_ & ~0x00200000);
         endKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x02000000);
+        bitField0_ = (bitField0_ & ~0x00400000);
         chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x04000000);
+        bitField0_ = (bitField0_ & ~0x00800000);
         chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x08000000);
+        bitField0_ = (bitField0_ & ~0x01000000);
         chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x10000000);
+        bitField0_ = (bitField0_ & ~0x02000000);
+        timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
+        bitField0_ = (bitField0_ & ~0x04000000);
+        resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
+        bitField0_ = (bitField0_ & ~0x08000000);
         errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
-        bitField0_ = (bitField0_ & ~0x20000000);
+        bitField0_ = (bitField0_ & ~0x10000000);
         return this;
       }
 
@@ -57049,117 +57412,113 @@ public final class ProtoBuf {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.joinGameMessage_ = joinGameMessage_;
+        result.gamePlayerJoinedMessage_ = gamePlayerJoinedMessage_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.rejoinGameMessage_ = rejoinGameMessage_;
+        result.gamePlayerLeftMessage_ = gamePlayerLeftMessage_;
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.joinGameAckMessage_ = joinGameAckMessage_;
+        result.gameSpectatorJoinedMessage_ = gameSpectatorJoinedMessage_;
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.joinGameFailedMessage_ = joinGameFailedMessage_;
+        result.gameSpectatorLeftMessage_ = gameSpectatorLeftMessage_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.gamePlayerJoinedMessage_ = gamePlayerJoinedMessage_;
+        result.gameAdminChangedMessage_ = gameAdminChangedMessage_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.gamePlayerLeftMessage_ = gamePlayerLeftMessage_;
+        result.removedFromGameMessage_ = removedFromGameMessage_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000080;
         }
-        result.gameSpectatorJoinedMessage_ = gameSpectatorJoinedMessage_;
+        result.kickPlayerRequestMessage_ = kickPlayerRequestMessage_;
         if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
           to_bitField0_ |= 0x00000100;
         }
-        result.gameSpectatorLeftMessage_ = gameSpectatorLeftMessage_;
+        result.leaveGameRequestMessage_ = leaveGameRequestMessage_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.gameAdminChangedMessage_ = gameAdminChangedMessage_;
+        result.invitePlayerToGameMessage_ = invitePlayerToGameMessage_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
-        result.removedFromGameMessage_ = removedFromGameMessage_;
+        result.startEventMessage_ = startEventMessage_;
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        result.kickPlayerRequestMessage_ = kickPlayerRequestMessage_;
+        result.startEventAckMessage_ = startEventAckMessage_;
         if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
           to_bitField0_ |= 0x00001000;
         }
-        result.leaveGameRequestMessage_ = leaveGameRequestMessage_;
+        result.gameStartInitialMessage_ = gameStartInitialMessage_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00002000;
         }
-        result.startEventMessage_ = startEventMessage_;
+        result.gameStartRejoinMessage_ = gameStartRejoinMessage_;
         if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
           to_bitField0_ |= 0x00004000;
         }
-        result.startEventAckMessage_ = startEventAckMessage_;
+        result.endOfGameMessage_ = endOfGameMessage_;
         if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
           to_bitField0_ |= 0x00008000;
         }
-        result.gameStartInitialMessage_ = gameStartInitialMessage_;
+        result.playerIdChangedMessage_ = playerIdChangedMessage_;
         if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
           to_bitField0_ |= 0x00010000;
         }
-        result.gameStartRejoinMessage_ = gameStartRejoinMessage_;
+        result.askKickPlayerMessage_ = askKickPlayerMessage_;
         if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
           to_bitField0_ |= 0x00020000;
         }
-        result.endOfGameMessage_ = endOfGameMessage_;
+        result.askKickDeniedMessage_ = askKickDeniedMessage_;
         if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
           to_bitField0_ |= 0x00040000;
         }
-        result.playerIdChangedMessage_ = playerIdChangedMessage_;
+        result.startKickPetitionMessage_ = startKickPetitionMessage_;
         if (((from_bitField0_ & 0x00080000) == 0x00080000)) {
           to_bitField0_ |= 0x00080000;
         }
-        result.askKickPlayerMessage_ = askKickPlayerMessage_;
+        result.voteKickRequestMessage_ = voteKickRequestMessage_;
         if (((from_bitField0_ & 0x00100000) == 0x00100000)) {
           to_bitField0_ |= 0x00100000;
         }
-        result.askKickDeniedMessage_ = askKickDeniedMessage_;
+        result.voteKickReplyMessage_ = voteKickReplyMessage_;
         if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
           to_bitField0_ |= 0x00200000;
         }
-        result.startKickPetitionMessage_ = startKickPetitionMessage_;
+        result.kickPetitionUpdateMessage_ = kickPetitionUpdateMessage_;
         if (((from_bitField0_ & 0x00400000) == 0x00400000)) {
           to_bitField0_ |= 0x00400000;
         }
-        result.voteKickRequestMessage_ = voteKickRequestMessage_;
+        result.endKickPetitionMessage_ = endKickPetitionMessage_;
         if (((from_bitField0_ & 0x00800000) == 0x00800000)) {
           to_bitField0_ |= 0x00800000;
         }
-        result.voteKickReplyMessage_ = voteKickReplyMessage_;
+        result.chatRequestMessage_ = chatRequestMessage_;
         if (((from_bitField0_ & 0x01000000) == 0x01000000)) {
           to_bitField0_ |= 0x01000000;
         }
-        result.kickPetitionUpdateMessage_ = kickPetitionUpdateMessage_;
+        result.chatMessage_ = chatMessage_;
         if (((from_bitField0_ & 0x02000000) == 0x02000000)) {
           to_bitField0_ |= 0x02000000;
         }
-        result.endKickPetitionMessage_ = endKickPetitionMessage_;
+        result.chatRejectMessage_ = chatRejectMessage_;
         if (((from_bitField0_ & 0x04000000) == 0x04000000)) {
           to_bitField0_ |= 0x04000000;
         }
-        result.chatRequestMessage_ = chatRequestMessage_;
+        result.timeoutWarningMessage_ = timeoutWarningMessage_;
         if (((from_bitField0_ & 0x08000000) == 0x08000000)) {
           to_bitField0_ |= 0x08000000;
         }
-        result.chatMessage_ = chatMessage_;
+        result.resetTimeoutMessage_ = resetTimeoutMessage_;
         if (((from_bitField0_ & 0x10000000) == 0x10000000)) {
           to_bitField0_ |= 0x10000000;
-        }
-        result.chatRejectMessage_ = chatRejectMessage_;
-        if (((from_bitField0_ & 0x20000000) == 0x20000000)) {
-          to_bitField0_ |= 0x20000000;
         }
         result.errorMessage_ = errorMessage_;
         result.bitField0_ = to_bitField0_;
@@ -57170,18 +57529,6 @@ public final class ProtoBuf {
         if (other == de.pokerth.protocol.ProtoBuf.GameManagementMessage.getDefaultInstance()) return this;
         if (other.hasMessageType()) {
           setMessageType(other.getMessageType());
-        }
-        if (other.hasJoinGameMessage()) {
-          mergeJoinGameMessage(other.getJoinGameMessage());
-        }
-        if (other.hasRejoinGameMessage()) {
-          mergeRejoinGameMessage(other.getRejoinGameMessage());
-        }
-        if (other.hasJoinGameAckMessage()) {
-          mergeJoinGameAckMessage(other.getJoinGameAckMessage());
-        }
-        if (other.hasJoinGameFailedMessage()) {
-          mergeJoinGameFailedMessage(other.getJoinGameFailedMessage());
         }
         if (other.hasGamePlayerJoinedMessage()) {
           mergeGamePlayerJoinedMessage(other.getGamePlayerJoinedMessage());
@@ -57206,6 +57553,9 @@ public final class ProtoBuf {
         }
         if (other.hasLeaveGameRequestMessage()) {
           mergeLeaveGameRequestMessage(other.getLeaveGameRequestMessage());
+        }
+        if (other.hasInvitePlayerToGameMessage()) {
+          mergeInvitePlayerToGameMessage(other.getInvitePlayerToGameMessage());
         }
         if (other.hasStartEventMessage()) {
           mergeStartEventMessage(other.getStartEventMessage());
@@ -57255,6 +57605,12 @@ public final class ProtoBuf {
         if (other.hasChatRejectMessage()) {
           mergeChatRejectMessage(other.getChatRejectMessage());
         }
+        if (other.hasTimeoutWarningMessage()) {
+          mergeTimeoutWarningMessage(other.getTimeoutWarningMessage());
+        }
+        if (other.hasResetTimeoutMessage()) {
+          mergeResetTimeoutMessage(other.getResetTimeoutMessage());
+        }
         if (other.hasErrorMessage()) {
           mergeErrorMessage(other.getErrorMessage());
         }
@@ -57265,18 +57621,6 @@ public final class ProtoBuf {
         if (!hasMessageType()) {
           
           return false;
-        }
-        if (hasJoinGameAckMessage()) {
-          if (!getJoinGameAckMessage().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasJoinGameFailedMessage()) {
-          if (!getJoinGameFailedMessage().isInitialized()) {
-            
-            return false;
-          }
         }
         if (hasGamePlayerJoinedMessage()) {
           if (!getGamePlayerJoinedMessage().isInitialized()) {
@@ -57316,6 +57660,12 @@ public final class ProtoBuf {
         }
         if (hasKickPlayerRequestMessage()) {
           if (!getKickPlayerRequestMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasInvitePlayerToGameMessage()) {
+          if (!getInvitePlayerToGameMessage().isInitialized()) {
             
             return false;
           }
@@ -57410,6 +57760,12 @@ public final class ProtoBuf {
             return false;
           }
         }
+        if (hasTimeoutWarningMessage()) {
+          if (!getTimeoutWarningMessage().isInitialized()) {
+            
+            return false;
+          }
+        }
         if (hasErrorMessage()) {
           if (!getErrorMessage().isInitialized()) {
             
@@ -57439,7 +57795,7 @@ public final class ProtoBuf {
       private int bitField0_;
 
       // required .GameManagementMessage.GameManagementMessageType messageType = 1;
-      private de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_JoinGameMessage;
+      private de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_GamePlayerJoinedMessage;
       /**
        * <code>required .GameManagementMessage.GameManagementMessageType messageType = 1;</code>
        */
@@ -57469,271 +57825,27 @@ public final class ProtoBuf {
        */
       public Builder clearMessageType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_JoinGameMessage;
+        messageType_ = de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType.Type_GamePlayerJoinedMessage;
         
         return this;
       }
 
-      // optional .JoinGameMessage joinGameMessage = 2;
-      private de.pokerth.protocol.ProtoBuf.JoinGameMessage joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
+      // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;
+      private de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage gamePlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance();
       /**
-       * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
+       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
        */
-      public boolean hasJoinGameMessage() {
+      public boolean hasGamePlayerJoinedMessage() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-       */
-      public de.pokerth.protocol.ProtoBuf.JoinGameMessage getJoinGameMessage() {
-        return joinGameMessage_;
-      }
-      /**
-       * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-       */
-      public Builder setJoinGameMessage(de.pokerth.protocol.ProtoBuf.JoinGameMessage value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        joinGameMessage_ = value;
-
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-       */
-      public Builder setJoinGameMessage(
-          de.pokerth.protocol.ProtoBuf.JoinGameMessage.Builder builderForValue) {
-        joinGameMessage_ = builderForValue.build();
-
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-       */
-      public Builder mergeJoinGameMessage(de.pokerth.protocol.ProtoBuf.JoinGameMessage value) {
-        if (((bitField0_ & 0x00000002) == 0x00000002) &&
-            joinGameMessage_ != de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance()) {
-          joinGameMessage_ =
-            de.pokerth.protocol.ProtoBuf.JoinGameMessage.newBuilder(joinGameMessage_).mergeFrom(value).buildPartial();
-        } else {
-          joinGameMessage_ = value;
-        }
-
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameMessage joinGameMessage = 2;</code>
-       */
-      public Builder clearJoinGameMessage() {
-        joinGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameMessage.getDefaultInstance();
-
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      // optional .RejoinGameMessage rejoinGameMessage = 3;
-      private de.pokerth.protocol.ProtoBuf.RejoinGameMessage rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
-      /**
-       * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-       */
-      public boolean hasRejoinGameMessage() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-       */
-      public de.pokerth.protocol.ProtoBuf.RejoinGameMessage getRejoinGameMessage() {
-        return rejoinGameMessage_;
-      }
-      /**
-       * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-       */
-      public Builder setRejoinGameMessage(de.pokerth.protocol.ProtoBuf.RejoinGameMessage value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        rejoinGameMessage_ = value;
-
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-       */
-      public Builder setRejoinGameMessage(
-          de.pokerth.protocol.ProtoBuf.RejoinGameMessage.Builder builderForValue) {
-        rejoinGameMessage_ = builderForValue.build();
-
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-       */
-      public Builder mergeRejoinGameMessage(de.pokerth.protocol.ProtoBuf.RejoinGameMessage value) {
-        if (((bitField0_ & 0x00000004) == 0x00000004) &&
-            rejoinGameMessage_ != de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance()) {
-          rejoinGameMessage_ =
-            de.pokerth.protocol.ProtoBuf.RejoinGameMessage.newBuilder(rejoinGameMessage_).mergeFrom(value).buildPartial();
-        } else {
-          rejoinGameMessage_ = value;
-        }
-
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .RejoinGameMessage rejoinGameMessage = 3;</code>
-       */
-      public Builder clearRejoinGameMessage() {
-        rejoinGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinGameMessage.getDefaultInstance();
-
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      // optional .JoinGameAckMessage joinGameAckMessage = 4;
-      private de.pokerth.protocol.ProtoBuf.JoinGameAckMessage joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
-      /**
-       * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-       */
-      public boolean hasJoinGameAckMessage() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-       */
-      public de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage() {
-        return joinGameAckMessage_;
-      }
-      /**
-       * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-       */
-      public Builder setJoinGameAckMessage(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        joinGameAckMessage_ = value;
-
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-       */
-      public Builder setJoinGameAckMessage(
-          de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.Builder builderForValue) {
-        joinGameAckMessage_ = builderForValue.build();
-
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-       */
-      public Builder mergeJoinGameAckMessage(de.pokerth.protocol.ProtoBuf.JoinGameAckMessage value) {
-        if (((bitField0_ & 0x00000008) == 0x00000008) &&
-            joinGameAckMessage_ != de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance()) {
-          joinGameAckMessage_ =
-            de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.newBuilder(joinGameAckMessage_).mergeFrom(value).buildPartial();
-        } else {
-          joinGameAckMessage_ = value;
-        }
-
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameAckMessage joinGameAckMessage = 4;</code>
-       */
-      public Builder clearJoinGameAckMessage() {
-        joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
-
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      // optional .JoinGameFailedMessage joinGameFailedMessage = 5;
-      private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
-      /**
-       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-       */
-      public boolean hasJoinGameFailedMessage() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-       */
-      public de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage() {
-        return joinGameFailedMessage_;
-      }
-      /**
-       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-       */
-      public Builder setJoinGameFailedMessage(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        joinGameFailedMessage_ = value;
-
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-       */
-      public Builder setJoinGameFailedMessage(
-          de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.Builder builderForValue) {
-        joinGameFailedMessage_ = builderForValue.build();
-
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-       */
-      public Builder mergeJoinGameFailedMessage(de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage value) {
-        if (((bitField0_ & 0x00000010) == 0x00000010) &&
-            joinGameFailedMessage_ != de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance()) {
-          joinGameFailedMessage_ =
-            de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.newBuilder(joinGameFailedMessage_).mergeFrom(value).buildPartial();
-        } else {
-          joinGameFailedMessage_ = value;
-        }
-
-        bitField0_ |= 0x00000010;
-        return this;
-      }
-      /**
-       * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 5;</code>
-       */
-      public Builder clearJoinGameFailedMessage() {
-        joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
-
-        bitField0_ = (bitField0_ & ~0x00000010);
-        return this;
-      }
-
-      // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;
-      private de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage gamePlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance();
-      /**
-       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
-       */
-      public boolean hasGamePlayerJoinedMessage() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
-      }
-      /**
-       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage getGamePlayerJoinedMessage() {
         return gamePlayerJoinedMessage_;
       }
       /**
-       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
        */
       public Builder setGamePlayerJoinedMessage(de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage value) {
         if (value == null) {
@@ -57741,24 +57853,24 @@ public final class ProtoBuf {
         }
         gamePlayerJoinedMessage_ = value;
 
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
        */
       public Builder setGamePlayerJoinedMessage(
           de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.Builder builderForValue) {
         gamePlayerJoinedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
        */
       public Builder mergeGamePlayerJoinedMessage(de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage value) {
-        if (((bitField0_ & 0x00000020) == 0x00000020) &&
+        if (((bitField0_ & 0x00000002) == 0x00000002) &&
             gamePlayerJoinedMessage_ != de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance()) {
           gamePlayerJoinedMessage_ =
             de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.newBuilder(gamePlayerJoinedMessage_).mergeFrom(value).buildPartial();
@@ -57766,35 +57878,35 @@ public final class ProtoBuf {
           gamePlayerJoinedMessage_ = value;
         }
 
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 6;</code>
+       * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 2;</code>
        */
       public Builder clearGamePlayerJoinedMessage() {
         gamePlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
-      // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;
+      // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;
       private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage gamePlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.getDefaultInstance();
       /**
-       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
        */
       public boolean hasGamePlayerLeftMessage() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage getGamePlayerLeftMessage() {
         return gamePlayerLeftMessage_;
       }
       /**
-       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
        */
       public Builder setGamePlayerLeftMessage(de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage value) {
         if (value == null) {
@@ -57802,24 +57914,24 @@ public final class ProtoBuf {
         }
         gamePlayerLeftMessage_ = value;
 
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
        */
       public Builder setGamePlayerLeftMessage(
           de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.Builder builderForValue) {
         gamePlayerLeftMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
        */
       public Builder mergeGamePlayerLeftMessage(de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage value) {
-        if (((bitField0_ & 0x00000040) == 0x00000040) &&
+        if (((bitField0_ & 0x00000004) == 0x00000004) &&
             gamePlayerLeftMessage_ != de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.getDefaultInstance()) {
           gamePlayerLeftMessage_ =
             de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.newBuilder(gamePlayerLeftMessage_).mergeFrom(value).buildPartial();
@@ -57827,35 +57939,35 @@ public final class ProtoBuf {
           gamePlayerLeftMessage_ = value;
         }
 
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 7;</code>
+       * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 3;</code>
        */
       public Builder clearGamePlayerLeftMessage() {
         gamePlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
-      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;
+      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;
       private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
       /**
-       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
        */
       public boolean hasGameSpectatorJoinedMessage() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage() {
         return gameSpectatorJoinedMessage_;
       }
       /**
-       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
        */
       public Builder setGameSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage value) {
         if (value == null) {
@@ -57863,24 +57975,24 @@ public final class ProtoBuf {
         }
         gameSpectatorJoinedMessage_ = value;
 
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
        */
       public Builder setGameSpectatorJoinedMessage(
           de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.Builder builderForValue) {
         gameSpectatorJoinedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
        */
       public Builder mergeGameSpectatorJoinedMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage value) {
-        if (((bitField0_ & 0x00000080) == 0x00000080) &&
+        if (((bitField0_ & 0x00000008) == 0x00000008) &&
             gameSpectatorJoinedMessage_ != de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance()) {
           gameSpectatorJoinedMessage_ =
             de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.newBuilder(gameSpectatorJoinedMessage_).mergeFrom(value).buildPartial();
@@ -57888,35 +58000,35 @@ public final class ProtoBuf {
           gameSpectatorJoinedMessage_ = value;
         }
 
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 8;</code>
+       * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 4;</code>
        */
       public Builder clearGameSpectatorJoinedMessage() {
         gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
-      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;
+      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;
       private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
       /**
-       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
        */
       public boolean hasGameSpectatorLeftMessage() {
-        return ((bitField0_ & 0x00000100) == 0x00000100);
+        return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage getGameSpectatorLeftMessage() {
         return gameSpectatorLeftMessage_;
       }
       /**
-       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
        */
       public Builder setGameSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage value) {
         if (value == null) {
@@ -57924,24 +58036,24 @@ public final class ProtoBuf {
         }
         gameSpectatorLeftMessage_ = value;
 
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
        */
       public Builder setGameSpectatorLeftMessage(
           de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.Builder builderForValue) {
         gameSpectatorLeftMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
        */
       public Builder mergeGameSpectatorLeftMessage(de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage value) {
-        if (((bitField0_ & 0x00000100) == 0x00000100) &&
+        if (((bitField0_ & 0x00000010) == 0x00000010) &&
             gameSpectatorLeftMessage_ != de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance()) {
           gameSpectatorLeftMessage_ =
             de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.newBuilder(gameSpectatorLeftMessage_).mergeFrom(value).buildPartial();
@@ -57949,35 +58061,35 @@ public final class ProtoBuf {
           gameSpectatorLeftMessage_ = value;
         }
 
-        bitField0_ |= 0x00000100;
+        bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 9;</code>
+       * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 5;</code>
        */
       public Builder clearGameSpectatorLeftMessage() {
         gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000100);
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
-      // optional .GameAdminChangedMessage gameAdminChangedMessage = 10;
+      // optional .GameAdminChangedMessage gameAdminChangedMessage = 6;
       private de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage gameAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.getDefaultInstance();
       /**
-       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
        */
       public boolean hasGameAdminChangedMessage() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage getGameAdminChangedMessage() {
         return gameAdminChangedMessage_;
       }
       /**
-       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
        */
       public Builder setGameAdminChangedMessage(de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage value) {
         if (value == null) {
@@ -57985,24 +58097,24 @@ public final class ProtoBuf {
         }
         gameAdminChangedMessage_ = value;
 
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
        */
       public Builder setGameAdminChangedMessage(
           de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.Builder builderForValue) {
         gameAdminChangedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
        */
       public Builder mergeGameAdminChangedMessage(de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage value) {
-        if (((bitField0_ & 0x00000200) == 0x00000200) &&
+        if (((bitField0_ & 0x00000020) == 0x00000020) &&
             gameAdminChangedMessage_ != de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.getDefaultInstance()) {
           gameAdminChangedMessage_ =
             de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.newBuilder(gameAdminChangedMessage_).mergeFrom(value).buildPartial();
@@ -58010,35 +58122,35 @@ public final class ProtoBuf {
           gameAdminChangedMessage_ = value;
         }
 
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 10;</code>
+       * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 6;</code>
        */
       public Builder clearGameAdminChangedMessage() {
         gameAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
-      // optional .RemovedFromGameMessage removedFromGameMessage = 11;
+      // optional .RemovedFromGameMessage removedFromGameMessage = 7;
       private de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage removedFromGameMessage_ = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.getDefaultInstance();
       /**
-       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
        */
       public boolean hasRemovedFromGameMessage() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
        */
       public de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage getRemovedFromGameMessage() {
         return removedFromGameMessage_;
       }
       /**
-       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
        */
       public Builder setRemovedFromGameMessage(de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage value) {
         if (value == null) {
@@ -58046,24 +58158,24 @@ public final class ProtoBuf {
         }
         removedFromGameMessage_ = value;
 
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
        */
       public Builder setRemovedFromGameMessage(
           de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.Builder builderForValue) {
         removedFromGameMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
        */
       public Builder mergeRemovedFromGameMessage(de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage value) {
-        if (((bitField0_ & 0x00000400) == 0x00000400) &&
+        if (((bitField0_ & 0x00000040) == 0x00000040) &&
             removedFromGameMessage_ != de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.getDefaultInstance()) {
           removedFromGameMessage_ =
             de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.newBuilder(removedFromGameMessage_).mergeFrom(value).buildPartial();
@@ -58071,35 +58183,35 @@ public final class ProtoBuf {
           removedFromGameMessage_ = value;
         }
 
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000040;
         return this;
       }
       /**
-       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 11;</code>
+       * <code>optional .RemovedFromGameMessage removedFromGameMessage = 7;</code>
        */
       public Builder clearRemovedFromGameMessage() {
         removedFromGameMessage_ = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
-      // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;
+      // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;
       private de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage kickPlayerRequestMessage_ = de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
        */
       public boolean hasKickPlayerRequestMessage() {
-        return ((bitField0_ & 0x00000800) == 0x00000800);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
-       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
        */
       public de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage getKickPlayerRequestMessage() {
         return kickPlayerRequestMessage_;
       }
       /**
-       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
        */
       public Builder setKickPlayerRequestMessage(de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage value) {
         if (value == null) {
@@ -58107,24 +58219,24 @@ public final class ProtoBuf {
         }
         kickPlayerRequestMessage_ = value;
 
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
        */
       public Builder setKickPlayerRequestMessage(
           de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.Builder builderForValue) {
         kickPlayerRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
        */
       public Builder mergeKickPlayerRequestMessage(de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage value) {
-        if (((bitField0_ & 0x00000800) == 0x00000800) &&
+        if (((bitField0_ & 0x00000080) == 0x00000080) &&
             kickPlayerRequestMessage_ != de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.getDefaultInstance()) {
           kickPlayerRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.newBuilder(kickPlayerRequestMessage_).mergeFrom(value).buildPartial();
@@ -58132,35 +58244,35 @@ public final class ProtoBuf {
           kickPlayerRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x00000800;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
-       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 12;</code>
+       * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 8;</code>
        */
       public Builder clearKickPlayerRequestMessage() {
         kickPlayerRequestMessage_ = de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00000800);
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
-      // optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;
+      // optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;
       private de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage leaveGameRequestMessage_ = de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
        */
       public boolean hasLeaveGameRequestMessage() {
-        return ((bitField0_ & 0x00001000) == 0x00001000);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
-       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
        */
       public de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage getLeaveGameRequestMessage() {
         return leaveGameRequestMessage_;
       }
       /**
-       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
        */
       public Builder setLeaveGameRequestMessage(de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage value) {
         if (value == null) {
@@ -58168,24 +58280,24 @@ public final class ProtoBuf {
         }
         leaveGameRequestMessage_ = value;
 
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
        */
       public Builder setLeaveGameRequestMessage(
           de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.Builder builderForValue) {
         leaveGameRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
        */
       public Builder mergeLeaveGameRequestMessage(de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage value) {
-        if (((bitField0_ & 0x00001000) == 0x00001000) &&
+        if (((bitField0_ & 0x00000100) == 0x00000100) &&
             leaveGameRequestMessage_ != de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.getDefaultInstance()) {
           leaveGameRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.newBuilder(leaveGameRequestMessage_).mergeFrom(value).buildPartial();
@@ -58193,35 +58305,96 @@ public final class ProtoBuf {
           leaveGameRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x00001000;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
-       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 13;</code>
+       * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 9;</code>
        */
       public Builder clearLeaveGameRequestMessage() {
         leaveGameRequestMessage_ = de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00001000);
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
-      // optional .StartEventMessage startEventMessage = 14;
-      private de.pokerth.protocol.ProtoBuf.StartEventMessage startEventMessage_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance();
+      // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;
+      private de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
       /**
-       * <code>optional .StartEventMessage startEventMessage = 14;</code>
+       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
        */
-      public boolean hasStartEventMessage() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+      public boolean hasInvitePlayerToGameMessage() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional .StartEventMessage startEventMessage = 14;</code>
+       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+       */
+      public de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage() {
+        return invitePlayerToGameMessage_;
+      }
+      /**
+       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+       */
+      public Builder setInvitePlayerToGameMessage(de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        invitePlayerToGameMessage_ = value;
+
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+       */
+      public Builder setInvitePlayerToGameMessage(
+          de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.Builder builderForValue) {
+        invitePlayerToGameMessage_ = builderForValue.build();
+
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+       */
+      public Builder mergeInvitePlayerToGameMessage(de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage value) {
+        if (((bitField0_ & 0x00000200) == 0x00000200) &&
+            invitePlayerToGameMessage_ != de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance()) {
+          invitePlayerToGameMessage_ =
+            de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.newBuilder(invitePlayerToGameMessage_).mergeFrom(value).buildPartial();
+        } else {
+          invitePlayerToGameMessage_ = value;
+        }
+
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 10;</code>
+       */
+      public Builder clearInvitePlayerToGameMessage() {
+        invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
+
+        bitField0_ = (bitField0_ & ~0x00000200);
+        return this;
+      }
+
+      // optional .StartEventMessage startEventMessage = 11;
+      private de.pokerth.protocol.ProtoBuf.StartEventMessage startEventMessage_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance();
+      /**
+       * <code>optional .StartEventMessage startEventMessage = 11;</code>
+       */
+      public boolean hasStartEventMessage() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional .StartEventMessage startEventMessage = 11;</code>
        */
       public de.pokerth.protocol.ProtoBuf.StartEventMessage getStartEventMessage() {
         return startEventMessage_;
       }
       /**
-       * <code>optional .StartEventMessage startEventMessage = 14;</code>
+       * <code>optional .StartEventMessage startEventMessage = 11;</code>
        */
       public Builder setStartEventMessage(de.pokerth.protocol.ProtoBuf.StartEventMessage value) {
         if (value == null) {
@@ -58229,24 +58402,24 @@ public final class ProtoBuf {
         }
         startEventMessage_ = value;
 
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .StartEventMessage startEventMessage = 14;</code>
+       * <code>optional .StartEventMessage startEventMessage = 11;</code>
        */
       public Builder setStartEventMessage(
           de.pokerth.protocol.ProtoBuf.StartEventMessage.Builder builderForValue) {
         startEventMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .StartEventMessage startEventMessage = 14;</code>
+       * <code>optional .StartEventMessage startEventMessage = 11;</code>
        */
       public Builder mergeStartEventMessage(de.pokerth.protocol.ProtoBuf.StartEventMessage value) {
-        if (((bitField0_ & 0x00002000) == 0x00002000) &&
+        if (((bitField0_ & 0x00000400) == 0x00000400) &&
             startEventMessage_ != de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance()) {
           startEventMessage_ =
             de.pokerth.protocol.ProtoBuf.StartEventMessage.newBuilder(startEventMessage_).mergeFrom(value).buildPartial();
@@ -58254,35 +58427,35 @@ public final class ProtoBuf {
           startEventMessage_ = value;
         }
 
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00000400;
         return this;
       }
       /**
-       * <code>optional .StartEventMessage startEventMessage = 14;</code>
+       * <code>optional .StartEventMessage startEventMessage = 11;</code>
        */
       public Builder clearStartEventMessage() {
         startEventMessage_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
-      // optional .StartEventAckMessage startEventAckMessage = 15;
+      // optional .StartEventAckMessage startEventAckMessage = 12;
       private de.pokerth.protocol.ProtoBuf.StartEventAckMessage startEventAckMessage_ = de.pokerth.protocol.ProtoBuf.StartEventAckMessage.getDefaultInstance();
       /**
-       * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+       * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
        */
       public boolean hasStartEventAckMessage() {
-        return ((bitField0_ & 0x00004000) == 0x00004000);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+       * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
        */
       public de.pokerth.protocol.ProtoBuf.StartEventAckMessage getStartEventAckMessage() {
         return startEventAckMessage_;
       }
       /**
-       * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+       * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
        */
       public Builder setStartEventAckMessage(de.pokerth.protocol.ProtoBuf.StartEventAckMessage value) {
         if (value == null) {
@@ -58290,24 +58463,24 @@ public final class ProtoBuf {
         }
         startEventAckMessage_ = value;
 
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+       * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
        */
       public Builder setStartEventAckMessage(
           de.pokerth.protocol.ProtoBuf.StartEventAckMessage.Builder builderForValue) {
         startEventAckMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+       * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
        */
       public Builder mergeStartEventAckMessage(de.pokerth.protocol.ProtoBuf.StartEventAckMessage value) {
-        if (((bitField0_ & 0x00004000) == 0x00004000) &&
+        if (((bitField0_ & 0x00000800) == 0x00000800) &&
             startEventAckMessage_ != de.pokerth.protocol.ProtoBuf.StartEventAckMessage.getDefaultInstance()) {
           startEventAckMessage_ =
             de.pokerth.protocol.ProtoBuf.StartEventAckMessage.newBuilder(startEventAckMessage_).mergeFrom(value).buildPartial();
@@ -58315,35 +58488,35 @@ public final class ProtoBuf {
           startEventAckMessage_ = value;
         }
 
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .StartEventAckMessage startEventAckMessage = 15;</code>
+       * <code>optional .StartEventAckMessage startEventAckMessage = 12;</code>
        */
       public Builder clearStartEventAckMessage() {
         startEventAckMessage_ = de.pokerth.protocol.ProtoBuf.StartEventAckMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
-      // optional .GameStartInitialMessage gameStartInitialMessage = 16;
+      // optional .GameStartInitialMessage gameStartInitialMessage = 13;
       private de.pokerth.protocol.ProtoBuf.GameStartInitialMessage gameStartInitialMessage_ = de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.getDefaultInstance();
       /**
-       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
        */
       public boolean hasGameStartInitialMessage() {
-        return ((bitField0_ & 0x00008000) == 0x00008000);
+        return ((bitField0_ & 0x00001000) == 0x00001000);
       }
       /**
-       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameStartInitialMessage getGameStartInitialMessage() {
         return gameStartInitialMessage_;
       }
       /**
-       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
        */
       public Builder setGameStartInitialMessage(de.pokerth.protocol.ProtoBuf.GameStartInitialMessage value) {
         if (value == null) {
@@ -58351,24 +58524,24 @@ public final class ProtoBuf {
         }
         gameStartInitialMessage_ = value;
 
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00001000;
         return this;
       }
       /**
-       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
        */
       public Builder setGameStartInitialMessage(
           de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.Builder builderForValue) {
         gameStartInitialMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00001000;
         return this;
       }
       /**
-       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
        */
       public Builder mergeGameStartInitialMessage(de.pokerth.protocol.ProtoBuf.GameStartInitialMessage value) {
-        if (((bitField0_ & 0x00008000) == 0x00008000) &&
+        if (((bitField0_ & 0x00001000) == 0x00001000) &&
             gameStartInitialMessage_ != de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.getDefaultInstance()) {
           gameStartInitialMessage_ =
             de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.newBuilder(gameStartInitialMessage_).mergeFrom(value).buildPartial();
@@ -58376,35 +58549,35 @@ public final class ProtoBuf {
           gameStartInitialMessage_ = value;
         }
 
-        bitField0_ |= 0x00008000;
+        bitField0_ |= 0x00001000;
         return this;
       }
       /**
-       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 16;</code>
+       * <code>optional .GameStartInitialMessage gameStartInitialMessage = 13;</code>
        */
       public Builder clearGameStartInitialMessage() {
         gameStartInitialMessage_ = de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00008000);
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
-      // optional .GameStartRejoinMessage gameStartRejoinMessage = 17;
+      // optional .GameStartRejoinMessage gameStartRejoinMessage = 14;
       private de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage gameStartRejoinMessage_ = de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.getDefaultInstance();
       /**
-       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
        */
       public boolean hasGameStartRejoinMessage() {
-        return ((bitField0_ & 0x00010000) == 0x00010000);
+        return ((bitField0_ & 0x00002000) == 0x00002000);
       }
       /**
-       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
        */
       public de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage getGameStartRejoinMessage() {
         return gameStartRejoinMessage_;
       }
       /**
-       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
        */
       public Builder setGameStartRejoinMessage(de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage value) {
         if (value == null) {
@@ -58412,24 +58585,24 @@ public final class ProtoBuf {
         }
         gameStartRejoinMessage_ = value;
 
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00002000;
         return this;
       }
       /**
-       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
        */
       public Builder setGameStartRejoinMessage(
           de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.Builder builderForValue) {
         gameStartRejoinMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00002000;
         return this;
       }
       /**
-       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
        */
       public Builder mergeGameStartRejoinMessage(de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage value) {
-        if (((bitField0_ & 0x00010000) == 0x00010000) &&
+        if (((bitField0_ & 0x00002000) == 0x00002000) &&
             gameStartRejoinMessage_ != de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.getDefaultInstance()) {
           gameStartRejoinMessage_ =
             de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.newBuilder(gameStartRejoinMessage_).mergeFrom(value).buildPartial();
@@ -58437,35 +58610,35 @@ public final class ProtoBuf {
           gameStartRejoinMessage_ = value;
         }
 
-        bitField0_ |= 0x00010000;
+        bitField0_ |= 0x00002000;
         return this;
       }
       /**
-       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 17;</code>
+       * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 14;</code>
        */
       public Builder clearGameStartRejoinMessage() {
         gameStartRejoinMessage_ = de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00010000);
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
-      // optional .EndOfGameMessage endOfGameMessage = 18;
+      // optional .EndOfGameMessage endOfGameMessage = 15;
       private de.pokerth.protocol.ProtoBuf.EndOfGameMessage endOfGameMessage_ = de.pokerth.protocol.ProtoBuf.EndOfGameMessage.getDefaultInstance();
       /**
-       * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+       * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
        */
       public boolean hasEndOfGameMessage() {
-        return ((bitField0_ & 0x00020000) == 0x00020000);
+        return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
-       * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+       * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
        */
       public de.pokerth.protocol.ProtoBuf.EndOfGameMessage getEndOfGameMessage() {
         return endOfGameMessage_;
       }
       /**
-       * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+       * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
        */
       public Builder setEndOfGameMessage(de.pokerth.protocol.ProtoBuf.EndOfGameMessage value) {
         if (value == null) {
@@ -58473,24 +58646,24 @@ public final class ProtoBuf {
         }
         endOfGameMessage_ = value;
 
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+       * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
        */
       public Builder setEndOfGameMessage(
           de.pokerth.protocol.ProtoBuf.EndOfGameMessage.Builder builderForValue) {
         endOfGameMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+       * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
        */
       public Builder mergeEndOfGameMessage(de.pokerth.protocol.ProtoBuf.EndOfGameMessage value) {
-        if (((bitField0_ & 0x00020000) == 0x00020000) &&
+        if (((bitField0_ & 0x00004000) == 0x00004000) &&
             endOfGameMessage_ != de.pokerth.protocol.ProtoBuf.EndOfGameMessage.getDefaultInstance()) {
           endOfGameMessage_ =
             de.pokerth.protocol.ProtoBuf.EndOfGameMessage.newBuilder(endOfGameMessage_).mergeFrom(value).buildPartial();
@@ -58498,35 +58671,35 @@ public final class ProtoBuf {
           endOfGameMessage_ = value;
         }
 
-        bitField0_ |= 0x00020000;
+        bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .EndOfGameMessage endOfGameMessage = 18;</code>
+       * <code>optional .EndOfGameMessage endOfGameMessage = 15;</code>
        */
       public Builder clearEndOfGameMessage() {
         endOfGameMessage_ = de.pokerth.protocol.ProtoBuf.EndOfGameMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00020000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
-      // optional .PlayerIdChangedMessage playerIdChangedMessage = 19;
+      // optional .PlayerIdChangedMessage playerIdChangedMessage = 16;
       private de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage playerIdChangedMessage_ = de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.getDefaultInstance();
       /**
-       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
        */
       public boolean hasPlayerIdChangedMessage() {
-        return ((bitField0_ & 0x00040000) == 0x00040000);
+        return ((bitField0_ & 0x00008000) == 0x00008000);
       }
       /**
-       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
        */
       public de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage getPlayerIdChangedMessage() {
         return playerIdChangedMessage_;
       }
       /**
-       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
        */
       public Builder setPlayerIdChangedMessage(de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage value) {
         if (value == null) {
@@ -58534,24 +58707,24 @@ public final class ProtoBuf {
         }
         playerIdChangedMessage_ = value;
 
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00008000;
         return this;
       }
       /**
-       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
        */
       public Builder setPlayerIdChangedMessage(
           de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.Builder builderForValue) {
         playerIdChangedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00008000;
         return this;
       }
       /**
-       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
        */
       public Builder mergePlayerIdChangedMessage(de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage value) {
-        if (((bitField0_ & 0x00040000) == 0x00040000) &&
+        if (((bitField0_ & 0x00008000) == 0x00008000) &&
             playerIdChangedMessage_ != de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.getDefaultInstance()) {
           playerIdChangedMessage_ =
             de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.newBuilder(playerIdChangedMessage_).mergeFrom(value).buildPartial();
@@ -58559,35 +58732,35 @@ public final class ProtoBuf {
           playerIdChangedMessage_ = value;
         }
 
-        bitField0_ |= 0x00040000;
+        bitField0_ |= 0x00008000;
         return this;
       }
       /**
-       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 19;</code>
+       * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 16;</code>
        */
       public Builder clearPlayerIdChangedMessage() {
         playerIdChangedMessage_ = de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00040000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
 
-      // optional .AskKickPlayerMessage askKickPlayerMessage = 20;
+      // optional .AskKickPlayerMessage askKickPlayerMessage = 17;
       private de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage askKickPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.getDefaultInstance();
       /**
-       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
        */
       public boolean hasAskKickPlayerMessage() {
-        return ((bitField0_ & 0x00080000) == 0x00080000);
+        return ((bitField0_ & 0x00010000) == 0x00010000);
       }
       /**
-       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage getAskKickPlayerMessage() {
         return askKickPlayerMessage_;
       }
       /**
-       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
        */
       public Builder setAskKickPlayerMessage(de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage value) {
         if (value == null) {
@@ -58595,24 +58768,24 @@ public final class ProtoBuf {
         }
         askKickPlayerMessage_ = value;
 
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00010000;
         return this;
       }
       /**
-       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
        */
       public Builder setAskKickPlayerMessage(
           de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.Builder builderForValue) {
         askKickPlayerMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00010000;
         return this;
       }
       /**
-       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
        */
       public Builder mergeAskKickPlayerMessage(de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage value) {
-        if (((bitField0_ & 0x00080000) == 0x00080000) &&
+        if (((bitField0_ & 0x00010000) == 0x00010000) &&
             askKickPlayerMessage_ != de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.getDefaultInstance()) {
           askKickPlayerMessage_ =
             de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.newBuilder(askKickPlayerMessage_).mergeFrom(value).buildPartial();
@@ -58620,35 +58793,35 @@ public final class ProtoBuf {
           askKickPlayerMessage_ = value;
         }
 
-        bitField0_ |= 0x00080000;
+        bitField0_ |= 0x00010000;
         return this;
       }
       /**
-       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 20;</code>
+       * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 17;</code>
        */
       public Builder clearAskKickPlayerMessage() {
         askKickPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00080000);
+        bitField0_ = (bitField0_ & ~0x00010000);
         return this;
       }
 
-      // optional .AskKickDeniedMessage askKickDeniedMessage = 21;
+      // optional .AskKickDeniedMessage askKickDeniedMessage = 18;
       private de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage askKickDeniedMessage_ = de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.getDefaultInstance();
       /**
-       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
        */
       public boolean hasAskKickDeniedMessage() {
-        return ((bitField0_ & 0x00100000) == 0x00100000);
+        return ((bitField0_ & 0x00020000) == 0x00020000);
       }
       /**
-       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
        */
       public de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage getAskKickDeniedMessage() {
         return askKickDeniedMessage_;
       }
       /**
-       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
        */
       public Builder setAskKickDeniedMessage(de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage value) {
         if (value == null) {
@@ -58656,24 +58829,24 @@ public final class ProtoBuf {
         }
         askKickDeniedMessage_ = value;
 
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00020000;
         return this;
       }
       /**
-       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
        */
       public Builder setAskKickDeniedMessage(
           de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.Builder builderForValue) {
         askKickDeniedMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00020000;
         return this;
       }
       /**
-       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
        */
       public Builder mergeAskKickDeniedMessage(de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage value) {
-        if (((bitField0_ & 0x00100000) == 0x00100000) &&
+        if (((bitField0_ & 0x00020000) == 0x00020000) &&
             askKickDeniedMessage_ != de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.getDefaultInstance()) {
           askKickDeniedMessage_ =
             de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.newBuilder(askKickDeniedMessage_).mergeFrom(value).buildPartial();
@@ -58681,35 +58854,35 @@ public final class ProtoBuf {
           askKickDeniedMessage_ = value;
         }
 
-        bitField0_ |= 0x00100000;
+        bitField0_ |= 0x00020000;
         return this;
       }
       /**
-       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 21;</code>
+       * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 18;</code>
        */
       public Builder clearAskKickDeniedMessage() {
         askKickDeniedMessage_ = de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00100000);
+        bitField0_ = (bitField0_ & ~0x00020000);
         return this;
       }
 
-      // optional .StartKickPetitionMessage startKickPetitionMessage = 22;
+      // optional .StartKickPetitionMessage startKickPetitionMessage = 19;
       private de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage startKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.getDefaultInstance();
       /**
-       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
        */
       public boolean hasStartKickPetitionMessage() {
-        return ((bitField0_ & 0x00200000) == 0x00200000);
+        return ((bitField0_ & 0x00040000) == 0x00040000);
       }
       /**
-       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
        */
       public de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage getStartKickPetitionMessage() {
         return startKickPetitionMessage_;
       }
       /**
-       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
        */
       public Builder setStartKickPetitionMessage(de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage value) {
         if (value == null) {
@@ -58717,24 +58890,24 @@ public final class ProtoBuf {
         }
         startKickPetitionMessage_ = value;
 
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00040000;
         return this;
       }
       /**
-       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
        */
       public Builder setStartKickPetitionMessage(
           de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.Builder builderForValue) {
         startKickPetitionMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00040000;
         return this;
       }
       /**
-       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
        */
       public Builder mergeStartKickPetitionMessage(de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage value) {
-        if (((bitField0_ & 0x00200000) == 0x00200000) &&
+        if (((bitField0_ & 0x00040000) == 0x00040000) &&
             startKickPetitionMessage_ != de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.getDefaultInstance()) {
           startKickPetitionMessage_ =
             de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.newBuilder(startKickPetitionMessage_).mergeFrom(value).buildPartial();
@@ -58742,35 +58915,35 @@ public final class ProtoBuf {
           startKickPetitionMessage_ = value;
         }
 
-        bitField0_ |= 0x00200000;
+        bitField0_ |= 0x00040000;
         return this;
       }
       /**
-       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 22;</code>
+       * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 19;</code>
        */
       public Builder clearStartKickPetitionMessage() {
         startKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00200000);
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
-      // optional .VoteKickRequestMessage voteKickRequestMessage = 23;
+      // optional .VoteKickRequestMessage voteKickRequestMessage = 20;
       private de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage voteKickRequestMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
        */
       public boolean hasVoteKickRequestMessage() {
-        return ((bitField0_ & 0x00400000) == 0x00400000);
+        return ((bitField0_ & 0x00080000) == 0x00080000);
       }
       /**
-       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
        */
       public de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage getVoteKickRequestMessage() {
         return voteKickRequestMessage_;
       }
       /**
-       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
        */
       public Builder setVoteKickRequestMessage(de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage value) {
         if (value == null) {
@@ -58778,24 +58951,24 @@ public final class ProtoBuf {
         }
         voteKickRequestMessage_ = value;
 
-        bitField0_ |= 0x00400000;
+        bitField0_ |= 0x00080000;
         return this;
       }
       /**
-       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
        */
       public Builder setVoteKickRequestMessage(
           de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.Builder builderForValue) {
         voteKickRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00400000;
+        bitField0_ |= 0x00080000;
         return this;
       }
       /**
-       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
        */
       public Builder mergeVoteKickRequestMessage(de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage value) {
-        if (((bitField0_ & 0x00400000) == 0x00400000) &&
+        if (((bitField0_ & 0x00080000) == 0x00080000) &&
             voteKickRequestMessage_ != de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.getDefaultInstance()) {
           voteKickRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.newBuilder(voteKickRequestMessage_).mergeFrom(value).buildPartial();
@@ -58803,35 +58976,35 @@ public final class ProtoBuf {
           voteKickRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x00400000;
+        bitField0_ |= 0x00080000;
         return this;
       }
       /**
-       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 23;</code>
+       * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 20;</code>
        */
       public Builder clearVoteKickRequestMessage() {
         voteKickRequestMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00400000);
+        bitField0_ = (bitField0_ & ~0x00080000);
         return this;
       }
 
-      // optional .VoteKickReplyMessage voteKickReplyMessage = 24;
+      // optional .VoteKickReplyMessage voteKickReplyMessage = 21;
       private de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage voteKickReplyMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.getDefaultInstance();
       /**
-       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
        */
       public boolean hasVoteKickReplyMessage() {
-        return ((bitField0_ & 0x00800000) == 0x00800000);
+        return ((bitField0_ & 0x00100000) == 0x00100000);
       }
       /**
-       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
        */
       public de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage getVoteKickReplyMessage() {
         return voteKickReplyMessage_;
       }
       /**
-       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
        */
       public Builder setVoteKickReplyMessage(de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage value) {
         if (value == null) {
@@ -58839,24 +59012,24 @@ public final class ProtoBuf {
         }
         voteKickReplyMessage_ = value;
 
-        bitField0_ |= 0x00800000;
+        bitField0_ |= 0x00100000;
         return this;
       }
       /**
-       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
        */
       public Builder setVoteKickReplyMessage(
           de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.Builder builderForValue) {
         voteKickReplyMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x00800000;
+        bitField0_ |= 0x00100000;
         return this;
       }
       /**
-       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
        */
       public Builder mergeVoteKickReplyMessage(de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage value) {
-        if (((bitField0_ & 0x00800000) == 0x00800000) &&
+        if (((bitField0_ & 0x00100000) == 0x00100000) &&
             voteKickReplyMessage_ != de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.getDefaultInstance()) {
           voteKickReplyMessage_ =
             de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.newBuilder(voteKickReplyMessage_).mergeFrom(value).buildPartial();
@@ -58864,35 +59037,35 @@ public final class ProtoBuf {
           voteKickReplyMessage_ = value;
         }
 
-        bitField0_ |= 0x00800000;
+        bitField0_ |= 0x00100000;
         return this;
       }
       /**
-       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 24;</code>
+       * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 21;</code>
        */
       public Builder clearVoteKickReplyMessage() {
         voteKickReplyMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x00800000);
+        bitField0_ = (bitField0_ & ~0x00100000);
         return this;
       }
 
-      // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;
+      // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;
       private de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage kickPetitionUpdateMessage_ = de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.getDefaultInstance();
       /**
-       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
        */
       public boolean hasKickPetitionUpdateMessage() {
-        return ((bitField0_ & 0x01000000) == 0x01000000);
+        return ((bitField0_ & 0x00200000) == 0x00200000);
       }
       /**
-       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
        */
       public de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage getKickPetitionUpdateMessage() {
         return kickPetitionUpdateMessage_;
       }
       /**
-       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
        */
       public Builder setKickPetitionUpdateMessage(de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage value) {
         if (value == null) {
@@ -58900,24 +59073,24 @@ public final class ProtoBuf {
         }
         kickPetitionUpdateMessage_ = value;
 
-        bitField0_ |= 0x01000000;
+        bitField0_ |= 0x00200000;
         return this;
       }
       /**
-       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
        */
       public Builder setKickPetitionUpdateMessage(
           de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.Builder builderForValue) {
         kickPetitionUpdateMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x01000000;
+        bitField0_ |= 0x00200000;
         return this;
       }
       /**
-       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
        */
       public Builder mergeKickPetitionUpdateMessage(de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage value) {
-        if (((bitField0_ & 0x01000000) == 0x01000000) &&
+        if (((bitField0_ & 0x00200000) == 0x00200000) &&
             kickPetitionUpdateMessage_ != de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.getDefaultInstance()) {
           kickPetitionUpdateMessage_ =
             de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.newBuilder(kickPetitionUpdateMessage_).mergeFrom(value).buildPartial();
@@ -58925,35 +59098,35 @@ public final class ProtoBuf {
           kickPetitionUpdateMessage_ = value;
         }
 
-        bitField0_ |= 0x01000000;
+        bitField0_ |= 0x00200000;
         return this;
       }
       /**
-       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 25;</code>
+       * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 22;</code>
        */
       public Builder clearKickPetitionUpdateMessage() {
         kickPetitionUpdateMessage_ = de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x01000000);
+        bitField0_ = (bitField0_ & ~0x00200000);
         return this;
       }
 
-      // optional .EndKickPetitionMessage endKickPetitionMessage = 26;
+      // optional .EndKickPetitionMessage endKickPetitionMessage = 23;
       private de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage endKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.getDefaultInstance();
       /**
-       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
        */
       public boolean hasEndKickPetitionMessage() {
-        return ((bitField0_ & 0x02000000) == 0x02000000);
+        return ((bitField0_ & 0x00400000) == 0x00400000);
       }
       /**
-       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
        */
       public de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage getEndKickPetitionMessage() {
         return endKickPetitionMessage_;
       }
       /**
-       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
        */
       public Builder setEndKickPetitionMessage(de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage value) {
         if (value == null) {
@@ -58961,24 +59134,24 @@ public final class ProtoBuf {
         }
         endKickPetitionMessage_ = value;
 
-        bitField0_ |= 0x02000000;
+        bitField0_ |= 0x00400000;
         return this;
       }
       /**
-       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
        */
       public Builder setEndKickPetitionMessage(
           de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.Builder builderForValue) {
         endKickPetitionMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x02000000;
+        bitField0_ |= 0x00400000;
         return this;
       }
       /**
-       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
        */
       public Builder mergeEndKickPetitionMessage(de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage value) {
-        if (((bitField0_ & 0x02000000) == 0x02000000) &&
+        if (((bitField0_ & 0x00400000) == 0x00400000) &&
             endKickPetitionMessage_ != de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.getDefaultInstance()) {
           endKickPetitionMessage_ =
             de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.newBuilder(endKickPetitionMessage_).mergeFrom(value).buildPartial();
@@ -58986,35 +59159,35 @@ public final class ProtoBuf {
           endKickPetitionMessage_ = value;
         }
 
-        bitField0_ |= 0x02000000;
+        bitField0_ |= 0x00400000;
         return this;
       }
       /**
-       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 26;</code>
+       * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 23;</code>
        */
       public Builder clearEndKickPetitionMessage() {
         endKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x02000000);
+        bitField0_ = (bitField0_ & ~0x00400000);
         return this;
       }
 
-      // optional .ChatRequestMessage chatRequestMessage = 27;
+      // optional .ChatRequestMessage chatRequestMessage = 24;
       private de.pokerth.protocol.ProtoBuf.ChatRequestMessage chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
        */
       public boolean hasChatRequestMessage() {
-        return ((bitField0_ & 0x04000000) == 0x04000000);
+        return ((bitField0_ & 0x00800000) == 0x00800000);
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage() {
         return chatRequestMessage_;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
        */
       public Builder setChatRequestMessage(de.pokerth.protocol.ProtoBuf.ChatRequestMessage value) {
         if (value == null) {
@@ -59022,24 +59195,24 @@ public final class ProtoBuf {
         }
         chatRequestMessage_ = value;
 
-        bitField0_ |= 0x04000000;
+        bitField0_ |= 0x00800000;
         return this;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
        */
       public Builder setChatRequestMessage(
           de.pokerth.protocol.ProtoBuf.ChatRequestMessage.Builder builderForValue) {
         chatRequestMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x04000000;
+        bitField0_ |= 0x00800000;
         return this;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
        */
       public Builder mergeChatRequestMessage(de.pokerth.protocol.ProtoBuf.ChatRequestMessage value) {
-        if (((bitField0_ & 0x04000000) == 0x04000000) &&
+        if (((bitField0_ & 0x00800000) == 0x00800000) &&
             chatRequestMessage_ != de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance()) {
           chatRequestMessage_ =
             de.pokerth.protocol.ProtoBuf.ChatRequestMessage.newBuilder(chatRequestMessage_).mergeFrom(value).buildPartial();
@@ -59047,35 +59220,35 @@ public final class ProtoBuf {
           chatRequestMessage_ = value;
         }
 
-        bitField0_ |= 0x04000000;
+        bitField0_ |= 0x00800000;
         return this;
       }
       /**
-       * <code>optional .ChatRequestMessage chatRequestMessage = 27;</code>
+       * <code>optional .ChatRequestMessage chatRequestMessage = 24;</code>
        */
       public Builder clearChatRequestMessage() {
         chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x04000000);
+        bitField0_ = (bitField0_ & ~0x00800000);
         return this;
       }
 
-      // optional .ChatMessage chatMessage = 28;
+      // optional .ChatMessage chatMessage = 25;
       private de.pokerth.protocol.ProtoBuf.ChatMessage chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
       /**
-       * <code>optional .ChatMessage chatMessage = 28;</code>
+       * <code>optional .ChatMessage chatMessage = 25;</code>
        */
       public boolean hasChatMessage() {
-        return ((bitField0_ & 0x08000000) == 0x08000000);
+        return ((bitField0_ & 0x01000000) == 0x01000000);
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 28;</code>
+       * <code>optional .ChatMessage chatMessage = 25;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage() {
         return chatMessage_;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 28;</code>
+       * <code>optional .ChatMessage chatMessage = 25;</code>
        */
       public Builder setChatMessage(de.pokerth.protocol.ProtoBuf.ChatMessage value) {
         if (value == null) {
@@ -59083,24 +59256,24 @@ public final class ProtoBuf {
         }
         chatMessage_ = value;
 
-        bitField0_ |= 0x08000000;
+        bitField0_ |= 0x01000000;
         return this;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 28;</code>
+       * <code>optional .ChatMessage chatMessage = 25;</code>
        */
       public Builder setChatMessage(
           de.pokerth.protocol.ProtoBuf.ChatMessage.Builder builderForValue) {
         chatMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x08000000;
+        bitField0_ |= 0x01000000;
         return this;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 28;</code>
+       * <code>optional .ChatMessage chatMessage = 25;</code>
        */
       public Builder mergeChatMessage(de.pokerth.protocol.ProtoBuf.ChatMessage value) {
-        if (((bitField0_ & 0x08000000) == 0x08000000) &&
+        if (((bitField0_ & 0x01000000) == 0x01000000) &&
             chatMessage_ != de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance()) {
           chatMessage_ =
             de.pokerth.protocol.ProtoBuf.ChatMessage.newBuilder(chatMessage_).mergeFrom(value).buildPartial();
@@ -59108,35 +59281,35 @@ public final class ProtoBuf {
           chatMessage_ = value;
         }
 
-        bitField0_ |= 0x08000000;
+        bitField0_ |= 0x01000000;
         return this;
       }
       /**
-       * <code>optional .ChatMessage chatMessage = 28;</code>
+       * <code>optional .ChatMessage chatMessage = 25;</code>
        */
       public Builder clearChatMessage() {
         chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x08000000);
+        bitField0_ = (bitField0_ & ~0x01000000);
         return this;
       }
 
-      // optional .ChatRejectMessage chatRejectMessage = 29;
+      // optional .ChatRejectMessage chatRejectMessage = 26;
       private de.pokerth.protocol.ProtoBuf.ChatRejectMessage chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
        */
       public boolean hasChatRejectMessage() {
-        return ((bitField0_ & 0x10000000) == 0x10000000);
+        return ((bitField0_ & 0x02000000) == 0x02000000);
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
        */
       public de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage() {
         return chatRejectMessage_;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
        */
       public Builder setChatRejectMessage(de.pokerth.protocol.ProtoBuf.ChatRejectMessage value) {
         if (value == null) {
@@ -59144,24 +59317,24 @@ public final class ProtoBuf {
         }
         chatRejectMessage_ = value;
 
-        bitField0_ |= 0x10000000;
+        bitField0_ |= 0x02000000;
         return this;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
        */
       public Builder setChatRejectMessage(
           de.pokerth.protocol.ProtoBuf.ChatRejectMessage.Builder builderForValue) {
         chatRejectMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x10000000;
+        bitField0_ |= 0x02000000;
         return this;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
        */
       public Builder mergeChatRejectMessage(de.pokerth.protocol.ProtoBuf.ChatRejectMessage value) {
-        if (((bitField0_ & 0x10000000) == 0x10000000) &&
+        if (((bitField0_ & 0x02000000) == 0x02000000) &&
             chatRejectMessage_ != de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance()) {
           chatRejectMessage_ =
             de.pokerth.protocol.ProtoBuf.ChatRejectMessage.newBuilder(chatRejectMessage_).mergeFrom(value).buildPartial();
@@ -59169,16 +59342,138 @@ public final class ProtoBuf {
           chatRejectMessage_ = value;
         }
 
-        bitField0_ |= 0x10000000;
+        bitField0_ |= 0x02000000;
         return this;
       }
       /**
-       * <code>optional .ChatRejectMessage chatRejectMessage = 29;</code>
+       * <code>optional .ChatRejectMessage chatRejectMessage = 26;</code>
        */
       public Builder clearChatRejectMessage() {
         chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x10000000);
+        bitField0_ = (bitField0_ & ~0x02000000);
+        return this;
+      }
+
+      // optional .TimeoutWarningMessage timeoutWarningMessage = 27;
+      private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
+      /**
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+       */
+      public boolean hasTimeoutWarningMessage() {
+        return ((bitField0_ & 0x04000000) == 0x04000000);
+      }
+      /**
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+       */
+      public de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage() {
+        return timeoutWarningMessage_;
+      }
+      /**
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+       */
+      public Builder setTimeoutWarningMessage(de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        timeoutWarningMessage_ = value;
+
+        bitField0_ |= 0x04000000;
+        return this;
+      }
+      /**
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+       */
+      public Builder setTimeoutWarningMessage(
+          de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.Builder builderForValue) {
+        timeoutWarningMessage_ = builderForValue.build();
+
+        bitField0_ |= 0x04000000;
+        return this;
+      }
+      /**
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+       */
+      public Builder mergeTimeoutWarningMessage(de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage value) {
+        if (((bitField0_ & 0x04000000) == 0x04000000) &&
+            timeoutWarningMessage_ != de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance()) {
+          timeoutWarningMessage_ =
+            de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.newBuilder(timeoutWarningMessage_).mergeFrom(value).buildPartial();
+        } else {
+          timeoutWarningMessage_ = value;
+        }
+
+        bitField0_ |= 0x04000000;
+        return this;
+      }
+      /**
+       * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 27;</code>
+       */
+      public Builder clearTimeoutWarningMessage() {
+        timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
+
+        bitField0_ = (bitField0_ & ~0x04000000);
+        return this;
+      }
+
+      // optional .ResetTimeoutMessage resetTimeoutMessage = 28;
+      private de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
+      /**
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+       */
+      public boolean hasResetTimeoutMessage() {
+        return ((bitField0_ & 0x08000000) == 0x08000000);
+      }
+      /**
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+       */
+      public de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage() {
+        return resetTimeoutMessage_;
+      }
+      /**
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+       */
+      public Builder setResetTimeoutMessage(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        resetTimeoutMessage_ = value;
+
+        bitField0_ |= 0x08000000;
+        return this;
+      }
+      /**
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+       */
+      public Builder setResetTimeoutMessage(
+          de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.Builder builderForValue) {
+        resetTimeoutMessage_ = builderForValue.build();
+
+        bitField0_ |= 0x08000000;
+        return this;
+      }
+      /**
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+       */
+      public Builder mergeResetTimeoutMessage(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage value) {
+        if (((bitField0_ & 0x08000000) == 0x08000000) &&
+            resetTimeoutMessage_ != de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance()) {
+          resetTimeoutMessage_ =
+            de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.newBuilder(resetTimeoutMessage_).mergeFrom(value).buildPartial();
+        } else {
+          resetTimeoutMessage_ = value;
+        }
+
+        bitField0_ |= 0x08000000;
+        return this;
+      }
+      /**
+       * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 28;</code>
+       */
+      public Builder clearResetTimeoutMessage() {
+        resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
+
+        bitField0_ = (bitField0_ & ~0x08000000);
         return this;
       }
 
@@ -59188,7 +59483,7 @@ public final class ProtoBuf {
        * <code>optional .ErrorMessage errorMessage = 1025;</code>
        */
       public boolean hasErrorMessage() {
-        return ((bitField0_ & 0x20000000) == 0x20000000);
+        return ((bitField0_ & 0x10000000) == 0x10000000);
       }
       /**
        * <code>optional .ErrorMessage errorMessage = 1025;</code>
@@ -59205,7 +59500,7 @@ public final class ProtoBuf {
         }
         errorMessage_ = value;
 
-        bitField0_ |= 0x20000000;
+        bitField0_ |= 0x10000000;
         return this;
       }
       /**
@@ -59215,14 +59510,14 @@ public final class ProtoBuf {
           de.pokerth.protocol.ProtoBuf.ErrorMessage.Builder builderForValue) {
         errorMessage_ = builderForValue.build();
 
-        bitField0_ |= 0x20000000;
+        bitField0_ |= 0x10000000;
         return this;
       }
       /**
        * <code>optional .ErrorMessage errorMessage = 1025;</code>
        */
       public Builder mergeErrorMessage(de.pokerth.protocol.ProtoBuf.ErrorMessage value) {
-        if (((bitField0_ & 0x20000000) == 0x20000000) &&
+        if (((bitField0_ & 0x10000000) == 0x10000000) &&
             errorMessage_ != de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance()) {
           errorMessage_ =
             de.pokerth.protocol.ProtoBuf.ErrorMessage.newBuilder(errorMessage_).mergeFrom(value).buildPartial();
@@ -59230,7 +59525,7 @@ public final class ProtoBuf {
           errorMessage_ = value;
         }
 
-        bitField0_ |= 0x20000000;
+        bitField0_ |= 0x10000000;
         return this;
       }
       /**
@@ -59239,7 +59534,7 @@ public final class ProtoBuf {
       public Builder clearErrorMessage() {
         errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
 
-        bitField0_ = (bitField0_ & ~0x20000000);
+        bitField0_ = (bitField0_ & ~0x10000000);
         return this;
       }
 

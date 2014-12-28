@@ -55,6 +55,12 @@
 #define MAX_NUM_PLAYER_RESULTS		MAX_NUMBER_OF_PLAYERS
 #define MAX_NUM_PLAYER_CARDS		MAX_NUMBER_OF_PLAYERS*/
 
+#define VALIDATE_IS_UINT16(__val) ((__val) <= 65535)
+#define VALIDATE_STRING_SIZE(__str, __minsize, __maxsize) ((__str).size() >= (__minsize) && (__str).size() <= (__maxsize))
+#define VALIDATE_UINT_RANGE(__val, __minval, __maxval) ((__val) >= (__minval) && (__val) <= (__maxval))
+#define VALIDATE_UINT_UPPER(__val, __maxval) ((__val) <= (__maxval))
+#define VALIDATE_LIST_SIZE(__l, __minsize, __maxsize) ((__l).size() >= (__minsize) && (__l).size() <= (__maxsize))
+
 // This is just a wrapper class for the protocol buffer.
 class NetPacket
 {
@@ -65,10 +71,12 @@ public:
 
 	static boost::shared_ptr<NetPacket> Create(const char *data, size_t dataSize);
 
-	const PokerTHMessage *GetMsg() const {
+	const PokerTHMessage *GetMsg() const
+	{
 		return m_msg;
 	}
-	PokerTHMessage *GetMsg() {
+	PokerTHMessage *GetMsg()
+	{
 		return m_msg;
 	}
 

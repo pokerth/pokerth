@@ -123,7 +123,7 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			}
 		}
 		if (tmpPacket) {
-			if (validator.IsValidPacket(*tmpPacket)) {
+			if (validator.IsValidMessage(*tmpPacket->GetMsg())) {
 				receivedPackets.push_back(tmpPacket);
 			} else {
 				LOG_ERROR("Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());

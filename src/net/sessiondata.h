@@ -60,7 +60,7 @@ class ServerGame;
 class SessionData : public boost::enable_shared_from_this<SessionData>
 {
 public:
-	enum State { Init = 1, ReceivingAvatar = 2, Established = 4, Game = 8, Spectating = 16, SpectatorWaiting = 32, Closed = 128 };
+	enum State { Auth = 1, Init = 2, ReceivingAvatar = 4, Established = 8, Game = 16, Spectating = 32, SpectatorWaiting = 64, Closed = 128 };
 
 	SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService);
 	SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService, int filler);
@@ -96,19 +96,23 @@ public:
 	const std::string &GetClientAddr() const;
 	void SetClientAddr(const std::string &addr);
 
-	ReceiveBuffer &GetReceiveBuffer() {
+	ReceiveBuffer &GetReceiveBuffer()
+	{
 		return *m_receiveBuffer;
 	}
-	SendBuffer &GetSendBuffer() {
+	SendBuffer &GetSendBuffer()
+	{
 		return *m_sendBuffer;
 	}
 
-	void Close() {
+	void Close()
+	{
 		m_callback.CloseSession(shared_from_this());
 	}
 	void CloseSocketHandle();
 	void CloseWebSocketHandle();
-	void HandlePacket(boost::shared_ptr<NetPacket> packet) {
+	void HandlePacket(boost::shared_ptr<NetPacket> packet)
+	{
 		m_callback.HandlePacket(shared_from_this(), packet);
 	}
 

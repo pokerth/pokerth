@@ -28,114 +28,56 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* PokerTH network packet validation. */
+/* PokerTH game management message validation. */
 
-#ifndef _NETPACKETVALIDATOR_H_
-#define _NETPACKETVALIDATOR_H_
+#ifndef _GAMEMANAGEMENTMESSAGEVALIDATOR_H_
+#define _GAMEMANAGEMENTMESSAGEVALIDATOR_H_
 
 #include <map>
+#include <boost/function.hpp>
 
-class NetPacket;
-class NetGameInfo;
+class GameManagementMessage;
 
-class NetPacketValidator
+class GameManagementMessageValidator
 {
 public:
-	NetPacketValidator();
+	GameManagementMessageValidator();
 
-	bool IsValidPacket(const NetPacket &packet) const;
+	bool IsValidMessage(const GameManagementMessage &msg) const;
 
 protected:
-	static bool ValidateAnnounceMessage(const NetPacket &packet);
-	static bool ValidateAuthMessage(const NetPacket &packet);
-	static bool ValidateLobbyMessage(const NetPacket &packet);
-	static bool ValidateGameMessage(const NetPacket &packet);
-	static bool ValidateGameManagementMessage(const NetPacket &packet);
-	static bool ValidateGameEngineMessage(const NetPacket &packet);
-	static bool ValidateInitMessage(const NetPacket &packet);
-	static bool ValidateAuthServerChallengeMessage(const NetPacket &packet);
-	static bool ValidateAuthClientResponseMessage(const NetPacket &packet);
-	static bool ValidateAuthServerVerificationMessage(const NetPacket &packet);
-	static bool ValidateInitAckMessage(const NetPacket &packet);
-	static bool ValidateAvatarRequestMessage(const NetPacket &packet);
-	static bool ValidateAvatarHeaderMessage(const NetPacket &packet);
-	static bool ValidateAvatarDataMessage(const NetPacket &packet);
-	static bool ValidateAvatarEndMessage(const NetPacket &packet);
-	static bool ValidateUnknownAvatarMessage(const NetPacket &packet);
-	static bool ValidatePlayerListMessage(const NetPacket &packet);
-	static bool ValidateGameListNewMessage(const NetPacket &packet);
-	static bool ValidateGameListUpdateMessage(const NetPacket &packet);
-	static bool ValidateGameListPlayerJoinedMessage(const NetPacket &packet);
-	static bool ValidateGameListPlayerLeftMessage(const NetPacket &packet);
-	static bool ValidateGameListAdminChangedMessage(const NetPacket &packet);
-	static bool ValidatePlayerInfoRequestMessage(const NetPacket &packet);
-	static bool ValidatePlayerInfoReplyMessage(const NetPacket &packet);
-	static bool ValidateSubscriptionRequestMessage(const NetPacket &packet);
-	static bool ValidateCreateGameMessage(const NetPacket &packet);
-	static bool ValidateJoinGameMessage(const NetPacket &packet);
-	static bool ValidateRejoinGameMessage(const NetPacket &packet);
-	static bool ValidateJoinGameAckMessage(const NetPacket &packet);
-	static bool ValidateJoinGameFailedMessage(const NetPacket &packet);
-	static bool ValidateGamePlayerJoinedMessage(const NetPacket &packet);
-	static bool ValidateGamePlayerLeftMessage(const NetPacket &packet);
-	static bool ValidateGameAdminChangedMessage(const NetPacket &packet);
-	static bool ValidateRemovedFromGameMessage(const NetPacket &packet);
-	static bool ValidateKickPlayerRequestMessage(const NetPacket &packet);
-	static bool ValidateLeaveGameRequestMessage(const NetPacket &packet);
-	static bool ValidateInvitePlayerToGameMessage(const NetPacket &packet);
-	static bool ValidateInviteNotifyMessage(const NetPacket &packet);
-	static bool ValidateRejectGameInvitationMessage(const NetPacket &packet);
-	static bool ValidateRejectInvNotifyMessage(const NetPacket &packet);
-	static bool ValidateStartEventMessage(const NetPacket &packet);
-	static bool ValidateStartEventAckMessage(const NetPacket &packet);
-	static bool ValidateGameStartInitialMessage(const NetPacket &packet);
-	static bool ValidateGameStartRejoinMessage(const NetPacket &packet);
-	static bool ValidateHandStartMessage(const NetPacket &packet);
-	static bool ValidatePlayersTurnMessage(const NetPacket &packet);
-	static bool ValidateMyActionRequestMessage(const NetPacket &packet);
-	static bool ValidateYourActionRejectedMessage(const NetPacket &packet);
-	static bool ValidatePlayersActionDoneMessage(const NetPacket &packet);
-	static bool ValidateDealFlopCardsMessage(const NetPacket &packet);
-	static bool ValidateDealTurnCardMessage(const NetPacket &packet);
-	static bool ValidateDealRiverCardMessage(const NetPacket &packet);
-	static bool ValidateAllInShowCardsMessage(const NetPacket &packet);
-	static bool ValidateEndOfHandShowCardsMessage(const NetPacket &packet);
-	static bool ValidateEndOfHandHideCardsMessage(const NetPacket &packet);
-	static bool ValidateShowMyCardsRequestMessage(const NetPacket &packet);
-	static bool ValidateAfterHandShowCardsMessage(const NetPacket &packet);
-	static bool ValidateEndOfGameMessage(const NetPacket &packet);
-	static bool ValidatePlayerIdChangedMessage(const NetPacket &packet);
-	static bool ValidateAskKickPlayerMessage(const NetPacket &packet);
-	static bool ValidateAskKickDeniedMessage(const NetPacket &packet);
-	static bool ValidateStartKickPetitionMessage(const NetPacket &packet);
-	static bool ValidateVoteKickRequestMessage(const NetPacket &packet);
-	static bool ValidateVoteKickReplyMessage(const NetPacket &packet);
-	static bool ValidateKickPetitionUpdateMessage(const NetPacket &packet);
-	static bool ValidateEndKickPetitionMessage(const NetPacket &packet);
-	static bool ValidateStatisticsMessage(const NetPacket &packet);
-	static bool ValidateChatRequestMessage(const NetPacket &packet);
-	static bool ValidateChatMessage(const NetPacket &packet);
-	static bool ValidateChatRejectMessage(const NetPacket &packet);
-	static bool ValidateDialogMessage(const NetPacket &packet);
-	static bool ValidateTimeoutWarningMessage(const NetPacket &packet);
-	static bool ValidateResetTimeoutMessage(const NetPacket &packet);
-	static bool ValidateReportAvatarMessage(const NetPacket &packet);
-	static bool ValidateReportAvatarAckMessage(const NetPacket &packet);
-	static bool ValidateReportGameMessage(const NetPacket &packet);
-	static bool ValidateReportGameAckMessage(const NetPacket &packet);
-	static bool ValidateErrorMessage(const NetPacket &packet);
-	static bool ValidateAdminRemoveGameMessage(const NetPacket &packet);
-	static bool ValidateAdminRemoveGameAckMessage(const NetPacket &packet);
-	static bool ValidateAdminBanPlayerMessage(const NetPacket &packet);
-	static bool ValidateAdminBanPlayerAckMessage(const NetPacket &packet);
-	static bool ValidateGameListSpectatorJoinedMessage(const NetPacket &packet);
-	static bool ValidateGameListSpectatorLeftMessage(const NetPacket &packet);
-	static bool ValidateGameSpectatorJoinedMessage(const NetPacket &packet);
-	static bool ValidateGameSpectatorLeftMessage(const NetPacket &packet);
+	static bool ValidateJoinGameMessage(const GameManagementMessage &msg);
+	static bool ValidateRejoinGameMessage(const GameManagementMessage &msg);
+	static bool ValidateJoinGameAckMessage(const GameManagementMessage &msg);
+	static bool ValidateJoinGameFailedMessage(const GameManagementMessage &msg);
+	static bool ValidateGamePlayerJoinedMessage(const GameManagementMessage &msg);
+	static bool ValidateGamePlayerLeftMessage(const GameManagementMessage &msg);
+	static bool ValidateGameSpectatorJoinedMessage(const GameManagementMessage &msg);
+	static bool ValidateGameSpectatorLeftMessage(const GameManagementMessage &msg);
+	static bool ValidateGameAdminChangedMessage(const GameManagementMessage &msg);
+	static bool ValidateRemovedFromGameMessage(const GameManagementMessage &msg);
+	static bool ValidateKickPlayerRequestMessage(const GameManagementMessage &msg);
+	static bool ValidateLeaveGameRequestMessage(const GameManagementMessage &msg);
+	static bool ValidateInvitePlayerToGameMessage(const GameManagementMessage &msg);
+	static bool ValidateStartEventMessage(const GameManagementMessage &msg);
+	static bool ValidateStartEventAckMessage(const GameManagementMessage &msg);
+	static bool ValidateGameStartInitialMessage(const GameManagementMessage &msg);
+	static bool ValidateGameStartRejoinMessage(const GameManagementMessage &msg);
+	static bool ValidateEndOfGameMessage(const GameManagementMessage &msg);
+	static bool ValidatePlayerIdChangedMessage(const GameManagementMessage &msg);
+	static bool ValidateAskKickPlayerMessage(const GameManagementMessage &msg);
+	static bool ValidateAskKickDeniedMessage(const GameManagementMessage &msg);
+	static bool ValidateStartKickPetitionMessage(const GameManagementMessage &msg);
+	static bool ValidateVoteKickRequestMessage(const GameManagementMessage &msg);
+	static bool ValidateVoteKickReplyMessage(const GameManagementMessage &msg);
+	static bool ValidateKickPetitionUpdateMessage(const GameManagementMessage &msg);
+	static bool ValidateEndKickPetitionMessage(const GameManagementMessage &msg);
+	static bool ValidateChatRequestMessage(const GameManagementMessage &msg);
+	static bool ValidateChatMessage(const GameManagementMessage &msg);
+	static bool ValidateChatRejectMessage(const GameManagementMessage &msg);
+	static bool ValidateErrorMessage(const GameManagementMessage &msg);
 
-	static bool ValidateGameInfo(const NetGameInfo &gameInfo);
-
-	typedef bool (*ValidateFunctor)(const NetPacket &);
+	typedef boost::function<bool (const GameManagementMessage &)> ValidateFunctor;
 	typedef std::map<int, ValidateFunctor> ValidateFunctorMap;
 private:
 

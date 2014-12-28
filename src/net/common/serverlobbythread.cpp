@@ -107,35 +107,43 @@ public:
 	InternalServerCallback(ServerLobbyThread &server) : m_server(server) {}
 	virtual ~InternalServerCallback() {}
 
-	virtual void CloseSession(boost::shared_ptr<SessionData> session) {
+	virtual void CloseSession(boost::shared_ptr<SessionData> session)
+	{
 		m_server.CloseSession(session);
 	}
 
-	virtual void SessionError(boost::shared_ptr<SessionData> session, int errorCode) {
+	virtual void SessionError(boost::shared_ptr<SessionData> session, int errorCode)
+	{
 		m_server.SessionError(session, errorCode);
 	}
 
-	virtual void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec) {
+	virtual void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec)
+	{
 		m_server.SessionTimeoutWarning(session, remainingSec);
 	}
 
-	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) {
+	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
+	{
 		m_server.DispatchPacket(session, packet);
 	}
 
-	virtual void SignalChatBotMessage(const string &msg) {
+	virtual void SignalChatBotMessage(const string &msg)
+	{
 		m_server.SendChatBotMsg(msg);
 	}
 
-	virtual void SignalChatBotMessage(unsigned gameId, const std::string &msg) {
+	virtual void SignalChatBotMessage(unsigned gameId, const std::string &msg)
+	{
 		m_server.SendChatBotMsg(gameId, msg);
 	}
 
-	virtual void SignalKickPlayer(unsigned playerId) {
+	virtual void SignalKickPlayer(unsigned playerId)
+	{
 		m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
 	}
 
-	virtual void SignalBanPlayer(unsigned playerId) {
+	virtual void SignalBanPlayer(unsigned playerId)
+	{
 		string playerName(m_server.GetPlayerNameFromId(playerId));
 		if (!playerName.empty()) {
 			m_server.GetBanManager().BanPlayerName(playerName, 1);
@@ -143,76 +151,94 @@ public:
 		}
 	}
 
-	virtual void SignalMutePlayer(unsigned playerId) {
+	virtual void SignalMutePlayer(unsigned playerId)
+	{
 		m_server.MutePlayerInGame(playerId);
 	}
 
-	virtual void ConnectSuccess() {
+	virtual void ConnectSuccess()
+	{
 		LOG_MSG("Successfully connected to database.");
 	}
 
-	virtual void ConnectFailed(string error) {
+	virtual void ConnectFailed(string error)
+	{
 		LOG_ERROR("DB connect error: " << error);
 	}
 
-	virtual void QueryError(string error) {
+	virtual void QueryError(string error)
+	{
 		LOG_ERROR("DB query error: " << error);
 	}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData) {
+	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData)
+	{
 		m_server.UserValid(requestId, *dbPlayerData);
 	}
 
-	virtual void PlayerLoginFailed(unsigned requestId) {
+	virtual void PlayerLoginFailed(unsigned requestId)
+	{
 		m_server.UserInvalid(requestId);
 	}
 
-	virtual void PlayerLoginBlocked(unsigned requestId) {
+	virtual void PlayerLoginBlocked(unsigned requestId)
+	{
 		m_server.UserBlocked(requestId);
 	}
 
-	virtual void AvatarIsBlacklisted(unsigned requestId) {
+	virtual void AvatarIsBlacklisted(unsigned requestId)
+	{
 		m_server.AvatarBlacklisted(requestId);
 	}
 
-	virtual void AvatarIsOK(unsigned requestId) {
+	virtual void AvatarIsOK(unsigned requestId)
+	{
 		m_server.AvatarOK(requestId);
 	}
 
-	virtual void CreateGameSuccess(unsigned /*requestId*/) {
+	virtual void CreateGameSuccess(unsigned /*requestId*/)
+	{
 		// Nothing to do.
 	}
 
-	virtual void CreateGameFailed(unsigned requestId) {
+	virtual void CreateGameFailed(unsigned requestId)
+	{
 		// TODO maybe handle request id.
 		LOG_ERROR("DB create game failed for request " << requestId);
 	}
 
-	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId) {
+	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportAvatarResult(requestId, replyId, true);
 	}
 
-	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId) {
+	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportAvatarResult(requestId, replyId, false);
 	}
 
-	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId) {
+	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportGameResult(requestId, replyId, true);
 	}
 
-	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) {
+	virtual void ReportGameFailed(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportGameResult(requestId, replyId, false);
 	}
 
-	virtual void PlayerAdminList(unsigned /*requestId*/, std::list<DB_id> adminList) {
+	virtual void PlayerAdminList(unsigned /*requestId*/, std::list<DB_id> adminList)
+	{
 		m_server.GetBanManager().SetAdminPlayerIds(adminList);
 	}
 
-	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId) {
+	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendAdminBanPlayerResult(requestId, replyId, true);
 	}
 
-	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId) {
+	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendAdminBanPlayerResult(requestId, replyId, false);
 	}
 
@@ -334,9 +360,13 @@ ServerLobbyThread::ReAddSession(boost::shared_ptr<SessionData> session, int reas
 {
 	if (session && session->GetPlayerData()) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_RemovedFromGameMessage);
-		RemovedFromGameMessage *removed = packet->GetMsg()->mutable_removedfromgamemessage();
-		removed->set_gameid(gameId);
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
+		GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
+		netGame->set_gameid(gameId);
+		netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
+		GameManagementMessage *netManagement = netGame->mutable_gamemanagementmessage();
+		netManagement->set_messagetype(GameManagementMessage::Type_RemovedFromGameMessage);
+		RemovedFromGameMessage *removed = netManagement->mutable_removedfromgamemessage();
 
 		switch (reason) {
 		case NTF_NET_REMOVED_GAME_FULL :
@@ -446,8 +476,10 @@ ServerLobbyThread::NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId)
 {
 	// Send notification to players in lobby.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListPlayerJoinedMessage);
-	GameListPlayerJoinedMessage *netListMsg = packet->GetMsg()->mutable_gamelistplayerjoinedmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListPlayerJoinedMessage);
+	GameListPlayerJoinedMessage *netListMsg = netLobby->mutable_gamelistplayerjoinedmessage();
 	netListMsg->set_gameid(gameId);
 	netListMsg->set_playerid(playerId);
 
@@ -460,8 +492,10 @@ ServerLobbyThread::NotifyPlayerLeftGame(unsigned gameId, unsigned playerId)
 {
 	// Send notification to players in lobby.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListPlayerLeftMessage);
-	GameListPlayerLeftMessage *netListMsg = packet->GetMsg()->mutable_gamelistplayerleftmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListPlayerLeftMessage);
+	GameListPlayerLeftMessage *netListMsg = netLobby->mutable_gamelistplayerleftmessage();
 	netListMsg->set_gameid(gameId);
 	netListMsg->set_playerid(playerId);
 
@@ -474,8 +508,10 @@ ServerLobbyThread::NotifySpectatorJoinedGame(unsigned gameId, unsigned playerId)
 {
 	// Send notification to players in lobby.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListSpectatorJoinedMessage);
-	GameListSpectatorJoinedMessage *netListMsg = packet->GetMsg()->mutable_gamelistspectatorjoinedmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListSpectatorJoinedMessage);
+	GameListSpectatorJoinedMessage *netListMsg = netLobby->mutable_gamelistspectatorjoinedmessage();
 	netListMsg->set_gameid(gameId);
 	netListMsg->set_playerid(playerId);
 
@@ -488,8 +524,10 @@ ServerLobbyThread::NotifySpectatorLeftGame(unsigned gameId, unsigned playerId)
 {
 	// Send notification to players in lobby.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListSpectatorLeftMessage);
-	GameListSpectatorLeftMessage *netListMsg = packet->GetMsg()->mutable_gamelistspectatorleftmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListSpectatorLeftMessage);
+	GameListSpectatorLeftMessage *netListMsg = netLobby->mutable_gamelistspectatorleftmessage();
 	netListMsg->set_gameid(gameId);
 	netListMsg->set_playerid(playerId);
 
@@ -503,8 +541,10 @@ ServerLobbyThread::NotifyGameAdminChanged(unsigned gameId, unsigned newAdminPlay
 	// Send notification to players in lobby.
 	// Send notification to players in lobby.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListAdminChangedMessage);
-	GameListAdminChangedMessage *netListMsg = packet->GetMsg()->mutable_gamelistadminchangedmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListAdminChangedMessage);
+	GameListAdminChangedMessage *netListMsg = netLobby->mutable_gamelistadminchangedmessage();
 	netListMsg->set_gameid(gameId);
 	netListMsg->set_newadminplayerid(newAdminPlayerId);
 
@@ -526,48 +566,6 @@ ServerLobbyThread::NotifyReopeningGame(unsigned gameId)
 	boost::shared_ptr<NetPacket> packet = CreateNetPacketGameListUpdate(gameId, GAME_MODE_CREATED);
 	m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 	m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
-}
-
-void
-ServerLobbyThread::HandleGameRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage &playerInfoRequest)
-{
-	// Someone within a game requested player info.
-	HandleNetPacketRetrievePlayerInfo(session, playerInfoRequest);
-}
-
-void
-ServerLobbyThread::HandleGameRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage &retrieveAvatar)
-{
-	// Someone within a game requested an avatar.
-	HandleNetPacketRetrieveAvatar(session, retrieveAvatar);
-}
-
-void
-ServerLobbyThread::HandleGameReportGame(boost::shared_ptr<SessionData> session, const ReportGameMessage &reportGame)
-{
-	// Someone within a game reportet a game name.
-	HandleNetPacketReportGame(session, reportGame);
-}
-
-void
-ServerLobbyThread::HandleChatRequest(boost::shared_ptr<SessionData> session, const ChatRequestMessage &chatRequest)
-{
-	// Someone within a game sent a lobby message.
-	HandleNetPacketChatRequest(session, chatRequest);
-}
-
-void
-ServerLobbyThread::HandleAdminRemoveGame(boost::shared_ptr<SessionData> session, const AdminRemoveGameMessage &removeGame)
-{
-	// An admin within a game sent a remove game message.
-	HandleNetPacketAdminRemoveGame(session, removeGame);
-}
-
-void
-ServerLobbyThread::HandleAdminBanPlayer(boost::shared_ptr<SessionData> session, const AdminBanPlayerMessage &banPlayer)
-{
-	// An admin within a game sent a ban player message.
-	HandleNetPacketAdminBanPlayer(session, banPlayer);
 }
 
 bool
@@ -647,8 +645,10 @@ void
 ServerLobbyThread::SendGlobalChat(const string &message)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-	ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_ChatMessage);
+	ChatMessage *netChat = netLobby->mutable_chatmessage();
 	netChat->set_chattype(ChatMessage::chatTypeBroadcast);
 	netChat->set_chattext(message);
 
@@ -660,8 +660,10 @@ void
 ServerLobbyThread::SendGlobalMsgBox(const string &message)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_DialogMessage);
-	DialogMessage *netDialog = packet->GetMsg()->mutable_dialogmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_DialogMessage);
+	DialogMessage *netDialog = netLobby->mutable_dialogmessage();
 	netDialog->set_notificationtext(message);
 
 	m_sessionManager.SendToAllSessions(GetSender(), packet, SessionData::Established);
@@ -672,8 +674,10 @@ void
 ServerLobbyThread::SendChatBotMsg(const std::string &message)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-	ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_ChatMessage);
+	ChatMessage *netChat = netLobby->mutable_chatmessage();
 	netChat->set_chattype(ChatMessage::chatTypeBot);
 	netChat->set_chattext(message);
 
@@ -690,10 +694,14 @@ void
 ServerLobbyThread::SendChatBotMsg(unsigned gameId, const std::string &message)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-	ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
+	GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
+	netGame->set_gameid(gameId);
+	netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
+	GameManagementMessage *netManage = netGame->mutable_gamemanagementmessage();
+	netManage->set_messagetype(GameManagementMessage::Type_ChatMessage);
+	ChatMessage *netChat = netManage->mutable_chatmessage();
 	netChat->set_chattype(ChatMessage::chatTypeBot);
-	netChat->set_gameid(gameId);
 	netChat->set_chattext(message);
 
 	GameMap::const_iterator pos = m_gameMap.find(gameId);
@@ -928,12 +936,15 @@ void
 ServerLobbyThread::DispatchPacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (session) {
+		if (packet->IsClientActivity()) {
+			session->ResetActivityTimer();
+		}
 		// Retrieve current game, if applicable.
 		boost::shared_ptr<ServerGame> game = session->GetGame();
-		if (game) {
+		if (game && packet->GetMsg()->messagetype() == PokerTHMessage::Type_GameMessage) {
 			// We need to catch game-specific exceptions, so that they do not affect the server.
 			try {
-				game->HandlePacket(session, packet);
+				game->HandleGameMsg(session, packet->GetMsg()->gamemessage());
 			} catch (const PokerTHException &e) {
 				LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
 				game->RemoveAllSessions();
@@ -950,57 +961,84 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 		if (packet->IsClientActivity())
 			session->ResetActivityTimer();
 
-		if (session->GetState() == SessionData::Init) {
-			if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_InitMessage) {
-				HandleNetPacketInit(session, packet->GetMsg()->initmessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AuthClientResponseMessage) {
-				HandleNetPacketAuthClientResponse(session, packet->GetMsg()->authclientresponsemessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarHeaderMessage) {
-				HandleNetPacketAvatarHeader(session, packet->GetMsg()->avatarheadermessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_UnknownAvatarMessage) {
-				HandleNetPacketUnknownAvatar(session, packet->GetMsg()->unknownavatarmessage());
-			} else {
-				SessionError(session, ERR_SOCK_INVALID_STATE);
-			}
-		} else if (session->GetState() == SessionData::ReceivingAvatar) {
-			if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarDataMessage) {
-				HandleNetPacketAvatarFile(session, packet->GetMsg()->avatardatamessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarEndMessage) {
-				HandleNetPacketAvatarEnd(session, packet->GetMsg()->avatarendmessage());
+		if (session->GetState() == SessionData::Auth) {
+			if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AuthMessage) {
+				const AuthMessage &authMsg = packet->GetMsg()->authmessage();
+				if (authMsg.messagetype() == AuthMessage::Type_AuthClientRequestMessage) {
+					HandleNetPacketAuthClientRequest(session, authMsg.authclientrequestmessage());
+				} else if (authMsg.messagetype() == AuthMessage::Type_AuthClientResponseMessage) {
+					HandleNetPacketAuthClientResponse(session, authMsg.authclientresponsemessage());
+				} else {
+					SessionError(session, ERR_SOCK_INVALID_STATE);
+				}
 			} else {
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
 		} else {
-			if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_PlayerInfoRequestMessage)
-				HandleNetPacketRetrievePlayerInfo(session, packet->GetMsg()->playerinforequestmessage());
-			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarRequestMessage)
-				HandleNetPacketRetrieveAvatar(session, packet->GetMsg()->avatarrequestmessage());
-			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage)
-			{}
-			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_SubscriptionRequestMessage) {
-				const SubscriptionRequestMessage &subscriptionRequest = packet->GetMsg()->subscriptionrequestmessage();
-				if (subscriptionRequest.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList)
-					InternalResubscribeMsg(session);
-				else
-					session->ResetWantsLobbyMsg();
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_JoinNewGameMessage) {
-				HandleNetPacketCreateGame(session, packet->GetMsg()->joinnewgamemessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_JoinExistingGameMessage) {
-				HandleNetPacketJoinGame(session, packet->GetMsg()->joinexistinggamemessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_RejoinExistingGameMessage) {
-				HandleNetPacketRejoinGame(session, packet->GetMsg()->rejoinexistinggamemessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ChatRequestMessage) {
-				HandleNetPacketChatRequest(session, packet->GetMsg()->chatrequestmessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_RejectGameInvitationMessage) {
-				HandleNetPacketRejectGameInvitation(session, packet->GetMsg()->rejectgameinvitationmessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ReportGameMessage) {
-				HandleNetPacketReportGame(session, packet->GetMsg()->reportgamemessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_LeaveGameRequestMessage) {
-				// Ignore "leave game" in this state.
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminRemoveGameMessage) {
-				HandleNetPacketAdminRemoveGame(session, packet->GetMsg()->adminremovegamemessage());
-			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerMessage) {
-				HandleNetPacketAdminBanPlayer(session, packet->GetMsg()->adminbanplayermessage());
+			if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_LobbyMessage) {
+				const LobbyMessage &lobbyMsg = packet->GetMsg()->lobbymessage();
+				if (session->GetState() == SessionData::Init) {
+					if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarHeaderMessage) {
+						HandleNetPacketAvatarHeader(session, lobbyMsg.avatarheadermessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_UnknownAvatarMessage) {
+						HandleNetPacketUnknownAvatar(session, lobbyMsg.unknownavatarmessage());
+					} else {
+						SessionError(session, ERR_SOCK_INVALID_STATE);
+					}
+				} else if (session->GetState() == SessionData::ReceivingAvatar) {
+					if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_LobbyMessage) {
+						const LobbyMessage &lobbyMsg = packet->GetMsg()->lobbymessage();
+						if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarDataMessage) {
+							HandleNetPacketAvatarFile(session, lobbyMsg.avatardatamessage());
+						} else if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarEndMessage) {
+							HandleNetPacketAvatarEnd(session, lobbyMsg.avatarendmessage());
+						} else {
+							SessionError(session, ERR_SOCK_INVALID_STATE);
+						}
+					} else {
+						SessionError(session, ERR_SOCK_INVALID_STATE);
+					}
+				} else {
+					if (lobbyMsg.messagetype() == LobbyMessage::Type_PlayerInfoRequestMessage)
+						HandleNetPacketRetrievePlayerInfo(session, lobbyMsg.playerinforequestmessage());
+					else if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarRequestMessage)
+						HandleNetPacketRetrieveAvatar(session, lobbyMsg.avatarrequestmessage());
+					else if (lobbyMsg.messagetype() == LobbyMessage::Type_ResetTimeoutMessage) {
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_SubscriptionRequestMessage) {
+						const SubscriptionRequestMessage &subscriptionRequest = lobbyMsg.subscriptionrequestmessage();
+						if (subscriptionRequest.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList)
+							InternalResubscribeMsg(session);
+						else
+							session->ResetWantsLobbyMsg();
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_CreateGameMessage) {
+						HandleNetPacketCreateGame(session, lobbyMsg.creategamemessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_JoinGameMessage) {
+						HandleNetPacketJoinGame(session, lobbyMsg.joingamemessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_RejoinGameMessage) {
+						HandleNetPacketRejoinGame(session, lobbyMsg.rejoingamemessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ChatRequestMessage) {
+						HandleNetPacketChatRequest(session, lobbyMsg.chatrequestmessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_RejectGameInvitationMessage) {
+						HandleNetPacketRejectGameInvitation(session, lobbyMsg.rejectgameinvitationmessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ReportGameMessage) {
+						HandleNetPacketReportGame(session, lobbyMsg.reportgamemessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_AdminRemoveGameMessage) {
+						HandleNetPacketAdminRemoveGame(session, lobbyMsg.adminremovegamemessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_AdminBanPlayerMessage) {
+						HandleNetPacketAdminBanPlayer(session, lobbyMsg.adminbanplayermessage());
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_SubscriptionRequestMessage) {
+						const SubscriptionRequestMessage &netSubscription = lobbyMsg.subscriptionrequestmessage();
+						if (netSubscription.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList) {
+							if (!session->WantsLobbyMsg())
+								ResubscribeLobbyMsg(session);
+						} else
+							session->ResetWantsLobbyMsg();
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ReportAvatarMessage) {
+						HandleNetPacketReportAvatar(session, lobbyMsg.reportavatarmessage());
+					} else {
+						SessionError(session, ERR_SOCK_INVALID_STATE);
+					}
+				}
 			} else {
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
@@ -1009,9 +1047,9 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 }
 
 void
-ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, const InitMessage &initMessage)
+ServerLobbyThread::HandleNetPacketAuthClientRequest(boost::shared_ptr<SessionData> session, const AuthClientRequestMessage &clientRequest)
 {
-	LOG_VERBOSE("Received init for session #" << session->GetId() << ".");
+	LOG_VERBOSE("Received auth client request for session #" << session->GetId() << ".");
 
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
@@ -1032,7 +1070,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	}
 
 	// Check the protocol version.
-	if (initMessage.requestedversion().majorversion() != NET_VERSION_MAJOR
+	if (clientRequest.requestedversion().majorversion() != NET_VERSION_MAJOR
 			|| session->GetPlayerData()) { // Has this session already sent an init?
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
@@ -1040,8 +1078,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 #ifndef POKERTH_OFFICIAL_SERVER
 	// Check (clear text) server password (skip for official server, they are open to everyone).
 	string serverPassword;
-	if (initMessage.has_authserverpassword()) {
-		serverPassword = initMessage.authserverpassword();
+	if (clientRequest.has_authserverpassword()) {
+		serverPassword = clientRequest.authserverpassword();
 	}
 	if (serverPassword != m_serverConfig.readConfigString("ServerPassword")) {
 		SessionError(session, ERR_NET_INVALID_PASSWORD);
@@ -1053,8 +1091,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	MD5Buf avatarMD5;
 	bool noAuth = false;
 	bool validGuest = false;
-	if (initMessage.login() == InitMessage::guestLogin) {
-		playerName = initMessage.nickname();
+	if (clientRequest.login() == AuthClientRequestMessage::guestLogin) {
+		playerName = clientRequest.nickname();
 		// Verify guest player name.
 		if (playerName.length() > sizeof(SERVER_GUEST_PLAYER_NAME - 1)
 				&& playerName.substr(0, sizeof(SERVER_GUEST_PLAYER_NAME) - 1) == SERVER_GUEST_PLAYER_NAME) {
@@ -1070,20 +1108,20 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		}
 	}
 #ifdef POKERTH_OFFICIAL_SERVER
-	else if (initMessage.login() == InitMessage::authenticatedLogin) {
-		string inAuthData(initMessage.clientuserdata());
-		if (initMessage.has_avatarhash()) {
-			memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
+	else if (clientRequest.login() == AuthClientRequestMessage::authenticatedLogin) {
+		string inAuthData(clientRequest.clientuserdata());
+		if (clientRequest.has_avatarhash()) {
+			memcpy(avatarMD5.GetData(), clientRequest.avatarhash().data(), MD5_DATA_SIZE);
 		}
 		session->CreateServerAuthSession(m_authContext);
 		if (session->AuthStep(1, inAuthData))
 			playerName = session->AuthGetUser();
 	}
 #else
-	else if (initMessage.login() == InitMessage::unauthenticatedLogin) {
-		playerName = initMessage.nickname();
-		if (initMessage.has_avatarhash()) {
-			memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
+	else if (clientRequest.login() == AuthClientRequestMessage::unauthenticatedLogin) {
+		playerName = clientRequest.nickname();
+		if (clientRequest.has_avatarhash()) {
+			memcpy(avatarMD5.GetData(), clientRequest.avatarhash().data(), MD5_DATA_SIZE);
 		}
 		noAuth = true;
 	}
@@ -1120,8 +1158,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		new PlayerData(GetNextUniquePlayerId(), 0, PLAYER_TYPE_HUMAN, validGuest ? PLAYER_RIGHTS_GUEST : PLAYER_RIGHTS_NORMAL, false));
 	tmpPlayerData->SetName(playerName);
 	tmpPlayerData->SetAvatarMD5(avatarMD5);
-	if (initMessage.has_mylastsessionid()) {
-		tmpPlayerData->SetOldGuid(initMessage.mylastsessionid());
+	if (clientRequest.has_mylastsessionid()) {
+		tmpPlayerData->SetOldGuid(clientRequest.mylastsessionid());
 	}
 
 	// Set player data for session.
@@ -1143,9 +1181,11 @@ ServerLobbyThread::HandleNetPacketAuthClientResponse(boost::shared_ptr<SessionDa
 			string outVerification(session->AuthGetNextOutMsg());
 
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
-			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AuthServerVerificationMessage);
-			AuthServerVerificationMessage *verification = packet->GetMsg()->mutable_authserververificationmessage();
-			verification->set_serververification(outVerification);
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AuthMessage);
+			AuthMessage *netAuth = packet->GetMsg()->mutable_authmessage();
+			netAuth->set_messagetype(AuthMessage::Type_AuthServerVerificationMessage);
+			AuthServerVerificationMessage *authVerif = netAuth->mutable_authserververificationmessage();
+			authVerif->set_serververification(outVerification);
 			GetSender().Send(session, packet);
 			// The last message is only for server verification.
 			// We are done now, the user has logged in.
@@ -1255,8 +1295,10 @@ ServerLobbyThread::HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionDa
 		}
 
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerInfoReplyMessage);
-		PlayerInfoReplyMessage *netPlayerInfoReply = packet->GetMsg()->mutable_playerinforeplymessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_PlayerInfoReplyMessage);
+		PlayerInfoReplyMessage *netPlayerInfoReply = netLobby->mutable_playerinforeplymessage();
 		netPlayerInfoReply->set_playerid(playerId);
 
 		if (tmpPlayer) {
@@ -1301,8 +1343,10 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> 
 	if (!avatarFound) {
 		// Notify client we didn't find the avatar.
 		boost::shared_ptr<NetPacket> unknownAvatar(new NetPacket);
-		unknownAvatar->GetMsg()->set_messagetype(PokerTHMessage::Type_UnknownAvatarMessage);
-		UnknownAvatarMessage *netAvatarReply = unknownAvatar->GetMsg()->mutable_unknownavatarmessage();
+		unknownAvatar->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = unknownAvatar->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_UnknownAvatarMessage);
+		UnknownAvatarMessage *netAvatarReply = netLobby->mutable_unknownavatarmessage();
 		netAvatarReply->set_requestid(retrieveAvatar.requestid());
 
 		GetSender().Send(session, unknownAvatar);
@@ -1310,7 +1354,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> 
 }
 
 void
-ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const JoinNewGameMessage &newGame)
+ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const CreateGameMessage &newGame)
 {
 	LOG_VERBOSE("Creating new game, initiated by session #" << session->GetId() << ".");
 
@@ -1332,16 +1376,16 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	unsigned gameId = GetNextGameId();
 
 	if (gameName.empty() || !isprint(gameName[0])) {
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
+		SendCreateGameFailed(session, newGame.requestid(), NTF_NET_CREATE_GAME_BAD_NAME);
 	} else if (IsGameNameInUse(gameName)) {
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);
+		SendCreateGameFailed(session, newGame.requestid(), NTF_NET_CREATE_GAME_NAME_IN_USE);
 	} else if (GetBanManager().IsBadGameName(gameName)) {
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
+		SendCreateGameFailed(session, newGame.requestid(), NTF_NET_CREATE_GAME_BAD_NAME);
 	} else if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
 			   && tmpData.gameType != GAME_TYPE_NORMAL) {
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
+		SendCreateGameFailed(session, newGame.requestid(), NTF_NET_CREATE_GUEST_FORBIDDEN);
 	} else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode())) {
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
+		SendCreateGameFailed(session, newGame.requestid(), NTF_NET_CREATE_INVALID_SETTINGS);
 	} else {
 		boost::shared_ptr<ServerGame> game(
 			new ServerGame(
@@ -1366,7 +1410,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 }
 
 void
-ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, const JoinExistingGameMessage &joinGame)
+ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, const JoinGameMessage &joinGame)
 {
 	string password;
 	if (joinGame.has_password())
@@ -1411,7 +1455,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 }
 
 void
-ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, const RejoinExistingGameMessage &rejoinGame)
+ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, const RejoinGameMessage &rejoinGame)
 {
 	// Rejoin a running game.
 	GameMap::iterator pos = m_gameMap.find(rejoinGame.gameid());
@@ -1430,13 +1474,15 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 	bool chatSent = false;
 	// Guests are not allowed to chat.
 	if (session->GetPlayerData() && session->GetPlayerData()->GetRights() != PLAYER_RIGHTS_GUEST) {
-		if (!chatRequest.has_targetgameid() && !chatRequest.has_targetplayerid()) {
+		if (!chatRequest.has_targetplayerid()) {
 			string chatMsg(chatRequest.chattext());
 
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
-			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-			ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
-			netChat->set_chattype(ChatMessage::chatTypeLobby);
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+			LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+			netLobby->set_messagetype(LobbyMessage::Type_ChatMessage);
+			ChatMessage *netChat = netLobby->mutable_chatmessage();
+			netChat->set_chattype(ChatMessage::chatTypeStandard);
 			netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 			netChat->set_chattext(chatMsg);
 
@@ -1454,7 +1500,7 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				session->GetPlayerData()->GetName(),
 				chatMsg);
 			chatSent = true;
-		} else if (!chatRequest.has_targetgameid() && chatRequest.has_targetplayerid()) {
+		} else {
 			boost::shared_ptr<SessionData> targetSession = m_sessionManager.GetSessionByUniquePlayerId(chatRequest.targetplayerid());
 			if (!targetSession)
 				targetSession = m_gameSessionManager.GetSessionByUniquePlayerId(chatRequest.targetplayerid());
@@ -1464,8 +1510,10 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
 					boost::shared_ptr<NetPacket> packet(new NetPacket);
-					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+					LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+					netLobby->set_messagetype(LobbyMessage::Type_ChatMessage);
+					ChatMessage *netChat = netLobby->mutable_chatmessage();
 					netChat->set_chattype(ChatMessage::chatTypePrivate);
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattext(chatRequest.chattext());
@@ -1479,8 +1527,10 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 	// Other chat types are not allowed in the lobby.
 	if (!chatSent) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatRejectMessage);
-		ChatRejectMessage *netReject = packet->GetMsg()->mutable_chatrejectmessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_ChatRejectMessage);
+		ChatRejectMessage *netReject = netLobby->mutable_chatrejectmessage();
 		netReject->set_chattext(chatRequest.chattext());
 		GetSender().Send(session, packet);
 	}
@@ -1501,8 +1551,10 @@ ServerLobbyThread::HandleNetPacketRejectGameInvitation(boost::shared_ptr<Session
 			}
 			// Send reject notification.
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
-			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_RejectInvNotifyMessage);
-			RejectInvNotifyMessage *netReject = packet->GetMsg()->mutable_rejectinvnotifymessage();
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+			LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+			netLobby->set_messagetype(LobbyMessage::Type_RejectInvNotifyMessage);
+			RejectInvNotifyMessage *netReject = netLobby->mutable_rejectinvnotifymessage();
 			netReject->set_gameid(reject.gameid());
 			netReject->set_playerid(tmpPlayerId);
 			netReject->set_playerrejectreason(reject.myrejectreason());
@@ -1535,16 +1587,20 @@ ServerLobbyThread::HandleNetPacketReportGame(boost::shared_ptr<SessionData> sess
 			);
 		} else {
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
-			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ReportGameAckMessage);
-			ReportGameAckMessage *netReportAck = packet->GetMsg()->mutable_reportgameackmessage();
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+			LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+			netLobby->set_messagetype(LobbyMessage::Type_ReportGameAckMessage);
+			ReportGameAckMessage *netReportAck = netLobby->mutable_reportgameackmessage();
 			netReportAck->set_reportedgameid(report.reportedgameid());
 			netReportAck->set_reportgameresult(ReportGameAckMessage::gameReportDuplicate);
 			GetSender().Send(session, packet);
 		}
 	} else {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ReportGameAckMessage);
-		ReportGameAckMessage *netReportAck = packet->GetMsg()->mutable_reportgameackmessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_ReportGameAckMessage);
+		ReportGameAckMessage *netReportAck = netLobby->mutable_reportgameackmessage();
 		netReportAck->set_reportedgameid(report.reportedgameid());
 		netReportAck->set_reportgameresult(ReportGameAckMessage::gameReportInvalid);
 		GetSender().Send(session, packet);
@@ -1558,8 +1614,10 @@ ServerLobbyThread::HandleNetPacketAdminRemoveGame(boost::shared_ptr<SessionData>
 
 	// Create Ack-Packet.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminRemoveGameAckMessage);
-	AdminRemoveGameAckMessage *netRemoveAck = packet->GetMsg()->mutable_adminremovegameackmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_AdminRemoveGameAckMessage);
+	AdminRemoveGameAckMessage *netRemoveAck = netLobby->mutable_adminremovegameackmessage();
 	netRemoveAck->set_removegameid(removeGame.removegameid());
 
 	// Check whether game id is valid and whether the player is an admin.
@@ -1578,8 +1636,10 @@ ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> 
 {
 	// Create Ack-Packet.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminBanPlayerAckMessage);
-	AdminBanPlayerAckMessage *netBanAck = packet->GetMsg()->mutable_adminbanplayerackmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_AdminBanPlayerAckMessage);
+	AdminBanPlayerAckMessage *netBanAck = netLobby->mutable_adminbanplayerackmessage();
 	netBanAck->set_banplayerid(banPlayer.banplayerid());
 
 	if (session && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())) {
@@ -1617,6 +1677,82 @@ ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> 
 }
 
 void
+ServerLobbyThread::HandleNetPacketReportAvatar(boost::shared_ptr<SessionData> session, const ReportAvatarMessage &reportAvatar)
+{
+	boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(reportAvatar.reportedplayerid());
+	if (!tmpSession) {
+		tmpSession = m_gameSessionManager.GetSessionByUniquePlayerId(reportAvatar.reportedplayerid());
+	}
+	boost::shared_ptr<PlayerData> tmpPlayer;
+	if (tmpSession) {
+		tmpPlayer = tmpSession->GetPlayerData();
+	}
+	MD5Buf tmpMD5;
+	memcpy(tmpMD5.GetData(), reportAvatar.reportedavatarhash().data(), MD5_DATA_SIZE);
+	if (tmpPlayer && tmpPlayer->GetDBId() && !tmpMD5.IsZero() && tmpPlayer->GetAvatarMD5() == tmpMD5) {
+		if (!IsAvatarReported(tmpPlayer->GetUniqueId())) {
+			// Temporarily note that this avatar was reported.
+			// This prevents spamming of the avatar report.
+			AddReportedAvatar(tmpPlayer->GetUniqueId());
+			DB_id myDBid = session->GetPlayerData()->GetDBId();
+			// Do not use the "game" database object, but the global one.
+			// The entry should be created even if we are not running a
+			// ranking game.
+
+			string tmpAvatarType;
+			tmpAvatarType = AvatarManager::GetAvatarFileExtension(AvatarManager::GetAvatarFileType(tmpPlayer->GetAvatarFile()));
+			if (!tmpAvatarType.empty())
+				tmpAvatarType.erase(0, 1); // Only store extension without the "."
+
+			GetDatabase()->AsyncReportAvatar(
+				session->GetPlayerData()->GetUniqueId(),
+				tmpPlayer->GetUniqueId(),
+				tmpPlayer->GetDBId(),
+				tmpPlayer->GetAvatarMD5().ToString(),
+				tmpAvatarType,
+				myDBid != 0 ? &myDBid : NULL
+			);
+		} else {
+			boost::shared_ptr<NetPacket> packet(new NetPacket);
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+			LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+			netLobby->set_messagetype(LobbyMessage::Type_ReportAvatarAckMessage);
+			ReportAvatarAckMessage *netReportAck = netLobby->mutable_reportavatarackmessage();
+			netReportAck->set_reportedplayerid(reportAvatar.reportedplayerid());
+			netReportAck->set_reportavatarresult(ReportAvatarAckMessage::avatarReportDuplicate);
+			GetSender().Send(session, packet);
+		}
+	} else {
+		boost::shared_ptr<NetPacket> packet(new NetPacket);
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_ReportAvatarAckMessage);
+		ReportAvatarAckMessage *netReportAck = netLobby->mutable_reportavatarackmessage();
+		netReportAck->set_reportedplayerid(reportAvatar.reportedplayerid());
+		netReportAck->set_reportavatarresult(ReportAvatarAckMessage::avatarReportInvalid);
+		GetSender().Send(session, packet);
+	}
+}
+
+void
+ServerLobbyThread::AddReportedAvatar(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_reportedAvatarListMutex);
+	m_reportedAvatarList.push_back(playerId);
+}
+
+bool
+ServerLobbyThread::IsAvatarReported(unsigned playerId) const
+{
+	bool retVal = false;
+	boost::mutex::scoped_lock lock(m_reportedAvatarListMutex);
+	PlayerIdList::const_iterator pos = find(m_reportedAvatarList.begin(), m_reportedAvatarList.end(), playerId);
+	if (pos != m_reportedAvatarList.end())
+		retVal = true;
+	return retVal;
+}
+
+void
 ServerLobbyThread::AuthChallenge(boost::shared_ptr<SessionData> session, const string &secret)
 {
 	if (session && session->GetPlayerData() && session->AuthGetCurStepNum() == 1) {
@@ -1624,8 +1760,10 @@ ServerLobbyThread::AuthChallenge(boost::shared_ptr<SessionData> session, const s
 		string outChallenge(session->AuthGetNextOutMsg());
 
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AuthServerChallengeMessage);
-		AuthServerChallengeMessage *challenge = packet->GetMsg()->mutable_authserverchallengemessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AuthMessage);
+		AuthMessage *netAuth = packet->GetMsg()->mutable_authmessage();
+		netAuth->set_messagetype(AuthMessage::Type_AuthServerChallengeMessage);
+		AuthServerChallengeMessage *challenge = netAuth->mutable_authserverchallengemessage();
 		challenge->set_serverchallenge(outChallenge);
 		GetSender().Send(session, packet);
 	}
@@ -1725,15 +1863,17 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	session->GetPlayerData()->SetGuid(string((char *)&sessionGuid, boost::uuids::uuid::static_size()));
 
 	// Send ACK to client.
-	boost::shared_ptr<NetPacket> ack(new NetPacket);
-	ack->GetMsg()->set_messagetype(PokerTHMessage::Type_InitAckMessage);
-	InitAckMessage *netInitAck = ack->GetMsg()->mutable_initackmessage();
-	netInitAck->set_yoursessionid(session->GetPlayerData()->GetGuid());
-	netInitAck->set_yourplayerid(session->GetPlayerData()->GetUniqueId());
+	boost::shared_ptr<NetPacket> done(new NetPacket);
+	done->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = done->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_InitDoneMessage);
+	InitDoneMessage *netInitDone = netLobby->mutable_initdonemessage();
+	netInitDone->set_yoursessionid(session->GetPlayerData()->GetGuid());
+	netInitDone->set_yourplayerid(session->GetPlayerData()->GetUniqueId());
 	if (rejoinGameId != 0) {
-		netInitAck->set_rejoingameid(rejoinGameId);
+		netInitDone->set_rejoingameid(rejoinGameId);
 	}
-	GetSender().Send(session, ack);
+	GetSender().Send(session, done);
 
 	// Send the connected players list to the client.
 	SendPlayerList(session);
@@ -1787,8 +1927,10 @@ ServerLobbyThread::SendReportAvatarResult(unsigned byPlayerId, unsigned reported
 		session = m_gameSessionManager.GetSessionByUniquePlayerId(byPlayerId);
 	if (session) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ReportAvatarAckMessage);
-		ReportAvatarAckMessage *netReportAck = packet->GetMsg()->mutable_reportavatarackmessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_ReportAvatarAckMessage);
+		ReportAvatarAckMessage *netReportAck = netLobby->mutable_reportavatarackmessage();
 		netReportAck->set_reportedplayerid(reportedPlayerId);
 		netReportAck->set_reportavatarresult(success ? ReportAvatarAckMessage::avatarReportAccepted : ReportAvatarAckMessage::avatarReportInvalid);
 		GetSender().Send(session, packet);
@@ -1803,8 +1945,10 @@ ServerLobbyThread::SendReportGameResult(unsigned byPlayerId, unsigned reportedGa
 		session = m_gameSessionManager.GetSessionByUniquePlayerId(byPlayerId);
 	if (session) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ReportGameAckMessage);
-		ReportGameAckMessage *netReportAck = packet->GetMsg()->mutable_reportgameackmessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_ReportAvatarAckMessage);
+		ReportGameAckMessage *netReportAck = netLobby->mutable_reportgameackmessage();
 		netReportAck->set_reportedgameid(reportedGameId);
 		netReportAck->set_reportgameresult(success ? ReportGameAckMessage::gameReportAccepted : ReportGameAckMessage::gameReportInvalid);
 		GetSender().Send(session, packet);
@@ -1819,8 +1963,10 @@ ServerLobbyThread::SendAdminBanPlayerResult(unsigned byPlayerId, unsigned report
 		session = m_gameSessionManager.GetSessionByUniquePlayerId(byPlayerId);
 	if (session) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminBanPlayerAckMessage);
-		AdminBanPlayerAckMessage *netBanAck = packet->GetMsg()->mutable_adminbanplayerackmessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_AdminBanPlayerAckMessage);
+		AdminBanPlayerAckMessage *netBanAck = netLobby->mutable_adminbanplayerackmessage();
 		netBanAck->set_banplayerid(reportedPlayerId);
 		netBanAck->set_banplayerresult(success ? AdminBanPlayerAckMessage::banPlayerAccepted : AdminBanPlayerAckMessage::banPlayerDBError);
 		GetSender().Send(session, packet);
@@ -1840,8 +1986,10 @@ ServerLobbyThread::RequestPlayerAvatar(boost::shared_ptr<SessionData> session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 	// Ask the client to send its avatar.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AvatarRequestMessage);
-	AvatarRequestMessage *netAvatarRequest = packet->GetMsg()->mutable_avatarrequestmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_AvatarRequestMessage);
+	AvatarRequestMessage *netAvatarRequest = netLobby->mutable_avatarrequestmessage();
 	netAvatarRequest->set_requestid(session->GetPlayerData()->GetUniqueId());
 	netAvatarRequest->set_avatarhash(session->GetPlayerData()->GetAvatarMD5().GetData(), MD5_DATA_SIZE);
 
@@ -2044,8 +2192,10 @@ void
 ServerLobbyThread::SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_TimeoutWarningMessage);
-	TimeoutWarningMessage *netWarning = packet->GetMsg()->mutable_timeoutwarningmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_TimeoutWarningMessage);
+	TimeoutWarningMessage *netWarning = netLobby->mutable_timeoutwarningmessage();
 	netWarning->set_timeoutreason(TimeoutWarningMessage::timeoutNoDataReceived);
 	netWarning->set_remainingseconds(remainingSec);
 	GetSender().Send(session, packet);
@@ -2075,9 +2225,38 @@ ServerLobbyThread::SendError(boost::shared_ptr<SessionData> s, int errorCode)
 {
 	LOG_VERBOSE("Sending error code " << errorCode << " to session #" << s->GetId() << ".");
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ErrorMessage);
-	ErrorMessage *netError = packet->GetMsg()->mutable_errormessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_ErrorMessage);
+	ErrorMessage *netError = netLobby->mutable_errormessage();
 	netError->set_errorreason(NetPacket::GameErrorToNetError(errorCode));
+	GetSender().Send(s, packet);
+}
+
+void
+ServerLobbyThread::SendCreateGameFailed(boost::shared_ptr<SessionData> s, unsigned requestId, int reason)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_CreateGameFailedMessage);
+	CreateGameFailedMessage *netCreateFailed = netLobby->mutable_creategamefailedmessage();
+	netCreateFailed->set_requestid(requestId);
+
+	switch (reason) {
+	case NTF_NET_CREATE_GUEST_FORBIDDEN :
+		netCreateFailed->set_creategamefailurereason(CreateGameFailedMessage::notAllowedAsGuest);
+		break;
+	case NTF_NET_CREATE_GAME_NAME_IN_USE :
+		netCreateFailed->set_creategamefailurereason(CreateGameFailedMessage::gameNameInUse);
+		break;
+	case NTF_NET_CREATE_GAME_BAD_NAME :
+		netCreateFailed->set_creategamefailurereason(CreateGameFailedMessage::badGameName);
+		break;
+	default :
+		netCreateFailed->set_creategamefailurereason(CreateGameFailedMessage::invalidSettings);
+		break;
+	}
 	GetSender().Send(s, packet);
 }
 
@@ -2085,8 +2264,10 @@ void
 ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned gameId, int reason)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_JoinGameFailedMessage);
-	JoinGameFailedMessage *netJoinFailed = packet->GetMsg()->mutable_joingamefailedmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_JoinGameFailedMessage);
+	JoinGameFailedMessage *netJoinFailed = netLobby->mutable_joingamefailedmessage();
 	netJoinFailed->set_gameid(gameId);
 
 	switch (reason) {
@@ -2104,15 +2285,6 @@ ServerLobbyThread::SendJoinGameFailed(boost::shared_ptr<SessionData> s, unsigned
 		break;
 	case NTF_NET_JOIN_NOT_INVITED :
 		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::notInvited);
-		break;
-	case NTF_NET_JOIN_GAME_NAME_IN_USE :
-		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::gameNameInUse);
-		break;
-	case NTF_NET_JOIN_GAME_BAD_NAME :
-		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::badGameName);
-		break;
-	case NTF_NET_JOIN_INVALID_SETTINGS :
-		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::invalidSettings);
 		break;
 	case NTF_NET_JOIN_IP_BLOCKED :
 		netJoinFailed->set_joingamefailurereason(JoinGameFailedMessage::ipAddressBlocked);
@@ -2181,8 +2353,10 @@ ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
 {
 	if (stats.numberOfPlayersOnServer) {
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
-		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_StatisticsMessage);
-		StatisticsMessage *netStatistics = packet->GetMsg()->mutable_statisticsmessage();
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+		netLobby->set_messagetype(LobbyMessage::Type_StatisticsMessage);
+		StatisticsMessage *netStatistics = netLobby->mutable_statisticsmessage();
 
 		StatisticsMessage::StatisticsData *data = netStatistics->add_statisticsdata();
 		data->set_statisticstype(StatisticsMessage::StatisticsData::statNumberOfPlayers);
@@ -2291,8 +2465,10 @@ boost::shared_ptr<NetPacket>
 ServerLobbyThread::CreateNetPacketPlayerListNew(unsigned playerId)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerListMessage);
-	PlayerListMessage *netPlayerList = packet->GetMsg()->mutable_playerlistmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_PlayerListMessage);
+	PlayerListMessage *netPlayerList = netLobby->mutable_playerlistmessage();
 	netPlayerList->set_playerid(playerId);
 	netPlayerList->set_playerlistnotification(PlayerListMessage::playerListNew);
 	return packet;
@@ -2302,8 +2478,10 @@ boost::shared_ptr<NetPacket>
 ServerLobbyThread::CreateNetPacketPlayerListLeft(unsigned playerId)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerListMessage);
-	PlayerListMessage *netPlayerList = packet->GetMsg()->mutable_playerlistmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_PlayerListMessage);
+	PlayerListMessage *netPlayerList = netLobby->mutable_playerlistmessage();
 	netPlayerList->set_playerid(playerId);
 	netPlayerList->set_playerlistnotification(PlayerListMessage::playerListLeft);
 	return packet;
@@ -2313,8 +2491,10 @@ boost::shared_ptr<NetPacket>
 ServerLobbyThread::CreateNetPacketGameListNew(const ServerGame &game)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListNewMessage);
-	GameListNewMessage *netGameList = packet->GetMsg()->mutable_gamelistnewmessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListNewMessage);
+	GameListNewMessage *netGameList = netLobby->mutable_gamelistnewmessage();
 	netGameList->set_gameid(game.GetId());
 	netGameList->set_adminplayerid(game.GetAdminPlayerId());
 	netGameList->set_gamemode(game.IsRunning() ? netGameStarted : netGameCreated);
@@ -2345,8 +2525,10 @@ boost::shared_ptr<NetPacket>
 ServerLobbyThread::CreateNetPacketGameListUpdate(unsigned gameId, GameMode mode)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListUpdateMessage);
-	GameListUpdateMessage *netGameList = packet->GetMsg()->mutable_gamelistupdatemessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_GameListUpdateMessage);
+	GameListUpdateMessage *netGameList = netLobby->mutable_gamelistupdatemessage();
 	netGameList->set_gameid(gameId);
 	netGameList->set_gamemode(static_cast<NetGameMode>(mode));
 	return packet;

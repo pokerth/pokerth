@@ -71,7 +71,6 @@ HEADERS += \
 		src/net/clientthread.h \
 		src/net/genericsocket.h \
 		src/net/netpacket.h \
-		src/net/netpacketvalidator.h \
 		src/net/senderhelper.h \
 		src/net/sendercallback.h \
 		src/net/serverexception.h \
@@ -138,7 +137,14 @@ HEADERS += \
 		src/net/servermanagerfactory.h \
 		src/net/uploadcallback.h \
 		src/net/websocket_defs.h \
-		src/net/websocketdata.h
+		src/net/websocketdata.h \
+    src/net/validation/lobbymessagevalidator.h \
+    src/net/validation/authmessagevalidator.h \
+    src/net/validation/gamemessagevalidator.h \
+    src/net/validation/gameenginemessagevalidator.h \
+    src/net/validation/gamemanagementmessagevalidator.h \
+    src/net/validation/pokerthmessagevalidator.h \
+    src/net/validation/validationhelper.h
 
 SOURCES += \
 		src/engine/game.cpp \
@@ -183,7 +189,6 @@ SOURCES += \
 		src/net/common/downloadhelper.cpp \
 		src/net/common/downloaderthread.cpp \
 		src/net/common/netpacket.cpp \
-		src/net/common/netpacketvalidator.cpp \
 		src/net/common/senderhelper.cpp \
 		src/net/common/sendercallback.cpp \
 		src/net/common/serverexception.cpp \
@@ -218,7 +223,13 @@ SOURCES += \
 		src/net/common/receivebuffer.cpp \
 		src/net/common/asioreceivebuffer.cpp \
 		src/net/common/webreceivebuffer.cpp \
-		src/net/common/uploadcallback.cpp
+		src/net/common/uploadcallback.cpp \
+    src/net/common/validation/authmessagevalidator.cpp \
+    src/net/common/validation/gamemessagevalidator.cpp \
+    src/net/common/validation/lobbymessagevalidator.cpp \
+    src/net/common/validation/pokerthmessagevalidator.cpp \
+    src/net/common/validation/gameenginemessagevalidator.cpp \
+    src/net/common/validation/gamemanagementmessagevalidator.cpp
 
 !android:!android_test{
 	SOURCES += src/engine/local_engine/tools.cpp

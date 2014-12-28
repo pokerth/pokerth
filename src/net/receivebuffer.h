@@ -36,7 +36,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/system/error_code.hpp>
 #include <net/netpacket.h>
-#include <net/netpacketvalidator.h>
+#include <net/validation/pokerthmessagevalidator.h>
 
 class SessionData;
 
@@ -51,7 +51,7 @@ public:
 
 protected:
 
-	static NetPacketValidator		validator;
+	static PokerTHMessageValidator		validator;
 
 };
 

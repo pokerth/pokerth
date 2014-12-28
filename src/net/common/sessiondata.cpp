@@ -48,7 +48,7 @@ using namespace boost::chrono;
 #endif
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService)
-	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	: m_socket(sock), m_id(id), m_state(SessionData::Auth), m_readyFlag(false), m_wantsLobbyMsg(true),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
@@ -221,7 +221,7 @@ void
 SessionData::TimerInitTimeout(const boost::system::error_code &ec)
 {
 	if (!ec) {
-		if (GetState() == SessionData::Init) {
+		if (GetState() == SessionData::Auth || GetState() == SessionData::Init) {
 			m_callback.SessionError(shared_from_this(), ERR_NET_SESSION_TIMED_OUT);
 		}
 	}

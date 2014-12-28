@@ -259,13 +259,11 @@ ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
-	GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
-	netGame->set_gameid(1);
-	netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
-	GameManagementMessage *netManage = netGame->mutable_gamemanagementmessage();
-	netManage->set_messagetype(GameManagementMessage::Type_JoinGameMessage);
-	JoinGameMessage *netJoinGame = netManage->mutable_joingamemessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_JoinGameMessage);
+	JoinGameMessage *netJoinGame = netLobby->mutable_joingamemessage();
+	netJoinGame->set_gameid(1);
 	netJoinGame->set_autoleave(autoLeave);
 
 	if (!password.empty()) {
@@ -280,13 +278,11 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
-	GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
-	netGame->set_gameid(gameId);
-	netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
-	GameManagementMessage *netManage = netGame->mutable_gamemanagementmessage();
-	netManage->set_messagetype(GameManagementMessage::Type_JoinGameMessage);
-	JoinGameMessage *netJoinGame = netManage->mutable_joingamemessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_JoinGameMessage);
+	JoinGameMessage *netJoinGame = netLobby->mutable_joingamemessage();
+	netJoinGame->set_gameid(gameId);
 	netJoinGame->set_autoleave(autoLeave);
 
 	if (!password.empty()) {
@@ -301,13 +297,11 @@ ClientThread::SendRejoinGame(unsigned gameId, bool autoLeave)
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request rejoining a running game.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
-	GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
-	netGame->set_gameid(gameId);
-	netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
-	GameManagementMessage *netManage = netGame->mutable_gamemanagementmessage();
-	netManage->set_messagetype(GameManagementMessage::Type_RejoinGameMessage);
-	RejoinGameMessage *netJoinGame = netManage->mutable_rejoingamemessage();
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_RejoinGameMessage);
+	RejoinGameMessage *netJoinGame = netLobby->mutable_rejoingamemessage();
+	netJoinGame->set_gameid(gameId);
 	netJoinGame->set_autoleave(autoLeave);
 
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
@@ -397,11 +391,13 @@ void
 ClientThread::SendInvitePlayerToCurrentGame(unsigned playerId)
 {
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
-	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
-	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
-	netLobby->set_messagetype(LobbyMessage::Type_InvitePlayerToGameMessage);
-	InvitePlayerToGameMessage *netInvite = netLobby->mutable_inviteplayertogamemessage();
-	netInvite->set_gameid(GetGameId());
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
+	GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
+	netGame->set_gameid(GetGameId());
+	netGame->set_messagetype(GameMessage::Type_GameEngineMessage);
+	GameManagementMessage *netManagement = netGame->mutable_gamemanagementmessage();
+	netManagement->set_messagetype(GameManagementMessage::Type_InvitePlayerToGameMessage);
+	InvitePlayerToGameMessage *netInvite = netManagement->mutable_inviteplayertogamemessage();
 	netInvite->set_playerid(playerId);
 	m_ioService->post(boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
 }
@@ -487,20 +483,19 @@ ClientThread::CloseSession(boost::shared_ptr<SessionData> /*session*/)
 void
 ClientThread::HandlePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
 {
-	switch (packet->GetMsg()->messagetype())
-	{
-		case PokerTHMessage::Type_AnnounceMessage :
-			GetState().HandleAnnounceMsg(shared_from_this(), packet->GetMsg()->announcemessage());
-			break;
-		case PokerTHMessage::Type_AuthMessage :
-			GetState().HandleAuthMsg(shared_from_this(), packet->GetMsg()->authmessage());
-			break;
-		case PokerTHMessage::Type_GameMessage :
-			GetState().HandleGameMsg(shared_from_this(), packet->GetMsg()->gamemessage());
-			break;
-		case PokerTHMessage::Type_LobbyMessage :
-			GetState().HandleLobbyMsg(shared_from_this(), packet->GetMsg()->lobbymessage());
-			break;
+	switch (packet->GetMsg()->messagetype()) {
+	case PokerTHMessage::Type_AnnounceMessage :
+		GetState().HandleAnnounceMsg(shared_from_this(), packet->GetMsg()->announcemessage());
+		break;
+	case PokerTHMessage::Type_AuthMessage :
+		GetState().HandleAuthMsg(shared_from_this(), packet->GetMsg()->authmessage());
+		break;
+	case PokerTHMessage::Type_GameMessage :
+		GetState().HandleGameMsg(shared_from_this(), packet->GetMsg()->gamemessage());
+		break;
+	case PokerTHMessage::Type_LobbyMessage :
+		GetState().HandleLobbyMsg(shared_from_this(), packet->GetMsg()->lobbymessage());
+		break;
 	}
 }
 

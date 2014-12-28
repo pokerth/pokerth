@@ -49,6 +49,9 @@ class Game;
 class ServerGame;
 class PlayerInterface;
 class ServerCallback;
+class GameMessage;
+class GameManagementMessage;
+class GameEngineMessage;
 
 class ServerGameState
 {
@@ -66,7 +69,7 @@ public:
 	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session) = 0;
 
 	// Main processing function of the current state.
-	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
+	virtual void HandleGameMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameMessage &gameMsg) = 0;
 };
 
 // Abstract State: Receiving.
@@ -76,8 +79,10 @@ public:
 	virtual ~AbstractServerGameStateReceiving();
 
 	// Globally handle packets which are allowed in all running states.
-	// Calls InternalProcess if packet has not been processed.
-	virtual void ProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	// Calls internal handler if packet has not been processed.
+	virtual void HandleGameMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameMessage &gameMsg);
+	virtual void HandleGameManagementMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameManagementMessage &managementMsg);
+	virtual void HandleGameEngineMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameEngineMessage &engineMsg);
 
 	static boost::shared_ptr<NetPacket> CreateNetPacketPlayerJoined(unsigned gameId, const PlayerData &playerData);
 	static boost::shared_ptr<NetPacket> CreateNetPacketSpectatorJoined(unsigned gameId, const PlayerData &playerData);
@@ -88,7 +93,8 @@ public:
 
 protected:
 
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) = 0;
+	virtual void InternalHandleGameManagementMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameManagementMessage &managementMsg) = 0;
+	virtual void InternalHandleGameEngineMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameEngineMessage &engineMsg) = 0;
 };
 
 // State: Initialization.
@@ -119,7 +125,8 @@ protected:
 	void TimerAdminTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void SendStartEvent(ServerGame &server, bool fillWithComputerPlayers);
 
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalHandleGameManagementMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameManagementMessage &managementMsg);
+	virtual void InternalHandleGameEngineMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameEngineMessage &engineMsg);
 
 private:
 	static ServerGameStateInit s_state;
@@ -143,7 +150,8 @@ public:
 protected:
 	ServerGameStateStartGame();
 
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalHandleGameManagementMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameManagementMessage &managementMsg);
+	virtual void InternalHandleGameEngineMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameEngineMessage &engineMsg);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void DoStart(boost::shared_ptr<ServerGame> server);
 
@@ -160,7 +168,8 @@ public:
 	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 protected:
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalHandleGameManagementMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameManagementMessage &managementMsg);
+	virtual void InternalHandleGameEngineMsg(boost::shared_ptr<ServerGame>, boost::shared_ptr<SessionData>, const GameEngineMessage &);
 };
 
 // State: Within hand.
@@ -179,7 +188,6 @@ public:
 protected:
 	ServerGameStateHand();
 
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void TimerLoop(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void EngineLoop(boost::shared_ptr<ServerGame> server);
 	void TimerShowCards(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
@@ -218,7 +226,7 @@ public:
 protected:
 	ServerGameStateWaitPlayerAction();
 
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalHandleGameEngineMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameEngineMessage &engineMsg);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 
 private:
@@ -241,7 +249,7 @@ public:
 protected:
 	ServerGameStateWaitNextHand();
 
-	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	virtual void InternalHandleGameEngineMsg(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, const GameEngineMessage &engineMsg);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 
 private:
@@ -265,7 +273,7 @@ public:
 	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/) {}
 
 	// Main processing function of the current state.
-	virtual void ProcessPacket(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> /*packet*/) {}
+	virtual void HandleGameMsg(boost::shared_ptr<ServerGame> /*server*/, boost::shared_ptr<SessionData> /*session*/, const GameMessage &/*gameMsg*/) {}
 
 protected:
 	ServerGameStateFinal() {}

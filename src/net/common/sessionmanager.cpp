@@ -100,7 +100,8 @@ SessionManager::GetSessionByPlayerName(const string &playerName) const
 
 	while (session_i != session_end) {
 		// Check all players which are fully connected.
-		if (session_i->second->GetState() != SessionData::Init) {
+		SessionData::State curState = session_i->second->GetState();
+		if (curState != SessionData::Auth && curState != SessionData::Init) {
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
 			if (!tmpPlayer)
 				throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
@@ -126,7 +127,8 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions)
 
 	while (session_i != session_end) {
 		// Check all players which are fully connected.
-		if (initSessions || session_i->second->GetState() != SessionData::Init) {
+		SessionData::State curState = session_i->second->GetState();
+		if (initSessions || (curState != SessionData::Auth && curState != SessionData::Init)) {
 			boost::shared_ptr<PlayerData> tmpPlayer(session_i->second->GetPlayerData());
 			if (tmpPlayer && tmpPlayer->GetUniqueId() == uniqueId) {
 				tmpSession = session_i->second;

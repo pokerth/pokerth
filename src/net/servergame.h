@@ -52,6 +52,7 @@ class PlayerInterface;
 class ConfigFile;
 struct GameData;
 class Game;
+class GameMessage;
 
 class ServerGame : public boost::enable_shared_from_this<ServerGame>
 {
@@ -74,7 +75,7 @@ public:
 	void MarkPlayerAsInactive(unsigned playerId);
 	void MarkPlayerAsKicked(unsigned playerId);
 
-	void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
+	void HandleGameMsg(boost::shared_ptr<SessionData> session, const GameMessage &gameMsg);
 
 	ServerCallback &GetCallback();
 	GameState GetCurRound() const;
@@ -171,9 +172,6 @@ protected:
 	void AssignPlayerNumbers(PlayerDataList &playerList);
 	bool IsValidPlayer(unsigned playerId) const;
 
-	void AddReportedAvatar(unsigned playerId);
-	bool IsAvatarReported(unsigned playerId) const;
-
 	ServerLobbyThread &GetLobbyThread();
 
 	ServerGameState &GetState();
@@ -215,8 +213,6 @@ private:
 
 	PlayerIdList m_newSpectatorList;
 	mutable boost::mutex m_newSpectatorListMutex;
-
-	PlayerIdList m_reportedAvatarList;
 
 	RankingMap m_rankingMap;
 

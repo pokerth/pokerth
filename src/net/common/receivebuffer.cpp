@@ -31,7 +31,7 @@
 
 #include <net/receivebuffer.h>
 
-NetPacketValidator ReceiveBuffer::validator;
+PokerTHMessageValidator ReceiveBuffer::validator;
 
 ReceiveBuffer::~ReceiveBuffer()
 {

@@ -29,43 +29,14 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-#include <net/netpacketvalidator.h>
-#include <net/netpacket.h>
+#include <net/validation/lobbymessagevalidator.h>
+#include <net/validation/validationhelper.h>
 
 using namespace std;
 
-#define VALIDATE_IS_UINT16(__val) ((__val) <= 65535)
-#define VALIDATE_STRING_SIZE(__str, __minsize, __maxsize) ((__str).size() >= (__minsize) && (__str).size() <= (__maxsize))
-#define VALIDATE_UINT_RANGE(__val, __minval, __maxval) ((__val) >= (__minval) && (__val) <= (__maxval))
-#define VALIDATE_UINT_UPPER(__val, __maxval) ((__val) <= (__maxval))
-#define VALIDATE_LIST_SIZE(__l, __minsize, __maxsize) ((__l).size() >= (__minsize) && (__l).size() <= (__maxsize))
-
-static bool
-ValidateListIntRange(const ::google::protobuf::RepeatedField< ::google::protobuf::uint32 > &l, ::google::protobuf::uint32 minval, ::google::protobuf::uint32 maxval)
+LobbyMessageValidator::LobbyMessageValidator()
 {
-	bool retVal = true;
-	for (int i = 0; i < l.size(); i++) {
-		if (!VALIDATE_UINT_RANGE(l.Get(i), minval, maxval)) {
-			retVal = false;
-			break;
-		}
-	}
-	return retVal;
-}
-
-NetPacketValidator::NetPacketValidator()
-{
-	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage, ValidateAnnounceMessage));
-	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AuthMessage, ValidateAuthMessage));
-	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_LobbyMessage, ValidateLobbyMessage));
-	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameMessage, ValidateGameMessage));
-	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameManagementMessage, ValidateGameManagementMessage));
-	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameEngineMessage, ValidateGameEngineMessage));
-	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_InitMessage, ValidateInitMessage));
-	m_validationMap.insert(make_pair(AuthMessage_AuthMessageType_Type_AuthServerChallengeMessage, ValidateAuthServerChallengeMessage));
-	m_validationMap.insert(make_pair(AuthMessage_AuthMessageType_Type_AuthClientResponseMessage, ValidateAuthClientResponseMessage));
-	m_validationMap.insert(make_pair(AuthMessage_AuthMessageType_Type_AuthServerVerificationMessage, ValidateAuthServerVerificationMessage));
-	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_InitAckMessage, ValidateInitAckMessage));
+	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_InitDoneMessage, ValidateInitDoneMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_AvatarRequestMessage, ValidateAvatarRequestMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_AvatarHeaderMessage, ValidateAvatarHeaderMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_AvatarDataMessage, ValidateAvatarDataMessage));
@@ -81,46 +52,13 @@ NetPacketValidator::NetPacketValidator()
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_PlayerInfoReplyMessage, ValidatePlayerInfoReplyMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_SubscriptionRequestMessage, ValidateSubscriptionRequestMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_CreateGameMessage, ValidateCreateGameMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_JoinGameMessage, ValidateJoinGameMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_RejoinGameMessage, ValidateRejoinGameMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_JoinGameAckMessage, ValidateJoinGameAckMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_JoinGameFailedMessage, ValidateJoinGameFailedMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GamePlayerJoinedMessage, ValidateGamePlayerJoinedMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GamePlayerLeftMessage, ValidateGamePlayerLeftMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GameAdminChangedMessage, ValidateGameAdminChangedMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_RemovedFromGameMessage, ValidateRemovedFromGameMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_KickPlayerRequestMessage, ValidateKickPlayerRequestMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_LeaveGameRequestMessage, ValidateLeaveGameRequestMessage));
-	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_InvitePlayerToGameMessage, ValidateInvitePlayerToGameMessage));
+	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_JoinGameMessage, ValidateJoinGameMessage));
+	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_RejoinGameMessage, ValidateRejoinGameMessage));
+	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_JoinGameAckMessage, ValidateJoinGameAckMessage));
+	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_JoinGameFailedMessage, ValidateJoinGameFailedMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_InviteNotifyMessage, ValidateInviteNotifyMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_RejectGameInvitationMessage, ValidateRejectGameInvitationMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_RejectInvNotifyMessage, ValidateRejectInvNotifyMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_StartEventMessage, ValidateStartEventMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_StartEventAckMessage, ValidateStartEventAckMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GameStartInitialMessage, ValidateGameStartInitialMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GameStartRejoinMessage, ValidateGameStartRejoinMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_HandStartMessage, ValidateHandStartMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_PlayersTurnMessage, ValidatePlayersTurnMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_MyActionRequestMessage, ValidateMyActionRequestMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_YourActionRejectedMessage, ValidateYourActionRejectedMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_PlayersActionDoneMessage, ValidatePlayersActionDoneMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_DealFlopCardsMessage, ValidateDealFlopCardsMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_DealTurnCardMessage, ValidateDealTurnCardMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_DealRiverCardMessage, ValidateDealRiverCardMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_AllInShowCardsMessage, ValidateAllInShowCardsMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_EndOfHandShowCardsMessage, ValidateEndOfHandShowCardsMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_EndOfHandHideCardsMessage, ValidateEndOfHandHideCardsMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_ShowMyCardsRequestMessage, ValidateShowMyCardsRequestMessage));
-	m_validationMap.insert(make_pair(GameEngineMessage_GameEngineMessageType_Type_AfterHandShowCardsMessage, ValidateAfterHandShowCardsMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_EndOfGameMessage, ValidateEndOfGameMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_PlayerIdChangedMessage, ValidatePlayerIdChangedMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_AskKickPlayerMessage, ValidateAskKickPlayerMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_AskKickDeniedMessage, ValidateAskKickDeniedMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_StartKickPetitionMessage, ValidateStartKickPetitionMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_VoteKickRequestMessage, ValidateVoteKickRequestMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_VoteKickReplyMessage, ValidateVoteKickReplyMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_KickPetitionUpdateMessage, ValidateKickPetitionUpdateMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_EndKickPetitionMessage, ValidateEndKickPetitionMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_StatisticsMessage, ValidateStatisticsMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_ChatRequestMessage, ValidateChatRequestMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_ChatMessage, ValidateChatMessage));
@@ -139,35 +77,31 @@ NetPacketValidator::NetPacketValidator()
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_AdminBanPlayerAckMessage, ValidateAdminBanPlayerAckMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_GameListSpectatorJoinedMessage, ValidateGameListSpectatorJoinedMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_GameListSpectatorLeftMessage, ValidateGameListSpectatorLeftMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GameSpectatorJoinedMessage, ValidateGameSpectatorJoinedMessage));
-	m_validationMap.insert(make_pair(GameManagementMessage_GameManagementMessageType_Type_GameSpectatorLeftMessage, ValidateGameSpectatorLeftMessage));
 }
 
 bool
-NetPacketValidator::IsValidPacket(const NetPacket &packet) const
+LobbyMessageValidator::IsValidMessage(const LobbyMessage &msg) const
 {
 	// Default: Invalid packet.
 	bool retVal = false;
-	ValidateFunctorMap::const_iterator pos = m_validationMap.find(packet.GetMsg()->messagetype());
+	ValidateFunctorMap::const_iterator pos = m_validationMap.find(msg.messagetype());
 	if (pos != m_validationMap.end()) {
 		// Call validation functor.
-		retVal = pos->second(packet);
+		retVal = pos->second(msg);
 	}
 	return retVal;
 }
 
 bool
-NetPacketValidator::ValidateAnnounceMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateInitDoneMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_announcemessage()) {
-		const AnnounceMessage &msg = packet.GetMsg()->announcemessage();
-		if (VALIDATE_IS_UINT16(msg.protocolversion().majorversion())
-				&& VALIDATE_IS_UINT16(msg.protocolversion().minorversion())
-				&& VALIDATE_IS_UINT16(msg.latestgameversion().majorversion())
-				&& VALIDATE_IS_UINT16(msg.latestgameversion().minorversion())
-				&& VALIDATE_IS_UINT16(msg.latestbetarevision())
-				&& VALIDATE_IS_UINT16(msg.numplayersonserver())) {
+	if (msg.has_initdonemessage()) {
+		const InitDoneMessage &initDone = msg.initdonemessage();
+		if (initDone.yoursessionid().size() == 16
+				&& initDone.yourplayerid() != 0
+				&& (!initDone.has_youravatarhash() || initDone.youravatarhash().size() == 16)
+				&& (!initDone.has_rejoingameid() || initDone.rejoingameid() != 0)) {
 
 			retVal = true;
 		}
@@ -176,18 +110,13 @@ NetPacketValidator::ValidateAnnounceMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateInitMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAvatarRequestMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_initmessage()) {
-		const InitMessage &msg = packet.GetMsg()->initmessage();
-		if (VALIDATE_IS_UINT16(msg.requestedversion().majorversion())
-				&& VALIDATE_IS_UINT16(msg.requestedversion().minorversion())
-				&& (!msg.has_mylastsessionid() || msg.mylastsessionid().size() == 16)
-				&& (!msg.has_authserverpassword() || VALIDATE_STRING_SIZE(msg.authserverpassword(), 1, 64))
-				&& (!msg.has_nickname() || VALIDATE_STRING_SIZE(msg.nickname(), 1, 64))
-				&& (!msg.has_clientuserdata() || VALIDATE_STRING_SIZE(msg.clientuserdata(), 1, 256))
-				&& (!msg.has_avatarhash() || msg.avatarhash().size() == 16)) {
+	if (msg.has_avatarrequestmessage()) {
+		const AvatarRequestMessage &avatarRequest = msg.avatarrequestmessage();
+		if (avatarRequest.requestid() != 0
+				&& avatarRequest.avatarhash().size() == 16) {
 
 			retVal = true;
 		}
@@ -196,54 +125,13 @@ NetPacketValidator::ValidateInitMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAuthServerChallengeMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAvatarHeaderMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_authserverchallengemessage()) {
-		const AuthServerChallengeMessage &msg = packet.GetMsg()->authserverchallengemessage();
-		if (VALIDATE_STRING_SIZE(msg.serverchallenge(), 1, 256)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAuthClientResponseMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_authclientresponsemessage()) {
-		const AuthClientResponseMessage &msg = packet.GetMsg()->authclientresponsemessage();
-		if (VALIDATE_STRING_SIZE(msg.clientresponse(), 1, 256)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAuthServerVerificationMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_authserververificationmessage()) {
-		const AuthServerVerificationMessage &msg = packet.GetMsg()->authserververificationmessage();
-		if (VALIDATE_STRING_SIZE(msg.serververification(), 1, 256)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateInitAckMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_initackmessage()) {
-		const InitAckMessage &msg = packet.GetMsg()->initackmessage();
-		if (msg.yoursessionid().size() == 16
-				&& msg.yourplayerid() != 0
-				&& (!msg.has_youravatarhash() || msg.youravatarhash().size() == 16)
-				&& (!msg.has_rejoingameid() || msg.rejoingameid() != 0)) {
+	if (msg.has_avatarheadermessage()) {
+		const AvatarHeaderMessage &avatarHeader = msg.avatarheadermessage();
+		if (avatarHeader.requestid() != 0
+				&& VALIDATE_UINT_RANGE(avatarHeader.avatarsize(), 32, 30720)) {
 
 			retVal = true;
 		}
@@ -252,13 +140,13 @@ NetPacketValidator::ValidateInitAckMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAvatarRequestMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAvatarDataMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_avatarrequestmessage()) {
-		const AvatarRequestMessage &msg = packet.GetMsg()->avatarrequestmessage();
-		if (msg.requestid() != 0
-				&& msg.avatarhash().size() == 16) {
+	if (msg.has_avatardatamessage()) {
+		const AvatarDataMessage &avatarData = msg.avatardatamessage();
+		if (avatarData.requestid() != 0
+				&& VALIDATE_STRING_SIZE(avatarData.avatarblock(), 1, 256)) {
 
 			retVal = true;
 		}
@@ -267,13 +155,54 @@ NetPacketValidator::ValidateAvatarRequestMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAvatarHeaderMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAvatarEndMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_avatarheadermessage()) {
-		const AvatarHeaderMessage &msg = packet.GetMsg()->avatarheadermessage();
-		if (msg.requestid() != 0
-				&& VALIDATE_UINT_RANGE(msg.avatarsize(), 32, 30720)) {
+	if (msg.has_avatarendmessage()) {
+		const AvatarEndMessage &avatarEnd = msg.avatarendmessage();
+		if (avatarEnd.requestid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateUnknownAvatarMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_unknownavatarmessage()) {
+		const UnknownAvatarMessage &unknownAvatar = msg.unknownavatarmessage();
+		if (unknownAvatar.requestid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidatePlayerListMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_playerlistmessage()) {
+		const PlayerListMessage &player = msg.playerlistmessage();
+		if (player.playerid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateGameListNewMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_gamelistnewmessage()) {
+		const GameListNewMessage &gameNew = msg.gamelistnewmessage();
+		if (gameNew.gameid() != 0
+				&& VALIDATE_LIST_SIZE(gameNew.playerids(), 0, 10)
+				&& gameNew.adminplayerid() != 0
+				&& ValidateGameInfo(gameNew.gameinfo())) {
 
 			retVal = true;
 		}
@@ -282,14 +211,12 @@ NetPacketValidator::ValidateAvatarHeaderMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAvatarDataMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateGameListUpdateMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_avatardatamessage()) {
-		const AvatarDataMessage &msg = packet.GetMsg()->avatardatamessage();
-		if (msg.requestid() != 0
-				&& VALIDATE_STRING_SIZE(msg.avatarblock(), 1, 256)) {
-
+	if (msg.has_gamelistupdatemessage()) {
+		const GameListUpdateMessage &gameUpdate = msg.gamelistupdatemessage();
+		if (gameUpdate.gameid() != 0) {
 			retVal = true;
 		}
 	}
@@ -297,12 +224,12 @@ NetPacketValidator::ValidateAvatarDataMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAvatarEndMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateGameListPlayerJoinedMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_avatarendmessage()) {
-		const AvatarEndMessage &msg = packet.GetMsg()->avatarendmessage();
-		if (msg.requestid() != 0) {
+	if (msg.has_gamelistplayerjoinedmessage()) {
+		const GameListPlayerJoinedMessage &playerJoined = msg.gamelistplayerjoinedmessage();
+		if (playerJoined.gameid() != 0 && playerJoined.playerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -310,12 +237,12 @@ NetPacketValidator::ValidateAvatarEndMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateUnknownAvatarMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateGameListPlayerLeftMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_unknownavatarmessage()) {
-		const UnknownAvatarMessage &msg = packet.GetMsg()->unknownavatarmessage();
-		if (msg.requestid() != 0) {
+	if (msg.has_gamelistplayerleftmessage()) {
+		const GameListPlayerLeftMessage &playerLeft = msg.gamelistplayerleftmessage();
+		if (playerLeft.gameid() != 0 && playerLeft.playerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -323,12 +250,12 @@ NetPacketValidator::ValidateUnknownAvatarMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidatePlayerListMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateGameListAdminChangedMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_playerlistmessage()) {
-		const PlayerListMessage &msg = packet.GetMsg()->playerlistmessage();
-		if (msg.playerid() != 0) {
+	if (msg.has_gamelistadminchangedmessage()) {
+		const GameListAdminChangedMessage &adminChanged = msg.gamelistadminchangedmessage();
+		if (adminChanged.gameid() != 0 && adminChanged.newadminplayerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -336,16 +263,12 @@ NetPacketValidator::ValidatePlayerListMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateGameListNewMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidatePlayerInfoRequestMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistnewmessage()) {
-		const GameListNewMessage &msg = packet.GetMsg()->gamelistnewmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_LIST_SIZE(msg.playerids(), 0, 10)
-				&& msg.adminplayerid() != 0
-				&& ValidateGameInfo(msg.gameinfo())) {
-
+	if (msg.has_playerinforequestmessage()) {
+		const PlayerInfoRequestMessage &infoRequest = msg.playerinforequestmessage();
+		if (VALIDATE_LIST_SIZE(infoRequest.playerid(), 1, 10)) {
 			retVal = true;
 		}
 	}
@@ -353,77 +276,12 @@ NetPacketValidator::ValidateGameListNewMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateGameListUpdateMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidatePlayerInfoReplyMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistupdatemessage()) {
-		const GameListUpdateMessage &msg = packet.GetMsg()->gamelistupdatemessage();
-		if (msg.gameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameListPlayerJoinedMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistplayerjoinedmessage()) {
-		const GameListPlayerJoinedMessage &msg = packet.GetMsg()->gamelistplayerjoinedmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameListPlayerLeftMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistplayerleftmessage()) {
-		const GameListPlayerLeftMessage &msg = packet.GetMsg()->gamelistplayerleftmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameListAdminChangedMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistadminchangedmessage()) {
-		const GameListAdminChangedMessage &msg = packet.GetMsg()->gamelistadminchangedmessage();
-		if (msg.gameid() != 0 && msg.newadminplayerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidatePlayerInfoRequestMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_playerinforequestmessage()) {
-		const PlayerInfoRequestMessage &msg = packet.GetMsg()->playerinforequestmessage();
-		if (VALIDATE_LIST_SIZE(msg.playerid(), 1, 10)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidatePlayerInfoReplyMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_playerinforeplymessage()) {
-		const PlayerInfoReplyMessage &msg = packet.GetMsg()->playerinforeplymessage();
-		if (msg.playerid() != 0) {
+	if (msg.has_playerinforeplymessage()) {
+		const PlayerInfoReplyMessage &infoReply = msg.playerinforeplymessage();
+		if (infoReply.playerid() != 0) {
 			// TODO maybe additional checks.
 			retVal = true;
 		}
@@ -432,24 +290,24 @@ NetPacketValidator::ValidatePlayerInfoReplyMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateSubscriptionRequestMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateSubscriptionRequestMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_subscriptionrequestmessage()) {
-		//const SubscriptionRequestMessage &msg = packet.GetMsg()->subscriptionrequestmessage();
+	if (msg.has_subscriptionrequestmessage()) {
+		//const SubscriptionRequestMessage &subscribe = msg.subscriptionrequestmessage();
 		retVal = true;
 	}
 	return retVal;
 }
 
 bool
-NetPacketValidator::ValidateCreateGameMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateCreateGameMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_joinnewgamemessage()) {
-		const JoinNewGameMessage &msg = packet.GetMsg()->joinnewgamemessage();
-		if (ValidateGameInfo(msg.gameinfo())
-				&& (!msg.has_password() || VALIDATE_STRING_SIZE(msg.password(), 1, 64))) {
+	if (msg.has_creategamemessage()) {
+		const CreateGameMessage &createGame = msg.creategamemessage();
+		if (ValidateGameInfo(createGame.gameinfo())
+				&& (!createGame.has_password() || VALIDATE_STRING_SIZE(createGame.password(), 1, 64))) {
 
 			retVal = true;
 		}
@@ -458,13 +316,13 @@ NetPacketValidator::ValidateCreateGameMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateJoinGameMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateJoinGameMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_joinexistinggamemessage()) {
-		const JoinExistingGameMessage &msg = packet.GetMsg()->joinexistinggamemessage();
-		if (msg.gameid() != 0
-				&& (!msg.has_password() || VALIDATE_STRING_SIZE(msg.password(), 1, 64))) {
+	if (msg.has_joingamemessage()) {
+		const JoinGameMessage &joinGame = msg.joingamemessage();
+		if (joinGame.gameid() != 0
+				&& (!joinGame.has_password() || VALIDATE_STRING_SIZE(joinGame.password(), 1, 64))) {
 
 			retVal = true;
 		}
@@ -473,12 +331,12 @@ NetPacketValidator::ValidateJoinGameMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateRejoinGameMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateRejoinGameMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_rejoinexistinggamemessage()) {
-		const RejoinExistingGameMessage &msg = packet.GetMsg()->rejoinexistinggamemessage();
-		if (msg.gameid() != 0) {
+	if (msg.has_rejoingamemessage()) {
+		const RejoinGameMessage &rejoinGame = msg.rejoingamemessage();
+		if (rejoinGame.gameid() != 0) {
 			retVal = true;
 		}
 	}
@@ -486,12 +344,12 @@ NetPacketValidator::ValidateRejoinGameMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateJoinGameAckMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateJoinGameAckMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_joingameackmessage()) {
-		const JoinGameAckMessage &msg = packet.GetMsg()->joingameackmessage();
-		if (msg.gameid() != 0 && ValidateGameInfo(msg.gameinfo())) {
+	if (msg.has_joingameackmessage()) {
+		const JoinGameAckMessage &joinAck = msg.joingameackmessage();
+		if (joinAck.gameid() != 0 && ValidateGameInfo(joinAck.gameinfo())) {
 			retVal = true;
 		}
 	}
@@ -499,12 +357,12 @@ NetPacketValidator::ValidateJoinGameAckMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateJoinGameFailedMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateJoinGameFailedMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_joingamefailedmessage()) {
-		const JoinGameFailedMessage &msg = packet.GetMsg()->joingamefailedmessage();
-		if (msg.gameid() != 0) {
+	if (msg.has_joingamefailedmessage()) {
+		const JoinGameFailedMessage &joinFailed = msg.joingamefailedmessage();
+		if (joinFailed.gameid() != 0) {
 			retVal = true;
 		}
 	}
@@ -512,12 +370,12 @@ NetPacketValidator::ValidateJoinGameFailedMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateGamePlayerJoinedMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateInviteNotifyMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gameplayerjoinedmessage()) {
-		const GamePlayerJoinedMessage &msg = packet.GetMsg()->gameplayerjoinedmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_invitenotifymessage()) {
+		const InviteNotifyMessage &inviteNotify = msg.invitenotifymessage();
+		if (inviteNotify.gameid() != 0 && inviteNotify.playeridwho() != 0 && inviteNotify.playeridbywhom() != 0) {
 			retVal = true;
 		}
 	}
@@ -525,12 +383,12 @@ NetPacketValidator::ValidateGamePlayerJoinedMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateGamePlayerLeftMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateRejectGameInvitationMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gameplayerleftmessage()) {
-		const GamePlayerLeftMessage &msg = packet.GetMsg()->gameplayerleftmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_rejectgameinvitationmessage()) {
+		const RejectGameInvitationMessage &rejectInvite = msg.rejectgameinvitationmessage();
+		if (rejectInvite.gameid() != 0) {
 			retVal = true;
 		}
 	}
@@ -538,12 +396,12 @@ NetPacketValidator::ValidateGamePlayerLeftMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateGameAdminChangedMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateRejectInvNotifyMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gameadminchangedmessage()) {
-		const GameAdminChangedMessage &msg = packet.GetMsg()->gameadminchangedmessage();
-		if (msg.gameid() != 0 && msg.newadminplayerid() != 0) {
+	if (msg.has_rejectinvnotifymessage()) {
+		const RejectInvNotifyMessage &rejectNotify = msg.rejectinvnotifymessage();
+		if (rejectNotify.gameid() != 0 && rejectNotify.playerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -551,12 +409,23 @@ NetPacketValidator::ValidateGameAdminChangedMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateRemovedFromGameMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateStatisticsMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_removedfromgamemessage()) {
-		const RemovedFromGameMessage &msg = packet.GetMsg()->removedfromgamemessage();
-		if (msg.gameid() != 0) {
+	if (msg.has_statisticsmessage()) {
+		//const StatisticsMessage &stat = msg.statisticsmessage();
+		retVal = true;
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateChatRequestMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_chatrequestmessage()) {
+		const ChatRequestMessage &chatRequest = msg.chatrequestmessage();
+		if (VALIDATE_STRING_SIZE(chatRequest.chattext(), 1, 128)) {
 			retVal = true;
 		}
 	}
@@ -564,12 +433,12 @@ NetPacketValidator::ValidateRemovedFromGameMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateKickPlayerRequestMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateChatMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_kickplayerrequestmessage()) {
-		const KickPlayerRequestMessage &msg = packet.GetMsg()->kickplayerrequestmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_chatmessage()) {
+		const ChatMessage &chat = msg.chatmessage();
+		if (VALIDATE_STRING_SIZE(chat.chattext(), 1, 128)) {
 			retVal = true;
 		}
 	}
@@ -577,12 +446,12 @@ NetPacketValidator::ValidateKickPlayerRequestMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateLeaveGameRequestMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateChatRejectMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_leavegamerequestmessage()) {
-		const LeaveGameRequestMessage &msg = packet.GetMsg()->leavegamerequestmessage();
-		if (msg.gameid() != 0) {
+	if (msg.has_chatrejectmessage()) {
+		const ChatRejectMessage &chatReject = msg.chatrejectmessage();
+		if (VALIDATE_STRING_SIZE(chatReject.chattext(), 1, 128)) {
 			retVal = true;
 		}
 	}
@@ -590,12 +459,12 @@ NetPacketValidator::ValidateLeaveGameRequestMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateInvitePlayerToGameMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateDialogMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_inviteplayertogamemessage()) {
-		const InvitePlayerToGameMessage &msg = packet.GetMsg()->inviteplayertogamemessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_dialogmessage()) {
+		const DialogMessage &dialog = msg.dialogmessage();
+		if (VALIDATE_STRING_SIZE(dialog.notificationtext(), 1, 128)) {
 			retVal = true;
 		}
 	}
@@ -603,270 +472,22 @@ NetPacketValidator::ValidateInvitePlayerToGameMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateInviteNotifyMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateTimeoutWarningMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_invitenotifymessage()) {
-		const InviteNotifyMessage &msg = packet.GetMsg()->invitenotifymessage();
-		if (msg.gameid() != 0 && msg.playeridwho() != 0 && msg.playeridbywhom() != 0) {
-			retVal = true;
-		}
+	if (msg.has_timeoutwarningmessage()) {
+		//const TimeoutWarningMessage &timeoutWarning = msg.timeoutwarningmessage();
+		retVal = true;
 	}
 	return retVal;
 }
 
 bool
-NetPacketValidator::ValidateRejectGameInvitationMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_rejectgameinvitationmessage()) {
-		const RejectGameInvitationMessage &msg = packet.GetMsg()->rejectgameinvitationmessage();
-		if (msg.gameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateRejectInvNotifyMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_rejectinvnotifymessage()) {
-		const RejectInvNotifyMessage &msg = packet.GetMsg()->rejectinvnotifymessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateStartEventMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_starteventmessage()) {
-		const StartEventMessage &msg = packet.GetMsg()->starteventmessage();
-		if (msg.gameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateStartEventAckMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_starteventackmessage()) {
-		const StartEventAckMessage &msg = packet.GetMsg()->starteventackmessage();
-		if (msg.gameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameStartInitialMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamestartinitialmessage()) {
-		const GameStartInitialMessage &msg = packet.GetMsg()->gamestartinitialmessage();
-		if (msg.gameid() != 0
-				&& msg.startdealerplayerid() != 0
-				&& VALIDATE_LIST_SIZE(msg.playerseats(), 2, 10)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameStartRejoinMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamestartrejoinmessage()) {
-		const GameStartRejoinMessage &msg = packet.GetMsg()->gamestartrejoinmessage();
-		if (msg.gameid() != 0
-				&& msg.startdealerplayerid() != 0
-				&& msg.handnum() != 0
-				&& VALIDATE_LIST_SIZE(msg.rejoinplayerdata(), 2, 10)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateHandStartMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_handstartmessage()) {
-		const HandStartMessage &msg = packet.GetMsg()->handstartmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_UINT_RANGE(msg.smallblind(), 1, 100000000)
-				&& VALIDATE_LIST_SIZE(msg.seatstates(), 2, 10)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidatePlayersTurnMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_playersturnmessage()) {
-		const PlayersTurnMessage &msg = packet.GetMsg()->playersturnmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0 ) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateMyActionRequestMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_myactionrequestmessage()) {
-		const MyActionRequestMessage &msg = packet.GetMsg()->myactionrequestmessage();
-		if (msg.gameid() != 0
-				&& msg.handnum() != 0
-				&& VALIDATE_UINT_UPPER(msg.myrelativebet(), 10000000)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateYourActionRejectedMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_youractionrejectedmessage()) {
-		const YourActionRejectedMessage &msg = packet.GetMsg()->youractionrejectedmessage();
-		if (msg.gameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidatePlayersActionDoneMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_playersactiondonemessage()) {
-		const PlayersActionDoneMessage &msg = packet.GetMsg()->playersactiondonemessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateDealFlopCardsMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_dealflopcardsmessage()) {
-		const DealFlopCardsMessage &msg = packet.GetMsg()->dealflopcardsmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_UINT_UPPER(msg.flopcard1(), 51)
-				&& VALIDATE_UINT_UPPER(msg.flopcard2(), 51)
-				&& VALIDATE_UINT_UPPER(msg.flopcard3(), 51)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateDealTurnCardMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_dealturncardmessage()) {
-		const DealTurnCardMessage &msg = packet.GetMsg()->dealturncardmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_UINT_UPPER(msg.turncard(), 51)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateDealRiverCardMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_dealrivercardmessage()) {
-		const DealRiverCardMessage &msg = packet.GetMsg()->dealrivercardmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_UINT_UPPER(msg.rivercard(), 51)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAllInShowCardsMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_allinshowcardsmessage()) {
-		const AllInShowCardsMessage &msg = packet.GetMsg()->allinshowcardsmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_LIST_SIZE(msg.playersallin(), 1, 10)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateEndOfHandShowCardsMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_endofhandshowcardsmessage()) {
-		const EndOfHandShowCardsMessage &msg = packet.GetMsg()->endofhandshowcardsmessage();
-		if (msg.gameid() != 0
-				&& VALIDATE_LIST_SIZE(msg.playerresults(), 1, 10)) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateEndOfHandHideCardsMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_endofhandhidecardsmessage()) {
-		const EndOfHandHideCardsMessage &msg = packet.GetMsg()->endofhandhidecardsmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateShowMyCardsRequestMessage(const NetPacket &/*packet*/)
+LobbyMessageValidator::ValidateResetTimeoutMessage(const LobbyMessage &/*msg*/)
 {
 	//bool retVal = false;
-	//if (packet.GetMsg()->has_showmycardsrequestmessage()) {
-	//	const ShowMyCardsRequestMessage &msg = packet.GetMsg()->showmycardsrequestmessage();
+	//if (msg.has_resettimeoutmessage()) {
+	//	const ResetTimeoutMessage &resetTimeout = msg.resettimeoutmessage();
 	//	retVal = true;
 	//}
 	//return retVal;
@@ -874,23 +495,77 @@ NetPacketValidator::ValidateShowMyCardsRequestMessage(const NetPacket &/*packet*
 }
 
 bool
-NetPacketValidator::ValidateAfterHandShowCardsMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateReportAvatarMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_afterhandshowcardsmessage()) {
-		//const AfterHandShowCardsMessage &msg = packet.GetMsg()->afterhandshowcardsmessage();
+	if (msg.has_reportavatarmessage()) {
+		const ReportAvatarMessage &reportAvatar = msg.reportavatarmessage();
+		if (reportAvatar.reportedplayerid() != 0
+				&& reportAvatar.reportedavatarhash().size() == 16) {
+
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateReportAvatarAckMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_reportavatarackmessage()) {
+		const ReportAvatarAckMessage &reportAvatarAck = msg.reportavatarackmessage();
+		if (reportAvatarAck.reportedplayerid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateReportGameMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_reportgamemessage()) {
+		const ReportGameMessage &reportGame = msg.reportgamemessage();
+		if (reportGame.reportedgameid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateReportGameAckMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_reportgameackmessage()) {
+		const ReportGameAckMessage &reportGameAck = msg.reportgameackmessage();
+		if (reportGameAck.reportedgameid() != 0) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateErrorMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_errormessage()) {
+		//const ErrorMessage &error = msg.errormessage();
 		retVal = true;
 	}
 	return retVal;
 }
 
 bool
-NetPacketValidator::ValidateEndOfGameMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAdminRemoveGameMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_endofgamemessage()) {
-		const EndOfGameMessage &msg = packet.GetMsg()->endofgamemessage();
-		if (msg.gameid() != 0 && msg.winnerplayerid() != 0) {
+	if (msg.has_adminremovegamemessage()) {
+		const AdminRemoveGameMessage &removeGame = msg.adminremovegamemessage();
+		if (removeGame.removegameid() != 0) {
 			retVal = true;
 		}
 	}
@@ -898,12 +573,12 @@ NetPacketValidator::ValidateEndOfGameMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidatePlayerIdChangedMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAdminRemoveGameAckMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_playeridchangedmessage()) {
-		const PlayerIdChangedMessage &msg = packet.GetMsg()->playeridchangedmessage();
-		if (msg.oldplayerid() != 0 && msg.newplayerid() != 0) {
+	if (msg.has_adminremovegameackmessage()) {
+		const AdminRemoveGameAckMessage &removeGameAck = msg.adminremovegameackmessage();
+		if (removeGameAck.removegameid() != 0) {
 			retVal = true;
 		}
 	}
@@ -911,12 +586,12 @@ NetPacketValidator::ValidatePlayerIdChangedMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAskKickPlayerMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAdminBanPlayerMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_askkickplayermessage()) {
-		const AskKickPlayerMessage &msg = packet.GetMsg()->askkickplayermessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_adminbanplayermessage()) {
+		const AdminBanPlayerMessage &banPlayer = msg.adminbanplayermessage();
+		if (banPlayer.banplayerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -924,12 +599,12 @@ NetPacketValidator::ValidateAskKickPlayerMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateAskKickDeniedMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateAdminBanPlayerAckMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_askkickdeniedmessage()) {
-		const AskKickDeniedMessage &msg = packet.GetMsg()->askkickdeniedmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_adminbanplayerackmessage()) {
+		const AdminBanPlayerAckMessage &banPlayerAck = msg.adminbanplayerackmessage();
+		if (banPlayerAck.banplayerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -937,281 +612,7 @@ NetPacketValidator::ValidateAskKickDeniedMessage(const NetPacket &packet)
 }
 
 bool
-NetPacketValidator::ValidateStartKickPetitionMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_startkickpetitionmessage()) {
-		const StartKickPetitionMessage &msg = packet.GetMsg()->startkickpetitionmessage();
-		if (msg.gameid() != 0
-				&& msg.petitionid() != 0
-				&& msg.proposingplayerid() != 0
-				&& msg.kickplayerid() != 0
-				&& msg.kicktimeoutsec() > 0
-				&& msg.numvotesneededtokick() > 0) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateVoteKickRequestMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_votekickrequestmessage()) {
-		const VoteKickRequestMessage &msg = packet.GetMsg()->votekickrequestmessage();
-		if (msg.gameid() != 0 && msg.petitionid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateVoteKickReplyMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_votekickreplymessage()) {
-		const VoteKickReplyMessage &msg = packet.GetMsg()->votekickreplymessage();
-		if (msg.gameid() != 0 && msg.petitionid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateKickPetitionUpdateMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_kickpetitionupdatemessage()) {
-		const KickPetitionUpdateMessage &msg = packet.GetMsg()->kickpetitionupdatemessage();
-		if (msg.gameid() != 0 && msg.petitionid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateEndKickPetitionMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_endkickpetitionmessage()) {
-		const EndKickPetitionMessage &msg = packet.GetMsg()->endkickpetitionmessage();
-		if (msg.gameid() != 0 && msg.petitionid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateStatisticsMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_statisticsmessage()) {
-		//const StatisticsMessage &msg = packet.GetMsg()->statisticsmessage();
-		retVal = true;
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateChatRequestMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_chatrequestmessage()) {
-		const ChatRequestMessage &msg = packet.GetMsg()->chatrequestmessage();
-		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateChatMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_chatmessage()) {
-		const ChatMessage &msg = packet.GetMsg()->chatmessage();
-		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateChatRejectMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_chatrejectmessage()) {
-		const ChatRejectMessage &msg = packet.GetMsg()->chatrejectmessage();
-		if (VALIDATE_STRING_SIZE(msg.chattext(), 1, 128)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateDialogMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_dialogmessage()) {
-		const DialogMessage &msg = packet.GetMsg()->dialogmessage();
-		if (VALIDATE_STRING_SIZE(msg.notificationtext(), 1, 128)) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateTimeoutWarningMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_timeoutwarningmessage()) {
-		//const TimeoutWarningMessage &msg = packet.GetMsg()->timeoutwarningmessage();
-		retVal = true;
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateResetTimeoutMessage(const NetPacket &/*packet*/)
-{
-	//bool retVal = false;
-	//if (packet.GetMsg()->has_resettimeoutmessage()) {
-	//	const ResetTimeoutMessage &msg = packet.GetMsg()->resettimeoutmessage();
-	//	retVal = true;
-	//}
-	//return retVal;
-	return true; // Empty packet, always valid.
-}
-
-bool
-NetPacketValidator::ValidateReportAvatarMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_reportavatarmessage()) {
-		const ReportAvatarMessage &msg = packet.GetMsg()->reportavatarmessage();
-		if (msg.reportedplayerid() != 0
-				&& msg.reportedavatarhash().size() == 16) {
-
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateReportAvatarAckMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_reportavatarackmessage()) {
-		const ReportAvatarAckMessage &msg = packet.GetMsg()->reportavatarackmessage();
-		if (msg.reportedplayerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateReportGameMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_reportgamemessage()) {
-		const ReportGameMessage &msg = packet.GetMsg()->reportgamemessage();
-		if (msg.reportedgameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateReportGameAckMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_reportgameackmessage()) {
-		const ReportGameAckMessage &msg = packet.GetMsg()->reportgameackmessage();
-		if (msg.reportedgameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateErrorMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_errormessage()) {
-		//const ErrorMessage &msg = packet.GetMsg()->errormessage();
-		retVal = true;
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAdminRemoveGameMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_adminremovegamemessage()) {
-		const AdminRemoveGameMessage &msg = packet.GetMsg()->adminremovegamemessage();
-		if (msg.removegameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAdminRemoveGameAckMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_adminremovegameackmessage()) {
-		const AdminRemoveGameAckMessage &msg = packet.GetMsg()->adminremovegameackmessage();
-		if (msg.removegameid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAdminBanPlayerMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_adminbanplayermessage()) {
-		const AdminBanPlayerMessage &msg = packet.GetMsg()->adminbanplayermessage();
-		if (msg.banplayerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateAdminBanPlayerAckMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_adminbanplayerackmessage()) {
-		const AdminBanPlayerAckMessage &msg = packet.GetMsg()->adminbanplayerackmessage();
-		if (msg.banplayerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
+LobbyMessageValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
 {
 	bool retVal = false;
 	if (VALIDATE_STRING_SIZE(gameInfo.gamename(), 1, 64)
@@ -1233,12 +634,12 @@ NetPacketValidator::ValidateGameInfo(const NetGameInfo &gameInfo)
 }
 
 bool
-NetPacketValidator::ValidateGameListSpectatorJoinedMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateGameListSpectatorJoinedMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistspectatorjoinedmessage()) {
-		const GameListSpectatorJoinedMessage &msg = packet.GetMsg()->gamelistspectatorjoinedmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_gamelistspectatorjoinedmessage()) {
+		const GameListSpectatorJoinedMessage &spectatorJoined = msg.gamelistspectatorjoinedmessage();
+		if (spectatorJoined.gameid() != 0 && spectatorJoined.playerid() != 0) {
 			retVal = true;
 		}
 	}
@@ -1246,38 +647,12 @@ NetPacketValidator::ValidateGameListSpectatorJoinedMessage(const NetPacket &pack
 }
 
 bool
-NetPacketValidator::ValidateGameListSpectatorLeftMessage(const NetPacket &packet)
+LobbyMessageValidator::ValidateGameListSpectatorLeftMessage(const LobbyMessage &msg)
 {
 	bool retVal = false;
-	if (packet.GetMsg()->has_gamelistspectatorleftmessage()) {
-		const GameListSpectatorLeftMessage &msg = packet.GetMsg()->gamelistspectatorleftmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameSpectatorJoinedMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamespectatorjoinedmessage()) {
-		const GameSpectatorJoinedMessage &msg = packet.GetMsg()->gamespectatorjoinedmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
-			retVal = true;
-		}
-	}
-	return retVal;
-}
-
-bool
-NetPacketValidator::ValidateGameSpectatorLeftMessage(const NetPacket &packet)
-{
-	bool retVal = false;
-	if (packet.GetMsg()->has_gamespectatorleftmessage()) {
-		const GameSpectatorLeftMessage &msg = packet.GetMsg()->gamespectatorleftmessage();
-		if (msg.gameid() != 0 && msg.playerid() != 0) {
+	if (msg.has_gamelistspectatorleftmessage()) {
+		const GameListSpectatorLeftMessage &spectatorLeft = msg.gamelistspectatorleftmessage();
+		if (spectatorLeft.gameid() != 0 && spectatorLeft.playerid() != 0) {
 			retVal = true;
 		}
 	}

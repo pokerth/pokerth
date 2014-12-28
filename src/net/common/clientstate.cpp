@@ -587,8 +587,7 @@ AbstractClientStateReceiving::HandleLobbyMsg(boost::shared_ptr<ClientThread> cli
 			client->SetPlayerInfo(
 				playerId,
 				tmpInfo);
-		}
-		else {
+		} else {
 			client->SetUnknownPlayer(playerId);
 		}
 	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_TimeoutWarningMessage) {
@@ -733,8 +732,7 @@ AbstractClientStateReceiving::HandleLobbyMsg(boost::shared_ptr<ClientThread> cli
 			break;
 		}
 		client->GetCallback().SignalNetClientMsgBox(msgCode);
-	}
-	else if (lobbyMsg.messagetype() == LobbyMessage::Type_ReportGameAckMessage) {
+	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ReportGameAckMessage) {
 		const ReportGameAckMessage &netReportAck = lobbyMsg.reportgameackmessage();
 		unsigned msgCode;
 		switch (netReportAck.reportgameresult()) {
@@ -795,7 +793,7 @@ AbstractClientStateReceiving::HandleLobbyMsg(boost::shared_ptr<ClientThread> cli
 			}
 			client->UpdateStatData(tmpStats);
 		}
-	} else if (lobbyMsg.messagetype() == GameManagementMessage::Type_ErrorMessage) {
+	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ErrorMessage) {
 		// Server reported an error.
 		const ErrorMessage &netError = lobbyMsg.errormessage();
 		// Show the error.
@@ -808,8 +806,7 @@ AbstractClientStateReceiving::HandleLobbyMsg(boost::shared_ptr<ClientThread> cli
 void
 AbstractClientStateReceiving::HandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg)
 {
-	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage)
-	{
+	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage) {
 		const GameManagementMessage &managementMsg = gameMsg.gamemanagementmessage();
 		if (managementMsg.messagetype() == GameManagementMessage::Type_RemovedFromGameMessage) {
 			const RemovedFromGameMessage &netRemoved = managementMsg.removedfromgamemessage();
@@ -845,8 +842,7 @@ AbstractClientStateReceiving::HandleGameMsg(boost::shared_ptr<ClientThread> clie
 			}
 			client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
 			client->SetState(ClientStateWaitJoin::Instance());
-		}
-		else if (managementMsg.messagetype() == GameManagementMessage::Type_GamePlayerLeftMessage) {
+		} else if (managementMsg.messagetype() == GameManagementMessage::Type_GamePlayerLeftMessage) {
 			// A player left the game.
 			const GamePlayerLeftMessage &netLeft = managementMsg.gameplayerleftmessage();
 
@@ -867,22 +863,19 @@ AbstractClientStateReceiving::HandleGameMsg(boost::shared_ptr<ClientThread> clie
 				break;
 			}
 			client->RemovePlayerData(netLeft.playerid(), removeReason);
-		}
-		else if (managementMsg.messagetype() == GameManagementMessage::Type_GameAdminChangedMessage) {
+		} else if (managementMsg.messagetype() == GameManagementMessage::Type_GameAdminChangedMessage) {
 			// New admin for the game.
 			const GameAdminChangedMessage &netChanged = managementMsg.gameadminchangedmessage();
 
 			// Set new game admin and signal to GUI.
 			client->SetNewGameAdmin(netChanged.newadminplayerid());
-		}
-		else if (managementMsg.messagetype() == GameManagementMessage::Type_GamePlayerJoinedMessage) {
+		} else if (managementMsg.messagetype() == GameManagementMessage::Type_GamePlayerJoinedMessage) {
 			// Another player joined the network game.
 			const GamePlayerJoinedMessage &netPlayerJoined = managementMsg.gameplayerjoinedmessage();
 
 			boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined.playerid(), netPlayerJoined.isgameadmin());
 			client->AddPlayerData(playerData);
-		}
-		else if (managementMsg.messagetype() == GameManagementMessage::Type_GameSpectatorJoinedMessage) {
+		} else if (managementMsg.messagetype() == GameManagementMessage::Type_GameSpectatorJoinedMessage) {
 			// Another spectator joined the network game.
 			const GameSpectatorJoinedMessage &netSpectatorJoined = managementMsg.gamespectatorjoinedmessage();
 			// Request player info if needed.
@@ -891,8 +884,7 @@ AbstractClientStateReceiving::HandleGameMsg(boost::shared_ptr<ClientThread> clie
 				client->RequestPlayerInfo(netSpectatorJoined.playerid());
 			}
 			client->ModifyGameInfoAddSpectatorDuringGame(netSpectatorJoined.playerid());
-		}
-		else if (managementMsg.messagetype() == GameManagementMessage::Type_GameSpectatorLeftMessage) {
+		} else if (managementMsg.messagetype() == GameManagementMessage::Type_GameSpectatorLeftMessage) {
 			// A spectator left the network game.
 			const GameSpectatorLeftMessage &netSpectatorLeft = managementMsg.gamespectatorleftmessage();
 			// Signal to GUI and remove from data list.
@@ -937,11 +929,11 @@ AbstractClientStateReceiving::HandleGameMsg(boost::shared_ptr<ClientThread> clie
 		} else if (managementMsg.messagetype() == GameManagementMessage::Type_StartKickPetitionMessage) {
 			const StartKickPetitionMessage &netStartPetition = managementMsg.startkickpetitionmessage();
 			client->StartPetition(netStartPetition.petitionid(), netStartPetition.proposingplayerid(),
-				netStartPetition.kickplayerid(), netStartPetition.kicktimeoutsec(), netStartPetition.numvotesneededtokick());
+								  netStartPetition.kickplayerid(), netStartPetition.kicktimeoutsec(), netStartPetition.numvotesneededtokick());
 		} else if (managementMsg.messagetype() == GameManagementMessage::Type_KickPetitionUpdateMessage) {
 			const KickPetitionUpdateMessage &netPetitionUpdate = managementMsg.kickpetitionupdatemessage();
 			client->UpdatePetition(netPetitionUpdate.petitionid(), netPetitionUpdate.numvotesagainstkicking(),
-				netPetitionUpdate.numvotesinfavourofkicking(), netPetitionUpdate.numvotesneededtokick());
+								   netPetitionUpdate.numvotesinfavourofkicking(), netPetitionUpdate.numvotesneededtokick());
 		} else if (managementMsg.messagetype() == GameManagementMessage::Type_EndKickPetitionMessage) {
 			const EndKickPetitionMessage &netEndPetition = managementMsg.endkickpetitionmessage();
 			client->EndPetition(netEndPetition.petitionid());
@@ -993,10 +985,9 @@ ClientStateStartSession::InternalHandleAnnounceMsg(boost::shared_ptr<ClientThrea
 	// Server has send announcement - check data.
 	// Check current game version.
 	if (announceMsg.latestgameversion().majorversion() != POKERTH_VERSION_MAJOR
-		|| announceMsg.latestgameversion().minorversion() != POKERTH_VERSION_MINOR) {
+			|| announceMsg.latestgameversion().minorversion() != POKERTH_VERSION_MINOR) {
 		client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
-	}
-	else if (POKERTH_BETA_REVISION && announceMsg.latestbetarevision() != POKERTH_BETA_REVISION) {
+	} else if (POKERTH_BETA_REVISION && announceMsg.latestbetarevision() != POKERTH_BETA_REVISION) {
 		client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
 	}
 	ClientContext &context = client->GetContext();
@@ -1008,7 +999,7 @@ ClientStateStartSession::InternalHandleAnnounceMsg(boost::shared_ptr<ClientThrea
 	}
 	// CASE 2: Unauthenticated login (network game or dedicated server without auth backend).
 	else if (announceMsg.servertype() == AnnounceMessage::serverTypeInternetNoAuth
-		|| announceMsg.servertype() == AnnounceMessage::serverTypeLAN) {
+			 || announceMsg.servertype() == AnnounceMessage::serverTypeLAN) {
 		boost::shared_ptr<NetPacket> auth(new NetPacket);
 		auth->GetMsg()->set_messagetype(PokerTHMessage::Type_AuthMessage);
 		AuthMessage *netAuth = auth->GetMsg()->mutable_authmessage();
@@ -1022,6 +1013,14 @@ ClientStateStartSession::InternalHandleAnnounceMsg(boost::shared_ptr<ClientThrea
 		}
 		authRequest->set_login(AuthClientRequestMessage::unauthenticatedLogin);
 		authRequest->set_nickname(context.GetPlayerName());
+		string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+		if (!avatarFile.empty()) {
+			MD5Buf tmpMD5;
+			if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
+				// Send MD5 hash of avatar.
+				authRequest->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
+			}
+		}
 		client->GetSender().Send(context.GetSessionData(), auth);
 		client->SetState(ClientStateWaitSession::Instance());
 	}
@@ -1115,6 +1114,14 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 					throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
 				string outUserData(tmpSession->AuthGetNextOutMsg());
 				authRequest->set_clientuserdata(outUserData);
+				string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
+				if (!avatarFile.empty()) {
+					MD5Buf tmpMD5;
+					if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
+						// Send MD5 hash of avatar.
+						authRequest->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
+					}
+				}
 				client->GetSender().Send(context.GetSessionData(), auth);
 				client->SetState(ClientStateWaitAuthChallenge::Instance());
 			}
@@ -1215,23 +1222,6 @@ ClientStateWaitAuthVerify::InternalHandleAuthMsg(boost::shared_ptr<ClientThread>
 		boost::shared_ptr<SessionData> tmpSession = context.GetSessionData();
 		if (!tmpSession->AuthStep(3, verificationStr.c_str()))
 			throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PASSWORD, 0);
-		client->SetGuiPlayerId(netAuth.yourplayerid());
-		context.SetSessionGuid(netAuth.yoursessionid());
-
-		boost::shared_ptr<NetPacket> init(new NetPacket);
-		init->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
-		LobbyMessage *netLobby = init->GetMsg()->mutable_lobbymessage();
-		netLobby->set_messagetype(LobbyMessage::Type_InitMessage);
-		InitMessage *netInit = netLobby->mutable_initmessage();
-		string avatarFile = client->GetQtToolsInterface().stringFromUtf8(context.GetAvatarFile());
-		if (!avatarFile.empty()) {
-			MD5Buf tmpMD5;
-			if (client->GetAvatarManager().GetHashForAvatar(avatarFile, tmpMD5)) {
-				// Send MD5 hash of avatar.
-				netInit->set_avatarhash(tmpMD5.GetData(), MD5_DATA_SIZE);
-			}
-		}
-		client->GetSender().Send(context.GetSessionData(), init);
 		client->SetState(ClientStateWaitSession::Instance());
 	}
 }
@@ -1266,13 +1256,15 @@ ClientStateWaitSession::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitSession::InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg)
 {
-	if (lobbyMsg.messagetype() == LobbyMessage::Type_InitAckMessage) {
+	if (lobbyMsg.messagetype() == LobbyMessage::Type_InitDoneMessage) {
 		// Everything is fine - we are in the lobby.
-		const InitAckMessage &netInitAck = lobbyMsg.initackmessage();
+		const InitDoneMessage &netInitDone = lobbyMsg.initdonemessage();
+		client->SetGuiPlayerId(netInitDone.yourplayerid());
+		client->GetContext().SetSessionGuid(netInitDone.yoursessionid());
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
-		if (netInitAck.has_rejoingameid())
-			client->GetCallback().SignalNetClientRejoinPossible(netInitAck.rejoingameid());
+		if (netInitDone.has_rejoingameid())
+			client->GetCallback().SignalNetClientRejoinPossible(netInitDone.rejoingameid());
 		client->SetState(ClientStateWaitJoin::Instance());
 	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarRequestMessage) {
 		// Before letting us join the lobby, the server requests our avatar.
@@ -1321,96 +1313,86 @@ ClientStateWaitJoin::Exit(boost::shared_ptr<ClientThread> /*client*/)
 void
 ClientStateWaitJoin::InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> client, const LobbyMessage &lobbyMsg)
 {
+	ClientContext &context = client->GetContext();
 	if (lobbyMsg.messagetype() == LobbyMessage::Type_CreateGameFailedMessage) {
 		// Failed to create a new game.
 		const CreateGameFailedMessage &netCreateFailed = lobbyMsg.creategamefailedmessage();
 
 		int failureCode;
 		switch (netCreateFailed.creategamefailurereason()) {
-			case CreateGameFailedMessage::notAllowedAsGuest:
-				failureCode = NTF_NET_JOIN_GUEST_FORBIDDEN;
-				break;
-			case CreateGameFailedMessage::gameNameInUse:
-				failureCode = NTF_NET_JOIN_GAME_NAME_IN_USE;
-				break;
-			case CreateGameFailedMessage::badGameName:
-				failureCode = NTF_NET_JOIN_GAME_BAD_NAME;
-				break;
-			case CreateGameFailedMessage::invalidSettings:
-				failureCode = NTF_NET_JOIN_INVALID_SETTINGS;
-				break;
-			default:
-				failureCode = NTF_NET_INTERNAL;
-				break;
+		case CreateGameFailedMessage::notAllowedAsGuest:
+			failureCode = NTF_NET_CREATE_GUEST_FORBIDDEN;
+			break;
+		case CreateGameFailedMessage::gameNameInUse:
+			failureCode = NTF_NET_CREATE_GAME_NAME_IN_USE;
+			break;
+		case CreateGameFailedMessage::badGameName:
+			failureCode = NTF_NET_CREATE_GAME_BAD_NAME;
+			break;
+		case CreateGameFailedMessage::invalidSettings:
+			failureCode = NTF_NET_CREATE_INVALID_SETTINGS;
+			break;
+		default:
+			failureCode = NTF_NET_INTERNAL;
+			break;
 		}
+		client->GetCallback().SignalNetClientNotification(failureCode);
+	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_JoinGameAckMessage) {
+		const JoinGameAckMessage &netJoinAck = lobbyMsg.joingameackmessage();
+		// Successfully joined a game.
+		client->SetGameId(netJoinAck.gameid());
+		GameData tmpData;
+		NetPacket::GetGameData(netJoinAck.gameinfo(), tmpData);
+		client->SetGameData(tmpData);
+		client->ModifyGameInfoClearSpectatorsDuringGame();
+
+		// Player number is 0 on init. Will be set when the game starts.
+		boost::shared_ptr<PlayerData> playerData(
+			new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
+						   context.GetPlayerRights(), netJoinAck.areyougameadmin()));
+		playerData->SetName(context.GetPlayerName());
+		playerData->SetAvatarFile(context.GetAvatarFile());
+		client->AddPlayerData(playerData);
+
+		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_JOIN);
+		client->SetState(ClientStateWaitGame::Instance());
+	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_JoinGameFailedMessage) {
+		// Failed to join a game.
+		const JoinGameFailedMessage &netJoinFailed = lobbyMsg.joingamefailedmessage();
+
+		int failureCode;
+		switch (netJoinFailed.joingamefailurereason()) {
+		case JoinGameFailedMessage::invalidGame:
+			failureCode = NTF_NET_JOIN_GAME_INVALID;
+			break;
+		case JoinGameFailedMessage::gameIsFull:
+			failureCode = NTF_NET_JOIN_GAME_FULL;
+			break;
+		case JoinGameFailedMessage::gameIsRunning:
+			failureCode = NTF_NET_JOIN_ALREADY_RUNNING;
+			break;
+		case JoinGameFailedMessage::invalidPassword:
+			failureCode = NTF_NET_JOIN_INVALID_PASSWORD;
+			break;
+		case JoinGameFailedMessage::notInvited:
+			failureCode = NTF_NET_JOIN_NOT_INVITED;
+			break;
+		case JoinGameFailedMessage::ipAddressBlocked:
+			failureCode = NTF_NET_JOIN_IP_BLOCKED;
+			break;
+		case JoinGameFailedMessage::rejoinFailed:
+			failureCode = NTF_NET_JOIN_REJOIN_FAILED;
+			break;
+		default:
+			failureCode = NTF_NET_INTERNAL;
+			break;
+		}
+
 		client->GetCallback().SignalNetClientNotification(failureCode);
 	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = lobbyMsg.invitenotifymessage();
 		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
 			client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
-		}
-	}
-}
-
-void
-ClientStateWaitJoin::InternalHandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg)
-{
-	ClientContext &context = client->GetContext();
-
-	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage) {
-		const GameManagementMessage &managementMsg = gameMsg.gamemanagementmessage();
-		if (managementMsg.messagetype() == GameManagementMessage::Type_JoinGameAckMessage) {
-			const JoinGameAckMessage &netJoinAck = managementMsg.joingameackmessage();
-			// Successfully joined a game.
-			client->SetGameId(gameMsg.gameid());
-			GameData tmpData;
-			NetPacket::GetGameData(netJoinAck.gameinfo(), tmpData);
-			client->SetGameData(tmpData);
-			client->ModifyGameInfoClearSpectatorsDuringGame();
-
-			// Player number is 0 on init. Will be set when the game starts.
-			boost::shared_ptr<PlayerData> playerData(
-				new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
-				context.GetPlayerRights(), netJoinAck.areyougameadmin()));
-			playerData->SetName(context.GetPlayerName());
-			playerData->SetAvatarFile(context.GetAvatarFile());
-			client->AddPlayerData(playerData);
-
-			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_JOIN);
-			client->SetState(ClientStateWaitGame::Instance());
-		} else if (managementMsg.messagetype() == GameManagementMessage::Type_JoinGameFailedMessage) {
-			// Failed to join a game.
-			const JoinGameFailedMessage &netJoinFailed = managementMsg.joingamefailedmessage();
-
-			int failureCode;
-			switch (netJoinFailed.joingamefailurereason()) {
-			case JoinGameFailedMessage::invalidGame:
-				failureCode = NTF_NET_JOIN_GAME_INVALID;
-				break;
-			case JoinGameFailedMessage::gameIsFull:
-				failureCode = NTF_NET_JOIN_GAME_FULL;
-				break;
-			case JoinGameFailedMessage::gameIsRunning:
-				failureCode = NTF_NET_JOIN_ALREADY_RUNNING;
-				break;
-			case JoinGameFailedMessage::invalidPassword:
-				failureCode = NTF_NET_JOIN_INVALID_PASSWORD;
-				break;
-			case JoinGameFailedMessage::notInvited:
-				failureCode = NTF_NET_JOIN_NOT_INVITED;
-				break;
-			case JoinGameFailedMessage::ipAddressBlocked:
-				failureCode = NTF_NET_JOIN_IP_BLOCKED;
-				break;
-			case JoinGameFailedMessage::rejoinFailed:
-				failureCode = NTF_NET_JOIN_REJOIN_FAILED;
-				break;
-			default:
-				failureCode = NTF_NET_INTERNAL;
-				break;
-			}
-
-			client->GetCallback().SignalNetClientNotification(failureCode);
 		}
 	}
 }
@@ -1463,8 +1445,7 @@ ClientStateWaitGame::InternalHandleLobbyMsg(boost::shared_ptr<ClientThread> clie
 void
 ClientStateWaitGame::InternalHandleGameMsg(boost::shared_ptr<ClientThread> client, const GameMessage &gameMsg)
 {
-	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage)
-	{
+	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage) {
 		const GameManagementMessage &managementMsg = gameMsg.gamemanagementmessage();
 		if (managementMsg.messagetype() == GameManagementMessage::Type_StartEventMessage) {
 			const StartEventMessage &netStartEvent = managementMsg.starteventmessage();
@@ -1591,7 +1572,7 @@ ClientStateWaitStart::InternalHandleGameMsg(boost::shared_ptr<ClientThread> clie
 	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage) {
 		const GameManagementMessage &managementMsg = gameMsg.gamemanagementmessage();
 		if (managementMsg.messagetype() == GameManagementMessage::Type_GameStartInitialMessage
-			|| managementMsg.messagetype() == GameManagementMessage::Type_GameStartRejoinMessage) {
+				|| managementMsg.messagetype() == GameManagementMessage::Type_GameStartRejoinMessage) {
 			PlayerIdList tmpPlayerList;
 			unsigned tmpHandId = 0;
 
@@ -1691,8 +1672,7 @@ ClientStateWaitHand::InternalHandleGameMsg(boost::shared_ptr<ClientThread> clien
 {
 	if (gameMsg.messagetype() == GameMessage::Type_GameManagementMessage) {
 		const GameManagementMessage &managementMsg = gameMsg.gamemanagementmessage();
-		if (managementMsg.messagetype() == GameManagementMessage::Type_EndOfGameMessage)
-		{
+		if (managementMsg.messagetype() == GameManagementMessage::Type_EndOfGameMessage) {
 			boost::shared_ptr<Game> curGame = client->GetGame();
 			if (curGame) {
 				const EndOfGameMessage &netEndOfGame = managementMsg.endofgamemessage();
@@ -1890,7 +1870,7 @@ ClientStateRunHand::InternalHandleGameMsg(boost::shared_ptr<ClientThread> client
 						tmpPlayer->getMyName(),
 						client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone.playeraction())),
 						netActionDone.totalplayerbet() - tmpPlayer->getMySet()
-						);
+					);
 					if (tmpPlayer->getMyID() == 0) {
 						client->EndPing();
 					}
@@ -1922,7 +1902,7 @@ ClientStateRunHand::InternalHandleGameMsg(boost::shared_ptr<ClientThread> client
 					curGame->getCurrentHand()->getSmallBlind() * 2,
 					curGame->getPlayerByUniqueId(curGame->getCurrentHand()->getCurrentBeRo()->getBigBlindPositionId())->getMyID() + 1,
 					curGame->getSeatsList()
-					);
+				);
 			}
 
 			// Stop the timeout for the player.
@@ -2051,7 +2031,7 @@ ClientStateRunHand::InternalHandleGameMsg(boost::shared_ptr<ClientThread> client
 			if (curGame->getCurrentHand()->getCurrentRound() < GAME_STATE_RIVER) {
 				client->GetClientLog()->logHoleCardsHandName(
 					curGame->getActivePlayerList()
-					);
+				);
 			}
 		} else if (engineMsg.messagetype() == GameEngineMessage::Type_EndOfHandHideCardsMessage) {
 			const EndOfHandHideCardsMessage &hideCards = engineMsg.endofhandhidecardsmessage();
