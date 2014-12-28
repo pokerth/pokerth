@@ -47,6 +47,11 @@ public:
 
 protected:
 	static bool ValidateAnnounceMessage(const NetPacket &packet);
+	static bool ValidateAuthMessage(const NetPacket &packet);
+	static bool ValidateLobbyMessage(const NetPacket &packet);
+	static bool ValidateGameMessage(const NetPacket &packet);
+	static bool ValidateGameManagementMessage(const NetPacket &packet);
+	static bool ValidateGameEngineMessage(const NetPacket &packet);
 	static bool ValidateInitMessage(const NetPacket &packet);
 	static bool ValidateAuthServerChallengeMessage(const NetPacket &packet);
 	static bool ValidateAuthClientResponseMessage(const NetPacket &packet);
@@ -66,9 +71,9 @@ protected:
 	static bool ValidatePlayerInfoRequestMessage(const NetPacket &packet);
 	static bool ValidatePlayerInfoReplyMessage(const NetPacket &packet);
 	static bool ValidateSubscriptionRequestMessage(const NetPacket &packet);
-	static bool ValidateJoinExistingGameMessage(const NetPacket &packet);
-	static bool ValidateJoinNewGameMessage(const NetPacket &packet);
-	static bool ValidateRejoinExistingGameMessage(const NetPacket &packet);
+	static bool ValidateCreateGameMessage(const NetPacket &packet);
+	static bool ValidateJoinGameMessage(const NetPacket &packet);
+	static bool ValidateRejoinGameMessage(const NetPacket &packet);
 	static bool ValidateJoinGameAckMessage(const NetPacket &packet);
 	static bool ValidateJoinGameFailedMessage(const NetPacket &packet);
 	static bool ValidateGamePlayerJoinedMessage(const NetPacket &packet);
