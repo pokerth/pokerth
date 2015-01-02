@@ -317,6 +317,7 @@ ClientThread::SendCreateGame(const GameData &gameData, const std::string &name, 
 	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
 	netLobby->set_messagetype(LobbyMessage::Type_CreateGameMessage);
 	CreateGameMessage *netCreateGame = netLobby->mutable_creategamemessage();
+	netCreateGame->set_requestid(1);
 	netCreateGame->set_autoleave(autoLeave);
 	NetGameInfo *gameInfo = netCreateGame->mutable_gameinfo();
 	NetPacket::SetGameData(gameData, *gameInfo);
