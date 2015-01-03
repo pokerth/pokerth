@@ -51,6 +51,7 @@ LobbyMessageValidator::LobbyMessageValidator()
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_PlayerInfoRequestMessage, ValidatePlayerInfoRequestMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_PlayerInfoReplyMessage, ValidatePlayerInfoReplyMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_SubscriptionRequestMessage, ValidateSubscriptionRequestMessage));
+	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_SubscriptionReplyMessage, ValidateSubscriptionReplyMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_CreateGameMessage, ValidateCreateGameMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_JoinGameMessage, ValidateJoinGameMessage));
 	m_validationMap.insert(make_pair(LobbyMessage_LobbyMessageType_Type_RejoinGameMessage, ValidateRejoinGameMessage));
@@ -295,6 +296,17 @@ LobbyMessageValidator::ValidateSubscriptionRequestMessage(const LobbyMessage &ms
 	bool retVal = false;
 	if (msg.has_subscriptionrequestmessage()) {
 		//const SubscriptionRequestMessage &subscribe = msg.subscriptionrequestmessage();
+		retVal = true;
+	}
+	return retVal;
+}
+
+bool
+LobbyMessageValidator::ValidateSubscriptionReplyMessage(const LobbyMessage &msg)
+{
+	bool retVal = false;
+	if (msg.has_subscriptionreplymessage()) {
+		//const SubscriptionReplyMessage &subscribe = msg.subscriptionreplymessage();
 		retVal = true;
 	}
 	return retVal;

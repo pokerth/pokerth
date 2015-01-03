@@ -75,7 +75,6 @@ public:
 	void ReAddSession(boost::shared_ptr<SessionData> session, int reason, unsigned gameId);
 	void MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::shared_ptr<SessionData> session, bool autoLeave, bool spectateOnly);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
-	void ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session);
 	void NotifyPlayerJoinedLobby(unsigned playerId);
 	void NotifyPlayerLeftLobby(unsigned playerId);
 	void NotifyPlayerJoinedGame(unsigned gameId, unsigned playerId);
@@ -152,6 +151,7 @@ protected:
 	void HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> session, const AvatarEndMessage &avatarEnd);
 	void HandleNetPacketRetrievePlayerInfo(boost::shared_ptr<SessionData> session, const PlayerInfoRequestMessage &playerInfoRequest);
 	void HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> session, const AvatarRequestMessage &retrieveAvatar);
+	void HandleNetPacketSubscriptionRequest(boost::shared_ptr<SessionData> session, const SubscriptionRequestMessage &subscriptionRequest);
 	void HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const CreateGameMessage &createGame);
 	void HandleNetPacketJoinGame(boost::shared_ptr<SessionData> session, const JoinGameMessage &joinGame);
 	void HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> session, const RejoinGameMessage &rejoinGame);

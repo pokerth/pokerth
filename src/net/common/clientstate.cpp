@@ -590,6 +590,8 @@ AbstractClientStateReceiving::HandleLobbyMsg(boost::shared_ptr<ClientThread> cli
 		} else {
 			client->SetUnknownPlayer(playerId);
 		}
+	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_SubscriptionReplyMessage) {
+		// Ignore for now.
 	} else if (lobbyMsg.messagetype() == LobbyMessage::Type_TimeoutWarningMessage) {
 		const TimeoutWarningMessage &tmpTimeout = lobbyMsg.timeoutwarningmessage();
 		client->GetCallback().SignalNetClientShowTimeoutDialog((NetTimeoutReason)tmpTimeout.timeoutreason(), tmpTimeout.remainingseconds());

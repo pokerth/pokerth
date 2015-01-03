@@ -1012,6 +1012,7 @@ ClientThread::UnsubscribeLobbyMsg()
 		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
 		netLobby->set_messagetype(LobbyMessage::Type_SubscriptionRequestMessage);
 		SubscriptionRequestMessage *netRequest = netLobby->mutable_subscriptionrequestmessage();
+		netRequest->set_requestid(1);
 		netRequest->set_subscriptionaction(SubscriptionRequestMessage::unsubscribeGameList);
 		GetSender().Send(GetContext().GetSessionData(), packet);
 		GetContext().SetSubscribeLobbyMsg(false);
@@ -1030,6 +1031,7 @@ ClientThread::ResubscribeLobbyMsg()
 		LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
 		netLobby->set_messagetype(LobbyMessage::Type_SubscriptionRequestMessage);
 		SubscriptionRequestMessage *netRequest = netLobby->mutable_subscriptionrequestmessage();
+		netRequest->set_requestid(1);
 		netRequest->set_subscriptionaction(SubscriptionRequestMessage::resubscribeGameList);
 		GetSender().Send(GetContext().GetSessionData(), packet);
 		GetContext().SetSubscribeLobbyMsg(true);

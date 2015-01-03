@@ -450,12 +450,6 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 }
 
 void
-ServerLobbyThread::ResubscribeLobbyMsg(boost::shared_ptr<SessionData> session)
-{
-	InternalResubscribeMsg(session);
-}
-
-void
 ServerLobbyThread::NotifyPlayerJoinedLobby(unsigned playerId)
 {
 	boost::shared_ptr<NetPacket> notify = CreateNetPacketPlayerListNew(playerId);
@@ -999,17 +993,13 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 						SessionError(session, ERR_SOCK_INVALID_STATE);
 					}
 				} else {
-					if (lobbyMsg.messagetype() == LobbyMessage::Type_PlayerInfoRequestMessage)
+					if (lobbyMsg.messagetype() == LobbyMessage::Type_PlayerInfoRequestMessage) {
 						HandleNetPacketRetrievePlayerInfo(session, lobbyMsg.playerinforequestmessage());
-					else if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarRequestMessage)
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_AvatarRequestMessage) {
 						HandleNetPacketRetrieveAvatar(session, lobbyMsg.avatarrequestmessage());
-					else if (lobbyMsg.messagetype() == LobbyMessage::Type_ResetTimeoutMessage) {
+					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ResetTimeoutMessage) {
 					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_SubscriptionRequestMessage) {
-						const SubscriptionRequestMessage &subscriptionRequest = lobbyMsg.subscriptionrequestmessage();
-						if (subscriptionRequest.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList)
-							InternalResubscribeMsg(session);
-						else
-							session->ResetWantsLobbyMsg();
+						HandleNetPacketSubscriptionRequest(session, lobbyMsg.subscriptionrequestmessage());
 					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_CreateGameMessage) {
 						HandleNetPacketCreateGame(session, lobbyMsg.creategamemessage());
 					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_JoinGameMessage) {
@@ -1026,13 +1016,6 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 						HandleNetPacketAdminRemoveGame(session, lobbyMsg.adminremovegamemessage());
 					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_AdminBanPlayerMessage) {
 						HandleNetPacketAdminBanPlayer(session, lobbyMsg.adminbanplayermessage());
-					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_SubscriptionRequestMessage) {
-						const SubscriptionRequestMessage &netSubscription = lobbyMsg.subscriptionrequestmessage();
-						if (netSubscription.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList) {
-							if (!session->WantsLobbyMsg())
-								ResubscribeLobbyMsg(session);
-						} else
-							session->ResetWantsLobbyMsg();
 					} else if (lobbyMsg.messagetype() == LobbyMessage::Type_ReportAvatarMessage) {
 						HandleNetPacketReportAvatar(session, lobbyMsg.reportavatarmessage());
 					} else {
@@ -1351,6 +1334,26 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> 
 
 		GetSender().Send(session, unknownAvatar);
 	}
+}
+
+
+void
+ServerLobbyThread::HandleNetPacketSubscriptionRequest(boost::shared_ptr<SessionData> session, const SubscriptionRequestMessage &subscriptionRequest)
+{
+	if (subscriptionRequest.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList) {
+		InternalResubscribeMsg(session);
+	} else {
+		session->ResetWantsLobbyMsg();
+	}
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
+	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();
+	netLobby->set_messagetype(LobbyMessage::Type_SubscriptionReplyMessage);
+	SubscriptionReplyMessage *netReply = netLobby->mutable_subscriptionreplymessage();
+	netReply->set_requestid(subscriptionRequest.requestid());
+	netReply->set_ack(true);
+
+	GetSender().Send(session, packet);
 }
 
 void
