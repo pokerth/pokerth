@@ -27,8 +27,15 @@ import org.junit.Test;
 
 import de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType;
 import de.pokerth.protocol.ProtoBuf.ChatRequestMessage;
+import de.pokerth.protocol.ProtoBuf.ErrorMessage;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
@@ -45,9 +52,13 @@ public class ChatTest extends TestBase {
 		ChatRequestMessage chatLobby = ChatRequestMessage.newBuilder()
 			.setChatText(chatText)
 			.build();
-		PokerTHMessage msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_ChatRequestMessage)
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_ChatRequestMessage)
 				.setChatRequestMessage(chatLobby)
+				.build();
+		PokerTHMessage msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
 				.build();
 		return msg;
 	}
@@ -55,11 +66,19 @@ public class ChatTest extends TestBase {
 	PokerTHMessage createGameChatMsg(String chatText, int gameId) {
 		ChatRequestMessage chatGame = ChatRequestMessage.newBuilder()
 				.setChatText(chatText)
-				.setTargetGameId(gameId)
+				.build();
+		GameManagementMessage gameManagment = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_ChatRequestMessage)
+				.setChatRequestMessage(chatGame)
+				.build();
+		GameMessage game = GameMessage.newBuilder()
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagment)
+				.setGameId(gameId)
 				.build();
 		PokerTHMessage msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_ChatRequestMessage)
-				.setChatRequestMessage(chatGame)
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
 				.build();
 		return msg;
 	}
@@ -69,9 +88,13 @@ public class ChatTest extends TestBase {
 				.setChatText(chatText)
 				.setTargetPlayerId(playerId)
 				.build();
-		PokerTHMessage msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_ChatRequestMessage)
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_ChatRequestMessage)
 				.setChatRequestMessage(chatPrivate)
+				.build();
+		PokerTHMessage msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
 				.build();
 		return msg;
 	}
@@ -94,62 +117,47 @@ public class ChatTest extends TestBase {
 		sendMessage(msg);
 		do {
 			msg = receiveMessage();
-		} while (msg.hasPlayerListMessage());
-		assertTrue(msg.hasChatRejectMessage());
-		assertEquals(ChatText + 1, msg.getChatRejectMessage().getChatText());
+		} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatRejectMessage());
+		assertEquals(ChatText + 1, msg.getLobbyMessage().getChatRejectMessage().getChatText());
 
 		// Message as registered user should be sent to other users and guests.
 		msg = createLobbyChatMsg(ChatText + 2);
 		sendMessage(msg, s[0]);
 
 		msg = receiveMessage();
-		assertTrue(msg.hasChatMessage() && msg.getMessageType() == PokerTHMessageType.Type_ChatMessage);
-		assertEquals(ChatText + 2, msg.getChatMessage().getChatText());
-		assertEquals(ChatType.chatTypeLobby, msg.getChatMessage().getChatType());
-		assertEquals(playerId[0], msg.getChatMessage().getPlayerId());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_ChatMessage);
+		assertEquals(ChatText + 2, msg.getLobbyMessage().getChatMessage().getChatText());
+		assertEquals(ChatType.chatTypeStandard, msg.getLobbyMessage().getChatMessage().getChatType());
+		assertEquals(playerId[0], msg.getLobbyMessage().getChatMessage().getPlayerId());
 
 		for (int i = 0; i < 8; i++) {
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasPlayerListMessage());
-			assertTrue(msg.hasChatMessage() && msg.getMessageType() == PokerTHMessageType.Type_ChatMessage);
-			assertEquals(ChatText + 2, msg.getChatMessage().getChatText());
-			assertEquals(ChatType.chatTypeLobby, msg.getChatMessage().getChatType());
-			assertEquals(playerId[0], msg.getChatMessage().getPlayerId());
+			} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_ChatMessage);
+			assertEquals(ChatText + 2, msg.getLobbyMessage().getChatMessage().getChatText());
+			assertEquals(ChatType.chatTypeStandard, msg.getLobbyMessage().getChatMessage().getChatType());
+			assertEquals(playerId[0], msg.getLobbyMessage().getChatMessage().getPlayerId());
 		}
-
-		// A game chat message, if not within a game, should be rejected.
-		msg = createGameChatMsg(ChatText + 3, 1);
-		sendMessage(msg);
-
-		msg = receiveMessage();
-		assertTrue(msg.hasChatRejectMessage() && msg.getMessageType() == PokerTHMessageType.Type_ChatRejectMessage);
-		assertEquals(ChatText + 3, msg.getChatRejectMessage().getChatText());
-
-		msg = createGameChatMsg(ChatText + 4, 1);
-		sendMessage(msg, s[0]);
-
-		msg = receiveMessage(s[0]);
-		assertTrue(msg.hasChatRejectMessage() && msg.getMessageType() == PokerTHMessageType.Type_ChatRejectMessage);
-		assertEquals(ChatText + 4, msg.getChatRejectMessage().getChatText());
 
 		// Guests are not allowed to send private messages in the lobby.
 		msg = createPrivateChatMsg(ChatText + 5, playerId[1]);
 		sendMessage(msg);
 
 		msg = receiveMessage();
-		assertTrue(msg.hasChatRejectMessage() && msg.getMessageType() == PokerTHMessageType.Type_ChatRejectMessage);
-		assertEquals(ChatText + 5, msg.getChatRejectMessage().getChatText());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatRejectMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_ChatRejectMessage);
+		assertEquals(ChatText + 5, msg.getLobbyMessage().getChatRejectMessage().getChatText());
 
 		// Registered users are allowed to send private messages in the lobby.
 		msg = createPrivateChatMsg(ChatText + 6, playerId[1]);
 		sendMessage(msg, s[0]);
 
 		msg = receiveMessage(s[1]);
-		assertTrue(msg.hasChatMessage() && msg.getMessageType() == PokerTHMessageType.Type_ChatMessage);
-		assertEquals(ChatText + 6, msg.getChatMessage().getChatText());
-		assertEquals(ChatType.chatTypePrivate, msg.getChatMessage().getChatType());
-		assertEquals(playerId[0], msg.getChatMessage().getPlayerId());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_ChatMessage);
+		assertEquals(ChatText + 6, msg.getLobbyMessage().getChatMessage().getChatText());
+		assertEquals(ChatType.chatTypePrivate, msg.getLobbyMessage().getChatMessage().getChatType());
+		assertEquals(playerId[0], msg.getLobbyMessage().getChatMessage().getPlayerId());
 
 		// Game messages can be sent by registered users within a game.
 		Collection<Integer> l = new ArrayList<Integer>();
@@ -161,9 +169,10 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-		assertTrue(msg.hasJoinGameAckMessage() && msg.getMessageType() == PokerTHMessageType.Type_JoinGameAckMessage);
-		int gameId = msg.getJoinGameAckMessage().getGameId();
+		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())
+				&& !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasCreateGameFailedMessage()));
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_JoinGameAckMessage);
+		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 
 		// Let 8 players join the game, and test game chat.
 		for (int i = 0; i < 8; i++) {
@@ -171,18 +180,27 @@ public class ChatTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-			assertTrue(msg.hasJoinGameAckMessage() && msg.getMessageType() == PokerTHMessageType.Type_JoinGameAckMessage);
+			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())
+					&& !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasCreateGameFailedMessage()));
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_JoinGameAckMessage);
 		}
 
 		StartEventMessage startEvent = StartEventMessage.newBuilder()
-				.setGameId(gameId)
 				.setFillWithComputerPlayers(false)
 				.setStartEventType(StartEventType.startEvent)
 				.build();
-		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_StartEventMessage)
+		GameManagementMessage gameManagment = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventMessage)
 				.setStartEventMessage(startEvent)
+				.build();
+		GameMessage game = GameMessage.newBuilder()
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagment)
+				.setGameId(gameId)
+				.build();
+		msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
 				.build();
 		sendMessage(msg);
 
@@ -190,15 +208,23 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasStartEventMessage());
+		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()));
 
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
+				.build();
+		gameManagment = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
+				.setStartEventAckMessage(startAck)
+				.build();
+		game = GameMessage.newBuilder()
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagment)
 				.setGameId(gameId)
 				.build();
 		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
-				.setStartEventAckMessage(startAck)
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
 				.build();
 		sendMessage(msg);
 		
@@ -210,8 +236,7 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasGameStartInitialMessage());
-
+		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage()));
 
 		// Guest user: not allowed.
 		msg = createGameChatMsg(ChatText + 7, gameId);
@@ -219,9 +244,9 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-			assertFalse(msg.hasChatMessage());
-		} while (!msg.hasChatRejectMessage());
-		assertEquals(ChatText + 7, msg.getChatRejectMessage().getChatText());
+			assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage());
+		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage()));
+		assertEquals(ChatText + 7, msg.getGameMessage().getGameManagementMessage().getChatRejectMessage().getChatText());
 
 		// Other users: allowed.
 		for (int c = 0; c < 8; c++) {
@@ -230,25 +255,25 @@ public class ChatTest extends TestBase {
 			do {
 				msg = receiveMessage(s[c]);
 				failOnErrorMessage(msg);
-				assertFalse(msg.hasChatRejectMessage() || msg.getMessageType() == PokerTHMessageType.Type_ChatRejectMessage);
-			} while (!msg.hasChatMessage());
+				assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage());
+			} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage()));
 	
-			assertEquals(ChatText + "c" + c, msg.getChatMessage().getChatText());
-			assertEquals(ChatType.chatTypeGame, msg.getChatMessage().getChatType());
-			assertEquals(playerId[c], msg.getChatMessage().getPlayerId());
-			assertEquals(gameId, msg.getChatMessage().getGameId());
+			assertEquals(ChatText + "c" + c, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatText());
+			assertEquals(ChatType.chatTypeStandard, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatType());
+			assertEquals(playerId[c], msg.getGameMessage().getGameManagementMessage().getChatMessage().getPlayerId());
+			assertEquals(gameId, msg.getGameMessage().getGameId());
 
 			for (int i = 0; i < 8; i++) {
 				if (i != c) {
 					do {
 						msg = receiveMessage(s[i]);
 						failOnErrorMessage(msg);
-						assertFalse(msg.hasChatRejectMessage() || msg.getMessageType() == PokerTHMessageType.Type_ChatRejectMessage);
-					} while (!msg.hasChatMessage());
-					assertEquals(ChatText + "c" + c, msg.getChatMessage().getChatText());
-					assertEquals(ChatType.chatTypeGame, msg.getChatMessage().getChatType());
-					assertEquals(playerId[c], msg.getChatMessage().getPlayerId());
-					assertEquals(gameId, msg.getChatMessage().getGameId());
+						assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage());
+					} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage()));
+					assertEquals(ChatText + "c" + c, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatText());
+					assertEquals(ChatType.chatTypeStandard, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatType());
+					assertEquals(playerId[c], msg.getGameMessage().getGameManagementMessage().getChatMessage().getPlayerId());
+					assertEquals(gameId, msg.getGameMessage().getGameId());
 				}
 			}
 		}
@@ -259,8 +284,23 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage(s[0]);
 			failOnErrorMessage(msg);
-			assertFalse(msg.hasChatMessage() || msg.getMessageType() == PokerTHMessageType.Type_ChatMessage);
-		} while (!msg.hasChatRejectMessage());
+			assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage());
+		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatRejectMessage()));
+
+		// Leave the game.
+		msg = leaveGameRequestMsg(gameId);
+		sendMessage(msg, s[0]);
+		do {
+			msg = receiveMessage(s[0]);
+			failOnErrorMessage(msg);
+		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasRemovedFromGameMessage()));
+		// A game chat message, if not within a game, should be rejected with error.
+		msg = createGameChatMsg(ChatText + 9, gameId);
+		sendMessage(msg, s[0]);
+
+		msg = receiveMessage(s[0]);
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasErrorMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_ErrorMessage);
+		assertEquals(ErrorMessage.ErrorReason.invalidState, msg.getLobbyMessage().getErrorMessage().getErrorReason());
 
 		for (int i = 0; i < 8; i++) {
 			s[i].close();

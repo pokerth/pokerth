@@ -41,16 +41,25 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import de.pokerth.protocol.ProtoBuf.AnnounceMessage;
 import de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType;
-import de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage;
+import de.pokerth.protocol.ProtoBuf.AuthMessage;
+import de.pokerth.protocol.ProtoBuf.AuthMessage.AuthMessageType;
 import de.pokerth.protocol.ProtoBuf.ErrorMessage;
-import de.pokerth.protocol.ProtoBuf.InitAckMessage;
-import de.pokerth.protocol.ProtoBuf.InitMessage;
-import de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage;
-import de.pokerth.protocol.ProtoBuf.JoinNewGameMessage;
+import de.pokerth.protocol.ProtoBuf.AuthClientRequestMessage;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
+import de.pokerth.protocol.ProtoBuf.InitDoneMessage;
+import de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage;
+import de.pokerth.protocol.ProtoBuf.CreateGameMessage;
+import de.pokerth.protocol.ProtoBuf.JoinGameMessage;
+import de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
-import de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage;
+import de.pokerth.protocol.ProtoBuf.RejoinGameMessage;
 
 public abstract class TestBase {
 
@@ -159,24 +168,29 @@ public abstract class TestBase {
 			.setMajorVersion(PROTOCOL_VERSION_MAJOR)
 			.setMinorVersion(PROTOCOL_VERSION_MINOR)
 			.build();
-		InitMessage init = InitMessage.newBuilder()
+		AuthClientRequestMessage init = AuthClientRequestMessage.newBuilder()
 			.setBuildId(0)
-			.setLogin(InitMessage.LoginType.guestLogin)
+			.setLogin(AuthClientRequestMessage.LoginType.guestLogin)
 			.setRequestedVersion(requestedVersion)
 			.setNickName(GuestUser)
 			.build();
+		AuthMessage auth = AuthMessage.newBuilder()
+			.setMessageType(AuthMessageType.Type_AuthClientRequestMessage)
+			.setAuthClientRequestMessage(init)
+			.build();
 		msg = PokerTHMessage.newBuilder()
-			.setMessageType(PokerTHMessageType.Type_InitMessage)
-			.setInitMessage(init)
+			.setMessageType(PokerTHMessageType.Type_AuthMessage)
+			.setAuthMessage(auth)
 			.build();
 		sendMessage(msg, s);
 
 		msg = receiveMessage(s);
-		if (msg.hasInitAckMessage() && msg.getMessageType() == PokerTHMessageType.Type_InitAckMessage) {
-			InitAckMessage initAck = msg.getInitAckMessage();
-			assertTrue(initAck.getYourPlayerId() != 0L);
-			assertTrue(!initAck.hasYourAvatarHash());
-			playerId = initAck.getYourPlayerId();
+		if (msg.hasLobbyMessage() && msg.getMessageType() == PokerTHMessageType.Type_LobbyMessage
+			&& msg.getLobbyMessage().hasInitDoneMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_InitDoneMessage) {
+			InitDoneMessage initDone = msg.getLobbyMessage().getInitDoneMessage();
+			assertTrue(initDone.getYourPlayerId() != 0L);
+			assertTrue(!initDone.hasYourAvatarHash());
+			playerId = initDone.getYourPlayerId();
 		}
 		else {
 			failOnErrorMessage(msg);
@@ -210,10 +224,9 @@ public abstract class TestBase {
 				.setMajorVersion(PROTOCOL_VERSION_MAJOR)
 				.setMinorVersion(PROTOCOL_VERSION_MINOR)
 				.build();
-		InitMessage.Builder initBuilder = InitMessage.newBuilder();
-		initBuilder
+		AuthClientRequestMessage.Builder initBuilder = AuthClientRequestMessage.newBuilder()
 				.setBuildId(0)
-				.setLogin(InitMessage.LoginType.authenticatedLogin)
+				.setLogin(AuthClientRequestMessage.LoginType.authenticatedLogin)
 				.setRequestedVersion(requestedVersion)
 				.setClientUserData(ByteString.copyFromUtf8(scramAuth.executeStep1(user)));
 		if (avatarData != null) {
@@ -222,25 +235,36 @@ public abstract class TestBase {
 		if (lastSessionId != null && lastSessionId.value != null) {
 			initBuilder.setMyLastSessionId(ByteString.copyFrom(lastSessionId.value));
 		}
-		InitMessage init = initBuilder.build();
+		AuthClientRequestMessage init = initBuilder.build();
+
+		AuthMessage authRequest = AuthMessage.newBuilder()
+			.setMessageType(AuthMessageType.Type_AuthClientRequestMessage)
+			.setAuthClientRequestMessage(init)
+			.build();
 		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_InitMessage)
-				.setInitMessage(init)
-				.build();
+			.setMessageType(PokerTHMessageType.Type_AuthMessage)
+			.setAuthMessage(authRequest)
+			.build();
 		sendMessage(msg, s);
 
 		msg = receiveMessage(s);
 
-		if (msg.hasAuthServerChallengeMessage() && msg.getMessageType() == PokerTHMessageType.Type_AuthServerChallengeMessage)
+		if (msg.hasAuthMessage() && msg.getMessageType() == PokerTHMessageType.Type_AuthMessage
+			&& msg.getAuthMessage().hasAuthServerChallengeMessage() && msg.getAuthMessage().getMessageType() == AuthMessageType.Type_AuthServerChallengeMessage)
 		{
-			String serverFirstMessage = new String(msg.getAuthServerChallengeMessage().getServerChallenge().toStringUtf8());
+			String serverFirstMessage = new String(msg.getAuthMessage().getAuthServerChallengeMessage().getServerChallenge().toStringUtf8());
 			AuthClientResponseMessage authClient = AuthClientResponseMessage.newBuilder()
 				.setClientResponse(ByteString.copyFromUtf8(scramAuth.executeStep2(password, serverFirstMessage)))
 				.build();
 
-			msg = PokerTHMessage.newBuilder()
-					.setMessageType(PokerTHMessageType.Type_AuthClientResponseMessage)
+			AuthMessage authResponse = AuthMessage.newBuilder()
+					.setMessageType(AuthMessageType.Type_AuthClientResponseMessage)
 					.setAuthClientResponseMessage(authClient)
+					.build();
+
+			msg = PokerTHMessage.newBuilder()
+					.setMessageType(PokerTHMessageType.Type_AuthMessage)
+					.setAuthMessage(authResponse)
 					.build();
 			sendMessage(msg, s);
 		}
@@ -250,16 +274,17 @@ public abstract class TestBase {
 		failOnErrorMessage(msg);
 
 		msg = receiveMessage(s);
-		if (msg.hasInitAckMessage() && msg.getMessageType() == PokerTHMessageType.Type_InitAckMessage) {
-			InitAckMessage initAck = msg.getInitAckMessage();
-			assertTrue(initAck.getYourPlayerId() != 0L);
-			assertTrue(!initAck.hasYourAvatarHash());
-			playerId = initAck.getYourPlayerId();
+		if (msg.hasLobbyMessage() && msg.getMessageType() == PokerTHMessageType.Type_LobbyMessage
+				&& msg.getLobbyMessage().hasInitDoneMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_InitDoneMessage) {
+			InitDoneMessage initDone = msg.getLobbyMessage().getInitDoneMessage();
+			assertTrue(initDone.getYourPlayerId() != 0L);
+			assertTrue(!initDone.hasYourAvatarHash());
+			playerId = initDone.getYourPlayerId();
 			if (lastSessionId != null) {
-				lastSessionId.value = initAck.getYourSessionId().toByteArray();
+				lastSessionId.value = initDone.getYourSessionId().toByteArray();
 			}
-			if (initAck.hasRejoinGameId()) {
-				lastRejoinGameId = initAck.getRejoinGameId();
+			if (initDone.hasRejoinGameId()) {
+				lastRejoinGameId = initDone.getRejoinGameId();
 			}
 			else {
 				lastRejoinGameId = 0;
@@ -273,17 +298,23 @@ public abstract class TestBase {
 	}
 
 	public PokerTHMessage createGameRequestMsg(NetGameInfo gameInfo, String password, boolean autoLeave) {
-		JoinNewGameMessage.Builder joinBuilder = JoinNewGameMessage.newBuilder();
-		joinBuilder.setGameInfo(gameInfo);
-		joinBuilder.setAutoLeave(autoLeave);
+		CreateGameMessage.Builder createBuilder = CreateGameMessage.newBuilder();
+		createBuilder.setRequestId(1);
+		createBuilder.setGameInfo(gameInfo);
+		createBuilder.setAutoLeave(autoLeave);
 		if (!password.isEmpty()) {
-			joinBuilder.setPassword(password);
+			createBuilder.setPassword(password);
 		}
-		JoinNewGameMessage joinNew = joinBuilder.build();
+		CreateGameMessage createNew = createBuilder.build();
 
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+			.setMessageType(LobbyMessageType.Type_CreateGameMessage)
+			.setCreateGameMessage(createNew)
+			.build();
+		
 		PokerTHMessage msg = PokerTHMessage.newBuilder()
-			.setMessageType(PokerTHMessageType.Type_JoinNewGameMessage)
-			.setJoinNewGameMessage(joinNew)
+			.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+			.setLobbyMessage(lobby)
 			.build();
 		return msg;
 	}
@@ -293,31 +324,61 @@ public abstract class TestBase {
 	}
 
 	public PokerTHMessage joinGameRequestMsg(int gameId, String password, boolean autoLeave, boolean spectateOnly) {
-		JoinExistingGameMessage.Builder joinBuilder = JoinExistingGameMessage.newBuilder();
+		JoinGameMessage.Builder joinBuilder = JoinGameMessage.newBuilder();
 		joinBuilder.setGameId(gameId);
 		joinBuilder.setAutoLeave(autoLeave);
 		joinBuilder.setSpectateOnly(spectateOnly);
 		if (!password.isEmpty()) {
 			joinBuilder.setPassword(password);
 		}
-		JoinExistingGameMessage joinExisting = joinBuilder.build();
+		JoinGameMessage joinExisting = joinBuilder.build();
+
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_JoinGameMessage)
+				.setJoinGameMessage(joinExisting)
+				.build();
 
 		PokerTHMessage msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_JoinExistingGameMessage)
-				.setJoinExistingGameMessage(joinExisting)
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
 				.build();
 		return msg;
 	}
 
 	public PokerTHMessage rejoinGameRequestMsg(int gameId, boolean autoLeave) {
-		RejoinExistingGameMessage rejoinRequest = RejoinExistingGameMessage.newBuilder()
+		RejoinGameMessage rejoinRequest = RejoinGameMessage.newBuilder()
 			.setGameId(gameId)
 			.setAutoLeave(autoLeave)
 			.build();
 
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_RejoinGameMessage)
+				.setRejoinGameMessage(rejoinRequest)
+				.build();
+
 		PokerTHMessage msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_RejoinExistingGameMessage)
-				.setRejoinExistingGameMessage(rejoinRequest)
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
+				.build();
+		return msg;
+	}
+
+	public PokerTHMessage leaveGameRequestMsg(int gameId) {
+		LeaveGameRequestMessage leaveRequest = LeaveGameRequestMessage.newBuilder()
+				.build();
+		GameManagementMessage gameManagment = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_LeaveGameRequestMessage)
+				.setLeaveGameRequestMessage(leaveRequest)
+				.build();
+		GameMessage game = GameMessage.newBuilder()
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagment)
+				.setGameId(gameId)
+				.build();
+
+		PokerTHMessage msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
 				.build();
 		return msg;
 	}
@@ -354,10 +415,15 @@ public abstract class TestBase {
 	}
 
 	void failOnErrorMessage(PokerTHMessage msg) {
-		if (msg.hasErrorMessage())
+		if (msg.hasLobbyMessage() && msg.getLobbyMessage().hasErrorMessage())
 		{
-			ErrorMessage error = msg.getErrorMessage();
-			fail("Received error: " + error.getErrorReason().toString());
+			ErrorMessage error = msg.getLobbyMessage().getErrorMessage();
+			fail("Received lobby error: " + error.getErrorReason().toString());
+		}
+		else if (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasErrorMessage())
+		{
+			ErrorMessage error = msg.getGameMessage().getGameManagementMessage().getErrorMessage();
+			fail("Received game error: " + error.getErrorReason().toString());
 		}
 	}
 

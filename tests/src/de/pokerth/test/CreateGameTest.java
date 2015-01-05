@@ -25,10 +25,10 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
-import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 
 public class CreateGameTest extends TestBase {
 
@@ -48,22 +48,22 @@ public class CreateGameTest extends TestBase {
 
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage() || msg.getMessageType() != PokerTHMessageType.Type_PlayerListMessage) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage() || msg.getLobbyMessage().getMessageType() != LobbyMessageType.Type_PlayerListMessage) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!msg.hasGameListNewMessage() || msg.getMessageType() != PokerTHMessageType.Type_GameListNewMessage) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().getMessageType() != LobbyMessageType.Type_GameListNewMessage) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (msg.hasJoinGameAckMessage() && msg.getMessageType() == PokerTHMessageType.Type_JoinGameAckMessage)
+		if (msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_JoinGameAckMessage)
 		{
-			assertTrue(msg.getJoinGameAckMessage().getGameId() != 0);
-			NetGameInfo receivedGameInfo = msg.getJoinGameAckMessage().getGameInfo();
+			assertTrue(msg.getLobbyMessage().getJoinGameAckMessage().getGameId() != 0);
+			NetGameInfo receivedGameInfo = msg.getLobbyMessage().getJoinGameAckMessage().getGameInfo();
 			assertEquals(receivedGameInfo.getDelayBetweenHands(), gameInfo.getDelayBetweenHands());
 			assertEquals(receivedGameInfo.getEndRaiseMode(), gameInfo.getEndRaiseMode());
 			assertEquals(receivedGameInfo.getEndRaiseSmallBlindValue(), gameInfo.getEndRaiseSmallBlindValue());

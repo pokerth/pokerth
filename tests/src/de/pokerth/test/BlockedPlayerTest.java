@@ -28,9 +28,12 @@ import org.junit.Test;
 import com.google.protobuf.ByteString;
 
 import de.pokerth.protocol.ProtoBuf.AnnounceMessage;
+import de.pokerth.protocol.ProtoBuf.AuthClientRequestMessage;
+import de.pokerth.protocol.ProtoBuf.AuthMessage;
 import de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason;
-import de.pokerth.protocol.ProtoBuf.InitMessage;
 import de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType;
+import de.pokerth.protocol.ProtoBuf.AuthMessage.AuthMessageType;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 
@@ -49,22 +52,25 @@ public class BlockedPlayerTest extends TestBase {
 				.setMajorVersion(PROTOCOL_VERSION_MAJOR)
 				.setMinorVersion(PROTOCOL_VERSION_MINOR)
 				.build();
-		InitMessage init = InitMessage.newBuilder()
+		AuthClientRequestMessage init = AuthClientRequestMessage.newBuilder()
 				.setBuildId(0)
-				.setLogin(InitMessage.LoginType.authenticatedLogin)
+				.setLogin(AuthClientRequestMessage.LoginType.authenticatedLogin)
 				.setRequestedVersion(requestedVersion)
 				.setClientUserData(ByteString.copyFromUtf8(scramAuth.executeStep1("test9999")))
 				.build();
-
+		AuthMessage auth = AuthMessage.newBuilder()
+				.setMessageType(AuthMessageType.Type_AuthClientRequestMessage)
+				.setAuthClientRequestMessage(init)
+				.build();
 		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_InitMessage)
-				.setInitMessage(init)
+				.setMessageType(PokerTHMessageType.Type_AuthMessage)
+				.setAuthMessage(auth)
 				.build();
 		sendMessage(msg, sock);
 
 		msg = receiveMessage(sock);
-		assertTrue(msg.hasErrorMessage() && msg.getMessageType() == PokerTHMessageType.Type_ErrorMessage);
-		assertEquals(ErrorReason.blockedByServer, msg.getErrorMessage().getErrorReason());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasErrorMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_ErrorMessage);
+		assertEquals(ErrorReason.blockedByServer, msg.getLobbyMessage().getErrorMessage().getErrorReason());
 	}
 	
 	@Test

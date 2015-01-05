@@ -50,7 +50,7 @@ public class CreateRankingGameTest extends TestBase {
 
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -58,7 +58,7 @@ public class CreateRankingGameTest extends TestBase {
 		createRankingGame("");
 		msg = receiveMessage();
 
-		if (!msg.hasJoinGameFailedMessage())
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasCreateGameFailedMessage())
 		{
 			failOnErrorMessage(msg);
 			fail("Guest user could create ranking game!");
@@ -72,7 +72,7 @@ public class CreateRankingGameTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -80,10 +80,10 @@ public class CreateRankingGameTest extends TestBase {
 		createRankingGame("");
 		msg = receiveMessage();
 
-		if (msg.hasGameListNewMessage())
+		if (msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListNewMessage())
 		{
 			msg = receiveMessage();
-			if (msg.hasJoinGameFailedMessage())
+			if (msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameFailedMessage())
 			{
 				fail("Registered user could not join ranking game!");
 			}
@@ -101,7 +101,7 @@ public class CreateRankingGameTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -109,7 +109,7 @@ public class CreateRankingGameTest extends TestBase {
 		createRankingGame(GamePassword);
 		msg = receiveMessage();
 
-		if (!msg.hasJoinGameFailedMessage())
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasCreateGameFailedMessage())
 		{
 			failOnErrorMessage(msg);
 			fail("Registered user should not be allowed to create ranking game with password!");
