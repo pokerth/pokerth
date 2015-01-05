@@ -61,7 +61,7 @@
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
-#include "QtGui/5.3.0/QtGui/qpa/qplatformnativeinterface.h"
+#include "QtGui/5.4.0/QtGui/qpa/qplatformnativeinterface.h"
 #include <jni.h>
 #endif
 #endif

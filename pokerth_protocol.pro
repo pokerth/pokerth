@@ -33,17 +33,24 @@ win32 {
 	DEFINES += _WIN32_WINNT=0x0501
 }
 unix : !mac {
-        INCLUDEPATH += $${PREFIX}/include
-	system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
-	system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
-	system(protoc pokerth.proto --java_out=tests/src)
+	INCLUDEPATH += $${PREFIX}/include
+	android {
+		system(wine protoc.exe pokerth.proto --cpp_out=src/third_party/protobuf)
+		system(wine protoc.exe chatcleaner.proto --cpp_out=src/third_party/protobuf)
+		system(wine protoc.exe pokerth.proto --java_out=tests/src)
+	}
+	!android {
+		system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
+		system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
+		system(protoc pokerth.proto --java_out=tests/src)
+	}
 }
 mac { 
-        # make it x86_64 only
-        CONFIG += x86_64
-        CONFIG -= x86
-        CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	# make it x86_64 only
+	CONFIG += x86_64
+	CONFIG -= x86
+	CONFIG -= ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.

@@ -408,11 +408,12 @@ unix:!mac {
 		LIBPATH += $${PREFIX}/lib /opt/gsasl/lib
 		LIB_DIRS = $${PREFIX}/lib \
 			$${PREFIX}/lib64 \
+			$${PREFIX}/lib/x86_64-linux-gnu \
 			$$system(qmake -query QT_INSTALL_LIBS)
 	}
 	android{
-		LIBPATH += $${PREFIX}/lib/armv7
-		LIB_DIRS = $${PREFIX}/lib/armv7
+		LIBPATH += $${PREFIX}/lib/armv5
+		LIB_DIRS = $${PREFIX}/lib/armv5
 	}
 	BOOST_FS = boost_filesystem \
 		boost_filesystem-mt
@@ -522,7 +523,7 @@ unix:!mac {
 			$$BOOST_REGEX \
 			$$BOOST_CHRONO \
 			$$BOOST_SYS
-		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
+		!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl -lidn

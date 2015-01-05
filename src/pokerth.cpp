@@ -28,6 +28,23 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+#ifdef QML_CLIENT
+//START THE QML SWITCH HERE
+
+#include <QApplication>
+#include "qmlwrapper.h"
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    qmlWrapper *myQml = new qmlWrapper();
+    return app.exec();
+}
+
+#else
+// START OF OLD QT-WIDGETS GUI SECTION
+
+
 #include <boost/asio.hpp>
 #include <iostream>
 #include <cstdlib>
@@ -285,3 +302,7 @@ int main( int argc, char **argv )
 	socket_cleanup();
 	return retVal;
 }
+
+
+// END OF OLD QT-WIDGETS GUI SECTION
+#endif
