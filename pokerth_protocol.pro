@@ -34,15 +34,13 @@ win32 {
 }
 unix : !mac {
 	INCLUDEPATH += $${PREFIX}/include
+	system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
+	system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
+	system(protoc pokerth.proto --java_out=tests/src)
 	android {
 		system(wine protoc.exe pokerth.proto --cpp_out=src/third_party/protobuf)
 		system(wine protoc.exe chatcleaner.proto --cpp_out=src/third_party/protobuf)
 		system(wine protoc.exe pokerth.proto --java_out=tests/src)
-	}
-	!android {
-		system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
-		system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
-		system(protoc pokerth.proto --java_out=tests/src)
 	}
 }
 mac { 
