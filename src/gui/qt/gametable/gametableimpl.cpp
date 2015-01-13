@@ -875,7 +875,6 @@ void gameTableImpl::initGui(int speed)
 
 	//set WindowTitle dynamically
 	QString titleString = "";
-	assert(myStartWindow->getSession());
 	if(myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK) {
 		GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
 		titleString = QString::fromUtf8(info.name.c_str())+" - ";
@@ -938,7 +937,6 @@ void gameTableImpl::initGui(int speed)
 
 boost::shared_ptr<Session> gameTableImpl::getSession()
 {
-	assert(myStartWindow->getSession().get());
 	return myStartWindow->getSession();
 }
 
@@ -1959,8 +1957,6 @@ void gameTableImpl::meInAction()
 
 void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec)
 {
-	assert(playerId >= 0 && playerId < myStartWindow->getSession()->getCurrentGame()->getStartQuantityPlayers());
-
 	//beep for player 0
 	if(playerId) {
 		timeoutLabelArray[playerId]->startTimeOutAnimation(timeoutSec, false);
@@ -1971,7 +1967,6 @@ void gameTableImpl::startTimeoutAnimation(int playerId, int timeoutSec)
 
 void gameTableImpl::stopTimeoutAnimation(int playerId)
 {
-	assert(playerId >= 0 && playerId < myStartWindow->getSession()->getCurrentGame()->getStartQuantityPlayers());
 	timeoutLabelArray[playerId]->stopTimeOutAnimation();
 }
 
@@ -3833,11 +3828,9 @@ void gameTableImpl::leaveCurrentNetworkGame()
 
 		if(!myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(BACKTO_LOBBY_QUESTION)) {
 
-			assert(myStartWindow->getSession());
 			myStartWindow->getSession()->sendLeaveCurrentGame();
 		} else {
 			if (myUniversalMessageDialog->exec(BACKTO_LOBBY_QUESTION, tr("Attention! Do you really want to leave the current game\nand go back to the lobby?"), tr("PokerTH - Internet Game Message"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Accepted) {
-				assert(myStartWindow->getSession());
 				myStartWindow->getSession()->sendLeaveCurrentGame();
 			}
 		}
@@ -4473,7 +4466,6 @@ void gameTableImpl::checkActionLabelPosition()
 
 void gameTableImpl::refreshSpectatorsDisplay()
 {
-	assert(myStartWindow->getSession());
 	GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
 	if(!info.spectatorsDuringGame.empty()) {
 		spectatorIcon->show();

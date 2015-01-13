@@ -71,9 +71,7 @@ MyAvatarLabel::~MyAvatarLabel()
 
 void MyAvatarLabel::contextMenuEvent ( QContextMenuEvent *event )
 {
-
-	assert(myW->getSession()->getCurrentGame());
-	if (myW->getSession()->isNetworkClientRunning()) {
+	if (myW->getSession()->getCurrentGame() && myW->getSession()->isNetworkClientRunning()) {
 
 		boost::shared_ptr<PlayerInterface> humanPlayer = myW->getSession()->getCurrentGame()->getSeatsList()->front();
 		//only active players are allowed to start a vote

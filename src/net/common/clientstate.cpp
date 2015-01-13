@@ -599,7 +599,6 @@ AbstractClientStateReceiving::HandleLobbyMsg(boost::shared_ptr<ClientThread> cli
 		// Chat message - display it in the GUI.
 		const ChatMessage &netMessage = lobbyMsg.chatmessage();
 
-		string playerName;
 		if (netMessage.chattype() == ChatMessage::chatTypeBroadcast) {
 			client->GetCallback().SignalNetClientGameChatMsg("(global notice)", netMessage.chattext());
 			client->GetCallback().SignalNetClientLobbyChatMsg("(global notice)", netMessage.chattext());
