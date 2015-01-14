@@ -3840,13 +3840,15 @@ void gameTableImpl::leaveCurrentNetworkGame()
 void gameTableImpl::triggerVoteOnKick(int id)
 {
 
-	assert(myStartWindow->getSession()->getCurrentGame());
-	PlayerList seatList = myStartWindow->getSession()->getCurrentGame()->getSeatsList();
-	int playerCount = static_cast<int>(seatList->size());
-	if (id < playerCount) {
-		PlayerListIterator pos = seatList->begin();
-		advance(pos, id);
-		myStartWindow->getSession()->startVoteKickPlayer((*pos)->getMyUniqueID());
+	if (myStartWindow->getSession()->getCurrentGame())
+	{
+		PlayerList seatList = myStartWindow->getSession()->getCurrentGame()->getSeatsList();
+		int playerCount = static_cast<int>(seatList->size());
+		if (id < playerCount) {
+			PlayerListIterator pos = seatList->begin();
+			advance(pos, id);
+			myStartWindow->getSession()->startVoteKickPlayer((*pos)->getMyUniqueID());
+		}
 	}
 }
 
