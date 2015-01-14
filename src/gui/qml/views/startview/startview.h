@@ -7,6 +7,7 @@ class startView
 public:
     startView();
     ~startView();
+    startView(const startView&);
 
     void show();
 

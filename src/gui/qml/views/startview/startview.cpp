@@ -12,6 +12,11 @@ startView::~startView()
 
 }
 
+startView::startView(const startView&)
+{
+
+}
+
 void startView::show()
 {
     qDebug("show mal bitte");

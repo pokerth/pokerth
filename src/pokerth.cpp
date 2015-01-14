@@ -37,7 +37,8 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    qmlWrapper *myQml = new qmlWrapper();
+    qmlWrapper myQml;
+    myQml.showStartView();
     return app.exec();
 }
 

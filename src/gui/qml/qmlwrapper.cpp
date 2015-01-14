@@ -7,9 +7,7 @@
 qmlWrapper::qmlWrapper()
 {
     qDebug("qmlWrapperKonstruktor");
-
-    startView myStartView;
-    myStartView.show();
+    myStartView = new startView();
 }
 
 qmlWrapper::~qmlWrapper()
@@ -17,3 +15,7 @@ qmlWrapper::~qmlWrapper()
 
 }
 
+void qmlWrapper::showStartView()
+{
+    myStartView->show();
+}
