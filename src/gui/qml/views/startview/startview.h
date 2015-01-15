@@ -1,7 +1,8 @@
 #ifndef STARTVIEW_H
 #define STARTVIEW_H
 
-class QQmlApplicationEngine;
+#include <QQmlApplicationEngine>
+
 class startView
 {
 public:
@@ -12,7 +13,7 @@ public:
     void show();
 
 private:
-    QQmlApplicationEngine *myEngine;
+    QQmlApplicationEngine myEngine;
 };
 
 #endif // STARTVIEW_H

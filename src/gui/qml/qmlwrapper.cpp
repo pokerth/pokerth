@@ -12,7 +12,10 @@ qmlWrapper::qmlWrapper()
 
 qmlWrapper::~qmlWrapper()
 {
+}
 
+qmlWrapper::qmlWrapper(const qmlWrapper&)
+{
 }
 
 void qmlWrapper::showStartView()

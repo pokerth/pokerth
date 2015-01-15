@@ -8,6 +8,7 @@ class qmlWrapper
 public:
     qmlWrapper();
     ~qmlWrapper();
+    qmlWrapper(const qmlWrapper&);
 
     void showStartView();
 
