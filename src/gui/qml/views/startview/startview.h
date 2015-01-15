@@ -1,7 +1,9 @@
 #ifndef STARTVIEW_H
 #define STARTVIEW_H
 
-#include <QQmlApplicationEngine>
+#include <boost/shared_ptr.hpp>
+
+class QQmlApplicationEngine;
 
 class startView
 {
@@ -13,7 +15,7 @@ public:
     void show();
 
 private:
-    QQmlApplicationEngine myEngine;
+    boost::shared_ptr<QQmlApplicationEngine> myEngine;
 };
 
 #endif // STARTVIEW_H

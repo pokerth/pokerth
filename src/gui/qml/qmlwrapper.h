@@ -1,7 +1,9 @@
 #ifndef QMLWRAPPER_H
 #define QMLWRAPPER_H
 
-#include "startview/startview.h"
+#include <boost/shared_ptr.hpp>
+
+class startView;
 
 class qmlWrapper
 {
@@ -13,7 +15,7 @@ public:
     void showStartView();
 
 private:
-    startView myStartView;
+    boost::shared_ptr<startView> myStartView;
 };
 
 #endif // QMLWRAPPER_H
