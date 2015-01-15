@@ -1,7 +1,7 @@
 #ifndef QMLWRAPPER_H
 #define QMLWRAPPER_H
 
-class startView;
+#include "startview/startview.h"
 
 class qmlWrapper
 {
@@ -13,7 +13,7 @@ public:
     void showStartView();
 
 private:
-    startView *myStartView;
+    startView myStartView;
 };
 
 #endif // QMLWRAPPER_H
