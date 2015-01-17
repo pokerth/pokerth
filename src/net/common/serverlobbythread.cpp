@@ -1345,6 +1345,7 @@ ServerLobbyThread::HandleNetPacketSubscriptionRequest(boost::shared_ptr<SessionD
 	} else {
 		session->ResetWantsLobbyMsg();
 	}
+
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LobbyMessage);
 	LobbyMessage *netLobby = packet->GetMsg()->mutable_lobbymessage();

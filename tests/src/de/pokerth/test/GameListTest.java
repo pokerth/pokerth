@@ -33,7 +33,6 @@ import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode;
-import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameMode;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 
@@ -67,7 +66,7 @@ public class GameListTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		assertTrue(msg.hasPlayerListMessage());
+		assertTrue(msg.hasLobbyMessage() || msg.getLobbyMessage().hasPlayerListMessage());
 
 		// Create a new game.
 		Collection<Integer> l = new ArrayList<Integer>();
@@ -79,8 +78,8 @@ public class GameListTest extends TestBase {
 
 		// Game list message is sent before join game ack.
 		msg = receiveMessage();
-		assertTrue(msg.hasGameListNewMessage());
-		GameListNewMessage gameListNewMsg = msg.getGameListNewMessage();
+		assertTrue(msg.hasLobbyMessage() || msg.getLobbyMessage().hasGameListNewMessage());
+		GameListNewMessage gameListNewMsg = msg.getLobbyMessage().getGameListNewMessage();
 		int gameId = gameListNewMsg.getGameId();
 		assertTrue(0 != gameListNewMsg.getGameId());
 		checkGameListNewMsg(
@@ -92,14 +91,14 @@ public class GameListTest extends TestBase {
 
 		// Next message is join game ack.
 		msg = receiveMessage();
-		assertTrue(msg.hasJoinGameAckMessage() && msg.getMessageType() == PokerTHMessageType.Type_JoinGameAckMessage);
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage());
 		// Make sure game list id equals join game ack id.
-		assertEquals(gameId, msg.getJoinGameAckMessage().getGameId());
+		assertEquals(gameId, msg.getLobbyMessage().getJoinGameAckMessage().getGameId());
 
 		// Next message is game list player joined.
 		msg = receiveMessage();
-		assertTrue(msg.hasGameListPlayerJoinedMessage());
-		GameListPlayerJoinedMessage gameListJoinedMsg = msg.getGameListPlayerJoinedMessage();
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage());
+		GameListPlayerJoinedMessage gameListJoinedMsg = msg.getLobbyMessage().getGameListPlayerJoinedMessage();
 		assertEquals(gameId, gameListJoinedMsg.getGameId());
 		assertEquals(myId, gameListJoinedMsg.getPlayerId());
 
@@ -112,13 +111,13 @@ public class GameListTest extends TestBase {
 			String password = username;
 			playerId[i] = userInit(s[i], username, password);
 			msg = receiveMessage();
-			assertTrue(msg.hasPlayerListMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
 
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasPlayerListMessage());
-			assertTrue(msg.hasGameListNewMessage());
-			gameListNewMsg = msg.getGameListNewMessage();
+			} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListNewMessage());
+			gameListNewMsg = msg.getLobbyMessage().getGameListNewMessage();
 			assertEquals(gameId, gameListNewMsg.getGameId());
 			assertTrue(0 != gameListNewMsg.getGameId());
 			checkGameListNewMsg(
@@ -135,26 +134,26 @@ public class GameListTest extends TestBase {
 			sendMessage(joinGameRequestMsg(gameId, "", false), s[i]);
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasPlayerListMessage());
+			} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
 			for (int j = 0; j < i; j++) {
-				assertTrue(msg.hasGameListPlayerJoinedMessage());
-				gameListJoinedMsg = msg.getGameListPlayerJoinedMessage();
+				assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage());
+				gameListJoinedMsg = msg.getLobbyMessage().getGameListPlayerJoinedMessage();
 				assertEquals(gameId, gameListJoinedMsg.getGameId());
 				assertEquals(playerId[j], gameListJoinedMsg.getPlayerId());
 				msg = receiveMessage(s[i]);
 			}
 			failOnErrorMessage(msg);
 			// Next message is join game ack.
-			assertTrue(msg.hasJoinGameAckMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage());
 			// Make sure game list id equals join game ack id.
-			assertEquals(gameId, msg.getJoinGameAckMessage().getGameId());
+			assertEquals(gameId, msg.getLobbyMessage().getJoinGameAckMessage().getGameId());
 
 			// Next message is game list player joined.
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasGamePlayerJoinedMessage());
-			assertTrue(msg.hasGameListPlayerJoinedMessage());
-			gameListJoinedMsg = msg.getGameListPlayerJoinedMessage();
+			} while (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage());
+			gameListJoinedMsg = msg.getLobbyMessage().getGameListPlayerJoinedMessage();
 			assertEquals(gameId, gameListJoinedMsg.getGameId());
 			assertEquals(playerId[i], gameListJoinedMsg.getPlayerId());
 		}
@@ -163,9 +162,9 @@ public class GameListTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameListUpdateMessage()));
+		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListUpdateMessage()));
 
-		assertEquals(NetGameMode.netGameStarted, msg.getGameListUpdateMessage().getGameMode());
+		assertEquals(NetGameMode.netGameStarted, msg.getLobbyMessage().getGameListUpdateMessage().getGameMode());
 
 		// Wait for player left messages.
 		for (int i = 0; i < 9; i++) {
@@ -173,8 +172,8 @@ public class GameListTest extends TestBase {
 			do {
 				msg = receiveMessage();
 				failOnErrorMessage(msg);
-			} while (!msg.hasGameListPlayerLeftMessage());
-			GameListPlayerLeftMessage gameListLeftMsg = msg.getGameListPlayerLeftMessage();
+			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerLeftMessage()));
+			GameListPlayerLeftMessage gameListLeftMsg = msg.getLobbyMessage().getGameListPlayerLeftMessage();
 			assertEquals(gameId, gameListLeftMsg.getGameId());
 			assertEquals(playerId[i], gameListLeftMsg.getPlayerId());
 		}
@@ -183,8 +182,8 @@ public class GameListTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameListUpdateMessage()));
+		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListUpdateMessage()));
 
-		assertEquals(NetGameMode.netGameClosed, msg.getGameListUpdateMessage().getGameMode());
+		assertEquals(NetGameMode.netGameClosed, msg.getLobbyMessage().getGameListUpdateMessage().getGameMode());
 	}
 }

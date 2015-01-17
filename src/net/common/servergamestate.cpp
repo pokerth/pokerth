@@ -1379,6 +1379,7 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
 					if (session) {
 						boost::shared_ptr<NetPacket> packet(new NetPacket);
+						packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
 						GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
 						netGame->set_gameid(server->GetId());
 						netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
@@ -1455,6 +1456,7 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 	if (rejoinPlayer) {
 		// Notify other clients about id change.
 		boost::shared_ptr<NetPacket> packet(new NetPacket);
+		packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
 		GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
 		netGame->set_gameid(server->GetId());
 		netGame->set_messagetype(GameMessage::Type_GameManagementMessage);
@@ -1486,6 +1488,7 @@ ServerGameStateHand::SendGameData(boost::shared_ptr<ServerGame> server, boost::s
 	Game &curGame = server->GetGame();
 	// Send game start notification to rejoining client.
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameMessage);
 	GameMessage *netGame = packet->GetMsg()->mutable_gamemessage();
 	netGame->set_gameid(server->GetId());
 	netGame->set_messagetype(GameMessage::Type_GameManagementMessage);

@@ -27,9 +27,11 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.LobbyMessage;
 import de.pokerth.protocol.ProtoBuf.NetAvatarType;
 import de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights;
 import de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType;
 import de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData;
 import de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
@@ -44,13 +46,20 @@ public class PlayerInfoTest extends TestBase {
 	}
 
 	protected void sendPlayerInfoRequest(Socket s, Collection<Integer> playerIds) throws Exception {
-		PlayerInfoRequestMessage request = PlayerInfoRequestMessage.newBuilder()
-			.addAllPlayerId(playerIds)
-			.build();
-		PokerTHMessage msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_PlayerInfoRequestMessage)
-				.setPlayerInfoRequestMessage(request)
+		PlayerInfoRequestMessage infoRequest = PlayerInfoRequestMessage.newBuilder()
+				.addAllPlayerId(playerIds)
 				.build();
+
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_PlayerInfoRequestMessage)
+				.setPlayerInfoRequestMessage(infoRequest)
+				.build();
+
+		PokerTHMessage msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
+				.build();
+
 		sendMessage(msg, s);
 	}
 
@@ -92,9 +101,9 @@ public class PlayerInfoTest extends TestBase {
 			sendPlayerInfoRequest(s[i], firstPlayerId);
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasPlayerListMessage());
-			assertTrue(msg.hasPlayerInfoReplyMessage() && msg.getMessageType() == PokerTHMessageType.Type_PlayerInfoReplyMessage);
-			PlayerInfoReplyMessage reply = msg.getPlayerInfoReplyMessage();
+			} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerInfoReplyMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_PlayerInfoReplyMessage);
+			PlayerInfoReplyMessage reply = msg.getLobbyMessage().getPlayerInfoReplyMessage();
 			assertTrue(reply.getPlayerId() == firstPlayerId);
 			assertTrue(reply.hasPlayerInfoData());
 			PlayerInfoData info = reply.getPlayerInfoData();
@@ -112,9 +121,9 @@ public class PlayerInfoTest extends TestBase {
 		for (int i = 0; i < 9; i++) {
 			do {
 				msg = receiveMessage();
-			} while (msg.hasPlayerListMessage());
-			assertTrue(msg.hasPlayerInfoReplyMessage() && msg.getMessageType() == PokerTHMessageType.Type_PlayerInfoReplyMessage);
-			PlayerInfoReplyMessage reply = msg.getPlayerInfoReplyMessage();
+			} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerInfoReplyMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_PlayerInfoReplyMessage);
+			PlayerInfoReplyMessage reply = msg.getLobbyMessage().getPlayerInfoReplyMessage();
 			assertTrue(reply.getPlayerId() == playerId[i]);
 			assertTrue(reply.hasPlayerInfoData());
 			PlayerInfoData info = reply.getPlayerInfoData();
@@ -134,8 +143,8 @@ public class PlayerInfoTest extends TestBase {
 		// Request invalid player info.
 		sendPlayerInfoRequest(sock, maxPlayerId + 1);
 		msg = receiveMessage();
-		assertTrue(msg.hasPlayerInfoReplyMessage() && msg.getMessageType() == PokerTHMessageType.Type_PlayerInfoReplyMessage);
-		PlayerInfoReplyMessage reply = msg.getPlayerInfoReplyMessage();
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerInfoReplyMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_PlayerInfoReplyMessage);
+		PlayerInfoReplyMessage reply = msg.getLobbyMessage().getPlayerInfoReplyMessage();
 		assertTrue(reply.getPlayerId() == maxPlayerId + 1);
 		assertFalse(reply.hasPlayerInfoData());
 

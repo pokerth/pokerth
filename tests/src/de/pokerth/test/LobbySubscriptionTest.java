@@ -17,8 +17,7 @@
 
 package de.pokerth.test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -27,7 +26,9 @@ import java.util.Collection;
 import org.junit.Test;
 
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage.LobbyMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
+import de.pokerth.protocol.ProtoBuf.LobbyMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
@@ -41,21 +42,33 @@ public class LobbySubscriptionTest extends TestBase {
 	public void testLobbySubscription() throws Exception {
 		guestInit();
 
+		final int requestId = 1234;
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		SubscriptionRequestMessage subscriptionRequest = SubscriptionRequestMessage.newBuilder()
+			.setRequestId(requestId)
 			.setSubscriptionAction(SubscriptionAction.unsubscribeGameList)
 			.build();
-		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_SubscriptionRequestMessage)
+
+		LobbyMessage lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_SubscriptionRequestMessage)
 				.setSubscriptionRequestMessage(subscriptionRequest)
 				.build();
+
+		msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
+				.build();
 		sendMessage(msg);
+
+		msg = receiveMessage();
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasSubscriptionReplyMessage());
+		assertEquals(requestId, msg.getLobbyMessage().getSubscriptionReplyMessage().getRequestId());
 
 		// Create a new game.
 		Collection<Integer> l = new ArrayList<Integer>();
@@ -68,8 +81,8 @@ public class LobbySubscriptionTest extends TestBase {
 		// No game list message should be sent by the server.
 		// Next message is join game ack.
 		msg = receiveMessage();
-		assertTrue(msg.hasJoinGameAckMessage());
-		int gameId = msg.getJoinGameAckMessage().getGameId();
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage());
+		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 
 		Socket s[] = new Socket[9];
 		for (int i = 0; i < 9; i++) {
@@ -83,29 +96,42 @@ public class LobbySubscriptionTest extends TestBase {
 		// No game list message should be received.
 		do {
 			msg = receiveMessage();
-			if (msg.hasGameListNewMessage() || msg.hasPlayerListMessage()) {
+			if (msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasPlayerListMessage())) {
 				fail("Game/player list messages are switched off!");
 			}
-		} while (!msg.hasStartEventMessage());
+		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()));
 
 		// Resubscribe game list
 		subscriptionRequest = SubscriptionRequestMessage.newBuilder()
+				.setRequestId(requestId + 1)
 				.setSubscriptionAction(SubscriptionAction.resubscribeGameList)
 				.build();
-		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_SubscriptionRequestMessage)
+
+		lobby = LobbyMessage.newBuilder()
+				.setMessageType(LobbyMessageType.Type_SubscriptionRequestMessage)
 				.setSubscriptionRequestMessage(subscriptionRequest)
 				.build();
+
+		msg = PokerTHMessage.newBuilder()
+				.setMessageType(PokerTHMessageType.Type_LobbyMessage)
+				.setLobbyMessage(lobby)
+				.build();
+
 		sendMessage(msg);
 
 		// Next messages should player list messages for all 10 players.
 		for (int i = 0; i < 10; i++) {
 			msg = receiveMessage();
-			assertTrue(msg.hasPlayerListMessage());
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
 		}
 		// Now there should be one game list message.
 		msg = receiveMessage();
-		assertTrue(msg.hasGameListNewMessage());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListNewMessage());
+
+		// Next the request should be confirmed.
+		msg = receiveMessage();
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasSubscriptionReplyMessage());
+		assertEquals(requestId + 1, msg.getLobbyMessage().getSubscriptionReplyMessage().getRequestId());
 
 		for (int i = 0; i < 9; i++) {
 			s[i].close();

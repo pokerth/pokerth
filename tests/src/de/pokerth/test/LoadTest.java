@@ -26,6 +26,10 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.GameEngineMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
+import de.pokerth.protocol.ProtoBuf.GameEngineMessage.GameEngineMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
@@ -61,8 +65,9 @@ public class LoadTest extends TestBase {
 
 			do {
 				msg = receiveMessage(s[i * 10]);
-			} while (msg.hasGameListNewMessage() || msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
-			if (!msg.hasPlayerListMessage()) {
+			} while ((msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()))
+				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
+			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -80,14 +85,14 @@ public class LoadTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i * 10]);
 				failOnErrorMessage(msg);
-			} while (msg.hasGameListNewMessage() || msg.hasGameListPlayerJoinedMessage() || msg.hasPlayerListMessage());
+			} while (msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage() || msg.getLobbyMessage().hasPlayerListMessage()));
 
 			// Join game ack.
-			if (!msg.hasJoinGameAckMessage()) {
+			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
 				failOnErrorMessage(msg);
 				fail("Could not create game!");
 			}
-			gameId[i] = msg.getJoinGameAckMessage().getGameId();
+			gameId[i] = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 		}
 
 
@@ -103,8 +108,9 @@ public class LoadTest extends TestBase {
 			// Waiting for player list update.
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
-			if (!msg.hasPlayerListMessage()) {
+			} while ((msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage())
+				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
+			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -112,8 +118,8 @@ public class LoadTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-			if (!msg.hasJoinGameAckMessage()) {
+			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage()) && !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameFailedMessage()));
+			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
 				fail("User " + username + " could not join normal game.");
 			}
 		}
@@ -125,26 +131,38 @@ public class LoadTest extends TestBase {
 				while (s[i].getInputStream().available() > 0) {
 					msg = receiveMessage(s[i]);
 					failOnErrorMessage(msg);
-					if (msg.hasHandStartMessage()) {
+					if (msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasHandStartMessage()) {
 						handNum[i / 10]++;
 					}
-					else if (msg.hasPlayersTurnMessage()) {
-						if (msg.getPlayersTurnMessage().getPlayerId() == playerId[i / 10]) {
+					else if (msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasPlayersTurnMessage()) {
+						if (msg.getGameMessage().getGameEngineMessage().getPlayersTurnMessage().getPlayerId() == playerId[i / 10]) {
 							MyActionRequestMessage myRequest = MyActionRequestMessage.newBuilder()
-								.setGameId(gameId[i / 10])
-								.setGameState(msg.getPlayersTurnMessage().getGameState())
+								.setGameState(msg.getGameMessage().getGameEngineMessage().getPlayersTurnMessage().getGameState())
 								.setHandNum(handNum[i / 10])
 								.setMyAction(NetPlayerAction.netActionAllIn)
 								.setMyRelativeBet(0)
 								.build();
-							PokerTHMessage outMsg = PokerTHMessage.newBuilder()
-									.setMessageType(PokerTHMessageType.Type_MyActionRequestMessage)
+							
+							GameEngineMessage gameEngine = GameEngineMessage.newBuilder()
+									.setMessageType(GameEngineMessageType.Type_MyActionRequestMessage)
 									.setMyActionRequestMessage(myRequest)
 									.build();
+
+							GameMessage game = GameMessage.newBuilder()
+									.setGameId(gameId[i / 10])
+									.setMessageType(GameMessageType.Type_GameEngineMessage)
+									.setGameEngineMessage(gameEngine)
+									.build();
+								
+							PokerTHMessage outMsg = PokerTHMessage.newBuilder()
+									.setMessageType(PokerTHMessageType.Type_GameMessage)
+									.setGameMessage(game)
+									.build();
+
 							sendMessage(outMsg, s[i]);
 						}
 					}
-					else if (msg.hasEndOfGameMessage()) {
+					else if (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasEndOfGameMessage()) {
 						abort = true;
 					}
 				}

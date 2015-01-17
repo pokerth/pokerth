@@ -39,10 +39,10 @@ public class PlayerListTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		assertTrue(msg.hasPlayerListMessage());
+		assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
 
 		// This should be a "player list new" notification with correct player id.
-		PlayerListMessage listMsg = msg.getPlayerListMessage();
+		PlayerListMessage listMsg = msg.getLobbyMessage().getPlayerListMessage();
 		assertEquals(myId, listMsg.getPlayerId());
 		assertEquals(PlayerListNotification.playerListNew, listMsg.getPlayerListNotification());
 
@@ -55,8 +55,8 @@ public class PlayerListTest extends TestBase {
 			playerId[i] = userInit(s[i], username, password);
 
 			msg = receiveMessage();
-			assertTrue(msg.hasPlayerListMessage());
-			listMsg = msg.getPlayerListMessage();
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+			listMsg = msg.getLobbyMessage().getPlayerListMessage();
 			// Id should be different from first id.
 			assertTrue(myId != playerId[i]);
 			// This should be a "player list new" notification with correct player id.
@@ -67,8 +67,8 @@ public class PlayerListTest extends TestBase {
 
 			// After the connection is closed, a "player list left" notification should be received.
 			msg = receiveMessage();
-			assertTrue(msg.hasPlayerListMessage());
-			listMsg = msg.getPlayerListMessage();
+			assertTrue(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
+			listMsg = msg.getLobbyMessage().getPlayerListMessage();
 			assertEquals(playerId[i], listMsg.getPlayerId());
 			assertEquals(PlayerListNotification.playerListLeft, listMsg.getPlayerListNotification());
 		}
