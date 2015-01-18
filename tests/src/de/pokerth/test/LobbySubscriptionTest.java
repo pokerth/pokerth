@@ -45,7 +45,7 @@ public class LobbySubscriptionTest extends TestBase {
 		final int requestId = 1234;
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -99,7 +99,7 @@ public class LobbySubscriptionTest extends TestBase {
 			if (msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasPlayerListMessage())) {
 				fail("Game/player list messages are switched off!");
 			}
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 
 		// Resubscribe game list
 		subscriptionRequest = SubscriptionRequestMessage.newBuilder()

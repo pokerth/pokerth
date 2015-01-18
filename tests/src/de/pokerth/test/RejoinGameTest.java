@@ -51,7 +51,7 @@ public class RejoinGameTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -66,14 +66,14 @@ public class RejoinGameTest extends TestBase {
 
 		// Game list update (new game)
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListNewMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		// Join game ack.
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
+		if (!msg.hasLobbyMessage() || msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
 			fail("Could not create game!");
 		}
@@ -81,7 +81,7 @@ public class RejoinGameTest extends TestBase {
 
 		// Game list update (player joined).
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage())) {
+		if (!msg.hasLobbyMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -99,7 +99,7 @@ public class RejoinGameTest extends TestBase {
 				msg = receiveMessage(s[i]);
 			} while ((msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()))
 					|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -108,23 +108,23 @@ public class RejoinGameTest extends TestBase {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
 			} while (!(msg.hasLobbyMessage() && (msg.getLobbyMessage().hasJoinGameAckMessage() || msg.getLobbyMessage().hasJoinGameFailedMessage())));
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				fail("User " + username + " could not join ranking game.");
 			}
 
 			// The player should have joined the game.
 			msg = receiveMessage();
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 			msg = receiveMessage();
-			if (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage())) {
+			if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 			msg = receiveMessage();
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -132,7 +132,7 @@ public class RejoinGameTest extends TestBase {
 
 		// Server should automatically send start event.
 		msg = receiveMessage();
-		if (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage())) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -140,7 +140,7 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()));
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 		}
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
@@ -169,13 +169,13 @@ public class RejoinGameTest extends TestBase {
 
 		// Game list update (game now running).
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListUpdateMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListUpdateMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage())) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -190,7 +190,7 @@ public class RejoinGameTest extends TestBase {
 					failOnErrorMessage(inMsg);
 				}
 			}
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasHandStartMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameEngineMessage() || !msg.getGameMessage().getGameEngineMessage().hasHandStartMessage());
 
 		// Leave the game by closing the socket.
 		sock.close();
@@ -202,7 +202,7 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage()));
+			} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage());
 			assertEquals(firstPlayerId, msg.getLobbyMessage().getPlayerListMessage().getPlayerId());
 			assertEquals(PlayerListNotification.playerListLeft, msg.getLobbyMessage().getPlayerListMessage().getPlayerListNotification());
 		}
@@ -216,7 +216,7 @@ public class RejoinGameTest extends TestBase {
 			msg = receiveMessage();
 		} while ((msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()))
 				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -226,7 +226,7 @@ public class RejoinGameTest extends TestBase {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
 		} while (!(msg.hasLobbyMessage() && (msg.getLobbyMessage().hasJoinGameAckMessage() || msg.getLobbyMessage().hasJoinGameFailedMessage())));
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			fail("User " + AuthUser + " could not rejoin normal game.");
 		}
 
@@ -235,7 +235,7 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage()));
+			} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage());
 			assertEquals(firstPlayerIdAfterRejoin, msg.getLobbyMessage().getPlayerListMessage().getPlayerId());
 			assertEquals(PlayerListNotification.playerListNew, msg.getLobbyMessage().getPlayerListMessage().getPlayerListNotification());
 		}
@@ -244,7 +244,7 @@ public class RejoinGameTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 
 		assertEquals(gameId, msg.getGameMessage().getGameId());
 		assertEquals(StartEventType.rejoinEvent, msg.getGameMessage().getGameManagementMessage().getStartEventMessage().getStartEventType());
@@ -275,7 +275,7 @@ public class RejoinGameTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGameStartRejoinMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartRejoinMessage());
 
 		// Check whether we got all necessary data to rejoin.
 		assertEquals(gameId, msg.getGameMessage().getGameId());
@@ -289,7 +289,7 @@ public class RejoinGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasPlayerIdChangedMessage()));
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasPlayerIdChangedMessage());
 			assertEquals(firstPlayerId, msg.getGameMessage().getGameManagementMessage().getPlayerIdChangedMessage().getOldPlayerId());
 			assertEquals(firstPlayerIdAfterRejoin, msg.getGameMessage().getGameManagementMessage().getPlayerIdChangedMessage().getNewPlayerId());
 		}
@@ -298,12 +298,12 @@ public class RejoinGameTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasHandStartMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameEngineMessage() || !msg.getGameMessage().getGameEngineMessage().hasHandStartMessage());
 		for (int i = 0; i < 9; i++) {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasHandStartMessage()));
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameEngineMessage() || !msg.getGameMessage().getGameEngineMessage().hasHandStartMessage());
 		}
 
 		for (int i = 0; i < 9; i++) {

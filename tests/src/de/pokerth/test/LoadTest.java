@@ -67,7 +67,7 @@ public class LoadTest extends TestBase {
 				msg = receiveMessage(s[i * 10]);
 			} while ((msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()))
 				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -88,7 +88,7 @@ public class LoadTest extends TestBase {
 			} while (msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage() || msg.getLobbyMessage().hasPlayerListMessage()));
 
 			// Join game ack.
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				failOnErrorMessage(msg);
 				fail("Could not create game!");
 			}
@@ -110,7 +110,7 @@ public class LoadTest extends TestBase {
 				msg = receiveMessage(s[i]);
 			} while ((msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage())
 				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -119,7 +119,7 @@ public class LoadTest extends TestBase {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
 			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage()) && !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameFailedMessage()));
-			if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				fail("User " + username + " could not join normal game.");
 			}
 		}

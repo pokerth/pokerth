@@ -29,11 +29,17 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.GameEngineMessage;
+import de.pokerth.protocol.ProtoBuf.GameEngineMessage.GameEngineMessageType;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
 import de.pokerth.protocol.ProtoBuf.MyActionRequestMessage;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.NetPlayerAction;
 import de.pokerth.protocol.ProtoBuf.PlayerResult;
 import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
@@ -84,7 +90,7 @@ public class RunRankingGameTest extends TestBase {
 
 		// Game list update (player joined).
 		msg = receiveMessage();
-		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage())) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -100,8 +106,9 @@ public class RunRankingGameTest extends TestBase {
 			// Waiting for player list update.
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasGameListNewMessage() || msg.hasGamePlayerJoinedMessage());
-			if (!msg.hasPlayerListMessage()) {
+			} while ((msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListNewMessage())
+				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -109,24 +116,24 @@ public class RunRankingGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-			if (!msg.hasJoinGameAckMessage()) {
+			} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage() || !msg.getLobbyMessage().hasJoinGameFailedMessage());
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				fail("User " + username + " could not join ranking game.");
 			}
 
 			// The player should have joined the game.
 			msg = receiveMessage();
-			if (!msg.hasPlayerListMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 			msg = receiveMessage();
-			if (!msg.hasGamePlayerJoinedMessage()) {
+			if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
 			msg = receiveMessage();
-			if (!msg.hasGameListPlayerJoinedMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message.");
 			}
@@ -134,7 +141,7 @@ public class RunRankingGameTest extends TestBase {
 
 		// Server should automatically send start event.
 		msg = receiveMessage();
-		if (!msg.hasStartEventMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -142,16 +149,28 @@ public class RunRankingGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasStartEventMessage());
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 		}
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
-			.setGameId(gameId)
-			.build();
+				.build();
+
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
+				.setStartEventAckMessage(startAck)
+				.build();
+
+		GameMessage game = GameMessage.newBuilder()
+				.setGameId(gameId)
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagement)
+				.build();
+			
 		msg = PokerTHMessage.newBuilder()
-			.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
-			.setStartEventAckMessage(startAck)
-			.build();
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
+				.build();
+
 		sendMessage(msg);
 		for (int i = 0; i < 9; i++) {
 			sendMessage(msg, s[i]);
@@ -159,13 +178,13 @@ public class RunRankingGameTest extends TestBase {
 
 		// Game list update (game now running).
 		msg = receiveMessage();
-		if (!msg.hasGameListUpdateMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListUpdateMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!msg.hasGameStartInitialMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -175,11 +194,11 @@ public class RunRankingGameTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-			if (msg.hasHandStartMessage()) {
+			if (msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasHandStartMessage()) {
 				handNum++;
 				// Cards should be encrypted for registered users.
-				assertTrue(msg.getHandStartMessage().hasEncryptedCards());
-				byte[] encData = msg.getHandStartMessage().getEncryptedCards().toByteArray();
+				assertTrue(msg.getGameMessage().getGameEngineMessage().getHandStartMessage().hasEncryptedCards());
+				byte[] encData = msg.getGameMessage().getGameEngineMessage().getHandStartMessage().getEncryptedCards().toByteArray();
 				byte[] cardData = decryptCards(AuthPassword, encData);
 				int size = cardData.length;
 				while (size > 0 && cardData[size-1] == 0) {
@@ -201,19 +220,32 @@ public class RunRankingGameTest extends TestBase {
 				assertTrue(card2 < 52);
 				assertTrue(card2 >= 0);
 			}
-			else if (msg.hasPlayersTurnMessage()) {
-				if (msg.getPlayersTurnMessage().getPlayerId() == firstPlayerId) {
+			else if (msg.hasGameMessage() && msg.getGameMessage().hasGameEngineMessage() && msg.getGameMessage().getGameEngineMessage().hasPlayersTurnMessage()) {
+				if (msg.getGameMessage().getGameEngineMessage().getPlayersTurnMessage().getPlayerId() == firstPlayerId) {
+
 					MyActionRequestMessage myRequest = MyActionRequestMessage.newBuilder()
-						.setGameId(gameId)
-						.setGameState(msg.getPlayersTurnMessage().getGameState())
-						.setHandNum(handNum)
-						.setMyAction(NetPlayerAction.netActionAllIn)
-						.setMyRelativeBet(0)
-						.build();
+							.setGameState(msg.getGameMessage().getGameEngineMessage().getPlayersTurnMessage().getGameState())
+							.setHandNum(handNum)
+							.setMyAction(NetPlayerAction.netActionAllIn)
+							.setMyRelativeBet(0)
+							.build();
+
+					GameEngineMessage gameEngine = GameEngineMessage.newBuilder()
+							.setMessageType(GameEngineMessageType.Type_MyActionRequestMessage)
+							.setMyActionRequestMessage(myRequest)
+							.build();
+
+					game = GameMessage.newBuilder()
+							.setGameId(gameId)
+							.setMessageType(GameMessageType.Type_GameEngineMessage)
+							.setGameEngineMessage(gameEngine)
+							.build();
+						
 					PokerTHMessage outMsg = PokerTHMessage.newBuilder()
-						.setMessageType(PokerTHMessageType.Type_MyActionRequestMessage)
-						.setMyActionRequestMessage(myRequest)
-						.build();
+							.setMessageType(PokerTHMessageType.Type_GameMessage)
+							.setGameMessage(game)
+							.build();
+
 					sendMessage(outMsg);
 				}
 			}
@@ -221,27 +253,39 @@ public class RunRankingGameTest extends TestBase {
 				while (s[i].getInputStream().available() > 0) {
 					PokerTHMessage inMsg = receiveMessage(s[i]);
 					failOnErrorMessage(inMsg);
-					if (inMsg.hasPlayersTurnMessage()) {
-						if (inMsg.getPlayersTurnMessage().getPlayerId() == playerId[i]) {
+					if (inMsg.hasGameMessage() && inMsg.getGameMessage().hasGameEngineMessage() && inMsg.getGameMessage().getGameEngineMessage().hasPlayersTurnMessage()) {
+						if (inMsg.getGameMessage().getGameEngineMessage().getPlayersTurnMessage().getPlayerId() == playerId[i]) {
 
 							MyActionRequestMessage myRequest = MyActionRequestMessage.newBuilder()
-								.setGameId(gameId)
-								.setGameState(inMsg.getPlayersTurnMessage().getGameState())
-								.setHandNum(handNum)
-								.setMyAction(NetPlayerAction.netActionFold)
-								.setMyRelativeBet(0)
-								.build();
+									.setGameState(msg.getGameMessage().getGameEngineMessage().getPlayersTurnMessage().getGameState())
+									.setHandNum(handNum)
+									.setMyAction(NetPlayerAction.netActionFold)
+									.setMyRelativeBet(0)
+									.build();
+
+							GameEngineMessage gameEngine = GameEngineMessage.newBuilder()
+									.setMessageType(GameEngineMessageType.Type_MyActionRequestMessage)
+									.setMyActionRequestMessage(myRequest)
+									.build();
+
+							game = GameMessage.newBuilder()
+									.setGameId(gameId)
+									.setMessageType(GameMessageType.Type_GameEngineMessage)
+									.setGameEngineMessage(gameEngine)
+									.build();
+								
 							PokerTHMessage outMsg = PokerTHMessage.newBuilder()
-								.setMessageType(PokerTHMessageType.Type_MyActionRequestMessage)
-								.setMyActionRequestMessage(myRequest)
-								.build();
+									.setMessageType(PokerTHMessageType.Type_GameMessage)
+									.setGameMessage(game)
+									.build();
+
 							sendMessage(outMsg, s[i]);
 						}
 					}
-					else if (inMsg.hasEndOfHandHideCardsMessage()) {
-						lastPlayerMoney = inMsg.getEndOfHandHideCardsMessage().getPlayerMoney();
-					} else if (inMsg.hasEndOfHandShowCardsMessage()) {
-						Collection<PlayerResult> result = inMsg.getEndOfHandShowCardsMessage().getPlayerResultsList();
+					else if (inMsg.hasGameMessage() && inMsg.getGameMessage().hasGameEngineMessage() && inMsg.getGameMessage().getGameEngineMessage().hasEndOfHandHideCardsMessage()) {
+						lastPlayerMoney = inMsg.getGameMessage().getGameEngineMessage().getEndOfHandHideCardsMessage().getPlayerMoney();
+					} else if (inMsg.hasGameMessage() && inMsg.getGameMessage().hasGameEngineMessage() && inMsg.getGameMessage().getGameEngineMessage().hasEndOfHandShowCardsMessage()) {
+						Collection<PlayerResult> result = inMsg.getGameMessage().getGameEngineMessage().getEndOfHandShowCardsMessage().getPlayerResultsList();
 						assertFalse(result.isEmpty());
 						int maxPlayerMoney = 0;
 						for (Iterator<PlayerResult> it = result.iterator(); it.hasNext(); ) {
@@ -255,7 +299,7 @@ public class RunRankingGameTest extends TestBase {
 					}
 				}
 			}
-		} while (!msg.hasEndOfGameMessage());
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasEndOfGameMessage());
 
 		for (int i = 0; i < 9; i++) {
 			s[i].close();

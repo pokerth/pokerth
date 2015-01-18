@@ -162,7 +162,7 @@ public class GameListTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListUpdateMessage()));
+		} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListUpdateMessage());
 
 		assertEquals(NetGameMode.netGameStarted, msg.getLobbyMessage().getGameListUpdateMessage().getGameMode());
 
@@ -172,7 +172,7 @@ public class GameListTest extends TestBase {
 			do {
 				msg = receiveMessage();
 				failOnErrorMessage(msg);
-			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerLeftMessage()));
+			} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerLeftMessage());
 			GameListPlayerLeftMessage gameListLeftMsg = msg.getLobbyMessage().getGameListPlayerLeftMessage();
 			assertEquals(gameId, gameListLeftMsg.getGameId());
 			assertEquals(playerId[i], gameListLeftMsg.getPlayerId());
@@ -182,7 +182,7 @@ public class GameListTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListUpdateMessage()));
+		} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListUpdateMessage());
 
 		assertEquals(NetGameMode.netGameClosed, msg.getLobbyMessage().getGameListUpdateMessage().getGameMode());
 	}

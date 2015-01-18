@@ -208,7 +208,7 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
@@ -236,7 +236,7 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage());
 
 		// Guest user: not allowed.
 		msg = createGameChatMsg(ChatText + 7, gameId);
@@ -245,7 +245,7 @@ public class ChatTest extends TestBase {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
 			assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage());
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage());
 		assertEquals(ChatText + 7, msg.getGameMessage().getGameManagementMessage().getChatRejectMessage().getChatText());
 
 		// Other users: allowed.
@@ -256,7 +256,7 @@ public class ChatTest extends TestBase {
 				msg = receiveMessage(s[c]);
 				failOnErrorMessage(msg);
 				assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage());
-			} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage()));
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasChatMessage());
 	
 			assertEquals(ChatText + "c" + c, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatText());
 			assertEquals(ChatType.chatTypeStandard, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatType());
@@ -269,7 +269,7 @@ public class ChatTest extends TestBase {
 						msg = receiveMessage(s[i]);
 						failOnErrorMessage(msg);
 						assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatRejectMessage());
-					} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage()));
+					} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasChatMessage());
 					assertEquals(ChatText + "c" + c, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatText());
 					assertEquals(ChatType.chatTypeStandard, msg.getGameMessage().getGameManagementMessage().getChatMessage().getChatType());
 					assertEquals(playerId[c], msg.getGameMessage().getGameManagementMessage().getChatMessage().getPlayerId());
@@ -285,7 +285,7 @@ public class ChatTest extends TestBase {
 			msg = receiveMessage(s[0]);
 			failOnErrorMessage(msg);
 			assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasChatMessage());
-		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasChatRejectMessage()));
+		} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasChatRejectMessage());
 
 		// Leave the game.
 		msg = leaveGameRequestMsg(gameId);
@@ -293,7 +293,7 @@ public class ChatTest extends TestBase {
 		do {
 			msg = receiveMessage(s[0]);
 			failOnErrorMessage(msg);
-		} while (!(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasRemovedFromGameMessage()));
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasRemovedFromGameMessage());
 		// A game chat message, if not within a game, should be rejected with error.
 		msg = createGameChatMsg(ChatText + 9, gameId);
 		sendMessage(msg, s[0]);
