@@ -17,9 +17,7 @@
 
 package de.pokerth.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -29,10 +27,14 @@ import java.util.Iterator;
 import org.junit.Test;
 
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
 import de.pokerth.protocol.ProtoBuf.NetPlayerState;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
 
@@ -56,11 +58,12 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-		if (!msg.hasJoinGameAckMessage()) {
+		} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())
+				&& !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasCreateGameFailedMessage()));
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			fail("Could not create game!");
 		}
-		int gameId = msg.getJoinGameAckMessage().getGameId();
+		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 
 		// Let 9 additional clients join.
 		Socket s[] = new Socket[9];
@@ -74,8 +77,9 @@ public class SeatStateTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-			if (!msg.hasJoinGameAckMessage()) {
+			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage())
+					&& !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasCreateGameFailedMessage()));
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				fail("Could not join game!");
 			}
 		}
@@ -84,20 +88,28 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasStartEventMessage());
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 		for (int i = 0; i < 9; i++) {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasStartEventMessage());
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 		}
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
+				.build();
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
+				.setStartEventAckMessage(startAck)
+				.build();
+		GameMessage game = GameMessage.newBuilder()
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagement)
 				.setGameId(gameId)
 				.build();
 		msg = PokerTHMessage.newBuilder()
-				.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
-				.setStartEventAckMessage(startAck)
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
 				.build();
 		sendMessage(msg);
 		for (int i = 0; i < 9; i++) {
@@ -108,9 +120,9 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasGameStartInitialMessage());
-		assertEquals(gameId, msg.getGameStartInitialMessage().getGameId());
-		Collection<Integer> seats = msg.getGameStartInitialMessage().getPlayerSeatsList();
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage());
+		assertEquals(gameId, msg.getGameMessage().getGameId());
+		Collection<Integer> seats = msg.getGameMessage().getGameManagementMessage().getGameStartInitialMessage().getPlayerSeatsList();
 		assertEquals(10, seats.size());
 		int firstPlayerPos = 0;
 		for (Iterator<Integer> it = seats.iterator(); it.hasNext(); ) {
@@ -124,8 +136,8 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-		} while (!msg.hasHandStartMessage());
-		Collection<NetPlayerState> seatStates = msg.getHandStartMessage().getSeatStatesList();
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameEngineMessage() || !msg.getGameMessage().getGameEngineMessage().hasHandStartMessage());
+		Collection<NetPlayerState> seatStates = msg.getGameMessage().getGameEngineMessage().getHandStartMessage().getSeatStatesList();
 
 		// Check whether the correct default seat states are sent.
 		assertEquals(10, seatStates.size());
@@ -141,9 +153,9 @@ public class SeatStateTest extends TestBase {
 		do {
 			msg = receiveMessage();
 			failOnErrorMessage(msg);
-			assertTrue(!msg.hasEndOfGameMessage());
-		} while (!msg.hasHandStartMessage());
-		seatStates = msg.getHandStartMessage().getSeatStatesList();
+			assertFalse(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasEndOfGameMessage());
+		} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameEngineMessage() || !msg.getGameMessage().getGameEngineMessage().hasHandStartMessage());
+		seatStates = msg.getGameMessage().getGameEngineMessage().getHandStartMessage().getSeatStatesList();
 
 		// Check whether the correct seat states are sent.
 		assertEquals(10, seatStates.size());

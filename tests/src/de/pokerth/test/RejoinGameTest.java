@@ -73,7 +73,7 @@ public class RejoinGameTest extends TestBase {
 
 		// Join game ack.
 		msg = receiveMessage();
-		if (!msg.hasLobbyMessage() || msg.getLobbyMessage().hasJoinGameAckMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
 			fail("Could not create game!");
 		}
@@ -81,7 +81,7 @@ public class RejoinGameTest extends TestBase {
 
 		// Game list update (player joined).
 		msg = receiveMessage();
-		if (!msg.hasLobbyMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}

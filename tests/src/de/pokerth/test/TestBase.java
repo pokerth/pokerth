@@ -366,13 +366,13 @@ public abstract class TestBase {
 	public PokerTHMessage leaveGameRequestMsg(int gameId) {
 		LeaveGameRequestMessage leaveRequest = LeaveGameRequestMessage.newBuilder()
 				.build();
-		GameManagementMessage gameManagment = GameManagementMessage.newBuilder()
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
 				.setMessageType(GameManagementMessageType.Type_LeaveGameRequestMessage)
 				.setLeaveGameRequestMessage(leaveRequest)
 				.build();
 		GameMessage game = GameMessage.newBuilder()
 				.setMessageType(GameMessageType.Type_GameManagementMessage)
-				.setGameManagementMessage(gameManagment)
+				.setGameManagementMessage(gameManagement)
 				.setGameId(gameId)
 				.build();
 

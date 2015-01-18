@@ -39,6 +39,8 @@ import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType;
+import de.pokerth.protocol.ProtoBuf.StartEventMessage;
 
 
 public class RunNormalGameTest extends TestBase {
@@ -85,12 +87,14 @@ public class RunNormalGameTest extends TestBase {
 			fail("Invalid message.");
 		}
 
-		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
+		StartEventMessage startEvent = StartEventMessage.newBuilder()
+				.setStartEventType(StartEventType.startEvent)
+				.setFillWithComputerPlayers(true)
 				.build();
 
 		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
-				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
-				.setStartEventAckMessage(startAck)
+				.setMessageType(GameManagementMessageType.Type_StartEventMessage)
+				.setStartEventMessage(startEvent)
 				.build();
 
 		GameMessage game = GameMessage.newBuilder()
@@ -127,7 +131,7 @@ public class RunNormalGameTest extends TestBase {
 			fail("Invalid message.");
 		}
 		// Acknowledge start event.
-		startAck = StartEventAckMessage.newBuilder()
+		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
 				.build();
 
 		gameManagement = GameManagementMessage.newBuilder()

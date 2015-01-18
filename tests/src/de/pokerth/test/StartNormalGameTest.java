@@ -25,9 +25,13 @@ import java.util.Collection;
 import org.junit.Test;
 
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
 import de.pokerth.protocol.ProtoBuf.StartEventMessage;
@@ -49,55 +53,76 @@ public class StartNormalGameTest extends TestBase {
 		PokerTHMessage msg;
 		// Waiting for player list update.
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!msg.hasGameListNewMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		msg = receiveMessage();
-		if (!msg.hasJoinGameAckMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
 			fail("Could not create game!");
 		}
-		int gameId = msg.getJoinGameAckMessage().getGameId();
+		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 
-		StartEventMessage startMsg = StartEventMessage.newBuilder()
-			.setGameId(gameId)
-			.setFillWithComputerPlayers(true)
-			.setStartEventType(StartEventType.startEvent)
-			.build();
+		StartEventMessage startEvent = StartEventMessage.newBuilder()
+				.setStartEventType(StartEventType.startEvent)
+				.setFillWithComputerPlayers(true)
+				.build();
+
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventMessage)
+				.setStartEventMessage(startEvent)
+				.build();
+
+		GameMessage game = GameMessage.newBuilder()
+				.setGameId(gameId)
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagement)
+				.build();
+			
 		msg = PokerTHMessage.newBuilder()
-			.setMessageType(PokerTHMessageType.Type_StartEventMessage)
-			.setStartEventMessage(startMsg)
-			.build();
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
+				.build();
+
 		sendMessage(msg);
 
 		do {
 			msg = receiveMessage();
-		} while (msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
+		} while ((msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()))
+				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
 
-		assertTrue(msg.hasStartEventMessage() && msg.getMessageType() == PokerTHMessageType.Type_StartEventMessage);
+		assertTrue(msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasStartEventMessage() && msg.getGameMessage().getGameManagementMessage().getMessageType() == GameManagementMessageType.Type_StartEventMessage);
 
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
-			.setGameId(gameId)
-			.build();
+				.build();
+		gameManagement = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
+				.setStartEventAckMessage(startAck)
+				.build();
+		game = GameMessage.newBuilder()
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagement)
+				.setGameId(gameId)
+				.build();
 		msg = PokerTHMessage.newBuilder()
-			.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
-			.setStartEventAckMessage(startAck)
-			.build();
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
+				.build();
 		sendMessage(msg);
 
 		do {
 			msg = receiveMessage();
-		} while (msg.hasGameListUpdateMessage());
+		} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListUpdateMessage());
 
-		if (!msg.hasGameStartInitialMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}

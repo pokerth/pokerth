@@ -83,7 +83,7 @@ public class RunRankingGameTest extends TestBase {
 
 		// Join game ack.
 		msg = receiveMessage();
-		if (!msg.hasLobbyMessage() || msg.getLobbyMessage().hasJoinGameAckMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			fail("Could not create game!");
 		}
 		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
@@ -116,7 +116,7 @@ public class RunRankingGameTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage() || !msg.getLobbyMessage().hasJoinGameFailedMessage());
+			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage()) && !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameFailedMessage()));
 			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				fail("User " + username + " could not join ranking game.");
 			}

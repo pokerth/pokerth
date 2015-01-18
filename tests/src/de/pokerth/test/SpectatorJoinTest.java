@@ -25,9 +25,13 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage;
+import de.pokerth.protocol.ProtoBuf.GameMessage;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage;
 import de.pokerth.protocol.ProtoBuf.StartEventAckMessage;
+import de.pokerth.protocol.ProtoBuf.GameManagementMessage.GameManagementMessageType;
+import de.pokerth.protocol.ProtoBuf.GameMessage.GameMessageType;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode;
 import de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType;
 import de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType;
@@ -42,7 +46,7 @@ public class SpectatorJoinTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
@@ -57,22 +61,22 @@ public class SpectatorJoinTest extends TestBase {
 
 		// Game list update (new game)
 		msg = receiveMessage();
-		if (!msg.hasGameListNewMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 
 		// Join game ack.
 		msg = receiveMessage();
-		if (!msg.hasJoinGameAckMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
 			fail("Could not create game!");
 		}
-		int gameId = msg.getJoinGameAckMessage().getGameId();
+		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 
 		// Game list update (player joined).
 		msg = receiveMessage();
-		if (!msg.hasGameListPlayerJoinedMessage()) {
+		if (!msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
@@ -82,59 +86,59 @@ public class SpectatorJoinTest extends TestBase {
 		int spectatorId = userInit(spectatorSock, "test20", "test20");
 
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasGameListNewMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 		// Player List should also be updated for first player.
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 
 		sendMessage(joinGameRequestMsg(gameId, "", false, true), spectatorSock);
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasJoinGameAckMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
-		assertTrue(msg.getJoinGameAckMessage().getSpectateOnly());
+		assertTrue(msg.getLobbyMessage().getJoinGameAckMessage().getSpectateOnly());
 
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasGamePlayerJoinedMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
-		assertEquals(firstPlayerId, msg.getGamePlayerJoinedMessage().getPlayerId());
+		assertEquals(firstPlayerId, msg.getGameMessage().getGameManagementMessage().getGamePlayerJoinedMessage().getPlayerId());
 		// TODO Spectator joined message is missing here!
 
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasGameListSpectatorJoinedMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListSpectatorJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
-		assertEquals(gameId, msg.getGameListSpectatorJoinedMessage().getGameId());
-		assertEquals(spectatorId, msg.getGameListSpectatorJoinedMessage().getPlayerId());
+		assertEquals(gameId, msg.getLobbyMessage().getGameListSpectatorJoinedMessage().getGameId());
+		assertEquals(spectatorId, msg.getLobbyMessage().getGameListSpectatorJoinedMessage().getPlayerId());
 
 		// Spectator should be visible for first player.
 		msg = receiveMessage();
-		if (!msg.hasGameSpectatorJoinedMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameSpectatorJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 		msg = receiveMessage();
-		if (!msg.hasGameListSpectatorJoinedMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListSpectatorJoinedMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
@@ -151,55 +155,56 @@ public class SpectatorJoinTest extends TestBase {
 			// Waiting for player list update.
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasPlayerListMessage());
+			} while (msg.hasLobbyMessage() && msg.getLobbyMessage().hasPlayerListMessage());
 
-			if (!msg.hasGameListNewMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
-			assertEquals(1, msg.getGameListNewMessage().getSpectatorIdsCount());
-			assertEquals(spectatorId, msg.getGameListNewMessage().getSpectatorIds(0));
+			assertEquals(1, msg.getLobbyMessage().getGameListNewMessage().getSpectatorIdsCount());
+			assertEquals(spectatorId, msg.getLobbyMessage().getGameListNewMessage().getSpectatorIds(0));
 			do {
 				msg = receiveMessage(s[i]);
-			} while (msg.hasGameListPlayerJoinedMessage() || msg.hasGamePlayerJoinedMessage());
+			} while ((msg.hasLobbyMessage() && (msg.getLobbyMessage().hasGameListNewMessage() || msg.getLobbyMessage().hasGameListPlayerJoinedMessage()))
+				|| (msg.hasGameMessage() && msg.getGameMessage().hasGameManagementMessage() && msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()));
 			sendMessage(joinGameRequestMsg(gameId, "", false), s[i]);
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasJoinGameAckMessage() && !msg.hasJoinGameFailedMessage());
-			if (!msg.hasJoinGameAckMessage()) {
+			} while (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage()) && !(msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameFailedMessage()));
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasJoinGameAckMessage()) {
 				fail("User " + username + " could not join ranking game.");
 			}
 
 			// The player should have joined the game.
 			msg = receiveMessage();
-			if (!msg.hasPlayerListMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
 			msg = receiveMessage();
-			if (!msg.hasGamePlayerJoinedMessage()) {
+			if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
 			msg = receiveMessage();
-			if (!msg.hasGameListPlayerJoinedMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
 			// The spectator should also receive the updates.
 			msg = receiveMessage(spectatorSock);
-			if (!msg.hasPlayerListMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
 			msg = receiveMessage(spectatorSock);
-			if (!msg.hasGamePlayerJoinedMessage()) {
+			if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGamePlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
 			msg = receiveMessage(spectatorSock);
-			if (!msg.hasGameListPlayerJoinedMessage()) {
+			if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListPlayerJoinedMessage()) {
 				failOnErrorMessage(msg);
 				fail("Invalid message: " + msg.getMessageType());
 			}
@@ -207,7 +212,7 @@ public class SpectatorJoinTest extends TestBase {
 
 		// Server should automatically send start event.
 		msg = receiveMessage();
-		if (!msg.hasStartEventMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
@@ -215,16 +220,28 @@ public class SpectatorJoinTest extends TestBase {
 			do {
 				msg = receiveMessage(s[i]);
 				failOnErrorMessage(msg);
-			} while (!msg.hasStartEventMessage());
+			} while (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasStartEventMessage());
 		}
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
-			.setGameId(gameId)
-			.build();
+				.build();
+
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
+				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
+				.setStartEventAckMessage(startAck)
+				.build();
+
+		GameMessage game = GameMessage.newBuilder()
+				.setGameId(gameId)
+				.setMessageType(GameMessageType.Type_GameManagementMessage)
+				.setGameManagementMessage(gameManagement)
+				.build();
+			
 		msg = PokerTHMessage.newBuilder()
-			.setMessageType(PokerTHMessageType.Type_StartEventAckMessage)
-			.setStartEventAckMessage(startAck)
-			.build();
+				.setMessageType(PokerTHMessageType.Type_GameMessage)
+				.setGameMessage(game)
+				.build();
+
 		sendMessage(msg);
 		for (int i = 0; i < 9; i++) {
 			sendMessage(msg, s[i]);
@@ -232,26 +249,26 @@ public class SpectatorJoinTest extends TestBase {
 
 		// Game list update (game now running).
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasGameListUpdateMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListUpdateMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasGameStartInitialMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameManagementMessage() || !msg.getGameMessage().getGameManagementMessage().hasGameStartInitialMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
 
 		// Spectator should receive a hand start message without cards.
 		msg = receiveMessage(spectatorSock);
-		if (!msg.hasHandStartMessage()) {
+		if (!msg.hasGameMessage() || !msg.getGameMessage().hasGameEngineMessage() || !msg.getGameMessage().getGameEngineMessage().hasHandStartMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message: " + msg.getMessageType());
 		}
-		assertFalse(msg.getHandStartMessage().hasEncryptedCards());
-		assertFalse(msg.getHandStartMessage().hasPlainCards());
-		assertEquals(gameId, msg.getHandStartMessage().getGameId());
+		assertFalse(msg.getGameMessage().getGameEngineMessage().getHandStartMessage().hasEncryptedCards());
+		assertFalse(msg.getGameMessage().getGameEngineMessage().getHandStartMessage().hasPlainCards());
+		assertEquals(gameId, msg.getGameMessage().getGameId());
 
 		for (int i = 0; i < 9; i++) {
 			s[i].close();

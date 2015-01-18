@@ -67,13 +67,13 @@ public class ChatTest extends TestBase {
 		ChatRequestMessage chatGame = ChatRequestMessage.newBuilder()
 				.setChatText(chatText)
 				.build();
-		GameManagementMessage gameManagment = GameManagementMessage.newBuilder()
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
 				.setMessageType(GameManagementMessageType.Type_ChatRequestMessage)
 				.setChatRequestMessage(chatGame)
 				.build();
 		GameMessage game = GameMessage.newBuilder()
 				.setMessageType(GameMessageType.Type_GameManagementMessage)
-				.setGameManagementMessage(gameManagment)
+				.setGameManagementMessage(gameManagement)
 				.setGameId(gameId)
 				.build();
 		PokerTHMessage msg = PokerTHMessage.newBuilder()
@@ -189,13 +189,13 @@ public class ChatTest extends TestBase {
 				.setFillWithComputerPlayers(false)
 				.setStartEventType(StartEventType.startEvent)
 				.build();
-		GameManagementMessage gameManagment = GameManagementMessage.newBuilder()
+		GameManagementMessage gameManagement = GameManagementMessage.newBuilder()
 				.setMessageType(GameManagementMessageType.Type_StartEventMessage)
 				.setStartEventMessage(startEvent)
 				.build();
 		GameMessage game = GameMessage.newBuilder()
 				.setMessageType(GameMessageType.Type_GameManagementMessage)
-				.setGameManagementMessage(gameManagment)
+				.setGameManagementMessage(gameManagement)
 				.setGameId(gameId)
 				.build();
 		msg = PokerTHMessage.newBuilder()
@@ -213,13 +213,13 @@ public class ChatTest extends TestBase {
 		// Acknowledge start event.
 		StartEventAckMessage startAck = StartEventAckMessage.newBuilder()
 				.build();
-		gameManagment = GameManagementMessage.newBuilder()
+		gameManagement = GameManagementMessage.newBuilder()
 				.setMessageType(GameManagementMessageType.Type_StartEventAckMessage)
 				.setStartEventAckMessage(startAck)
 				.build();
 		game = GameMessage.newBuilder()
 				.setMessageType(GameMessageType.Type_GameManagementMessage)
-				.setGameManagementMessage(gameManagment)
+				.setGameManagementMessage(gameManagement)
 				.setGameId(gameId)
 				.build();
 		msg = PokerTHMessage.newBuilder()
