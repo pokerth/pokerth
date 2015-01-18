@@ -55,7 +55,7 @@ public class RunRankingGameTest extends TestBase {
 		// Waiting for player list update.
 		PokerTHMessage msg;
 		msg = receiveMessage();
-		if (!msg.hasPlayerListMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasPlayerListMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
@@ -70,21 +70,21 @@ public class RunRankingGameTest extends TestBase {
 
 		// Game list update (new game)
 		msg = receiveMessage();
-		if (!msg.hasGameListNewMessage()) {
+		if (!msg.hasLobbyMessage() || !msg.getLobbyMessage().hasGameListNewMessage()) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}
 
 		// Join game ack.
 		msg = receiveMessage();
-		if (!msg.hasJoinGameAckMessage()) {
+		if (!msg.hasLobbyMessage() || msg.getLobbyMessage().hasJoinGameAckMessage()) {
 			fail("Could not create game!");
 		}
-		int gameId = msg.getJoinGameAckMessage().getGameId();
+		int gameId = msg.getLobbyMessage().getJoinGameAckMessage().getGameId();
 
 		// Game list update (player joined).
 		msg = receiveMessage();
-		if (!msg.hasGameListPlayerJoinedMessage()) {
+		if (!(msg.hasLobbyMessage() && msg.getLobbyMessage().hasGameListPlayerJoinedMessage())) {
 			failOnErrorMessage(msg);
 			fail("Invalid message.");
 		}

@@ -60,8 +60,7 @@ public class CreateGameTest extends TestBase {
 		}
 
 		msg = receiveMessage();
-		if (msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_JoinGameAckMessage)
-		{
+		if (msg.hasLobbyMessage() && msg.getLobbyMessage().hasJoinGameAckMessage() && msg.getLobbyMessage().getMessageType() == LobbyMessageType.Type_JoinGameAckMessage) {
 			assertTrue(msg.getLobbyMessage().getJoinGameAckMessage().getGameId() != 0);
 			NetGameInfo receivedGameInfo = msg.getLobbyMessage().getJoinGameAckMessage().getGameInfo();
 			assertEquals(receivedGameInfo.getDelayBetweenHands(), gameInfo.getDelayBetweenHands());
