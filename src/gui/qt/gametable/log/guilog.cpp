@@ -290,12 +290,12 @@ void guiLog::logPlayerJoinedMsg(QString playerName)
 #endif
 }
 
-void guiLog::logSpectatorLeftMsg(QString playerName, int wasKicked)
+void guiLog::logSpectatorLeftMsg(QString /*playerName*/, int /*wasKicked*/)
 {
 	// TODO
 }
 
-void guiLog::logSpectatorJoinedMsg(QString playerName)
+void guiLog::logSpectatorJoinedMsg(QString /*playerName*/)
 {
 	// TODO
 }

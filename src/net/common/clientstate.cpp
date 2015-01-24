@@ -1061,7 +1061,7 @@ ClientStateWaitEnterLogin::Exit(boost::shared_ptr<ClientThread> client)
 }
 
 void
-ClientStateWaitEnterLogin::InternalHandleAuthMsg(boost::shared_ptr<ClientThread> client, const AuthMessage &authMsg)
+ClientStateWaitEnterLogin::InternalHandleAuthMsg(boost::shared_ptr<ClientThread> /*client*/, const AuthMessage &authMsg)
 {
 	if (authMsg.messagetype() == AuthMessage::Type_ErrorMessage) {
 		// Server reported an error.
