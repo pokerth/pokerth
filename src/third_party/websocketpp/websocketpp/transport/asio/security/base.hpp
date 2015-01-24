@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,7 +36,6 @@
 
 #include <boost/asio.hpp>
 
-#include <iostream>
 #include <string>
 
 // Interface that sockets/security policies must implement
@@ -95,7 +94,10 @@ namespace error {
         pass_through,
 
         /// Required tls_init handler not present
-        missing_tls_init_handler
+        missing_tls_init_handler,
+
+        /// TLS Handshake Failed
+        tls_handshake_failed,
     };
 } // namespace error
 
@@ -119,9 +121,11 @@ public:
             case error::tls_handshake_timeout:
                 return "TLS handshake timed out";
             case error::pass_through:
-                return "Pass through from underlying library";
+                return "Pass through from socket policy";
             case error::missing_tls_init_handler:
                 return "Required tls_init handler not present.";
+            case error::tls_handshake_failed:
+                return "TLS handshake failed";
             default:
                 return "Unknown";
         }

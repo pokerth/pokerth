@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,7 +38,7 @@ namespace websocketpp {
 /// Combination error code / string type for returning two values
 typedef std::pair<lib::error_code,std::string> err_str_pair;
 
-// setup for errors that should be propogated back to the user.
+/// Library level error codes
 namespace error {
 enum value {
     /// Catch-all library error
@@ -86,7 +86,8 @@ enum value {
     /// Invalid subprotocol
     invalid_subprotocol,
 
-    /// Bad or unknown connection
+    /// An operation was attempted on a connection that did not exist or was
+    /// already deleted.
     bad_connection,
 
     /// Unit testing utility error code
@@ -114,7 +115,14 @@ enum value {
     close_handshake_timeout,
 
     /// Invalid port in URI
-    invalid_port
+    invalid_port,
+
+    /// An async accept operation failed because the underlying transport has been
+    /// requested to not listen for new connections anymore.
+    async_accept_not_listening,
+
+    /// The requested operation was canceled
+    operation_canceled
 }; // enum value
 
 
@@ -176,6 +184,10 @@ public:
                 return "The closing handshake timed out";
             case error::invalid_port:
                 return "Invalid URI port";
+            case error::async_accept_not_listening:
+                return "Async Accept not listening";
+            case error::operation_canceled:
+                return "Operation canceled";
             default:
                 return "Unknown";
         }
@@ -205,21 +217,30 @@ namespace websocketpp {
 
 class exception : public std::exception {
 public:
-    exception(std::string const & msg,
-              error::value code = error::general)
-    : m_msg(msg),m_code(code) {}
+    exception(std::string const & msg, lib::error_code ec = make_error_code(error::general))
+      : m_msg(msg), m_code(ec)
+    {}
+
+    explicit exception(lib::error_code ec)
+      : m_code(ec)
+    {}
+
     ~exception() throw() {}
 
     virtual char const * what() const throw() {
-        return m_msg.c_str();
+        if (m_msg.empty()) {
+            return m_code.message().c_str();
+        } else {
+            return m_msg.c_str();
+        }
     }
 
-    error::value code() const throw() {
+    lib::error_code code() const throw() {
         return m_code;
     }
 
     std::string m_msg;
-    error::value m_code;
+    lib::error_code m_code;
 };
 
 } // namespace websocketpp

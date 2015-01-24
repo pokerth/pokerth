@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -369,6 +369,9 @@ InputIterator extract_parameters(InputIterator begin, InputIterator end,
 
 inline std::string strip_lws(std::string const & input) {
     std::string::const_iterator begin = extract_all_lws(input.begin(),input.end());
+    if (begin == input.end()) {
+        return std::string();
+    }
     std::string::const_reverse_iterator end = extract_all_lws(input.rbegin(),input.rend());
 
     return std::string(begin,end.base());

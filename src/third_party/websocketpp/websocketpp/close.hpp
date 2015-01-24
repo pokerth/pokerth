@@ -1,6 +1,6 @@
 
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -198,6 +198,46 @@ namespace status {
         return (code == protocol_error || code == invalid_payload ||
                 code == policy_violation || code == message_too_big ||
                  code == internal_endpoint_error);
+    }
+    
+    /// Return a human readable interpretation of a WebSocket close code
+    /**
+     * See https://tools.ietf.org/html/rfc6455#section-7.4 for more details.
+     *
+     * @since 0.3.0
+     *
+     * @param [in] code The code to look up.
+     * @return A human readable interpretation of the code.
+     */
+    inline std::string get_string(value code) {
+        switch (code) {
+            case normal:
+                return "Normal close";
+            case going_away:
+                return "Going away";
+            case protocol_error:
+                return "Protocol error";
+            case unsupported_data:
+                return "Unsupported data";
+            case no_status:
+                return "No status set";
+            case abnormal_close:
+                return "Abnormal close";
+            case invalid_payload:
+                return "Invalid payload";
+            case policy_violation:
+                return "Policy violoation";
+            case message_too_big:
+                return "Message too big";
+            case extension_required:
+                return "Extension required";
+            case internal_endpoint_error:
+                return "Internal endpoint error";
+            case tls_handshake:
+                return "TLS handshake failure";
+            default:
+                return "Unknown";
+        }
     }
 } // namespace status
 

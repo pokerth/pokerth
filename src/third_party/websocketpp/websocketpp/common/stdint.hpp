@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@
     #define __STDC_LIMIT_MACROS 1
 #endif
 
-#if WIN32 && (_MSC_VER < 1600)
+#if defined (_WIN32) && defined (_MSC_VER) && (_MSC_VER < 1600)
     #include <boost/cstdint.hpp>
 
     using boost::int8_t;

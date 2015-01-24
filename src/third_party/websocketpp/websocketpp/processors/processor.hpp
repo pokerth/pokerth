@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -140,12 +140,12 @@ uri_ptr get_uri_from_host(request_type & request, std::string scheme) {
     if (last_colon == std::string::npos ||
         (last_sbrace != std::string::npos && last_sbrace > last_colon))
     {
-        return uri_ptr(new uri(scheme, h, request.get_uri()));
+        return lib::make_shared<uri>(scheme, h, request.get_uri());
     } else {
-        return uri_ptr(new uri(scheme,
+        return lib::make_shared<uri>(scheme,
                                h.substr(0,last_colon),
                                h.substr(last_colon+1),
-                               request.get_uri()));
+                               request.get_uri());
     }
 }
 
@@ -159,14 +159,44 @@ public:
     typedef typename config::message_type::ptr message_ptr;
     typedef std::pair<lib::error_code,std::string> err_str_pair;
 
-    explicit processor(bool secure, bool server)
+    explicit processor(bool secure, bool p_is_server)
       : m_secure(secure)
-      , m_server(server) {}
+      , m_server(p_is_server)
+      , m_max_message_size(config::max_message_size)
+    {}
 
     virtual ~processor() {}
 
     /// Get the protocol version of this processor
     virtual int get_version() const = 0;
+
+    /// Get maximum message size
+    /**
+     * Get maximum message size. Maximum message size determines the point at which the
+     * processor will fail a connection with the message_too_big protocol error.
+     *
+     * The default is retrieved from the max_message_size value from the template config
+     *
+     * @since 0.3.0
+     */
+    size_t get_max_message_size() const {
+        return m_max_message_size;
+    }
+    
+    /// Set maximum message size
+    /**
+     * Set maximum message size. Maximum message size determines the point at which the
+     * processor will fail a connection with the message_too_big protocol error.
+     *
+     * The default is retrieved from the max_message_size value from the template config
+     *
+     * @since 0.3.0
+     *
+     * @param new_value The value to set as the maximum message size.
+     */
+    void set_max_message_size(size_t new_value) {
+        m_max_message_size = new_value;
+    }
 
     /// Returns whether or not the permessage_compress extension is implemented
     /**
@@ -182,8 +212,10 @@ public:
      * Reads the Sec-WebSocket-Extensions header and determines if any of the
      * requested extensions are supported by this processor. If they are their
      * settings data is initialized.
+     *
+     * @param request The request headers to look at.
      */
-    virtual err_str_pair negotiate_extensions(request_type const & request) {
+    virtual err_str_pair negotiate_extensions(request_type const &) {
         return err_str_pair();
     }
 
@@ -196,8 +228,7 @@ public:
      * @return A status code, 0 on success, non-zero for specific sorts of
      * failure
      */
-    virtual lib::error_code validate_handshake(request_type const & request)
-        const = 0;
+    virtual lib::error_code validate_handshake(request_type const & request) const = 0;
 
     /// Calculate the appropriate response for this websocket request
     /**
@@ -224,9 +255,7 @@ public:
     /// Validate the server's response to an outgoing handshake request
     /**
      * @param req The original request sent
-     *
      * @param res The reponse to generate
-     *
      * @return An error code, 0 on success, non-zero for other errors
      */
     virtual lib::error_code validate_server_handshake_response(request_type
@@ -236,18 +265,16 @@ public:
     virtual std::string get_raw(response_type const & request) const = 0;
 
     /// Return the value of the header containing the CORS origin.
-    virtual std::string const & get_origin(request_type const & request)
-        const = 0;
+    virtual std::string const & get_origin(request_type const & request) const = 0;
 
     /// Extracts requested subprotocols from a handshake request
     /**
      * Extracts a list of all subprotocols that the client has requested in the
      * given opening handshake request.
      *
-     * @param req The request to extract from
-     *
-     * @param subprotocol_list A reference to a vector of strings to store the
-     * results in.
+     * @param [in] req The request to extract from
+     * @param [out] subprotocol_list A reference to a vector of strings to store
+     * the results in.
      */
     virtual lib::error_code extract_subprotocols(const request_type & req,
         std::vector<std::string> & subprotocol_list) = 0;
@@ -261,11 +288,8 @@ public:
      * interpreted by a protocol processor into discrete frames.
      *
      * @param buf Buffer from which bytes should be read.
-     *
      * @param len Length of buffer
-     *
      * @param ec Reference to an error code to return any errors in
-     *
      * @return Number of bytes processed
      */
     virtual size_t consume(uint8_t *buf, size_t len, lib::error_code & ec) = 0;
@@ -310,8 +334,7 @@ public:
      * Performs validation, masking, compression, etc. will return an error if
      * there was an error, otherwise msg will be ready to be written
      */
-    virtual lib::error_code prepare_data_frame(message_ptr in, message_ptr out)
-        = 0;
+    virtual lib::error_code prepare_data_frame(message_ptr in, message_ptr out) = 0;
 
     /// Prepare a ping frame
     /**
@@ -319,13 +342,11 @@ public:
      * other than length. Payload need not be UTF-8.
      *
      * @param in The string to use for the ping payload
-     *
      * @param out The message buffer to prepare the ping in.
-     *
      * @return Status code, zero on success, non-zero on failure
      */
-    virtual lib::error_code prepare_ping(std::string const & in,
-        message_ptr out) const = 0;
+    virtual lib::error_code prepare_ping(std::string const & in, message_ptr out) const 
+        = 0;
 
     /// Prepare a pong frame
     /**
@@ -333,13 +354,11 @@ public:
      * other than length. Payload need not be UTF-8.
      *
      * @param in The string to use for the pong payload
-     *
      * @param out The message buffer to prepare the pong in.
-     *
      * @return Status code, zero on success, non-zero on failure
      */
-    virtual lib::error_code prepare_pong(std::string const & in,
-        message_ptr out) const = 0;
+    virtual lib::error_code prepare_pong(std::string const & in, message_ptr out) const 
+        = 0;
 
     /// Prepare a close frame
     /**
@@ -349,11 +368,8 @@ public:
      * indicate no code. If no code is supplied a reason may not be specified.
      *
      * @param code The close code to send
-     *
      * @param reason The reason string to send
-     *
      * @param out The message buffer to prepare the fame in
-     *
      * @return Status code, zero on success, non-zero on failure
      */
     virtual lib::error_code prepare_close(close::status::value code,
@@ -361,6 +377,7 @@ public:
 protected:
     bool const m_secure;
     bool const m_server;
+    size_t m_max_message_size;
 };
 
 } // namespace processor

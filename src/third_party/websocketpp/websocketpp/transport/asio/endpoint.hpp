@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,8 +37,6 @@
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <boost/system/error_code.hpp>
-
-#include <iostream>
 
 namespace websocketpp {
 namespace transport {
@@ -89,8 +87,10 @@ public:
 
     // generate and manage our own io_service
     explicit endpoint()
-      : m_external_io_service(false)
+      : m_io_service(NULL)
+      , m_external_io_service(false)
       , m_listen_backlog(0)
+      , m_reuse_addr(false)
       , m_state(UNINITIALIZED)
     {
         //std::cout << "transport::asio::endpoint constructor" << std::endl;
@@ -122,7 +122,8 @@ public:
       : m_io_service(src.m_io_service)
       , m_external_io_service(src.m_external_io_service)
       , m_acceptor(src.m_acceptor)
-      , m_listen_backlog(0)
+      , m_listen_backlog(boost::asio::socket_base::max_connections)
+      , m_reuse_addr(src.m_reuse_addr)
       , m_state(src.m_state)
     {
         src.m_io_service = NULL;
@@ -136,13 +137,14 @@ public:
             m_io_service = rhs.m_io_service;
             m_external_io_service = rhs.m_external_io_service;
             m_acceptor = rhs.m_acceptor;
-            m_listen_backlog = rhs.m_listen_backlog
+            m_listen_backlog = rhs.m_listen_backlog;
+            m_reuse_addr = rhs.m_reuse_addr;
             m_state = rhs.m_state;
 
             rhs.m_io_service = NULL;
             rhs.m_external_io_service = false;
             rhs.m_acceptor = NULL;
-            rhs.m_listen_backlog = 0;
+            rhs.m_listen_backlog = boost::asio::socket_base::max_connections;
             rhs.m_state = UNINITIALIZED;
         }
         return *this;
@@ -175,7 +177,9 @@ public:
 
         m_io_service = ptr;
         m_external_io_service = true;
-        m_acceptor.reset(new boost::asio::ip::tcp::acceptor(*m_io_service));
+        m_acceptor = lib::make_shared<boost::asio::ip::tcp::acceptor>(
+            lib::ref(*m_io_service));
+            
         m_state = READY;
         ec = lib::error_code();
     }
@@ -191,9 +195,7 @@ public:
     void init_asio(io_service_ptr ptr) {
         lib::error_code ec;
         init_asio(ptr,ec);
-        if (ec) {
-            throw ec;
-        }
+        if (ec) { throw exception(ec); }
     }
 
     /// Initialize asio transport with internal io_service (exception free)
@@ -206,7 +208,7 @@ public:
      * @param ec Set to indicate what error occurred, if any.
      */
     void init_asio(lib::error_code & ec) {
-        init_asio(new boost::asio::io_service(),ec);
+        init_asio(new boost::asio::io_service(), ec);
         m_external_io_service = false;
     }
 
@@ -228,7 +230,7 @@ public:
      * established but before any additional wrappers (proxy connects, TLS
      * handshakes, etc) have been performed.
      *
-     * @since 0.4.0-alpha1
+     * @since 0.3.0
      *
      * @param h The handler to call on tcp pre init.
      */
@@ -257,7 +259,7 @@ public:
      * etc have been performed. This is fired before any bytes are read or any
      * WebSocket specific handshake logic has been performed.
      *
-     * @since 0.4.0-alpha1
+     * @since 0.3.0
      *
      * @param h The handler to call on tcp post init.
      */
@@ -280,12 +282,30 @@ public:
      * A value of zero will use the operating system default. This is the
      * default value.
      *
-     * @since 0.4.0-alpha1
+     * @since 0.3.0
      *
      * @param backlog The maximum length of the queue of pending connections
      */
     void set_listen_backlog(int backlog) {
         m_listen_backlog = backlog;
+    }
+    
+    /// Sets whether to use the SO_REUSEADDR flag when opening listening sockets
+    /**
+     * Specifies whether or not to use the SO_REUSEADDR TCP socket option. What 
+     * this flag does depends on your operating system. Please consult operating
+     * system documentation for more details.
+     *
+     * New values affect future calls to listen only.
+     *
+     * The default is false.
+     *
+     * @since 0.3.0
+     *
+     * @param value Whether or not to use the SO_REUSEADDR option
+     */
+    void set_reuse_addr(bool value) {
+        m_reuse_addr = value;
     }
 
     /// Retrieve a reference to the endpoint's io_service
@@ -323,16 +343,25 @@ public:
 
         m_alog->write(log::alevel::devel,"asio::listen");
 
-        m_acceptor->open(ep.protocol());
-        m_acceptor->set_option(boost::asio::socket_base::reuse_address(true));
-        m_acceptor->bind(ep);
-        if (m_listen_backlog == 0) {
-            m_acceptor->listen();
-        } else {
-            m_acceptor->listen(m_listen_backlog);
+        boost::system::error_code bec;
+
+        m_acceptor->open(ep.protocol(),bec);
+        if (!bec) {
+            m_acceptor->set_option(boost::asio::socket_base::reuse_address(m_reuse_addr),bec);
         }
-        m_state = LISTENING;
-        ec = lib::error_code();
+        if (!bec) {
+            m_acceptor->bind(ep,bec);
+        }
+        if (!bec) {
+            m_acceptor->listen(m_listen_backlog,bec);
+        }
+        if (bec) {
+            log_err(log::elevel::info,"asio listen",bec);
+            ec = make_error_code(error::pass_through);
+        } else {
+            m_state = LISTENING;
+            ec = lib::error_code();
+        }
     }
 
     /// Set up endpoint for listening manually
@@ -344,9 +373,7 @@ public:
     void listen(boost::asio::ip::tcp::endpoint const & ep) {
         lib::error_code ec;
         listen(ep,ec);
-        if (ec) {
-            throw ec;
-        }
+        if (ec) { throw exception(ec); }
     }
 
     /// Set up endpoint for listening with protocol and port (exception free)
@@ -476,9 +503,7 @@ public:
     {
         lib::error_code ec;
         listen(host,service,ec);
-        if (ec) {
-            throw ec;
-        }
+        if (ec) { throw exception(ec); }
     }
 
     /// Stop listening (exception free)
@@ -513,9 +538,15 @@ public:
     void stop_listening() {
         lib::error_code ec;
         stop_listening(ec);
-        if (ec) {
-            throw ec;
-        }
+        if (ec) { throw exception(ec); }
+    }
+
+    /// Check if the endpoint is listening
+    /**
+     * @return Whether or not the endpoint is listening.
+     */
+    bool is_listening() const {
+        return (m_state == LISTENING);
     }
 
     /// wraps the run method of the internal io_service object
@@ -566,10 +597,12 @@ public:
      * called either before the endpoint has run out of work or before it was
      * started
      *
-     * @since 0.4.0-alpha1
+     * @since 0.3.0
      */
     void start_perpetual() {
-        m_work.reset(new boost::asio::io_service::work(*m_io_service));
+        m_work = lib::make_shared<boost::asio::io_service::work>(
+            lib::ref(*m_io_service)
+        );
     }
 
     /// Clears the endpoint's perpetual flag, allowing it to exit when empty
@@ -578,7 +611,7 @@ public:
      * method to exit normally when it runs out of connections. If there are
      * currently active connections it will not end until they are complete.
      *
-     * @since 0.4.0-alpha1
+     * @since 0.3.0
      */
     void stop_perpetual() {
         m_work.reset();
@@ -597,11 +630,9 @@ public:
      * needed.
      */
     timer_ptr set_timer(long duration, timer_handler callback) {
-        timer_ptr new_timer(
-            new boost::asio::deadline_timer(
-                *m_io_service,
-                boost::posix_time::milliseconds(duration)
-            )
+        timer_ptr new_timer = lib::make_shared<boost::asio::deadline_timer>(
+            *m_io_service,
+            boost::posix_time::milliseconds(duration)
         );
 
         new_timer->async_wait(
@@ -617,7 +648,7 @@ public:
         return new_timer;
     }
 
-    /// Timer callback
+    /// Timer handler
     /**
      * The timer pointer is included to ensure the timer isn't destroyed until
      * after it has expired.
@@ -626,7 +657,7 @@ public:
      * @param callback The function to call back
      * @param ec A status code indicating an error, if any.
      */
-    void handle_timer(timer_ptr t, timer_handler callback,
+    void handle_timer(timer_ptr, timer_handler callback,
         boost::system::error_code const & ec)
     {
         if (ec) {
@@ -653,10 +684,8 @@ public:
         lib::error_code & ec)
     {
         if (m_state != LISTENING) {
-            m_elog->write(log::elevel::library,
-                "asio::async_accept called from the wrong state");
             using websocketpp::error::make_error_code;
-            ec = make_error_code(websocketpp::error::invalid_state);
+            ec = make_error_code(websocketpp::error::async_accept_not_listening);
             return;
         }
 
@@ -693,9 +722,7 @@ public:
     void async_accept(transport_con_ptr tcon, accept_handler callback) {
         lib::error_code ec;
         async_accept(tcon,callback,ec);
-        if (ec) {
-            throw ec;
-        }
+        if (ec) { throw exception(ec); }
     }
 protected:
     /// Initialize logging
@@ -721,8 +748,12 @@ protected:
         m_alog->write(log::alevel::devel, "asio::handle_accept");
 
         if (boost_ec) {
-            log_err(log::elevel::devel,"asio handle_accept",boost_ec);
-            ret_ec = make_error_code(error::pass_through);
+            if (boost_ec == boost::system::errc::operation_canceled) {
+                ret_ec = make_error_code(websocketpp::error::operation_canceled);
+            } else {
+                log_err(log::elevel::info,"asio handle_accept",boost_ec);
+                ret_ec = make_error_code(error::pass_through);
+            }
         }
 
         callback(ret_ec);
@@ -735,7 +766,8 @@ protected:
 
         // Create a resolver
         if (!m_resolver) {
-            m_resolver.reset(new boost::asio::ip::tcp::resolver(*m_io_service));
+            m_resolver = lib::make_shared<boost::asio::ip::tcp::resolver>(
+                lib::ref(*m_io_service));
         }
 
         std::string proxy = tcon->get_proxy();
@@ -748,7 +780,7 @@ protected:
         } else {
             lib::error_code ec;
 
-            uri_ptr pu(new uri(proxy));
+            uri_ptr pu = lib::make_shared<uri>(proxy);
 
             if (!pu->get_valid()) {
                 cb(make_error_code(error::proxy_invalid));
@@ -814,7 +846,16 @@ protected:
         }
     }
 
-    void handle_resolve_timeout(timer_ptr dns_timer, connect_handler callback,
+    /// DNS resolution timeout handler
+    /**
+     * The timer pointer is included to ensure the timer isn't destroyed until
+     * after it has expired.
+     *
+     * @param dns_timer Pointer to the timer in question
+     * @param callback The function to call back
+     * @param ec A status code indicating an error, if any.
+     */
+    void handle_resolve_timeout(timer_ptr, connect_handler callback,
         lib::error_code const & ec)
     {
         lib::error_code ret_ec;
@@ -913,7 +954,17 @@ protected:
         }
     }
 
-    void handle_connect_timeout(transport_con_ptr tcon, timer_ptr con_timer,
+    /// Asio connect timeout handler
+    /**
+     * The timer pointer is included to ensure the timer isn't destroyed until
+     * after it has expired.
+     *
+     * @param tcon Pointer to the transport connection that is being connected
+     * @param con_timer Pointer to the timer in question
+     * @param callback The function to call back
+     * @param ec A status code indicating an error, if any.
+     */
+    void handle_connect_timeout(transport_con_ptr tcon, timer_ptr,
         connect_handler callback, lib::error_code const & ec)
     {
         lib::error_code ret_ec;
@@ -960,10 +1011,6 @@ protected:
         }
 
         callback(lib::error_code());
-    }
-
-    bool is_listening() const {
-        return (m_state == LISTENING);
     }
 
     /// Initialize a connection
@@ -1022,6 +1069,7 @@ private:
 
     // Network constants
     int                 m_listen_backlog;
+    bool                m_reuse_addr;
 
     elog_type* m_elog;
     alog_type* m_alog;

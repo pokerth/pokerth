@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,16 +37,19 @@
 #include <boost/asio/ssl.hpp>
 #include <boost/system/error_code.hpp>
 
-#include <iostream>
 #include <string>
 
 namespace websocketpp {
 namespace transport {
 namespace asio {
+/// A socket policy for the asio transport that implements a TLS encrypted
+/// socket by wrapping with an asio::ssl::stream
 namespace tls_socket {
 
+/// The signature of the socket_init_handler for this socket policy
 typedef lib::function<void(connection_hdl,boost::asio::ssl::stream<
     boost::asio::ip::tcp::socket>&)> socket_init_handler;
+/// The signature of the tls_init_handler for this socket policy
 typedef lib::function<lib::shared_ptr<boost::asio::ssl::context>(connection_hdl)>
     tls_init_handler;
 
@@ -190,7 +193,8 @@ protected:
         if (!m_context) {
             return socket::make_error_code(socket::error::invalid_tls_context);
         }
-        m_socket.reset(new socket_type(*service,*m_context));
+        m_socket = lib::make_shared<socket_type>(
+            _WEBSOCKETPP_REF(*service),lib::ref(*m_context));
 
         m_io_service = service;
         m_strand = strand;
@@ -260,11 +264,10 @@ protected:
         m_hdl = hdl;
     }
 
-    void handle_init(init_handler callback, const
-        boost::system::error_code& ec)
+    void handle_init(init_handler callback,boost::system::error_code const & ec)
     {
         if (ec) {
-            m_ec = socket::make_error_code(socket::error::pass_through);
+            m_ec = socket::make_error_code(socket::error::tls_handshake_failed);
         } else {
             m_ec = lib::error_code();
         }
@@ -283,6 +286,37 @@ protected:
 
     void async_shutdown(socket_shutdown_handler callback) {
         m_socket->async_shutdown(callback);
+    }
+
+    /// Translate any security policy specific information about an error code
+    /**
+     * Translate_ec takes a boost error code and attempts to convert its value
+     * to an appropriate websocketpp error code. Any error that is determined to
+     * be related to TLS but does not have a more specific websocketpp error
+     * code is returned under the catch all error "tls_error".
+     *
+     * Non-TLS related errors are returned as the transport generic pass_through
+     * error.
+     *
+     * @since 0.3.0
+     *
+     * @param ec The error code to translate_ec
+     * @return The translated error code
+     */
+    lib::error_code translate_ec(boost::system::error_code ec) {
+        if (ec.category() == boost::asio::error::get_ssl_category()) {
+            if (ERR_GET_REASON(ec.value()) == SSL_R_SHORT_READ) {
+                return make_error_code(transport::error::tls_short_read);
+            } else {
+                // We know it is a TLS related error, but otherwise don't know
+                // more. Pass through as TLS generic.
+                return make_error_code(transport::error::tls_error);
+            }
+        } else {
+            // We don't know any more information about this error so pass
+            // through
+            return make_error_code(transport::error::pass_through);
+        }
     }
 private:
     socket_type::handshake_type get_handshake_type() {
