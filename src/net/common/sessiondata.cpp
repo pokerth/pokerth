@@ -57,7 +57,7 @@ SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, S
 }
 
 SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService, int /*filler*/)
-	: m_webData(webData), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	: m_webData(webData), m_id(id), m_state(SessionData::Auth), m_readyFlag(false), m_wantsLobbyMsg(true),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
