@@ -41,7 +41,8 @@ import org.junit.runners.Suite;
 	RejoinGameTest.class,
 //	RejoinMultiGameTest.class,
 	SeatStateTest.class,
-	SpectatorJoinTest.class
+	SpectatorJoinTest.class,
+	WebSocketTest.class
 })
 public class AllTests {
 	public static void main(String[] args)
