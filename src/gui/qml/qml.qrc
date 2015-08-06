@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>components/ListViewDelegateFactory.qml</file>
+        <file>images/arrow_back.svg</file>
+        <file>images/button-default.png</file>
+        <file>images/button-pressed.png</file>
+        <file>images/check.svg</file>
+        <file>images/more_vert.svg</file>
+        <file>images/pokerth-logo.svg</file>
+        <file>images/startViewBackground.png</file>
+        <file>views/startview/StartButton.qml</file>
+        <file>views/startview/StartView.qml</file>
+        <file>views/createlocalgameview/CreateLocalGameView.qml</file>
+        <file>components/MyComboBoxSelector.qml</file>
+    </qresource>
+</RCC>
