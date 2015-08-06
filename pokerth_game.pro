@@ -412,8 +412,8 @@ unix:!mac {
 			$$system(qmake -query QT_INSTALL_LIBS)
 	}
 	android{
-		LIBPATH += $${PREFIX}/lib/armv5
-		LIB_DIRS = $${PREFIX}/lib/armv5
+                LIBPATH += $${PREFIX}/lib/armv5
+                LIB_DIRS = $${PREFIX}/lib/armv5
 	}
 	BOOST_FS = boost_filesystem \
 		boost_filesystem-mt
@@ -523,7 +523,7 @@ unix:!mac {
 			$$BOOST_REGEX \
 			$$BOOST_CHRONO \
 			$$BOOST_SYS
-		!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
+                !count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}lib/armv5")
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl -lidn
@@ -685,3 +685,14 @@ android_test{
 	HEADERS += src/gui/qt/sound/androidapi8dummy.h
 	SOURCES += src/gui/qt/sound/androidapi8dummy.cpp
 }
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

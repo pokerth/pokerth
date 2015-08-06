@@ -1,24 +1,31 @@
 #include <QtCore>
-#include "startview/startview.h"
+#include <QQmlApplicationEngine>
+#include <QQmlComponent>
+
+//#include "startview/startview.h"
 
 #include "qmlwrapper.h"
 
 qmlWrapper::qmlWrapper()
+    :QObject()
 {
     qDebug("qmlWrapperKonstruktor");
-    myStartView.reset(new startView);
+    myEngine.reset(new QQmlApplicationEngine);
+    myEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+//    QTimer *timer = new QTimer(this);
+//    timer->setSingleShot(true);
+//    connect(timer, SIGNAL(timeout()), this, SLOT(showStartForm()));
+//    timer->start(1000);
 }
 
 qmlWrapper::~qmlWrapper()
 {
+    myEngine->deleteLater();
 }
 
 qmlWrapper::qmlWrapper(const qmlWrapper&)
+    :QObject()
 {
-}
 
-void qmlWrapper::showStartView()
-{
-    qDebug("showStartView() in qmlWrapper");
-    myStartView->show();
 }

@@ -1,21 +1,22 @@
 #ifndef QMLWRAPPER_H
 #define QMLWRAPPER_H
-
+#include <QtCore>
 #include <boost/shared_ptr.hpp>
 
-class startView;
+class QQmlApplicationEngine;
 
-class qmlWrapper
+class qmlWrapper: public QObject
 {
+    Q_OBJECT
 public:
     qmlWrapper();
     ~qmlWrapper();
     qmlWrapper(const qmlWrapper&);
 
-    void showStartView();
+public slots:
 
 private:
-    boost::shared_ptr<startView> myStartView;
+    boost::shared_ptr<QQmlApplicationEngine> myEngine;
 };
 
 #endif // QMLWRAPPER_H
