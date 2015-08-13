@@ -4,6 +4,7 @@ import QtQuick.Controls.Styles 1.2
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import "views/startview"
+import "js/colors.js" as GlobalColors
 
 ApplicationWindow {
     id: appWindow
@@ -18,7 +19,7 @@ ApplicationWindow {
         id: toolbar
         opacity: 1
         Behavior on opacity { NumberAnimation{} }
-        color: "#FF9800"
+        color: GlobalColors.accentColor
         width: appWindow.width
         height: appWindow.height*0.15
         Behavior on height { NumberAnimation{} }

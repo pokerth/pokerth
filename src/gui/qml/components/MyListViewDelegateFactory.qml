@@ -9,6 +9,8 @@ Item {
     id: root
     property int myListViewsHeight: 0
     property int myListViewsWidth: 0
+    property var myListViewRoot
+    property var myListViewModel
     property var componentMap: {
         "ComboBox": myComboBox,
         "SpinBox": mySpinBox
@@ -23,9 +25,17 @@ Item {
 
     }
 
+    // ComboBox
     Component {
         id: myComboBox
         Rectangle {
+            MyComboBoxSelector {
+                id: myComboBoxSelector
+                parent: myListViewRoot
+            }
+
+            id: myComboBoxContent
+            property int modelIndex: model.index
             color: mouse.pressed ? "#11000000" : "white"
             width: root.width
             height: Math.round(comboBoxTitle.contentHeight*2.1 + comboBoxValue.contentHeight*1.0)
@@ -45,7 +55,8 @@ Item {
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
                 color: "grey"
                 font.pixelSize: myValue != "" ? Math.round(myListViewsHeight*0.05) : 0
-                text: myValue
+                //setup value from Index if necessary
+                text: myValueIsIndex ? myValuesList.get(parseInt(myValue)).value : myValue
             }
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -58,23 +69,43 @@ Item {
                 id: mouse
                 anchors.fill: parent
                 onClicked: {
-                    myComboBoxSelector.show(myTitle, myValuesList)
+                    //call selector overlay and set inital values
+                    myComboBoxSelector.show(myTitle, myValuesList, myValue, myValueIsIndex)
+                }
+                Connections {
+                    target: myComboBoxSelector
+                    onVisibleChanged: {
+                        if(!myComboBoxSelector.visible) {
+                            //call update the currentItem with selection from the comboBox selector
+                            myListViewModel.setProperty(myComboBoxContent.modelIndex, "myValue", myComboBoxSelector.returnValue);
+                        }
+                    }
                 }
             }
 
             Component.onCompleted: {
+                //after building the delegate content set the final height to the root item
                 root.height = Qt.binding(function() { return height })
             }
         }
     }
 
+    // Spinbox
     Component {
         id: mySpinBox
         Rectangle {
+            MySpinBoxSelector {
+                id: mySpinBoxSelector
+                parent: myListViewRoot
+            }
+
+            id: mySpinBoxContent
+            property int modelIndex: model.index
+            color: mouse.pressed ? "#11000000" : "white"
             width: root.width
-            height: Math.round(comboBoxTitle.contentHeight*2.1 + comboBoxValue.contentHeight*1.0)
+            height: Math.round(spinBoxTitle.contentHeight*2.1 + spinBoxValue.contentHeight*1.0)
             Text {
-                id: comboBoxTitle
+                id: spinBoxTitle
                 anchors.left: parent.left
                 anchors.margins: 30
                 y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
@@ -83,7 +114,7 @@ Item {
                 text: myTitle
             }
             Text {
-                id: comboBoxValue
+                id: spinBoxValue
                 anchors.left: parent.left
                 anchors.margins: 30
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
@@ -99,9 +130,25 @@ Item {
                 color: "lightgrey"
             }
             MouseArea {
+                id: mouse
                 anchors.fill: parent
+                onClicked: {
+                    //call selector overlay and set inital values
+                    mySpinBoxSelector.show(myTitle, myMinValue, myMaxValue, myValue, myPrefix)
+                }
+                Connections {
+                    target: mySpinBoxSelector
+                    onVisibleChanged: {
+                        if(!mySpinBoxSelector.visible) {
+                            //call update the currentItem with selection from the comboBox selector
+                            myListViewModel.setProperty(mySpinBoxContent.modelIndex, "myValue", mySpinBoxSelector.returnValue);
+                        }
+                    }
+                }
             }
+
             Component.onCompleted: {
+                //after building the delegate content set the final height to the root item
                 root.height = Qt.binding(function() { return height })
             }
         }

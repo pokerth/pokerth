@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>components/ListViewDelegateFactory.qml</file>
+        <file>components/MyListViewDelegateFactory.qml</file>
         <file>images/arrow_back.svg</file>
         <file>images/button-default.png</file>
         <file>images/button-pressed.png</file>
@@ -13,5 +13,7 @@
         <file>views/startview/StartView.qml</file>
         <file>views/createlocalgameview/CreateLocalGameView.qml</file>
         <file>components/MyComboBoxSelector.qml</file>
+        <file>js/colors.js</file>
+        <file>components/MySpinBoxSelector.qml</file>
     </qresource>
 </RCC>

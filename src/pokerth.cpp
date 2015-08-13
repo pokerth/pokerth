@@ -30,14 +30,22 @@
  *****************************************************************************/
 #ifdef QML_CLIENT
 //START THE QML SWITCH HERE
-
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include <QApplication>
+#include <boost/shared_ptr.hpp>
+#include "configfile.h"
 #include "qmlwrapper.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    qmlWrapper myQml;
+
+    boost::shared_ptr<ConfigFile> myConfig;
+    myConfig.reset(new ConfigFile(argv[0], false));
+
+    QmlWrapper myQml(myConfig);
     return app.exec();
 }
 
