@@ -51,7 +51,8 @@ HEADERS += \
     src/core/common/qttools/qthelper/qthelper.h \
     src/core/common/qttools/qttoolswrapper.h \
     src/core/common/qttoolsinterface.h \
-    src/gui/qml/cpp/qmlwrapper.h
+    src/gui/qml/cpp/qmlwrapper.h \
+    src/gui/qml/cpp/qmlconfig.h
 
 
 SOURCES += \
@@ -60,7 +61,8 @@ SOURCES += \
     src/core/common/qttools/qthelper/qthelper.cpp \
     src/core/common/qttools/qttoolswrapper.cpp \
     src/core/common/qttoolsinterface.cpp \
-    src/gui/qml/cpp/qmlwrapper.cpp
+    src/gui/qml/cpp/qmlwrapper.cpp \
+    src/gui/qml/cpp/qmlconfig.cpp
 
 LIBS += \
     -lpokerth_lib \

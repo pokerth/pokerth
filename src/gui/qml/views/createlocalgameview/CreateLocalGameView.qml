@@ -35,7 +35,7 @@ Rectangle {
                         ListElement { value: "2" }
                     ]
                     myValueIsIndex: false
-                    myValue: "10"
+                    myValue: ""
                 }
                 ListElement {
                     myId: "spinBox_StartCash"
@@ -44,7 +44,7 @@ Rectangle {
                     myMaxValue: 1000000
                     myMinValue: 1000
                     myPrefix: "$"
-                    myValue: "5000"
+                    myValue: ""
                 }
                 ListElement {
                     myId: "comboBox_Blinds"
@@ -54,7 +54,7 @@ Rectangle {
                         ListElement { value: qsTr("Use saved blinds settings") },
                         ListElement { value: qsTr("Change blinds settings ...") }
                     ]
-                    myValue: "0"
+                    myValue: ""
                     myValueIsIndex: true
                 }
                 ListElement {
@@ -74,7 +74,7 @@ Rectangle {
                         ListElement { value: "2" },
                         ListElement { value: "1" }
                     ]
-                    myValue: "5"
+                    myValue: ""
                     myValueIsIndex: false
                 }
                 ListElement {
@@ -94,8 +94,16 @@ Rectangle {
                         ListElement { value: "2" },
                         ListElement { value: "1" }
                     ]
-                    myValue: "5"
+                    myValue: ""
                     myValueIsIndex: false
+                }
+
+                Component.onCompleted: {
+                    createLocalGameViewModel.setProperty(0, "myValue", Config.readConfigInt("NumberOfPlayers"));
+                    createLocalGameViewModel.setProperty(1, "myValue", Config.readConfigInt("StartCash"));
+                    createLocalGameViewModel.setProperty(2, "myValue", "0");
+                    createLocalGameViewModel.setProperty(3, "myValue", Config.readConfigInt("GameSpeed"));
+                    createLocalGameViewModel.setProperty(4, "myValue", Config.readConfigInt("GameSpeed"));
                 }
             }
             delegate: MyListViewDelegateFactory {

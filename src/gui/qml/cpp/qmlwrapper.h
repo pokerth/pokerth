@@ -4,6 +4,7 @@
 #include <boost/shared_ptr.hpp>
 
 class ConfigFile;
+class QmlConfig;
 class QQmlApplicationEngine;
 
 class QmlWrapper: public QObject
@@ -19,6 +20,7 @@ public slots:
 private:
     boost::shared_ptr<QQmlApplicationEngine> myEngine;
     boost::shared_ptr<ConfigFile> myConfig;
+    QmlConfig *myQmlConfig;
 };
 
 #endif // QMLWRAPPER_H
