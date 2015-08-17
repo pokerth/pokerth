@@ -134,8 +134,8 @@ Item {
                 id: mouse
                 anchors.fill: parent
                 onClicked: {
-                    //call selector overlay and set inital values
-                    mySpinBoxSelector.show(myTitle, myMinValue, myMaxValue, myValue, myPrefix)
+                    //call selector overlay and set inital value
+                    mySpinBoxSelector.show(myId, myTitle, myMinValue, myMaxValue, myValue, myPrefix)
                 }
                 Connections {
                     target: mySpinBoxSelector
@@ -232,6 +232,10 @@ Item {
         }
     }
 
+    // BlindsRaiseType --> Always double vs. Manual blinds List
+//    Component {
+//        //TODO
+//    }
 
     Component.onCompleted: {
         listViewFactoryLoader.setSourceComponent(componentMap[myType])

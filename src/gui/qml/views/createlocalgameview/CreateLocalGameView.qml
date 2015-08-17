@@ -41,8 +41,8 @@ Rectangle {
                     myId: "spinBox_StartCash"
                     myTitle: qsTr("Start cash")
                     myType: "SpinBox"
-                    myMaxValue: 1000000
-                    myMinValue: 1000
+                    myMaxValue: "1000000"
+                    myMinValue: "1000"
                     myPrefix: "$"
                     myValue: ""
                 }
@@ -50,8 +50,8 @@ Rectangle {
                     myId: "spinBox_StartBlind"
                     myTitle: qsTr("Start blind")
                     myType: "SpinBox"
-                    myMaxValue: 20000
-                    myMinValue: 5
+                    myMaxValue: "20000"
+                    myMinValue: "5"
                     myPrefix: "$"
                     myValue: ""
                 }                
@@ -86,13 +86,13 @@ Rectangle {
 
                 Component.onCompleted: {
                     //set Config Values from config file
-                    createLocalGameViewModel.setProperty(0, "myValue", Config.readConfigInt("NumberOfPlayers"));
-                    createLocalGameViewModel.setProperty(1, "myValue", Config.readConfigInt("StartCash"));
-                    createLocalGameViewModel.setProperty(2, "myValue", Config.readConfigInt("FirstSmallBlind"));
-                    createLocalGameViewModel.setProperty(3, "myRaiseOnHandsType", Config.readConfigInt("RaiseBlindsAtHands"));
-                    createLocalGameViewModel.setProperty(3, "myRaiseOnHandsInterval", Config.readConfigInt("RaiseSmallBlindEveryHands"));
-                    createLocalGameViewModel.setProperty(3, "myRaiseOnMinutesInterval", Config.readConfigInt("RaiseSmallBlindEveryMinutes"));
-                    createLocalGameViewModel.setProperty(4, "myValue", Config.readConfigInt("GameSpeed"));
+                    createLocalGameViewModel.setProperty(0, "myValue", Config.readConfigIntString("NumberOfPlayers"));
+                    createLocalGameViewModel.setProperty(1, "myValue", Config.readConfigIntString("StartCash"));
+                    createLocalGameViewModel.setProperty(2, "myValue", Config.readConfigIntString("FirstSmallBlind"));
+                    createLocalGameViewModel.setProperty(3, "myRaiseOnHandsType", Config.readConfigIntString("RaiseBlindsAtHands"));
+                    createLocalGameViewModel.setProperty(3, "myRaiseOnHandsInterval", Config.readConfigIntString("RaiseSmallBlindEveryHands"));
+                    createLocalGameViewModel.setProperty(3, "myRaiseOnMinutesInterval", Config.readConfigIntString("RaiseSmallBlindEveryMinutes"));
+                    createLocalGameViewModel.setProperty(4, "myValue", Config.readConfigIntString("GameSpeed"));
                 }
             }
             delegate: MyListViewDelegateFactory {

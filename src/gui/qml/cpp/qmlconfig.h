@@ -11,7 +11,7 @@ class QmlConfig: public QObject
 public:
 
     Q_INVOKABLE QString readConfigString(QString);
-    Q_INVOKABLE QString readConfigInt(QString);
+    Q_INVOKABLE QString readConfigIntString(QString);
 
     QmlConfig(boost::shared_ptr<ConfigFile>);
     ~QmlConfig();

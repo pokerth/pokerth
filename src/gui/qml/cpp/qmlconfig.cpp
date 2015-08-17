@@ -14,6 +14,6 @@ QString QmlConfig::readConfigString(QString varName) {
     return QString::fromUtf8(myConfig->readConfigString(varName.toStdString()).c_str());
 }
 
-QString QmlConfig::readConfigInt(QString varName) {
+QString QmlConfig::readConfigIntString(QString varName) {
     return QString::number(myConfig->readConfigInt(varName.toStdString()));
 }

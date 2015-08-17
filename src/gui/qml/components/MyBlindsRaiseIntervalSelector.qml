@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import "../js/colors.js" as GlobalColors
+import "../js/tools.js" as GlobalTools
 import "styles/"
 
 Rectangle {
@@ -20,24 +21,34 @@ Rectangle {
     property int raiseOnHandsMaximum: 99
     property int raiseOnMinutesMinimum: 1
     property int raiseOnMinutesMaximum: 99
+    property bool ready: false
 
     function show(type, hands, minutes) {
         raiseOnHandsType = type;
         raiseOnHandsInterval = hands;
         raiseOnMinutesInterval = minutes;
         visible = true;
-    }
+
+        if(raiseOnHandsType == "1") {
+            textFieldHandsInterval.focus = true;
+            radioBtnRaiseOnHands.checked = true;
+        }
+        else {
+            textFieldMinutesInterval.focus = true;
+            radioBtnRaiseOnMinutes.checked = true;
+        }
+   }
 
     function reject() {
         visible = false;
-    }
+   }
 
     function selected(handsType, handsInterval, minutesInterval) {
         raiseOnHandsType = handsType;
         raiseOnHandsInterval = handsInterval;
         raiseOnMinutesInterval = minutesInterval;
         visible = false;
-    }
+   }
 
     MouseArea {
         //set empty MouseArea to prevent the background to be clicked
@@ -80,37 +91,24 @@ Rectangle {
 
                     RadioButton {
                         id: radioBtnRaiseOnHands
-                        checked: raiseOnHandsType ? true : false
                         exclusiveGroup: raiseTypeGroup
                         style: MyRadioButtonStyle {
                             myRadioBtn: radioBtnRaiseOnHands;
                             labelString: "Every"
                         }
-                        onCheckedChanged: checked ? textFieldHandsInterval.focus = true : textFieldHandsInterval.focus = false
+                        onClicked: textFieldHandsInterval.focus = true;
                     }
 
                     TextField {
                         id: textFieldHandsInterval
                         width: appWindow.textFieldFontSize*2
-                        //                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
+                        validator: IntValidator{bottom: raiseOnHandsMinimum; top: raiseOnHandsMaximum;}
                         text: raiseOnHandsInterval
-                        focus: raiseOnHandsType ? true : false
                         function correctValue() {
-                            if(text != "") {
-                                if(parseInt(text) > raiseOnHandsMaximum) text = raiseOnHandsMaximum
-                                else if(parseInt(text) < raiseOnHandsMinimum) text = raiseOnHandsMinimum
-                                else {
-                                    //remove leading "0000"
-                                    var temp = parseInt(text)
-                                    text = temp
-                                }
-                            }
+                            text = GlobalTools.correctTextFieldIntegerValue(selector, text, raiseOnHandsMinimum);
                         }
-                        onFocusChanged: {
-                            correctValue()
-                            focus ? radioBtnRaiseOnHands.checked = true : radioBtnRaiseOnHands.checked = false
-                        }
-                        onEditingFinished: correctValue()
+                        onFocusChanged: { if(selector.ready && !focus) correctValue(); }
+                        onEditingFinished: { if(selector.ready) correctValue(); }
 
                         style: MyTextFieldStyle {
                             myTextField: textFieldHandsInterval
@@ -126,37 +124,24 @@ Rectangle {
                     spacing: appWindow.rowLayoutSpacing
                     RadioButton {
                         id: radioBtnRaiseOnMinutes
-                        checked: raiseOnHandsType ? false : true
                         exclusiveGroup: raiseTypeGroup
                         style: MyRadioButtonStyle {
                             myRadioBtn: radioBtnRaiseOnMinutes;
                             labelString: "Every"
                         }
-                        onCheckedChanged: checked ? textFieldMinutesInterval.focus = true : textFieldMinutesInterval.focus = false
+                        onClicked: textFieldMinutesInterval.focus = true;
                     }
-
                     TextField {
                         id: textFieldMinutesInterval
-      //                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
+                        validator: IntValidator{bottom: raiseOnMinutesMinimum; top: raiseOnMinutesMaximum;}
                         text: raiseOnMinutesInterval
                         width: appWindow.textFieldFontSize*2
-                        focus: raiseOnHandsType ? false : true
                         function correctValue() {
-                            if(text != "") {
-                                if(parseInt(text) > raiseOnMinutesMaximum) text = raiseOnMinutesMaximum
-                                else if(parseInt(text) < raiseOnMinutesMinimum) text = raiseOnMinutesMinimum
-                                else {
-                                    //remove leading "0000"
-                                    var temp = parseInt(text)
-                                    text = temp
-                                }
-                            }
+                            text = GlobalTools.correctTextFieldIntegerValue(selector, text, raiseOnMinutesMinimum);
+
                         }
-                        onFocusChanged: {
-                            correctValue();
-                            focus ? radioBtnRaiseOnMinutes.checked = true : radioBtnRaiseOnMinutes.checked = false
-                        }
-                        onEditingFinished: correctValue()
+                        onFocusChanged: { if(selector.ready && !focus) correctValue(); }
+                        onEditingFinished: { if(selector.ready) correctValue(); }
 
                         style: MyTextFieldStyle {
                             myTextField: textFieldMinutesInterval
@@ -213,4 +198,5 @@ Rectangle {
             }
         }
     }
+    Component.onCompleted: ready = true;
 }

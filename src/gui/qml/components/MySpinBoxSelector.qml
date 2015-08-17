@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import "../js/colors.js" as GlobalColors
+import "../js/tools.js" as GlobalTools
 import "styles/"
 
 Rectangle {
@@ -14,30 +15,36 @@ Rectangle {
 
     property string titleString: ""
     property string prefix: ""
+    property string returnValue: ""
+    property string myIdString: ""
     property int minValue: 0
     property int maxValue: 0
-    property string returnValue: ""
     property int initialTextFieldValue: 0
     property int initialSliderValue: 0
+    property bool ready: false
 
-    function show(title, min, max, value, pref) {
-        titleString = title;
-        initialTextFieldValue = parseInt(value);
-        initialSliderValue = parseInt(value);
-        minValue = min;
-        maxValue = max;
-        prefix = pref;
-        returnValue = value; // <-- initial the returnValue with the preselection to prevent a NULL return when pressing Cancel
+
+    function show(myId, myTitle, myMinValue, myMaxValue, myValue, myPrefix) {
+        myIdString = myId;
+        titleString = myTitle;
+        minValue = myMinValue;
+        maxValue = myMaxValue;
+        returnValue = myValue;
+        textField.text = myValue;
+        prefix = myPrefix;
         visible = true;
+        textField.focus = true;
     }
 
     function reject() {
         visible = false;
+//        textField.focus = false;
     }
 
     function selected(newSelection) {
         returnValue = newSelection;
         visible = false;
+//        textField.focus = false;
     }
 
     MouseArea {
@@ -77,27 +84,20 @@ Rectangle {
                 anchors.rightMargin: 50
                 //make space for the prefix
                 anchors.leftMargin: 50 + Math.round(appWindow.height*0.03)
-//                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
-                text: initialTextFieldValue
-                focus: true
+                validator: IntValidator{bottom: minValue; top: maxValue;}  // TODO: test validator in later QtVersions > 5.5.0
+
                 function correctValue() {
-                     if(text != "") {
-                        if(parseInt(text) > maxValue) text = maxValue
-                        else if(parseInt(text) < minValue) text = minValue
-                        else {
-                            //remove leading "0000"
-                            var temp = parseInt(text)
-                            text = temp
-                        }
-                    }
+                    text = GlobalTools.correctTextFieldIntegerValue(selector, text, minValue);
                 }
-                onFocusChanged: correctValue()
-                onEditingFinished: correctValue()
+
+                onFocusChanged: { if(selector.ready && !focus) correctValue(); }
+                onEditingFinished: { if(selector.ready) correctValue(); }
 
                 style: MyTextFieldStyle {
                     prefix: selector.prefix
                     myTextField: textField
                 }
+
             }
             Slider {
                 id: slider
@@ -112,10 +112,12 @@ Rectangle {
                 //because of the binding to the TextField value
                 stepSize: minimumValue * 10
                 on__HandlePosChanged: {
-                    if (slider.value > minimumValue && slider.value < maximumValue)
-                        textField.text = slider.value - minimumValue
-                    else
-                        textField.text = slider.value
+                    if(selector.ready) { //wait until the whole component is ready, otherwise setting min and max changes text field value
+                        if (slider.value > minimumValue && slider.value < maximumValue)
+                            textField.text = slider.value - minimumValue
+                        else
+                            textField.text = slider.value
+                    }
                 }
                 style: SliderStyle {
                     handle: Rectangle {
@@ -188,5 +190,6 @@ Rectangle {
             }
         }
     }
+    Component.onCompleted: ready = true
 }
 
