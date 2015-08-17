@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import "../js/colors.js" as GlobalColors
+import "styles"
 
 Rectangle {
     id: selector
@@ -20,6 +21,7 @@ Rectangle {
     function show(title, list, vl, valueIndex) {
         titleString = title;
         valueFromParent = vl;
+        returnValue = vl; // <-- initial the returnValue with the preselection to prevent a NULL return when pressing Cancel
         valueIsIndex = valueIndex;
         //fill the model
         selectionModel.clear();
@@ -64,7 +66,7 @@ Rectangle {
             spacing: Math.round(selectionBox.height*0.06)
             Text {
                 id: titleText
-                font.pixelSize: Math.round(selectionBox.height*0.10)
+                font.pixelSize: appWindow.selectorTitleFontSize
                 font.bold: true
                 text: titleString
                 anchors.left: parent.left
@@ -81,7 +83,7 @@ Rectangle {
                 Layout.fillHeight: true
                 ListView {
                     anchors.fill: parent
-                    spacing: Math.round(selectionBox.height*0.05)
+                    spacing: Math.round(appWindow.height*0.05)
                     model: selectionModel
                     delegate: RadioButton {
                         id: radioBtn
@@ -90,38 +92,16 @@ Rectangle {
                         onClicked: {
                             selector.selected(valueString, index)
                         }
-                        style: RadioButtonStyle {
-                            indicator: Rectangle {
-                                implicitWidth: Math.round(selectionBox.height*0.05)
-                                implicitHeight: Math.round(selectionBox.height*0.05)
-                                radius: Math.round(selectionBox.height*0.03)
-                                border.color: radioBtn.checked ? GlobalColors.accentColor : "grey"
-                                border.width: Math.round(selectionBox.height*0.005)
-                                Rectangle {
-                                    anchors.fill: parent
-                                    visible: control.checked
-                                    color: radioBtn.checked ? GlobalColors.accentColor : "grey"
-                                    radius: Math.round(selectionBox.height*0.03)
-                                    anchors.margins: Math.round(selectionBox.height*0.01)
-                                }
-                            }
-                            label: Text {
-                                anchors.left: parent.left
-                                anchors.leftMargin: 10
-                                font.pixelSize: Math.round(selectionBox.height*0.05)
-                                text: valueString
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: radioBtn.clicked()
-                                }
-                            }
+                        style: MyRadioButtonStyle {
+                            myRadioBtn: radioBtn
+                            labelString: valueString
                         }
                     }
                 }
             }
             Text {
                 id: cancelButton
-                font.pixelSize: Math.round(selectionBox.height*0.07)
+                font.pixelSize: appWindow.selectorButtonFontSize
                 font.bold: true
                 text: qsTr("CANCEL")
                 anchors.right: parent.right

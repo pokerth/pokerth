@@ -15,6 +15,25 @@ ApplicationWindow {
     minimumHeight: 240
     visible: true
 
+    property int fontSizeH1: Math.round(height*0.10)
+    property int fontSizeH2: Math.round(height*0.09)
+    property int fontSizeH3: Math.round(height*0.08)
+    property int fontSizeH4: Math.round(height*0.07)
+    property int fontSizeH5: Math.round(height*0.06)
+    property int fontSizeH6: Math.round(height*0.05)
+
+    property int listViewTitleFontSize: fontSizeH5
+    property int listViewValueFontSize: fontSizeH6
+    property int selectorTitleFontSize: fontSizeH2
+    property int selectorValueFontSize: fontSizeH5
+    property int selectorButtonFontSize: fontSizeH6
+    property int radioButtonLabelFontSize: fontSizeH5
+    property int textFieldFontSize: fontSizeH2
+
+    property int rowLayoutSpacing: Math.round(appWindow.height*0.06)
+    property int columnLayoutSpacing: Math.round(appWindow.height*0.06)
+
+
     toolBar: Rectangle {
         id: toolbar
         opacity: 1
@@ -40,9 +59,11 @@ ApplicationWindow {
             height: parent.height
             width: parent.height
             radius: 4
-            color: leftMouse.pressed ? Qt.rgba(0,0,0,0.3) : "transparent"
+            color: toolBarLeftButtonMouse.pressed ? Qt.rgba(0,0,0,0.3) : "transparent"
             property string myIconName: ""
             property string myIconPath: ""
+            signal clicked();
+
             function setIconPath(name) {
                 switch(name) {
                     case "PokerTH": myIconPath = "images/pokerth-logo.svg"
@@ -53,7 +74,7 @@ ApplicationWindow {
                 }
             }
             onMyIconNameChanged: setIconPath(myIconName)
-
+            onClicked: stackView.pop()
 
             Image {
                 sourceSize.height: parent.height*0.8
@@ -62,10 +83,10 @@ ApplicationWindow {
                 source: parent.myIconPath
             }
             MouseArea {
-                id: leftMouse
+                id: toolBarLeftButtonMouse
                 anchors.fill: parent
                 anchors.margins: -10
-                onClicked: stackView.pop()
+                onClicked: parent.clicked()
             }
         }
 
@@ -87,10 +108,11 @@ ApplicationWindow {
             height: parent.height
             width: parent.height
             radius: 4
-            color: rightMouse.pressed ? Qt.rgba(0,0,0,0.3) : "transparent"
-
+            color: toolBarRightButtonMouse.pressed ? Qt.rgba(0,0,0,0.3) : "transparent"
             property string myIconName: ""
             property string myIconPath: ""
+            signal clicked();
+
             function setIconPath(name) {
                 switch(name) {
                     case "accept": myIconPath = "images/check.svg"
@@ -109,10 +131,10 @@ ApplicationWindow {
                 source: parent.myIconPath
             }
             MouseArea {
-                id: rightMouse
+                id: toolBarRightButtonMouse
                 anchors.fill: parent
                 anchors.margins: -10
-                onClicked: stackView.pop()
+                onClicked: parent.clicked();
             }
         }
     }

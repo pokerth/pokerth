@@ -17,11 +17,12 @@ RESOURCES += src/gui/qml/qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH = \
-    src/gui/qml/views/ \
     src/gui/qml/views/startview/ \
     src/gui/qml/views/createlocalgameview/ \
-    src/gui/qml/components \
-    src/gui/qml/js
+    src/gui/qml/views/ \
+    src/gui/qml/components/styles/ \
+    src/gui/qml/components/ \
+    src/gui/qml/js/
 
 # Default rules for deployment.
 include(src/gui/qml/deployment.pri)
@@ -52,7 +53,9 @@ HEADERS += \
     src/core/common/qttools/qttoolswrapper.h \
     src/core/common/qttoolsinterface.h \
     src/gui/qml/cpp/qmlwrapper.h \
-    src/gui/qml/cpp/qmlconfig.h
+    src/gui/qml/cpp/qmlconfig.h \
+    src/gui/qml/cpp/startviewimpl.h \
+    src/gui/qml/cpp/createlocalgameviewimpl.h
 
 
 SOURCES += \
@@ -62,7 +65,9 @@ SOURCES += \
     src/core/common/qttools/qttoolswrapper.cpp \
     src/core/common/qttoolsinterface.cpp \
     src/gui/qml/cpp/qmlwrapper.cpp \
-    src/gui/qml/cpp/qmlconfig.cpp
+    src/gui/qml/cpp/qmlconfig.cpp \
+    src/gui/qml/cpp/createlocalgameviewimpl.cpp \
+    src/gui/qml/cpp/startviewimpl.cpp
 
 LIBS += \
     -lpokerth_lib \

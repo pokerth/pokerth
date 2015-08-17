@@ -1,6 +1,6 @@
-#include "createlocalgameimpl.h"
+#include "createlocalgameviewimpl.h"
 
-CreateLocalGameImpl::CreateLocalGameImpl(QObject *parent) : QObject(parent)
+CreateLocalGameViewImpl::CreateLocalGameViewImpl(QObject *parent) : QObject(parent)
 {
 
 }

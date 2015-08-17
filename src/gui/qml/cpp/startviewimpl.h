@@ -1,16 +1,18 @@
-#ifndef STARTIMPL_H
-#define STARTIMPL_H
+#ifndef STARTVIEWIMPL_H
+#define STARTVIEWIMPL_H
+#include <QtCore>
 
-
-class StartImpl : public QObject
+class StartViewImpl : public QObject
 {
     Q_OBJECT
 public:
-    explicit StartImpl(QObject *parent = 0);
+    explicit StartViewImpl(QObject *parent = 0);
 
 signals:
 
 public slots:
+    Q_INVOKABLE void startLocalGame();
+
 };
 
-#endif // STARTIMPL_H
+#endif // STARTVIEWIMPL_H

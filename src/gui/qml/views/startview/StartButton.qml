@@ -7,7 +7,6 @@ Button {
 
     width: parent.width*0.50
     height: parent.height/7
-    onClicked: stackView.push(Qt.resolvedUrl(page))
     anchors.horizontalCenter: parent.horizontalCenter
 
     Component {

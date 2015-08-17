@@ -47,35 +47,21 @@ Rectangle {
                     myValue: ""
                 }
                 ListElement {
-                    myId: "comboBox_Blinds"
-                    myTitle: qsTr("Blinds")
-                    myType: "ComboBox"
-                    myValuesList: [
-                        ListElement { value: qsTr("Use saved blinds settings") },
-                        ListElement { value: qsTr("Change blinds settings ...") }
-                    ]
+                    myId: "spinBox_StartBlind"
+                    myTitle: qsTr("Start blind")
+                    myType: "SpinBox"
+                    myMaxValue: 20000
+                    myMinValue: 5
+                    myPrefix: "$"
                     myValue: ""
-                    myValueIsIndex: true
-                }
+                }                
                 ListElement {
-                    myId: "comboBox_GameSpeed"
-                    myTitle: qsTr("Game speed")
-                    myType: "ComboBox"
-                    myValuesList: [
-                        ListElement { value: "11" },
-                        ListElement { value: "10" },
-                        ListElement { value: "9" },
-                        ListElement { value: "8" },
-                        ListElement { value: "7" },
-                        ListElement { value: "6" },
-                        ListElement { value: "5" },
-                        ListElement { value: "4" },
-                        ListElement { value: "3" },
-                        ListElement { value: "2" },
-                        ListElement { value: "1" }
-                    ]
-                    myValue: ""
-                    myValueIsIndex: false
+                    myId: "comboBox_BlindsRaiseInterval"
+                    myTitle: qsTr("Blinds raise interval")
+                    myType: "BlindsRaiseInterval"
+                    myRaiseOnHandsType: "" //if false it is raise on minutes type
+                    myRaiseOnHandsInterval: ""
+                    myRaiseOnMinutesInterval: ""
                 }
                 ListElement {
                     myId: "comboBox_GameSpeed"
@@ -99,10 +85,13 @@ Rectangle {
                 }
 
                 Component.onCompleted: {
+                    //set Config Values from config file
                     createLocalGameViewModel.setProperty(0, "myValue", Config.readConfigInt("NumberOfPlayers"));
                     createLocalGameViewModel.setProperty(1, "myValue", Config.readConfigInt("StartCash"));
-                    createLocalGameViewModel.setProperty(2, "myValue", "0");
-                    createLocalGameViewModel.setProperty(3, "myValue", Config.readConfigInt("GameSpeed"));
+                    createLocalGameViewModel.setProperty(2, "myValue", Config.readConfigInt("FirstSmallBlind"));
+                    createLocalGameViewModel.setProperty(3, "myRaiseOnHandsType", Config.readConfigInt("RaiseBlindsAtHands"));
+                    createLocalGameViewModel.setProperty(3, "myRaiseOnHandsInterval", Config.readConfigInt("RaiseSmallBlindEveryHands"));
+                    createLocalGameViewModel.setProperty(3, "myRaiseOnMinutesInterval", Config.readConfigInt("RaiseSmallBlindEveryMinutes"));
                     createLocalGameViewModel.setProperty(4, "myValue", Config.readConfigInt("GameSpeed"));
                 }
             }
@@ -111,20 +100,41 @@ Rectangle {
                 myListViewsWidth: createLocalGameViewList.width
                 myListViewRoot: createLocalGameViewRoot
                 myListViewModel: createLocalGameViewModel
+
+//                TODO --> Blindsfelder immer mit anzeigen spezialfeld manual blinds settings direkt hier inline implementieren
+
+
+            }
+        }
+    }
+
+    function getListElementValueString(elementName) {
+        //read model and check for the elementName
+        for (var i = 0; i < createLocalGameViewModel.count; i++ ) {
+            if(createLocalGameViewModel.get(i).myId == elementName) {
+                return createLocalGameViewModel.get(i).myValue;
             }
         }
     }
 
     function setupToolBar() {
+        toolbar.visible = true;
         toolBarRightButton.myIconName = "accept";
         toolBarLeftButton.myIconName = "back";
+        //send start signal to the session
+        toolBarRightButton.clicked.connect(StartViewImpl.startLocalGame);
+    }
+
+    function clearToolBar() {
+        toolBarRightButton.clicked.disconnect(StartViewImpl.startLocalGame);
     }
 
     Component.onCompleted: {
         setupToolBar();
     }
     onVisibleChanged: {
-        if(visible) setupToolBar()
+        if(visible) setupToolBar();
+        else clearToolBar();
     }
 
 }

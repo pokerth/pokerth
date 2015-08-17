@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import "../js/colors.js" as GlobalColors
+import "styles/"
 
 Rectangle {
     id: selector
@@ -11,22 +12,19 @@ Rectangle {
     anchors.fill: parent
     color: "#88000000" //dark transparent background
 
-    property string titleString
-    property string prefix
-    property int minValue
-    property int maxValue
-    property string returnValue
-    property int initialTextFieldValue
-    property int initialSliderValue
+    property string titleString: ""
+    property string raiseOnHandsType: ""
+    property string raiseOnHandsInterval: ""
+    property string raiseOnMinutesInterval: ""
+    property int raiseOnHandsMinimum: 1
+    property int raiseOnHandsMaximum: 99
+    property int raiseOnMinutesMinimum: 1
+    property int raiseOnMinutesMaximum: 99
 
-    function show(title, min, max, value, pref) {
-        titleString = title;
-        initialTextFieldValue = parseInt(value);
-        initialSliderValue = parseInt(value)
-        minValue = min;
-        maxValue = max;
-        prefix = pref;
-        returnValue = value; // <-- initial the returnValue with the preselection to prevent a NULL return when pressing Cancel
+    function show(type, hands, minutes) {
+        raiseOnHandsType = type;
+        raiseOnHandsInterval = hands;
+        raiseOnMinutesInterval = minutes;
         visible = true;
     }
 
@@ -34,8 +32,10 @@ Rectangle {
         visible = false;
     }
 
-    function selected(newSelection) {
-        returnValue = newSelection;
+    function selected(handsType, handsInterval, minutesInterval) {
+        raiseOnHandsType = handsType;
+        raiseOnHandsInterval = handsInterval;
+        raiseOnMinutesInterval = minutesInterval;
         visible = false;
     }
 
@@ -54,165 +54,159 @@ Rectangle {
         y: Math.round(parent.height*0.5 - height*0.5)
         radius: Math.round(parent.height*0.01)
 
-        ColumnLayout {
-            id: content
+        Rectangle {
+            id: selectionBoxcontent
             anchors.fill: parent
-            spacing: Math.round(selectionBox.height*0.06)
-            Text {
-                id: titleText
-                font.pixelSize: Math.round(selectionBox.height*0.10)
-                font.bold: true
-                text: titleString
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.leftMargin: 30
-                anchors.topMargin: 10
-                Layout.preferredHeight: contentHeight
-            }
-            TextField{
-                id: textField
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.rightMargin: 50
-                //make space for the prefix
-                property int prefixIndent: Math.round(selectionBox.height*0.03)
-                anchors.leftMargin: 50 + prefixIndent
-//                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
-                focus: true
-                text: initialTextFieldValue
-                function correctValue() {
-                    if(text > maxValue) text = maxValue
-                    else if(text < minValue) text = minValue
-                    else {
-                        //remove leading "0000"
-                        var temp = parseInt(text)
-                        text = temp
-                    }
-                }
-                onFocusChanged: correctValue()
-                onEditingFinished: correctValue()
+            anchors.margins: Math.round(appWindow.height*0.05)
 
-                style: TextFieldStyle {
-                    textColor: "black"
-                    font.pixelSize: Math.round(selectionBox.height*0.10)
-                    background: Item { //bottom line with colored focus indicator
-                        implicitHeight: Math.round(selectionBox.height*0.12)
-                        implicitWidth: parent.width
-                        Text { //prefix
-                            color: "black"
-                            font.pixelSize: Math.round(selectionBox.height*0.10)
-                            text: prefix
-                            anchors.left: parent.left
-                            anchors.leftMargin: -textField.prefixIndent
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: Math.round(selectionBox.height*0.008)
+            ColumnLayout {
+                id: content
+                anchors.fill: parent
+                spacing: appWindow.columnLayoutSpacing
+                Text {
+                    id: titleText
+                    font.pixelSize: appWindow.selectorTitleFontSize
+                    font.bold: true
+                    text: qsTr("Raise blinds")
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.topMargin: -Math.round(appWindow.height*0.035)
+                    Layout.preferredHeight: contentHeight
+                }
+                ExclusiveGroup { id: raiseTypeGroup }
 
+                RowLayout { //Hands interval section
+                    spacing: appWindow.rowLayoutSpacing
+
+                    RadioButton {
+                        id: radioBtnRaiseOnHands
+                        checked: raiseOnHandsType ? true : false
+                        exclusiveGroup: raiseTypeGroup
+                        style: MyRadioButtonStyle {
+                            myRadioBtn: radioBtnRaiseOnHands;
+                            labelString: "Every"
                         }
-                        Rectangle {
-                            color: GlobalColors.accentColor
-                            opacity: textField.activeFocus ? 0.8 : 0
-                            anchors.bottom: parent.bottom
-                            anchors.left: parent.left
-                            anchors.leftMargin: -textField.prefixIndent
-                            width: parent.width + textField.prefixIndent
-                            height: Math.round(selectionBox.height*0.005)
+                        onCheckedChanged: checked ? textFieldHandsInterval.focus = true : textFieldHandsInterval.focus = false
+                    }
+
+                    TextField {
+                        id: textFieldHandsInterval
+                        width: appWindow.textFieldFontSize*2
+                        //                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
+                        text: raiseOnHandsInterval
+                        focus: raiseOnHandsType ? true : false
+                        function correctValue() {
+                            if(text != "") {
+                                if(parseInt(text) > raiseOnHandsMaximum) text = raiseOnHandsMaximum
+                                else if(parseInt(text) < raiseOnHandsMinimum) text = raiseOnHandsMinimum
+                                else {
+                                    //remove leading "0000"
+                                    var temp = parseInt(text)
+                                    text = temp
+                                }
+                            }
                         }
-                        Rectangle {
-                            color: "black"
-                            opacity: textField.activeFocus ? 0.6 : 0.4
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: Math.round(selectionBox.height*0.005)
-                            anchors.left: parent.left
-                            anchors.leftMargin: - textField.prefixIndent
-                            width: parent.width + textField.prefixIndent
-                            height: Math.round(selectionBox.height*0.005)
+                        onFocusChanged: {
+                            correctValue()
+                            focus ? radioBtnRaiseOnHands.checked = true : radioBtnRaiseOnHands.checked = false
+                        }
+                        onEditingFinished: correctValue()
+
+                        style: MyTextFieldStyle {
+                            myTextField: textFieldHandsInterval
                         }
                     }
-                }
-            }
-            Slider {
-                id: slider
-                width: parent.width
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.rightMargin: 50
-                anchors.leftMargin: 50
-                maximumValue: maxValue
-                minimumValue: minValue
-                //don't initialize the slider value to avoid the stepSize kills the preselection Value
-                //because of the binding to the TextField value
-                stepSize: minimumValue * 10
-                on__HandlePosChanged: {
-                    if (slider.value > minimumValue && slider.value < maximumValue)
-                        textField.text = slider.value - minimumValue
-                    else
-                        textField.text = slider.value
-                }
-                style: SliderStyle {
-                    handle: Rectangle {
-                        width: Math.round(selectionBox.height*0.12)
-                        height: width
-                        radius: width
-                        antialiasing: true
-                        color: Qt.lighter(GlobalColors.accentColor, 1.2)
+                    Text {
+                        id: onHandsString
+                        font.pixelSize: appWindow.selectorValueFontSize
+                        text: qsTr("hands")
                     }
-                    groove: Item {
-                        implicitHeight: Math.round(selectionBox.height*0.04)
-                        implicitWidth: slider.width
-                        Rectangle {
-                            height: Math.round(selectionBox.height*0.03)
-                            width: slider.width
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: "#666"
-                            Rectangle {
-                                antialiasing: true
-                                radius: 1
-                                color: GlobalColors.accentColor
-                                height: parent.height
-                                width: parent.width * control.value / control.maximumValue
+                }
+                RowLayout { //Minutes interval section
+                    spacing: appWindow.rowLayoutSpacing
+                    RadioButton {
+                        id: radioBtnRaiseOnMinutes
+                        checked: raiseOnHandsType ? false : true
+                        exclusiveGroup: raiseTypeGroup
+                        style: MyRadioButtonStyle {
+                            myRadioBtn: radioBtnRaiseOnMinutes;
+                            labelString: "Every"
+                        }
+                        onCheckedChanged: checked ? textFieldMinutesInterval.focus = true : textFieldMinutesInterval.focus = false
+                    }
+
+                    TextField {
+                        id: textFieldMinutesInterval
+      //                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
+                        text: raiseOnMinutesInterval
+                        width: appWindow.textFieldFontSize*2
+                        focus: raiseOnHandsType ? false : true
+                        function correctValue() {
+                            if(text != "") {
+                                if(parseInt(text) > raiseOnMinutesMaximum) text = raiseOnMinutesMaximum
+                                else if(parseInt(text) < raiseOnMinutesMinimum) text = raiseOnMinutesMinimum
+                                else {
+                                    //remove leading "0000"
+                                    var temp = parseInt(text)
+                                    text = temp
+                                }
+                            }
+                        }
+                        onFocusChanged: {
+                            correctValue();
+                            focus ? radioBtnRaiseOnMinutes.checked = true : radioBtnRaiseOnMinutes.checked = false
+                        }
+                        onEditingFinished: correctValue()
+
+                        style: MyTextFieldStyle {
+                            myTextField: textFieldMinutesInterval
+                        }
+                    }
+                    Text {
+                        id: onMinutesString
+                        font.pixelSize: appWindow.selectorValueFontSize
+                        text: qsTr("minutes")
+                    }
+                }
+
+                RowLayout { //bottom button line
+                    width: parent.width
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: -Math.round(appWindow.height*0.017)
+                    spacing: okButton.contentWidth
+                    Layout.preferredHeight: cancelButton.contentHeight
+
+                    Text {
+                        id: cancelButton
+                        font.pixelSize: appWindow.selectorButtonFontSize
+                        font.bold: true
+                        text: qsTr("CANCEL")
+                        Layout.preferredHeight: contentHeight
+                        MouseArea {
+                            id: cancelMouse
+                            anchors.fill: parent
+                            onClicked: {
+                                reject()
                             }
                         }
                     }
-                }
-
-            }
-
-            RowLayout { //bottom button line
-                width: parent.width
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.rightMargin: 30
-                anchors.bottomMargin: 20
-                spacing: okButton.contentWidth
-                Layout.preferredHeight: cancelButton.contentHeight
-
-                Text {
-                    id: cancelButton
-                    font.pixelSize: Math.round(selectionBox.height*0.07)
-                    font.bold: true
-                    text: qsTr("CANCEL")
-                    Layout.preferredHeight: contentHeight
-                    MouseArea {
-                        id: cancelMouse
-                        anchors.fill: parent
-                        onClicked: {
-                            reject()
-                        }
-                    }
-                }
-                Text {
-                    id: okButton
-                    font.pixelSize: Math.round(selectionBox.height*0.07)
-                    font.bold: true
-                    color: GlobalColors.accentColor
-                    text: qsTr("OK")
-                    Layout.preferredHeight: contentHeight
-                    MouseArea {
-                        id: okMouse
-                        anchors.fill: parent
-                        onClicked: {
-                            textField.correctValue();
-                            selected(textField.text);
+                    Text {
+                        id: okButton
+                        font.pixelSize: appWindow.selectorButtonFontSize
+                        font.bold: true
+                        color: GlobalColors.accentColor
+                        text: qsTr("OK")
+                        Layout.preferredHeight: contentHeight
+                        MouseArea {
+                            id: okMouse
+                            anchors.fill: parent
+                            onClicked: {
+                                textFieldHandsInterval.correctValue();
+                                textFieldMinutesInterval.correctValue();
+                                //return values
+                                selected(radioBtnRaiseOnHands.checked ? "1": "0", textFieldHandsInterval.text, textFieldMinutesInterval.text);
+                            }
                         }
                     }
                 }
@@ -220,4 +214,3 @@ Rectangle {
         }
     }
 }
-

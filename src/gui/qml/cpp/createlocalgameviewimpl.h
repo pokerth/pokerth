@@ -1,16 +1,16 @@
-#ifndef CREATELOCALGAMEIMPL_H
-#define CREATELOCALGAMEIMPL_H
+#ifndef CREATELOCALGAMEVIEWIMPL_H
+#define CREATELOCALGAMEVIEWIMPL_H
+#include <QtCore>
 
-
-class CreateLocalGameImpl : public QObject
+class CreateLocalGameViewImpl : public QObject
 {
     Q_OBJECT
 public:
-    explicit CreateLocalGameImpl(QObject *parent = 0);
+    explicit CreateLocalGameViewImpl(QObject *parent = 0);
 
 signals:
 
 public slots:
 };
 
-#endif // CREATELOCALGAMEIMPL_H
+#endif // CREATELOCALGAMEVIEWIMPL_H

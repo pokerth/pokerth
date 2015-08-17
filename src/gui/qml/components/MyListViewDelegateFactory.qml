@@ -11,9 +11,11 @@ Item {
     property int myListViewsWidth: 0
     property var myListViewRoot
     property var myListViewModel
+
     property var componentMap: {
         "ComboBox": myComboBox,
-        "SpinBox": mySpinBox
+        "SpinBox": mySpinBox,
+        "BlindsRaiseInterval": myBlindsRaiseInterval
     }
     width: myListViewsWidth
 
@@ -22,7 +24,6 @@ Item {
         function setSourceComponent(comp) {
             sourceComponent = comp;
         }
-
     }
 
     // ComboBox
@@ -31,7 +32,7 @@ Item {
         Rectangle {
             MyComboBoxSelector {
                 id: myComboBoxSelector
-                parent: myListViewRoot
+                parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
             }
 
             id: myComboBoxContent
@@ -45,7 +46,7 @@ Item {
                 anchors.margins: 30
                 y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
                 color: "black"
-                font.pixelSize: Math.round(myListViewsHeight*0.06)
+                font.pixelSize: appWindow.listViewTitleFontSize
                 text: myTitle
             }
             Text {
@@ -54,7 +55,7 @@ Item {
                 anchors.margins: 30
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
                 color: "grey"
-                font.pixelSize: myValue != "" ? Math.round(myListViewsHeight*0.05) : 0
+                font.pixelSize: myValue != "" ? appWindow.listViewValueFontSize : 0
                 //setup value from Index if necessary
                 text: myValueIsIndex ? myValuesList.get(parseInt(myValue)).value : myValue
             }
@@ -96,7 +97,7 @@ Item {
         Rectangle {
             MySpinBoxSelector {
                 id: mySpinBoxSelector
-                parent: myListViewRoot
+                parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
             }
 
             id: mySpinBoxContent
@@ -110,7 +111,7 @@ Item {
                 anchors.margins: 30
                 y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
                 color: "black"
-                font.pixelSize: Math.round(myListViewsHeight*0.06)
+                font.pixelSize: appWindow.listViewTitleFontSize
                 text: myTitle
             }
             Text {
@@ -119,8 +120,8 @@ Item {
                 anchors.margins: 30
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
                 color: "grey"
-                font.pixelSize: myValue != "" ? Math.round(myListViewsHeight*0.05) : 0
-                text: myValue
+                font.pixelSize: myValue != "" ? appWindow.listViewValueFontSize : 0
+                text: myPrefix+myValue
             }
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -153,6 +154,84 @@ Item {
             }
         }
     }
+
+    // BlindsRaiseInterval
+    Component {
+        id: myBlindsRaiseInterval
+        Rectangle {
+            MyBlindsRaiseIntervalSelector {
+                id: myBlindsRaiseIntervalSelector
+                parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
+            }
+
+            id: myBlindsRaiseIntervalContent
+            property int modelIndex: model.index
+            color: mouse.pressed ? "#11000000" : "white"
+            width: root.width
+            height: Math.round(blindsRaiseIntevalTitle.contentHeight*2.1 + blindsRaiseIntevalValue.contentHeight*1.0)
+            Text {
+                id: blindsRaiseIntevalTitle
+                anchors.left: parent.left
+                anchors.margins: 30
+                y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
+                color: "black"
+                font.pixelSize: appWindow.listViewTitleFontSize
+                text: myTitle
+            }
+            Text {
+                id: blindsRaiseIntevalValue
+                anchors.left: parent.left
+                anchors.margins: 30
+                y: Math.round(parent.height*0.5 + contentHeight*0.15)
+                color: "grey"
+                font.pixelSize: myValue != "" ? appWindow.listViewValueFontSize : 0
+                text: ""
+
+                function buildTextString() {
+                    if(myRaiseOnHandsType == "1") text = qsTr("Raise blinds every")+" "+myRaiseOnHandsInterval+" "+qsTr("hands");
+                    else text = qsTr("Raise blinds every")+" "+myRaiseOnMinutesInterval+" "+qsTr("minutes");
+                }
+
+                Component.onCompleted: {
+                    buildTextString();
+                }
+            }
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                width: parent.width - 30
+                height: 1
+                color: "lightgrey"
+            }
+            MouseArea {
+                id: mouse
+                anchors.fill: parent
+                onClicked: {
+                    //call selector overlay and set inital values
+                    myBlindsRaiseIntervalSelector.show(myRaiseOnHandsType, myRaiseOnHandsInterval, myRaiseOnMinutesInterval)
+                }
+                Connections {
+                    target: myBlindsRaiseIntervalSelector
+                    onVisibleChanged: {
+                        if(!myBlindsRaiseIntervalSelector.visible) {
+                            //call update the currentItem with selection from the comboBox selector
+                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsType", myBlindsRaiseIntervalSelector.raiseOnHandsType);
+                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsInterval", myBlindsRaiseIntervalSelector.raiseOnHandsInterval);
+                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnMinutesInterval", myBlindsRaiseIntervalSelector.raiseOnMinutesInterval);
+                            //here we also need to trigger the textStringBuild from the model again
+                            blindsRaiseIntevalValue.buildTextString();
+                        }
+                    }
+                }
+            }
+
+            Component.onCompleted: {
+                //after building the delegate content set the final height to the root item
+                root.height = Qt.binding(function() { return height })
+            }
+        }
+    }
+
 
     Component.onCompleted: {
         listViewFactoryLoader.setSourceComponent(componentMap[myType])

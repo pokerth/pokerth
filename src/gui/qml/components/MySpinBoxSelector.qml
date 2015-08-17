@@ -3,6 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import "../js/colors.js" as GlobalColors
+import "styles/"
 
 Rectangle {
     id: selector
@@ -11,21 +12,22 @@ Rectangle {
     anchors.fill: parent
     color: "#88000000" //dark transparent background
 
-    property string titleString
-    property string prefix
-    property int minValue
-    property int maxValue
-    property string returnValue
-    property int initialTextFieldValue
-    property int initialSliderValue
+    property string titleString: ""
+    property string prefix: ""
+    property int minValue: 0
+    property int maxValue: 0
+    property string returnValue: ""
+    property int initialTextFieldValue: 0
+    property int initialSliderValue: 0
 
     function show(title, min, max, value, pref) {
         titleString = title;
         initialTextFieldValue = parseInt(value);
-        initialSliderValue = parseInt(value)
+        initialSliderValue = parseInt(value);
         minValue = min;
         maxValue = max;
-        prefix = pref
+        prefix = pref;
+        returnValue = value; // <-- initial the returnValue with the preselection to prevent a NULL return when pressing Cancel
         visible = true;
     }
 
@@ -59,7 +61,7 @@ Rectangle {
             spacing: Math.round(selectionBox.height*0.06)
             Text {
                 id: titleText
-                font.pixelSize: Math.round(selectionBox.height*0.10)
+                font.pixelSize: appWindow.fontSizeH1
                 font.bold: true
                 text: titleString
                 anchors.left: parent.left
@@ -68,65 +70,33 @@ Rectangle {
                 anchors.topMargin: 10
                 Layout.preferredHeight: contentHeight
             }
-            TextField{
+            TextField {
                 id: textField
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.rightMargin: 50
                 //make space for the prefix
-                property int prefixIndent: Math.round(selectionBox.height*0.04)
-                anchors.leftMargin: 50 + prefixIndent
+                anchors.leftMargin: 50 + Math.round(appWindow.height*0.03)
 //                validator: IntValidator{bottom: minValue; top: maxValue;} TODO: test validator in later QtVersions > 5.5.0
-                focus: true
                 text: initialTextFieldValue
+                focus: true
                 function correctValue() {
-                    if(text > maxValue) text = maxValue
-                    else if(text < minValue) text = minValue
-                    else {
-                        //remove leading "0000"
-                        var temp = parseInt(text)
-                        text = temp
+                     if(text != "") {
+                        if(parseInt(text) > maxValue) text = maxValue
+                        else if(parseInt(text) < minValue) text = minValue
+                        else {
+                            //remove leading "0000"
+                            var temp = parseInt(text)
+                            text = temp
+                        }
                     }
                 }
                 onFocusChanged: correctValue()
                 onEditingFinished: correctValue()
 
-                style: TextFieldStyle {
-                    textColor: "black"
-                    font.pixelSize: Math.round(selectionBox.height*0.10)
-                    background: Item { //bottom line with colored focus indicator
-                        implicitHeight: Math.round(selectionBox.height*0.12)
-                        implicitWidth: parent.width
-                        Text { //prefix
-                            color: "black"
-                            font.pixelSize: Math.round(selectionBox.height*0.10)
-                            text: prefix
-                            anchors.left: parent.left
-                            anchors.leftMargin: -textField.prefixIndent
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: Math.round(selectionBox.height*0.005)
-
-                        }
-                        Rectangle {
-                            color: GlobalColors.accentColor
-                            opacity: textField.activeFocus ? 0.8 : 0
-                            anchors.bottom: parent.bottom
-                            anchors.left: parent.left
-                            anchors.leftMargin: -textField.prefixIndent
-                            width: parent.width + textField.prefixIndent
-                            height: Math.round(selectionBox.height*0.005)
-                        }
-                        Rectangle {
-                            color: "black"
-                            opacity: textField.activeFocus ? 0.6 : 0.4
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: Math.round(selectionBox.height*0.005)
-                            anchors.left: parent.left
-                            anchors.leftMargin: - textField.prefixIndent
-                            width: parent.width + textField.prefixIndent
-                            height: Math.round(selectionBox.height*0.005)
-                        }
-                    }
+                style: MyTextFieldStyle {
+                    prefix: selector.prefix
+                    myTextField: textField
                 }
             }
             Slider {
@@ -138,7 +108,8 @@ Rectangle {
                 anchors.leftMargin: 50
                 maximumValue: maxValue
                 minimumValue: minValue
-                value: initialSliderValue
+                //don't initialize the slider value to avoid the stepSize kills the preselection Value
+                //because of the binding to the TextField value
                 stepSize: minimumValue * 10
                 on__HandlePosChanged: {
                     if (slider.value > minimumValue && slider.value < maximumValue)
@@ -186,7 +157,7 @@ Rectangle {
 
                 Text {
                     id: cancelButton
-                    font.pixelSize: Math.round(selectionBox.height*0.07)
+                    font.pixelSize: appWindow.selectorButtonFontSize
                     font.bold: true
                     text: qsTr("CANCEL")
                     Layout.preferredHeight: contentHeight
@@ -200,7 +171,7 @@ Rectangle {
                 }
                 Text {
                     id: okButton
-                    font.pixelSize: Math.round(selectionBox.height*0.07)
+                    font.pixelSize: appWindow.selectorButtonFontSize
                     font.bold: true
                     color: GlobalColors.accentColor
                     text: qsTr("OK")

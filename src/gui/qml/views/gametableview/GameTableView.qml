@@ -1,7 +1,22 @@
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
+import QtQuick.Layouts 1.1
+import "../../components"
 
 Rectangle {
-    width: 100
-    height: 62
-}
+    id: gameTableViewRoot
+    width: parent.width
+    height: parent.height
 
+    function setupToolBar() {
+        toolbar.visible = false;
+    }
+
+    Component.onCompleted: {
+        setupToolBar();
+    }
+    onVisibleChanged: {
+        if(visible) setupToolBar()
+    }
+}

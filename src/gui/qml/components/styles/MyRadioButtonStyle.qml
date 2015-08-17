@@ -4,6 +4,7 @@ import "../../js/colors.js" as GlobalColors
 
 RadioButtonStyle {
     property var myRadioBtn
+    property string labelString: ""
     indicator: Rectangle {
         implicitWidth: Math.round(appWindow.height*0.05)
         implicitHeight: Math.round(appWindow.height*0.05)
@@ -21,12 +22,12 @@ RadioButtonStyle {
     label: Text {
         anchors.left: parent.left
         anchors.leftMargin: 10
-        font.pixelSize: Math.round(appWindow.height*0.05)
-        text: valueString
+        font.pixelSize: appWindow.radioButtonLabelFontSize
+        text: labelString
 
         MouseArea {
             anchors.fill: parent
-            onClicked: radioBtn.clicked()
+            onClicked: myRadioBtn.clicked()
         }
     }
 }

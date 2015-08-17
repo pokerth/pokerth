@@ -15,5 +15,9 @@
         <file>components/MyComboBoxSelector.qml</file>
         <file>js/colors.js</file>
         <file>components/MySpinBoxSelector.qml</file>
+        <file>views/gametableview/GameTableView.qml</file>
+        <file>components/MyBlindsRaiseIntervalSelector.qml</file>
+        <file>components/styles/MyTextFieldStyle.qml</file>
+        <file>components/styles/MyRadioButtonStyle.qml</file>
     </qresource>
 </RCC>

@@ -3,6 +3,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
 
 Item {
+    id: startView
     Image {
         id: background
         source: "../../images/startViewBackground.png"
@@ -14,6 +15,8 @@ Item {
         StartButton {
             text: qsTr("Local game")
             page: "../createlocalgameview/CreateLocalGameView.qml"
+            onClicked: stackView.push(Qt.resolvedUrl(page))
+            //TODO ^^ --> gleich GameTable anzeigen wenn "ShowGameSettingsDialogOnNewGame" == true
         }
 
         StartButton {
@@ -28,6 +31,7 @@ Item {
     }
 
     function setupToolBar() {
+        toolbar.visible = true;
         toolBarRightButton.myIconName = "more";
         toolBarLeftButton.myIconName = "PokerTH";
     }

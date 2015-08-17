@@ -1,7 +1,12 @@
-#include "startimpl.h"
+#include "startviewimpl.h"
 
-StartImpl::StartImpl(QObject *parent) : QObject(parent)
+StartViewImpl::StartViewImpl(QObject *parent) : QObject(parent)
 {
 
+}
+
+void StartViewImpl::startLocalGame()
+{
+    qDebug("startLocalGame im c++");
 }
 
