@@ -37,6 +37,8 @@
 #include <net/serveracceptinterface.h>
 #include <net/serverlobbythread.h>
 
+#include <boost/smart_ptr/owner_less.hpp>
+
 class ServerAcceptWebHelper : public ServerAcceptInterface
 {
 public:
@@ -50,7 +52,7 @@ public:
 
 protected:
 
-	typedef std::map<websocketpp::connection_hdl, boost::weak_ptr<SessionData> > SessionMap;
+    typedef std::map<websocketpp::connection_hdl, boost::weak_ptr<SessionData>, boost::owner_less<websocketpp::connection_hdl> > SessionMap;
 
 	bool validate(websocketpp::connection_hdl hdl);
 	void on_open(websocketpp::connection_hdl hdl);
