@@ -251,6 +251,8 @@ win32{
 	win32-g++ {
 		INCLUDEPATH += ../boost/ ../GnuTLS/include ../gsasl/include ../curl/include ../zlib ../sqlite ../openssl/include
 	}
+        DEFINES += _WEBSOCKETPP_CPP11_STL_
+        QMAKE_CXXFLAGS += -std=gnu++11
 }
 !win32{
 	##### My release static build options
