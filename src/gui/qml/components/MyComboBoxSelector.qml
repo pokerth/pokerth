@@ -66,7 +66,7 @@ Rectangle {
             spacing: Math.round(selectionBox.height*0.06)
             Text {
                 id: titleText
-                font.pixelSize: appWindow.selectorTitleFontSize
+                font.pixelSize: AppStyle.selectorTitleFontSize
                 font.bold: true
                 text: titleString
                 anchors.left: parent.left
@@ -101,7 +101,7 @@ Rectangle {
             }
             Text {
                 id: cancelButton
-                font.pixelSize: appWindow.selectorButtonFontSize
+                font.pixelSize: AppStyle.selectorButtonFontSize
                 font.bold: true
                 text: qsTr("CANCEL")
                 anchors.right: parent.right

@@ -56,12 +56,23 @@ Rectangle {
                     myValue: ""
                 }                
                 ListElement {
-                    myId: "comboBox_BlindsRaiseInterval"
+                    myId: "selector_BlindsRaiseInterval"
                     myTitle: qsTr("Blinds raise interval")
                     myType: "BlindsRaiseInterval"
                     myRaiseOnHandsType: "" //if false it is raise on minutes type
                     myRaiseOnHandsInterval: ""
                     myRaiseOnMinutesInterval: ""
+                }
+                ListElement {
+                    myId: "selector_BlindsRaiseMode"
+                    myTitle: qsTr("Blinds raise mode")
+                    myType: "BlindsRaiseMode"
+                    myAlwaysDoubleBlinds: "" //if false it is "Manual Blinds Order"
+                    myManualBlindsList: []
+                    myAfterMBAlwaysDoubleBlinds: ""
+                    myAfterMBAlwaysRaiseAbout: ""
+                    myAfterMBAlwaysRaiseValue: ""
+                    myAfterMBStayAtLastBlind: ""
                 }
                 ListElement {
                     myId: "comboBox_GameSpeed"
@@ -92,7 +103,18 @@ Rectangle {
                     createLocalGameViewModel.setProperty(3, "myRaiseOnHandsType", Config.readConfigIntString("RaiseBlindsAtHands"));
                     createLocalGameViewModel.setProperty(3, "myRaiseOnHandsInterval", Config.readConfigIntString("RaiseSmallBlindEveryHands"));
                     createLocalGameViewModel.setProperty(3, "myRaiseOnMinutesInterval", Config.readConfigIntString("RaiseSmallBlindEveryMinutes"));
-                    createLocalGameViewModel.setProperty(4, "myValue", Config.readConfigIntString("GameSpeed"));
+                    createLocalGameViewModel.setProperty(4, "myAlwaysDoubleBlinds", Config.readConfigIntString("AlwaysDoubleBlinds"));
+
+                    var tempList = Config.readConfigIntStringList("ManualBlindsList");
+                    for(var i=0; i < tempList.length; i++) {
+                        createLocalGameViewModel.get(4).myManualBlindsList.append({"blindValue": tempList[i].toString()})
+                    }
+
+                    createLocalGameViewModel.setProperty(4, "myAfterMBAlwaysDoubleBlinds", Config.readConfigIntString("AfterMBAlwaysDoubleBlinds"));
+                    createLocalGameViewModel.setProperty(4, "myAfterMBAlwaysRaiseAbout", Config.readConfigIntString("AfterMBAlwaysRaiseAbout"));
+                    createLocalGameViewModel.setProperty(4, "myAfterMBAlwaysRaiseValue", Config.readConfigIntString("AfterMBAlwaysRaiseValue"));
+                    createLocalGameViewModel.setProperty(4, "myAfterMBStayAtLastBlind", Config.readConfigIntString("AfterMBStayAtLastBlind"));
+                    createLocalGameViewModel.setProperty(5, "myValue", Config.readConfigIntString("GameSpeed"));
                 }
             }
             delegate: MyListViewDelegateFactory {

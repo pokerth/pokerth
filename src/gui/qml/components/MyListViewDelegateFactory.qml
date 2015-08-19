@@ -4,6 +4,7 @@ import QtQuick.Window 2.0
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
+import "styles"
 
 Item {
     id: root
@@ -14,8 +15,9 @@ Item {
 
     property var componentMap: {
         "ComboBox": myComboBox,
-        "SpinBox": mySpinBox,
-        "BlindsRaiseInterval": myBlindsRaiseInterval
+                "SpinBox": mySpinBox,
+                "BlindsRaiseInterval": myBlindsRaiseInterval,
+                "BlindsRaiseMode": myBlindsRaiseMode
     }
     width: myListViewsWidth
 
@@ -46,7 +48,7 @@ Item {
                 anchors.margins: 30
                 y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
                 color: "black"
-                font.pixelSize: appWindow.listViewTitleFontSize
+                font.pixelSize: AppStyle.listViewTitleFontSize
                 text: myTitle
             }
             Text {
@@ -55,7 +57,7 @@ Item {
                 anchors.margins: 30
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
                 color: "grey"
-                font.pixelSize: myValue != "" ? appWindow.listViewValueFontSize : 0
+                font.pixelSize: myValue != "" ? AppStyle.listViewValueFontSize : 0
                 //setup value from Index if necessary
                 text: myValueIsIndex ? myValuesList.get(parseInt(myValue)).value : myValue
             }
@@ -111,7 +113,7 @@ Item {
                 anchors.margins: 30
                 y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
                 color: "black"
-                font.pixelSize: appWindow.listViewTitleFontSize
+                font.pixelSize: AppStyle.listViewTitleFontSize
                 text: myTitle
             }
             Text {
@@ -120,7 +122,7 @@ Item {
                 anchors.margins: 30
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
                 color: "grey"
-                font.pixelSize: myValue != "" ? appWindow.listViewValueFontSize : 0
+                font.pixelSize: myValue != "" ? AppStyle.listViewValueFontSize : 0
                 text: myPrefix+myValue
             }
             Rectangle {
@@ -175,7 +177,7 @@ Item {
                 anchors.margins: 30
                 y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
                 color: "black"
-                font.pixelSize: appWindow.listViewTitleFontSize
+                font.pixelSize: AppStyle.listViewTitleFontSize
                 text: myTitle
             }
             Text {
@@ -184,7 +186,7 @@ Item {
                 anchors.margins: 30
                 y: Math.round(parent.height*0.5 + contentHeight*0.15)
                 color: "grey"
-                font.pixelSize: myValue != "" ? appWindow.listViewValueFontSize : 0
+                font.pixelSize: AppStyle.listViewValueFontSize
                 text: ""
 
                 function buildTextString() {
@@ -232,10 +234,105 @@ Item {
         }
     }
 
-    // BlindsRaiseType --> Always double vs. Manual blinds List
-//    Component {
-//        //TODO
-//    }
+    Component {
+        id: myBlindsRaiseMode // Always double vs. Manual blinds List
+
+        Rectangle {
+            id: myBlindsRaiseModeContent
+
+            MyBlindsRaiseModeSelector {
+                id: myBlindsRaiseModeSelector
+                parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
+            }
+
+            property int modelIndex: model.index
+            color: mouse.pressed ? "#11000000" : "white"
+            width: root.width
+            height: Math.round(blindsRaiseModeTitle.contentHeight*2.1 + blindsRaiseModeValue.contentHeight*1.0)
+            ColumnLayout {
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: blindsRaiseModeTitle
+                    anchors.left: parent.left
+                    anchors.leftMargin: 30
+                    color: "black"
+                    font.pixelSize: AppStyle.listViewTitleFontSize
+                    text: myTitle
+                    Layout.preferredHeight: contentHeight
+                }
+                Text {
+                    id: blindsRaiseModeValue
+                    anchors.left: parent.left
+                    anchors.leftMargin: 30
+                    color: "grey"
+                    font.pixelSize: AppStyle.listViewValueFontSize
+                    text: ""
+                    wrapMode: Text.WordWrap //maybe blinds list are too long
+                    Layout.preferredHeight: contentHeight
+
+                    function buildTextString() {
+                        if(myAlwaysDoubleBlinds == "1") {
+                            text = qsTr("Always double blinds");
+                        }
+                        else {
+                            //build manual blindsList
+                            var tempString = ""
+                            for (var i=0; i < myManualBlindsList.count; i++) {
+                                tempString = tempString + "$" + myManualBlindsList.get(i).blindValue.toString() + ", ";
+                            }
+                            text = tempString.substring(0, tempString.length - 2);
+                            if(myAfterMBAlwaysDoubleBlinds == "1") {
+                                text = text + "\n" + qsTr("afterwards always double blinds");
+                            }
+                            else if (myAfterMBAlwaysRaiseAbout == "1") {
+                                text = text + "\n" + qsTr("afterwards always raise about $") + myAfterMBAlwaysRaiseValue;
+                            }
+                            else {
+                                text = text + "\n" + qsTr("afterwards keep last blind")
+                            }
+                        }
+                    }
+
+                    Component.onCompleted: {
+                        buildTextString();
+                    }
+                }
+            }
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                width: parent.width - 30
+                height: 1
+                color: "lightgrey"
+            }
+            MouseArea {
+                id: mouse
+                anchors.fill: parent
+                onClicked: {
+//                    call selector overlay and set inital values
+                    myBlindsRaiseModeSelector.show(myAlwaysDoubleBlinds, myManualBlindsList, myAfterMBAlwaysDoubleBlinds, myAfterMBAlwaysRaiseAbout, myAfterMBAlwaysRaiseValue, myAfterMBStayAtLastBlind);
+                }
+                //                Connections {
+                //                    target: myBlindsRaiseIntervalSelector
+                //                    onVisibleChanged: {
+                //                        if(!myBlindsRaiseIntervalSelector.visible) {
+                //                            //call update the currentItem with selection from the comboBox selector
+                //                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsType", myBlindsRaiseIntervalSelector.raiseOnHandsType);
+                //                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsInterval", myBlindsRaiseIntervalSelector.raiseOnHandsInterval);
+                //                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnMinutesInterval", myBlindsRaiseIntervalSelector.raiseOnMinutesInterval);
+                //                            //here we also need to trigger the textStringBuild from the model again
+                //                            blindsRaiseIntevalValue.buildTextString();
+                //                        }
+                //                    }
+                //                }
+            }
+
+            Component.onCompleted: {
+                //after building the delegate content set the final height to the root item
+                root.height = Qt.binding(function() { return height })
+            }
+        }
+    }
 
     Component.onCompleted: {
         listViewFactoryLoader.setSourceComponent(componentMap[myType])

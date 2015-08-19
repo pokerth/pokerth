@@ -1,21 +1,22 @@
 import QtQuick 2.4
 import QtQuick.Controls.Styles 1.2
 import "../../js/colors.js" as GlobalColors
+import "."
 
 TextFieldStyle {
     property string prefix: ""
-    property int prefixIndent: prefix != "" ? appWindow.textFieldFontSize*0.33 : 0
+    property int prefixIndent: prefix != "" ? AppStyle.textFieldFontSize*0.33 : 0
     property var myTextField
 
     textColor: "black"
-    font.pixelSize: appWindow.textFieldFontSize
+    font.pixelSize: AppStyle.textFieldFontSize
     background: Item { //bottom line with colored focus indicator
-        implicitHeight: appWindow.textFieldFontSize + appWindow.textFieldFontSize*0.25
+        implicitHeight: AppStyle.textFieldFontSize + AppStyle.textFieldFontSize*0.25
         implicitWidth: myTextField.width
         Text { //prefix
             visible: prefix != "" ? true : false
             color: "black"
-            font.pixelSize: appWindow.textFieldFontSize
+            font.pixelSize: AppStyle.textFieldFontSize
             text: prefix
             anchors.left: parent.left
             anchors.leftMargin: -prefixIndent

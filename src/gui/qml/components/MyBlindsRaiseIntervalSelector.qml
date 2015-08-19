@@ -73,10 +73,10 @@ Rectangle {
             ColumnLayout {
                 id: content
                 anchors.fill: parent
-                spacing: appWindow.columnLayoutSpacing
+                spacing: AppStyle.columnLayoutSpacing
                 Text {
                     id: titleText
-                    font.pixelSize: appWindow.selectorTitleFontSize
+                    font.pixelSize: AppStyle.selectorTitleFontSize
                     font.bold: true
                     text: qsTr("Raise blinds")
                     anchors.left: parent.left
@@ -87,7 +87,7 @@ Rectangle {
                 ExclusiveGroup { id: raiseTypeGroup }
 
                 RowLayout { //Hands interval section
-                    spacing: appWindow.rowLayoutSpacing
+                    spacing: AppStyle.rowLayoutSpacing
 
                     RadioButton {
                         id: radioBtnRaiseOnHands
@@ -101,7 +101,7 @@ Rectangle {
 
                     TextField {
                         id: textFieldHandsInterval
-                        width: appWindow.textFieldFontSize*2
+                        width: AppStyle.textFieldFontSize*2
                         validator: IntValidator{bottom: raiseOnHandsMinimum; top: raiseOnHandsMaximum;}
                         text: raiseOnHandsInterval
                         function correctValue() {
@@ -116,12 +116,12 @@ Rectangle {
                     }
                     Text {
                         id: onHandsString
-                        font.pixelSize: appWindow.selectorValueFontSize
+                        font.pixelSize: AppStyle.selectorValueFontSize
                         text: qsTr("hands")
                     }
                 }
                 RowLayout { //Minutes interval section
-                    spacing: appWindow.rowLayoutSpacing
+                    spacing: AppStyle.rowLayoutSpacing
                     RadioButton {
                         id: radioBtnRaiseOnMinutes
                         exclusiveGroup: raiseTypeGroup
@@ -135,7 +135,7 @@ Rectangle {
                         id: textFieldMinutesInterval
                         validator: IntValidator{bottom: raiseOnMinutesMinimum; top: raiseOnMinutesMaximum;}
                         text: raiseOnMinutesInterval
-                        width: appWindow.textFieldFontSize*2
+                        width: AppStyle.textFieldFontSize*2
                         function correctValue() {
                             text = GlobalTools.correctTextFieldIntegerValue(selector, text, raiseOnMinutesMinimum);
 
@@ -149,7 +149,7 @@ Rectangle {
                     }
                     Text {
                         id: onMinutesString
-                        font.pixelSize: appWindow.selectorValueFontSize
+                        font.pixelSize: AppStyle.selectorValueFontSize
                         text: qsTr("minutes")
                     }
                 }
@@ -164,7 +164,7 @@ Rectangle {
 
                     Text {
                         id: cancelButton
-                        font.pixelSize: appWindow.selectorButtonFontSize
+                        font.pixelSize: AppStyle.selectorButtonFontSize
                         font.bold: true
                         text: qsTr("CANCEL")
                         Layout.preferredHeight: contentHeight
@@ -178,7 +178,7 @@ Rectangle {
                     }
                     Text {
                         id: okButton
-                        font.pixelSize: appWindow.selectorButtonFontSize
+                        font.pixelSize: AppStyle.selectorButtonFontSize
                         font.bold: true
                         color: GlobalColors.accentColor
                         text: qsTr("OK")

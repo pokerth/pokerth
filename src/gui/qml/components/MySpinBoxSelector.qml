@@ -68,7 +68,7 @@ Rectangle {
             spacing: Math.round(selectionBox.height*0.06)
             Text {
                 id: titleText
-                font.pixelSize: appWindow.fontSizeH1
+                font.pixelSize: AppStyle.selectorTitleFontSize
                 font.bold: true
                 text: titleString
                 anchors.left: parent.left
@@ -84,7 +84,7 @@ Rectangle {
                 anchors.rightMargin: 50
                 //make space for the prefix
                 anchors.leftMargin: 50 + Math.round(appWindow.height*0.03)
-                validator: IntValidator{bottom: minValue; top: maxValue;}  // TODO: test validator in later QtVersions > 5.5.0
+                validator: IntValidator{bottom: minValue; top: maxValue;}
 
                 function correctValue() {
                     text = GlobalTools.correctTextFieldIntegerValue(selector, text, minValue);
@@ -159,7 +159,7 @@ Rectangle {
 
                 Text {
                     id: cancelButton
-                    font.pixelSize: appWindow.selectorButtonFontSize
+                    font.pixelSize: AppStyle.selectorButtonFontSize
                     font.bold: true
                     text: qsTr("CANCEL")
                     Layout.preferredHeight: contentHeight
@@ -173,7 +173,7 @@ Rectangle {
                 }
                 Text {
                     id: okButton
-                    font.pixelSize: appWindow.selectorButtonFontSize
+                    font.pixelSize: AppStyle.selectorButtonFontSize
                     font.bold: true
                     color: GlobalColors.accentColor
                     text: qsTr("OK")

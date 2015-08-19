@@ -20,5 +20,8 @@
         <file>components/styles/MyTextFieldStyle.qml</file>
         <file>components/styles/MyRadioButtonStyle.qml</file>
         <file>js/tools.js</file>
+        <file>components/MyBlindsRaiseModeSelector.qml</file>
+        <file>components/styles/AppStyle.qml</file>
+        <file>components/styles/qmldir</file>
     </qresource>
 </RCC>

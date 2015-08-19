@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls.Styles 1.2
 import "../../js/colors.js" as GlobalColors
+import "."
 
 RadioButtonStyle {
     property var myRadioBtn
@@ -22,7 +23,7 @@ RadioButtonStyle {
     label: Text {
         anchors.left: parent.left
         anchors.leftMargin: 10
-        font.pixelSize: appWindow.radioButtonLabelFontSize
+        font.pixelSize: AppStyle.radioButtonLabelFontSize
         text: labelString
 
         MouseArea {

@@ -5,33 +5,26 @@ import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 import "views/startview"
 import "js/colors.js" as GlobalColors
+import "components/styles"
 
 ApplicationWindow {
     id: appWindow
     title: qsTr("PokerTH - The open source poker app")
+    //send infos about app size to the style
     width: 1024
     height: 600
     minimumWidth: 320
     minimumHeight: 240
     visible: true
 
-    property int fontSizeH1: Math.round(height*0.10)
-    property int fontSizeH2: Math.round(height*0.09)
-    property int fontSizeH3: Math.round(height*0.08)
-    property int fontSizeH4: Math.round(height*0.07)
-    property int fontSizeH5: Math.round(height*0.06)
-    property int fontSizeH6: Math.round(height*0.05)
+    onHeightChanged: { AppStyle.appHeight = height }
+    onWidthChanged: { AppStyle.appWidth = width }
 
-    property int listViewTitleFontSize: fontSizeH5
-    property int listViewValueFontSize: fontSizeH6
-    property int selectorTitleFontSize: fontSizeH2
-    property int selectorValueFontSize: fontSizeH5
-    property int selectorButtonFontSize: fontSizeH6
-    property int radioButtonLabelFontSize: fontSizeH5
-    property int textFieldFontSize: fontSizeH2
-
-    property int rowLayoutSpacing: Math.round(appWindow.height*0.06)
-    property int columnLayoutSpacing: Math.round(appWindow.height*0.06)
+    Component.onCompleted: {
+        // initial info about app size for the style
+        AppStyle.appHeight = height
+        AppStyle.appWidth = width
+    }
 
 
     toolBar: Rectangle {
@@ -40,7 +33,7 @@ ApplicationWindow {
         Behavior on opacity { NumberAnimation{} }
         color: GlobalColors.accentColor
         width: appWindow.width
-        height: appWindow.height*0.15
+        height: appWindow.height*0.13
         Behavior on height { NumberAnimation{} }
         Rectangle { //Shadow
             y: parent.height
