@@ -6,7 +6,6 @@ isEmpty( PREFIX ){
 DEFINES += PREFIX=\"$${PREFIX}\"
 
 TEMPLATE = app
-TARGET = pokerth
 CODECFORSRC = UTF-8
 QT += core qml quick widgets svg sql
 CONFIG += qt thread embed_manifest_exe exceptions rtti stl warn_on

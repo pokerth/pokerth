@@ -318,8 +318,9 @@ void
 SessionData::CloseWebSocketHandle()
 {
 	if (m_webData) {
-		boost::system::error_code ec;
-		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
+//		boost::system::error_code ec;
+        std::error_code std_ec;
+        m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", std_ec);
 	}
 }
 

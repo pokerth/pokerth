@@ -57,9 +57,10 @@ void
 WebSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 {
 	if (closeAfterSend) {
-		boost::system::error_code ec;
+//		boost::system::error_code ec;
+        std::error_code std_ec;
 		boost::shared_ptr<WebSocketData> webData = session->GetWebData();
-		webData->webSocketServer->close(webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
+        webData->webSocketServer->close(webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", std_ec);
 	}
 }
 
@@ -70,10 +71,11 @@ WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize];
 	packet->GetMsg()->SerializeWithCachedSizesToArray(buf);
 
-	boost::system::error_code ec;
+//	boost::system::error_code ec;
+    std::error_code std_ec;
 	boost::shared_ptr<WebSocketData> webData = session->GetWebData();
-	webData->webSocketServer->send(webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY, ec);
-	if (ec) {
+    webData->webSocketServer->send(webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY, std_ec);
+    if (std_ec) {
 		SetCloseAfterSend();
 	}
 
