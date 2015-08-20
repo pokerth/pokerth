@@ -1,7 +1,7 @@
 //global tools definition
 
 function correctTextFieldIntegerValue(readyComponent, textValue, minValue) {
-    if(selector.ready) {
+    if(readyComponent.ready) {
         var returnValue = "";
         if(textValue == "" || parseInt(textValue) == 0 || parseInt(textValue) < minValue) {
             returnValue = minValue;

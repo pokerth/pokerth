@@ -5,18 +5,17 @@ import QtQuick.Controls.Styles 1.2
 import "../js/colors.js" as GlobalColors
 import "styles"
 
-Rectangle {
-    id: selector
-    z:1000
-    visible: false
+Item {
+    id: root
     anchors.fill: parent
-    color: "#88000000" //dark transparent background
 
     property ListModel selectionModel: ListModel {}
-    property string titleString
     property string valueFromParent
+    property string titleString
     property string returnValue
     property bool valueIsIndex
+
+    signal accepted
 
     function show(title, list, vl, valueIndex) {
         titleString = title;
@@ -28,11 +27,7 @@ Rectangle {
         for (var i=0; i < list.count; i++) {
             selectionModel.append({"valueString": list.get(i).value});
         }
-        visible = true;
-    }
-
-    function reject() {
-        visible = false;
+        mySelector.show()
     }
 
     function selected(newString, index) {
@@ -42,79 +37,32 @@ Rectangle {
         else {
             returnValue = newString
         }
-        visible = false;
+        mySelector.hide()
+        root.accepted()
     }
 
-    MouseArea {
-        //set empty MouseArea to prevent the background to be clicked
-        anchors.fill: parent
-    }
+    MyAbstractSelector {
+        id: mySelector
+        titleText: titleString
+        button1Text: qsTr("CANCEL")
+        onButton1Clicked: hide()
 
-    Rectangle {
-        id: selectionBox
-        visible: true
-        color: "white"
-        height: Math.round(parent.height*0.9)
-        width: Math.round(parent.width*0.6)
-        x: Math.round(parent.width*0.5 - width*0.5)
-        y: Math.round(parent.height*0.5 - height*0.5)
-        radius: Math.round(parent.height*0.01)
-
-        ColumnLayout {
-            id: content
-            anchors.fill: parent
-            spacing: Math.round(selectionBox.height*0.06)
-            Text {
-                id: titleText
-                font.pixelSize: AppStyle.selectorTitleFontSize
-                font.bold: true
-                text: titleString
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.leftMargin: 30
-                anchors.topMargin: 10
-                Layout.preferredHeight: contentHeight
-            }
-            ScrollView {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.rightMargin: 30
-                anchors.leftMargin: 50
-                Layout.fillHeight: true
-                ListView {
-                    anchors.fill: parent
-                    spacing: Math.round(appWindow.height*0.05)
-                    model: selectionModel
-                    delegate: RadioButton {
-                        id: radioBtn
-                        //check of value is index type and do the corresponding checked? test
-                        checked: valueIsIndex ? (parseInt(valueFromParent) == index ? true : false) : (valueFromParent == valueString ? true : false)
-                        onClicked: {
-                            selector.selected(valueString, index)
-                        }
-                        style: MyRadioButtonStyle {
-                            myRadioBtn: radioBtn
-                            labelString: valueString
-                        }
-                    }
-                }
-            }
-            Text {
-                id: cancelButton
-                font.pixelSize: AppStyle.selectorButtonFontSize
-                font.bold: true
-                text: qsTr("CANCEL")
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.rightMargin: 30
-                anchors.bottomMargin: 20
-                Layout.preferredHeight: contentHeight
-
-                MouseArea {
-                    id: cancelMouse
-                    anchors.fill: parent
+        container: ScrollView {
+            anchors.fill:parent
+            ListView {
+                anchors.fill: parent
+                spacing: Math.round(appWindow.height*0.05)
+                model: selectionModel
+                delegate: RadioButton {
+                    id: radioBtn
+                    //check of value is index type and do the corresponding checked? test
+                    checked: valueIsIndex ? (parseInt(valueFromParent) == index ? true : false) : (valueFromParent == valueString ? true : false)
                     onClicked: {
-                        reject()
+                        root.selected(valueString, index)
+                    }
+                    style: MyRadioButtonStyle {
+                        myRadioBtn: radioBtn
+                        labelString: valueString
                     }
                 }
             }

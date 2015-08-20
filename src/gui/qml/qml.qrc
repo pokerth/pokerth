@@ -23,5 +23,6 @@
         <file>components/MyBlindsRaiseModeSelector.qml</file>
         <file>components/styles/AppStyle.qml</file>
         <file>components/styles/qmldir</file>
+        <file>components/MyAbstractSelector.qml</file>
     </qresource>
 </RCC>

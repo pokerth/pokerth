@@ -6,12 +6,9 @@ import "../js/colors.js" as GlobalColors
 import "../js/tools.js" as GlobalTools
 import "styles"
 
-Rectangle {
-    id: selector
-    z:1000
-    visible: false
+Item {
+    id: root
     anchors.fill: parent
-    color: "#88000000" //dark transparent background
 
     property string titleString: ""
     property bool alwaysDoubleBlinds: false
@@ -22,28 +19,29 @@ Rectangle {
     property int afterMBAlwaysRaiseValue: 0
     property bool ready: false
 
-    function show(doubleBlinds, list, afterMBDouble, afterMBRaise, afterMBRaiseValue, afterMBStay) {
+    signal accepted
+
+    function show(title, doubleBlinds, list, afterMBDouble, afterMBRaise, afterMBRaiseValue, afterMBStay) {
+        titleString = title
         alwaysDoubleBlinds = doubleBlinds;
         manualBlindsList = list;
         afterMBAlwaysDoubleBlinds = afterMBDouble;
         afterMBAlwaysRaiseAbout = afterMBRaise;
         afterMBAlwaysRaiseValue = afterMBRaiseValue;
         afterMBStayAtLastBlind = afterMBStay;
-        visible = true;
 
-//        if(raiseOnHandsType == "1") {
-//            textFieldHandsInterval.focus = true;
-//            radioBtnRaiseOnHands.checked = true;
-//        }
-//        else {
-//            textFieldMinutesInterval.focus = true;
-//            radioBtnRaiseOnMinutes.checked = true;
-//        }
-   }
+        mySelector.show()
 
-    function reject() {
-        visible = false;
-   }
+        //        if(raiseOnHandsType == "1") {
+        //            textFieldHandsInterval.focus = true;
+        //            radioBtnRaiseOnHands.checked = true;
+        //        }
+        //        else {
+        //            textFieldMinutesInterval.focus = true;
+        //            radioBtnRaiseOnMinutes.checked = true;
+        //        }
+    }
+
 
     function selected(doubleBlinds, list, afterMBDouble, afterMBRaise, afterMBRaiseValue, afterMBStay) {
         alwaysDoubleBlinds = doubleBlinds;
@@ -52,84 +50,33 @@ Rectangle {
         afterMBAlwaysRaiseAbout = afterMBRaise;
         afterMBAlwaysRaiseValue = afterMBRaiseValue;
         afterMBStayAtLastBlind = afterMBStay;
-        visible = false;
-   }
 
-    MouseArea {
-        //set empty MouseArea to prevent the background to be clicked
-        anchors.fill: parent
+        mySelector.hide()
+        root.accepted()
     }
 
-    Rectangle {
-        id: selectionBox
-        visible: true
-        color: "white"
-        height: Math.round(parent.height*0.9)
-        width: Math.round(parent.width*0.6)
-        x: Math.round(parent.width*0.5 - width*0.5)
-        y: Math.round(parent.height*0.5 - height*0.5)
-        radius: Math.round(parent.height*0.01)
 
-        Rectangle {
-            id: selectionBoxcontent
+    MyAbstractSelector {
+        id: mySelector
+        titleText: titleString
+        button1Text: qsTr("CANCEL")
+        onButton1Clicked: hide()
+        button2Text: qsTr("OK")
+        onButton2Clicked: {
+            //            textFieldHandsInterval.correctValue();
+            //            textFieldMinutesInterval.correctValue();
+            //return values
+            //            root.selected(radioBtnRaiseOnHands.checked ? "1": "0", textFieldHandsInterval.text, textFieldMinutesInterval.text);
+        }
+
+        container: ScrollView {
             anchors.fill: parent
-            anchors.margins: Math.round(appWindow.height*0.05)
-
             ColumnLayout {
-                id: contentColumnLayout
-                anchors.fill: parent
-                spacing: AppStyle.columnLayoutSpacing
-
-//                TODO always double or manual list
-
-
-
-
-
-
-                RowLayout { //bottom button line
-                    width: parent.width
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: -Math.round(appWindow.height*0.017)
-                    spacing: okButton.contentWidth
-                    Layout.preferredHeight: cancelButton.contentHeight
-
-                    Text {
-                        id: cancelButton
-                        font.pixelSize: appWindow.selectorButtonFontSize
-                        font.bold: true
-                        text: qsTr("CANCEL")
-                        Layout.preferredHeight: contentHeight
-                        MouseArea {
-                            id: cancelMouse
-                            anchors.fill: parent
-                            onClicked: {
-                                reject()
-                            }
-                        }
-                    }
-                    Text {
-                        id: okButton
-                        font.pixelSize: appWindow.selectorButtonFontSize
-                        font.bold: true
-                        color: GlobalColors.accentColor
-                        text: qsTr("OK")
-                        Layout.preferredHeight: contentHeight
-                        MouseArea {
-                            id: okMouse
-                            anchors.fill: parent
-                            onClicked: {
-//                                textFieldHandsInterval.correctValue();
-//                                textFieldMinutesInterval.correctValue();
-                                //return values
-//                                selected(radioBtnRaiseOnHands.checked ? "1": "0", textFieldHandsInterval.text, textFieldMinutesInterval.text);
-                            }
-                        }
-                    }
-                }
+                width: parent.width
+//                TODO Hier gehts mit dem Inhalt weiter
             }
         }
+
     }
     Component.onCompleted: ready = true;
 }

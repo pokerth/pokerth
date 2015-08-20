@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import "../../js/colors.js" as GlobalColors
 import "."
@@ -11,7 +12,7 @@ TextFieldStyle {
     textColor: "black"
     font.pixelSize: AppStyle.textFieldFontSize
     background: Item { //bottom line with colored focus indicator
-        implicitHeight: AppStyle.textFieldFontSize + AppStyle.textFieldFontSize*0.25
+        implicitHeight: AppStyle.textFieldFontSize + Math.round(AppStyle.textFieldFontSize*0.25)
         implicitWidth: myTextField.width
         Text { //prefix
             visible: prefix != "" ? true : false
@@ -21,8 +22,7 @@ TextFieldStyle {
             anchors.left: parent.left
             anchors.leftMargin: -prefixIndent
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: Math.round(appWindow.height*0.008)
-
+            anchors.bottomMargin: Math.round(AppStyle.appHeight*0.008)
         }
         Rectangle {
             color: GlobalColors.accentColor
@@ -31,17 +31,18 @@ TextFieldStyle {
             anchors.left: parent.left
             anchors.leftMargin: - prefixIndent
             width: myTextField.width + prefixIndent
-            height: Math.round(appWindow.height*0.005)
+            height: Math.round(AppStyle.appHeight*0.005)
         }
         Rectangle {
             color: "black"
             opacity: myTextField.activeFocus ? 0.6 : 0.4
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: Math.round(appWindow.height*0.005)
+            anchors.bottomMargin: Math.round(AppStyle.appHeight*0.005)
             anchors.left: parent.left
             anchors.leftMargin: - prefixIndent
             width: myTextField.width + prefixIndent
-            height: Math.round(appWindow.height*0.005)
+            height: Math.round(AppStyle.appHeight*0.005)
         }
     }
+
 }

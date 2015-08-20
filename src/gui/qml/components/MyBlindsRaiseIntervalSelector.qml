@@ -6,12 +6,9 @@ import "../js/colors.js" as GlobalColors
 import "../js/tools.js" as GlobalTools
 import "styles/"
 
-Rectangle {
-    id: selector
-    z:1000
-    visible: false
+Item {
+    id: root
     anchors.fill: parent
-    color: "#88000000" //dark transparent background
 
     property string titleString: ""
     property string raiseOnHandsType: ""
@@ -23,11 +20,15 @@ Rectangle {
     property int raiseOnMinutesMaximum: 99
     property bool ready: false
 
-    function show(type, hands, minutes) {
+    signal accepted
+
+    function show(title, type, hands, minutes) {
+        titleString = title
         raiseOnHandsType = type;
         raiseOnHandsInterval = hands;
         raiseOnMinutesInterval = minutes;
-        visible = true;
+
+        mySelector.show()
 
         if(raiseOnHandsType == "1") {
             textFieldHandsInterval.focus = true;
@@ -37,163 +38,97 @@ Rectangle {
             textFieldMinutesInterval.focus = true;
             radioBtnRaiseOnMinutes.checked = true;
         }
-   }
-
-    function reject() {
-        visible = false;
-   }
+    }
 
     function selected(handsType, handsInterval, minutesInterval) {
         raiseOnHandsType = handsType;
         raiseOnHandsInterval = handsInterval;
         raiseOnMinutesInterval = minutesInterval;
-        visible = false;
-   }
 
-    MouseArea {
-        //set empty MouseArea to prevent the background to be clicked
-        anchors.fill: parent
+        mySelector.hide()
+        root.accepted()
     }
 
-    Rectangle {
-        id: selectionBox
-        visible: true
-        color: "white"
-        height: Math.round(parent.height*0.9)
-        width: Math.round(parent.width*0.6)
-        x: Math.round(parent.width*0.5 - width*0.5)
-        y: Math.round(parent.height*0.5 - height*0.5)
-        radius: Math.round(parent.height*0.01)
+    MyAbstractSelector {
+        id: mySelector
+        titleText: titleString
+        button1Text: qsTr("CANCEL")
+        onButton1Clicked: hide()
+        button2Text: qsTr("OK")
+        onButton2Clicked: {
+            textFieldHandsInterval.correctValue();
+            textFieldMinutesInterval.correctValue();
+            //return values
+            root.selected(radioBtnRaiseOnHands.checked ? "1": "0", textFieldHandsInterval.text, textFieldMinutesInterval.text);
+        }
 
-        Rectangle {
-            id: selectionBoxcontent
+        container: ColumnLayout {
             anchors.fill: parent
-            anchors.margins: Math.round(appWindow.height*0.05)
-
-            ColumnLayout {
-                id: content
-                anchors.fill: parent
-                spacing: AppStyle.columnLayoutSpacing
-                Text {
-                    id: titleText
-                    font.pixelSize: AppStyle.selectorTitleFontSize
-                    font.bold: true
-                    text: qsTr("Raise blinds")
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.topMargin: -Math.round(appWindow.height*0.035)
-                    Layout.preferredHeight: contentHeight
-                }
+            RowLayout { //Hands interval section
+                spacing: AppStyle.rowLayoutSpacing
                 ExclusiveGroup { id: raiseTypeGroup }
-
-                RowLayout { //Hands interval section
-                    spacing: AppStyle.rowLayoutSpacing
-
-                    RadioButton {
-                        id: radioBtnRaiseOnHands
-                        exclusiveGroup: raiseTypeGroup
-                        style: MyRadioButtonStyle {
-                            myRadioBtn: radioBtnRaiseOnHands;
-                            labelString: "Every"
-                        }
-                        onClicked: textFieldHandsInterval.focus = true;
+                RadioButton {
+                    id: radioBtnRaiseOnHands
+                    exclusiveGroup: raiseTypeGroup
+                    style: MyRadioButtonStyle {
+                        myRadioBtn: radioBtnRaiseOnHands;
+                        labelString: "Every"
                     }
-
-                    TextField {
-                        id: textFieldHandsInterval
-                        width: AppStyle.textFieldFontSize*2
-                        validator: IntValidator{bottom: raiseOnHandsMinimum; top: raiseOnHandsMaximum;}
-                        text: raiseOnHandsInterval
-                        function correctValue() {
-                            text = GlobalTools.correctTextFieldIntegerValue(selector, text, raiseOnHandsMinimum);
-                        }
-                        onFocusChanged: { if(selector.ready && !focus) correctValue(); }
-                        onEditingFinished: { if(selector.ready) correctValue(); }
-
-                        style: MyTextFieldStyle {
-                            myTextField: textFieldHandsInterval
-                        }
-                    }
-                    Text {
-                        id: onHandsString
-                        font.pixelSize: AppStyle.selectorValueFontSize
-                        text: qsTr("hands")
-                    }
-                }
-                RowLayout { //Minutes interval section
-                    spacing: AppStyle.rowLayoutSpacing
-                    RadioButton {
-                        id: radioBtnRaiseOnMinutes
-                        exclusiveGroup: raiseTypeGroup
-                        style: MyRadioButtonStyle {
-                            myRadioBtn: radioBtnRaiseOnMinutes;
-                            labelString: "Every"
-                        }
-                        onClicked: textFieldMinutesInterval.focus = true;
-                    }
-                    TextField {
-                        id: textFieldMinutesInterval
-                        validator: IntValidator{bottom: raiseOnMinutesMinimum; top: raiseOnMinutesMaximum;}
-                        text: raiseOnMinutesInterval
-                        width: AppStyle.textFieldFontSize*2
-                        function correctValue() {
-                            text = GlobalTools.correctTextFieldIntegerValue(selector, text, raiseOnMinutesMinimum);
-
-                        }
-                        onFocusChanged: { if(selector.ready && !focus) correctValue(); }
-                        onEditingFinished: { if(selector.ready) correctValue(); }
-
-                        style: MyTextFieldStyle {
-                            myTextField: textFieldMinutesInterval
-                        }
-                    }
-                    Text {
-                        id: onMinutesString
-                        font.pixelSize: AppStyle.selectorValueFontSize
-                        text: qsTr("minutes")
-                    }
+                    onClicked: textFieldHandsInterval.focus = true;
                 }
 
-                RowLayout { //bottom button line
-                    width: parent.width
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: -Math.round(appWindow.height*0.017)
-                    spacing: okButton.contentWidth
-                    Layout.preferredHeight: cancelButton.contentHeight
+                TextField {
+                    id: textFieldHandsInterval
+                    width: AppStyle.textFieldFontSize*2
+                    validator: IntValidator{bottom: raiseOnHandsMinimum; top: raiseOnHandsMaximum;}
+                    text: raiseOnHandsInterval
+                    function correctValue() {
+                        text = GlobalTools.correctTextFieldIntegerValue(root, text, raiseOnHandsMinimum);
+                    }
+                    onFocusChanged: { if(root.ready && !focus) correctValue(); }
+                    onEditingFinished: { if(root.ready) correctValue(); }
 
-                    Text {
-                        id: cancelButton
-                        font.pixelSize: AppStyle.selectorButtonFontSize
-                        font.bold: true
-                        text: qsTr("CANCEL")
-                        Layout.preferredHeight: contentHeight
-                        MouseArea {
-                            id: cancelMouse
-                            anchors.fill: parent
-                            onClicked: {
-                                reject()
-                            }
-                        }
+                    style: MyTextFieldStyle {
+                        myTextField: textFieldHandsInterval
                     }
-                    Text {
-                        id: okButton
-                        font.pixelSize: AppStyle.selectorButtonFontSize
-                        font.bold: true
-                        color: GlobalColors.accentColor
-                        text: qsTr("OK")
-                        Layout.preferredHeight: contentHeight
-                        MouseArea {
-                            id: okMouse
-                            anchors.fill: parent
-                            onClicked: {
-                                textFieldHandsInterval.correctValue();
-                                textFieldMinutesInterval.correctValue();
-                                //return values
-                                selected(radioBtnRaiseOnHands.checked ? "1": "0", textFieldHandsInterval.text, textFieldMinutesInterval.text);
-                            }
-                        }
+                }
+                Text {
+                    id: onHandsString
+                    font.pixelSize: AppStyle.selectorBoxValueFontSize
+                    text: qsTr("hands")
+                }
+            }
+            RowLayout { //Minutes interval section
+                spacing: AppStyle.rowLayoutSpacing
+                RadioButton {
+                    id: radioBtnRaiseOnMinutes
+                    exclusiveGroup: raiseTypeGroup
+                    style: MyRadioButtonStyle {
+                        myRadioBtn: radioBtnRaiseOnMinutes;
+                        labelString: "Every"
                     }
+                    onClicked: textFieldMinutesInterval.focus = true;
+                }
+                TextField {
+                    id: textFieldMinutesInterval
+                    validator: IntValidator{bottom: raiseOnMinutesMinimum; top: raiseOnMinutesMaximum;}
+                    text: raiseOnMinutesInterval
+                    width: AppStyle.textFieldFontSize*2
+                    function correctValue() {
+                        text = GlobalTools.correctTextFieldIntegerValue(root, text, raiseOnMinutesMinimum);
+
+                    }
+                    onFocusChanged: { if(root.ready && !focus) correctValue(); }
+                    onEditingFinished: { if(root.ready) correctValue(); }
+
+                    style: MyTextFieldStyle {
+                        myTextField: textFieldMinutesInterval
+                    }
+                }
+                Text {
+                    id: onMinutesString
+                    font.pixelSize: AppStyle.selectorBoxValueFontSize
+                    text: qsTr("minutes")
                 }
             }
         }

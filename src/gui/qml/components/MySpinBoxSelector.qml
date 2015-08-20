@@ -6,12 +6,9 @@ import "../js/colors.js" as GlobalColors
 import "../js/tools.js" as GlobalTools
 import "styles/"
 
-Rectangle {
-    id: selector
-    z:1000
-    visible: false
+Item {
+    id: root
     anchors.fill: parent
-    color: "#88000000" //dark transparent background
 
     property string titleString: ""
     property string prefix: ""
@@ -23,6 +20,7 @@ Rectangle {
     property int initialSliderValue: 0
     property bool ready: false
 
+    signal accepted
 
     function show(myId, myTitle, myMinValue, myMaxValue, myValue, myPrefix) {
         myIdString = myId;
@@ -32,87 +30,63 @@ Rectangle {
         returnValue = myValue;
         textField.text = myValue;
         prefix = myPrefix;
-        visible = true;
-        textField.focus = true;
-    }
 
-    function reject() {
-        visible = false;
-//        textField.focus = false;
+        mySelector.show()
+        textField.focus = true;
     }
 
     function selected(newSelection) {
         returnValue = newSelection;
-        visible = false;
-//        textField.focus = false;
+
+        mySelector.hide()
+        root.accepted()
     }
 
-    MouseArea {
-        //set empty MouseArea to prevent the background to be clicked
-        anchors.fill: parent
-    }
+    MyAbstractSelector {
+        id: mySelector
+        titleText: titleString
+        button1Text: qsTr("CANCEL")
+        onButton1Clicked: hide()
+        button2Text: qsTr("OK")
+        onButton2Clicked: {
+            textField.correctValue();
+            root.selected(textField.text);
+        }
 
-    Rectangle {
-        id: selectionBox
-        visible: true
-        color: "white"
-        height: Math.round(parent.height*0.9)
-        width: Math.round(parent.width*0.6)
-        x: Math.round(parent.width*0.5 - width*0.5)
-        y: Math.round(parent.height*0.5 - height*0.5)
-        radius: Math.round(parent.height*0.01)
-
-        ColumnLayout {
-            id: content
+        container: ColumnLayout {
             anchors.fill: parent
-            spacing: Math.round(selectionBox.height*0.06)
-            Text {
-                id: titleText
-                font.pixelSize: AppStyle.selectorTitleFontSize
-                font.bold: true
-                text: titleString
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.leftMargin: 30
-                anchors.topMargin: 10
-                Layout.preferredHeight: contentHeight
-            }
             TextField {
                 id: textField
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.rightMargin: 50
                 //make space for the prefix
-                anchors.leftMargin: 50 + Math.round(appWindow.height*0.03)
+                anchors.leftMargin: AppStyle.spinBoxSelectorTextFieldPrefixExtraLeftMargin
                 validator: IntValidator{bottom: minValue; top: maxValue;}
 
                 function correctValue() {
-                    text = GlobalTools.correctTextFieldIntegerValue(selector, text, minValue);
+                    text = GlobalTools.correctTextFieldIntegerValue(root, text, minValue);
                 }
 
-                onFocusChanged: { if(selector.ready && !focus) correctValue(); }
-                onEditingFinished: { if(selector.ready) correctValue(); }
+                onFocusChanged: { if(root.ready && !focus) correctValue(); }
+                onEditingFinished: { if(root.ready) correctValue(); }
 
                 style: MyTextFieldStyle {
-                    prefix: selector.prefix
+                    prefix: root.prefix
                     myTextField: textField
                 }
-
             }
             Slider {
                 id: slider
                 width: parent.width
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.rightMargin: 50
-                anchors.leftMargin: 50
                 maximumValue: maxValue
                 minimumValue: minValue
                 //don't initialize the slider value to avoid the stepSize kills the preselection Value
                 //because of the binding to the TextField value
                 stepSize: minimumValue * 10
                 on__HandlePosChanged: {
-                    if(selector.ready) { //wait until the whole component is ready, otherwise setting min and max changes text field value
+                    if(root.ready) { //wait until the whole component is ready, otherwise setting min and max changes text field value
                         if (slider.value > minimumValue && slider.value < maximumValue)
                             textField.text = slider.value - minimumValue
                         else
@@ -121,17 +95,17 @@ Rectangle {
                 }
                 style: SliderStyle {
                     handle: Rectangle {
-                        width: Math.round(selectionBox.height*0.12)
+                        width: AppStyle.sliderHandleWidth
                         height: width
                         radius: width
                         antialiasing: true
                         color: Qt.lighter(GlobalColors.accentColor, 1.2)
                     }
                     groove: Item {
-                        implicitHeight: Math.round(selectionBox.height*0.04)
+                        implicitHeight: AppStyle.sliderGrooveHeight
                         implicitWidth: slider.width
                         Rectangle {
-                            height: Math.round(selectionBox.height*0.03)
+                            height: AppStyle.sliderGrooveRectHeight
                             width: slider.width
                             anchors.verticalCenter: parent.verticalCenter
                             color: "#666"
@@ -145,51 +119,8 @@ Rectangle {
                         }
                     }
                 }
-
-            }
-
-            RowLayout { //bottom button line
-                width: parent.width
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                anchors.rightMargin: 30
-                anchors.bottomMargin: 20
-                spacing: okButton.contentWidth
-                Layout.preferredHeight: cancelButton.contentHeight
-
-                Text {
-                    id: cancelButton
-                    font.pixelSize: AppStyle.selectorButtonFontSize
-                    font.bold: true
-                    text: qsTr("CANCEL")
-                    Layout.preferredHeight: contentHeight
-                    MouseArea {
-                        id: cancelMouse
-                        anchors.fill: parent
-                        onClicked: {
-                            reject()
-                        }
-                    }
-                }
-                Text {
-                    id: okButton
-                    font.pixelSize: AppStyle.selectorButtonFontSize
-                    font.bold: true
-                    color: GlobalColors.accentColor
-                    text: qsTr("OK")
-                    Layout.preferredHeight: contentHeight
-                    MouseArea {
-                        id: okMouse
-                        anchors.fill: parent
-                        onClicked: {
-                            textField.correctValue();
-                            selected(textField.text);
-                        }
-                    }
-                }
             }
         }
     }
     Component.onCompleted: ready = true
 }
-

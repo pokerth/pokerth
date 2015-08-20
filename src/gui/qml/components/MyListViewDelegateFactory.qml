@@ -35,37 +35,43 @@ Item {
             MyComboBoxSelector {
                 id: myComboBoxSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
+                onAccepted: myListViewModel.setProperty(myComboBoxContent.modelIndex, "myValue", myComboBoxSelector.returnValue);
             }
 
             id: myComboBoxContent
             property int modelIndex: model.index
             color: mouse.pressed ? "#11000000" : "white"
             width: root.width
-            height: Math.round(comboBoxTitle.contentHeight*2.1 + comboBoxValue.contentHeight*1.0)
-            Text {
-                id: comboBoxTitle
-                anchors.left: parent.left
-                anchors.margins: 30
-                y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
-                color: "black"
-                font.pixelSize: AppStyle.listViewTitleFontSize
-                text: myTitle
-            }
-            Text {
-                id: comboBoxValue
-                anchors.left: parent.left
-                anchors.margins: 30
-                y: Math.round(parent.height*0.5 + contentHeight*0.15)
-                color: "grey"
-                font.pixelSize: myValue != "" ? AppStyle.listViewValueFontSize : 0
-                //setup value from Index if necessary
-                text: myValueIsIndex ? myValuesList.get(parseInt(myValue)).value : myValue
+            height: Math.round(textLayout.height*AppStyle.listViewDelegateHeightBasedOnContentFactor)
+            ColumnLayout {
+                id: textLayout
+                spacing: AppStyle.listViewDelegateTitleAndValueSpacing
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: comboBoxTitle
+                    anchors.left: parent.left
+                    anchors.margins: AppStyle.listViewDelegateTitleAndValueMargins
+                    color: "black"
+                    font.pixelSize: AppStyle.listViewDelegateTitleFontSize
+                    text: myTitle
+                    Layout.preferredHeight: contentHeight
+                }
+                Text {
+                    id: comboBoxValue
+                    anchors.left: parent.left
+                    anchors.margins: AppStyle.listViewDelegateTitleAndValueMargins
+                    color: "grey"
+                    font.pixelSize: myValue != "" ? AppStyle.listViewDelegateValueFontSize : 0
+                    //setup value from Index if necessary
+                    text: myValueIsIndex ? myValuesList.get(parseInt(myValue)).value : myValue
+                    Layout.preferredHeight: contentHeight
+                }
             }
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
-                width: parent.width - 30
-                height: 1
+                width: parent.width - AppStyle.listViewDelegateSeperatorLineIndent
+                height: AppStyle.listViewDelegateSeperatorLineHeight
                 color: "lightgrey"
             }
             MouseArea {
@@ -75,17 +81,7 @@ Item {
                     //call selector overlay and set inital values
                     myComboBoxSelector.show(myTitle, myValuesList, myValue, myValueIsIndex)
                 }
-                Connections {
-                    target: myComboBoxSelector
-                    onVisibleChanged: {
-                        if(!myComboBoxSelector.visible) {
-                            //call update the currentItem with selection from the comboBox selector
-                            myListViewModel.setProperty(myComboBoxContent.modelIndex, "myValue", myComboBoxSelector.returnValue);
-                        }
-                    }
-                }
             }
-
             Component.onCompleted: {
                 //after building the delegate content set the final height to the root item
                 root.height = Qt.binding(function() { return height })
@@ -100,36 +96,42 @@ Item {
             MySpinBoxSelector {
                 id: mySpinBoxSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
+                onAccepted: myListViewModel.setProperty(mySpinBoxContent.modelIndex, "myValue", mySpinBoxSelector.returnValue);
             }
 
             id: mySpinBoxContent
             property int modelIndex: model.index
             color: mouse.pressed ? "#11000000" : "white"
             width: root.width
-            height: Math.round(spinBoxTitle.contentHeight*2.1 + spinBoxValue.contentHeight*1.0)
-            Text {
-                id: spinBoxTitle
-                anchors.left: parent.left
-                anchors.margins: 30
-                y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
-                color: "black"
-                font.pixelSize: AppStyle.listViewTitleFontSize
-                text: myTitle
-            }
-            Text {
-                id: spinBoxValue
-                anchors.left: parent.left
-                anchors.margins: 30
-                y: Math.round(parent.height*0.5 + contentHeight*0.15)
-                color: "grey"
-                font.pixelSize: myValue != "" ? AppStyle.listViewValueFontSize : 0
-                text: myPrefix+myValue
+            height: Math.round(textLayout.height*AppStyle.listViewDelegateHeightBasedOnContentFactor)
+            ColumnLayout {
+                id: textLayout
+                spacing: AppStyle.listViewDelegateTitleAndValueSpacing
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: spinBoxTitle
+                    anchors.left: parent.left
+                    anchors.margins: AppStyle.listViewDelegateTitleAndValueMargins
+                    color: "black"
+                    font.pixelSize: AppStyle.listViewDelegateTitleFontSize
+                    text: myTitle
+                    Layout.preferredHeight: contentHeight
+                }
+                Text {
+                    id: spinBoxValue
+                    anchors.left: parent.left
+                    anchors.margins: AppStyle.listViewDelegateTitleAndValueMargins
+                    color: "grey"
+                    font.pixelSize: myValue != "" ? AppStyle.listViewDelegateValueFontSize : 0
+                    text: myPrefix+myValue
+                    Layout.preferredHeight: contentHeight
+                }
             }
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
-                width: parent.width - 30
-                height: 1
+                width: parent.width - AppStyle.listViewDelegateSeperatorLineIndent
+                height: AppStyle.listViewDelegateSeperatorLineHeight
                 color: "lightgrey"
             }
             MouseArea {
@@ -139,17 +141,7 @@ Item {
                     //call selector overlay and set inital value
                     mySpinBoxSelector.show(myId, myTitle, myMinValue, myMaxValue, myValue, myPrefix)
                 }
-                Connections {
-                    target: mySpinBoxSelector
-                    onVisibleChanged: {
-                        if(!mySpinBoxSelector.visible) {
-                            //call update the currentItem with selection from the comboBox selector
-                            myListViewModel.setProperty(mySpinBoxContent.modelIndex, "myValue", mySpinBoxSelector.returnValue);
-                        }
-                    }
-                }
             }
-
             Component.onCompleted: {
                 //after building the delegate content set the final height to the root item
                 root.height = Qt.binding(function() { return height })
@@ -161,48 +153,61 @@ Item {
     Component {
         id: myBlindsRaiseInterval
         Rectangle {
+            id: myBlindsRaiseIntervalContent
             MyBlindsRaiseIntervalSelector {
                 id: myBlindsRaiseIntervalSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
+                onAccepted: {
+                    //call update the currentItem with selection from the comboBox selector
+                    myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsType", myBlindsRaiseIntervalSelector.raiseOnHandsType);
+                    myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsInterval", myBlindsRaiseIntervalSelector.raiseOnHandsInterval);
+                    myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnMinutesInterval", myBlindsRaiseIntervalSelector.raiseOnMinutesInterval);
+                    //here we also need to trigger the textStringBuild from the model again
+                    blindsRaiseIntevalValue.buildTextString();
+                }
             }
 
-            id: myBlindsRaiseIntervalContent
             property int modelIndex: model.index
             color: mouse.pressed ? "#11000000" : "white"
             width: root.width
-            height: Math.round(blindsRaiseIntevalTitle.contentHeight*2.1 + blindsRaiseIntevalValue.contentHeight*1.0)
-            Text {
-                id: blindsRaiseIntevalTitle
-                anchors.left: parent.left
-                anchors.margins: 30
-                y: myValue != "" ? Math.round(parent.height*0.5 - contentHeight*0.9) : Math.round(parent.height*0.5 - contentHeight*0.5)
-                color: "black"
-                font.pixelSize: AppStyle.listViewTitleFontSize
-                text: myTitle
-            }
-            Text {
-                id: blindsRaiseIntevalValue
-                anchors.left: parent.left
-                anchors.margins: 30
-                y: Math.round(parent.height*0.5 + contentHeight*0.15)
-                color: "grey"
-                font.pixelSize: AppStyle.listViewValueFontSize
-                text: ""
-
-                function buildTextString() {
-                    if(myRaiseOnHandsType == "1") text = qsTr("Raise blinds every")+" "+myRaiseOnHandsInterval+" "+qsTr("hands");
-                    else text = qsTr("Raise blinds every")+" "+myRaiseOnMinutesInterval+" "+qsTr("minutes");
+            height: Math.round(textLayout.height*AppStyle.listViewDelegateHeightBasedOnContentFactor)
+            ColumnLayout {
+                id: textLayout
+                spacing: AppStyle.listViewDelegateTitleAndValueSpacing
+                anchors.verticalCenter: parent.verticalCenter
+                Text {
+                    id: blindsRaiseIntevalTitle
+                    anchors.left: parent.left
+                    anchors.margins: AppStyle.listViewDelegateTitleAndValueMargins
+                    color: "black"
+                    font.pixelSize: AppStyle.listViewDelegateTitleFontSize
+                    text: myTitle
+                    Layout.preferredHeight: blindsRaiseIntevalTitle.contentHeight
                 }
+                Text {
+                    id: blindsRaiseIntevalValue
+                    anchors.left: parent.left
+                    anchors.margins: AppStyle.listViewDelegateTitleAndValueMargins
+                    color: "grey"
+                    font.pixelSize: AppStyle.listViewDelegateValueFontSize
+                    text: ""
+                    Layout.preferredHeight: blindsRaiseIntevalValue.contentHeight
 
-                Component.onCompleted: {
-                    buildTextString();
+                    function buildTextString() {
+                        if(myRaiseOnHandsType == "1") text = qsTr("Raise blinds every")+" "+myRaiseOnHandsInterval+" "+qsTr("hands");
+                        else text = qsTr("Raise blinds every")+" "+myRaiseOnMinutesInterval+" "+qsTr("minutes");
+                    }
+
+                    Component.onCompleted: {
+                        buildTextString();
+                    }
                 }
             }
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
-                width: parent.width - 30
-                height: 1
+                width: parent.width - AppStyle.listViewDelegateSeperatorLineIndent
+                height: AppStyle.listViewDelegateSeperatorLineHeight
                 color: "lightgrey"
             }
             MouseArea {
@@ -210,20 +215,7 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     //call selector overlay and set inital values
-                    myBlindsRaiseIntervalSelector.show(myRaiseOnHandsType, myRaiseOnHandsInterval, myRaiseOnMinutesInterval)
-                }
-                Connections {
-                    target: myBlindsRaiseIntervalSelector
-                    onVisibleChanged: {
-                        if(!myBlindsRaiseIntervalSelector.visible) {
-                            //call update the currentItem with selection from the comboBox selector
-                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsType", myBlindsRaiseIntervalSelector.raiseOnHandsType);
-                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsInterval", myBlindsRaiseIntervalSelector.raiseOnHandsInterval);
-                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnMinutesInterval", myBlindsRaiseIntervalSelector.raiseOnMinutesInterval);
-                            //here we also need to trigger the textStringBuild from the model again
-                            blindsRaiseIntevalValue.buildTextString();
-                        }
-                    }
+                    myBlindsRaiseIntervalSelector.show(myTitle, myRaiseOnHandsType, myRaiseOnHandsInterval, myRaiseOnMinutesInterval)
                 }
             }
 
@@ -236,36 +228,39 @@ Item {
 
     Component {
         id: myBlindsRaiseMode // Always double vs. Manual blinds List
-
         Rectangle {
             id: myBlindsRaiseModeContent
-
             MyBlindsRaiseModeSelector {
                 id: myBlindsRaiseModeSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
+                onAccepted: {
+                    //TODO update model
+                }
             }
 
             property int modelIndex: model.index
             color: mouse.pressed ? "#11000000" : "white"
             width: root.width
-            height: Math.round(blindsRaiseModeTitle.contentHeight*2.1 + blindsRaiseModeValue.contentHeight*1.0)
+            height: Math.round(textLayout.height*AppStyle.listViewDelegateHeightBasedOnContentFactor)
             ColumnLayout {
+                id: textLayout
+                spacing: AppStyle.listViewDelegateTitleAndValueSpacing
                 anchors.verticalCenter: parent.verticalCenter
                 Text {
                     id: blindsRaiseModeTitle
                     anchors.left: parent.left
-                    anchors.leftMargin: 30
+                    anchors.leftMargin: AppStyle.listViewDelegateTitleAndValueMargins
                     color: "black"
-                    font.pixelSize: AppStyle.listViewTitleFontSize
+                    font.pixelSize: AppStyle.listViewDelegateTitleFontSize
                     text: myTitle
                     Layout.preferredHeight: contentHeight
                 }
                 Text {
                     id: blindsRaiseModeValue
                     anchors.left: parent.left
-                    anchors.leftMargin: 30
+                    anchors.leftMargin: AppStyle.listViewDelegateTitleAndValueMargins
                     color: "grey"
-                    font.pixelSize: AppStyle.listViewValueFontSize
+                    font.pixelSize: AppStyle.listViewDelegateValueFontSize
                     text: ""
                     wrapMode: Text.WordWrap //maybe blinds list are too long
                     Layout.preferredHeight: contentHeight
@@ -301,30 +296,17 @@ Item {
             Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
-                width: parent.width - 30
-                height: 1
+                width: parent.width - AppStyle.listViewDelegateSeperatorLineIndent
+                height: AppStyle.listViewDelegateSeperatorLineHeight
                 color: "lightgrey"
             }
             MouseArea {
                 id: mouse
                 anchors.fill: parent
                 onClicked: {
-//                    call selector overlay and set inital values
-                    myBlindsRaiseModeSelector.show(myAlwaysDoubleBlinds, myManualBlindsList, myAfterMBAlwaysDoubleBlinds, myAfterMBAlwaysRaiseAbout, myAfterMBAlwaysRaiseValue, myAfterMBStayAtLastBlind);
+                    //                    call selector overlay and set inital values
+                    myBlindsRaiseModeSelector.show(myTitle, myAlwaysDoubleBlinds, myManualBlindsList, myAfterMBAlwaysDoubleBlinds, myAfterMBAlwaysRaiseAbout, myAfterMBAlwaysRaiseValue, myAfterMBStayAtLastBlind);
                 }
-                //                Connections {
-                //                    target: myBlindsRaiseIntervalSelector
-                //                    onVisibleChanged: {
-                //                        if(!myBlindsRaiseIntervalSelector.visible) {
-                //                            //call update the currentItem with selection from the comboBox selector
-                //                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsType", myBlindsRaiseIntervalSelector.raiseOnHandsType);
-                //                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsInterval", myBlindsRaiseIntervalSelector.raiseOnHandsInterval);
-                //                            myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnMinutesInterval", myBlindsRaiseIntervalSelector.raiseOnMinutesInterval);
-                //                            //here we also need to trigger the textStringBuild from the model again
-                //                            blindsRaiseIntevalValue.buildTextString();
-                //                        }
-                //                    }
-                //                }
             }
 
             Component.onCompleted: {

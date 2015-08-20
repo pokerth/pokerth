@@ -9,7 +9,7 @@ RadioButtonStyle {
     indicator: Rectangle {
         implicitWidth: Math.round(appWindow.height*0.05)
         implicitHeight: Math.round(appWindow.height*0.05)
-        radius: Math.round(selectionBox.height*0.03)
+        radius: Math.round(appWindow.height*0.03)
         border.color: myRadioBtn.checked ? GlobalColors.accentColor : "grey"
         border.width: Math.round(appWindow.height*0.005)
         Rectangle {

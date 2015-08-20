@@ -15,16 +15,42 @@ QtObject {
     property int fontSizeH5: Math.round(appHeight*0.06)
     property int fontSizeH6: Math.round(appHeight*0.05)
 
-    property int listViewTitleFontSize: fontSizeH5
-    property int listViewValueFontSize: fontSizeH6
-    property int selectorTitleFontSize: fontSizeH2
-    property int selectorValueFontSize: fontSizeH5
-    property int selectorButtonFontSize: fontSizeH6
     property int radioButtonLabelFontSize: fontSizeH5
-    property int textFieldFontSize: fontSizeH2
+    property int textFieldFontSize: fontSizeH3
 
     property int rowLayoutSpacing: Math.round(appHeight*0.06)
-    property int columnLayoutSpacing: Math.round(appHeight*0.06)
+    property int columnLayoutSpacing: Math.round(appHeight*0.02)
+
+    //Selector Box (white on darken background)
+    property int selectorBoxHeight: Math.round(appHeight*0.8)
+    property int selectorBoxWidth: Math.round(appWidth*0.6)
+    property int selectorBoxRadius: Math.round(appWidth*0.01)
+    property int selectorBoxTitleFontSize: fontSizeH4
+    property bool selectorBoxTitleFontBold: false
+    property int selectorBoxTitleTopMargin: -Math.round(appHeight*0.02)
+    property int selectorBoxValueFontSize: fontSizeH5
+    property int selectorBoxButtonFontSize: fontSizeH5
+    property bool selectorBoxButtonFontBold: false
+    property int selectorBoxContentMargins: Math.round(appHeight*0.05)
+    property int selectorBoxRealContentLeftMargin: Math.round(appHeight*0.05)
+    property int selectorBoxRealContentRightMargin: Math.round(appHeight*0.05)
+
+    //SpinBoxSelector
+    property int spinBoxSelectorTextFieldPrefixExtraLeftMargin: Math.round(appHeight*0.03)
+
+    //SliderStyle
+    property int sliderHandleWidth: Math.round(appHeight*0.10)
+    property int sliderGrooveHeight: Math.round(appHeight*0.033)
+    property int sliderGrooveRectHeight: Math.round(appHeight*0.025)
+
+    //ListViewDelegate
+    property real listViewDelegateHeightBasedOnContentFactor: 1.5
+    property int listViewDelegateTitleAndValueMargins: 30
+    property int listViewDelegateTitleAndValueSpacing: -3
+    property int listViewDelegateTitleFontSize: fontSizeH5
+    property int listViewDelegateValueFontSize: fontSizeH6
+    property int listViewDelegateSeperatorLineIndent: 30
+    property int listViewDelegateSeperatorLineHeight: 1
 
     Component.onCompleted: {
         console.log("pixelDensity: "+Screen.pixelDensity);
