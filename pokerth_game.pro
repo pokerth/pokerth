@@ -40,6 +40,7 @@ INCLUDEPATH += . \
 	src/engine \
 	src/gui \
 	src/net \
+	src/icm \
 	src/engine/local_engine \
 	src/engine/network_engine \
 	src/config \
@@ -81,6 +82,7 @@ DEPENDPATH += . \
 	src/engine \
 	src/gui \
 	src/net \
+	src/icm \
 	src/core/common \
 	src/engine/local_engine \
 	src/engine/network_engine \
@@ -143,6 +145,7 @@ HEADERS += src/engine/game.h \
 	src/net/socket_msg.h \
 	src/net/socket_startup.h \
 	src/net/net_helper.h \
+	src/icm/icm.h \
 	src/engine/local_engine/cardsvalue.h \
 	src/engine/local_engine/localboard.h \
 	src/engine/local_engine/localenginefactory.h \
@@ -274,6 +277,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 	src/net/common/net_helper_client.cpp \
 	src/core/common/loghelper_client.cpp \
+	src/icm/icm.cpp \
 	src/gui/qt/gametable/mychancelabel.cpp \
 	src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp \
 	src/gui/qt/gametable/mytimeoutlabel.cpp \
