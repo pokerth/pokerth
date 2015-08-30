@@ -165,6 +165,7 @@ HEADERS += src/engine/game.h \
 	src/engine/network_engine/clientbero.h \
 	src/gui/qt/chattools/chattools.h \
 	src/gui/qt/gametable/gametableimpl.h \
+	src/gui/qt/gametable/gametableimpl_ICM.h \
 	src/gui/qt/gametable/mycardspixmaplabel.h \
 	src/gui/qt/gametable/mysetlabel.h \
 	src/gui/qt/gametable/myactionbutton.h \
@@ -244,6 +245,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/qttools/qttoolswrapper.cpp \
 	src/gui/qt/qttools/qthelper/qthelper.cpp \
 	src/gui/qt/gametable/gametableimpl.cpp \
+	src/gui/qt/gametable/gametableimpl_ICM.cpp \
 	src/gui/qt/gametable/mycardspixmaplabel.cpp \
 	src/gui/qt/gametable/mysetlabel.cpp \
 	src/gui/qt/gametable/myactionbutton.cpp \

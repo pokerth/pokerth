@@ -183,7 +183,7 @@ public slots:
 
 	//refresh-Funktionen
 	void refreshSet();
-	void refreshCash();
+	virtual void refreshCash();
 	void refreshAction(int =-1, int=-1);
 	void refreshChangePlayer();
 	void refreshPot();
@@ -522,6 +522,7 @@ private:
 
 	friend class MyAvatarLabel;
 	friend class GuiWrapper;
+	friend class gameTableImpl_ICM;
 };
 
 #endif

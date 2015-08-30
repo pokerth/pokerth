@@ -34,7 +34,7 @@
 #include "playerinterface.h"
 #include "guilog.h"
 #include "log.h"
-#include "gametableimpl.h"
+#include "gametableimpl_ICM.h"
 #include "startwindowimpl.h"
 #include "configfile.h"
 #include "soundevents.h"
@@ -47,7 +47,7 @@ GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myGuiLog(NULL), myW(
 {
 
 
-	myW = new gameTableImpl(myConfig);
+	myW = new gameTableImpl_ICM(myConfig);
 	myGuiLog = new guiLog(myW, myConfig);
 
 	myStartWindow->setGuiLog(myGuiLog);
