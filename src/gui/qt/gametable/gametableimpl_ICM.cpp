@@ -73,3 +73,24 @@ void gameTableImpl_ICM::refreshCash ()
   
   gameTableImpl::refreshCash ();
 }
+
+void gameTableImpl_ICM::provideMyActions (int mode)
+{
+  gameTableImpl::provideMyActions (mode);
+  
+  boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
+  boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
+  PlayerList activePlayerList = currentHand->getActivePlayerList();
+  
+  if (!(
+    (mode && (humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE)))) || !humanPlayer->isSessionActive()
+  ) && (myConfig->readConfigInt ("ShowICM")))  {
+    if (!(humanPlayer->getMySet()== currentHand->getCurrentBeRo()->getHighestSet()))  {
+      pushButton_CallCheck->setText (
+	pushButton_CallCheck->text () + QString (" (%L1)").arg (icm_calc->get_Call_EV (
+	  humanPlayer->getMyID (), getMyCallAmount ()
+	))
+      );
+    }
+  }
+}

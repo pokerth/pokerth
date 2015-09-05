@@ -205,7 +205,7 @@ public slots:
 	void dealHoleCards();
 
 	//Spieler-Funktionen
-	void provideMyActions(int mode = -1);  //mode 0 == called from dealberocards
+	virtual void provideMyActions(int mode = -1);  //mode 0 == called from dealberocards
 	void meInAction();
 	void disableMyButtons();
 	void startTimeoutAnimation(int playerId, int timoutSec);

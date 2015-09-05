@@ -52,6 +52,7 @@ public:
   
 public slots:
   void refreshCash ();
+  void provideMyActions (int mode = -1);
 };
 
 #endif

@@ -66,6 +66,7 @@ namespace independent_chip_model  {
   
   private:
     std::vector<Player> players;
+    bool calculated;
     
   public:
     /**
@@ -106,7 +107,14 @@ namespace independent_chip_model  {
      * \brief Get a player's ICM expectation value.
      * \param id The player's number.
      */
-    double get_EV (const uint16_t) const;
+    double get_EV (const uint16_t);
+    
+    /**
+     * \brief Get the EV of the amount to call.
+     * \param id The player's number.
+     * \param dollars The amount to call.
+     */
+    double get_Call_EV (const uint16_t, const uint32_t);
   };
 }
 

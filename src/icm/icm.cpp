@@ -49,7 +49,7 @@ uint32_t Table::pay_outs[10] = {
 };
 
 Table::Table ()
-  : players (0)
+  : players (0), calculated (false)
 {}
 
 Table::Table (const Table& other)
@@ -97,6 +97,8 @@ void Table::setStack (const uint16_t id, const uint32_t stack)
       players.push_back (np);
     }
   }
+  
+  calculated = false;
 }
 
 void Table::calc_ICM ()
@@ -142,10 +144,16 @@ void Table::calc_ICM ()
       players[ii].ICM_EV += p * pay_outs[places[ii]];
     }
   } while (next_permutation (places, places + p_count));
+  
+  calculated = true;
 }
 
-double Table::get_EV (const uint16_t id) const
+double Table::get_EV (const uint16_t id)
 {
+  if (!calculated)  {
+    calc_ICM ();
+  }
+  
   double RET = 0.0;
   for (uint32_t ii = 0; ii < players.size (); ++ii)  {
     if (players[ii].id == id)  {
@@ -154,5 +162,19 @@ double Table::get_EV (const uint16_t id) const
     }
   }
   
+  return RET;
+}
+
+double Table::get_Call_EV (const uint16_t id, const uint32_t dollars)
+{
+  if (getStack (id) < dollars)  {
+    return 0.0;
+  }
+  
+  double oldEV = get_EV (id);
+  uint32_t oldMoney = getStack (id);
+  setStack (id, oldMoney - dollars);
+  double RET = oldEV - get_EV (id);
+  setStack (id, oldMoney);
   return RET;
 }
