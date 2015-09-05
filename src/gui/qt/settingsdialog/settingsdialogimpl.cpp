@@ -296,6 +296,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_enableAccidentallyCallBlocker->setChecked(myConfig->readConfigInt("AccidentallyCallBlocker"));
 	checkBox_dontHideAvatarsOfIgnored->setChecked(myConfig->readConfigInt("DontHideAvatarsOfIgnored"));
 	checkBox_disableChatEmoticons->setChecked(myConfig->readConfigInt("DisableChatEmoticons"));
+	checkBox_showICM_points->setChecked(myConfig->readConfigInt("ShowICM"));
 
 
 	//S t y l e
@@ -746,6 +747,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("DontHideAvatarsOfIgnored", checkBox_dontHideAvatarsOfIgnored->isChecked());
 	myConfig->writeConfigInt("DisableChatEmoticons", checkBox_disableChatEmoticons->isChecked());
+	myConfig->writeConfigInt("ShowICM", checkBox_showICM_points->isChecked());
 
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());

@@ -37,6 +37,7 @@
 #include "session.h"
 #include "game.h"
 #include "playerinterface.h"
+#include "configfile.h"
 
 gameTableImpl_ICM::gameTableImpl_ICM (ConfigFile *c, QMainWindow *parent)
   : gameTableImpl (c, parent)
@@ -51,21 +52,23 @@ gameTableImpl_ICM::~gameTableImpl_ICM ()
 
 void gameTableImpl_ICM::refreshCash ()
 {
-  boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
+  if (myConfig->readConfigInt ("ShowICM"))  {
+    boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
 
-  PlayerListConstIterator it_c;
-  PlayerList seatsList = currentGame->getSeatsList();
+    PlayerListConstIterator it_c;
+    PlayerList seatsList = currentGame->getSeatsList();
   
-  for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
-    icm_calc->setStack ((*it_c)->getMyID (), (*it_c)->getMyCash ());
-  }
+    for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
+      icm_calc->setStack ((*it_c)->getMyID (), (*it_c)->getMyCash ());
+    }
   
-  icm_calc->calc_ICM ();
+    icm_calc->calc_ICM ();
   
-  for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
-    cashLabelArray[(*it_c)->getMyID ()]->setToolTip (
-      QString ("ICM: %1 P").arg (icm_calc->get_EV ((*it_c)->getMyID ()))
-    );
+    for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
+      cashLabelArray[(*it_c)->getMyID ()]->setToolTip (
+        QString ("ICM: %1 P").arg (icm_calc->get_EV ((*it_c)->getMyID ()))
+      );
+    }
   }
   
   gameTableImpl::refreshCash ();
