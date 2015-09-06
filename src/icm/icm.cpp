@@ -175,6 +175,13 @@ double Table::get_Call_EV (const uint16_t id, const uint32_t dollars)
   uint32_t oldMoney = getStack (id);
   setStack (id, oldMoney - dollars);
   double RET = oldEV - get_EV (id);
+  
+  /* If you have to push All-In. */
+  if (getStack (id) == 0)  {
+    RET = oldEV - pay_outs[players.size ()];
+  }
+  
+  /* Reset the table. */
   setStack (id, oldMoney);
   return RET;
 }

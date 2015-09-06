@@ -82,12 +82,13 @@ void gameTableImpl_ICM::provideMyActions (int mode)
   boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
   PlayerList activePlayerList = currentHand->getActivePlayerList();
   
+  pushButton_CallCheck->setToolTip ("");
   if (!(
     (mode && (humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE)))) || !humanPlayer->isSessionActive()
   ) && (myConfig->readConfigInt ("ShowICM")))  {
     if (!(humanPlayer->getMySet()== currentHand->getCurrentBeRo()->getHighestSet()))  {
-      pushButton_CallCheck->setText (
-	pushButton_CallCheck->text () + QString (" (%L1)").arg (icm_calc->get_Call_EV (
+      pushButton_CallCheck->setToolTip (
+	QString ("ICM: %1 P").arg (icm_calc->get_Call_EV (
 	  humanPlayer->getMyID (), getMyCallAmount ()
 	))
       );
