@@ -52,23 +52,21 @@ gameTableImpl_ICM::~gameTableImpl_ICM ()
 
 void gameTableImpl_ICM::refreshCash ()
 {
-  if (myConfig->readConfigInt ("ShowICM"))  {
-    boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
-
-    PlayerListConstIterator it_c;
-    PlayerList seatsList = currentGame->getSeatsList();
+  boost::shared_ptr<Game> currentGame = myStartWindow->getSession()->getCurrentGame();
   
-    for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
-      icm_calc->setStack ((*it_c)->getMyID (), (*it_c)->getMyCash ());
-    }
+  PlayerListConstIterator it_c;
+  PlayerList seatsList = currentGame->getSeatsList();
   
-    icm_calc->calc_ICM ();
+  for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
+    icm_calc->setStack ((*it_c)->getMyID (), (*it_c)->getMyCash ());
+  }
   
-    for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
-      cashLabelArray[(*it_c)->getMyID ()]->setToolTip (
-        QString ("ICM: %1 P").arg (icm_calc->get_EV ((*it_c)->getMyID ()))
-      );
-    }
+  icm_calc->calc_ICM ();
+  
+  for (it_c = seatsList->begin (); it_c != seatsList->end (); ++it_c)  {
+    cashLabelArray[(*it_c)->getMyID ()]->setToolTip (
+      QString ("ICM: %1 P").arg (icm_calc->get_EV ((*it_c)->getMyID ()))
+    );
   }
   
   gameTableImpl::refreshCash ();
@@ -85,7 +83,7 @@ void gameTableImpl_ICM::provideMyActions (int mode)
   pushButton_CallCheck->setToolTip ("");
   if (!(
     (mode && (humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE)))) || !humanPlayer->isSessionActive()
-  ) && (myConfig->readConfigInt ("ShowICM")))  {
+  ))  {
     if (!(humanPlayer->getMySet()== currentHand->getCurrentBeRo()->getHighestSet()))  {
       pushButton_CallCheck->setToolTip (
 	QString ("ICM: %1 P").arg (icm_calc->get_Call_EV (
@@ -94,4 +92,13 @@ void gameTableImpl_ICM::provideMyActions (int mode)
       );
     }
   }
+}
+
+gameTableImpl* getRightGameTable (ConfigFile *c, QMainWindow *parent)
+{
+  return (
+    c->readConfigInt ("ShowICM") ?
+    new gameTableImpl_ICM (c, parent) :
+    new gameTableImpl (c, parent)
+  );
 }

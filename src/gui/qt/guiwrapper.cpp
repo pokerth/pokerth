@@ -47,7 +47,7 @@ GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myGuiLog(NULL), myW(
 {
 
 
-	myW = new gameTableImpl_ICM(myConfig);
+	myW = getRightGameTable (c);
 	myGuiLog = new guiLog(myW, myConfig);
 
 	myStartWindow->setGuiLog(myGuiLog);

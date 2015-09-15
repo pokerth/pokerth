@@ -55,4 +55,11 @@ public slots:
   void provideMyActions (int mode = -1);
 };
 
+/**
+ * \brief Get the gameTableImpl instance based on c's ICM settings.
+ * \param c The configuration file.
+ * \param parent The parent window; default null
+ */
+gameTableImpl* getRightGameTable (ConfigFile *c, QMainWindow *parent = 0);
+
 #endif
