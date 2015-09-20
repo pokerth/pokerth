@@ -13,6 +13,7 @@ Rectangle {
     color: "#88000000" //dark transparent background
 
     property alias container: ctr.children
+    property alias containerSelf: ctr
 
     property string titleText: ""
     property string button1Text: ""
@@ -76,7 +77,7 @@ Rectangle {
                 width: parent.width
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                spacing: AppStyle.rowLayoutSpacing
+                spacing: AppStyle.selectorBoxButtonRowLayoutSpacing
                 Layout.preferredHeight: btn1.contentHeight
 
                 Text {
@@ -86,12 +87,17 @@ Rectangle {
                     width: button1Text == "" ? 0 : contentWidth
                     text: button1Text
 
-                    signal buttonClicked
 
                     MouseArea {
                         id: mouse1
                         anchors.fill: parent
+                        anchors.margins: AppStyle.selectorBoxButtonMouseAreaMargin
                         onClicked: selector.button1Clicked()
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: mouse1.pressed ? "#55555555" : "#00ffffff"
+                        }
                     }
                 }
                 Text {
@@ -104,7 +110,13 @@ Rectangle {
                     MouseArea {
                         id: mouse2
                         anchors.fill: parent
+                        anchors.margins: AppStyle.selectorBoxButtonMouseAreaMargin
                         onClicked: selector.button2Clicked()
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: mouse2.pressed ? "#55555555" : "#00ffffff"
+                        }
                     }
                 }
             }

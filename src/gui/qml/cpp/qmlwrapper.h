@@ -1,7 +1,7 @@
 #ifndef QMLWRAPPER_H
 #define QMLWRAPPER_H
 #include <QtCore>
-#include <boost/shared_ptr.hpp>
+#include "boost/shared_ptr.hpp"
 
 class QQmlApplicationEngine;
 class ConfigFile;
@@ -20,7 +20,7 @@ public:
 public slots:
 
 private:
-    boost::shared_ptr<QQmlApplicationEngine> myEngine;
+    QQmlApplicationEngine *myQmlEngine;
     boost::shared_ptr<ConfigFile> myConfig;
     QmlConfig *myQmlConfig;
     CreateLocalGameViewImpl *myCreateLocalGameViewImpl;

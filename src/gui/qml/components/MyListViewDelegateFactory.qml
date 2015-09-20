@@ -15,9 +15,9 @@ Item {
 
     property var componentMap: {
         "ComboBox": myComboBox,
-                "SpinBox": mySpinBox,
-                "BlindsRaiseInterval": myBlindsRaiseInterval,
-                "BlindsRaiseMode": myBlindsRaiseMode
+        "SpinBox": mySpinBox,
+        "BlindsRaiseInterval": myBlindsRaiseInterval,
+        "BlindsRaiseMode": myBlindsRaiseMode
     }
     width: myListViewsWidth
 
@@ -35,7 +35,7 @@ Item {
             MyComboBoxSelector {
                 id: myComboBoxSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
-                onAccepted: myListViewModel.setProperty(myComboBoxContent.modelIndex, "myValue", myComboBoxSelector.returnValue);
+                onAccepted: myListViewModel[myComboBoxContent.modelIndex].myValue = myComboBoxSelector.returnValue;
             }
 
             id: myComboBoxContent
@@ -63,7 +63,7 @@ Item {
                     color: "grey"
                     font.pixelSize: myValue != "" ? AppStyle.listViewDelegateValueFontSize : 0
                     //setup value from Index if necessary
-                    text: myValueIsIndex ? myValuesList.get(parseInt(myValue)).value : myValue
+                    text: myValueIsIndex ? myValuesList[parseInt(myValue)].value : myValue
                     Layout.preferredHeight: contentHeight
                 }
             }
@@ -96,7 +96,7 @@ Item {
             MySpinBoxSelector {
                 id: mySpinBoxSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
-                onAccepted: myListViewModel.setProperty(mySpinBoxContent.modelIndex, "myValue", mySpinBoxSelector.returnValue);
+                onAccepted: myListViewModel[mySpinBoxContent.modelIndex].myValue = mySpinBoxSelector.returnValue;
             }
 
             id: mySpinBoxContent
@@ -159,9 +159,9 @@ Item {
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
                 onAccepted: {
                     //call update the currentItem with selection from the comboBox selector
-                    myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsType", myBlindsRaiseIntervalSelector.raiseOnHandsType);
-                    myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnHandsInterval", myBlindsRaiseIntervalSelector.raiseOnHandsInterval);
-                    myListViewModel.setProperty(myBlindsRaiseIntervalContent.modelIndex, "myRaiseOnMinutesInterval", myBlindsRaiseIntervalSelector.raiseOnMinutesInterval);
+                    myListViewModel[myBlindsRaiseIntervalContent.modelIndex].myRaiseOnHandsType = myBlindsRaiseIntervalSelector.raiseOnHandsType;
+                    myListViewModel[myBlindsRaiseIntervalContent.modelIndex].myRaiseOnHandsInterval = myBlindsRaiseIntervalSelector.raiseOnHandsInterval;
+                    myListViewModel[myBlindsRaiseIntervalContent.modelIndex].myRaiseOnMinutesInterval = myBlindsRaiseIntervalSelector.raiseOnMinutesInterval;
                     //here we also need to trigger the textStringBuild from the model again
                     blindsRaiseIntevalValue.buildTextString();
                 }
@@ -215,7 +215,7 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     //call selector overlay and set inital values
-                    myBlindsRaiseIntervalSelector.show(myTitle, myRaiseOnHandsType, myRaiseOnHandsInterval, myRaiseOnMinutesInterval)
+                    myBlindsRaiseIntervalSelector.show(myTitle, myRaiseOnHandsType, myRaiseOnHandsInterval, myRaiseOnMinutesInterval, myListViewModel)
                 }
             }
 
@@ -234,7 +234,15 @@ Item {
                 id: myBlindsRaiseModeSelector
                 parent: myListViewRoot // this needs to be parent to display the selector over the whole ListView
                 onAccepted: {
-                    //TODO update model
+                    //call update the currentItem with selection from the comboBox selector
+                    myListViewModel[myBlindsRaiseModeContent.modelIndex].myAlwaysDoubleBlinds = (myBlindsRaiseModeSelector.alwaysDoubleBlinds ? "1" : "0");
+                    myListViewModel[myBlindsRaiseModeContent.modelIndex].myManualBlindsList = (myBlindsRaiseModeSelector.manualBlindsList);
+                    myListViewModel[myBlindsRaiseModeContent.modelIndex].myAfterMBAlwaysDoubleBlinds = (myBlindsRaiseModeSelector.afterMBAlwaysDoubleBlinds ? "1" : "0");
+                    myListViewModel[myBlindsRaiseModeContent.modelIndex].myAfterMBAlwaysRaiseAbout = (myBlindsRaiseModeSelector.afterMBAlwaysRaiseAbout ? "1" : "0");
+                    myListViewModel[myBlindsRaiseModeContent.modelIndex].myAfterMBAlwaysRaiseValue = (myBlindsRaiseModeSelector.afterMBAlwaysRaiseValue);
+                    myListViewModel[myBlindsRaiseModeContent.modelIndex].myAfterMBStayAtLastBlind = (myBlindsRaiseModeSelector.afterMBStayAtLastBlind ? "1" : "0");
+                    //here we also need to trigger the textStringBuild from the model again
+                    blindsRaiseModeValue.buildTextString();
                 }
             }
 
@@ -272,8 +280,8 @@ Item {
                         else {
                             //build manual blindsList
                             var tempString = ""
-                            for (var i=0; i < myManualBlindsList.count; i++) {
-                                tempString = tempString + "$" + myManualBlindsList.get(i).blindValue.toString() + ", ";
+                            for (var i=0; i < myManualBlindsList.length; i++) {
+                                tempString = tempString + "$" + myManualBlindsList[i] + ", ";
                             }
                             text = tempString.substring(0, tempString.length - 2);
                             if(myAfterMBAlwaysDoubleBlinds == "1") {
@@ -304,8 +312,8 @@ Item {
                 id: mouse
                 anchors.fill: parent
                 onClicked: {
-                    //                    call selector overlay and set inital values
-                    myBlindsRaiseModeSelector.show(myTitle, myAlwaysDoubleBlinds, myManualBlindsList, myAfterMBAlwaysDoubleBlinds, myAfterMBAlwaysRaiseAbout, myAfterMBAlwaysRaiseValue, myAfterMBStayAtLastBlind);
+                    //call selector overlay and set inital values
+                    myBlindsRaiseModeSelector.show(myTitle, myAlwaysDoubleBlinds == "1", myManualBlindsList, myAfterMBAlwaysDoubleBlinds == "1", myAfterMBAlwaysRaiseAbout == "1", myAfterMBAlwaysRaiseValue, myAfterMBStayAtLastBlind == "1", myListViewModel, myListViewRoot);
                 }
             }
 

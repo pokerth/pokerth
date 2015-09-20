@@ -30,6 +30,8 @@ QtObject {
     property int selectorBoxTitleTopMargin: -Math.round(appHeight*0.02)
     property int selectorBoxValueFontSize: fontSizeH5
     property int selectorBoxButtonFontSize: fontSizeH5
+    property int selectorBoxButtonMouseAreaMargin: -Math.round(appHeight*0.02)
+    property int selectorBoxButtonRowLayoutSpacing: Math.round(appHeight*0.10)
     property bool selectorBoxButtonFontBold: false
     property int selectorBoxContentMargins: Math.round(appHeight*0.05)
     property int selectorBoxRealContentLeftMargin: Math.round(appHeight*0.05)

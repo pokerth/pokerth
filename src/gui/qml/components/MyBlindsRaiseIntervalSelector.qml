@@ -31,11 +31,11 @@ Item {
         mySelector.show()
 
         if(raiseOnHandsType == "1") {
-            textFieldHandsInterval.focus = true;
+//            textFieldHandsInterval.focus = true;
             radioBtnRaiseOnHands.checked = true;
         }
         else {
-            textFieldMinutesInterval.focus = true;
+//            textFieldMinutesInterval.focus = true;
             radioBtnRaiseOnMinutes.checked = true;
         }
     }

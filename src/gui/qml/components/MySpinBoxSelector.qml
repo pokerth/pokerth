@@ -32,12 +32,11 @@ Item {
         prefix = myPrefix;
 
         mySelector.show()
-        textField.focus = true;
+//        textField.focus = true;
     }
 
     function selected(newSelection) {
         returnValue = newSelection;
-
         mySelector.hide()
         root.accepted()
     }

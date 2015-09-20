@@ -54,7 +54,8 @@ HEADERS += \
     src/gui/qml/cpp/qmlwrapper.h \
     src/gui/qml/cpp/qmlconfig.h \
     src/gui/qml/cpp/startviewimpl.h \
-    src/gui/qml/cpp/createlocalgameviewimpl.h
+    src/gui/qml/cpp/createlocalgameviewimpl.h \
+    src/gui/qml/cpp/mylistviewitemdata.h
 
 
 SOURCES += \
