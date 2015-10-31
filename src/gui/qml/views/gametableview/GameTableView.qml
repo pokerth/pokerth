@@ -10,7 +10,7 @@ Rectangle {
     height: parent.height
 
     function setupToolBar() {
-        toolbar.visible = false;
+        toolbar.hide();
     }
 
     Component.onCompleted: {

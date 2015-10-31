@@ -18,7 +18,7 @@ QmlWrapper::QmlWrapper(boost::shared_ptr<ConfigFile> c)
     //TODO create Session and Log here
 
     myStartViewImpl = new StartViewImpl(this);
-    myCreateLocalGameViewImpl = new CreateLocalGameViewImpl(this, myQmlEngine, myConfig);
+    myCreateLocalGameViewImpl = new CreateLocalGameViewImpl(this, myQmlEngine, myConfig, myStartViewImpl);
 
     //Add c++ content to QML here
     myQmlEngine->rootContext()->setContextProperty("Config", myQmlConfig);

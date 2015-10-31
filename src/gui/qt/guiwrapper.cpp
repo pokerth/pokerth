@@ -64,6 +64,7 @@ GuiWrapper::~GuiWrapper()
 void GuiWrapper::initGui(int speed)
 {
 	myW->signalInitGui(speed);
+    qDebug("GuiWrapper::initGui");
 }
 
 boost::shared_ptr<Session> GuiWrapper::getSession()
@@ -78,47 +79,58 @@ void GuiWrapper::setSession(boost::shared_ptr<Session> /*session*/)
 void GuiWrapper::refreshSet() const
 {
 	myW->signalRefreshSet();
+    qDebug("GuiWrapper::refreshSet");
 }
 void GuiWrapper::refreshCash() const
 {
 	myW->signalRefreshCash();
+    qDebug("GuiWrapper::refreshCash");
 }
 void GuiWrapper::refreshAction(int playerID, int playerAction) const
 {
 	myW->signalRefreshAction(playerID, playerAction);
+    qDebug("GuiWrapper::refreshAction");
 }
 void GuiWrapper::refreshChangePlayer() const
 {
 	myW->signalRefreshChangePlayer();
+    qDebug("GuiWrapper::refreshChangePlayer");
 }
 void GuiWrapper::refreshAll() const
 {
 	myW->signalRefreshAll();
+    qDebug("GuiWrapper::refreshAll");
 }
 void GuiWrapper::refreshPot() const
 {
 	myW->signalRefreshPot();
+    qDebug("GuiWrapper::refreshPot");
 }
 void GuiWrapper::refreshGroupbox(int playerID, int status) const
 {
 	myW->signalRefreshGroupbox(playerID, status);
+    qDebug("GuiWrapper::refreshGroupbox");
 }
 void GuiWrapper::refreshPlayerName() const
 {
 	myW->signalRefreshPlayerName();
+    qDebug("GuiWrapper::refreshPlayerName");
 }
 void GuiWrapper::refreshButton() const
 {
 	myW->signalRefreshButton();
+    qDebug("GuiWrapper::refreshButton");
 }
 void GuiWrapper::refreshGameLabels(GameState state) const
 {
 	myW->signalRefreshGameLabels(state);
+    qDebug("GuiWrapper::refreshGameLabels");
 }
 
 void GuiWrapper::setPlayerAvatar(int myUniqueID, const std::string &myAvatar) const
 {
 	myW->signalSetPlayerAvatar(myUniqueID, QString::fromUtf8(myAvatar.c_str()));
+    qDebug("GuiWrapper::setPlayerAvatar");
 }
 
 
@@ -126,47 +138,57 @@ void GuiWrapper::waitForGuiUpdateDone() const
 {
 	myW->signalGuiUpdateDone();
 	myW->waitForGuiUpdateDone();
+    qDebug("GuiWrapper::waitForGuiUpdateDone");
 }
 
 void GuiWrapper::dealBeRoCards(int myBeRoID)
 {
 	myW->signalDealBeRoCards(myBeRoID);
+    qDebug("GuiWrapper::dealBeRoCards");
 }
 
 void GuiWrapper::dealHoleCards()
 {
 	myW->signalDealHoleCards();
+    qDebug("GuiWrapper::dealHoleCards");
 }
 void GuiWrapper::dealFlopCards()
 {
 	myW->signalDealFlopCards0();
+    qDebug("GuiWrapper::dealFlopCard");
 }
 void GuiWrapper::dealTurnCard()
 {
 	myW->signalDealTurnCards0();
+    qDebug("GuiWrapper::dealTurnCard");
 }
 void GuiWrapper::dealRiverCard()
 {
 	myW->signalDealRiverCards0();
+    qDebug("GuiWrapper::dealRiverCard");
 }
 
 void GuiWrapper::nextPlayerAnimation()
 {
 	myW->signalNextPlayerAnimation();
+    qDebug("GuiWrapper::nextPlayerAnimation");
 }
 
 void GuiWrapper::beRoAnimation2(int myBeRoID)
 {
 	myW->signalBeRoAnimation2(myBeRoID);
+    qDebug("GuiWrapper::beRoAnimantion2");
 }
 
 void GuiWrapper::preflopAnimation1()
 {
 	myW->signalPreflopAnimation1();
+    qDebug("GuiWrapper::preflopAnimation1");
 }
 void GuiWrapper::preflopAnimation2()
 {
 	myW->signalPreflopAnimation2();
+    qDebug("GuiWrapper::preFlopAnimation2");
 }
 
 void GuiWrapper::flopAnimation1()

@@ -34,7 +34,19 @@ ApplicationWindow {
         color: GlobalColors.accentColor
         width: appWindow.width
         height: appWindow.height*0.13
-        Behavior on height { NumberAnimation{} }
+        Behavior on y { NumberAnimation{} }
+
+        function show() {
+            visible = true;
+            y = 0;
+
+        }
+
+        function hide() {
+            y = -height;
+            visible = false;
+        }
+
         Rectangle { //Shadow
             y: parent.height
             width: parent.width

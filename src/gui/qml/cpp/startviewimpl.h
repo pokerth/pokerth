@@ -3,6 +3,7 @@
 #include <QtCore>
 
 class CreateLocalGameViewImpl;
+class GameData;
 
 class StartViewImpl : public QObject
 {
@@ -14,7 +15,7 @@ public:
 signals:
 
 public slots:
-    Q_INVOKABLE void startLocalGame();
+    Q_INVOKABLE void startLocalGame(GameData &gd);
 
 private:
 

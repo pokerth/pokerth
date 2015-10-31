@@ -41,7 +41,7 @@ Rectangle {
     }
 
     function setupToolBar() {
-        toolbar.visible = true;
+        toolbar.show()
         toolBarRightButton.myIconName = "accept";
         toolBarLeftButton.myIconName = "back";
         //send start signal to the session
@@ -49,6 +49,7 @@ Rectangle {
     }
 
     function clearToolBar() {
+        //disconnect signals from the buttons
         toolBarRightButton.clicked.disconnect(CreateLocalGameViewImpl.startGame);
     }
 
