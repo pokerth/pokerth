@@ -59,8 +59,8 @@ main(int argc, char *argv[])
 		return 2;
 	}
 	try {
-		ifstream inFile(inputFilePath.directory_string().c_str(), ios_base::in);
-		ofstream outFile(outputFilePath.directory_string().c_str(), ios_base::out | ios_base::binary);
+		std::ifstream inFile(inputFilePath.directory_string().c_str(), ios_base::in);
+		std::ofstream outFile(outputFilePath.directory_string().c_str(), ios_base::out | ios_base::binary);
 		boost::iostreams::filtering_streambuf<boost::iostreams::output> out;
 		out.push(boost::iostreams::zlib_compressor());
 		out.push(outFile);

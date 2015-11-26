@@ -161,7 +161,7 @@ main(int argc, char *argv[])
 		pidFile = tmpPidPath.directory_string();
 	}
 	{
-		ofstream pidStream(pidFile.c_str(), ios_base::out | ios_base::trunc);
+		std::ofstream pidStream(pidFile.c_str(), ios_base::out | ios_base::trunc);
 		if (!pidStream.fail())
 			pidStream << getpid();
 		else

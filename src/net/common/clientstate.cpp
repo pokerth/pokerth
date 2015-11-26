@@ -302,8 +302,8 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 
 		// Unzip the file using zlib.
 		try {
-			ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
-			ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out | ios_base::trunc);
+			std::ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
+			std::ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out | ios_base::trunc);
 			boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
 			in.push(boost::iostreams::zlib_decompressor());
 			in.push(inFile);
