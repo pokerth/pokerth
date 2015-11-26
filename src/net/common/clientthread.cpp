@@ -1695,7 +1695,7 @@ void
 ClientThread::ReadSessionGuidFromFile()
 {
 	string guidFileName(GetContext().GetCacheDir() + TEMP_GUID_FILENAME);
-	ifstream guidStream(guidFileName.c_str(), ios::in | ios::binary);
+	std::ifstream guidStream(guidFileName.c_str(), ios::in | ios::binary);
 	if (guidStream.good()) {
 		std::vector<char> tmpGuid(CLIENT_GUID_SIZE);
 		guidStream.read(&tmpGuid[0], CLIENT_GUID_SIZE);
@@ -1707,7 +1707,7 @@ void
 ClientThread::WriteSessionGuidToFile() const
 {
 	string guidFileName(GetContext().GetCacheDir() + TEMP_GUID_FILENAME);
-	ofstream guidStream(guidFileName.c_str(), ios::out | ios::trunc | ios::binary);
+	std::ofstream guidStream(guidFileName.c_str(), ios::out | ios::trunc | ios::binary);
 	if (guidStream.good()) {
 		guidStream.write(GetContext().GetSessionGuid().c_str(), GetContext().GetSessionGuid().size());
 	}
