@@ -15,7 +15,7 @@ Linux:
 - libSDL_mixer, libSDL  --> http://www.libsdl.org/
 - libSQLite3 --> http://sqlite.org/
 - libtinyxml > 2.0 --> http://www.sourceforge.net/projects/tinyxml
-- protoc >= 2.3.0 (during build), libprotobuf >= 2.3.0 -> http://code.google.com/p/protobuf/downloads/list
+- protoc >= 2.3.0 (during build), libprotobuf >= 2.3.0 -> https://github.com/google/protobuf
 - For the server: libircclient 1.3 --> http://www.sourceforge.net/projects/libircclient/
 
 Windows:
@@ -28,7 +28,7 @@ Basic Installation
 Linux:
 
   1. Type "cd path/to/the/sources". Then do for example "/usr/qt/4/bin/qmake pokerth.pro" to configure the makefile for your system.
-     Pay attention that the QTDIR environment varialbe points to Qt4 not Qt3. For example QTDIR=/usr/qt/4.
+     Pay attention that the QTDIR environment variable points to Qt4 not Qt3. For example QTDIR=/usr/qt/4.
      You can set this variable typing: "export QTDIR=/usr/qt/4"
 
   2. Type "make" to compile the package.
