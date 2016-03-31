@@ -58,7 +58,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Einnsean poker airson &amp;quot;Texas Hold&apos;em&amp;quot; Poker mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan aon-chluicheadair le suas ri 9 co-fharpaisich coimpiutair&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- Geamannan lìonraidh ioma-chluicheadair&lt;br /&gt;- Geamannan air an eadar-lìon&lt;br /&gt;- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0057ae;&quot;&gt;Làrach-lìn rangachaidh&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; le clàraichean nan toraidhean&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;&quot;&gt;&lt;/p&gt;
@@ -132,7 +132,7 @@ p, li { white-space: pre-wrap; }
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Einnsean poker airson &amp;quot;Texas Hold&apos;em&amp;quot; Poker mòr-chòrdte&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan aon-chluicheadair le suas ri 9 co-fharpaisich coimpiutair&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;- Geamannan lìonraidh ioma-chluicheadair&lt;br /&gt;- Geamannan air an eadar-lìon&lt;br /&gt;- Eadar-aghaidh a ghabhas atharrachadh le gailearaidh dhe stoidhlichean air loidhne&lt;br /&gt;- &lt;/span&gt;&lt;a href=&quot;http://online-ranking.pokerth.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt; text-decoration: underline; color:#0057ae;&quot;&gt;Làrach-lìn rangachaidh&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt; le clàraichean nan toraidhean&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:14pt;&quot;&gt;© 2006-2011, Felix Hammer, Florian Thauer, Lothar May&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -1110,7 +1110,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="110"/>
         <source>- Singleplayer games with up to 9 computer-opponents</source>
-        <translation>- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisichean coimpiutair</translation>
+        <translation>- Geamannan aon-chluicheadair le suas gu 9 co-fharpaisich coimpiutair</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="111"/>
@@ -1732,7 +1732,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="777"/>
         <location filename="../src/gui/qt/gui_800x480/gamelobbydialog_800x480.ui" line="874"/>
         <source>Fill up with computer opponents</source>
-        <translation>Lìon le co-fharpaisichean coimpiutair</translation>
+        <translation>Lìon le co-fharpaisich coimpiutair</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog.ui" line="838"/>
@@ -5619,7 +5619,7 @@ A bheil thu cinnteach gu bheil thu airson roghainnean an fhactaraidh ath-shuidhe
         <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="57"/>
         <location filename="../src/gui/qt/startnetworkgamedialog.ui" line="28"/>
         <source>Fill up with computer opponents</source>
-        <translation>Lìon le co-fharpaisichean coimpiutair</translation>
+        <translation>Lìon le co-fharpaisich coimpiutair</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/startnetworkgamedialog_800x480.ui" line="107"/>
