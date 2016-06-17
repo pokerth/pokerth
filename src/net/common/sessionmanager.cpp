@@ -247,6 +247,31 @@ SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
 	return retVal;
 }
 
+bool
+SessionManager::IsGuestConnectedMultiple(const std::string &clientAddress) const
+{
+	bool retVal = false;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+  int j = 0;
+  
+	while (i != end) {
+    // @XXX: comparing PlayerRights does not yet work (e.g. throws an exception)
+		//if ((*i).second->GetClientAddr() == clientAddress && (*i).second->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST) {
+    if ((*i).second->GetClientAddr() == clientAddress) {
+      j++;
+		}
+		++i;
+	}
+  if (j > 1) {
+    retVal = true;
+  }
+	return retVal;
+}
+
 void
 SessionManager::ForEach(boost::function<void (boost::shared_ptr<SessionData>)> func)
 {
