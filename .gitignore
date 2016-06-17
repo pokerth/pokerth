@@ -14,4 +14,7 @@ obj/
 pokerth
 qrc_pokerth.cpp
 uics/
+make.sh
+gitpush_serverstuff_stable
+pokerth_server
 
