@@ -1008,9 +1008,9 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	LOG_VERBOSE("Received init for session #" << session->GetId() << ".");
   
   // @XXX: debug tests
-  if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
-    LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Should be declined!");
-  }
+  //if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
+  //  LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Should be declined!");
+  //}
   // @XXX: end debug tests
 
 	// Before any other processing, perform some denial of service and
@@ -1065,7 +1065,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 			}
       // @XXX: check if a guest session with same ip is already connected - decline if true
       if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
-        LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
+        //LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
         validGuest = false;
       }
 		}

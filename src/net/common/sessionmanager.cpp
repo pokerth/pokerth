@@ -256,19 +256,18 @@ SessionManager::IsGuestConnectedMultiple(const std::string &clientAddress) const
 	SessionMap::const_iterator i = m_sessionMap.begin();
 	SessionMap::const_iterator end = m_sessionMap.end();
 
-  int j = 0;
-  
 	while (i != end) {
-    // @XXX: comparing PlayerRights does not yet work (e.g. throws an exception)
-		//if ((*i).second->GetClientAddr() == clientAddress && (*i).second->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST) {
-    if ((*i).second->GetClientAddr() == clientAddress) {
-      j++;
-		}
+		boost::shared_ptr<PlayerData> tmpPlayer(i->second->GetPlayerData());
+    // @XXX: productive:
+    //if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST && i->second->GetClientAddr() == clientAddress){
+    // @XXX: debug:
+    // if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_NORMAL && i->second->GetClientAddr() == clientAddress){
+    if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST && i->second->GetClientAddr() == clientAddress){
+      retVal = true;
+      break;
+    }
 		++i;
 	}
-  if (j > 1) {
-    retVal = true;
-  }
 	return retVal;
 }
 
