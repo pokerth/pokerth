@@ -537,10 +537,24 @@ ServerGameStateInit::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost
 {
 	if (session && session->GetPlayerData()) {
 		const GameData &tmpGameData = server->GetGameData();
+
+    // @XXX: debug
+    //LOG_ERROR("New Player: " << session->GetPlayerData()->GetName() << ".");
+    //server->AddPlayerToNumJoinsPerPlayer(session->GetPlayerData()->GetName());
+    //LOG_ERROR("Num joins of " << session->GetPlayerData()->GetName() << " = " << server->GetNumJoinsPerPlayer(session->GetPlayerData()->GetName()) << ".");
+
+    // @XXX: check if player joined the game more than 9 times - decline if > 9
+    if (server->GetNumJoinsPerPlayer(session->GetPlayerData()->GetName()) > 9) {
+			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+      return;
+		}
+
 		// Check the number of players.
 		if (server->GetCurNumberOfPlayers() >= tmpGameData.maxNumberOfPlayers) {
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		} else {
+      // @XXX: add player to NumJoinsPerPlayerMap
+      server->AddPlayerToNumJoinsPerPlayer(session->GetPlayerData()->GetName());
 
 			AcceptNewSession(server, session, false);
 

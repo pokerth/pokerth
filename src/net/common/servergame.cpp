@@ -457,6 +457,8 @@ ServerGame::InternalEndGame()
 {
 	StoreAndResetRanking();
 	m_game.reset();
+  // @XXX: reset NumJoinsPerPlayerMap (if a game restarts, the number of joins will be set to 0 for each player)
+  ResetNumJoinsPerPlayer();
 }
 
 void
@@ -1164,3 +1166,34 @@ ServerGame::GetNextGameNum()
 	return m_gameNum++;
 }
 
+void
+ServerGame::AddPlayerToNumJoinsPerPlayer(const std::string &playerName)
+{
+  if(m_numjoinsp.find(playerName) != m_numjoinsp.end()){
+    m_numjoinsp[playerName] = m_numjoinsp[playerName] + 1;
+  }else{
+    m_numjoinsp[playerName] = 1;
+  }
+}
+
+int
+ServerGame::GetNumJoinsPerPlayer(const std::string &playerName)
+{
+  int num = 0;
+  if(m_numjoinsp.find(playerName) != m_numjoinsp.end()){
+    num = m_numjoinsp[playerName];
+  }
+  return num;
+}
+
+void
+ServerGame::ResetNumJoinsPerPlayer()
+{
+	NumJoinsPerPlayerMap::const_iterator numj_i = m_numjoinsp.begin();
+	NumJoinsPerPlayerMap::const_iterator numj_end = m_numjoinsp.end();
+
+	while (numj_i != numj_end) {
+    m_numjoinsp[numj_i->first] = 0;
+		++numj_i;
+	}
+}
