@@ -84,6 +84,8 @@ using namespace std;
 #define SERVER_LOOP_DELAY_MSEC						50
 #define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
 
+#define GAME_NUM_JOINS_PER_PLAYER  6
+
 // Helper functions
 
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
@@ -544,7 +546,7 @@ ServerGameStateInit::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost
     //LOG_ERROR("Num joins of " << session->GetPlayerData()->GetName() << " = " << server->GetNumJoinsPerPlayer(session->GetPlayerData()->GetName()) << ".");
 
     // @XXX: check if player joined the game more than 9 times - decline if > 9
-    if (server->GetNumJoinsPerPlayer(session->GetPlayerData()->GetName()) > 9) {
+    if (server->GetNumJoinsPerPlayer(session->GetPlayerData()->GetName()) > GAME_NUM_JOINS_PER_PLAYER) {
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
       return;
 		}
