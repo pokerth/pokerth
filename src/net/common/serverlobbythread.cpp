@@ -1053,9 +1053,17 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	MD5Buf avatarMD5;
 	bool noAuth = false;
 	bool validGuest = false;
-	if (initMessage.login() == InitMessage::guestLogin) {
+  // @XXX: debug: unauthenticatedLogin - that is standard for dedicated server without auth!
+  // if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+  // @XXX: productive
+	// if (initMessage.login() == InitMessage::guestLogin) {
+  if (initMessage.login() == InitMessage::unauthenticatedLogin) {
 		playerName = initMessage.nickname();
+    // @XXX: debug
+    LOG_ERROR("Guest " << playerName << " trys to connect.");
 		// Verify guest player name.
+    // @XXX: debug - accept every playername - e.g. if(true){
+    /*
 		if (playerName.length() > sizeof(SERVER_GUEST_PLAYER_NAME - 1)
 				&& playerName.substr(0, sizeof(SERVER_GUEST_PLAYER_NAME) - 1) == SERVER_GUEST_PLAYER_NAME) {
 			string guestId(playerName.substr(sizeof(SERVER_GUEST_PLAYER_NAME)));
@@ -1063,10 +1071,15 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				validGuest = true;
 				noAuth = true;
 			}
+		*/
+    validGuest = true; // needed for guest login simulation
+		noAuth = true; // needed for guest login simulation
+    if(true){
       // @XXX: check if a guest session with same ip is already connected - decline if true
       if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
         //LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
-        validGuest = false;
+        SessionError(session, ERR_NET_PLAYER_BANNED);
+        return;
       }
 		}
 		if (!validGuest) {
