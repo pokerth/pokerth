@@ -65,6 +65,7 @@
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
+#define SERVER_MAX_GUEST_USERS							150 // Maximum number of guests users allowed
 
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
@@ -395,8 +396,12 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		m_sessionManager.RemoveSession(session->GetId());
 		m_gameSessionManager.RemoveSession(session->GetId());
 
-		if (session->GetPlayerData())
+		if (session->GetPlayerData()){
+      if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST){
+        m_sessionManager.DecrementGuest();
+      }
 			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
+		}
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
 
@@ -1010,6 +1015,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
   // @XXX: debug tests
   //if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
   //  LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Should be declined!");
+  //LOG_ERROR("number of guests (before this session is accepted) = " << m_sessionManager.GetGuestUsers() << ".");
   //}
   // @XXX: end debug tests
 
@@ -1053,7 +1059,9 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	MD5Buf avatarMD5;
 	bool noAuth = false;
 	bool validGuest = false;
-	if (initMessage.login() == InitMessage::guestLogin) {
+	// @XXX: productive: if (initMessage.login() == InitMessage::guestLogin) {
+  // @XXX: debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+  if (initMessage.login() == InitMessage::guestLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
 		if (playerName.length() > sizeof(SERVER_GUEST_PLAYER_NAME - 1)
@@ -1066,7 +1074,12 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
       // @XXX: check if a guest session with same ip is already connected - decline if true
       if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
         //LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
-        validGuest = false;
+        SessionError(session, ERR_NET_TOO_MANY_GUESTS);
+        return;
+      }
+      if (m_sessionManager.GetGuestUsers() >= SERVER_MAX_GUEST_USERS) { 
+        SessionError(session, ERR_NET_TOO_MANY_GUESTS);
+        return; 
       }
 		}
 		if (!validGuest) {
@@ -1132,6 +1145,10 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	// Set player data for session.
 	m_sessionManager.SetSessionPlayerData(session->GetId(), tmpPlayerData);
 	session->SetPlayerData(tmpPlayerData);
+
+  if (validGuest){
+    m_sessionManager.IncrementGuest();
+  }
 
 	if (noAuth)
 		InitAfterLogin(session);
