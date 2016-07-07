@@ -396,7 +396,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		m_sessionManager.RemoveSession(session->GetId());
 		m_gameSessionManager.RemoveSession(session->GetId());
 
-		if (session->GetPlayerData()){
+		if (session->GetPlayerData()) {
 			if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST) {
 				DecrementGuests();
 			}
@@ -1011,12 +1011,12 @@ void
 ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, const InitMessage &initMessage)
 {
 	LOG_VERBOSE("Received init for session #" << session->GetId() << ".");
-  
-  // @XXX: debug tests
-  //if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
-  //  LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Should be declined!");
-  //}
-  // @XXX: end debug tests
+
+	// @XXX: debug tests
+	//if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
+	//  LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Should be declined!");
+	//}
+	// @XXX: end debug tests
 
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
@@ -1059,7 +1059,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	bool noAuth = false;
 	bool validGuest = false;
 	// @XXX: productive: if (initMessage.login() == InitMessage::guestLogin) {
-  // @XXX: debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+	// @XXX: debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
 	if (initMessage.login() == InitMessage::guestLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
@@ -1070,12 +1070,12 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				validGuest = true;
 				noAuth = true;
 			}
-      // @XXX: check if a guest session with same ip is already connected - decline if true
-      if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
-        //LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
-		SessionError(session, ERR_NET_FULL_GUESTS);
-        return;
-      }
+			// @XXX: check if a guest session with same ip is already connected - decline if true
+			if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())) {
+				//LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
+				SessionError(session, ERR_NET_FULL_GUESTS);
+				return;
+			}
 		}
 
 		if (!validGuest) {
@@ -2398,7 +2398,7 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 }
 
 // LG: Handle guests_ variable. Remove in production to access variable itself
-void ServerLobbyThread::DecrementGuests(){
+void ServerLobbyThread::DecrementGuests() {
 	this->guests_.fetch_sub(1);
 }
 

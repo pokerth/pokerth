@@ -250,7 +250,7 @@ NetPacket::GameErrorToNetError(int gameErrorReason)
 		break;
 	case ERR_NET_FULL_GUESTS :
 		retVal = ErrorMessage::initServerFull; // LG: @TODO: maybe create a better error message, if possible
-		break; 
+		break;
 	default :
 		retVal = ErrorMessage::reserved;
 		break;
