@@ -79,10 +79,6 @@ public:
 	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);
 	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);
 	void SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, SessionId except, int state);
-  
-	void IncrementGuest(); 
-	void DecrementGuest(); 
-	int GetGuestUsers() const;
 
 protected:
 
@@ -92,8 +88,6 @@ private:
 
 	SessionMap m_sessionMap;
 	mutable boost::recursive_mutex m_sessionMapMutex;
-  
-  int guestUsers;
 };
 
 #endif

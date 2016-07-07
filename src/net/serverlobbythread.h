@@ -36,6 +36,7 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/uuid/uuid_generators.hpp>
+#include <boost/atomic.hpp>
 
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
@@ -224,6 +225,11 @@ protected:
 
 	u_int32_t GetRejoinGameIdForPlayer(const std::string &playerName, const std::string &guid, unsigned &outPlayerUniqueId);
 
+	// LG: Handle guests_ counter. NOTE: These functions in production could be removed and access directly to guest_
+	void IncrementGuests();
+	void DecrementGuests();
+	int getGuests();
+
 private:
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
@@ -275,6 +281,9 @@ private:
 	boost::uuids::random_generator m_sessionIdGenerator;
 
 	const boost::posix_time::ptime m_startTime;
+
+	// LG: guest_ is thread safe, even if ServerLobbyThread pointer is shared accross the code, as long as it is ONLY ONE running instance
+	boost::atomic<int> guests_;
 
 	friend class InternalServerCallback;
 };

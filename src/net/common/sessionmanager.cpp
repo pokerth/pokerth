@@ -39,7 +39,6 @@ using namespace std;
 
 SessionManager::SessionManager()
 {
-  guestUsers = 0;
 }
 
 SessionManager::~SessionManager()
@@ -432,19 +431,4 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 				sender.Send(i->second, packet);
 		++i;
 	}
-}
-
-void
-SessionManager::IncrementGuest() { 
-	guestUsers++; 
-}
-
-void
-SessionManager::DecrementGuest() { 
-	guestUsers--; 
-}
-
-int
-SessionManager::GetGuestUsers() const { 
-	return guestUsers; 
 }
