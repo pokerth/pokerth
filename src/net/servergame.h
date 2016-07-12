@@ -125,9 +125,9 @@ public:
 
 	void KickPlayer(unsigned playerId);
 
-  void AddPlayerToNumJoinsPerPlayer(const std::string &playerName);
-  int GetNumJoinsPerPlayer(const std::string &playerName);
-  void ResetNumJoinsPerPlayer();
+	void AddPlayerToNumJoinsPerPlayer(const std::string &playerName);
+	int GetNumJoinsPerPlayer(const std::string &playerName);
+	void ResetNumJoinsPerPlayer();
 
 protected:
 
@@ -195,7 +195,7 @@ protected:
 	SessionManager &GetSessionManager();
 	ServerDBInterface &GetDatabase();
 
-  typedef std::map<std::string, int> NumJoinsPerPlayerMap;
+	typedef std::map<std::string, int> NumJoinsPerPlayerMap;
 
 private:
 	ServerGame(const ServerGame &other);
@@ -258,7 +258,7 @@ private:
 	friend class ServerGameStateWaitPlayerAction;
 	friend class ServerGameStateWaitNextHand;
 
-  NumJoinsPerPlayerMap m_numjoinsp;
+	NumJoinsPerPlayerMap m_numjoinsp;
 };
 
 #endif
