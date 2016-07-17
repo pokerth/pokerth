@@ -1012,12 +1012,6 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 {
 	LOG_VERBOSE("Received init for session #" << session->GetId() << ".");
 
-	// @XXX: debug tests
-	//if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())){
-	//  LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Should be declined!");
-	//}
-	// @XXX: end debug tests
-
 	// Before any other processing, perform some denial of service and
 	// brute force attack prevention by checking whether the user recently sent an
 	// Init packet.
@@ -1058,8 +1052,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	MD5Buf avatarMD5;
 	bool noAuth = false;
 	bool validGuest = false;
-	// @XXX: productive: if (initMessage.login() == InitMessage::guestLogin) {
-	// @XXX: debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+	// productive: if (initMessage.login() == InitMessage::guestLogin) {
+	// debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
 	if (initMessage.login() == InitMessage::guestLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
@@ -1070,9 +1064,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				validGuest = true;
 				noAuth = true;
 			}
-			// @XXX: check if a guest session with same ip is already connected - decline if true
+			// check if a guest session with same ip is already connected - decline if true
 			if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())) {
-				//LOG_ERROR("Guest with IP " << session->GetClientAddr() << " already connected! Decline!");
 				SessionError(session, ERR_NET_FULL_GUESTS);
 				return;
 			}

@@ -258,7 +258,7 @@ private:
 	friend class ServerGameStateWaitPlayerAction;
 	friend class ServerGameStateWaitNextHand;
 
-	NumJoinsPerPlayerMap m_numjoinsp;
+	NumJoinsPerPlayerMap m_numJoinsPerPlayer;
 };
 
 #endif

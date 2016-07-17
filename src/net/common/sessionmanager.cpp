@@ -258,9 +258,9 @@ SessionManager::IsGuestConnectedMultiple(const std::string &clientAddress) const
 
 	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpPlayer(i->second->GetPlayerData());
-		// @XXX: productive:
+		// productive:
 		//if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST && i->second->GetClientAddr() == clientAddress){
-		// @XXX: debug:
+		// debug:
 		// if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_NORMAL && i->second->GetClientAddr() == clientAddress){
 		if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST && i->second->GetClientAddr() == clientAddress) {
 			retVal = true;
