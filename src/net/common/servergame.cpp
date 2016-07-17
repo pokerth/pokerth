@@ -457,7 +457,7 @@ ServerGame::InternalEndGame()
 {
 	StoreAndResetRanking();
 	m_game.reset();
-	ResetNumJoinsPerPlayer();
+	m_numJoinsPerPlayer.clear();
 }
 
 void
@@ -1185,10 +1185,4 @@ ServerGame::GetNumJoinsPerPlayer(const std::string &playerName)
 		num = m_numJoinsPerPlayer[playerName];
 	}
 	return num;
-}
-
-void
-ServerGame::ResetNumJoinsPerPlayer()
-{
-	m_numJoinsPerPlayer.clear();
 }

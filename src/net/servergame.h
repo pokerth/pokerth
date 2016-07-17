@@ -127,7 +127,6 @@ public:
 
 	void AddPlayerToNumJoinsPerPlayer(const std::string &playerName);
 	int GetNumJoinsPerPlayer(const std::string &playerName);
-	void ResetNumJoinsPerPlayer();
 
 protected:
 
