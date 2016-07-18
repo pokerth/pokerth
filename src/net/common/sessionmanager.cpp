@@ -432,3 +432,21 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 		++i;
 	}
 }
+
+unsigned
+SessionManager::GetGuestsCount() const
+{
+	unsigned counter = 0;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+	while (i != end) {
+		if (i->second && i->second->GetPlayerData() &&
+				i->second->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST)
+			++counter;
+		++i;
+	}
+	return counter;
+}

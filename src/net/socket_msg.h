@@ -98,8 +98,6 @@
 #define ERR_NET_GSASL_INIT_FAILED		134
 #define ERR_NET_GSASL_NO_SCRAM			135
 #define ERR_NET_DB_CONNECT_FAILED		136
-// LG: New code for max number of guest users
-#define ERR_NET_FULL_GUESTS				137
 
 #define ERR_IRC_INTERNAL				151
 #define ERR_IRC_CONNECT_FAILED			152

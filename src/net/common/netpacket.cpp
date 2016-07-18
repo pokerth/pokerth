@@ -248,9 +248,6 @@ NetPacket::GameErrorToNetError(int gameErrorReason)
 	case ERR_NET_SESSION_TIMED_OUT :
 		retVal = ErrorMessage::sessionTimeout;
 		break;
-	case ERR_NET_FULL_GUESTS :
-		retVal = ErrorMessage::initServerFull; // LG: @TODO: maybe create a better error message, if possible
-		break;
 	default :
 		retVal = ErrorMessage::reserved;
 		break;

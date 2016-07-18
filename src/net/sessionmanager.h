@@ -75,6 +75,7 @@ public:
 	unsigned GetRawSessionCount() const;
 	unsigned GetSessionCountWithState(int state) const;
 	bool HasSessionWithState(int state) const;
+	unsigned GetGuestsCount() const;
 
 	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);
 	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);

@@ -223,7 +223,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ServerI
 	  m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
 	  m_statDataChanged(false), m_removeGameTimer(*ioService),
 	  m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
-	  m_startTime(boost::posix_time::second_clock::local_time()), guests_(0)
+	  m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_internalServerCallback.reset(new InternalServerCallback(*this));
 	m_sender.reset(new SenderHelper(m_ioService));
@@ -397,9 +397,6 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		m_gameSessionManager.RemoveSession(session->GetId());
 
 		if (session->GetPlayerData()) {
-			if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST) {
-				DecrementGuests();
-			}
 			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
 		}
 		// Update stats (if needed).
@@ -1066,7 +1063,11 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 			}
 			// check if a guest session with same ip is already connected - decline if true
 			if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())) {
-				SessionError(session, ERR_NET_FULL_GUESTS);
+				SessionError(session, ERR_NET_SERVER_FULL);
+				return;
+			}
+			if (m_sessionManager.GetGuestsCount() + m_gameSessionManager.GetGuestsCount() > SERVER_MAX_GUEST_USERS) {
+				SessionError(session, ERR_NET_SERVER_FULL);
 				return;
 			}
 		}
@@ -1075,12 +1076,6 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 			SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 			return;
 		}
-		// LG: If user is guest, and SERVER_MAX_GUEST_USERS reached, don't allow connection.
-		else if (getGuests() > SERVER_MAX_GUEST_USERS) {
-			SessionError(session, ERR_NET_FULL_GUESTS);
-			return;
-		}
-
 	}
 #ifdef POKERTH_OFFICIAL_SERVER
 	else if (initMessage.login() == InitMessage::authenticatedLogin) {
@@ -1755,11 +1750,6 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	// Session is now established.
 	session->SetState(SessionData::Established);
 
-	// LG: Increment guests
-	if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST) {
-		IncrementGuests();
-	}
-
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
 		++m_statData.totalPlayersEverLoggedIn;
@@ -2388,17 +2378,4 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 		}
 	}
 	return retGameId;
-}
-
-// LG: Handle guests_ variable. Remove in production to access variable itself
-void ServerLobbyThread::DecrementGuests() {
-	this->guests_.fetch_sub(1);
-}
-
-void ServerLobbyThread::IncrementGuests() {
-	this->guests_.fetch_add(1);
-}
-
-int ServerLobbyThread::getGuests() {
-	return this->guests_;
 }
