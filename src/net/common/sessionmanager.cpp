@@ -34,8 +34,11 @@
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 
+#include <core/loghelper.h> // debug - remove me
+
 using namespace std;
 
+#define SERVER_MAX_GUEST_USERS_LOBBY	50		// LG: Maximum number of guests users in lobby allowed
 
 SessionManager::SessionManager()
 {
@@ -248,23 +251,25 @@ SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
 }
 
 bool
-SessionManager::IsGuestConnectedMultiple(const std::string &clientAddress) const
+SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress) const
 {
-	bool retVal = false;
+	bool retVal = true;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
 
 	SessionMap::const_iterator i = m_sessionMap.begin();
 	SessionMap::const_iterator end = m_sessionMap.end();
 
+	int num = 0;
 	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpPlayer(i->second->GetPlayerData());
-		// productive:
-		//if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST && i->second->GetClientAddr() == clientAddress){
-		// debug:
-		// if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_NORMAL && i->second->GetClientAddr() == clientAddress){
-		if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST && i->second->GetClientAddr() == clientAddress) {
-			retVal = true;
-			break;
+		if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST){
+			num++;
+			if(i->second->GetClientAddr() == clientAddress || num >= SERVER_MAX_GUEST_USERS_LOBBY) {
+				// guest has same ip as another guest in lobby or
+				// number of guests in lobby >= SERVER_MAX_GUEST_USERS_LOBBY => not allowed
+				retVal = false;
+				break;
+			}
 		}
 		++i;
 	}
@@ -433,20 +438,3 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 	}
 }
 
-unsigned
-SessionManager::GetGuestsCount() const
-{
-	unsigned counter = 0;
-	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
-
-	SessionMap::const_iterator i = m_sessionMap.begin();
-	SessionMap::const_iterator end = m_sessionMap.end();
-
-	while (i != end) {
-		if (i->second && i->second->GetPlayerData() &&
-				i->second->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST)
-			++counter;
-		++i;
-	}
-	return counter;
-}

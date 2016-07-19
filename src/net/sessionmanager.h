@@ -64,7 +64,7 @@ public:
 	bool IsPlayerConnected(const std::string &playerName) const;
 	bool IsPlayerConnected(unsigned uniqueId) const;
 	bool IsClientAddressConnected(const std::string &clientAddress) const;
-	bool IsGuestConnectedMultiple(const std::string &clientAddress) const;
+	bool IsGuestAllowedToConnect(const std::string &clientAddress) const;
 
 	void ForEach(boost::function<void (boost::shared_ptr<SessionData>)> func);
 
@@ -75,7 +75,6 @@ public:
 	unsigned GetRawSessionCount() const;
 	unsigned GetSessionCountWithState(int state) const;
 	bool HasSessionWithState(int state) const;
-	unsigned GetGuestsCount() const;
 
 	void SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);
 	void SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPacket> packet, int state);

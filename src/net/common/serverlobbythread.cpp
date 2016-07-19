@@ -65,7 +65,6 @@
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
-#define SERVER_MAX_GUEST_USERS						100		// LG: Maximum number of guests users allowed
 
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
@@ -1051,7 +1050,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	bool validGuest = false;
 	// productive: if (initMessage.login() == InitMessage::guestLogin) {
 	// debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
-	if (initMessage.login() == InitMessage::guestLogin) {
+	if (initMessage.login() == InitMessage::unauthenticatedLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
 		if (playerName.length() > sizeof(SERVER_GUEST_PLAYER_NAME - 1)
@@ -1061,12 +1060,9 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				validGuest = true;
 				noAuth = true;
 			}
-			// check if a guest session with same ip is already connected - decline if true
-			if(m_sessionManager.IsGuestConnectedMultiple(session->GetClientAddr())) {
-				SessionError(session, ERR_NET_SERVER_FULL);
-				return;
-			}
-			if (m_sessionManager.GetGuestsCount() + m_gameSessionManager.GetGuestsCount() > SERVER_MAX_GUEST_USERS) {
+			// check if a guest session in lobby with same ip is already connected and
+			// if number of lobby guests >= SERVER_MAX_GUEST_USERS_LOBBY
+			if(!m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
 				SessionError(session, ERR_NET_SERVER_FULL);
 				return;
 			}
