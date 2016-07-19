@@ -1050,7 +1050,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	bool validGuest = false;
 	// productive: if (initMessage.login() == InitMessage::guestLogin) {
 	// debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
-	if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+	if (initMessage.login() == InitMessage::guestLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
 		if (playerName.length() > sizeof(SERVER_GUEST_PLAYER_NAME - 1)
