@@ -1181,8 +1181,9 @@ int
 ServerGame::GetNumJoinsPerPlayer(const std::string &playerName)
 {
 	int num = 0;
-	if(m_numJoinsPerPlayer.find(playerName) != m_numJoinsPerPlayer.end()) {
-		num = m_numJoinsPerPlayer[playerName];
+	NumJoinsPerPlayerMap::const_iterator pos = m_numJoinsPerPlayer.find(playerName);
+	if (pos != m_numJoinsPerPlayer.end()) {
+		num = pos->second;
 	}
 	return num;
 }
