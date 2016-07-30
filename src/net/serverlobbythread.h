@@ -36,7 +36,6 @@
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/uuid/uuid_generators.hpp>
-#include <boost/atomic.hpp>
 
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>

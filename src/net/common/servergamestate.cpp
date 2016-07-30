@@ -84,7 +84,7 @@ using namespace std;
 #define SERVER_LOOP_DELAY_MSEC						50
 #define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
 
-#define GAME_MAX_NUM_JOINS_PER_PLAYER  6
+#define GAME_MAX_NUM_JOINS_PER_PLAYER				6
 
 // Helper functions
 

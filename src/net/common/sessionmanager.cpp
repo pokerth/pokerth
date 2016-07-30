@@ -260,9 +260,9 @@ SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress) const
 	int num = 0;
 	while (i != end) {
 		boost::shared_ptr<PlayerData> tmpPlayer(i->second->GetPlayerData());
-		if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST){
+		if(tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST) {
 			num++;
-			if(i->second->GetClientAddr() == clientAddress || num >= SERVER_MAX_GUEST_USERS_LOBBY) {
+			if(i->second->GetClientAddr() == clientAddress) {
 				// guest has same ip as another guest in lobby or
 				// number of guests in lobby >= SERVER_MAX_GUEST_USERS_LOBBY => not allowed
 				retVal = false;
@@ -271,6 +271,10 @@ SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress) const
 		}
 		++i;
 	}
+
+	// Check if number of players in lobby exceeds max
+	if (num >= SERVER_MAX_GUEST_USERS_LOBBY) retVal = false;
+
 	return retVal;
 }
 
