@@ -249,7 +249,7 @@ SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
 }
 
 bool
-SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress) const
+SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress, int blockDup) const
 {
 	bool retVal = true;
 	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
@@ -262,7 +262,7 @@ SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress) const
 		boost::shared_ptr<PlayerData> tmpPlayer(i->second->GetPlayerData());
 		if (tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST) {
 			num++;
-			if (i->second->GetClientAddr() == clientAddress) {
+			if (blockDup && i->second->GetClientAddr() == clientAddress) {
 				// guest has same ip as another guest in lobby or
 				retVal = false;
 				break;
