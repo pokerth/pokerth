@@ -44,6 +44,10 @@ static PProcessIdToSessionId pProcessIdToSessionId = 0;
 #include <unistd.h>
 #endif
 
+// @FIXME: bugfix for strange new compiler error on ubuntu 16.04 = ‘QDataStream ds’ has initializer but incomplete type
+// not sure if that collides on other systems:
+#include <QDataStream>
+
 namespace SharedTools {
 
 static const char ack[] = "ack";

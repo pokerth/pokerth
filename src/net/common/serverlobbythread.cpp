@@ -395,8 +395,9 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		m_sessionManager.RemoveSession(session->GetId());
 		m_gameSessionManager.RemoveSession(session->GetId());
 
-		if (session->GetPlayerData())
+		if (session->GetPlayerData()) {
 			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
+		}
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
 
@@ -1047,6 +1048,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	MD5Buf avatarMD5;
 	bool noAuth = false;
 	bool validGuest = false;
+	// productive: if (initMessage.login() == InitMessage::guestLogin) {
+	// debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
 	if (initMessage.login() == InitMessage::guestLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
@@ -1057,7 +1060,14 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				validGuest = true;
 				noAuth = true;
 			}
+			// check if a guest session in lobby with same ip is already connected and
+			// if number of lobby guests >= SERVER_MAX_GUEST_USERS_LOBBY
+			if(!m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr(), m_serverConfig.readConfigInt("ServerBlockGuestDuplicateIP"))) {
+				SessionError(session, ERR_NET_SERVER_FULL);
+				return;
+			}
 		}
+
 		if (!validGuest) {
 			SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 			return;
@@ -2365,4 +2375,3 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 	}
 	return retGameId;
 }
-

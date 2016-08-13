@@ -125,6 +125,9 @@ public:
 
 	void KickPlayer(unsigned playerId);
 
+	void AddPlayerToNumJoinsPerPlayer(const std::string &playerName);
+	int GetNumJoinsPerPlayer(const std::string &playerName);
+
 protected:
 
 	struct RankingData {
@@ -191,6 +194,8 @@ protected:
 	SessionManager &GetSessionManager();
 	ServerDBInterface &GetDatabase();
 
+	typedef std::map<std::string, int> NumJoinsPerPlayerMap;
+
 private:
 	ServerGame(const ServerGame &other);
 
@@ -251,6 +256,8 @@ private:
 	friend class ServerGameStateHand;
 	friend class ServerGameStateWaitPlayerAction;
 	friend class ServerGameStateWaitNextHand;
+
+	NumJoinsPerPlayerMap m_numJoinsPerPlayer;
 };
 
 #endif

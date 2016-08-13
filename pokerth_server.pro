@@ -175,6 +175,8 @@ unix : !mac {
 
 	LIBPATH += lib $${PREFIX}/lib /opt/gsasl/lib
 	INCLUDEPATH += $${PREFIX}/include
+	# see issue https://github.com/pokerth/pokerth/issues/282
+	INCLUDEPATH += $${PREFIX}/include/libircclient
 	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64 $$system(qmake -query QT_INSTALL_LIBS)
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_THREAD = boost_thread boost_thread-mt

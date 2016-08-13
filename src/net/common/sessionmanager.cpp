@@ -36,6 +36,7 @@
 
 using namespace std;
 
+#define SERVER_MAX_GUEST_USERS_LOBBY	50		// LG: Maximum number of guests users in lobby allowed
 
 SessionManager::SessionManager()
 {
@@ -244,6 +245,35 @@ SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
 		}
 		++i;
 	}
+	return retVal;
+}
+
+bool
+SessionManager::IsGuestAllowedToConnect(const std::string &clientAddress, int blockDup) const
+{
+	bool retVal = true;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+
+	SessionMap::const_iterator i = m_sessionMap.begin();
+	SessionMap::const_iterator end = m_sessionMap.end();
+
+	int num = 0;
+	while (i != end) {
+		boost::shared_ptr<PlayerData> tmpPlayer(i->second->GetPlayerData());
+		if (tmpPlayer && tmpPlayer->GetRights() == PLAYER_RIGHTS_GUEST) {
+			num++;
+			if (blockDup && i->second->GetClientAddr() == clientAddress) {
+				// guest has same ip as another guest in lobby or
+				retVal = false;
+				break;
+			}
+		}
+		++i;
+	}
+
+	// Check if number of players in lobby exceeds max
+	if (num >= SERVER_MAX_GUEST_USERS_LOBBY) retVal = false;
+
 	return retVal;
 }
 

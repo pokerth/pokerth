@@ -84,6 +84,8 @@ using namespace std;
 #define SERVER_LOOP_DELAY_MSEC						50
 #define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
 
+#define GAME_MAX_NUM_JOINS_PER_PLAYER				6
+
 // Helper functions
 
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
@@ -537,10 +539,13 @@ ServerGameStateInit::HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost
 {
 	if (session && session->GetPlayerData()) {
 		const GameData &tmpGameData = server->GetGameData();
-		// Check the number of players.
-		if (server->GetCurNumberOfPlayers() >= tmpGameData.maxNumberOfPlayers) {
+
+		// Check the number of players and number of joins per player
+		if (server->GetCurNumberOfPlayers() >= tmpGameData.maxNumberOfPlayers || server->GetNumJoinsPerPlayer(session->GetPlayerData()->GetName()) > GAME_MAX_NUM_JOINS_PER_PLAYER) {
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		} else {
+			// add player to NumJoinsPerPlayerMap
+			server->AddPlayerToNumJoinsPerPlayer(session->GetPlayerData()->GetName());
 
 			AcceptNewSession(server, session, false);
 
