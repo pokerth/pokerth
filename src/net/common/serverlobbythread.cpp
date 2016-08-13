@@ -1062,7 +1062,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 			}
 			// check if a guest session in lobby with same ip is already connected and
 			// if number of lobby guests >= SERVER_MAX_GUEST_USERS_LOBBY
-			if(!m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr(), m_serverConfig.readConfigInt("ServerBlockGuestDuplicateIP"))) {
+			if(m_serverConfig.readConfigInt("ServerRestrictGuestLogin") != 0
+				&& !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
 				SessionError(session, ERR_NET_SERVER_FULL);
 				return;
 			}
