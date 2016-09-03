@@ -2,6 +2,9 @@
 
 TEMPLATE = subdirs
 SUBDIRS = pokerth_protocol.pro pokerth_db.pro pokerth_lib.pro
+official_server {
+    SUBDIRS += pokerth_dbofficial.pro
+}
 qml-client{
     SUBDIRS += pokerth_qml-client.pro
 }
