@@ -41,7 +41,7 @@
 #include <net/net_helper.h>
 #include <db/serverdbinterface.h>
 #ifdef POKERTH_OFFICIAL_SERVER
-#include <dbclosed/serverdbfactoryinternal.h>
+#include <dbofficial/serverdbfactoryinternal.h>
 #else
 #include <db/serverdbfactorygeneric.h>
 #endif
