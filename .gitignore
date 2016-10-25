@@ -6,6 +6,7 @@ Makefile.pokerth_game
 Makefile.pokerth_lib
 Makefile.pokerth_protocol
 Makefile.pokerth_server
+Makefile.pokerth_dbofficial
 bin/
 chatcleaner
 lib/
