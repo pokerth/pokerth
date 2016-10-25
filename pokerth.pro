@@ -5,12 +5,6 @@ SUBDIRS = pokerth_protocol.pro pokerth_db.pro pokerth_lib.pro
 official_server {
     SUBDIRS += pokerth_dbofficial.pro
 }
-qml-client{
-    SUBDIRS += pokerth_qml-client.pro
-}
-!qml-client{
-    SUBDIRS += pokerth_game.pro
-}
 !mac:!gui_800x480:!client:!qml-client {
 	SUBDIRS += pokerth_server.pro chatcleaner.pro
 }
