@@ -493,7 +493,7 @@ ServerDBThread::EstablishDBConnection()
 										  + prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error()));
 			*/
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback,
-										  string(prepareNick.error()) prepareLogin.error() + prepareCreateGame.error()
+										  string(prepareNick.error()) + prepareLogin.error() + prepareCreateGame.error()
 										  + prepareEndGame.error() + prepareRelation.error() + prepareScore.error()
 										  + prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error()));
 			m_permanentError = true;
