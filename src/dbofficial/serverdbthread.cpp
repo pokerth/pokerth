@@ -465,14 +465,18 @@ ServerDBThread::EstablishDBConnection()
 				<< "PREPARE " QUERY_REPORT_AVATAR_PREPARE " FROM " << mysqlpp::quote
 				<< "INSERT INTO " DB_TABLE_REP_AVATAR " (" DB_TABLE_REP_AVATAR_COL_PLAYERID ", " DB_TABLE_REP_AVATAR_COL_AVATARHASH ", " DB_TABLE_REP_AVATAR_COL_AVATARTYPE ", " DB_TABLE_REP_AVATAR_COL_BY_PLAYERID ", " DB_TABLE_REP_AVATAR_COL_TIMESTAMP ") VALUES (?, ?, ?, ?, ?)";
 		*/
+		/*
 		mysqlpp::Query prepareReportGame = m_connData->conn.query();
 		prepareReportGame
 				<< "PREPARE " QUERY_REPORT_GAME_PREPARE " FROM " << mysqlpp::quote
 				<< "INSERT INTO " DB_TABLE_REP_GAME " (" DB_TABLE_REP_GAME_COL_CREATOR ", " DB_TABLE_REP_GAME_COL_GAMENAME ", " DB_TABLE_REP_GAME_COL_BY_PLAYERID ", " DB_TABLE_REP_GAME_COL_TIMESTAMP ", " DB_TABLE_REP_GAME_COL_GAMEID ") VALUES (?, ?, ?, ?, ?)";
+		*/
+		/*
 		mysqlpp::Query prepareAdminPlayer = m_connData->conn.query();
 		prepareAdminPlayer
 				<< "PREPARE " QUERY_ADMIN_PLAYER_PREPARE " FROM " << mysqlpp::quote
 				<< "SELECT " DB_TABLE_ADMIN_PLAYER_COL_PLAYERID " FROM " DB_TABLE_ADMIN_PLAYER;
+		*/
 		mysqlpp::Query prepareBlockPlayer = m_connData->conn.query();
 		prepareBlockPlayer
 				<< "PREPARE " QUERY_BLOCK_PLAYER_PREPARE " FROM " << mysqlpp::quote
@@ -484,7 +488,7 @@ ServerDBThread::EstablishDBConnection()
 		*/
 		if (!prepareNick.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
 				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec()
-				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec()) {
+				|| !prepareBlockPlayer.exec()) {
 			m_connData->conn.disconnect();
 			/*
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback,
@@ -495,7 +499,7 @@ ServerDBThread::EstablishDBConnection()
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback,
 										  string(prepareNick.error()) + prepareLogin.error() + prepareCreateGame.error()
 										  + prepareEndGame.error() + prepareRelation.error() + prepareScore.error()
-										  + prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error()));
+										  + prepareBlockPlayer.error()));
 			m_permanentError = true;
 		} else {
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectSuccess, &m_callback));
