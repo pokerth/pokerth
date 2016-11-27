@@ -425,13 +425,20 @@ ServerDBThread::EstablishDBConnection()
 			Msleep(250);
 	} else {
 		mysqlpp::Query prepareNick = m_connData->conn.query();
+		/*
 		prepareNick
 				<< "PREPARE " QUERY_NICK_PREPARE " FROM " << mysqlpp::quote
 				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN ", " DB_TABLE_PLAYER_COL_ACTIVE " FROM " DB_TABLE_PLAYER " WHERE BINARY " DB_TABLE_PLAYER_COL_USERNAME " = ?";
+		*/
+		prepareNick
+				<< "PREPARE " QUERY_NICK_PREPARE " FROM " << mysqlpp::quote
+				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN ", " DB_TABLE_PLAYER_COL_ACTIVE " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
+		/*
 		mysqlpp::Query prepareAvatarBlacklist = m_connData->conn.query();
 		prepareAvatarBlacklist
 				<< "PREPARE " QUERY_AVATAR_BLACKLIST_PREPARE " FROM " << mysqlpp::quote
 				<< "SELECT " DB_TABLE_AVATAR_BLACKLIST_COL_ID " FROM " DB_TABLE_AVATAR_BLACKLIST " WHERE BINARY " DB_TABLE_AVATAR_BLACKLIST_COL_AVATAR_HASH " = ?";
+		*/
 		mysqlpp::Query prepareLogin = m_connData->conn.query();
 		prepareLogin
 				<< "PREPARE " QUERY_LOGIN_PREPARE " FROM " << mysqlpp::quote
@@ -452,10 +459,12 @@ ServerDBThread::EstablishDBConnection()
 		prepareScore
 				<< "PREPARE " QUERY_UPDATE_SCORE_PREPARE " FROM " << mysqlpp::quote
 				<< "CALL updatePointsForGame(?)";
+		/*
 		mysqlpp::Query prepareReportAvatar = m_connData->conn.query();
 		prepareReportAvatar
 				<< "PREPARE " QUERY_REPORT_AVATAR_PREPARE " FROM " << mysqlpp::quote
 				<< "INSERT INTO " DB_TABLE_REP_AVATAR " (" DB_TABLE_REP_AVATAR_COL_PLAYERID ", " DB_TABLE_REP_AVATAR_COL_AVATARHASH ", " DB_TABLE_REP_AVATAR_COL_AVATARTYPE ", " DB_TABLE_REP_AVATAR_COL_BY_PLAYERID ", " DB_TABLE_REP_AVATAR_COL_TIMESTAMP ") VALUES (?, ?, ?, ?, ?)";
+		*/
 		mysqlpp::Query prepareReportGame = m_connData->conn.query();
 		prepareReportGame
 				<< "PREPARE " QUERY_REPORT_GAME_PREPARE " FROM " << mysqlpp::quote
@@ -468,14 +477,24 @@ ServerDBThread::EstablishDBConnection()
 		prepareBlockPlayer
 				<< "PREPARE " QUERY_BLOCK_PLAYER_PREPARE " FROM " << mysqlpp::quote
 				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_VALID " = ?, " DB_TABLE_PLAYER_COL_ACTIVE " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
-
+		/*
 		if (!prepareNick.exec() || !prepareAvatarBlacklist.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
 				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec() || !prepareReportAvatar.exec()
 				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec()) {
+		*/
+		if (!prepareNick.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
+				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec()
+				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec()) {
 			m_connData->conn.disconnect();
+			/*
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback,
 										  string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() + prepareCreateGame.error()
 										  + prepareEndGame.error() + prepareRelation.error() + prepareScore.error() + prepareReportAvatar.error()
+										  + prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error()));
+			*/
+			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback,
+										  string(prepareNick.error()) prepareLogin.error() + prepareCreateGame.error()
+										  + prepareEndGame.error() + prepareRelation.error() + prepareScore.error()
 										  + prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error()));
 			m_permanentError = true;
 		} else {

@@ -51,9 +51,9 @@ AsyncDBAuth::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/,
 	if (result.num_rows() != 1) {
 		service.post(boost::bind(&ServerDBCallback::PlayerLoginFailed, &cb, GetId()));
 	} else {
-		int valid = result[0][2];
+		int blocked = result[0][2];
 		int active = result[0][5];
-		if ((valid != 1) || (active != 1)) {
+		if ((active != 1) || (blocked != 0)) {
 			service.post(boost::bind(&ServerDBCallback::PlayerLoginBlocked, &cb, GetId()));
 		} else {
 			mysqlpp::String secret(result[0][1]);

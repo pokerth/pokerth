@@ -32,16 +32,16 @@
 #ifndef _DB_TABLE_DEFS_H_
 #define _DB_TABLE_DEFS_H_
 
-#define DB_TABLE_PLAYER								"player_login"
-#define DB_TABLE_PLAYER_COL_ID						"id"
+#define DB_TABLE_PLAYER								"player"
+#define DB_TABLE_PLAYER_COL_ID						"player_id"
 #define DB_TABLE_PLAYER_COL_USERNAME				"username"
 #define DB_TABLE_PLAYER_COL_PASSWORD				"password"
-#define DB_TABLE_PLAYER_COL_VALID					"valid"
-#define DB_TABLE_PLAYER_COL_COUNTRY					"country"
+#define DB_TABLE_PLAYER_COL_VALID					"blocked"
+#define DB_TABLE_PLAYER_COL_COUNTRY					"country_iso"
 #define DB_TABLE_PLAYER_COL_LASTLOGIN				"last_login"
-#define DB_TABLE_PLAYER_COL_ACTIVE					"aktivator"
+#define DB_TABLE_PLAYER_COL_ACTIVE					"active"
 #define DB_TABLE_PLAYER_COL_AVATARHASH				"avatar_hash"
-#define DB_TABLE_PLAYER_COL_AVATARTYPE				"avatar_type"
+#define DB_TABLE_PLAYER_COL_AVATARTYPE				"avatar_mime"
 
 #define DB_TABLE_GAME								"game"
 #define DB_TABLE_GAME_COL_ID						"idgame"
