@@ -41,7 +41,7 @@
 #include <net/net_helper.h>
 #include <db/serverdbinterface.h>
 #ifdef POKERTH_OFFICIAL_SERVER
-#include <dbclosed/serverdbfactoryinternal.h>
+#include <dbofficial/serverdbfactoryinternal.h>
 #else
 #include <db/serverdbfactorygeneric.h>
 #endif
@@ -1404,6 +1404,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
 					   && game->IsClientAddressConnected(session->GetClientAddr())) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}

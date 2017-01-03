@@ -322,7 +322,7 @@ mac {
 
 official_server {
 	LIBPATH += pkth_stat/daemon_lib/lib
-	LIBS += -lpokerth_closed -lmysqlpp
+	LIBS += -lpokerth_dbofficial -lmysqlpp
 	DEFINES += POKERTH_OFFICIAL_SERVER
 }
 
