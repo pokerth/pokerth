@@ -408,6 +408,7 @@ unix:!mac {
 		LIBPATH += $${PREFIX}/lib /opt/gsasl/lib
 		LIB_DIRS = $${PREFIX}/lib \
 			$${PREFIX}/lib64 \
+                        $${PREFIX}/lib/x86_64-linux-gnu \
 			$$system(qmake -query QT_INSTALL_LIBS)
 	}
 	android{
