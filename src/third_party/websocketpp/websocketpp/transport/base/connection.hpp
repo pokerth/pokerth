@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,8 +31,9 @@
 #include <websocketpp/common/cpp11.hpp>
 #include <websocketpp/common/connection_hdl.hpp>
 #include <websocketpp/common/functional.hpp>
-#include <websocketpp/common/memory.hpp>
 #include <websocketpp/common/system_error.hpp>
+
+#include <string>
 
 namespace websocketpp {
 /// Transport policies provide network connectivity and timers
@@ -141,6 +142,7 @@ struct buffer {
     size_t len;
 };
 
+/// Generic transport related errors
 namespace error {
 enum value {
     /// Catch-all error for transport policy errors that don't fit in other
@@ -170,9 +172,12 @@ enum value {
 
     /// Timer expired
     timeout,
-    
+
     /// read or write after shutdown
-    action_after_shutdown
+    action_after_shutdown,
+
+    /// Other TLS error
+    tls_error
 };
 
 class category : public lib::error_category {
@@ -197,12 +202,14 @@ class category : public lib::error_category {
                 return "The operation is not supported by this transport";
             case eof:
                 return "End of File";
-        	case tls_short_read:
+            case tls_short_read:
                 return "TLS Short Read";
             case timeout:
                 return "Timer Expired";
             case action_after_shutdown:
                 return "A transport action was requested after shutdown";
+            case tls_error:
+                return "Generic TLS related error";
             default:
                 return "Unknown";
         }

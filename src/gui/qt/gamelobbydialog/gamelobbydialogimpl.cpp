@@ -275,6 +275,9 @@ int gameLobbyDialogImpl::exec()
 		registeredUserMode();
 	}
 
+	// Bug #320: https://github.com/pokerth/pokerth/issues/320
+	myChat->refreshIgnoreList();
+
 #ifdef ANDROID
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 #endif

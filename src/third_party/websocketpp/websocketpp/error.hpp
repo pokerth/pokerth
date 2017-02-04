@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,9 @@
 #ifndef WEBSOCKETPP_ERROR_HPP
 #define WEBSOCKETPP_ERROR_HPP
 
+#include <exception>
 #include <string>
+#include <utility>
 
 #include <websocketpp/common/cpp11.hpp>
 #include <websocketpp/common/system_error.hpp>
@@ -38,7 +40,7 @@ namespace websocketpp {
 /// Combination error code / string type for returning two values
 typedef std::pair<lib::error_code,std::string> err_str_pair;
 
-// setup for errors that should be propogated back to the user.
+/// Library level error codes
 namespace error {
 enum value {
     /// Catch-all library error
@@ -86,7 +88,8 @@ enum value {
     /// Invalid subprotocol
     invalid_subprotocol,
 
-    /// Bad or unknown connection
+    /// An operation was attempted on a connection that did not exist or was
+    /// already deleted.
     bad_connection,
 
     /// Unit testing utility error code
@@ -114,7 +117,33 @@ enum value {
     close_handshake_timeout,
 
     /// Invalid port in URI
-    invalid_port
+    invalid_port,
+
+    /// An async accept operation failed because the underlying transport has been
+    /// requested to not listen for new connections anymore.
+    async_accept_not_listening,
+
+    /// The requested operation was canceled
+    operation_canceled,
+
+    /// Connection rejected
+    rejected,
+
+    /// Upgrade Required. This happens if an HTTP request is made to a
+    /// WebSocket++ server that doesn't implement an http handler
+    upgrade_required,
+
+    /// Invalid WebSocket protocol version
+    invalid_version,
+
+    /// Unsupported WebSocket protocol version
+    unsupported_version,
+
+    /// HTTP parse error
+    http_parse_error,
+    
+    /// Extension negotiation failed
+    extension_neg_failed
 }; // enum value
 
 
@@ -176,6 +205,22 @@ public:
                 return "The closing handshake timed out";
             case error::invalid_port:
                 return "Invalid URI port";
+            case error::async_accept_not_listening:
+                return "Async Accept not listening";
+            case error::operation_canceled:
+                return "Operation canceled";
+            case error::rejected:
+                return "Connection rejected";
+            case error::upgrade_required:
+                return "Upgrade required";
+            case error::invalid_version:
+                return "Invalid version";
+            case error::unsupported_version:
+                return "Unsupported version";
+            case error::http_parse_error:
+                return "HTTP parse error";
+            case error::extension_neg_failed:
+                return "Extension negotiation failed";
             default:
                 return "Unknown";
         }
@@ -205,21 +250,26 @@ namespace websocketpp {
 
 class exception : public std::exception {
 public:
-    exception(std::string const & msg,
-              error::value code = error::general)
-    : m_msg(msg),m_code(code) {}
+    exception(std::string const & msg, lib::error_code ec = make_error_code(error::general))
+      : m_msg(msg.empty() ? ec.message() : msg), m_code(ec)
+    {}
+
+    explicit exception(lib::error_code ec)
+      : m_msg(ec.message()), m_code(ec)
+    {}
+
     ~exception() throw() {}
 
     virtual char const * what() const throw() {
         return m_msg.c_str();
     }
 
-    error::value code() const throw() {
+    lib::error_code code() const throw() {
         return m_code;
     }
 
-    std::string m_msg;
-    error::value m_code;
+    const std::string m_msg;
+    lib::error_code m_code;
 };
 
 } // namespace websocketpp

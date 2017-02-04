@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,7 @@ namespace websocketpp {
 
 /// A handle to uniquely identify a connection.
 /**
- * This type uniquely identifies a connection. It is implimented as a weak
+ * This type uniquely identifies a connection. It is implemented as a weak
  * pointer to the connection in question. This provides uniqueness across
  * multiple endpoints and ensures that IDs never conflict or run out.
  *
