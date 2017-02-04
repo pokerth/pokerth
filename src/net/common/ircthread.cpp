@@ -32,14 +32,22 @@
 #include <net/socket_helper.h>
 #include <net/ircthread.h>
 #include <net/socket_msg.h>
+#ifdef _WIN32
 #include <libircclient/libircclient.h>
+#else
+#include <libircclient.h>
+#endif
 
 // We need to do the following to handle different versions of libircclient.
 // Sadly, libircclient doesn't have actual definitions for its versions in its headers.
 // However, we can use a definition that appeared in the same version we need
 // to check for. Hacky, but hey, it works.
 #ifdef LIBIRC_OPTION_SSL_NO_VERIFY
+#ifdef _WIN32
 #include <libircclient/libirc_rfcnumeric.h>
+#else
+#include <libirc_rfcnumeric.h>
+#endif
 #endif
 
 #include <boost/algorithm/string/predicate.hpp>

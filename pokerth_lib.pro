@@ -226,9 +226,49 @@ android|android_test{
 	SOURCES += src/engine/local_engine/tools_android.cpp
 }
 
-official_server{
-	INCLUDEPATH += pkth_stat/daemon_lib/src
+official_server:!win32:!gui_800x480:!client:{
+	# INCLUDEPATH += pkth_stat/daemon_lib/src # note: relict from former official/closed db build
 	DEFINES += POKERTH_OFFICIAL_SERVER
+	HEADERS += src/dbofficial/asyncdbauth.h \
+		src/dbofficial/asyncdbcreategame.h \
+		src/dbofficial/asyncdbgameplace.h \
+		src/dbofficial/asyncdbupdatescore.h \
+		src/dbofficial/asyncdbquery.h \
+		src/dbofficial/serverdbthread.h \
+		src/dbofficial/serverdbfactoryinternal.h \
+		src/dbofficial/compositeasyncdbquery.h \
+		src/dbofficial/singleasyncdbquery.h \
+		src/dbofficial/querycontext.h \
+		src/dbofficial/asyncdbendgame.h \
+		src/dbofficial/db_table_defs.h \
+		src/dbofficial/asyncdblogin.h \
+		src/dbofficial/asyncdbreportavatar.h \
+		src/dbofficial/asyncdbreportgame.h \
+		src/dbofficial/asyncdbavatarblacklist.h \
+		src/dbofficial/asyncdbadminplayers.h \
+		src/dbofficial/asyncdbblockplayer.h \
+		src/dbofficial/dbidmanager.h
+	SOURCES += src/dbofficial/asyncdbauth.cpp \
+		src/dbofficial/asyncdbcreategame.cpp \
+		src/dbofficial/asyncdbgameplace.cpp \
+		src/dbofficial/asyncdbupdatescore.cpp \
+		src/dbofficial/asyncdbquery.cpp \
+		src/dbofficial/serverdbthread.cpp \
+		src/dbofficial/serverdbfactoryinternal.cpp \
+		src/dbofficial/singleasyncdbquery.cpp \
+		src/dbofficial/compositeasyncdbquery.cpp \
+		src/dbofficial/querycontext.cpp \
+		src/dbofficial/asyncdbendgame.cpp \
+		src/dbofficial/asyncdblogin.cpp \
+		src/dbofficial/asyncdbreportavatar.cpp \
+		src/dbofficial/asyncdbreportgame.cpp \
+		src/dbofficial/asyncdbavatarblacklist.cpp \
+		src/dbofficial/asyncdbadminplayers.cpp \
+		src/dbofficial/asyncdbblockplayer.cpp \
+		src/dbofficial/dbidmanager.cpp
+    INCLUDEPATH += /usr/include \
+        /usr/include/mysql \
+        /usr/include/mysql++
 }
 
 win32{

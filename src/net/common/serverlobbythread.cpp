@@ -41,7 +41,7 @@
 #include <net/net_helper.h>
 #include <db/serverdbinterface.h>
 #ifdef POKERTH_OFFICIAL_SERVER
-#include <dbclosed/serverdbfactoryinternal.h>
+#include <dbofficial/serverdbfactoryinternal.h>
 #else
 #include <db/serverdbfactorygeneric.h>
 #endif
@@ -395,8 +395,9 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		m_sessionManager.RemoveSession(session->GetId());
 		m_gameSessionManager.RemoveSession(session->GetId());
 
-		if (session->GetPlayerData())
+		if (session->GetPlayerData()) {
 			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
+		}
 		// Update stats (if needed).
 		UpdateStatisticsNumberOfPlayers();
 
@@ -1047,6 +1048,8 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	MD5Buf avatarMD5;
 	bool noAuth = false;
 	bool validGuest = false;
+	// productive: if (initMessage.login() == InitMessage::guestLogin) {
+	// debug: if (initMessage.login() == InitMessage::unauthenticatedLogin) {
 	if (initMessage.login() == InitMessage::guestLogin) {
 		playerName = initMessage.nickname();
 		// Verify guest player name.
@@ -1057,7 +1060,15 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				validGuest = true;
 				noAuth = true;
 			}
+			// check if a guest session in lobby with same ip is already connected and
+			// if number of lobby guests >= SERVER_MAX_GUEST_USERS_LOBBY
+			if(m_serverConfig.readConfigInt("ServerRestrictGuestLogin") != 0
+				&& !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
+				SessionError(session, ERR_NET_SERVER_FULL);
+				return;
+			}
 		}
+
 		if (!validGuest) {
 			SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 			return;
@@ -1393,6 +1404,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
 					   && game->IsClientAddressConnected(session->GetClientAddr())) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
@@ -2365,4 +2377,3 @@ ServerLobbyThread::GetRejoinGameIdForPlayer(const std::string &playerName, const
 	}
 	return retGameId;
 }
-

@@ -457,6 +457,7 @@ ServerGame::InternalEndGame()
 {
 	StoreAndResetRanking();
 	m_game.reset();
+	m_numJoinsPerPlayer.clear();
 }
 
 void
@@ -1164,3 +1165,25 @@ ServerGame::GetNextGameNum()
 	return m_gameNum++;
 }
 
+void
+ServerGame::AddPlayerToNumJoinsPerPlayer(const std::string &playerName)
+{
+	NumJoinsPerPlayerMap::iterator pos = m_numJoinsPerPlayer.find(playerName);
+	if (pos != m_numJoinsPerPlayer.end())
+	{
+		pos->second++;
+	} else {
+		m_numJoinsPerPlayer[playerName] = 1;
+	}
+}
+
+int
+ServerGame::GetNumJoinsPerPlayer(const std::string &playerName)
+{
+	int num = 0;
+	NumJoinsPerPlayerMap::const_iterator pos = m_numJoinsPerPlayer.find(playerName);
+	if (pos != m_numJoinsPerPlayer.end()) {
+		num = pos->second;
+	}
+	return num;
+}
