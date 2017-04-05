@@ -92,11 +92,21 @@ void MyNameLabel::setText ( const QString &t, bool trans, bool guest, bool compu
 			} else {
 				linkString = QString("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t));
 			}
+			
+			// truncate nicknames longer than 10 characters
+			QString t2 = t;
+			if(t2.size() > 10){
+				int chop = t.size() - 10 - 3;
+				t2.chop(chop);
+				t2.append("...");
+			}
+			
+			QString tTruncated;
 
 			if(trans) {
-				text = "<a style='color: rgba("+red+", "+green+", "+blue+", 80);' href='"+linkString+"'>"+t+"</a>";
+				text = "<a style='color: rgba("+red+", "+green+", "+blue+", 80);' href='"+linkString+"'>"+t2+"</a>";
 			} else {
-				text = "<a style='color: #"+myW->getMyGameTableStyle()->getPlayerNickTextColor()+";' href='"+linkString+"'>"+t+"</a>";
+				text = "<a style='color: #"+myW->getMyGameTableStyle()->getPlayerNickTextColor()+";' href='"+linkString+"'>"+t2+"</a>";
 			}
 
 		} else {
