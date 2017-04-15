@@ -17,6 +17,9 @@ DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_DEPRECATED
 QT -= core gui
 #PRECOMPILED_HEADER = src/pch_lib.h
 
+# Check for c++11
+include(pokerth_common.pro)
+
 INCLUDEPATH += . \
 		src \
 		src/engine \

@@ -19,6 +19,9 @@ DEFINES += PREFIX=\"$${PREFIX}\"
 QT -= core gui
 #PRECOMPILED_HEADER = src/pch_lib.h
 
+# Check for c++11
+include(pokerth_common.pro)
+
 INCLUDEPATH += . \
 		src \
 		src/engine \
@@ -185,6 +188,7 @@ unix : !mac {
 	BOOST_SYS = boost_system boost_system-mt
 	BOOST_REGEX = boost_regex boost_regex-mt
 	BOOST_RANDOM = boost_random boost_random-mt
+	BOOST_CHRONO = boost_chrono boost_chrono-mt
 
 	#
 	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
@@ -249,11 +253,29 @@ unix : !mac {
 				message("Found $$lib")
 				BOOST_SYS = -l$$lib
 			}
+			!c++11 { 
+				for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_CHRONO = -l$$lib
+				}
+				for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.a) {
+					message("Found $$lib")
+					BOOST_CHRONO = -l$$lib
+				}
+			}
 		}
 	}
-	BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_RANDOM $$BOOST_SYS
-	!count(BOOST_LIBS, 7){
-		error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+	c++11 { 
+		BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_RANDOM $$BOOST_SYS
+		!count(BOOST_LIBS, 7){
+			error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+		}
+	}
+	!c++11 { 
+		BOOST_LIBS = $$BOOST_THREAD $$BOOST_FS $$BOOST_PROGRAM_OPTIONS $$BOOST_IOSTREAMS $$BOOST_REGEX $$BOOST_RANDOM $$BOOST_SYS $$BOOST_CHRONO
+		!count(BOOST_LIBS, 8){
+			error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+		}
 	}
 
 	UNAME = $$system(uname -s)

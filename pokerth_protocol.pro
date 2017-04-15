@@ -17,6 +17,9 @@ QT -= core \
 	gui
 # PRECOMPILED_HEADER = src/pch_lib.h
 
+# Check for c++11
+include(pokerth_common.pro)
+
 INCLUDEPATH += . \
 	src
 DEPENDPATH += . \
