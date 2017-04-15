@@ -21,7 +21,6 @@ c++11 {
 	!system( $$QMAKE_CXX -dumpversion | grep -e "^6.[0-9]" > /dev/null ) {
 		equals(QT_MAJOR_VERSION, 4) : greaterThan(QT_MINOR_VERSION, 7) {
 			QMAKE_CXXFLAGS += "-std=gnu++11"
-			message(here)
 		}
 	}
 }
