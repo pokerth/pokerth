@@ -60,6 +60,9 @@ public:
 	}
 	bool event(QEvent *e);
 
+public slots:
+   void click();
+
 private:
 
 	QString fKeyText;

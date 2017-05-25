@@ -73,3 +73,10 @@ bool MyActionButton::event(QEvent *event)
 	}
 	return QWidget::event(event);
 }
+
+void MyActionButton::click()
+{
+    if (!eatMyEvents) {
+        QPushButton::click();
+    }
+}
