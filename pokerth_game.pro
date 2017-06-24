@@ -576,7 +576,7 @@ mac {
 	CONFIG += x86_64
 	CONFIG -= x86
 	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -588,19 +588,18 @@ mac {
 	LIBPATH += lib
 
 	# QT dynamic linked framework (see also mac_post_make.sh)
+    LIBS += -F /Library/Frameworks
 	LIBS += -framework \
 		QtCore
 	LIBS += -framework \
 		QtGui
-
-	# SDL and SDL_mixer come as frameworks
-	LIBS += -framework \
-		SDL
-	LIBS += -framework \
-		SDL_mixer
+    LIBS += -framework \
+        SDL
+    LIBS += -framework \
+        SDL_mixer
 
 	# make sure you have an x86_64 version of boost
-	LIBS += /usr/local/lib/libboost_thread.a
+	LIBS += /usr/local/lib/libboost_thread-mt.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
 	LIBS += /usr/local/lib/libboost_random.a
@@ -616,15 +615,21 @@ mac {
 		-lprotobuf \
 		-lz \
 		-framework \
-		Carbon
+            Cocoa
 
 	# set the application icon
 	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
-	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+
+    LIBPATH += /usr/local/lib
+    LIBPATH += /usr/local/opt/openssl/lib
+    LIBPATH += /usr/local/opt/tinyxml/lib
+    LIBPATH += /usr/local/opt/protobuf/lib
 	INCLUDEPATH += /usr/local/include
+    INCLUDEPATH += /usr/local/opt/openssl/include
+    INCLUDEPATH += /usr/local/opt/tinyxml/include
+    INCLUDEPATH += /usr/local/opt/protobuf/include
+    INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+    INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
 OTHER_FILES += docs/infomessage-id-desc.txt
 official_server { 

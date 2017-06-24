@@ -310,7 +310,7 @@ mac {
 	CONFIG += x86_64
 	CONFIG -= x86
 	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -322,7 +322,7 @@ mac {
 
 	LIBPATH += lib
 	# make sure you have an x86_64 version of boost
-	LIBS += /usr/local/lib/libboost_thread.a
+	LIBS += /usr/local/lib/libboost_thread-mt.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
 	LIBS += /usr/local/lib/libboost_random.a
