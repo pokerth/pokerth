@@ -9,8 +9,8 @@
 # of binary-size if you leave Qt out.
 # (see http://trolltech.com/developer/downloads/qt/mac)
 
-QT_FW_PATH="/Developer/Qt5/5/clang_64/lib"
-QT_PLUGIN_PATH="/Developer/Qt5/5/clang_64/plugins"
+QT_FW_PATH="/Users/$USER/Qt/5.9/clang_64/lib"
+QT_PLUGIN_PATH="/Users/$USER/Qt/5.9/clang_64/plugins"
 SDL_FW_PATH="/Library/Frameworks"
 APPLICATION="./pokerth.app"
 BINARY="$APPLICATION/Contents/MacOs/pokerth"

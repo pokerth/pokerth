@@ -35,6 +35,7 @@
 
 #include <db/dbdefs.h>
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/regex.hpp>
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
@@ -67,12 +68,12 @@ public:
 protected:
 
 	struct TimedPlayerBan {
-		boost::shared_ptr<boost::asio::deadline_timer> timer;
+		boost::shared_ptr<boost::asio::steady_timer> timer;
 		std::string nameStr;
 		boost::regex nameRegex;
 	};
 	struct TimedIPBan {
-		boost::shared_ptr<boost::asio::deadline_timer> timer;
+		boost::shared_ptr<boost::asio::steady_timer> timer;
 		std::string ipAddress;
 	};
 
@@ -81,8 +82,8 @@ protected:
 	typedef std::list<boost::regex> RegexList;
 	typedef std::vector<DB_id> DBPlayerIdList;
 
-	boost::shared_ptr<boost::asio::deadline_timer> InternalRegisterTimedBan(unsigned timerId, unsigned durationHours);
-	void TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::deadline_timer> timer);
+	boost::shared_ptr<boost::asio::steady_timer> InternalRegisterTimedBan(unsigned timerId, unsigned durationHours);
+	void TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::steady_timer> timer);
 
 	boost::shared_ptr<boost::asio::io_service> m_ioService;
 

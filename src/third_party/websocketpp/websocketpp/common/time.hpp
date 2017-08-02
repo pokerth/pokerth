@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,47 +25,32 @@
  *
  */
 
-#ifndef WEBSOCKETPP_ERROR_MESSAGE_HPP
-#define WEBSOCKETPP_ERROR_MESSAGE_HPP
+#ifndef WEBSOCKETPP_COMMON_TIME_HPP
+#define WEBSOCKETPP_COMMON_TIME_HPP
+
+#include <ctime>
 
 namespace websocketpp {
+namespace lib {
 
-/**
- * The transport::security::* classes are a set of security/socket related
- * policies and support code for the ASIO transport types.
- */
-class error_msg {
-public:
-	const std::string& get_msg() const {
-		return m_error_msg;
-	}
+// Code in this header was inspired by the following article and includes some
+// code from the related project g2log. The g2log code is public domain licensed
+// http://kjellkod.wordpress.com/2013/01/22/exploring-c11-part-2-localtime-and-time-again/
 
-	void set_msg(const std::string& msg) {
-		m_error_msg = msg;
-	}
+/// Thread safe cross platform localtime
+inline std::tm localtime(std::time_t const & time) {
+    std::tm tm_snapshot;
+#if (defined(__MINGW32__) || defined(__MINGW64__))
+    memcpy(&tm_snapshot, ::localtime(&time), sizeof(std::tm));
+#elif (defined(WIN32) || defined(_WIN32) || defined(__WIN32__))
+    localtime_s(&tm_snapshot, &time); 
+#else
+    localtime_r(&time, &tm_snapshot); // POSIX  
+#endif
+    return tm_snapshot;
+}
 
-	void append_msg(const std::string& msg) {
-		m_error_msg.append(msg);
-	}
+} // lib
+} // websocketpp
 
-	template <typename T>
-	void set_msg(const T& thing) {
-		std::stringsteam val;
-		val << thing;
-		this->set_msg(val.str());
-	}
-
-	template <typename T>
-	void append_msg(const T& thing) {
-		std::stringsteam val;
-		val << thing;
-		this->append_msg(val.str());
-	}
-private:
-	// error resources
-	std::string		m_error_msg;
-};
-
-} // namespace websocketpp
-
-#endif // WEBSOCKETPP_ERROR_MESSAGE_HPP
+#endif // WEBSOCKETPP_COMMON_TIME_HPP

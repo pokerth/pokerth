@@ -34,6 +34,11 @@
 
 using namespace std;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
 
 ServerBanManager::ServerBanManager(boost::shared_ptr<boost::asio::io_service> ioService)
 	: m_ioService(ioService), m_curBanId(0)
@@ -126,7 +131,7 @@ ServerBanManager::GetBanList(list<string> &list) const
 			banText << (*i_nick).first << ": (nickStr) - " << (*i_nick).second.nameStr;
 
 		if ((*i_nick).second.timer)
-			banText << " duration: " << (*i_nick).second.timer->expires_from_now().hours() << "h";
+			banText << " duration: " << duration_cast<hours>((*i_nick).second.timer->expires_from_now()).count() << "h";
 		list.push_back(banText.str());
 		++i_nick;
 	}
@@ -136,7 +141,7 @@ ServerBanManager::GetBanList(list<string> &list) const
 		ostringstream banText;
 		banText << (*i_ip).first << ": (IP) - " << (*i_ip).second.ipAddress;
 		if ((*i_ip).second.timer)
-			banText << " duration: " << (*i_ip).second.timer->expires_from_now().hours() << "h";
+			banText << " duration: " << duration_cast<hours>((*i_ip).second.timer->expires_from_now()).count() << "h";
 		list.push_back(banText.str());
 		++i_ip;
 	}
@@ -235,14 +240,14 @@ ServerBanManager::IsBadGameName(const std::string &name) const
 	return retVal;
 }
 
-boost::shared_ptr<boost::asio::deadline_timer>
+boost::shared_ptr<boost::asio::steady_timer>
 ServerBanManager::InternalRegisterTimedBan(unsigned timerId, unsigned durationHours)
 {
-	boost::shared_ptr<boost::asio::deadline_timer> tmpTimer;
+	boost::shared_ptr<boost::asio::steady_timer> tmpTimer;
 	if (durationHours) {
-		tmpTimer.reset(new boost::asio::deadline_timer(*m_ioService));
+		tmpTimer.reset(new boost::asio::steady_timer(*m_ioService));
 		tmpTimer->expires_from_now(
-			boost::posix_time::hours(durationHours));
+			hours(durationHours));
 		tmpTimer->async_wait(
 			boost::bind(
 				&ServerBanManager::TimerRemoveBan, shared_from_this(), boost::asio::placeholders::error, timerId, tmpTimer));
@@ -251,7 +256,7 @@ ServerBanManager::InternalRegisterTimedBan(unsigned timerId, unsigned durationHo
 }
 
 void
-ServerBanManager::TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::deadline_timer> timer)
+ServerBanManager::TimerRemoveBan(const boost::system::error_code &ec, unsigned banId, boost::shared_ptr<boost::asio::steady_timer> timer)
 {
 	if (!ec && timer)
 		UnBan(banId);

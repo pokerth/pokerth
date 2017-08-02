@@ -36,6 +36,7 @@
 typedef unsigned SessionId;
 
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
@@ -144,9 +145,9 @@ private:
 	bool							m_wantsLobbyMsg;
 	unsigned						m_activityTimeoutSec;
 	unsigned						m_activityWarningRemainingSec;
-	boost::asio::deadline_timer		m_initTimeoutTimer;
-	boost::asio::deadline_timer		m_globalTimeoutTimer;
-	boost::asio::deadline_timer		m_activityTimeoutTimer;
+	boost::asio::steady_timer		m_initTimeoutTimer;
+	boost::asio::steady_timer		m_globalTimeoutTimer;
+	boost::asio::steady_timer		m_activityTimeoutTimer;
 	SessionDataCallback				&m_callback;
 	Gsasl_session					*m_authSession;
 	int								m_curAuthStep;

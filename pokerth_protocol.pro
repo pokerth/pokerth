@@ -17,6 +17,9 @@ QT -= core \
 	gui
 # PRECOMPILED_HEADER = src/pch_lib.h
 
+# Check for c++11
+include(pokerth_common.pro)
+
 INCLUDEPATH += . \
 	src
 DEPENDPATH += . \
@@ -49,7 +52,7 @@ mac {
         CONFIG += x86_64
         CONFIG -= x86
         CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,11 +28,11 @@
 #ifndef WEBSOCKETPP_URI_HPP
 #define WEBSOCKETPP_URI_HPP
 
-#include <websocketpp/common/memory.hpp>
 #include <websocketpp/error.hpp>
 
+#include <websocketpp/common/memory.hpp>
+
 #include <algorithm>
-#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -47,27 +47,28 @@ static uint16_t const uri_default_secure_port = 443;
 
 class uri {
 public:
-    explicit uri(std::string const & uri) : m_valid(false) {
+    explicit uri(std::string const & uri_string) : m_valid(false) {
         std::string::const_iterator it;
         std::string::const_iterator temp;
 
         int state = 0;
 
-        it = uri.begin();
+        it = uri_string.begin();
+        size_t uri_len = uri_string.length();
 
-        if (std::equal(it,it+6,"wss://")) {
+        if (uri_len >= 7 && std::equal(it,it+6,"wss://")) {
             m_secure = true;
             m_scheme = "wss";
             it += 6;
-        } else if (std::equal(it,it+5,"ws://")) {
+        } else if (uri_len >= 6 && std::equal(it,it+5,"ws://")) {
             m_secure = false;
             m_scheme = "ws";
             it += 5;
-        } else if (std::equal(it,it+7,"http://")) {
+        } else if (uri_len >= 8 && std::equal(it,it+7,"http://")) {
             m_secure = false;
             m_scheme = "http";
             it += 7;
-        } else if (std::equal(it,it+8,"https://")) {
+        } else if (uri_len >= 9 && std::equal(it,it+8,"https://")) {
             m_secure = true;
             m_scheme = "https";
             it += 8;
@@ -88,14 +89,14 @@ public:
             //temp = std::find(it,it2,']');
 
             temp = it;
-            while (temp != uri.end()) {
+            while (temp != uri_string.end()) {
                 if (*temp == ']') {
                     break;
                 }
                 ++temp;
             }
 
-            if (temp == uri.end()) {
+            if (temp == uri_string.end()) {
                 return;
             } else {
                 // validate IPv6 literal parts
@@ -103,7 +104,7 @@ public:
                 m_host.append(it,temp);
             }
             it = temp+1;
-            if (it == uri.end()) {
+            if (it == uri_string.end()) {
                 state = 2;
             } else if (*it == '/') {
                 state = 2;
@@ -119,7 +120,7 @@ public:
             // IPv4 or hostname
             // extract until : or /
             while (state == 0) {
-                if (it == uri.end()) {
+                if (it == uri_string.end()) {
                     state = 2;
                     break;
                 } else if (*it == '/') {
@@ -135,9 +136,9 @@ public:
         }
 
         // parse port
-        std::string port = "";
+        std::string port;
         while (state == 1) {
-            if (it == uri.end()) {
+            if (it == uri_string.end()) {
                 // state is not used after this point presently.
                 // this should be re-enabled if it ever is needed in a future
                 // refactoring
@@ -159,7 +160,7 @@ public:
         }
 
         m_resource = "/";
-        m_resource.append(it,uri.end());
+        m_resource.append(it,uri_string.end());
 
 
         m_valid = true;
@@ -169,7 +170,7 @@ public:
         std::string const & resource)
       : m_scheme(secure ? "wss" : "ws")
       , m_host(host)
-      , m_resource(resource == "" ? "/" : resource)
+      , m_resource(resource.empty() ? "/" : resource)
       , m_port(port)
       , m_secure(secure)
       , m_valid(true) {}
@@ -177,7 +178,7 @@ public:
     uri(bool secure, std::string const & host, std::string const & resource)
       : m_scheme(secure ? "wss" : "ws")
       , m_host(host)
-      , m_resource(resource == "" ? "/" : resource)
+      , m_resource(resource.empty() ? "/" : resource)
       , m_port(secure ? uri_default_secure_port : uri_default_port)
       , m_secure(secure)
       , m_valid(true) {}
@@ -186,7 +187,7 @@ public:
         std::string const & resource)
       : m_scheme(secure ? "wss" : "ws")
       , m_host(host)
-      , m_resource(resource == "" ? "/" : resource)
+      , m_resource(resource.empty() ? "/" : resource)
       , m_secure(secure)
     {
         lib::error_code ec;
@@ -198,7 +199,7 @@ public:
         std::string const & resource)
       : m_scheme(scheme)
       , m_host(host)
-      , m_resource(resource == "" ? "/" : resource)
+      , m_resource(resource.empty() ? "/" : resource)
       , m_port(port)
       , m_secure(scheme == "wss" || scheme == "https")
       , m_valid(true) {}
@@ -206,7 +207,7 @@ public:
     uri(std::string scheme, std::string const & host, std::string const & resource)
       : m_scheme(scheme)
       , m_host(host)
-      , m_resource(resource == "" ? "/" : resource)
+      , m_resource(resource.empty() ? "/" : resource)
       , m_port((scheme == "wss" || scheme == "https") ? uri_default_secure_port : uri_default_port)
       , m_secure(scheme == "wss" || scheme == "https")
       , m_valid(true) {}
@@ -215,7 +216,7 @@ public:
         std::string const & port, std::string const & resource)
       : m_scheme(scheme)
       , m_host(host)
-      , m_resource(resource == "" ? "/" : resource)
+      , m_resource(resource.empty() ? "/" : resource)
       , m_secure(scheme == "wss" || scheme == "https")
     {
         lib::error_code ec;
@@ -290,10 +291,10 @@ public:
      * @return query portion of the URI.
      */
     std::string get_query() const {
-    	std::size_t found = m_resource.find('?');
-    	if (found != std::string::npos) {
-    		return m_resource.substr(found + 1);
-    	} else {
+        std::size_t found = m_resource.find('?');
+        if (found != std::string::npos) {
+            return m_resource.substr(found + 1);
+        } else {
             return "";
         }
     }
@@ -321,7 +322,7 @@ private:
     {
         ec = lib::error_code();
 
-        if (port == "") {
+        if (port.empty()) {
             return (m_secure ? uri_default_secure_port : uri_default_port);
         }
 

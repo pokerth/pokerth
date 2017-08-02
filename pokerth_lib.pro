@@ -17,6 +17,9 @@ DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_DEPRECATED
 QT -= core gui
 #PRECOMPILED_HEADER = src/pch_lib.h
 
+# Check for c++11
+include(pokerth_common.pro)
+
 INCLUDEPATH += . \
 		src \
 		src/engine \
@@ -291,17 +294,17 @@ mac{
 	CONFIG += x86_64
 	CONFIG -= x86
 	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.
 	#	QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
-
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
-	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+    LIBPATH += /usr/local/opt/openssl/lib
+    INCLUDEPATH += /usr/local/opt/openssl/include
 	INCLUDEPATH += /usr/local/include
+    INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+    INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
 
 android{

@@ -60,6 +60,12 @@
 using namespace std;
 using namespace boost::filesystem;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
+
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
 #define CLIENT_CONNECT_TIMEOUT_SEC	10
 
@@ -238,7 +244,7 @@ void
 ClientStateDownloadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 {
 	client->GetStateTimer().expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+		milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 	client->GetStateTimer().async_wait(
 		boost::bind(
 			&ClientStateDownloadingServerList::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -265,7 +271,7 @@ ClientStateDownloadingServerList::TimerLoop(const boost::system::error_code& ec,
 			client->SetState(ClientStateReadingServerList::Instance());
 		} else {
 			client->GetStateTimer().expires_from_now(
-				boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+				milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 			client->GetStateTimer().async_wait(
 				boost::bind(
 					&ClientStateDownloadingServerList::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -409,7 +415,7 @@ void
 ClientStateWaitChooseServer::Enter(boost::shared_ptr<ClientThread> client)
 {
 	client->GetStateTimer().expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+		milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 	client->GetStateTimer().async_wait(
 		boost::bind(
 			&ClientStateWaitChooseServer::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -432,7 +438,7 @@ ClientStateWaitChooseServer::TimerLoop(const boost::system::error_code& ec, boos
 			client->SetState(ClientStateStartResolve::Instance());
 		} else {
 			client->GetStateTimer().expires_from_now(
-				boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+				milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 			client->GetStateTimer().async_wait(
 				boost::bind(
 					&ClientStateWaitChooseServer::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -461,7 +467,7 @@ void
 ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 {
 	client->GetStateTimer().expires_from_now(
-		boost::posix_time::seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+		seconds(CLIENT_CONNECT_TIMEOUT_SEC));
 	client->GetStateTimer().async_wait(
 		boost::bind(
 			&ClientStateStartConnect::TimerTimeout, this, boost::asio::placeholders::error, client));
@@ -511,7 +517,11 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 							client));
 		} else {
 			if (ec != boost::asio::error::operation_aborted) {
-				throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+				if (client->GetContext().GetAddrFamily() == AF_INET6) {
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, ec.value());
+				} else {
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+				}
 			}
 		}
 	}
@@ -523,7 +533,12 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 	if (!ec && &client->GetState() == this) {
 		boost::system::error_code ec;
 		client->GetContext().GetSessionData()->GetAsioSocket()->close(ec);
-		throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
+		if (client->GetContext().GetAddrFamily() == AF_INET6) {
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_TIMEOUT, 0);
+		}
+		else {
+			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
+		}
 	}
 }
 
@@ -986,7 +1001,7 @@ void
 ClientStateWaitEnterLogin::Enter(boost::shared_ptr<ClientThread> client)
 {
 	client->GetStateTimer().expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+		milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 	client->GetStateTimer().async_wait(
 		boost::bind(
 			&ClientStateWaitEnterLogin::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -1065,7 +1080,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 			}
 		} else {
 			client->GetStateTimer().expires_from_now(
-				boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+				milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 			client->GetStateTimer().async_wait(
 				boost::bind(
 					&ClientStateWaitEnterLogin::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -1399,7 +1414,7 @@ void
 ClientStateSynchronizeStart::Enter(boost::shared_ptr<ClientThread> client)
 {
 	client->GetStateTimer().expires_from_now(
-		boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+		milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 	client->GetStateTimer().async_wait(
 		boost::bind(
 			&ClientStateSynchronizeStart::TimerLoop, this, boost::asio::placeholders::error, client));
@@ -1429,7 +1444,7 @@ ClientStateSynchronizeStart::TimerLoop(const boost::system::error_code& ec, boos
 			client->SetState(ClientStateWaitStart::Instance());
 		} else {
 			client->GetStateTimer().expires_from_now(
-				boost::posix_time::milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
+				milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 			client->GetStateTimer().async_wait(
 				boost::bind(
 					&ClientStateSynchronizeStart::TimerLoop, this, boost::asio::placeholders::error, client));

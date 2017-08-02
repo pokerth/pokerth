@@ -14,6 +14,9 @@ OBJECTS_DIR = obj
 QT -= core \
     gui
 
+# Check for c++11
+include(pokerth_common.pro)
+
 # PRECOMPILED_HEADER = dbofficial/pch_lib.h
 INCLUDEPATH += . \
     ./src

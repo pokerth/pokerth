@@ -156,9 +156,14 @@ void MyAvatarLabel::setPlayerRating(QString playerInfo)
 	std::list<std::string> result;
 	std::string separator="(!#$%)";
 	std::list<std::string>::iterator iterator;
+
+	// Bug #319: https://github.com/pokerth/pokerth/issues/319
+	QString playerName = playerInfoList.at(0);
+	playerName = QUrl::fromPercentEncoding(playerName.toUtf8());
+
 	for(iterator = tipsList.begin(); iterator != tipsList.end(); ++iterator) {
 		tipInfo=QString::fromUtf8(iterator->c_str()).split("(!#$%)", QString::KeepEmptyParts, Qt::CaseSensitive);
-		if(tipInfo.at(0)==playerInfoList.at(0)) {
+		if(tipInfo.at(0)==playerName) {
 			result.push_back(tipInfo.at(0).toUtf8().constData()+separator+tipInfo.at(1).toUtf8().constData()+separator+playerInfoList.at(1).toUtf8().constData()+separator);
 			found=1;
 		} else {
@@ -166,7 +171,7 @@ void MyAvatarLabel::setPlayerRating(QString playerInfo)
 		}
 	}
 	if(found==0) {
-		result.push_back(playerInfoList.at(0).toUtf8().constData()+separator+separator+playerInfoList.at(1).toUtf8().constData()+separator);
+		result.push_back(playerName.toUtf8().constData()+separator+separator+playerInfoList.at(1).toUtf8().constData()+separator);
 	}
 	myW->getMyConfig()->writeConfigStringList("PlayerTooltips", result);
 	myW->getMyConfig()->writeBuffer();
@@ -224,7 +229,12 @@ void MyAvatarLabel::refreshStars()
 		for(int i=1; i<=5; i++)myW->playerStarsArray[i][seatPlace]->setText("");
 		if(myW->myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET && !myW->getSession()->getClientPlayerInfo((*it_c)->getMyUniqueID()).isGuest && (*it_c)->getMyType() != PLAYER_TYPE_COMPUTER) {
 			if((*it_c)->getMyStayOnTableStatus() == true && (*it_c)->getMyName()!="" && seatPlace!=0) {
-				int playerStars=getPlayerRating(QString::fromUtf8((*it_c)->getMyName().c_str()));
+
+				// Bug #319: https://github.com/pokerth/pokerth/issues/319
+				QString playerName = QString::fromUtf8((*it_c)->getMyName().c_str());
+				int playerStars=getPlayerRating(playerName);
+				playerName = QString(QUrl::toPercentEncoding(playerName));
+
 				for(int i=1; i<=5; i++) {
 					myW->playerStarsArray[i][seatPlace]->setText("<a style='color: #"+myW->getMyGameTableStyle()->getRatingStarsColor()+"; "+fontFamily+" font-size: "+fontSize+"px; text-decoration: none;' href='"+QString::fromUtf8((*it_c)->getMyName().c_str())+"\""+QString::number(i)+"'>&#9734;</a>");
 				}

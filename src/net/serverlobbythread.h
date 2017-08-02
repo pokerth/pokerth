@@ -34,6 +34,7 @@
 #define _SERVERLOBBYTHREAD_H_
 
 #include <boost/asio.hpp>
+#include <boost/asio/steady_timer.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 
@@ -268,9 +269,9 @@ private:
 	boost::shared_ptr<ChatCleanerManager> m_chatCleanerManager;
 	boost::shared_ptr<ServerDBInterface> m_database;
 
-	boost::asio::deadline_timer m_removeGameTimer;
-	boost::asio::deadline_timer m_saveStatisticsTimer;
-	boost::asio::deadline_timer m_loginLockTimer;
+	boost::asio::steady_timer m_removeGameTimer;
+	boost::asio::steady_timer m_saveStatisticsTimer;
+	boost::asio::steady_timer m_loginLockTimer;
 
 	boost::uuids::random_generator m_sessionIdGenerator;
 

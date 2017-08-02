@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2014, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,7 +34,11 @@
 #include <websocketpp/common/stdint.hpp>
 
 // Concurrency
+#ifndef _WEBSOCKETPP_NO_THREADING_
 #include <websocketpp/concurrency/basic.hpp>
+#else
+#include <websocketpp/concurrency/none.hpp>
+#endif
 
 // Transport
 #include <websocketpp/transport/iostream/endpoint.hpp>
@@ -68,7 +72,11 @@ struct core_client {
     typedef core_client type;
 
     // Concurrency policy
+#ifndef _WEBSOCKETPP_NO_THREADING_
     typedef websocketpp::concurrency::basic concurrency_type;
+#else
+    typedef websocketpp::concurrency::none concurrency_type;
+#endif
 
     // HTTP Parser Policies
     typedef http::parser::request request_type;
@@ -215,6 +223,30 @@ struct core_client {
      * sent by local applications.
      */
     static const bool silent_close = false;
+
+    /// Default maximum message size
+    /**
+     * Default value for the processor's maximum message size. Maximum message size
+     * determines the point at which the library will fail a connection with the 
+     * message_too_big protocol error.
+     *
+     * The default is 32MB
+     *
+     * @since 0.3.0
+     */
+    static const size_t max_message_size = 32000000;
+
+    /// Default maximum http body size
+    /**
+     * Default value for the http parser's maximum body size. Maximum body size
+     * determines the point at which the library will abort reading an HTTP
+     * connection with the 413/request entity too large error.
+     *
+     * The default is 32MB
+     *
+     * @since 0.5.0
+     */
+    static const size_t max_http_body_size = 32000000;
 
     /// Global flag for enabling/disabling extensions
     static const bool enable_extensions = true;

@@ -26,6 +26,9 @@ DEFINES += ENABLE_IPV6 TIXML_USE_STL BOOST_FILESYSTEM_DEPRECATED
 DEFINES += PREFIX=\"$${PREFIX}\"
 TARGET = pokerth
 
+# Check for c++11
+include(pokerth_common.pro)
+
 # PRECOMPILED_HEADER = src/pch_game.h
 
 android{
@@ -427,6 +430,8 @@ unix:!mac {
 		boost_system-mt
 	BOOST_RANDOM = boost_random \
 		boost_random-mt
+	BOOST_CHRONO = boost_chrono \
+		boost_chrono-mt
 
 	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
 	# to override the default '/usr' pass PREFIX
@@ -482,15 +487,37 @@ unix:!mac {
 				message("Found $$lib")
 				BOOST_SYS = -l$$lib
 			}
+			!c++11 { 
+				for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.so*) {
+					message("Found $$lib")
+					BOOST_CHRONO = -l$$lib
+				}
+				for(lib, BOOST_CHRONO):exists($${dir}/lib$${lib}.a) {
+					message("Found $$lib")
+					BOOST_CHRONO = -l$$lib
+				}
+			}
 	}
 	!android{
-		BOOST_LIBS = $$BOOST_THREAD \
+		c++11 {
+			BOOST_LIBS = $$BOOST_THREAD \
 			$$BOOST_FS \
 			$$BOOST_IOSTREAMS \
 			$$BOOST_REGEX \
 			$$BOOST_RANDOM \
 			$$BOOST_SYS
 		!count(BOOST_LIBS, 6):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+		}
+		!c++11 {
+			BOOST_LIBS = $$BOOST_THREAD \
+			$$BOOST_FS \
+			$$BOOST_IOSTREAMS \
+			$$BOOST_REGEX \
+			$$BOOST_RANDOM \
+			$$$$BOOST_SYS \
+			$$BOOST_CHRONO
+			!count(BOOST_LIBS, 7):error("Unable to find boost libraries in PREFIX=$${PREFIX}")
+		}
 		if($$system(sdl-config --version)):error("sdl-config not found in PATH - libSDL_mixer, libSDL are required!")
 		UNAME = $$system(uname -s)
 		BSD = $$find(UNAME, "BSD")
@@ -549,7 +576,7 @@ mac {
 	CONFIG += x86_64
 	CONFIG -= x86
 	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -561,19 +588,18 @@ mac {
 	LIBPATH += lib
 
 	# QT dynamic linked framework (see also mac_post_make.sh)
+    LIBS += -F /Library/Frameworks
 	LIBS += -framework \
 		QtCore
 	LIBS += -framework \
 		QtGui
-
-	# SDL and SDL_mixer come as frameworks
-	LIBS += -framework \
-		SDL
-	LIBS += -framework \
-		SDL_mixer
+    LIBS += -framework \
+        SDL
+    LIBS += -framework \
+        SDL_mixer
 
 	# make sure you have an x86_64 version of boost
-	LIBS += /usr/local/lib/libboost_thread.a
+	LIBS += /usr/local/lib/libboost_thread-mt.a
 	LIBS += /usr/local/lib/libboost_filesystem.a
 	LIBS += /usr/local/lib/libboost_regex.a
 	LIBS += /usr/local/lib/libboost_random.a
@@ -589,15 +615,21 @@ mac {
 		-lprotobuf \
 		-lz \
 		-framework \
-		Carbon
+            Cocoa
 
 	# set the application icon
 	RC_FILE = pokerth.icns
-	LIBPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/lib
-	INCLUDEPATH += /Developer/SDKs/MacOSX10.6.sdk/usr/include/
-	INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
-	INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
+
+    LIBPATH += /usr/local/lib
+    LIBPATH += /usr/local/opt/openssl/lib
+    LIBPATH += /usr/local/opt/tinyxml/lib
+    LIBPATH += /usr/local/opt/protobuf/lib
 	INCLUDEPATH += /usr/local/include
+    INCLUDEPATH += /usr/local/opt/openssl/include
+    INCLUDEPATH += /usr/local/opt/tinyxml/include
+    INCLUDEPATH += /usr/local/opt/protobuf/include
+    INCLUDEPATH += /Library/Frameworks/SDL.framework/Headers
+    INCLUDEPATH += /Library/Frameworks/SDL_mixer.framework/Headers
 }
 OTHER_FILES += docs/infomessage-id-desc.txt
 official_server { 

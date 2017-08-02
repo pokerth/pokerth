@@ -45,6 +45,12 @@
 
 using namespace std;
 
+#ifdef BOOST_ASIO_HAS_STD_CHRONO
+using namespace std::chrono;
+#else
+using namespace boost::chrono;
+#endif
+
 ServerLobbyBot::ServerLobbyBot(boost::shared_ptr<boost::asio::io_service> ioService)
 	: m_reconnectTimer(*ioService)
 {
@@ -110,7 +116,7 @@ ServerLobbyBot::Run()
 	if (m_ircLobbyThread) {
 		// Initialise the reconnect timer.
 		m_reconnectTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
 		m_reconnectTimer.async_wait(
 			boost::bind(
 				&ServerLobbyBot::Reconnect, shared_from_this(), boost::asio::placeholders::error));
@@ -132,7 +138,7 @@ ServerLobbyBot::Reconnect(const boost::system::error_code& ec)
 			}
 		}
 		m_reconnectTimer.expires_from_now(
-			boost::posix_time::seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
+			seconds(SERVER_RESTART_IRC_BOT_INTERVAL_SEC));
 		m_reconnectTimer.async_wait(
 			boost::bind(
 				&ServerLobbyBot::Reconnect, shared_from_this(), boost::asio::placeholders::error));

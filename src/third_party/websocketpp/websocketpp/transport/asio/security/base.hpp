@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Peter Thorson. All rights reserved.
+ * Copyright (c) 2015, Peter Thorson. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,15 +28,13 @@
 #ifndef WEBSOCKETPP_TRANSPORT_ASIO_SOCKET_BASE_HPP
 #define WEBSOCKETPP_TRANSPORT_ASIO_SOCKET_BASE_HPP
 
+#include <websocketpp/common/asio.hpp>
 #include <websocketpp/common/memory.hpp>
 #include <websocketpp/common/functional.hpp>
 #include <websocketpp/common/system_error.hpp>
 #include <websocketpp/common/cpp11.hpp>
 #include <websocketpp/common/connection_hdl.hpp>
 
-#include <boost/asio.hpp>
-
-#include <iostream>
 #include <string>
 
 // Interface that sockets/security policies must implement
@@ -57,6 +55,7 @@
 
 // Connection
 // TODO
+// set_hostname(std::string hostname)
 // pre_init(init_handler);
 // post_init(init_handler);
 
@@ -64,6 +63,8 @@ namespace websocketpp {
 namespace transport {
 namespace asio {
 namespace socket {
+
+typedef lib::function<void(lib::asio::error_code const &)> shutdown_handler;
 
 /**
  * The transport::asio::socket::* classes are a set of security/socket related
@@ -95,14 +96,20 @@ namespace error {
         pass_through,
 
         /// Required tls_init handler not present
-        missing_tls_init_handler
+        missing_tls_init_handler,
+
+        /// TLS Handshake Failed
+        tls_handshake_failed,
+        
+        /// Failed to set TLS SNI hostname
+        tls_failed_sni_hostname
     };
 } // namespace error
 
 /// Error category related to asio transport socket policies
 class socket_category : public lib::error_category {
 public:
-    const char *name() const _WEBSOCKETPP_NOEXCEPT_TOKEN_ {
+    char const * name() const _WEBSOCKETPP_NOEXCEPT_TOKEN_ {
         return "websocketpp.transport.asio.socket";
     }
 
@@ -119,16 +126,20 @@ public:
             case error::tls_handshake_timeout:
                 return "TLS handshake timed out";
             case error::pass_through:
-                return "Pass through from underlying library";
+                return "Pass through from socket policy";
             case error::missing_tls_init_handler:
                 return "Required tls_init handler not present.";
+            case error::tls_handshake_failed:
+                return "TLS handshake failed";
+            case error::tls_failed_sni_hostname:
+                return "Failed to set TLS SNI hostname";
             default:
                 return "Unknown";
         }
     }
 };
 
-inline const lib::error_category& get_socket_category() {
+inline lib::error_category const & get_socket_category() {
     static socket_category instance;
     return instance;
 }
