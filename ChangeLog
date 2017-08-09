@@ -1,3 +1,13 @@
+2017-09-01 version 1.1.2
+- PokerTH is now fully compatible with c++11 compilation mode 
+- Upgraded to websockets 0.7 
+- BUGFIX: SQL errors are saved to server log (partly #324) 
+- BUGFIX: Players deliberately preventing start of play (#304) 
+- BUGFIX: Rating feature didn't work for special usernames (#319) 
+- BUGFIX: Ignore feature only works after restart (#320) 
+- BUGFIX: Shorten too long usernames on the table gui (#326)
+- BUGFIX: "accidentally call" blocker now for working for FKey presses (#330)
+
 2014-01-10 version 1.1.1
 - BUGFIX: Fixed crash when the first action in the first game times out (#258)
 - BUGFIX: Properly refresh the game table graphics after changing settings (#253)
