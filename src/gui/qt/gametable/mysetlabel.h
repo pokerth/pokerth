@@ -50,7 +50,8 @@ public:
 	~MySetLabel();
 
 
-	void setMyW ( gameTableImpl* theValue ) {
+	void setMyW ( gameTableImpl* theValue )
+	{
 		myW = theValue;
 	}
 	void paintEvent(QPaintEvent * event);

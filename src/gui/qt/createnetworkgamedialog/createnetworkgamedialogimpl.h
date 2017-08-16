@@ -52,7 +52,8 @@ public:
 	createNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
 	int exec();
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog()
+	{
 		return myChangeCompleteBlindsDialog;
 	}
 	bool eventFilter(QObject *obj, QEvent *event);

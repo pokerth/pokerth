@@ -66,17 +66,20 @@ public:
 
 	int exec();
 
-	ChatTools *getMyChat() {
+	ChatTools *getMyChat()
+	{
 		return myChat;
 	}
 
 	void setSession(boost::shared_ptr<Session> session);
-	boost::shared_ptr<Session> getSession() {
+	boost::shared_ptr<Session> getSession()
+	{
 		assert(mySession.get());
 		return mySession;
 	}
 
-	void setMyW ( gameTableImpl* theValue ) {
+	void setMyW ( gameTableImpl* theValue )
+	{
 		myW = theValue;
 	}
 
@@ -97,13 +100,16 @@ public slots:
 	void updateStats(ServerStats stats);
 	void refreshGameStats();
 	void refreshPlayerStats();
-	void setCurrentGameName ( const QString& theValue ) {
+	void setCurrentGameName ( const QString& theValue )
+	{
 		currentGameName = theValue;
 	}
-	QString getCurrentGameName() const {
+	QString getCurrentGameName() const
+	{
 		return currentGameName;
 	}
-	gameTableImpl* getMyW() const {
+	gameTableImpl* getMyW() const
+	{
 		return myW;
 	}
 	void checkPlayerQuantity();

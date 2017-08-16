@@ -37,7 +37,7 @@
 using namespace std;
 
 ClientBoard::ClientBoard()
-    : pot(0), sets(0), allInCondition(false), lastActionPlayerID(0)
+	: pot(0), sets(0), allInCondition(false), lastActionPlayerID(0)
 {
 	myCards[0] = myCards[1] = myCards[2] = myCards[3] = myCards[4] = 0;
 }

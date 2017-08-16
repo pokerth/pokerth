@@ -48,15 +48,18 @@ class Slider : public QSlider
 
 public:
 	Slider( QWidget* parent = 0 )
-		: QSlider( parent ) {
+		: QSlider( parent )
+	{
 	}
 
 	Slider( Qt::Orientation orientation, QWidget* parent = 0 )
-		: QSlider( orientation, parent ) {
+		: QSlider( orientation, parent )
+	{
 	}
 
 protected:
-	int pixelPosToRangeValue(int pos) const { // getted from QSlider.cpp with little adapt
+	int pixelPosToRangeValue(int pos) const   // getted from QSlider.cpp with little adapt
+	{
 		QStyleOptionSlider opt;
 		initStyleOption(&opt);
 		QRect gr = style()->subControlRect(QStyle::CC_Slider, &opt, QStyle::SC_SliderGroove, this);
@@ -76,11 +79,13 @@ protected:
 											   sliderMax - sliderMin, opt.upsideDown);
 	}
 
-	int pick(const QPoint &pt) const { // getted from QSlider.cpp with little adapt
+	int pick(const QPoint &pt) const   // getted from QSlider.cpp with little adapt
+	{
 		return orientation() == Qt::Horizontal ? pt.x() : pt.y();
 	}
 
-	virtual void mousePressEvent( QMouseEvent* ev ) { // getted from QSlider.cpp with little adapt
+	virtual void mousePressEvent( QMouseEvent* ev )   // getted from QSlider.cpp with little adapt
+	{
 		if (maximum() == minimum() || (ev->buttons() ^ ev->button())) {
 			ev->ignore();
 			return;

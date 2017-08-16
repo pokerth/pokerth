@@ -50,10 +50,12 @@ public:
 
 	~MyChanceLabel();
 
-	void setMyW ( gameTableImpl* theValue ) {
+	void setMyW ( gameTableImpl* theValue )
+	{
 		myW = theValue;
 	}
-	void setMyStyle ( GameTableStyleReader* theValue ) {
+	void setMyStyle ( GameTableStyleReader* theValue )
+	{
 		myStyle = theValue;
 	}
 	void paintEvent(QPaintEvent * event);

@@ -67,25 +67,30 @@ public:
 	void prepareDialog();
 	void exec(bool ingame);
 
-	void setPlayerNickIsChanged(bool theValue) {
+	void setPlayerNickIsChanged(bool theValue)
+	{
 		playerNickIsChanged = theValue;
 	}
-	bool getPlayerNickIsChanged() const {
+	bool getPlayerNickIsChanged() const
+	{
 		return playerNickIsChanged;
 	}
 
-	bool getSettingsCorrect() const {
+	bool getSettingsCorrect() const
+	{
 		return settingsCorrect;
 	}
 
-	void setGuiLog(guiLog* l) {
+	void setGuiLog(guiLog* l)
+	{
 		myGuiLog = l;
 	}
 
 public slots:
 
 	void isAccepted();
-	void playerNickChanged() {
+	void playerNickChanged()
+	{
 		setPlayerNickIsChanged(true);
 	};
 	void setFlipsidePicFileName();
@@ -104,7 +109,8 @@ public slots:
 	void callManualBlindsOrderDialog();
 	void callNetManualBlindsOrderDialog();
 
-	void callSelectAvatarDialog() {
+	void callSelectAvatarDialog()
+	{
 		mySelectAvatarDialogImpl->exec();
 	}
 

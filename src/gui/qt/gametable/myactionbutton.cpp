@@ -76,7 +76,7 @@ bool MyActionButton::event(QEvent *event)
 
 void MyActionButton::click()
 {
-    if (!eatMyEvents) {
-        QPushButton::click();
-    }
+	if (!eatMyEvents) {
+		QPushButton::click();
+	}
 }

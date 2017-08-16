@@ -39,11 +39,13 @@ class BadWordCheck: public QObject
 public:
 	BadWordCheck();
 
-	void setBadWords(QStringList bw) {
+	void setBadWords(QStringList bw)
+	{
 		badWords = bw;
 	}
 
-	void setBadWordsException(QStringList bwe) {
+	void setBadWordsException(QStringList bwe)
+	{
 		badWordsException = bwe;
 	}
 

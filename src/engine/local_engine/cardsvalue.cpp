@@ -65,7 +65,7 @@ int CardsValue::holeCardsClass(int one, int two)
 		}
 	}
 	switch((one-1)%13+2) {
-		//Ass
+	//Ass
 	case 14: {
 		if((one-1)/13 == (two-1)/13) {
 			switch((one-1)%13-(two-1)%13) {
@@ -756,7 +756,7 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 	std::string handName;
 
 	switch(myCardsValueInt/100000000) {
-		// Royal Flush
+	// Royal Flush
 	case 9: {
 
 		handName = *cardStringIt_c;
@@ -1161,8 +1161,8 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 		}
 	}
 	break;
-	default:
-	{}
+	default: {
+	}
 	}
 
 	return handName;
@@ -1191,11 +1191,11 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 
 	switch (firstPart) {
 
-		// Royal Flush
+	// Royal Flush
 	case 9:
 		cardString.push_back("Royal Flush");
 		break;
-		// Straight Flush
+	// Straight Flush
 	case 8: {
 		cardString.push_back("Straight Flush, ");
 		switch(secondPart) {

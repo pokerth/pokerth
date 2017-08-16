@@ -34,6 +34,10 @@ SOURCES += src/third_party/protobuf/pokerth.pb.cc \
 win32 {
 	DEFINES += CURL_STATICLIB
 	DEFINES += _WIN32_WINNT=0x0501
+	
+	system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
+	system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
+	system(protoc pokerth.proto --java_out=tests/src)
 }
 unix : !mac {
         INCLUDEPATH += $${PREFIX}/include

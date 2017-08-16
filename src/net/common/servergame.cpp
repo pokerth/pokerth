@@ -1175,8 +1175,7 @@ void
 ServerGame::AddPlayerToNumJoinsPerPlayer(const std::string &playerName)
 {
 	NumJoinsPerPlayerMap::iterator pos = m_numJoinsPerPlayer.find(playerName);
-	if (pos != m_numJoinsPerPlayer.end())
-	{
+	if (pos != m_numJoinsPerPlayer.end()) {
 		pos->second++;
 	} else {
 		m_numJoinsPerPlayer[playerName] = 1;

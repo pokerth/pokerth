@@ -49,96 +49,126 @@ public:
 	void SetSessionData(boost::shared_ptr<SessionData> sessionData);
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> GetResolver() const;
 	void SetResolver(boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver);
-	bool GetSctp() const {
+	bool GetSctp() const
+	{
 		return m_sctp;
 	}
-	void SetSctp(bool sctp) {
+	void SetSctp(bool sctp)
+	{
 		m_sctp = sctp;
 	}
-	int GetAddrFamily() const {
+	int GetAddrFamily() const
+	{
 		return m_addrFamily;
 	}
-	void SetAddrFamily(int addrFamily) {
+	void SetAddrFamily(int addrFamily)
+	{
 		m_addrFamily = addrFamily;
 	}
-	const std::string &GetServerAddr() const {
+	const std::string &GetServerAddr() const
+	{
 		return m_serverAddr;
 	}
-	void SetServerAddr(const std::string &serverAddr) {
+	void SetServerAddr(const std::string &serverAddr)
+	{
 		m_serverAddr = serverAddr;
 	}
-	const std::string &GetServerPassword() const {
+	const std::string &GetServerPassword() const
+	{
 		return m_serverPassword;
 	}
-	void SetServerPassword(const std::string &serverPassword) {
+	void SetServerPassword(const std::string &serverPassword)
+	{
 		m_serverPassword = serverPassword;
 	}
-	const std::string &GetServerListUrl() const {
+	const std::string &GetServerListUrl() const
+	{
 		return m_serverListUrl;
 	}
-	void SetServerListUrl(const std::string &serverListUrl) {
+	void SetServerListUrl(const std::string &serverListUrl)
+	{
 		m_serverListUrl = serverListUrl;
 	}
-	bool GetUseServerList() const {
+	bool GetUseServerList() const
+	{
 		return m_useServerList;
 	}
-	void SetUseServerList(bool use) {
+	void SetUseServerList(bool use)
+	{
 		m_useServerList = use;
 	}
-	unsigned GetServerPort() const {
+	unsigned GetServerPort() const
+	{
 		return m_serverPort;
 	}
-	void SetServerPort(unsigned serverPort) {
+	void SetServerPort(unsigned serverPort)
+	{
 		m_serverPort = serverPort;
 	}
-	const std::string &GetAvatarServerAddr() const {
+	const std::string &GetAvatarServerAddr() const
+	{
 		return m_avatarServerAddr;
 	}
-	void SetAvatarServerAddr(const std::string &avatarServerAddr) {
+	void SetAvatarServerAddr(const std::string &avatarServerAddr)
+	{
 		m_avatarServerAddr = avatarServerAddr;
 	}
-	const std::string &GetPassword() const {
+	const std::string &GetPassword() const
+	{
 		return m_password;
 	}
-	void SetPassword(const std::string &password) {
+	void SetPassword(const std::string &password)
+	{
 		m_password = password;
 	}
-	const std::string &GetPlayerName() const {
+	const std::string &GetPlayerName() const
+	{
 		return m_playerName;
 	}
-	void SetPlayerName(const std::string &playerName) {
+	void SetPlayerName(const std::string &playerName)
+	{
 		m_playerName = playerName;
 	}
-	PlayerRights GetPlayerRights() const {
+	PlayerRights GetPlayerRights() const
+	{
 		return m_playerRights;
 	}
-	void SetPlayerRights(PlayerRights rights) {
+	void SetPlayerRights(PlayerRights rights)
+	{
 		m_playerRights = rights;
 	}
-	const std::string &GetAvatarFile() const {
+	const std::string &GetAvatarFile() const
+	{
 		return m_avatarFile;
 	}
-	void SetAvatarFile(const std::string &avatarFile) {
+	void SetAvatarFile(const std::string &avatarFile)
+	{
 		m_avatarFile = avatarFile;
 	}
-	const std::string &GetCacheDir() const {
+	const std::string &GetCacheDir() const
+	{
 		return m_cacheDir;
 	}
-	void SetCacheDir(const std::string &cacheDir) {
+	void SetCacheDir(const std::string &cacheDir)
+	{
 		m_cacheDir = cacheDir;
 	}
-	bool GetSubscribeLobbyMsg() const {
+	bool GetSubscribeLobbyMsg() const
+	{
 		return m_hasSubscribedLobbyMsg;
 	}
-	void SetSubscribeLobbyMsg(bool setSubscribe) {
+	void SetSubscribeLobbyMsg(bool setSubscribe)
+	{
 		m_hasSubscribedLobbyMsg = setSubscribe;
 	}
 
-	const std::string &GetSessionGuid() const {
+	const std::string &GetSessionGuid() const
+	{
 		return m_sessionGuid;
 	}
 
-	void SetSessionGuid(const std::string &sessionGuid) {
+	void SetSessionGuid(const std::string &sessionGuid)
+	{
 		m_sessionGuid = sessionGuid;
 	}
 

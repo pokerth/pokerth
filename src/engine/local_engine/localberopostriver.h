@@ -44,10 +44,12 @@ public:
 	LocalBeRoPostRiver(HandInterface*, int, int);
 	~LocalBeRoPostRiver();
 
-	void setHighestCardsValue(int theValue) {
+	void setHighestCardsValue(int theValue)
+	{
 		highestCardsValue = theValue;
 	}
-	int getHighestCardsValue() const {
+	int getHighestCardsValue() const
+	{
 		return highestCardsValue;
 	}
 

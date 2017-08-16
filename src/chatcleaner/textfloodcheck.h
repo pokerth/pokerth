@@ -45,7 +45,8 @@ public:
 	TextFloodCheck();
 	~TextFloodCheck();
 
-	void setTextFloodLevelToTrigger(int level) {
+	void setTextFloodLevelToTrigger(int level)
+	{
 		textFloodLevelToTrigger = level;
 	}
 

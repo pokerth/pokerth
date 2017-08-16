@@ -61,13 +61,16 @@ public slots:
 	void timerRefresh();
 	void stopTimeout();
 
-	void setMySession ( boost::shared_ptr<Session>  theValue ) {
+	void setMySession ( boost::shared_ptr<Session>  theValue )
+	{
 		mySession = theValue;
 	}
-	void setMsgID ( NetTimeoutReason theValue ) {
+	void setMsgID ( NetTimeoutReason theValue )
+	{
 		msgID = theValue;
 	}
-	void setTimeoutDuration ( int theValue ) {
+	void setTimeoutDuration ( int theValue )
+	{
 		timeoutDuration = theValue;
 	}
 

@@ -362,8 +362,8 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 
 		}
 		break;
-		default:
-		{}
+		default: {
+		}
 
 		}
 
@@ -696,8 +696,8 @@ void LocalHand::switchRounds()
 		myGui->postRiverAnimation1();
 	}
 	break;
-	default:
-	{}
+	default: {
+	}
 
 	}
 

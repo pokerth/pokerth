@@ -67,10 +67,12 @@ protected:
 	typedef std::list<boost::shared_ptr<ServerAcceptInterface> > AcceptHelperList;
 
 	ServerLobbyThread &GetLobbyThread();
-	ConfigFile &GetConfig() {
+	ConfigFile &GetConfig()
+	{
 		return m_playerConfig;
 	}
-	GuiInterface &GetGui() {
+	GuiInterface &GetGui()
+	{
 		return m_gui;
 	}
 	boost::shared_ptr<boost::asio::io_service> m_ioService;

@@ -87,26 +87,33 @@ public:
 
 	boost::shared_ptr<Session> getSession();
 
-	SoundEvents* getMySoundEventHandler() const {
+	SoundEvents* getMySoundEventHandler() const
+	{
 		return mySoundEventHandler;
 	}
-	ChatTools* getMyChat() const {
+	ChatTools* getMyChat() const
+	{
 		return myChat;
 	}
-	ConfigFile* getMyConfig() const {
+	ConfigFile* getMyConfig() const
+	{
 		return myConfig;
 	}
-	GameTableStyleReader* getMyGameTableStyle() const {
+	GameTableStyleReader* getMyGameTableStyle() const
+	{
 		return myGameTableStyle;
 	}
-	bool getGuestMode() const {
+	bool getGuestMode() const
+	{
 		return guestMode;
 	}
 
-	void setStartWindow(startWindowImpl* s) {
+	void setStartWindow(startWindowImpl* s)
+	{
 		myStartWindow = s;
 	}
-	void setGuiLog(guiLog* l) {
+	void setGuiLog(guiLog* l)
+	{
 		myGuiLog = l;
 	}
 
@@ -211,7 +218,8 @@ public slots:
 	void startTimeoutAnimation(int playerId, int timoutSec);
 	void stopTimeoutAnimation(int playerId);
 
-	void setGameSpeed(const int theValue) {
+	void setGameSpeed(const int theValue)
+	{
 		guiGameSpeed = theValue;    // Achtung Faktor 10!!!
 		setSpeeds();
 	}

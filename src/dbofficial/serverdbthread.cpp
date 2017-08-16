@@ -482,9 +482,9 @@ ServerDBThread::EstablishDBConnection()
 		if (!prepareNick.exec() || !prepareAvatarBlacklist.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
 				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec() || !prepareReportAvatar.exec()
 				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec()) {
-			string tmpError = string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() + prepareCreateGame.error() + 
-					prepareEndGame.error() + prepareRelation.error() + prepareScore.error() + prepareReportAvatar.error() + 
-					prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error();
+			string tmpError = string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() + prepareCreateGame.error() +
+							  prepareEndGame.error() + prepareRelation.error() + prepareScore.error() + prepareReportAvatar.error() +
+							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error();
 			m_connData->conn.disconnect();
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback, tmpError));
 			m_permanentError = true;
@@ -537,7 +537,7 @@ ServerDBThread::HandleNextQuery()
 					++i;
 				}
 				if (!paramQuery.exec()) {
-					string tmpError = paramQuery.error(); 
+					string tmpError = paramQuery.error();
 					m_connData->conn.disconnect();
 					m_ioService->post(boost::bind(&ServerDBCallback::QueryError, &m_callback, tmpError));
 					break;

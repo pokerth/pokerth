@@ -39,7 +39,8 @@ class CapsFloodCheck: public QObject
 public:
 	CapsFloodCheck();
 
-	void setCapsNumberToTrigger(int n) {
+	void setCapsNumberToTrigger(int n)
+	{
 		capsNumberToTrigger = n;
 	}
 	bool run(QString);

@@ -51,7 +51,8 @@ public:
 	createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
 	void exec(bool guestMode, QString playerName);
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog()
+	{
 		return myChangeCompleteBlindsDialog;
 	}
 	bool eventFilter(QObject *obj, QEvent *event);

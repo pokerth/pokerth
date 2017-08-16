@@ -39,19 +39,24 @@ class MyGameListSortFilterProxyModel : public QSortFilterProxyModel
 
 public:
 	MyGameListSortFilterProxyModel(QObject *parent = 0);
-	void setColumn1RegExp(QRegExp column1) {
+	void setColumn1RegExp(QRegExp column1)
+	{
 		column1RegExp = column1;
 	}
-	void setColumn2RegExp(QRegExp column2) {
+	void setColumn2RegExp(QRegExp column2)
+	{
 		column2RegExp = column2;
 	}
-	void setColumn3RegExp(QRegExp column3) {
+	void setColumn3RegExp(QRegExp column3)
+	{
 		column3RegExp = column3;
 	}
-	void setColumn4RegExp(QRegExp column4) {
+	void setColumn4RegExp(QRegExp column4)
+	{
 		column4RegExp = column4;
 	}
-	void setColumn5RegExp(QRegExp column5) {
+	void setColumn5RegExp(QRegExp column5)
+	{
 		column5RegExp = column5;
 	}
 

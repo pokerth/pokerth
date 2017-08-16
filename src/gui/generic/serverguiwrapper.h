@@ -48,10 +48,12 @@ public:
 	boost::shared_ptr<Session> getSession();
 	void setSession(boost::shared_ptr<Session> session);
 
-	gameTableImpl* getMyW() const {
+	gameTableImpl* getMyW() const
+	{
 		return NULL;
 	}
-	guiLog* getMyGuiLog() const {
+	guiLog* getMyGuiLog() const
+	{
 		return NULL;
 	}
 

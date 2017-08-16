@@ -2168,6 +2168,7 @@ QString gameLobbyDialogImpl::getFullCountryString(QString cs)
 		countryStringMap.insert(CountryStringMap::value_type("YE", tr("Yemen")));
 		countryStringMap.insert(CountryStringMap::value_type("ZM", tr("Zambia")));
 		countryStringMap.insert(CountryStringMap::value_type("ZW", tr("Zimbabwe")));
+		countryStringMap.insert(CountryStringMap::value_type("CATALONIA", tr("Catalonia")));
 	}
 
 	QString fullString("");

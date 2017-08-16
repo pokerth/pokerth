@@ -52,16 +52,19 @@ public:
 	typedef typename P::endpoint P_endpoint;
 
 	ServerAcceptHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_service> ioService)
-		: m_ioService(ioService), m_serverCallback(serverCallback) {
+		: m_ioService(ioService), m_serverCallback(serverCallback)
+	{
 		m_acceptor.reset(new P_acceptor(*m_ioService));
 	}
 
-	virtual ~ServerAcceptHelper() {
+	virtual ~ServerAcceptHelper()
+	{
 	}
 
 	// Set the parameters.
 	virtual void Listen(unsigned serverPort, bool ipv6, const std::string &/*logDir*/,
-						boost::shared_ptr<ServerLobbyThread> lobbyThread) {
+						boost::shared_ptr<ServerLobbyThread> lobbyThread)
+	{
 		m_lobbyThread = lobbyThread;
 
 		try {
@@ -77,14 +80,16 @@ public:
 		}
 	}
 
-	virtual void Close() {
+	virtual void Close()
+	{
 		boost::system::error_code ec;
 		m_acceptor->close(ec);
 		// Ignore any error, because we are terminating.
 	}
 protected:
 
-	void InternalListen(unsigned serverPort, bool ipv6) {
+	void InternalListen(unsigned serverPort, bool ipv6)
+	{
 		if (serverPort < 1024)
 			throw ServerException(__FILE__, __LINE__, ERR_SOCK_INVALID_PORT, 0);
 
@@ -114,7 +119,8 @@ protected:
 	}
 
 	void HandleAccept(boost::shared_ptr<typename P::socket> acceptedSocket,
-					  const boost::system::error_code &error) {
+					  const boost::system::error_code &error)
+	{
 		if (!error) {
 			boost::asio::socket_base::non_blocking_io command(true);
 			acceptedSocket->io_control(command);
@@ -136,11 +142,13 @@ protected:
 		}
 	}
 
-	ServerCallback &GetCallback() {
+	ServerCallback &GetCallback()
+	{
 		return m_serverCallback;
 	}
 
-	ServerLobbyThread &GetLobbyThread() {
+	ServerLobbyThread &GetLobbyThread()
+	{
 		return *m_lobbyThread;
 	}
 

@@ -48,7 +48,8 @@ public:
 
 	void paintEvent(QPaintEvent * event);
 
-	QTabBar* getMyTabBar() const {
+	QTabBar* getMyTabBar() const
+	{
 		return myTabBar;
 	}
 

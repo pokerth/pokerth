@@ -43,10 +43,12 @@ public:
 	PokerTHException(const char *sourcefile, int sourceline, int errorId, int osErrorCode);
 	virtual ~PokerTHException() throw();
 
-	int GetErrorId() const {
+	int GetErrorId() const
+	{
 		return m_errorId;
 	}
-	int GetOsErrorCode() const {
+	int GetOsErrorCode() const
+	{
 		return m_osErrorCode;
 	}
 

@@ -38,7 +38,8 @@ class ThreadStarter
 {
 public:
 	ThreadStarter(Thread &thread) : m_thread(thread) {}
-	void operator()() {
+	void operator()()
+	{
 		m_thread.MainWrapper();
 	}
 

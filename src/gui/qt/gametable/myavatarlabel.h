@@ -49,13 +49,16 @@ public:
 	MyAvatarLabel(QGroupBox*);
 	~MyAvatarLabel();
 
-	void setMyW(gameTableImpl* theValue) {
+	void setMyW(gameTableImpl* theValue)
+	{
 		myW = theValue;
 	}
-	void setMyId ( int theValue ) {
+	void setMyId ( int theValue )
+	{
 		myId = theValue;
 	}
-	void setMyUniqueId ( int theValue ) {
+	void setMyUniqueId ( int theValue )
+	{
 		myUniqueId = theValue;
 	}
 	void contextMenuEvent ( QContextMenuEvent * event );
@@ -68,12 +71,14 @@ public slots:
 	void sendTriggerVoteOnKickSignal();
 	void setEnabledContextMenu(bool);
 	void setVoteOnKickContextMenuEnabled(bool);
-	void setVoteRunning ( bool theValue ) {
+	void setVoteRunning ( bool theValue )
+	{
 		voteRunning = theValue;
 	}
 	void setPixmap ( const QPixmap &, const bool = false);
 	void setPixmapAndCountry ( const QPixmap &, QString country, int seatPlace, const bool = false);
-	void setPixmapPath ( const QString theValue) {
+	void setPixmapPath ( const QString theValue)
+	{
 		myPath = theValue;
 	}
 	void paintEvent(QPaintEvent*);

@@ -96,19 +96,23 @@ public:
 	const std::string &GetClientAddr() const;
 	void SetClientAddr(const std::string &addr);
 
-	ReceiveBuffer &GetReceiveBuffer() {
+	ReceiveBuffer &GetReceiveBuffer()
+	{
 		return *m_receiveBuffer;
 	}
-	SendBuffer &GetSendBuffer() {
+	SendBuffer &GetSendBuffer()
+	{
 		return *m_sendBuffer;
 	}
 
-	void Close() {
+	void Close()
+	{
 		m_callback.CloseSession(shared_from_this());
 	}
 	void CloseSocketHandle();
 	void CloseWebSocketHandle();
-	void HandlePacket(boost::shared_ptr<NetPacket> packet) {
+	void HandlePacket(boost::shared_ptr<NetPacket> packet)
+	{
 		m_callback.HandlePacket(shared_from_this(), packet);
 	}
 

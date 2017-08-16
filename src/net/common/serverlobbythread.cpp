@@ -107,35 +107,43 @@ public:
 	InternalServerCallback(ServerLobbyThread &server) : m_server(server) {}
 	virtual ~InternalServerCallback() {}
 
-	virtual void CloseSession(boost::shared_ptr<SessionData> session) {
+	virtual void CloseSession(boost::shared_ptr<SessionData> session)
+	{
 		m_server.CloseSession(session);
 	}
 
-	virtual void SessionError(boost::shared_ptr<SessionData> session, int errorCode) {
+	virtual void SessionError(boost::shared_ptr<SessionData> session, int errorCode)
+	{
 		m_server.SessionError(session, errorCode);
 	}
 
-	virtual void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec) {
+	virtual void SessionTimeoutWarning(boost::shared_ptr<SessionData> session, unsigned remainingSec)
+	{
 		m_server.SessionTimeoutWarning(session, remainingSec);
 	}
 
-	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet) {
+	virtual void HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
+	{
 		m_server.DispatchPacket(session, packet);
 	}
 
-	virtual void SignalChatBotMessage(const string &msg) {
+	virtual void SignalChatBotMessage(const string &msg)
+	{
 		m_server.SendChatBotMsg(msg);
 	}
 
-	virtual void SignalChatBotMessage(unsigned gameId, const std::string &msg) {
+	virtual void SignalChatBotMessage(unsigned gameId, const std::string &msg)
+	{
 		m_server.SendChatBotMsg(gameId, msg);
 	}
 
-	virtual void SignalKickPlayer(unsigned playerId) {
+	virtual void SignalKickPlayer(unsigned playerId)
+	{
 		m_server.RemovePlayer(playerId, ERR_NET_PLAYER_KICKED);
 	}
 
-	virtual void SignalBanPlayer(unsigned playerId) {
+	virtual void SignalBanPlayer(unsigned playerId)
+	{
 		string playerName(m_server.GetPlayerNameFromId(playerId));
 		if (!playerName.empty()) {
 			m_server.GetBanManager().BanPlayerName(playerName, 1);
@@ -143,76 +151,94 @@ public:
 		}
 	}
 
-	virtual void SignalMutePlayer(unsigned playerId) {
+	virtual void SignalMutePlayer(unsigned playerId)
+	{
 		m_server.MutePlayerInGame(playerId);
 	}
 
-	virtual void ConnectSuccess() {
+	virtual void ConnectSuccess()
+	{
 		LOG_MSG("Successfully connected to database.");
 	}
 
-	virtual void ConnectFailed(string error) {
+	virtual void ConnectFailed(string error)
+	{
 		LOG_ERROR("DB connect error: " << error);
 	}
 
-	virtual void QueryError(string error) {
+	virtual void QueryError(string error)
+	{
 		LOG_ERROR("DB query error: " << error);
 	}
 
-	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData) {
+	virtual void PlayerLoginSuccess(unsigned requestId, boost::shared_ptr<DBPlayerData> dbPlayerData)
+	{
 		m_server.UserValid(requestId, *dbPlayerData);
 	}
 
-	virtual void PlayerLoginFailed(unsigned requestId) {
+	virtual void PlayerLoginFailed(unsigned requestId)
+	{
 		m_server.UserInvalid(requestId);
 	}
 
-	virtual void PlayerLoginBlocked(unsigned requestId) {
+	virtual void PlayerLoginBlocked(unsigned requestId)
+	{
 		m_server.UserBlocked(requestId);
 	}
 
-	virtual void AvatarIsBlacklisted(unsigned requestId) {
+	virtual void AvatarIsBlacklisted(unsigned requestId)
+	{
 		m_server.AvatarBlacklisted(requestId);
 	}
 
-	virtual void AvatarIsOK(unsigned requestId) {
+	virtual void AvatarIsOK(unsigned requestId)
+	{
 		m_server.AvatarOK(requestId);
 	}
 
-	virtual void CreateGameSuccess(unsigned /*requestId*/) {
+	virtual void CreateGameSuccess(unsigned /*requestId*/)
+	{
 		// Nothing to do.
 	}
 
-	virtual void CreateGameFailed(unsigned requestId) {
+	virtual void CreateGameFailed(unsigned requestId)
+	{
 		// TODO maybe handle request id.
 		LOG_ERROR("DB create game failed for request " << requestId);
 	}
 
-	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId) {
+	virtual void ReportAvatarSuccess(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportAvatarResult(requestId, replyId, true);
 	}
 
-	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId) {
+	virtual void ReportAvatarFailed(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportAvatarResult(requestId, replyId, false);
 	}
 
-	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId) {
+	virtual void ReportGameSuccess(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportGameResult(requestId, replyId, true);
 	}
 
-	virtual void ReportGameFailed(unsigned requestId, unsigned replyId) {
+	virtual void ReportGameFailed(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendReportGameResult(requestId, replyId, false);
 	}
 
-	virtual void PlayerAdminList(unsigned /*requestId*/, std::list<DB_id> adminList) {
+	virtual void PlayerAdminList(unsigned /*requestId*/, std::list<DB_id> adminList)
+	{
 		m_server.GetBanManager().SetAdminPlayerIds(adminList);
 	}
 
-	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId) {
+	virtual void BlockPlayerSuccess(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendAdminBanPlayerResult(requestId, replyId, true);
 	}
 
-	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId) {
+	virtual void BlockPlayerFailed(unsigned requestId, unsigned replyId)
+	{
 		m_server.SendAdminBanPlayerResult(requestId, replyId, false);
 	}
 
@@ -975,9 +1001,8 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 				HandleNetPacketRetrievePlayerInfo(session, packet->GetMsg()->playerinforequestmessage());
 			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarRequestMessage)
 				HandleNetPacketRetrieveAvatar(session, packet->GetMsg()->avatarrequestmessage());
-			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage)
-			{}
-			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_SubscriptionRequestMessage) {
+			else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage) {
+			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_SubscriptionRequestMessage) {
 				const SubscriptionRequestMessage &subscriptionRequest = packet->GetMsg()->subscriptionrequestmessage();
 				if (subscriptionRequest.subscriptionaction() == SubscriptionRequestMessage::resubscribeGameList)
 					InternalResubscribeMsg(session);
@@ -1068,7 +1093,7 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 			// check if a guest session in lobby with same ip is already connected and
 			// if number of lobby guests >= SERVER_MAX_GUEST_USERS_LOBBY
 			if(m_serverConfig.readConfigInt("ServerRestrictGuestLogin") != 0
-				&& !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
+					&& !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
 				SessionError(session, ERR_NET_SERVER_FULL);
 				return;
 			}
@@ -1706,8 +1731,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 			if (session->GetWebData()) {
 				SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 				return;
-			}
-			else {
+			} else {
 				// If this is not a websocket connection, disconnect the already connected player.
 				InternalRemovePlayer(previousPlayerId, ERR_NET_PLAYER_NAME_IN_USE);
 			}

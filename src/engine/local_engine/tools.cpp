@@ -51,7 +51,8 @@ boost::thread_specific_ptr<boost::random_device> g_rand_state;
 
 struct nondet_rng : std::unary_function<unsigned, unsigned> {
 	boost::random_device &_state;
-	unsigned operator()(unsigned i) {
+	unsigned operator()(unsigned i)
+	{
 		boost::uniform_int<> rng(0, i - 1);
 		return rng(_state);
 	}

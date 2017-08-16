@@ -66,19 +66,24 @@ class PingData
 public:
 	PingData() : pingTimer(boost::posix_time::time_duration(0, 0, 0), boost::timers::portable::microsec_timer::manual_start) {}
 
-	unsigned MinPing() {
+	unsigned MinPing()
+	{
 		return *std::min_element(pingValues.begin(), pingValues.end());
 	}
-	unsigned MaxPing() {
+	unsigned MaxPing()
+	{
 		return *std::max_element(pingValues.begin(), pingValues.end());
 	}
-	unsigned AveragePing() {
+	unsigned AveragePing()
+	{
 		return pingValues.empty() ? 0 : (std::accumulate(pingValues.begin(), pingValues.end(), 0) / (unsigned)pingValues.size());
 	}
-	void StartPing() {
+	void StartPing()
+	{
 		pingTimer.start();
 	}
-	bool EndPing() {
+	bool EndPing()
+	{
 		bool retVal = false;
 		if (pingTimer.is_running()) {
 			pingValues.push_back((unsigned)pingTimer.elapsed().total_milliseconds());

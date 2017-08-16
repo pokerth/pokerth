@@ -65,10 +65,12 @@ public:
 
 	static boost::shared_ptr<NetPacket> Create(const char *data, size_t dataSize);
 
-	const PokerTHMessage *GetMsg() const {
+	const PokerTHMessage *GetMsg() const
+	{
 		return m_msg;
 	}
-	PokerTHMessage *GetMsg() {
+	PokerTHMessage *GetMsg()
+	{
 		return m_msg;
 	}
 
