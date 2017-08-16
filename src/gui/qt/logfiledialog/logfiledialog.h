@@ -58,7 +58,8 @@ public:
 	explicit LogFileDialog(QWidget *parent = 0, ConfigFile *c = 0);
 	~LogFileDialog();
 
-	void setGuiLog(guiLog *g) {
+	void setGuiLog(guiLog *g)
+	{
 		myGuiLog = g;
 	}
 	int exec();
@@ -76,10 +77,12 @@ public slots:
 	void exportLogToHtml();
 	void exportLogToTxt();
 	void saveLogFileAs();
-	void showLogFilePreviewInit() {
+	void showLogFilePreviewInit()
+	{
 		showLogFilePreview(INIT_VIEW);
 	}
-	void showLogFilePreviewSelected() {
+	void showLogFilePreviewSelected()
+	{
 		showLogFilePreview(SELECTED_GAME);
 	}
 	void showLogFilePreview(ShowLogMode);

@@ -47,21 +47,24 @@ public:
 	~MyActionButton();
 
 	void paintEvent(QPaintEvent * event);
-	void setFKeyText ( const QString& theValue ) {
+	void setFKeyText ( const QString& theValue )
+	{
 		fKeyText = theValue;
 	}
 
-	void setMyStyle ( GameTableStyleReader* theValue ) {
+	void setMyStyle ( GameTableStyleReader* theValue )
+	{
 		myStyle = theValue;
 	}
 
-	void setEatMyEvents(bool e) {
+	void setEatMyEvents(bool e)
+	{
 		eatMyEvents = e;
 	}
 	bool event(QEvent *e);
 
 public slots:
-   void click();
+	void click();
 
 private:
 

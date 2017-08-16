@@ -45,57 +45,69 @@ class HandInterface;
 class LocalBoard : public BoardInterface
 {
 public:
-    LocalBoard();
+	LocalBoard();
 	~LocalBoard();
 
 	void setPlayerLists(PlayerList, PlayerList, PlayerList);
 
-	void setMyCards(int* theValue) {
+	void setMyCards(int* theValue)
+	{
 		int i;
 		for(i=0; i<5; i++) myCards[i] = theValue[i];
 	}
-	void getMyCards(int* theValue) {
+	void getMyCards(int* theValue)
+	{
 		int i;
 		for(i=0; i<5; i++) theValue[i] = myCards[i];
 	}
 
-	void setAllInCondition(bool theValue) {
+	void setAllInCondition(bool theValue)
+	{
 		allInCondition = theValue;
 	}
-	void setLastActionPlayerID(unsigned theValue) {
+	void setLastActionPlayerID(unsigned theValue)
+	{
 		lastActionPlayerID = theValue;
 	}
 
-	int getPot() const {
+	int getPot() const
+	{
 		return pot;
 	}
-	void setPot(int theValue) {
+	void setPot(int theValue)
+	{
 		pot = theValue;
 	}
-	int getSets() const {
+	int getSets() const
+	{
 		return sets;
 	}
-	void setSets(int theValue) {
+	void setSets(int theValue)
+	{
 		sets = theValue;
 	}
 
 	void collectSets() ;
 	void collectPot() ;
 
-    void distributePot(unsigned dealerPosition);
+	void distributePot(unsigned dealerPosition);
 	void determinePlayerNeedToShowCards();
 
-	std::list<unsigned> getWinners() const {
+	std::list<unsigned> getWinners() const
+	{
 		return winners;
 	}
-	void setWinners(const std::list<unsigned> &w) {
+	void setWinners(const std::list<unsigned> &w)
+	{
 		winners = w;
 	}
 
-	std::list<unsigned> getPlayerNeedToShowCards() const {
+	std::list<unsigned> getPlayerNeedToShowCards() const
+	{
 		return playerNeedToShowCards;
 	}
-	void setPlayerNeedToShowCards(const std::list<unsigned> &p) {
+	void setPlayerNeedToShowCards(const std::list<unsigned> &p)
+	{
 		playerNeedToShowCards = p;
 	}
 

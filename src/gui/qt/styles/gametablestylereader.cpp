@@ -1422,7 +1422,7 @@ void GameTableStyleReader::setMenuBarStyle(QMenuBar *mb)
 void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 {
 	switch(state) {
-		// 		default
+	// 		default
 	case 0:
 #ifdef GUI_800x480
 		bb->setStyleSheet("QPushButton:enabled { padding: 10px; background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+"; font-size: 26px} QPushButton:disabled { padding: 10px; background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900; font-size: 26px}");
@@ -1430,7 +1430,7 @@ void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 		bb->setStyleSheet("QPushButton:enabled { background-color: #"+BreakLobbyButtonBgColor+"; color: #"+BreakLobbyButtonTextColor+";} QPushButton:disabled { background-color: #"+BreakLobbyButtonBgDisabledColor+"; color: #"+BreakLobbyButtonTextDisabledColor+"; font-weight: 900;}");
 #endif
 		break;
-		// 		blink
+	// 		blink
 	case 1:
 #ifdef GUI_800x480
 		bb->setStyleSheet("QPushButton { padding: 10px; background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+"; font-size: 26px}");
@@ -1558,7 +1558,7 @@ void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *c
 	a->setMyStyle(this);
 
 	switch(state) {
-		//default
+	//default
 	case 0: {
 		br->setStyleSheet("QPushButton { border:none; background-repeat: no-repeat; background-position: center center; background-image: url(\""+BetRaiseButtonDefault+"\"); "+ font2String +" font-size: "+humanPlayerButtonFontSize+"px; font-weight: bold; color: #"+BetRaiseButtonTextColor+";} QPushButton:unchecked { background-repeat: no-repeat; background-position: center center; background-image: url(\""+BetRaiseButtonDefault+"\"); } QPushButton:checked { background-repeat: no-repeat; background-position: center center; background-image: url(\""+BetRaiseButtonChecked+"\");} QPushButton:hover { background-repeat: no-repeat; background-position: center center; background-image: url(\""+BetRaiseButtonHover+"\"); } QPushButton:checked:hover { background-repeat: no-repeat; background-position: center center; background-image: url(\""+BetRaiseButtonCheckedHover+"\");}");
 

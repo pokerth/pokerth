@@ -54,7 +54,8 @@ public slots:
 	void regUserToggled(bool);
 	void guestUserToggled(bool);
 	void okButtonCheck();
-	void clickLoginButton() {
+	void clickLoginButton()
+	{
 		pushButton_login->click();
 	}
 

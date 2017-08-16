@@ -535,8 +535,7 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 		client->GetContext().GetSessionData()->GetAsioSocket()->close(ec);
 		if (client->GetContext().GetAddrFamily() == AF_INET6) {
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_TIMEOUT, 0);
-		}
-		else {
+		} else {
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_TIMEOUT, 0);
 		}
 	}

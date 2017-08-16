@@ -39,10 +39,12 @@ class UrlCheck: public QObject
 public:
 	UrlCheck();
 
-	void setUrlStrings(QStringList us) {
+	void setUrlStrings(QStringList us)
+	{
 		urlStrings = us;
 	}
-	void setUrlExceptionStrings(QStringList ues) {
+	void setUrlExceptionStrings(QStringList ues)
+	{
 		urlExceptionStrings = ues;
 	}
 	bool run(QString);

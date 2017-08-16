@@ -46,7 +46,8 @@ public:
 
 	~CleanerConfig();
 
-	std::string getConfigFileName() const {
+	std::string getConfigFileName() const
+	{
 		return configFileName;
 	}
 

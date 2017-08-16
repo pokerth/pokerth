@@ -91,7 +91,7 @@ void LocalBeRoPostRiver::postRiverRun()
 	getMyHand()->getBoard()->determinePlayerNeedToShowCards();
 
 	// Pot-Verteilung
-    getMyHand()->getBoard()->distributePot(getDealerPosition());
+	getMyHand()->getBoard()->distributePot(getDealerPosition());
 
 	//Pot auf 0 setzen
 	getMyHand()->getBoard()->setPot(0);

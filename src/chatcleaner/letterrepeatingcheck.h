@@ -39,7 +39,8 @@ class LetterRepeatingCheck: public QObject
 public:
 	LetterRepeatingCheck();
 
-	void setLetterNumberToTrigger(int n) {
+	void setLetterNumberToTrigger(int n)
+	{
 		letterNumberToTrigger = n;
 	}
 	bool run(QString);

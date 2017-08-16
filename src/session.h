@@ -73,7 +73,8 @@ public:
 	boost::shared_ptr<Game> getCurrentGame();
 
 	GuiInterface *getGui();
-	Log* getMyLog() {
+	Log* getMyLog()
+	{
 		return myLog;
 	}
 	GameType getGameType();

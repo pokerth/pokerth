@@ -52,7 +52,8 @@ public:
 	bool eventFilter(QObject *obj, QEvent *event);
 
 public slots:
-	bool getSettingsCorrect() const	{
+	bool getSettingsCorrect() const
+	{
 		return settingsCorrect;
 	}
 

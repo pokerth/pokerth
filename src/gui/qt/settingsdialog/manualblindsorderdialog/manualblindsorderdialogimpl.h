@@ -52,7 +52,8 @@ public:
 
 
 public slots:
-	bool getSettingsCorrect() const	{
+	bool getSettingsCorrect() const
+	{
 		return settingsCorrect;
 	}
 

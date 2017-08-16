@@ -44,10 +44,12 @@ public:
 
 	~MyHPAvatarButton();
 
-	void setMyLink(QString theValue) {
+	void setMyLink(QString theValue)
+	{
 		myLink = theValue;
 	}
-	QString getMyLink() const {
+	QString getMyLink() const
+	{
 		return myLink;
 	}
 

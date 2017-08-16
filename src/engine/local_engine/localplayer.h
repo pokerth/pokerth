@@ -50,129 +50,163 @@ public:
 
 	void setHand(HandInterface *);
 
-	int getMyID() const {
+	int getMyID() const
+	{
 		return myID;
 	}
-	unsigned getMyUniqueID() const {
+	unsigned getMyUniqueID() const
+	{
 		return myUniqueID;
 	}
-	void setMyUniqueID(unsigned newId) {
+	void setMyUniqueID(unsigned newId)
+	{
 		myUniqueID = newId;
 	}
 
-	void setMyGuid(const std::string &theValue) {
+	void setMyGuid(const std::string &theValue)
+	{
 		myGuid = theValue;
 	}
 
-	std::string getMyGuid() const {
+	std::string getMyGuid() const
+	{
 		return myGuid;
 	}
 
-	PlayerType getMyType() const {
+	PlayerType getMyType() const
+	{
 		return myType;
 	}
 
-	void setMyDude(int theValue) {
+	void setMyDude(int theValue)
+	{
 		myDude = theValue;
 	}
-	int getMyDude() const {
+	int getMyDude() const
+	{
 		return myDude;
 	}
 
-	void setMyDude4(int theValue) {
+	void setMyDude4(int theValue)
+	{
 		myDude4 = theValue;
 	}
-	int getMyDude4() const {
+	int getMyDude4() const
+	{
 		return myDude4;
 	}
 
-	void setMyName(const std::string& theValue) {
+	void setMyName(const std::string& theValue)
+	{
 		myName = theValue;
 	}
-	std::string getMyName() const {
+	std::string getMyName() const
+	{
 		return myName;
 	}
 
-	void setMyAvatar(const std::string& theValue) {
+	void setMyAvatar(const std::string& theValue)
+	{
 		myAvatar = theValue;
 	}
-	std::string getMyAvatar() const {
+	std::string getMyAvatar() const
+	{
 		return myAvatar;
 	}
 
-	void setMyCash(int theValue) {
+	void setMyCash(int theValue)
+	{
 		myCash = theValue;
 	}
-	int getMyCash() const {
+	int getMyCash() const
+	{
 		return myCash;
 	}
 
-	void setMySet(int theValue) {
+	void setMySet(int theValue)
+	{
 		myLastRelativeSet = theValue;
 		mySet += theValue;
 		myCash -= theValue;
 	}
-	void setMySetAbsolute(int theValue) {
+	void setMySetAbsolute(int theValue)
+	{
 		mySet = theValue;
 	}
-	void setMySetNull() {
+	void setMySetNull()
+	{
 		mySet = 0;
 		myLastRelativeSet = 0;
 	}
-	int getMySet() const {
+	int getMySet() const
+	{
 		return mySet;
 	}
-	int getMyLastRelativeSet() const {
+	int getMyLastRelativeSet() const
+	{
 		return myLastRelativeSet;
 	}
 
-	void setMyAction(PlayerAction theValue, bool human = 0) {
+	void setMyAction(PlayerAction theValue, bool human = 0)
+	{
 		myAction = theValue;
 		// logging for seat 0
 		if(myAction && human) currentHand->getGuiInterface()->logPlayerActionMsg(myName, myAction, myLastRelativeSet);
 	}
-	PlayerAction getMyAction() const	{
+	PlayerAction getMyAction() const
+	{
 		return myAction;
 	}
 
-	void setMyButton(int theValue) {
+	void setMyButton(int theValue)
+	{
 		myButton = theValue;
 	}
-	int getMyButton() const	{
+	int getMyButton() const
+	{
 		return myButton;
 	}
 
-	void setMyActiveStatus(bool theValue) {
+	void setMyActiveStatus(bool theValue)
+	{
 		myActiveStatus = theValue;
 	}
-	bool getMyActiveStatus() const {
+	bool getMyActiveStatus() const
+	{
 		return myActiveStatus;
 	}
 
-	void setMyStayOnTableStatus(bool theValue) {
+	void setMyStayOnTableStatus(bool theValue)
+	{
 		myStayOnTableStatus = theValue;
 	}
-	bool getMyStayOnTableStatus() const {
+	bool getMyStayOnTableStatus() const
+	{
 		return myStayOnTableStatus;
 	}
 
-	void setMyCards(int* theValue) {
+	void setMyCards(int* theValue)
+	{
 		int i;
 		for(i=0; i<2; i++) myCards[i] = theValue[i];
 	}
-	void getMyCards(int* theValue) const {
+	void getMyCards(int* theValue) const
+	{
 		int i;
 		for(i=0; i<2; i++) theValue[i] = myCards[i];
 	}
 
-	void setMyTurn(bool theValue) {
+	void setMyTurn(bool theValue)
+	{
 		myTurn = theValue;
 	}
-	bool getMyTurn() const {
+	bool getMyTurn() const
+	{
 		return myTurn;
 	}
 
-	void setMyCardsFlip(bool theValue, int state) {
+	void setMyCardsFlip(bool theValue, int state)
+	{
 		myCardsFlip = theValue;
 		// log flipping cards
 		if(myCardsFlip) {
@@ -191,66 +225,81 @@ public:
 			}
 		}
 	}
-	bool getMyCardsFlip() const {
+	bool getMyCardsFlip() const
+	{
 		return myCardsFlip;
 	}
 
-	void setMyCardsValueInt(int theValue) {
+	void setMyCardsValueInt(int theValue)
+	{
 		myCardsValueInt = theValue;
 	}
-	int getMyCardsValueInt() const {
+	int getMyCardsValueInt() const
+	{
 		return myCardsValueInt;
 	}
 
-	void setLogHoleCardsDone(bool theValue) {
+	void setLogHoleCardsDone(bool theValue)
+	{
 		logHoleCardsDone = theValue;
 	}
 
-	bool getLogHoleCardsDone() const {
+	bool getLogHoleCardsDone() const
+	{
 		return logHoleCardsDone;
 	}
 
-	void setMyBestHandPosition(int* theValue) {
+	void setMyBestHandPosition(int* theValue)
+	{
 		for (int i = 0; i < 5; i++)
 			myBestHandPosition[i] = theValue[i];
 	}
-	void getMyBestHandPosition(int* theValue) const {
+	void getMyBestHandPosition(int* theValue) const
+	{
 		for (int i = 0; i < 5; i++)
 			theValue[i] = myBestHandPosition[i];
 	}
 
-	void setMyRoundStartCash(int theValue) {
+	void setMyRoundStartCash(int theValue)
+	{
 		myRoundStartCash = theValue;
 	}
-	int getMyRoundStartCash() const {
+	int getMyRoundStartCash() const
+	{
 		return myRoundStartCash;
 	}
 
-	void setLastMoneyWon ( int theValue ) {
+	void setLastMoneyWon ( int theValue )
+	{
 		lastMoneyWon = theValue;
 	}
-	int getLastMoneyWon() const {
+	int getLastMoneyWon() const
+	{
 		return lastMoneyWon;
 	}
 
-	void setMyAverageSets(int theValue) {
+	void setMyAverageSets(int theValue)
+	{
 		myAverageSets[0] = myAverageSets[1];
 		myAverageSets[1] = myAverageSets[2];
 		myAverageSets[2] = myAverageSets[3];
 		myAverageSets[3] = theValue;
 	}
-	int getMyAverageSets() const {
+	int getMyAverageSets() const
+	{
 		return (myAverageSets[0]+myAverageSets[1]+myAverageSets[2]+myAverageSets[3])/4;
 	}
 
-	void setMyAggressive(bool theValue) {
+	void setMyAggressive(bool theValue)
+	{
 		int i;
 		for(i=0; i<6; i++) {
 			myAggressive[i] = myAggressive[i+1];
 		}
 		myAggressive[6] = theValue;
 	}
-	int getMyAggressive() const {
+	int getMyAggressive() const
+	{
 		int i, sum = 0;
 		for(i=0; i<7; i++) {
 			sum += myAggressive[i];
@@ -258,17 +307,21 @@ public:
 		return sum;
 	}
 
-	void setSBluff ( int theValue ) {
+	void setSBluff ( int theValue )
+	{
 		sBluff = theValue;
 	}
-	int getSBluff() const {
+	int getSBluff() const
+	{
 		return sBluff;
 	}
 
-	void setSBluffStatus ( bool theValue ) {
+	void setSBluffStatus ( bool theValue )
+	{
 		sBluffStatus = theValue;
 	}
-	bool getSBluffStatus() const {
+	bool getSBluffStatus() const
+	{
 		return sBluffStatus;
 	}
 

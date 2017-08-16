@@ -56,7 +56,8 @@ public slots:
 
 	void blinkChatTab();
 
-	QTabBar* getMyTabBar() const {
+	QTabBar* getMyTabBar() const
+	{
 		return myTabBar;
 	}
 

@@ -55,7 +55,8 @@ public:
 
 	~ChatTools();
 
-	void setSession(boost::shared_ptr<Session> session) {
+	void setSession(boost::shared_ptr<Session> session)
+	{
 		mySession = session;
 	}
 
@@ -69,24 +70,29 @@ public slots:
 
 	void fillChatLinesHistory(QString fillString);
 	void showChatHistoryIndex(int index);
-	int getChatLinesHistorySize() {
+	int getChatLinesHistorySize()
+	{
 		return chatLinesHistory.size();
 	}
 
 	void nickAutoCompletition();
 	void setChatTextEdited();
 
-	void setPlayerNicksList(QStringList value) {
+	void setPlayerNicksList(QStringList value)
+	{
 		myNickStringList = value;
 	}
-	void setMyNick ( const QString& theValue ) {
+	void setMyNick ( const QString& theValue )
+	{
 		myNick = theValue;
 	}
-	QString getMyNick () {
+	QString getMyNick ()
+	{
 		return myNick;
 	}
 
-	void setMyStyle ( GameTableStyleReader* theValue ) {
+	void setMyStyle ( GameTableStyleReader* theValue )
+	{
 		myStyle = theValue;
 	}
 	void refreshIgnoreList();

@@ -53,7 +53,8 @@ public:
 	~MyTimeoutLabel();
 
 
-	void setMyW ( gameTableImpl* theValue ) {
+	void setMyW ( gameTableImpl* theValue )
+	{
 		myW = theValue;
 	}
 

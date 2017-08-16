@@ -1066,8 +1066,8 @@ void LocalPlayer::action()
 
 	}
 	break;
-	default:
-	{}
+	default: {
+	}
 	}
 
 	//        cout << currentHand->getCurrentBeRo()->getMinimumRaise() << endl;
@@ -1365,8 +1365,8 @@ void LocalPlayer::preflopEngine()
 
 	if(DEBUG_MODE) {
 		switch(myUniqueID) {
-		case 0:
-		{}
+		case 0: {
+		}
 		break;
 		case 1: {
 			// player 1
@@ -1494,8 +1494,8 @@ void LocalPlayer::preflopEngine()
 			// 				}
 		}
 		break;
-		default:
-		{}
+		default: {
+		}
 		}
 
 
@@ -1926,8 +1926,8 @@ void LocalPlayer::flopEngine()
 			myAction = PLAYER_ACTION_CHECK;
 		}
 		break;
-		default:
-		{}
+		default: {
+		}
 		}
 
 
@@ -2696,8 +2696,8 @@ void LocalPlayer::turnEngine()
 
 		}
 		break;
-		default:
-		{}
+		default: {
+		}
 		}
 
 
@@ -3206,8 +3206,8 @@ void LocalPlayer::riverEngine()
 
 		}
 		break;
-		default:
-		{}
+		default: {
+		}
 		}
 
 
@@ -3227,9 +3227,9 @@ void LocalPlayer::evaluation(int bet, int raise)
 	int highestSet = currentHand->getCurrentBeRo()->getHighestSet();
 
 	switch(myAction) {
-		// none
-	case 0:
-	{}
+	// none
+	case 0: {
+	}
 	break;
 	// fold
 	case 1: {
@@ -3337,8 +3337,8 @@ void LocalPlayer::evaluation(int bet, int raise)
 	case 6: {
 	}
 	break;
-	default:
-	{}
+	default: {
+	}
 	}
 
 	currentHand->getCurrentBeRo()->setHighestSet(highestSet);

@@ -63,7 +63,7 @@ LocalEngineFactory::createHand(boost::shared_ptr<EngineFactory> f, GuiInterface 
 boost::shared_ptr<BoardInterface>
 LocalEngineFactory::createBoard()
 {
-    return boost::shared_ptr<BoardInterface>(new LocalBoard());
+	return boost::shared_ptr<BoardInterface>(new LocalBoard());
 }
 
 boost::shared_ptr<PlayerInterface>

@@ -53,7 +53,8 @@ public:
 	newGameDialogImpl(QMainWindow *parent = 0, ConfigFile* = 0);
 
 	int exec();
-	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog() {
+	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog()
+	{
 		return myChangeCompleteBlindsDialog;
 	}
 

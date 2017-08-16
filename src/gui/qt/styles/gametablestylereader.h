@@ -66,136 +66,176 @@ public:
 	void showItemPicsLeftErrorMessage();
 	void showOutdatedErrorMessage();
 
-	QString getStyleDescription() const {
+	QString getStyleDescription() const
+	{
 		return StyleDescription;
 	}
-	QString getStyleMaintainerName() const {
+	QString getStyleMaintainerName() const
+	{
 		return StyleMaintainerName;
 	}
-	QString getStyleMaintainerEMail() const	{
+	QString getStyleMaintainerEMail() const
+	{
 		return StyleMaintainerEMail;
 	}
-	QString getStyleCreateDate() const {
+	QString getStyleCreateDate() const
+	{
 		return StyleCreateDate;
 	}
 
-	QString getCurrentFileName() const {
+	QString getCurrentFileName() const
+	{
 		return currentFileName;
 	}
-	QString getPreview() const {
+	QString getPreview() const
+	{
 		return Preview;
 	}
-	QString getDefaultAvatar() const {
+	QString getDefaultAvatar() const
+	{
 		return DefaultAvatar;
 	}
-	QString getDealerPuck() const {
+	QString getDealerPuck() const
+	{
 		return DealerPuck;
 	}
-	QString getSmallBlindPuck() const {
+	QString getSmallBlindPuck() const
+	{
 		return SmallBlindPuck;
 	}
-	QString getBigBlindPuck() const	{
+	QString getBigBlindPuck() const
+	{
 		return BigBlindPuck;
 	}
-	QString getHandRanking() const {
+	QString getHandRanking() const
+	{
 		return HandRanking;
 	}
-	QString getTable() const {
+	QString getTable() const
+	{
 		return Table;
 	}
 
 	QString getActionPic(int);
 
-	QString getFKeyIndicatorColor() const {
+	QString getFKeyIndicatorColor() const
+	{
 		return FKeyIndicatorColor;
 	}
-	QString getChanceLabelImpossibleColor() const {
+	QString getChanceLabelImpossibleColor() const
+	{
 		return ChanceLabelImpossibleColor;
 	}
-	QString getChanceLabelPossibleColor() const {
+	QString getChanceLabelPossibleColor() const
+	{
 		return ChanceLabelPossibleColor;
 	}
-	QString getChatLogTextColor() const {
+	QString getChatLogTextColor() const
+	{
 		return ChatLogTextColor;
 	}
-	QString getChatTextNickNotifyColor() const {
+	QString getChatTextNickNotifyColor() const
+	{
 		return ChatTextNickNotifyColor;
 	}
-	QString getLogWinnerMainPotColor() const {
+	QString getLogWinnerMainPotColor() const
+	{
 		return LogWinnerMainPotColor;
 	}
-	QString getLogWinnerSidePotColor() const {
+	QString getLogWinnerSidePotColor() const
+	{
 		return LogWinnerSidePotColor;
 	}
-	QString getLogPlayerSitsOutColor() const {
+	QString getLogPlayerSitsOutColor() const
+	{
 		return LogPlayerSitsOutColor;
 	}
-	QString getLogNewGameAdminColor() const {
+	QString getLogNewGameAdminColor() const
+	{
 		return LogNewGameAdminColor;
 	}
-	QString getBreakLobbyButtonBgColor() const {
+	QString getBreakLobbyButtonBgColor() const
+	{
 		return BreakLobbyButtonBgColor;
 	}
-	QString getRatingStarsColor() const {
+	QString getRatingStarsColor() const
+	{
 		return RatingStarsColor;
 	}
-	QString getPlayerInfoHintTextColor() const {
+	QString getPlayerInfoHintTextColor() const
+	{
 		return PlayerInfoHintTextColor;
 	}
 
-	QString getPlayerNickTextColor() const {
+	QString getPlayerNickTextColor() const
+	{
 		return PlayerNickTextColor;
 	}
 
-	QString getPlayerCashTextColor() const {
+	QString getPlayerCashTextColor() const
+	{
 		return PlayerCashTextColor;
 	}
 
-	QString getPlayerNameLabelFontSize() const {
+	QString getPlayerNameLabelFontSize() const
+	{
 		return playerNameLabelFontSize;
 	}
 
-	QString getPlayerCashLabelFontSize() const {
+	QString getPlayerCashLabelFontSize() const
+	{
 		return cashFontSize;
 	}
 
-	QString getFont2String() const {
+	QString getFont2String() const
+	{
 		return font2String;
 	}
 
-	QString getFont1String() const {
+	QString getFont1String() const
+	{
 		return font1String;
 	}
 
-	QString getMinimumWindowWidth() const {
+	QString getMinimumWindowWidth() const
+	{
 		return MinimumWindowWidth;
 	}
-	QString getMinimumWindowHeight() const {
+	QString getMinimumWindowHeight() const
+	{
 		return MinimumWindowHeight;
 	}
-	QString getMaximumWindowWidth() const {
+	QString getMaximumWindowWidth() const
+	{
 		return MaximumWindowWidth;
 	}
-	QString getMaximumWindowHeight() const {
+	QString getMaximumWindowHeight() const
+	{
 		return MaximumWindowHeight;
 	}
-	QString getFixedWindowWidth() const {
+	QString getFixedWindowWidth() const
+	{
 		return FixedWindowWidth;
 	}
-	QString getFixedWindowHeight() const {
+	QString getFixedWindowHeight() const
+	{
 		return FixedWindowHeight;
 	}
-	QString getIfFixedWindowSize() const {
+	QString getIfFixedWindowSize() const
+	{
 		return IfFixedWindowSize;
 	}
 
-	bool getFallBack() const {
+	bool getFallBack() const
+	{
 		return fallBack;
 	}
-	bool getLoadedSuccessfull() const {
+	bool getLoadedSuccessfull() const
+	{
 		return loadedSuccessfull;
 	}
-	GtStyleState getState() const {
+	GtStyleState getState() const
+	{
 		return myState;
 	}
 
@@ -231,49 +271,64 @@ public:
 	void setShowMyCardsButtonStyle( MyActionButton *sc);
 	void setAwayRadioButtonsStyle(QRadioButton*);
 
-	QString getActionAllInI18NString() const {
+	QString getActionAllInI18NString() const
+	{
 		return ActionAllInI18NString;
 	}
-	QString getActionRaiseI18NString() const {
+	QString getActionRaiseI18NString() const
+	{
 		return ActionRaiseI18NString;
 	}
-	QString getActionBetI18NString() const {
+	QString getActionBetI18NString() const
+	{
 		return ActionBetI18NString;
 	}
-	QString getActionCallI18NString() const {
+	QString getActionCallI18NString() const
+	{
 		return ActionCallI18NString;
 	}
-	QString getActionCheckI18NString() const {
+	QString getActionCheckI18NString() const
+	{
 		return ActionCheckI18NString;
 	}
-	QString getActionFoldI18NString() const {
+	QString getActionFoldI18NString() const
+	{
 		return ActionFoldI18NString;
 	}
-	QString getRiverI18NString() const {
+	QString getRiverI18NString() const
+	{
 		return RiverI18NString;
 	}
-	QString getTurnI18NString() const {
+	QString getTurnI18NString() const
+	{
 		return TurnI18NString;
 	}
-	QString getFlopI18NString() const {
+	QString getFlopI18NString() const
+	{
 		return FlopI18NString;
 	}
-	QString getPreflopI18NString() const {
+	QString getPreflopI18NString() const
+	{
 		return PreflopI18NString;
 	}
-	QString getHandI18NString() const {
+	QString getHandI18NString() const
+	{
 		return HandI18NString;
 	}
-	QString getGameI18NString() const {
+	QString getGameI18NString() const
+	{
 		return GameI18NString;
 	}
-	QString getBetsI18NString() const {
+	QString getBetsI18NString() const
+	{
 		return BetsI18NString;
 	}
-	QString getTotalI18NString() const {
+	QString getTotalI18NString() const
+	{
 		return TotalI18NString;
 	}
-	QString getPotI18NString() const {
+	QString getPotI18NString() const
+	{
 		return PotI18NString;
 	}
 

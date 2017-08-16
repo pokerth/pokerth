@@ -63,7 +63,8 @@ public:
 	GuiInterface* getGuiInterface() const;
 	boost::shared_ptr<BeRoInterface> getCurrentBeRo() const;
 
-	Log* getLog() const {
+	Log* getLog() const
+	{
 		return myLog;
 	}
 

@@ -56,10 +56,12 @@ public:
 
 public slots:
 
-	void setMyW ( gameTableImpl* theValue ) {
+	void setMyW ( gameTableImpl* theValue )
+	{
 		myW = theValue;
 	}
-	ChatTools *getMyChat() {
+	ChatTools *getMyChat()
+	{
 		return myChat;
 	}
 
@@ -84,11 +86,13 @@ public slots:
 	void keyPressEvent ( QKeyEvent*);
 	bool eventFilter(QObject *obj, QEvent *event);
 
-	void setMaxPlayerNumber ( int theValue ) {
+	void setMaxPlayerNumber ( int theValue )
+	{
 		maxPlayerNumber = theValue;
 		label_maxPlayerNumber->setText(QString::number(theValue,10));
 	}
-	int getMaxPlayerNumber() const {
+	int getMaxPlayerNumber() const
+	{
 		return maxPlayerNumber;
 	}
 

@@ -92,15 +92,15 @@ void MyNameLabel::setText ( const QString &t, bool trans, bool guest, bool compu
 			} else {
 				linkString = QString("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t));
 			}
-			
+
 			// truncate nicknames longer than 13 characters
 			QString t2 = t;
-			if(t2.size() > 13){
+			if(t2.size() > 13) {
 				int chop = t.size() - 13 + 3;
 				t2.chop(chop);
 				t2.append("...");
 			}
-			
+
 			QString tTruncated;
 
 			if(trans) {

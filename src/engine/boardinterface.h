@@ -59,7 +59,7 @@ public:
 	virtual void collectSets() =0;
 	virtual void collectPot() =0;
 
-    virtual void distributePot(unsigned) =0;
+	virtual void distributePot(unsigned) =0;
 	virtual void determinePlayerNeedToShowCards() =0;
 
 	virtual std::list<unsigned> getWinners() const =0;

@@ -66,11 +66,13 @@ public:
 	void logAfterGame();
 //    void closeLogDbAtExit();
 
-	void setCurrentRound(GameState theValue) {
+	void setCurrentRound(GameState theValue)
+	{
 		currentRound = theValue;
 	}
 
-	std::string getMySqliteLogFileName() {
+	std::string getMySqliteLogFileName()
+	{
 		return mySqliteLogFileName.directory_string();
 	}
 

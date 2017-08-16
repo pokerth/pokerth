@@ -49,21 +49,26 @@ public:
 
 	~MyCardsPixmapLabel();
 
-	void setMyW ( gameTableImpl* theValue ) {
+	void setMyW ( gameTableImpl* theValue )
+	{
 		myW = theValue;
 	}
 
-	void setIsFlipside(bool theValue) {
+	void setIsFlipside(bool theValue)
+	{
 		isFlipside = theValue;
 	}
-	bool getIsFlipside() const {
+	bool getIsFlipside() const
+	{
 		return isFlipside;
 	}
 
-	void setFadeOutAction(bool theValue) {
+	void setFadeOutAction(bool theValue)
+	{
 		fadeOutAction = theValue;
 	}
-	bool getFadeOutAction() const {
+	bool getFadeOutAction() const
+	{
 		return fadeOutAction;
 	}
 
@@ -72,7 +77,8 @@ public:
 	void startFlipCards(int, const QPixmap & , const QPixmap &);
 	void stopFlipCardsAnimation();
 
-	void setFlipsidePix(QPixmap p) {
+	void setFlipsidePix(QPixmap p)
+	{
 		flipside = p;
 	}
 

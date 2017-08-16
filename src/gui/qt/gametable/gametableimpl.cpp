@@ -113,12 +113,12 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	tabsDiag = new QDialog(this);
 	tabs.setupUi(tabsDiag);
 	textLabel_handLabel->hide();
-	#ifdef ANDROID
-		tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
-		this->setWindowState(Qt::WindowFullScreen);
-	#else
-		tabs.pushButton_settings->hide();
-	#endif
+#ifdef ANDROID
+	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	this->setWindowState(Qt::WindowFullScreen);
+#else
+	tabs.pushButton_settings->hide();
+#endif
 	tabs.label_chance->setMyStyle(myGameTableStyle);
 #else
 	label_chance->setMyStyle(myGameTableStyle);
@@ -1290,7 +1290,7 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 	} else {
 		switch(status) {
 
-			//inactive
+		//inactive
 		case 0: {
 			if (!playerID) {
 				//hide buttons
@@ -1325,8 +1325,8 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 			myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[playerID]);
 		}
 		break;
-		default:
-		{}
+		default: {
+		}
 		}
 	}
 }

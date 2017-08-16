@@ -63,60 +63,76 @@ public:
 	boost::shared_ptr<HandInterface> getCurrentHand();
 	const boost::shared_ptr<HandInterface> getCurrentHand() const;
 
-	PlayerList getSeatsList() const {
+	PlayerList getSeatsList() const
+	{
 		return seatsList;
 	}
-	PlayerList getActivePlayerList() const {
+	PlayerList getActivePlayerList() const
+	{
 		return activePlayerList;
 	}
-	PlayerList getRunningPlayerList() const {
+	PlayerList getRunningPlayerList() const
+	{
 		return runningPlayerList;
 	}
 
-	void setStartQuantityPlayers(int theValue) {
+	void setStartQuantityPlayers(int theValue)
+	{
 		startQuantityPlayers = theValue;
 	}
-	int getStartQuantityPlayers() const {
+	int getStartQuantityPlayers() const
+	{
 		return startQuantityPlayers;
 	}
 
-	void setStartSmallBlind(int theValue) {
+	void setStartSmallBlind(int theValue)
+	{
 		startSmallBlind = theValue;
 	}
-	int getStartSmallBlind() const {
+	int getStartSmallBlind() const
+	{
 		return startSmallBlind;
 	}
 
-	void setStartCash(int theValue)	{
+	void setStartCash(int theValue)
+	{
 		startCash = theValue;
 	}
-	int getStartCash() const {
+	int getStartCash() const
+	{
 		return startCash;
 	}
 
-	int getMyGameID() const	{
+	int getMyGameID() const
+	{
 		return myGameID;
 	}
 
-	void setCurrentSmallBlind(int theValue) {
+	void setCurrentSmallBlind(int theValue)
+	{
 		currentSmallBlind = theValue;
 	}
-	int getCurrentSmallBlind() const {
+	int getCurrentSmallBlind() const
+	{
 		return currentSmallBlind;
 	}
 
-	void setCurrentHandID(int theValue) {
+	void setCurrentHandID(int theValue)
+	{
 		currentHandID = theValue;
 	}
-	int getCurrentHandID() const {
+	int getCurrentHandID() const
+	{
 		return currentHandID;
 	}
 
-	unsigned getDealerPosition() const {
+	unsigned getDealerPosition() const
+	{
 		return dealerPosition;
 	}
 
-	void replaceDealer(unsigned oldDealer, unsigned newDealer) {
+	void replaceDealer(unsigned oldDealer, unsigned newDealer)
+	{
 		if (dealerPosition == oldDealer)
 			dealerPosition = newDealer;
 	}

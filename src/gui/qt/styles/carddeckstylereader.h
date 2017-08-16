@@ -56,42 +56,53 @@ public:
 
 	void readStyleFile(QString);
 
-	QString getStyleDescription() const {
+	QString getStyleDescription() const
+	{
 		return StyleDescription;
 	}
-	QString getStyleMaintainerName() const {
+	QString getStyleMaintainerName() const
+	{
 		return StyleMaintainerName;
 	}
-	QString getStyleMaintainerEMail() const	{
+	QString getStyleMaintainerEMail() const
+	{
 		return StyleMaintainerEMail;
 	}
-	QString getStyleCreateDate() const {
+	QString getStyleCreateDate() const
+	{
 		return StyleCreateDate;
 	}
 
-	QString getCurrentFileName() const {
+	QString getCurrentFileName() const
+	{
 		return currentFileName;
 	}
-	QString getCurrentDir() const {
+	QString getCurrentDir() const
+	{
 		return currentDir;
 	}
 
-	QString getPreview() const {
+	QString getPreview() const
+	{
 		return Preview;
 	}
 
-	QString getBigIndexesActionBottom() const {
+	QString getBigIndexesActionBottom() const
+	{
 		return BigIndexesActionBottom;
 	}
 
-	bool getFallBack() const {
+	bool getFallBack() const
+	{
 		return fallBack;
 	}
-	bool getLoadedSuccessfull() const {
+	bool getLoadedSuccessfull() const
+	{
 		return loadedSuccessfull;
 	}
 
-	CdStyleState getState() const {
+	CdStyleState getState() const
+	{
 		return myState;
 	}
 

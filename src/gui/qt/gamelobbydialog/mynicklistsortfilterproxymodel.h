@@ -41,10 +41,12 @@ public:
 	MyNickListSortFilterProxyModel(QObject *parent = 0);
 
 	void setFilterState(int state);
-	void setLastFilterStateCountry( bool country ) {
+	void setLastFilterStateCountry( bool country )
+	{
 		lastFilterStateCountry = country;
 	}
-	void setLastFilterStateAlpha( bool alpha ) {
+	void setLastFilterStateAlpha( bool alpha )
+	{
 		lastFilterStateAlpha = alpha;
 	}
 

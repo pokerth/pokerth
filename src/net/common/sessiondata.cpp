@@ -321,7 +321,7 @@ SessionData::CloseWebSocketHandle()
 #if defined(__GXX_EXPERIMENTAL_CXX0X__) || (__cplusplus >= 201103L) // c++11 
 		std::error_code std_ec;
 		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", std_ec);
-#else 
+#else
 		boost::system::error_code ec;
 		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
 #endif

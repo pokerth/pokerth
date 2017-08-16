@@ -44,28 +44,34 @@ public:
 	LocalBeRo(HandInterface* hi, unsigned dP, int sB, GameState gS);
 	~LocalBeRo();
 
-	GameState getMyBeRoID() const {
+	GameState getMyBeRoID() const
+	{
 		return myBeRoID;
 	}
 
 	int getHighestCardsValue() const;
 	void setHighestCardsValue(int /*theValue*/) { }
 
-	void setMinimumRaise ( int theValue ) {
+	void setMinimumRaise ( int theValue )
+	{
 		minimumRaise = theValue;
 	}
-	int getMinimumRaise() const {
+	int getMinimumRaise() const
+	{
 		return minimumRaise;
 	}
 
-	void setFullBetRule ( bool theValue ) {
+	void setFullBetRule ( bool theValue )
+	{
 		fullBetRule = theValue;
 	}
-	bool getFullBetRule() const {
+	bool getFullBetRule() const
+	{
 		return fullBetRule;
 	}
 
-	void skipFirstRunGui() {
+	void skipFirstRunGui()
+	{
 		firstRunGui = false;
 	}
 
@@ -77,89 +83,113 @@ public:
 
 protected:
 
-	HandInterface* getMyHand() const {
+	HandInterface* getMyHand() const
+	{
 		return myHand;
 	}
 
-    unsigned getDealerPosition() const {
+	unsigned getDealerPosition() const
+	{
 		return dealerPosition;
 	}
 
-	void setCurrentPlayersTurnId(unsigned theValue) {
+	void setCurrentPlayersTurnId(unsigned theValue)
+	{
 		currentPlayersTurnId = theValue;
 	}
-	unsigned getCurrentPlayersTurnId() const {
+	unsigned getCurrentPlayersTurnId() const
+	{
 		return currentPlayersTurnId;
 	}
 
-	void setFirstRoundLastPlayersTurnId(unsigned theValue) {
+	void setFirstRoundLastPlayersTurnId(unsigned theValue)
+	{
 		firstRoundLastPlayersTurnId = theValue;
 	}
-	unsigned getFirstRoundLastPlayersTurnId() const {
+	unsigned getFirstRoundLastPlayersTurnId() const
+	{
 		return firstRoundLastPlayersTurnId;
 	}
 
-	void setCurrentPlayersTurnIt(PlayerListIterator theValue) {
+	void setCurrentPlayersTurnIt(PlayerListIterator theValue)
+	{
 		currentPlayersTurnIt = theValue;
 	}
-	PlayerListIterator getCurrentPlayersTurnIt() const {
+	PlayerListIterator getCurrentPlayersTurnIt() const
+	{
 		return currentPlayersTurnIt;
 	}
 
-	void setLastPlayersTurnIt(PlayerListIterator theValue) {
+	void setLastPlayersTurnIt(PlayerListIterator theValue)
+	{
 		lastPlayersTurnIt = theValue;
 	}
-	PlayerListIterator getLastPlayersTurnIt() const {
+	PlayerListIterator getLastPlayersTurnIt() const
+	{
 		return lastPlayersTurnIt;
 	}
 
-	void setHighestSet(int theValue) {
+	void setHighestSet(int theValue)
+	{
 		highestSet = theValue;
 	}
-	int getHighestSet() const {
+	int getHighestSet() const
+	{
 		return highestSet;
 	}
 
-	void setFirstRun(bool theValue) {
+	void setFirstRun(bool theValue)
+	{
 		firstRun = theValue;
 	}
-	bool getFirstRun() const {
+	bool getFirstRun() const
+	{
 		return firstRun;
 	}
 
-	void setFirstRound(bool theValue) {
+	void setFirstRound(bool theValue)
+	{
 		firstRound = theValue;
 	}
-	bool getFirstRound() const {
+	bool getFirstRound() const
+	{
 		return firstRound;
 	}
 
-	void setSmallBlindPositionId(unsigned theValue) {
+	void setSmallBlindPositionId(unsigned theValue)
+	{
 		smallBlindPositionId = theValue;
 	}
-	unsigned getSmallBlindPositionId() const {
+	unsigned getSmallBlindPositionId() const
+	{
 		return smallBlindPositionId;
 	}
 
-	void setBigBlindPositionId(unsigned theValue) {
+	void setBigBlindPositionId(unsigned theValue)
+	{
 		bigBlindPositionId = theValue;
 	}
-	unsigned getBigBlindPositionId() const {
+	unsigned getBigBlindPositionId() const
+	{
 		return bigBlindPositionId;
 	}
 
 
-	void setSmallBlindPosition(int theValue) {
+	void setSmallBlindPosition(int theValue)
+	{
 		smallBlindPosition = theValue;
 	}
-	int getSmallBlindPosition() const {
+	int getSmallBlindPosition() const
+	{
 		return smallBlindPosition;
 	}
 
-	void setSmallBlind(int theValue) {
+	void setSmallBlind(int theValue)
+	{
 		smallBlind = theValue;
 	}
-	int getSmallBlind() const {
+	int getSmallBlind() const
+	{
 		return smallBlind;
 	}
 
@@ -171,7 +201,7 @@ private:
 	HandInterface* myHand;
 
 	const GameState myBeRoID;
-    unsigned dealerPosition;
+	unsigned dealerPosition;
 	int smallBlindPosition;
 
 	unsigned smallBlindPositionId;

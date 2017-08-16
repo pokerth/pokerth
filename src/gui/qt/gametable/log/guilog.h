@@ -94,10 +94,12 @@ public:
 
 	void writeLogFileStream(QString string);
 
-	void setMySqliteLogFileName(std::string theValue) {
+	void setMySqliteLogFileName(std::string theValue)
+	{
 		mySqliteLogFileName = theValue;
 	}
-	std::string getMySqliteLogFileName() {
+	std::string getMySqliteLogFileName()
+	{
 		return mySqliteLogFileName;
 	}
 

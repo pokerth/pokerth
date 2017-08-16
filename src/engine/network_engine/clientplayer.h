@@ -156,7 +156,8 @@ public:
 	bool checkIfINeedToShowCards();
 
 	void markRemoteAction() {}
-	unsigned getTimeSecSinceLastRemoteAction() const {
+	unsigned getTimeSecSinceLastRemoteAction() const
+	{
 		return 0;
 	}
 
