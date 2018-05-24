@@ -1,3 +1,4 @@
+syntax = "proto2";
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
  * Copyright (C) 2006-2013 Felix Hammer, Florian Thauer, Lothar May          *
@@ -701,7 +702,7 @@ message ReportGameAckMessage {
 
 message ErrorMessage {
 	enum ErrorReason {
-		reserved = 0;
+		custReserved = 0;
 		initVersionNotSupported = 1;
 		initServerFull = 2;
 		initAuthFailure = 3;
