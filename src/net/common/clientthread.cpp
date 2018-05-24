@@ -993,8 +993,11 @@ ClientThread::CreateContextSession()
 			newSock.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v6()));
 		else
 			newSock.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v4()));
-		boost::asio::socket_base::non_blocking_io command(true);
-		newSock->io_control(command);
+
+		// Deprecated  non_blocking_io command
+		/*boost::asio::socket_base::non_blocking_io command(true);
+		newSock->io_control(command);*/
+		newSock->non_blocking(true);
 		newSock->set_option(tcp::no_delay(true));
 		newSock->set_option(boost::asio::socket_base::keep_alive(true));
 

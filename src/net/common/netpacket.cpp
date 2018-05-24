@@ -249,7 +249,7 @@ NetPacket::GameErrorToNetError(int gameErrorReason)
 		retVal = ErrorMessage::sessionTimeout;
 		break;
 	default :
-		retVal = ErrorMessage::reserved;
+		retVal = ErrorMessage::custReserved;
 		break;
 	}
 	return retVal;
