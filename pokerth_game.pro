@@ -412,7 +412,7 @@ unix:!mac {
 		LIB_DIRS = $${PREFIX}/lib \
 			$${PREFIX}/lib64 \
                         $${PREFIX}/lib/x86_64-linux-gnu \
-			$$system(qmake -query QT_INSTALL_LIBS)
+			$$system($$QMAKE_QMAKE -query QT_INSTALL_LIBS)
 	}
 	android{
 		LIBPATH += $${PREFIX}/lib/armv7
@@ -433,7 +433,7 @@ unix:!mac {
 	BOOST_CHRONO = boost_chrono \
 		boost_chrono-mt
 
-	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
+	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system($$QMAKE_QMAKE -query QT_INSTALL_LIBS)
 	# to override the default '/usr' pass PREFIX
 	# variable to qmake.
 	for(dir, LIB_DIRS):exists($$dir) {
