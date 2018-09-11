@@ -180,7 +180,7 @@ unix : !mac {
 	INCLUDEPATH += $${PREFIX}/include
 	# see issue https://github.com/pokerth/pokerth/issues/282
 	INCLUDEPATH += $${PREFIX}/include/libircclient
-	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64 $$system(qmake -query QT_INSTALL_LIBS)
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64 $$system($$QMAKE_QMAKE -query QT_INSTALL_LIBS)
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_THREAD = boost_thread boost_thread-mt
 	BOOST_PROGRAM_OPTIONS = boost_program_options boost_program_options-mt
@@ -191,7 +191,7 @@ unix : !mac {
 	BOOST_CHRONO = boost_chrono boost_chrono-mt
 
 	#
-	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system(qmake -query QT_INSTALL_LIBS)
+	# searching in $PREFIX/lib, $PREFIX/lib64 and $$system($$QMAKE_QMAKE -query QT_INSTALL_LIBS)
 	# to override the default '/usr' pass PREFIX
 	# variable to qmake.
 	#

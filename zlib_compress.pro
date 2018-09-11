@@ -48,7 +48,7 @@ unix : !mac {
 	#QMAKE_CXXFLAGS += -ffunction-sections -fdata-sections
 	#QMAKE_LFLAGS += -Wl,--gc-sections
 
-	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64 $$system(qmake -query QT_INSTALL_LIBS)
+	LIB_DIRS = $${PREFIX}/lib $${PREFIX}/lib64 $$system($$QMAKE_QMAKE -query QT_INSTALL_LIBS)
 	BOOST_FS = boost_filesystem boost_filesystem-mt
 	BOOST_IOSTREAMS = boost_iostreams boost_iostreams-mt
 	BOOST_SYSTEM = boost_system boost_system-mt
