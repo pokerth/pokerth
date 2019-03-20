@@ -125,7 +125,7 @@ protected:
 			// Deprecated  non_blocking_io command
 			/*boost::asio::socket_base::non_blocking_io command(true);
 			newSock->io_control(command);*/
-			newSock->non_blocking(true);
+			acceptedSocket->non_blocking(true);
 			acceptedSocket->set_option(typename P::no_delay(true));
 			acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
 			boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));

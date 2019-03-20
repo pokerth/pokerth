@@ -17,17 +17,17 @@
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="201"/>
         <source>Some cards pictures are missing, please contact style maintainer for this issue.</source>
-        <translation>Certaines images des cartes sont manquantes, veuillez contacter l&apos;auteur pour qu&apos;il corrige ce problème.</translation>
+        <translation>Certaines images de cartes sont manquantes, veuillez contacter le mainteneur du style pour qu&apos;il corrige ce problème.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="204"/>
         <source>Some style fields are missing, please contact style maintainer for this issue.</source>
-        <translation>Certains champs sont manquants, veuillez contacter l&apos;auteur pour lui demander de corriger ce problème.</translation>
+        <translation>Certains champs sont manquants, veuillez contacter le mainteneur du style pour qu&apos;il corrige ce problème.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="207"/>
         <source>This style is outdated, please contact style maintainer for this issue.</source>
-        <translation>Ce style est obsolète, veuillez contacter l&apos;auteur pour lui demander de le mettre à jour.</translation>
+        <translation>Ce style est obsolète, veuillez contacter le mainteneur du style pour ce problème.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="224"/>
@@ -8991,7 +8991,7 @@ Veuillez choisir un nom différent.</translation>
     <message>
         <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="503"/>
         <source>Chance</source>
-        <translation>Chance</translation>
+        <translation>Probabilité</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/tabs_800x480.ui" line="608"/>
