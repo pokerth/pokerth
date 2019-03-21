@@ -40,6 +40,7 @@ INCLUDEPATH += . \
 	src/engine \
 	src/gui \
 	src/net \
+	src/icm \
 	src/engine/local_engine \
 	src/engine/network_engine \
 	src/config \
@@ -81,6 +82,7 @@ DEPENDPATH += . \
 	src/engine \
 	src/gui \
 	src/net \
+	src/icm \
 	src/core/common \
 	src/engine/local_engine \
 	src/engine/network_engine \
@@ -143,6 +145,7 @@ HEADERS += src/engine/game.h \
 	src/net/socket_msg.h \
 	src/net/socket_startup.h \
 	src/net/net_helper.h \
+	src/icm/icm.h \
 	src/engine/local_engine/cardsvalue.h \
 	src/engine/local_engine/localboard.h \
 	src/engine/local_engine/localenginefactory.h \
@@ -162,6 +165,7 @@ HEADERS += src/engine/game.h \
 	src/engine/network_engine/clientbero.h \
 	src/gui/qt/chattools/chattools.h \
 	src/gui/qt/gametable/gametableimpl.h \
+	src/gui/qt/gametable/gametableimpl_ICM.h \
 	src/gui/qt/gametable/mycardspixmaplabel.h \
 	src/gui/qt/gametable/mysetlabel.h \
 	src/gui/qt/gametable/myactionbutton.h \
@@ -241,6 +245,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/qttools/qttoolswrapper.cpp \
 	src/gui/qt/qttools/qthelper/qthelper.cpp \
 	src/gui/qt/gametable/gametableimpl.cpp \
+	src/gui/qt/gametable/gametableimpl_ICM.cpp \
 	src/gui/qt/gametable/mycardspixmaplabel.cpp \
 	src/gui/qt/gametable/mysetlabel.cpp \
 	src/gui/qt/gametable/myactionbutton.cpp \
@@ -274,6 +279,7 @@ SOURCES += src/pokerth.cpp \
 	src/gui/qt/timeoutmsgbox/timeoutmsgboximpl.cpp \
 	src/net/common/net_helper_client.cpp \
 	src/core/common/loghelper_client.cpp \
+	src/icm/icm.cpp \
 	src/gui/qt/gametable/mychancelabel.cpp \
 	src/gui/qt/serverlistdialog/serverlistdialogimpl.cpp \
 	src/gui/qt/gametable/mytimeoutlabel.cpp \

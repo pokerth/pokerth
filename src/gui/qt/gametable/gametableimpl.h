@@ -183,7 +183,7 @@ public slots:
 
 	//refresh-Funktionen
 	void refreshSet();
-	void refreshCash();
+	virtual void refreshCash();
 	void refreshAction(int =-1, int=-1);
 	void refreshChangePlayer();
 	void refreshPot();
@@ -205,7 +205,7 @@ public slots:
 	void dealHoleCards();
 
 	//Spieler-Funktionen
-	void provideMyActions(int mode = -1);  //mode 0 == called from dealberocards
+	virtual void provideMyActions(int mode = -1);  //mode 0 == called from dealberocards
 	void meInAction();
 	void disableMyButtons();
 	void startTimeoutAnimation(int playerId, int timoutSec);
@@ -522,6 +522,7 @@ private:
 
 	friend class MyAvatarLabel;
 	friend class GuiWrapper;
+	friend class gameTableImpl_ICM;
 };
 
 #endif

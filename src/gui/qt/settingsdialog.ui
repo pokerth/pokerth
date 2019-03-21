@@ -197,6 +197,13 @@
              </item>
              <item row="1" column="0">
               <layout class="QGridLayout" name="gridLayout_7">
+               <item row="8" column="0" colspan="2">
+                <widget class="QCheckBox" name="checkBox_disableSplashscreen">
+                 <property name="text">
+                  <string>Disable splashscreen on startup</string>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0" colspan="2">
                 <widget class="QCheckBox" name="checkBox_showRightToolbox">
                  <property name="text">
@@ -260,10 +267,10 @@
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0" colspan="2">
-                <widget class="QCheckBox" name="checkBox_disableSplashscreen">
+               <item row="10" column="0">
+                <widget class="QCheckBox" name="checkBox_showICM_points">
                  <property name="text">
-                  <string>Disable splashscreen on startup</string>
+                  <string>Show ICM points</string>
                  </property>
                 </widget>
                </item>
@@ -667,16 +674,7 @@ p, li { white-space: pre-wrap; }
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="leftMargin">
-                <number>0</number>
-               </property>
-               <property name="topMargin">
-                <number>0</number>
-               </property>
-               <property name="rightMargin">
-                <number>0</number>
-               </property>
-               <property name="bottomMargin">
+               <property name="margin">
                 <number>0</number>
                </property>
                <item>
@@ -684,16 +682,7 @@ p, li { white-space: pre-wrap; }
                  <property name="spacing">
                   <number>2</number>
                  </property>
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
+                 <property name="margin">
                   <number>0</number>
                  </property>
                  <item>
@@ -809,16 +798,7 @@ p, li { white-space: pre-wrap; }
               <property name="spacing">
                <number>6</number>
               </property>
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
+              <property name="margin">
                <number>0</number>
               </property>
               <item>
@@ -2238,16 +2218,7 @@ p, li { white-space: pre-wrap; }
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
                <layout class="QGridLayout">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -2311,16 +2282,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -2389,16 +2351,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -2462,16 +2415,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -2540,16 +2484,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -2613,16 +2548,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -2691,16 +2617,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -2764,16 +2681,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -2842,16 +2750,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -2890,16 +2789,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -2997,16 +2887,7 @@ p, li { white-space: pre-wrap; }
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
                <layout class="QGridLayout">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -3017,16 +2898,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -3148,16 +3020,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout" name="_4">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -3168,16 +3031,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -3299,16 +3153,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout" name="_6">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -3319,16 +3164,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
@@ -3450,16 +3286,7 @@ p, li { white-space: pre-wrap; }
               </item>
               <item>
                <layout class="QGridLayout" name="_8">
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
+                <property name="margin">
                  <number>0</number>
                 </property>
                 <property name="spacing">
@@ -3470,16 +3297,7 @@ p, li { white-space: pre-wrap; }
                   <property name="spacing">
                    <number>6</number>
                   </property>
-                  <property name="leftMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <property name="bottomMargin">
+                  <property name="margin">
                    <number>0</number>
                   </property>
                   <item>
