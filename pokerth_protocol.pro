@@ -40,7 +40,7 @@ win32 {
 	system(protoc pokerth.proto --java_out=tests/src)
 }
 unix : !mac {
-        INCLUDEPATH += $${PREFIX}/include
+    INCLUDEPATH += $${PREFIX}/include
 	system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
 	system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
 	system(protoc pokerth.proto --java_out=tests/src)
@@ -52,11 +52,14 @@ unix : !mac {
 	}
 }
 mac { 
-        # make it x86_64 only
-        CONFIG += x86_64
-        CONFIG -= x86
-        CONFIG -= ppc
-        QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
+	# make it x86_64 only
+	CONFIG += x86_64
+	CONFIG -= x86
+	CONFIG -= ppc
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
+	system(protoc pokerth.proto --cpp_out=src/third_party/protobuf)
+	system(protoc chatcleaner.proto --cpp_out=src/third_party/protobuf)
+	system(protoc pokerth.proto --java_out=tests/src)	
 
 	# for universal-compilation on PPC-Mac uncomment the following line
 	# on Intel-Mac you have to comment this line out or build will fail.

@@ -95,7 +95,7 @@ mac{
 	# make it universal  
 	CONFIG += x86
 	CONFIG += ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.3
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
 
 	# workaround for problems with boost_filesystem exceptions
 	QMAKE_LFLAGS += -no_dead_strip_inits_and_terms

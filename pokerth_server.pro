@@ -310,7 +310,7 @@ mac {
 	CONFIG += x86_64
 	CONFIG -= x86
 	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions

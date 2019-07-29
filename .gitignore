@@ -18,4 +18,8 @@ uics/
 make.sh
 gitpush_serverstuff_stable
 pokerth_server
-
+.vscode
+,qmake.stash
+pokerth.ap*
+*.DS_STORE
+.gitignore.save

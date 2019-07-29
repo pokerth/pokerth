@@ -576,7 +576,7 @@ mac {
 	CONFIG += x86_64
 	CONFIG -= x86
 	CONFIG -= ppc
-	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
+	QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.7
 	QMAKE_CXXFLAGS -= -std=gnu++0x
 
 	# workaround for problems with boost_filesystem exceptions
@@ -587,13 +587,14 @@ mac {
 	# QMAKE_MAC_SDK=/Developer/SDKs/MacOSX10.4u.sdk/
 	LIBPATH += lib
 
+
 	# QT dynamic linked framework (see also mac_post_make.sh)
-    LIBS += -F /Library/Frameworks
-	LIBS += -framework \
-		QtCore
-	LIBS += -framework \
-		QtGui
-    LIBS += -framework \
+	LIBS += -F /Library/Frameworks
+#	LIBS += -framework \
+#		QtCore
+#	LIBS += -framework \
+#		QtGui
+   LIBS += -framework \
         SDL
     LIBS += -framework \
         SDL_mixer
@@ -615,7 +616,7 @@ mac {
 		-lprotobuf \
 		-lz \
 		-framework \
-            Cocoa
+          Cocoa
 
 	# set the application icon
 	RC_FILE = pokerth.icns
