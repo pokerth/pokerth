@@ -42,12 +42,14 @@ cp -R $SDL_FW_PATH/SDL_mixer.framework $BINARY_FW_PATH
 
 # integrate dylibs
 cp /usr/lib/libcurl.4.dylib $DYLIB_PATH/.
-cp /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib $DYLIB_PATH/.
+cp /usr/local/Cellar/openssl/1.0.2s/lib/libcrypto.1.0.0.dylib $DYLIB_PATH/.
 cp /usr/local/opt/openssl/lib/libssl.1.0.0.dylib $DYLIB_PATH/.
 cp /usr/lib/libsqlite3.dylib $DYLIB_PATH/.
 cp /usr/local/opt/tinyxml/lib/libtinyxml.dylib $DYLIB_PATH/.
 cp /usr/local/opt/protobuf/lib/libprotobuf.18.dylib $DYLIB_PATH/.
 cp /usr/lib/libz.1.dylib $DYLIB_PATH/.
+
+chmod -R +w $DYLIB_PATH;
 
 LIBCURL_LINK=$(otool -L $BINARY | grep libcurl | cut -d"(" -f1 | cut -f2)
 LIBCRYPTO_LINK=$(otool -L $BINARY | grep libcrypto | cut -d"(" -f1 | cut -f2)
@@ -60,12 +62,16 @@ LIBZ_LINK=$(otool -L $BINARY | grep libz | cut -d"(" -f1 | cut -f2)
 install_name_tool -change $LIBCURL_LINK @loader_path/dylibs/libcurl.4.dylib $BINARY
 install_name_tool -change $LIBCRYPTO_LINK @loader_path/dylibs/libcrypto.1.0.0.dylib  $BINARY
 install_name_tool -change $LIBSSL_LINK @loader_path/dylibs/libssl.1.0.0.dylib $BINARY
-install_name_tool -change $LIBSSL_LINK @loader_path/dylibs/libssl.1.0.0.dylib $APPLICATION/Contents/MacOS/dylibs/libcrypto.1.0.0.dylib
 install_name_tool -change $LIBTINYXML_LINK @loader_path/dylibs/libtinyxml.dylib $BINARY
 install_name_tool -change $LIBSQLITE_LINK @loader_path/dylibs/libsqlite3.dylib $BINARY
 install_name_tool -change $LIBPROTOBUF_LINK @loader_path/dylibs/libprotobuf.18.dylib $BINARY
 install_name_tool -change $LIBSQLITE_LINK @loader_path/dylibs/libsqlite3.dylib $BINARY
 install_name_tool -change $LIBZ_LINK @loader_path/dylibs/libz.1.dylib $BINARY
+
+LIBCRYPTO_LINK=$(otool -L $DYLIB_PATH/libssl.1.0.0.dylib | grep libcrypto | cut -d"(" -f1 | cut -f2)
+LIBSSL_LINK=$(otool -L $DYLIB_PATH/libssl.1.0.0.dylib | grep libssl | cut -d"(" -f1 | cut -f2)
+install_name_tool -change $LIBCRYPTO_LINK @executable_path/dylibs/libcrypto.1.0.0.dylib $DYLIB_PATH/libssl.1.0.0.dylib
+install_name_tool -change /usr/local/opt/openssl/lib/libssl.1.0.0.dylib @executable_path/dylibs/libssl.1.0.0.dylib $DYLIB_PATH/libssl.1.0.0.dylib
 
 # integrate Qt-frameworks into binary
 if [ "$1" != "--without-qt" ] ; then
