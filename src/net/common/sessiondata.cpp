@@ -402,7 +402,7 @@ SessionData::GetPlayerData()
 }
 
 void
-SessionData::SetPlayerLastGames(std:array<unsigned long, 25> lastGames)
+SessionData::SetPlayerLastGames(std::array<unsigned long, 25> lastGames)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_lastGames = lastGames;
