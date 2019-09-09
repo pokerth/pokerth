@@ -127,8 +127,8 @@ public:
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
-	void SetPlayerLastGames(std::array<long, 25> lastGames);
-	std::array<long, 25> GetPlayerLastGames();
+	void SetPlayerLastGames(array<long, 25> lastGames);
+	array<long, 25> GetPlayerLastGames();
 
 	std::string GetRemoteIPAddressFromSocket() const;
 
