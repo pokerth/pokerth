@@ -1436,7 +1436,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				){
 					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 				}else if (!session->IsPlayerAllowedToJoinLimitRank()) {
-					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
 				}
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
