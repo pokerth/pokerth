@@ -163,7 +163,7 @@ private:
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
 
-	std::array<long, 25>			m_lastGames;						
+	array<long, 25>					m_lastGames;						
 
 	mutable boost::mutex			m_dataMutex;
 };
