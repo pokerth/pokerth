@@ -40,7 +40,7 @@ typedef unsigned SessionId;
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
-#include <Array>
+#include <array>
 
 #include <net/socket_helper.h>
 #include <net/sessiondatacallback.h>
