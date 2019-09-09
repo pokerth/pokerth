@@ -126,6 +126,9 @@ public:
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
+	void SetPlayerLastGames(std::array<std::time_t> lastGames);
+	std::array<std::time_t> GetPlayerLastGames();
+
 	std::string GetRemoteIPAddressFromSocket() const;
 
 protected:
@@ -158,6 +161,8 @@ private:
 	std::string						m_nextGsaslMsg;
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
+
+	std::array<std::time_t>			m_lastGames;						
 
 	mutable boost::mutex			m_dataMutex;
 };

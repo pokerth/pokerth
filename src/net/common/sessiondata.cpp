@@ -38,6 +38,8 @@
 #include <net/websocketdata.h>
 #include <gsasl.h>
 
+// #include <ctime> // @TODO: remove if really not necessary
+
 using namespace std;
 using boost::asio::ip::tcp;
 
@@ -396,6 +398,20 @@ SessionData::GetPlayerData()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	return m_playerData;
+}
+
+void
+SessionData::SetPlayerLastGames(std::array<std::time_t> lastGames)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_lastGames = player;
+}
+
+std::array<std::time_t>
+SessionData::GetPlayerLastGames()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_lastGames;
 }
 
 string

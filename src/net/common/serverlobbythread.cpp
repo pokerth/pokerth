@@ -1427,13 +1427,18 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
 			} else if (!game->CheckPassword(password)) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
-			} else if (tmpData.gameType == GAME_TYPE_RANKING
-					   && !joinGame.spectateonly()
+			} else if (tmpData.gameType == GAME_TYPE_RANKING) {
+				if(!joinGame.spectateonly()
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
 					   && game->IsClientAddressConnected(session->GetClientAddr())) {
-				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+				}else if (!session->IsPlayerAllowedToJoinLimitRank(session->GetPlayerData()->GetUniqueId())) {
+					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+				}
+			}
+
 
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
