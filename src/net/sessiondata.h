@@ -127,8 +127,8 @@ public:
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
-	void SetPlayerLastGames(std::array<std::time_t, 25> lastGames);
-	std::array<std::time_t, 25> GetPlayerLastGames();
+	void SetPlayerLastGames(std::array<long, 25> lastGames);
+	std::array<long, 25> GetPlayerLastGames();
 
 	std::string GetRemoteIPAddressFromSocket() const;
 
@@ -163,7 +163,7 @@ private:
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
 
-	std::array<std::time_t, 25>			m_lastGames;						
+	std::array<long, 25>			m_lastGames;						
 
 	mutable boost::mutex			m_dataMutex;
 };
