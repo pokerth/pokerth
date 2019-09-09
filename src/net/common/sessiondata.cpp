@@ -442,8 +442,8 @@ SessionData::IsPlayerAllowedToJoinLimitRank()
 
 	unsigned long num = (unsigned long)SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES;
 
-	int count = 0;
-	for(std::vector<T>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
+	unsigned long count = 0;
+	for(std::vector<unsigned long>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
 		if(timeStamp > then)
 			count++;
 		else
