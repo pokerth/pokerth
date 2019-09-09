@@ -127,9 +127,9 @@ public:
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
-	void AddPlayerLastGame(unsigned long lastGames);
-	void SetPlayerLastGames(std::vector<unsigned long> lastGames);
-	std::vector<unsigned long> GetPlayerLastGames();
+	void AddPlayerLastGame(long lastGames);
+	void SetPlayerLastGames(std::vector<long> lastGames);
+	std::vector<long> GetPlayerLastGames();
 	bool IsPlayerAllowedToJoinLimitRank();
 
 	std::string GetRemoteIPAddressFromSocket() const;
@@ -165,7 +165,7 @@ private:
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
 
-	std::vector<unsigned long>		m_lastGames;						
+	std::vector<long>		m_lastGames;						
 
 	mutable boost::mutex			m_dataMutex;
 };
