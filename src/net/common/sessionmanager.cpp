@@ -235,41 +235,6 @@ SessionManager::IsPlayerConnected(unsigned uniqueId) const
 }
 
 bool
-SessionManager::IsPlayerAllowedToJoinLimitRank(const string &playerName) const
-{
-	bool retVal = false;
-
-	// boost::shared_ptr<SessionData> tmpSession = GetSessionByPlayerName(playerName);
-
-	// if (tmpSession){
-	// 	std::array<std::time_t> lastGames = tmpSession->GetPlayerLastGames();
-	// 	std::time_t now = std::time(nullptr);
-
-
-	// 	retVal = true;
-	// }
-
-	return retVal;
-}
-
-bool
-SessionManager::IsPlayerAllowedToJoinLimitRank(unsigned uniqueId) const
-{
-	bool retVal = false;
-
-	// boost::shared_ptr<SessionData> tmpSession = GetSessionByUniquePlayerId(uniqueId);
-
-	// if (tmpSession){
-	// 	std::array<std::time_t> lastGames = tmpSession->GetPlayerLastGames();
-	// 	std::time_t now = std::time(nullptr);
-
-	// 	retVal = true;
-	// }
-
-	return retVal;
-}
-
-bool
 SessionManager::IsClientAddressConnected(const std::string &clientAddress) const
 {
 	bool retVal = false;

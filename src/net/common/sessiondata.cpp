@@ -402,17 +402,37 @@ SessionData::GetPlayerData()
 }
 
 void
-SessionData::SetPlayerLastGames(std:array<long, 25> lastGames)
+SessionData::SetPlayerLastGames(std:array<unsigned long, 25> lastGames)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_lastGames = player;
+	m_lastGames = lastGames;
 }
 
-std::array<long, 25>
+void
+SessionData::AddPlayerLastGame(long lastGame)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+
+	m_lastGames.push_back(lastGame);
+
+	// @TODO: remove overdued entries
+}
+
+std::array<unsigned long, 25>
 SessionData::GetPlayerLastGames()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	return m_lastGames;
+}
+
+bool
+SessionData::IsPlayerAllowedToJoinLimitRank()
+{
+	bool retVal = false;
+
+	// @TODO: iterate m_lastGames
+
+	return retVal;
 }
 
 string

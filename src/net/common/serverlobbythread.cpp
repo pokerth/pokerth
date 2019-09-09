@@ -1434,12 +1434,9 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
 					   && game->IsClientAddressConnected(session->GetClientAddr())) {
 					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
-				}else if (!session->IsPlayerAllowedToJoinLimitRank(session->GetPlayerData()->GetUniqueId())) {
+				}else if (!session->IsPlayerAllowedToJoinLimitRank()) {
 					SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 				}
-			}
-
-
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
