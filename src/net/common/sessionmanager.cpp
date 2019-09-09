@@ -39,8 +39,6 @@
 using namespace std;
 
 #define SERVER_MAX_GUEST_USERS_LOBBY	50		// LG: Maximum number of guests users in lobby allowed
-#define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
-#define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
 
 SessionManager::SessionManager()
 {

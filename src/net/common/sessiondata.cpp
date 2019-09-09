@@ -49,6 +49,9 @@ using namespace std::chrono;
 using namespace boost::chrono;
 #endif
 
+#define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
+#define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
+
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService)
 	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
@@ -429,9 +432,28 @@ SessionData::IsPlayerAllowedToJoinLimitRank()
 {
 	bool retVal = false;
 
-	// @TODO: iterate m_lastGames
+// #define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
+// #define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
+	
+	boost::mutex::scoped_lock lock(m_dataMutex);
 
-	return true;
+	// @TODO: iterate m_lastGames
+	unsigned long then = (unsigned long)time(NULL) - (unsigned long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
+
+	unsigned long num = (unsigned long)SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES;
+
+	int count = 0;
+	for(std::vector<T>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
+		if(timeStamp > then)
+			count++;
+		else
+			m_lastGames.erase(timeStamp);
+	}
+
+	if(count < num)
+		retVal = true;
+
+	return retVal;
 }
 
 string
