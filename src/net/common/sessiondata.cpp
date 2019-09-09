@@ -402,7 +402,7 @@ SessionData::GetPlayerData()
 }
 
 void
-SessionData::SetPlayerLastGames(std::array<unsigned long, 25> lastGames)
+SessionData::SetPlayerLastGames(std::vector<unsigned long> lastGames)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_lastGames = lastGames;
@@ -418,7 +418,7 @@ SessionData::AddPlayerLastGame(unsigned long lastGame)
 	// @TODO: remove overdued entries
 }
 
-std::array<unsigned long, 25>
+std::vector<unsigned long>
 SessionData::GetPlayerLastGames()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);

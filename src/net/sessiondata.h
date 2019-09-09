@@ -40,7 +40,7 @@ typedef unsigned SessionId;
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
-#include <array>
+#include <vector>
 
 #include <net/socket_helper.h>
 #include <net/sessiondatacallback.h>
@@ -128,8 +128,8 @@ public:
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
 	void AddPlayerLastGame(unsigned long lastGames);
-	void SetPlayerLastGames(std::array<unsigned long, 25> lastGames);
-	std::array<unsigned long, 25> GetPlayerLastGames();
+	void SetPlayerLastGames(std::vector<unsigned long> lastGames);
+	std::vector<unsigned long> GetPlayerLastGames();
 	bool IsPlayerAllowedToJoinLimitRank();
 
 	std::string GetRemoteIPAddressFromSocket() const;
@@ -165,7 +165,7 @@ private:
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
 
-	std::array<unsigned long, 25>	m_lastGames;						
+	std::vector<unsigned long>		m_lastGames;						
 
 	mutable boost::mutex			m_dataMutex;
 };
