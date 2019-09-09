@@ -39,6 +39,7 @@
 #include <gsasl.h>
 
 // #include <ctime> // @TODO: remove if really not necessary
+// #include <array> // same here
 
 using namespace std;
 using boost::asio::ip::tcp;
