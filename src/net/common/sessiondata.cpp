@@ -431,7 +431,7 @@ SessionData::IsPlayerAllowedToJoinLimitRank()
 
 	// @TODO: iterate m_lastGames
 
-	return retVal;
+	return true;
 }
 
 string
