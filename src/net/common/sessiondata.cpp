@@ -448,7 +448,7 @@ SessionData::IsPlayerAllowedToJoinLimitRank()
 		if(*timeStamp > then)
 			count++;
 		else
-			m_lastGames.erase(*timeStamp);
+			m_lastGames.erase(timeStamp);
 	}
 
 	if(count < num)
