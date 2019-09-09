@@ -404,14 +404,14 @@ SessionData::GetPlayerData()
 }
 
 void
-SessionData::SetPlayerLastGames(std::vector<long> lastGames)
+SessionData::SetPlayerLastGames(std::vector<unsigned long> lastGames)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_lastGames = lastGames;
 }
 
 void
-SessionData::AddPlayerLastGame(long lastGame)
+SessionData::AddPlayerLastGame(unsigned long lastGame)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
@@ -420,7 +420,7 @@ SessionData::AddPlayerLastGame(long lastGame)
 	// @TODO: remove overdued entries
 }
 
-std::vector<long>
+std::vector<unsigned long>
 SessionData::GetPlayerLastGames()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
@@ -443,13 +443,12 @@ SessionData::IsPlayerAllowedToJoinLimitRank()
 	long num = (long)SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES;
 
 	long count = 0;
-	auto timeStamp = m_lastGames.begin();
-	while (timeStamp != m_lastGames.end())
-	{
-		if((long)timeStamp > then)
+
+	for(std::vector<long>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
+		if(*timeStamp > then)
 			count++;
 		else
-			m_lastGames.erase(timeStamp);
+			m_lastGames.erase(*timeStamp);
 	}
 
 	if(count < num)
