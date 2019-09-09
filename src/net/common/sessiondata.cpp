@@ -39,7 +39,7 @@
 #include <gsasl.h>
 
 // #include <ctime> // @TODO: remove if really not necessary
-// #include <array> // same here
+// #include <Array> // same here
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -402,13 +402,13 @@ SessionData::GetPlayerData()
 }
 
 void
-SessionData::SetPlayerLastGames(array<long, 25> lastGames)
+SessionData::SetPlayerLastGames(Array<long, 25> lastGames)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	m_lastGames = player;
 }
 
-array<long, 25>
+Array<long, 25>
 SessionData::GetPlayerLastGames()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
