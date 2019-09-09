@@ -438,15 +438,15 @@ SessionData::IsPlayerAllowedToJoinLimitRank()
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
 	// @TODO: iterate m_lastGames
-	unsigned long then = (unsigned long)time(NULL) - (unsigned long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
+	long then = (long)time(NULL) - (long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
 
-	unsigned long num = (unsigned long)SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES;
+	long num = (long)SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES;
 
-	unsigned long count = 0;
+	long count = 0;
 	auto timeStamp = m_lastGames.begin();
 	while (timeStamp != m_lastGames.end())
 	{
-		if(timeStamp > then)
+		if((long)timeStamp > then)
 			count++;
 		else
 			m_lastGames.erase(timeStamp);
