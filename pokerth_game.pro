@@ -538,7 +538,7 @@ unix:!mac {
 			$$BOOST_IOSTREAMS \
 			$$BOOST_REGEX \
 			$$BOOST_SYS
-		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv5")
+		!count(BOOST_LIBS, 5):error("Unable to find boost libraries in PREFIX=$${PREFIX}/armv7")
 		LIBS += -ltinyxml
 		LIBS += $$BOOST_LIBS
 		LIBS += -lgsasl -lidn
@@ -673,6 +673,7 @@ android{
 	DEFINES += TIXML_USE_STL
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
+        INCLUDEPATH += /home/min/Dokumente/Android/android-ndk-r13b/platforms/android-19/arch-arm/usr/include
 
 	# sound system switches
 	!android_api8 {

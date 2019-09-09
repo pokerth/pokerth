@@ -31,7 +31,7 @@ INCLUDEPATH += . \
 		src/engine/network_engine \
 		src/config \
 		src/core \
-		src/third_party/websocketpp
+                src/third_party/websocketpp
 
 DEPENDPATH += . \
 		src \
@@ -312,6 +312,7 @@ android{
 	DEFINES += BOOST_FILESYSTEM_VERSION=3
 	# sqlite3 is included directly.
 	INCLUDEPATH += src/third_party/sqlite3
+        INCLUDEPATH += /home/min/Dokumente/Android/android-ndk-r13b/platforms/android-19/arch-arm/usr/include
 	SOURCES += src/third_party/sqlite3/sqlite3.c
 }
 

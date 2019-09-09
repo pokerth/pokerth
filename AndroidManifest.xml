@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <manifest package="org.qtproject.example" android:versionName="1.1" xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionCode="1">
 	<application android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="PokerTH" android:icon="@drawable/icon">
-		<activity android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="PokerTH" android:screenOrientation="landscape" android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation">
+		<activity android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="PokerTH" android:screenOrientation="landscape" android:configChanges="orientation|uiMode|screenLayout|locale|fontScale|keyboard|keyboardHidden|navigation">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
@@ -31,7 +31,7 @@
 			<!-- Splash screen -->
 		</activity>
 	</application>
-	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="19"/>
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28"/>
 	<supports-screens android:smallScreens="true" android:anyDensity="true" android:largeScreens="true" android:normalScreens="true"/>
 	<!-- %%INSERT_PERMISSIONS -->
 	<!-- %%INSERT_FEATURES -->
