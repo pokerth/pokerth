@@ -62,6 +62,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/algorithm/string.hpp>
 #include <gsasl.h>
+#include <ctime>
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
@@ -1437,6 +1438,9 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 			// ){
 			// 	SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {
+				// @FIXME: debug only - final poition is gamestart
+				session->AddPlayerLastGame((unsigned long)time(NULL));
+				LOG_ERROR("TimeStamp stored: " << session->GetPlayerLastGames.front());
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
 		}

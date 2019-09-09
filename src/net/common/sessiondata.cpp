@@ -38,8 +38,7 @@
 #include <net/websocketdata.h>
 #include <gsasl.h>
 
-// #include <ctime> // @TODO: remove if really not necessary
-// #include <array> // same here
+#include <ctime>
 
 using namespace std;
 using boost::asio::ip::tcp;

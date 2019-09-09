@@ -35,7 +35,6 @@
 #include <net/socket_msg.h>
 
 #include <ctime>
-#include <array>
 
 using namespace std;
 
