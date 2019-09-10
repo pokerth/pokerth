@@ -1440,7 +1440,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 			} else {
 				// @FIXME: debug only - final position is gamestart
 				session->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
-				LOG_ERROR("TimeStamp stored: " << *session->GetPlayerData()->GetPlayerLastGames().end());
+				LOG_ERROR("TimeStamp stored: " << *session->GetPlayerData()->GetPlayerLastGames().back());
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
 		}

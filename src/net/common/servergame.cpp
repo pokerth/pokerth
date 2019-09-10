@@ -452,8 +452,11 @@ void
 ServerGame::StoreLastGames()
 {
 	// Store players lastgames in database.
-	RankingMap::const_iterator i = m_rankingMap.begin();
-	RankingMap::const_iterator end = m_rankingMap.end();
+
+	PlayerIdList plist = GetPlayerIdList();
+
+	RankingMap::const_iterator i = plist.info.players.begin();
+	RankingMap::const_iterator end = plist.info.players.end();
 	while (i != end) {
 
 		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
@@ -462,7 +465,7 @@ ServerGame::StoreLastGames()
 		if(tmpSession){
 			std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
 
-			if(lastGames.size() > 0)
+			//if(lastGames.size() > 0)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
 				LOG_VERBOSE("last timeStamp" << *lastGames.end() << ".");
 		}
