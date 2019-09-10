@@ -453,12 +453,11 @@ ServerGame::StoreLastGames()
 {
 	// Store players lastgames in database.
 
-	PlayerIdList plist = GetPlayerIdList();
-
-	RankingMap::const_iterator i = plist.info.players.begin();
-	RankingMap::const_iterator end = plist.info.players.end();
+	RankingMap::const_iterator i = m_rankingMap.begin();
+	RankingMap::const_iterator end = m_rankingMap.end();
+LOG_VERBOSE("StoreLastGames() entered.");
 	while (i != end) {
-
+LOG_VERBOSE("iterating m_rankingMap ... userId " << (*i).second.dbid);
 		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
 
 
