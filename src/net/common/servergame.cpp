@@ -293,7 +293,7 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 PlayerDataList
 ServerGame::InternalStartGame()
 {
-	LOG_VERBOSE("InternalStartGame() entered.");
+	LOG_ERROR("InternalStartGame() entered.");
 	// Initialize the game.
 	PlayerDataList playerData(GetFullPlayerDataList());
 
@@ -347,7 +347,7 @@ ServerGame::InternalStartGame()
 
 		// @TODO: here to save lastGames with mysql per player
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
-		LOG_VERBOSE("before StoreLastGames().");
+		LOG_ERROR("before StoreLastGames().");
 		if(true)
 			StoreLastGames();
 
@@ -458,18 +458,18 @@ ServerGame::StoreLastGames()
 
 	RankingMap::const_iterator i = m_rankingMap.begin();
 	RankingMap::const_iterator end = m_rankingMap.end();
-LOG_VERBOSE("StoreLastGames() entered.");
+LOG_ERROR("StoreLastGames() entered.");
 	while (i != end) {
-LOG_VERBOSE("iterating m_rankingMap ... userId " << (*i).second.dbid);
+LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
 		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
 
 
 		if(tmpSession){
 			std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
 
-			//if(lastGames.size() > 0)
+			if(lastGames.size() > 0)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
-				LOG_VERBOSE("last timeStamp" << *lastGames.end() << ".");
+				LOG_ERROR("last timeStamp" << *lastGames.end() << ".");
 		}
 		++i;
 	}
