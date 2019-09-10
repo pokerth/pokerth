@@ -465,6 +465,8 @@ ServerGame::StoreLastGames()
 			LOG_ERROR("TimeStamp stored: " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
 			std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
 			LOG_ERROR("Ready for storing vector: " << lastGames.back());
+		}else{
+			LOG_ERROR("no tmpSession for userId " << (*i).second.dbid);
 		}
 		++i;
 	}
