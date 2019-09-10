@@ -293,6 +293,7 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 PlayerDataList
 ServerGame::InternalStartGame()
 {
+	LOG_VERBOSE("InternalStartGame() entered.");
 	// Initialize the game.
 	PlayerDataList playerData(GetFullPlayerDataList());
 
@@ -346,6 +347,7 @@ ServerGame::InternalStartGame()
 
 		// @TODO: here to save lastGames with mysql per player
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
+		LOG_VERBOSE("before StoreLastGames().");
 		if(true)
 			StoreLastGames();
 
@@ -353,6 +355,7 @@ ServerGame::InternalStartGame()
 		GetDatabase().AsyncCreateGame(GetId(), GetName());
 		InitRankingMap(playerData);
 	}
+	LOG_VERBOSE("before return.");
 	return playerData;
 }
 
