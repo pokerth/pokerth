@@ -349,8 +349,6 @@ ServerGame::InternalStartGame()
 		if(true)
 			StoreLastGames();
 
-		// @TODO: StoreWECData() ;)
-			
 
 		GetDatabase().AsyncCreateGame(GetId(), GetName());
 		InitRankingMap(playerData);
