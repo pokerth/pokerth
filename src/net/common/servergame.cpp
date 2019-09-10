@@ -348,6 +348,8 @@ ServerGame::InternalStartGame()
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
 		if(true)
 			StoreLastGames();
+
+		// @TODO: StoreWECData() ;)
 			
 
 		GetDatabase().AsyncCreateGame(GetId(), GetName());

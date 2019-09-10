@@ -38,8 +38,6 @@
 #include <net/websocketdata.h>
 #include <gsasl.h>
 
-#include <ctime>
-
 using namespace std;
 using boost::asio::ip::tcp;
 
@@ -48,9 +46,6 @@ using namespace std::chrono;
 #else
 using namespace boost::chrono;
 #endif
-
-#define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
-#define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_service &ioService)
 	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
@@ -401,60 +396,6 @@ SessionData::GetPlayerData()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	return m_playerData;
-}
-
-void
-SessionData::SetPlayerLastGames(std::vector<long> lastGames)
-{
-	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_lastGames = lastGames;
-}
-
-void
-SessionData::AddPlayerLastGame(long lastGame)
-{
-	boost::mutex::scoped_lock lock(m_dataMutex);
-
-	m_lastGames.push_back(lastGame);
-
-	// @TODO: remove overdued entries
-}
-
-std::vector<long>
-SessionData::GetPlayerLastGames()
-{
-	boost::mutex::scoped_lock lock(m_dataMutex);
-	return m_lastGames;
-}
-
-bool
-SessionData::IsPlayerAllowedToJoinLimitRank()
-{
-	bool retVal = false;
-
-// #define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
-// #define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
-	
-	boost::mutex::scoped_lock lock(m_dataMutex);
-
-	// @TODO: iterate m_lastGames
-	long then = (long)time(NULL) - (long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
-
-	long num = (long)SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES;
-
-	long count = 0;
-
-	for(std::vector<long>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
-		if(*timeStamp > then)
-			count++;
-		else
-			m_lastGames.erase(timeStamp);
-	}
-
-	if(count < num)
-		retVal = true;
-
-	return retVal;
 }
 
 string

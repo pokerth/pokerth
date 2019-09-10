@@ -29,6 +29,10 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include <playerdata.h>
+#include <ctime>
+
+#define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
+#define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
 
 using namespace std;
 
@@ -242,3 +246,51 @@ PlayerData::operator<(const PlayerData &other) const
 	return m_number < other.GetNumber();
 }
 
+void
+PlayerData::SetPlayerLastGames(std::vector<long> lastGames)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_lastGames = lastGames;
+}
+
+void
+PlayerData::AddPlayerLastGame(long lastGame)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+
+	m_lastGames.push_back(lastGame);
+}
+
+std::vector<long>
+PlayerData::GetPlayerLastGames()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_lastGames;
+}
+
+bool
+PlayerData::IsPlayerAllowedToJoinLimitRank()
+{
+	bool retVal = false;
+
+// #define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
+// #define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
+	
+	boost::mutex::scoped_lock lock(m_dataMutex);
+
+	long then = (long)time(NULL) - (long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
+
+	int count = 0;
+
+	for(std::vector<long>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
+		if(*timeStamp > then)
+			count++;
+		else
+			m_lastGames.erase(timeStamp); // erase overdued entries
+	}
+
+	if(count < SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES)
+		retVal = true;
+
+	return retVal;
+}

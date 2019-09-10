@@ -127,11 +127,6 @@ public:
 	void SetPlayerData(boost::shared_ptr<PlayerData> player);
 	boost::shared_ptr<PlayerData> GetPlayerData();
 
-	void AddPlayerLastGame(long lastGames);
-	void SetPlayerLastGames(std::vector<long> lastGames);
-	std::vector<long> GetPlayerLastGames();
-	bool IsPlayerAllowedToJoinLimitRank();
-
 	std::string GetRemoteIPAddressFromSocket() const;
 
 protected:
@@ -164,8 +159,6 @@ private:
 	std::string						m_nextGsaslMsg;
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
-
-	std::vector<long>		m_lastGames;						
 
 	mutable boost::mutex			m_dataMutex;
 };
