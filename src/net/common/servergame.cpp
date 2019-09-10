@@ -345,15 +345,14 @@ ServerGame::InternalStartGame()
 		GuiInterface &gui = GetGui();
 		m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum(), NULL));
 
+		GetDatabase().AsyncCreateGame(GetId(), GetName());
+		InitRankingMap(playerData);
+
 		// @TODO: here to save lastGames with mysql per player
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
 		LOG_ERROR("before StoreLastGames().");
 		if(true)
 			StoreLastGames();
-
-
-		GetDatabase().AsyncCreateGame(GetId(), GetName());
-		InitRankingMap(playerData);
 	}
 	LOG_VERBOSE("before return.");
 	return playerData;
@@ -469,7 +468,7 @@ LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
 
 			if(lastGames.size() > 0)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
-				LOG_ERROR("last timeStamp" << *lastGames.end() << ".");
+				LOG_ERROR("last timeStamp" << *lastGames.back() << ".");
 		}
 		++i;
 	}
