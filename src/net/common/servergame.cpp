@@ -455,12 +455,17 @@ ServerGame::StoreLastGames()
 	RankingMap::const_iterator i = m_rankingMap.begin();
 	RankingMap::const_iterator end = m_rankingMap.end();
 	while (i != end) {
-		std::vector<long> lastGames = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid).GetPlayerLastGames();
 
-		if(lastGames)
-			//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
-			LOG_VERBOSE("first timeStamp" << lastGames.front().first << ".");
-		
+		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
+
+
+		if(tmpSession){
+			std::vector<long> lastGames = tmpSession->GetPlayerLastGames();
+
+			if(lastGames)
+				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
+				LOG_VERBOSE("first timeStamp" << lastGames.front().first << ".");
+		}
 		++i;
 	}
 	GetDatabase().EndGame(GetId());
