@@ -349,8 +349,8 @@ ServerGame::InternalStartGame()
 		InitRankingMap(playerData);
 
 		// @TODO: here to save lastGames with mysql per player
+
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
-		LOG_ERROR("before StoreLastGames().");
 		if(true)
 			StoreLastGames();
 	}
@@ -457,16 +457,14 @@ ServerGame::StoreLastGames()
 
 	RankingMap::const_iterator i = m_rankingMap.begin();
 	RankingMap::const_iterator end = m_rankingMap.end();
-LOG_ERROR("StoreLastGames() entered.");
 	while (i != end) {
-LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
+		LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
 		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
 		if(tmpSession){
+			tmpSession->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
+			LOG_ERROR("TimeStamp stored: " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
 			std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
-
-			//if(lastGames.size() > 0)
-				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
-				LOG_ERROR("last timeStamp" << lastGames.back() << ".");
+			LOG_ERROR("Ready for storing vector: " << lastGames.back());
 		}
 		++i;
 	}

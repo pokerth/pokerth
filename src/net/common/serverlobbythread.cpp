@@ -1438,9 +1438,6 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 			// ){
 			// 	SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {
-				// @FIXME: debug only - final position is gamestart
-				session->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
-				LOG_ERROR("TimeStamp stored: " << session->GetPlayerData()->GetPlayerLastGames().back());
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
 		}
