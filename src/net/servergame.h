@@ -148,6 +148,7 @@ protected:
 	void SetPlayerPlace(unsigned playerId, int place);
 	void ReplaceRankingPlayer(unsigned oldPlayerId, unsigned newPlayerId);
 	void StoreAndResetRanking();
+	void StoreLastGames();
 	void RemoveAutoLeavePlayers();
 	void InternalEndGame();
 
