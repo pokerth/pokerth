@@ -462,7 +462,7 @@ ServerGame::StoreLastGames()
 
 
 		if(tmpSession){
-			std::vector<long> lastGames = tmpSession->GetPlayerLastGames();
+			std::vector<long> lastGames = tmpSession->->GetPlayerData()->GetPlayerLastGames();
 
 			if(lastGames)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
