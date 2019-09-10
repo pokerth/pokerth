@@ -468,7 +468,7 @@ LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
 
 			if(lastGames.size() > 0)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
-				LOG_ERROR("last timeStamp" << *lastGames.back() << ".");
+				LOG_ERROR("last timeStamp" << lastGames.back() << ".");
 		}
 		++i;
 	}
