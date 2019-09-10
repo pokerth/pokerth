@@ -344,6 +344,12 @@ ServerGame::InternalStartGame()
 		GuiInterface &gui = GetGui();
 		m_game.reset(new Game(&gui, factory, playerData, GetGameData(), GetStartData(), GetNextGameNum(), NULL));
 
+		// @TODO: here to save lastGames with mysql per player
+		//if (GetGameData().gameType == GAME_TYPE_RANKING)
+		if(true)
+			StoreLastGames();
+			
+
 		GetDatabase().AsyncCreateGame(GetId(), GetName());
 		InitRankingMap(playerData);
 	}
@@ -436,6 +442,25 @@ ServerGame::StoreAndResetRanking()
 		if ((*i).second.dbid != DB_ID_INVALID) {
 			GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, (*i).second.place);
 		}
+		++i;
+	}
+	GetDatabase().EndGame(GetId());
+	m_rankingMap.clear();
+}
+
+void
+ServerGame::StoreLastGames()
+{
+	// Store players lastgames in database.
+	RankingMap::const_iterator i = m_rankingMap.begin();
+	RankingMap::const_iterator end = m_rankingMap.end();
+	while (i != end) {
+		std::vector<long> lastGames = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid).GetPlayerLastGames();
+
+		if(lastGames)
+			//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
+			LOG_VERBOSE("first timeStamp" << lastGames.front().first << ".");
+		
 		++i;
 	}
 	GetDatabase().EndGame(GetId());
