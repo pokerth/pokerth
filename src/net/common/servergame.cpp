@@ -464,7 +464,7 @@ ServerGame::StoreLastGames()
 
 			if(lastGames.size() > 0)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
-				LOG_VERBOSE("last timeStamp" << lastGames.end() << ".");
+				LOG_VERBOSE("last timeStamp" << *lastGames.end() << ".");
 		}
 		++i;
 	}
