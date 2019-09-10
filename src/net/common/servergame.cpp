@@ -461,8 +461,8 @@ ServerGame::StoreLastGames()
 		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
 
 
-		if(tmpSession){
-			std::vector<long> lastGames = tmpSession->->GetPlayerData()->GetPlayerLastGames();
+		if(tmpSession.size() > 0){
+			std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
 
 			if(lastGames)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
