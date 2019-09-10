@@ -461,12 +461,10 @@ LOG_ERROR("StoreLastGames() entered.");
 	while (i != end) {
 LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
 		boost::shared_ptr<SessionData> tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
-
-
 		if(tmpSession){
 			std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
 
-			if(lastGames.size() > 0)
+			//if(lastGames.size() > 0)
 				//GetLobbyThread().GetDatabase().SetGamePlayerPlace(GetId(), (*i).second.dbid, lastGames);
 				LOG_ERROR("last timeStamp" << lastGames.back() << ".");
 		}
