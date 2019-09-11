@@ -247,12 +247,10 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 	paramStream << playerId;
 	params.push_back(paramStream.str());
 	boost::shared_ptr<AsyncDBQuery> asyncQuery(
-		// @FIXME: why does AsyncDBPlayerLastGames not work?
 		new AsyncDBPlayerLastGames(
 			requestId,
 			QUERY_PLAYER_LASTGAMES_PREPARE,
 			params));
-
 	{
 		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
 		m_asyncQueue.push(asyncQuery);

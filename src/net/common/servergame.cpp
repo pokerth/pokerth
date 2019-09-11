@@ -466,7 +466,7 @@ ServerGame::StoreLastGames(const PlayerDataList &playerDataList)
 		LOG_ERROR("Ready for storing vector for player " << tmpPlayer->GetUniqueId() << " - lastGameTs " << lastGames.back());
 		if(tmpPlayer->GetUniqueId() != DB_ID_INVALID){
 			LOG_ERROR("ID != DB_ID_INVALID ... calling SetPlayerLastGames()...");
-			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetUniqueId(), lastGames);
+			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetDBId(), lastGames);
 		}
 		++i;
 	}
