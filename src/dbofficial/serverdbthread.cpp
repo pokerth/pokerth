@@ -247,7 +247,7 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 	params.push_back(lastGamesFieldValue);
 	params.push_back(lastIp);
 	boost::shared_ptr<AsyncDBQuery> asyncQuery(
-		new AsyncDBPlayerLastGames(
+		new ::AsyncDBPlayerLastGames(
 			requestId,
 			QUERY_PLAYER_LASTGAMES_PREPARE,
 			params));
