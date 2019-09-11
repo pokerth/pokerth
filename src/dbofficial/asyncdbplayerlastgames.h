@@ -39,7 +39,7 @@
 class AsyncDBPlayerLastGames : public SingleAsyncDBQuery
 {
 public:
-	AsyncDBPlayerLastGames(unsigned queryId, unsigned replyId, const std::string &preparedName, const std::list<std::string> &params);
+	AsyncDBPlayerLastGames(unsigned queryId, const std::string &preparedName, const std::list<std::string> &params);
 	virtual ~AsyncDBPlayerLastGames();
 
 	virtual void Init(DBIdManager& idManager);
