@@ -99,12 +99,12 @@ ServerDBGeneric::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned
 }
 
 void
-ServerDBGeneric::SetPlayerLastGames(unsigned /*requestId*/, DB_id /*playerId*/, std::vector /*lastGames*/)
+ServerDBGeneric::SetPlayerLastGames(unsigned /*requestId*/, DB_id /*playerId*/, std::vector<long> /*lastGames*/)
 {
 }
 
 void
-ServerDBGeneric::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector lastGames)
+ServerDBGeneric::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> lastGames)
 {
 }
 
