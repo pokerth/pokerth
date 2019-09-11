@@ -60,6 +60,7 @@
 #define QUERY_REPORT_GAME_PREPARE		"report_game_template"
 #define QUERY_ADMIN_PLAYER_PREPARE		"admin_player_template"
 #define QUERY_BLOCK_PLAYER_PREPARE		"block_player_template"
+#define QUERY_PLAYER_LASTGAMES_PREPARE	"player_lastgames_template"
 
 using namespace std;
 
@@ -238,24 +239,24 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 	LOG_ERROR("ServerDBThread::SetPlayerLastGames() entered.");
 	// The game id param is added later (during init of the async op), because it may be unknown.
 	string lastGamesFieldValue = "1,2,3";
+	string lastIp = "127.0.0.1";
 	list<string> params;
 	ostringstream paramStream;
-	paramStream << playerId;
+	paramStream << reportedPlayerId;
 	params.push_back(paramStream.str());
-	paramStream.str("");
-	paramStream << lastGamesFieldValue;
-	params.push_back(paramStream.str());
-	// boost::shared_ptr<AsyncDBQuery> asyncQuery(
-	// 	new AsyncDBGamePlace(
-	// 		requestId,
-	// 		QUERY_PLAYER_LASTGAMES_PREPARE,
-	// 		params));
+	params.push_back(lastGamesFieldValue);
+	params.push_back(lastIp);
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBGamePlace(
+			requestId,
+			QUERY_PLAYER_LASTGAMES_PREPARE,
+			params));
 
-	// {
-	// 	boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-	// 	m_asyncQueue.push(asyncQuery);
-	// }
-	LOG_ERROR("reached ServerDBThread::SetPlayerLastGames() post query ");
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		m_asyncQueue.push(asyncQuery);
+	}
+	LOG_ERROR("Query posted.");
 	m_semaphore.post();
 }
 
@@ -508,12 +509,16 @@ ServerDBThread::EstablishDBConnection()
 		prepareBlockPlayer
 				<< "PREPARE " QUERY_BLOCK_PLAYER_PREPARE " FROM " << mysqlpp::quote
 				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_VALID " = ?, " DB_TABLE_PLAYER_COL_ACTIVE " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
+		mysqlpp::Query preparePlayerLastGames = m_connData->conn.query();
+		preparePlayerLastGames
+				<< "PREPARE " QUERY_PLAYER_LASTGAMES_PREPARE " FROM " << mysqlpp::quote
+				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTGAMES " = ?, " DB_TABLE_PLAYER_COL_LASTIP " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
 		if (!prepareNick.exec() || !prepareAvatarBlacklist.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
 				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec() || !prepareReportAvatar.exec()
-				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec()) {
+				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec() || !preparePlayerLastGames.exec) {
 			string tmpError = string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() + prepareCreateGame.error() +
 							  prepareEndGame.error() + prepareRelation.error() + prepareScore.error() + prepareReportAvatar.error() +
-							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error();
+							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error() + preparePlayerLastGames.error();
 			m_connData->conn.disconnect();
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback, tmpError));
 			m_permanentError = true;
