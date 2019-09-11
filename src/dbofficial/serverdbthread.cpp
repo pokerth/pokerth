@@ -235,15 +235,17 @@ ServerDBThread::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned 
 }
 
 void
-ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> lastGames)
+ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> lastGames, std::string playerIp)
 {
 	LOG_ERROR("ServerDBThread::SetPlayerLastGames() entered.");
-	string lastGamesFieldValue = "1,2,3";
-	string lastIp = "127.0.0.1";
+
+	std::ostringstream oss;
+    std::copy(lastGames.begin(), lastGames.end(), std::ostream_iterator<int>(oss, ";"));
+    std::string lastGamesFieldValue( oss.str() );
 	list<string> params;
 	ostringstream paramStream;
 	params.push_back(lastGamesFieldValue);
-	params.push_back(lastIp);
+	params.push_back(playerIp);
 	paramStream << playerId;
 	params.push_back(paramStream.str());
 	boost::shared_ptr<AsyncDBQuery> asyncQuery(
