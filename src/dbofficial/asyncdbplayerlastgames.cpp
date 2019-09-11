@@ -46,11 +46,6 @@ AsyncDBPlayerLastGames::~AsyncDBPlayerLastGames()
 }
 
 void
-AsyncDBPlayerLastGames::Init(DBIdManager &/*idManager*/)
-{
-}
-
-void
 AsyncDBPlayerLastGames::HandleResult(mysqlpp::Query &/*query*/, DBIdManager &/*idManager*/, mysqlpp::StoreQueryResult &/*result*/, boost::asio::io_service &service, ServerDBCallback &cb)
 {
 	// This query does not produce a result.
