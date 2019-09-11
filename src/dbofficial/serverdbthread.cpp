@@ -235,6 +235,7 @@ ServerDBThread::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned 
 void
 ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> lastGames)
 {
+	LOG_ERROR("ServerDBThread::SetPlayerLastGames() entered.");
 	// The game id param is added later (during init of the async op), because it may be unknown.
 	string lastGamesFieldValue = "1,2,3";
 	list<string> params;

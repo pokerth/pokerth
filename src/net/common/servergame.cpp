@@ -463,9 +463,10 @@ ServerGame::StoreLastGames(const PlayerDataList &playerDataList)
 		LOG_ERROR("TimeStamp stored: " << tmpPlayer->GetPlayerLastGames().back());
 		std::vector<long> lastGames = tmpPlayer->GetPlayerLastGames();
 		LOG_ERROR("Ready for storing vector for player " << tmpPlayer->GetUniqueId() << " - lastGameTs " << lastGames.back());
-		//if(tmpPlayer->GetUniqueId() != DB_ID_INVALID){
+		if(tmpPlayer->GetUniqueId() != DB_ID_INVALID){
+			LOG_ERROR("ID != DB_ID_INVALID ... calling SetPlayerLastGames()...");
 			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetUniqueId(), lastGames);
-		//}
+		}
 		++i;
 	}
 }
