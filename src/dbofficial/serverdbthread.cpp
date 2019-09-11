@@ -242,10 +242,10 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 	string lastIp = "127.0.0.1";
 	list<string> params;
 	ostringstream paramStream;
-	paramStream << playerId;
-	params.push_back(paramStream.str());
 	params.push_back(lastGamesFieldValue);
 	params.push_back(lastIp);
+	paramStream << playerId;
+	params.push_back(paramStream.str());
 	boost::shared_ptr<AsyncDBQuery> asyncQuery(
 		// @FIXME: why does AsyncDBPlayerLastGames not work?
 		new AsyncDBPlayerLastGames(
