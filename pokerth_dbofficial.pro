@@ -61,6 +61,7 @@ SOURCES += src/dbofficial/asyncdbauth.cpp \
 	src/dbofficial/asyncdbavatarblacklist.cpp \
 	src/dbofficial/asyncdbadminplayers.cpp \
 	src/dbofficial/asyncdbblockplayer.cpp \
+	src/dbofficial/asyncdbplayerlastgames.cpp \
 	src/dbofficial/dbidmanager.cpp
 win32 { 
     DEFINES += _WIN32_WINNT=0x0501
