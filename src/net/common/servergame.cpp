@@ -455,25 +455,33 @@ ServerGame::StoreLastGames()
 {
 	// Store players lastgames in database.
 
-	RankingMap::const_iterator i = m_rankingMap.begin();
-	RankingMap::const_iterator end = m_rankingMap.end();
-	//boost::shared_ptr<SessionData> tmpSession;
+	// RankingMap::const_iterator i = m_rankingMap.begin();
+	// RankingMap::const_iterator end = m_rankingMap.end();
+	// boost::shared_ptr<SessionData> tmpSession;
+	// while (i != end) {
+	// 	LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
+	// 	tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
+	// 	if(tmpSession){
+	// 		tmpSession->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
+	// 		LOG_ERROR("TimeStamp stored: " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
+	// 		std::vector<long> lastGames = tmpSession->GetPlayerData()->GetPlayerLastGames();
+	// 		LOG_ERROR("Ready for storing vector: " << lastGames.back());
+	// 	}else{
+	// 		LOG_ERROR("no tmpSession for userId " << (*i).second.dbid);
+	// 	}
+	// 	++i;
+	// }
+	PlayerDataList::const_iterator i = playerDataList.begin();
+	PlayerDataList::const_iterator end = playerDataList.end();
 	while (i != end) {
-		LOG_ERROR("iterating m_rankingMap ... userId " << (*i).second.dbid);
-		//tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
-		//if(tmpSession){
-		if(GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)){
-			GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
-			LOG_ERROR("TimeStamp stored: " << GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->GetPlayerData()->GetPlayerLastGames().back());
-			std::vector<long> lastGames = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->GetPlayerData()->GetPlayerLastGames();
-			LOG_ERROR("Ready for storing vector: " << lastGames.back());
-		}else{
-			LOG_ERROR("no tmpSession for userId " << (*i).second.dbid);
-		}
+		boost::shared_ptr<PlayerData> tmpPlayer(*i);
+		// tmpPlayer->GetUniqueId()
+		tmpPlayer->AddPlayerLastGame((long)time(NULL));
+		LOG_ERROR("TimeStamp stored: " << tmpPlayer->GetPlayerLastGames().back());
+		std::vector<long> lastGames = tmpPlayer->GetPlayerLastGames();
+		LOG_ERROR("Ready for storing vector for player " << tmpPlayer->GetUniqueId() << " - lastGameTs " << lastGames.back());
 		++i;
 	}
-	GetDatabase().EndGame(GetId());
-	m_rankingMap.clear();
 }
 
 void
