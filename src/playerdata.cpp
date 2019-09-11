@@ -269,7 +269,7 @@ PlayerData::GetPlayerLastGames()
 }
 
 bool
-PlayerData::IsPlayerAllowedToJoinLimitRank()
+PlayerData::IsPlayerAllowedToJoinCreateLimitRank()
 {
 	bool retVal = false;
 

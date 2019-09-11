@@ -240,7 +240,7 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 	LOG_ERROR("ServerDBThread::SetPlayerLastGames() entered.");
 
 	std::ostringstream oss;
-    std::copy(lastGames.begin(), lastGames.end(), std::ostream_iterator<int>(oss, ";"));
+    std::copy(lastGames.begin(), lastGames.end(), std::ostream_iterator<int>(oss, ","));
     std::string lastGamesFieldValue( oss.str() );
 	list<string> params;
 	ostringstream paramStream;
