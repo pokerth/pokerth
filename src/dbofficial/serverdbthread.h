@@ -42,7 +42,6 @@
 #include <dbofficial/dbidmanager.h>
 #include <core/thread.h>
 
-//#include <vector>
 
 struct DBConnectionData;
 class AsyncDBQuery;

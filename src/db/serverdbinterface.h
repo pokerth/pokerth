@@ -36,6 +36,7 @@
 #include <db/serverdbcallback.h>
 #include <string>
 #include <list>
+#include <vector>
 
 typedef std::list<DB_id> db_list;
 
