@@ -828,7 +828,6 @@ ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boos
 void
 ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 {
-	LOG_ERROR("DoStart() entered.");
 	PlayerDataList tmpPlayerList(server->InternalStartGame());
 	if (tmpPlayerList.size() <= 1) {
 		if (!tmpPlayerList.empty()) {
