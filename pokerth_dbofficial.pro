@@ -42,6 +42,7 @@ HEADERS += src/dbofficial/asyncdbauth.h \
 	src/dbofficial/asyncdbavatarblacklist.h \
 	src/dbofficial/asyncdbadminplayers.h \
 	src/dbofficial/asyncdbblockplayer.h \
+	src/dbofficial/asyncdbplayerlastgames.h \
 	src/dbofficial/dbidmanager.h
 SOURCES += src/dbofficial/asyncdbauth.cpp \
 	src/dbofficial/asyncdbcreategame.cpp \
