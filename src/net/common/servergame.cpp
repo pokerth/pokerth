@@ -300,7 +300,7 @@ ServerGame::InternalStartGame()
 	if (playerData.size() >= 2) {
 		// Set DB Backend.
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
-		//if (true)
+		if (true)
 			m_database = GetLobbyThread().GetDatabase();
 		else
 			m_database.reset(new ServerDBNoAction);
@@ -354,6 +354,7 @@ ServerGame::InternalStartGame()
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
 		if(true)
 			StoreLastGames(playerData);
+		
 	}
 	return playerData;
 }
