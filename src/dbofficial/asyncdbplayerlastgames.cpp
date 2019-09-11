@@ -30,7 +30,7 @@
  *****************************************************************************/
 
 #include <boost/bind.hpp>
-#include <dbofficial/asyncdbblockplayer.h>
+#include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/dbidmanager.h>
 
 
