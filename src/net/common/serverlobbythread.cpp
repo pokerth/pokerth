@@ -1382,7 +1382,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank()
 			// @TODO: uncomment in productive
 			/*&& tmpData.gameType != GAME_TYPE_RANKING*/ ) {
-		LOG_ERROR('not allowed due to ranklimit')
+		LOG_ERROR('not allowed due to ranklimit'):
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 	} else {
 		boost::shared_ptr<ServerGame> game(
