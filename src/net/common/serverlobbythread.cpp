@@ -305,6 +305,7 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<SessionData> sessionData)
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
+	LOG_ERROR("Accepted connection - session #" << sessionData->GetId() << ".");
 
 	sessionData->StartTimerInitTimeout(SERVER_INIT_SESSION_TIMEOUT_SEC);
 	sessionData->StartTimerGlobalTimeout(SERVER_SESSION_FORCED_TIMEOUT_SEC);
