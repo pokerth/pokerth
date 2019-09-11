@@ -248,8 +248,8 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 	params.push_back(lastGamesFieldValue);
 	params.push_back(lastIp);
 	boost::shared_ptr<AsyncDBQuery> asyncQuery(
-		//new AsyncDBPlayerLastGames(
-		new AsyncDBGamePlace(
+		// @FIXME: why does AsyncDBPlayerLastGames not work?
+		new SingleAsyncDBQuery(
 			requestId,
 			QUERY_PLAYER_LASTGAMES_PREPARE,
 			params));
