@@ -29,7 +29,6 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
-#include <boost/bind.hpp>
 #include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/dbidmanager.h>
 
@@ -37,8 +36,8 @@
 using namespace std;
 
 
-AsyncDBPlayerLastGames::AsyncDBPlayerLastGames(unsigned queryId, unsigned replyId, const string &preparedName, const list<string> &params)
-	: SingleAsyncDBQuery(queryId, preparedName, params), m_replyId(replyId)
+AsyncDBPlayerLastGames::AsyncDBPlayerLastGames(unsigned queryId, const string &preparedName, const list<string> &params)
+	: SingleAsyncDBQuery(queryId, preparedName, params)
 {
 }
 
@@ -61,11 +60,9 @@ AsyncDBPlayerLastGames::HandleResult(mysqlpp::Query &/*query*/, DBIdManager &/*i
 void
 AsyncDBPlayerLastGames::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager &/*idManager*/, boost::asio::io_service &service, ServerDBCallback &cb)
 {
-	//service.post(boost::bind(&ServerDBCallback::BlockPlayerSuccess, &cb, GetId(), m_replyId));
 }
 
 void
 AsyncDBPlayerLastGames::HandleError(boost::asio::io_service &service, ServerDBCallback &cb)
 {
-	//service.post(boost::bind(&ServerDBCallback::BlockPlayerFailed, &cb, GetId(), m_replyId));
 }

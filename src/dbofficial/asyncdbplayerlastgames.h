@@ -52,9 +52,6 @@ public:
 	{
 		return false;
 	}
-
-private:
-	unsigned m_replyId;
 };
 
 #endif
