@@ -231,6 +231,32 @@ ServerDBThread::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned 
 }
 
 void
+ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector lastGames)
+{
+	// The game id param is added later (during init of the async op), because it may be unknown.
+	string lastGamesFieldValue = "1,2,3";
+	list<string> params;
+	ostringstream paramStream;
+	paramStream << playerId;
+	params.push_back(paramStream.str());
+	paramStream.str("");
+	paramStream << lastGamesFieldValue;
+	params.push_back(paramStream.str());
+	// boost::shared_ptr<AsyncDBQuery> asyncQuery(
+	// 	new AsyncDBGamePlace(
+	// 		requestId,
+	// 		QUERY_PLAYER_LASTGAMES_PREPARE,
+	// 		params));
+
+	// {
+	// 	boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+	// 	m_asyncQueue.push(asyncQuery);
+	// }
+	LOG_ERROR("reached ServerDBThread::SetPlayerLastGames() post query ");
+	m_semaphore.post();
+}
+
+void
 ServerDBThread::EndGame(unsigned requestId)
 {
 	// Set the end time of the game.

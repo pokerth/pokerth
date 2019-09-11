@@ -57,6 +57,7 @@ public:
 
 	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName);
 	virtual void SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned place);
+	virtual void SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector lastGames);
 	virtual void EndGame(unsigned requestId);
 
 	virtual void AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id reportedPlayerId, const std::string &avatarHash, const std::string &avatarType, DB_id *byPlayerId);
