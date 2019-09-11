@@ -352,7 +352,7 @@ ServerGame::InternalStartGame()
 
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
 		if(true)
-			StoreLastGames();
+			StoreLastGames(playerData);
 	}
 	LOG_VERBOSE("before return.");
 	return playerData;
@@ -451,7 +451,7 @@ ServerGame::StoreAndResetRanking()
 }
 
 void
-ServerGame::StoreLastGames()
+ServerGame::StoreLastGames(const PlayerDataList &playerDataList)
 {
 	// Store players lastgames in database.
 
