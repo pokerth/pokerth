@@ -1434,7 +1434,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
 			} else if (!game->CheckPassword(password)) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
-			} else if (tmpData.gameType == GAME_TYPE_RANKING && !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank()) {
+			} else if (/*tmpData.gameType == GAME_TYPE_RANKING &&*/ !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank()) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
 			// } else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
 			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
