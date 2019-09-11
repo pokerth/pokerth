@@ -463,7 +463,7 @@ ServerGame::StoreLastGames()
 		//tmpSession = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid);
 		//if(tmpSession){
 		if(GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)){
-			GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->tmpSession->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
+			GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->GetPlayerData()->AddPlayerLastGame((long)time(NULL));
 			LOG_ERROR("TimeStamp stored: " << GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->GetPlayerData()->GetPlayerLastGames().back());
 			std::vector<long> lastGames = GetSessionManager().GetSessionByUniquePlayerId((*i).second.dbid)->GetPlayerData()->GetPlayerLastGames();
 			LOG_ERROR("Ready for storing vector: " << lastGames.back());
