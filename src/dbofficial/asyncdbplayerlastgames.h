@@ -44,8 +44,8 @@ public:
 
 	virtual void Init(DBIdManager& /*idManager*/) {}
 
-	virtual void HandleResult(mysqlpp::Query &query, DBIdManager& /*idManager*/, mysqlpp::StoreQueryResult& result, boost::asio::io_service &service, ServerDBCallback &cb);
-	virtual void HandleNoResult(mysqlpp::Query &query, DBIdManager& /*idManager*/, boost::asio::io_service &service, ServerDBCallback &cb);
+	virtual void HandleResult(mysqlpp::Query &query, DBIdManager& idManager, mysqlpp::StoreQueryResult& result, boost::asio::io_service &service, ServerDBCallback &cb);
+	virtual void HandleNoResult(mysqlpp::Query &query, DBIdManager& idManager, boost::asio::io_service &service, ServerDBCallback &cb);
 	virtual void HandleError(boost::asio::io_service &service, ServerDBCallback &cb);
 
 	virtual bool RequiresResultSet() const

@@ -30,7 +30,6 @@
  *****************************************************************************/
 
 #include <dbofficial/asyncdbplayerlastgames.h>
-#include <dbofficial/dbidmanager.h>
 
 
 using namespace std;
@@ -53,7 +52,7 @@ AsyncDBPlayerLastGames::HandleResult(mysqlpp::Query &/*query*/, DBIdManager &/*i
 }
 
 void
-AsyncDBPlayerLastGames::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager &/*idManager*/, boost::asio::io_service &service, ServerDBCallback &cb)
+AsyncDBPlayerLastGames::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/, boost::asio::io_service &/*service*/, ServerDBCallback &/*cb*/)
 {
 }
 
