@@ -349,7 +349,7 @@ ServerGame::InternalStartGame()
 		GetDatabase().AsyncCreateGame(GetId(), GetName());
 		InitRankingMap(playerData);
 
-		// @TODO: here to save lastGames with mysql per player
+		// @TODO: here to save last_games with mysql per player
 
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
 		if(true)
@@ -462,10 +462,10 @@ ServerGame::StoreLastGames(const PlayerDataList &playerDataList)
 		// tmpPlayer->GetUniqueId()
 		tmpPlayer->AddPlayerLastGame((long)time(NULL));
 		LOG_ERROR("TimeStamp stored: " << tmpPlayer->GetPlayerLastGames().back());
-		std::vector<long> lastGames = tmpPlayer->GetPlayerLastGames();
-		LOG_ERROR("Ready for storing vector for player " << tmpPlayer->GetDBId() << " - lastGameTs " << lastGames.back());
+		std::vector<long> last_games = tmpPlayer->GetPlayerLastGames();
+		LOG_ERROR("Ready for storing vector for player " << tmpPlayer->GetDBId() << " - lastGameTs " << last_games.back());
 		if(tmpPlayer->GetDBId() != DB_ID_INVALID){
-			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetDBId(), lastGames, GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId())->GetClientAddr());
+			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetDBId(), last_games, GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId())->GetClientAddr());
 		}
 		++i;
 	}

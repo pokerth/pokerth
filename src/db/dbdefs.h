@@ -46,8 +46,8 @@ struct DBPlayerData {
 	std::string secret;
 	std::string country;
 	std::string last_login;
-	std::string lastGames;
-	std::string lastIp;
+	std::string last_games;
+	std::string last_ip;
 };
 
 #endif

@@ -1811,16 +1811,16 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 	if (tmpSession && tmpSession->GetPlayerData()) {
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
-LOG_ERROR("lastGames from db = " << dbPlayerData.lastGames);
-// 		std::vector<long> lastGames;
-// 		std::stringstream ss(dbPlayerData.lastGames);
+LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
+// 		std::vector<long> last_games;
+// 		std::stringstream ss(dbPlayerData.last_games);
 // 		for (int i; ss >> i;) {
-// 			lastGames.push_back(i);    
+// 			last_games.push_back(i);    
 // 			if (ss.peek() == ',')
 // 				ss.ignore();
 // 		}
-// 		tmpSession->GetPlayerData()->SetPlayerLastGames(lastGames);
-// LOG_ERROR("lastGames first from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().front());
+// 		tmpSession->GetPlayerData()->SetPlayerLastGames(last_games);
+// LOG_ERROR("last_games first from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().front());
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
 }

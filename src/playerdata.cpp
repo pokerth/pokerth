@@ -247,10 +247,10 @@ PlayerData::operator<(const PlayerData &other) const
 }
 
 void
-PlayerData::SetPlayerLastGames(std::vector<long> lastGames)
+PlayerData::SetPlayerLastGames(std::vector<long> last_games)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_lastGames = lastGames;
+	m_last_games = last_games;
 }
 
 void
@@ -258,14 +258,14 @@ PlayerData::AddPlayerLastGame(long lastGame)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
-	m_lastGames.push_back(lastGame);
+	m_last_games.push_back(lastGame);
 }
 
 std::vector<long>
 PlayerData::GetPlayerLastGames()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	return m_lastGames;
+	return m_last_games;
 }
 
 bool
@@ -282,11 +282,11 @@ PlayerData::IsPlayerAllowedToJoinCreateLimitRank()
 
 	int count = 0;
 
-	for(std::vector<long>::iterator timeStamp = m_lastGames.begin(); timeStamp != m_lastGames.end(); ++timeStamp) {
+	for(std::vector<long>::iterator timeStamp = m_last_games.begin(); timeStamp != m_last_games.end(); ++timeStamp) {
 		if(*timeStamp > then)
 			count++;
 		else
-			m_lastGames.erase(timeStamp); // erase overdued entries
+			m_last_games.erase(timeStamp); // erase overdued entries
 	}
 
 	if(count < SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES)

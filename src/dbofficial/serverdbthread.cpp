@@ -235,16 +235,16 @@ ServerDBThread::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned 
 }
 
 void
-ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> lastGames, std::string playerIp)
+ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> last_games, std::string playerIp)
 {
 	LOG_ERROR("ServerDBThread::SetPlayerLastGames() entered.");
 
 	std::ostringstream oss;
-    std::copy(lastGames.begin(), lastGames.end(), std::ostream_iterator<int>(oss, ","));
-    std::string lastGamesFieldValue( oss.str() );
+    std::copy(last_games.begin(), last_games.end(), std::ostream_iterator<int>(oss, ","));
+    std::string last_gamesFieldValue( oss.str() );
 	list<string> params;
 	ostringstream paramStream;
-	params.push_back(lastGamesFieldValue);
+	params.push_back(last_gamesFieldValue);
 	params.push_back(playerIp);
 	paramStream << playerId;
 	params.push_back(paramStream.str());
@@ -463,7 +463,7 @@ ServerDBThread::EstablishDBConnection()
 		*/
 		prepareNick
 				<< "PREPARE " QUERY_NICK_PREPARE " FROM " << mysqlpp::quote
-				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN  ", " DB_TABLE_PLAYER_COL_LASTGAMES ", " DB_TABLE_PLAYER_COL_LASTIP " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
+				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN ", " DB_TABLE_PLAYER_COL_LASTGAMES ", " DB_TABLE_PLAYER_COL_LASTIP " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
 
 		mysqlpp::Query prepareAvatarBlacklist = m_connData->conn.query();
 		prepareAvatarBlacklist
