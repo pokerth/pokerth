@@ -67,6 +67,8 @@ AsyncDBAuth::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/,
 			if (!country.is_null())
 				country.to_string(tmpData->country);
 			last_login.to_string(tmpData->last_login);
+			lastGames.to_string(tmpData->lastGames);
+			lastIp.to_string(tmpData->lastIp);
 
 			service.post(boost::bind(&ServerDBCallback::PlayerLoginSuccess, &cb, GetId(), tmpData));
 		}
