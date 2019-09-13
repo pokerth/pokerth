@@ -1814,9 +1814,9 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 		std::vector<long> last_games;
 		std::stringstream ss(dbPlayerData.last_games);
-		for (long i; ss >> i;) {
-			if(i > 0)
-				last_games.push_back(i);    
+		for (string i; ss >> i;) {
+			if(i.length() > 0)
+				last_games.push_back((long)i);    
 			if (ss.peek() == ',')
 				ss.ignore();
 		}
