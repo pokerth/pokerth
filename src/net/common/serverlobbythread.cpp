@@ -1815,12 +1815,13 @@ LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 		std::vector<long> last_games;
 		std::stringstream ss(dbPlayerData.last_games);
 		for (string i; ss >> i;) {
-			last_games.push_back(stol(ss));    
+			if(i.length() > 0)
+				last_games.push_back(stod(i));    
 			if (ss.peek() == ',')
 				ss.ignore();
 		}
-//		tmpSession->GetPlayerData()->SetPlayerLastGames(last_games);
-LOG_ERROR("last_games first from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
+		tmpSession->GetPlayerData()->SetPlayerLastGames(last_games);
+//LOG_ERROR("last_games first from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
 }
