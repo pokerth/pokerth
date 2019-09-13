@@ -463,7 +463,7 @@ ServerDBThread::EstablishDBConnection()
 		*/
 		prepareNick
 				<< "PREPARE " QUERY_NICK_PREPARE " FROM " << mysqlpp::quote
-				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
+				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN  ", " DB_TABLE_PLAYER_COL_LASTGAMES ", " DB_TABLE_PLAYER_COL_LASTIP " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
 
 		mysqlpp::Query prepareAvatarBlacklist = m_connData->conn.query();
 		prepareAvatarBlacklist
@@ -473,7 +473,7 @@ ServerDBThread::EstablishDBConnection()
 		mysqlpp::Query prepareLogin = m_connData->conn.query();
 		prepareLogin
 				<< "PREPARE " QUERY_LOGIN_PREPARE " FROM " << mysqlpp::quote
-				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTLOGIN " = ?, " DB_TABLE_PLAYER_COL_AVATARHASH " = ?, " DB_TABLE_PLAYER_COL_AVATARTYPE ", " DB_TABLE_PLAYER_COL_LASTGAMES ", " DB_TABLE_PLAYER_COL_LASTIP " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
+				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTLOGIN " = ?, " DB_TABLE_PLAYER_COL_AVATARHASH " = ?, " DB_TABLE_PLAYER_COL_AVATARTYPE " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
 		mysqlpp::Query prepareCreateGame = m_connData->conn.query();
 		prepareCreateGame
 				<< "PREPARE " QUERY_CREATE_GAME_PREPARE " FROM " << mysqlpp::quote
