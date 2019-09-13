@@ -1816,7 +1816,7 @@ LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 		std::stringstream ss(dbPlayerData.last_games);
 		for (string i; ss >> i;) {
 			if(i.length() > 0)
-				last_games.push_back(atol(i));    
+				last_games.push_back(stol(i));    
 			if (ss.peek() == ',')
 				ss.ignore();
 		}
