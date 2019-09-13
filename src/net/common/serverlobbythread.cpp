@@ -1812,7 +1812,7 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
 LOG_ERROR("lastGames from db = " << dbPlayerData.lastGames);
-		std::vector<int> lastGames;
+		std::vector<long> lastGames;
 		std::stringstream ss(dbPlayerData.lastGames);
 		for (int i; ss >> i;) {
 			lastGames.push_back(i);    
