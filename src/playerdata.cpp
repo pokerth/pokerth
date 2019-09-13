@@ -250,7 +250,8 @@ void
 PlayerData::SetPlayerLastGames(std::vector<long> last_games)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_last_games = last_games;
+	m_last_games.clear();
+	//m_last_games = last_games;
 }
 
 void
