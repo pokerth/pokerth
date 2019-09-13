@@ -1820,7 +1820,7 @@ LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 		// 		ss.ignore();
 		// }
 		//tmpSession->GetPlayerData()->SetPlayerLastGames(last_games);
-LOG_ERROR("last_games first from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().front());
+//LOG_ERROR("last_games first from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().front());
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
 }
