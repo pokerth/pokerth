@@ -283,12 +283,13 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 	long then = (long)time(NULL) - (long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
 
 	int count = 0;
-
+	int i=0;
 	for(std::vector<long>::iterator timeStamp = m_last_games.begin(); timeStamp != m_last_games.end(); ++timeStamp) {
 		if(*timeStamp > then)
 			count++;
-		//else
-			//m_last_games.erase(timeStamp); // erase overdued entries
+		else
+			m_last_games.erase(m_last_games.begin() + i); // erase overdued entries
+		i++;
 	}
 
 	if(count < SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES)
