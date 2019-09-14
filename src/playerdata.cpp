@@ -287,7 +287,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 	for(std::vector<long>::iterator timeStamp = m_last_games.begin(); timeStamp != m_last_games.end(); ++timeStamp) {
 		if(*timeStamp > then)
 			count++;
-		else
+		//else
 			//m_last_games.erase(timeStamp); // erase overdued entries
 	}
 
