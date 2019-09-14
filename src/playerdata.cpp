@@ -30,6 +30,7 @@
  *****************************************************************************/
 #include <playerdata.h>
 #include <ctime>
+#include <core/loghelper.h> // @TODO: remove in productive
 
 #define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
 #define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
