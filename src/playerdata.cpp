@@ -273,7 +273,7 @@ bool
 PlayerData::IsPlayerAllowedToJoinCreateLimitRank()
 {
 	bool retVal = false;
-
+LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 // #define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
 // #define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
 	

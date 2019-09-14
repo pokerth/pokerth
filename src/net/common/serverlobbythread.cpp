@@ -1349,7 +1349,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> 
 void
 ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const JoinNewGameMessage &newGame)
 {
-	LOG_VERBOSE("Creating new game, initiated by session #" << session->GetId() << ".");
+	LOG_ERROR("Creating new game, initiated by session #" << session->GetId() << ".");
 
 	string password;
 	if (newGame.has_password())
