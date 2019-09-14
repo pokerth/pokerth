@@ -288,7 +288,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 		if(*timeStamp > then)
 			count++;
 		else
-			m_last_games.erase(timeStamp); // erase overdued entries
+			//m_last_games.erase(timeStamp); // erase overdued entries
 	}
 
 	if(count < SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES)
