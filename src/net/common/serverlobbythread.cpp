@@ -1812,12 +1812,10 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 	if (tmpSession && tmpSession->GetPlayerData()) {
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
-
 		if(dbPlayerData.last_games.length() > 0){
 			LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 			vector<string> last_games; 
 			boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
-	
 			for (int i = 0; i < last_games.size(); i++){
 				if(last_games[i].length() > 0)
 					tmpSession->GetPlayerData()->AddPlayerLastGame(stol(last_games[i]));
@@ -1826,7 +1824,6 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		}else{
 			LOG_ERROR("no lastGames from db");
 		}
-
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
 }

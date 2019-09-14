@@ -299,6 +299,7 @@ ServerGame::InternalStartGame()
 
 	if (playerData.size() >= 2) {
 		// Set DB Backend.
+		// @TODO: check for wec or bbc game with bbcbot as creator
 		//if (GetGameData().gameType == GAME_TYPE_RANKING)
 		if (true)
 			m_database = GetLobbyThread().GetDatabase();

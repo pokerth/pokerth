@@ -291,7 +291,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 			count++;
 		}else{
 			LOG_ERROR("erasing overdued timestamp " << *timeStamp);
-			timeStamp = m_last_games.erase(m_last_games.begin() + i); // erase overdued entries
+			timeStamp = m_last_games.erase(i); // erase overdued entries
 		}
 		i++;
 	}
