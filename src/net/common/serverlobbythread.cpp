@@ -1813,7 +1813,7 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
 
-		if(dbPlayerData.last_games.length > 0){
+		if(dbPlayerData.last_games.length() > 0){
 			LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 			vector<string> last_games; 
 			boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
