@@ -1425,6 +1425,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				MoveSessionToGame(game, session, joinGame.autoleave(), true);
 			}
 		} else {
+			LOG_ERROR("JoinGame pre validation");
 			// As guest, you are only allowed to join normal games.
 			if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
 					&& tmpData.gameType != GAME_TYPE_NORMAL) {
