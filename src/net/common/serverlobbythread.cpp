@@ -1813,16 +1813,26 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
 LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
-		//std::vector<long> last_games;
-		std::stringstream ss(dbPlayerData.last_games);
-		for (string i; ss >> i;) {
-			if(i.length() > 0){
-				LOG_ERROR("adding lastGame " << i);
-				tmpSession->GetPlayerData()->AddPlayerLastGame(stol(i));  
-			}  
-			if (ss.peek() == ',')
-				ss.ignore();
-		}
+
+		vector<string> last_games; 
+    	boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
+  
+    	for (int i = 0; i < result.size(); i++){
+			if(result[i].length() > 0)
+				tmpSession->GetPlayerData()->AddPlayerLastGame(stol(result[i]));
+		} 
+        	 
+
+
+		// std::stringstream ss(dbPlayerData.last_games);
+		// for (string i; ss >> i;) {
+		// 	if(i.length() > 0){
+		// 		LOG_ERROR("adding lastGame " << i);
+		// 		tmpSession->GetPlayerData()->AddPlayerLastGame(stol(i));  
+		// 	}  
+		// 	if (ss.peek() == ',')
+		// 		ss.ignore();
+		// }
 		//tmpSession->GetPlayerData()->SetPlayerLastGames(last_games);
 LOG_ERROR("last_games last from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
