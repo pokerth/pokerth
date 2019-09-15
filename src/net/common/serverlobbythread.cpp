@@ -1816,7 +1816,7 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 			LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 			vector<string> last_games; 
 			boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
-			for (int i = 0; i < last_games.size(); i++){
+			for (unsigned int i = 0; i < last_games.size(); i++){
 				if(last_games[i].length() > 0)
 					tmpSession->GetPlayerData()->AddPlayerLastGame(stol(last_games[i]));
 			} 
