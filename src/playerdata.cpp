@@ -282,7 +282,8 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 	for(std::vector<long>::iterator timeStamp = m_last_games.begin(); timeStamp != m_last_games.end(); ++timeStamp) {
 		LOG_ERROR("timeStamp " << *timeStamp);
 		time_t ts = (time_t)*timeStamp;
-		if(ts > then){
+		LOG_ERROR("comparing ts  " <<  (long)ts << " with " << then);
+		if((long)ts > then){
 			LOG_ERROR("counting timeStamp in time  " <<  ctime(&ts));
 			count++;
 		}else{
