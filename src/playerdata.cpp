@@ -32,9 +32,6 @@
 #include <ctime>
 #include <core/loghelper.h> // @TODO: remove in productive
 
-#define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
-#define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
-
 using namespace std;
 
 PlayerData::PlayerData(unsigned uniqueId, int number, PlayerType type, PlayerRights rights, bool isGameAdmin)
@@ -275,9 +272,7 @@ PlayerData::IsPlayerAllowedToJoinCreateLimitRank(string num, string period)
 {
 	bool retVal = false;
 LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
-// #define SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES 	5
-// #define SERVER_ALLOWED_RANKING_GAMES_MINUTES 		60
-	
+
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
 	long then = (long)time(NULL) - (long)(stoi(period) * 10);
