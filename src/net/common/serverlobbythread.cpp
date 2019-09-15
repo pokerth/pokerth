@@ -1379,11 +1379,11 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 	} else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode())) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
-	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), ), m_serverConfig.readConfigString("ServerLimitRankPeriod")))
+	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod")))
 			// @TODO: uncomment in productive
 			/*&& tmpData.gameType != GAME_TYPE_RANKING*/ ) {
 		LOG_ERROR("not allowed due to ranklimit");
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
+		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_INVALID);
 	} else {
 		boost::shared_ptr<ServerGame> game(
 			new ServerGame(
@@ -1435,8 +1435,8 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
 			} else if (!game->CheckPassword(password)) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
-			} else if (/*tmpData.gameType == GAME_TYPE_RANKING &&*/ !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), ), m_serverConfig.readConfigString("ServerLimitRankPeriod")))) {
-				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GUEST_FORBIDDEN);
+			} else if (/*tmpData.gameType == GAME_TYPE_RANKING &&*/ !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
 			// } else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
 			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
