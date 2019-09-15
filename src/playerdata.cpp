@@ -271,7 +271,7 @@ PlayerData::GetPlayerLastGames()
 }
 
 bool
-PlayerData::IsPlayerAllowedToJoinCreateLimitRank()
+PlayerData::IsPlayerAllowedToJoinCreateLimitRank(int num, int period)
 {
 	bool retVal = false;
 LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
@@ -280,7 +280,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 	
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
-	long then = (long)time(NULL) - (long)(SERVER_ALLOWED_RANKING_GAMES_MINUTES * 10);
+	long then = (long)time(NULL) - (long)(period * 10);
 
 	int count = 0;
 	int i=0;
@@ -298,7 +298,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 		i++;
 	}
 
-	if(count < SERVER_ALLOWED_RANKING_GAMES_PER_MINUTES)
+	if(count < num)
 		retVal = true;
 
 	return retVal;

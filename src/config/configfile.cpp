@@ -312,6 +312,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("DBServerEncryptionKey", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("GameNameBadWordList", CONFIG_TYPE_STRING_LIST, "Regex"));
 	configList.push_back(ConfigInfo("ServerRestrictGuestLogin", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ServerLimitRankNum", CONFIG_TYPE_INT, "4"));
+	configList.push_back(ConfigInfo("ServerLimitRankPeriod", CONFIG_TYPE_INT, "60"));
 
 	//fill tempList firstTime
 	configBufferList = configList;
