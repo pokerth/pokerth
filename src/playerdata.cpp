@@ -285,7 +285,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 			LOG_ERROR("counting timeStamp in time  " <<  ctime(*timeStamp));
 			count++;
 		}else{
-			LOG_ERROR("erasing overdued timestamp " << ctime(*timeStamp)));
+			LOG_ERROR("erasing overdued timestamp " << ctime(*timeStamp));
 			timeStamp = m_last_games.erase(timeStamp); // erase overdued entries
 			if( timeStamp == m_last_games.end())
 				break;
