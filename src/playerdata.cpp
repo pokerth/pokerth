@@ -268,11 +268,11 @@ PlayerData::GetPlayerLastGames()
 }
 
 bool
-PlayerData::IsPlayerAllowedToJoinCreateLimitRank(string num, string period)
+PlayerData::IsPlayerAllowedToJoinCreateLimitRank(std::string num, std::string period)
 {
 	bool retVal = false;
 LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
-
+LOG_ERROR("num = " <<  num << " period " << period);
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
 	long then = (long)time(NULL) - (long)(stoi(period) * 10);
