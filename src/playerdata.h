@@ -120,7 +120,7 @@ public:
 	void AddPlayerLastGame(long last_games);
 	void SetPlayerLastGames(std::vector<long> last_games);
 	std::vector<long> GetPlayerLastGames();
-	bool IsPlayerAllowedToJoinCreateLimitRank();
+	bool IsPlayerAllowedToJoinCreateLimitRank(int num, int period);
 
 	bool operator<(const PlayerData &other) const;
 
