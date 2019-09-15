@@ -275,7 +275,7 @@ LOG_ERROR("checking IsPlayerAllowedToJoinCreateLimitRank() ");
 LOG_ERROR("num = " <<  num << " period " << period);
 	boost::mutex::scoped_lock lock(m_dataMutex);
 
-	long then = (long)time(NULL) - (long)(stoi(period) * 10);
+	long then = (long)time(NULL) - (long)(stoi(period) * 60);
 
 	int count = 0;
 	int i=0;
