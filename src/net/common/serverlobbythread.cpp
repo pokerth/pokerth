@@ -1383,7 +1383,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 			// @TODO: uncomment in productive
 			/*&& tmpData.gameType != GAME_TYPE_RANKING*/ ) {
 		LOG_ERROR("not allowed due to ranklimit");
-		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_NAME_IN_USE);
+		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
 	} else {
 		boost::shared_ptr<ServerGame> game(
 			new ServerGame(
@@ -1436,7 +1436,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 			} else if (!game->CheckPassword(password)) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
 			} else if (/*tmpData.gameType == GAME_TYPE_RANKING &&*/ !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))) {
-				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_GAME_NAME_IN_USE);
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			// } else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
 			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
