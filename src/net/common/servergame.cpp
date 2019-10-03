@@ -300,8 +300,7 @@ ServerGame::InternalStartGame()
 	if (playerData.size() >= 2) {
 		// Set DB Backend.
 		// @TODO: check for wec or bbc game with bbcbot as creator
-		//if (GetGameData().gameType == GAME_TYPE_RANKING)
-		if (true)
+		if (GetGameData().gameType == GAME_TYPE_RANKING)
 			m_database = GetLobbyThread().GetDatabase();
 		else
 			m_database.reset(new ServerDBNoAction);
@@ -352,8 +351,7 @@ ServerGame::InternalStartGame()
 
 		// @TODO: here to save last_games with mysql per player
 
-		//if (GetGameData().gameType == GAME_TYPE_RANKING)
-		if(true)
+		if (GetGameData().gameType == GAME_TYPE_RANKING)
 			StoreLastGames(playerData);
 		
 	}

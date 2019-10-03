@@ -1380,8 +1380,7 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	} else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode())) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
 	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))
-			// @TODO: uncomment in productive
-			/*&& tmpData.gameType != GAME_TYPE_RANKING*/ ) {
+			&& tmpData.gameType != GAME_TYPE_RANKING*/ ) {
 		LOG_ERROR("not allowed due to ranklimit");
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
 	} else {
@@ -1435,15 +1434,15 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
 			} else if (!game->CheckPassword(password)) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
-			} else if (/*tmpData.gameType == GAME_TYPE_RANKING &&*/ !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))) {
+			} else if (tmpData.gameType == GAME_TYPE_RANKING && !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
-			// } else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
-			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
-			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
-			// 	   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-			// 	   && game->IsClientAddressConnected(session->GetClientAddr())) {
-			// ){
-			// 	SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
+			} else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
+				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
+				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
+				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
+				   && game->IsClientAddressConnected(session->GetClientAddr())) {
+			){
+			SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
