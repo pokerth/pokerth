@@ -1,6 +1,6 @@
 /*****************************************************************************
  * PokerTH - The open source texas holdem engine                             *
- * Copyright (C) 2006-2012 Felix Hammer, Florian Thauer, Lothar May          *
+ * Copyright (C) 2006-2016 Felix Hammer, Florian Thauer, Lothar May          *
  *                                                                           *
  * This program is free software: you can redistribute it and/or modify      *
  * it under the terms of the GNU Affero General Public License as            *
@@ -28,44 +28,30 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* Server database interface. */
+/* Async database update to block a player. */
 
-#ifndef _SERVERDBINTERFACE_H_
-#define _SERVERDBINTERFACE_H_
+#ifndef _ASYNCDBPLAYERLASTGAMES_H_
+#define _ASYNCDBPLAYERLASTGAMES_H_
 
-#include <db/serverdbcallback.h>
-#include <string>
-#include <list>
-#include <vector>
+#include <dbofficial/singleasyncdbquery.h>
 
-typedef std::list<DB_id> db_list;
 
-class ServerDBInterface
+class AsyncDBPlayerLastGames : public SingleAsyncDBQuery
 {
 public:
-	virtual ~ServerDBInterface();
+	AsyncDBPlayerLastGames(unsigned queryId, const std::string &preparedName, const std::list<std::string> &params);
+	virtual ~AsyncDBPlayerLastGames();
 
-	virtual void Init(const std::string &host, const std::string &user, const std::string &pwd,
-					  const std::string &database, const std::string &encryptionKey) = 0;
+	virtual void Init(DBIdManager& /*idManager*/) {}
 
-	virtual void Start() = 0;
-	virtual void Stop() = 0;
+	virtual void HandleResult(mysqlpp::Query &query, DBIdManager& idManager, mysqlpp::StoreQueryResult& result, boost::asio::io_service &service, ServerDBCallback &cb);
+	virtual void HandleNoResult(mysqlpp::Query &query, DBIdManager& idManager, boost::asio::io_service &service, ServerDBCallback &cb);
+	virtual void HandleError(boost::asio::io_service &service, ServerDBCallback &cb);
 
-	virtual void AsyncPlayerLogin(unsigned requestId, const std::string &playerName) = 0;
-	virtual void AsyncCheckAvatarBlacklist(unsigned requestId, const std::string &avatarHash) = 0;
-	virtual void PlayerPostLogin(DB_id playerId, const std::string &avatarHash, const std::string &avatarType) = 0;
-	virtual void PlayerLogout(DB_id playerId) = 0;
-
-	virtual void AsyncCreateGame(unsigned requestId, const std::string &gameName) = 0;
-	virtual void SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned place) = 0;
-	virtual void SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> last_games, std::string playerIp) = 0;
-	virtual void EndGame(unsigned requestId) = 0;
-
-	virtual void AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id reportedPlayerId, const std::string &avatarHash, const std::string &avatarType, DB_id *byPlayerId) = 0;
-	virtual void AsyncReportGame(unsigned requestId, unsigned replyId, DB_id *creatorPlayerId, unsigned gameId, const std::string &gameName, DB_id *byPlayerId) = 0;
-
-	virtual void AsyncQueryAdminPlayers(unsigned requestId) = 0;
-	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active) = 0;
+	virtual bool RequiresResultSet() const
+	{
+		return false;
+	}
 };
 
 #endif

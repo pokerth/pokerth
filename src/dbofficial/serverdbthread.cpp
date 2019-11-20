@@ -41,11 +41,14 @@
 #include <dbofficial/asyncdbreportgame.h>
 #include <dbofficial/asyncdbadminplayers.h>
 #include <dbofficial/asyncdbblockplayer.h>
+#include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/compositeasyncdbquery.h>
 #include <dbofficial/db_table_defs.h>
 #include <ctime>
 #include <sstream>
 #include <mysql++.h>
+
+#include <core/loghelper.h> // @TODO: remove in productive
 
 #define QUERY_NICK_PREPARE				"nick_template"
 #define QUERY_LOGIN_PREPARE				"login_template"
@@ -58,6 +61,7 @@
 #define QUERY_REPORT_GAME_PREPARE		"report_game_template"
 #define QUERY_ADMIN_PLAYER_PREPARE		"admin_player_template"
 #define QUERY_BLOCK_PLAYER_PREPARE		"block_player_template"
+#define QUERY_PLAYER_LASTGAMES_PREPARE	"player_lastgames_template"
 
 using namespace std;
 
@@ -227,6 +231,33 @@ ServerDBThread::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned 
 		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
 		m_asyncQueue.push(asyncQuery);
 	}
+	m_semaphore.post();
+}
+
+void
+ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vector<long> last_games, std::string playerIp)
+{
+	LOG_ERROR("ServerDBThread::SetPlayerLastGames() entered.");
+
+	std::ostringstream oss;
+    std::copy(last_games.begin(), last_games.end(), std::ostream_iterator<int>(oss, ","));
+    std::string last_gamesFieldValue( oss.str() );
+	list<string> params;
+	ostringstream paramStream;
+	params.push_back(last_gamesFieldValue);
+	params.push_back(playerIp);
+	paramStream << playerId;
+	params.push_back(paramStream.str());
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBPlayerLastGames(
+			requestId,
+			QUERY_PLAYER_LASTGAMES_PREPARE,
+			params));
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		m_asyncQueue.push(asyncQuery);
+	}
+	LOG_ERROR("Query posted.");
 	m_semaphore.post();
 }
 
@@ -432,7 +463,7 @@ ServerDBThread::EstablishDBConnection()
 		*/
 		prepareNick
 				<< "PREPARE " QUERY_NICK_PREPARE " FROM " << mysqlpp::quote
-				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN ", " DB_TABLE_PLAYER_COL_ACTIVE " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
+				<< "SELECT " DB_TABLE_PLAYER_COL_ID ", AES_DECRYPT(" DB_TABLE_PLAYER_COL_PASSWORD ", ?), " DB_TABLE_PLAYER_COL_VALID ", TRIM(" DB_TABLE_PLAYER_COL_COUNTRY "), " DB_TABLE_PLAYER_COL_LASTLOGIN ", " DB_TABLE_PLAYER_COL_LASTGAMES ", " DB_TABLE_PLAYER_COL_LASTIP ", " DB_TABLE_PLAYER_COL_ACTIVE " FROM " DB_TABLE_PLAYER " WHERE " DB_TABLE_PLAYER_COL_USERNAME " = ?";
 
 		mysqlpp::Query prepareAvatarBlacklist = m_connData->conn.query();
 		prepareAvatarBlacklist
@@ -479,12 +510,16 @@ ServerDBThread::EstablishDBConnection()
 		prepareBlockPlayer
 				<< "PREPARE " QUERY_BLOCK_PLAYER_PREPARE " FROM " << mysqlpp::quote
 				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_VALID " = ?, " DB_TABLE_PLAYER_COL_ACTIVE " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
+		mysqlpp::Query preparePlayerLastGames = m_connData->conn.query();
+		preparePlayerLastGames
+				<< "PREPARE " QUERY_PLAYER_LASTGAMES_PREPARE " FROM " << mysqlpp::quote
+				<< "UPDATE " DB_TABLE_PLAYER " SET " DB_TABLE_PLAYER_COL_LASTGAMES " = ?, " DB_TABLE_PLAYER_COL_LASTIP " = ? WHERE " DB_TABLE_PLAYER_COL_ID " = ?";
 		if (!prepareNick.exec() || !prepareAvatarBlacklist.exec() || !prepareLogin.exec() || !prepareCreateGame.exec()
 				|| !prepareEndGame.exec() || !prepareRelation.exec() || !prepareScore.exec() || !prepareReportAvatar.exec()
-				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec()) {
+				|| !prepareReportGame.exec() || !prepareAdminPlayer.exec() || !prepareBlockPlayer.exec() || !preparePlayerLastGames.exec()) {
 			string tmpError = string(prepareNick.error()) + prepareAvatarBlacklist.error() + prepareLogin.error() + prepareCreateGame.error() +
 							  prepareEndGame.error() + prepareRelation.error() + prepareScore.error() + prepareReportAvatar.error() +
-							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error();
+							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error() + preparePlayerLastGames.error();
 			m_connData->conn.disconnect();
 			m_ioService->post(boost::bind(&ServerDBCallback::ConnectFailed, &m_callback, tmpError));
 			m_permanentError = true;

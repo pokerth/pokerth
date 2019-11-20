@@ -34,6 +34,8 @@
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 
+#include <ctime>
+
 using namespace std;
 
 #define SERVER_MAX_GUEST_USERS_LOBBY	50		// LG: Maximum number of guests users in lobby allowed

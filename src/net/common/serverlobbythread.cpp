@@ -62,6 +62,7 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/algorithm/string.hpp>
 #include <gsasl.h>
+#include <ctime>
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
@@ -304,6 +305,7 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<SessionData> sessionData)
 	m_sessionManager.AddSession(sessionData);
 
 	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
+	LOG_ERROR("Accepted connection - session #" << sessionData->GetId() << ".");
 
 	sessionData->StartTimerInitTimeout(SERVER_INIT_SESSION_TIMEOUT_SEC);
 	sessionData->StartTimerGlobalTimeout(SERVER_SESSION_FORCED_TIMEOUT_SEC);
@@ -1347,7 +1349,7 @@ ServerLobbyThread::HandleNetPacketRetrieveAvatar(boost::shared_ptr<SessionData> 
 void
 ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> session, const JoinNewGameMessage &newGame)
 {
-	LOG_VERBOSE("Creating new game, initiated by session #" << session->GetId() << ".");
+	LOG_ERROR("Creating new game, initiated by session #" << session->GetId() << ".");
 
 	string password;
 	if (newGame.has_password())
@@ -1377,6 +1379,10 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GUEST_FORBIDDEN);
 	} else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode())) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
+	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))
+			&& tmpData.gameType == GAME_TYPE_RANKING ) {
+		LOG_ERROR("not allowed due to ranklimit");
+		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
 	} else {
 		boost::shared_ptr<ServerGame> game(
 			new ServerGame(
@@ -1418,6 +1424,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				MoveSessionToGame(game, session, joinGame.autoleave(), true);
 			}
 		} else {
+			LOG_ERROR("JoinGame pre validation");
 			// As guest, you are only allowed to join normal games.
 			if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
 					&& tmpData.gameType != GAME_TYPE_NORMAL) {
@@ -1427,14 +1434,14 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_NOT_INVITED);
 			} else if (!game->CheckPassword(password)) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_INVALID_PASSWORD);
-			} else if (tmpData.gameType == GAME_TYPE_RANKING
-					   && !joinGame.spectateonly()
-					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
-					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
-					   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-					   && game->IsClientAddressConnected(session->GetClientAddr())) {
+			} else if (tmpData.gameType == GAME_TYPE_RANKING && !session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
-
+			} else if (tmpData.gameType == GAME_TYPE_RANKING && !joinGame.spectateonly()
+				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
+				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
+				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
+				   && game->IsClientAddressConnected(session->GetClientAddr())) {
+				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {
 				MoveSessionToGame(game, session, joinGame.autoleave(), false);
 			}
@@ -1803,6 +1810,18 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 	if (tmpSession && tmpSession->GetPlayerData()) {
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
+		if(dbPlayerData.last_games.length() > 0){
+			LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
+			vector<string> last_games; 
+			boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
+			for (unsigned int i = 0; i < last_games.size(); i++){
+				if(last_games[i].length() > 0)
+					tmpSession->GetPlayerData()->AddPlayerLastGame(stol(last_games[i]));
+			} 
+			LOG_ERROR("last_games last from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
+		}else{
+			LOG_ERROR("no lastGames from db");
+		}
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
 }

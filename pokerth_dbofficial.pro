@@ -42,6 +42,7 @@ HEADERS += src/dbofficial/asyncdbauth.h \
 	src/dbofficial/asyncdbavatarblacklist.h \
 	src/dbofficial/asyncdbadminplayers.h \
 	src/dbofficial/asyncdbblockplayer.h \
+	src/dbofficial/asyncdbplayerlastgames.h \
 	src/dbofficial/dbidmanager.h
 SOURCES += src/dbofficial/asyncdbauth.cpp \
 	src/dbofficial/asyncdbcreategame.cpp \
@@ -60,6 +61,7 @@ SOURCES += src/dbofficial/asyncdbauth.cpp \
 	src/dbofficial/asyncdbavatarblacklist.cpp \
 	src/dbofficial/asyncdbadminplayers.cpp \
 	src/dbofficial/asyncdbblockplayer.cpp \
+	src/dbofficial/asyncdbplayerlastgames.cpp \
 	src/dbofficial/dbidmanager.cpp
 win32 { 
     DEFINES += _WIN32_WINNT=0x0501

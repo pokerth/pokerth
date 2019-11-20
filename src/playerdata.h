@@ -116,6 +116,12 @@ public:
 	int GetStartCash() const;
 	void SetStartCash(int cash);
 
+	// @TODO: last_games here
+	void AddPlayerLastGame(long last_games);
+	void SetPlayerLastGames(std::vector<long> last_games);
+	std::vector<long> GetPlayerLastGames();
+	bool IsPlayerAllowedToJoinCreateLimitRank(std::string num, std::string period);
+
 	bool operator<(const PlayerData &other) const;
 
 private:
@@ -134,6 +140,8 @@ private:
 	PlayerRights					m_rights;
 	bool							m_isGameAdmin;
 	boost::shared_ptr<AvatarFile>	m_netAvatarFile;
+
+	std::vector<long> 				m_last_games;
 
 	mutable boost::mutex			m_dataMutex;
 };

@@ -52,19 +52,25 @@ AsyncDBAuth::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/,
 		service.post(boost::bind(&ServerDBCallback::PlayerLoginFailed, &cb, GetId()));
 	} else {
 		int blocked = result[0][2];
-		int active = result[0][5];
+		int active = result[0][7];
 		if ((active != 1) || (blocked != 0)) {
 			service.post(boost::bind(&ServerDBCallback::PlayerLoginBlocked, &cb, GetId()));
 		} else {
 			mysqlpp::String secret(result[0][1]);
 			mysqlpp::String country(result[0][3]);
 			mysqlpp::String last_login(result[0][4]);
+			mysqlpp::String last_games(result[0][5]);
+			mysqlpp::String last_ip(result[0][6]);
 			boost::shared_ptr<DBPlayerData> tmpData(new DBPlayerData);
 			tmpData->id = result[0][0];
 			secret.to_string(tmpData->secret);
 			if (!country.is_null())
 				country.to_string(tmpData->country);
 			last_login.to_string(tmpData->last_login);
+			if (!last_games.is_null())
+				last_games.to_string(tmpData->last_games);
+			if (!last_ip.is_null())
+				last_ip.to_string(tmpData->last_ip);
 
 			service.post(boost::bind(&ServerDBCallback::PlayerLoginSuccess, &cb, GetId(), tmpData));
 		}

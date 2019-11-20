@@ -35,6 +35,7 @@
 
 #include <string>
 #include <ctime>
+#include <vector>
 
 typedef unsigned DB_id;
 #define DB_ID_INVALID 0
@@ -45,6 +46,8 @@ struct DBPlayerData {
 	std::string secret;
 	std::string country;
 	std::string last_login;
+	std::string last_games;
+	std::string last_ip;
 };
 
 #endif

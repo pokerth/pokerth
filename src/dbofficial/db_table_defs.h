@@ -42,6 +42,8 @@
 #define DB_TABLE_PLAYER_COL_ACTIVE					"active"
 #define DB_TABLE_PLAYER_COL_AVATARHASH				"avatar_hash"
 #define DB_TABLE_PLAYER_COL_AVATARTYPE				"avatar_mime"
+#define DB_TABLE_PLAYER_COL_LASTGAMES				"last_games"
+#define DB_TABLE_PLAYER_COL_LASTIP				    "last_ip"
 
 #define DB_TABLE_GAME								"game"
 #define DB_TABLE_GAME_COL_ID						"idgame"
