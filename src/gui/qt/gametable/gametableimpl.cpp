@@ -2530,6 +2530,7 @@ void gameTableImpl::postRiverRunAnimation2()
 
 	if(nonfoldPlayersCounter!=1) {
 
+		label_WinningCombination->setText(CardsValue::determineHandName(currentGame->getCurrentHand()->getCurrentBeRo()->getHighestCardsValue(), activePlayerList).c_str());
 		if(!flipHolecardsAllInAlreadyDone) {
 
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
@@ -3017,6 +3018,8 @@ void gameTableImpl::nextRoundCleanGui()
 	resetMyButtonsCheckStateMemory();
 	clearMyButtons();
 	pushButton_showMyCards->hide();
+	label_WinningCombination->clear();
+	update();
 }
 
 void gameTableImpl::stopTimer()
@@ -4117,6 +4120,7 @@ void gameTableImpl::refreshGameTableStyle()
 	myGameTableStyle->setBigFontBoardStyle(textLabel_handLabel);
 	myGameTableStyle->setBigFontBoardStyle(label_Pot);
 #endif
+	myGameTableStyle->setBigFontBoardStyle(label_WinningCombination);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder0,0);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder1,0);
 	myGameTableStyle->setCardHolderStyle(label_CardHolder2,0);

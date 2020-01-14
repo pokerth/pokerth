@@ -2745,13 +2745,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>390</width>
-          <height>82</height>
+          <height>102</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>390</width>
-          <height>82</height>
+          <height>102</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -3037,6 +3037,13 @@ p, li { white-space: pre-wrap; }
              <bool>true</bool>
             </property>
            </widget>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_WinningCombination">
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
           </widget>
          </item>
         </layout>
