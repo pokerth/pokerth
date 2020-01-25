@@ -23,15 +23,8 @@ DEPENDPATH += . \
 		src
 
 # Input
-HEADERS += \
-		src/game_defs.h \
-		src/net/netpacket.h \
-		src/third_party/protobuf/pokerth.pb.h
-
 SOURCES += \
-		src/dealer_random_test.cpp \
-		src/net/common/netpacket.cpp \
-		src/third_party/protobuf/pokerth.pb.cc
+		src/dealer_random_test.cpp
 
 unix : !mac {
 
@@ -86,7 +79,7 @@ unix : !mac {
 	#### INSTALL ####
 
 	binary.path += $${PREFIX}/bin/
-	binary.files += connectivity
+	binary.files += dealer_random_test
 
 	INSTALLS += binary
 }
