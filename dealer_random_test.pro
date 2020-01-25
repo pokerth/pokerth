@@ -74,7 +74,7 @@ unix : !mac {
 	kFreeBSD = $$find(UNAME, "kFreeBSD")
 
 	LIBS += $$BOOST_LIBS
-	LIBS += -lprotobuf -lgsasl -lgcrypt -lidn
+	LIBS += -lprotobuf -lgsasl -lgcrypt -lidn -lboost_thread -lboost_system
 
 	#### INSTALL ####
 
