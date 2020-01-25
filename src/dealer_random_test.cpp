@@ -99,8 +99,8 @@ main(int argc, char *argv[])
 
             ostringstream oss("");
             for (int temp = 0; temp < NumCards; temp++)
-                oss << cardsArray[temp];
-            cout << oss << endl;
+                cout << cardsArray[temp] << ",";
+            cout << endl;
         }
 
 	} catch (...) {
