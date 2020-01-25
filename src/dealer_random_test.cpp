@@ -97,9 +97,10 @@ main(int argc, char *argv[])
             random_shuffle(&cardsArray[0], &cardsArray[NumCards], rand);
 
             ostringstream oss("");
-            for (int temp = 0; temp < size_of_array; temp++)
-                oss << int_array[temp];
+            for (int temp = 0; temp < NumCards; temp++)
+                oss << cardsArray[temp];
             cout << oss << endl;
+        }
 
 	} catch (...) {
 		cout << "Exception caught" << endl;
