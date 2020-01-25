@@ -81,7 +81,7 @@ main(int argc, char *argv[])
 		int num = vm["num"].as<int>();
         const int NumCards = 52;
 
-        for(int i=0; i<=num;i++){
+        for(int i=0; i<num;i++){
             // shuffle cards
             int cardsArray[NumCards] = {
                 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
