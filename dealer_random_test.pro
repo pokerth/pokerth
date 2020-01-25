@@ -10,7 +10,7 @@ CODECFORSRC = UTF-8
 CONFIG += thread console embed_manifest_exe exceptions rtti stl warn_on
 
 UI_DIR = uics
-TARGET = bin/connectivity
+TARGET = bin/dealer_random_test
 MOC_DIR = mocs
 OBJECTS_DIR = obj
 DEFINES += PREFIX=\"$${PREFIX}\"
