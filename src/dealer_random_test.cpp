@@ -73,7 +73,7 @@ main(int argc, char *argv[])
 			cout << desc << endl;
 			return 1;
 		}
-		if (!vm.count("mode")) {
+		if (!vm.count("num")) {
 			cout << "Missing option!" << endl << desc << endl;
 			return 1;
 		}
