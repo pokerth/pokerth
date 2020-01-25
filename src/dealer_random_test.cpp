@@ -98,9 +98,10 @@ main(int argc, char *argv[])
             random_shuffle(&cardsArray[0], &cardsArray[NumCards], rand);
 
             ostringstream oss("");
-            for (int temp = 0; temp < NumCards; temp++)
+            for (int temp = 0; temp < NumCards; temp++){
                 if(temp > 0) cout << ",";
                 cout << cardsArray[temp];
+            }
             cout << endl;
         }
 
