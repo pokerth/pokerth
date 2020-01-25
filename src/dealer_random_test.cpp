@@ -32,6 +32,7 @@
 // Connectivity test program for PokerTH
 
 #include <iostream>
+#include <boost/program_options.hpp>
 #include <boost/thread.hpp>
 #include <boost/nondet_random.hpp>
 #include <boost/random/uniform_int.hpp>
