@@ -345,7 +345,7 @@ const ReportGameAckMessage_ReportGameResult ReportGameAckMessage_ReportGameResul
 const int ReportGameAckMessage_ReportGameResult_ReportGameResult_ARRAYSIZE = ReportGameAckMessage_ReportGameResult_ReportGameResult_MAX + 1;
 
 enum ErrorMessage_ErrorReason {
-  ErrorMessage_ErrorReason_reserved = 0,
+  ErrorMessage_ErrorReason_custReserved = 0,
   ErrorMessage_ErrorReason_initVersionNotSupported = 1,
   ErrorMessage_ErrorReason_initServerFull = 2,
   ErrorMessage_ErrorReason_initAuthFailure = 3,
@@ -362,7 +362,7 @@ enum ErrorMessage_ErrorReason {
   ErrorMessage_ErrorReason_sessionTimeout = 14
 };
 bool ErrorMessage_ErrorReason_IsValid(int value);
-const ErrorMessage_ErrorReason ErrorMessage_ErrorReason_ErrorReason_MIN = ErrorMessage_ErrorReason_reserved;
+const ErrorMessage_ErrorReason ErrorMessage_ErrorReason_ErrorReason_MIN = ErrorMessage_ErrorReason_custReserved;
 const ErrorMessage_ErrorReason ErrorMessage_ErrorReason_ErrorReason_MAX = ErrorMessage_ErrorReason_sessionTimeout;
 const int ErrorMessage_ErrorReason_ErrorReason_ARRAYSIZE = ErrorMessage_ErrorReason_ErrorReason_MAX + 1;
 
@@ -10416,7 +10416,7 @@ class ErrorMessage : public ::google::protobuf::MessageLite {
   // nested types ----------------------------------------------------
 
   typedef ErrorMessage_ErrorReason ErrorReason;
-  static const ErrorReason reserved = ErrorMessage_ErrorReason_reserved;
+  static const ErrorReason custReserved = ErrorMessage_ErrorReason_custReserved;
   static const ErrorReason initVersionNotSupported = ErrorMessage_ErrorReason_initVersionNotSupported;
   static const ErrorReason initServerFull = ErrorMessage_ErrorReason_initServerFull;
   static const ErrorReason initAuthFailure = ErrorMessage_ErrorReason_initAuthFailure;

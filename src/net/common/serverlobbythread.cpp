@@ -64,7 +64,7 @@
 #include <gsasl.h>
 #include <ctime>
 
-#define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
+#define SERVER_MAX_NUM_LOBBY_SESSIONS				1536		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
 
 #define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
