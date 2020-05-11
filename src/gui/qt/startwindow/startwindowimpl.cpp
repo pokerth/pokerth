@@ -83,7 +83,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 
 	// #ifdef __APPLE__
 	// 	setWindowModality(Qt::ApplicationModal);
-	// 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 	// #endif
 	setupUi(this);
 	this->setWindowTitle(QString(tr("PokerTH %1").arg(POKERTH_BETA_RELEASE_STRING)));

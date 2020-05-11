@@ -44,7 +44,6 @@ myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
 
