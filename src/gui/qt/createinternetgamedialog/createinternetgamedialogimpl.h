@@ -67,7 +67,12 @@ public slots:
 	void gameTypeChanged();
 
 	void callChangeBlindsDialog(bool);
+
+	void switchAllowReg(bool);
+	void switchReentries(bool);
 private:
+
+	void switchLateReg(bool);
 
 	ConfigFile *myConfig;
 	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;

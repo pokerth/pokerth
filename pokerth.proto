@@ -112,6 +112,11 @@ message NetGameInfo {
 	required	uint32			startMoney = 13;
 	repeated	uint32			manualBlinds = 14 [packed = true];
 	optional	bool			allowSpectators = 15 [default = true];
+	//new data
+	optional	bool			allowLateReg = 16 [default = false];
+	optional	bool			allowReentries = 17 [default = false];
+	optional	uint32			numReentries = 18 [default = 0];
+	optional	uint32			maxTimeLateReg = 19 [default = 0];
 }
 
 // Message Part containing player result.

@@ -93,6 +93,12 @@ struct GameData {
 	int guiSpeed;
 	int delayBetweenHandsSec;
 	int playerActionTimeoutSec;
+
+	// new data
+	bool allowLateReg;
+	bool allowReentries;
+	int numReentries;
+	int maxTimeLateReg;
 };
 
 struct GameInfo {

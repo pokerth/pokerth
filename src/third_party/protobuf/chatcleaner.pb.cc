@@ -10,7 +10,6 @@
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
-#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 // @@protoc_insertion_point(includes)
 
 void protobuf_ShutdownFile_chatcleaner_2eproto() {
@@ -49,7 +48,7 @@ void protobuf_AddDesc_chatcleaner_2eproto() {
 #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
 GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_AddDesc_chatcleaner_2eproto_once_);
 void protobuf_AddDesc_chatcleaner_2eproto() {
-  ::google::protobuf::GoogleOnceInit(&protobuf_AddDesc_chatcleaner_2eproto_once_,
+  ::google::protobuf::::google::protobuf::GoogleOnceInit(&protobuf_AddDesc_chatcleaner_2eproto_once_,
                  &protobuf_AddDesc_chatcleaner_2eproto_impl);
 }
 #else
@@ -81,7 +80,6 @@ const int CleanerInitMessage::kClientSecretFieldNumber;
 CleanerInitMessage::CleanerInitMessage()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:CleanerInitMessage)
 }
 
 void CleanerInitMessage::InitAsDefaultInstance() {
@@ -91,24 +89,21 @@ CleanerInitMessage::CleanerInitMessage(const CleanerInitMessage& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:CleanerInitMessage)
 }
 
 void CleanerInitMessage::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   requestedversion_ = 0u;
-  clientsecret_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clientsecret_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 CleanerInitMessage::~CleanerInitMessage() {
-  // @@protoc_insertion_point(destructor:CleanerInitMessage)
   SharedDtor();
 }
 
 void CleanerInitMessage::SharedDtor() {
-  if (clientsecret_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (clientsecret_ != &::google::protobuf::internal::kEmptyString) {
     delete clientsecret_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -140,41 +135,33 @@ CleanerInitMessage* CleanerInitMessage::New() const {
 }
 
 void CleanerInitMessage::Clear() {
-  if (_has_bits_[0 / 32] & 3) {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     requestedversion_ = 0u;
     if (has_clientsecret()) {
-      if (clientsecret_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      if (clientsecret_ != &::google::protobuf::internal::kEmptyString) {
         clientsecret_->clear();
       }
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->clear();
 }
 
 bool CleanerInitMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
-  ::google::protobuf::io::StringOutputStream unknown_fields_string(
-      mutable_unknown_fields());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:CleanerInitMessage)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
+  while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required uint32 requestedVersion = 1;
       case 1: {
-        if (tag == 8) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &requestedversion_)));
           set_has_requestedversion();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(18)) goto parse_clientSecret;
         break;
@@ -182,42 +169,35 @@ bool CleanerInitMessage::MergePartialFromCodedStream(
 
       // required string clientSecret = 2;
       case 2: {
-        if (tag == 18) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_clientSecret:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_clientsecret()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
-        if (input->ExpectAtEnd()) goto success;
+        if (input->ExpectAtEnd()) return true;
         break;
       }
 
       default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
+          return true;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:CleanerInitMessage)
   return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:CleanerInitMessage)
-  return false;
 #undef DO_
 }
 
 void CleanerInitMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:CleanerInitMessage)
   // required uint32 requestedVersion = 1;
   if (has_requestedversion()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->requestedversion(), output);
@@ -225,13 +205,10 @@ void CleanerInitMessage::SerializeWithCachedSizes(
 
   // required string clientSecret = 2;
   if (has_clientsecret()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       2, this->clientsecret(), output);
   }
 
-  output->WriteRaw(unknown_fields().data(),
-                   unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:CleanerInitMessage)
 }
 
 int CleanerInitMessage::ByteSize() const {
@@ -253,8 +230,6 @@ int CleanerInitMessage::ByteSize() const {
     }
 
   }
-  total_size += unknown_fields().size();
-
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -276,7 +251,6 @@ void CleanerInitMessage::MergeFrom(const CleanerInitMessage& from) {
       set_clientsecret(from.clientsecret());
     }
   }
-  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void CleanerInitMessage::CopyFrom(const CleanerInitMessage& from) {
@@ -296,7 +270,6 @@ void CleanerInitMessage::Swap(CleanerInitMessage* other) {
     std::swap(requestedversion_, other->requestedversion_);
     std::swap(clientsecret_, other->clientsecret_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
@@ -316,7 +289,6 @@ const int CleanerInitAckMessage::kServerSecretFieldNumber;
 CleanerInitAckMessage::CleanerInitAckMessage()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:CleanerInitAckMessage)
 }
 
 void CleanerInitAckMessage::InitAsDefaultInstance() {
@@ -326,24 +298,21 @@ CleanerInitAckMessage::CleanerInitAckMessage(const CleanerInitAckMessage& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:CleanerInitAckMessage)
 }
 
 void CleanerInitAckMessage::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   serverversion_ = 0u;
-  serversecret_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  serversecret_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 CleanerInitAckMessage::~CleanerInitAckMessage() {
-  // @@protoc_insertion_point(destructor:CleanerInitAckMessage)
   SharedDtor();
 }
 
 void CleanerInitAckMessage::SharedDtor() {
-  if (serversecret_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (serversecret_ != &::google::protobuf::internal::kEmptyString) {
     delete serversecret_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -375,41 +344,33 @@ CleanerInitAckMessage* CleanerInitAckMessage::New() const {
 }
 
 void CleanerInitAckMessage::Clear() {
-  if (_has_bits_[0 / 32] & 3) {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     serverversion_ = 0u;
     if (has_serversecret()) {
-      if (serversecret_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      if (serversecret_ != &::google::protobuf::internal::kEmptyString) {
         serversecret_->clear();
       }
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->clear();
 }
 
 bool CleanerInitAckMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
-  ::google::protobuf::io::StringOutputStream unknown_fields_string(
-      mutable_unknown_fields());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:CleanerInitAckMessage)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
+  while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required uint32 serverVersion = 1;
       case 1: {
-        if (tag == 8) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &serverversion_)));
           set_has_serverversion();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(18)) goto parse_serverSecret;
         break;
@@ -417,42 +378,35 @@ bool CleanerInitAckMessage::MergePartialFromCodedStream(
 
       // required string serverSecret = 2;
       case 2: {
-        if (tag == 18) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_serverSecret:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_serversecret()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
-        if (input->ExpectAtEnd()) goto success;
+        if (input->ExpectAtEnd()) return true;
         break;
       }
 
       default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
+          return true;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:CleanerInitAckMessage)
   return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:CleanerInitAckMessage)
-  return false;
 #undef DO_
 }
 
 void CleanerInitAckMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:CleanerInitAckMessage)
   // required uint32 serverVersion = 1;
   if (has_serverversion()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->serverversion(), output);
@@ -460,13 +414,10 @@ void CleanerInitAckMessage::SerializeWithCachedSizes(
 
   // required string serverSecret = 2;
   if (has_serversecret()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       2, this->serversecret(), output);
   }
 
-  output->WriteRaw(unknown_fields().data(),
-                   unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:CleanerInitAckMessage)
 }
 
 int CleanerInitAckMessage::ByteSize() const {
@@ -488,8 +439,6 @@ int CleanerInitAckMessage::ByteSize() const {
     }
 
   }
-  total_size += unknown_fields().size();
-
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -511,7 +460,6 @@ void CleanerInitAckMessage::MergeFrom(const CleanerInitAckMessage& from) {
       set_serversecret(from.serversecret());
     }
   }
-  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void CleanerInitAckMessage::CopyFrom(const CleanerInitAckMessage& from) {
@@ -531,7 +479,6 @@ void CleanerInitAckMessage::Swap(CleanerInitAckMessage* other) {
     std::swap(serverversion_, other->serverversion_);
     std::swap(serversecret_, other->serversecret_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
@@ -555,7 +502,6 @@ const int CleanerChatRequestMessage::kChatMessageFieldNumber;
 CleanerChatRequestMessage::CleanerChatRequestMessage()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:CleanerChatRequestMessage)
 }
 
 void CleanerChatRequestMessage::InitAsDefaultInstance() {
@@ -565,31 +511,28 @@ CleanerChatRequestMessage::CleanerChatRequestMessage(const CleanerChatRequestMes
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:CleanerChatRequestMessage)
 }
 
 void CleanerChatRequestMessage::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   requestid_ = 0u;
   cleanerchattype_ = 0;
   gameid_ = 0u;
   playerid_ = 0u;
-  playername_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  chatmessage_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  playername_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  chatmessage_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 CleanerChatRequestMessage::~CleanerChatRequestMessage() {
-  // @@protoc_insertion_point(destructor:CleanerChatRequestMessage)
   SharedDtor();
 }
 
 void CleanerChatRequestMessage::SharedDtor() {
-  if (playername_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (playername_ != &::google::protobuf::internal::kEmptyString) {
     delete playername_;
   }
-  if (chatmessage_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (chatmessage_ != &::google::protobuf::internal::kEmptyString) {
     delete chatmessage_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -621,60 +564,41 @@ CleanerChatRequestMessage* CleanerChatRequestMessage::New() const {
 }
 
 void CleanerChatRequestMessage::Clear() {
-#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
-  &reinterpret_cast<CleanerChatRequestMessage*>(16)->f) - \
-   reinterpret_cast<char*>(16))
-
-#define ZR_(first, last) do {                              \
-    size_t f = OFFSET_OF_FIELD_(first);                    \
-    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
-    ::memset(&first, 0, n);                                \
-  } while (0)
-
-  if (_has_bits_[0 / 32] & 63) {
-    ZR_(requestid_, playerid_);
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    requestid_ = 0u;
+    cleanerchattype_ = 0;
+    gameid_ = 0u;
+    playerid_ = 0u;
     if (has_playername()) {
-      if (playername_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      if (playername_ != &::google::protobuf::internal::kEmptyString) {
         playername_->clear();
       }
     }
     if (has_chatmessage()) {
-      if (chatmessage_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      if (chatmessage_ != &::google::protobuf::internal::kEmptyString) {
         chatmessage_->clear();
       }
     }
   }
-
-#undef OFFSET_OF_FIELD_
-#undef ZR_
-
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->clear();
 }
 
 bool CleanerChatRequestMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
-  ::google::protobuf::io::StringOutputStream unknown_fields_string(
-      mutable_unknown_fields());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:CleanerChatRequestMessage)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
+  while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required uint32 requestId = 1;
       case 1: {
-        if (tag == 8) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &requestid_)));
           set_has_requestid();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(16)) goto parse_cleanerChatType;
         break;
@@ -682,7 +606,8 @@ bool CleanerChatRequestMessage::MergePartialFromCodedStream(
 
       // required .CleanerChatType cleanerChatType = 2;
       case 2: {
-        if (tag == 16) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_cleanerChatType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -690,12 +615,9 @@ bool CleanerChatRequestMessage::MergePartialFromCodedStream(
                  input, &value)));
           if (::CleanerChatType_IsValid(value)) {
             set_cleanerchattype(static_cast< ::CleanerChatType >(value));
-          } else {
-            unknown_fields_stream.WriteVarint32(tag);
-            unknown_fields_stream.WriteVarint32(value);
           }
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(24)) goto parse_gameId;
         break;
@@ -703,14 +625,15 @@ bool CleanerChatRequestMessage::MergePartialFromCodedStream(
 
       // optional uint32 gameId = 3 [default = 0];
       case 3: {
-        if (tag == 24) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_gameId:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &gameid_)));
           set_has_gameid();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(32)) goto parse_playerId;
         break;
@@ -718,14 +641,15 @@ bool CleanerChatRequestMessage::MergePartialFromCodedStream(
 
       // required uint32 playerId = 4;
       case 4: {
-        if (tag == 32) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_playerId:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &playerid_)));
           set_has_playerid();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(42)) goto parse_playerName;
         break;
@@ -733,12 +657,13 @@ bool CleanerChatRequestMessage::MergePartialFromCodedStream(
 
       // required string playerName = 5;
       case 5: {
-        if (tag == 42) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_playerName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_playername()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(50)) goto parse_chatMessage;
         break;
@@ -746,42 +671,35 @@ bool CleanerChatRequestMessage::MergePartialFromCodedStream(
 
       // required string chatMessage = 6;
       case 6: {
-        if (tag == 50) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_chatMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_chatmessage()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
-        if (input->ExpectAtEnd()) goto success;
+        if (input->ExpectAtEnd()) return true;
         break;
       }
 
       default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
+          return true;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:CleanerChatRequestMessage)
   return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:CleanerChatRequestMessage)
-  return false;
 #undef DO_
 }
 
 void CleanerChatRequestMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:CleanerChatRequestMessage)
   // required uint32 requestId = 1;
   if (has_requestid()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->requestid(), output);
@@ -805,19 +723,16 @@ void CleanerChatRequestMessage::SerializeWithCachedSizes(
 
   // required string playerName = 5;
   if (has_playername()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       5, this->playername(), output);
   }
 
   // required string chatMessage = 6;
   if (has_chatmessage()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       6, this->chatmessage(), output);
   }
 
-  output->WriteRaw(unknown_fields().data(),
-                   unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:CleanerChatRequestMessage)
 }
 
 int CleanerChatRequestMessage::ByteSize() const {
@@ -866,8 +781,6 @@ int CleanerChatRequestMessage::ByteSize() const {
     }
 
   }
-  total_size += unknown_fields().size();
-
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -901,7 +814,6 @@ void CleanerChatRequestMessage::MergeFrom(const CleanerChatRequestMessage& from)
       set_chatmessage(from.chatmessage());
     }
   }
-  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void CleanerChatRequestMessage::CopyFrom(const CleanerChatRequestMessage& from) {
@@ -925,7 +837,6 @@ void CleanerChatRequestMessage::Swap(CleanerChatRequestMessage* other) {
     std::swap(playername_, other->playername_);
     std::swap(chatmessage_, other->chatmessage_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
@@ -972,7 +883,6 @@ const int CleanerChatReplyMessage::kCleanerTextFieldNumber;
 CleanerChatReplyMessage::CleanerChatReplyMessage()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:CleanerChatReplyMessage)
 }
 
 void CleanerChatReplyMessage::InitAsDefaultInstance() {
@@ -982,28 +892,25 @@ CleanerChatReplyMessage::CleanerChatReplyMessage(const CleanerChatReplyMessage& 
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:CleanerChatReplyMessage)
 }
 
 void CleanerChatReplyMessage::SharedCtor() {
-  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   requestid_ = 0u;
   cleanerchattype_ = 0;
   gameid_ = 0u;
   playerid_ = 0u;
   cleaneractiontype_ = 0;
-  cleanertext_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  cleanertext_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 CleanerChatReplyMessage::~CleanerChatReplyMessage() {
-  // @@protoc_insertion_point(destructor:CleanerChatReplyMessage)
   SharedDtor();
 }
 
 void CleanerChatReplyMessage::SharedDtor() {
-  if (cleanertext_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+  if (cleanertext_ != &::google::protobuf::internal::kEmptyString) {
     delete cleanertext_;
   }
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
@@ -1035,56 +942,37 @@ CleanerChatReplyMessage* CleanerChatReplyMessage::New() const {
 }
 
 void CleanerChatReplyMessage::Clear() {
-#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
-  &reinterpret_cast<CleanerChatReplyMessage*>(16)->f) - \
-   reinterpret_cast<char*>(16))
-
-#define ZR_(first, last) do {                              \
-    size_t f = OFFSET_OF_FIELD_(first);                    \
-    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
-    ::memset(&first, 0, n);                                \
-  } while (0)
-
-  if (_has_bits_[0 / 32] & 63) {
-    ZR_(requestid_, playerid_);
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    requestid_ = 0u;
+    cleanerchattype_ = 0;
+    gameid_ = 0u;
+    playerid_ = 0u;
     cleaneractiontype_ = 0;
     if (has_cleanertext()) {
-      if (cleanertext_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      if (cleanertext_ != &::google::protobuf::internal::kEmptyString) {
         cleanertext_->clear();
       }
     }
   }
-
-#undef OFFSET_OF_FIELD_
-#undef ZR_
-
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->clear();
 }
 
 bool CleanerChatReplyMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
-  ::google::protobuf::io::StringOutputStream unknown_fields_string(
-      mutable_unknown_fields());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:CleanerChatReplyMessage)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
+  while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required uint32 requestId = 1;
       case 1: {
-        if (tag == 8) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &requestid_)));
           set_has_requestid();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(16)) goto parse_cleanerChatType;
         break;
@@ -1092,7 +980,8 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
 
       // required .CleanerChatType cleanerChatType = 2;
       case 2: {
-        if (tag == 16) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_cleanerChatType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -1100,12 +989,9 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
                  input, &value)));
           if (::CleanerChatType_IsValid(value)) {
             set_cleanerchattype(static_cast< ::CleanerChatType >(value));
-          } else {
-            unknown_fields_stream.WriteVarint32(tag);
-            unknown_fields_stream.WriteVarint32(value);
           }
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(24)) goto parse_gameId;
         break;
@@ -1113,14 +999,15 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
 
       // optional uint32 gameId = 3 [default = 0];
       case 3: {
-        if (tag == 24) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_gameId:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &gameid_)));
           set_has_gameid();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(32)) goto parse_playerId;
         break;
@@ -1128,14 +1015,15 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
 
       // required uint32 playerId = 4;
       case 4: {
-        if (tag == 32) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_playerId:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
                  input, &playerid_)));
           set_has_playerid();
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(40)) goto parse_cleanerActionType;
         break;
@@ -1143,7 +1031,8 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
 
       // required .CleanerChatReplyMessage.CleanerActionType cleanerActionType = 5;
       case 5: {
-        if (tag == 40) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
          parse_cleanerActionType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -1151,12 +1040,9 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
                  input, &value)));
           if (::CleanerChatReplyMessage_CleanerActionType_IsValid(value)) {
             set_cleaneractiontype(static_cast< ::CleanerChatReplyMessage_CleanerActionType >(value));
-          } else {
-            unknown_fields_stream.WriteVarint32(tag);
-            unknown_fields_stream.WriteVarint32(value);
           }
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(50)) goto parse_cleanerText;
         break;
@@ -1164,42 +1050,35 @@ bool CleanerChatReplyMessage::MergePartialFromCodedStream(
 
       // optional string cleanerText = 6 [default = ""];
       case 6: {
-        if (tag == 50) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cleanerText:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_cleanertext()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
-        if (input->ExpectAtEnd()) goto success;
+        if (input->ExpectAtEnd()) return true;
         break;
       }
 
       default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
+          return true;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:CleanerChatReplyMessage)
   return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:CleanerChatReplyMessage)
-  return false;
 #undef DO_
 }
 
 void CleanerChatReplyMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:CleanerChatReplyMessage)
   // required uint32 requestId = 1;
   if (has_requestid()) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->requestid(), output);
@@ -1229,13 +1108,10 @@ void CleanerChatReplyMessage::SerializeWithCachedSizes(
 
   // optional string cleanerText = 6 [default = ""];
   if (has_cleanertext()) {
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       6, this->cleanertext(), output);
   }
 
-  output->WriteRaw(unknown_fields().data(),
-                   unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:CleanerChatReplyMessage)
 }
 
 int CleanerChatReplyMessage::ByteSize() const {
@@ -1283,8 +1159,6 @@ int CleanerChatReplyMessage::ByteSize() const {
     }
 
   }
-  total_size += unknown_fields().size();
-
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -1318,7 +1192,6 @@ void CleanerChatReplyMessage::MergeFrom(const CleanerChatReplyMessage& from) {
       set_cleanertext(from.cleanertext());
     }
   }
-  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void CleanerChatReplyMessage::CopyFrom(const CleanerChatReplyMessage& from) {
@@ -1342,7 +1215,6 @@ void CleanerChatReplyMessage::Swap(CleanerChatReplyMessage* other) {
     std::swap(cleaneractiontype_, other->cleaneractiontype_);
     std::swap(cleanertext_, other->cleanertext_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
@@ -1386,7 +1258,6 @@ const int ChatCleanerMessage::kCleanerChatReplyMessageFieldNumber;
 ChatCleanerMessage::ChatCleanerMessage()
   : ::google::protobuf::MessageLite() {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ChatCleanerMessage)
 }
 
 void ChatCleanerMessage::InitAsDefaultInstance() {
@@ -1420,7 +1291,6 @@ ChatCleanerMessage::ChatCleanerMessage(const ChatCleanerMessage& from)
   : ::google::protobuf::MessageLite() {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:ChatCleanerMessage)
 }
 
 void ChatCleanerMessage::SharedCtor() {
@@ -1434,7 +1304,6 @@ void ChatCleanerMessage::SharedCtor() {
 }
 
 ChatCleanerMessage::~ChatCleanerMessage() {
-  // @@protoc_insertion_point(destructor:ChatCleanerMessage)
   SharedDtor();
 }
 
@@ -1472,7 +1341,7 @@ ChatCleanerMessage* ChatCleanerMessage::New() const {
 }
 
 void ChatCleanerMessage::Clear() {
-  if (_has_bits_[0 / 32] & 31) {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     messagetype_ = 1;
     if (has_cleanerinitmessage()) {
       if (cleanerinitmessage_ != NULL) cleanerinitmessage_->::CleanerInitMessage::Clear();
@@ -1488,38 +1357,27 @@ void ChatCleanerMessage::Clear() {
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->clear();
 }
 
 bool ChatCleanerMessage::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
-  ::google::protobuf::io::StringOutputStream unknown_fields_string(
-      mutable_unknown_fields());
-  ::google::protobuf::io::CodedOutputStream unknown_fields_stream(
-      &unknown_fields_string);
-  // @@protoc_insertion_point(parse_start:ChatCleanerMessage)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
+  while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required .ChatCleanerMessage.ChatCleanerMessageType messageType = 1;
       case 1: {
-        if (tag == 8) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
           if (::ChatCleanerMessage_ChatCleanerMessageType_IsValid(value)) {
             set_messagetype(static_cast< ::ChatCleanerMessage_ChatCleanerMessageType >(value));
-          } else {
-            unknown_fields_stream.WriteVarint32(tag);
-            unknown_fields_stream.WriteVarint32(value);
           }
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(18)) goto parse_cleanerInitMessage;
         break;
@@ -1527,12 +1385,13 @@ bool ChatCleanerMessage::MergePartialFromCodedStream(
 
       // optional .CleanerInitMessage cleanerInitMessage = 2;
       case 2: {
-        if (tag == 18) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cleanerInitMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_cleanerinitmessage()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(26)) goto parse_cleanerInitAckMessage;
         break;
@@ -1540,12 +1399,13 @@ bool ChatCleanerMessage::MergePartialFromCodedStream(
 
       // optional .CleanerInitAckMessage cleanerInitAckMessage = 3;
       case 3: {
-        if (tag == 26) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cleanerInitAckMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_cleanerinitackmessage()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(34)) goto parse_cleanerChatRequestMessage;
         break;
@@ -1553,12 +1413,13 @@ bool ChatCleanerMessage::MergePartialFromCodedStream(
 
       // optional .CleanerChatRequestMessage cleanerChatRequestMessage = 4;
       case 4: {
-        if (tag == 34) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cleanerChatRequestMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_cleanerchatrequestmessage()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
         if (input->ExpectTag(42)) goto parse_cleanerChatReplyMessage;
         break;
@@ -1566,42 +1427,35 @@ bool ChatCleanerMessage::MergePartialFromCodedStream(
 
       // optional .CleanerChatReplyMessage cleanerChatReplyMessage = 5;
       case 5: {
-        if (tag == 42) {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cleanerChatReplyMessage:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_cleanerchatreplymessage()));
         } else {
-          goto handle_unusual;
+          goto handle_uninterpreted;
         }
-        if (input->ExpectAtEnd()) goto success;
+        if (input->ExpectAtEnd()) return true;
         break;
       }
 
       default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
+          return true;
         }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(
-            input, tag, &unknown_fields_stream));
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
         break;
       }
     }
   }
-success:
-  // @@protoc_insertion_point(parse_success:ChatCleanerMessage)
   return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:ChatCleanerMessage)
-  return false;
 #undef DO_
 }
 
 void ChatCleanerMessage::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ChatCleanerMessage)
   // required .ChatCleanerMessage.ChatCleanerMessageType messageType = 1;
   if (has_messagetype()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -1632,9 +1486,6 @@ void ChatCleanerMessage::SerializeWithCachedSizes(
       5, this->cleanerchatreplymessage(), output);
   }
 
-  output->WriteRaw(unknown_fields().data(),
-                   unknown_fields().size());
-  // @@protoc_insertion_point(serialize_end:ChatCleanerMessage)
 }
 
 int ChatCleanerMessage::ByteSize() const {
@@ -1676,8 +1527,6 @@ int ChatCleanerMessage::ByteSize() const {
     }
 
   }
-  total_size += unknown_fields().size();
-
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
@@ -1708,7 +1557,6 @@ void ChatCleanerMessage::MergeFrom(const ChatCleanerMessage& from) {
       mutable_cleanerchatreplymessage()->::CleanerChatReplyMessage::MergeFrom(from.cleanerchatreplymessage());
     }
   }
-  mutable_unknown_fields()->append(from.unknown_fields());
 }
 
 void ChatCleanerMessage::CopyFrom(const ChatCleanerMessage& from) {
@@ -1743,7 +1591,6 @@ void ChatCleanerMessage::Swap(ChatCleanerMessage* other) {
     std::swap(cleanerchatrequestmessage_, other->cleanerchatrequestmessage_);
     std::swap(cleanerchatreplymessage_, other->cleanerchatreplymessage_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.swap(other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }

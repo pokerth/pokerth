@@ -59,7 +59,7 @@
 #include "carddeckstylereader.h"
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
-
+#include <core/loghelper.h>
 #include <net/socket_msg.h>
 
 #include <cmath>
@@ -80,6 +80,8 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	: QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(false), pushButtonCallCheckIsChecked(false), pushButtonFoldIsChecked(false), pushButtonAllInIsChecked(false), myButtonsAreCheckable(false), breakAfterCurrentHand(false), currentGameOver(false), betSliderChangedByInput(false), guestMode(false), myLastPreActionBetValue(0)
 {
 	int i;
+
+	LOG_MSG("starting gameTableImpl");
 
 	//	this->setStyle(new QPlastiqueStyle);
 
@@ -870,6 +872,8 @@ void gameTableImpl::initGui(int speed)
 	//kill running Singleshots!!!
 	stopTimer();
 
+	LOG_MSG("starting gameTableImpl::initGui");
+
 	label_handNumber->setText(HandString+":");
 	label_gameNumber->setText(GameString+":");
 
@@ -934,6 +938,7 @@ void gameTableImpl::initGui(int speed)
 
 #endif
 
+	LOG_MSG("ending gameTableImpl::initGui");
 }
 
 boost::shared_ptr<Session> gameTableImpl::getSession()

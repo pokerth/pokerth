@@ -41,6 +41,7 @@
 #include <net/clientthread.h>
 #include <core/avatarmanager.h>
 #include <net/servermanagerfactory.h>
+#include <core/loghelper.h>
 
 #include <sstream>
 
@@ -281,6 +282,14 @@ void Session::clientCreateGame(const GameData &gameData, const string &name, con
 {
 	if (!myNetClient)
 		return; // only act if client is running.
+
+	std::cout << "Creating game with new params: {allowLate, allowReentries, numReentries, maxTimeLateReg} -> {" <<
+			std::boolalpha << 
+			gameData.allowLateReg << ", " <<
+			gameData.allowReentries << "," <<
+			gameData.numReentries << ", " <<
+			gameData.maxTimeLateReg << "}" << std::endl;
+
 	myNetClient->SendCreateGame(
 		gameData,
 		name,

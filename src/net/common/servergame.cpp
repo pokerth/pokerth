@@ -1184,6 +1184,17 @@ ServerGame::CheckSettings(const GameData &data, const string &password, ServerMo
 			retVal = false;
 		}
 	}
+
+	if (data.gameType == GAME_TYPE_NORMAL || data.gameType == GAME_TYPE_REGISTERED_ONLY) { // allow late reg and reentries
+		if (data.allowLateReg || data.allowReentries) {
+			if (data.maxTimeLateReg < 1 || data.maxTimeLateReg > 60) retVal = false;
+			if (data.allowReentries && (data.numReentries < 0 || data.numReentries > 10)) retVal = false;
+		}
+	}
+	else { // does not allow
+		if (data.allowLateReg || data.allowReentries) retVal = false;
+	}
+
 	return retVal;
 }
 

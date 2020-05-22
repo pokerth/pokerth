@@ -461,10 +461,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(enum_scope:NetAvatarType)
   }
 
-  public interface NetGameInfoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:NetGameInfo)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface NetGameInfoOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required string gameName = 1;
     /**
      * <code>required string gameName = 1;</code>
      */
@@ -479,6 +479,7 @@ public final class ProtoBuf {
     com.google.protobuf.ByteString
         getGameNameBytes();
 
+    // required .NetGameInfo.NetGameType netGameType = 2;
     /**
      * <code>required .NetGameInfo.NetGameType netGameType = 2;</code>
      */
@@ -488,6 +489,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType getNetGameType();
 
+    // required uint32 maxNumPlayers = 3;
     /**
      * <code>required uint32 maxNumPlayers = 3;</code>
      */
@@ -497,6 +499,7 @@ public final class ProtoBuf {
      */
     int getMaxNumPlayers();
 
+    // required .NetGameInfo.RaiseIntervalMode raiseIntervalMode = 4;
     /**
      * <code>required .NetGameInfo.RaiseIntervalMode raiseIntervalMode = 4;</code>
      */
@@ -506,6 +509,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode getRaiseIntervalMode();
 
+    // optional uint32 raiseEveryHands = 5;
     /**
      * <code>optional uint32 raiseEveryHands = 5;</code>
      */
@@ -515,6 +519,7 @@ public final class ProtoBuf {
      */
     int getRaiseEveryHands();
 
+    // optional uint32 raiseEveryMinutes = 6;
     /**
      * <code>optional uint32 raiseEveryMinutes = 6;</code>
      */
@@ -524,6 +529,7 @@ public final class ProtoBuf {
      */
     int getRaiseEveryMinutes();
 
+    // required .NetGameInfo.EndRaiseMode endRaiseMode = 7;
     /**
      * <code>required .NetGameInfo.EndRaiseMode endRaiseMode = 7;</code>
      */
@@ -533,6 +539,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode getEndRaiseMode();
 
+    // optional uint32 endRaiseSmallBlindValue = 8;
     /**
      * <code>optional uint32 endRaiseSmallBlindValue = 8;</code>
      */
@@ -542,6 +549,7 @@ public final class ProtoBuf {
      */
     int getEndRaiseSmallBlindValue();
 
+    // required uint32 proposedGuiSpeed = 9;
     /**
      * <code>required uint32 proposedGuiSpeed = 9;</code>
      */
@@ -551,6 +559,7 @@ public final class ProtoBuf {
      */
     int getProposedGuiSpeed();
 
+    // required uint32 delayBetweenHands = 10;
     /**
      * <code>required uint32 delayBetweenHands = 10;</code>
      *
@@ -568,6 +577,7 @@ public final class ProtoBuf {
      */
     int getDelayBetweenHands();
 
+    // required uint32 playerActionTimeout = 11;
     /**
      * <code>required uint32 playerActionTimeout = 11;</code>
      *
@@ -585,6 +595,7 @@ public final class ProtoBuf {
      */
     int getPlayerActionTimeout();
 
+    // required uint32 firstSmallBlind = 12;
     /**
      * <code>required uint32 firstSmallBlind = 12;</code>
      */
@@ -594,6 +605,7 @@ public final class ProtoBuf {
      */
     int getFirstSmallBlind();
 
+    // required uint32 startMoney = 13;
     /**
      * <code>required uint32 startMoney = 13;</code>
      */
@@ -603,6 +615,7 @@ public final class ProtoBuf {
      */
     int getStartMoney();
 
+    // repeated uint32 manualBlinds = 14 [packed = true];
     /**
      * <code>repeated uint32 manualBlinds = 14 [packed = true];</code>
      */
@@ -616,6 +629,7 @@ public final class ProtoBuf {
      */
     int getManualBlinds(int index);
 
+    // optional bool allowSpectators = 15 [default = true];
     /**
      * <code>optional bool allowSpectators = 15 [default = true];</code>
      */
@@ -624,20 +638,67 @@ public final class ProtoBuf {
      * <code>optional bool allowSpectators = 15 [default = true];</code>
      */
     boolean getAllowSpectators();
+
+    // optional bool allowLateReg = 16 [default = false];
+    /**
+     * <code>optional bool allowLateReg = 16 [default = false];</code>
+     *
+     * <pre>
+     *new data
+     * </pre>
+     */
+    boolean hasAllowLateReg();
+    /**
+     * <code>optional bool allowLateReg = 16 [default = false];</code>
+     *
+     * <pre>
+     *new data
+     * </pre>
+     */
+    boolean getAllowLateReg();
+
+    // optional bool allowReentries = 17 [default = false];
+    /**
+     * <code>optional bool allowReentries = 17 [default = false];</code>
+     */
+    boolean hasAllowReentries();
+    /**
+     * <code>optional bool allowReentries = 17 [default = false];</code>
+     */
+    boolean getAllowReentries();
+
+    // optional uint32 numReentries = 18 [default = 0];
+    /**
+     * <code>optional uint32 numReentries = 18 [default = 0];</code>
+     */
+    boolean hasNumReentries();
+    /**
+     * <code>optional uint32 numReentries = 18 [default = 0];</code>
+     */
+    int getNumReentries();
+
+    // optional uint32 maxTimeLateReg = 19 [default = 0];
+    /**
+     * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+     */
+    boolean hasMaxTimeLateReg();
+    /**
+     * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+     */
+    int getMaxTimeLateReg();
   }
   /**
    * Protobuf type {@code NetGameInfo}
    */
   public static final class NetGameInfo extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:NetGameInfo)
-      NetGameInfoOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements NetGameInfoOrBuilder {
     // Use NetGameInfo.newBuilder() to construct.
     private NetGameInfo(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private NetGameInfo(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private NetGameInfo(boolean noInit) {}
 
     private static final NetGameInfo defaultInstance;
     public static NetGameInfo getDefaultInstance() {
@@ -648,18 +709,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private NetGameInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -669,25 +724,21 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              gameName_ = bs;
+              gameName_ = input.readBytes();
               break;
             }
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType value = de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 netGameType_ = value;
               }
@@ -701,10 +752,7 @@ public final class ProtoBuf {
             case 32: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode value = de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000008;
                 raiseIntervalMode_ = value;
               }
@@ -723,10 +771,7 @@ public final class ProtoBuf {
             case 56: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode value = de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000040;
                 endRaiseMode_ = value;
               }
@@ -788,6 +833,26 @@ public final class ProtoBuf {
               allowSpectators_ = input.readBool();
               break;
             }
+            case 128: {
+              bitField0_ |= 0x00004000;
+              allowLateReg_ = input.readBool();
+              break;
+            }
+            case 136: {
+              bitField0_ |= 0x00008000;
+              allowReentries_ = input.readBool();
+              break;
+            }
+            case 144: {
+              bitField0_ |= 0x00010000;
+              numReentries_ = input.readUInt32();
+              break;
+            }
+            case 152: {
+              bitField0_ |= 0x00020000;
+              maxTimeLateReg_ = input.readUInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -798,13 +863,6 @@ public final class ProtoBuf {
       } finally {
         if (((mutable_bitField0_ & 0x00002000) == 0x00002000)) {
           manualBlinds_ = java.util.Collections.unmodifiableList(manualBlinds_);
-        }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
         }
         makeExtensionsImmutable();
       }
@@ -1020,6 +1078,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required string gameName = 1;
     public static final int GAMENAME_FIELD_NUMBER = 1;
     private java.lang.Object gameName_;
     /**
@@ -1062,6 +1121,7 @@ public final class ProtoBuf {
       }
     }
 
+    // required .NetGameInfo.NetGameType netGameType = 2;
     public static final int NETGAMETYPE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType netGameType_;
     /**
@@ -1077,6 +1137,7 @@ public final class ProtoBuf {
       return netGameType_;
     }
 
+    // required uint32 maxNumPlayers = 3;
     public static final int MAXNUMPLAYERS_FIELD_NUMBER = 3;
     private int maxNumPlayers_;
     /**
@@ -1092,6 +1153,7 @@ public final class ProtoBuf {
       return maxNumPlayers_;
     }
 
+    // required .NetGameInfo.RaiseIntervalMode raiseIntervalMode = 4;
     public static final int RAISEINTERVALMODE_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode raiseIntervalMode_;
     /**
@@ -1107,6 +1169,7 @@ public final class ProtoBuf {
       return raiseIntervalMode_;
     }
 
+    // optional uint32 raiseEveryHands = 5;
     public static final int RAISEEVERYHANDS_FIELD_NUMBER = 5;
     private int raiseEveryHands_;
     /**
@@ -1122,6 +1185,7 @@ public final class ProtoBuf {
       return raiseEveryHands_;
     }
 
+    // optional uint32 raiseEveryMinutes = 6;
     public static final int RAISEEVERYMINUTES_FIELD_NUMBER = 6;
     private int raiseEveryMinutes_;
     /**
@@ -1137,6 +1201,7 @@ public final class ProtoBuf {
       return raiseEveryMinutes_;
     }
 
+    // required .NetGameInfo.EndRaiseMode endRaiseMode = 7;
     public static final int ENDRAISEMODE_FIELD_NUMBER = 7;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode endRaiseMode_;
     /**
@@ -1152,6 +1217,7 @@ public final class ProtoBuf {
       return endRaiseMode_;
     }
 
+    // optional uint32 endRaiseSmallBlindValue = 8;
     public static final int ENDRAISESMALLBLINDVALUE_FIELD_NUMBER = 8;
     private int endRaiseSmallBlindValue_;
     /**
@@ -1167,6 +1233,7 @@ public final class ProtoBuf {
       return endRaiseSmallBlindValue_;
     }
 
+    // required uint32 proposedGuiSpeed = 9;
     public static final int PROPOSEDGUISPEED_FIELD_NUMBER = 9;
     private int proposedGuiSpeed_;
     /**
@@ -1182,6 +1249,7 @@ public final class ProtoBuf {
       return proposedGuiSpeed_;
     }
 
+    // required uint32 delayBetweenHands = 10;
     public static final int DELAYBETWEENHANDS_FIELD_NUMBER = 10;
     private int delayBetweenHands_;
     /**
@@ -1205,6 +1273,7 @@ public final class ProtoBuf {
       return delayBetweenHands_;
     }
 
+    // required uint32 playerActionTimeout = 11;
     public static final int PLAYERACTIONTIMEOUT_FIELD_NUMBER = 11;
     private int playerActionTimeout_;
     /**
@@ -1228,6 +1297,7 @@ public final class ProtoBuf {
       return playerActionTimeout_;
     }
 
+    // required uint32 firstSmallBlind = 12;
     public static final int FIRSTSMALLBLIND_FIELD_NUMBER = 12;
     private int firstSmallBlind_;
     /**
@@ -1243,6 +1313,7 @@ public final class ProtoBuf {
       return firstSmallBlind_;
     }
 
+    // required uint32 startMoney = 13;
     public static final int STARTMONEY_FIELD_NUMBER = 13;
     private int startMoney_;
     /**
@@ -1258,6 +1329,7 @@ public final class ProtoBuf {
       return startMoney_;
     }
 
+    // repeated uint32 manualBlinds = 14 [packed = true];
     public static final int MANUALBLINDS_FIELD_NUMBER = 14;
     private java.util.List<java.lang.Integer> manualBlinds_;
     /**
@@ -1281,6 +1353,7 @@ public final class ProtoBuf {
     }
     private int manualBlindsMemoizedSerializedSize = -1;
 
+    // optional bool allowSpectators = 15 [default = true];
     public static final int ALLOWSPECTATORS_FIELD_NUMBER = 15;
     private boolean allowSpectators_;
     /**
@@ -1294,6 +1367,78 @@ public final class ProtoBuf {
      */
     public boolean getAllowSpectators() {
       return allowSpectators_;
+    }
+
+    // optional bool allowLateReg = 16 [default = false];
+    public static final int ALLOWLATEREG_FIELD_NUMBER = 16;
+    private boolean allowLateReg_;
+    /**
+     * <code>optional bool allowLateReg = 16 [default = false];</code>
+     *
+     * <pre>
+     *new data
+     * </pre>
+     */
+    public boolean hasAllowLateReg() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional bool allowLateReg = 16 [default = false];</code>
+     *
+     * <pre>
+     *new data
+     * </pre>
+     */
+    public boolean getAllowLateReg() {
+      return allowLateReg_;
+    }
+
+    // optional bool allowReentries = 17 [default = false];
+    public static final int ALLOWREENTRIES_FIELD_NUMBER = 17;
+    private boolean allowReentries_;
+    /**
+     * <code>optional bool allowReentries = 17 [default = false];</code>
+     */
+    public boolean hasAllowReentries() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional bool allowReentries = 17 [default = false];</code>
+     */
+    public boolean getAllowReentries() {
+      return allowReentries_;
+    }
+
+    // optional uint32 numReentries = 18 [default = 0];
+    public static final int NUMREENTRIES_FIELD_NUMBER = 18;
+    private int numReentries_;
+    /**
+     * <code>optional uint32 numReentries = 18 [default = 0];</code>
+     */
+    public boolean hasNumReentries() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional uint32 numReentries = 18 [default = 0];</code>
+     */
+    public int getNumReentries() {
+      return numReentries_;
+    }
+
+    // optional uint32 maxTimeLateReg = 19 [default = 0];
+    public static final int MAXTIMELATEREG_FIELD_NUMBER = 19;
+    private int maxTimeLateReg_;
+    /**
+     * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+     */
+    public boolean hasMaxTimeLateReg() {
+      return ((bitField0_ & 0x00020000) == 0x00020000);
+    }
+    /**
+     * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+     */
+    public int getMaxTimeLateReg() {
+      return maxTimeLateReg_;
     }
 
     private void initFields() {
@@ -1312,12 +1457,15 @@ public final class ProtoBuf {
       startMoney_ = 0;
       manualBlinds_ = java.util.Collections.emptyList();
       allowSpectators_ = true;
+      allowLateReg_ = false;
+      allowReentries_ = false;
+      numReentries_ = 0;
+      maxTimeLateReg_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameName()) {
         memoizedIsInitialized = 0;
@@ -1415,7 +1563,18 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeBool(15, allowSpectators_);
       }
-      output.writeRawBytes(unknownFields);
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeBool(16, allowLateReg_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeBool(17, allowReentries_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        output.writeUInt32(18, numReentries_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        output.writeUInt32(19, maxTimeLateReg_);
+      }
     }
 
     private int memoizedSerializedSize = -1;
@@ -1494,7 +1653,22 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(15, allowSpectators_);
       }
-      size += unknownFields.size();
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(16, allowLateReg_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(17, allowReentries_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(18, numReentries_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(19, maxTimeLateReg_);
+      }
       memoizedSerializedSize = size;
       return size;
     }
@@ -1572,9 +1746,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.NetGameInfo, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:NetGameInfo)
-        de.pokerth.protocol.ProtoBuf.NetGameInfoOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.NetGameInfoOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.NetGameInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -1618,6 +1790,14 @@ public final class ProtoBuf {
         bitField0_ = (bitField0_ & ~0x00002000);
         allowSpectators_ = true;
         bitField0_ = (bitField0_ & ~0x00004000);
+        allowLateReg_ = false;
+        bitField0_ = (bitField0_ & ~0x00008000);
+        allowReentries_ = false;
+        bitField0_ = (bitField0_ & ~0x00010000);
+        numReentries_ = 0;
+        bitField0_ = (bitField0_ & ~0x00020000);
+        maxTimeLateReg_ = 0;
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
@@ -1702,6 +1882,22 @@ public final class ProtoBuf {
           to_bitField0_ |= 0x00002000;
         }
         result.allowSpectators_ = allowSpectators_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.allowLateReg_ = allowLateReg_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.allowReentries_ = allowReentries_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00010000;
+        }
+        result.numReentries_ = numReentries_;
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+          to_bitField0_ |= 0x00020000;
+        }
+        result.maxTimeLateReg_ = maxTimeLateReg_;
         result.bitField0_ = to_bitField0_;
         return result;
       }
@@ -1762,8 +1958,18 @@ public final class ProtoBuf {
         if (other.hasAllowSpectators()) {
           setAllowSpectators(other.getAllowSpectators());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
+        if (other.hasAllowLateReg()) {
+          setAllowLateReg(other.getAllowLateReg());
+        }
+        if (other.hasAllowReentries()) {
+          setAllowReentries(other.getAllowReentries());
+        }
+        if (other.hasNumReentries()) {
+          setNumReentries(other.getNumReentries());
+        }
+        if (other.hasMaxTimeLateReg()) {
+          setMaxTimeLateReg(other.getMaxTimeLateReg());
+        }
         return this;
       }
 
@@ -1830,6 +2036,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required string gameName = 1;
       private java.lang.Object gameName_ = "";
       /**
        * <code>required string gameName = 1;</code>
@@ -1843,12 +2050,9 @@ public final class ProtoBuf {
       public java.lang.String getGameName() {
         java.lang.Object ref = gameName_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            gameName_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          gameName_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -1906,6 +2110,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameInfo.NetGameType netGameType = 2;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType netGameType_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.NetGameType.normalGame;
       /**
        * <code>required .NetGameInfo.NetGameType netGameType = 2;</code>
@@ -1941,6 +2146,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 maxNumPlayers = 3;
       private int maxNumPlayers_ ;
       /**
        * <code>required uint32 maxNumPlayers = 3;</code>
@@ -1973,6 +2179,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameInfo.RaiseIntervalMode raiseIntervalMode = 4;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode raiseIntervalMode_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.RaiseIntervalMode.raiseOnHandNum;
       /**
        * <code>required .NetGameInfo.RaiseIntervalMode raiseIntervalMode = 4;</code>
@@ -2008,6 +2215,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 raiseEveryHands = 5;
       private int raiseEveryHands_ ;
       /**
        * <code>optional uint32 raiseEveryHands = 5;</code>
@@ -2040,6 +2248,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 raiseEveryMinutes = 6;
       private int raiseEveryMinutes_ ;
       /**
        * <code>optional uint32 raiseEveryMinutes = 6;</code>
@@ -2072,6 +2281,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameInfo.EndRaiseMode endRaiseMode = 7;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode endRaiseMode_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.EndRaiseMode.doubleBlinds;
       /**
        * <code>required .NetGameInfo.EndRaiseMode endRaiseMode = 7;</code>
@@ -2107,6 +2317,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 endRaiseSmallBlindValue = 8;
       private int endRaiseSmallBlindValue_ ;
       /**
        * <code>optional uint32 endRaiseSmallBlindValue = 8;</code>
@@ -2139,6 +2350,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 proposedGuiSpeed = 9;
       private int proposedGuiSpeed_ ;
       /**
        * <code>required uint32 proposedGuiSpeed = 9;</code>
@@ -2171,6 +2383,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 delayBetweenHands = 10;
       private int delayBetweenHands_ ;
       /**
        * <code>required uint32 delayBetweenHands = 10;</code>
@@ -2219,6 +2432,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerActionTimeout = 11;
       private int playerActionTimeout_ ;
       /**
        * <code>required uint32 playerActionTimeout = 11;</code>
@@ -2267,6 +2481,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 firstSmallBlind = 12;
       private int firstSmallBlind_ ;
       /**
        * <code>required uint32 firstSmallBlind = 12;</code>
@@ -2299,6 +2514,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 startMoney = 13;
       private int startMoney_ ;
       /**
        * <code>required uint32 startMoney = 13;</code>
@@ -2331,6 +2547,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated uint32 manualBlinds = 14 [packed = true];
       private java.util.List<java.lang.Integer> manualBlinds_ = java.util.Collections.emptyList();
       private void ensureManualBlindsIsMutable() {
         if (!((bitField0_ & 0x00002000) == 0x00002000)) {
@@ -2382,8 +2599,7 @@ public final class ProtoBuf {
       public Builder addAllManualBlinds(
           java.lang.Iterable<? extends java.lang.Integer> values) {
         ensureManualBlindsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, manualBlinds_);
+        super.addAll(values, manualBlinds_);
         
         return this;
       }
@@ -2397,6 +2613,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool allowSpectators = 15 [default = true];
       private boolean allowSpectators_ = true;
       /**
        * <code>optional bool allowSpectators = 15 [default = true];</code>
@@ -2429,6 +2646,154 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool allowLateReg = 16 [default = false];
+      private boolean allowLateReg_ ;
+      /**
+       * <code>optional bool allowLateReg = 16 [default = false];</code>
+       *
+       * <pre>
+       *new data
+       * </pre>
+       */
+      public boolean hasAllowLateReg() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>optional bool allowLateReg = 16 [default = false];</code>
+       *
+       * <pre>
+       *new data
+       * </pre>
+       */
+      public boolean getAllowLateReg() {
+        return allowLateReg_;
+      }
+      /**
+       * <code>optional bool allowLateReg = 16 [default = false];</code>
+       *
+       * <pre>
+       *new data
+       * </pre>
+       */
+      public Builder setAllowLateReg(boolean value) {
+        bitField0_ |= 0x00008000;
+        allowLateReg_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional bool allowLateReg = 16 [default = false];</code>
+       *
+       * <pre>
+       *new data
+       * </pre>
+       */
+      public Builder clearAllowLateReg() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        allowLateReg_ = false;
+        
+        return this;
+      }
+
+      // optional bool allowReentries = 17 [default = false];
+      private boolean allowReentries_ ;
+      /**
+       * <code>optional bool allowReentries = 17 [default = false];</code>
+       */
+      public boolean hasAllowReentries() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional bool allowReentries = 17 [default = false];</code>
+       */
+      public boolean getAllowReentries() {
+        return allowReentries_;
+      }
+      /**
+       * <code>optional bool allowReentries = 17 [default = false];</code>
+       */
+      public Builder setAllowReentries(boolean value) {
+        bitField0_ |= 0x00010000;
+        allowReentries_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional bool allowReentries = 17 [default = false];</code>
+       */
+      public Builder clearAllowReentries() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        allowReentries_ = false;
+        
+        return this;
+      }
+
+      // optional uint32 numReentries = 18 [default = 0];
+      private int numReentries_ ;
+      /**
+       * <code>optional uint32 numReentries = 18 [default = 0];</code>
+       */
+      public boolean hasNumReentries() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>optional uint32 numReentries = 18 [default = 0];</code>
+       */
+      public int getNumReentries() {
+        return numReentries_;
+      }
+      /**
+       * <code>optional uint32 numReentries = 18 [default = 0];</code>
+       */
+      public Builder setNumReentries(int value) {
+        bitField0_ |= 0x00020000;
+        numReentries_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional uint32 numReentries = 18 [default = 0];</code>
+       */
+      public Builder clearNumReentries() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        numReentries_ = 0;
+        
+        return this;
+      }
+
+      // optional uint32 maxTimeLateReg = 19 [default = 0];
+      private int maxTimeLateReg_ ;
+      /**
+       * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+       */
+      public boolean hasMaxTimeLateReg() {
+        return ((bitField0_ & 0x00040000) == 0x00040000);
+      }
+      /**
+       * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+       */
+      public int getMaxTimeLateReg() {
+        return maxTimeLateReg_;
+      }
+      /**
+       * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+       */
+      public Builder setMaxTimeLateReg(int value) {
+        bitField0_ |= 0x00040000;
+        maxTimeLateReg_ = value;
+        
+        return this;
+      }
+      /**
+       * <code>optional uint32 maxTimeLateReg = 19 [default = 0];</code>
+       */
+      public Builder clearMaxTimeLateReg() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        maxTimeLateReg_ = 0;
+        
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:NetGameInfo)
     }
 
@@ -2440,10 +2805,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:NetGameInfo)
   }
 
-  public interface PlayerResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayerResult)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayerResultOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 playerId = 1;
     /**
      * <code>required uint32 playerId = 1;</code>
      */
@@ -2453,6 +2818,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required uint32 resultCard1 = 2;
     /**
      * <code>required uint32 resultCard1 = 2;</code>
      */
@@ -2462,6 +2828,7 @@ public final class ProtoBuf {
      */
     int getResultCard1();
 
+    // required uint32 resultCard2 = 3;
     /**
      * <code>required uint32 resultCard2 = 3;</code>
      */
@@ -2471,6 +2838,7 @@ public final class ProtoBuf {
      */
     int getResultCard2();
 
+    // repeated uint32 bestHandPosition = 4 [packed = true];
     /**
      * <code>repeated uint32 bestHandPosition = 4 [packed = true];</code>
      */
@@ -2484,6 +2852,7 @@ public final class ProtoBuf {
      */
     int getBestHandPosition(int index);
 
+    // required uint32 moneyWon = 5;
     /**
      * <code>required uint32 moneyWon = 5;</code>
      */
@@ -2493,6 +2862,7 @@ public final class ProtoBuf {
      */
     int getMoneyWon();
 
+    // required uint32 playerMoney = 6;
     /**
      * <code>required uint32 playerMoney = 6;</code>
      */
@@ -2502,6 +2872,7 @@ public final class ProtoBuf {
      */
     int getPlayerMoney();
 
+    // optional uint32 cardsValue = 7;
     /**
      * <code>optional uint32 cardsValue = 7;</code>
      */
@@ -2515,15 +2886,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayerResult}
    */
   public static final class PlayerResult extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayerResult)
-      PlayerResultOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayerResultOrBuilder {
     // Use PlayerResult.newBuilder() to construct.
     private PlayerResult(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayerResult(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayerResult(boolean noInit) {}
 
     private static final PlayerResult defaultInstance;
     public static PlayerResult getDefaultInstance() {
@@ -2534,18 +2904,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayerResult(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -2555,7 +2919,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -2623,13 +2987,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           bestHandPosition_ = java.util.Collections.unmodifiableList(bestHandPosition_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -2649,6 +3006,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 playerId = 1;
     public static final int PLAYERID_FIELD_NUMBER = 1;
     private int playerId_;
     /**
@@ -2664,6 +3022,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required uint32 resultCard1 = 2;
     public static final int RESULTCARD1_FIELD_NUMBER = 2;
     private int resultCard1_;
     /**
@@ -2679,6 +3038,7 @@ public final class ProtoBuf {
       return resultCard1_;
     }
 
+    // required uint32 resultCard2 = 3;
     public static final int RESULTCARD2_FIELD_NUMBER = 3;
     private int resultCard2_;
     /**
@@ -2694,6 +3054,7 @@ public final class ProtoBuf {
       return resultCard2_;
     }
 
+    // repeated uint32 bestHandPosition = 4 [packed = true];
     public static final int BESTHANDPOSITION_FIELD_NUMBER = 4;
     private java.util.List<java.lang.Integer> bestHandPosition_;
     /**
@@ -2717,6 +3078,7 @@ public final class ProtoBuf {
     }
     private int bestHandPositionMemoizedSerializedSize = -1;
 
+    // required uint32 moneyWon = 5;
     public static final int MONEYWON_FIELD_NUMBER = 5;
     private int moneyWon_;
     /**
@@ -2732,6 +3094,7 @@ public final class ProtoBuf {
       return moneyWon_;
     }
 
+    // required uint32 playerMoney = 6;
     public static final int PLAYERMONEY_FIELD_NUMBER = 6;
     private int playerMoney_;
     /**
@@ -2747,6 +3110,7 @@ public final class ProtoBuf {
       return playerMoney_;
     }
 
+    // optional uint32 cardsValue = 7;
     public static final int CARDSVALUE_FIELD_NUMBER = 7;
     private int cardsValue_;
     /**
@@ -2774,8 +3138,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasPlayerId()) {
         memoizedIsInitialized = 0;
@@ -2829,7 +3192,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeUInt32(7, cardsValue_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -2876,7 +3238,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(7, cardsValue_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -2954,9 +3315,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayerResult, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayerResult)
-        de.pokerth.protocol.ProtoBuf.PlayerResultOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayerResultOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayerResult.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -3070,8 +3429,6 @@ public final class ProtoBuf {
         if (other.hasCardsValue()) {
           setCardsValue(other.getCardsValue());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -3118,6 +3475,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 playerId = 1;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 1;</code>
@@ -3150,6 +3508,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 resultCard1 = 2;
       private int resultCard1_ ;
       /**
        * <code>required uint32 resultCard1 = 2;</code>
@@ -3182,6 +3541,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 resultCard2 = 3;
       private int resultCard2_ ;
       /**
        * <code>required uint32 resultCard2 = 3;</code>
@@ -3214,6 +3574,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated uint32 bestHandPosition = 4 [packed = true];
       private java.util.List<java.lang.Integer> bestHandPosition_ = java.util.Collections.emptyList();
       private void ensureBestHandPositionIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
@@ -3265,8 +3626,7 @@ public final class ProtoBuf {
       public Builder addAllBestHandPosition(
           java.lang.Iterable<? extends java.lang.Integer> values) {
         ensureBestHandPositionIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, bestHandPosition_);
+        super.addAll(values, bestHandPosition_);
         
         return this;
       }
@@ -3280,6 +3640,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 moneyWon = 5;
       private int moneyWon_ ;
       /**
        * <code>required uint32 moneyWon = 5;</code>
@@ -3312,6 +3673,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerMoney = 6;
       private int playerMoney_ ;
       /**
        * <code>required uint32 playerMoney = 6;</code>
@@ -3344,6 +3706,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 cardsValue = 7;
       private int cardsValue_ ;
       /**
        * <code>optional uint32 cardsValue = 7;</code>
@@ -3387,10 +3750,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayerResult)
   }
 
-  public interface AnnounceMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AnnounceMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AnnounceMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .AnnounceMessage.Version protocolVersion = 1;
     /**
      * <code>required .AnnounceMessage.Version protocolVersion = 1;</code>
      */
@@ -3400,6 +3763,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version getProtocolVersion();
 
+    // required .AnnounceMessage.Version latestGameVersion = 2;
     /**
      * <code>required .AnnounceMessage.Version latestGameVersion = 2;</code>
      */
@@ -3409,6 +3773,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version getLatestGameVersion();
 
+    // required uint32 latestBetaRevision = 3;
     /**
      * <code>required uint32 latestBetaRevision = 3;</code>
      */
@@ -3418,6 +3783,7 @@ public final class ProtoBuf {
      */
     int getLatestBetaRevision();
 
+    // required .AnnounceMessage.ServerType serverType = 4;
     /**
      * <code>required .AnnounceMessage.ServerType serverType = 4;</code>
      */
@@ -3427,6 +3793,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType getServerType();
 
+    // required uint32 numPlayersOnServer = 5;
     /**
      * <code>required uint32 numPlayersOnServer = 5;</code>
      */
@@ -3440,15 +3807,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AnnounceMessage}
    */
   public static final class AnnounceMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AnnounceMessage)
-      AnnounceMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AnnounceMessageOrBuilder {
     // Use AnnounceMessage.newBuilder() to construct.
     private AnnounceMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AnnounceMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AnnounceMessage(boolean noInit) {}
 
     private static final AnnounceMessage defaultInstance;
     public static AnnounceMessage getDefaultInstance() {
@@ -3459,18 +3825,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AnnounceMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -3480,7 +3840,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -3520,10 +3880,7 @@ public final class ProtoBuf {
             case 32: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType value = de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000008;
                 serverType_ = value;
               }
@@ -3542,13 +3899,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -3632,10 +3982,10 @@ public final class ProtoBuf {
       // @@protoc_insertion_point(enum_scope:AnnounceMessage.ServerType)
     }
 
-    public interface VersionOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:AnnounceMessage.Version)
-        com.google.protobuf.MessageLiteOrBuilder {
+    public interface VersionOrBuilder
+        extends com.google.protobuf.MessageLiteOrBuilder {
 
+      // required uint32 majorVersion = 1;
       /**
        * <code>required uint32 majorVersion = 1;</code>
        */
@@ -3645,6 +3995,7 @@ public final class ProtoBuf {
        */
       int getMajorVersion();
 
+      // required uint32 minorVersion = 2;
       /**
        * <code>required uint32 minorVersion = 2;</code>
        */
@@ -3658,15 +4009,14 @@ public final class ProtoBuf {
      * Protobuf type {@code AnnounceMessage.Version}
      */
     public static final class Version extends
-        com.google.protobuf.GeneratedMessageLite implements
-        // @@protoc_insertion_point(message_implements:AnnounceMessage.Version)
-        VersionOrBuilder {
+        com.google.protobuf.GeneratedMessageLite
+        implements VersionOrBuilder {
       // Use Version.newBuilder() to construct.
       private Version(com.google.protobuf.GeneratedMessageLite.Builder builder) {
         super(builder);
-        this.unknownFields = builder.getUnknownFields();
+
       }
-      private Version(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+      private Version(boolean noInit) {}
 
       private static final Version defaultInstance;
       public static Version getDefaultInstance() {
@@ -3677,18 +4027,12 @@ public final class ProtoBuf {
         return defaultInstance;
       }
 
-      private final com.google.protobuf.ByteString unknownFields;
       private Version(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         initFields();
         int mutable_bitField0_ = 0;
-        com.google.protobuf.ByteString.Output unknownFieldsOutput =
-            com.google.protobuf.ByteString.newOutput();
-        com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-            com.google.protobuf.CodedOutputStream.newInstance(
-                unknownFieldsOutput);
         try {
           boolean done = false;
           while (!done) {
@@ -3698,7 +4042,7 @@ public final class ProtoBuf {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                if (!parseUnknownField(input,
                                        extensionRegistry, tag)) {
                   done = true;
                 }
@@ -3722,13 +4066,6 @@ public final class ProtoBuf {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this);
         } finally {
-          try {
-            unknownFieldsCodedOutput.flush();
-          } catch (java.io.IOException e) {
-          // Should not happen
-          } finally {
-            unknownFields = unknownFieldsOutput.toByteString();
-          }
           makeExtensionsImmutable();
         }
       }
@@ -3748,6 +4085,7 @@ public final class ProtoBuf {
       }
 
       private int bitField0_;
+      // required uint32 majorVersion = 1;
       public static final int MAJORVERSION_FIELD_NUMBER = 1;
       private int majorVersion_;
       /**
@@ -3763,6 +4101,7 @@ public final class ProtoBuf {
         return majorVersion_;
       }
 
+      // required uint32 minorVersion = 2;
       public static final int MINORVERSION_FIELD_NUMBER = 2;
       private int minorVersion_;
       /**
@@ -3785,8 +4124,7 @@ public final class ProtoBuf {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
+        if (isInitialized != -1) return isInitialized == 1;
 
         if (!hasMajorVersion()) {
           memoizedIsInitialized = 0;
@@ -3809,7 +4147,6 @@ public final class ProtoBuf {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeUInt32(2, minorVersion_);
         }
-        output.writeRawBytes(unknownFields);
       }
 
       private int memoizedSerializedSize = -1;
@@ -3826,7 +4163,6 @@ public final class ProtoBuf {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, minorVersion_);
         }
-        size += unknownFields.size();
         memoizedSerializedSize = size;
         return size;
       }
@@ -3904,9 +4240,7 @@ public final class ProtoBuf {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageLite.Builder<
             de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version, Builder>
-          implements
-          // @@protoc_insertion_point(builder_implements:AnnounceMessage.Version)
-          de.pokerth.protocol.ProtoBuf.AnnounceMessage.VersionOrBuilder {
+          implements de.pokerth.protocol.ProtoBuf.AnnounceMessage.VersionOrBuilder {
         // Construct using de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
@@ -3967,8 +4301,6 @@ public final class ProtoBuf {
           if (other.hasMinorVersion()) {
             setMinorVersion(other.getMinorVersion());
           }
-          setUnknownFields(
-              getUnknownFields().concat(other.unknownFields));
           return this;
         }
 
@@ -4003,6 +4335,7 @@ public final class ProtoBuf {
         }
         private int bitField0_;
 
+        // required uint32 majorVersion = 1;
         private int majorVersion_ ;
         /**
          * <code>required uint32 majorVersion = 1;</code>
@@ -4035,6 +4368,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required uint32 minorVersion = 2;
         private int minorVersion_ ;
         /**
          * <code>required uint32 minorVersion = 2;</code>
@@ -4079,6 +4413,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .AnnounceMessage.Version protocolVersion = 1;
     public static final int PROTOCOLVERSION_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version protocolVersion_;
     /**
@@ -4094,6 +4429,7 @@ public final class ProtoBuf {
       return protocolVersion_;
     }
 
+    // required .AnnounceMessage.Version latestGameVersion = 2;
     public static final int LATESTGAMEVERSION_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version latestGameVersion_;
     /**
@@ -4109,6 +4445,7 @@ public final class ProtoBuf {
       return latestGameVersion_;
     }
 
+    // required uint32 latestBetaRevision = 3;
     public static final int LATESTBETAREVISION_FIELD_NUMBER = 3;
     private int latestBetaRevision_;
     /**
@@ -4124,6 +4461,7 @@ public final class ProtoBuf {
       return latestBetaRevision_;
     }
 
+    // required .AnnounceMessage.ServerType serverType = 4;
     public static final int SERVERTYPE_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType serverType_;
     /**
@@ -4139,6 +4477,7 @@ public final class ProtoBuf {
       return serverType_;
     }
 
+    // required uint32 numPlayersOnServer = 5;
     public static final int NUMPLAYERSONSERVER_FIELD_NUMBER = 5;
     private int numPlayersOnServer_;
     /**
@@ -4164,8 +4503,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasProtocolVersion()) {
         memoizedIsInitialized = 0;
@@ -4217,7 +4555,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeUInt32(5, numPlayersOnServer_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -4246,7 +4583,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(5, numPlayersOnServer_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -4324,9 +4660,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AnnounceMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AnnounceMessage)
-        de.pokerth.protocol.ProtoBuf.AnnounceMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AnnounceMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AnnounceMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -4414,8 +4748,6 @@ public final class ProtoBuf {
         if (other.hasNumPlayersOnServer()) {
           setNumPlayersOnServer(other.getNumPlayersOnServer());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -4470,6 +4802,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .AnnounceMessage.Version protocolVersion = 1;
       private de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version protocolVersion_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version.getDefaultInstance();
       /**
        * <code>required .AnnounceMessage.Version protocolVersion = 1;</code>
@@ -4530,6 +4863,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .AnnounceMessage.Version latestGameVersion = 2;
       private de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version latestGameVersion_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version.getDefaultInstance();
       /**
        * <code>required .AnnounceMessage.Version latestGameVersion = 2;</code>
@@ -4590,6 +4924,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 latestBetaRevision = 3;
       private int latestBetaRevision_ ;
       /**
        * <code>required uint32 latestBetaRevision = 3;</code>
@@ -4622,6 +4957,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .AnnounceMessage.ServerType serverType = 4;
       private de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType serverType_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.ServerType.serverTypeLAN;
       /**
        * <code>required .AnnounceMessage.ServerType serverType = 4;</code>
@@ -4657,6 +4993,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numPlayersOnServer = 5;
       private int numPlayersOnServer_ ;
       /**
        * <code>required uint32 numPlayersOnServer = 5;</code>
@@ -4700,10 +5037,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AnnounceMessage)
   }
 
-  public interface InitMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:InitMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface InitMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .AnnounceMessage.Version requestedVersion = 1;
     /**
      * <code>required .AnnounceMessage.Version requestedVersion = 1;</code>
      */
@@ -4713,6 +5050,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version getRequestedVersion();
 
+    // required uint32 buildId = 2;
     /**
      * <code>required uint32 buildId = 2;</code>
      */
@@ -4722,6 +5060,7 @@ public final class ProtoBuf {
      */
     int getBuildId();
 
+    // optional bytes myLastSessionId = 3;
     /**
      * <code>optional bytes myLastSessionId = 3;</code>
      */
@@ -4731,6 +5070,7 @@ public final class ProtoBuf {
      */
     com.google.protobuf.ByteString getMyLastSessionId();
 
+    // optional string authServerPassword = 4;
     /**
      * <code>optional string authServerPassword = 4;</code>
      */
@@ -4745,6 +5085,7 @@ public final class ProtoBuf {
     com.google.protobuf.ByteString
         getAuthServerPasswordBytes();
 
+    // required .InitMessage.LoginType login = 5;
     /**
      * <code>required .InitMessage.LoginType login = 5;</code>
      */
@@ -4754,6 +5095,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.InitMessage.LoginType getLogin();
 
+    // optional string nickName = 6;
     /**
      * <code>optional string nickName = 6;</code>
      *
@@ -4780,6 +5122,7 @@ public final class ProtoBuf {
     com.google.protobuf.ByteString
         getNickNameBytes();
 
+    // optional bytes clientUserData = 7;
     /**
      * <code>optional bytes clientUserData = 7;</code>
      *
@@ -4797,6 +5140,7 @@ public final class ProtoBuf {
      */
     com.google.protobuf.ByteString getClientUserData();
 
+    // optional bytes avatarHash = 8;
     /**
      * <code>optional bytes avatarHash = 8;</code>
      *
@@ -4822,15 +5166,14 @@ public final class ProtoBuf {
    * </pre>
    */
   public static final class InitMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:InitMessage)
-      InitMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements InitMessageOrBuilder {
     // Use InitMessage.newBuilder() to construct.
     private InitMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private InitMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private InitMessage(boolean noInit) {}
 
     private static final InitMessage defaultInstance;
     public static InitMessage getDefaultInstance() {
@@ -4841,18 +5184,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private InitMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -4862,7 +5199,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -4892,27 +5229,22 @@ public final class ProtoBuf {
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
-              authServerPassword_ = bs;
+              authServerPassword_ = input.readBytes();
               break;
             }
             case 40: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.InitMessage.LoginType value = de.pokerth.protocol.ProtoBuf.InitMessage.LoginType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000010;
                 login_ = value;
               }
               break;
             }
             case 50: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
-              nickName_ = bs;
+              nickName_ = input.readBytes();
               break;
             }
             case 58: {
@@ -4933,13 +5265,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -5024,6 +5349,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .AnnounceMessage.Version requestedVersion = 1;
     public static final int REQUESTEDVERSION_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version requestedVersion_;
     /**
@@ -5039,6 +5365,7 @@ public final class ProtoBuf {
       return requestedVersion_;
     }
 
+    // required uint32 buildId = 2;
     public static final int BUILDID_FIELD_NUMBER = 2;
     private int buildId_;
     /**
@@ -5054,6 +5381,7 @@ public final class ProtoBuf {
       return buildId_;
     }
 
+    // optional bytes myLastSessionId = 3;
     public static final int MYLASTSESSIONID_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString myLastSessionId_;
     /**
@@ -5069,6 +5397,7 @@ public final class ProtoBuf {
       return myLastSessionId_;
     }
 
+    // optional string authServerPassword = 4;
     public static final int AUTHSERVERPASSWORD_FIELD_NUMBER = 4;
     private java.lang.Object authServerPassword_;
     /**
@@ -5111,6 +5440,7 @@ public final class ProtoBuf {
       }
     }
 
+    // required .InitMessage.LoginType login = 5;
     public static final int LOGIN_FIELD_NUMBER = 5;
     private de.pokerth.protocol.ProtoBuf.InitMessage.LoginType login_;
     /**
@@ -5126,6 +5456,7 @@ public final class ProtoBuf {
       return login_;
     }
 
+    // optional string nickName = 6;
     public static final int NICKNAME_FIELD_NUMBER = 6;
     private java.lang.Object nickName_;
     /**
@@ -5180,6 +5511,7 @@ public final class ProtoBuf {
       }
     }
 
+    // optional bytes clientUserData = 7;
     public static final int CLIENTUSERDATA_FIELD_NUMBER = 7;
     private com.google.protobuf.ByteString clientUserData_;
     /**
@@ -5203,6 +5535,7 @@ public final class ProtoBuf {
       return clientUserData_;
     }
 
+    // optional bytes avatarHash = 8;
     public static final int AVATARHASH_FIELD_NUMBER = 8;
     private com.google.protobuf.ByteString avatarHash_;
     /**
@@ -5239,8 +5572,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRequestedVersion()) {
         memoizedIsInitialized = 0;
@@ -5289,7 +5621,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeBytes(8, avatarHash_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -5330,7 +5661,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(8, avatarHash_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -5412,9 +5742,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.InitMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:InitMessage)
-        de.pokerth.protocol.ProtoBuf.InitMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.InitMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.InitMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -5533,8 +5861,6 @@ public final class ProtoBuf {
         if (other.hasAvatarHash()) {
           setAvatarHash(other.getAvatarHash());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -5577,6 +5903,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .AnnounceMessage.Version requestedVersion = 1;
       private de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version requestedVersion_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.Version.getDefaultInstance();
       /**
        * <code>required .AnnounceMessage.Version requestedVersion = 1;</code>
@@ -5637,6 +5964,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 buildId = 2;
       private int buildId_ ;
       /**
        * <code>required uint32 buildId = 2;</code>
@@ -5669,6 +5997,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bytes myLastSessionId = 3;
       private com.google.protobuf.ByteString myLastSessionId_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes myLastSessionId = 3;</code>
@@ -5704,6 +6033,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional string authServerPassword = 4;
       private java.lang.Object authServerPassword_ = "";
       /**
        * <code>optional string authServerPassword = 4;</code>
@@ -5717,12 +6047,9 @@ public final class ProtoBuf {
       public java.lang.String getAuthServerPassword() {
         java.lang.Object ref = authServerPassword_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            authServerPassword_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          authServerPassword_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -5780,6 +6107,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .InitMessage.LoginType login = 5;
       private de.pokerth.protocol.ProtoBuf.InitMessage.LoginType login_ = de.pokerth.protocol.ProtoBuf.InitMessage.LoginType.guestLogin;
       /**
        * <code>required .InitMessage.LoginType login = 5;</code>
@@ -5815,6 +6143,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional string nickName = 6;
       private java.lang.Object nickName_ = "";
       /**
        * <code>optional string nickName = 6;</code>
@@ -5836,12 +6165,9 @@ public final class ProtoBuf {
       public java.lang.String getNickName() {
         java.lang.Object ref = nickName_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            nickName_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          nickName_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -5915,6 +6241,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bytes clientUserData = 7;
       private com.google.protobuf.ByteString clientUserData_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes clientUserData = 7;</code>
@@ -5966,6 +6293,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bytes avatarHash = 8;
       private com.google.protobuf.ByteString avatarHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes avatarHash = 8;</code>
@@ -6028,10 +6356,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:InitMessage)
   }
 
-  public interface AuthServerChallengeMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AuthServerChallengeMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AuthServerChallengeMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required bytes serverChallenge = 1;
     /**
      * <code>required bytes serverChallenge = 1;</code>
      */
@@ -6045,15 +6373,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AuthServerChallengeMessage}
    */
   public static final class AuthServerChallengeMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AuthServerChallengeMessage)
-      AuthServerChallengeMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AuthServerChallengeMessageOrBuilder {
     // Use AuthServerChallengeMessage.newBuilder() to construct.
     private AuthServerChallengeMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AuthServerChallengeMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AuthServerChallengeMessage(boolean noInit) {}
 
     private static final AuthServerChallengeMessage defaultInstance;
     public static AuthServerChallengeMessage getDefaultInstance() {
@@ -6064,18 +6391,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AuthServerChallengeMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -6085,7 +6406,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -6104,13 +6425,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -6130,6 +6444,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required bytes serverChallenge = 1;
     public static final int SERVERCHALLENGE_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString serverChallenge_;
     /**
@@ -6151,8 +6466,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasServerChallenge()) {
         memoizedIsInitialized = 0;
@@ -6168,7 +6482,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, serverChallenge_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -6181,7 +6494,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, serverChallenge_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -6259,9 +6571,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AuthServerChallengeMessage)
-        de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -6313,8 +6623,6 @@ public final class ProtoBuf {
         if (other.hasServerChallenge()) {
           setServerChallenge(other.getServerChallenge());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -6345,6 +6653,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required bytes serverChallenge = 1;
       private com.google.protobuf.ByteString serverChallenge_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes serverChallenge = 1;</code>
@@ -6391,10 +6700,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AuthServerChallengeMessage)
   }
 
-  public interface AuthClientResponseMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AuthClientResponseMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AuthClientResponseMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required bytes clientResponse = 1;
     /**
      * <code>required bytes clientResponse = 1;</code>
      */
@@ -6408,15 +6717,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AuthClientResponseMessage}
    */
   public static final class AuthClientResponseMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AuthClientResponseMessage)
-      AuthClientResponseMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AuthClientResponseMessageOrBuilder {
     // Use AuthClientResponseMessage.newBuilder() to construct.
     private AuthClientResponseMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AuthClientResponseMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AuthClientResponseMessage(boolean noInit) {}
 
     private static final AuthClientResponseMessage defaultInstance;
     public static AuthClientResponseMessage getDefaultInstance() {
@@ -6427,18 +6735,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AuthClientResponseMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -6448,7 +6750,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -6467,13 +6769,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -6493,6 +6788,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required bytes clientResponse = 1;
     public static final int CLIENTRESPONSE_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString clientResponse_;
     /**
@@ -6514,8 +6810,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasClientResponse()) {
         memoizedIsInitialized = 0;
@@ -6531,7 +6826,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, clientResponse_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -6544,7 +6838,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, clientResponse_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -6622,9 +6915,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AuthClientResponseMessage)
-        de.pokerth.protocol.ProtoBuf.AuthClientResponseMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AuthClientResponseMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -6676,8 +6967,6 @@ public final class ProtoBuf {
         if (other.hasClientResponse()) {
           setClientResponse(other.getClientResponse());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -6708,6 +6997,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required bytes clientResponse = 1;
       private com.google.protobuf.ByteString clientResponse_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes clientResponse = 1;</code>
@@ -6754,10 +7044,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AuthClientResponseMessage)
   }
 
-  public interface AuthServerVerificationMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AuthServerVerificationMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AuthServerVerificationMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required bytes serverVerification = 1;
     /**
      * <code>required bytes serverVerification = 1;</code>
      */
@@ -6771,15 +7061,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AuthServerVerificationMessage}
    */
   public static final class AuthServerVerificationMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AuthServerVerificationMessage)
-      AuthServerVerificationMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AuthServerVerificationMessageOrBuilder {
     // Use AuthServerVerificationMessage.newBuilder() to construct.
     private AuthServerVerificationMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AuthServerVerificationMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AuthServerVerificationMessage(boolean noInit) {}
 
     private static final AuthServerVerificationMessage defaultInstance;
     public static AuthServerVerificationMessage getDefaultInstance() {
@@ -6790,18 +7079,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AuthServerVerificationMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -6811,7 +7094,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -6830,13 +7113,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -6856,6 +7132,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required bytes serverVerification = 1;
     public static final int SERVERVERIFICATION_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString serverVerification_;
     /**
@@ -6877,8 +7154,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasServerVerification()) {
         memoizedIsInitialized = 0;
@@ -6894,7 +7170,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, serverVerification_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -6907,7 +7182,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, serverVerification_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -6985,9 +7259,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AuthServerVerificationMessage)
-        de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -7039,8 +7311,6 @@ public final class ProtoBuf {
         if (other.hasServerVerification()) {
           setServerVerification(other.getServerVerification());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -7071,6 +7341,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required bytes serverVerification = 1;
       private com.google.protobuf.ByteString serverVerification_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes serverVerification = 1;</code>
@@ -7117,10 +7388,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AuthServerVerificationMessage)
   }
 
-  public interface InitAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:InitAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface InitAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required bytes yourSessionId = 1;
     /**
      * <code>required bytes yourSessionId = 1;</code>
      */
@@ -7130,6 +7401,7 @@ public final class ProtoBuf {
      */
     com.google.protobuf.ByteString getYourSessionId();
 
+    // required uint32 yourPlayerId = 2;
     /**
      * <code>required uint32 yourPlayerId = 2;</code>
      */
@@ -7139,6 +7411,7 @@ public final class ProtoBuf {
      */
     int getYourPlayerId();
 
+    // optional bytes yourAvatarHash = 3;
     /**
      * <code>optional bytes yourAvatarHash = 3;</code>
      */
@@ -7148,6 +7421,7 @@ public final class ProtoBuf {
      */
     com.google.protobuf.ByteString getYourAvatarHash();
 
+    // optional uint32 rejoinGameId = 4;
     /**
      * <code>optional uint32 rejoinGameId = 4;</code>
      */
@@ -7161,15 +7435,14 @@ public final class ProtoBuf {
    * Protobuf type {@code InitAckMessage}
    */
   public static final class InitAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:InitAckMessage)
-      InitAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements InitAckMessageOrBuilder {
     // Use InitAckMessage.newBuilder() to construct.
     private InitAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private InitAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private InitAckMessage(boolean noInit) {}
 
     private static final InitAckMessage defaultInstance;
     public static InitAckMessage getDefaultInstance() {
@@ -7180,18 +7453,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private InitAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -7201,7 +7468,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -7235,13 +7502,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -7261,6 +7521,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required bytes yourSessionId = 1;
     public static final int YOURSESSIONID_FIELD_NUMBER = 1;
     private com.google.protobuf.ByteString yourSessionId_;
     /**
@@ -7276,6 +7537,7 @@ public final class ProtoBuf {
       return yourSessionId_;
     }
 
+    // required uint32 yourPlayerId = 2;
     public static final int YOURPLAYERID_FIELD_NUMBER = 2;
     private int yourPlayerId_;
     /**
@@ -7291,6 +7553,7 @@ public final class ProtoBuf {
       return yourPlayerId_;
     }
 
+    // optional bytes yourAvatarHash = 3;
     public static final int YOURAVATARHASH_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString yourAvatarHash_;
     /**
@@ -7306,6 +7569,7 @@ public final class ProtoBuf {
       return yourAvatarHash_;
     }
 
+    // optional uint32 rejoinGameId = 4;
     public static final int REJOINGAMEID_FIELD_NUMBER = 4;
     private int rejoinGameId_;
     /**
@@ -7330,8 +7594,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasYourSessionId()) {
         memoizedIsInitialized = 0;
@@ -7360,7 +7623,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt32(4, rejoinGameId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -7385,7 +7647,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, rejoinGameId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -7463,9 +7724,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.InitAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:InitAckMessage)
-        de.pokerth.protocol.ProtoBuf.InitAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.InitAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.InitAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -7544,8 +7803,6 @@ public final class ProtoBuf {
         if (other.hasRejoinGameId()) {
           setRejoinGameId(other.getRejoinGameId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -7580,6 +7837,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required bytes yourSessionId = 1;
       private com.google.protobuf.ByteString yourSessionId_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes yourSessionId = 1;</code>
@@ -7615,6 +7873,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 yourPlayerId = 2;
       private int yourPlayerId_ ;
       /**
        * <code>required uint32 yourPlayerId = 2;</code>
@@ -7647,6 +7906,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bytes yourAvatarHash = 3;
       private com.google.protobuf.ByteString yourAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes yourAvatarHash = 3;</code>
@@ -7682,6 +7942,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 rejoinGameId = 4;
       private int rejoinGameId_ ;
       /**
        * <code>optional uint32 rejoinGameId = 4;</code>
@@ -7725,10 +7986,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:InitAckMessage)
   }
 
-  public interface AvatarRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AvatarRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AvatarRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 requestId = 1;
     /**
      * <code>required uint32 requestId = 1;</code>
      */
@@ -7738,6 +7999,7 @@ public final class ProtoBuf {
      */
     int getRequestId();
 
+    // required bytes avatarHash = 2;
     /**
      * <code>required bytes avatarHash = 2;</code>
      */
@@ -7751,15 +8013,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AvatarRequestMessage}
    */
   public static final class AvatarRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AvatarRequestMessage)
-      AvatarRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AvatarRequestMessageOrBuilder {
     // Use AvatarRequestMessage.newBuilder() to construct.
     private AvatarRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AvatarRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AvatarRequestMessage(boolean noInit) {}
 
     private static final AvatarRequestMessage defaultInstance;
     public static AvatarRequestMessage getDefaultInstance() {
@@ -7770,18 +8031,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AvatarRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -7791,7 +8046,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -7815,13 +8070,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -7841,6 +8089,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 requestId = 1;
     public static final int REQUESTID_FIELD_NUMBER = 1;
     private int requestId_;
     /**
@@ -7856,6 +8105,7 @@ public final class ProtoBuf {
       return requestId_;
     }
 
+    // required bytes avatarHash = 2;
     public static final int AVATARHASH_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString avatarHash_;
     /**
@@ -7878,8 +8128,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRequestId()) {
         memoizedIsInitialized = 0;
@@ -7902,7 +8151,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, avatarHash_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -7919,7 +8167,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, avatarHash_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -7997,9 +8244,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AvatarRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AvatarRequestMessage)
-        de.pokerth.protocol.ProtoBuf.AvatarRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AvatarRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -8060,8 +8305,6 @@ public final class ProtoBuf {
         if (other.hasAvatarHash()) {
           setAvatarHash(other.getAvatarHash());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -8096,6 +8339,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 requestId = 1;
       private int requestId_ ;
       /**
        * <code>required uint32 requestId = 1;</code>
@@ -8128,6 +8372,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bytes avatarHash = 2;
       private com.google.protobuf.ByteString avatarHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes avatarHash = 2;</code>
@@ -8174,10 +8419,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AvatarRequestMessage)
   }
 
-  public interface AvatarHeaderMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AvatarHeaderMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AvatarHeaderMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 requestId = 1;
     /**
      * <code>required uint32 requestId = 1;</code>
      */
@@ -8187,6 +8432,7 @@ public final class ProtoBuf {
      */
     int getRequestId();
 
+    // required .NetAvatarType avatarType = 2;
     /**
      * <code>required .NetAvatarType avatarType = 2;</code>
      */
@@ -8196,6 +8442,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetAvatarType getAvatarType();
 
+    // required uint32 avatarSize = 3;
     /**
      * <code>required uint32 avatarSize = 3;</code>
      */
@@ -8209,15 +8456,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AvatarHeaderMessage}
    */
   public static final class AvatarHeaderMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AvatarHeaderMessage)
-      AvatarHeaderMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AvatarHeaderMessageOrBuilder {
     // Use AvatarHeaderMessage.newBuilder() to construct.
     private AvatarHeaderMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AvatarHeaderMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AvatarHeaderMessage(boolean noInit) {}
 
     private static final AvatarHeaderMessage defaultInstance;
     public static AvatarHeaderMessage getDefaultInstance() {
@@ -8228,18 +8474,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AvatarHeaderMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -8249,7 +8489,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -8263,10 +8503,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetAvatarType value = de.pokerth.protocol.ProtoBuf.NetAvatarType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 avatarType_ = value;
               }
@@ -8285,13 +8522,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -8311,6 +8541,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 requestId = 1;
     public static final int REQUESTID_FIELD_NUMBER = 1;
     private int requestId_;
     /**
@@ -8326,6 +8557,7 @@ public final class ProtoBuf {
       return requestId_;
     }
 
+    // required .NetAvatarType avatarType = 2;
     public static final int AVATARTYPE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.NetAvatarType avatarType_;
     /**
@@ -8341,6 +8573,7 @@ public final class ProtoBuf {
       return avatarType_;
     }
 
+    // required uint32 avatarSize = 3;
     public static final int AVATARSIZE_FIELD_NUMBER = 3;
     private int avatarSize_;
     /**
@@ -8364,8 +8597,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRequestId()) {
         memoizedIsInitialized = 0;
@@ -8395,7 +8627,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeUInt32(3, avatarSize_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -8416,7 +8647,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, avatarSize_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -8494,9 +8724,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AvatarHeaderMessage)
-        de.pokerth.protocol.ProtoBuf.AvatarHeaderMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AvatarHeaderMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -8566,8 +8794,6 @@ public final class ProtoBuf {
         if (other.hasAvatarSize()) {
           setAvatarSize(other.getAvatarSize());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -8606,6 +8832,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 requestId = 1;
       private int requestId_ ;
       /**
        * <code>required uint32 requestId = 1;</code>
@@ -8638,6 +8865,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetAvatarType avatarType = 2;
       private de.pokerth.protocol.ProtoBuf.NetAvatarType avatarType_ = de.pokerth.protocol.ProtoBuf.NetAvatarType.netAvatarImagePng;
       /**
        * <code>required .NetAvatarType avatarType = 2;</code>
@@ -8673,6 +8901,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 avatarSize = 3;
       private int avatarSize_ ;
       /**
        * <code>required uint32 avatarSize = 3;</code>
@@ -8716,10 +8945,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AvatarHeaderMessage)
   }
 
-  public interface AvatarDataMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AvatarDataMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AvatarDataMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 requestId = 1;
     /**
      * <code>required uint32 requestId = 1;</code>
      */
@@ -8729,6 +8958,7 @@ public final class ProtoBuf {
      */
     int getRequestId();
 
+    // required bytes avatarBlock = 2;
     /**
      * <code>required bytes avatarBlock = 2;</code>
      */
@@ -8742,15 +8972,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AvatarDataMessage}
    */
   public static final class AvatarDataMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AvatarDataMessage)
-      AvatarDataMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AvatarDataMessageOrBuilder {
     // Use AvatarDataMessage.newBuilder() to construct.
     private AvatarDataMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AvatarDataMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AvatarDataMessage(boolean noInit) {}
 
     private static final AvatarDataMessage defaultInstance;
     public static AvatarDataMessage getDefaultInstance() {
@@ -8761,18 +8990,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AvatarDataMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -8782,7 +9005,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -8806,13 +9029,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -8832,6 +9048,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 requestId = 1;
     public static final int REQUESTID_FIELD_NUMBER = 1;
     private int requestId_;
     /**
@@ -8847,6 +9064,7 @@ public final class ProtoBuf {
       return requestId_;
     }
 
+    // required bytes avatarBlock = 2;
     public static final int AVATARBLOCK_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString avatarBlock_;
     /**
@@ -8869,8 +9087,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRequestId()) {
         memoizedIsInitialized = 0;
@@ -8893,7 +9110,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, avatarBlock_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -8910,7 +9126,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, avatarBlock_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -8988,9 +9203,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AvatarDataMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AvatarDataMessage)
-        de.pokerth.protocol.ProtoBuf.AvatarDataMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AvatarDataMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AvatarDataMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -9051,8 +9264,6 @@ public final class ProtoBuf {
         if (other.hasAvatarBlock()) {
           setAvatarBlock(other.getAvatarBlock());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -9087,6 +9298,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 requestId = 1;
       private int requestId_ ;
       /**
        * <code>required uint32 requestId = 1;</code>
@@ -9119,6 +9331,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bytes avatarBlock = 2;
       private com.google.protobuf.ByteString avatarBlock_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes avatarBlock = 2;</code>
@@ -9165,10 +9378,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AvatarDataMessage)
   }
 
-  public interface AvatarEndMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AvatarEndMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AvatarEndMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 requestId = 1;
     /**
      * <code>required uint32 requestId = 1;</code>
      */
@@ -9182,15 +9395,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AvatarEndMessage}
    */
   public static final class AvatarEndMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AvatarEndMessage)
-      AvatarEndMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AvatarEndMessageOrBuilder {
     // Use AvatarEndMessage.newBuilder() to construct.
     private AvatarEndMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AvatarEndMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AvatarEndMessage(boolean noInit) {}
 
     private static final AvatarEndMessage defaultInstance;
     public static AvatarEndMessage getDefaultInstance() {
@@ -9201,18 +9413,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AvatarEndMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -9222,7 +9428,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -9241,13 +9447,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -9267,6 +9466,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 requestId = 1;
     public static final int REQUESTID_FIELD_NUMBER = 1;
     private int requestId_;
     /**
@@ -9288,8 +9488,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRequestId()) {
         memoizedIsInitialized = 0;
@@ -9305,7 +9504,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, requestId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -9318,7 +9516,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, requestId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -9396,9 +9593,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AvatarEndMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AvatarEndMessage)
-        de.pokerth.protocol.ProtoBuf.AvatarEndMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AvatarEndMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AvatarEndMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -9450,8 +9645,6 @@ public final class ProtoBuf {
         if (other.hasRequestId()) {
           setRequestId(other.getRequestId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -9482,6 +9675,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 requestId = 1;
       private int requestId_ ;
       /**
        * <code>required uint32 requestId = 1;</code>
@@ -9525,10 +9719,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AvatarEndMessage)
   }
 
-  public interface UnknownAvatarMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:UnknownAvatarMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface UnknownAvatarMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 requestId = 1;
     /**
      * <code>required uint32 requestId = 1;</code>
      */
@@ -9542,15 +9736,14 @@ public final class ProtoBuf {
    * Protobuf type {@code UnknownAvatarMessage}
    */
   public static final class UnknownAvatarMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:UnknownAvatarMessage)
-      UnknownAvatarMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements UnknownAvatarMessageOrBuilder {
     // Use UnknownAvatarMessage.newBuilder() to construct.
     private UnknownAvatarMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private UnknownAvatarMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private UnknownAvatarMessage(boolean noInit) {}
 
     private static final UnknownAvatarMessage defaultInstance;
     public static UnknownAvatarMessage getDefaultInstance() {
@@ -9561,18 +9754,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private UnknownAvatarMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -9582,7 +9769,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -9601,13 +9788,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -9627,6 +9807,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 requestId = 1;
     public static final int REQUESTID_FIELD_NUMBER = 1;
     private int requestId_;
     /**
@@ -9648,8 +9829,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRequestId()) {
         memoizedIsInitialized = 0;
@@ -9665,7 +9845,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, requestId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -9678,7 +9857,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, requestId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -9756,9 +9934,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:UnknownAvatarMessage)
-        de.pokerth.protocol.ProtoBuf.UnknownAvatarMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.UnknownAvatarMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -9810,8 +9986,6 @@ public final class ProtoBuf {
         if (other.hasRequestId()) {
           setRequestId(other.getRequestId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -9842,6 +10016,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 requestId = 1;
       private int requestId_ ;
       /**
        * <code>required uint32 requestId = 1;</code>
@@ -9885,10 +10060,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:UnknownAvatarMessage)
   }
 
-  public interface PlayerListMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayerListMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayerListMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 playerId = 1;
     /**
      * <code>required uint32 playerId = 1;</code>
      */
@@ -9898,6 +10073,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .PlayerListMessage.PlayerListNotification playerListNotification = 2;
     /**
      * <code>required .PlayerListMessage.PlayerListNotification playerListNotification = 2;</code>
      */
@@ -9911,15 +10087,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayerListMessage}
    */
   public static final class PlayerListMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayerListMessage)
-      PlayerListMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayerListMessageOrBuilder {
     // Use PlayerListMessage.newBuilder() to construct.
     private PlayerListMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayerListMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayerListMessage(boolean noInit) {}
 
     private static final PlayerListMessage defaultInstance;
     public static PlayerListMessage getDefaultInstance() {
@@ -9930,18 +10105,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayerListMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -9951,7 +10120,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -9965,10 +10134,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification value = de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 playerListNotification_ = value;
               }
@@ -9982,13 +10148,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -10064,6 +10223,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 playerId = 1;
     public static final int PLAYERID_FIELD_NUMBER = 1;
     private int playerId_;
     /**
@@ -10079,6 +10239,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .PlayerListMessage.PlayerListNotification playerListNotification = 2;
     public static final int PLAYERLISTNOTIFICATION_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification playerListNotification_;
     /**
@@ -10101,8 +10262,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasPlayerId()) {
         memoizedIsInitialized = 0;
@@ -10125,7 +10285,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, playerListNotification_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -10142,7 +10301,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, playerListNotification_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -10220,9 +10378,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayerListMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayerListMessage)
-        de.pokerth.protocol.ProtoBuf.PlayerListMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayerListMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayerListMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -10283,8 +10439,6 @@ public final class ProtoBuf {
         if (other.hasPlayerListNotification()) {
           setPlayerListNotification(other.getPlayerListNotification());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -10319,6 +10473,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 playerId = 1;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 1;</code>
@@ -10351,6 +10506,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .PlayerListMessage.PlayerListNotification playerListNotification = 2;
       private de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification playerListNotification_ = de.pokerth.protocol.ProtoBuf.PlayerListMessage.PlayerListNotification.playerListNew;
       /**
        * <code>required .PlayerListMessage.PlayerListNotification playerListNotification = 2;</code>
@@ -10397,10 +10553,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayerListMessage)
   }
 
-  public interface GameListNewMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListNewMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListNewMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -10410,6 +10566,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .NetGameMode gameMode = 2;
     /**
      * <code>required .NetGameMode gameMode = 2;</code>
      */
@@ -10419,6 +10576,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameMode getGameMode();
 
+    // required bool isPrivate = 3;
     /**
      * <code>required bool isPrivate = 3;</code>
      */
@@ -10428,6 +10586,7 @@ public final class ProtoBuf {
      */
     boolean getIsPrivate();
 
+    // repeated uint32 playerIds = 4 [packed = true];
     /**
      * <code>repeated uint32 playerIds = 4 [packed = true];</code>
      */
@@ -10441,6 +10600,7 @@ public final class ProtoBuf {
      */
     int getPlayerIds(int index);
 
+    // required uint32 adminPlayerId = 5;
     /**
      * <code>required uint32 adminPlayerId = 5;</code>
      */
@@ -10450,6 +10610,7 @@ public final class ProtoBuf {
      */
     int getAdminPlayerId();
 
+    // required .NetGameInfo gameInfo = 6;
     /**
      * <code>required .NetGameInfo gameInfo = 6;</code>
      */
@@ -10459,6 +10620,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo();
 
+    // repeated uint32 spectatorIds = 7 [packed = true];
     /**
      * <code>repeated uint32 spectatorIds = 7 [packed = true];</code>
      */
@@ -10476,15 +10638,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListNewMessage}
    */
   public static final class GameListNewMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListNewMessage)
-      GameListNewMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListNewMessageOrBuilder {
     // Use GameListNewMessage.newBuilder() to construct.
     private GameListNewMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListNewMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListNewMessage(boolean noInit) {}
 
     private static final GameListNewMessage defaultInstance;
     public static GameListNewMessage getDefaultInstance() {
@@ -10495,18 +10656,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListNewMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -10516,7 +10671,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -10530,10 +10685,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameMode value = de.pokerth.protocol.ProtoBuf.NetGameMode.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 gameMode_ = value;
               }
@@ -10618,13 +10770,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           spectatorIds_ = java.util.Collections.unmodifiableList(spectatorIds_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -10644,6 +10789,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -10659,6 +10805,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .NetGameMode gameMode = 2;
     public static final int GAMEMODE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.NetGameMode gameMode_;
     /**
@@ -10674,6 +10821,7 @@ public final class ProtoBuf {
       return gameMode_;
     }
 
+    // required bool isPrivate = 3;
     public static final int ISPRIVATE_FIELD_NUMBER = 3;
     private boolean isPrivate_;
     /**
@@ -10689,6 +10837,7 @@ public final class ProtoBuf {
       return isPrivate_;
     }
 
+    // repeated uint32 playerIds = 4 [packed = true];
     public static final int PLAYERIDS_FIELD_NUMBER = 4;
     private java.util.List<java.lang.Integer> playerIds_;
     /**
@@ -10712,6 +10861,7 @@ public final class ProtoBuf {
     }
     private int playerIdsMemoizedSerializedSize = -1;
 
+    // required uint32 adminPlayerId = 5;
     public static final int ADMINPLAYERID_FIELD_NUMBER = 5;
     private int adminPlayerId_;
     /**
@@ -10727,6 +10877,7 @@ public final class ProtoBuf {
       return adminPlayerId_;
     }
 
+    // required .NetGameInfo gameInfo = 6;
     public static final int GAMEINFO_FIELD_NUMBER = 6;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_;
     /**
@@ -10742,6 +10893,7 @@ public final class ProtoBuf {
       return gameInfo_;
     }
 
+    // repeated uint32 spectatorIds = 7 [packed = true];
     public static final int SPECTATORIDS_FIELD_NUMBER = 7;
     private java.util.List<java.lang.Integer> spectatorIds_;
     /**
@@ -10777,8 +10929,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -10840,7 +10991,6 @@ public final class ProtoBuf {
       for (int i = 0; i < spectatorIds_.size(); i++) {
         output.writeUInt32NoTag(spectatorIds_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -10897,7 +11047,6 @@ public final class ProtoBuf {
         }
         spectatorIdsMemoizedSerializedSize = dataSize;
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -10975,9 +11124,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListNewMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListNewMessage)
-        de.pokerth.protocol.ProtoBuf.GameListNewMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListNewMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListNewMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -11099,8 +11246,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -11151,6 +11296,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -11183,6 +11329,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameMode gameMode = 2;
       private de.pokerth.protocol.ProtoBuf.NetGameMode gameMode_ = de.pokerth.protocol.ProtoBuf.NetGameMode.netGameCreated;
       /**
        * <code>required .NetGameMode gameMode = 2;</code>
@@ -11218,6 +11365,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bool isPrivate = 3;
       private boolean isPrivate_ ;
       /**
        * <code>required bool isPrivate = 3;</code>
@@ -11250,6 +11398,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated uint32 playerIds = 4 [packed = true];
       private java.util.List<java.lang.Integer> playerIds_ = java.util.Collections.emptyList();
       private void ensurePlayerIdsIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
@@ -11301,8 +11450,7 @@ public final class ProtoBuf {
       public Builder addAllPlayerIds(
           java.lang.Iterable<? extends java.lang.Integer> values) {
         ensurePlayerIdsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, playerIds_);
+        super.addAll(values, playerIds_);
         
         return this;
       }
@@ -11316,6 +11464,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 adminPlayerId = 5;
       private int adminPlayerId_ ;
       /**
        * <code>required uint32 adminPlayerId = 5;</code>
@@ -11348,6 +11497,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameInfo gameInfo = 6;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
       /**
        * <code>required .NetGameInfo gameInfo = 6;</code>
@@ -11408,6 +11558,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated uint32 spectatorIds = 7 [packed = true];
       private java.util.List<java.lang.Integer> spectatorIds_ = java.util.Collections.emptyList();
       private void ensureSpectatorIdsIsMutable() {
         if (!((bitField0_ & 0x00000040) == 0x00000040)) {
@@ -11459,8 +11610,7 @@ public final class ProtoBuf {
       public Builder addAllSpectatorIds(
           java.lang.Iterable<? extends java.lang.Integer> values) {
         ensureSpectatorIdsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, spectatorIds_);
+        super.addAll(values, spectatorIds_);
         
         return this;
       }
@@ -11485,10 +11635,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListNewMessage)
   }
 
-  public interface GameListUpdateMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListUpdateMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListUpdateMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -11498,6 +11648,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .NetGameMode gameMode = 2;
     /**
      * <code>required .NetGameMode gameMode = 2;</code>
      */
@@ -11511,15 +11662,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListUpdateMessage}
    */
   public static final class GameListUpdateMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListUpdateMessage)
-      GameListUpdateMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListUpdateMessageOrBuilder {
     // Use GameListUpdateMessage.newBuilder() to construct.
     private GameListUpdateMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListUpdateMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListUpdateMessage(boolean noInit) {}
 
     private static final GameListUpdateMessage defaultInstance;
     public static GameListUpdateMessage getDefaultInstance() {
@@ -11530,18 +11680,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListUpdateMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -11551,7 +11695,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -11565,10 +11709,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameMode value = de.pokerth.protocol.ProtoBuf.NetGameMode.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 gameMode_ = value;
               }
@@ -11582,13 +11723,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -11608,6 +11742,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -11623,6 +11758,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .NetGameMode gameMode = 2;
     public static final int GAMEMODE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.NetGameMode gameMode_;
     /**
@@ -11645,8 +11781,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -11669,7 +11804,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, gameMode_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -11686,7 +11820,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, gameMode_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -11764,9 +11897,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListUpdateMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListUpdateMessage)
-        de.pokerth.protocol.ProtoBuf.GameListUpdateMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListUpdateMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -11827,8 +11958,6 @@ public final class ProtoBuf {
         if (other.hasGameMode()) {
           setGameMode(other.getGameMode());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -11863,6 +11992,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -11895,6 +12025,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameMode gameMode = 2;
       private de.pokerth.protocol.ProtoBuf.NetGameMode gameMode_ = de.pokerth.protocol.ProtoBuf.NetGameMode.netGameCreated;
       /**
        * <code>required .NetGameMode gameMode = 2;</code>
@@ -11941,10 +12072,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListUpdateMessage)
   }
 
-  public interface GameListPlayerJoinedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListPlayerJoinedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListPlayerJoinedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -11954,6 +12085,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -11967,15 +12099,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListPlayerJoinedMessage}
    */
   public static final class GameListPlayerJoinedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListPlayerJoinedMessage)
-      GameListPlayerJoinedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListPlayerJoinedMessageOrBuilder {
     // Use GameListPlayerJoinedMessage.newBuilder() to construct.
     private GameListPlayerJoinedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListPlayerJoinedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListPlayerJoinedMessage(boolean noInit) {}
 
     private static final GameListPlayerJoinedMessage defaultInstance;
     public static GameListPlayerJoinedMessage getDefaultInstance() {
@@ -11986,18 +12117,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListPlayerJoinedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -12007,7 +12132,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -12031,13 +12156,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -12057,6 +12175,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -12072,6 +12191,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -12094,8 +12214,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -12118,7 +12237,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -12135,7 +12253,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -12213,9 +12330,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListPlayerJoinedMessage)
-        de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -12276,8 +12391,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -12312,6 +12425,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -12344,6 +12458,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -12387,10 +12502,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListPlayerJoinedMessage)
   }
 
-  public interface GameListPlayerLeftMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListPlayerLeftMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListPlayerLeftMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -12400,6 +12515,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -12413,15 +12529,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListPlayerLeftMessage}
    */
   public static final class GameListPlayerLeftMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListPlayerLeftMessage)
-      GameListPlayerLeftMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListPlayerLeftMessageOrBuilder {
     // Use GameListPlayerLeftMessage.newBuilder() to construct.
     private GameListPlayerLeftMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListPlayerLeftMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListPlayerLeftMessage(boolean noInit) {}
 
     private static final GameListPlayerLeftMessage defaultInstance;
     public static GameListPlayerLeftMessage getDefaultInstance() {
@@ -12432,18 +12547,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListPlayerLeftMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -12453,7 +12562,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -12477,13 +12586,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -12503,6 +12605,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -12518,6 +12621,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -12540,8 +12644,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -12564,7 +12667,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -12581,7 +12683,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -12659,9 +12760,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListPlayerLeftMessage)
-        de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -12722,8 +12821,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -12758,6 +12855,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -12790,6 +12888,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -12833,10 +12932,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListPlayerLeftMessage)
   }
 
-  public interface GameListSpectatorJoinedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListSpectatorJoinedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListSpectatorJoinedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -12846,6 +12945,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -12859,15 +12959,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListSpectatorJoinedMessage}
    */
   public static final class GameListSpectatorJoinedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListSpectatorJoinedMessage)
-      GameListSpectatorJoinedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListSpectatorJoinedMessageOrBuilder {
     // Use GameListSpectatorJoinedMessage.newBuilder() to construct.
     private GameListSpectatorJoinedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListSpectatorJoinedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListSpectatorJoinedMessage(boolean noInit) {}
 
     private static final GameListSpectatorJoinedMessage defaultInstance;
     public static GameListSpectatorJoinedMessage getDefaultInstance() {
@@ -12878,18 +12977,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListSpectatorJoinedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -12899,7 +12992,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -12923,13 +13016,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -12949,6 +13035,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -12964,6 +13051,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -12986,8 +13074,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -13010,7 +13097,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -13027,7 +13113,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -13105,9 +13190,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListSpectatorJoinedMessage)
-        de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -13168,8 +13251,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -13204,6 +13285,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -13236,6 +13318,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -13279,10 +13362,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListSpectatorJoinedMessage)
   }
 
-  public interface GameListSpectatorLeftMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListSpectatorLeftMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListSpectatorLeftMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -13292,6 +13375,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -13305,15 +13389,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListSpectatorLeftMessage}
    */
   public static final class GameListSpectatorLeftMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListSpectatorLeftMessage)
-      GameListSpectatorLeftMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListSpectatorLeftMessageOrBuilder {
     // Use GameListSpectatorLeftMessage.newBuilder() to construct.
     private GameListSpectatorLeftMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListSpectatorLeftMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListSpectatorLeftMessage(boolean noInit) {}
 
     private static final GameListSpectatorLeftMessage defaultInstance;
     public static GameListSpectatorLeftMessage getDefaultInstance() {
@@ -13324,18 +13407,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListSpectatorLeftMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -13345,7 +13422,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -13369,13 +13446,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -13395,6 +13465,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -13410,6 +13481,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -13432,8 +13504,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -13456,7 +13527,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -13473,7 +13543,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -13551,9 +13620,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListSpectatorLeftMessage)
-        de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -13614,8 +13681,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -13650,6 +13715,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -13682,6 +13748,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -13725,10 +13792,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListSpectatorLeftMessage)
   }
 
-  public interface GameListAdminChangedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameListAdminChangedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameListAdminChangedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -13738,6 +13805,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 newAdminPlayerId = 2;
     /**
      * <code>required uint32 newAdminPlayerId = 2;</code>
      */
@@ -13751,15 +13819,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameListAdminChangedMessage}
    */
   public static final class GameListAdminChangedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameListAdminChangedMessage)
-      GameListAdminChangedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameListAdminChangedMessageOrBuilder {
     // Use GameListAdminChangedMessage.newBuilder() to construct.
     private GameListAdminChangedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameListAdminChangedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameListAdminChangedMessage(boolean noInit) {}
 
     private static final GameListAdminChangedMessage defaultInstance;
     public static GameListAdminChangedMessage getDefaultInstance() {
@@ -13770,18 +13837,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameListAdminChangedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -13791,7 +13852,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -13815,13 +13876,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -13841,6 +13895,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -13856,6 +13911,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 newAdminPlayerId = 2;
     public static final int NEWADMINPLAYERID_FIELD_NUMBER = 2;
     private int newAdminPlayerId_;
     /**
@@ -13878,8 +13934,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -13902,7 +13957,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, newAdminPlayerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -13919,7 +13973,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, newAdminPlayerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -13997,9 +14050,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameListAdminChangedMessage)
-        de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -14060,8 +14111,6 @@ public final class ProtoBuf {
         if (other.hasNewAdminPlayerId()) {
           setNewAdminPlayerId(other.getNewAdminPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -14096,6 +14145,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -14128,6 +14178,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 newAdminPlayerId = 2;
       private int newAdminPlayerId_ ;
       /**
        * <code>required uint32 newAdminPlayerId = 2;</code>
@@ -14171,10 +14222,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameListAdminChangedMessage)
   }
 
-  public interface PlayerInfoRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayerInfoRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayerInfoRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // repeated uint32 playerId = 1 [packed = true];
     /**
      * <code>repeated uint32 playerId = 1 [packed = true];</code>
      */
@@ -14192,15 +14243,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayerInfoRequestMessage}
    */
   public static final class PlayerInfoRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayerInfoRequestMessage)
-      PlayerInfoRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayerInfoRequestMessageOrBuilder {
     // Use PlayerInfoRequestMessage.newBuilder() to construct.
     private PlayerInfoRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayerInfoRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayerInfoRequestMessage(boolean noInit) {}
 
     private static final PlayerInfoRequestMessage defaultInstance;
     public static PlayerInfoRequestMessage getDefaultInstance() {
@@ -14211,18 +14261,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayerInfoRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -14232,7 +14276,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -14270,13 +14314,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           playerId_ = java.util.Collections.unmodifiableList(playerId_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -14295,6 +14332,7 @@ public final class ProtoBuf {
       return PARSER;
     }
 
+    // repeated uint32 playerId = 1 [packed = true];
     public static final int PLAYERID_FIELD_NUMBER = 1;
     private java.util.List<java.lang.Integer> playerId_;
     /**
@@ -14324,8 +14362,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       memoizedIsInitialized = 1;
       return true;
@@ -14341,7 +14378,6 @@ public final class ProtoBuf {
       for (int i = 0; i < playerId_.size(); i++) {
         output.writeUInt32NoTag(playerId_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -14364,7 +14400,6 @@ public final class ProtoBuf {
         }
         playerIdMemoizedSerializedSize = dataSize;
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -14442,9 +14477,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayerInfoRequestMessage)
-        de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -14502,8 +14535,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -14530,6 +14561,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // repeated uint32 playerId = 1 [packed = true];
       private java.util.List<java.lang.Integer> playerId_ = java.util.Collections.emptyList();
       private void ensurePlayerIdIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -14581,8 +14613,7 @@ public final class ProtoBuf {
       public Builder addAllPlayerId(
           java.lang.Iterable<? extends java.lang.Integer> values) {
         ensurePlayerIdIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, playerId_);
+        super.addAll(values, playerId_);
         
         return this;
       }
@@ -14607,10 +14638,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayerInfoRequestMessage)
   }
 
-  public interface PlayerInfoReplyMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayerInfoReplyMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayerInfoReplyMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 playerId = 1;
     /**
      * <code>required uint32 playerId = 1;</code>
      */
@@ -14620,6 +14651,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // optional .PlayerInfoReplyMessage.PlayerInfoData playerInfoData = 2;
     /**
      * <code>optional .PlayerInfoReplyMessage.PlayerInfoData playerInfoData = 2;</code>
      */
@@ -14633,15 +14665,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayerInfoReplyMessage}
    */
   public static final class PlayerInfoReplyMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayerInfoReplyMessage)
-      PlayerInfoReplyMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayerInfoReplyMessageOrBuilder {
     // Use PlayerInfoReplyMessage.newBuilder() to construct.
     private PlayerInfoReplyMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayerInfoReplyMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayerInfoReplyMessage(boolean noInit) {}
 
     private static final PlayerInfoReplyMessage defaultInstance;
     public static PlayerInfoReplyMessage getDefaultInstance() {
@@ -14652,18 +14683,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayerInfoReplyMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -14673,7 +14698,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -14705,13 +14730,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -14730,10 +14748,10 @@ public final class ProtoBuf {
       return PARSER;
     }
 
-    public interface PlayerInfoDataOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:PlayerInfoReplyMessage.PlayerInfoData)
-        com.google.protobuf.MessageLiteOrBuilder {
+    public interface PlayerInfoDataOrBuilder
+        extends com.google.protobuf.MessageLiteOrBuilder {
 
+      // required string playerName = 1;
       /**
        * <code>required string playerName = 1;</code>
        */
@@ -14748,6 +14766,7 @@ public final class ProtoBuf {
       com.google.protobuf.ByteString
           getPlayerNameBytes();
 
+      // required bool isHuman = 2;
       /**
        * <code>required bool isHuman = 2;</code>
        */
@@ -14757,6 +14776,7 @@ public final class ProtoBuf {
        */
       boolean getIsHuman();
 
+      // required .NetPlayerInfoRights playerRights = 3;
       /**
        * <code>required .NetPlayerInfoRights playerRights = 3;</code>
        */
@@ -14766,6 +14786,7 @@ public final class ProtoBuf {
        */
       de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights getPlayerRights();
 
+      // optional string countryCode = 4;
       /**
        * <code>optional string countryCode = 4;</code>
        */
@@ -14780,6 +14801,7 @@ public final class ProtoBuf {
       com.google.protobuf.ByteString
           getCountryCodeBytes();
 
+      // optional .PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData = 5;
       /**
        * <code>optional .PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData = 5;</code>
        */
@@ -14793,15 +14815,14 @@ public final class ProtoBuf {
      * Protobuf type {@code PlayerInfoReplyMessage.PlayerInfoData}
      */
     public static final class PlayerInfoData extends
-        com.google.protobuf.GeneratedMessageLite implements
-        // @@protoc_insertion_point(message_implements:PlayerInfoReplyMessage.PlayerInfoData)
-        PlayerInfoDataOrBuilder {
+        com.google.protobuf.GeneratedMessageLite
+        implements PlayerInfoDataOrBuilder {
       // Use PlayerInfoData.newBuilder() to construct.
       private PlayerInfoData(com.google.protobuf.GeneratedMessageLite.Builder builder) {
         super(builder);
-        this.unknownFields = builder.getUnknownFields();
+
       }
-      private PlayerInfoData(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+      private PlayerInfoData(boolean noInit) {}
 
       private static final PlayerInfoData defaultInstance;
       public static PlayerInfoData getDefaultInstance() {
@@ -14812,18 +14833,12 @@ public final class ProtoBuf {
         return defaultInstance;
       }
 
-      private final com.google.protobuf.ByteString unknownFields;
       private PlayerInfoData(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         initFields();
         int mutable_bitField0_ = 0;
-        com.google.protobuf.ByteString.Output unknownFieldsOutput =
-            com.google.protobuf.ByteString.newOutput();
-        com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-            com.google.protobuf.CodedOutputStream.newInstance(
-                unknownFieldsOutput);
         try {
           boolean done = false;
           while (!done) {
@@ -14833,16 +14848,15 @@ public final class ProtoBuf {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                if (!parseUnknownField(input,
                                        extensionRegistry, tag)) {
                   done = true;
                 }
                 break;
               }
               case 10: {
-                com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000001;
-                playerName_ = bs;
+                playerName_ = input.readBytes();
                 break;
               }
               case 16: {
@@ -14853,19 +14867,15 @@ public final class ProtoBuf {
               case 24: {
                 int rawValue = input.readEnum();
                 de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights value = de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights.valueOf(rawValue);
-                if (value == null) {
-                  unknownFieldsCodedOutput.writeRawVarint32(tag);
-                  unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-                } else {
+                if (value != null) {
                   bitField0_ |= 0x00000004;
                   playerRights_ = value;
                 }
                 break;
               }
               case 34: {
-                com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000008;
-                countryCode_ = bs;
+                countryCode_ = input.readBytes();
                 break;
               }
               case 42: {
@@ -14889,13 +14899,6 @@ public final class ProtoBuf {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this);
         } finally {
-          try {
-            unknownFieldsCodedOutput.flush();
-          } catch (java.io.IOException e) {
-          // Should not happen
-          } finally {
-            unknownFields = unknownFieldsOutput.toByteString();
-          }
           makeExtensionsImmutable();
         }
       }
@@ -14914,10 +14917,10 @@ public final class ProtoBuf {
         return PARSER;
       }
 
-      public interface AvatarDataOrBuilder extends
-          // @@protoc_insertion_point(interface_extends:PlayerInfoReplyMessage.PlayerInfoData.AvatarData)
-          com.google.protobuf.MessageLiteOrBuilder {
+      public interface AvatarDataOrBuilder
+          extends com.google.protobuf.MessageLiteOrBuilder {
 
+        // required .NetAvatarType avatarType = 1;
         /**
          * <code>required .NetAvatarType avatarType = 1;</code>
          */
@@ -14927,6 +14930,7 @@ public final class ProtoBuf {
          */
         de.pokerth.protocol.ProtoBuf.NetAvatarType getAvatarType();
 
+        // required bytes avatarHash = 2;
         /**
          * <code>required bytes avatarHash = 2;</code>
          */
@@ -14940,15 +14944,14 @@ public final class ProtoBuf {
        * Protobuf type {@code PlayerInfoReplyMessage.PlayerInfoData.AvatarData}
        */
       public static final class AvatarData extends
-          com.google.protobuf.GeneratedMessageLite implements
-          // @@protoc_insertion_point(message_implements:PlayerInfoReplyMessage.PlayerInfoData.AvatarData)
-          AvatarDataOrBuilder {
+          com.google.protobuf.GeneratedMessageLite
+          implements AvatarDataOrBuilder {
         // Use AvatarData.newBuilder() to construct.
         private AvatarData(com.google.protobuf.GeneratedMessageLite.Builder builder) {
           super(builder);
-          this.unknownFields = builder.getUnknownFields();
+
         }
-        private AvatarData(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+        private AvatarData(boolean noInit) {}
 
         private static final AvatarData defaultInstance;
         public static AvatarData getDefaultInstance() {
@@ -14959,18 +14962,12 @@ public final class ProtoBuf {
           return defaultInstance;
         }
 
-        private final com.google.protobuf.ByteString unknownFields;
         private AvatarData(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
           initFields();
           int mutable_bitField0_ = 0;
-          com.google.protobuf.ByteString.Output unknownFieldsOutput =
-              com.google.protobuf.ByteString.newOutput();
-          com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-              com.google.protobuf.CodedOutputStream.newInstance(
-                  unknownFieldsOutput);
           try {
             boolean done = false;
             while (!done) {
@@ -14980,7 +14977,7 @@ public final class ProtoBuf {
                   done = true;
                   break;
                 default: {
-                  if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                  if (!parseUnknownField(input,
                                          extensionRegistry, tag)) {
                     done = true;
                   }
@@ -14989,10 +14986,7 @@ public final class ProtoBuf {
                 case 8: {
                   int rawValue = input.readEnum();
                   de.pokerth.protocol.ProtoBuf.NetAvatarType value = de.pokerth.protocol.ProtoBuf.NetAvatarType.valueOf(rawValue);
-                  if (value == null) {
-                    unknownFieldsCodedOutput.writeRawVarint32(tag);
-                    unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-                  } else {
+                  if (value != null) {
                     bitField0_ |= 0x00000001;
                     avatarType_ = value;
                   }
@@ -15011,13 +15005,6 @@ public final class ProtoBuf {
             throw new com.google.protobuf.InvalidProtocolBufferException(
                 e.getMessage()).setUnfinishedMessage(this);
           } finally {
-            try {
-              unknownFieldsCodedOutput.flush();
-            } catch (java.io.IOException e) {
-            // Should not happen
-            } finally {
-              unknownFields = unknownFieldsOutput.toByteString();
-            }
             makeExtensionsImmutable();
           }
         }
@@ -15037,6 +15024,7 @@ public final class ProtoBuf {
         }
 
         private int bitField0_;
+        // required .NetAvatarType avatarType = 1;
         public static final int AVATARTYPE_FIELD_NUMBER = 1;
         private de.pokerth.protocol.ProtoBuf.NetAvatarType avatarType_;
         /**
@@ -15052,6 +15040,7 @@ public final class ProtoBuf {
           return avatarType_;
         }
 
+        // required bytes avatarHash = 2;
         public static final int AVATARHASH_FIELD_NUMBER = 2;
         private com.google.protobuf.ByteString avatarHash_;
         /**
@@ -15074,8 +15063,7 @@ public final class ProtoBuf {
         private byte memoizedIsInitialized = -1;
         public final boolean isInitialized() {
           byte isInitialized = memoizedIsInitialized;
-          if (isInitialized == 1) return true;
-          if (isInitialized == 0) return false;
+          if (isInitialized != -1) return isInitialized == 1;
 
           if (!hasAvatarType()) {
             memoizedIsInitialized = 0;
@@ -15098,7 +15086,6 @@ public final class ProtoBuf {
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
             output.writeBytes(2, avatarHash_);
           }
-          output.writeRawBytes(unknownFields);
         }
 
         private int memoizedSerializedSize = -1;
@@ -15115,7 +15102,6 @@ public final class ProtoBuf {
             size += com.google.protobuf.CodedOutputStream
               .computeBytesSize(2, avatarHash_);
           }
-          size += unknownFields.size();
           memoizedSerializedSize = size;
           return size;
         }
@@ -15193,9 +15179,7 @@ public final class ProtoBuf {
         public static final class Builder extends
             com.google.protobuf.GeneratedMessageLite.Builder<
               de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarData, Builder>
-            implements
-            // @@protoc_insertion_point(builder_implements:PlayerInfoReplyMessage.PlayerInfoData.AvatarData)
-            de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarDataOrBuilder {
+            implements de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarDataOrBuilder {
           // Construct using de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarData.newBuilder()
           private Builder() {
             maybeForceBuilderInitialization();
@@ -15256,8 +15240,6 @@ public final class ProtoBuf {
             if (other.hasAvatarHash()) {
               setAvatarHash(other.getAvatarHash());
             }
-            setUnknownFields(
-                getUnknownFields().concat(other.unknownFields));
             return this;
           }
 
@@ -15292,6 +15274,7 @@ public final class ProtoBuf {
           }
           private int bitField0_;
 
+          // required .NetAvatarType avatarType = 1;
           private de.pokerth.protocol.ProtoBuf.NetAvatarType avatarType_ = de.pokerth.protocol.ProtoBuf.NetAvatarType.netAvatarImagePng;
           /**
            * <code>required .NetAvatarType avatarType = 1;</code>
@@ -15327,6 +15310,7 @@ public final class ProtoBuf {
             return this;
           }
 
+          // required bytes avatarHash = 2;
           private com.google.protobuf.ByteString avatarHash_ = com.google.protobuf.ByteString.EMPTY;
           /**
            * <code>required bytes avatarHash = 2;</code>
@@ -15374,6 +15358,7 @@ public final class ProtoBuf {
       }
 
       private int bitField0_;
+      // required string playerName = 1;
       public static final int PLAYERNAME_FIELD_NUMBER = 1;
       private java.lang.Object playerName_;
       /**
@@ -15416,6 +15401,7 @@ public final class ProtoBuf {
         }
       }
 
+      // required bool isHuman = 2;
       public static final int ISHUMAN_FIELD_NUMBER = 2;
       private boolean isHuman_;
       /**
@@ -15431,6 +15417,7 @@ public final class ProtoBuf {
         return isHuman_;
       }
 
+      // required .NetPlayerInfoRights playerRights = 3;
       public static final int PLAYERRIGHTS_FIELD_NUMBER = 3;
       private de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights playerRights_;
       /**
@@ -15446,6 +15433,7 @@ public final class ProtoBuf {
         return playerRights_;
       }
 
+      // optional string countryCode = 4;
       public static final int COUNTRYCODE_FIELD_NUMBER = 4;
       private java.lang.Object countryCode_;
       /**
@@ -15488,6 +15476,7 @@ public final class ProtoBuf {
         }
       }
 
+      // optional .PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData = 5;
       public static final int AVATARDATA_FIELD_NUMBER = 5;
       private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData_;
       /**
@@ -15513,8 +15502,7 @@ public final class ProtoBuf {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
+        if (isInitialized != -1) return isInitialized == 1;
 
         if (!hasPlayerName()) {
           memoizedIsInitialized = 0;
@@ -15556,7 +15544,6 @@ public final class ProtoBuf {
         if (((bitField0_ & 0x00000010) == 0x00000010)) {
           output.writeMessage(5, avatarData_);
         }
-        output.writeRawBytes(unknownFields);
       }
 
       private int memoizedSerializedSize = -1;
@@ -15585,7 +15572,6 @@ public final class ProtoBuf {
           size += com.google.protobuf.CodedOutputStream
             .computeMessageSize(5, avatarData_);
         }
-        size += unknownFields.size();
         memoizedSerializedSize = size;
         return size;
       }
@@ -15663,9 +15649,7 @@ public final class ProtoBuf {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageLite.Builder<
             de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData, Builder>
-          implements
-          // @@protoc_insertion_point(builder_implements:PlayerInfoReplyMessage.PlayerInfoData)
-          de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoDataOrBuilder {
+          implements de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoDataOrBuilder {
         // Construct using de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
@@ -15757,8 +15741,6 @@ public final class ProtoBuf {
           if (other.hasAvatarData()) {
             mergeAvatarData(other.getAvatarData());
           }
-          setUnknownFields(
-              getUnknownFields().concat(other.unknownFields));
           return this;
         }
 
@@ -15803,6 +15785,7 @@ public final class ProtoBuf {
         }
         private int bitField0_;
 
+        // required string playerName = 1;
         private java.lang.Object playerName_ = "";
         /**
          * <code>required string playerName = 1;</code>
@@ -15816,12 +15799,9 @@ public final class ProtoBuf {
         public java.lang.String getPlayerName() {
           java.lang.Object ref = playerName_;
           if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              playerName_ = s;
-            }
+            java.lang.String s = ((com.google.protobuf.ByteString) ref)
+                .toStringUtf8();
+            playerName_ = s;
             return s;
           } else {
             return (java.lang.String) ref;
@@ -15879,6 +15859,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required bool isHuman = 2;
         private boolean isHuman_ ;
         /**
          * <code>required bool isHuman = 2;</code>
@@ -15911,6 +15892,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required .NetPlayerInfoRights playerRights = 3;
         private de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights playerRights_ = de.pokerth.protocol.ProtoBuf.NetPlayerInfoRights.netPlayerRightsGuest;
         /**
          * <code>required .NetPlayerInfoRights playerRights = 3;</code>
@@ -15946,6 +15928,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // optional string countryCode = 4;
         private java.lang.Object countryCode_ = "";
         /**
          * <code>optional string countryCode = 4;</code>
@@ -15959,12 +15942,9 @@ public final class ProtoBuf {
         public java.lang.String getCountryCode() {
           java.lang.Object ref = countryCode_;
           if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            if (bs.isValidUtf8()) {
-              countryCode_ = s;
-            }
+            java.lang.String s = ((com.google.protobuf.ByteString) ref)
+                .toStringUtf8();
+            countryCode_ = s;
             return s;
           } else {
             return (java.lang.String) ref;
@@ -16022,6 +16002,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // optional .PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData = 5;
         private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData_ = de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.AvatarData.getDefaultInstance();
         /**
          * <code>optional .PlayerInfoReplyMessage.PlayerInfoData.AvatarData avatarData = 5;</code>
@@ -16094,6 +16075,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 playerId = 1;
     public static final int PLAYERID_FIELD_NUMBER = 1;
     private int playerId_;
     /**
@@ -16109,6 +16091,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // optional .PlayerInfoReplyMessage.PlayerInfoData playerInfoData = 2;
     public static final int PLAYERINFODATA_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData playerInfoData_;
     /**
@@ -16131,8 +16114,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasPlayerId()) {
         memoizedIsInitialized = 0;
@@ -16157,7 +16139,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, playerInfoData_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -16174,7 +16155,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, playerInfoData_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -16252,9 +16232,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayerInfoReplyMessage)
-        de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -16315,8 +16293,6 @@ public final class ProtoBuf {
         if (other.hasPlayerInfoData()) {
           mergePlayerInfoData(other.getPlayerInfoData());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -16353,6 +16329,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 playerId = 1;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 1;</code>
@@ -16385,6 +16362,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayerInfoReplyMessage.PlayerInfoData playerInfoData = 2;
       private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData playerInfoData_ = de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.PlayerInfoData.getDefaultInstance();
       /**
        * <code>optional .PlayerInfoReplyMessage.PlayerInfoData playerInfoData = 2;</code>
@@ -16456,10 +16434,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayerInfoReplyMessage)
   }
 
-  public interface SubscriptionRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:SubscriptionRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface SubscriptionRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;
     /**
      * <code>required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;</code>
      */
@@ -16478,15 +16456,14 @@ public final class ProtoBuf {
    * </pre>
    */
   public static final class SubscriptionRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:SubscriptionRequestMessage)
-      SubscriptionRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements SubscriptionRequestMessageOrBuilder {
     // Use SubscriptionRequestMessage.newBuilder() to construct.
     private SubscriptionRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private SubscriptionRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private SubscriptionRequestMessage(boolean noInit) {}
 
     private static final SubscriptionRequestMessage defaultInstance;
     public static SubscriptionRequestMessage getDefaultInstance() {
@@ -16497,18 +16474,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private SubscriptionRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -16518,7 +16489,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -16527,10 +16498,7 @@ public final class ProtoBuf {
             case 8: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.SubscriptionAction value = de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.SubscriptionAction.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000001;
                 subscriptionAction_ = value;
               }
@@ -16544,13 +16512,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -16626,6 +16587,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;
     public static final int SUBSCRIPTIONACTION_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.SubscriptionAction subscriptionAction_;
     /**
@@ -16647,8 +16609,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasSubscriptionAction()) {
         memoizedIsInitialized = 0;
@@ -16664,7 +16625,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, subscriptionAction_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -16677,7 +16637,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, subscriptionAction_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -16760,9 +16719,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:SubscriptionRequestMessage)
-        de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -16814,8 +16771,6 @@ public final class ProtoBuf {
         if (other.hasSubscriptionAction()) {
           setSubscriptionAction(other.getSubscriptionAction());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -16846,6 +16801,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;
       private de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.SubscriptionAction subscriptionAction_ = de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.SubscriptionAction.unsubscribeGameList;
       /**
        * <code>required .SubscriptionRequestMessage.SubscriptionAction subscriptionAction = 1;</code>
@@ -16892,10 +16848,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:SubscriptionRequestMessage)
   }
 
-  public interface JoinExistingGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:JoinExistingGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface JoinExistingGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -16905,6 +16861,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // optional string password = 2;
     /**
      * <code>optional string password = 2;</code>
      */
@@ -16919,6 +16876,7 @@ public final class ProtoBuf {
     com.google.protobuf.ByteString
         getPasswordBytes();
 
+    // optional bool autoLeave = 3 [default = false];
     /**
      * <code>optional bool autoLeave = 3 [default = false];</code>
      */
@@ -16928,6 +16886,7 @@ public final class ProtoBuf {
      */
     boolean getAutoLeave();
 
+    // optional bool spectateOnly = 4 [default = false];
     /**
      * <code>optional bool spectateOnly = 4 [default = false];</code>
      */
@@ -16941,15 +16900,14 @@ public final class ProtoBuf {
    * Protobuf type {@code JoinExistingGameMessage}
    */
   public static final class JoinExistingGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:JoinExistingGameMessage)
-      JoinExistingGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements JoinExistingGameMessageOrBuilder {
     // Use JoinExistingGameMessage.newBuilder() to construct.
     private JoinExistingGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private JoinExistingGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private JoinExistingGameMessage(boolean noInit) {}
 
     private static final JoinExistingGameMessage defaultInstance;
     public static JoinExistingGameMessage getDefaultInstance() {
@@ -16960,18 +16918,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private JoinExistingGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -16981,7 +16933,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -16993,9 +16945,8 @@ public final class ProtoBuf {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              password_ = bs;
+              password_ = input.readBytes();
               break;
             }
             case 24: {
@@ -17016,13 +16967,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -17042,6 +16986,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -17057,6 +17002,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // optional string password = 2;
     public static final int PASSWORD_FIELD_NUMBER = 2;
     private java.lang.Object password_;
     /**
@@ -17099,6 +17045,7 @@ public final class ProtoBuf {
       }
     }
 
+    // optional bool autoLeave = 3 [default = false];
     public static final int AUTOLEAVE_FIELD_NUMBER = 3;
     private boolean autoLeave_;
     /**
@@ -17114,6 +17061,7 @@ public final class ProtoBuf {
       return autoLeave_;
     }
 
+    // optional bool spectateOnly = 4 [default = false];
     public static final int SPECTATEONLY_FIELD_NUMBER = 4;
     private boolean spectateOnly_;
     /**
@@ -17138,8 +17086,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -17164,7 +17111,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(4, spectateOnly_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -17189,7 +17135,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(4, spectateOnly_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -17267,9 +17212,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:JoinExistingGameMessage)
-        de.pokerth.protocol.ProtoBuf.JoinExistingGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.JoinExistingGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -17350,8 +17293,6 @@ public final class ProtoBuf {
         if (other.hasSpectateOnly()) {
           setSpectateOnly(other.getSpectateOnly());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -17382,6 +17323,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -17414,6 +17356,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional string password = 2;
       private java.lang.Object password_ = "";
       /**
        * <code>optional string password = 2;</code>
@@ -17427,12 +17370,9 @@ public final class ProtoBuf {
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            password_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          password_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -17490,6 +17430,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool autoLeave = 3 [default = false];
       private boolean autoLeave_ ;
       /**
        * <code>optional bool autoLeave = 3 [default = false];</code>
@@ -17522,6 +17463,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool spectateOnly = 4 [default = false];
       private boolean spectateOnly_ ;
       /**
        * <code>optional bool spectateOnly = 4 [default = false];</code>
@@ -17565,10 +17507,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:JoinExistingGameMessage)
   }
 
-  public interface JoinNewGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:JoinNewGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface JoinNewGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .NetGameInfo gameInfo = 1;
     /**
      * <code>required .NetGameInfo gameInfo = 1;</code>
      */
@@ -17578,6 +17520,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo();
 
+    // optional string password = 2;
     /**
      * <code>optional string password = 2;</code>
      */
@@ -17592,6 +17535,7 @@ public final class ProtoBuf {
     com.google.protobuf.ByteString
         getPasswordBytes();
 
+    // optional bool autoLeave = 3;
     /**
      * <code>optional bool autoLeave = 3;</code>
      */
@@ -17605,15 +17549,14 @@ public final class ProtoBuf {
    * Protobuf type {@code JoinNewGameMessage}
    */
   public static final class JoinNewGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:JoinNewGameMessage)
-      JoinNewGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements JoinNewGameMessageOrBuilder {
     // Use JoinNewGameMessage.newBuilder() to construct.
     private JoinNewGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private JoinNewGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private JoinNewGameMessage(boolean noInit) {}
 
     private static final JoinNewGameMessage defaultInstance;
     public static JoinNewGameMessage getDefaultInstance() {
@@ -17624,18 +17567,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private JoinNewGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -17645,7 +17582,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -17665,9 +17602,8 @@ public final class ProtoBuf {
               break;
             }
             case 18: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
-              password_ = bs;
+              password_ = input.readBytes();
               break;
             }
             case 24: {
@@ -17683,13 +17619,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -17709,6 +17638,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .NetGameInfo gameInfo = 1;
     public static final int GAMEINFO_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_;
     /**
@@ -17724,6 +17654,7 @@ public final class ProtoBuf {
       return gameInfo_;
     }
 
+    // optional string password = 2;
     public static final int PASSWORD_FIELD_NUMBER = 2;
     private java.lang.Object password_;
     /**
@@ -17766,6 +17697,7 @@ public final class ProtoBuf {
       }
     }
 
+    // optional bool autoLeave = 3;
     public static final int AUTOLEAVE_FIELD_NUMBER = 3;
     private boolean autoLeave_;
     /**
@@ -17789,8 +17721,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameInfo()) {
         memoizedIsInitialized = 0;
@@ -17816,7 +17747,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, autoLeave_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -17837,7 +17767,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, autoLeave_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -17915,9 +17844,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.JoinNewGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:JoinNewGameMessage)
-        de.pokerth.protocol.ProtoBuf.JoinNewGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.JoinNewGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.JoinNewGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -17989,8 +17916,6 @@ public final class ProtoBuf {
         if (other.hasAutoLeave()) {
           setAutoLeave(other.getAutoLeave());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -18025,6 +17950,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .NetGameInfo gameInfo = 1;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
       /**
        * <code>required .NetGameInfo gameInfo = 1;</code>
@@ -18085,6 +18011,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional string password = 2;
       private java.lang.Object password_ = "";
       /**
        * <code>optional string password = 2;</code>
@@ -18098,12 +18025,9 @@ public final class ProtoBuf {
       public java.lang.String getPassword() {
         java.lang.Object ref = password_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            password_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          password_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -18161,6 +18085,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool autoLeave = 3;
       private boolean autoLeave_ ;
       /**
        * <code>optional bool autoLeave = 3;</code>
@@ -18204,10 +18129,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:JoinNewGameMessage)
   }
 
-  public interface RejoinExistingGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:RejoinExistingGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface RejoinExistingGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -18217,6 +18142,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // optional bool autoLeave = 2;
     /**
      * <code>optional bool autoLeave = 2;</code>
      */
@@ -18230,15 +18156,14 @@ public final class ProtoBuf {
    * Protobuf type {@code RejoinExistingGameMessage}
    */
   public static final class RejoinExistingGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:RejoinExistingGameMessage)
-      RejoinExistingGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements RejoinExistingGameMessageOrBuilder {
     // Use RejoinExistingGameMessage.newBuilder() to construct.
     private RejoinExistingGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private RejoinExistingGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private RejoinExistingGameMessage(boolean noInit) {}
 
     private static final RejoinExistingGameMessage defaultInstance;
     public static RejoinExistingGameMessage getDefaultInstance() {
@@ -18249,18 +18174,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private RejoinExistingGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -18270,7 +18189,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -18294,13 +18213,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -18320,6 +18232,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -18335,6 +18248,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // optional bool autoLeave = 2;
     public static final int AUTOLEAVE_FIELD_NUMBER = 2;
     private boolean autoLeave_;
     /**
@@ -18357,8 +18271,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -18377,7 +18290,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, autoLeave_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -18394,7 +18306,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, autoLeave_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -18472,9 +18383,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:RejoinExistingGameMessage)
-        de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -18535,8 +18444,6 @@ public final class ProtoBuf {
         if (other.hasAutoLeave()) {
           setAutoLeave(other.getAutoLeave());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -18567,6 +18474,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -18599,6 +18507,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool autoLeave = 2;
       private boolean autoLeave_ ;
       /**
        * <code>optional bool autoLeave = 2;</code>
@@ -18642,10 +18551,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:RejoinExistingGameMessage)
   }
 
-  public interface JoinGameAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:JoinGameAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface JoinGameAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -18655,6 +18564,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required bool areYouGameAdmin = 2;
     /**
      * <code>required bool areYouGameAdmin = 2;</code>
      */
@@ -18664,6 +18574,7 @@ public final class ProtoBuf {
      */
     boolean getAreYouGameAdmin();
 
+    // required .NetGameInfo gameInfo = 3;
     /**
      * <code>required .NetGameInfo gameInfo = 3;</code>
      */
@@ -18673,6 +18584,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameInfo getGameInfo();
 
+    // optional bool spectateOnly = 4;
     /**
      * <code>optional bool spectateOnly = 4;</code>
      */
@@ -18686,15 +18598,14 @@ public final class ProtoBuf {
    * Protobuf type {@code JoinGameAckMessage}
    */
   public static final class JoinGameAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:JoinGameAckMessage)
-      JoinGameAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements JoinGameAckMessageOrBuilder {
     // Use JoinGameAckMessage.newBuilder() to construct.
     private JoinGameAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private JoinGameAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private JoinGameAckMessage(boolean noInit) {}
 
     private static final JoinGameAckMessage defaultInstance;
     public static JoinGameAckMessage getDefaultInstance() {
@@ -18705,18 +18616,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private JoinGameAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -18726,7 +18631,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -18768,13 +18673,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -18794,6 +18692,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -18809,6 +18708,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required bool areYouGameAdmin = 2;
     public static final int AREYOUGAMEADMIN_FIELD_NUMBER = 2;
     private boolean areYouGameAdmin_;
     /**
@@ -18824,6 +18724,7 @@ public final class ProtoBuf {
       return areYouGameAdmin_;
     }
 
+    // required .NetGameInfo gameInfo = 3;
     public static final int GAMEINFO_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_;
     /**
@@ -18839,6 +18740,7 @@ public final class ProtoBuf {
       return gameInfo_;
     }
 
+    // optional bool spectateOnly = 4;
     public static final int SPECTATEONLY_FIELD_NUMBER = 4;
     private boolean spectateOnly_;
     /**
@@ -18863,8 +18765,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -18901,7 +18802,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(4, spectateOnly_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -18926,7 +18826,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(4, spectateOnly_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -19004,9 +18903,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.JoinGameAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:JoinGameAckMessage)
-        de.pokerth.protocol.ProtoBuf.JoinGameAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.JoinGameAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -19085,8 +18982,6 @@ public final class ProtoBuf {
         if (other.hasSpectateOnly()) {
           setSpectateOnly(other.getSpectateOnly());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -19129,6 +19024,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -19161,6 +19057,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bool areYouGameAdmin = 2;
       private boolean areYouGameAdmin_ ;
       /**
        * <code>required bool areYouGameAdmin = 2;</code>
@@ -19193,6 +19090,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameInfo gameInfo = 3;
       private de.pokerth.protocol.ProtoBuf.NetGameInfo gameInfo_ = de.pokerth.protocol.ProtoBuf.NetGameInfo.getDefaultInstance();
       /**
        * <code>required .NetGameInfo gameInfo = 3;</code>
@@ -19253,6 +19151,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool spectateOnly = 4;
       private boolean spectateOnly_ ;
       /**
        * <code>optional bool spectateOnly = 4;</code>
@@ -19296,10 +19195,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:JoinGameAckMessage)
   }
 
-  public interface JoinGameFailedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:JoinGameFailedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface JoinGameFailedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -19309,6 +19208,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
     /**
      * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
      */
@@ -19322,15 +19222,14 @@ public final class ProtoBuf {
    * Protobuf type {@code JoinGameFailedMessage}
    */
   public static final class JoinGameFailedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:JoinGameFailedMessage)
-      JoinGameFailedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements JoinGameFailedMessageOrBuilder {
     // Use JoinGameFailedMessage.newBuilder() to construct.
     private JoinGameFailedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private JoinGameFailedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private JoinGameFailedMessage(boolean noInit) {}
 
     private static final JoinGameFailedMessage defaultInstance;
     public static JoinGameFailedMessage getDefaultInstance() {
@@ -19341,18 +19240,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private JoinGameFailedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -19362,7 +19255,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -19376,10 +19269,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason value = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 joinGameFailureReason_ = value;
               }
@@ -19393,13 +19283,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -19565,6 +19448,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -19580,6 +19464,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
     public static final int JOINGAMEFAILUREREASON_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason_;
     /**
@@ -19602,8 +19487,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -19626,7 +19510,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, joinGameFailureReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -19643,7 +19526,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, joinGameFailureReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -19721,9 +19603,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:JoinGameFailedMessage)
-        de.pokerth.protocol.ProtoBuf.JoinGameFailedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.JoinGameFailedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -19784,8 +19664,6 @@ public final class ProtoBuf {
         if (other.hasJoinGameFailureReason()) {
           setJoinGameFailureReason(other.getJoinGameFailureReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -19820,6 +19698,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -19852,6 +19731,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;
       private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.JoinGameFailureReason.invalidGame;
       /**
        * <code>required .JoinGameFailedMessage.JoinGameFailureReason joinGameFailureReason = 2;</code>
@@ -19898,10 +19778,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:JoinGameFailedMessage)
   }
 
-  public interface GamePlayerJoinedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GamePlayerJoinedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GamePlayerJoinedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -19911,6 +19791,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -19920,6 +19801,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required bool isGameAdmin = 3;
     /**
      * <code>required bool isGameAdmin = 3;</code>
      */
@@ -19933,15 +19815,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GamePlayerJoinedMessage}
    */
   public static final class GamePlayerJoinedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GamePlayerJoinedMessage)
-      GamePlayerJoinedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GamePlayerJoinedMessageOrBuilder {
     // Use GamePlayerJoinedMessage.newBuilder() to construct.
     private GamePlayerJoinedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GamePlayerJoinedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GamePlayerJoinedMessage(boolean noInit) {}
 
     private static final GamePlayerJoinedMessage defaultInstance;
     public static GamePlayerJoinedMessage getDefaultInstance() {
@@ -19952,18 +19833,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GamePlayerJoinedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -19973,7 +19848,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -20002,13 +19877,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -20028,6 +19896,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -20043,6 +19912,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -20058,6 +19928,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required bool isGameAdmin = 3;
     public static final int ISGAMEADMIN_FIELD_NUMBER = 3;
     private boolean isGameAdmin_;
     /**
@@ -20081,8 +19952,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -20112,7 +19982,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, isGameAdmin_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -20133,7 +20002,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, isGameAdmin_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -20211,9 +20079,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GamePlayerJoinedMessage)
-        de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -20283,8 +20149,6 @@ public final class ProtoBuf {
         if (other.hasIsGameAdmin()) {
           setIsGameAdmin(other.getIsGameAdmin());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -20323,6 +20187,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -20355,6 +20220,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -20387,6 +20253,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bool isGameAdmin = 3;
       private boolean isGameAdmin_ ;
       /**
        * <code>required bool isGameAdmin = 3;</code>
@@ -20430,10 +20297,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GamePlayerJoinedMessage)
   }
 
-  public interface GamePlayerLeftMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GamePlayerLeftMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GamePlayerLeftMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -20443,6 +20310,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -20452,6 +20320,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;
     /**
      * <code>required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;</code>
      */
@@ -20465,15 +20334,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GamePlayerLeftMessage}
    */
   public static final class GamePlayerLeftMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GamePlayerLeftMessage)
-      GamePlayerLeftMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GamePlayerLeftMessageOrBuilder {
     // Use GamePlayerLeftMessage.newBuilder() to construct.
     private GamePlayerLeftMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GamePlayerLeftMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GamePlayerLeftMessage(boolean noInit) {}
 
     private static final GamePlayerLeftMessage defaultInstance;
     public static GamePlayerLeftMessage getDefaultInstance() {
@@ -20484,18 +20352,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GamePlayerLeftMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -20505,7 +20367,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -20524,10 +20386,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason value = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 gamePlayerLeftReason_ = value;
               }
@@ -20541,13 +20400,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -20632,6 +20484,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -20647,6 +20500,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -20662,6 +20516,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;
     public static final int GAMEPLAYERLEFTREASON_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason_;
     /**
@@ -20685,8 +20540,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -20716,7 +20570,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, gamePlayerLeftReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -20737,7 +20590,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, gamePlayerLeftReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -20815,9 +20667,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GamePlayerLeftMessage)
-        de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -20887,8 +20737,6 @@ public final class ProtoBuf {
         if (other.hasGamePlayerLeftReason()) {
           setGamePlayerLeftReason(other.getGamePlayerLeftReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -20927,6 +20775,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -20959,6 +20808,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -20991,6 +20841,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;
       private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.leftOnRequest;
       /**
        * <code>required .GamePlayerLeftMessage.GamePlayerLeftReason gamePlayerLeftReason = 3;</code>
@@ -21037,10 +20888,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GamePlayerLeftMessage)
   }
 
-  public interface GameSpectatorJoinedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameSpectatorJoinedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameSpectatorJoinedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -21050,6 +20901,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -21063,15 +20915,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameSpectatorJoinedMessage}
    */
   public static final class GameSpectatorJoinedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameSpectatorJoinedMessage)
-      GameSpectatorJoinedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameSpectatorJoinedMessageOrBuilder {
     // Use GameSpectatorJoinedMessage.newBuilder() to construct.
     private GameSpectatorJoinedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameSpectatorJoinedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameSpectatorJoinedMessage(boolean noInit) {}
 
     private static final GameSpectatorJoinedMessage defaultInstance;
     public static GameSpectatorJoinedMessage getDefaultInstance() {
@@ -21082,18 +20933,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameSpectatorJoinedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -21103,7 +20948,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -21127,13 +20972,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -21153,6 +20991,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -21168,6 +21007,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -21190,8 +21030,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -21214,7 +21053,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -21231,7 +21069,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -21309,9 +21146,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameSpectatorJoinedMessage)
-        de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -21372,8 +21207,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -21408,6 +21241,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -21440,6 +21274,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -21483,10 +21318,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameSpectatorJoinedMessage)
   }
 
-  public interface GameSpectatorLeftMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameSpectatorLeftMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameSpectatorLeftMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -21496,6 +21331,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -21505,6 +21341,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
     /**
      * <code>required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;</code>
      */
@@ -21518,15 +21355,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameSpectatorLeftMessage}
    */
   public static final class GameSpectatorLeftMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameSpectatorLeftMessage)
-      GameSpectatorLeftMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameSpectatorLeftMessageOrBuilder {
     // Use GameSpectatorLeftMessage.newBuilder() to construct.
     private GameSpectatorLeftMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameSpectatorLeftMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameSpectatorLeftMessage(boolean noInit) {}
 
     private static final GameSpectatorLeftMessage defaultInstance;
     public static GameSpectatorLeftMessage getDefaultInstance() {
@@ -21537,18 +21373,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameSpectatorLeftMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -21558,7 +21388,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -21577,10 +21407,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason value = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 gameSpectatorLeftReason_ = value;
               }
@@ -21594,13 +21421,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -21620,6 +21440,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -21635,6 +21456,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -21650,6 +21472,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
     public static final int GAMESPECTATORLEFTREASON_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason_;
     /**
@@ -21673,8 +21496,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -21704,7 +21526,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, gameSpectatorLeftReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -21725,7 +21546,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, gameSpectatorLeftReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -21803,9 +21623,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameSpectatorLeftMessage)
-        de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -21875,8 +21693,6 @@ public final class ProtoBuf {
         if (other.hasGameSpectatorLeftReason()) {
           setGameSpectatorLeftReason(other.getGameSpectatorLeftReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -21915,6 +21731,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -21947,6 +21764,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -21979,6 +21797,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;
       private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.GamePlayerLeftReason.leftOnRequest;
       /**
        * <code>required .GamePlayerLeftMessage.GamePlayerLeftReason gameSpectatorLeftReason = 3;</code>
@@ -22025,10 +21844,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameSpectatorLeftMessage)
   }
 
-  public interface GameAdminChangedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameAdminChangedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameAdminChangedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -22038,6 +21857,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 newAdminPlayerId = 2;
     /**
      * <code>required uint32 newAdminPlayerId = 2;</code>
      */
@@ -22051,15 +21871,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameAdminChangedMessage}
    */
   public static final class GameAdminChangedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameAdminChangedMessage)
-      GameAdminChangedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameAdminChangedMessageOrBuilder {
     // Use GameAdminChangedMessage.newBuilder() to construct.
     private GameAdminChangedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameAdminChangedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameAdminChangedMessage(boolean noInit) {}
 
     private static final GameAdminChangedMessage defaultInstance;
     public static GameAdminChangedMessage getDefaultInstance() {
@@ -22070,18 +21889,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameAdminChangedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -22091,7 +21904,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -22115,13 +21928,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -22141,6 +21947,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -22156,6 +21963,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 newAdminPlayerId = 2;
     public static final int NEWADMINPLAYERID_FIELD_NUMBER = 2;
     private int newAdminPlayerId_;
     /**
@@ -22178,8 +21986,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -22202,7 +22009,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, newAdminPlayerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -22219,7 +22025,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, newAdminPlayerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -22297,9 +22102,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameAdminChangedMessage)
-        de.pokerth.protocol.ProtoBuf.GameAdminChangedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameAdminChangedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -22360,8 +22163,6 @@ public final class ProtoBuf {
         if (other.hasNewAdminPlayerId()) {
           setNewAdminPlayerId(other.getNewAdminPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -22396,6 +22197,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -22428,6 +22230,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 newAdminPlayerId = 2;
       private int newAdminPlayerId_ ;
       /**
        * <code>required uint32 newAdminPlayerId = 2;</code>
@@ -22471,10 +22274,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameAdminChangedMessage)
   }
 
-  public interface RemovedFromGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:RemovedFromGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface RemovedFromGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -22484,6 +22287,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;
     /**
      * <code>required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;</code>
      */
@@ -22497,15 +22301,14 @@ public final class ProtoBuf {
    * Protobuf type {@code RemovedFromGameMessage}
    */
   public static final class RemovedFromGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:RemovedFromGameMessage)
-      RemovedFromGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements RemovedFromGameMessageOrBuilder {
     // Use RemovedFromGameMessage.newBuilder() to construct.
     private RemovedFromGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private RemovedFromGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private RemovedFromGameMessage(boolean noInit) {}
 
     private static final RemovedFromGameMessage defaultInstance;
     public static RemovedFromGameMessage getDefaultInstance() {
@@ -22516,18 +22319,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private RemovedFromGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -22537,7 +22334,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -22551,10 +22348,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.RemovedFromGameReason value = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.RemovedFromGameReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 removedFromGameReason_ = value;
               }
@@ -22568,13 +22362,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -22703,6 +22490,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -22718,6 +22506,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;
     public static final int REMOVEDFROMGAMEREASON_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason_;
     /**
@@ -22740,8 +22529,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -22764,7 +22552,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, removedFromGameReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -22781,7 +22568,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, removedFromGameReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -22859,9 +22645,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:RemovedFromGameMessage)
-        de.pokerth.protocol.ProtoBuf.RemovedFromGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.RemovedFromGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -22922,8 +22706,6 @@ public final class ProtoBuf {
         if (other.hasRemovedFromGameReason()) {
           setRemovedFromGameReason(other.getRemovedFromGameReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -22958,6 +22740,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -22990,6 +22773,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;
       private de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason_ = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.RemovedFromGameReason.removedOnRequest;
       /**
        * <code>required .RemovedFromGameMessage.RemovedFromGameReason removedFromGameReason = 2;</code>
@@ -23036,10 +22820,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:RemovedFromGameMessage)
   }
 
-  public interface KickPlayerRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:KickPlayerRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface KickPlayerRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -23049,6 +22833,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -23062,15 +22847,14 @@ public final class ProtoBuf {
    * Protobuf type {@code KickPlayerRequestMessage}
    */
   public static final class KickPlayerRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:KickPlayerRequestMessage)
-      KickPlayerRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements KickPlayerRequestMessageOrBuilder {
     // Use KickPlayerRequestMessage.newBuilder() to construct.
     private KickPlayerRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private KickPlayerRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private KickPlayerRequestMessage(boolean noInit) {}
 
     private static final KickPlayerRequestMessage defaultInstance;
     public static KickPlayerRequestMessage getDefaultInstance() {
@@ -23081,18 +22865,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private KickPlayerRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -23102,7 +22880,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -23126,13 +22904,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -23152,6 +22923,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -23167,6 +22939,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -23189,8 +22962,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -23213,7 +22985,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -23230,7 +23001,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -23308,9 +23078,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:KickPlayerRequestMessage)
-        de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -23371,8 +23139,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -23407,6 +23173,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -23439,6 +23206,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -23482,10 +23250,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:KickPlayerRequestMessage)
   }
 
-  public interface LeaveGameRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:LeaveGameRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface LeaveGameRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -23499,15 +23267,14 @@ public final class ProtoBuf {
    * Protobuf type {@code LeaveGameRequestMessage}
    */
   public static final class LeaveGameRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:LeaveGameRequestMessage)
-      LeaveGameRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements LeaveGameRequestMessageOrBuilder {
     // Use LeaveGameRequestMessage.newBuilder() to construct.
     private LeaveGameRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private LeaveGameRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private LeaveGameRequestMessage(boolean noInit) {}
 
     private static final LeaveGameRequestMessage defaultInstance;
     public static LeaveGameRequestMessage getDefaultInstance() {
@@ -23518,18 +23285,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private LeaveGameRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -23539,7 +23300,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -23558,13 +23319,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -23584,6 +23338,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -23605,8 +23360,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -23622,7 +23376,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, gameId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -23635,7 +23388,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, gameId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -23713,9 +23465,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:LeaveGameRequestMessage)
-        de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -23767,8 +23517,6 @@ public final class ProtoBuf {
         if (other.hasGameId()) {
           setGameId(other.getGameId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -23799,6 +23547,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -23842,10 +23591,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:LeaveGameRequestMessage)
   }
 
-  public interface InvitePlayerToGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:InvitePlayerToGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface InvitePlayerToGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -23855,6 +23604,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -23868,15 +23618,14 @@ public final class ProtoBuf {
    * Protobuf type {@code InvitePlayerToGameMessage}
    */
   public static final class InvitePlayerToGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:InvitePlayerToGameMessage)
-      InvitePlayerToGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements InvitePlayerToGameMessageOrBuilder {
     // Use InvitePlayerToGameMessage.newBuilder() to construct.
     private InvitePlayerToGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private InvitePlayerToGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private InvitePlayerToGameMessage(boolean noInit) {}
 
     private static final InvitePlayerToGameMessage defaultInstance;
     public static InvitePlayerToGameMessage getDefaultInstance() {
@@ -23887,18 +23636,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private InvitePlayerToGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -23908,7 +23651,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -23932,13 +23675,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -23958,6 +23694,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -23973,6 +23710,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -23995,8 +23733,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -24019,7 +23756,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -24036,7 +23772,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -24114,9 +23849,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:InvitePlayerToGameMessage)
-        de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -24177,8 +23910,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -24213,6 +23944,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -24245,6 +23977,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -24288,10 +24021,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:InvitePlayerToGameMessage)
   }
 
-  public interface InviteNotifyMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:InviteNotifyMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface InviteNotifyMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -24301,6 +24034,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerIdWho = 2;
     /**
      * <code>required uint32 playerIdWho = 2;</code>
      */
@@ -24310,6 +24044,7 @@ public final class ProtoBuf {
      */
     int getPlayerIdWho();
 
+    // required uint32 playerIdByWhom = 3;
     /**
      * <code>required uint32 playerIdByWhom = 3;</code>
      */
@@ -24323,15 +24058,14 @@ public final class ProtoBuf {
    * Protobuf type {@code InviteNotifyMessage}
    */
   public static final class InviteNotifyMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:InviteNotifyMessage)
-      InviteNotifyMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements InviteNotifyMessageOrBuilder {
     // Use InviteNotifyMessage.newBuilder() to construct.
     private InviteNotifyMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private InviteNotifyMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private InviteNotifyMessage(boolean noInit) {}
 
     private static final InviteNotifyMessage defaultInstance;
     public static InviteNotifyMessage getDefaultInstance() {
@@ -24342,18 +24076,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private InviteNotifyMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -24363,7 +24091,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -24392,13 +24120,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -24418,6 +24139,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -24433,6 +24155,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerIdWho = 2;
     public static final int PLAYERIDWHO_FIELD_NUMBER = 2;
     private int playerIdWho_;
     /**
@@ -24448,6 +24171,7 @@ public final class ProtoBuf {
       return playerIdWho_;
     }
 
+    // required uint32 playerIdByWhom = 3;
     public static final int PLAYERIDBYWHOM_FIELD_NUMBER = 3;
     private int playerIdByWhom_;
     /**
@@ -24471,8 +24195,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -24502,7 +24225,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeUInt32(3, playerIdByWhom_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -24523,7 +24245,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, playerIdByWhom_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -24601,9 +24322,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.InviteNotifyMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:InviteNotifyMessage)
-        de.pokerth.protocol.ProtoBuf.InviteNotifyMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.InviteNotifyMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -24673,8 +24392,6 @@ public final class ProtoBuf {
         if (other.hasPlayerIdByWhom()) {
           setPlayerIdByWhom(other.getPlayerIdByWhom());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -24713,6 +24430,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -24745,6 +24463,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerIdWho = 2;
       private int playerIdWho_ ;
       /**
        * <code>required uint32 playerIdWho = 2;</code>
@@ -24777,6 +24496,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerIdByWhom = 3;
       private int playerIdByWhom_ ;
       /**
        * <code>required uint32 playerIdByWhom = 3;</code>
@@ -24820,10 +24540,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:InviteNotifyMessage)
   }
 
-  public interface RejectGameInvitationMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:RejectGameInvitationMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface RejectGameInvitationMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -24833,6 +24553,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .RejectGameInvitationMessage.RejectGameInvReason myRejectReason = 2;
     /**
      * <code>required .RejectGameInvitationMessage.RejectGameInvReason myRejectReason = 2;</code>
      */
@@ -24846,15 +24567,14 @@ public final class ProtoBuf {
    * Protobuf type {@code RejectGameInvitationMessage}
    */
   public static final class RejectGameInvitationMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:RejectGameInvitationMessage)
-      RejectGameInvitationMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements RejectGameInvitationMessageOrBuilder {
     // Use RejectGameInvitationMessage.newBuilder() to construct.
     private RejectGameInvitationMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private RejectGameInvitationMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private RejectGameInvitationMessage(boolean noInit) {}
 
     private static final RejectGameInvitationMessage defaultInstance;
     public static RejectGameInvitationMessage getDefaultInstance() {
@@ -24865,18 +24585,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private RejectGameInvitationMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -24886,7 +24600,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -24900,10 +24614,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason value = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 myRejectReason_ = value;
               }
@@ -24917,13 +24628,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -24999,6 +24703,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -25014,6 +24719,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .RejectGameInvitationMessage.RejectGameInvReason myRejectReason = 2;
     public static final int MYREJECTREASON_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason myRejectReason_;
     /**
@@ -25036,8 +24742,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -25060,7 +24765,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, myRejectReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -25077,7 +24781,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, myRejectReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -25155,9 +24858,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:RejectGameInvitationMessage)
-        de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -25218,8 +24919,6 @@ public final class ProtoBuf {
         if (other.hasMyRejectReason()) {
           setMyRejectReason(other.getMyRejectReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -25254,6 +24953,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -25286,6 +24986,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .RejectGameInvitationMessage.RejectGameInvReason myRejectReason = 2;
       private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason myRejectReason_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason.rejectReasonNo;
       /**
        * <code>required .RejectGameInvitationMessage.RejectGameInvReason myRejectReason = 2;</code>
@@ -25332,10 +25033,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:RejectGameInvitationMessage)
   }
 
-  public interface RejectInvNotifyMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:RejectInvNotifyMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface RejectInvNotifyMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -25345,6 +25046,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -25354,6 +25056,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .RejectGameInvitationMessage.RejectGameInvReason playerRejectReason = 3;
     /**
      * <code>required .RejectGameInvitationMessage.RejectGameInvReason playerRejectReason = 3;</code>
      */
@@ -25367,15 +25070,14 @@ public final class ProtoBuf {
    * Protobuf type {@code RejectInvNotifyMessage}
    */
   public static final class RejectInvNotifyMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:RejectInvNotifyMessage)
-      RejectInvNotifyMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements RejectInvNotifyMessageOrBuilder {
     // Use RejectInvNotifyMessage.newBuilder() to construct.
     private RejectInvNotifyMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private RejectInvNotifyMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private RejectInvNotifyMessage(boolean noInit) {}
 
     private static final RejectInvNotifyMessage defaultInstance;
     public static RejectInvNotifyMessage getDefaultInstance() {
@@ -25386,18 +25088,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private RejectInvNotifyMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -25407,7 +25103,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -25426,10 +25122,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason value = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 playerRejectReason_ = value;
               }
@@ -25443,13 +25136,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -25469,6 +25155,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -25484,6 +25171,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -25499,6 +25187,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .RejectGameInvitationMessage.RejectGameInvReason playerRejectReason = 3;
     public static final int PLAYERREJECTREASON_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason playerRejectReason_;
     /**
@@ -25522,8 +25211,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -25553,7 +25241,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, playerRejectReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -25574,7 +25261,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, playerRejectReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -25652,9 +25338,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:RejectInvNotifyMessage)
-        de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -25724,8 +25408,6 @@ public final class ProtoBuf {
         if (other.hasPlayerRejectReason()) {
           setPlayerRejectReason(other.getPlayerRejectReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -25764,6 +25446,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -25796,6 +25479,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -25828,6 +25512,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .RejectGameInvitationMessage.RejectGameInvReason playerRejectReason = 3;
       private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason playerRejectReason_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.RejectGameInvReason.rejectReasonNo;
       /**
        * <code>required .RejectGameInvitationMessage.RejectGameInvReason playerRejectReason = 3;</code>
@@ -25874,10 +25559,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:RejectInvNotifyMessage)
   }
 
-  public interface StartEventMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:StartEventMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface StartEventMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -25887,6 +25572,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .StartEventMessage.StartEventType startEventType = 2;
     /**
      * <code>required .StartEventMessage.StartEventType startEventType = 2;</code>
      */
@@ -25896,6 +25582,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType getStartEventType();
 
+    // optional bool fillWithComputerPlayers = 3;
     /**
      * <code>optional bool fillWithComputerPlayers = 3;</code>
      */
@@ -25909,15 +25596,14 @@ public final class ProtoBuf {
    * Protobuf type {@code StartEventMessage}
    */
   public static final class StartEventMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:StartEventMessage)
-      StartEventMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements StartEventMessageOrBuilder {
     // Use StartEventMessage.newBuilder() to construct.
     private StartEventMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private StartEventMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private StartEventMessage(boolean noInit) {}
 
     private static final StartEventMessage defaultInstance;
     public static StartEventMessage getDefaultInstance() {
@@ -25928,18 +25614,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private StartEventMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -25949,7 +25629,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -25963,10 +25643,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType value = de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 startEventType_ = value;
               }
@@ -25985,13 +25662,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -26067,6 +25737,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -26082,6 +25753,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .StartEventMessage.StartEventType startEventType = 2;
     public static final int STARTEVENTTYPE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType startEventType_;
     /**
@@ -26097,6 +25769,7 @@ public final class ProtoBuf {
       return startEventType_;
     }
 
+    // optional bool fillWithComputerPlayers = 3;
     public static final int FILLWITHCOMPUTERPLAYERS_FIELD_NUMBER = 3;
     private boolean fillWithComputerPlayers_;
     /**
@@ -26120,8 +25793,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -26147,7 +25819,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, fillWithComputerPlayers_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -26168,7 +25839,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, fillWithComputerPlayers_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -26246,9 +25916,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.StartEventMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:StartEventMessage)
-        de.pokerth.protocol.ProtoBuf.StartEventMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.StartEventMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.StartEventMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -26318,8 +25986,6 @@ public final class ProtoBuf {
         if (other.hasFillWithComputerPlayers()) {
           setFillWithComputerPlayers(other.getFillWithComputerPlayers());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -26354,6 +26020,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -26386,6 +26053,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .StartEventMessage.StartEventType startEventType = 2;
       private de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType startEventType_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.StartEventType.startEvent;
       /**
        * <code>required .StartEventMessage.StartEventType startEventType = 2;</code>
@@ -26421,6 +26089,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bool fillWithComputerPlayers = 3;
       private boolean fillWithComputerPlayers_ ;
       /**
        * <code>optional bool fillWithComputerPlayers = 3;</code>
@@ -26464,10 +26133,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:StartEventMessage)
   }
 
-  public interface StartEventAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:StartEventAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface StartEventAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -26481,15 +26150,14 @@ public final class ProtoBuf {
    * Protobuf type {@code StartEventAckMessage}
    */
   public static final class StartEventAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:StartEventAckMessage)
-      StartEventAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements StartEventAckMessageOrBuilder {
     // Use StartEventAckMessage.newBuilder() to construct.
     private StartEventAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private StartEventAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private StartEventAckMessage(boolean noInit) {}
 
     private static final StartEventAckMessage defaultInstance;
     public static StartEventAckMessage getDefaultInstance() {
@@ -26500,18 +26168,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private StartEventAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -26521,7 +26183,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -26540,13 +26202,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -26566,6 +26221,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -26587,8 +26243,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -26604,7 +26259,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, gameId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -26617,7 +26271,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, gameId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -26695,9 +26348,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.StartEventAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:StartEventAckMessage)
-        de.pokerth.protocol.ProtoBuf.StartEventAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.StartEventAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.StartEventAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -26749,8 +26400,6 @@ public final class ProtoBuf {
         if (other.hasGameId()) {
           setGameId(other.getGameId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -26781,6 +26430,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -26824,10 +26474,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:StartEventAckMessage)
   }
 
-  public interface GameStartInitialMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameStartInitialMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameStartInitialMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -26837,6 +26487,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 startDealerPlayerId = 2;
     /**
      * <code>required uint32 startDealerPlayerId = 2;</code>
      */
@@ -26846,6 +26497,7 @@ public final class ProtoBuf {
      */
     int getStartDealerPlayerId();
 
+    // repeated uint32 playerSeats = 3 [packed = true];
     /**
      * <code>repeated uint32 playerSeats = 3 [packed = true];</code>
      */
@@ -26863,15 +26515,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameStartInitialMessage}
    */
   public static final class GameStartInitialMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameStartInitialMessage)
-      GameStartInitialMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameStartInitialMessageOrBuilder {
     // Use GameStartInitialMessage.newBuilder() to construct.
     private GameStartInitialMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameStartInitialMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameStartInitialMessage(boolean noInit) {}
 
     private static final GameStartInitialMessage defaultInstance;
     public static GameStartInitialMessage getDefaultInstance() {
@@ -26882,18 +26533,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameStartInitialMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -26903,7 +26548,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -26951,13 +26596,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           playerSeats_ = java.util.Collections.unmodifiableList(playerSeats_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -26977,6 +26615,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -26992,6 +26631,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 startDealerPlayerId = 2;
     public static final int STARTDEALERPLAYERID_FIELD_NUMBER = 2;
     private int startDealerPlayerId_;
     /**
@@ -27007,6 +26647,7 @@ public final class ProtoBuf {
       return startDealerPlayerId_;
     }
 
+    // repeated uint32 playerSeats = 3 [packed = true];
     public static final int PLAYERSEATS_FIELD_NUMBER = 3;
     private java.util.List<java.lang.Integer> playerSeats_;
     /**
@@ -27038,8 +26679,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -27069,7 +26709,6 @@ public final class ProtoBuf {
       for (int i = 0; i < playerSeats_.size(); i++) {
         output.writeUInt32NoTag(playerSeats_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -27100,7 +26739,6 @@ public final class ProtoBuf {
         }
         playerSeatsMemoizedSerializedSize = dataSize;
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -27178,9 +26816,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameStartInitialMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameStartInitialMessage)
-        de.pokerth.protocol.ProtoBuf.GameStartInitialMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameStartInitialMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -27258,8 +26894,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -27294,6 +26928,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -27326,6 +26961,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 startDealerPlayerId = 2;
       private int startDealerPlayerId_ ;
       /**
        * <code>required uint32 startDealerPlayerId = 2;</code>
@@ -27358,6 +26994,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated uint32 playerSeats = 3 [packed = true];
       private java.util.List<java.lang.Integer> playerSeats_ = java.util.Collections.emptyList();
       private void ensurePlayerSeatsIsMutable() {
         if (!((bitField0_ & 0x00000004) == 0x00000004)) {
@@ -27409,8 +27046,7 @@ public final class ProtoBuf {
       public Builder addAllPlayerSeats(
           java.lang.Iterable<? extends java.lang.Integer> values) {
         ensurePlayerSeatsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, playerSeats_);
+        super.addAll(values, playerSeats_);
         
         return this;
       }
@@ -27435,10 +27071,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameStartInitialMessage)
   }
 
-  public interface GameStartRejoinMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:GameStartRejoinMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface GameStartRejoinMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -27448,6 +27084,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 startDealerPlayerId = 2;
     /**
      * <code>required uint32 startDealerPlayerId = 2;</code>
      */
@@ -27457,6 +27094,7 @@ public final class ProtoBuf {
      */
     int getStartDealerPlayerId();
 
+    // required uint32 handNum = 3;
     /**
      * <code>required uint32 handNum = 3;</code>
      */
@@ -27466,6 +27104,7 @@ public final class ProtoBuf {
      */
     int getHandNum();
 
+    // repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 4;
     /**
      * <code>repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 4;</code>
      */
@@ -27484,15 +27123,14 @@ public final class ProtoBuf {
    * Protobuf type {@code GameStartRejoinMessage}
    */
   public static final class GameStartRejoinMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:GameStartRejoinMessage)
-      GameStartRejoinMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements GameStartRejoinMessageOrBuilder {
     // Use GameStartRejoinMessage.newBuilder() to construct.
     private GameStartRejoinMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private GameStartRejoinMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private GameStartRejoinMessage(boolean noInit) {}
 
     private static final GameStartRejoinMessage defaultInstance;
     public static GameStartRejoinMessage getDefaultInstance() {
@@ -27503,18 +27141,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private GameStartRejoinMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -27524,7 +27156,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -27564,13 +27196,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           rejoinPlayerData_ = java.util.Collections.unmodifiableList(rejoinPlayerData_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -27589,10 +27214,10 @@ public final class ProtoBuf {
       return PARSER;
     }
 
-    public interface RejoinPlayerDataOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:GameStartRejoinMessage.RejoinPlayerData)
-        com.google.protobuf.MessageLiteOrBuilder {
+    public interface RejoinPlayerDataOrBuilder
+        extends com.google.protobuf.MessageLiteOrBuilder {
 
+      // required uint32 playerId = 1;
       /**
        * <code>required uint32 playerId = 1;</code>
        */
@@ -27602,6 +27227,7 @@ public final class ProtoBuf {
        */
       int getPlayerId();
 
+      // required uint32 playerMoney = 2;
       /**
        * <code>required uint32 playerMoney = 2;</code>
        */
@@ -27615,15 +27241,14 @@ public final class ProtoBuf {
      * Protobuf type {@code GameStartRejoinMessage.RejoinPlayerData}
      */
     public static final class RejoinPlayerData extends
-        com.google.protobuf.GeneratedMessageLite implements
-        // @@protoc_insertion_point(message_implements:GameStartRejoinMessage.RejoinPlayerData)
-        RejoinPlayerDataOrBuilder {
+        com.google.protobuf.GeneratedMessageLite
+        implements RejoinPlayerDataOrBuilder {
       // Use RejoinPlayerData.newBuilder() to construct.
       private RejoinPlayerData(com.google.protobuf.GeneratedMessageLite.Builder builder) {
         super(builder);
-        this.unknownFields = builder.getUnknownFields();
+
       }
-      private RejoinPlayerData(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+      private RejoinPlayerData(boolean noInit) {}
 
       private static final RejoinPlayerData defaultInstance;
       public static RejoinPlayerData getDefaultInstance() {
@@ -27634,18 +27259,12 @@ public final class ProtoBuf {
         return defaultInstance;
       }
 
-      private final com.google.protobuf.ByteString unknownFields;
       private RejoinPlayerData(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         initFields();
         int mutable_bitField0_ = 0;
-        com.google.protobuf.ByteString.Output unknownFieldsOutput =
-            com.google.protobuf.ByteString.newOutput();
-        com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-            com.google.protobuf.CodedOutputStream.newInstance(
-                unknownFieldsOutput);
         try {
           boolean done = false;
           while (!done) {
@@ -27655,7 +27274,7 @@ public final class ProtoBuf {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                if (!parseUnknownField(input,
                                        extensionRegistry, tag)) {
                   done = true;
                 }
@@ -27679,13 +27298,6 @@ public final class ProtoBuf {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this);
         } finally {
-          try {
-            unknownFieldsCodedOutput.flush();
-          } catch (java.io.IOException e) {
-          // Should not happen
-          } finally {
-            unknownFields = unknownFieldsOutput.toByteString();
-          }
           makeExtensionsImmutable();
         }
       }
@@ -27705,6 +27317,7 @@ public final class ProtoBuf {
       }
 
       private int bitField0_;
+      // required uint32 playerId = 1;
       public static final int PLAYERID_FIELD_NUMBER = 1;
       private int playerId_;
       /**
@@ -27720,6 +27333,7 @@ public final class ProtoBuf {
         return playerId_;
       }
 
+      // required uint32 playerMoney = 2;
       public static final int PLAYERMONEY_FIELD_NUMBER = 2;
       private int playerMoney_;
       /**
@@ -27742,8 +27356,7 @@ public final class ProtoBuf {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
+        if (isInitialized != -1) return isInitialized == 1;
 
         if (!hasPlayerId()) {
           memoizedIsInitialized = 0;
@@ -27766,7 +27379,6 @@ public final class ProtoBuf {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeUInt32(2, playerMoney_);
         }
-        output.writeRawBytes(unknownFields);
       }
 
       private int memoizedSerializedSize = -1;
@@ -27783,7 +27395,6 @@ public final class ProtoBuf {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, playerMoney_);
         }
-        size += unknownFields.size();
         memoizedSerializedSize = size;
         return size;
       }
@@ -27861,9 +27472,7 @@ public final class ProtoBuf {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageLite.Builder<
             de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerData, Builder>
-          implements
-          // @@protoc_insertion_point(builder_implements:GameStartRejoinMessage.RejoinPlayerData)
-          de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerDataOrBuilder {
+          implements de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerDataOrBuilder {
         // Construct using de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerData.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
@@ -27924,8 +27533,6 @@ public final class ProtoBuf {
           if (other.hasPlayerMoney()) {
             setPlayerMoney(other.getPlayerMoney());
           }
-          setUnknownFields(
-              getUnknownFields().concat(other.unknownFields));
           return this;
         }
 
@@ -27960,6 +27567,7 @@ public final class ProtoBuf {
         }
         private int bitField0_;
 
+        // required uint32 playerId = 1;
         private int playerId_ ;
         /**
          * <code>required uint32 playerId = 1;</code>
@@ -27992,6 +27600,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required uint32 playerMoney = 2;
         private int playerMoney_ ;
         /**
          * <code>required uint32 playerMoney = 2;</code>
@@ -28036,6 +27645,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -28051,6 +27661,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 startDealerPlayerId = 2;
     public static final int STARTDEALERPLAYERID_FIELD_NUMBER = 2;
     private int startDealerPlayerId_;
     /**
@@ -28066,6 +27677,7 @@ public final class ProtoBuf {
       return startDealerPlayerId_;
     }
 
+    // required uint32 handNum = 3;
     public static final int HANDNUM_FIELD_NUMBER = 3;
     private int handNum_;
     /**
@@ -28081,6 +27693,7 @@ public final class ProtoBuf {
       return handNum_;
     }
 
+    // repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 4;
     public static final int REJOINPLAYERDATA_FIELD_NUMBER = 4;
     private java.util.List<de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerData> rejoinPlayerData_;
     /**
@@ -28125,8 +27738,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -28165,7 +27777,6 @@ public final class ProtoBuf {
       for (int i = 0; i < rejoinPlayerData_.size(); i++) {
         output.writeMessage(4, rejoinPlayerData_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -28190,7 +27801,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, rejoinPlayerData_.get(i));
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -28268,9 +27878,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:GameStartRejoinMessage)
-        de.pokerth.protocol.ProtoBuf.GameStartRejoinMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.GameStartRejoinMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -28357,8 +27965,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -28403,6 +28009,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -28435,6 +28042,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 startDealerPlayerId = 2;
       private int startDealerPlayerId_ ;
       /**
        * <code>required uint32 startDealerPlayerId = 2;</code>
@@ -28467,6 +28075,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 handNum = 3;
       private int handNum_ ;
       /**
        * <code>required uint32 handNum = 3;</code>
@@ -28499,6 +28108,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated .GameStartRejoinMessage.RejoinPlayerData rejoinPlayerData = 4;
       private java.util.List<de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerData> rejoinPlayerData_ =
         java.util.Collections.emptyList();
       private void ensureRejoinPlayerDataIsMutable() {
@@ -28600,8 +28210,7 @@ public final class ProtoBuf {
       public Builder addAllRejoinPlayerData(
           java.lang.Iterable<? extends de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.RejoinPlayerData> values) {
         ensureRejoinPlayerDataIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, rejoinPlayerData_);
+        super.addAll(values, rejoinPlayerData_);
 
         return this;
       }
@@ -28635,10 +28244,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:GameStartRejoinMessage)
   }
 
-  public interface HandStartMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:HandStartMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface HandStartMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -28648,6 +28257,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // optional .HandStartMessage.PlainCards plainCards = 2;
     /**
      * <code>optional .HandStartMessage.PlainCards plainCards = 2;</code>
      */
@@ -28657,6 +28267,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards getPlainCards();
 
+    // optional bytes encryptedCards = 3;
     /**
      * <code>optional bytes encryptedCards = 3;</code>
      */
@@ -28666,6 +28277,7 @@ public final class ProtoBuf {
      */
     com.google.protobuf.ByteString getEncryptedCards();
 
+    // required uint32 smallBlind = 4;
     /**
      * <code>required uint32 smallBlind = 4;</code>
      */
@@ -28675,6 +28287,7 @@ public final class ProtoBuf {
      */
     int getSmallBlind();
 
+    // repeated .NetPlayerState seatStates = 5;
     /**
      * <code>repeated .NetPlayerState seatStates = 5;</code>
      */
@@ -28688,6 +28301,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetPlayerState getSeatStates(int index);
 
+    // optional uint32 dealerPlayerId = 6;
     /**
      * <code>optional uint32 dealerPlayerId = 6;</code>
      */
@@ -28701,15 +28315,14 @@ public final class ProtoBuf {
    * Protobuf type {@code HandStartMessage}
    */
   public static final class HandStartMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:HandStartMessage)
-      HandStartMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements HandStartMessageOrBuilder {
     // Use HandStartMessage.newBuilder() to construct.
     private HandStartMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private HandStartMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private HandStartMessage(boolean noInit) {}
 
     private static final HandStartMessage defaultInstance;
     public static HandStartMessage getDefaultInstance() {
@@ -28720,18 +28333,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private HandStartMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -28741,7 +28348,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -28778,10 +28385,7 @@ public final class ProtoBuf {
             case 40: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetPlayerState value = de.pokerth.protocol.ProtoBuf.NetPlayerState.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-                } else {
+              if (value != null) {
                 if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                   seatStates_ = new java.util.ArrayList<de.pokerth.protocol.ProtoBuf.NetPlayerState>();
                   mutable_bitField0_ |= 0x00000010;
@@ -28796,10 +28400,7 @@ public final class ProtoBuf {
               while(input.getBytesUntilLimit() > 0) {
                 int rawValue = input.readEnum();
                 de.pokerth.protocol.ProtoBuf.NetPlayerState value = de.pokerth.protocol.ProtoBuf.NetPlayerState.valueOf(rawValue);
-                if (value == null) {
-                  unknownFieldsCodedOutput.writeRawVarint32(tag);
-                  unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-                  } else {
+                if (value != null) {
                   if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
                     seatStates_ = new java.util.ArrayList<de.pokerth.protocol.ProtoBuf.NetPlayerState>();
                     mutable_bitField0_ |= 0x00000010;
@@ -28826,13 +28427,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           seatStates_ = java.util.Collections.unmodifiableList(seatStates_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -28851,10 +28445,10 @@ public final class ProtoBuf {
       return PARSER;
     }
 
-    public interface PlainCardsOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:HandStartMessage.PlainCards)
-        com.google.protobuf.MessageLiteOrBuilder {
+    public interface PlainCardsOrBuilder
+        extends com.google.protobuf.MessageLiteOrBuilder {
 
+      // required uint32 plainCard1 = 1;
       /**
        * <code>required uint32 plainCard1 = 1;</code>
        */
@@ -28864,6 +28458,7 @@ public final class ProtoBuf {
        */
       int getPlainCard1();
 
+      // required uint32 plainCard2 = 2;
       /**
        * <code>required uint32 plainCard2 = 2;</code>
        */
@@ -28877,15 +28472,14 @@ public final class ProtoBuf {
      * Protobuf type {@code HandStartMessage.PlainCards}
      */
     public static final class PlainCards extends
-        com.google.protobuf.GeneratedMessageLite implements
-        // @@protoc_insertion_point(message_implements:HandStartMessage.PlainCards)
-        PlainCardsOrBuilder {
+        com.google.protobuf.GeneratedMessageLite
+        implements PlainCardsOrBuilder {
       // Use PlainCards.newBuilder() to construct.
       private PlainCards(com.google.protobuf.GeneratedMessageLite.Builder builder) {
         super(builder);
-        this.unknownFields = builder.getUnknownFields();
+
       }
-      private PlainCards(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+      private PlainCards(boolean noInit) {}
 
       private static final PlainCards defaultInstance;
       public static PlainCards getDefaultInstance() {
@@ -28896,18 +28490,12 @@ public final class ProtoBuf {
         return defaultInstance;
       }
 
-      private final com.google.protobuf.ByteString unknownFields;
       private PlainCards(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         initFields();
         int mutable_bitField0_ = 0;
-        com.google.protobuf.ByteString.Output unknownFieldsOutput =
-            com.google.protobuf.ByteString.newOutput();
-        com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-            com.google.protobuf.CodedOutputStream.newInstance(
-                unknownFieldsOutput);
         try {
           boolean done = false;
           while (!done) {
@@ -28917,7 +28505,7 @@ public final class ProtoBuf {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                if (!parseUnknownField(input,
                                        extensionRegistry, tag)) {
                   done = true;
                 }
@@ -28941,13 +28529,6 @@ public final class ProtoBuf {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this);
         } finally {
-          try {
-            unknownFieldsCodedOutput.flush();
-          } catch (java.io.IOException e) {
-          // Should not happen
-          } finally {
-            unknownFields = unknownFieldsOutput.toByteString();
-          }
           makeExtensionsImmutable();
         }
       }
@@ -28967,6 +28548,7 @@ public final class ProtoBuf {
       }
 
       private int bitField0_;
+      // required uint32 plainCard1 = 1;
       public static final int PLAINCARD1_FIELD_NUMBER = 1;
       private int plainCard1_;
       /**
@@ -28982,6 +28564,7 @@ public final class ProtoBuf {
         return plainCard1_;
       }
 
+      // required uint32 plainCard2 = 2;
       public static final int PLAINCARD2_FIELD_NUMBER = 2;
       private int plainCard2_;
       /**
@@ -29004,8 +28587,7 @@ public final class ProtoBuf {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
+        if (isInitialized != -1) return isInitialized == 1;
 
         if (!hasPlainCard1()) {
           memoizedIsInitialized = 0;
@@ -29028,7 +28610,6 @@ public final class ProtoBuf {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeUInt32(2, plainCard2_);
         }
-        output.writeRawBytes(unknownFields);
       }
 
       private int memoizedSerializedSize = -1;
@@ -29045,7 +28626,6 @@ public final class ProtoBuf {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, plainCard2_);
         }
-        size += unknownFields.size();
         memoizedSerializedSize = size;
         return size;
       }
@@ -29123,9 +28703,7 @@ public final class ProtoBuf {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageLite.Builder<
             de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards, Builder>
-          implements
-          // @@protoc_insertion_point(builder_implements:HandStartMessage.PlainCards)
-          de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCardsOrBuilder {
+          implements de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCardsOrBuilder {
         // Construct using de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
@@ -29186,8 +28764,6 @@ public final class ProtoBuf {
           if (other.hasPlainCard2()) {
             setPlainCard2(other.getPlainCard2());
           }
-          setUnknownFields(
-              getUnknownFields().concat(other.unknownFields));
           return this;
         }
 
@@ -29222,6 +28798,7 @@ public final class ProtoBuf {
         }
         private int bitField0_;
 
+        // required uint32 plainCard1 = 1;
         private int plainCard1_ ;
         /**
          * <code>required uint32 plainCard1 = 1;</code>
@@ -29254,6 +28831,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required uint32 plainCard2 = 2;
         private int plainCard2_ ;
         /**
          * <code>required uint32 plainCard2 = 2;</code>
@@ -29298,6 +28876,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -29313,6 +28892,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // optional .HandStartMessage.PlainCards plainCards = 2;
     public static final int PLAINCARDS_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards plainCards_;
     /**
@@ -29328,6 +28908,7 @@ public final class ProtoBuf {
       return plainCards_;
     }
 
+    // optional bytes encryptedCards = 3;
     public static final int ENCRYPTEDCARDS_FIELD_NUMBER = 3;
     private com.google.protobuf.ByteString encryptedCards_;
     /**
@@ -29343,6 +28924,7 @@ public final class ProtoBuf {
       return encryptedCards_;
     }
 
+    // required uint32 smallBlind = 4;
     public static final int SMALLBLIND_FIELD_NUMBER = 4;
     private int smallBlind_;
     /**
@@ -29358,6 +28940,7 @@ public final class ProtoBuf {
       return smallBlind_;
     }
 
+    // repeated .NetPlayerState seatStates = 5;
     public static final int SEATSTATES_FIELD_NUMBER = 5;
     private java.util.List<de.pokerth.protocol.ProtoBuf.NetPlayerState> seatStates_;
     /**
@@ -29379,6 +28962,7 @@ public final class ProtoBuf {
       return seatStates_.get(index);
     }
 
+    // optional uint32 dealerPlayerId = 6;
     public static final int DEALERPLAYERID_FIELD_NUMBER = 6;
     private int dealerPlayerId_;
     /**
@@ -29405,8 +28989,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -29447,7 +29030,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeUInt32(6, dealerPlayerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -29485,7 +29067,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(6, dealerPlayerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -29563,9 +29144,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.HandStartMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:HandStartMessage)
-        de.pokerth.protocol.ProtoBuf.HandStartMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.HandStartMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.HandStartMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -29670,8 +29249,6 @@ public final class ProtoBuf {
         if (other.hasDealerPlayerId()) {
           setDealerPlayerId(other.getDealerPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -29712,6 +29289,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -29744,6 +29322,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .HandStartMessage.PlainCards plainCards = 2;
       private de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards plainCards_ = de.pokerth.protocol.ProtoBuf.HandStartMessage.PlainCards.getDefaultInstance();
       /**
        * <code>optional .HandStartMessage.PlainCards plainCards = 2;</code>
@@ -29804,6 +29383,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional bytes encryptedCards = 3;
       private com.google.protobuf.ByteString encryptedCards_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>optional bytes encryptedCards = 3;</code>
@@ -29839,6 +29419,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 smallBlind = 4;
       private int smallBlind_ ;
       /**
        * <code>required uint32 smallBlind = 4;</code>
@@ -29871,6 +29452,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated .NetPlayerState seatStates = 5;
       private java.util.List<de.pokerth.protocol.ProtoBuf.NetPlayerState> seatStates_ =
         java.util.Collections.emptyList();
       private void ensureSeatStatesIsMutable() {
@@ -29928,8 +29510,7 @@ public final class ProtoBuf {
       public Builder addAllSeatStates(
           java.lang.Iterable<? extends de.pokerth.protocol.ProtoBuf.NetPlayerState> values) {
         ensureSeatStatesIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, seatStates_);
+        super.addAll(values, seatStates_);
         
         return this;
       }
@@ -29943,6 +29524,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 dealerPlayerId = 6;
       private int dealerPlayerId_ ;
       /**
        * <code>optional uint32 dealerPlayerId = 6;</code>
@@ -29986,10 +29568,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:HandStartMessage)
   }
 
-  public interface PlayersTurnMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayersTurnMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayersTurnMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -29999,6 +29581,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -30008,6 +29591,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .NetGameState gameState = 3;
     /**
      * <code>required .NetGameState gameState = 3;</code>
      */
@@ -30021,15 +29605,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayersTurnMessage}
    */
   public static final class PlayersTurnMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayersTurnMessage)
-      PlayersTurnMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayersTurnMessageOrBuilder {
     // Use PlayersTurnMessage.newBuilder() to construct.
     private PlayersTurnMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayersTurnMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayersTurnMessage(boolean noInit) {}
 
     private static final PlayersTurnMessage defaultInstance;
     public static PlayersTurnMessage getDefaultInstance() {
@@ -30040,18 +29623,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayersTurnMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -30061,7 +29638,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -30080,10 +29657,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameState value = de.pokerth.protocol.ProtoBuf.NetGameState.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 gameState_ = value;
               }
@@ -30097,13 +29671,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -30123,6 +29690,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -30138,6 +29706,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -30153,6 +29722,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .NetGameState gameState = 3;
     public static final int GAMESTATE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.NetGameState gameState_;
     /**
@@ -30176,8 +29746,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -30207,7 +29776,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, gameState_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -30228,7 +29796,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, gameState_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -30306,9 +29873,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayersTurnMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayersTurnMessage)
-        de.pokerth.protocol.ProtoBuf.PlayersTurnMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayersTurnMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayersTurnMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -30378,8 +29943,6 @@ public final class ProtoBuf {
         if (other.hasGameState()) {
           setGameState(other.getGameState());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -30418,6 +29981,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -30450,6 +30014,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -30482,6 +30047,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameState gameState = 3;
       private de.pokerth.protocol.ProtoBuf.NetGameState gameState_ = de.pokerth.protocol.ProtoBuf.NetGameState.netStatePreflop;
       /**
        * <code>required .NetGameState gameState = 3;</code>
@@ -30528,10 +30094,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayersTurnMessage)
   }
 
-  public interface MyActionRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:MyActionRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface MyActionRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -30541,6 +30107,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 handNum = 2;
     /**
      * <code>required uint32 handNum = 2;</code>
      */
@@ -30550,6 +30117,7 @@ public final class ProtoBuf {
      */
     int getHandNum();
 
+    // required .NetGameState gameState = 3;
     /**
      * <code>required .NetGameState gameState = 3;</code>
      */
@@ -30559,6 +30127,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameState getGameState();
 
+    // required .NetPlayerAction myAction = 4;
     /**
      * <code>required .NetPlayerAction myAction = 4;</code>
      */
@@ -30568,6 +30137,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetPlayerAction getMyAction();
 
+    // required uint32 myRelativeBet = 5;
     /**
      * <code>required uint32 myRelativeBet = 5;</code>
      */
@@ -30581,15 +30151,14 @@ public final class ProtoBuf {
    * Protobuf type {@code MyActionRequestMessage}
    */
   public static final class MyActionRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:MyActionRequestMessage)
-      MyActionRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements MyActionRequestMessageOrBuilder {
     // Use MyActionRequestMessage.newBuilder() to construct.
     private MyActionRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private MyActionRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private MyActionRequestMessage(boolean noInit) {}
 
     private static final MyActionRequestMessage defaultInstance;
     public static MyActionRequestMessage getDefaultInstance() {
@@ -30600,18 +30169,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private MyActionRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -30621,7 +30184,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -30640,10 +30203,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameState value = de.pokerth.protocol.ProtoBuf.NetGameState.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 gameState_ = value;
               }
@@ -30652,10 +30212,7 @@ public final class ProtoBuf {
             case 32: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetPlayerAction value = de.pokerth.protocol.ProtoBuf.NetPlayerAction.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000008;
                 myAction_ = value;
               }
@@ -30674,13 +30231,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -30700,6 +30250,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -30715,6 +30266,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 handNum = 2;
     public static final int HANDNUM_FIELD_NUMBER = 2;
     private int handNum_;
     /**
@@ -30730,6 +30282,7 @@ public final class ProtoBuf {
       return handNum_;
     }
 
+    // required .NetGameState gameState = 3;
     public static final int GAMESTATE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.NetGameState gameState_;
     /**
@@ -30745,6 +30298,7 @@ public final class ProtoBuf {
       return gameState_;
     }
 
+    // required .NetPlayerAction myAction = 4;
     public static final int MYACTION_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.NetPlayerAction myAction_;
     /**
@@ -30760,6 +30314,7 @@ public final class ProtoBuf {
       return myAction_;
     }
 
+    // required uint32 myRelativeBet = 5;
     public static final int MYRELATIVEBET_FIELD_NUMBER = 5;
     private int myRelativeBet_;
     /**
@@ -30785,8 +30340,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -30830,7 +30384,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeUInt32(5, myRelativeBet_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -30859,7 +30412,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(5, myRelativeBet_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -30937,9 +30489,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.MyActionRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:MyActionRequestMessage)
-        de.pokerth.protocol.ProtoBuf.MyActionRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.MyActionRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.MyActionRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -31027,8 +30577,6 @@ public final class ProtoBuf {
         if (other.hasMyRelativeBet()) {
           setMyRelativeBet(other.getMyRelativeBet());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -31075,6 +30623,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -31107,6 +30656,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 handNum = 2;
       private int handNum_ ;
       /**
        * <code>required uint32 handNum = 2;</code>
@@ -31139,6 +30689,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameState gameState = 3;
       private de.pokerth.protocol.ProtoBuf.NetGameState gameState_ = de.pokerth.protocol.ProtoBuf.NetGameState.netStatePreflop;
       /**
        * <code>required .NetGameState gameState = 3;</code>
@@ -31174,6 +30725,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetPlayerAction myAction = 4;
       private de.pokerth.protocol.ProtoBuf.NetPlayerAction myAction_ = de.pokerth.protocol.ProtoBuf.NetPlayerAction.netActionNone;
       /**
        * <code>required .NetPlayerAction myAction = 4;</code>
@@ -31209,6 +30761,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 myRelativeBet = 5;
       private int myRelativeBet_ ;
       /**
        * <code>required uint32 myRelativeBet = 5;</code>
@@ -31252,10 +30805,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:MyActionRequestMessage)
   }
 
-  public interface YourActionRejectedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:YourActionRejectedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface YourActionRejectedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -31265,6 +30818,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required .NetGameState gameState = 2;
     /**
      * <code>required .NetGameState gameState = 2;</code>
      */
@@ -31274,6 +30828,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameState getGameState();
 
+    // required .NetPlayerAction yourAction = 3;
     /**
      * <code>required .NetPlayerAction yourAction = 3;</code>
      */
@@ -31283,6 +30838,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetPlayerAction getYourAction();
 
+    // required uint32 yourRelativeBet = 4;
     /**
      * <code>required uint32 yourRelativeBet = 4;</code>
      */
@@ -31292,6 +30848,7 @@ public final class ProtoBuf {
      */
     int getYourRelativeBet();
 
+    // required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;
     /**
      * <code>required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;</code>
      */
@@ -31305,15 +30862,14 @@ public final class ProtoBuf {
    * Protobuf type {@code YourActionRejectedMessage}
    */
   public static final class YourActionRejectedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:YourActionRejectedMessage)
-      YourActionRejectedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements YourActionRejectedMessageOrBuilder {
     // Use YourActionRejectedMessage.newBuilder() to construct.
     private YourActionRejectedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private YourActionRejectedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private YourActionRejectedMessage(boolean noInit) {}
 
     private static final YourActionRejectedMessage defaultInstance;
     public static YourActionRejectedMessage getDefaultInstance() {
@@ -31324,18 +30880,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private YourActionRejectedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -31345,7 +30895,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -31359,10 +30909,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameState value = de.pokerth.protocol.ProtoBuf.NetGameState.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 gameState_ = value;
               }
@@ -31371,10 +30918,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetPlayerAction value = de.pokerth.protocol.ProtoBuf.NetPlayerAction.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 yourAction_ = value;
               }
@@ -31388,10 +30932,7 @@ public final class ProtoBuf {
             case 40: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.RejectionReason value = de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.RejectionReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000010;
                 rejectionReason_ = value;
               }
@@ -31405,13 +30946,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -31496,6 +31030,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -31511,6 +31046,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required .NetGameState gameState = 2;
     public static final int GAMESTATE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.NetGameState gameState_;
     /**
@@ -31526,6 +31062,7 @@ public final class ProtoBuf {
       return gameState_;
     }
 
+    // required .NetPlayerAction yourAction = 3;
     public static final int YOURACTION_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.NetPlayerAction yourAction_;
     /**
@@ -31541,6 +31078,7 @@ public final class ProtoBuf {
       return yourAction_;
     }
 
+    // required uint32 yourRelativeBet = 4;
     public static final int YOURRELATIVEBET_FIELD_NUMBER = 4;
     private int yourRelativeBet_;
     /**
@@ -31556,6 +31094,7 @@ public final class ProtoBuf {
       return yourRelativeBet_;
     }
 
+    // required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;
     public static final int REJECTIONREASON_FIELD_NUMBER = 5;
     private de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.RejectionReason rejectionReason_;
     /**
@@ -31581,8 +31120,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -31626,7 +31164,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeEnum(5, rejectionReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -31655,7 +31192,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(5, rejectionReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -31733,9 +31269,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:YourActionRejectedMessage)
-        de.pokerth.protocol.ProtoBuf.YourActionRejectedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.YourActionRejectedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -31823,8 +31357,6 @@ public final class ProtoBuf {
         if (other.hasRejectionReason()) {
           setRejectionReason(other.getRejectionReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -31871,6 +31403,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -31903,6 +31436,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameState gameState = 2;
       private de.pokerth.protocol.ProtoBuf.NetGameState gameState_ = de.pokerth.protocol.ProtoBuf.NetGameState.netStatePreflop;
       /**
        * <code>required .NetGameState gameState = 2;</code>
@@ -31938,6 +31472,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetPlayerAction yourAction = 3;
       private de.pokerth.protocol.ProtoBuf.NetPlayerAction yourAction_ = de.pokerth.protocol.ProtoBuf.NetPlayerAction.netActionNone;
       /**
        * <code>required .NetPlayerAction yourAction = 3;</code>
@@ -31973,6 +31508,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 yourRelativeBet = 4;
       private int yourRelativeBet_ ;
       /**
        * <code>required uint32 yourRelativeBet = 4;</code>
@@ -32005,6 +31541,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;
       private de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.RejectionReason rejectionReason_ = de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.RejectionReason.rejectedInvalidGameState;
       /**
        * <code>required .YourActionRejectedMessage.RejectionReason rejectionReason = 5;</code>
@@ -32051,10 +31588,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:YourActionRejectedMessage)
   }
 
-  public interface PlayersActionDoneMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayersActionDoneMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayersActionDoneMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -32064,6 +31601,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -32073,6 +31611,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .NetGameState gameState = 3;
     /**
      * <code>required .NetGameState gameState = 3;</code>
      */
@@ -32082,6 +31621,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetGameState getGameState();
 
+    // required .NetPlayerAction playerAction = 4;
     /**
      * <code>required .NetPlayerAction playerAction = 4;</code>
      */
@@ -32091,6 +31631,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.NetPlayerAction getPlayerAction();
 
+    // required uint32 totalPlayerBet = 5;
     /**
      * <code>required uint32 totalPlayerBet = 5;</code>
      */
@@ -32100,6 +31641,7 @@ public final class ProtoBuf {
      */
     int getTotalPlayerBet();
 
+    // required uint32 playerMoney = 6;
     /**
      * <code>required uint32 playerMoney = 6;</code>
      */
@@ -32109,6 +31651,7 @@ public final class ProtoBuf {
      */
     int getPlayerMoney();
 
+    // required uint32 highestSet = 7;
     /**
      * <code>required uint32 highestSet = 7;</code>
      */
@@ -32118,6 +31661,7 @@ public final class ProtoBuf {
      */
     int getHighestSet();
 
+    // required uint32 minimumRaise = 8;
     /**
      * <code>required uint32 minimumRaise = 8;</code>
      */
@@ -32131,15 +31675,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayersActionDoneMessage}
    */
   public static final class PlayersActionDoneMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayersActionDoneMessage)
-      PlayersActionDoneMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayersActionDoneMessageOrBuilder {
     // Use PlayersActionDoneMessage.newBuilder() to construct.
     private PlayersActionDoneMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayersActionDoneMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayersActionDoneMessage(boolean noInit) {}
 
     private static final PlayersActionDoneMessage defaultInstance;
     public static PlayersActionDoneMessage getDefaultInstance() {
@@ -32150,18 +31693,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayersActionDoneMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -32171,7 +31708,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -32190,10 +31727,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetGameState value = de.pokerth.protocol.ProtoBuf.NetGameState.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 gameState_ = value;
               }
@@ -32202,10 +31736,7 @@ public final class ProtoBuf {
             case 32: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.NetPlayerAction value = de.pokerth.protocol.ProtoBuf.NetPlayerAction.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000008;
                 playerAction_ = value;
               }
@@ -32239,13 +31770,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -32265,6 +31789,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -32280,6 +31805,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -32295,6 +31821,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .NetGameState gameState = 3;
     public static final int GAMESTATE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.NetGameState gameState_;
     /**
@@ -32310,6 +31837,7 @@ public final class ProtoBuf {
       return gameState_;
     }
 
+    // required .NetPlayerAction playerAction = 4;
     public static final int PLAYERACTION_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.NetPlayerAction playerAction_;
     /**
@@ -32325,6 +31853,7 @@ public final class ProtoBuf {
       return playerAction_;
     }
 
+    // required uint32 totalPlayerBet = 5;
     public static final int TOTALPLAYERBET_FIELD_NUMBER = 5;
     private int totalPlayerBet_;
     /**
@@ -32340,6 +31869,7 @@ public final class ProtoBuf {
       return totalPlayerBet_;
     }
 
+    // required uint32 playerMoney = 6;
     public static final int PLAYERMONEY_FIELD_NUMBER = 6;
     private int playerMoney_;
     /**
@@ -32355,6 +31885,7 @@ public final class ProtoBuf {
       return playerMoney_;
     }
 
+    // required uint32 highestSet = 7;
     public static final int HIGHESTSET_FIELD_NUMBER = 7;
     private int highestSet_;
     /**
@@ -32370,6 +31901,7 @@ public final class ProtoBuf {
       return highestSet_;
     }
 
+    // required uint32 minimumRaise = 8;
     public static final int MINIMUMRAISE_FIELD_NUMBER = 8;
     private int minimumRaise_;
     /**
@@ -32398,8 +31930,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -32464,7 +31995,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeUInt32(8, minimumRaise_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -32505,7 +32035,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(8, minimumRaise_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -32583,9 +32112,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayersActionDoneMessage)
-        de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -32700,8 +32227,6 @@ public final class ProtoBuf {
         if (other.hasMinimumRaise()) {
           setMinimumRaise(other.getMinimumRaise());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -32760,6 +32285,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -32792,6 +32318,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -32824,6 +32351,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetGameState gameState = 3;
       private de.pokerth.protocol.ProtoBuf.NetGameState gameState_ = de.pokerth.protocol.ProtoBuf.NetGameState.netStatePreflop;
       /**
        * <code>required .NetGameState gameState = 3;</code>
@@ -32859,6 +32387,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .NetPlayerAction playerAction = 4;
       private de.pokerth.protocol.ProtoBuf.NetPlayerAction playerAction_ = de.pokerth.protocol.ProtoBuf.NetPlayerAction.netActionNone;
       /**
        * <code>required .NetPlayerAction playerAction = 4;</code>
@@ -32894,6 +32423,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 totalPlayerBet = 5;
       private int totalPlayerBet_ ;
       /**
        * <code>required uint32 totalPlayerBet = 5;</code>
@@ -32926,6 +32456,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerMoney = 6;
       private int playerMoney_ ;
       /**
        * <code>required uint32 playerMoney = 6;</code>
@@ -32958,6 +32489,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 highestSet = 7;
       private int highestSet_ ;
       /**
        * <code>required uint32 highestSet = 7;</code>
@@ -32990,6 +32522,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 minimumRaise = 8;
       private int minimumRaise_ ;
       /**
        * <code>required uint32 minimumRaise = 8;</code>
@@ -33033,10 +32566,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayersActionDoneMessage)
   }
 
-  public interface DealFlopCardsMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:DealFlopCardsMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface DealFlopCardsMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -33046,6 +32579,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 flopCard1 = 2;
     /**
      * <code>required uint32 flopCard1 = 2;</code>
      */
@@ -33055,6 +32589,7 @@ public final class ProtoBuf {
      */
     int getFlopCard1();
 
+    // required uint32 flopCard2 = 3;
     /**
      * <code>required uint32 flopCard2 = 3;</code>
      */
@@ -33064,6 +32599,7 @@ public final class ProtoBuf {
      */
     int getFlopCard2();
 
+    // required uint32 flopCard3 = 4;
     /**
      * <code>required uint32 flopCard3 = 4;</code>
      */
@@ -33077,15 +32613,14 @@ public final class ProtoBuf {
    * Protobuf type {@code DealFlopCardsMessage}
    */
   public static final class DealFlopCardsMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:DealFlopCardsMessage)
-      DealFlopCardsMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements DealFlopCardsMessageOrBuilder {
     // Use DealFlopCardsMessage.newBuilder() to construct.
     private DealFlopCardsMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private DealFlopCardsMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private DealFlopCardsMessage(boolean noInit) {}
 
     private static final DealFlopCardsMessage defaultInstance;
     public static DealFlopCardsMessage getDefaultInstance() {
@@ -33096,18 +32631,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private DealFlopCardsMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -33117,7 +32646,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -33151,13 +32680,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -33177,6 +32699,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -33192,6 +32715,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 flopCard1 = 2;
     public static final int FLOPCARD1_FIELD_NUMBER = 2;
     private int flopCard1_;
     /**
@@ -33207,6 +32731,7 @@ public final class ProtoBuf {
       return flopCard1_;
     }
 
+    // required uint32 flopCard2 = 3;
     public static final int FLOPCARD2_FIELD_NUMBER = 3;
     private int flopCard2_;
     /**
@@ -33222,6 +32747,7 @@ public final class ProtoBuf {
       return flopCard2_;
     }
 
+    // required uint32 flopCard3 = 4;
     public static final int FLOPCARD3_FIELD_NUMBER = 4;
     private int flopCard3_;
     /**
@@ -33246,8 +32772,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -33284,7 +32809,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt32(4, flopCard3_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -33309,7 +32833,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, flopCard3_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -33387,9 +32910,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.DealFlopCardsMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:DealFlopCardsMessage)
-        de.pokerth.protocol.ProtoBuf.DealFlopCardsMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.DealFlopCardsMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.DealFlopCardsMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -33468,8 +32989,6 @@ public final class ProtoBuf {
         if (other.hasFlopCard3()) {
           setFlopCard3(other.getFlopCard3());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -33512,6 +33031,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -33544,6 +33064,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 flopCard1 = 2;
       private int flopCard1_ ;
       /**
        * <code>required uint32 flopCard1 = 2;</code>
@@ -33576,6 +33097,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 flopCard2 = 3;
       private int flopCard2_ ;
       /**
        * <code>required uint32 flopCard2 = 3;</code>
@@ -33608,6 +33130,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 flopCard3 = 4;
       private int flopCard3_ ;
       /**
        * <code>required uint32 flopCard3 = 4;</code>
@@ -33651,10 +33174,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:DealFlopCardsMessage)
   }
 
-  public interface DealTurnCardMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:DealTurnCardMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface DealTurnCardMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -33664,6 +33187,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 turnCard = 2;
     /**
      * <code>required uint32 turnCard = 2;</code>
      */
@@ -33677,15 +33201,14 @@ public final class ProtoBuf {
    * Protobuf type {@code DealTurnCardMessage}
    */
   public static final class DealTurnCardMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:DealTurnCardMessage)
-      DealTurnCardMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements DealTurnCardMessageOrBuilder {
     // Use DealTurnCardMessage.newBuilder() to construct.
     private DealTurnCardMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private DealTurnCardMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private DealTurnCardMessage(boolean noInit) {}
 
     private static final DealTurnCardMessage defaultInstance;
     public static DealTurnCardMessage getDefaultInstance() {
@@ -33696,18 +33219,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private DealTurnCardMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -33717,7 +33234,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -33741,13 +33258,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -33767,6 +33277,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -33782,6 +33293,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 turnCard = 2;
     public static final int TURNCARD_FIELD_NUMBER = 2;
     private int turnCard_;
     /**
@@ -33804,8 +33316,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -33828,7 +33339,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, turnCard_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -33845,7 +33355,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, turnCard_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -33923,9 +33432,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.DealTurnCardMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:DealTurnCardMessage)
-        de.pokerth.protocol.ProtoBuf.DealTurnCardMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.DealTurnCardMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.DealTurnCardMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -33986,8 +33493,6 @@ public final class ProtoBuf {
         if (other.hasTurnCard()) {
           setTurnCard(other.getTurnCard());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -34022,6 +33527,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -34054,6 +33560,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 turnCard = 2;
       private int turnCard_ ;
       /**
        * <code>required uint32 turnCard = 2;</code>
@@ -34097,10 +33604,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:DealTurnCardMessage)
   }
 
-  public interface DealRiverCardMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:DealRiverCardMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface DealRiverCardMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -34110,6 +33617,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 riverCard = 2;
     /**
      * <code>required uint32 riverCard = 2;</code>
      */
@@ -34123,15 +33631,14 @@ public final class ProtoBuf {
    * Protobuf type {@code DealRiverCardMessage}
    */
   public static final class DealRiverCardMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:DealRiverCardMessage)
-      DealRiverCardMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements DealRiverCardMessageOrBuilder {
     // Use DealRiverCardMessage.newBuilder() to construct.
     private DealRiverCardMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private DealRiverCardMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private DealRiverCardMessage(boolean noInit) {}
 
     private static final DealRiverCardMessage defaultInstance;
     public static DealRiverCardMessage getDefaultInstance() {
@@ -34142,18 +33649,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private DealRiverCardMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -34163,7 +33664,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -34187,13 +33688,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -34213,6 +33707,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -34228,6 +33723,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 riverCard = 2;
     public static final int RIVERCARD_FIELD_NUMBER = 2;
     private int riverCard_;
     /**
@@ -34250,8 +33746,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -34274,7 +33769,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, riverCard_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -34291,7 +33785,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, riverCard_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -34369,9 +33862,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.DealRiverCardMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:DealRiverCardMessage)
-        de.pokerth.protocol.ProtoBuf.DealRiverCardMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.DealRiverCardMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.DealRiverCardMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -34432,8 +33923,6 @@ public final class ProtoBuf {
         if (other.hasRiverCard()) {
           setRiverCard(other.getRiverCard());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -34468,6 +33957,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -34500,6 +33990,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 riverCard = 2;
       private int riverCard_ ;
       /**
        * <code>required uint32 riverCard = 2;</code>
@@ -34543,10 +34034,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:DealRiverCardMessage)
   }
 
-  public interface AllInShowCardsMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AllInShowCardsMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AllInShowCardsMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -34556,6 +34047,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 2;
     /**
      * <code>repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 2;</code>
      */
@@ -34574,15 +34066,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AllInShowCardsMessage}
    */
   public static final class AllInShowCardsMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AllInShowCardsMessage)
-      AllInShowCardsMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AllInShowCardsMessageOrBuilder {
     // Use AllInShowCardsMessage.newBuilder() to construct.
     private AllInShowCardsMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AllInShowCardsMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AllInShowCardsMessage(boolean noInit) {}
 
     private static final AllInShowCardsMessage defaultInstance;
     public static AllInShowCardsMessage getDefaultInstance() {
@@ -34593,18 +34084,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AllInShowCardsMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -34614,7 +34099,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -34644,13 +34129,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           playersAllIn_ = java.util.Collections.unmodifiableList(playersAllIn_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -34669,10 +34147,10 @@ public final class ProtoBuf {
       return PARSER;
     }
 
-    public interface PlayerAllInOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:AllInShowCardsMessage.PlayerAllIn)
-        com.google.protobuf.MessageLiteOrBuilder {
+    public interface PlayerAllInOrBuilder
+        extends com.google.protobuf.MessageLiteOrBuilder {
 
+      // required uint32 playerId = 1;
       /**
        * <code>required uint32 playerId = 1;</code>
        */
@@ -34682,6 +34160,7 @@ public final class ProtoBuf {
        */
       int getPlayerId();
 
+      // required uint32 allInCard1 = 2;
       /**
        * <code>required uint32 allInCard1 = 2;</code>
        */
@@ -34691,6 +34170,7 @@ public final class ProtoBuf {
        */
       int getAllInCard1();
 
+      // required uint32 allInCard2 = 3;
       /**
        * <code>required uint32 allInCard2 = 3;</code>
        */
@@ -34704,15 +34184,14 @@ public final class ProtoBuf {
      * Protobuf type {@code AllInShowCardsMessage.PlayerAllIn}
      */
     public static final class PlayerAllIn extends
-        com.google.protobuf.GeneratedMessageLite implements
-        // @@protoc_insertion_point(message_implements:AllInShowCardsMessage.PlayerAllIn)
-        PlayerAllInOrBuilder {
+        com.google.protobuf.GeneratedMessageLite
+        implements PlayerAllInOrBuilder {
       // Use PlayerAllIn.newBuilder() to construct.
       private PlayerAllIn(com.google.protobuf.GeneratedMessageLite.Builder builder) {
         super(builder);
-        this.unknownFields = builder.getUnknownFields();
+
       }
-      private PlayerAllIn(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+      private PlayerAllIn(boolean noInit) {}
 
       private static final PlayerAllIn defaultInstance;
       public static PlayerAllIn getDefaultInstance() {
@@ -34723,18 +34202,12 @@ public final class ProtoBuf {
         return defaultInstance;
       }
 
-      private final com.google.protobuf.ByteString unknownFields;
       private PlayerAllIn(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         initFields();
         int mutable_bitField0_ = 0;
-        com.google.protobuf.ByteString.Output unknownFieldsOutput =
-            com.google.protobuf.ByteString.newOutput();
-        com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-            com.google.protobuf.CodedOutputStream.newInstance(
-                unknownFieldsOutput);
         try {
           boolean done = false;
           while (!done) {
@@ -34744,7 +34217,7 @@ public final class ProtoBuf {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                if (!parseUnknownField(input,
                                        extensionRegistry, tag)) {
                   done = true;
                 }
@@ -34773,13 +34246,6 @@ public final class ProtoBuf {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this);
         } finally {
-          try {
-            unknownFieldsCodedOutput.flush();
-          } catch (java.io.IOException e) {
-          // Should not happen
-          } finally {
-            unknownFields = unknownFieldsOutput.toByteString();
-          }
           makeExtensionsImmutable();
         }
       }
@@ -34799,6 +34265,7 @@ public final class ProtoBuf {
       }
 
       private int bitField0_;
+      // required uint32 playerId = 1;
       public static final int PLAYERID_FIELD_NUMBER = 1;
       private int playerId_;
       /**
@@ -34814,6 +34281,7 @@ public final class ProtoBuf {
         return playerId_;
       }
 
+      // required uint32 allInCard1 = 2;
       public static final int ALLINCARD1_FIELD_NUMBER = 2;
       private int allInCard1_;
       /**
@@ -34829,6 +34297,7 @@ public final class ProtoBuf {
         return allInCard1_;
       }
 
+      // required uint32 allInCard2 = 3;
       public static final int ALLINCARD2_FIELD_NUMBER = 3;
       private int allInCard2_;
       /**
@@ -34852,8 +34321,7 @@ public final class ProtoBuf {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
+        if (isInitialized != -1) return isInitialized == 1;
 
         if (!hasPlayerId()) {
           memoizedIsInitialized = 0;
@@ -34883,7 +34351,6 @@ public final class ProtoBuf {
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
           output.writeUInt32(3, allInCard2_);
         }
-        output.writeRawBytes(unknownFields);
       }
 
       private int memoizedSerializedSize = -1;
@@ -34904,7 +34371,6 @@ public final class ProtoBuf {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(3, allInCard2_);
         }
-        size += unknownFields.size();
         memoizedSerializedSize = size;
         return size;
       }
@@ -34982,9 +34448,7 @@ public final class ProtoBuf {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageLite.Builder<
             de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllIn, Builder>
-          implements
-          // @@protoc_insertion_point(builder_implements:AllInShowCardsMessage.PlayerAllIn)
-          de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllInOrBuilder {
+          implements de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllInOrBuilder {
         // Construct using de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllIn.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
@@ -35054,8 +34518,6 @@ public final class ProtoBuf {
           if (other.hasAllInCard2()) {
             setAllInCard2(other.getAllInCard2());
           }
-          setUnknownFields(
-              getUnknownFields().concat(other.unknownFields));
           return this;
         }
 
@@ -35094,6 +34556,7 @@ public final class ProtoBuf {
         }
         private int bitField0_;
 
+        // required uint32 playerId = 1;
         private int playerId_ ;
         /**
          * <code>required uint32 playerId = 1;</code>
@@ -35126,6 +34589,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required uint32 allInCard1 = 2;
         private int allInCard1_ ;
         /**
          * <code>required uint32 allInCard1 = 2;</code>
@@ -35158,6 +34622,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required uint32 allInCard2 = 3;
         private int allInCard2_ ;
         /**
          * <code>required uint32 allInCard2 = 3;</code>
@@ -35202,6 +34667,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -35217,6 +34683,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 2;
     public static final int PLAYERSALLIN_FIELD_NUMBER = 2;
     private java.util.List<de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllIn> playersAllIn_;
     /**
@@ -35259,8 +34726,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -35285,7 +34751,6 @@ public final class ProtoBuf {
       for (int i = 0; i < playersAllIn_.size(); i++) {
         output.writeMessage(2, playersAllIn_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -35302,7 +34767,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, playersAllIn_.get(i));
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -35380,9 +34844,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AllInShowCardsMessage)
-        de.pokerth.protocol.ProtoBuf.AllInShowCardsMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AllInShowCardsMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -35451,8 +34913,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -35489,6 +34949,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -35521,6 +34982,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated .AllInShowCardsMessage.PlayerAllIn playersAllIn = 2;
       private java.util.List<de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllIn> playersAllIn_ =
         java.util.Collections.emptyList();
       private void ensurePlayersAllInIsMutable() {
@@ -35622,8 +35084,7 @@ public final class ProtoBuf {
       public Builder addAllPlayersAllIn(
           java.lang.Iterable<? extends de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.PlayerAllIn> values) {
         ensurePlayersAllInIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, playersAllIn_);
+        super.addAll(values, playersAllIn_);
 
         return this;
       }
@@ -35657,10 +35118,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AllInShowCardsMessage)
   }
 
-  public interface EndOfHandShowCardsMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:EndOfHandShowCardsMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface EndOfHandShowCardsMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -35670,6 +35131,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // repeated .PlayerResult playerResults = 2;
     /**
      * <code>repeated .PlayerResult playerResults = 2;</code>
      */
@@ -35688,15 +35150,14 @@ public final class ProtoBuf {
    * Protobuf type {@code EndOfHandShowCardsMessage}
    */
   public static final class EndOfHandShowCardsMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:EndOfHandShowCardsMessage)
-      EndOfHandShowCardsMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements EndOfHandShowCardsMessageOrBuilder {
     // Use EndOfHandShowCardsMessage.newBuilder() to construct.
     private EndOfHandShowCardsMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private EndOfHandShowCardsMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private EndOfHandShowCardsMessage(boolean noInit) {}
 
     private static final EndOfHandShowCardsMessage defaultInstance;
     public static EndOfHandShowCardsMessage getDefaultInstance() {
@@ -35707,18 +35168,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private EndOfHandShowCardsMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -35728,7 +35183,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -35758,13 +35213,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           playerResults_ = java.util.Collections.unmodifiableList(playerResults_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -35784,6 +35232,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -35799,6 +35248,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // repeated .PlayerResult playerResults = 2;
     public static final int PLAYERRESULTS_FIELD_NUMBER = 2;
     private java.util.List<de.pokerth.protocol.ProtoBuf.PlayerResult> playerResults_;
     /**
@@ -35841,8 +35291,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -35867,7 +35316,6 @@ public final class ProtoBuf {
       for (int i = 0; i < playerResults_.size(); i++) {
         output.writeMessage(2, playerResults_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -35884,7 +35332,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, playerResults_.get(i));
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -35962,9 +35409,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:EndOfHandShowCardsMessage)
-        de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -36033,8 +35478,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -36071,6 +35514,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -36103,6 +35547,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // repeated .PlayerResult playerResults = 2;
       private java.util.List<de.pokerth.protocol.ProtoBuf.PlayerResult> playerResults_ =
         java.util.Collections.emptyList();
       private void ensurePlayerResultsIsMutable() {
@@ -36204,8 +35649,7 @@ public final class ProtoBuf {
       public Builder addAllPlayerResults(
           java.lang.Iterable<? extends de.pokerth.protocol.ProtoBuf.PlayerResult> values) {
         ensurePlayerResultsIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, playerResults_);
+        super.addAll(values, playerResults_);
 
         return this;
       }
@@ -36239,10 +35683,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:EndOfHandShowCardsMessage)
   }
 
-  public interface EndOfHandHideCardsMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:EndOfHandHideCardsMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface EndOfHandHideCardsMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -36252,6 +35696,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -36261,6 +35706,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required uint32 moneyWon = 3;
     /**
      * <code>required uint32 moneyWon = 3;</code>
      */
@@ -36270,6 +35716,7 @@ public final class ProtoBuf {
      */
     int getMoneyWon();
 
+    // required uint32 playerMoney = 4;
     /**
      * <code>required uint32 playerMoney = 4;</code>
      */
@@ -36283,15 +35730,14 @@ public final class ProtoBuf {
    * Protobuf type {@code EndOfHandHideCardsMessage}
    */
   public static final class EndOfHandHideCardsMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:EndOfHandHideCardsMessage)
-      EndOfHandHideCardsMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements EndOfHandHideCardsMessageOrBuilder {
     // Use EndOfHandHideCardsMessage.newBuilder() to construct.
     private EndOfHandHideCardsMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private EndOfHandHideCardsMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private EndOfHandHideCardsMessage(boolean noInit) {}
 
     private static final EndOfHandHideCardsMessage defaultInstance;
     public static EndOfHandHideCardsMessage getDefaultInstance() {
@@ -36302,18 +35748,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private EndOfHandHideCardsMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -36323,7 +35763,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -36357,13 +35797,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -36383,6 +35816,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -36398,6 +35832,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -36413,6 +35848,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required uint32 moneyWon = 3;
     public static final int MONEYWON_FIELD_NUMBER = 3;
     private int moneyWon_;
     /**
@@ -36428,6 +35864,7 @@ public final class ProtoBuf {
       return moneyWon_;
     }
 
+    // required uint32 playerMoney = 4;
     public static final int PLAYERMONEY_FIELD_NUMBER = 4;
     private int playerMoney_;
     /**
@@ -36452,8 +35889,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -36490,7 +35926,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeUInt32(4, playerMoney_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -36515,7 +35950,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(4, playerMoney_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -36593,9 +36027,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:EndOfHandHideCardsMessage)
-        de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -36674,8 +36106,6 @@ public final class ProtoBuf {
         if (other.hasPlayerMoney()) {
           setPlayerMoney(other.getPlayerMoney());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -36718,6 +36148,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -36750,6 +36181,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -36782,6 +36214,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 moneyWon = 3;
       private int moneyWon_ ;
       /**
        * <code>required uint32 moneyWon = 3;</code>
@@ -36814,6 +36247,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerMoney = 4;
       private int playerMoney_ ;
       /**
        * <code>required uint32 playerMoney = 4;</code>
@@ -36857,23 +36291,21 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:EndOfHandHideCardsMessage)
   }
 
-  public interface ShowMyCardsRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ShowMyCardsRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ShowMyCardsRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
   }
   /**
    * Protobuf type {@code ShowMyCardsRequestMessage}
    */
   public static final class ShowMyCardsRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ShowMyCardsRequestMessage)
-      ShowMyCardsRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ShowMyCardsRequestMessageOrBuilder {
     // Use ShowMyCardsRequestMessage.newBuilder() to construct.
     private ShowMyCardsRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ShowMyCardsRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ShowMyCardsRequestMessage(boolean noInit) {}
 
     private static final ShowMyCardsRequestMessage defaultInstance;
     public static ShowMyCardsRequestMessage getDefaultInstance() {
@@ -36884,17 +36316,11 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ShowMyCardsRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -36904,7 +36330,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -36918,13 +36344,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -36948,8 +36367,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       memoizedIsInitialized = 1;
       return true;
@@ -36958,7 +36376,6 @@ public final class ProtoBuf {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -36967,7 +36384,6 @@ public final class ProtoBuf {
       if (size != -1) return size;
 
       size = 0;
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -37045,9 +36461,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ShowMyCardsRequestMessage)
-        de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -37087,8 +36501,6 @@ public final class ProtoBuf {
 
       public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage other) {
         if (other == de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage.getDefaultInstance()) return this;
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -37125,10 +36537,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ShowMyCardsRequestMessage)
   }
 
-  public interface AfterHandShowCardsMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AfterHandShowCardsMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AfterHandShowCardsMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .PlayerResult playerResult = 1;
     /**
      * <code>required .PlayerResult playerResult = 1;</code>
      */
@@ -37142,15 +36554,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AfterHandShowCardsMessage}
    */
   public static final class AfterHandShowCardsMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AfterHandShowCardsMessage)
-      AfterHandShowCardsMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AfterHandShowCardsMessageOrBuilder {
     // Use AfterHandShowCardsMessage.newBuilder() to construct.
     private AfterHandShowCardsMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AfterHandShowCardsMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AfterHandShowCardsMessage(boolean noInit) {}
 
     private static final AfterHandShowCardsMessage defaultInstance;
     public static AfterHandShowCardsMessage getDefaultInstance() {
@@ -37161,18 +36572,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AfterHandShowCardsMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -37182,7 +36587,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -37209,13 +36614,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -37235,6 +36633,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .PlayerResult playerResult = 1;
     public static final int PLAYERRESULT_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.PlayerResult playerResult_;
     /**
@@ -37256,8 +36655,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasPlayerResult()) {
         memoizedIsInitialized = 0;
@@ -37277,7 +36675,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, playerResult_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -37290,7 +36687,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, playerResult_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -37368,9 +36764,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AfterHandShowCardsMessage)
-        de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -37422,8 +36816,6 @@ public final class ProtoBuf {
         if (other.hasPlayerResult()) {
           mergePlayerResult(other.getPlayerResult());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -37458,6 +36850,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .PlayerResult playerResult = 1;
       private de.pokerth.protocol.ProtoBuf.PlayerResult playerResult_ = de.pokerth.protocol.ProtoBuf.PlayerResult.getDefaultInstance();
       /**
        * <code>required .PlayerResult playerResult = 1;</code>
@@ -37529,10 +36922,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AfterHandShowCardsMessage)
   }
 
-  public interface EndOfGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:EndOfGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface EndOfGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -37542,6 +36935,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 winnerPlayerId = 2;
     /**
      * <code>required uint32 winnerPlayerId = 2;</code>
      */
@@ -37555,15 +36949,14 @@ public final class ProtoBuf {
    * Protobuf type {@code EndOfGameMessage}
    */
   public static final class EndOfGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:EndOfGameMessage)
-      EndOfGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements EndOfGameMessageOrBuilder {
     // Use EndOfGameMessage.newBuilder() to construct.
     private EndOfGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private EndOfGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private EndOfGameMessage(boolean noInit) {}
 
     private static final EndOfGameMessage defaultInstance;
     public static EndOfGameMessage getDefaultInstance() {
@@ -37574,18 +36967,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private EndOfGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -37595,7 +36982,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -37619,13 +37006,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -37645,6 +37025,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -37660,6 +37041,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 winnerPlayerId = 2;
     public static final int WINNERPLAYERID_FIELD_NUMBER = 2;
     private int winnerPlayerId_;
     /**
@@ -37682,8 +37064,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -37706,7 +37087,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, winnerPlayerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -37723,7 +37103,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, winnerPlayerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -37801,9 +37180,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.EndOfGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:EndOfGameMessage)
-        de.pokerth.protocol.ProtoBuf.EndOfGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.EndOfGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.EndOfGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -37864,8 +37241,6 @@ public final class ProtoBuf {
         if (other.hasWinnerPlayerId()) {
           setWinnerPlayerId(other.getWinnerPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -37900,6 +37275,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -37932,6 +37308,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 winnerPlayerId = 2;
       private int winnerPlayerId_ ;
       /**
        * <code>required uint32 winnerPlayerId = 2;</code>
@@ -37975,10 +37352,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:EndOfGameMessage)
   }
 
-  public interface PlayerIdChangedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PlayerIdChangedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PlayerIdChangedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 oldPlayerId = 1;
     /**
      * <code>required uint32 oldPlayerId = 1;</code>
      */
@@ -37988,6 +37365,7 @@ public final class ProtoBuf {
      */
     int getOldPlayerId();
 
+    // required uint32 newPlayerId = 2;
     /**
      * <code>required uint32 newPlayerId = 2;</code>
      */
@@ -38001,15 +37379,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PlayerIdChangedMessage}
    */
   public static final class PlayerIdChangedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PlayerIdChangedMessage)
-      PlayerIdChangedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PlayerIdChangedMessageOrBuilder {
     // Use PlayerIdChangedMessage.newBuilder() to construct.
     private PlayerIdChangedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PlayerIdChangedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PlayerIdChangedMessage(boolean noInit) {}
 
     private static final PlayerIdChangedMessage defaultInstance;
     public static PlayerIdChangedMessage getDefaultInstance() {
@@ -38020,18 +37397,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PlayerIdChangedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -38041,7 +37412,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -38065,13 +37436,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -38091,6 +37455,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 oldPlayerId = 1;
     public static final int OLDPLAYERID_FIELD_NUMBER = 1;
     private int oldPlayerId_;
     /**
@@ -38106,6 +37471,7 @@ public final class ProtoBuf {
       return oldPlayerId_;
     }
 
+    // required uint32 newPlayerId = 2;
     public static final int NEWPLAYERID_FIELD_NUMBER = 2;
     private int newPlayerId_;
     /**
@@ -38128,8 +37494,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasOldPlayerId()) {
         memoizedIsInitialized = 0;
@@ -38152,7 +37517,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, newPlayerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -38169,7 +37533,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, newPlayerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -38247,9 +37610,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PlayerIdChangedMessage)
-        de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -38310,8 +37671,6 @@ public final class ProtoBuf {
         if (other.hasNewPlayerId()) {
           setNewPlayerId(other.getNewPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -38346,6 +37705,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 oldPlayerId = 1;
       private int oldPlayerId_ ;
       /**
        * <code>required uint32 oldPlayerId = 1;</code>
@@ -38378,6 +37738,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 newPlayerId = 2;
       private int newPlayerId_ ;
       /**
        * <code>required uint32 newPlayerId = 2;</code>
@@ -38421,10 +37782,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:PlayerIdChangedMessage)
   }
 
-  public interface AskKickPlayerMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AskKickPlayerMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AskKickPlayerMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -38434,6 +37795,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -38447,15 +37809,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AskKickPlayerMessage}
    */
   public static final class AskKickPlayerMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AskKickPlayerMessage)
-      AskKickPlayerMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AskKickPlayerMessageOrBuilder {
     // Use AskKickPlayerMessage.newBuilder() to construct.
     private AskKickPlayerMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AskKickPlayerMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AskKickPlayerMessage(boolean noInit) {}
 
     private static final AskKickPlayerMessage defaultInstance;
     public static AskKickPlayerMessage getDefaultInstance() {
@@ -38466,18 +37827,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AskKickPlayerMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -38487,7 +37842,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -38511,13 +37866,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -38537,6 +37885,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -38552,6 +37901,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -38574,8 +37924,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -38598,7 +37947,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, playerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -38615,7 +37963,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, playerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -38693,9 +38040,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AskKickPlayerMessage)
-        de.pokerth.protocol.ProtoBuf.AskKickPlayerMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AskKickPlayerMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -38756,8 +38101,6 @@ public final class ProtoBuf {
         if (other.hasPlayerId()) {
           setPlayerId(other.getPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -38792,6 +38135,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -38824,6 +38168,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -38867,10 +38212,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AskKickPlayerMessage)
   }
 
-  public interface AskKickDeniedMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AskKickDeniedMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AskKickDeniedMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -38880,6 +38225,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 playerId = 2;
     /**
      * <code>required uint32 playerId = 2;</code>
      */
@@ -38889,6 +38235,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;
     /**
      * <code>required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;</code>
      */
@@ -38902,15 +38249,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AskKickDeniedMessage}
    */
   public static final class AskKickDeniedMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AskKickDeniedMessage)
-      AskKickDeniedMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AskKickDeniedMessageOrBuilder {
     // Use AskKickDeniedMessage.newBuilder() to construct.
     private AskKickDeniedMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AskKickDeniedMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AskKickDeniedMessage(boolean noInit) {}
 
     private static final AskKickDeniedMessage defaultInstance;
     public static AskKickDeniedMessage getDefaultInstance() {
@@ -38921,18 +38267,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AskKickDeniedMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -38942,7 +38282,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -38961,10 +38301,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.KickDeniedReason value = de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.KickDeniedReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 kickDeniedReason_ = value;
               }
@@ -38978,13 +38315,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -39087,6 +38417,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -39102,6 +38433,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -39117,6 +38449,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;
     public static final int KICKDENIEDREASON_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.KickDeniedReason kickDeniedReason_;
     /**
@@ -39140,8 +38473,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -39171,7 +38503,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, kickDeniedReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -39192,7 +38523,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, kickDeniedReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -39270,9 +38600,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AskKickDeniedMessage)
-        de.pokerth.protocol.ProtoBuf.AskKickDeniedMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AskKickDeniedMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -39342,8 +38670,6 @@ public final class ProtoBuf {
         if (other.hasKickDeniedReason()) {
           setKickDeniedReason(other.getKickDeniedReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -39382,6 +38708,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -39414,6 +38741,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>required uint32 playerId = 2;</code>
@@ -39446,6 +38774,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;
       private de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.KickDeniedReason kickDeniedReason_ = de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.KickDeniedReason.kickDeniedInvalidGameState;
       /**
        * <code>required .AskKickDeniedMessage.KickDeniedReason kickDeniedReason = 3;</code>
@@ -39492,10 +38821,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AskKickDeniedMessage)
   }
 
-  public interface StartKickPetitionMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:StartKickPetitionMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface StartKickPetitionMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -39505,6 +38834,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 petitionId = 2;
     /**
      * <code>required uint32 petitionId = 2;</code>
      */
@@ -39514,6 +38844,7 @@ public final class ProtoBuf {
      */
     int getPetitionId();
 
+    // required uint32 proposingPlayerId = 3;
     /**
      * <code>required uint32 proposingPlayerId = 3;</code>
      */
@@ -39523,6 +38854,7 @@ public final class ProtoBuf {
      */
     int getProposingPlayerId();
 
+    // required uint32 kickPlayerId = 4;
     /**
      * <code>required uint32 kickPlayerId = 4;</code>
      */
@@ -39532,6 +38864,7 @@ public final class ProtoBuf {
      */
     int getKickPlayerId();
 
+    // required uint32 kickTimeoutSec = 5;
     /**
      * <code>required uint32 kickTimeoutSec = 5;</code>
      */
@@ -39541,6 +38874,7 @@ public final class ProtoBuf {
      */
     int getKickTimeoutSec();
 
+    // required uint32 numVotesNeededToKick = 6;
     /**
      * <code>required uint32 numVotesNeededToKick = 6;</code>
      */
@@ -39554,15 +38888,14 @@ public final class ProtoBuf {
    * Protobuf type {@code StartKickPetitionMessage}
    */
   public static final class StartKickPetitionMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:StartKickPetitionMessage)
-      StartKickPetitionMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements StartKickPetitionMessageOrBuilder {
     // Use StartKickPetitionMessage.newBuilder() to construct.
     private StartKickPetitionMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private StartKickPetitionMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private StartKickPetitionMessage(boolean noInit) {}
 
     private static final StartKickPetitionMessage defaultInstance;
     public static StartKickPetitionMessage getDefaultInstance() {
@@ -39573,18 +38906,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private StartKickPetitionMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -39594,7 +38921,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -39638,13 +38965,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -39664,6 +38984,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -39679,6 +39000,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 petitionId = 2;
     public static final int PETITIONID_FIELD_NUMBER = 2;
     private int petitionId_;
     /**
@@ -39694,6 +39016,7 @@ public final class ProtoBuf {
       return petitionId_;
     }
 
+    // required uint32 proposingPlayerId = 3;
     public static final int PROPOSINGPLAYERID_FIELD_NUMBER = 3;
     private int proposingPlayerId_;
     /**
@@ -39709,6 +39032,7 @@ public final class ProtoBuf {
       return proposingPlayerId_;
     }
 
+    // required uint32 kickPlayerId = 4;
     public static final int KICKPLAYERID_FIELD_NUMBER = 4;
     private int kickPlayerId_;
     /**
@@ -39724,6 +39048,7 @@ public final class ProtoBuf {
       return kickPlayerId_;
     }
 
+    // required uint32 kickTimeoutSec = 5;
     public static final int KICKTIMEOUTSEC_FIELD_NUMBER = 5;
     private int kickTimeoutSec_;
     /**
@@ -39739,6 +39064,7 @@ public final class ProtoBuf {
       return kickTimeoutSec_;
     }
 
+    // required uint32 numVotesNeededToKick = 6;
     public static final int NUMVOTESNEEDEDTOKICK_FIELD_NUMBER = 6;
     private int numVotesNeededToKick_;
     /**
@@ -39765,8 +39091,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -39817,7 +39142,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeUInt32(6, numVotesNeededToKick_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -39850,7 +39174,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(6, numVotesNeededToKick_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -39928,9 +39251,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:StartKickPetitionMessage)
-        de.pokerth.protocol.ProtoBuf.StartKickPetitionMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.StartKickPetitionMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -40027,8 +39348,6 @@ public final class ProtoBuf {
         if (other.hasNumVotesNeededToKick()) {
           setNumVotesNeededToKick(other.getNumVotesNeededToKick());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -40079,6 +39398,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -40111,6 +39431,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 petitionId = 2;
       private int petitionId_ ;
       /**
        * <code>required uint32 petitionId = 2;</code>
@@ -40143,6 +39464,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 proposingPlayerId = 3;
       private int proposingPlayerId_ ;
       /**
        * <code>required uint32 proposingPlayerId = 3;</code>
@@ -40175,6 +39497,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 kickPlayerId = 4;
       private int kickPlayerId_ ;
       /**
        * <code>required uint32 kickPlayerId = 4;</code>
@@ -40207,6 +39530,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 kickTimeoutSec = 5;
       private int kickTimeoutSec_ ;
       /**
        * <code>required uint32 kickTimeoutSec = 5;</code>
@@ -40239,6 +39563,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numVotesNeededToKick = 6;
       private int numVotesNeededToKick_ ;
       /**
        * <code>required uint32 numVotesNeededToKick = 6;</code>
@@ -40282,10 +39607,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:StartKickPetitionMessage)
   }
 
-  public interface VoteKickRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:VoteKickRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface VoteKickRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -40295,6 +39620,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 petitionId = 2;
     /**
      * <code>required uint32 petitionId = 2;</code>
      */
@@ -40304,6 +39630,7 @@ public final class ProtoBuf {
      */
     int getPetitionId();
 
+    // required bool voteKick = 3;
     /**
      * <code>required bool voteKick = 3;</code>
      */
@@ -40317,15 +39644,14 @@ public final class ProtoBuf {
    * Protobuf type {@code VoteKickRequestMessage}
    */
   public static final class VoteKickRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:VoteKickRequestMessage)
-      VoteKickRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements VoteKickRequestMessageOrBuilder {
     // Use VoteKickRequestMessage.newBuilder() to construct.
     private VoteKickRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private VoteKickRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private VoteKickRequestMessage(boolean noInit) {}
 
     private static final VoteKickRequestMessage defaultInstance;
     public static VoteKickRequestMessage getDefaultInstance() {
@@ -40336,18 +39662,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private VoteKickRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -40357,7 +39677,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -40386,13 +39706,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -40412,6 +39725,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -40427,6 +39741,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 petitionId = 2;
     public static final int PETITIONID_FIELD_NUMBER = 2;
     private int petitionId_;
     /**
@@ -40442,6 +39757,7 @@ public final class ProtoBuf {
       return petitionId_;
     }
 
+    // required bool voteKick = 3;
     public static final int VOTEKICK_FIELD_NUMBER = 3;
     private boolean voteKick_;
     /**
@@ -40465,8 +39781,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -40496,7 +39811,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(3, voteKick_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -40517,7 +39831,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(3, voteKick_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -40595,9 +39908,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:VoteKickRequestMessage)
-        de.pokerth.protocol.ProtoBuf.VoteKickRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.VoteKickRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -40667,8 +39978,6 @@ public final class ProtoBuf {
         if (other.hasVoteKick()) {
           setVoteKick(other.getVoteKick());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -40707,6 +40016,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -40739,6 +40049,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 petitionId = 2;
       private int petitionId_ ;
       /**
        * <code>required uint32 petitionId = 2;</code>
@@ -40771,6 +40082,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bool voteKick = 3;
       private boolean voteKick_ ;
       /**
        * <code>required bool voteKick = 3;</code>
@@ -40814,10 +40126,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:VoteKickRequestMessage)
   }
 
-  public interface VoteKickReplyMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:VoteKickReplyMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface VoteKickReplyMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -40827,6 +40139,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 petitionId = 2;
     /**
      * <code>required uint32 petitionId = 2;</code>
      */
@@ -40836,6 +40149,7 @@ public final class ProtoBuf {
      */
     int getPetitionId();
 
+    // required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;
     /**
      * <code>required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;</code>
      */
@@ -40849,15 +40163,14 @@ public final class ProtoBuf {
    * Protobuf type {@code VoteKickReplyMessage}
    */
   public static final class VoteKickReplyMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:VoteKickReplyMessage)
-      VoteKickReplyMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements VoteKickReplyMessageOrBuilder {
     // Use VoteKickReplyMessage.newBuilder() to construct.
     private VoteKickReplyMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private VoteKickReplyMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private VoteKickReplyMessage(boolean noInit) {}
 
     private static final VoteKickReplyMessage defaultInstance;
     public static VoteKickReplyMessage getDefaultInstance() {
@@ -40868,18 +40181,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private VoteKickReplyMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -40889,7 +40196,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -40908,10 +40215,7 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.VoteKickReplyType value = de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.VoteKickReplyType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 voteKickReplyType_ = value;
               }
@@ -40925,13 +40229,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -41016,6 +40313,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -41031,6 +40329,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 petitionId = 2;
     public static final int PETITIONID_FIELD_NUMBER = 2;
     private int petitionId_;
     /**
@@ -41046,6 +40345,7 @@ public final class ProtoBuf {
       return petitionId_;
     }
 
+    // required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;
     public static final int VOTEKICKREPLYTYPE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.VoteKickReplyType voteKickReplyType_;
     /**
@@ -41069,8 +40369,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -41100,7 +40399,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeEnum(3, voteKickReplyType_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -41121,7 +40419,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(3, voteKickReplyType_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -41199,9 +40496,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:VoteKickReplyMessage)
-        de.pokerth.protocol.ProtoBuf.VoteKickReplyMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.VoteKickReplyMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -41271,8 +40566,6 @@ public final class ProtoBuf {
         if (other.hasVoteKickReplyType()) {
           setVoteKickReplyType(other.getVoteKickReplyType());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -41311,6 +40604,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -41343,6 +40637,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 petitionId = 2;
       private int petitionId_ ;
       /**
        * <code>required uint32 petitionId = 2;</code>
@@ -41375,6 +40670,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;
       private de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.VoteKickReplyType voteKickReplyType_ = de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.VoteKickReplyType.voteKickAck;
       /**
        * <code>required .VoteKickReplyMessage.VoteKickReplyType voteKickReplyType = 3;</code>
@@ -41421,10 +40717,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:VoteKickReplyMessage)
   }
 
-  public interface KickPetitionUpdateMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:KickPetitionUpdateMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface KickPetitionUpdateMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -41434,6 +40730,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 petitionId = 2;
     /**
      * <code>required uint32 petitionId = 2;</code>
      */
@@ -41443,6 +40740,7 @@ public final class ProtoBuf {
      */
     int getPetitionId();
 
+    // required uint32 numVotesAgainstKicking = 3;
     /**
      * <code>required uint32 numVotesAgainstKicking = 3;</code>
      */
@@ -41452,6 +40750,7 @@ public final class ProtoBuf {
      */
     int getNumVotesAgainstKicking();
 
+    // required uint32 numVotesInFavourOfKicking = 4;
     /**
      * <code>required uint32 numVotesInFavourOfKicking = 4;</code>
      */
@@ -41461,6 +40760,7 @@ public final class ProtoBuf {
      */
     int getNumVotesInFavourOfKicking();
 
+    // required uint32 numVotesNeededToKick = 5;
     /**
      * <code>required uint32 numVotesNeededToKick = 5;</code>
      */
@@ -41474,15 +40774,14 @@ public final class ProtoBuf {
    * Protobuf type {@code KickPetitionUpdateMessage}
    */
   public static final class KickPetitionUpdateMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:KickPetitionUpdateMessage)
-      KickPetitionUpdateMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements KickPetitionUpdateMessageOrBuilder {
     // Use KickPetitionUpdateMessage.newBuilder() to construct.
     private KickPetitionUpdateMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private KickPetitionUpdateMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private KickPetitionUpdateMessage(boolean noInit) {}
 
     private static final KickPetitionUpdateMessage defaultInstance;
     public static KickPetitionUpdateMessage getDefaultInstance() {
@@ -41493,18 +40792,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private KickPetitionUpdateMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -41514,7 +40807,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -41553,13 +40846,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -41579,6 +40865,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -41594,6 +40881,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 petitionId = 2;
     public static final int PETITIONID_FIELD_NUMBER = 2;
     private int petitionId_;
     /**
@@ -41609,6 +40897,7 @@ public final class ProtoBuf {
       return petitionId_;
     }
 
+    // required uint32 numVotesAgainstKicking = 3;
     public static final int NUMVOTESAGAINSTKICKING_FIELD_NUMBER = 3;
     private int numVotesAgainstKicking_;
     /**
@@ -41624,6 +40913,7 @@ public final class ProtoBuf {
       return numVotesAgainstKicking_;
     }
 
+    // required uint32 numVotesInFavourOfKicking = 4;
     public static final int NUMVOTESINFAVOUROFKICKING_FIELD_NUMBER = 4;
     private int numVotesInFavourOfKicking_;
     /**
@@ -41639,6 +40929,7 @@ public final class ProtoBuf {
       return numVotesInFavourOfKicking_;
     }
 
+    // required uint32 numVotesNeededToKick = 5;
     public static final int NUMVOTESNEEDEDTOKICK_FIELD_NUMBER = 5;
     private int numVotesNeededToKick_;
     /**
@@ -41664,8 +40955,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -41709,7 +40999,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeUInt32(5, numVotesNeededToKick_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -41738,7 +41027,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(5, numVotesNeededToKick_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -41816,9 +41104,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:KickPetitionUpdateMessage)
-        de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -41906,8 +41192,6 @@ public final class ProtoBuf {
         if (other.hasNumVotesNeededToKick()) {
           setNumVotesNeededToKick(other.getNumVotesNeededToKick());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -41954,6 +41238,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -41986,6 +41271,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 petitionId = 2;
       private int petitionId_ ;
       /**
        * <code>required uint32 petitionId = 2;</code>
@@ -42018,6 +41304,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numVotesAgainstKicking = 3;
       private int numVotesAgainstKicking_ ;
       /**
        * <code>required uint32 numVotesAgainstKicking = 3;</code>
@@ -42050,6 +41337,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numVotesInFavourOfKicking = 4;
       private int numVotesInFavourOfKicking_ ;
       /**
        * <code>required uint32 numVotesInFavourOfKicking = 4;</code>
@@ -42082,6 +41370,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numVotesNeededToKick = 5;
       private int numVotesNeededToKick_ ;
       /**
        * <code>required uint32 numVotesNeededToKick = 5;</code>
@@ -42125,10 +41414,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:KickPetitionUpdateMessage)
   }
 
-  public interface EndKickPetitionMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:EndKickPetitionMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface EndKickPetitionMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 gameId = 1;
     /**
      * <code>required uint32 gameId = 1;</code>
      */
@@ -42138,6 +41427,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // required uint32 petitionId = 2;
     /**
      * <code>required uint32 petitionId = 2;</code>
      */
@@ -42147,6 +41437,7 @@ public final class ProtoBuf {
      */
     int getPetitionId();
 
+    // required uint32 numVotesAgainstKicking = 3;
     /**
      * <code>required uint32 numVotesAgainstKicking = 3;</code>
      */
@@ -42156,6 +41447,7 @@ public final class ProtoBuf {
      */
     int getNumVotesAgainstKicking();
 
+    // required uint32 numVotesInFavourOfKicking = 4;
     /**
      * <code>required uint32 numVotesInFavourOfKicking = 4;</code>
      */
@@ -42165,6 +41457,7 @@ public final class ProtoBuf {
      */
     int getNumVotesInFavourOfKicking();
 
+    // required uint32 resultPlayerKicked = 5;
     /**
      * <code>required uint32 resultPlayerKicked = 5;</code>
      */
@@ -42174,6 +41467,7 @@ public final class ProtoBuf {
      */
     int getResultPlayerKicked();
 
+    // required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;
     /**
      * <code>required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;</code>
      */
@@ -42187,15 +41481,14 @@ public final class ProtoBuf {
    * Protobuf type {@code EndKickPetitionMessage}
    */
   public static final class EndKickPetitionMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:EndKickPetitionMessage)
-      EndKickPetitionMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements EndKickPetitionMessageOrBuilder {
     // Use EndKickPetitionMessage.newBuilder() to construct.
     private EndKickPetitionMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private EndKickPetitionMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private EndKickPetitionMessage(boolean noInit) {}
 
     private static final EndKickPetitionMessage defaultInstance;
     public static EndKickPetitionMessage getDefaultInstance() {
@@ -42206,18 +41499,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private EndKickPetitionMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -42227,7 +41514,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -42261,10 +41548,7 @@ public final class ProtoBuf {
             case 48: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.PetitionEndReason value = de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.PetitionEndReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000020;
                 petitionEndReason_ = value;
               }
@@ -42278,13 +41562,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -42378,6 +41655,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -42393,6 +41671,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // required uint32 petitionId = 2;
     public static final int PETITIONID_FIELD_NUMBER = 2;
     private int petitionId_;
     /**
@@ -42408,6 +41687,7 @@ public final class ProtoBuf {
       return petitionId_;
     }
 
+    // required uint32 numVotesAgainstKicking = 3;
     public static final int NUMVOTESAGAINSTKICKING_FIELD_NUMBER = 3;
     private int numVotesAgainstKicking_;
     /**
@@ -42423,6 +41703,7 @@ public final class ProtoBuf {
       return numVotesAgainstKicking_;
     }
 
+    // required uint32 numVotesInFavourOfKicking = 4;
     public static final int NUMVOTESINFAVOUROFKICKING_FIELD_NUMBER = 4;
     private int numVotesInFavourOfKicking_;
     /**
@@ -42438,6 +41719,7 @@ public final class ProtoBuf {
       return numVotesInFavourOfKicking_;
     }
 
+    // required uint32 resultPlayerKicked = 5;
     public static final int RESULTPLAYERKICKED_FIELD_NUMBER = 5;
     private int resultPlayerKicked_;
     /**
@@ -42453,6 +41735,7 @@ public final class ProtoBuf {
       return resultPlayerKicked_;
     }
 
+    // required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;
     public static final int PETITIONENDREASON_FIELD_NUMBER = 6;
     private de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.PetitionEndReason petitionEndReason_;
     /**
@@ -42479,8 +41762,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasGameId()) {
         memoizedIsInitialized = 0;
@@ -42531,7 +41813,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeEnum(6, petitionEndReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -42564,7 +41845,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, petitionEndReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -42642,9 +41922,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:EndKickPetitionMessage)
-        de.pokerth.protocol.ProtoBuf.EndKickPetitionMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.EndKickPetitionMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -42741,8 +42019,6 @@ public final class ProtoBuf {
         if (other.hasPetitionEndReason()) {
           setPetitionEndReason(other.getPetitionEndReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -42793,6 +42069,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>required uint32 gameId = 1;</code>
@@ -42825,6 +42102,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 petitionId = 2;
       private int petitionId_ ;
       /**
        * <code>required uint32 petitionId = 2;</code>
@@ -42857,6 +42135,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numVotesAgainstKicking = 3;
       private int numVotesAgainstKicking_ ;
       /**
        * <code>required uint32 numVotesAgainstKicking = 3;</code>
@@ -42889,6 +42168,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 numVotesInFavourOfKicking = 4;
       private int numVotesInFavourOfKicking_ ;
       /**
        * <code>required uint32 numVotesInFavourOfKicking = 4;</code>
@@ -42921,6 +42201,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 resultPlayerKicked = 5;
       private int resultPlayerKicked_ ;
       /**
        * <code>required uint32 resultPlayerKicked = 5;</code>
@@ -42953,6 +42234,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;
       private de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.PetitionEndReason petitionEndReason_ = de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.PetitionEndReason.petitionEndEnoughVotes;
       /**
        * <code>required .EndKickPetitionMessage.PetitionEndReason petitionEndReason = 6;</code>
@@ -42999,10 +42281,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:EndKickPetitionMessage)
   }
 
-  public interface StatisticsMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:StatisticsMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface StatisticsMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // repeated .StatisticsMessage.StatisticsData statisticsData = 1;
     /**
      * <code>repeated .StatisticsMessage.StatisticsData statisticsData = 1;</code>
      */
@@ -43021,15 +42303,14 @@ public final class ProtoBuf {
    * Protobuf type {@code StatisticsMessage}
    */
   public static final class StatisticsMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:StatisticsMessage)
-      StatisticsMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements StatisticsMessageOrBuilder {
     // Use StatisticsMessage.newBuilder() to construct.
     private StatisticsMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private StatisticsMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private StatisticsMessage(boolean noInit) {}
 
     private static final StatisticsMessage defaultInstance;
     public static StatisticsMessage getDefaultInstance() {
@@ -43040,18 +42321,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private StatisticsMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -43061,7 +42336,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -43086,13 +42361,6 @@ public final class ProtoBuf {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           statisticsData_ = java.util.Collections.unmodifiableList(statisticsData_);
         }
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -43111,10 +42379,10 @@ public final class ProtoBuf {
       return PARSER;
     }
 
-    public interface StatisticsDataOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:StatisticsMessage.StatisticsData)
-        com.google.protobuf.MessageLiteOrBuilder {
+    public interface StatisticsDataOrBuilder
+        extends com.google.protobuf.MessageLiteOrBuilder {
 
+      // required .StatisticsMessage.StatisticsData.StatisticsType statisticsType = 1;
       /**
        * <code>required .StatisticsMessage.StatisticsData.StatisticsType statisticsType = 1;</code>
        */
@@ -43124,6 +42392,7 @@ public final class ProtoBuf {
        */
       de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.StatisticsType getStatisticsType();
 
+      // required uint32 statisticsValue = 2;
       /**
        * <code>required uint32 statisticsValue = 2;</code>
        */
@@ -43137,15 +42406,14 @@ public final class ProtoBuf {
      * Protobuf type {@code StatisticsMessage.StatisticsData}
      */
     public static final class StatisticsData extends
-        com.google.protobuf.GeneratedMessageLite implements
-        // @@protoc_insertion_point(message_implements:StatisticsMessage.StatisticsData)
-        StatisticsDataOrBuilder {
+        com.google.protobuf.GeneratedMessageLite
+        implements StatisticsDataOrBuilder {
       // Use StatisticsData.newBuilder() to construct.
       private StatisticsData(com.google.protobuf.GeneratedMessageLite.Builder builder) {
         super(builder);
-        this.unknownFields = builder.getUnknownFields();
+
       }
-      private StatisticsData(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+      private StatisticsData(boolean noInit) {}
 
       private static final StatisticsData defaultInstance;
       public static StatisticsData getDefaultInstance() {
@@ -43156,18 +42424,12 @@ public final class ProtoBuf {
         return defaultInstance;
       }
 
-      private final com.google.protobuf.ByteString unknownFields;
       private StatisticsData(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         initFields();
         int mutable_bitField0_ = 0;
-        com.google.protobuf.ByteString.Output unknownFieldsOutput =
-            com.google.protobuf.ByteString.newOutput();
-        com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-            com.google.protobuf.CodedOutputStream.newInstance(
-                unknownFieldsOutput);
         try {
           boolean done = false;
           while (!done) {
@@ -43177,7 +42439,7 @@ public final class ProtoBuf {
                 done = true;
                 break;
               default: {
-                if (!parseUnknownField(input, unknownFieldsCodedOutput,
+                if (!parseUnknownField(input,
                                        extensionRegistry, tag)) {
                   done = true;
                 }
@@ -43186,10 +42448,7 @@ public final class ProtoBuf {
               case 8: {
                 int rawValue = input.readEnum();
                 de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.StatisticsType value = de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.StatisticsType.valueOf(rawValue);
-                if (value == null) {
-                  unknownFieldsCodedOutput.writeRawVarint32(tag);
-                  unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-                } else {
+                if (value != null) {
                   bitField0_ |= 0x00000001;
                   statisticsType_ = value;
                 }
@@ -43208,13 +42467,6 @@ public final class ProtoBuf {
           throw new com.google.protobuf.InvalidProtocolBufferException(
               e.getMessage()).setUnfinishedMessage(this);
         } finally {
-          try {
-            unknownFieldsCodedOutput.flush();
-          } catch (java.io.IOException e) {
-          // Should not happen
-          } finally {
-            unknownFields = unknownFieldsOutput.toByteString();
-          }
           makeExtensionsImmutable();
         }
       }
@@ -43281,6 +42533,7 @@ public final class ProtoBuf {
       }
 
       private int bitField0_;
+      // required .StatisticsMessage.StatisticsData.StatisticsType statisticsType = 1;
       public static final int STATISTICSTYPE_FIELD_NUMBER = 1;
       private de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.StatisticsType statisticsType_;
       /**
@@ -43296,6 +42549,7 @@ public final class ProtoBuf {
         return statisticsType_;
       }
 
+      // required uint32 statisticsValue = 2;
       public static final int STATISTICSVALUE_FIELD_NUMBER = 2;
       private int statisticsValue_;
       /**
@@ -43318,8 +42572,7 @@ public final class ProtoBuf {
       private byte memoizedIsInitialized = -1;
       public final boolean isInitialized() {
         byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
+        if (isInitialized != -1) return isInitialized == 1;
 
         if (!hasStatisticsType()) {
           memoizedIsInitialized = 0;
@@ -43342,7 +42595,6 @@ public final class ProtoBuf {
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           output.writeUInt32(2, statisticsValue_);
         }
-        output.writeRawBytes(unknownFields);
       }
 
       private int memoizedSerializedSize = -1;
@@ -43359,7 +42611,6 @@ public final class ProtoBuf {
           size += com.google.protobuf.CodedOutputStream
             .computeUInt32Size(2, statisticsValue_);
         }
-        size += unknownFields.size();
         memoizedSerializedSize = size;
         return size;
       }
@@ -43437,9 +42688,7 @@ public final class ProtoBuf {
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageLite.Builder<
             de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData, Builder>
-          implements
-          // @@protoc_insertion_point(builder_implements:StatisticsMessage.StatisticsData)
-          de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsDataOrBuilder {
+          implements de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsDataOrBuilder {
         // Construct using de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
@@ -43500,8 +42749,6 @@ public final class ProtoBuf {
           if (other.hasStatisticsValue()) {
             setStatisticsValue(other.getStatisticsValue());
           }
-          setUnknownFields(
-              getUnknownFields().concat(other.unknownFields));
           return this;
         }
 
@@ -43536,6 +42783,7 @@ public final class ProtoBuf {
         }
         private int bitField0_;
 
+        // required .StatisticsMessage.StatisticsData.StatisticsType statisticsType = 1;
         private de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.StatisticsType statisticsType_ = de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData.StatisticsType.statNumberOfPlayers;
         /**
          * <code>required .StatisticsMessage.StatisticsData.StatisticsType statisticsType = 1;</code>
@@ -43571,6 +42819,7 @@ public final class ProtoBuf {
           return this;
         }
 
+        // required uint32 statisticsValue = 2;
         private int statisticsValue_ ;
         /**
          * <code>required uint32 statisticsValue = 2;</code>
@@ -43614,6 +42863,7 @@ public final class ProtoBuf {
       // @@protoc_insertion_point(class_scope:StatisticsMessage.StatisticsData)
     }
 
+    // repeated .StatisticsMessage.StatisticsData statisticsData = 1;
     public static final int STATISTICSDATA_FIELD_NUMBER = 1;
     private java.util.List<de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData> statisticsData_;
     /**
@@ -43655,8 +42905,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       for (int i = 0; i < getStatisticsDataCount(); i++) {
         if (!getStatisticsData(i).isInitialized()) {
@@ -43674,7 +42923,6 @@ public final class ProtoBuf {
       for (int i = 0; i < statisticsData_.size(); i++) {
         output.writeMessage(1, statisticsData_.get(i));
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -43687,7 +42935,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, statisticsData_.get(i));
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -43765,9 +43012,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.StatisticsMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:StatisticsMessage)
-        de.pokerth.protocol.ProtoBuf.StatisticsMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.StatisticsMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.StatisticsMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -43825,8 +43070,6 @@ public final class ProtoBuf {
           }
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -43859,6 +43102,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // repeated .StatisticsMessage.StatisticsData statisticsData = 1;
       private java.util.List<de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData> statisticsData_ =
         java.util.Collections.emptyList();
       private void ensureStatisticsDataIsMutable() {
@@ -43960,8 +43204,7 @@ public final class ProtoBuf {
       public Builder addAllStatisticsData(
           java.lang.Iterable<? extends de.pokerth.protocol.ProtoBuf.StatisticsMessage.StatisticsData> values) {
         ensureStatisticsDataIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, statisticsData_);
+        super.addAll(values, statisticsData_);
 
         return this;
       }
@@ -43995,10 +43238,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:StatisticsMessage)
   }
 
-  public interface ChatRequestMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ChatRequestMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ChatRequestMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // optional uint32 targetGameId = 1;
     /**
      * <code>optional uint32 targetGameId = 1;</code>
      */
@@ -44008,6 +43251,7 @@ public final class ProtoBuf {
      */
     int getTargetGameId();
 
+    // optional uint32 targetPlayerId = 2;
     /**
      * <code>optional uint32 targetPlayerId = 2;</code>
      */
@@ -44017,6 +43261,7 @@ public final class ProtoBuf {
      */
     int getTargetPlayerId();
 
+    // required string chatText = 3;
     /**
      * <code>required string chatText = 3;</code>
      */
@@ -44035,15 +43280,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ChatRequestMessage}
    */
   public static final class ChatRequestMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ChatRequestMessage)
-      ChatRequestMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ChatRequestMessageOrBuilder {
     // Use ChatRequestMessage.newBuilder() to construct.
     private ChatRequestMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ChatRequestMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ChatRequestMessage(boolean noInit) {}
 
     private static final ChatRequestMessage defaultInstance;
     public static ChatRequestMessage getDefaultInstance() {
@@ -44054,18 +43298,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ChatRequestMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -44075,7 +43313,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -44092,9 +43330,8 @@ public final class ProtoBuf {
               break;
             }
             case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
-              chatText_ = bs;
+              chatText_ = input.readBytes();
               break;
             }
           }
@@ -44105,13 +43342,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -44131,6 +43361,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // optional uint32 targetGameId = 1;
     public static final int TARGETGAMEID_FIELD_NUMBER = 1;
     private int targetGameId_;
     /**
@@ -44146,6 +43377,7 @@ public final class ProtoBuf {
       return targetGameId_;
     }
 
+    // optional uint32 targetPlayerId = 2;
     public static final int TARGETPLAYERID_FIELD_NUMBER = 2;
     private int targetPlayerId_;
     /**
@@ -44161,6 +43393,7 @@ public final class ProtoBuf {
       return targetPlayerId_;
     }
 
+    // required string chatText = 3;
     public static final int CHATTEXT_FIELD_NUMBER = 3;
     private java.lang.Object chatText_;
     /**
@@ -44211,8 +43444,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasChatText()) {
         memoizedIsInitialized = 0;
@@ -44234,7 +43466,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getChatTextBytes());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -44255,7 +43486,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getChatTextBytes());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -44333,9 +43563,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ChatRequestMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ChatRequestMessage)
-        de.pokerth.protocol.ProtoBuf.ChatRequestMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ChatRequestMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ChatRequestMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -44407,8 +43635,6 @@ public final class ProtoBuf {
           chatText_ = other.chatText_;
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -44439,6 +43665,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // optional uint32 targetGameId = 1;
       private int targetGameId_ ;
       /**
        * <code>optional uint32 targetGameId = 1;</code>
@@ -44471,6 +43698,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 targetPlayerId = 2;
       private int targetPlayerId_ ;
       /**
        * <code>optional uint32 targetPlayerId = 2;</code>
@@ -44503,6 +43731,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required string chatText = 3;
       private java.lang.Object chatText_ = "";
       /**
        * <code>required string chatText = 3;</code>
@@ -44516,12 +43745,9 @@ public final class ProtoBuf {
       public java.lang.String getChatText() {
         java.lang.Object ref = chatText_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            chatText_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chatText_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -44590,10 +43816,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ChatRequestMessage)
   }
 
-  public interface ChatMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ChatMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ChatMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // optional uint32 gameId = 1;
     /**
      * <code>optional uint32 gameId = 1;</code>
      */
@@ -44603,6 +43829,7 @@ public final class ProtoBuf {
      */
     int getGameId();
 
+    // optional uint32 playerId = 2;
     /**
      * <code>optional uint32 playerId = 2;</code>
      */
@@ -44612,6 +43839,7 @@ public final class ProtoBuf {
      */
     int getPlayerId();
 
+    // required .ChatMessage.ChatType chatType = 3;
     /**
      * <code>required .ChatMessage.ChatType chatType = 3;</code>
      */
@@ -44621,6 +43849,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType getChatType();
 
+    // required string chatText = 4;
     /**
      * <code>required string chatText = 4;</code>
      */
@@ -44639,15 +43868,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ChatMessage}
    */
   public static final class ChatMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ChatMessage)
-      ChatMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ChatMessageOrBuilder {
     // Use ChatMessage.newBuilder() to construct.
     private ChatMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ChatMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ChatMessage(boolean noInit) {}
 
     private static final ChatMessage defaultInstance;
     public static ChatMessage getDefaultInstance() {
@@ -44658,18 +43886,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ChatMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -44679,7 +43901,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -44698,19 +43920,15 @@ public final class ProtoBuf {
             case 24: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType value = de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000004;
                 chatType_ = value;
               }
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000008;
-              chatText_ = bs;
+              chatText_ = input.readBytes();
               break;
             }
           }
@@ -44721,13 +43939,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -44830,6 +44041,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // optional uint32 gameId = 1;
     public static final int GAMEID_FIELD_NUMBER = 1;
     private int gameId_;
     /**
@@ -44845,6 +44057,7 @@ public final class ProtoBuf {
       return gameId_;
     }
 
+    // optional uint32 playerId = 2;
     public static final int PLAYERID_FIELD_NUMBER = 2;
     private int playerId_;
     /**
@@ -44860,6 +44073,7 @@ public final class ProtoBuf {
       return playerId_;
     }
 
+    // required .ChatMessage.ChatType chatType = 3;
     public static final int CHATTYPE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType chatType_;
     /**
@@ -44875,6 +44089,7 @@ public final class ProtoBuf {
       return chatType_;
     }
 
+    // required string chatText = 4;
     public static final int CHATTEXT_FIELD_NUMBER = 4;
     private java.lang.Object chatText_;
     /**
@@ -44926,8 +44141,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasChatType()) {
         memoizedIsInitialized = 0;
@@ -44956,7 +44170,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBytes(4, getChatTextBytes());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -44981,7 +44194,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(4, getChatTextBytes());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -45059,9 +44271,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ChatMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ChatMessage)
-        de.pokerth.protocol.ProtoBuf.ChatMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ChatMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ChatMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -45142,8 +44352,6 @@ public final class ProtoBuf {
           chatText_ = other.chatText_;
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -45178,6 +44386,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // optional uint32 gameId = 1;
       private int gameId_ ;
       /**
        * <code>optional uint32 gameId = 1;</code>
@@ -45210,6 +44419,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional uint32 playerId = 2;
       private int playerId_ ;
       /**
        * <code>optional uint32 playerId = 2;</code>
@@ -45242,6 +44452,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .ChatMessage.ChatType chatType = 3;
       private de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType chatType_ = de.pokerth.protocol.ProtoBuf.ChatMessage.ChatType.chatTypeLobby;
       /**
        * <code>required .ChatMessage.ChatType chatType = 3;</code>
@@ -45277,6 +44488,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required string chatText = 4;
       private java.lang.Object chatText_ = "";
       /**
        * <code>required string chatText = 4;</code>
@@ -45290,12 +44502,9 @@ public final class ProtoBuf {
       public java.lang.String getChatText() {
         java.lang.Object ref = chatText_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            chatText_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chatText_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -45364,10 +44573,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ChatMessage)
   }
 
-  public interface ChatRejectMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ChatRejectMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ChatRejectMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required string chatText = 1;
     /**
      * <code>required string chatText = 1;</code>
      */
@@ -45386,15 +44595,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ChatRejectMessage}
    */
   public static final class ChatRejectMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ChatRejectMessage)
-      ChatRejectMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ChatRejectMessageOrBuilder {
     // Use ChatRejectMessage.newBuilder() to construct.
     private ChatRejectMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ChatRejectMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ChatRejectMessage(boolean noInit) {}
 
     private static final ChatRejectMessage defaultInstance;
     public static ChatRejectMessage getDefaultInstance() {
@@ -45405,18 +44613,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ChatRejectMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -45426,16 +44628,15 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              chatText_ = bs;
+              chatText_ = input.readBytes();
               break;
             }
           }
@@ -45446,13 +44647,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -45472,6 +44666,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required string chatText = 1;
     public static final int CHATTEXT_FIELD_NUMBER = 1;
     private java.lang.Object chatText_;
     /**
@@ -45520,8 +44715,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasChatText()) {
         memoizedIsInitialized = 0;
@@ -45537,7 +44731,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getChatTextBytes());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -45550,7 +44743,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getChatTextBytes());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -45628,9 +44820,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ChatRejectMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ChatRejectMessage)
-        de.pokerth.protocol.ProtoBuf.ChatRejectMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ChatRejectMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ChatRejectMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -45684,8 +44874,6 @@ public final class ProtoBuf {
           chatText_ = other.chatText_;
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -45716,6 +44904,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required string chatText = 1;
       private java.lang.Object chatText_ = "";
       /**
        * <code>required string chatText = 1;</code>
@@ -45729,12 +44918,9 @@ public final class ProtoBuf {
       public java.lang.String getChatText() {
         java.lang.Object ref = chatText_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            chatText_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chatText_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -45803,10 +44989,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ChatRejectMessage)
   }
 
-  public interface DialogMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:DialogMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface DialogMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required string notificationText = 1;
     /**
      * <code>required string notificationText = 1;</code>
      */
@@ -45825,15 +45011,14 @@ public final class ProtoBuf {
    * Protobuf type {@code DialogMessage}
    */
   public static final class DialogMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:DialogMessage)
-      DialogMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements DialogMessageOrBuilder {
     // Use DialogMessage.newBuilder() to construct.
     private DialogMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private DialogMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private DialogMessage(boolean noInit) {}
 
     private static final DialogMessage defaultInstance;
     public static DialogMessage getDefaultInstance() {
@@ -45844,18 +45029,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private DialogMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -45865,16 +45044,15 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
               break;
             }
             case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
-              notificationText_ = bs;
+              notificationText_ = input.readBytes();
               break;
             }
           }
@@ -45885,13 +45063,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -45911,6 +45082,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required string notificationText = 1;
     public static final int NOTIFICATIONTEXT_FIELD_NUMBER = 1;
     private java.lang.Object notificationText_;
     /**
@@ -45959,8 +45131,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasNotificationText()) {
         memoizedIsInitialized = 0;
@@ -45976,7 +45147,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getNotificationTextBytes());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -45989,7 +45159,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getNotificationTextBytes());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -46067,9 +45236,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.DialogMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:DialogMessage)
-        de.pokerth.protocol.ProtoBuf.DialogMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.DialogMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.DialogMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -46123,8 +45290,6 @@ public final class ProtoBuf {
           notificationText_ = other.notificationText_;
           
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -46155,6 +45320,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required string notificationText = 1;
       private java.lang.Object notificationText_ = "";
       /**
        * <code>required string notificationText = 1;</code>
@@ -46168,12 +45334,9 @@ public final class ProtoBuf {
       public java.lang.String getNotificationText() {
         java.lang.Object ref = notificationText_;
         if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            notificationText_ = s;
-          }
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          notificationText_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
@@ -46242,10 +45405,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:DialogMessage)
   }
 
-  public interface TimeoutWarningMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:TimeoutWarningMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface TimeoutWarningMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .TimeoutWarningMessage.TimeoutReason timeoutReason = 1;
     /**
      * <code>required .TimeoutWarningMessage.TimeoutReason timeoutReason = 1;</code>
      */
@@ -46255,6 +45418,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.TimeoutReason getTimeoutReason();
 
+    // required uint32 remainingSeconds = 2;
     /**
      * <code>required uint32 remainingSeconds = 2;</code>
      */
@@ -46268,15 +45432,14 @@ public final class ProtoBuf {
    * Protobuf type {@code TimeoutWarningMessage}
    */
   public static final class TimeoutWarningMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:TimeoutWarningMessage)
-      TimeoutWarningMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements TimeoutWarningMessageOrBuilder {
     // Use TimeoutWarningMessage.newBuilder() to construct.
     private TimeoutWarningMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private TimeoutWarningMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private TimeoutWarningMessage(boolean noInit) {}
 
     private static final TimeoutWarningMessage defaultInstance;
     public static TimeoutWarningMessage getDefaultInstance() {
@@ -46287,18 +45450,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private TimeoutWarningMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -46308,7 +45465,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -46317,10 +45474,7 @@ public final class ProtoBuf {
             case 8: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.TimeoutReason value = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.TimeoutReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000001;
                 timeoutReason_ = value;
               }
@@ -46339,13 +45493,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -46430,6 +45577,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .TimeoutWarningMessage.TimeoutReason timeoutReason = 1;
     public static final int TIMEOUTREASON_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.TimeoutReason timeoutReason_;
     /**
@@ -46445,6 +45593,7 @@ public final class ProtoBuf {
       return timeoutReason_;
     }
 
+    // required uint32 remainingSeconds = 2;
     public static final int REMAININGSECONDS_FIELD_NUMBER = 2;
     private int remainingSeconds_;
     /**
@@ -46467,8 +45616,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasTimeoutReason()) {
         memoizedIsInitialized = 0;
@@ -46491,7 +45639,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeUInt32(2, remainingSeconds_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -46508,7 +45655,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(2, remainingSeconds_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -46586,9 +45732,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:TimeoutWarningMessage)
-        de.pokerth.protocol.ProtoBuf.TimeoutWarningMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.TimeoutWarningMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -46649,8 +45793,6 @@ public final class ProtoBuf {
         if (other.hasRemainingSeconds()) {
           setRemainingSeconds(other.getRemainingSeconds());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -46685,6 +45827,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .TimeoutWarningMessage.TimeoutReason timeoutReason = 1;
       private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.TimeoutReason timeoutReason_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.TimeoutReason.timeoutNoDataReceived;
       /**
        * <code>required .TimeoutWarningMessage.TimeoutReason timeoutReason = 1;</code>
@@ -46720,6 +45863,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required uint32 remainingSeconds = 2;
       private int remainingSeconds_ ;
       /**
        * <code>required uint32 remainingSeconds = 2;</code>
@@ -46763,23 +45907,21 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:TimeoutWarningMessage)
   }
 
-  public interface ResetTimeoutMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ResetTimeoutMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ResetTimeoutMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
   }
   /**
    * Protobuf type {@code ResetTimeoutMessage}
    */
   public static final class ResetTimeoutMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ResetTimeoutMessage)
-      ResetTimeoutMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ResetTimeoutMessageOrBuilder {
     // Use ResetTimeoutMessage.newBuilder() to construct.
     private ResetTimeoutMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ResetTimeoutMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ResetTimeoutMessage(boolean noInit) {}
 
     private static final ResetTimeoutMessage defaultInstance;
     public static ResetTimeoutMessage getDefaultInstance() {
@@ -46790,17 +45932,11 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ResetTimeoutMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -46810,7 +45946,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -46824,13 +45960,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -46854,8 +45983,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       memoizedIsInitialized = 1;
       return true;
@@ -46864,7 +45992,6 @@ public final class ProtoBuf {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -46873,7 +46000,6 @@ public final class ProtoBuf {
       if (size != -1) return size;
 
       size = 0;
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -46951,9 +46077,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ResetTimeoutMessage)
-        de.pokerth.protocol.ProtoBuf.ResetTimeoutMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ResetTimeoutMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -46993,8 +46117,6 @@ public final class ProtoBuf {
 
       public Builder mergeFrom(de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage other) {
         if (other == de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance()) return this;
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -47031,10 +46153,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ResetTimeoutMessage)
   }
 
-  public interface ReportAvatarMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ReportAvatarMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ReportAvatarMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 reportedPlayerId = 1;
     /**
      * <code>required uint32 reportedPlayerId = 1;</code>
      */
@@ -47044,6 +46166,7 @@ public final class ProtoBuf {
      */
     int getReportedPlayerId();
 
+    // required bytes reportedAvatarHash = 2;
     /**
      * <code>required bytes reportedAvatarHash = 2;</code>
      */
@@ -47057,15 +46180,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ReportAvatarMessage}
    */
   public static final class ReportAvatarMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ReportAvatarMessage)
-      ReportAvatarMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ReportAvatarMessageOrBuilder {
     // Use ReportAvatarMessage.newBuilder() to construct.
     private ReportAvatarMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ReportAvatarMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ReportAvatarMessage(boolean noInit) {}
 
     private static final ReportAvatarMessage defaultInstance;
     public static ReportAvatarMessage getDefaultInstance() {
@@ -47076,18 +46198,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ReportAvatarMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -47097,7 +46213,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -47121,13 +46237,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -47147,6 +46256,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 reportedPlayerId = 1;
     public static final int REPORTEDPLAYERID_FIELD_NUMBER = 1;
     private int reportedPlayerId_;
     /**
@@ -47162,6 +46272,7 @@ public final class ProtoBuf {
       return reportedPlayerId_;
     }
 
+    // required bytes reportedAvatarHash = 2;
     public static final int REPORTEDAVATARHASH_FIELD_NUMBER = 2;
     private com.google.protobuf.ByteString reportedAvatarHash_;
     /**
@@ -47184,8 +46295,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReportedPlayerId()) {
         memoizedIsInitialized = 0;
@@ -47208,7 +46318,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, reportedAvatarHash_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -47225,7 +46334,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, reportedAvatarHash_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -47303,9 +46411,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ReportAvatarMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ReportAvatarMessage)
-        de.pokerth.protocol.ProtoBuf.ReportAvatarMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ReportAvatarMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -47366,8 +46472,6 @@ public final class ProtoBuf {
         if (other.hasReportedAvatarHash()) {
           setReportedAvatarHash(other.getReportedAvatarHash());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -47402,6 +46506,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 reportedPlayerId = 1;
       private int reportedPlayerId_ ;
       /**
        * <code>required uint32 reportedPlayerId = 1;</code>
@@ -47434,6 +46539,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required bytes reportedAvatarHash = 2;
       private com.google.protobuf.ByteString reportedAvatarHash_ = com.google.protobuf.ByteString.EMPTY;
       /**
        * <code>required bytes reportedAvatarHash = 2;</code>
@@ -47480,10 +46586,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ReportAvatarMessage)
   }
 
-  public interface ReportAvatarAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ReportAvatarAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ReportAvatarAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 reportedPlayerId = 1;
     /**
      * <code>required uint32 reportedPlayerId = 1;</code>
      */
@@ -47493,6 +46599,7 @@ public final class ProtoBuf {
      */
     int getReportedPlayerId();
 
+    // required .ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult = 2;
     /**
      * <code>required .ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult = 2;</code>
      */
@@ -47506,15 +46613,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ReportAvatarAckMessage}
    */
   public static final class ReportAvatarAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ReportAvatarAckMessage)
-      ReportAvatarAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ReportAvatarAckMessageOrBuilder {
     // Use ReportAvatarAckMessage.newBuilder() to construct.
     private ReportAvatarAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ReportAvatarAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ReportAvatarAckMessage(boolean noInit) {}
 
     private static final ReportAvatarAckMessage defaultInstance;
     public static ReportAvatarAckMessage getDefaultInstance() {
@@ -47525,18 +46631,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ReportAvatarAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -47546,7 +46646,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -47560,10 +46660,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.ReportAvatarResult value = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.ReportAvatarResult.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 reportAvatarResult_ = value;
               }
@@ -47577,13 +46674,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -47668,6 +46758,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 reportedPlayerId = 1;
     public static final int REPORTEDPLAYERID_FIELD_NUMBER = 1;
     private int reportedPlayerId_;
     /**
@@ -47683,6 +46774,7 @@ public final class ProtoBuf {
       return reportedPlayerId_;
     }
 
+    // required .ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult = 2;
     public static final int REPORTAVATARRESULT_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult_;
     /**
@@ -47705,8 +46797,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReportedPlayerId()) {
         memoizedIsInitialized = 0;
@@ -47729,7 +46820,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, reportAvatarResult_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -47746,7 +46836,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, reportAvatarResult_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -47824,9 +46913,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ReportAvatarAckMessage)
-        de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -47887,8 +46974,6 @@ public final class ProtoBuf {
         if (other.hasReportAvatarResult()) {
           setReportAvatarResult(other.getReportAvatarResult());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -47923,6 +47008,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 reportedPlayerId = 1;
       private int reportedPlayerId_ ;
       /**
        * <code>required uint32 reportedPlayerId = 1;</code>
@@ -47955,6 +47041,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult = 2;
       private de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult_ = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.ReportAvatarResult.avatarReportAccepted;
       /**
        * <code>required .ReportAvatarAckMessage.ReportAvatarResult reportAvatarResult = 2;</code>
@@ -48001,10 +47088,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ReportAvatarAckMessage)
   }
 
-  public interface ReportGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ReportGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ReportGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 reportedGameId = 1;
     /**
      * <code>required uint32 reportedGameId = 1;</code>
      */
@@ -48018,15 +47105,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ReportGameMessage}
    */
   public static final class ReportGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ReportGameMessage)
-      ReportGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ReportGameMessageOrBuilder {
     // Use ReportGameMessage.newBuilder() to construct.
     private ReportGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ReportGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ReportGameMessage(boolean noInit) {}
 
     private static final ReportGameMessage defaultInstance;
     public static ReportGameMessage getDefaultInstance() {
@@ -48037,18 +47123,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ReportGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -48058,7 +47138,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -48077,13 +47157,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -48103,6 +47176,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 reportedGameId = 1;
     public static final int REPORTEDGAMEID_FIELD_NUMBER = 1;
     private int reportedGameId_;
     /**
@@ -48124,8 +47198,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReportedGameId()) {
         memoizedIsInitialized = 0;
@@ -48141,7 +47214,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, reportedGameId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -48154,7 +47226,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, reportedGameId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -48232,9 +47303,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ReportGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ReportGameMessage)
-        de.pokerth.protocol.ProtoBuf.ReportGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ReportGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ReportGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -48286,8 +47355,6 @@ public final class ProtoBuf {
         if (other.hasReportedGameId()) {
           setReportedGameId(other.getReportedGameId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -48318,6 +47385,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 reportedGameId = 1;
       private int reportedGameId_ ;
       /**
        * <code>required uint32 reportedGameId = 1;</code>
@@ -48361,10 +47429,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ReportGameMessage)
   }
 
-  public interface ReportGameAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ReportGameAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ReportGameAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 reportedGameId = 1;
     /**
      * <code>required uint32 reportedGameId = 1;</code>
      */
@@ -48374,6 +47442,7 @@ public final class ProtoBuf {
      */
     int getReportedGameId();
 
+    // required .ReportGameAckMessage.ReportGameResult reportGameResult = 2;
     /**
      * <code>required .ReportGameAckMessage.ReportGameResult reportGameResult = 2;</code>
      */
@@ -48387,15 +47456,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ReportGameAckMessage}
    */
   public static final class ReportGameAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ReportGameAckMessage)
-      ReportGameAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ReportGameAckMessageOrBuilder {
     // Use ReportGameAckMessage.newBuilder() to construct.
     private ReportGameAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ReportGameAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ReportGameAckMessage(boolean noInit) {}
 
     private static final ReportGameAckMessage defaultInstance;
     public static ReportGameAckMessage getDefaultInstance() {
@@ -48406,18 +47474,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ReportGameAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -48427,7 +47489,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -48441,10 +47503,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.ReportGameResult value = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.ReportGameResult.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 reportGameResult_ = value;
               }
@@ -48458,13 +47517,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -48549,6 +47601,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 reportedGameId = 1;
     public static final int REPORTEDGAMEID_FIELD_NUMBER = 1;
     private int reportedGameId_;
     /**
@@ -48564,6 +47617,7 @@ public final class ProtoBuf {
       return reportedGameId_;
     }
 
+    // required .ReportGameAckMessage.ReportGameResult reportGameResult = 2;
     public static final int REPORTGAMERESULT_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.ReportGameResult reportGameResult_;
     /**
@@ -48586,8 +47640,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReportedGameId()) {
         memoizedIsInitialized = 0;
@@ -48610,7 +47663,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, reportGameResult_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -48627,7 +47679,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, reportGameResult_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -48705,9 +47756,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ReportGameAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ReportGameAckMessage)
-        de.pokerth.protocol.ProtoBuf.ReportGameAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ReportGameAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -48768,8 +47817,6 @@ public final class ProtoBuf {
         if (other.hasReportGameResult()) {
           setReportGameResult(other.getReportGameResult());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -48804,6 +47851,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 reportedGameId = 1;
       private int reportedGameId_ ;
       /**
        * <code>required uint32 reportedGameId = 1;</code>
@@ -48836,6 +47884,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .ReportGameAckMessage.ReportGameResult reportGameResult = 2;
       private de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.ReportGameResult reportGameResult_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.ReportGameResult.gameReportAccepted;
       /**
        * <code>required .ReportGameAckMessage.ReportGameResult reportGameResult = 2;</code>
@@ -48882,10 +47931,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ReportGameAckMessage)
   }
 
-  public interface ErrorMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ErrorMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface ErrorMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .ErrorMessage.ErrorReason errorReason = 1;
     /**
      * <code>required .ErrorMessage.ErrorReason errorReason = 1;</code>
      */
@@ -48899,15 +47948,14 @@ public final class ProtoBuf {
    * Protobuf type {@code ErrorMessage}
    */
   public static final class ErrorMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:ErrorMessage)
-      ErrorMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements ErrorMessageOrBuilder {
     // Use ErrorMessage.newBuilder() to construct.
     private ErrorMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private ErrorMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private ErrorMessage(boolean noInit) {}
 
     private static final ErrorMessage defaultInstance;
     public static ErrorMessage getDefaultInstance() {
@@ -48918,18 +47966,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private ErrorMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -48939,7 +47981,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -48948,10 +47990,7 @@ public final class ProtoBuf {
             case 8: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason value = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000001;
                 errorReason_ = value;
               }
@@ -48965,13 +48004,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -49164,6 +48196,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required .ErrorMessage.ErrorReason errorReason = 1;
     public static final int ERRORREASON_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason errorReason_;
     /**
@@ -49185,8 +48218,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasErrorReason()) {
         memoizedIsInitialized = 0;
@@ -49202,7 +48234,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, errorReason_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -49215,7 +48246,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, errorReason_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -49293,9 +48323,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.ErrorMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:ErrorMessage)
-        de.pokerth.protocol.ProtoBuf.ErrorMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.ErrorMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.ErrorMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -49347,8 +48375,6 @@ public final class ProtoBuf {
         if (other.hasErrorReason()) {
           setErrorReason(other.getErrorReason());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -49379,6 +48405,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required .ErrorMessage.ErrorReason errorReason = 1;
       private de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.custReserved;
       /**
        * <code>required .ErrorMessage.ErrorReason errorReason = 1;</code>
@@ -49425,10 +48452,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:ErrorMessage)
   }
 
-  public interface AdminRemoveGameMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AdminRemoveGameMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AdminRemoveGameMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 removeGameId = 1;
     /**
      * <code>required uint32 removeGameId = 1;</code>
      */
@@ -49442,15 +48469,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AdminRemoveGameMessage}
    */
   public static final class AdminRemoveGameMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AdminRemoveGameMessage)
-      AdminRemoveGameMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AdminRemoveGameMessageOrBuilder {
     // Use AdminRemoveGameMessage.newBuilder() to construct.
     private AdminRemoveGameMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AdminRemoveGameMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AdminRemoveGameMessage(boolean noInit) {}
 
     private static final AdminRemoveGameMessage defaultInstance;
     public static AdminRemoveGameMessage getDefaultInstance() {
@@ -49461,18 +48487,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AdminRemoveGameMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -49482,7 +48502,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -49501,13 +48521,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -49527,6 +48540,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 removeGameId = 1;
     public static final int REMOVEGAMEID_FIELD_NUMBER = 1;
     private int removeGameId_;
     /**
@@ -49548,8 +48562,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRemoveGameId()) {
         memoizedIsInitialized = 0;
@@ -49565,7 +48578,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, removeGameId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -49578,7 +48590,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, removeGameId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -49656,9 +48667,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AdminRemoveGameMessage)
-        de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -49710,8 +48719,6 @@ public final class ProtoBuf {
         if (other.hasRemoveGameId()) {
           setRemoveGameId(other.getRemoveGameId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -49742,6 +48749,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 removeGameId = 1;
       private int removeGameId_ ;
       /**
        * <code>required uint32 removeGameId = 1;</code>
@@ -49785,10 +48793,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AdminRemoveGameMessage)
   }
 
-  public interface AdminRemoveGameAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AdminRemoveGameAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AdminRemoveGameAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 removeGameId = 1;
     /**
      * <code>required uint32 removeGameId = 1;</code>
      */
@@ -49798,6 +48806,7 @@ public final class ProtoBuf {
      */
     int getRemoveGameId();
 
+    // required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;
     /**
      * <code>required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;</code>
      */
@@ -49811,15 +48820,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AdminRemoveGameAckMessage}
    */
   public static final class AdminRemoveGameAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AdminRemoveGameAckMessage)
-      AdminRemoveGameAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AdminRemoveGameAckMessageOrBuilder {
     // Use AdminRemoveGameAckMessage.newBuilder() to construct.
     private AdminRemoveGameAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AdminRemoveGameAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AdminRemoveGameAckMessage(boolean noInit) {}
 
     private static final AdminRemoveGameAckMessage defaultInstance;
     public static AdminRemoveGameAckMessage getDefaultInstance() {
@@ -49830,18 +48838,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AdminRemoveGameAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -49851,7 +48853,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -49865,10 +48867,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.AdminRemoveGameResult value = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.AdminRemoveGameResult.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 removeGameResult_ = value;
               }
@@ -49882,13 +48881,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -49964,6 +48956,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 removeGameId = 1;
     public static final int REMOVEGAMEID_FIELD_NUMBER = 1;
     private int removeGameId_;
     /**
@@ -49979,6 +48972,7 @@ public final class ProtoBuf {
       return removeGameId_;
     }
 
+    // required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;
     public static final int REMOVEGAMERESULT_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult_;
     /**
@@ -50001,8 +48995,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasRemoveGameId()) {
         memoizedIsInitialized = 0;
@@ -50025,7 +49018,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, removeGameResult_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -50042,7 +49034,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, removeGameResult_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -50120,9 +49111,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AdminRemoveGameAckMessage)
-        de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -50183,8 +49172,6 @@ public final class ProtoBuf {
         if (other.hasRemoveGameResult()) {
           setRemoveGameResult(other.getRemoveGameResult());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -50219,6 +49206,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 removeGameId = 1;
       private int removeGameId_ ;
       /**
        * <code>required uint32 removeGameId = 1;</code>
@@ -50251,6 +49239,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;
       private de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.AdminRemoveGameResult.gameRemoveAccepted;
       /**
        * <code>required .AdminRemoveGameAckMessage.AdminRemoveGameResult removeGameResult = 2;</code>
@@ -50297,10 +49286,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AdminRemoveGameAckMessage)
   }
 
-  public interface AdminBanPlayerMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AdminBanPlayerMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AdminBanPlayerMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 banPlayerId = 1;
     /**
      * <code>required uint32 banPlayerId = 1;</code>
      */
@@ -50314,15 +49303,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AdminBanPlayerMessage}
    */
   public static final class AdminBanPlayerMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AdminBanPlayerMessage)
-      AdminBanPlayerMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AdminBanPlayerMessageOrBuilder {
     // Use AdminBanPlayerMessage.newBuilder() to construct.
     private AdminBanPlayerMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AdminBanPlayerMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AdminBanPlayerMessage(boolean noInit) {}
 
     private static final AdminBanPlayerMessage defaultInstance;
     public static AdminBanPlayerMessage getDefaultInstance() {
@@ -50333,18 +49321,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AdminBanPlayerMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -50354,7 +49336,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -50373,13 +49355,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -50399,6 +49374,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 banPlayerId = 1;
     public static final int BANPLAYERID_FIELD_NUMBER = 1;
     private int banPlayerId_;
     /**
@@ -50420,8 +49396,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasBanPlayerId()) {
         memoizedIsInitialized = 0;
@@ -50437,7 +49412,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeUInt32(1, banPlayerId_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -50450,7 +49424,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, banPlayerId_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -50528,9 +49501,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AdminBanPlayerMessage)
-        de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -50582,8 +49553,6 @@ public final class ProtoBuf {
         if (other.hasBanPlayerId()) {
           setBanPlayerId(other.getBanPlayerId());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -50614,6 +49583,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 banPlayerId = 1;
       private int banPlayerId_ ;
       /**
        * <code>required uint32 banPlayerId = 1;</code>
@@ -50657,10 +49627,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AdminBanPlayerMessage)
   }
 
-  public interface AdminBanPlayerAckMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:AdminBanPlayerAckMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface AdminBanPlayerAckMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required uint32 banPlayerId = 1;
     /**
      * <code>required uint32 banPlayerId = 1;</code>
      */
@@ -50670,6 +49640,7 @@ public final class ProtoBuf {
      */
     int getBanPlayerId();
 
+    // required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;
     /**
      * <code>required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;</code>
      */
@@ -50683,15 +49654,14 @@ public final class ProtoBuf {
    * Protobuf type {@code AdminBanPlayerAckMessage}
    */
   public static final class AdminBanPlayerAckMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:AdminBanPlayerAckMessage)
-      AdminBanPlayerAckMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements AdminBanPlayerAckMessageOrBuilder {
     // Use AdminBanPlayerAckMessage.newBuilder() to construct.
     private AdminBanPlayerAckMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private AdminBanPlayerAckMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private AdminBanPlayerAckMessage(boolean noInit) {}
 
     private static final AdminBanPlayerAckMessage defaultInstance;
     public static AdminBanPlayerAckMessage getDefaultInstance() {
@@ -50702,18 +49672,12 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private AdminBanPlayerAckMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
       int mutable_bitField0_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -50723,7 +49687,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -50737,10 +49701,7 @@ public final class ProtoBuf {
             case 16: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.AdminBanPlayerResult value = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.AdminBanPlayerResult.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000002;
                 banPlayerResult_ = value;
               }
@@ -50754,13 +49715,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -50863,6 +49817,7 @@ public final class ProtoBuf {
     }
 
     private int bitField0_;
+    // required uint32 banPlayerId = 1;
     public static final int BANPLAYERID_FIELD_NUMBER = 1;
     private int banPlayerId_;
     /**
@@ -50878,6 +49833,7 @@ public final class ProtoBuf {
       return banPlayerId_;
     }
 
+    // required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;
     public static final int BANPLAYERRESULT_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult_;
     /**
@@ -50900,8 +49856,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasBanPlayerId()) {
         memoizedIsInitialized = 0;
@@ -50924,7 +49879,6 @@ public final class ProtoBuf {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeEnum(2, banPlayerResult_.getNumber());
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -50941,7 +49895,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, banPlayerResult_.getNumber());
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -51019,9 +49972,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:AdminBanPlayerAckMessage)
-        de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -51082,8 +50033,6 @@ public final class ProtoBuf {
         if (other.hasBanPlayerResult()) {
           setBanPlayerResult(other.getBanPlayerResult());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -51118,6 +50067,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
+      // required uint32 banPlayerId = 1;
       private int banPlayerId_ ;
       /**
        * <code>required uint32 banPlayerId = 1;</code>
@@ -51150,6 +50100,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;
       private de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.AdminBanPlayerResult.banPlayerAccepted;
       /**
        * <code>required .AdminBanPlayerAckMessage.AdminBanPlayerResult banPlayerResult = 2;</code>
@@ -51196,10 +50147,10 @@ public final class ProtoBuf {
     // @@protoc_insertion_point(class_scope:AdminBanPlayerAckMessage)
   }
 
-  public interface PokerTHMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:PokerTHMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
+  public interface PokerTHMessageOrBuilder
+      extends com.google.protobuf.MessageLiteOrBuilder {
 
+    // required .PokerTHMessage.PokerTHMessageType messageType = 1;
     /**
      * <code>required .PokerTHMessage.PokerTHMessageType messageType = 1;</code>
      */
@@ -51209,6 +50160,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType getMessageType();
 
+    // optional .AnnounceMessage announceMessage = 2;
     /**
      * <code>optional .AnnounceMessage announceMessage = 2;</code>
      */
@@ -51218,6 +50170,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AnnounceMessage getAnnounceMessage();
 
+    // optional .InitMessage initMessage = 3;
     /**
      * <code>optional .InitMessage initMessage = 3;</code>
      */
@@ -51227,6 +50180,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.InitMessage getInitMessage();
 
+    // optional .AuthServerChallengeMessage authServerChallengeMessage = 4;
     /**
      * <code>optional .AuthServerChallengeMessage authServerChallengeMessage = 4;</code>
      */
@@ -51236,6 +50190,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessage getAuthServerChallengeMessage();
 
+    // optional .AuthClientResponseMessage authClientResponseMessage = 5;
     /**
      * <code>optional .AuthClientResponseMessage authClientResponseMessage = 5;</code>
      */
@@ -51245,6 +50200,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage getAuthClientResponseMessage();
 
+    // optional .AuthServerVerificationMessage authServerVerificationMessage = 6;
     /**
      * <code>optional .AuthServerVerificationMessage authServerVerificationMessage = 6;</code>
      */
@@ -51254,6 +50210,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage getAuthServerVerificationMessage();
 
+    // optional .InitAckMessage initAckMessage = 7;
     /**
      * <code>optional .InitAckMessage initAckMessage = 7;</code>
      */
@@ -51263,6 +50220,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.InitAckMessage getInitAckMessage();
 
+    // optional .AvatarRequestMessage avatarRequestMessage = 8;
     /**
      * <code>optional .AvatarRequestMessage avatarRequestMessage = 8;</code>
      */
@@ -51272,6 +50230,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AvatarRequestMessage getAvatarRequestMessage();
 
+    // optional .AvatarHeaderMessage avatarHeaderMessage = 9;
     /**
      * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 9;</code>
      */
@@ -51281,6 +50240,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage getAvatarHeaderMessage();
 
+    // optional .AvatarDataMessage avatarDataMessage = 10;
     /**
      * <code>optional .AvatarDataMessage avatarDataMessage = 10;</code>
      */
@@ -51290,6 +50250,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AvatarDataMessage getAvatarDataMessage();
 
+    // optional .AvatarEndMessage avatarEndMessage = 11;
     /**
      * <code>optional .AvatarEndMessage avatarEndMessage = 11;</code>
      */
@@ -51299,6 +50260,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AvatarEndMessage getAvatarEndMessage();
 
+    // optional .UnknownAvatarMessage unknownAvatarMessage = 12;
     /**
      * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 12;</code>
      */
@@ -51308,6 +50270,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage getUnknownAvatarMessage();
 
+    // optional .PlayerListMessage playerListMessage = 13;
     /**
      * <code>optional .PlayerListMessage playerListMessage = 13;</code>
      */
@@ -51317,6 +50280,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PlayerListMessage getPlayerListMessage();
 
+    // optional .GameListNewMessage gameListNewMessage = 14;
     /**
      * <code>optional .GameListNewMessage gameListNewMessage = 14;</code>
      */
@@ -51326,6 +50290,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListNewMessage getGameListNewMessage();
 
+    // optional .GameListUpdateMessage gameListUpdateMessage = 15;
     /**
      * <code>optional .GameListUpdateMessage gameListUpdateMessage = 15;</code>
      */
@@ -51335,6 +50300,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListUpdateMessage getGameListUpdateMessage();
 
+    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;
     /**
      * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;</code>
      */
@@ -51344,6 +50310,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage getGameListPlayerJoinedMessage();
 
+    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;
     /**
      * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;</code>
      */
@@ -51353,6 +50320,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage getGameListPlayerLeftMessage();
 
+    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;
     /**
      * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;</code>
      */
@@ -51362,6 +50330,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage getGameListAdminChangedMessage();
 
+    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;
     /**
      * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;</code>
      */
@@ -51371,6 +50340,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage getPlayerInfoRequestMessage();
 
+    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;
     /**
      * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;</code>
      */
@@ -51380,6 +50350,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage getPlayerInfoReplyMessage();
 
+    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;
     /**
      * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;</code>
      */
@@ -51389,6 +50360,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage getSubscriptionRequestMessage();
 
+    // optional .JoinExistingGameMessage joinExistingGameMessage = 22;
     /**
      * <code>optional .JoinExistingGameMessage joinExistingGameMessage = 22;</code>
      */
@@ -51398,6 +50370,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage getJoinExistingGameMessage();
 
+    // optional .JoinNewGameMessage joinNewGameMessage = 23;
     /**
      * <code>optional .JoinNewGameMessage joinNewGameMessage = 23;</code>
      */
@@ -51407,6 +50380,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.JoinNewGameMessage getJoinNewGameMessage();
 
+    // optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;
     /**
      * <code>optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;</code>
      */
@@ -51416,6 +50390,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage getRejoinExistingGameMessage();
 
+    // optional .JoinGameAckMessage joinGameAckMessage = 25;
     /**
      * <code>optional .JoinGameAckMessage joinGameAckMessage = 25;</code>
      */
@@ -51425,6 +50400,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.JoinGameAckMessage getJoinGameAckMessage();
 
+    // optional .JoinGameFailedMessage joinGameFailedMessage = 26;
     /**
      * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 26;</code>
      */
@@ -51434,6 +50410,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage getJoinGameFailedMessage();
 
+    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;
     /**
      * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;</code>
      */
@@ -51443,6 +50420,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage getGamePlayerJoinedMessage();
 
+    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;
     /**
      * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;</code>
      */
@@ -51452,6 +50430,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage getGamePlayerLeftMessage();
 
+    // optional .GameAdminChangedMessage gameAdminChangedMessage = 29;
     /**
      * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 29;</code>
      */
@@ -51461,6 +50440,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage getGameAdminChangedMessage();
 
+    // optional .RemovedFromGameMessage removedFromGameMessage = 30;
     /**
      * <code>optional .RemovedFromGameMessage removedFromGameMessage = 30;</code>
      */
@@ -51470,6 +50450,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage getRemovedFromGameMessage();
 
+    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;
     /**
      * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;</code>
      */
@@ -51479,6 +50460,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage getKickPlayerRequestMessage();
 
+    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;
     /**
      * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;</code>
      */
@@ -51488,6 +50470,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage getLeaveGameRequestMessage();
 
+    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;
     /**
      * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;</code>
      */
@@ -51497,6 +50480,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage getInvitePlayerToGameMessage();
 
+    // optional .InviteNotifyMessage inviteNotifyMessage = 34;
     /**
      * <code>optional .InviteNotifyMessage inviteNotifyMessage = 34;</code>
      */
@@ -51506,6 +50490,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.InviteNotifyMessage getInviteNotifyMessage();
 
+    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;
     /**
      * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;</code>
      */
@@ -51515,6 +50500,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage getRejectGameInvitationMessage();
 
+    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;
     /**
      * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;</code>
      */
@@ -51524,6 +50510,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage getRejectInvNotifyMessage();
 
+    // optional .StartEventMessage startEventMessage = 37;
     /**
      * <code>optional .StartEventMessage startEventMessage = 37;</code>
      */
@@ -51533,6 +50520,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.StartEventMessage getStartEventMessage();
 
+    // optional .StartEventAckMessage startEventAckMessage = 38;
     /**
      * <code>optional .StartEventAckMessage startEventAckMessage = 38;</code>
      */
@@ -51542,6 +50530,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.StartEventAckMessage getStartEventAckMessage();
 
+    // optional .GameStartInitialMessage gameStartInitialMessage = 39;
     /**
      * <code>optional .GameStartInitialMessage gameStartInitialMessage = 39;</code>
      */
@@ -51551,6 +50540,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameStartInitialMessage getGameStartInitialMessage();
 
+    // optional .GameStartRejoinMessage gameStartRejoinMessage = 40;
     /**
      * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 40;</code>
      */
@@ -51560,6 +50550,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage getGameStartRejoinMessage();
 
+    // optional .HandStartMessage handStartMessage = 41;
     /**
      * <code>optional .HandStartMessage handStartMessage = 41;</code>
      */
@@ -51569,6 +50560,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.HandStartMessage getHandStartMessage();
 
+    // optional .PlayersTurnMessage playersTurnMessage = 42;
     /**
      * <code>optional .PlayersTurnMessage playersTurnMessage = 42;</code>
      */
@@ -51578,6 +50570,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PlayersTurnMessage getPlayersTurnMessage();
 
+    // optional .MyActionRequestMessage myActionRequestMessage = 43;
     /**
      * <code>optional .MyActionRequestMessage myActionRequestMessage = 43;</code>
      */
@@ -51587,6 +50580,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.MyActionRequestMessage getMyActionRequestMessage();
 
+    // optional .YourActionRejectedMessage yourActionRejectedMessage = 44;
     /**
      * <code>optional .YourActionRejectedMessage yourActionRejectedMessage = 44;</code>
      */
@@ -51596,6 +50590,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage getYourActionRejectedMessage();
 
+    // optional .PlayersActionDoneMessage playersActionDoneMessage = 45;
     /**
      * <code>optional .PlayersActionDoneMessage playersActionDoneMessage = 45;</code>
      */
@@ -51605,6 +50600,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessage getPlayersActionDoneMessage();
 
+    // optional .DealFlopCardsMessage dealFlopCardsMessage = 46;
     /**
      * <code>optional .DealFlopCardsMessage dealFlopCardsMessage = 46;</code>
      */
@@ -51614,6 +50610,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.DealFlopCardsMessage getDealFlopCardsMessage();
 
+    // optional .DealTurnCardMessage dealTurnCardMessage = 47;
     /**
      * <code>optional .DealTurnCardMessage dealTurnCardMessage = 47;</code>
      */
@@ -51623,6 +50620,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.DealTurnCardMessage getDealTurnCardMessage();
 
+    // optional .DealRiverCardMessage dealRiverCardMessage = 48;
     /**
      * <code>optional .DealRiverCardMessage dealRiverCardMessage = 48;</code>
      */
@@ -51632,6 +50630,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.DealRiverCardMessage getDealRiverCardMessage();
 
+    // optional .AllInShowCardsMessage allInShowCardsMessage = 49;
     /**
      * <code>optional .AllInShowCardsMessage allInShowCardsMessage = 49;</code>
      */
@@ -51641,6 +50640,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage getAllInShowCardsMessage();
 
+    // optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;
     /**
      * <code>optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;</code>
      */
@@ -51650,6 +50650,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessage getEndOfHandShowCardsMessage();
 
+    // optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;
     /**
      * <code>optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;</code>
      */
@@ -51659,6 +50660,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessage getEndOfHandHideCardsMessage();
 
+    // optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;
     /**
      * <code>optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;</code>
      */
@@ -51668,6 +50670,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage getShowMyCardsRequestMessage();
 
+    // optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;
     /**
      * <code>optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;</code>
      */
@@ -51677,6 +50680,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessage getAfterHandShowCardsMessage();
 
+    // optional .EndOfGameMessage endOfGameMessage = 54;
     /**
      * <code>optional .EndOfGameMessage endOfGameMessage = 54;</code>
      */
@@ -51686,6 +50690,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.EndOfGameMessage getEndOfGameMessage();
 
+    // optional .PlayerIdChangedMessage playerIdChangedMessage = 55;
     /**
      * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 55;</code>
      */
@@ -51695,6 +50700,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage getPlayerIdChangedMessage();
 
+    // optional .AskKickPlayerMessage askKickPlayerMessage = 56;
     /**
      * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 56;</code>
      */
@@ -51704,6 +50710,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage getAskKickPlayerMessage();
 
+    // optional .AskKickDeniedMessage askKickDeniedMessage = 57;
     /**
      * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 57;</code>
      */
@@ -51713,6 +50720,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage getAskKickDeniedMessage();
 
+    // optional .StartKickPetitionMessage startKickPetitionMessage = 58;
     /**
      * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 58;</code>
      */
@@ -51722,6 +50730,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage getStartKickPetitionMessage();
 
+    // optional .VoteKickRequestMessage voteKickRequestMessage = 59;
     /**
      * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 59;</code>
      */
@@ -51731,6 +50740,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage getVoteKickRequestMessage();
 
+    // optional .VoteKickReplyMessage voteKickReplyMessage = 60;
     /**
      * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 60;</code>
      */
@@ -51740,6 +50750,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage getVoteKickReplyMessage();
 
+    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;
     /**
      * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;</code>
      */
@@ -51749,6 +50760,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage getKickPetitionUpdateMessage();
 
+    // optional .EndKickPetitionMessage endKickPetitionMessage = 62;
     /**
      * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 62;</code>
      */
@@ -51758,6 +50770,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage getEndKickPetitionMessage();
 
+    // optional .StatisticsMessage statisticsMessage = 63;
     /**
      * <code>optional .StatisticsMessage statisticsMessage = 63;</code>
      */
@@ -51767,6 +50780,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.StatisticsMessage getStatisticsMessage();
 
+    // optional .ChatRequestMessage chatRequestMessage = 64;
     /**
      * <code>optional .ChatRequestMessage chatRequestMessage = 64;</code>
      */
@@ -51776,6 +50790,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ChatRequestMessage getChatRequestMessage();
 
+    // optional .ChatMessage chatMessage = 65;
     /**
      * <code>optional .ChatMessage chatMessage = 65;</code>
      */
@@ -51785,6 +50800,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ChatMessage getChatMessage();
 
+    // optional .ChatRejectMessage chatRejectMessage = 66;
     /**
      * <code>optional .ChatRejectMessage chatRejectMessage = 66;</code>
      */
@@ -51794,6 +50810,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ChatRejectMessage getChatRejectMessage();
 
+    // optional .DialogMessage dialogMessage = 67;
     /**
      * <code>optional .DialogMessage dialogMessage = 67;</code>
      */
@@ -51803,6 +50820,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.DialogMessage getDialogMessage();
 
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 68;
     /**
      * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 68;</code>
      */
@@ -51812,6 +50830,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage getTimeoutWarningMessage();
 
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 69;
     /**
      * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 69;</code>
      */
@@ -51821,6 +50840,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage getResetTimeoutMessage();
 
+    // optional .ReportAvatarMessage reportAvatarMessage = 70;
     /**
      * <code>optional .ReportAvatarMessage reportAvatarMessage = 70;</code>
      */
@@ -51830,6 +50850,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ReportAvatarMessage getReportAvatarMessage();
 
+    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;
     /**
      * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;</code>
      */
@@ -51839,6 +50860,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage getReportAvatarAckMessage();
 
+    // optional .ReportGameMessage reportGameMessage = 72;
     /**
      * <code>optional .ReportGameMessage reportGameMessage = 72;</code>
      */
@@ -51848,6 +50870,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ReportGameMessage getReportGameMessage();
 
+    // optional .ReportGameAckMessage reportGameAckMessage = 73;
     /**
      * <code>optional .ReportGameAckMessage reportGameAckMessage = 73;</code>
      */
@@ -51857,6 +50880,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ReportGameAckMessage getReportGameAckMessage();
 
+    // optional .ErrorMessage errorMessage = 74;
     /**
      * <code>optional .ErrorMessage errorMessage = 74;</code>
      */
@@ -51866,6 +50890,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.ErrorMessage getErrorMessage();
 
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
     /**
      * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;</code>
      */
@@ -51875,6 +50900,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage getAdminRemoveGameMessage();
 
+    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
     /**
      * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;</code>
      */
@@ -51884,6 +50910,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage getAdminRemoveGameAckMessage();
 
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
     /**
      * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;</code>
      */
@@ -51893,6 +50920,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage getAdminBanPlayerMessage();
 
+    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
     /**
      * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;</code>
      */
@@ -51902,6 +50930,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage getAdminBanPlayerAckMessage();
 
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
     /**
      * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;</code>
      */
@@ -51911,6 +50940,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage getGameListSpectatorJoinedMessage();
 
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
     /**
      * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;</code>
      */
@@ -51920,6 +50950,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage getGameListSpectatorLeftMessage();
 
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
     /**
      * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;</code>
      */
@@ -51929,6 +50960,7 @@ public final class ProtoBuf {
      */
     de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage getGameSpectatorJoinedMessage();
 
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
     /**
      * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;</code>
      */
@@ -51942,15 +50974,14 @@ public final class ProtoBuf {
    * Protobuf type {@code PokerTHMessage}
    */
   public static final class PokerTHMessage extends
-      com.google.protobuf.GeneratedMessageLite implements
-      // @@protoc_insertion_point(message_implements:PokerTHMessage)
-      PokerTHMessageOrBuilder {
+      com.google.protobuf.GeneratedMessageLite
+      implements PokerTHMessageOrBuilder {
     // Use PokerTHMessage.newBuilder() to construct.
     private PokerTHMessage(com.google.protobuf.GeneratedMessageLite.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
+
     }
-    private PokerTHMessage(boolean noInit) { this.unknownFields = com.google.protobuf.ByteString.EMPTY;}
+    private PokerTHMessage(boolean noInit) {}
 
     private static final PokerTHMessage defaultInstance;
     public static PokerTHMessage getDefaultInstance() {
@@ -51961,7 +50992,6 @@ public final class ProtoBuf {
       return defaultInstance;
     }
 
-    private final com.google.protobuf.ByteString unknownFields;
     private PokerTHMessage(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -51970,11 +51000,6 @@ public final class ProtoBuf {
       int mutable_bitField0_ = 0;
       int mutable_bitField1_ = 0;
       int mutable_bitField2_ = 0;
-      com.google.protobuf.ByteString.Output unknownFieldsOutput =
-          com.google.protobuf.ByteString.newOutput();
-      com.google.protobuf.CodedOutputStream unknownFieldsCodedOutput =
-          com.google.protobuf.CodedOutputStream.newInstance(
-              unknownFieldsOutput);
       try {
         boolean done = false;
         while (!done) {
@@ -51984,7 +51009,7 @@ public final class ProtoBuf {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(input, unknownFieldsCodedOutput,
+              if (!parseUnknownField(input,
                                      extensionRegistry, tag)) {
                 done = true;
               }
@@ -51993,10 +51018,7 @@ public final class ProtoBuf {
             case 8: {
               int rawValue = input.readEnum();
               de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType value = de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType.valueOf(rawValue);
-              if (value == null) {
-                unknownFieldsCodedOutput.writeRawVarint32(tag);
-                unknownFieldsCodedOutput.writeRawVarint32(rawValue);
-              } else {
+              if (value != null) {
                 bitField0_ |= 0x00000001;
                 messageType_ = value;
               }
@@ -53063,13 +52085,6 @@ public final class ProtoBuf {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        try {
-          unknownFieldsCodedOutput.flush();
-        } catch (java.io.IOException e) {
-        // Should not happen
-        } finally {
-          unknownFields = unknownFieldsOutput.toByteString();
-        }
         makeExtensionsImmutable();
       }
     }
@@ -53858,6 +52873,7 @@ public final class ProtoBuf {
     private int bitField0_;
     private int bitField1_;
     private int bitField2_;
+    // required .PokerTHMessage.PokerTHMessageType messageType = 1;
     public static final int MESSAGETYPE_FIELD_NUMBER = 1;
     private de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType messageType_;
     /**
@@ -53873,6 +52889,7 @@ public final class ProtoBuf {
       return messageType_;
     }
 
+    // optional .AnnounceMessage announceMessage = 2;
     public static final int ANNOUNCEMESSAGE_FIELD_NUMBER = 2;
     private de.pokerth.protocol.ProtoBuf.AnnounceMessage announceMessage_;
     /**
@@ -53888,6 +52905,7 @@ public final class ProtoBuf {
       return announceMessage_;
     }
 
+    // optional .InitMessage initMessage = 3;
     public static final int INITMESSAGE_FIELD_NUMBER = 3;
     private de.pokerth.protocol.ProtoBuf.InitMessage initMessage_;
     /**
@@ -53903,6 +52921,7 @@ public final class ProtoBuf {
       return initMessage_;
     }
 
+    // optional .AuthServerChallengeMessage authServerChallengeMessage = 4;
     public static final int AUTHSERVERCHALLENGEMESSAGE_FIELD_NUMBER = 4;
     private de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessage authServerChallengeMessage_;
     /**
@@ -53918,6 +52937,7 @@ public final class ProtoBuf {
       return authServerChallengeMessage_;
     }
 
+    // optional .AuthClientResponseMessage authClientResponseMessage = 5;
     public static final int AUTHCLIENTRESPONSEMESSAGE_FIELD_NUMBER = 5;
     private de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage authClientResponseMessage_;
     /**
@@ -53933,6 +52953,7 @@ public final class ProtoBuf {
       return authClientResponseMessage_;
     }
 
+    // optional .AuthServerVerificationMessage authServerVerificationMessage = 6;
     public static final int AUTHSERVERVERIFICATIONMESSAGE_FIELD_NUMBER = 6;
     private de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage authServerVerificationMessage_;
     /**
@@ -53948,6 +52969,7 @@ public final class ProtoBuf {
       return authServerVerificationMessage_;
     }
 
+    // optional .InitAckMessage initAckMessage = 7;
     public static final int INITACKMESSAGE_FIELD_NUMBER = 7;
     private de.pokerth.protocol.ProtoBuf.InitAckMessage initAckMessage_;
     /**
@@ -53963,6 +52985,7 @@ public final class ProtoBuf {
       return initAckMessage_;
     }
 
+    // optional .AvatarRequestMessage avatarRequestMessage = 8;
     public static final int AVATARREQUESTMESSAGE_FIELD_NUMBER = 8;
     private de.pokerth.protocol.ProtoBuf.AvatarRequestMessage avatarRequestMessage_;
     /**
@@ -53978,6 +53001,7 @@ public final class ProtoBuf {
       return avatarRequestMessage_;
     }
 
+    // optional .AvatarHeaderMessage avatarHeaderMessage = 9;
     public static final int AVATARHEADERMESSAGE_FIELD_NUMBER = 9;
     private de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage avatarHeaderMessage_;
     /**
@@ -53993,6 +53017,7 @@ public final class ProtoBuf {
       return avatarHeaderMessage_;
     }
 
+    // optional .AvatarDataMessage avatarDataMessage = 10;
     public static final int AVATARDATAMESSAGE_FIELD_NUMBER = 10;
     private de.pokerth.protocol.ProtoBuf.AvatarDataMessage avatarDataMessage_;
     /**
@@ -54008,6 +53033,7 @@ public final class ProtoBuf {
       return avatarDataMessage_;
     }
 
+    // optional .AvatarEndMessage avatarEndMessage = 11;
     public static final int AVATARENDMESSAGE_FIELD_NUMBER = 11;
     private de.pokerth.protocol.ProtoBuf.AvatarEndMessage avatarEndMessage_;
     /**
@@ -54023,6 +53049,7 @@ public final class ProtoBuf {
       return avatarEndMessage_;
     }
 
+    // optional .UnknownAvatarMessage unknownAvatarMessage = 12;
     public static final int UNKNOWNAVATARMESSAGE_FIELD_NUMBER = 12;
     private de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage unknownAvatarMessage_;
     /**
@@ -54038,6 +53065,7 @@ public final class ProtoBuf {
       return unknownAvatarMessage_;
     }
 
+    // optional .PlayerListMessage playerListMessage = 13;
     public static final int PLAYERLISTMESSAGE_FIELD_NUMBER = 13;
     private de.pokerth.protocol.ProtoBuf.PlayerListMessage playerListMessage_;
     /**
@@ -54053,6 +53081,7 @@ public final class ProtoBuf {
       return playerListMessage_;
     }
 
+    // optional .GameListNewMessage gameListNewMessage = 14;
     public static final int GAMELISTNEWMESSAGE_FIELD_NUMBER = 14;
     private de.pokerth.protocol.ProtoBuf.GameListNewMessage gameListNewMessage_;
     /**
@@ -54068,6 +53097,7 @@ public final class ProtoBuf {
       return gameListNewMessage_;
     }
 
+    // optional .GameListUpdateMessage gameListUpdateMessage = 15;
     public static final int GAMELISTUPDATEMESSAGE_FIELD_NUMBER = 15;
     private de.pokerth.protocol.ProtoBuf.GameListUpdateMessage gameListUpdateMessage_;
     /**
@@ -54083,6 +53113,7 @@ public final class ProtoBuf {
       return gameListUpdateMessage_;
     }
 
+    // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;
     public static final int GAMELISTPLAYERJOINEDMESSAGE_FIELD_NUMBER = 16;
     private de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage gameListPlayerJoinedMessage_;
     /**
@@ -54098,6 +53129,7 @@ public final class ProtoBuf {
       return gameListPlayerJoinedMessage_;
     }
 
+    // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;
     public static final int GAMELISTPLAYERLEFTMESSAGE_FIELD_NUMBER = 17;
     private de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage gameListPlayerLeftMessage_;
     /**
@@ -54113,6 +53145,7 @@ public final class ProtoBuf {
       return gameListPlayerLeftMessage_;
     }
 
+    // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;
     public static final int GAMELISTADMINCHANGEDMESSAGE_FIELD_NUMBER = 18;
     private de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage gameListAdminChangedMessage_;
     /**
@@ -54128,6 +53161,7 @@ public final class ProtoBuf {
       return gameListAdminChangedMessage_;
     }
 
+    // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;
     public static final int PLAYERINFOREQUESTMESSAGE_FIELD_NUMBER = 19;
     private de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage playerInfoRequestMessage_;
     /**
@@ -54143,6 +53177,7 @@ public final class ProtoBuf {
       return playerInfoRequestMessage_;
     }
 
+    // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;
     public static final int PLAYERINFOREPLYMESSAGE_FIELD_NUMBER = 20;
     private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage playerInfoReplyMessage_;
     /**
@@ -54158,6 +53193,7 @@ public final class ProtoBuf {
       return playerInfoReplyMessage_;
     }
 
+    // optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;
     public static final int SUBSCRIPTIONREQUESTMESSAGE_FIELD_NUMBER = 21;
     private de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage subscriptionRequestMessage_;
     /**
@@ -54173,6 +53209,7 @@ public final class ProtoBuf {
       return subscriptionRequestMessage_;
     }
 
+    // optional .JoinExistingGameMessage joinExistingGameMessage = 22;
     public static final int JOINEXISTINGGAMEMESSAGE_FIELD_NUMBER = 22;
     private de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage joinExistingGameMessage_;
     /**
@@ -54188,6 +53225,7 @@ public final class ProtoBuf {
       return joinExistingGameMessage_;
     }
 
+    // optional .JoinNewGameMessage joinNewGameMessage = 23;
     public static final int JOINNEWGAMEMESSAGE_FIELD_NUMBER = 23;
     private de.pokerth.protocol.ProtoBuf.JoinNewGameMessage joinNewGameMessage_;
     /**
@@ -54203,6 +53241,7 @@ public final class ProtoBuf {
       return joinNewGameMessage_;
     }
 
+    // optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;
     public static final int REJOINEXISTINGGAMEMESSAGE_FIELD_NUMBER = 24;
     private de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage rejoinExistingGameMessage_;
     /**
@@ -54218,6 +53257,7 @@ public final class ProtoBuf {
       return rejoinExistingGameMessage_;
     }
 
+    // optional .JoinGameAckMessage joinGameAckMessage = 25;
     public static final int JOINGAMEACKMESSAGE_FIELD_NUMBER = 25;
     private de.pokerth.protocol.ProtoBuf.JoinGameAckMessage joinGameAckMessage_;
     /**
@@ -54233,6 +53273,7 @@ public final class ProtoBuf {
       return joinGameAckMessage_;
     }
 
+    // optional .JoinGameFailedMessage joinGameFailedMessage = 26;
     public static final int JOINGAMEFAILEDMESSAGE_FIELD_NUMBER = 26;
     private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage joinGameFailedMessage_;
     /**
@@ -54248,6 +53289,7 @@ public final class ProtoBuf {
       return joinGameFailedMessage_;
     }
 
+    // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;
     public static final int GAMEPLAYERJOINEDMESSAGE_FIELD_NUMBER = 27;
     private de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage gamePlayerJoinedMessage_;
     /**
@@ -54263,6 +53305,7 @@ public final class ProtoBuf {
       return gamePlayerJoinedMessage_;
     }
 
+    // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;
     public static final int GAMEPLAYERLEFTMESSAGE_FIELD_NUMBER = 28;
     private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage gamePlayerLeftMessage_;
     /**
@@ -54278,6 +53321,7 @@ public final class ProtoBuf {
       return gamePlayerLeftMessage_;
     }
 
+    // optional .GameAdminChangedMessage gameAdminChangedMessage = 29;
     public static final int GAMEADMINCHANGEDMESSAGE_FIELD_NUMBER = 29;
     private de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage gameAdminChangedMessage_;
     /**
@@ -54293,6 +53337,7 @@ public final class ProtoBuf {
       return gameAdminChangedMessage_;
     }
 
+    // optional .RemovedFromGameMessage removedFromGameMessage = 30;
     public static final int REMOVEDFROMGAMEMESSAGE_FIELD_NUMBER = 30;
     private de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage removedFromGameMessage_;
     /**
@@ -54308,6 +53353,7 @@ public final class ProtoBuf {
       return removedFromGameMessage_;
     }
 
+    // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;
     public static final int KICKPLAYERREQUESTMESSAGE_FIELD_NUMBER = 31;
     private de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage kickPlayerRequestMessage_;
     /**
@@ -54323,6 +53369,7 @@ public final class ProtoBuf {
       return kickPlayerRequestMessage_;
     }
 
+    // optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;
     public static final int LEAVEGAMEREQUESTMESSAGE_FIELD_NUMBER = 32;
     private de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage leaveGameRequestMessage_;
     /**
@@ -54338,6 +53385,7 @@ public final class ProtoBuf {
       return leaveGameRequestMessage_;
     }
 
+    // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;
     public static final int INVITEPLAYERTOGAMEMESSAGE_FIELD_NUMBER = 33;
     private de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage invitePlayerToGameMessage_;
     /**
@@ -54353,6 +53401,7 @@ public final class ProtoBuf {
       return invitePlayerToGameMessage_;
     }
 
+    // optional .InviteNotifyMessage inviteNotifyMessage = 34;
     public static final int INVITENOTIFYMESSAGE_FIELD_NUMBER = 34;
     private de.pokerth.protocol.ProtoBuf.InviteNotifyMessage inviteNotifyMessage_;
     /**
@@ -54368,6 +53417,7 @@ public final class ProtoBuf {
       return inviteNotifyMessage_;
     }
 
+    // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;
     public static final int REJECTGAMEINVITATIONMESSAGE_FIELD_NUMBER = 35;
     private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage rejectGameInvitationMessage_;
     /**
@@ -54383,6 +53433,7 @@ public final class ProtoBuf {
       return rejectGameInvitationMessage_;
     }
 
+    // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;
     public static final int REJECTINVNOTIFYMESSAGE_FIELD_NUMBER = 36;
     private de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage rejectInvNotifyMessage_;
     /**
@@ -54398,6 +53449,7 @@ public final class ProtoBuf {
       return rejectInvNotifyMessage_;
     }
 
+    // optional .StartEventMessage startEventMessage = 37;
     public static final int STARTEVENTMESSAGE_FIELD_NUMBER = 37;
     private de.pokerth.protocol.ProtoBuf.StartEventMessage startEventMessage_;
     /**
@@ -54413,6 +53465,7 @@ public final class ProtoBuf {
       return startEventMessage_;
     }
 
+    // optional .StartEventAckMessage startEventAckMessage = 38;
     public static final int STARTEVENTACKMESSAGE_FIELD_NUMBER = 38;
     private de.pokerth.protocol.ProtoBuf.StartEventAckMessage startEventAckMessage_;
     /**
@@ -54428,6 +53481,7 @@ public final class ProtoBuf {
       return startEventAckMessage_;
     }
 
+    // optional .GameStartInitialMessage gameStartInitialMessage = 39;
     public static final int GAMESTARTINITIALMESSAGE_FIELD_NUMBER = 39;
     private de.pokerth.protocol.ProtoBuf.GameStartInitialMessage gameStartInitialMessage_;
     /**
@@ -54443,6 +53497,7 @@ public final class ProtoBuf {
       return gameStartInitialMessage_;
     }
 
+    // optional .GameStartRejoinMessage gameStartRejoinMessage = 40;
     public static final int GAMESTARTREJOINMESSAGE_FIELD_NUMBER = 40;
     private de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage gameStartRejoinMessage_;
     /**
@@ -54458,6 +53513,7 @@ public final class ProtoBuf {
       return gameStartRejoinMessage_;
     }
 
+    // optional .HandStartMessage handStartMessage = 41;
     public static final int HANDSTARTMESSAGE_FIELD_NUMBER = 41;
     private de.pokerth.protocol.ProtoBuf.HandStartMessage handStartMessage_;
     /**
@@ -54473,6 +53529,7 @@ public final class ProtoBuf {
       return handStartMessage_;
     }
 
+    // optional .PlayersTurnMessage playersTurnMessage = 42;
     public static final int PLAYERSTURNMESSAGE_FIELD_NUMBER = 42;
     private de.pokerth.protocol.ProtoBuf.PlayersTurnMessage playersTurnMessage_;
     /**
@@ -54488,6 +53545,7 @@ public final class ProtoBuf {
       return playersTurnMessage_;
     }
 
+    // optional .MyActionRequestMessage myActionRequestMessage = 43;
     public static final int MYACTIONREQUESTMESSAGE_FIELD_NUMBER = 43;
     private de.pokerth.protocol.ProtoBuf.MyActionRequestMessage myActionRequestMessage_;
     /**
@@ -54503,6 +53561,7 @@ public final class ProtoBuf {
       return myActionRequestMessage_;
     }
 
+    // optional .YourActionRejectedMessage yourActionRejectedMessage = 44;
     public static final int YOURACTIONREJECTEDMESSAGE_FIELD_NUMBER = 44;
     private de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage yourActionRejectedMessage_;
     /**
@@ -54518,6 +53577,7 @@ public final class ProtoBuf {
       return yourActionRejectedMessage_;
     }
 
+    // optional .PlayersActionDoneMessage playersActionDoneMessage = 45;
     public static final int PLAYERSACTIONDONEMESSAGE_FIELD_NUMBER = 45;
     private de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessage playersActionDoneMessage_;
     /**
@@ -54533,6 +53593,7 @@ public final class ProtoBuf {
       return playersActionDoneMessage_;
     }
 
+    // optional .DealFlopCardsMessage dealFlopCardsMessage = 46;
     public static final int DEALFLOPCARDSMESSAGE_FIELD_NUMBER = 46;
     private de.pokerth.protocol.ProtoBuf.DealFlopCardsMessage dealFlopCardsMessage_;
     /**
@@ -54548,6 +53609,7 @@ public final class ProtoBuf {
       return dealFlopCardsMessage_;
     }
 
+    // optional .DealTurnCardMessage dealTurnCardMessage = 47;
     public static final int DEALTURNCARDMESSAGE_FIELD_NUMBER = 47;
     private de.pokerth.protocol.ProtoBuf.DealTurnCardMessage dealTurnCardMessage_;
     /**
@@ -54563,6 +53625,7 @@ public final class ProtoBuf {
       return dealTurnCardMessage_;
     }
 
+    // optional .DealRiverCardMessage dealRiverCardMessage = 48;
     public static final int DEALRIVERCARDMESSAGE_FIELD_NUMBER = 48;
     private de.pokerth.protocol.ProtoBuf.DealRiverCardMessage dealRiverCardMessage_;
     /**
@@ -54578,6 +53641,7 @@ public final class ProtoBuf {
       return dealRiverCardMessage_;
     }
 
+    // optional .AllInShowCardsMessage allInShowCardsMessage = 49;
     public static final int ALLINSHOWCARDSMESSAGE_FIELD_NUMBER = 49;
     private de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage allInShowCardsMessage_;
     /**
@@ -54593,6 +53657,7 @@ public final class ProtoBuf {
       return allInShowCardsMessage_;
     }
 
+    // optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;
     public static final int ENDOFHANDSHOWCARDSMESSAGE_FIELD_NUMBER = 50;
     private de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessage endOfHandShowCardsMessage_;
     /**
@@ -54608,6 +53673,7 @@ public final class ProtoBuf {
       return endOfHandShowCardsMessage_;
     }
 
+    // optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;
     public static final int ENDOFHANDHIDECARDSMESSAGE_FIELD_NUMBER = 51;
     private de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessage endOfHandHideCardsMessage_;
     /**
@@ -54623,6 +53689,7 @@ public final class ProtoBuf {
       return endOfHandHideCardsMessage_;
     }
 
+    // optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;
     public static final int SHOWMYCARDSREQUESTMESSAGE_FIELD_NUMBER = 52;
     private de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage showMyCardsRequestMessage_;
     /**
@@ -54638,6 +53705,7 @@ public final class ProtoBuf {
       return showMyCardsRequestMessage_;
     }
 
+    // optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;
     public static final int AFTERHANDSHOWCARDSMESSAGE_FIELD_NUMBER = 53;
     private de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessage afterHandShowCardsMessage_;
     /**
@@ -54653,6 +53721,7 @@ public final class ProtoBuf {
       return afterHandShowCardsMessage_;
     }
 
+    // optional .EndOfGameMessage endOfGameMessage = 54;
     public static final int ENDOFGAMEMESSAGE_FIELD_NUMBER = 54;
     private de.pokerth.protocol.ProtoBuf.EndOfGameMessage endOfGameMessage_;
     /**
@@ -54668,6 +53737,7 @@ public final class ProtoBuf {
       return endOfGameMessage_;
     }
 
+    // optional .PlayerIdChangedMessage playerIdChangedMessage = 55;
     public static final int PLAYERIDCHANGEDMESSAGE_FIELD_NUMBER = 55;
     private de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage playerIdChangedMessage_;
     /**
@@ -54683,6 +53753,7 @@ public final class ProtoBuf {
       return playerIdChangedMessage_;
     }
 
+    // optional .AskKickPlayerMessage askKickPlayerMessage = 56;
     public static final int ASKKICKPLAYERMESSAGE_FIELD_NUMBER = 56;
     private de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage askKickPlayerMessage_;
     /**
@@ -54698,6 +53769,7 @@ public final class ProtoBuf {
       return askKickPlayerMessage_;
     }
 
+    // optional .AskKickDeniedMessage askKickDeniedMessage = 57;
     public static final int ASKKICKDENIEDMESSAGE_FIELD_NUMBER = 57;
     private de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage askKickDeniedMessage_;
     /**
@@ -54713,6 +53785,7 @@ public final class ProtoBuf {
       return askKickDeniedMessage_;
     }
 
+    // optional .StartKickPetitionMessage startKickPetitionMessage = 58;
     public static final int STARTKICKPETITIONMESSAGE_FIELD_NUMBER = 58;
     private de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage startKickPetitionMessage_;
     /**
@@ -54728,6 +53801,7 @@ public final class ProtoBuf {
       return startKickPetitionMessage_;
     }
 
+    // optional .VoteKickRequestMessage voteKickRequestMessage = 59;
     public static final int VOTEKICKREQUESTMESSAGE_FIELD_NUMBER = 59;
     private de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage voteKickRequestMessage_;
     /**
@@ -54743,6 +53817,7 @@ public final class ProtoBuf {
       return voteKickRequestMessage_;
     }
 
+    // optional .VoteKickReplyMessage voteKickReplyMessage = 60;
     public static final int VOTEKICKREPLYMESSAGE_FIELD_NUMBER = 60;
     private de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage voteKickReplyMessage_;
     /**
@@ -54758,6 +53833,7 @@ public final class ProtoBuf {
       return voteKickReplyMessage_;
     }
 
+    // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;
     public static final int KICKPETITIONUPDATEMESSAGE_FIELD_NUMBER = 61;
     private de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage kickPetitionUpdateMessage_;
     /**
@@ -54773,6 +53849,7 @@ public final class ProtoBuf {
       return kickPetitionUpdateMessage_;
     }
 
+    // optional .EndKickPetitionMessage endKickPetitionMessage = 62;
     public static final int ENDKICKPETITIONMESSAGE_FIELD_NUMBER = 62;
     private de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage endKickPetitionMessage_;
     /**
@@ -54788,6 +53865,7 @@ public final class ProtoBuf {
       return endKickPetitionMessage_;
     }
 
+    // optional .StatisticsMessage statisticsMessage = 63;
     public static final int STATISTICSMESSAGE_FIELD_NUMBER = 63;
     private de.pokerth.protocol.ProtoBuf.StatisticsMessage statisticsMessage_;
     /**
@@ -54803,6 +53881,7 @@ public final class ProtoBuf {
       return statisticsMessage_;
     }
 
+    // optional .ChatRequestMessage chatRequestMessage = 64;
     public static final int CHATREQUESTMESSAGE_FIELD_NUMBER = 64;
     private de.pokerth.protocol.ProtoBuf.ChatRequestMessage chatRequestMessage_;
     /**
@@ -54818,6 +53897,7 @@ public final class ProtoBuf {
       return chatRequestMessage_;
     }
 
+    // optional .ChatMessage chatMessage = 65;
     public static final int CHATMESSAGE_FIELD_NUMBER = 65;
     private de.pokerth.protocol.ProtoBuf.ChatMessage chatMessage_;
     /**
@@ -54833,6 +53913,7 @@ public final class ProtoBuf {
       return chatMessage_;
     }
 
+    // optional .ChatRejectMessage chatRejectMessage = 66;
     public static final int CHATREJECTMESSAGE_FIELD_NUMBER = 66;
     private de.pokerth.protocol.ProtoBuf.ChatRejectMessage chatRejectMessage_;
     /**
@@ -54848,6 +53929,7 @@ public final class ProtoBuf {
       return chatRejectMessage_;
     }
 
+    // optional .DialogMessage dialogMessage = 67;
     public static final int DIALOGMESSAGE_FIELD_NUMBER = 67;
     private de.pokerth.protocol.ProtoBuf.DialogMessage dialogMessage_;
     /**
@@ -54863,6 +53945,7 @@ public final class ProtoBuf {
       return dialogMessage_;
     }
 
+    // optional .TimeoutWarningMessage timeoutWarningMessage = 68;
     public static final int TIMEOUTWARNINGMESSAGE_FIELD_NUMBER = 68;
     private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage timeoutWarningMessage_;
     /**
@@ -54878,6 +53961,7 @@ public final class ProtoBuf {
       return timeoutWarningMessage_;
     }
 
+    // optional .ResetTimeoutMessage resetTimeoutMessage = 69;
     public static final int RESETTIMEOUTMESSAGE_FIELD_NUMBER = 69;
     private de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage resetTimeoutMessage_;
     /**
@@ -54893,6 +53977,7 @@ public final class ProtoBuf {
       return resetTimeoutMessage_;
     }
 
+    // optional .ReportAvatarMessage reportAvatarMessage = 70;
     public static final int REPORTAVATARMESSAGE_FIELD_NUMBER = 70;
     private de.pokerth.protocol.ProtoBuf.ReportAvatarMessage reportAvatarMessage_;
     /**
@@ -54908,6 +53993,7 @@ public final class ProtoBuf {
       return reportAvatarMessage_;
     }
 
+    // optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;
     public static final int REPORTAVATARACKMESSAGE_FIELD_NUMBER = 71;
     private de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage reportAvatarAckMessage_;
     /**
@@ -54923,6 +54009,7 @@ public final class ProtoBuf {
       return reportAvatarAckMessage_;
     }
 
+    // optional .ReportGameMessage reportGameMessage = 72;
     public static final int REPORTGAMEMESSAGE_FIELD_NUMBER = 72;
     private de.pokerth.protocol.ProtoBuf.ReportGameMessage reportGameMessage_;
     /**
@@ -54938,6 +54025,7 @@ public final class ProtoBuf {
       return reportGameMessage_;
     }
 
+    // optional .ReportGameAckMessage reportGameAckMessage = 73;
     public static final int REPORTGAMEACKMESSAGE_FIELD_NUMBER = 73;
     private de.pokerth.protocol.ProtoBuf.ReportGameAckMessage reportGameAckMessage_;
     /**
@@ -54953,6 +54041,7 @@ public final class ProtoBuf {
       return reportGameAckMessage_;
     }
 
+    // optional .ErrorMessage errorMessage = 74;
     public static final int ERRORMESSAGE_FIELD_NUMBER = 74;
     private de.pokerth.protocol.ProtoBuf.ErrorMessage errorMessage_;
     /**
@@ -54968,6 +54057,7 @@ public final class ProtoBuf {
       return errorMessage_;
     }
 
+    // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
     public static final int ADMINREMOVEGAMEMESSAGE_FIELD_NUMBER = 75;
     private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage adminRemoveGameMessage_;
     /**
@@ -54983,6 +54073,7 @@ public final class ProtoBuf {
       return adminRemoveGameMessage_;
     }
 
+    // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
     public static final int ADMINREMOVEGAMEACKMESSAGE_FIELD_NUMBER = 76;
     private de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage adminRemoveGameAckMessage_;
     /**
@@ -54998,6 +54089,7 @@ public final class ProtoBuf {
       return adminRemoveGameAckMessage_;
     }
 
+    // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
     public static final int ADMINBANPLAYERMESSAGE_FIELD_NUMBER = 77;
     private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage adminBanPlayerMessage_;
     /**
@@ -55013,6 +54105,7 @@ public final class ProtoBuf {
       return adminBanPlayerMessage_;
     }
 
+    // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
     public static final int ADMINBANPLAYERACKMESSAGE_FIELD_NUMBER = 78;
     private de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage adminBanPlayerAckMessage_;
     /**
@@ -55028,6 +54121,7 @@ public final class ProtoBuf {
       return adminBanPlayerAckMessage_;
     }
 
+    // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
     public static final int GAMELISTSPECTATORJOINEDMESSAGE_FIELD_NUMBER = 79;
     private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage_;
     /**
@@ -55043,6 +54137,7 @@ public final class ProtoBuf {
       return gameListSpectatorJoinedMessage_;
     }
 
+    // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
     public static final int GAMELISTSPECTATORLEFTMESSAGE_FIELD_NUMBER = 80;
     private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage gameListSpectatorLeftMessage_;
     /**
@@ -55058,6 +54153,7 @@ public final class ProtoBuf {
       return gameListSpectatorLeftMessage_;
     }
 
+    // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
     public static final int GAMESPECTATORJOINEDMESSAGE_FIELD_NUMBER = 81;
     private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage gameSpectatorJoinedMessage_;
     /**
@@ -55073,6 +54169,7 @@ public final class ProtoBuf {
       return gameSpectatorJoinedMessage_;
     }
 
+    // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
     public static final int GAMESPECTATORLEFTMESSAGE_FIELD_NUMBER = 82;
     private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage gameSpectatorLeftMessage_;
     /**
@@ -55175,8 +54272,7 @@ public final class ProtoBuf {
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
+      if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasMessageType()) {
         memoizedIsInitialized = 0;
@@ -55903,7 +54999,6 @@ public final class ProtoBuf {
       if (((bitField2_ & 0x00020000) == 0x00020000)) {
         output.writeMessage(82, gameSpectatorLeftMessage_);
       }
-      output.writeRawBytes(unknownFields);
     }
 
     private int memoizedSerializedSize = -1;
@@ -56240,7 +55335,6 @@ public final class ProtoBuf {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(82, gameSpectatorLeftMessage_);
       }
-      size += unknownFields.size();
       memoizedSerializedSize = size;
       return size;
     }
@@ -56318,9 +55412,7 @@ public final class ProtoBuf {
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageLite.Builder<
           de.pokerth.protocol.ProtoBuf.PokerTHMessage, Builder>
-        implements
-        // @@protoc_insertion_point(builder_implements:PokerTHMessage)
-        de.pokerth.protocol.ProtoBuf.PokerTHMessageOrBuilder {
+        implements de.pokerth.protocol.ProtoBuf.PokerTHMessageOrBuilder {
       // Construct using de.pokerth.protocol.ProtoBuf.PokerTHMessage.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
@@ -57107,8 +56199,6 @@ public final class ProtoBuf {
         if (other.hasGameSpectatorLeftMessage()) {
           mergeGameSpectatorLeftMessage(other.getGameSpectatorLeftMessage());
         }
-        setUnknownFields(
-            getUnknownFields().concat(other.unknownFields));
         return this;
       }
 
@@ -57609,6 +56699,7 @@ public final class ProtoBuf {
       private int bitField1_;
       private int bitField2_;
 
+      // required .PokerTHMessage.PokerTHMessageType messageType = 1;
       private de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType messageType_ = de.pokerth.protocol.ProtoBuf.PokerTHMessage.PokerTHMessageType.Type_AnnounceMessage;
       /**
        * <code>required .PokerTHMessage.PokerTHMessageType messageType = 1;</code>
@@ -57644,6 +56735,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AnnounceMessage announceMessage = 2;
       private de.pokerth.protocol.ProtoBuf.AnnounceMessage announceMessage_ = de.pokerth.protocol.ProtoBuf.AnnounceMessage.getDefaultInstance();
       /**
        * <code>optional .AnnounceMessage announceMessage = 2;</code>
@@ -57704,6 +56796,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .InitMessage initMessage = 3;
       private de.pokerth.protocol.ProtoBuf.InitMessage initMessage_ = de.pokerth.protocol.ProtoBuf.InitMessage.getDefaultInstance();
       /**
        * <code>optional .InitMessage initMessage = 3;</code>
@@ -57764,6 +56857,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AuthServerChallengeMessage authServerChallengeMessage = 4;
       private de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessage authServerChallengeMessage_ = de.pokerth.protocol.ProtoBuf.AuthServerChallengeMessage.getDefaultInstance();
       /**
        * <code>optional .AuthServerChallengeMessage authServerChallengeMessage = 4;</code>
@@ -57824,6 +56918,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AuthClientResponseMessage authClientResponseMessage = 5;
       private de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage authClientResponseMessage_ = de.pokerth.protocol.ProtoBuf.AuthClientResponseMessage.getDefaultInstance();
       /**
        * <code>optional .AuthClientResponseMessage authClientResponseMessage = 5;</code>
@@ -57884,6 +56979,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AuthServerVerificationMessage authServerVerificationMessage = 6;
       private de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage authServerVerificationMessage_ = de.pokerth.protocol.ProtoBuf.AuthServerVerificationMessage.getDefaultInstance();
       /**
        * <code>optional .AuthServerVerificationMessage authServerVerificationMessage = 6;</code>
@@ -57944,6 +57040,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .InitAckMessage initAckMessage = 7;
       private de.pokerth.protocol.ProtoBuf.InitAckMessage initAckMessage_ = de.pokerth.protocol.ProtoBuf.InitAckMessage.getDefaultInstance();
       /**
        * <code>optional .InitAckMessage initAckMessage = 7;</code>
@@ -58004,6 +57101,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AvatarRequestMessage avatarRequestMessage = 8;
       private de.pokerth.protocol.ProtoBuf.AvatarRequestMessage avatarRequestMessage_ = de.pokerth.protocol.ProtoBuf.AvatarRequestMessage.getDefaultInstance();
       /**
        * <code>optional .AvatarRequestMessage avatarRequestMessage = 8;</code>
@@ -58064,6 +57162,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AvatarHeaderMessage avatarHeaderMessage = 9;
       private de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage avatarHeaderMessage_ = de.pokerth.protocol.ProtoBuf.AvatarHeaderMessage.getDefaultInstance();
       /**
        * <code>optional .AvatarHeaderMessage avatarHeaderMessage = 9;</code>
@@ -58124,6 +57223,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AvatarDataMessage avatarDataMessage = 10;
       private de.pokerth.protocol.ProtoBuf.AvatarDataMessage avatarDataMessage_ = de.pokerth.protocol.ProtoBuf.AvatarDataMessage.getDefaultInstance();
       /**
        * <code>optional .AvatarDataMessage avatarDataMessage = 10;</code>
@@ -58184,6 +57284,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AvatarEndMessage avatarEndMessage = 11;
       private de.pokerth.protocol.ProtoBuf.AvatarEndMessage avatarEndMessage_ = de.pokerth.protocol.ProtoBuf.AvatarEndMessage.getDefaultInstance();
       /**
        * <code>optional .AvatarEndMessage avatarEndMessage = 11;</code>
@@ -58244,6 +57345,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .UnknownAvatarMessage unknownAvatarMessage = 12;
       private de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage unknownAvatarMessage_ = de.pokerth.protocol.ProtoBuf.UnknownAvatarMessage.getDefaultInstance();
       /**
        * <code>optional .UnknownAvatarMessage unknownAvatarMessage = 12;</code>
@@ -58304,6 +57406,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayerListMessage playerListMessage = 13;
       private de.pokerth.protocol.ProtoBuf.PlayerListMessage playerListMessage_ = de.pokerth.protocol.ProtoBuf.PlayerListMessage.getDefaultInstance();
       /**
        * <code>optional .PlayerListMessage playerListMessage = 13;</code>
@@ -58364,6 +57467,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListNewMessage gameListNewMessage = 14;
       private de.pokerth.protocol.ProtoBuf.GameListNewMessage gameListNewMessage_ = de.pokerth.protocol.ProtoBuf.GameListNewMessage.getDefaultInstance();
       /**
        * <code>optional .GameListNewMessage gameListNewMessage = 14;</code>
@@ -58424,6 +57528,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListUpdateMessage gameListUpdateMessage = 15;
       private de.pokerth.protocol.ProtoBuf.GameListUpdateMessage gameListUpdateMessage_ = de.pokerth.protocol.ProtoBuf.GameListUpdateMessage.getDefaultInstance();
       /**
        * <code>optional .GameListUpdateMessage gameListUpdateMessage = 15;</code>
@@ -58484,6 +57589,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;
       private de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage gameListPlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerJoinedMessage.getDefaultInstance();
       /**
        * <code>optional .GameListPlayerJoinedMessage gameListPlayerJoinedMessage = 16;</code>
@@ -58544,6 +57650,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;
       private de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage gameListPlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListPlayerLeftMessage.getDefaultInstance();
       /**
        * <code>optional .GameListPlayerLeftMessage gameListPlayerLeftMessage = 17;</code>
@@ -58604,6 +57711,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;
       private de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage gameListAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameListAdminChangedMessage.getDefaultInstance();
       /**
        * <code>optional .GameListAdminChangedMessage gameListAdminChangedMessage = 18;</code>
@@ -58664,6 +57772,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;
       private de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage playerInfoRequestMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoRequestMessage.getDefaultInstance();
       /**
        * <code>optional .PlayerInfoRequestMessage playerInfoRequestMessage = 19;</code>
@@ -58724,6 +57833,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;
       private de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage playerInfoReplyMessage_ = de.pokerth.protocol.ProtoBuf.PlayerInfoReplyMessage.getDefaultInstance();
       /**
        * <code>optional .PlayerInfoReplyMessage playerInfoReplyMessage = 20;</code>
@@ -58784,6 +57894,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;
       private de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage subscriptionRequestMessage_ = de.pokerth.protocol.ProtoBuf.SubscriptionRequestMessage.getDefaultInstance();
       /**
        * <code>optional .SubscriptionRequestMessage subscriptionRequestMessage = 21;</code>
@@ -58844,6 +57955,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .JoinExistingGameMessage joinExistingGameMessage = 22;
       private de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage joinExistingGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinExistingGameMessage.getDefaultInstance();
       /**
        * <code>optional .JoinExistingGameMessage joinExistingGameMessage = 22;</code>
@@ -58904,6 +58016,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .JoinNewGameMessage joinNewGameMessage = 23;
       private de.pokerth.protocol.ProtoBuf.JoinNewGameMessage joinNewGameMessage_ = de.pokerth.protocol.ProtoBuf.JoinNewGameMessage.getDefaultInstance();
       /**
        * <code>optional .JoinNewGameMessage joinNewGameMessage = 23;</code>
@@ -58964,6 +58077,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;
       private de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage rejoinExistingGameMessage_ = de.pokerth.protocol.ProtoBuf.RejoinExistingGameMessage.getDefaultInstance();
       /**
        * <code>optional .RejoinExistingGameMessage rejoinExistingGameMessage = 24;</code>
@@ -59024,6 +58138,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .JoinGameAckMessage joinGameAckMessage = 25;
       private de.pokerth.protocol.ProtoBuf.JoinGameAckMessage joinGameAckMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameAckMessage.getDefaultInstance();
       /**
        * <code>optional .JoinGameAckMessage joinGameAckMessage = 25;</code>
@@ -59084,6 +58199,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .JoinGameFailedMessage joinGameFailedMessage = 26;
       private de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage joinGameFailedMessage_ = de.pokerth.protocol.ProtoBuf.JoinGameFailedMessage.getDefaultInstance();
       /**
        * <code>optional .JoinGameFailedMessage joinGameFailedMessage = 26;</code>
@@ -59144,6 +58260,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;
       private de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage gamePlayerJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerJoinedMessage.getDefaultInstance();
       /**
        * <code>optional .GamePlayerJoinedMessage gamePlayerJoinedMessage = 27;</code>
@@ -59204,6 +58321,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;
       private de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage gamePlayerLeftMessage_ = de.pokerth.protocol.ProtoBuf.GamePlayerLeftMessage.getDefaultInstance();
       /**
        * <code>optional .GamePlayerLeftMessage gamePlayerLeftMessage = 28;</code>
@@ -59264,6 +58382,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameAdminChangedMessage gameAdminChangedMessage = 29;
       private de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage gameAdminChangedMessage_ = de.pokerth.protocol.ProtoBuf.GameAdminChangedMessage.getDefaultInstance();
       /**
        * <code>optional .GameAdminChangedMessage gameAdminChangedMessage = 29;</code>
@@ -59324,6 +58443,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .RemovedFromGameMessage removedFromGameMessage = 30;
       private de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage removedFromGameMessage_ = de.pokerth.protocol.ProtoBuf.RemovedFromGameMessage.getDefaultInstance();
       /**
        * <code>optional .RemovedFromGameMessage removedFromGameMessage = 30;</code>
@@ -59384,6 +58504,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;
       private de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage kickPlayerRequestMessage_ = de.pokerth.protocol.ProtoBuf.KickPlayerRequestMessage.getDefaultInstance();
       /**
        * <code>optional .KickPlayerRequestMessage kickPlayerRequestMessage = 31;</code>
@@ -59444,6 +58565,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;
       private de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage leaveGameRequestMessage_ = de.pokerth.protocol.ProtoBuf.LeaveGameRequestMessage.getDefaultInstance();
       /**
        * <code>optional .LeaveGameRequestMessage leaveGameRequestMessage = 32;</code>
@@ -59504,6 +58626,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;
       private de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage invitePlayerToGameMessage_ = de.pokerth.protocol.ProtoBuf.InvitePlayerToGameMessage.getDefaultInstance();
       /**
        * <code>optional .InvitePlayerToGameMessage invitePlayerToGameMessage = 33;</code>
@@ -59564,6 +58687,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .InviteNotifyMessage inviteNotifyMessage = 34;
       private de.pokerth.protocol.ProtoBuf.InviteNotifyMessage inviteNotifyMessage_ = de.pokerth.protocol.ProtoBuf.InviteNotifyMessage.getDefaultInstance();
       /**
        * <code>optional .InviteNotifyMessage inviteNotifyMessage = 34;</code>
@@ -59624,6 +58748,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;
       private de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage rejectGameInvitationMessage_ = de.pokerth.protocol.ProtoBuf.RejectGameInvitationMessage.getDefaultInstance();
       /**
        * <code>optional .RejectGameInvitationMessage rejectGameInvitationMessage = 35;</code>
@@ -59684,6 +58809,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;
       private de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage rejectInvNotifyMessage_ = de.pokerth.protocol.ProtoBuf.RejectInvNotifyMessage.getDefaultInstance();
       /**
        * <code>optional .RejectInvNotifyMessage rejectInvNotifyMessage = 36;</code>
@@ -59744,6 +58870,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .StartEventMessage startEventMessage = 37;
       private de.pokerth.protocol.ProtoBuf.StartEventMessage startEventMessage_ = de.pokerth.protocol.ProtoBuf.StartEventMessage.getDefaultInstance();
       /**
        * <code>optional .StartEventMessage startEventMessage = 37;</code>
@@ -59804,6 +58931,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .StartEventAckMessage startEventAckMessage = 38;
       private de.pokerth.protocol.ProtoBuf.StartEventAckMessage startEventAckMessage_ = de.pokerth.protocol.ProtoBuf.StartEventAckMessage.getDefaultInstance();
       /**
        * <code>optional .StartEventAckMessage startEventAckMessage = 38;</code>
@@ -59864,6 +58992,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameStartInitialMessage gameStartInitialMessage = 39;
       private de.pokerth.protocol.ProtoBuf.GameStartInitialMessage gameStartInitialMessage_ = de.pokerth.protocol.ProtoBuf.GameStartInitialMessage.getDefaultInstance();
       /**
        * <code>optional .GameStartInitialMessage gameStartInitialMessage = 39;</code>
@@ -59924,6 +59053,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameStartRejoinMessage gameStartRejoinMessage = 40;
       private de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage gameStartRejoinMessage_ = de.pokerth.protocol.ProtoBuf.GameStartRejoinMessage.getDefaultInstance();
       /**
        * <code>optional .GameStartRejoinMessage gameStartRejoinMessage = 40;</code>
@@ -59984,6 +59114,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .HandStartMessage handStartMessage = 41;
       private de.pokerth.protocol.ProtoBuf.HandStartMessage handStartMessage_ = de.pokerth.protocol.ProtoBuf.HandStartMessage.getDefaultInstance();
       /**
        * <code>optional .HandStartMessage handStartMessage = 41;</code>
@@ -60044,6 +59175,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayersTurnMessage playersTurnMessage = 42;
       private de.pokerth.protocol.ProtoBuf.PlayersTurnMessage playersTurnMessage_ = de.pokerth.protocol.ProtoBuf.PlayersTurnMessage.getDefaultInstance();
       /**
        * <code>optional .PlayersTurnMessage playersTurnMessage = 42;</code>
@@ -60104,6 +59236,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .MyActionRequestMessage myActionRequestMessage = 43;
       private de.pokerth.protocol.ProtoBuf.MyActionRequestMessage myActionRequestMessage_ = de.pokerth.protocol.ProtoBuf.MyActionRequestMessage.getDefaultInstance();
       /**
        * <code>optional .MyActionRequestMessage myActionRequestMessage = 43;</code>
@@ -60164,6 +59297,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .YourActionRejectedMessage yourActionRejectedMessage = 44;
       private de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage yourActionRejectedMessage_ = de.pokerth.protocol.ProtoBuf.YourActionRejectedMessage.getDefaultInstance();
       /**
        * <code>optional .YourActionRejectedMessage yourActionRejectedMessage = 44;</code>
@@ -60224,6 +59358,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayersActionDoneMessage playersActionDoneMessage = 45;
       private de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessage playersActionDoneMessage_ = de.pokerth.protocol.ProtoBuf.PlayersActionDoneMessage.getDefaultInstance();
       /**
        * <code>optional .PlayersActionDoneMessage playersActionDoneMessage = 45;</code>
@@ -60284,6 +59419,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .DealFlopCardsMessage dealFlopCardsMessage = 46;
       private de.pokerth.protocol.ProtoBuf.DealFlopCardsMessage dealFlopCardsMessage_ = de.pokerth.protocol.ProtoBuf.DealFlopCardsMessage.getDefaultInstance();
       /**
        * <code>optional .DealFlopCardsMessage dealFlopCardsMessage = 46;</code>
@@ -60344,6 +59480,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .DealTurnCardMessage dealTurnCardMessage = 47;
       private de.pokerth.protocol.ProtoBuf.DealTurnCardMessage dealTurnCardMessage_ = de.pokerth.protocol.ProtoBuf.DealTurnCardMessage.getDefaultInstance();
       /**
        * <code>optional .DealTurnCardMessage dealTurnCardMessage = 47;</code>
@@ -60404,6 +59541,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .DealRiverCardMessage dealRiverCardMessage = 48;
       private de.pokerth.protocol.ProtoBuf.DealRiverCardMessage dealRiverCardMessage_ = de.pokerth.protocol.ProtoBuf.DealRiverCardMessage.getDefaultInstance();
       /**
        * <code>optional .DealRiverCardMessage dealRiverCardMessage = 48;</code>
@@ -60464,6 +59602,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AllInShowCardsMessage allInShowCardsMessage = 49;
       private de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage allInShowCardsMessage_ = de.pokerth.protocol.ProtoBuf.AllInShowCardsMessage.getDefaultInstance();
       /**
        * <code>optional .AllInShowCardsMessage allInShowCardsMessage = 49;</code>
@@ -60524,6 +59663,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;
       private de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessage endOfHandShowCardsMessage_ = de.pokerth.protocol.ProtoBuf.EndOfHandShowCardsMessage.getDefaultInstance();
       /**
        * <code>optional .EndOfHandShowCardsMessage endOfHandShowCardsMessage = 50;</code>
@@ -60584,6 +59724,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;
       private de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessage endOfHandHideCardsMessage_ = de.pokerth.protocol.ProtoBuf.EndOfHandHideCardsMessage.getDefaultInstance();
       /**
        * <code>optional .EndOfHandHideCardsMessage endOfHandHideCardsMessage = 51;</code>
@@ -60644,6 +59785,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;
       private de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage showMyCardsRequestMessage_ = de.pokerth.protocol.ProtoBuf.ShowMyCardsRequestMessage.getDefaultInstance();
       /**
        * <code>optional .ShowMyCardsRequestMessage showMyCardsRequestMessage = 52;</code>
@@ -60704,6 +59846,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;
       private de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessage afterHandShowCardsMessage_ = de.pokerth.protocol.ProtoBuf.AfterHandShowCardsMessage.getDefaultInstance();
       /**
        * <code>optional .AfterHandShowCardsMessage afterHandShowCardsMessage = 53;</code>
@@ -60764,6 +59907,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .EndOfGameMessage endOfGameMessage = 54;
       private de.pokerth.protocol.ProtoBuf.EndOfGameMessage endOfGameMessage_ = de.pokerth.protocol.ProtoBuf.EndOfGameMessage.getDefaultInstance();
       /**
        * <code>optional .EndOfGameMessage endOfGameMessage = 54;</code>
@@ -60824,6 +59968,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .PlayerIdChangedMessage playerIdChangedMessage = 55;
       private de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage playerIdChangedMessage_ = de.pokerth.protocol.ProtoBuf.PlayerIdChangedMessage.getDefaultInstance();
       /**
        * <code>optional .PlayerIdChangedMessage playerIdChangedMessage = 55;</code>
@@ -60884,6 +60029,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AskKickPlayerMessage askKickPlayerMessage = 56;
       private de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage askKickPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AskKickPlayerMessage.getDefaultInstance();
       /**
        * <code>optional .AskKickPlayerMessage askKickPlayerMessage = 56;</code>
@@ -60944,6 +60090,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AskKickDeniedMessage askKickDeniedMessage = 57;
       private de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage askKickDeniedMessage_ = de.pokerth.protocol.ProtoBuf.AskKickDeniedMessage.getDefaultInstance();
       /**
        * <code>optional .AskKickDeniedMessage askKickDeniedMessage = 57;</code>
@@ -61004,6 +60151,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .StartKickPetitionMessage startKickPetitionMessage = 58;
       private de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage startKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.StartKickPetitionMessage.getDefaultInstance();
       /**
        * <code>optional .StartKickPetitionMessage startKickPetitionMessage = 58;</code>
@@ -61064,6 +60212,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .VoteKickRequestMessage voteKickRequestMessage = 59;
       private de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage voteKickRequestMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickRequestMessage.getDefaultInstance();
       /**
        * <code>optional .VoteKickRequestMessage voteKickRequestMessage = 59;</code>
@@ -61124,6 +60273,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .VoteKickReplyMessage voteKickReplyMessage = 60;
       private de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage voteKickReplyMessage_ = de.pokerth.protocol.ProtoBuf.VoteKickReplyMessage.getDefaultInstance();
       /**
        * <code>optional .VoteKickReplyMessage voteKickReplyMessage = 60;</code>
@@ -61184,6 +60334,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;
       private de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage kickPetitionUpdateMessage_ = de.pokerth.protocol.ProtoBuf.KickPetitionUpdateMessage.getDefaultInstance();
       /**
        * <code>optional .KickPetitionUpdateMessage kickPetitionUpdateMessage = 61;</code>
@@ -61244,6 +60395,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .EndKickPetitionMessage endKickPetitionMessage = 62;
       private de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage endKickPetitionMessage_ = de.pokerth.protocol.ProtoBuf.EndKickPetitionMessage.getDefaultInstance();
       /**
        * <code>optional .EndKickPetitionMessage endKickPetitionMessage = 62;</code>
@@ -61304,6 +60456,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .StatisticsMessage statisticsMessage = 63;
       private de.pokerth.protocol.ProtoBuf.StatisticsMessage statisticsMessage_ = de.pokerth.protocol.ProtoBuf.StatisticsMessage.getDefaultInstance();
       /**
        * <code>optional .StatisticsMessage statisticsMessage = 63;</code>
@@ -61364,6 +60517,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ChatRequestMessage chatRequestMessage = 64;
       private de.pokerth.protocol.ProtoBuf.ChatRequestMessage chatRequestMessage_ = de.pokerth.protocol.ProtoBuf.ChatRequestMessage.getDefaultInstance();
       /**
        * <code>optional .ChatRequestMessage chatRequestMessage = 64;</code>
@@ -61424,6 +60578,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ChatMessage chatMessage = 65;
       private de.pokerth.protocol.ProtoBuf.ChatMessage chatMessage_ = de.pokerth.protocol.ProtoBuf.ChatMessage.getDefaultInstance();
       /**
        * <code>optional .ChatMessage chatMessage = 65;</code>
@@ -61484,6 +60639,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ChatRejectMessage chatRejectMessage = 66;
       private de.pokerth.protocol.ProtoBuf.ChatRejectMessage chatRejectMessage_ = de.pokerth.protocol.ProtoBuf.ChatRejectMessage.getDefaultInstance();
       /**
        * <code>optional .ChatRejectMessage chatRejectMessage = 66;</code>
@@ -61544,6 +60700,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .DialogMessage dialogMessage = 67;
       private de.pokerth.protocol.ProtoBuf.DialogMessage dialogMessage_ = de.pokerth.protocol.ProtoBuf.DialogMessage.getDefaultInstance();
       /**
        * <code>optional .DialogMessage dialogMessage = 67;</code>
@@ -61604,6 +60761,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .TimeoutWarningMessage timeoutWarningMessage = 68;
       private de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage timeoutWarningMessage_ = de.pokerth.protocol.ProtoBuf.TimeoutWarningMessage.getDefaultInstance();
       /**
        * <code>optional .TimeoutWarningMessage timeoutWarningMessage = 68;</code>
@@ -61664,6 +60822,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ResetTimeoutMessage resetTimeoutMessage = 69;
       private de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage resetTimeoutMessage_ = de.pokerth.protocol.ProtoBuf.ResetTimeoutMessage.getDefaultInstance();
       /**
        * <code>optional .ResetTimeoutMessage resetTimeoutMessage = 69;</code>
@@ -61724,6 +60883,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ReportAvatarMessage reportAvatarMessage = 70;
       private de.pokerth.protocol.ProtoBuf.ReportAvatarMessage reportAvatarMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarMessage.getDefaultInstance();
       /**
        * <code>optional .ReportAvatarMessage reportAvatarMessage = 70;</code>
@@ -61784,6 +60944,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;
       private de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage reportAvatarAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportAvatarAckMessage.getDefaultInstance();
       /**
        * <code>optional .ReportAvatarAckMessage reportAvatarAckMessage = 71;</code>
@@ -61844,6 +61005,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ReportGameMessage reportGameMessage = 72;
       private de.pokerth.protocol.ProtoBuf.ReportGameMessage reportGameMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameMessage.getDefaultInstance();
       /**
        * <code>optional .ReportGameMessage reportGameMessage = 72;</code>
@@ -61904,6 +61066,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ReportGameAckMessage reportGameAckMessage = 73;
       private de.pokerth.protocol.ProtoBuf.ReportGameAckMessage reportGameAckMessage_ = de.pokerth.protocol.ProtoBuf.ReportGameAckMessage.getDefaultInstance();
       /**
        * <code>optional .ReportGameAckMessage reportGameAckMessage = 73;</code>
@@ -61964,6 +61127,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .ErrorMessage errorMessage = 74;
       private de.pokerth.protocol.ProtoBuf.ErrorMessage errorMessage_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.getDefaultInstance();
       /**
        * <code>optional .ErrorMessage errorMessage = 74;</code>
@@ -62024,6 +61188,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;
       private de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage adminRemoveGameMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameMessage.getDefaultInstance();
       /**
        * <code>optional .AdminRemoveGameMessage adminRemoveGameMessage = 75;</code>
@@ -62084,6 +61249,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;
       private de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage adminRemoveGameAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminRemoveGameAckMessage.getDefaultInstance();
       /**
        * <code>optional .AdminRemoveGameAckMessage adminRemoveGameAckMessage = 76;</code>
@@ -62144,6 +61310,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;
       private de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage adminBanPlayerMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerMessage.getDefaultInstance();
       /**
        * <code>optional .AdminBanPlayerMessage adminBanPlayerMessage = 77;</code>
@@ -62204,6 +61371,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;
       private de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage adminBanPlayerAckMessage_ = de.pokerth.protocol.ProtoBuf.AdminBanPlayerAckMessage.getDefaultInstance();
       /**
        * <code>optional .AdminBanPlayerAckMessage adminBanPlayerAckMessage = 78;</code>
@@ -62264,6 +61432,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;
       private de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorJoinedMessage.getDefaultInstance();
       /**
        * <code>optional .GameListSpectatorJoinedMessage gameListSpectatorJoinedMessage = 79;</code>
@@ -62324,6 +61493,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;
       private de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage gameListSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameListSpectatorLeftMessage.getDefaultInstance();
       /**
        * <code>optional .GameListSpectatorLeftMessage gameListSpectatorLeftMessage = 80;</code>
@@ -62384,6 +61554,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;
       private de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage gameSpectatorJoinedMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorJoinedMessage.getDefaultInstance();
       /**
        * <code>optional .GameSpectatorJoinedMessage gameSpectatorJoinedMessage = 81;</code>
@@ -62444,6 +61615,7 @@ public final class ProtoBuf {
         return this;
       }
 
+      // optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;
       private de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage gameSpectatorLeftMessage_ = de.pokerth.protocol.ProtoBuf.GameSpectatorLeftMessage.getDefaultInstance();
       /**
        * <code>optional .GameSpectatorLeftMessage gameSpectatorLeftMessage = 82;</code>

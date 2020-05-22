@@ -39,6 +39,7 @@
 #include "configfile.h"
 #include "soundevents.h"
 #include <net/socket_msg.h>
+#include <core/loghelper.h>
 
 using namespace std;
 
@@ -46,6 +47,7 @@ using namespace std;
 GuiWrapper::GuiWrapper(ConfigFile *c, startWindowImpl *s) : myGuiLog(NULL), myW(NULL), myConfig(c), myStartWindow(s)
 {
 
+	LOG_MSG("starting GuiWrapper");
 
 	myW = new gameTableImpl(myConfig);
 	myGuiLog = new guiLog(myW, myConfig);
@@ -63,6 +65,7 @@ GuiWrapper::~GuiWrapper()
 
 void GuiWrapper::initGui(int speed)
 {
+	LOG_MSG("starting GuiWrapper::initGui");
 	myW->signalInitGui(speed);
 }
 

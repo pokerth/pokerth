@@ -68,6 +68,11 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) );
 	connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
+
+	// new connections
+	connect(checkBox_allowLateReg, SIGNAL(toggled(bool)), this, SLOT(switchAllowReg(bool)));
+	connect(checkBox_reentries, SIGNAL(toggled(bool)), this, SLOT(switchReentries(bool)));
+
 }
 
 
@@ -165,6 +170,7 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		raiseMode->hide();
 		checkBox_allowSpectators->setEnabled(true);
 		checkBox_allowSpectators->setChecked(myConfig->readConfigInt("InternetGameAllowSpectators"));
+		switchLateReg(true); // allow late reg & reentries
 	}
 
 	break;
@@ -180,6 +186,7 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		raiseMode->hide();
 		checkBox_allowSpectators->setEnabled(true);
 		checkBox_allowSpectators->setChecked(myConfig->readConfigInt("InternetGameAllowSpectators"));
+		switchLateReg(true); // allow late reg & reentries
 	}
 	break;
 	case GAME_TYPE_INVITE_ONLY-1: {
@@ -195,6 +202,7 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		raiseMode->hide();
 		checkBox_allowSpectators->setEnabled(true);
 		checkBox_allowSpectators->setChecked(myConfig->readConfigInt("InternetGameAllowSpectators"));
+		switchLateReg(false);  // don't allow late reg & reentries
 	}
 	break;
 	case GAME_TYPE_RANKING-1: {
@@ -211,6 +219,7 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		raiseMode->show();
 		checkBox_allowSpectators->setDisabled(true);
 		checkBox_allowSpectators->setChecked(true);
+		switchLateReg(false); // don't allow late reg & reentries
 	}
 	break;
 	}
@@ -249,6 +258,51 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		myChangeCompleteBlindsDialog->radioButton_afterThisAlwaysRaiseAbout->setChecked(myConfig->readConfigInt("NetAfterMBAlwaysRaiseAbout"));
 		myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
 		myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
+	}
+}
+
+void createInternetGameDialogImpl::switchLateReg(bool enable) {
+	if (enable) {
+		checkBox_allowLateReg->setDisabled(false);
+		checkBox_allowLateReg->setChecked(true);
+		checkBox_reentries->setDisabled(false);
+		checkBox_reentries->setChecked(true);
+	}
+	else {
+		checkBox_allowLateReg->setDisabled(true);
+		checkBox_allowLateReg->setChecked(false);
+		checkBox_reentries->setDisabled(true);
+		checkBox_reentries->setChecked(false);
+	}
+}
+
+void createInternetGameDialogImpl::switchReentries(bool enable) {
+	if (enable) {
+		label_numReentries->setDisabled(false);
+		spinBox_numReentries->setDisabled(false);
+		label_timeLateReg->setDisabled(false);
+		spinBox_timeLateReg->setDisabled(false);
+	}
+	else {
+		label_numReentries->setDisabled(true);
+		spinBox_numReentries->setDisabled(true);
+		if (!(checkBox_allowLateReg->isEnabled() && checkBox_allowLateReg->isChecked())) {
+			label_timeLateReg->setDisabled(true);
+			spinBox_timeLateReg->setDisabled(true);
+		}
+	}
+}
+
+void createInternetGameDialogImpl::switchAllowReg(bool enable) {
+	if (enable) {
+		label_timeLateReg->setDisabled(false);
+		spinBox_timeLateReg->setDisabled(false);
+	}
+	else {
+		if (!(checkBox_reentries->isEnabled() && checkBox_reentries->isChecked())) {
+			label_timeLateReg->setDisabled(true);
+			spinBox_timeLateReg->setDisabled(true);
+		}
 	}
 }
 

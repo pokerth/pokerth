@@ -352,6 +352,17 @@ void gameLobbyDialogImpl::createGame()
 			}
 		}
 
+		if (myCreateInternetGameDialog->checkBox_allowLateReg->isEnabled() && myCreateInternetGameDialog->checkBox_allowLateReg->isChecked()) {
+			gameData.allowLateReg = true;
+			gameData.maxTimeLateReg = myCreateInternetGameDialog->spinBox_timeLateReg->value();
+		}
+		if (myCreateInternetGameDialog->checkBox_reentries->isEnabled() && myCreateInternetGameDialog->checkBox_reentries->isChecked()) {
+			gameData.allowReentries = true;
+			gameData.numReentries = myCreateInternetGameDialog->spinBox_numReentries->value();
+			gameData.maxTimeLateReg = myCreateInternetGameDialog->spinBox_timeLateReg->value();
+		}
+
+
 		gameData.guiSpeed = myConfig->readConfigInt("GameSpeed");
 		gameData.delayBetweenHandsSec = myCreateInternetGameDialog->spinBox_netDelayBetweenHands->value();
 		gameData.playerActionTimeoutSec = myCreateInternetGameDialog->spinBox_netTimeOutPlayerAction->value();

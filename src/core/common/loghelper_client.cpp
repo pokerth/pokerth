@@ -35,10 +35,11 @@
 
 #include <core/loghelper.h>
 #include <iostream>
+#include <boost/date_time.hpp>
 
 
 using namespace std;
-
+using namespace boost::posix_time;
 
 static int g_logLevel = 1;
 
@@ -52,20 +53,20 @@ loghelper_init(const std::string & /*logDir*/, int logLevel)
 void
 internal_log_err(const string &msg)
 {
-	cerr << msg;
+	cerr << second_clock::local_time() << " " << msg;
 }
 
 void
 internal_log_msg(const std::string &msg)
 {
 	if (g_logLevel)
-		cout << msg;
+		cout << second_clock::local_time() << " " << msg;
 }
 
 void
 internal_log_level(const std::string &msg, int logLevel)
 {
 	if (g_logLevel >= logLevel)
-		cout << msg;
+		cout << second_clock::local_time() << " " << msg;
 }
 

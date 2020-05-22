@@ -33,6 +33,7 @@
 
 #include <enginefactory.h>
 #include <guiinterface.h>
+#include <core/loghelper.h>
 #include "log.h"
 
 #include "localexception.h"
@@ -87,6 +88,9 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 	// create player
 	player_i = playerDataList.begin();
 	player_end = playerDataList.end();
+
+	LOG_MSG("Starting game... PLAYERS:");
+
 	for(i=0; i<MAX_NUMBER_OF_PLAYERS; i++) {
 
 		string myName;
@@ -120,6 +124,14 @@ Game::Game(GuiInterface* gui, boost::shared_ptr<EngineFactory> factory,
 			activePlayerList->push_back(tmpPlayer);
 		}
 		(*runningPlayerList) = (*activePlayerList);
+
+
+		LOG_MSG("\tPlayerID " << i << ":{UID, name, GUID, seat} -> {"  <<
+				(*player_i)->GetUniqueId() << ", " <<
+				(*player_i)->GetName() << ", " <<
+				(*player_i)->GetGuid() << ", " <<
+				(*player_i)->GetNumber()
+				);
 
 	}
 

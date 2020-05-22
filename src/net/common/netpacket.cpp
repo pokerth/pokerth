@@ -113,6 +113,10 @@ NetPacket::SetGameData(const GameData &inData, NetGameInfo &outData)
 	outData.set_endraisesmallblindvalue(inData.afterMBAlwaysRaiseValue);
 	outData.set_firstsmallblind(inData.firstSmallBlind);
 	outData.set_startmoney(inData.startMoney);
+	outData.set_allowlatereg(inData.allowLateReg);
+	outData.set_allowreentries(inData.allowReentries);
+	outData.set_maxtimelatereg(inData.maxTimeLateReg);
+	outData.set_numreentries(inData.numReentries);
 
 	BOOST_FOREACH(int manualBlind, inData.manualBlindsList) {
 		outData.add_manualblinds(manualBlind);
@@ -141,6 +145,10 @@ NetPacket::GetGameData(const NetGameInfo &inData, GameData &outData)
 	outData.firstSmallBlind				= inData.firstsmallblind();
 	outData.afterMBAlwaysRaiseValue		= inData.endraisesmallblindvalue();
 	outData.startMoney					= inData.startmoney();
+	outData.allowLateReg				= inData.allowlatereg();
+	outData.allowReentries				= inData.allowreentries();
+	outData.numReentries				= inData.numreentries();
+	outData.maxTimeLateReg				= inData.maxtimelatereg();
 
 	for (int i = 0; i < numManualBlinds; i++) {
 		outData.manualBlindsList.push_back(static_cast<int>(inData.manualblinds(i)));

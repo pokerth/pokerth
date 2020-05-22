@@ -1368,6 +1368,13 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	boost::replace_all(gameName, "\f", " ");
 	unsigned gameId = GetNextGameId();
 
+	LOG_MSG ("Creating game with new params: {allowLate, allowReentries, numReentries, maxTimeLateReg} -> {" <<
+			std::boolalpha <<
+			tmpData.allowLateReg << ", " <<
+			tmpData.allowReentries << ", " <<
+			tmpData.numReentries << ", " <<
+			tmpData.maxTimeLateReg << "}");
+
 	if (gameName.empty() || !isprint(gameName[0])) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_GAME_BAD_NAME);
 	} else if (IsGameNameInUse(gameName)) {

@@ -852,6 +852,26 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 			++player_i;
 		}
 
+
+		{
+			LOG_MSG(" === SENDING DO START ====");
+			LOG_MSG("\tPlayers: ");
+			player_i = tmpPlayerList.begin();
+			player_end = tmpPlayerList.end();
+
+			while (player_i != player_end) {
+				boost::shared_ptr<PlayerData> tmpPlayer = (*player_i);
+				LOG_MSG("\t\t {UID, name, GUID, seat}"  <<
+						tmpPlayer->GetUniqueId() << ", " <<
+						tmpPlayer->GetName() << ", " <<
+						tmpPlayer->GetGuid() << ", " <<
+						tmpPlayer->GetNumber()
+						);
+				++player_i;
+			}
+
+		}
+
 		server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 
 		// Start the first hand.
@@ -888,7 +908,30 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 
 			// Wait for rejoining player to confirm start of game.
 			server->GetLobbyThread().GetSender().Send(session, packet);
-		} else {
+		}
+		else if (session && session->GetPlayerData() && server->GetGameData().gameType == GAME_TYPE_NORMAL) { // only normal games
+			const GameData tmpGameData = server->GetGameData();
+
+			if (server->GetCurNumberOfPlayers() < tmpGameData.maxNumberOfPlayers) { // there is a seat available
+				AcceptNewSession(server, session, false); // player wants to join
+
+				// TODO:
+				//   - locate seat
+				//   - notify players and users
+				//   - move session to server
+				//   - set cash
+				//   - wait for button to pass (if necessary)
+				//   - let player play
+
+			}
+			else {
+				server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+			}
+
+
+		}
+
+		else {
 			// Do not accept "new" sessions in this state, only rejoin is allowed.
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_ALREADY_RUNNING);
 		}
@@ -1251,8 +1294,81 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	curGame.getCurrentHand()->getRiver()->skipFirstRunGui();
 
 	// Consider all players, even inactive.
-	PlayerListIterator i = curGame.getSeatsList()->begin();
-	PlayerListIterator end = curGame.getSeatsList()->end();
+	PlayerListIterator i;
+	PlayerListIterator end;
+
+	{
+		LOG_MSG("Starting new hand. Lets LOG: ");
+		LOG_MSG("\tPlayer seats");
+
+		i = curGame.getSeatsList()->begin();
+		end = curGame.getSeatsList()->end();
+		while (i != end) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = (*i);
+
+			LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+							tmpPlayer->getMyID() << ", " <<
+							tmpPlayer->getMyName() << ", " <<
+							tmpPlayer->getMyUniqueID() << ", " <<
+							tmpPlayer->getMyGuid());
+			++i;
+		}
+
+		i = curGame.getActivePlayerList()->begin();
+		end = curGame.getActivePlayerList()->end();
+
+		LOG_MSG("\tActive players");
+		while (i != end) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = (*i);
+
+			LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+							tmpPlayer->getMyID() << ", " <<
+							tmpPlayer->getMyName() << ", " <<
+							tmpPlayer->getMyUniqueID() << ", " <<
+							tmpPlayer->getMyGuid());
+			++i;
+		}
+
+		i = curGame.getRunningPlayerList()->begin();
+		end = curGame.getRunningPlayerList()->end();
+
+		LOG_MSG("\tRunning players");
+		while (i != end) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer = (*i);
+
+			LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+							tmpPlayer->getMyID() << ", " <<
+							tmpPlayer->getMyName() << ", " <<
+							tmpPlayer->getMyUniqueID() << ", " <<
+							tmpPlayer->getMyGuid());
+			++i;
+		}
+
+		PlayerDataList tmpPlayerList(server->GetFullPlayerDataList());
+
+		LOG_MSG("\tAll Data players");
+
+		PlayerDataList::iterator player_i = tmpPlayerList.begin();
+		PlayerDataList::iterator player_end = tmpPlayerList.end();
+		while (player_i != player_end) {
+			boost::shared_ptr<PlayerData> tmpPlayer = (*player_i);
+
+			LOG_MSG("PlayerData: {playerId, name, GUID, number} -> {" <<
+							tmpPlayer->GetUniqueId() << "," <<
+							tmpPlayer->GetName() << "," <<
+							tmpPlayer->GetGuid() << "," <<
+							tmpPlayer->GetNumber()
+							);
+
+			++player_i;
+		}
+	}
+
+	// Consider all players, even inactive.
+	i = curGame.getSeatsList()->begin();
+	end = curGame.getSeatsList()->end();
+
+
 
 	// Send cards to all players.
 	while (i != end) {

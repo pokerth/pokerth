@@ -42,6 +42,8 @@
 #include <core/crypthelper.h>
 #include <qttoolsinterface.h>
 
+#include <core/loghelper.h>
+
 #include <game.h>
 #include <playerinterface.h>
 
@@ -1518,6 +1520,14 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 					if (!tmpPlayer)
 						throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 					tmpPlayer->SetNumber(i);
+
+					LOG_MSG("PlayerData: {playerId, name, GUID, seat, number} -> {" <<
+							playerId << "," <<
+							tmpPlayer->GetName() << "," <<
+							tmpPlayer->GetGuid() << "," <<
+							i << "," <<
+							tmpPlayer->GetNumber()
+							);
 				}
 			} else {
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
@@ -1552,6 +1562,54 @@ ClientStateWaitStart::InternalHandlePacket(boost::shared_ptr<ClientThread> clien
 				throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
 		}
 		client->InitGame();
+
+
+		LOG_MSG("Game created. Let's LOG:");
+		// LOG seats
+		{
+			boost::shared_ptr<Game> tmpGame = client->GetGame();
+			PlayerListConstIterator it_c;
+			boost::shared_ptr<PlayerInterface> tmpPlayer;
+			PlayerList seatsList = tmpGame->getSeatsList();
+			PlayerList activePlayerList = tmpGame->getActivePlayerList();
+			PlayerList runningPlayerList = tmpGame->getRunningPlayerList();
+
+			LOG_MSG("\t === Player seats === ");
+			for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
+				tmpPlayer = *it_c;
+
+				LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+						tmpPlayer->getMyID() << ", " <<
+						tmpPlayer->getMyName() << ", " <<
+						tmpPlayer->getMyUniqueID() << ", " <<
+						tmpPlayer->getMyGuid());
+			}
+
+
+			LOG_MSG("\t === Player active List === ");
+			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+				tmpPlayer = *it_c;
+
+				LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+						tmpPlayer->getMyID() << ", " <<
+						tmpPlayer->getMyName() << ", " <<
+						tmpPlayer->getMyUniqueID() << ", " <<
+						tmpPlayer->getMyGuid());
+			}
+
+			LOG_MSG("\t === Player running List === ");
+			for (it_c=runningPlayerList->begin(); it_c!=runningPlayerList->end(); ++it_c) {
+				tmpPlayer = *it_c;
+
+				LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+						tmpPlayer->getMyID() << ", " <<
+						tmpPlayer->getMyName() << ", " <<
+						tmpPlayer->getMyUniqueID() << ", " <<
+						tmpPlayer->getMyGuid());
+			}
+		}
+
+
 		client->GetGame()->setCurrentHandID(tmpHandId);
 		// We need to remove the temporary player data objects after creating the game.
 		BOOST_FOREACH(unsigned tmpPlayerId, tmpPlayerList) {
@@ -1705,6 +1763,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->GetCallback().SignalNetClientPostRiverShowCards(r.playerid());
 		client->GetClientLog()->logHoleCardsHandName(client->GetGame()->getActivePlayerList(), tmpPlayer, true);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_PlayerIdChangedMessage) {
+
+		LOG_MSG("performing rejoin");
 		boost::shared_ptr<Game> curGame = client->GetGame();
 		if (curGame) {
 			// Perform Id change.
@@ -1712,6 +1772,9 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			boost::shared_ptr<PlayerInterface> tmpPlayer = curGame->getPlayerByUniqueId(idChanged.oldplayerid());
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+
+			LOG_MSG("Player rejoins with " << tmpPlayer->getMyCash());
+
 			tmpPlayer->setMyUniqueID(idChanged.newplayerid());
 			// This player is now active again.
 			tmpPlayer->setMyStayOnTableStatus(true);

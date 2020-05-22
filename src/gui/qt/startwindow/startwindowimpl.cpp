@@ -33,6 +33,7 @@
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 #include <net/socket_msg.h>
+#include <core/loghelper.h>
 #include "tools.h"
 #include "session.h"
 #include "game.h"
@@ -71,6 +72,8 @@ using namespace std;
 startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	: myConfig(c), myLog(l), msgBoxOutdatedVersionActive(false)
 {
+
+	LOG_MSG("starting startWindowImpl");
 
 	myGuiInterface.reset(new GuiWrapper(myConfig, this));
 	{
