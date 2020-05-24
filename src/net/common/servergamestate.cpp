@@ -826,6 +826,14 @@ ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boos
 }
 
 void
+ServerGameStateStartGame::TimerAllowLateRegTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
+{
+	if (!ec) { // ( && &server->GetState() != &ServerGameStateFinal::s_state ) I don't know how to check if state is not final
+		server->CancelLateReg();
+	}
+}
+
+void
 ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 {
 	PlayerDataList tmpPlayerList(server->InternalStartGame());
@@ -874,6 +882,15 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 
 		server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 
+		// set late reg timer (if allowed)
+		if (server->IsLateReg()) {
+			server->GetAllowEntryTimer().expires_from_now(
+						minutes(server->GetGameData().maxTimeLateReg));
+			server->GetAllowEntryTimer().async_wait(
+						boost::bind(
+							&ServerGameStateStartGame::TimerAllowLateRegTimeout, this, boost::asio::placeholders::error, server));
+		}
+
 		// Start the first hand.
 		ServerGameStateHand::StartNewHand(server);
 		server->SetState(ServerGameStateHand::Instance());
@@ -909,7 +926,7 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 			// Wait for rejoining player to confirm start of game.
 			server->GetLobbyThread().GetSender().Send(session, packet);
 		}
-		else if (session && session->GetPlayerData() && server->GetGameData().gameType == GAME_TYPE_NORMAL) { // only normal games
+		else if (session && session->GetPlayerData() && server->admitReentries(session->GetPlayerData())) {
 			const GameData tmpGameData = server->GetGameData();
 
 			if (server->GetCurNumberOfPlayers() < tmpGameData.maxNumberOfPlayers) { // there is a seat available

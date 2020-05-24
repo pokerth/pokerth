@@ -128,6 +128,10 @@ public:
 
 	void AddPlayerToNumJoinsPerPlayer(const std::string &playerName);
 	int GetNumJoinsPerPlayer(const std::string &playerName);
+	bool admitReentries(boost::shared_ptr<PlayerData> player);
+
+	void CancelLateReg();
+	bool IsLateReg();
 
 protected:
 
@@ -184,6 +188,7 @@ protected:
 
 	boost::asio::steady_timer &GetStateTimer1();
 	boost::asio::steady_timer &GetStateTimer2();
+	boost::asio::steady_timer &GetAllowEntryTimer();
 
 	const StartData &GetStartData() const;
 	void SetStartData(const StartData &startData);
@@ -195,6 +200,8 @@ protected:
 	const SessionManager &GetSessionManager() const;
 	SessionManager &GetSessionManager();
 	ServerDBInterface &GetDatabase();
+
+	void setEntries(const PlayerDataList &playerData);
 
 	typedef std::map<std::string, int> NumJoinsPerPlayerMap;
 
@@ -247,7 +254,9 @@ private:
 	boost::asio::steady_timer m_voteKickTimer;
 	boost::asio::steady_timer m_stateTimer1;
 	boost::asio::steady_timer m_stateTimer2;
+	boost::asio::steady_timer m_allowEntryTimer;
 	bool				m_isNameReported;
+	bool				m_isLateRegAllowed;
 
 	friend class ServerLobbyThread;
 	friend class AbstractServerGameStateReceiving;
@@ -260,6 +269,7 @@ private:
 	friend class ServerGameStateWaitNextHand;
 
 	NumJoinsPerPlayerMap m_numJoinsPerPlayer;
+	NumJoinsPerPlayerMap m_numEntriesPlayer;
 };
 
 #endif

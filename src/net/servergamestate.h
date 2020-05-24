@@ -145,6 +145,7 @@ protected:
 
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
+	void TimerAllowLateRegTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void DoStart(boost::shared_ptr<ServerGame> server);
 
 private:

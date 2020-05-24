@@ -71,10 +71,15 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 	  m_gameData(gameData), m_curState(NULL), m_id(id), m_name(name),
 	  m_password(pwd), m_creatorPlayerDBId(creatorPlayerDBId), m_playerConfig(playerConfig),
 	  m_gameNum(1), m_curPetitionId(1), m_voteKickTimer(lobbyThread->GetIOService()),
-	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService()),
-	  m_isNameReported(false)
+	  m_stateTimer1(lobbyThread->GetIOService()), m_stateTimer2(lobbyThread->GetIOService()), m_allowEntryTimer(lobbyThread->GetIOService()),
+	  m_isNameReported(false), m_isLateRegAllowed(false)
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
+
+	// set late reg allowed
+	if ((m_gameData.gameType == GAME_TYPE_NORMAL || m_gameData.gameType == GAME_TYPE_REGISTERED_ONLY) &&
+			(m_gameData.allowLateReg || m_gameData.allowReentries) &&
+			m_gameData.maxTimeLateReg > 0) m_isLateRegAllowed = true;
 }
 
 ServerGame::~ServerGame()
@@ -92,6 +97,7 @@ void
 ServerGame::Exit()
 {
 	m_voteKickTimer.cancel();
+	m_allowEntryTimer.cancel();
 	SetState(ServerGameStateFinal::Instance());
 }
 
@@ -353,6 +359,8 @@ ServerGame::InternalStartGame()
 
 		if (GetGameData().gameType == GAME_TYPE_RANKING)
 			StoreLastGames(playerData);
+
+		setEntries(playerData);
 		
 	}
 	return playerData;
@@ -492,6 +500,7 @@ ServerGame::InternalEndGame()
 	StoreAndResetRanking();
 	m_game.reset();
 	m_numJoinsPerPlayer.clear();
+	m_numEntriesPlayer.clear();
 }
 
 void
@@ -1119,6 +1128,12 @@ ServerGame::GetStateTimer2()
 	return m_stateTimer2;
 }
 
+boost::asio::steady_timer &
+ServerGame::GetAllowEntryTimer()
+{
+	return m_allowEntryTimer;
+}
+
 Game &
 ServerGame::GetGame()
 {
@@ -1230,4 +1245,46 @@ ServerGame::GetNumJoinsPerPlayer(const std::string &playerName)
 		num = pos->second;
 	}
 	return num;
+}
+
+void
+ServerGame::setEntries(const PlayerDataList &playerDataList) {
+
+	PlayerDataList::const_iterator i = playerDataList.begin();
+	PlayerDataList::const_iterator end = playerDataList.end();
+
+	while (i != end) {
+		boost::shared_ptr<PlayerData> tmpPlayer(*i);
+		m_numEntriesPlayer[tmpPlayer->GetName()] = 0;
+		++i;
+	}
+}
+
+bool
+ServerGame::admitReentries(boost::shared_ptr<PlayerData> player) { // FIXME: maybe set a reason, to return appropiate message. eg: uint32 &reason
+
+	bool retVal = false;
+	const GameData &tmpGameData = GetGameData();
+
+	if (!m_isLateRegAllowed) return retVal;
+	NumJoinsPerPlayerMap::iterator pos = m_numEntriesPlayer.find(player->GetName());
+	if (pos != m_numEntriesPlayer.end()) { // is reentry
+		if (!tmpGameData.allowReentries || pos->second++ >= tmpGameData.numReentries ) return retVal; // number of entries exceeded
+	}
+	else {  // is late reg
+		if (!tmpGameData.allowLateReg) return false; // does not allow late reg
+		m_numEntriesPlayer[player->GetName()] = 0; // add player as new entry. Perhaps this should be set otherplace
+	}
+
+	return true;
+}
+
+void
+ServerGame::CancelLateReg() {
+	m_isLateRegAllowed = false;
+}
+
+bool
+ServerGame::IsLateReg() {
+	return m_isLateRegAllowed;
 }
