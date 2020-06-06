@@ -192,8 +192,10 @@ protected:
 	static void CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server);
 	static void ReactivatePlayers(boost::shared_ptr<ServerGame> server);
 	static void InitRejoiningPlayers(boost::shared_ptr<ServerGame> server);
+	static void InitReetryPlayers(boost::shared_ptr<ServerGame> server);
 	static void InitNewSpectators(boost::shared_ptr<ServerGame> server);
 	static void PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	static void PerformReentry(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 	static void SendGameData(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
 private:

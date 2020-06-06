@@ -111,6 +111,10 @@ public:
 	void AddRejoinPlayer(unsigned playerId);
 	PlayerIdList GetAndResetRejoinPlayers();
 
+	void AddReentryPlayer(unsigned playerId);
+	PlayerIdList GetAndResetReentryPlayers();
+	int GetNumberPlayersReentry();
+
 	void AddReactivatePlayer(unsigned playerId);
 	PlayerIdList GetAndResetReactivatePlayers();
 
@@ -220,6 +224,9 @@ private:
 
 	PlayerIdList m_rejoinPlayerList;
 	mutable boost::mutex m_rejoinPlayerListMutex;
+
+	PlayerIdList m_reentryPlayerList;
+	mutable boost::mutex m_reentryPlayerListMutex;
 
 	PlayerIdList m_reactivatePlayerList;
 	mutable boost::mutex m_reactivatePlayerListMutex;

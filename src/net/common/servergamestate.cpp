@@ -92,6 +92,8 @@ using namespace boost::chrono;
 
 #define GAME_MAX_NUM_JOINS_PER_PLAYER				6
 
+//#define TESTS_LATE_REG // (albmed) To develop set this define, to compile comment until reentry is implemented
+
 // Helper functions
 
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
@@ -226,6 +228,35 @@ SetPlayerResult(PlayerResult &playerResult, boost::shared_ptr<PlayerInterface> t
 	playerResult.set_moneywon(tmpPlayer->getLastMoneyWon());
 	playerResult.set_playermoney(tmpPlayer->getMyCash());
 }
+
+static int
+GetRandomFreeSeat(PlayerList playerList) {
+
+	// seek for a free seat
+	PlayerListConstIterator player_i = playerList->begin();
+	PlayerListConstIterator player_end = playerList->end();
+
+	std::vector<int> v(10, 0);
+	while (player_i != player_end) {
+		v[(*player_i)->getMyID()] = 1; // mark seats with player
+		++player_i;
+	}
+
+	// random seats
+	random_shuffle(v.begin(), v.end());
+
+	int seat = -1;
+	// seeks first free seat
+	for (int i = 0; i < v.size(); i++) {
+		if (v[i] == 0) {
+			seat = i;
+			beak;
+		}
+	}
+
+	return seat;
+}
+
 
 //-----------------------------------------------------------------------------
 
@@ -828,7 +859,7 @@ ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boos
 void
 ServerGameStateStartGame::TimerAllowLateRegTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server)
 {
-	if (!ec) { // ( && &server->GetState() != &ServerGameStateFinal::s_state ) I don't know how to check if state is not final
+	if (!ec && &server->GetState() != &ServerGameStateFinal::Instance()) {
 		server->CancelLateReg();
 	}
 }
@@ -869,11 +900,11 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 
 			while (player_i != player_end) {
 				boost::shared_ptr<PlayerData> tmpPlayer = (*player_i);
-				LOG_MSG("\t\t {UID, name, GUID, seat}"  <<
+				LOG_MSG("\t\t {UID, name, GUID, seat}: -> {"  <<
 						tmpPlayer->GetUniqueId() << ", " <<
 						tmpPlayer->GetName() << ", " <<
 						tmpPlayer->GetGuid() << ", " <<
-						tmpPlayer->GetNumber()
+						tmpPlayer->GetNumber()  << "}"
 						);
 				++player_i;
 			}
@@ -881,6 +912,8 @@ ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 		}
 
 		server->SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
+
+		LOG_MSG("Starting timer for LateReg");
 
 		// set late reg timer (if allowed)
 		if (server->IsLateReg()) {
@@ -929,17 +962,42 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 		else if (session && session->GetPlayerData() && server->admitReentries(session->GetPlayerData())) {
 			const GameData tmpGameData = server->GetGameData();
 
-			if (server->GetCurNumberOfPlayers() < tmpGameData.maxNumberOfPlayers) { // there is a seat available
-				AcceptNewSession(server, session, false); // player wants to join
+			if (server->GetCurNumberOfPlayers() + server->GetNumberPlayersReentry() < tmpGameData.maxNumberOfPlayers) { // there is a seat available
 
-				// TODO:
-				//   - locate seat
+
+
+
+#ifndef TESTS_LATE_REG
+				server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+#else
+				// Uncomment next line when implemented
+				AcceptNewSession(server, session, false); // player wants to join
+				server->AddReentryPlayer(session->GetPlayerData()->GetUniqueId()); // add to list of players to reentry
+
+				LOG_MSG("Late reg is allowed and there is a seat available... unfortunatelly not implemented, yet ;)");
+
+				// Send start event right away.
+				boost::shared_ptr<NetPacket> packet(new NetPacket);
+				packet->GetMsg()->set_messagetype(PokerTHMessage::Type_StartEventMessage);
+				StartEventMessage *netStartEvent = packet->GetMsg()->mutable_starteventmessage();
+				netStartEvent->set_starteventtype(StartEventMessage::reentryEvent); // <-- set reentry event!! TODO (albmed): Fist we have to check proto NET versions. Both NET_VERSION_MAJOR & NET_VERSION_MINOR
+				netStartEvent->set_gameid(server->GetId());
+
+				// Wait for rejoining player to confirm start of game.
+				server->GetLobbyThread().GetSender().Send(session, packet);
+
+
+				// TODO (albmed):
+				//   - locate seat ---> this should be done in ServerGameStateHand::StartNewHand
 				//   - notify players and users
 				//   - move session to server
 				//   - set cash
 				//   - wait for button to pass (if necessary)
 				//   - let player play
 
+
+
+#endif
 			}
 			else {
 				server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
@@ -1323,11 +1381,11 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = (*i);
 
-			LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+			LOG_MSG("\t\t {ID, name, UID} -> {" <<
 							tmpPlayer->getMyID() << ", " <<
 							tmpPlayer->getMyName() << ", " <<
-							tmpPlayer->getMyUniqueID() << ", " <<
-							tmpPlayer->getMyGuid());
+							tmpPlayer->getMyUniqueID() << "}"
+					);
 			++i;
 		}
 
@@ -1338,11 +1396,11 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = (*i);
 
-			LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+			LOG_MSG("\t\t {ID, name, UID} -> {" <<
 							tmpPlayer->getMyID() << ", " <<
 							tmpPlayer->getMyName() << ", " <<
-							tmpPlayer->getMyUniqueID() << ", " <<
-							tmpPlayer->getMyGuid());
+							tmpPlayer->getMyUniqueID() <<  "}"
+					);
 			++i;
 		}
 
@@ -1353,11 +1411,11 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = (*i);
 
-			LOG_MSG("\t\t {ID, name, GUID; UID} =>  " <<
+			LOG_MSG("\t\t {ID, name, UID} -> {" <<
 							tmpPlayer->getMyID() << ", " <<
 							tmpPlayer->getMyName() << ", " <<
-							tmpPlayer->getMyUniqueID() << ", " <<
-							tmpPlayer->getMyGuid());
+							tmpPlayer->getMyUniqueID() << "}"
+					);
 			++i;
 		}
 
@@ -1370,11 +1428,11 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		while (player_i != player_end) {
 			boost::shared_ptr<PlayerData> tmpPlayer = (*player_i);
 
-			LOG_MSG("PlayerData: {playerId, name, GUID, number} -> {" <<
+			LOG_MSG("\t\tPlayerData: {playerId, name, number} -> {" <<
 							tmpPlayer->GetUniqueId() << "," <<
 							tmpPlayer->GetName() << "," <<
-							tmpPlayer->GetGuid() << "," <<
-							tmpPlayer->GetNumber()
+							//tmpPlayer->GetGuid() << "," <<
+							tmpPlayer->GetNumber() << "}"
 							);
 
 			++player_i;
@@ -1551,6 +1609,21 @@ ServerGameStateHand::InitRejoiningPlayers(boost::shared_ptr<ServerGame> server)
 }
 
 void
+ServerGameStateHand::InitReetryPlayers(boost::shared_ptr<ServerGame> server)
+{
+	PlayerIdList reentryIdList(server->GetAndResetReentryPlayers());
+	PlayerIdList::iterator i = reentryIdList.begin();
+	PlayerIdList::iterator end = reentryIdList.end();
+	while (i != end) {
+		boost::shared_ptr<SessionData> session(server->GetSessionManager().GetSessionByUniquePlayerId(*i));
+		if (session && session->GetPlayerData()) {
+			PerformReentry(server, session);
+		}
+		++i;
+	}
+}
+
+void
 ServerGameStateHand::InitNewSpectators(boost::shared_ptr<ServerGame> server)
 {
 	PlayerIdList spectatorIdList(server->GetAndResetNewSpectators());
@@ -1594,6 +1667,30 @@ ServerGameStateHand::PerformRejoin(boost::shared_ptr<ServerGame> server, boost::
 	} else {
 		server->SessionError(session, ERR_SOCK_INVALID_STATE);
 	}
+}
+
+void
+ServerGameStateHand::PerformReentry(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	Game &curGame = server->GetGame();
+
+	// TODO (albmed):
+	// Create player interface
+	if (session) {
+		// check if player already played this game
+		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByName(session->GetPlayerData()->GetName());
+		if (!tmpPlayer) {
+			tmpPlayer = curGame.addNewPlayer(session->GetPlayerData()); // TODO (albmed): Create addNewPlayer method
+		}
+
+		int seat = getRandomFreeSeat(curGame.getActivePlayerList());
+		if (seat >= 0) { // ok
+			// seat found....
+		}
+		else throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
+	}
+
+
 }
 
 void

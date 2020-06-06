@@ -142,6 +142,8 @@ public:
 	boost::shared_ptr<PlayerInterface> getPlayerByName(const std::string &name);
 	boost::shared_ptr<PlayerInterface> getCurrentPlayer();
 
+	boost::shared_ptr<PlayerInterface> addNewPlayer(boost::shared_ptr<PlayerData> player);
+
 	void raiseBlinds();
 
 private:

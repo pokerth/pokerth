@@ -324,3 +324,20 @@ void Game::raiseBlinds()
 		currentSmallBlind = min(currentSmallBlind,startQuantityPlayers*startCash/2);
 	}
 }
+
+boost::shared_ptr<PlayerInterface>
+Game::addNewPlayer(boost::shared_ptr<PlayerData> player)
+{
+
+	// TODO (albmed): We must think how:
+	// also add to seatList (or replace a free slot if 10 players tops)
+
+	int i = 0; // ERROR. Thik about approppiate value (probably this should be set after a seat is found)
+
+	boost::shared_ptr<PlayerInterface> tmpPlayer = myFactory->createPlayer(i, player->GetUniqueId(), player->GetType(), player->GetName(), player->GetAvatarFile(), player->GetStartCash(), startQuantityPlayers > i, PLAYER_TYPE_HUMAN, 0);
+	tmpPlayer->setIsSessionActive(true); // ??? Really ???
+	tmpPlayer->setMyGuid(player->GetGuid());
+
+
+	return tmpPlayer;
+}

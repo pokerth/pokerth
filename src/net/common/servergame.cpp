@@ -76,10 +76,18 @@ ServerGame::ServerGame(boost::shared_ptr<ServerLobbyThread> lobbyThread, u_int32
 {
 	LOG_VERBOSE("Game object " << GetId() << " created.");
 
+	// TODO (albmed): Next is wrong!!
+	// If game is restarted without being created, m_isLateRegAllowed probably will be always false because its timer would already be cancelled in previous game and object is not created again.
+	// So, constructor is not called again.
+	// m_isLateRegAllowed should probably be set on Init() function or in ServerGameStateInit::Enter. To be checked!!
+
+
 	// set late reg allowed
 	if ((m_gameData.gameType == GAME_TYPE_NORMAL || m_gameData.gameType == GAME_TYPE_REGISTERED_ONLY) &&
 			(m_gameData.allowLateReg || m_gameData.allowReentries) &&
 			m_gameData.maxTimeLateReg > 0) m_isLateRegAllowed = true;
+
+	LOG_MSG("m_isLateRegAllowed: " << std::boolalpha << m_isLateRegAllowed);
 }
 
 ServerGame::~ServerGame()
@@ -787,12 +795,35 @@ ServerGame::AddRejoinPlayer(unsigned playerId)
 	m_rejoinPlayerList.push_back(playerId);
 }
 
+void
+ServerGame::AddReentryPlayer(unsigned playerId)
+{
+	boost::mutex::scoped_lock lock(m_reentryPlayerListMutex);
+	m_reentryPlayerList.push_back(playerId);
+}
+
 PlayerIdList
 ServerGame::GetAndResetRejoinPlayers()
 {
 	boost::mutex::scoped_lock lock(m_rejoinPlayerListMutex);
 	PlayerIdList tmpList(m_rejoinPlayerList);
 	m_rejoinPlayerList.clear();
+	return tmpList;
+}
+
+unsigned
+ServerGame::GetNumberPlayersReentry()
+{
+	boost::mutex::scoped_lock lock(m_rejoinPlayerListMutex);
+	return static_cast<unsigned>(m_rejoinPlayerList.size());
+}
+
+PlayerIdList
+ServerGame::GetAndResetReentryPlayers()
+{
+	boost::mutex::scoped_lock lock(m_reentryPlayerListMutex);
+	PlayerIdList tmpList(m_reentryPlayerList);
+	m_reentryPlayerList.clear();
 	return tmpList;
 }
 
@@ -1258,6 +1289,18 @@ ServerGame::setEntries(const PlayerDataList &playerDataList) {
 		m_numEntriesPlayer[tmpPlayer->GetName()] = 0;
 		++i;
 	}
+
+	{
+		LOG_MSG("Printting set entries:");
+
+		NumJoinsPerPlayerMap::const_iterator i = m_numEntriesPlayer.begin();
+		NumJoinsPerPlayerMap::const_iterator end = m_numEntriesPlayer.end();
+
+		while (i != end) {
+			LOG_MSG("\t{player, entries}: {" << (*i).first << ", " << (*i).second << "}");
+			++i;
+		}
+	}
 }
 
 bool
@@ -1266,7 +1309,8 @@ ServerGame::admitReentries(boost::shared_ptr<PlayerData> player) { // FIXME: may
 	bool retVal = false;
 	const GameData &tmpGameData = GetGameData();
 
-	if (!m_isLateRegAllowed) return retVal;
+	// uncomment to remove logs
+	/*if (!m_isLateRegAllowed) return retVal;
 	NumJoinsPerPlayerMap::iterator pos = m_numEntriesPlayer.find(player->GetName());
 	if (pos != m_numEntriesPlayer.end()) { // is reentry
 		if (!tmpGameData.allowReentries || pos->second++ >= tmpGameData.numReentries ) return retVal; // number of entries exceeded
@@ -1274,7 +1318,35 @@ ServerGame::admitReentries(boost::shared_ptr<PlayerData> player) { // FIXME: may
 	else {  // is late reg
 		if (!tmpGameData.allowLateReg) return false; // does not allow late reg
 		m_numEntriesPlayer[player->GetName()] = 0; // add player as new entry. Perhaps this should be set otherplace
+	}*/
+
+	// comment or delete to remove logs -- begin
+	if (!m_isLateRegAllowed) {
+		LOG_MSG("Late reg was not allowed or is no longer available");
+		return retVal;
 	}
+	NumJoinsPerPlayerMap::iterator pos = m_numEntriesPlayer.find(player->GetName());
+	if (pos != m_numEntriesPlayer.end()) { // is reentry
+		LOG_MSG("Player " << player->GetName() << " is trying to re-entry. Previous entries: " << pos->second);
+		if (!tmpGameData.allowReentries || pos->second++ >= tmpGameData.numReentries ) {
+			LOG_MSG("Number of reentries exceeded");
+			return retVal; // number of entries exceeded
+		}
+		else {
+			LOG_MSG("Allowed to re-entry");
+		}
+	}
+	else {  // is late reg
+		LOG_MSG("Player " << player->GetName() << " is trying a late reg");
+		if (!tmpGameData.allowLateReg) {
+			LOG_MSG("Game does not allow late reg");
+			return false; // does not allow late reg
+		}
+		m_numEntriesPlayer[player->GetName()] = 0; // add player as new entry. Perhaps this should be set otherplace
+	}
+
+	LOG_MSG("Late reg allowed!! ");
+	// comment or delete to remove logs -- end
 
 	return true;
 }
@@ -1282,6 +1354,8 @@ ServerGame::admitReentries(boost::shared_ptr<PlayerData> player) { // FIXME: may
 void
 ServerGame::CancelLateReg() {
 	m_isLateRegAllowed = false;
+
+	LOG_MSG("Called CancelLateReg");
 }
 
 bool

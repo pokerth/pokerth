@@ -424,6 +424,7 @@ message StartEventMessage {
 	enum StartEventType {
 		startEvent = 0;
 		rejoinEvent = 1;
+		reentryEvent = 2;
 	}
 	required	StartEventType	startEventType = 2;
 	optional	bool			fillWithComputerPlayers = 3;
