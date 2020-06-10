@@ -13,7 +13,7 @@ SCRIPT_ROOT=$(dirname "$(realpath $0)")         # Directory containg this script
 REPO_ROOT=$(git rev-parse --show-toplevel)      # Abs path to repository root
 WORK_DIR=${WORK_DIR:-$SCRIPT_ROOT/work}         # Where to download deps, etc.
 INSTALL_DIR=${WORK_DIR}/installed               # Where we 'make install' our compiled dependencies
-MARKER_DIR=${INSTALL_DIR}/markers               # Where we create 'markers' to indicate we've built a dependency
+MARKER_DIR=${WORK_DIR}/markers               # Where we create 'markers' to indicate we've built a dependency
 timestamp=$(date +%s)                           # Todays timestamp (unix epoc)
 
 # Number of CPU cores, to speed up 'make'

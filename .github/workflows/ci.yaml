@@ -12,19 +12,19 @@ jobs:
     - name: PokerTH git repo checkout
       uses: actions/checkout@v2
 
-    # Cache the 'protobuf' directory, so we don't have to build it again!  
+    # Cache the 'protobuf' directory, so we don't have to build it again!
     - name: Cache protobuf build
       uses: actions/cache@v1
       with:
         path: ~/cache/installed/protobuf
         key: ${{ runner.os }}-protobuf
-    
+
     # Cache the 'markers' directory, so we know next time what we have already built successfully
-    - name: Cache protobuf build
+    - name: Cache markers directory
       uses: actions/cache@v1
       with:
         path: ~/cache/markers
-        key: ${{ runner.os }}-protobuf
+        key: ${{ runner.os }}-markers
 
     # Build PokerTH
     # Note that if the build failes, caches won't get stored, so it might be sensible to disable the build
