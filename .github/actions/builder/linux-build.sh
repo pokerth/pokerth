@@ -80,15 +80,15 @@ sudo apt-get install -y \
 version=3.6.1
 marker=protobuf
 if ! isGoodMarker ${marker}; then
-	fetch "https://github.com/protocolbuffers/protobuf/releases/download/v${version}/protobuf-cpp-${version}.tar.gz"
-	tar xf protobuf-cpp-${version}.tar.gz
-  pushd protobuf-${version}
-  ./configure --prefix=${INSTALL_DIR}
-	make -j ${numCores}
- 	make check
- 	sudo make install
- 	popd
-  createMarker $markerfile
+    fetch "https://github.com/protocolbuffers/protobuf/releases/download/v${version}/protobuf-cpp-${version}.tar.gz"
+    tar xf protobuf-cpp-${version}.tar.gz
+    pushd protobuf-${version}
+    ./configure --prefix=${INSTALL_DIR}
+    make -j ${numCores}
+    make check
+    sudo make install
+    popd
+    createMarker $markerfile
 fi
 
 # Download and build boost
