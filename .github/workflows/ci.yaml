@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: |
         cd .github/actions/builder/
-        WORKDIR=~/cache/ ./linux-build.sh
+        WORK_DIR=~/cache/ ./linux-build.sh
