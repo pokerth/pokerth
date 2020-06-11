@@ -88,7 +88,7 @@ if ! isGoodMarker ${marker}; then
     make check
     sudo make install
     popd
-    createMarker $markerfile
+    createMarker $marker
 fi
 
 # Download and build boost
