@@ -38,16 +38,16 @@ function createMarker() {
 function isGoodMarker() {
     filename=name=${MARKER_DIR}/$1
     if [[ ! -f ${filename} ]]; then
-        return false
+        return 1 # Reminder: 0 is success, everything else is error code
     fi
     markerDate=$(cat ${filename})
     let markerAge=$timestamp-$markerDate
     let maxAge=86400*14 # 14 days
     if [[ ${markerAge} -lt ${maxAge} ]]; then
-        return true
+        return 0 # Good marker!
     fi
 
-    return false
+    return 1
 }
 
 mkdir -p ${WORK_DIR}
@@ -80,6 +80,7 @@ sudo apt-get install -y \
 version=3.6.1
 marker=protobuf
 if ! isGoodMarker ${marker}; then
+    rm -rf protobuf-${version}
     fetch "https://github.com/protocolbuffers/protobuf/releases/download/v${version}/protobuf-cpp-${version}.tar.gz"
     tar xf protobuf-cpp-${version}.tar.gz
     pushd protobuf-${version}
@@ -96,9 +97,9 @@ fi
 marker=boost
 version=1_63_0
 if ! isGoodMarker ${marker}; then
+    rm -rf boost_${version} 
     fetch "https://iweb.dl.sourceforge.net/project/boost/boost/${version//_/.}/boost_${version}.tar.gz"
     tar xf boost_${version}.tar.gz
-    touch boost_${version}/${MARKERFILE}.dl
     pushd boost_${version}
     ./bootstrap.sh
     ./b2 install --prefix=${INSTALL_DIR}
