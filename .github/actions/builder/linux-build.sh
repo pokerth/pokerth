@@ -99,8 +99,6 @@ if ! isGoodMarker ${marker}; then
     createMarker ${marker}
 fi
 
-echo build disabled to get the deps built and cached && exit 0 
-
 # Download and build boost
 # PokerTH doesn't compile with most recent boost 1.73.0.
 marker=boost
@@ -117,6 +115,7 @@ if ! isGoodMarker ${marker}; then
     popd
 fi
 
+echo build disabled to get the deps built and cached && exit 0 
 
 popd
 
