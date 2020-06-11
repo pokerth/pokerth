@@ -9,11 +9,18 @@ set -x
 
 # There's a bit of a overhead to help with caching when running on Github Actions
 
+
+# Error trap to write out line number in case of a build failure!
+err_report() {
+  echo "Script failed on line $(caller)" >&2
+}
+trap err_report ERR
+
 SCRIPT_ROOT=$(dirname "$(realpath $0)")         # Directory containg this script
 REPO_ROOT=$(git rev-parse --show-toplevel)      # Abs path to repository root
 WORK_DIR=${WORK_DIR:-$SCRIPT_ROOT/work}         # Where to download deps, etc.
 INSTALL_DIR=${WORK_DIR}/installed               # Where we 'make install' our compiled dependencies
-MARKER_DIR=${WORK_DIR}/markers               # Where we create 'markers' to indicate we've built a dependency
+MARKER_DIR=${WORK_DIR}/markers                  # Where we create 'markers' to indicate we've built a dependency
 timestamp=$(date +%s)                           # Todays timestamp (unix epoc)
 
 # Number of CPU cores, to speed up 'make'
@@ -89,8 +96,10 @@ if ! isGoodMarker ${marker}; then
     make check
     sudo make install
     popd
-    createMarker $marker
+    createMarker ${marker}
 fi
+
+echo build disabled to get the deps built and cached && exit 0 
 
 # Download and build boost
 # PokerTH doesn't compile with most recent boost 1.73.0.
