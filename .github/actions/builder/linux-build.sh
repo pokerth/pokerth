@@ -21,7 +21,7 @@ sudo apt install -y mysql++-dev
 
 echo "Building PokerTH"
 pushd ${REPO_ROOT}
-qmakeCmd="qmake INCLUDEPATH+=/usr QMAKE_CFLAGS_ISYSTEM= -spec linux-g++"
+qmakeCmd="qmake QMAKE_CFLAGS_ISYSTEM= -spec linux-g++"
 
 for i in client official_server; do
     echo Building $i
