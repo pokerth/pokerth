@@ -23,7 +23,7 @@ REPO_ROOT=$(git rev-parse --show-toplevel)      # Abs path to repository root
 # List dependencies: apt show pokerth | grep ^Depends | tr ',' "\n"
 echo "Installing dependencies"
 cat /etc/apt/sources.list 
-sed -i 's/^#\s*deb/deb/g' /etc/apt/sources.list
+sudo sed -i 's/^#\s*deb/deb/g' /etc/apt/sources.list
 sudo apt build-dep -y pokerth
 sudo apt install -y mysql++-dev
 
