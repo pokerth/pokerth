@@ -71,14 +71,14 @@ function install_mac_deps() {
 echo "Installing ${OS} dependencies"
 install_${OS}_deps
 
-#echo "Building PokerTH"
-#pushd ${REPO_ROOT}
-#
-#for i in client official_server; do
-#    echo Building $i
-#    $QMAKE_CMD CONFIG+="$i" pokerth.pro
-#    make -j${numCpu}
-#done
+echo "Building PokerTH"
+pushd ${REPO_ROOT}
+
+for i in client official_server; do
+    echo Building $i
+    $QMAKE_CMD CONFIG+="$i" pokerth.pro
+    make -j${numCpu}
+done
 
 # Any tests to run?
 
