@@ -13,16 +13,16 @@ REPO_ROOT=$(git rev-parse --show-toplevel)      # Abs path to repository root
 
 OS=""
 case "$OSTYPE" in
-  linux*) OS=linux ;; 
-  darwin*) OS=mac ; 
-  *) echo "Can't build on this platform ($OSTYPE)"; exit 1 ;; 
+  linux*) OS=linux ;;
+  darwin*) OS=mac ;;
+  *) echo "Can't build on this platform ($OSTYPE)"; exit 1 ;;
 esac
 
 
 function install_linux_deps() {
   # Basic dependencies we can get from the OS
   # List dependencies: apt show pokerth | grep ^Depends | tr ',' "\n"
-  cat /etc/apt/sources.list 
+  cat /etc/apt/sources.list
   sudo sed -i '/deb-src/s/^# //' /etc/apt/sources.list && sudo apt update
   sudo apt build-dep -y pokerth
   sudo apt install -y mysql++-dev
