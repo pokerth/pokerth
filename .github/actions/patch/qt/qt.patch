@@ -1,0 +1,11 @@
+--- src/plugins/accessible/widgets/itemviews.cpp
++++ src/plugins/accessible/widgets/itemviews.cpp
+@@ -393,7 +393,7 @@ bool QAccessibleTable2::unselectColumn(int column)
+     QModelIndex index = view()->model()->index(0, column, view()->rootIndex());
+     if (!index.isValid() || view()->selectionMode() & QAbstractItemView::NoSelection)
+         return false;
+-    view()->selectionModel()->select(index, QItemSelectionModel::Columns & QItemSelectionModel::Deselect);
++    view()->selectionModel()->select(index, static_cast<QItemSelectionModel::SelectionFlag>(QItemSelectionModel::Columns & QItemSelectionModel::Deselect));
+     return true;
+ }
+
