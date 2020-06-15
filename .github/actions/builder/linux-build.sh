@@ -20,10 +20,8 @@ sudo apt build-dep -y pokerth
 sudo apt install -y mysql++-dev
 
 echo "Building PokerTH"
-qtchooser -l
-qtchooser -print-env
 pushd ${REPO_ROOT}
-qmakeCmd="qmake QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++"
+qmakeCmd="/usr/lib/x86_64-linux-gnu/qt5/bin/qmake QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++"
 
 for i in client official_server; do
     echo Building $i
