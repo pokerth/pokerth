@@ -9,7 +9,7 @@ err_report() {
 trap err_report ERR
 
 REPO_ROOT=$(git rev-parse --show-toplevel)      # Abs path to repository root
-QMAKE_CMD="qmake"                                # Default qmake command
+QMAKE_CMD="qmake"                               # Default qmake command
 
 OS=""
 case "$OSTYPE" in
@@ -38,6 +38,10 @@ function install_mac_deps() {
 
   mkdir -p ~/cache
   pushd ~/cache
+
+
+  # To change the cache on GHA, you'll need to uncomment the following line
+  # rm -f deps.cache.ready
 
   # ~/cache is cached when running on GHA
   if [[ ! -f deps.cache.ready ]]; then
