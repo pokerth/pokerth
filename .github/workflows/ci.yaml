@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   linux:
-    name: build
+    name: linux
 
     runs-on: ubuntu-18.04
 
@@ -33,7 +33,7 @@ jobs:
         path: path/to/pokerth-server-binary    
   
   mac:
-    name: build
+    name: mac
 
     runs-on: macos-10.15
 
