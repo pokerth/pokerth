@@ -19,19 +19,19 @@ jobs:
       run: |
         cd .github/actions/builder/
         ./build.sh
-    
+
     # Upload the build artifact to GHA so it can be downloaded on the GHA Action page
-    # See docs here: https://github.com/actions/upload-artifact 
+    # See docs here: https://github.com/actions/upload-artifact
     - uses: actions/upload-artifact@v2
       with:
         name: pokerth-client
         path: path/to/pokerth-client-binary
-        
+
     - uses: actions/upload-artifact@v2
       with:
         name: pokerth-server
-        path: path/to/pokerth-server-binary    
-  
+        path: path/to/pokerth-server-binary
+
   mac:
     name: mac
 
@@ -40,6 +40,13 @@ jobs:
     steps:
     - name: PokerTH git repo checkout
       uses: actions/checkout@v2
+
+    # Cache for dependencies
+    - name: Cache
+      uses: actions/cache@v1
+      with:
+        path: ~/cache
+        key: ${{ runner.os }}-cache
 
     # Build PokerTH
     # Note that if the build failes, caches won't get stored, so it might be sensible to disable the build
@@ -54,9 +61,8 @@ jobs:
       with:
         name: pokerth-client
         path: path/to/pokerth-client-binary
-        
+
     - uses: actions/upload-artifact@v2
       with:
         name: pokerth-server
         path: path/to/pokerth-server-binary
-      
