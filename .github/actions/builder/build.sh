@@ -8,7 +8,6 @@ err_report() {
 }
 trap err_report ERR
 
-SCRIPT_ROOT=$(dirname "$(realpath $0)")         # Directory containg this script
 REPO_ROOT=$(git rev-parse --show-toplevel)      # Abs path to repository root
 
 OS=""
