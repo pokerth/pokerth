@@ -33,14 +33,14 @@ function install_linux_deps() {
 
 # Based on https://github.com/pokerth/pokerth/wiki/Building-PokerTH-for-MacOS
 function install_mac_deps() {
-  
+
   brew install protobuf boost tinyxml mysql++ openssl qt5
 
   mkdir -p ~/cache
   pushd ~/cache
 
-  # ~/cache is cached when running on GHA  
-  if [[ ! -f deps.cache.ready ]]; then 
+  # ~/cache is cached when running on GHA
+  if [[ ! -f deps.cache.ready ]]; then
     wget --no-clobber ftp://ftp.gnu.org/gnu/gsasl/libgsasl-1.8.1.tar.gz
     rm -rf libgsasl-1.8.1
     tar xf libgsasl-1.8.1.tar.gz
@@ -50,17 +50,17 @@ function install_mac_deps() {
     popd
 
     wget --no-clobber "https://www.libsdl.org/release/SDL-1.2.15.dmg"
-    
+
     # Build instructions on the wiki mentions SDL mixer 1.2.15, but that doesn't seem to exists
     wget --no-clobber "https://www.libsdl.org/projects/SDL_mixer/release/SDL_mixer-1.2.12.dmg"
-    
+
     touch deps.cache.ready
   fi
 
-  hdiutil attach SDL-1.2.15.dmg 
+  hdiutil attach SDL-1.2.15.dmg
   sudo cp -R /Volumes/SDL/SDL.framework /Library/Frameworks/
   hdiutil attach SDL_mixer-1.2.12.dmg
-  cp -R /Volumes/SDL_mixer/SDL_mixer.framework/ /Library/Frameworks/
+  sudo cp -R /Volumes/SDL_mixer/SDL_mixer.framework/ /Library/Frameworks/
 
   popd
 
