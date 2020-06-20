@@ -113,7 +113,7 @@ public:
 
 	void AddReentryPlayer(unsigned playerId);
 	PlayerIdList GetAndResetReentryPlayers();
-	int GetNumberPlayersReentry();
+	unsigned GetNumberPlayersReentry();
 
 	void AddReactivatePlayer(unsigned playerId);
 	PlayerIdList GetAndResetReactivatePlayers();

@@ -36,6 +36,7 @@
 #include <boost/asio.hpp>
 #include <playerdata.h>
 #include <net/sessionmanager.h>
+#include <engine/engine_defs.h>
 
 
 #ifdef _MSC_VER
@@ -197,6 +198,8 @@ protected:
 	static void PerformRejoin(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 	static void PerformReentry(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 	static void SendGameData(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	static void SendGameDataReentry(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
+	static int GetRandomFreeSeat(const PlayerList playerList);
 
 private:
 	static ServerGameStateHand s_state;

@@ -66,7 +66,12 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
 		50, 51
 	};
+
+	// Shuffle three times
 	Tools::ShuffleArrayNonDeterministic(cardsArray, NumCards);
+	Tools::ShuffleArrayNonDeterministic(cardsArray, NumCards);
+	Tools::ShuffleArrayNonDeterministic(cardsArray, NumCards);
+	
 	int tempBoardArray[5];
 	int tempPlayerArray[2];
 	int tempPlayerAndBoardArray[7];

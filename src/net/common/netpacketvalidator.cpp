@@ -94,6 +94,7 @@ NetPacketValidator::NetPacketValidator()
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_StartEventAckMessage, ValidateStartEventAckMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameStartInitialMessage, ValidateGameStartInitialMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameStartRejoinMessage, ValidateGameStartRejoinMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameStartReentryMessage, ValidateGameStartReentryMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_HandStartMessage, ValidateHandStartMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_PlayersTurnMessage, ValidatePlayersTurnMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_MyActionRequestMessage, ValidateMyActionRequestMessage));
@@ -695,6 +696,22 @@ NetPacketValidator::ValidateGameStartRejoinMessage(const NetPacket &packet)
 	return retVal;
 }
 
+bool
+NetPacketValidator::ValidateGameStartReentryMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_gamestartreentrymessage()) {
+		const GameStartReentryMessage &msg = packet.GetMsg()->gamestartreentrymessage();
+		if (msg.gameid() != 0
+				&& msg.startdealerplayerid() != 0
+				&& msg.handnum() != 0
+				&& VALIDATE_LIST_SIZE(msg.reentryplayerdata(), 2, 10)) {
+
+			retVal = true;
+		}
+	}
+	return retVal;
+}
 bool
 NetPacketValidator::ValidateHandStartMessage(const NetPacket &packet)
 {

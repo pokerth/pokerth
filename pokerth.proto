@@ -451,6 +451,17 @@ message GameStartRejoinMessage {
 	repeated	RejoinPlayerData	rejoinPlayerData = 4;
 }
 
+message GameStartReentryMessage {
+        required	uint32			gameId = 1;
+	required	uint32			startDealerPlayerId = 2;
+	required	uint32			handNum = 3;
+	message ReentryPlayerData {
+	        required	uint32			playerId = 1;
+		required	uint32			playerMoney = 2;
+	}
+	repeated	ReentryPlayerData	reentryPlayerData = 4;
+}
+
 message HandStartMessage {
 	required	uint32			gameId = 1;
 	message PlainCards {
@@ -841,6 +852,7 @@ message PokerTHMessage {
 		Type_GameListSpectatorLeftMessage = 79;
 		Type_GameSpectatorJoinedMessage = 80;
 		Type_GameSpectatorLeftMessage = 81;
+		Type_GameStartReentryMessage = 82;
 	}
 	required	PokerTHMessageType				messageType = 1;
 
@@ -925,4 +937,5 @@ message PokerTHMessage {
 	optional	GameListSpectatorLeftMessage	gameListSpectatorLeftMessage = 80;
 	optional	GameSpectatorJoinedMessage		gameSpectatorJoinedMessage = 81;
 	optional	GameSpectatorLeftMessage		gameSpectatorLeftMessage = 82;
+	optional	GameStartReentryMessage			gameStartReentryMessage = 83;
 }

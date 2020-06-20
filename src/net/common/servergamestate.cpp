@@ -962,7 +962,7 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 		else if (session && session->GetPlayerData() && server->admitReentries(session->GetPlayerData())) {
 			const GameData tmpGameData = server->GetGameData();
 
-			if (server->GetCurNumberOfPlayers() + server->GetNumberPlayersReentry() < tmpGameData.maxNumberOfPlayers) { // there is a seat available
+			if (server->GetCurNumberOfPlayers() +  static_cast<int>(server->GetNumberPlayersReentry()) < tmpGameData.maxNumberOfPlayers) { // there is a seat available
 
 
 
@@ -1680,18 +1680,90 @@ ServerGameStateHand::PerformReentry(boost::shared_ptr<ServerGame> server, boost:
 		// check if player already played this game
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByName(session->GetPlayerData()->GetName());
 		if (!tmpPlayer) {
-			tmpPlayer = curGame.addNewPlayer(session->GetPlayerData()); // TODO (albmed): Create addNewPlayer method
+
+			// TODO: Late registration implementation is postponed
+
+			throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
+			// tmpPlayer = curGame.addNewPlayer(session->GetPlayerData()); // TODO (albmed): Create addNewPlayer method
+		}
+		else {
+			// This means this is a reentry, because player already played this game
+
+			// check for id change
+			if (session->GetPlayerData()->GetUniqueId() != tmpPlayer->getMyUniqueID()) {
+				// Notify other clients about id change.
+				boost::shared_ptr<NetPacket> packet(new NetPacket);
+				packet->GetMsg()->set_messagetype(PokerTHMessage::Type_PlayerIdChangedMessage);
+				PlayerIdChangedMessage *netIdChanged = packet->GetMsg()->mutable_playeridchangedmessage();
+				netIdChanged->set_oldplayerid(tmpPlayer->getMyUniqueID());
+				netIdChanged->set_newplayerid(session->GetPlayerData()->GetUniqueId());
+				server->SendToAllButOnePlayers(packet, session->GetId(), SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
+
+				// Update the dealer, if necessary.
+				curGame.replaceDealer(tmpPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
+
+				// Update the ranking map.
+				server->ReplaceRankingPlayer(tmpPlayer->getMyUniqueID(), session->GetPlayerData()->GetUniqueId());
+				// Change the Id in the poker engine.
+				tmpPlayer->setMyUniqueID(session->GetPlayerData()->GetUniqueId());
+				tmpPlayer->setMyGuid(session->GetPlayerData()->GetGuid());
+			}
+
+			tmpPlayer->markRemoteAction();
+			tmpPlayer->setIsSessionActive(true);
+			SendGameDataReentry(server, session); // TODO (albmed): This method should be duplicated
+													// - to send starting game cash: server->GetGameData().startMoney
+													// - to make a new reentry message
+
 		}
 
-		int seat = getRandomFreeSeat(curGame.getActivePlayerList());
+/*		int seat = GetRandomFreeSeat(curGame.getActivePlayerList()); // (albmed): if reentry, assign same seat or find a new one?
 		if (seat >= 0) { // ok
 			// seat found....
+
+			// is between dealer? TODO (albmed)
+			unsigned dealerPosition = curGame.getDealerPosition();
+
+
 		}
-		else throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0);
+		else throw ServerException(__FILE__, __LINE__, ERR_NET_INTERNAL_GAME_ERROR, 0); */
+
+
+
+
 	}
 
 
 }
+
+int
+ServerGameStateHand::GetRandomFreeSeat(const PlayerList playerList) {
+
+	// seek for a free seat
+	PlayerListConstIterator player_i = playerList->begin();
+	PlayerListConstIterator player_end = playerList->end();
+
+	std::vector<int> v(10, 0);
+	while (player_i != player_end) {
+		v[(*player_i)->getMyID()] = 1; // mark seats with player
+		++player_i;
+	}
+
+	// random seats
+	random_shuffle(v.begin(), v.end());
+
+	int seat = -1;
+	// seeks first free seat
+	for(std::vector<int>::size_type i = 0; i != v.size(); i++) {
+		if (v[i] == 0) {
+			seat = i;
+			break;
+		}
+	}
+
+	return seat;
+}
+
 
 void
 ServerGameStateHand::SendGameData(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
@@ -1717,6 +1789,33 @@ ServerGameStateHand::SendGameData(boost::shared_ptr<ServerGame> server, boost::s
 	}
 
 	server->GetLobbyThread().GetSender().Send(session, packet);
+}
+
+void
+ServerGameStateHand::SendGameDataReentry(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
+{
+	Game &curGame = server->GetGame();
+	// Send game start notification to reentry client.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameStartReentryMessage);
+	GameStartReentryMessage *netGameStart = packet->GetMsg()->mutable_gamestartreentrymessage();
+	netGameStart->set_gameid(server->GetId());
+	netGameStart->set_startdealerplayerid(curGame.getDealerPosition());
+	netGameStart->set_handnum(curGame.getCurrentHandID());
+	PlayerListIterator player_i = curGame.getSeatsList()->begin();
+	PlayerListIterator player_end = curGame.getSeatsList()->end();
+	int player_count = 0;
+	while (player_i != player_end && player_count < server->GetStartData().numberOfPlayers) {
+		boost::shared_ptr<PlayerInterface> tmpPlayer = *player_i;
+		GameStartReentryMessage::ReentryPlayerData *playerSlot = netGameStart->add_reentryplayerdata();
+		playerSlot->set_playerid(tmpPlayer->getMyUniqueID());
+		playerSlot->set_playermoney(server->GetGameData().startMoney);
+		++player_i;
+		++player_count;
+	}
+
+	server->GetLobbyThread().GetSender().Send(session, packet);
+
 }
 
 //-----------------------------------------------------------------------------

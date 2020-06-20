@@ -62,6 +62,8 @@ void protobuf_ShutdownFile_pokerth_2eproto() {
   delete GameStartInitialMessage::default_instance_;
   delete GameStartRejoinMessage::default_instance_;
   delete GameStartRejoinMessage_RejoinPlayerData::default_instance_;
+  delete GameStartReentryMessage::default_instance_;
+  delete GameStartReentryMessage_ReentryPlayerData::default_instance_;
   delete HandStartMessage::default_instance_;
   delete HandStartMessage_PlainCards::default_instance_;
   delete PlayersTurnMessage::default_instance_;
@@ -167,6 +169,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
   GameStartInitialMessage::default_instance_ = new GameStartInitialMessage();
   GameStartRejoinMessage::default_instance_ = new GameStartRejoinMessage();
   GameStartRejoinMessage_RejoinPlayerData::default_instance_ = new GameStartRejoinMessage_RejoinPlayerData();
+  GameStartReentryMessage::default_instance_ = new GameStartReentryMessage();
+  GameStartReentryMessage_ReentryPlayerData::default_instance_ = new GameStartReentryMessage_ReentryPlayerData();
   HandStartMessage::default_instance_ = new HandStartMessage();
   HandStartMessage_PlainCards::default_instance_ = new HandStartMessage_PlainCards();
   PlayersTurnMessage::default_instance_ = new PlayersTurnMessage();
@@ -258,6 +262,8 @@ void protobuf_AddDesc_pokerth_2eproto() {
   GameStartInitialMessage::default_instance_->InitAsDefaultInstance();
   GameStartRejoinMessage::default_instance_->InitAsDefaultInstance();
   GameStartRejoinMessage_RejoinPlayerData::default_instance_->InitAsDefaultInstance();
+  GameStartReentryMessage::default_instance_->InitAsDefaultInstance();
+  GameStartReentryMessage_ReentryPlayerData::default_instance_->InitAsDefaultInstance();
   HandStartMessage::default_instance_->InitAsDefaultInstance();
   HandStartMessage_PlainCards::default_instance_->InitAsDefaultInstance();
   PlayersTurnMessage::default_instance_->InitAsDefaultInstance();
@@ -11414,6 +11420,7 @@ bool StartEventMessage_StartEventType_IsValid(int value) {
   switch(value) {
     case 0:
     case 1:
+    case 2:
       return true;
     default:
       return false;
@@ -11423,6 +11430,7 @@ bool StartEventMessage_StartEventType_IsValid(int value) {
 #ifndef _MSC_VER
 const StartEventMessage_StartEventType StartEventMessage::startEvent;
 const StartEventMessage_StartEventType StartEventMessage::rejoinEvent;
+const StartEventMessage_StartEventType StartEventMessage::reentryEvent;
 const StartEventMessage_StartEventType StartEventMessage::StartEventType_MIN;
 const StartEventMessage_StartEventType StartEventMessage::StartEventType_MAX;
 const int StartEventMessage::StartEventType_ARRAYSIZE;
@@ -12561,6 +12569,483 @@ void GameStartRejoinMessage::Swap(GameStartRejoinMessage* other) {
 
 ::std::string GameStartRejoinMessage::GetTypeName() const {
   return "GameStartRejoinMessage";
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int GameStartReentryMessage_ReentryPlayerData::kPlayerIdFieldNumber;
+const int GameStartReentryMessage_ReentryPlayerData::kPlayerMoneyFieldNumber;
+#endif  // !_MSC_VER
+
+GameStartReentryMessage_ReentryPlayerData::GameStartReentryMessage_ReentryPlayerData()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GameStartReentryMessage_ReentryPlayerData::InitAsDefaultInstance() {
+}
+
+GameStartReentryMessage_ReentryPlayerData::GameStartReentryMessage_ReentryPlayerData(const GameStartReentryMessage_ReentryPlayerData& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GameStartReentryMessage_ReentryPlayerData::SharedCtor() {
+  _cached_size_ = 0;
+  playerid_ = 0u;
+  playermoney_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GameStartReentryMessage_ReentryPlayerData::~GameStartReentryMessage_ReentryPlayerData() {
+  SharedDtor();
+}
+
+void GameStartReentryMessage_ReentryPlayerData::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void GameStartReentryMessage_ReentryPlayerData::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GameStartReentryMessage_ReentryPlayerData& GameStartReentryMessage_ReentryPlayerData::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_pokerth_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();
+#endif
+  return *default_instance_;
+}
+
+GameStartReentryMessage_ReentryPlayerData* GameStartReentryMessage_ReentryPlayerData::default_instance_ = NULL;
+
+GameStartReentryMessage_ReentryPlayerData* GameStartReentryMessage_ReentryPlayerData::New() const {
+  return new GameStartReentryMessage_ReentryPlayerData;
+}
+
+void GameStartReentryMessage_ReentryPlayerData::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    playerid_ = 0u;
+    playermoney_ = 0u;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GameStartReentryMessage_ReentryPlayerData::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 playerId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &playerid_)));
+          set_has_playerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_playerMoney;
+        break;
+      }
+
+      // required uint32 playerMoney = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_playerMoney:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &playermoney_)));
+          set_has_playermoney();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GameStartReentryMessage_ReentryPlayerData::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 playerId = 1;
+  if (has_playerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->playerid(), output);
+  }
+
+  // required uint32 playerMoney = 2;
+  if (has_playermoney()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->playermoney(), output);
+  }
+
+}
+
+int GameStartReentryMessage_ReentryPlayerData::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 playerId = 1;
+    if (has_playerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->playerid());
+    }
+
+    // required uint32 playerMoney = 2;
+    if (has_playermoney()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->playermoney());
+    }
+
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GameStartReentryMessage_ReentryPlayerData::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GameStartReentryMessage_ReentryPlayerData*>(&from));
+}
+
+void GameStartReentryMessage_ReentryPlayerData::MergeFrom(const GameStartReentryMessage_ReentryPlayerData& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_playerid()) {
+      set_playerid(from.playerid());
+    }
+    if (from.has_playermoney()) {
+      set_playermoney(from.playermoney());
+    }
+  }
+}
+
+void GameStartReentryMessage_ReentryPlayerData::CopyFrom(const GameStartReentryMessage_ReentryPlayerData& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameStartReentryMessage_ReentryPlayerData::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  return true;
+}
+
+void GameStartReentryMessage_ReentryPlayerData::Swap(GameStartReentryMessage_ReentryPlayerData* other) {
+  if (other != this) {
+    std::swap(playerid_, other->playerid_);
+    std::swap(playermoney_, other->playermoney_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GameStartReentryMessage_ReentryPlayerData::GetTypeName() const {
+  return "GameStartReentryMessage.ReentryPlayerData";
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
+const int GameStartReentryMessage::kGameIdFieldNumber;
+const int GameStartReentryMessage::kStartDealerPlayerIdFieldNumber;
+const int GameStartReentryMessage::kHandNumFieldNumber;
+const int GameStartReentryMessage::kReentryPlayerDataFieldNumber;
+#endif  // !_MSC_VER
+
+GameStartReentryMessage::GameStartReentryMessage()
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+}
+
+void GameStartReentryMessage::InitAsDefaultInstance() {
+}
+
+GameStartReentryMessage::GameStartReentryMessage(const GameStartReentryMessage& from)
+  : ::google::protobuf::MessageLite() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void GameStartReentryMessage::SharedCtor() {
+  _cached_size_ = 0;
+  gameid_ = 0u;
+  startdealerplayerid_ = 0u;
+  handnum_ = 0u;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+GameStartReentryMessage::~GameStartReentryMessage() {
+  SharedDtor();
+}
+
+void GameStartReentryMessage::SharedDtor() {
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  if (this != &default_instance()) {
+  #else
+  if (this != default_instance_) {
+  #endif
+  }
+}
+
+void GameStartReentryMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const GameStartReentryMessage& GameStartReentryMessage::default_instance() {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  protobuf_AddDesc_pokerth_2eproto();
+#else
+  if (default_instance_ == NULL) protobuf_AddDesc_pokerth_2eproto();
+#endif
+  return *default_instance_;
+}
+
+GameStartReentryMessage* GameStartReentryMessage::default_instance_ = NULL;
+
+GameStartReentryMessage* GameStartReentryMessage::New() const {
+  return new GameStartReentryMessage;
+}
+
+void GameStartReentryMessage::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    gameid_ = 0u;
+    startdealerplayerid_ = 0u;
+    handnum_ = 0u;
+  }
+  reentryplayerdata_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+bool GameStartReentryMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required uint32 gameId = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &gameid_)));
+          set_has_gameid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(16)) goto parse_startDealerPlayerId;
+        break;
+      }
+
+      // required uint32 startDealerPlayerId = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_startDealerPlayerId:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &startdealerplayerid_)));
+          set_has_startdealerplayerid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(24)) goto parse_handNum;
+        break;
+      }
+
+      // required uint32 handNum = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_handNum:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &handnum_)));
+          set_has_handnum();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(34)) goto parse_reentryPlayerData;
+        break;
+      }
+
+      // repeated .GameStartReentryMessage.ReentryPlayerData reentryPlayerData = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_reentryPlayerData:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_reentryplayerdata()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(34)) goto parse_reentryPlayerData;
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void GameStartReentryMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required uint32 gameId = 1;
+  if (has_gameid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->gameid(), output);
+  }
+
+  // required uint32 startDealerPlayerId = 2;
+  if (has_startdealerplayerid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->startdealerplayerid(), output);
+  }
+
+  // required uint32 handNum = 3;
+  if (has_handnum()) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->handnum(), output);
+  }
+
+  // repeated .GameStartReentryMessage.ReentryPlayerData reentryPlayerData = 4;
+  for (int i = 0; i < this->reentryplayerdata_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      4, this->reentryplayerdata(i), output);
+  }
+
+}
+
+int GameStartReentryMessage::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required uint32 gameId = 1;
+    if (has_gameid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->gameid());
+    }
+
+    // required uint32 startDealerPlayerId = 2;
+    if (has_startdealerplayerid()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->startdealerplayerid());
+    }
+
+    // required uint32 handNum = 3;
+    if (has_handnum()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->handnum());
+    }
+
+  }
+  // repeated .GameStartReentryMessage.ReentryPlayerData reentryPlayerData = 4;
+  total_size += 1 * this->reentryplayerdata_size();
+  for (int i = 0; i < this->reentryplayerdata_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->reentryplayerdata(i));
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void GameStartReentryMessage::CheckTypeAndMergeFrom(
+    const ::google::protobuf::MessageLite& from) {
+  MergeFrom(*::google::protobuf::down_cast<const GameStartReentryMessage*>(&from));
+}
+
+void GameStartReentryMessage::MergeFrom(const GameStartReentryMessage& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  reentryplayerdata_.MergeFrom(from.reentryplayerdata_);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_gameid()) {
+      set_gameid(from.gameid());
+    }
+    if (from.has_startdealerplayerid()) {
+      set_startdealerplayerid(from.startdealerplayerid());
+    }
+    if (from.has_handnum()) {
+      set_handnum(from.handnum());
+    }
+  }
+}
+
+void GameStartReentryMessage::CopyFrom(const GameStartReentryMessage& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameStartReentryMessage::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+
+  for (int i = 0; i < reentryplayerdata_size(); i++) {
+    if (!this->reentryplayerdata(i).IsInitialized()) return false;
+  }
+  return true;
+}
+
+void GameStartReentryMessage::Swap(GameStartReentryMessage* other) {
+  if (other != this) {
+    std::swap(gameid_, other->gameid_);
+    std::swap(startdealerplayerid_, other->startdealerplayerid_);
+    std::swap(handnum_, other->handnum_);
+    reentryplayerdata_.Swap(&other->reentryplayerdata_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::std::string GameStartReentryMessage::GetTypeName() const {
+  return "GameStartReentryMessage";
 }
 
 
@@ -22273,6 +22758,7 @@ bool PokerTHMessage_PokerTHMessageType_IsValid(int value) {
     case 79:
     case 80:
     case 81:
+    case 82:
       return true;
     default:
       return false;
@@ -22361,6 +22847,7 @@ const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameListSpectatorJo
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameListSpectatorLeftMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameSpectatorJoinedMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameSpectatorLeftMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage::Type_GameStartReentryMessage;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::PokerTHMessageType_MIN;
 const PokerTHMessage_PokerTHMessageType PokerTHMessage::PokerTHMessageType_MAX;
 const int PokerTHMessage::PokerTHMessageType_ARRAYSIZE;
@@ -22448,6 +22935,7 @@ const int PokerTHMessage::kGameListSpectatorJoinedMessageFieldNumber;
 const int PokerTHMessage::kGameListSpectatorLeftMessageFieldNumber;
 const int PokerTHMessage::kGameSpectatorJoinedMessageFieldNumber;
 const int PokerTHMessage::kGameSpectatorLeftMessageFieldNumber;
+const int PokerTHMessage::kGameStartReentryMessageFieldNumber;
 #endif  // !_MSC_VER
 
 PokerTHMessage::PokerTHMessage()
@@ -22942,6 +23430,12 @@ void PokerTHMessage::InitAsDefaultInstance() {
 #else
   gamespectatorleftmessage_ = const_cast< ::GameSpectatorLeftMessage*>(&::GameSpectatorLeftMessage::default_instance());
 #endif
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  gamestartreentrymessage_ = const_cast< ::GameStartReentryMessage*>(
+      ::GameStartReentryMessage::internal_default_instance());
+#else
+  gamestartreentrymessage_ = const_cast< ::GameStartReentryMessage*>(&::GameStartReentryMessage::default_instance());
+#endif
 }
 
 PokerTHMessage::PokerTHMessage(const PokerTHMessage& from)
@@ -23034,6 +23528,7 @@ void PokerTHMessage::SharedCtor() {
   gamelistspectatorleftmessage_ = NULL;
   gamespectatorjoinedmessage_ = NULL;
   gamespectatorleftmessage_ = NULL;
+  gamestartreentrymessage_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -23128,6 +23623,7 @@ void PokerTHMessage::SharedDtor() {
     delete gamelistspectatorleftmessage_;
     delete gamespectatorjoinedmessage_;
     delete gamespectatorleftmessage_;
+    delete gamestartreentrymessage_;
   }
 }
 
@@ -23416,6 +23912,9 @@ void PokerTHMessage::Clear() {
     }
     if (has_gamespectatorleftmessage()) {
       if (gamespectatorleftmessage_ != NULL) gamespectatorleftmessage_->::GameSpectatorLeftMessage::Clear();
+    }
+    if (has_gamestartreentrymessage()) {
+      if (gamestartreentrymessage_ != NULL) gamestartreentrymessage_->::GameStartReentryMessage::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -24575,6 +25074,20 @@ bool PokerTHMessage::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(666)) goto parse_gameStartReentryMessage;
+        break;
+      }
+
+      // optional .GameStartReentryMessage gameStartReentryMessage = 83;
+      case 83: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_gameStartReentryMessage:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_gamestartreentrymessage()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -25086,6 +25599,12 @@ void PokerTHMessage::SerializeWithCachedSizes(
   if (has_gamespectatorleftmessage()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessage(
       82, this->gamespectatorleftmessage(), output);
+  }
+
+  // optional .GameStartReentryMessage gameStartReentryMessage = 83;
+  if (has_gamestartreentrymessage()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessage(
+      83, this->gamestartreentrymessage(), output);
   }
 
 }
@@ -25687,6 +26206,13 @@ int PokerTHMessage::ByteSize() const {
           this->gamespectatorleftmessage());
     }
 
+    // optional .GameStartReentryMessage gameStartReentryMessage = 83;
+    if (has_gamestartreentrymessage()) {
+      total_size += 2 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->gamestartreentrymessage());
+    }
+
   }
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
@@ -25968,6 +26494,9 @@ void PokerTHMessage::MergeFrom(const PokerTHMessage& from) {
     if (from.has_gamespectatorleftmessage()) {
       mutable_gamespectatorleftmessage()->::GameSpectatorLeftMessage::MergeFrom(from.gamespectatorleftmessage());
     }
+    if (from.has_gamestartreentrymessage()) {
+      mutable_gamestartreentrymessage()->::GameStartReentryMessage::MergeFrom(from.gamestartreentrymessage());
+    }
   }
 }
 
@@ -26214,6 +26743,9 @@ bool PokerTHMessage::IsInitialized() const {
   if (has_gamespectatorleftmessage()) {
     if (!this->gamespectatorleftmessage().IsInitialized()) return false;
   }
+  if (has_gamestartreentrymessage()) {
+    if (!this->gamestartreentrymessage().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -26301,6 +26833,7 @@ void PokerTHMessage::Swap(PokerTHMessage* other) {
     std::swap(gamelistspectatorleftmessage_, other->gamelistspectatorleftmessage_);
     std::swap(gamespectatorjoinedmessage_, other->gamespectatorjoinedmessage_);
     std::swap(gamespectatorleftmessage_, other->gamespectatorleftmessage_);
+    std::swap(gamestartreentrymessage_, other->gamestartreentrymessage_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     std::swap(_has_bits_[1], other->_has_bits_[1]);
     std::swap(_has_bits_[2], other->_has_bits_[2]);

@@ -85,6 +85,7 @@ protected:
 	static bool ValidateStartEventAckMessage(const NetPacket &packet);
 	static bool ValidateGameStartInitialMessage(const NetPacket &packet);
 	static bool ValidateGameStartRejoinMessage(const NetPacket &packet);
+	static bool ValidateGameStartReentryMessage(const NetPacket &packet);
 	static bool ValidateHandStartMessage(const NetPacket &packet);
 	static bool ValidatePlayersTurnMessage(const NetPacket &packet);
 	static bool ValidateMyActionRequestMessage(const NetPacket &packet);

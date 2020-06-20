@@ -79,6 +79,8 @@ class StartEventAckMessage;
 class GameStartInitialMessage;
 class GameStartRejoinMessage;
 class GameStartRejoinMessage_RejoinPlayerData;
+class GameStartReentryMessage;
+class GameStartReentryMessage_ReentryPlayerData;
 class HandStartMessage;
 class HandStartMessage_PlainCards;
 class PlayersTurnMessage;
@@ -244,11 +246,12 @@ const int RejectGameInvitationMessage_RejectGameInvReason_RejectGameInvReason_AR
 
 enum StartEventMessage_StartEventType {
   StartEventMessage_StartEventType_startEvent = 0,
-  StartEventMessage_StartEventType_rejoinEvent = 1
+  StartEventMessage_StartEventType_rejoinEvent = 1,
+  StartEventMessage_StartEventType_reentryEvent = 2
 };
 bool StartEventMessage_StartEventType_IsValid(int value);
 const StartEventMessage_StartEventType StartEventMessage_StartEventType_StartEventType_MIN = StartEventMessage_StartEventType_startEvent;
-const StartEventMessage_StartEventType StartEventMessage_StartEventType_StartEventType_MAX = StartEventMessage_StartEventType_rejoinEvent;
+const StartEventMessage_StartEventType StartEventMessage_StartEventType_StartEventType_MAX = StartEventMessage_StartEventType_reentryEvent;
 const int StartEventMessage_StartEventType_StartEventType_ARRAYSIZE = StartEventMessage_StartEventType_StartEventType_MAX + 1;
 
 enum YourActionRejectedMessage_RejectionReason {
@@ -468,11 +471,12 @@ enum PokerTHMessage_PokerTHMessageType {
   PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage = 78,
   PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage = 79,
   PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage = 80,
-  PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage = 81
+  PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage = 81,
+  PokerTHMessage_PokerTHMessageType_Type_GameStartReentryMessage = 82
 };
 bool PokerTHMessage_PokerTHMessageType_IsValid(int value);
 const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MIN = PokerTHMessage_PokerTHMessageType_Type_AnnounceMessage;
-const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage;
+const PokerTHMessage_PokerTHMessageType PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX = PokerTHMessage_PokerTHMessageType_Type_GameStartReentryMessage;
 const int PokerTHMessage_PokerTHMessageType_PokerTHMessageType_ARRAYSIZE = PokerTHMessage_PokerTHMessageType_PokerTHMessageType_MAX + 1;
 
 enum NetGameMode {
@@ -5426,6 +5430,7 @@ class StartEventMessage : public ::google::protobuf::MessageLite {
   typedef StartEventMessage_StartEventType StartEventType;
   static const StartEventType startEvent = StartEventMessage_StartEventType_startEvent;
   static const StartEventType rejoinEvent = StartEventMessage_StartEventType_rejoinEvent;
+  static const StartEventType reentryEvent = StartEventMessage_StartEventType_reentryEvent;
   static inline bool StartEventType_IsValid(int value) {
     return StartEventMessage_StartEventType_IsValid(value);
   }
@@ -5886,6 +5891,217 @@ class GameStartRejoinMessage : public ::google::protobuf::MessageLite {
 
   void InitAsDefaultInstance();
   static GameStartRejoinMessage* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameStartReentryMessage_ReentryPlayerData : public ::google::protobuf::MessageLite {
+ public:
+  GameStartReentryMessage_ReentryPlayerData();
+  virtual ~GameStartReentryMessage_ReentryPlayerData();
+
+  GameStartReentryMessage_ReentryPlayerData(const GameStartReentryMessage_ReentryPlayerData& from);
+
+  inline GameStartReentryMessage_ReentryPlayerData& operator=(const GameStartReentryMessage_ReentryPlayerData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const GameStartReentryMessage_ReentryPlayerData& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const GameStartReentryMessage_ReentryPlayerData* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(GameStartReentryMessage_ReentryPlayerData* other);
+
+  // implements Message ----------------------------------------------
+
+  GameStartReentryMessage_ReentryPlayerData* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameStartReentryMessage_ReentryPlayerData& from);
+  void MergeFrom(const GameStartReentryMessage_ReentryPlayerData& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 playerId = 1;
+  inline bool has_playerid() const;
+  inline void clear_playerid();
+  static const int kPlayerIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 playerid() const;
+  inline void set_playerid(::google::protobuf::uint32 value);
+
+  // required uint32 playerMoney = 2;
+  inline bool has_playermoney() const;
+  inline void clear_playermoney();
+  static const int kPlayerMoneyFieldNumber = 2;
+  inline ::google::protobuf::uint32 playermoney() const;
+  inline void set_playermoney(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:GameStartReentryMessage.ReentryPlayerData)
+ private:
+  inline void set_has_playerid();
+  inline void clear_has_playerid();
+  inline void set_has_playermoney();
+  inline void clear_has_playermoney();
+
+  ::google::protobuf::uint32 playerid_;
+  ::google::protobuf::uint32 playermoney_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static GameStartReentryMessage_ReentryPlayerData* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GameStartReentryMessage : public ::google::protobuf::MessageLite {
+ public:
+  GameStartReentryMessage();
+  virtual ~GameStartReentryMessage();
+
+  GameStartReentryMessage(const GameStartReentryMessage& from);
+
+  inline GameStartReentryMessage& operator=(const GameStartReentryMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const GameStartReentryMessage& default_instance();
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  // Returns the internal default instance pointer. This function can
+  // return NULL thus should not be used by the user. This is intended
+  // for Protobuf internal code. Please use default_instance() declared
+  // above instead.
+  static inline const GameStartReentryMessage* internal_default_instance() {
+    return default_instance_;
+  }
+  #endif
+
+  void Swap(GameStartReentryMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  GameStartReentryMessage* New() const;
+  void CheckTypeAndMergeFrom(const ::google::protobuf::MessageLite& from);
+  void CopyFrom(const GameStartReentryMessage& from);
+  void MergeFrom(const GameStartReentryMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::std::string GetTypeName() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef GameStartReentryMessage_ReentryPlayerData ReentryPlayerData;
+
+  // accessors -------------------------------------------------------
+
+  // required uint32 gameId = 1;
+  inline bool has_gameid() const;
+  inline void clear_gameid();
+  static const int kGameIdFieldNumber = 1;
+  inline ::google::protobuf::uint32 gameid() const;
+  inline void set_gameid(::google::protobuf::uint32 value);
+
+  // required uint32 startDealerPlayerId = 2;
+  inline bool has_startdealerplayerid() const;
+  inline void clear_startdealerplayerid();
+  static const int kStartDealerPlayerIdFieldNumber = 2;
+  inline ::google::protobuf::uint32 startdealerplayerid() const;
+  inline void set_startdealerplayerid(::google::protobuf::uint32 value);
+
+  // required uint32 handNum = 3;
+  inline bool has_handnum() const;
+  inline void clear_handnum();
+  static const int kHandNumFieldNumber = 3;
+  inline ::google::protobuf::uint32 handnum() const;
+  inline void set_handnum(::google::protobuf::uint32 value);
+
+  // repeated .GameStartReentryMessage.ReentryPlayerData reentryPlayerData = 4;
+  inline int reentryplayerdata_size() const;
+  inline void clear_reentryplayerdata();
+  static const int kReentryPlayerDataFieldNumber = 4;
+  inline const ::GameStartReentryMessage_ReentryPlayerData& reentryplayerdata(int index) const;
+  inline ::GameStartReentryMessage_ReentryPlayerData* mutable_reentryplayerdata(int index);
+  inline ::GameStartReentryMessage_ReentryPlayerData* add_reentryplayerdata();
+  inline const ::google::protobuf::RepeatedPtrField< ::GameStartReentryMessage_ReentryPlayerData >&
+      reentryplayerdata() const;
+  inline ::google::protobuf::RepeatedPtrField< ::GameStartReentryMessage_ReentryPlayerData >*
+      mutable_reentryplayerdata();
+
+  // @@protoc_insertion_point(class_scope:GameStartReentryMessage)
+ private:
+  inline void set_has_gameid();
+  inline void clear_has_gameid();
+  inline void set_has_startdealerplayerid();
+  inline void clear_has_startdealerplayerid();
+  inline void set_has_handnum();
+  inline void clear_has_handnum();
+
+  ::google::protobuf::uint32 gameid_;
+  ::google::protobuf::uint32 startdealerplayerid_;
+  ::google::protobuf::RepeatedPtrField< ::GameStartReentryMessage_ReentryPlayerData > reentryplayerdata_;
+  ::google::protobuf::uint32 handnum_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+
+  #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  friend void  protobuf_AddDesc_pokerth_2eproto_impl();
+  #else
+  friend void  protobuf_AddDesc_pokerth_2eproto();
+  #endif
+  friend void protobuf_AssignDesc_pokerth_2eproto();
+  friend void protobuf_ShutdownFile_pokerth_2eproto();
+
+  void InitAsDefaultInstance();
+  static GameStartReentryMessage* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -10339,6 +10555,7 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   static const PokerTHMessageType Type_GameListSpectatorLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage;
   static const PokerTHMessageType Type_GameSpectatorJoinedMessage = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage;
   static const PokerTHMessageType Type_GameSpectatorLeftMessage = PokerTHMessage_PokerTHMessageType_Type_GameSpectatorLeftMessage;
+  static const PokerTHMessageType Type_GameStartReentryMessage = PokerTHMessage_PokerTHMessageType_Type_GameStartReentryMessage;
   static inline bool PokerTHMessageType_IsValid(int value) {
     return PokerTHMessage_PokerTHMessageType_IsValid(value);
   }
@@ -11087,6 +11304,15 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline ::GameSpectatorLeftMessage* release_gamespectatorleftmessage();
   inline void set_allocated_gamespectatorleftmessage(::GameSpectatorLeftMessage* gamespectatorleftmessage);
 
+  // optional .GameStartReentryMessage gameStartReentryMessage = 83;
+  inline bool has_gamestartreentrymessage() const;
+  inline void clear_gamestartreentrymessage();
+  static const int kGameStartReentryMessageFieldNumber = 83;
+  inline const ::GameStartReentryMessage& gamestartreentrymessage() const;
+  inline ::GameStartReentryMessage* mutable_gamestartreentrymessage();
+  inline ::GameStartReentryMessage* release_gamestartreentrymessage();
+  inline void set_allocated_gamestartreentrymessage(::GameStartReentryMessage* gamestartreentrymessage);
+
   // @@protoc_insertion_point(class_scope:PokerTHMessage)
  private:
   inline void set_has_messagetype();
@@ -11253,6 +11479,8 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   inline void clear_has_gamespectatorjoinedmessage();
   inline void set_has_gamespectatorleftmessage();
   inline void clear_has_gamespectatorleftmessage();
+  inline void set_has_gamestartreentrymessage();
+  inline void clear_has_gamestartreentrymessage();
 
   ::AnnounceMessage* announcemessage_;
   ::InitMessage* initmessage_;
@@ -11335,10 +11563,11 @@ class PokerTHMessage : public ::google::protobuf::MessageLite {
   ::GameListSpectatorLeftMessage* gamelistspectatorleftmessage_;
   ::GameSpectatorJoinedMessage* gamespectatorjoinedmessage_;
   ::GameSpectatorLeftMessage* gamespectatorleftmessage_;
+  ::GameStartReentryMessage* gamestartreentrymessage_;
   int messagetype_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(82 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(83 + 31) / 32];
 
   #ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
   friend void  protobuf_AddDesc_pokerth_2eproto_impl();
@@ -15802,6 +16031,149 @@ GameStartRejoinMessage::rejoinplayerdata() const {
 inline ::google::protobuf::RepeatedPtrField< ::GameStartRejoinMessage_RejoinPlayerData >*
 GameStartRejoinMessage::mutable_rejoinplayerdata() {
   return &rejoinplayerdata_;
+}
+
+// -------------------------------------------------------------------
+
+// GameStartReentryMessage_ReentryPlayerData
+
+// required uint32 playerId = 1;
+inline bool GameStartReentryMessage_ReentryPlayerData::has_playerid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::set_has_playerid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::clear_has_playerid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::clear_playerid() {
+  playerid_ = 0u;
+  clear_has_playerid();
+}
+inline ::google::protobuf::uint32 GameStartReentryMessage_ReentryPlayerData::playerid() const {
+  return playerid_;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::set_playerid(::google::protobuf::uint32 value) {
+  set_has_playerid();
+  playerid_ = value;
+}
+
+// required uint32 playerMoney = 2;
+inline bool GameStartReentryMessage_ReentryPlayerData::has_playermoney() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::set_has_playermoney() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::clear_has_playermoney() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::clear_playermoney() {
+  playermoney_ = 0u;
+  clear_has_playermoney();
+}
+inline ::google::protobuf::uint32 GameStartReentryMessage_ReentryPlayerData::playermoney() const {
+  return playermoney_;
+}
+inline void GameStartReentryMessage_ReentryPlayerData::set_playermoney(::google::protobuf::uint32 value) {
+  set_has_playermoney();
+  playermoney_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// GameStartReentryMessage
+
+// required uint32 gameId = 1;
+inline bool GameStartReentryMessage::has_gameid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void GameStartReentryMessage::set_has_gameid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void GameStartReentryMessage::clear_has_gameid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void GameStartReentryMessage::clear_gameid() {
+  gameid_ = 0u;
+  clear_has_gameid();
+}
+inline ::google::protobuf::uint32 GameStartReentryMessage::gameid() const {
+  return gameid_;
+}
+inline void GameStartReentryMessage::set_gameid(::google::protobuf::uint32 value) {
+  set_has_gameid();
+  gameid_ = value;
+}
+
+// required uint32 startDealerPlayerId = 2;
+inline bool GameStartReentryMessage::has_startdealerplayerid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void GameStartReentryMessage::set_has_startdealerplayerid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void GameStartReentryMessage::clear_has_startdealerplayerid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void GameStartReentryMessage::clear_startdealerplayerid() {
+  startdealerplayerid_ = 0u;
+  clear_has_startdealerplayerid();
+}
+inline ::google::protobuf::uint32 GameStartReentryMessage::startdealerplayerid() const {
+  return startdealerplayerid_;
+}
+inline void GameStartReentryMessage::set_startdealerplayerid(::google::protobuf::uint32 value) {
+  set_has_startdealerplayerid();
+  startdealerplayerid_ = value;
+}
+
+// required uint32 handNum = 3;
+inline bool GameStartReentryMessage::has_handnum() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void GameStartReentryMessage::set_has_handnum() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void GameStartReentryMessage::clear_has_handnum() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void GameStartReentryMessage::clear_handnum() {
+  handnum_ = 0u;
+  clear_has_handnum();
+}
+inline ::google::protobuf::uint32 GameStartReentryMessage::handnum() const {
+  return handnum_;
+}
+inline void GameStartReentryMessage::set_handnum(::google::protobuf::uint32 value) {
+  set_has_handnum();
+  handnum_ = value;
+}
+
+// repeated .GameStartReentryMessage.ReentryPlayerData reentryPlayerData = 4;
+inline int GameStartReentryMessage::reentryplayerdata_size() const {
+  return reentryplayerdata_.size();
+}
+inline void GameStartReentryMessage::clear_reentryplayerdata() {
+  reentryplayerdata_.Clear();
+}
+inline const ::GameStartReentryMessage_ReentryPlayerData& GameStartReentryMessage::reentryplayerdata(int index) const {
+  return reentryplayerdata_.Get(index);
+}
+inline ::GameStartReentryMessage_ReentryPlayerData* GameStartReentryMessage::mutable_reentryplayerdata(int index) {
+  return reentryplayerdata_.Mutable(index);
+}
+inline ::GameStartReentryMessage_ReentryPlayerData* GameStartReentryMessage::add_reentryplayerdata() {
+  return reentryplayerdata_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::GameStartReentryMessage_ReentryPlayerData >&
+GameStartReentryMessage::reentryplayerdata() const {
+  return reentryplayerdata_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::GameStartReentryMessage_ReentryPlayerData >*
+GameStartReentryMessage::mutable_reentryplayerdata() {
+  return &reentryplayerdata_;
 }
 
 // -------------------------------------------------------------------
@@ -22153,6 +22525,48 @@ inline void PokerTHMessage::set_allocated_gamespectatorleftmessage(::GameSpectat
     set_has_gamespectatorleftmessage();
   } else {
     clear_has_gamespectatorleftmessage();
+  }
+}
+
+// optional .GameStartReentryMessage gameStartReentryMessage = 83;
+inline bool PokerTHMessage::has_gamestartreentrymessage() const {
+  return (_has_bits_[2] & 0x00040000u) != 0;
+}
+inline void PokerTHMessage::set_has_gamestartreentrymessage() {
+  _has_bits_[2] |= 0x00040000u;
+}
+inline void PokerTHMessage::clear_has_gamestartreentrymessage() {
+  _has_bits_[2] &= ~0x00040000u;
+}
+inline void PokerTHMessage::clear_gamestartreentrymessage() {
+  if (gamestartreentrymessage_ != NULL) gamestartreentrymessage_->::GameStartReentryMessage::Clear();
+  clear_has_gamestartreentrymessage();
+}
+inline const ::GameStartReentryMessage& PokerTHMessage::gamestartreentrymessage() const {
+#ifdef GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER
+  return gamestartreentrymessage_ != NULL ? *gamestartreentrymessage_ : *default_instance().gamestartreentrymessage_;
+#else
+  return gamestartreentrymessage_ != NULL ? *gamestartreentrymessage_ : *default_instance_->gamestartreentrymessage_;
+#endif
+}
+inline ::GameStartReentryMessage* PokerTHMessage::mutable_gamestartreentrymessage() {
+  set_has_gamestartreentrymessage();
+  if (gamestartreentrymessage_ == NULL) gamestartreentrymessage_ = new ::GameStartReentryMessage;
+  return gamestartreentrymessage_;
+}
+inline ::GameStartReentryMessage* PokerTHMessage::release_gamestartreentrymessage() {
+  clear_has_gamestartreentrymessage();
+  ::GameStartReentryMessage* temp = gamestartreentrymessage_;
+  gamestartreentrymessage_ = NULL;
+  return temp;
+}
+inline void PokerTHMessage::set_allocated_gamestartreentrymessage(::GameStartReentryMessage* gamestartreentrymessage) {
+  delete gamestartreentrymessage_;
+  gamestartreentrymessage_ = gamestartreentrymessage;
+  if (gamestartreentrymessage) {
+    set_has_gamestartreentrymessage();
+  } else {
+    clear_has_gamestartreentrymessage();
   }
 }
 
