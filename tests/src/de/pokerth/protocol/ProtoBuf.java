@@ -48996,9 +48996,9 @@ public final class ProtoBuf {
     public enum ErrorReason
         implements com.google.protobuf.Internal.EnumLite {
       /**
-       * <code>reserved = 0;</code>
+       * <code>custReserved = 0;</code>
        */
-      reserved(0, 0),
+      custReserved(0, 0),
       /**
        * <code>initVersionNotSupported = 1;</code>
        */
@@ -49058,9 +49058,9 @@ public final class ProtoBuf {
       ;
 
       /**
-       * <code>reserved = 0;</code>
+       * <code>custReserved = 0;</code>
        */
-      public static final int reserved_VALUE = 0;
+      public static final int custReserved_VALUE = 0;
       /**
        * <code>initVersionNotSupported = 1;</code>
        */
@@ -49123,7 +49123,7 @@ public final class ProtoBuf {
 
       public static ErrorReason valueOf(int value) {
         switch (value) {
-          case 0: return reserved;
+          case 0: return custReserved;
           case 1: return initVersionNotSupported;
           case 2: return initServerFull;
           case 3: return initAuthFailure;
@@ -49180,7 +49180,7 @@ public final class ProtoBuf {
     }
 
     private void initFields() {
-      errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.reserved;
+      errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.custReserved;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -49309,7 +49309,7 @@ public final class ProtoBuf {
 
       public Builder clear() {
         super.clear();
-        errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.reserved;
+        errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.custReserved;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -49379,7 +49379,7 @@ public final class ProtoBuf {
       }
       private int bitField0_;
 
-      private de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.reserved;
+      private de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.custReserved;
       /**
        * <code>required .ErrorMessage.ErrorReason errorReason = 1;</code>
        */
@@ -49409,7 +49409,7 @@ public final class ProtoBuf {
        */
       public Builder clearErrorReason() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.reserved;
+        errorReason_ = de.pokerth.protocol.ProtoBuf.ErrorMessage.ErrorReason.custReserved;
         
         return this;
       }

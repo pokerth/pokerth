@@ -105,7 +105,7 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			size_t packetSize = ntohl(nativeVal);
 			if (packetSize > MAX_PACKET_SIZE) {
 				recvBufUsed = 0;
-				LOG_ERROR("Session " << session->GetId() << " - Invalid packet size: " << packetSize);
+				LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() << " - Invalid packet size: " << packetSize);
 			} else if (recvBufUsed >= packetSize + NET_HEADER_SIZE) {
 				try {
 					tmpPacket = NetPacket::Create(&recvBuf[NET_HEADER_SIZE], packetSize);
@@ -118,7 +118,7 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 				} catch (const exception &e) {
 					// Reset buffer on error.
 					recvBufUsed = 0;
-					LOG_ERROR("Session " << session->GetId() << " - " << e.what());
+					LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() << " - " << e.what());
 				}
 			}
 		}
@@ -126,7 +126,7 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			if (validator.IsValidPacket(*tmpPacket)) {
 				receivedPackets.push_back(tmpPacket);
 			} else {
-				LOG_ERROR("Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());
+				LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());
 			}
 		} else {
 			dataAvailable = false;

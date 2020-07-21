@@ -23806,7 +23806,7 @@ bool ErrorMessage_ErrorReason_IsValid(int value) {
 }
 
 #ifndef _MSC_VER
-const ErrorMessage_ErrorReason ErrorMessage::reserved;
+const ErrorMessage_ErrorReason ErrorMessage::custReserved;
 const ErrorMessage_ErrorReason ErrorMessage::initVersionNotSupported;
 const ErrorMessage_ErrorReason ErrorMessage::initServerFull;
 const ErrorMessage_ErrorReason ErrorMessage::initAuthFailure;

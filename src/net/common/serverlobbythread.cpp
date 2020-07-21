@@ -63,6 +63,7 @@
 #include <boost/algorithm/string.hpp>
 #include <gsasl.h>
 #include <ctime>
+#include <string>  
 
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				512		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
@@ -304,8 +305,8 @@ ServerLobbyThread::AddConnection(boost::shared_ptr<SessionData> sessionData)
 	// Create a new session.
 	m_sessionManager.AddSession(sessionData);
 
-	LOG_VERBOSE("Accepted connection - session #" << sessionData->GetId() << ".");
-	LOG_ERROR("Accepted connection - session #" << sessionData->GetId() << ".");
+	LOG_VERBOSE(sessionData->GetRemoteIPAddressFromSocket() << " Accepted connection - session #" << sessionData->GetId() << ".");
+	LOG_ERROR(sessionData->GetRemoteIPAddressFromSocket() << " Accepted connection - session #" << sessionData->GetId() << ".");
 
 	sessionData->StartTimerInitTimeout(SERVER_INIT_SESSION_TIMEOUT_SEC);
 	sessionData->StartTimerGlobalTimeout(SERVER_SESSION_FORCED_TIMEOUT_SEC);
