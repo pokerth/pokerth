@@ -93,7 +93,7 @@ public abstract class TestBase {
 		String dbName = dbNameNode.getAttribute("value");
 
 		final String dbUrl = "jdbc:mysql://" + dbAddress + ":3306/" + dbName;
-		Class.forName("com.mysql.jdbc.Driver").newInstance ();
+		Class.forName("com.mysql.cj.jdbc.Driver").newInstance ();
 		dbConn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 	}
 
