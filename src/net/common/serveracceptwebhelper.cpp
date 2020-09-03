@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
+#include <boost/bind/bind.hpp>
 #include <net/serveracceptwebhelper.h>
 #include <net/sessiondata.h>
 #include <net/webreceivebuffer.h>
@@ -58,10 +59,10 @@ ServerAcceptWebHelper::Listen(unsigned serverPort, bool /*ipv6*/, const std::str
 
 	m_webSocketServer->init_asio(m_ioService.get());
 
-	m_webSocketServer->set_validate_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::validate), this, _1));
-	m_webSocketServer->set_open_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_open), this, _1));
-	m_webSocketServer->set_close_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_close), this, _1));
-	m_webSocketServer->set_message_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_message), this, _1, _2));
+	m_webSocketServer->set_validate_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::validate), this, boost::placeholders::_1));
+	m_webSocketServer->set_open_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_open), this, boost::placeholders::_1));
+	m_webSocketServer->set_close_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_close), this, boost::placeholders::_1));
+	m_webSocketServer->set_message_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_message), this, boost::placeholders::_1, boost::placeholders::_2));
 
 	m_webSocketServer->listen(serverPort);
 	m_webSocketServer->start_accept();
