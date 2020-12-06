@@ -40,7 +40,6 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
 #ifdef ANDROID
