@@ -1475,6 +1475,8 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 		if (!chatRequest.has_targetgameid() && !chatRequest.has_targetplayerid()) {
 			string chatMsg(chatRequest.chattext());
 
+      LOG_ERROR("ChatRequest: " << chatRequest.chattext());
+
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
 			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
 			ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
@@ -1511,8 +1513,6 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 					netChat->set_chattype(ChatMessage::chatTypePrivate);
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattext(chatRequest.chattext());
-
-          LOG_ERROR("ChatRequest: " << chatRequest.chattext());
 
 					GetSender().Send(targetSession, packet);
 					chatSent = true;
