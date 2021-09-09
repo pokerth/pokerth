@@ -1505,14 +1505,18 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				// Only allow private messages to players which are not in running games.
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
+          
+          LOG_ERROR("ChatRequest: " << chatRequest.chattext() << " an " << targetSession->GetPlayerData()->GetDBId());
+          // get real id
+          // GetDBId()
+
+
 					boost::shared_ptr<NetPacket> packet(new NetPacket);
 					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
 					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
 					netChat->set_chattype(ChatMessage::chatTypePrivate);
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattext(chatRequest.chattext());
-
-          LOG_ERROR("ChatRequest: " << chatRequest.chattext() << " an " << chatRequest.targetplayerid());
 
 					GetSender().Send(targetSession, packet);
 					chatSent = true;
