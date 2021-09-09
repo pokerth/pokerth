@@ -1482,8 +1482,6 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 			netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 			netChat->set_chattext(chatMsg);
 
-      LOG_ERROR('chatMsg: ' << chatMsg);
-
 			m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
 			m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 
@@ -1513,6 +1511,8 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 					netChat->set_chattype(ChatMessage::chatTypePrivate);
 					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
 					netChat->set_chattext(chatRequest.chattext());
+
+          LOG_ERROR("ChatRequest: " << chatRequest.chattext());
 
 					GetSender().Send(targetSession, packet);
 					chatSent = true;
