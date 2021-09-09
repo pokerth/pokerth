@@ -1506,7 +1506,7 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
           
-          if((/* session->GetPlayerData()->GetDBId() == 338 */ /* bbcbot */ || session->GetPlayerData()->GetDBId() == 36 /* sp0ck */ || session->GetPlayerData()->GetDBId() == 37 /* boehmi */|| session->GetPlayerData()->GetDBId() == 45 /* RanmingKing */|| session->GetPlayerData()->GetDBId() == 73 /* q4z1 */) && (targetSession->GetPlayerData()->GetDBId() == session->GetPlayerData()->GetDBId())){
+          if((/* session->GetPlayerData()->GetDBId() == 338 */ /* bbcbot */ /*||*/ session->GetPlayerData()->GetDBId() == 36 /* sp0ck */ || session->GetPlayerData()->GetDBId() == 37 /* boehmi */|| session->GetPlayerData()->GetDBId() == 45 /* RanmingKing */|| session->GetPlayerData()->GetDBId() == 73 /* q4z1 */) && (targetSession->GetPlayerData()->GetDBId() == session->GetPlayerData()->GetDBId())){
             LOG_ERROR("Global Notice: " << chatRequest.chattext() << " an player_id " << targetSession->GetPlayerData()->GetDBId() << " von player_id " << session->GetPlayerData()->GetDBId());
             // global notice by admin
             SendGlobalChat(chatRequest.chattext());
