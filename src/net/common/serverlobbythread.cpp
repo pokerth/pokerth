@@ -1506,19 +1506,20 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
           
-          LOG_ERROR("ChatRequest: " << chatRequest.chattext() << " an " << targetSession->GetPlayerData()->GetDBId());
-          // get real id
-          // GetDBId()
+          if((session->GetPlayerData()->GetDBId() == 36 || session->GetPlayerData()->GetDBId() == 37 || session->GetPlayerData()->GetDBId() == 45 || session->GetPlayerData()->GetDBId() == 73) && (targetSession->GetPlayerData()->GetDBId() == 36 || targetSession->GetPlayerData()->GetDBId() == 37 || targetSession->GetPlayerData()->GetDBId() == 338 || targetSession->GetPlayerData()->GetDBId() == 45 || targetSession->GetPlayerData()->GetDBId() == 73))
+            LOG_ERROR("ChatRequest: " << chatRequest.chattext() << " an " << targetSession->GetPlayerData()->GetDBId());
+            // global notice by admin
+            SendGlobalChat(chatRequest.chattext());
+          }else{
+  					boost::shared_ptr<NetPacket> packet(new NetPacket);
+  					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
+  					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+  					netChat->set_chattype(ChatMessage::chatTypePrivate);
+  					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
+  					netChat->set_chattext(chatRequest.chattext());
 
-
-					boost::shared_ptr<NetPacket> packet(new NetPacket);
-					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
-					netChat->set_chattype(ChatMessage::chatTypePrivate);
-					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
-					netChat->set_chattext(chatRequest.chattext());
-
-					GetSender().Send(targetSession, packet);
+  					GetSender().Send(targetSession, packet);
+          }
 					chatSent = true;
 				}
 			}
