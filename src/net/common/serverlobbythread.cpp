@@ -1505,12 +1505,10 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				// Only allow private messages to players which are not in running games.
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
-
-          LOG_ERROR("PM: " << chatRequest.chattext().substr(3));
           if(targetSession->GetPlayerData()->GetDBId() == 338 /* bbcbot */ && (session->GetPlayerData()->GetDBId() == 338 /* bbcbot */ || session->GetPlayerData()->GetDBId() == 36 /* sp0ck */ || session->GetPlayerData()->GetDBId() == 37 /* boehmi */|| session->GetPlayerData()->GetDBId() == 45 /* RankingKing */|| session->GetPlayerData()->GetDBId() == 73 /* q4z1 */) && chatRequest.chattext().substr (0, 3) == "gn ")
           {
-            // admin bbcbot message
-            LOG_ERROR("Global Notice: " << chatRequest.chattext().substr(3) << " an player_id " << targetSession->GetPlayerData()->GetDBId() << " von player_id " << session->GetPlayerData()->GetDBId());
+            // bbcbot pm from admins - global notice => /msg bbcbot gn This is a global Notice
+            LOG_ERROR("Global Notice: " << chatRequest.chattext().substr(3) << " von player_id " << session->GetPlayerData()->GetDBId());
             SendGlobalChat(chatRequest.chattext().substr(3));
           }else{
   					boost::shared_ptr<NetPacket> packet(new NetPacket);
