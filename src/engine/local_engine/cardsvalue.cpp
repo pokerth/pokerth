@@ -782,7 +782,7 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 		handName = *cardStringIt_c;
 
 	}
-	// Cucumbers pair
+	// Royal Flush
 	case 9: {
 
 		handName = *cardStringIt_c;
