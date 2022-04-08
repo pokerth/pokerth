@@ -37,20 +37,27 @@
 #include <list>
 #include <boost/shared_ptr.hpp>
 
-int CardsValue::holeCardsClass(int one, int two)
+int CardsValue::holeCardsClass(int firstCard, int secondCard)
 {
+	int firstCardMinus1 = firstCard - 1;
+	int secondCardMinus1 = secondCard - 1;
+	int firstCardMinus1Value = firstCardMinus1%13;
+	int secondCardMinus1Value = secondCardMinus1%13;
+	int firstCardMinus1Suit = firstCardMinus1/13;
+	int secondCardMinus1Suit = secondCardMinus1/13;
 
-	if((one-1)%13<(two-1)%13) {
-		int temp = one;
-		one = two;
-		two = temp;
+	if(firstCardMinus1Value<secondCardMinus1Value) { // if cards are in ascending order
+		// order them by value
+		int temp = firstCard;
+		firstCard = secondCard;
+		secondCard = temp;
 	}
 
 
-	if((one-1)%13 == (two-1)%13) {
-		if((one-1)%13+2 > 10) return 10;
+	if(firstCardMinus1Value == secondCardMinus1Value) {
+		if(firstCardMinus1Value+2 > 10) return 10;
 		else {
-			switch((one-1)%13+2) {
+			switch(firstCardMinus1Value+2) {
 			case 10:
 				return 9;
 			case 9:
@@ -64,11 +71,11 @@ int CardsValue::holeCardsClass(int one, int two)
 			}
 		}
 	}
-	switch((one-1)%13+2) {
+	switch(firstCardMinus1Value+2) {
 	//Ass
 	case 14: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
+		if(firstCardMinus1Suit == secondCardMinus1Suit) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 10;
 			case 2:
@@ -81,7 +88,7 @@ int CardsValue::holeCardsClass(int one, int two)
 				return 7;
 			}
 		} else {
-			switch((one-1)%13-(two-1)%13) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 9;
 			case 2:
@@ -98,8 +105,8 @@ int CardsValue::holeCardsClass(int one, int two)
 	break;
 	//K�ig
 	case 13: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
+		if(firstCardMinus1Suit == secondCardMinus1Suit) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 9;
 			case 2:
@@ -112,7 +119,7 @@ int CardsValue::holeCardsClass(int one, int two)
 				return 5;
 			}
 		} else {
-			switch((one-1)%13-(two-1)%13) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 7;
 			case 2:
@@ -127,8 +134,8 @@ int CardsValue::holeCardsClass(int one, int two)
 	break;
 	//Dame
 	case 12: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
+		if(firstCardMinus1Suit == secondCardMinus1Suit) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 8;
 			case 2:
@@ -141,7 +148,7 @@ int CardsValue::holeCardsClass(int one, int two)
 				return 4;
 			}
 		} else {
-			switch((one-1)%13-(two-1)%13) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 6;
 			case 2:
@@ -156,8 +163,8 @@ int CardsValue::holeCardsClass(int one, int two)
 	break;
 	//Bube
 	case 11: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
+		if(firstCardMinus1Suit == secondCardMinus1Suit) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 7;
 			case 2:
@@ -170,7 +177,7 @@ int CardsValue::holeCardsClass(int one, int two)
 				return 3;
 			}
 		} else {
-			switch((one-1)%13-(two-1)%13) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 6;
 			case 2:
@@ -185,8 +192,8 @@ int CardsValue::holeCardsClass(int one, int two)
 	break;
 	//10
 	case 10: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
+		if(firstCardMinus1Suit == secondCardMinus1Suit) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 6;
 			case 2:
@@ -195,7 +202,7 @@ int CardsValue::holeCardsClass(int one, int two)
 				return 2;
 			}
 		} else {
-			switch((one-1)%13-(two-1)%13) {
+			switch(firstCardMinus1Value-secondCardMinus1Value) {
 			case 1:
 				return 5;
 			case 2:
@@ -208,11 +215,11 @@ int CardsValue::holeCardsClass(int one, int two)
 	break;
 	//Rest
 	default: {
-		if((one-1)%13 - (two-1)%13 <= 2) {
-			if((one-1)/13 == (two-1)/13) return 5;
+		if(firstCardMinus1Value - secondCardMinus1Value <= 2) {
+			if(firstCardMinus1Suit == secondCardMinus1Suit) return 5;
 			else return 3;
 		} else {
-			if((one-1)%13 - (two-1)%13 == 3) return 2;
+			if(firstCardMinus1Value - secondCardMinus1Value == 3) return 2;
 			else return 1;
 		}
 	}
@@ -223,22 +230,27 @@ int CardsValue::holeCardsClass(int one, int two)
 
 int CardsValue::holeCardsToIntCode(int* cards)
 {
-
+	int firstCard = cards[0];
+	int secondCard = cards[1];
+	int firstCardValue = firstCard%13;
+	int secondCardValue = secondCard%13;
+	int firstCardSuit = firstCard/13;
+	int secondCardSuit = secondCard/13;
 	// Code der HoleCards ermitteln
-	if(cards[0]%13 == cards[1]%13) {
-		return ((cards[0]%13)*1000 + (cards[0]%13)*10);
+	if(firstCardValue == secondCardValue) { // If cards have same value (%13 is the value in a color)
+		return ((firstCardValue)*1000 + (firstCardValue)*10); //Example : 3030 for 42 and 16
 	} else {
-		if(cards[0]%13 < cards[1]%13) {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10 + 1);
+		if(firstCardValue < secondCardValue) { // If first card is inferior
+			if(firstCardSuit == secondCardSuit) { // If cards are in same color
+				return ((firstCardValue)*1000 + (secondCardValue)*10 + 1); // Example : 3011 for 42 and 10
 			} else {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10);
+				return ((firstCardValue)*1000 + (secondCardValue)*10); // Example : 3010 for 42 and 10
 			}
-		} else {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10 + 1);
+		} else { // If second card is inferior
+			if(firstCardSuit == secondCardSuit) { // If cards are in same color
+				return ((secondCardValue)*1000 + (firstCardValue)*10 + 1); // Example : 1031 for 10 and 42
 			} else {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10);
+				return ((secondCardValue)*1000 + (firstCardValue)*10); // Example : 1030 for 10 and 42
 			}
 		}
 	}
