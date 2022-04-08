@@ -290,7 +290,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 		array[j1][0] = cards[j1]/13; // Suit
 		array[j1][1] = cards[j1]%13; // Value
 		array[j1][2] = j1;
-		if (array[j1][0] == 5) {
+		if (array[j1][0] == 4) {
 			cucumbersCount += 1;
 		}
 	}
