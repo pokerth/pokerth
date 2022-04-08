@@ -284,13 +284,21 @@ int CardsValue::cardsValue(int* cards, int* position)
 	int array[7][3];
 	int j1, j2, j3, j4, j5, k1, k2, ktemp[3];
 
+	int cucumbersCount = 0;
 	// Kartenwerte umwandeln (z.B. [ 11 (Karo K�ig) -> 0 11 ] oder [ 31 (Pik 7) -> 2 5 ] )
 	for(j1=0; j1<7; j1++) {
-		array[j1][0] = cards[j1]/13;
-		array[j1][1] = cards[j1]%13;
+		array[j1][0] = cards[j1]/13; // Suit
+		array[j1][1] = cards[j1]%13; // Value
 		array[j1][2] = j1;
+		if (array[j1][0] == 5) {
+			cucumbersCount += 1;
+		}
 	}
 
+	// Cucumber's pair
+	if (cucumbersCount ==2) {
+		return 1000000000;
+	}
 	// Karten nach Farben sortieren: Kreuz - Pik - Herz - Karo
 	for(k1=0; k1<7; k1++) {
 		for(k2=k1+1; k2<7; k2++) {
@@ -768,7 +776,13 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 	std::string handName;
 
 	switch(myCardsValueInt/100000000) {
-	// Royal Flush
+	// Cucumbers pair
+	case 10: {
+
+		handName = *cardStringIt_c;
+
+	}
+	// Cucumbers pair
 	case 9: {
 
 		handName = *cardStringIt_c;
@@ -1202,7 +1216,10 @@ std::list<std::string> CardsValue::translateCardsValueCode(int cardsValueCode)
 
 
 	switch (firstPart) {
-
+	// Cucumbers pair
+	case 10:
+		cardString.push_back("Cucumbers pair");
+		break;
 	// Royal Flush
 	case 9:
 		cardString.push_back("Royal Flush");
