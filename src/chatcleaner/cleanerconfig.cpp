@@ -98,7 +98,10 @@ CleanerConfig::CleanerConfig()
 
 #else
 	//define app-dir
-	const char *homePath = getenv("HOME");
+	const char *homePath = getenv("XDG_CONFIG_HOME");
+	if(homePath == NULL) {
+		homePath = getenv("HOME");
+	}
 	if(homePath) {
 		configFileName = homePath;
 		configFileName += "/.pokerth/";
