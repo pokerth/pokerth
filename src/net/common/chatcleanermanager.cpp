@@ -46,7 +46,7 @@ ChatCleanerManager::ChatCleanerManager(ChatCleanerCallback &cb, boost::shared_pt
 {
 	m_recvBuf[0] = 0;
 	m_resolver.reset(
-		new boost::asio::ip::tcp::resolver());
+		new boost::asio::ip::tcp::resolver(*m_ioService));
 	m_sendManager.reset(
 		new AsioSendBuffer);
 }
