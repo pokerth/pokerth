@@ -33,7 +33,6 @@
 #ifndef _CHATCLEANERMANAGER_H_
 #define _CHATCLEANERMANAGER_H_
 
-#define BOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT
 #include <boost/asio.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <string>
