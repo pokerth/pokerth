@@ -71,9 +71,9 @@ void
 ChatCleanerManager::ReInit()
 {
 	if (m_useIpv6)
-		m_socket.reset(new boost::asio::ip::tcp::socket(tcp::v6()));
+		m_socket.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v6()));
 	else
-		m_socket.reset(new boost::asio::ip::tcp::socket(tcp::v4()));
+		m_socket.reset(new boost::asio::ip::tcp::socket(*m_ioService, tcp::v4()));
 
 	ostringstream portStr;
 	portStr << m_serverPort;
