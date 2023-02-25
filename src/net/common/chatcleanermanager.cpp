@@ -28,7 +28,6 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-#define BOOST_ASIO_USE_TS_EXECUTOR_AS_DEFAULT
 #include <net/chatcleanermanager.h>
 #include <net/asiosendbuffer.h>
 #include <boost/bind.hpp>
