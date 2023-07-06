@@ -112,7 +112,7 @@ sendMessage(tcp::socket &socket, boost::shared_ptr<NetPacket> packet)
 {
 	bool retVal = false;
 	if (packet) {
-		uint32_t packetSize = packet->GetMsg()->ByteSize();
+		uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
 		google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 		*((uint32_t *)buf) = htonl(packetSize);
 		packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);

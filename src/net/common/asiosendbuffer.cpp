@@ -101,7 +101,7 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::sock
 void
 AsioSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
 {
-	uint32_t packetSize = packet->GetMsg()->ByteSize();
+	uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
 	packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
