@@ -1505,14 +1505,21 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				// Only allow private messages to players which are not in running games.
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
-					boost::shared_ptr<NetPacket> packet(new NetPacket);
-					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
-					netChat->set_chattype(ChatMessage::chatTypePrivate);
-					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
-					netChat->set_chattext(chatRequest.chattext());
+          if(targetSession->GetPlayerData()->GetDBId() == 338 /* bbcbot */ && (session->GetPlayerData()->GetDBId() == 338 /* bbcbot */ || session->GetPlayerData()->GetDBId() == 36 /* sp0ck */ || session->GetPlayerData()->GetDBId() == 37 /* boehmi */|| session->GetPlayerData()->GetDBId() == 45 /* RankingKing */|| session->GetPlayerData()->GetDBId() == 73 /* q4z1 */|| session->GetPlayerData()->GetDBId() == 82 /* Huckleberry */) && chatRequest.chattext().substr (0, 3) == "gn ")
+          {
+            // bbcbot pm from admins - global notice => /msg bbcbot gn This is a global Notice
+            LOG_ERROR("Global Notice: " << chatRequest.chattext().substr(3) << " von player_id " << session->GetPlayerData()->GetDBId());
+            SendGlobalChat(chatRequest.chattext().substr(3));
+          }else{
+  					boost::shared_ptr<NetPacket> packet(new NetPacket);
+  					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
+  					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+  					netChat->set_chattype(ChatMessage::chatTypePrivate);
+  					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
+  					netChat->set_chattext(chatRequest.chattext());
 
-					GetSender().Send(targetSession, packet);
+  					GetSender().Send(targetSession, packet);
+          }
 					chatSent = true;
 				}
 			}
@@ -1812,16 +1819,16 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
 		if(dbPlayerData.last_games.length() > 0){
-			LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
+			//LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 			vector<string> last_games; 
 			boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
 			for (unsigned int i = 0; i < last_games.size(); i++){
 				if(last_games[i].length() > 0)
 					tmpSession->GetPlayerData()->AddPlayerLastGame(stol(last_games[i]));
 			} 
-			LOG_ERROR("last_games last from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
+			//LOG_ERROR("last_games last from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
 		}else{
-			LOG_ERROR("no lastGames from db");
+			//LOG_ERROR("no lastGames from db");
 		}
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
