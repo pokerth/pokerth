@@ -1820,16 +1820,16 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 		tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
 		tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
 		if(dbPlayerData.last_games.length() > 0){
-			LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
+			//LOG_ERROR("last_games from db = " << dbPlayerData.last_games);
 			vector<string> last_games; 
 			boost::split(last_games, dbPlayerData.last_games, boost::is_any_of(",")); 
 			for (unsigned int i = 0; i < last_games.size(); i++){
 				if(last_games[i].length() > 0)
 					tmpSession->GetPlayerData()->AddPlayerLastGame(stol(last_games[i]));
 			} 
-			LOG_ERROR("last_games last from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
+			//LOG_ERROR("last_games last from vector after db = " << tmpSession->GetPlayerData()->GetPlayerLastGames().back());
 		}else{
-			LOG_ERROR("no lastGames from db");
+			//LOG_ERROR("no lastGames from db");
 		}
 		this->AuthChallenge(tmpSession, dbPlayerData.secret);
 	}
