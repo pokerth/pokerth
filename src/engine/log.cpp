@@ -84,7 +84,11 @@ Log::init()
 				mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
 
 				// open sqlite-db
+#if BOOST_VERSION < 108500
 				sqlite3_open(mySqliteLogFileName.directory_string().c_str(), &mySqliteLogDb);
+#else
+				sqlite3_open(mySqliteLogFileName.string().c_str(), &mySqliteLogDb);
+#endif
 				if( mySqliteLogDb != 0 ) {
 
 					int i;

@@ -158,7 +158,11 @@ main(int argc, char *argv[])
 	if (pidFile.empty()) {
 		path tmpPidPath(myConfig->readConfigString("LogDir"));
 		tmpPidPath /= "pokerth.pid";
+#if BOOST_VERSION < 108500
 		pidFile = tmpPidPath.directory_string();
+#else
+		pidFile = tmpPidPath.string();
+#endif
 	}
 	{
 		std::ofstream pidStream(pidFile.c_str(), ios_base::out | ios_base::trunc);

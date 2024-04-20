@@ -94,7 +94,11 @@ UploaderThread::Main()
 						url += filepath.filename().string();
 #endif
 					}
+#if BOOST_VERSION < 108500
 					m_uploadHelper->Init(url, filepath.file_string(), data.user, data.pwd, data.filesize, data.httpPost);
+#else
+					m_uploadHelper->Init(url, filepath.string(), data.user, data.pwd, data.filesize, data.httpPost);
+#endif
 					m_uploadInProgress = true;
 				}
 			}
