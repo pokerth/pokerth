@@ -15,6 +15,9 @@
     <image>https://upload.wikimedia.org/wikipedia/commons/b/bd/PokerTH.png</image>
   </screenshot>
  </screenshots>
- <url type="homepage">http://www.pokerth.net</url>
+ <url type="homepage">https://www.pokerth.net</url>
+ <url type="bugtracker">https://github.com/pokerth/pokerth/issues</url>
+ <url type="faq">https://www.pokerth.net/app.php/help/faq</url>
+ <url type="donation">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FU66XN5FMMBNQ</url>
  <update_contact>webmaster@pokerth.net</update_contact>
 </component>
