@@ -19,5 +19,9 @@
  <url type="bugtracker">https://github.com/pokerth/pokerth/issues</url>
  <url type="faq">https://www.pokerth.net/app.php/help/faq</url>
  <url type="donation">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FU66XN5FMMBNQ</url>
+ <content_rating type="oars-1.1">
+  <content_attribute id="social-chat">intense</content_attribute>
+  <content_attribute id="money-gambling">moderate</content_attribute>
+ </content_rating>
  <update_contact>webmaster@pokerth.net</update_contact>
 </component>
