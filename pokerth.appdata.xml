@@ -25,4 +25,15 @@
  </content_rating>
  <update_contact>webmaster@pokerth.net</update_contact>
  <launchable type="desktop-id">pokerth.desktop</launchable>
+ <releases>
+  <release version="1.1.2" date="2018-05-18" type="stable"/>
+  <release version="1.1" date="2016-10-20" type="stable"/>
+  <release version="1.0" date="2013-10-06" type="stable"/>
+  <release version="0.9" date="2012-11-25" type="stable"/>
+  <release version="0.8" date="2011-01-16" type="stable"/>
+  <release version="0.7" date="2009-11-16" type="stable"/>
+  <release version="0.6" date="2009-03-23" type="stable"/>
+  <release version="0.5" date="2007-11-24" type="stable"/>
+  <release version="0.4" date="2007-05-01" type="stable"/>
+ </releases>
 </component>
