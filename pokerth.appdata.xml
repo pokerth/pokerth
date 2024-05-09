@@ -24,4 +24,5 @@
   <content_attribute id="money-gambling">moderate</content_attribute>
  </content_rating>
  <update_contact>webmaster@pokerth.net</update_contact>
+ <launchable type="desktop-id">pokerth.desktop</launchable>
 </component>
