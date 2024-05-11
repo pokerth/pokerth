@@ -322,20 +322,7 @@ void settingsDialogImpl::prepareDialog()
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
 	list<std::string>::iterator it1;
 	for(it1= myGameTableStylesList.begin(); it1 != myGameTableStylesList.end(); ++it1) {
-		GameTableStyleReader nextStyle(myConfig, this);
-		nextStyle.readStyleFile(QString::fromUtf8(it1->c_str()));
-		if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
-			QStringList tempStringList1;
-			tempStringList1 << nextStyle.getStyleDescription() << nextStyle.getStyleMaintainerName();
-			MyStyleListItem *nextItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-			nextItem->setData(0, 15,QString::fromUtf8(it1->c_str()));
-			nextItem->setData(0, 16, ADDITIONAL_STYLE);
-			nextItem->setData(0, Qt::ToolTipRole,QString::fromUtf8(it1->c_str()));
-			nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
-			if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-			else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-			treeWidget_gameTableStyles->addTopLevelItem(nextItem);
-		}
+		addTableStyleItem(it1->c_str(), /* isAdditionalStyle = */ true);
 	}
 	treeWidget_gameTableStyles->sortItems(0, Qt::AscendingOrder);
 
@@ -1081,13 +1068,16 @@ void settingsDialogImpl::setSelectedGameTableStyleActivated()
 	}
 }
 
-void settingsDialogImpl::addTableStyleItem(const char* xmlPath)
+void settingsDialogImpl::addTableStyleItem(const char* xmlPath, bool isAdditionalStyle)
 {
 	GameTableStyleReader tableStyle(myConfig, this);
 	QString appDataDir = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-	QString stylePath = appDataDir + xmlPath;
+	QString stylePath = isAdditionalStyle ? xmlPath : appDataDir + xmlPath;
 
 	tableStyle.readStyleFile(stylePath);
+
+	if(isAdditionalStyle && tableStyle.getFallBack())
+		return;
 
 	if(!tableStyle.getLoadedSuccessfull())
 		return;
@@ -1096,7 +1086,7 @@ void settingsDialogImpl::addTableStyleItem(const char* xmlPath)
 	tempStringList << tableStyle.getStyleDescription() << tableStyle.getStyleMaintainerName();
 	MyStyleListItem *tableItem = new MyStyleListItem(tempStringList, treeWidget_gameTableStyles);
 	tableItem->setData(0, 15, stylePath);
-	tableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+	tableItem->setData(0, 16, isAdditionalStyle ? ADDITIONAL_STYLE : POKERTH_DISTRIBUTED_STYLE);
 	tableItem->setData(0, Qt::ToolTipRole, stylePath);
 	tableItem->setData(2, Qt::ToolTipRole, tableStyle.getMyStateToolTipInfo());
 	if(tableStyle.getState())

@@ -131,7 +131,7 @@ public slots:
 
 private:
 
-	void addTableStyleItem(const char* xmlPath);
+	void addTableStyleItem(const char* xmlPath, bool isAdditionalStyle = false);
 	bool playerNickIsChanged;
 	bool settingsCorrect;
 
