@@ -310,50 +310,13 @@ void settingsDialogImpl::prepareDialog()
 #elif ANDROID
 	filename = "android_tablestyle_800x480.xml";
 #endif
-	GameTableStyleReader defaultTableStyle(myConfig, this);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
-	if(defaultTableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
-		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
-		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
-		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addTableStyleItem("gfx/gui/table/default_800x480/" + filename);
 #else
 	// 	define PokerTH default GameTableStyle
 	treeWidget_gameTableStyles->clear();
 
-	GameTableStyleReader defaultTableStyle(myConfig, this);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-	if(defaultTableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
-		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
-	//add danuxi table
-	GameTableStyleReader danuxi1TableStyle(myConfig, this);
-	danuxi1TableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-	if(danuxi1TableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList2;
-		tempStringList2 << danuxi1TableStyle.getStyleDescription() << danuxi1TableStyle.getStyleMaintainerName();
-		MyStyleListItem *danuxi1TableItem = new MyStyleListItem(tempStringList2, treeWidget_gameTableStyles);
-		danuxi1TableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-		danuxi1TableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		danuxi1TableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-		danuxi1TableItem->setData(2, Qt::ToolTipRole, danuxi1TableStyle.getMyStateToolTipInfo());
-		if(danuxi1TableStyle.getState()) danuxi1TableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else danuxi1TableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addTableStyleItem("gfx/gui/table/default/defaulttablestyle.xml");
+	addTableStyleItem("gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
 #endif
 
 	//load secondary styles into list (if fallback no entry)
@@ -1195,6 +1158,30 @@ void settingsDialogImpl::setSelectedGameTableStyleActivated()
 			} else item->setIcon(0, QIcon());
 		}
 	}
+}
+
+void settingsDialogImpl::addTableStyleItem(const char* xmlPath)
+{
+	GameTableStyleReader tableStyle(myConfig, this);
+	QString appDataDir = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+	QString stylePath = appDataDir + xmlPath;
+
+	tableStyle.readStyleFile(stylePath);
+
+	if(!tableStyle.getLoadedSuccessfull())
+		return;
+
+	QStringList tempStringList;
+	tempStringList << tableStyle.getStyleDescription() << tableStyle.getStyleMaintainerName();
+	MyStyleListItem *tableItem = new MyStyleListItem(tempStringList, treeWidget_gameTableStyles);
+	tableItem->setData(0, 15, stylePath);
+	tableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+	tableItem->setData(0, Qt::ToolTipRole, stylePath);
+	tableItem->setData(2, Qt::ToolTipRole, tableStyle.getMyStateToolTipInfo());
+	if(tableStyle.getState())
+		tableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+	else
+		tableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 }
 
 void settingsDialogImpl::addGameTableStyle()
