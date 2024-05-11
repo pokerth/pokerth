@@ -301,9 +301,10 @@ void settingsDialogImpl::prepareDialog()
 	//S t y l e
 	//TABLE
 
+	treeWidget_gameTableStyles->clear();
+
 #ifdef GUI_800x480
 	// 	define PokerTH default GameTableStyle for Maemo
-	treeWidget_gameTableStyles->clear();
 	QString filename;
 #ifdef MAEMO
 	filename = "defaulttablestyle_800x480.xml";
@@ -313,8 +314,6 @@ void settingsDialogImpl::prepareDialog()
 	addTableStyleItem("gfx/gui/table/default_800x480/" + filename);
 #else
 	// 	define PokerTH default GameTableStyle
-	treeWidget_gameTableStyles->clear();
-
 	addTableStyleItem("gfx/gui/table/default/defaulttablestyle.xml");
 	addTableStyleItem("gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
 #endif
