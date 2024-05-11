@@ -96,15 +96,6 @@ public slots:
 	void setFlipsidePicFileName();
 	void setLogDir();
 	void setAvatarFile0();
-	void setAvatarFile1();
-	void setAvatarFile2();
-	void setAvatarFile3();
-	void setAvatarFile4();
-	void setAvatarFile5();
-	void setAvatarFile6();
-	void setAvatarFile7();
-	void setAvatarFile8();
-	void setAvatarFile9();
 
 	void callManualBlindsOrderDialog();
 	void callNetManualBlindsOrderDialog();
@@ -136,6 +127,9 @@ public slots:
 	void removeCardDeckStyle();
 	void removePlayerFromIgnoredPlayersList();
 	void resetSettings();
+
+private slots:
+	void setAvatarFile();
 
 private:
 

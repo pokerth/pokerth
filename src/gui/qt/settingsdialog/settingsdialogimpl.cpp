@@ -118,15 +118,15 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
 	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
 	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
-	connect( pushButton_Opponent1Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile1()) );
-	connect( pushButton_Opponent2Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile2()) );
-	connect( pushButton_Opponent3Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile3()) );
-	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
-	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
-	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
-	connect( pushButton_Opponent7Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile7()) );
-	connect( pushButton_Opponent8Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile8()) );
-	connect( pushButton_Opponent9Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile9()) );
+	connect( pushButton_Opponent1Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent2Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent3Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent7Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent8Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent9Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
 	connect( pushButton_editManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callManualBlindsOrderDialog()) );
 	connect( pushButton_netEditManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callNetManualBlindsOrderDialog()) );
 	connect( pushButton_resetSettings, SIGNAL(clicked()), this, SLOT(resetSettings()));
@@ -834,9 +834,21 @@ void settingsDialogImpl::setFlipsidePicFileName()
 		lineEdit_OwnFlipsideFilename->setText(fileName);
 }
 
+void settingsDialogImpl::setAvatarFile()
+{
+	MyAvatarButton* avatarButton = dynamic_cast<MyAvatarButton*>(sender());
+	if(avatarButton == nullptr)
+		return;
+
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		avatarButton->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		avatarButton->setIcon(QIcon(avatarButton->getMyLink()));
+	}
+}
+
 void settingsDialogImpl::setAvatarFile0()
 {
-
 	callSelectAvatarDialog();
 	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
 		pushButton_HumanPlayerAvatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
@@ -844,96 +856,6 @@ void settingsDialogImpl::setAvatarFile0()
 	}
 }
 
-void settingsDialogImpl::setAvatarFile1()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent1Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent1Avatar->setIcon(QIcon(pushButton_Opponent1Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile2()
-{
-
-	callSelectAvatarDialog();
-
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent2Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent2Avatar->setIcon(QIcon(pushButton_Opponent2Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile3()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent3Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent3Avatar->setIcon(QIcon(pushButton_Opponent3Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile4()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent4Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent4Avatar->setIcon(QIcon(pushButton_Opponent4Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile5()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent5Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent5Avatar->setIcon(QIcon(pushButton_Opponent5Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile6()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent6Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent6Avatar->setIcon(QIcon(pushButton_Opponent6Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile7()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent7Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent7Avatar->setIcon(QIcon(pushButton_Opponent7Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile8()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent8Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent8Avatar->setIcon(QIcon(pushButton_Opponent8Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile9()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent9Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent9Avatar->setIcon(QIcon(pushButton_Opponent9Avatar->getMyLink()));
-	}
-}
 void settingsDialogImpl::setLogDir()
 {
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
