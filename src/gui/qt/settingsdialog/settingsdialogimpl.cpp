@@ -117,7 +117,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( lineEdit_Opponent9Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
 	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
-	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
+	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setHumanPlayerAvatarFile()) );
 	connect( pushButton_Opponent1Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
 	connect( pushButton_Opponent2Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
 	connect( pushButton_Opponent3Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
@@ -847,7 +847,7 @@ void settingsDialogImpl::setAvatarFile()
 	}
 }
 
-void settingsDialogImpl::setAvatarFile0()
+void settingsDialogImpl::setHumanPlayerAvatarFile()
 {
 	callSelectAvatarDialog();
 	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
