@@ -363,67 +363,20 @@ void settingsDialogImpl::prepareDialog()
 	//CARDS
 	// 	define PokerTH 1.0 default carddeck
 	treeWidget_cardDeckStyles->clear();
-	CardDeckStyleReader defaultCardStyle10(myConfig, this);
-	defaultCardStyle10.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-	if(defaultCardStyle10.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultCardStyle10.getStyleDescription() << defaultCardStyle10.getStyleMaintainerName();
-		MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-		defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-		defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-		defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle10.getMyStateToolTipInfo());
-		if(defaultCardStyle10.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+
+	addCardStyleItem("gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
 #ifndef GUI_800x480
 	//define PokerTH old default CardDeck
-	CardDeckStyleReader defaultCardStyle(myConfig, this);
-	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-	if(defaultCardStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultCardStyle.getStyleDescription() << defaultCardStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-		defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-		defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-		defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle.getMyStateToolTipInfo());
-		if(defaultCardStyle.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addCardStyleItem("gfx/cards/default/defaultdeckstyle.xml");
+
 	//define PokerTH old default CardDeck4c
-	CardDeckStyleReader default4cCardStyle(myConfig, this);
-	default4cCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-	if(default4cCardStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << default4cCardStyle.getStyleDescription() << default4cCardStyle.getStyleMaintainerName();
-		MyStyleListItem *default4cCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-		default4cCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-		default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		default4cCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-		default4cCardItem->setData(2, Qt::ToolTipRole, default4cCardStyle.getMyStateToolTipInfo());
-		if(default4cCardStyle.getState()) default4cCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else default4cCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addCardStyleItem("gfx/cards/default4c/default4cdeckstyle.xml");
 #endif
 	//load secondary card styles into list (if fallback no entry)
 	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
 	list<std::string>::iterator it2;
 	for(it2= myCardDeckStylesList.begin(); it2 != myCardDeckStylesList.end(); ++it2) {
-		CardDeckStyleReader nextStyle(myConfig, this);
-		nextStyle.readStyleFile(QString::fromUtf8(it2->c_str()));
-		if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
-			QStringList tempStringList1;
-			tempStringList1 << nextStyle.getStyleDescription() << nextStyle.getStyleMaintainerName();
-			MyStyleListItem *nextItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-			nextItem->setData(0, 15,QString::fromUtf8(it2->c_str()));
-			nextItem->setData(0, 16, ADDITIONAL_STYLE);
-			nextItem->setData(0, Qt::ToolTipRole,QString::fromUtf8(it2->c_str()));
-			nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
-			if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-			else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-			treeWidget_cardDeckStyles->addTopLevelItem(nextItem);
-		}
+		addCardStyleItem(it2->c_str(), /* isAdditionalStyle = */ true);
 	}
 	treeWidget_cardDeckStyles->sortItems(0, Qt::AscendingOrder);
 
@@ -1093,6 +1046,37 @@ void settingsDialogImpl::addTableStyleItem(const char* xmlPath, bool isAdditiona
 		tableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
 	else
 		tableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+}
+
+void settingsDialogImpl::addCardStyleItem(const char* xmlPath, bool isAdditionalStyle)
+{
+	// TODO: This is very similar to the `addTableStyleItem` method
+	// but due to `GameTableStyleReader` and `CardDeckStyleReader`
+	// being completely different types, I couldn't simplify further
+
+	CardDeckStyleReader cardStyle(myConfig, this);
+	QString appDataDir = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+	QString stylePath = isAdditionalStyle ? xmlPath : appDataDir + xmlPath;
+
+	cardStyle.readStyleFile(stylePath);
+
+	if(isAdditionalStyle && cardStyle.getFallBack())
+		return;
+
+	if(!cardStyle.getLoadedSuccessfull())
+		return;
+
+	QStringList tempStringList;
+	tempStringList << cardStyle.getStyleDescription() << cardStyle.getStyleMaintainerName();
+	MyStyleListItem *cardItem = new MyStyleListItem(tempStringList, treeWidget_cardDeckStyles);
+	cardItem->setData(0, 15, stylePath);
+	cardItem->setData(0, 16, isAdditionalStyle ? ADDITIONAL_STYLE : POKERTH_DISTRIBUTED_STYLE);
+	cardItem->setData(0, Qt::ToolTipRole, stylePath);
+	cardItem->setData(2, Qt::ToolTipRole, cardStyle.getMyStateToolTipInfo());
+	if(cardStyle.getState())
+		cardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+	else
+		cardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 }
 
 void settingsDialogImpl::addGameTableStyle()
