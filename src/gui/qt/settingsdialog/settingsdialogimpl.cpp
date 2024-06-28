@@ -117,16 +117,16 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( lineEdit_Opponent9Name, SIGNAL( textChanged(const QString &) ), this, SLOT( playerNickChanged() ) );
 	connect( pushButton_openFlipsidePicture, SIGNAL( clicked() ), this, SLOT( setFlipsidePicFileName()) );
 	connect( pushButton_openLogDir, SIGNAL( clicked() ), this, SLOT( setLogDir()) );
-	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile0()) );
-	connect( pushButton_Opponent1Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile1()) );
-	connect( pushButton_Opponent2Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile2()) );
-	connect( pushButton_Opponent3Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile3()) );
-	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile4()) );
-	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile5()) );
-	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile6()) );
-	connect( pushButton_Opponent7Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile7()) );
-	connect( pushButton_Opponent8Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile8()) );
-	connect( pushButton_Opponent9Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile9()) );
+	connect( pushButton_HumanPlayerAvatar, SIGNAL( clicked() ), this, SLOT( setHumanPlayerAvatarFile()) );
+	connect( pushButton_Opponent1Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent2Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent3Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent4Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent5Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent6Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent7Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent8Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
+	connect( pushButton_Opponent9Avatar, SIGNAL( clicked() ), this, SLOT( setAvatarFile()) );
 	connect( pushButton_editManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callManualBlindsOrderDialog()) );
 	connect( pushButton_netEditManualBlindsOrder, SIGNAL( clicked() ), this, SLOT( callNetManualBlindsOrderDialog()) );
 	connect( pushButton_resetSettings, SIGNAL(clicked()), this, SLOT(resetSettings()));
@@ -301,79 +301,28 @@ void settingsDialogImpl::prepareDialog()
 	//S t y l e
 	//TABLE
 
+	treeWidget_gameTableStyles->clear();
+
 #ifdef GUI_800x480
 	// 	define PokerTH default GameTableStyle for Maemo
-	treeWidget_gameTableStyles->clear();
 	QString filename;
 #ifdef MAEMO
 	filename = "defaulttablestyle_800x480.xml";
 #elif ANDROID
 	filename = "android_tablestyle_800x480.xml";
 #endif
-	GameTableStyleReader defaultTableStyle(myConfig, this);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
-	if(defaultTableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
-		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default_800x480/"+filename);
-		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
-		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addTableStyleItem("gfx/gui/table/default_800x480/" + filename);
 #else
 	// 	define PokerTH default GameTableStyle
-	treeWidget_gameTableStyles->clear();
-
-	GameTableStyleReader defaultTableStyle(myConfig, this);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-	if(defaultTableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
-		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
-	//add danuxi table
-	GameTableStyleReader danuxi1TableStyle(myConfig, this);
-	danuxi1TableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-	if(danuxi1TableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList2;
-		tempStringList2 << danuxi1TableStyle.getStyleDescription() << danuxi1TableStyle.getStyleMaintainerName();
-		MyStyleListItem *danuxi1TableItem = new MyStyleListItem(tempStringList2, treeWidget_gameTableStyles);
-		danuxi1TableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-		danuxi1TableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		danuxi1TableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-		danuxi1TableItem->setData(2, Qt::ToolTipRole, danuxi1TableStyle.getMyStateToolTipInfo());
-		if(danuxi1TableStyle.getState()) danuxi1TableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else danuxi1TableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addTableStyleItem("gfx/gui/table/default/defaulttablestyle.xml");
+	addTableStyleItem("gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
 #endif
 
 	//load secondary styles into list (if fallback no entry)
 	myGameTableStylesList = myConfig->readConfigStringList("GameTableStylesList");
 	list<std::string>::iterator it1;
 	for(it1= myGameTableStylesList.begin(); it1 != myGameTableStylesList.end(); ++it1) {
-		GameTableStyleReader nextStyle(myConfig, this);
-		nextStyle.readStyleFile(QString::fromUtf8(it1->c_str()));
-		if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
-			QStringList tempStringList1;
-			tempStringList1 << nextStyle.getStyleDescription() << nextStyle.getStyleMaintainerName();
-			MyStyleListItem *nextItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-			nextItem->setData(0, 15,QString::fromUtf8(it1->c_str()));
-			nextItem->setData(0, 16, ADDITIONAL_STYLE);
-			nextItem->setData(0, Qt::ToolTipRole,QString::fromUtf8(it1->c_str()));
-			nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
-			if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-			else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-			treeWidget_gameTableStyles->addTopLevelItem(nextItem);
-		}
+		addTableStyleItem(it1->c_str(), /* isAdditionalStyle = */ true);
 	}
 	treeWidget_gameTableStyles->sortItems(0, Qt::AscendingOrder);
 
@@ -414,67 +363,20 @@ void settingsDialogImpl::prepareDialog()
 	//CARDS
 	// 	define PokerTH 1.0 default carddeck
 	treeWidget_cardDeckStyles->clear();
-	CardDeckStyleReader defaultCardStyle10(myConfig, this);
-	defaultCardStyle10.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-	if(defaultCardStyle10.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultCardStyle10.getStyleDescription() << defaultCardStyle10.getStyleMaintainerName();
-		MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-		defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-		defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
-		defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle10.getMyStateToolTipInfo());
-		if(defaultCardStyle10.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+
+	addCardStyleItem("gfx/cards/default_800x480/defaultdeckstyle_800x480.xml");
 #ifndef GUI_800x480
 	//define PokerTH old default CardDeck
-	CardDeckStyleReader defaultCardStyle(myConfig, this);
-	defaultCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-	if(defaultCardStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultCardStyle.getStyleDescription() << defaultCardStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-		defaultCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-		defaultCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default/defaultdeckstyle.xml");
-		defaultCardItem->setData(2, Qt::ToolTipRole, defaultCardStyle.getMyStateToolTipInfo());
-		if(defaultCardStyle.getState()) defaultCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addCardStyleItem("gfx/cards/default/defaultdeckstyle.xml");
+
 	//define PokerTH old default CardDeck4c
-	CardDeckStyleReader default4cCardStyle(myConfig, this);
-	default4cCardStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-	if(default4cCardStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << default4cCardStyle.getStyleDescription() << default4cCardStyle.getStyleMaintainerName();
-		MyStyleListItem *default4cCardItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-		default4cCardItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-		default4cCardItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		default4cCardItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/cards/default4c/default4cdeckstyle.xml");
-		default4cCardItem->setData(2, Qt::ToolTipRole, default4cCardStyle.getMyStateToolTipInfo());
-		if(default4cCardStyle.getState()) default4cCardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else default4cCardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	addCardStyleItem("gfx/cards/default4c/default4cdeckstyle.xml");
 #endif
 	//load secondary card styles into list (if fallback no entry)
 	myCardDeckStylesList = myConfig->readConfigStringList("CardDeckStylesList");
 	list<std::string>::iterator it2;
 	for(it2= myCardDeckStylesList.begin(); it2 != myCardDeckStylesList.end(); ++it2) {
-		CardDeckStyleReader nextStyle(myConfig, this);
-		nextStyle.readStyleFile(QString::fromUtf8(it2->c_str()));
-		if(!nextStyle.getFallBack() && nextStyle.getLoadedSuccessfull()) {
-			QStringList tempStringList1;
-			tempStringList1 << nextStyle.getStyleDescription() << nextStyle.getStyleMaintainerName();
-			MyStyleListItem *nextItem = new MyStyleListItem(tempStringList1, treeWidget_cardDeckStyles);
-			nextItem->setData(0, 15,QString::fromUtf8(it2->c_str()));
-			nextItem->setData(0, 16, ADDITIONAL_STYLE);
-			nextItem->setData(0, Qt::ToolTipRole,QString::fromUtf8(it2->c_str()));
-			nextItem->setData(2, Qt::ToolTipRole, nextStyle.getMyStateToolTipInfo());
-			if(nextStyle.getState()) nextItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-			else nextItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-			treeWidget_cardDeckStyles->addTopLevelItem(nextItem);
-		}
+		addCardStyleItem(it2->c_str(), /* isAdditionalStyle = */ true);
 	}
 	treeWidget_cardDeckStyles->sortItems(0, Qt::AscendingOrder);
 
@@ -872,9 +774,21 @@ void settingsDialogImpl::setFlipsidePicFileName()
 		lineEdit_OwnFlipsideFilename->setText(fileName);
 }
 
-void settingsDialogImpl::setAvatarFile0()
+void settingsDialogImpl::setAvatarFile()
 {
+	MyAvatarButton* avatarButton = dynamic_cast<MyAvatarButton*>(sender());
+	if(avatarButton == nullptr)
+		return;
 
+	callSelectAvatarDialog();
+	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
+		avatarButton->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
+		avatarButton->setIcon(QIcon(avatarButton->getMyLink()));
+	}
+}
+
+void settingsDialogImpl::setHumanPlayerAvatarFile()
+{
 	callSelectAvatarDialog();
 	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
 		pushButton_HumanPlayerAvatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
@@ -882,96 +796,6 @@ void settingsDialogImpl::setAvatarFile0()
 	}
 }
 
-void settingsDialogImpl::setAvatarFile1()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent1Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent1Avatar->setIcon(QIcon(pushButton_Opponent1Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile2()
-{
-
-	callSelectAvatarDialog();
-
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent2Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent2Avatar->setIcon(QIcon(pushButton_Opponent2Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile3()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent3Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent3Avatar->setIcon(QIcon(pushButton_Opponent3Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile4()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent4Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent4Avatar->setIcon(QIcon(pushButton_Opponent4Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile5()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent5Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent5Avatar->setIcon(QIcon(pushButton_Opponent5Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile6()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent6Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent6Avatar->setIcon(QIcon(pushButton_Opponent6Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile7()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent7Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent7Avatar->setIcon(QIcon(pushButton_Opponent7Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile8()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent8Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent8Avatar->setIcon(QIcon(pushButton_Opponent8Avatar->getMyLink()));
-	}
-}
-
-void settingsDialogImpl::setAvatarFile9()
-{
-
-	callSelectAvatarDialog();
-	if(mySelectAvatarDialogImpl->getSettingsCorrect()) {
-		pushButton_Opponent9Avatar->setMyLink(mySelectAvatarDialogImpl->getAvatarLink());
-		pushButton_Opponent9Avatar->setIcon(QIcon(pushButton_Opponent9Avatar->getMyLink()));
-	}
-}
 void settingsDialogImpl::setLogDir()
 {
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
@@ -1195,6 +1019,64 @@ void settingsDialogImpl::setSelectedGameTableStyleActivated()
 			} else item->setIcon(0, QIcon());
 		}
 	}
+}
+
+void settingsDialogImpl::addTableStyleItem(const char* xmlPath, bool isAdditionalStyle)
+{
+	GameTableStyleReader tableStyle(myConfig, this);
+	QString appDataDir = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+	QString stylePath = isAdditionalStyle ? xmlPath : appDataDir + xmlPath;
+
+	tableStyle.readStyleFile(stylePath);
+
+	if(isAdditionalStyle && tableStyle.getFallBack())
+		return;
+
+	if(!tableStyle.getLoadedSuccessfull())
+		return;
+
+	QStringList tempStringList;
+	tempStringList << tableStyle.getStyleDescription() << tableStyle.getStyleMaintainerName();
+	MyStyleListItem *tableItem = new MyStyleListItem(tempStringList, treeWidget_gameTableStyles);
+	tableItem->setData(0, 15, stylePath);
+	tableItem->setData(0, 16, isAdditionalStyle ? ADDITIONAL_STYLE : POKERTH_DISTRIBUTED_STYLE);
+	tableItem->setData(0, Qt::ToolTipRole, stylePath);
+	tableItem->setData(2, Qt::ToolTipRole, tableStyle.getMyStateToolTipInfo());
+	if(tableStyle.getState())
+		tableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+	else
+		tableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+}
+
+void settingsDialogImpl::addCardStyleItem(const char* xmlPath, bool isAdditionalStyle)
+{
+	// TODO: This is very similar to the `addTableStyleItem` method
+	// but due to `GameTableStyleReader` and `CardDeckStyleReader`
+	// being completely different types, I couldn't simplify further
+
+	CardDeckStyleReader cardStyle(myConfig, this);
+	QString appDataDir = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+	QString stylePath = isAdditionalStyle ? xmlPath : appDataDir + xmlPath;
+
+	cardStyle.readStyleFile(stylePath);
+
+	if(isAdditionalStyle && cardStyle.getFallBack())
+		return;
+
+	if(!cardStyle.getLoadedSuccessfull())
+		return;
+
+	QStringList tempStringList;
+	tempStringList << cardStyle.getStyleDescription() << cardStyle.getStyleMaintainerName();
+	MyStyleListItem *cardItem = new MyStyleListItem(tempStringList, treeWidget_cardDeckStyles);
+	cardItem->setData(0, 15, stylePath);
+	cardItem->setData(0, 16, isAdditionalStyle ? ADDITIONAL_STYLE : POKERTH_DISTRIBUTED_STYLE);
+	cardItem->setData(0, Qt::ToolTipRole, stylePath);
+	cardItem->setData(2, Qt::ToolTipRole, cardStyle.getMyStateToolTipInfo());
+	if(cardStyle.getState())
+		cardItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+	else
+		cardItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 }
 
 void settingsDialogImpl::addGameTableStyle()
