@@ -59,7 +59,11 @@ loghelper_init(const string &logDir, int logLevel)
 	path tmpLogFile(logDir);
 	tmpLogFile /= SERVER_MSG_LOG_FILE_NAME;
 
+#if BOOST_VERSION < 108500
 	g_logFile = tmpLogFile.directory_string();
+#else
+	g_logFile = tmpLogFile.string();
+#endif
 	g_logLevel = logLevel;
 }
 

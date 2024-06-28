@@ -65,7 +65,15 @@ std::string
 NonQtHelper::getDataPathStdString(const char *argv0)
 {
 	boost::filesystem::path startPath(argv0);
+#if BOOST_VERSION < 108500
 	startPath = startPath.remove_leaf();
+#else
+	startPath = startPath.remove_filename();
+#endif
 	startPath /= "data";
+#if BOOST_VERSION < 108500
 	return stringToUtf8(startPath.directory_string());
+#else
+	return stringToUtf8(startPath.string());
+#endif
 }

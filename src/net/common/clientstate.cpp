@@ -211,7 +211,11 @@ ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client
 	} else {
 		// Download the server list.
 		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
+#if BOOST_VERSION < 108500
 		downloader->Init(client->GetContext().GetServerListUrl(), tmpServerListPath.directory_string());
+#else
+		downloader->Init(client->GetContext().GetServerListUrl(), tmpServerListPath.string());
+#endif
 		ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
 		client->SetState(ClientStateDownloadingServerList::Instance());
 	}
@@ -303,13 +307,24 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 	path zippedServerListPath(context.GetCacheDir());
 	zippedServerListPath /= context.GetServerListUrl().substr(context.GetServerListUrl().find_last_of('/') + 1);
 	path xmlServerListPath;
+#if BOOST_VERSION < 108500
 	if (extension(zippedServerListPath) == ".z") {
 		xmlServerListPath = change_extension(zippedServerListPath, "");
+#else
+	if (zippedServerListPath.extension().string() == ".z") {
+		xmlServerListPath = zippedServerListPath;
+		xmlServerListPath.replace_extension("");
+#endif
 
 		// Unzip the file using zlib.
 		try {
+#if BOOST_VERSION < 108500
 			std::ifstream inFile(zippedServerListPath.directory_string().c_str(), ios_base::in | ios_base::binary);
 			std::ofstream outFile(xmlServerListPath.directory_string().c_str(), ios_base::out | ios_base::trunc);
+#else
+			std::ifstream inFile(zippedServerListPath.string().c_str(), ios_base::in | ios_base::binary);
+			std::ofstream outFile(xmlServerListPath.string().c_str(), ios_base::out | ios_base::trunc);
+#endif
 			boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
 			in.push(boost::iostreams::zlib_decompressor());
 			in.push(inFile);
@@ -321,7 +336,11 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 		xmlServerListPath = zippedServerListPath;
 
 	// Parse the server address.
+#if BOOST_VERSION < 108500
 	TiXmlDocument doc(xmlServerListPath.directory_string());
+#else
+	TiXmlDocument doc(xmlServerListPath.string());
+#endif
 
 	if (doc.LoadFile()) {
 		client->ClearServerInfoMap();

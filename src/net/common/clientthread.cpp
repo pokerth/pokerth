@@ -977,7 +977,11 @@ ClientThread::GetCacheServerListFileName()
 	size_t pos = serverListUrl.find_last_of('/');
 	if (!GetContext().GetCacheDir().empty() && !serverListUrl.empty() && pos != string::npos && ++pos < serverListUrl.length()) {
 		tmpServerListPath /= serverListUrl.substr(pos);
+#if BOOST_VERSION < 108500
 		fileName = tmpServerListPath.directory_string();
+#else
+		fileName = tmpServerListPath.string();
+#endif
 	}
 	return fileName;
 }

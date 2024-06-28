@@ -73,7 +73,11 @@ public:
 
 	std::string getMySqliteLogFileName()
 	{
+#if BOOST_VERSION < 108500
 		return mySqliteLogFileName.directory_string();
+#else
+		return mySqliteLogFileName.string();
+#endif
 	}
 
 private:

@@ -277,7 +277,11 @@ ServerLobbyThread::Init(const string &logDir)
 		boost::filesystem::path logPath(logDir);
 		if (!logDir.empty()) {
 			logPath /= SERVER_STATISTICS_FILE_NAME;
+#if BOOST_VERSION < 108500
 			m_statisticsFileName = logPath.directory_string();
+#else
+			m_statisticsFileName = logPath.string();
+#endif
 			ReadStatisticsFile();
 		}
 	}
@@ -1264,7 +1268,11 @@ ServerLobbyThread::HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> sessi
 				// Init finished - start session.
 				EstablishSession(session);
 				LOG_MSG("Client \"" << session->GetClientAddr() << "\" uploaded avatar \""
+#if BOOST_VERSION < 108500
 						<< boost::filesystem::path(avatarFileName).file_string() << "\".");
+#else
+						<< boost::filesystem::path(avatarFileName).string() << "\".");
+#endif
 			} else
 				SessionError(session, ERR_NET_WRONG_AVATAR_SIZE);
 		}

@@ -87,20 +87,36 @@ AvatarManager::Init(const string &dataDir, const string &cacheDir)
 	path tmpDataPath(dataDir);
 	{
 		boost::mutex::scoped_lock lock(m_cacheDirMutex);
+#if BOOST_VERSION < 108500
 		m_cacheDir = tmpCachePath.directory_string();
+#else
+		m_cacheDir = tmpCachePath.string();
+#endif
 	}
 	{
 		boost::mutex::scoped_lock lock(m_avatarsMutex);
+#if BOOST_VERSION < 108500
 		tmpRet = InternalReadDirectory((tmpDataPath / "gfx/avatars/default/people/").directory_string(), m_avatars);
+#else
+		tmpRet = InternalReadDirectory((tmpDataPath / "gfx/avatars/default/people/").string(), m_avatars);
+#endif
 		retVal = retVal && tmpRet;
+#if BOOST_VERSION < 108500
 		tmpRet = InternalReadDirectory((tmpDataPath / "gfx/avatars/default/misc/").directory_string(), m_avatars);
+#else
+		tmpRet = InternalReadDirectory((tmpDataPath / "gfx/avatars/default/misc/").string(), m_avatars);
+#endif
 		retVal = retVal && tmpRet;
 	}
 	if (cacheDir.empty() || tmpCachePath.empty())
 		LOG_ERROR("Cache directory was not set!");
 	else {
 		boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+#if BOOST_VERSION < 108500
 		tmpRet = InternalReadDirectory(tmpCachePath.directory_string(), m_cachedAvatars);
+#else
+		tmpRet = InternalReadDirectory(tmpCachePath.string(), m_cachedAvatars);
+#endif
 		retVal = retVal && tmpRet;
 	}
 
@@ -113,7 +129,11 @@ AvatarManager::AddSingleAvatar(const std::string &fileName)
 {
 	bool retVal = false;
 	path filePath(fileName);
+#if BOOST_VERSION < 108500
 	string tmpFileName(filePath.file_string());
+#else
+	string tmpFileName(filePath.string());
+#endif
 
 	if (!fileName.empty() && !tmpFileName.empty()) {
 		unsigned outFileSize = 0;
@@ -240,7 +260,11 @@ AvatarManager::GetAvatarFileType(const string &fileName)
 	AvatarFileType fileType;
 
 	path filePath(fileName);
+#if BOOST_VERSION < 108500
 	string ext(extension(filePath));
+#else
+	string ext(filePath.extension().string());
+#endif
 	if (boost::algorithm::iequals(ext, ".png"))
 		fileType = AVATAR_FILE_TYPE_PNG;
 	else if (boost::algorithm::iequals(ext, ".jpg") || boost::algorithm::iequals(ext, ".jpeg"))
@@ -362,7 +386,11 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 			if (IsValidAvatarFileType(avatarFileType, data, size)) {
 				path tmpPath(cacheDir);
 				tmpPath /= (md5buf.ToString() + ext);
+#if BOOST_VERSION < 108500
 				string fileName(tmpPath.file_string());
+#else
+				string fileName(tmpPath.string());
+#endif
 				std::ofstream o(fileName.c_str(), ios_base::out | ios_base::binary | ios_base::trunc);
 				if (!o.fail()) {
 					o.write((const char *)data, size);
@@ -426,7 +454,11 @@ AvatarManager::RemoveOldAvatarCacheEntries()
 	}
 	try {
 		path cachePath(cacheDir);
+#if BOOST_VERSION < 108500
 		cacheDir = cachePath.directory_string();
+#else
+		cacheDir = cachePath.string();
+#endif
 		// Never delete anything if we do not have a special cache dir set.
 		if (!cacheDir.empty()) {
 			boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
@@ -441,12 +473,20 @@ AvatarManager::RemoveOldAvatarCacheEntries()
 				while (i != end) {
 					bool keepFile = false;
 					path filePath(i->second);
+#if BOOST_VERSION < 108500
 					string fileString(filePath.file_string());
+#else
+					string fileString(filePath.string());
+#endif
 					// Only consider files which are definitely in the cache dir.
 					if (fileString.size() > cacheDir.size() && fileString.substr(0, cacheDir.size()) == cacheDir) {
 						// Only consider files with MD5 as file name.
 						MD5Buf tmpBuf;
+#if BOOST_VERSION < 108500
 						if (exists(filePath) && tmpBuf.FromString(basename(filePath))) {
+#else
+						if (exists(filePath) && tmpBuf.FromString(filePath.stem().string())) {
+#endif
 							timeMap.insert(TimeAvatarMap::value_type(last_write_time(filePath), i->first));
 							keepFile = true;
 						}
@@ -520,10 +560,19 @@ AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 			directory_iterator end;
 
 			while (i != end) {
+#if BOOST_VERSION < 108500
 				if (is_regular(i->status())) {
 					string md5sum(basename(i->path()));
+#else
+				if (is_regular_file(i->status())) {
+					string md5sum(i->path().stem().string());
+#endif
 					MD5Buf md5buf;
+#if BOOST_VERSION < 108500
 					string fileName(i->path().file_string());
+#else
+					string fileName(i->path().string());
+#endif
 					if (md5buf.FromString(md5sum)) {
 						// Only consider files with md5sum as name.
 						avatars.insert(AvatarMap::value_type(md5buf, fileName));
