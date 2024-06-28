@@ -133,54 +133,6 @@ public slots:
 
 private:
 
-	class Language
-	{
-		/**
-		 * The code of the language (e.g. "de")
-		 */
-		QString m_code;
-
-		/**
-		 * The name of this language
-		*/
-		const char* m_name;
-
-		/**
-		 * The name of this language in the specified language
-		*/
-		QString m_nativeName;
-
-public:
-		/**
-		 * Constructor
-		 * @param code Code of this language
-		 * @param name Name of this language
-		 * @param nativeName Name of this language in the specified language
-		 */
-		Language(const QString& code, const char* name, const char* nativeName):
-			m_code(code),
-			m_name(name),
-			m_nativeName(QString::fromUtf8(nativeName))
-		{
-		}
-		
-		/**
-		 * Returns the code of this language
-		*/
-		QString getCode() const
-		{
-			return m_code;
-		}
-
-		/**
-		 * Returns a label for this language for use in the languages dropdown
-		 */
-		QString getLanguageLabel() const
-		{
-			return QString(tr(m_name) + " (" + m_nativeName + ")");
-		}
-	};
-
 	bool playerNickIsChanged;
 	bool settingsCorrect;
 
