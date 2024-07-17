@@ -40,209 +40,224 @@
 int CardsValue::holeCardsClass(int one, int two)
 {
 
-	if((one-1)%13<(two-1)%13) {
-		int temp = one;
-		one = two;
-		two = temp;
-	}
+// Ensure 'one' always contains the higher-ranked card
+if((one-1)%13 < (two-1)%13) {
+    int temp = one;
+    one = two;
+    two = temp;
+}
 
+// Check if the cards are a pair
+if((one-1)%13 == (two-1)%13) {
+    // High pairs (Jack or better) get the highest class
+    if((one-1)%13+2 > 10) return 10;
+    else {
+        // Classify lower pairs
+        switch((one-1)%13+2) {
+        case 10:
+            return 9;  // Pair of Tens
+        case 9:
+            return 8;  // Pair of Nines
+        case 8:
+            return 7;  // Pair of Eights
+        case 7:
+            return 6;  // Pair of Sevens
+        default:
+            return 5;  // Pairs of Six or lower
+        }
+    }
+}
 
-	if((one-1)%13 == (two-1)%13) {
-		if((one-1)%13+2 > 10) return 10;
-		else {
-			switch((one-1)%13+2) {
-			case 10:
-				return 9;
-			case 9:
-				return 8;
-			case 8:
-				return 7;
-			case 7:
-				return 6;
-			default:
-				return 5;
-			}
-		}
-	}
-	switch((one-1)%13+2) {
-	//Ass
-	case 14: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 10;
-			case 2:
-				return 9;
-			case 3:
-				return 9;
-			case 4:
-				return 8;
-			default:
-				return 7;
-			}
-		} else {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 9;
-			case 2:
-				return 8;
-			case 3:
-				return 7;
-			case 4:
-				return 7;
-			default:
-				return 4;
-			}
-		}
-	}
+// If not a pair, classify based on the higher card
+switch((one-1)%13+2) {
+    // Further cases for non-pair hands...
+}
+
+case 14: { // Ace
+    if((one-1)/13 == (two-1)/13) { // Suited
+        switch((one-1)%13-(two-1)%13) {
+        case 1: return 10; // AsKs
+        case 2: return 9;  // AsQs
+        case 3: return 9;  // AsJs
+        case 4: return 8;  // AsTs
+        default: return 7; // As9s and lower
+        }
+    } else { // Offsuit
+        switch((one-1)%13-(two-1)%13) {
+        case 1: return 9;  // AoKo
+        case 2: return 8;  // AoQo
+        case 3: return 7;  // AoJo
+        case 4: return 7;  // AoTo
+        default: return 4; // Ao9o and lower
+        }
+    }
+}
 	break;
 	//K�ig
-	case 13: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 9;
-			case 2:
-				return 8;
-			case 3:
-				return 8;
-			case 4:
-				return 6;
-			default:
-				return 5;
-			}
-		} else {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 7;
-			case 2:
-				return 6;
-			case 3:
-				return 6;
-			default:
-				return 4;
-			}
-		}
-	}
-	break;
-	//Dame
-	case 12: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 8;
-			case 2:
-				return 7;
-			case 3:
-				return 6;
-			case 4:
-				return 5;
-			default:
-				return 4;
-			}
-		} else {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 6;
-			case 2:
-				return 6;
-			case 3:
-				return 4;
-			default:
-				return 3;
-			}
-		}
-	}
-	break;
-	//Bube
-	case 11: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 7;
-			case 2:
-				return 6;
-			case 3:
-				return 5;
-			case 4:
-				return 4;
-			default:
-				return 3;
-			}
-		} else {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 6;
-			case 2:
-				return 5;
-			case 3:
-				return 4;
-			default:
-				return 2;
-			}
-		}
-	}
-	break;
-	//10
-	case 10: {
-		if((one-1)/13 == (two-1)/13) {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 6;
-			case 2:
-				return 5;
-			default:
-				return 2;
-			}
-		} else {
-			switch((one-1)%13-(two-1)%13) {
-			case 1:
-				return 5;
-			case 2:
-				return 4;
-			default:
-				return 1;
-			}
-		}
-	}
-	break;
-	//Rest
-	default: {
-		if((one-1)%13 - (two-1)%13 <= 2) {
-			if((one-1)/13 == (two-1)/13) return 5;
-			else return 3;
-		} else {
-			if((one-1)%13 - (two-1)%13 == 3) return 2;
-			else return 1;
-		}
-	}
-	}
+case 13: { // King high
+    if((one-1)/13 == (two-1)/13) { // Check if suited
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 9;  // K-Q suited
+        case 2:
+            return 8;  // K-J suited
+        case 3:
+            return 8;  // K-T suited
+        case 4:
+            return 6;  // K-9 suited
+        default:
+            return 5;  // K-8 suited or lower
+        }
+    } else { // Offsuit
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 7;  // K-Q offsuit
+        case 2:
+            return 6;  // K-J offsuit
+        case 3:
+            return 6;  // K-T offsuit
+        default:
+            return 4;  // K-9 offsuit or lower
+        }
+    }
+}
+break;
 
+//Dame (Queen)
+case 12: { // Queen high
+    if((one-1)/13 == (two-1)/13) { // Check if suited
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 8;  // Q-J suited
+        case 2:
+            return 7;  // Q-T suited
+        case 3:
+            return 6;  // Q-9 suited
+        case 4:
+            return 5;  // Q-8 suited
+        default:
+            return 4;  // Q-7 suited or lower
+        }
+    } else { // Offsuit
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 6;  // Q-J offsuit
+        case 2:
+            return 6;  // Q-T offsuit
+        case 3:
+            return 4;  // Q-9 offsuit
+        default:
+            return 3;  // Q-8 offsuit or lower
+        }
+    }
+}
+break;
 
+//Bube (Jack)
+case 11: { // Jack high
+    if((one-1)/13 == (two-1)/13) { // Check if suited
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 7;  // J-T suited
+        case 2:
+            return 6;  // J-9 suited
+        case 3:
+            return 5;  // J-8 suited
+        case 4:
+            return 4;  // J-7 suited
+        default:
+            return 3;  // J-6 suited or lower
+        }
+    } else { // Offsuit
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 6;  // J-T offsuit
+        case 2:
+            return 5;  // J-9 offsuit
+        case 3:
+            return 4;  // J-8 offsuit
+        default:
+            return 2;  // J-7 offsuit or lower
+        }
+    }
+}
+break;
+
+//10
+case 10: { // Ten high
+    if((one-1)/13 == (two-1)/13) { // Check if suited
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 6;  // T-9 suited
+        case 2:
+            return 5;  // T-8 suited
+        default:
+            return 2;  // T-7 suited or lower
+        }
+    } else { // Offsuit
+        switch((one-1)%13-(two-1)%13) {
+        case 1:
+            return 5;  // T-9 offsuit
+        case 2:
+            return 4;  // T-8 offsuit
+        default:
+            return 1;  // T-7 offsuit or lower
+        }
+    }
+}
+break;
+
+//Rest (9 high or lower)
+default: {
+    if((one-1)%13 - (two-1)%13 <= 2) { // Cards are close in rank (within 2)
+        if((one-1)/13 == (two-1)/13) return 5; // Suited
+        else return 3; // Offsuit
+    } else {
+        if((one-1)%13 - (two-1)%13 == 3) return 2; // Gap of 3
+        else return 1; // Gap of 4 or more
+    }
 }
 
 int CardsValue::holeCardsToIntCode(int* cards)
 {
+    // Determine the code for the hole cards
+    // This function converts two card values into a single integer code
 
-	// Code der HoleCards ermitteln
-	if(cards[0]%13 == cards[1]%13) {
-		return ((cards[0]%13)*1000 + (cards[0]%13)*10);
-	} else {
-		if(cards[0]%13 < cards[1]%13) {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10 + 1);
-			} else {
-				return ((cards[0]%13)*1000 + (cards[1]%13)*10);
-			}
-		} else {
-			if(cards[0]/13 == cards[1]/13) {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10 + 1);
-			} else {
-				return ((cards[1]%13)*1000 + (cards[0]%13)*10);
-			}
-		}
-	}
-
+    // Check if the cards are a pair
+    if(cards[0]%13 == cards[1]%13) {
+        // For pairs, return a code in the format: RRRT0
+        // where RRR is the rank (0-12) * 1000, T is the rank * 10
+        return ((cards[0]%13)*1000 + (cards[0]%13)*10);
+    } else {
+        // For non-pairs, handle based on rank order
+        if(cards[0]%13 < cards[1]%13) {
+            // First card is lower rank
+            if(cards[0]/13 == cards[1]/13) {
+                // Cards are suited
+                // Return code format: RRRSST1
+                // where RRR is lower rank * 1000, SS is higher rank * 10, 1 indicates suited
+                return ((cards[0]%13)*1000 + (cards[1]%13)*10 + 1);
+            } else {
+                // Cards are offsuit
+                // Return code format: RRRSST0
+                // where RRR is lower rank * 1000, SS is higher rank * 10, 0 indicates offsuit
+                return ((cards[0]%13)*1000 + (cards[1]%13)*10);
+            }
+        } else {
+            // Second card is lower rank
+            if(cards[0]/13 == cards[1]/13) {
+                // Cards are suited
+                // Return code format: RRRSST1
+                // where RRR is lower rank * 1000, SS is higher rank * 10, 1 indicates suited
+                return ((cards[1]%13)*1000 + (cards[0]%13)*10 + 1);
+            } else {
+                // Cards are offsuit
+                // Return code format: RRRSST0
+                // where RRR is lower rank * 1000, SS is higher rank * 10, 0 indicates offsuit
+                return ((cards[1]%13)*1000 + (cards[0]%13)*10);
+            }
+        }
+    }
 }
 
 /* DO NOT USE, THIS MAY LEAK MEMORY
