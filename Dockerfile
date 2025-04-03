@@ -32,7 +32,7 @@ RUN apt clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/boost*
 #    qmake6 CONFIG+="client c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
 
 # the following will compile the server:
-# RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev && \
-#    qmake6 CONFIG+="official_server c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
+RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev && \
+   qmake6 CONFIG+="official_server c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
 
 ENTRYPOINT ["/bin/bash"]
