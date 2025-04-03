@@ -1,7 +1,7 @@
 FROM ubuntu:plucky
 # ubuntu:24.04 aka ubuntu:noble might also work with the following procedure (changing deb-src entries from plucky to noble)
 
-ENV TZ=Europe/Berlin
+ENV TZ=America/NewYork
 
 USER root
 
@@ -28,11 +28,11 @@ RUN cd /root && wget -O boost-1.87.0-b2-nodocs.tar.xz https://github.com/boostor
 RUN apt clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/boost*
 
 # the following will compile the client:
-RUN cd /opt && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout stable && \
-    qmake6 CONFIG+="client c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make
+#RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev && \
+#    qmake6 CONFIG+="client c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
 
 # the following will compile the server:
-# RUN cd /opt && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout stable && \
-#    qmake6 CONFIG+="official_server c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make
+# RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev && \
+#    qmake6 CONFIG+="official_server c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
 
 ENTRYPOINT ["/bin/bash"]
