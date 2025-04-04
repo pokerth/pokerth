@@ -54,7 +54,7 @@ AsyncDBAuth::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/,
 		int blocked = result[0][2];
 		int active = result[0][7];
 		if ((active != 1) || (blocked != 0)) {
-			oost::asio::post(service, boost::bind(&ServerDBCallback::PlayerLoginBlocked, &cb, GetId()));
+			boost::asio::post(service, boost::bind(&ServerDBCallback::PlayerLoginBlocked, &cb, GetId()));
 		} else {
 			mysqlpp::String secret(result[0][1]);
 			mysqlpp::String country(result[0][3]);
