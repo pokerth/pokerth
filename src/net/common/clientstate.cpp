@@ -485,7 +485,7 @@ ClientStateStartConnect::~ClientStateStartConnect()
 void
 ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 {
-	for ( const auto& endpoint : m_remoteEndpointIterator) {
+	boost::asio::ip::tcp::endpoint endpoint = *m_remoteEndpointIterator.begin();
 
 	client->GetStateTimer().expires_at(time_point<steady_clock,duration<int, std::ratio<1000, 1>>>(
 		duration<int, std::ratio<1000, 1>>(CLIENT_CONNECT_TIMEOUT_SEC)));
@@ -499,8 +499,8 @@ ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 					this,
 					boost::asio::placeholders::error,
 					m_remoteEndpointIterator,
-					client));
-	}
+					client,
+					0));
 }
 
 void
@@ -517,11 +517,13 @@ ClientStateStartConnect::SetRemoteEndpoint(boost::asio::ip::tcp::resolver::resul
 
 void
 ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::results_type endpoint_iterator,
-									   boost::shared_ptr<ClientThread> client)
+									   boost::shared_ptr<ClientThread> client, int rangeIndex)
 {
 	if (&client->GetState() == this) {
 
+		int rangeId = 0;
 		for ( const auto& endpoint : endpoint_iterator) {
+			if (rangeIndex != rangeId++) continue;
 
 		if (!ec) {
 			client->GetCallback().SignalNetClientConnect(MSG_SOCK_CONNECT_DONE);
@@ -537,7 +539,8 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 							this,
 							boost::asio::placeholders::error,
 							m_remoteEndpointIterator,
-							client));
+							client,
+							++rangeIndex));
 			}
 		}
 		if (ec) {

@@ -27,12 +27,21 @@ RUN cd /root && wget -O boost-1.87.0-b2-nodocs.tar.xz https://github.com/boostor
 # cleanup
 RUN apt clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/boost*
 
-# the following will compile the client:
-#RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev && \
-#    qmake6 CONFIG+="client c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
+# fetch repo:
+RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev
 
-# the following will compile the server:
-RUN cd /opt && git clone https://github.com/w2vy/pokerth.git && cd pokerth && git checkout dev && \
-   qmake6 CONFIG+="official_server c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro && make -j$(nproc)
+# the following will prepare for client build:
+RUN cd /opt/pokerth && qmake6 CONFIG+="client c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro
+
+# the following will prepare for official_server build:
+# RUN cd /opt/pokerth && qmake6 CONFIG+="official_server c++11" QMAKE_CFLAGS_ISYSTEM="" -spec linux-g++ pokerth.pro
+
+# rebuild proto files just in case:
+RUN cd /opt/pokerth && rm src/third_party/protobuf/*
+RUN cd /opt/pokerth && protoc --proto_path=. --cpp_out=src/third_party/protobuf pokerth.proto
+RUN cd /opt/pokerth && protoc --proto_path=. --cpp_out=src/third_party/protobuf chatcleaner.proto   
+
+# compile:
+RUN cd /opt/pokerth && make
 
 ENTRYPOINT ["/bin/bash"]

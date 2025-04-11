@@ -210,7 +210,7 @@ protected:
 
 	void HandleConnect(const boost::system::error_code& ec,
 					   boost::asio::ip::tcp::resolver::results_type endpoint_iterator,
-					   boost::shared_ptr<ClientThread> client);
+					   boost::shared_ptr<ClientThread> client, int rangeIndex);
 
 	void TimerTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
 
