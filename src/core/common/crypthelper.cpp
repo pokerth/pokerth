@@ -181,12 +181,23 @@ CryptHelper::MD5Sum(const std::string &fileName, MD5Buf &buf)
 		size_t numBytes;
 
 #ifdef HAVE_OPENSSL
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L
+		EVP_MD_CTX *context = EVP_MD_CTX_new();
+		unsigned int md5_digest_len = EVP_MD_size(EVP_md5());
+		EVP_DigestInit_ex(context, EVP_md5(), NULL);
+		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0) {
+			EVP_DigestUpdate(context, readBuf, numBytes);
+		}
+		EVP_DigestFinal_ex(context, buf.GetData(), &md5_digest_len);
+		EVP_MD_CTX_free(context);
+#else
 		MD5_CTX context;
 		MD5_Init(&context);
 		while ((numBytes = fread(readBuf, 1, sizeof(readBuf), file)) > 0) {
 			MD5_Update(&context, readBuf, numBytes);
 		}
 		MD5_Final(buf.GetData(), &context);
+#endif
 #else
 		gcry_md_hd_t hash;
 		gcry_md_open(&hash, GCRY_MD_MD5, 0);
