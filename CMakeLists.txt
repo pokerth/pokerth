@@ -10,7 +10,7 @@ include(CMakeDependentOption)
 set(BUILD_DB ON)
 set(BUILD_DBOFFICIAL ON)
 # BUILD_CLIENT ON|OFF = build client or server
-set(BUILD_CLIENT OFF)
+set(BUILD_CLIENT OFF CACHE BOOL "Build Pokerth client")
 set(BUILD_PROTOCOL ON)
 set(GUI_800_480 OFF)
 cmake_dependent_option(BUILD_CLIENT "" ON "" OFF)
