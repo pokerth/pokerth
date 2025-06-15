@@ -233,11 +233,13 @@ int main( int argc, char **argv )
 
 	//Set translations
 	QTranslator qtTranslator;
-	qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")));
-	a.installTranslator(&qtTranslator);
+	if (qtTranslator.load(QString(myAppDataPath +"translations/qt_") + QString::fromStdString(myConfig->readConfigString("Language")))) {
+		a.installTranslator(&qtTranslator);
+	}
 	QTranslator translator;
-	translator.load(QString(myAppDataPath +"translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")));
-	a.installTranslator(&translator);
+	if (translator.load(QString(myAppDataPath +"translations/pokerth_") + QString::fromStdString(myConfig->readConfigString("Language")))) {
+		a.installTranslator(&translator);
+	}
 
 	qRegisterMetaType<unsigned>("unsigned");
 	qRegisterMetaType<boost::shared_ptr<Game> >("boost::shared_ptr<Game>");
