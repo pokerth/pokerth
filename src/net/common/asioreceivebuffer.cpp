@@ -35,7 +35,6 @@
 #include <net/asioreceivebuffer.h>
 #include <net/sessiondata.h>
 #include <core/loghelper.h>
-#include <boost/swap.hpp>
 
 using namespace std;
 
