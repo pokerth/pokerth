@@ -4080,7 +4080,7 @@ void LocalPlayer::calcMyOdds()
 		int countAll = 0;
 		int countMy = 0;
 
-		for(i=0; i<49; i++) {
+		for(i=16; i<49; i++) { // SHORT DECK: Start from card 16 (6 of clubs)
 			if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 				for(j=i+1; j<50; j++) {
 					if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
@@ -4625,7 +4625,7 @@ void LocalPlayer::flopEngine3()
 	int countAll = 0;
 	int countMy = 0;
 
-	for(i=0; i<49; i++) {
+	for(i=16; i<49; i++) { // SHORT DECK: Start from card 16 (6 of clubs)
 		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 			for(j=i+1; j<50; j++) {
 				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
@@ -4798,7 +4798,7 @@ void LocalPlayer::turnEngine3()
 	int countAll = 0;
 	int countMy = 0;
 
-	for(i=0; i<49; i++) {
+	for(i=16; i<49; i++) { // SHORT DECK: Start from card 16 (6 of clubs)
 		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 			for(j=i+1; j<50; j++) {
 				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {
@@ -4966,7 +4966,7 @@ void LocalPlayer::riverEngine3()
 	int countAll = 0;
 	int countMy = 0;
 
-	for(i=0; i<49; i++) {
+	for(i=16; i<49; i++) { // SHORT DECK: Start from card 16 (6 of clubs)
 		if(i != myCards[0] && i != myCards[1] && i != tempBoardCardsArray[0] && i != tempBoardCardsArray[1] && i != tempBoardCardsArray[2]) {
 			for(j=i+1; j<50; j++) {
 				if(j != myCards[0] && j != myCards[1] && j != tempBoardCardsArray[0] && j != tempBoardCardsArray[1] && j != tempBoardCardsArray[2]) {

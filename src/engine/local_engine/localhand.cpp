@@ -56,15 +56,15 @@ LocalHand::LocalHand(boost::shared_ptr<EngineFactory> f, GuiInterface *g, boost:
 		(*it)->setMyCardsFlip(0, 0);
 	}
 
-	// generate cards and assign to board and player
-	const int NumCards = 52;
+	// generate cards and assign to board and player - SHORT DECK (36 cards, no 2-5)
+	const int NumCards = 36;
 	int cardsArray[NumCards] = {
-		0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
-		10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-		20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-		30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-		40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-		50, 51
+		// Short Deck: Remove 2s, 3s, 4s, 5s (cards 0-15)
+		// Keep only 6s through Aces (cards 16-51)
+		16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+		26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+		36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+		46, 47, 48, 49, 50, 51
 	};
 	Tools::ShuffleArrayNonDeterministic(cardsArray, NumCards);
 	int tempBoardArray[5];

@@ -346,13 +346,14 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// Straight Flush Ausnahme: 5-4-3-2-A
+	// Straight Flush Ausnahme: SHORT DECK Wheel A-6-7-8-9
 	for(j1=0; j1<3; j1++) {
 		// 5 Karten gleiche Farbe ?
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
 			for(j2=j1+1; j2<4; j2++) {
-				if(array[j1][1]-9==array[j2][1] && array[j2][1]-1==array[j2+1][1] && array[j2+1][1]-1==array[j2+2][1] && array[j2+2][1]-1==array[j2+3][1] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
-					// Straight Flush mit 5 als höchste Karte -> 8*100000000+3*1000000
+				// Check for A-6-7-8-9 straight flush (Ace high, then 6-7-8-9)
+				if(array[j1][1]==12 && array[j2][1]==4 && array[j2+1][1]==5 && array[j2+2][1]==6 && array[j2+3][1]==7 && array[j1][0]==array[j2][0] && array[j1][0]==array[j2+1][0] && array[j1][0]==array[j2+2][0] && array[j1][0]==array[j2+3][0]) {
+					// Straight Flush with 9 as highest card -> 8*100000000+7*1000000
 					if(position) {
 						// Position-Array fuellen
 						position[0] = array[j1][2];
@@ -360,23 +361,23 @@ int CardsValue::cardsValue(int* cards, int* position)
 							position[j3+1] = array[j2+j3][2];
 						}
 					}
-					return 800000000+3*1000000;
+					return 800000000+7*1000000;
 				}
 			}
 		}
 	}
 
-	// auf Flush (Klasse 5) testen
+	// auf Flush (Klasse 6) testen - SHORT DECK: Flush beats Full House
 	for(j1=0; j1<3; j1++) {
 		if(array[j1][0] == array[j1+1][0] && array[j1][0] == array[j1+2][0] && array[j1][0] == array[j1+3][0] && array[j1][0] == array[j1+4][0]) {
-			// Flush -> 5*10000000 + h�ste Flush Karten mit absteigender Wertung
+			// Flush -> 6*10000000 + h�ste Flush Karten mit absteigender Wertung
 			if(position) {
 				// Position-Array fuellen
 				for(j2=0; j2<5; j2++) {
 					position[j2] = array[j1+j2][2];
 				}
 			}
-			return 500000000+array[j1][1]*1000000+array[j1+1][1]*10000+array[j1+2][1]*100+array[j1+3][1]*10+array[j1+4][1];
+			return 600000000+array[j1][1]*1000000+array[j1+1][1]*10000+array[j1+2][1]*100+array[j1+3][1]*10+array[j1+4][1];
 		}
 	}
 
@@ -462,7 +463,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 							}
 							return 400000000+array[j1][1]*1000000;
 						}
-						// Full House
+						// Full House - SHORT DECK: Full House ranks below Flush
 						if((array[j1][1] == array[j2][1] && array[j1][1] == array[j3][1] && array[j4][1] == array[j5][1]) || (array[j3][1] == array[j4][1] && array[j3][1] == array[j5][1] && array[j1][1] == array[j2][1])) {
 							if(position) {
 								// Position-Array fuellen
@@ -480,7 +481,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 								drei = array[j4][1];
 								zwei = array[j1][1];
 							}
-							return 600000000+drei*1000000+zwei*10000;
+							return 500000000+drei*1000000+zwei*10000;
 						}
 					}
 				}
@@ -488,13 +489,14 @@ int CardsValue::cardsValue(int* cards, int* position)
 		}
 	}
 
-	// auf Straight-Spezialfall ( 5 4 3 2 A ) testen
+	// auf Straight-Spezialfall SHORT DECK Wheel ( A 6 7 8 9 ) testen
 	for(j1=0; j1<7; j1++) {
 		for(j2=j1+1; j2<7; j2++) {
 			for(j3=j2+1; j3<7; j3++) {
 				for(j4=j3+1; j4<7; j4++) {
 					for(j5=j4+1; j5<7; j5++) {
-						if(array[j1][1]-9 == array[j2][1] && array[j2][1]-1 == array[j3][1] && array[j3][1]-1 == array[j4][1] && array[j4][1]-1 == array[j5][1]) {
+						// Check for A-6-7-8-9 straight (Ace high, then 6-7-8-9)
+						if(array[j1][1]==12 && array[j2][1]==4 && array[j3][1]==5 && array[j4][1]==6 && array[j5][1]==7) {
 							if(position) {
 								// Position-Array fuellen
 								position[0] = array[j1][2];
@@ -503,7 +505,7 @@ int CardsValue::cardsValue(int* cards, int* position)
 								position[3] = array[j4][2];
 								position[4] = array[j5][2];
 							}
-							return 400000000+array[j2][1]*1000000;
+							return 400000000+7*1000000; // 9 is the high card (value 7 in 0-based system)
 						}
 					}
 				}
@@ -675,7 +677,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 	break;
 	case GAME_STATE_FLOP: {
 
-		for(i=0; i<51; i++) {
+		for(i=16; i<51; i++) { // SHORT DECK: Start from card 16 (6 of clubs)
 			if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4]) {
 				for(j=i+1; j<52; j++) {
 					if(j!=cards[0] && j!=cards[1] && j!=cards[2] && j!=cards[3] && j!=cards[4]) {
@@ -696,7 +698,7 @@ std::vector< std::vector<int> > CardsValue::calcCardsChance(GameState beRoID, in
 	break;
 	case GAME_STATE_TURN: {
 
-		for(i=0; i<52; i++) {
+		for(i=16; i<52; i++) { // SHORT DECK: Start from card 16 (6 of clubs)
 			if(i!=cards[0] && i!=cards[1] && i!=cards[2] && i!=cards[3] && i!=cards[4] && i!=cards[5]) {
 				cards[6] = i;
 				(chance[0][cardsValue(cards,0)/100000000])++;
@@ -805,18 +807,98 @@ std::string CardsValue::determineHandName(int myCardsValueInt, PlayerList active
 		}
 	}
 	break;
-	// Full House
+	// Flush - SHORT DECK: Now ranks as class 6 (above Full House)
 	case 6: {
 
 		handName = *cardStringIt_c;
 		++cardStringIt_c;
 		handName += *cardStringIt_c;
-		++cardStringIt_c;
-		handName += *cardStringIt_c;
+
+		// same hand detection
+		for(it = shownCardsValueInt.begin(); it != shownCardsValueInt.end(); ++it) {
+			if(((*it)/1000000) == (myCardsValueInt/1000000)) {
+				sameHandCardsValueInt.push_back(*it);
+			}
+		}
+
+		// 1.same hands existing
+		if(!(sameHandCardsValueInt.empty())) {
+			// first kicker?
+			for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+				if(((*it)/10000) == (myCardsValueInt/10000)) {
+					equal = true;
+					++it;
+				} else {
+					different = true;
+					it = sameHandCardsValueInt.erase(it);
+				}
+			}
+			++cardStringIt_c;
+			if(different) {
+				handName += ", second card " + *cardStringIt_c;
+			}
+			// 2.there are still same hands
+			if(equal) {
+				different = false;
+				equal = false;
+				// second kicker?
+				for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+					if(((*it)/100) == (myCardsValueInt/100)) {
+						equal = true;
+						++it;
+					} else {
+						different = true;
+						it = sameHandCardsValueInt.erase(it);
+					}
+				}
+				++cardStringIt_c;
+				if(different) {
+					handName += ", third card " + *cardStringIt_c;
+				}
+				// 3.there are still same hands
+				if(equal) {
+					different = false;
+					equal = false;
+					// third kicker?
+					for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+						if(((*it)/10) == (myCardsValueInt/10)) {
+							equal = true;
+							++it;
+						} else {
+							different = true;
+							it = sameHandCardsValueInt.erase(it);
+						}
+					}
+					++cardStringIt_c;
+					if(different) {
+						handName += ", fourth card " + *cardStringIt_c;
+					}
+					// 4.there are still same hands
+					if(equal) {
+						different = false;
+						equal = false;
+						// third kicker?
+						for(it = sameHandCardsValueInt.begin(); it != sameHandCardsValueInt.end(); ) {
+							if((*it) == myCardsValueInt) {
+								equal = true;
+								++it;
+							} else {
+								different = true;
+								it = sameHandCardsValueInt.erase(it);
+							}
+						}
+						if(different) {
+							++cardStringIt_c;
+							handName += ", fifth card " + *cardStringIt_c;
+						}
+					}
+				}
+			}
+		}
 
 	}
 	break;
-	// Flush
+	// Full House - SHORT DECK: Now ranks as class 5 (below Flush)
 	case 5: {
 
 		handName = *cardStringIt_c;
