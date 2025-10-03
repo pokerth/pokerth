@@ -81,6 +81,18 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 {
 	int i;
 
+	// adds the 50% pot and 33% pot buttons and connects them
+	MyActionButton *pushButtonPot50 = new MyActionButton(groupBoxActions);
+	pushButtonPot50->setText(tr("50% Pot"));
+	connect(pushButtonPot50, SIGNAL(clicked(bool)), this, SLOT(pushButtonPot50Clicked(bool)));
+
+	MyActionButton *pushButtonPot33 = new MyActionButton(groupBoxActions);
+	pushButtonPot33->setText(tr("33% Pot"));
+	connect(pushButtonPot33, SIGNAL(clicked(bool)), this, SLOT(pushButtonPot33Clicked(bool)));
+	
+	actionButtonLayout->addWidget(pushButtonPot50);
+	actionButtonLayout->addWidget(pushButtonPot33);
+	
 	//	this->setStyle(new QPlastiqueStyle);
 
 	//for statistic development
@@ -691,6 +703,18 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 #ifdef GUI_800x480
 	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
 #endif
+}
+
+// adds the function to show that the 50% pot was clicked 
+void gameTableImpl::pushButtonPot50Clicked(bool checked) {
+    int pot = getMyBetAmount();
+    changeSpinBoxBetValue(pot / 2);
+}
+
+// adds the function to show that the 33% pot was clicked
+void gameTableImpl::pushButtonPot33Clicked(bool /*checked*/) {
+    int pot = getMyBetAmount();
+    changeSpinBoxBetValue(pot / 3);
 }
 
 gameTableImpl::~gameTableImpl()

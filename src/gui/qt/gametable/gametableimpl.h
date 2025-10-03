@@ -183,6 +183,9 @@ signals:
 	void signalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing);
 
 public slots:
+	// adds the new buttons for 50% pot and 33 % percent
+    void pushButtonPot50Clicked(bool checked);
+    void pushButtonPot33Clicked(bool checked);
 
 	void initGui(int speed);
 
