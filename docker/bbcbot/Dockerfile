@@ -27,7 +27,7 @@ RUN cd /opt && git clone https://github.com/pokerth/pokerth.git && cd pokerth &&
 RUN cd /opt/pokerth && cmake -DCMAKE_BUILD_TYPE:STRING=Release -S. -B./build -G Ninja
 
 # compile all targets:
-RUN cd /opt/pokerth && cmake --build ./build --config Release --target pokerth_client --
+RUN cd /opt/pokerth && cmake --build ./build --config Release --target pokerth_client
 
 # install
 # RUN cd /opt/pokerth && cmake --install ./build
