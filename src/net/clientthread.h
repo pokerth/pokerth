@@ -40,6 +40,7 @@
 #include <string>
 #include <algorithm>
 #include <numeric>
+#include <set>
 #include <openssl/ssl.h>
 
 #include <core/thread.h>
@@ -49,6 +50,7 @@
 #include <playerdata.h>
 #include <gamedata.h>
 
+class ClientThread; // Forward declaration for bbcbotplayerdb
 class ClientContext;
 class ClientState;
 class SenderHelper;
@@ -103,15 +105,82 @@ private:
 };
 
 // bbcbot code - Bot data structures
-struct bbcbotdata {
-	// Bot specific data can be added here
-	bool enabled;
-	bbcbotdata() : enabled(false) {}
+enum GameCreateState {
+	GS_NORMAL = 0,
+	GS_GOTCOMMAND = 1,
+	GS_CREATED = 2,
+	GS_SENDINV = 3,
+	GS_ACCEPTED = 4
 };
 
-struct bbcbotplayerdb {
-	// Bot player database can be added here
-	std::map<unsigned, std::string> playerNames;
+struct bbcbotpermissiongroup {
+	std::list<std::string> players;
+	bool isblacklist;
+	bbcbotpermissiongroup() : isblacklist(false) {}
+};
+
+struct bbcbotgamedata {
+	std::string commandname;
+	std::string gamenameprefix;
+	GameData gdata;
+	bbcbotpermissiongroup* pgroup;
+	bbcbotgamedata() : pgroup(NULL) {}
+};
+
+struct bbcbotdata {
+	bool enabled;
+	unsigned creatorid;
+	GameCreateState creategamestate;
+	int countdowninvite;
+	int countdownleave;
+	int countdowninvitetimeout;
+	int stdcount;
+	std::vector<std::string> fixedcommands;
+	std::vector<std::string> fixedreply;
+	std::list<bbcbotgamedata> gdata;
+	std::list<bbcbotpermissiongroup> permgroups;
+	
+	bbcbotdata() : enabled(false), creatorid(0), creategamestate(GS_NORMAL),
+		countdowninvite(0), countdownleave(0), countdowninvitetimeout(0), stdcount(0) {}
+};
+
+class bbcbotplayerdb
+{
+public:
+	bbcbotplayerdb(ClientThread*p);
+	~bbcbotplayerdb();
+	void clear();
+	bool loadfile(std::string filename);
+	std::string printsuggest(int step);
+	std::string printsuggest(int step,unsigned limit);
+	std::string printtickets(std::string name);
+	std::string printrating(std::string name);
+	std::string printgamescount(std::string name);
+	void removeidleplayer(unsigned pid);
+	void addidleplayer(unsigned pid);
+	void printidledebug();
+	bool loadwecfile(std::string filename);
+	std::string wecsuggest();
+private:
+	ClientThread*parent;
+	bool issorted;
+	size_t size;
+	bool checkcontent();
+	bool loadline(std::string line);
+	std::vector<std::string> pname;
+	std::vector<int> ts2;
+	std::vector<int> ts3;
+	std::vector<int> ts4;
+	std::vector<int> games;
+	std::vector<int> rating;
+	unsigned*idleplayers;
+	unsigned debuglongestsearch;
+	std::vector<std::string> wecpeople;
+
+	int suggestionscore2(int rating,int tickets,int games);
+	int suggestionscore1(int index,int step);
+	int getindex(std::string name);
+	std::string int2string(int a);
 };
 // end bbcbot code
 
@@ -381,6 +450,7 @@ private:
 
 	boost::asio::steady_timer m_stateTimer;
 	boost::asio::steady_timer m_avatarTimer;
+	boost::asio::steady_timer m_bbcbotTimer; // bbcbot code
 
 	friend class AbstractClientStateReceiving;
 	friend class ClientStateInit;

@@ -20,7 +20,7 @@ RUN apt install -y wget git ca-certificates build-essential cmake debhelper ninj
 ## INFO: in order to run a gui client inside a docker container you should use distrobox as it automatically integrates necessary xserver components
 
 # cleanup
-RUN apt clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/boost*
+RUN apt clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # fetch repo:
 RUN cd /opt && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout bbcbot-qt6

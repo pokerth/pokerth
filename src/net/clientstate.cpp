@@ -123,9 +123,32 @@ void bot_sendlongpm(boost::shared_ptr<ClientThread> client, unsigned playerid, c
 }
 
 std::string bot_fixedcommandssearch(boost::shared_ptr<ClientThread> client, const std::string& msg) {
-	// This function searches for fixed commands in the bot's command list
-	// The actual implementation requires the bot.fixedcommands and bot.fixedreply vectors
-	// For now, return error message - will be functional when bot files are loaded
+	// Binary search in sorted fixed commands list
+	const std::vector<std::string>& commands = client->bot.fixedcommands;
+	const std::vector<std::string>& replies = client->bot.fixedreply;
+	
+	if (commands.empty()) {
+		return "ERROR: not found. try \"help\"";
+	}
+	
+	size_t pos1 = 0;
+	size_t pos2 = commands.size();
+	
+	for (int i = 0; i < (int)commands.size(); i++) {
+		if (pos2 <= pos1) break;
+		
+		size_t pos3 = (pos2 + pos1) / 2;
+		int c = msg.compare(commands[pos3]);
+		
+		if (c == 0) {
+			return replies[pos3];
+		} else if (c < 0) {
+			pos2 = pos3;
+		} else {
+			pos1 = pos3 + 1;
+		}
+	}
+	
 	return "ERROR: not found. try \"help\"";
 }
 
@@ -841,62 +864,111 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 						std::cout << "[BBCBot] gn command received, handled by server" << std::endl;
 					} else if (ciscompare(chattext.substr(0, 7), "create ")) {
 						// create <gametype> <customname>
-						std::cout << "[BBCBot] create command received" << std::endl;
-						bool syntaxerror = false;
+						std::cout << "[BBCBot] create command received from " << pname << std::endl;
+						bool syntaxerror = false, notfounderror = false, nopermissionerror = false;
+						bool er1 = false, busyerror = false;
+						
 						size_t secondspacepos = chattext.find(" ", 7);
+						std::string secondword = "", customname = "", gname = "";
+						
 						if (secondspacepos == std::string::npos || secondspacepos < 8) {
-							syntaxerror = true;
-						}
-						if (syntaxerror) {
-							client->SendPrivateChatMessage(playerId, "ERROR: syntax error in create command. Usage: create <gametype> <customname>");
+							er1 = syntaxerror = true;
 						} else {
-							// Note: Full implementation requires bot.gdata, bot.creategamestate structures
-							client->SendPrivateChatMessage(playerId, "ERROR: create command not yet fully implemented. Bot configuration files needed.");
+							secondword = chattext.substr(7, secondspacepos - 7);
+							customname = chattext.substr(secondspacepos + 1);
+						}
+						
+						bbcbotgamedata* gd2 = NULL;
+						bbcbotpermissiongroup* perm = NULL;
+						
+						// Find game template
+						if (!syntaxerror) {
+							for (auto iter = client->bot.gdata.begin(); iter != client->bot.gdata.end(); iter++) {
+								if (ciscompare(iter->commandname, secondword)) {
+									gd2 = &(*iter);
+									perm = gd2->pgroup;
+									gname = gd2->gamenameprefix + " " + customname;
+									break;
+								}
+							}
+							if (gd2 == NULL) {
+								er1 = notfounderror = true;
+							}
+						}
+						
+						// Permission check
+						bool found = false;
+						if (!er1 && perm) {
+							for (auto iter = perm->players.begin(); iter != perm->players.end() && !er1; iter++) {
+								if (*iter == pname) {
+									found = true;
+									break;
+								}
+							}
+							if ((found && perm->isblacklist) || (!found && !perm->isblacklist)) {
+								er1 = nopermissionerror = true;
+							}
+						}
+						
+						// Check if bot is busy
+						if (!er1 && client->bot.creategamestate != GS_NORMAL) {
+							er1 = busyerror = true;
+						}
+						
+						// Execute command or send error
+						if (!er1 && gd2) {
+							client->bot.creatorid = playerId;
+							client->bot.creategamestate = GS_GOTCOMMAND;
+							client->SendCreateGame(gd2->gdata, gname, "", false);
+							std::cout << "[BBCBot] Creating game: " << gname << std::endl;
+						} else {
+							std::string errorpm = "";
+							if (busyerror) errorpm = "ERROR: i cannot open a game for you right now";
+							if (nopermissionerror) errorpm = "ERROR: you have no permission to open this game";
+							if (notfounderror) errorpm = "ERROR: no game settings were found for this game name";
+							if (syntaxerror) errorpm = "ERROR: there was a syntax error in your command";
+							client->SendPrivateChatMessage(playerId, errorpm);
 						}
 					} else if (chattext == "debug") {
-						// Debug command - requires botdb
+						// Debug command
 						std::cout << "[BBCBot] debug command received" << std::endl;
-						client->SendPrivateChatMessage(playerId, "Debug: Bot database not yet loaded. Provide bot files to enable.");
+						client->botdb.printidledebug();
+						client->SendPrivateChatMessage(playerId, "Debug info printed to console");
 					} else if (chattext.substr(0, 7) == "rating " && chattext.length() > 7) {
 						std::string playername = chattext.substr(7);
 						std::cout << "[BBCBot] rating command for player: " << playername << std::endl;
-						// Note: Requires client->botdb.printrating(playername)
-						client->SendPrivateChatMessage(playerId, "Rating info for " + playername + " - requires bot database files");
+						bot_sendlongpm(client, playerId, client->botdb.printrating(playername));
 					} else if (chattext.substr(0, 8) == "tickets " && chattext.length() > 8) {
 						std::string playername = chattext.substr(8);
 						std::cout << "[BBCBot] tickets command for player: " << playername << std::endl;
-						// Note: Requires client->botdb.printtickets(playername)
-						client->SendPrivateChatMessage(playerId, "Tickets info for " + playername + " - requires bot database files");
+						bot_sendlongpm(client, playerId, client->botdb.printtickets(playername));
 					} else if (chattext.substr(0, 6) == "games " && chattext.length() > 6) {
 						std::string playername = chattext.substr(6);
 						std::cout << "[BBCBot] games command for player: " << playername << std::endl;
-						// Note: Requires client->botdb.printgamescount(playername)
-						client->SendPrivateChatMessage(playerId, "Games count for " + playername + " - requires bot database files");
+						bot_sendlongpm(client, playerId, client->botdb.printgamescount(playername));
 					} else if (chattext.substr(0, 7) == "suggest") {
 						std::cout << "[BBCBot] suggest command received" << std::endl;
 						if (chattext == "suggest1" || chattext == "suggest step1" || chattext == "suggest s1") {
-							// Note: Requires client->botdb.printsuggest(1)
-							client->SendPrivateChatMessage(playerId, "Suggest step 1 - requires bot database files");
+							bot_sendlongpm(client, playerId, client->botdb.printsuggest(1));
 						} else if (chattext == "suggest2" || chattext == "suggest step2" || chattext == "suggest s2") {
-							client->SendPrivateChatMessage(playerId, "Suggest step 2 - requires bot database files");
+							bot_sendlongpm(client, playerId, client->botdb.printsuggest(2));
 						} else if (chattext == "suggest3" || chattext == "suggest step3" || chattext == "suggest s3") {
-							client->SendPrivateChatMessage(playerId, "Suggest step 3 - requires bot database files");
+							bot_sendlongpm(client, playerId, client->botdb.printsuggest(3));
 						} else if (chattext == "suggest4" || chattext == "suggest step4" || chattext == "suggest s4") {
-							client->SendPrivateChatMessage(playerId, "Suggest step 4 - requires bot database files");
+							bot_sendlongpm(client, playerId, client->botdb.printsuggest(4));
 						} else if (chattext == "suggestwec" || chattext == "suggest wec") {
-							// Note: Requires client->botdb.wecsuggest()
-							client->SendPrivateChatMessage(playerId, "WEC suggest - requires bot database files");
+							bot_sendlongpm(client, playerId, client->botdb.wecsuggest());
 						} else {
 							client->SendPrivateChatMessage(playerId, "sorry, i didnt understand your suggest command, try \"suggest s1\"");
 						}
 					} else if (chattext == "uptime") {
-						// Note: Requires client->bot.stdcount for accurate uptime
 						std::cout << "[BBCBot] uptime command received" << std::endl;
-						client->SendPrivateChatMessage(playerId, "Uptime: Bot uptime tracking not yet implemented. Requires bot.stdcount.");
+						std::string uptimestr = "Uptime: " + int2string(client->bot.stdcount) + " seconds (no precise time measurement, sry)";
+						client->SendPrivateChatMessage(playerId, uptimestr);
 					} else if (chattext == "update") {
 						std::cout << "[BBCBot] update command received" << std::endl;
-						// Note: Requires client->bot_loadfiles() and file system access
-						client->SendPrivateChatMessage(playerId, "Update command received. Full implementation requires bot file loader.");
+						client->bot_loadfiles();
+						client->SendPrivateChatMessage(playerId, "Bot files reloaded successfully");
 					} else if (chattext.substr(0, 6) == "ERROR:") {
 						// Don't respond to error messages to avoid loops
 						return;

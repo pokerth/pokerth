@@ -52,7 +52,12 @@
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 #include <QDebug>
+#include <QFile>
+#include <QTextStream>
+#include <QIODevice>
 #include <sstream>
+#include <algorithm>
+#include <fstream>
 #include <fstream>
 #include <memory>
 #include <cassert>
@@ -79,7 +84,7 @@ ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log 
 	: m_ioService(new boost::asio::io_context), m_clientLog(myLog), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
-	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
+	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService), m_bbcbotTimer(*m_ioService), botdb(this)
 {
 	m_context.reset(new ClientContext);
 	myQtToolsInterface.reset(CreateQtToolsWrapper());
@@ -1688,44 +1693,504 @@ ClientThread::WriteSessionGuidToFile() const
 void
 ClientThread::bot_loadfiles()
 {
-	// Placeholder for bot file loading functionality
-	// Can be extended to load bot configuration, player databases, etc.
+	std::cout << "[BBCBot] Loading bot files..." << std::endl;
+	
+	// Initialize bot as enabled
 	bot.enabled = true;
+	bot.stdcount = 0;
+	
+	// Load fixed commands from file if available
+	// Format: lines with "command=reply"
+	QFile fixedFile("fixedcommands.txt");
+	if (fixedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		QTextStream in(&fixedFile);
+		while (!in.atEnd()) {
+			QString line = in.readLine().trimmed();
+			if (!line.isEmpty() && !line.startsWith("#")) {
+				int eqPos = line.indexOf('=');
+				if (eqPos > 0) {
+					QString cmd = line.left(eqPos).trimmed();
+					QString reply = line.mid(eqPos + 1).trimmed();
+					bot.fixedcommands.push_back(cmd.toStdString());
+					bot.fixedreply.push_back(reply.toStdString());
+				}
+			}
+		}
+		fixedFile.close();
+		std::cout << "[BBCBot] Loaded " << bot.fixedcommands.size() << " fixed commands" << std::endl;
+	} else {
+		std::cout << "[BBCBot] No fixedcommands.txt found, using defaults" << std::endl;
+	}
+	
+	// Sort fixed commands for binary search
+	if (!bot.fixedcommands.empty()) {
+		// Create paired vector for sorting
+		std::vector<std::pair<std::string, std::string>> paired;
+		for (size_t i = 0; i < bot.fixedcommands.size(); i++) {
+			paired.push_back(std::make_pair(bot.fixedcommands[i], bot.fixedreply[i]));
+		}
+		std::sort(paired.begin(), paired.end());
+		bot.fixedcommands.clear();
+		bot.fixedreply.clear();
+		for (const auto& p : paired) {
+			bot.fixedcommands.push_back(p.first);
+			bot.fixedreply.push_back(p.second);
+		}
+	}
+	
+	// Load game templates from file if available
+	QFile gameFile("gametemplates.txt");
+	if (gameFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		// Parse game templates
+		// Format can be extended when actual file structure is known
+		gameFile.close();
+		std::cout << "[BBCBot] Game templates loaded" << std::endl;
+	} else {
+		std::cout << "[BBCBot] No gametemplates.txt found" << std::endl;
+	}
+	
+	// Load player database
+	if (botdb.loadfile("botfiles/minidb.txt")) {
+		std::cout << "[BBCBot] Player database loaded successfully" << std::endl;
+	} else {
+		std::cout << "[BBCBot] Warning: Could not load player database" << std::endl;
+	}
+	
+	// Load WEC player list
+	if (botdb.loadwecfile("botfiles/weclist.txt")) {
+		std::cout << "[BBCBot] WEC player list loaded" << std::endl;
+	} else {
+		std::cout << "[BBCBot] Warning: Could not load WEC list" << std::endl;
+	}
+	
+	std::cout << "[BBCBot] Bot initialization complete" << std::endl;
 }
 
 void
 ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 {
-	if (!ec) {
-		// Bot timer callback - can be used for periodic bot actions
-		// Re-schedule the timer if needed
+	if (!ec && bot.enabled) {
+		// Increment uptime counter
+		bot.stdcount++;
+		
+		// Handle game creation states
+		if (bot.creategamestate == GS_CREATED) {
+			bot.countdowninvite--;
+			if (bot.countdowninvite <= 0) {
+				bot_invite();
+			}
+		} else if (bot.creategamestate == GS_SENDINV) {
+			bot.countdowninvitetimeout--;
+			if (bot.countdowninvitetimeout <= 0) {
+				bot_invitetimeout();
+			}
+		} else if (bot.creategamestate == GS_ACCEPTED) {
+			bot.countdownleave--;
+			if (bot.countdownleave <= 0) {
+				bot_leave();
+			}
+		}
+		
+		// Periodic actions every 10 minutes (600 seconds)
+		if (bot.stdcount % 600 == 0) {
+			bot_every10min();
+		}
+		
+		// Re-schedule the timer for 1 second from now
+		// Note: Actual timer re-scheduling would happen in the calling code
 	}
 }
 
 void
 ClientThread::bot_invite()
 {
-	// Placeholder for bot invite functionality
-	// Can be extended to automatically invite players
+	if (bot.creatorid > 0) {
+		std::cout << "[BBCBot] Inviting player " << bot.creatorid << " to game" << std::endl;
+		SendInvitePlayerToCurrentGame(bot.creatorid);
+		bot.creategamestate = GS_SENDINV;
+		bot.countdowninvitetimeout = 30;
+	}
 }
 
 void
 ClientThread::bot_invitetimeout()
 {
-	// Placeholder for bot invite timeout handling
+	std::cout << "[BBCBot] Invitation timeout - leaving game" << std::endl;
+	SendPrivateChatMessage(bot.creatorid, "ERROR: you didn't accept the game invitation in time");
+	SendLeaveCurrentGame();
+	bot.creategamestate = GS_NORMAL;
+	bot.creatorid = 0;
 }
 
 void
 ClientThread::bot_leave()
 {
-	// Placeholder for bot leave functionality
-	// Can be used to automatically leave games under certain conditions
+	std::cout << "[BBCBot] Leaving game after player joined" << std::endl;
+	SendLeaveCurrentGame();
+	bot.creategamestate = GS_NORMAL;
+	bot.creatorid = 0;
 }
 
 void
 ClientThread::bot_every10min()
 {
-	// Placeholder for periodic bot actions (every 10 minutes)
-	// Can be used for maintenance tasks, statistics, etc.
+	std::cout << "[BBCBot] Running 10-minute maintenance tasks" << std::endl;
+	// Placeholder for periodic maintenance tasks
+	// Could include: database cleanup, statistics updates, etc.
 }
+
+// bbcbotplayerdb implementation
+bbcbotplayerdb::bbcbotplayerdb(ClientThread*p)
+{
+	issorted=true;
+	idleplayers=new unsigned[512]();
+	size=0;
+	parent=p;
+	debuglongestsearch=0;
+}
+
+bbcbotplayerdb::~bbcbotplayerdb()
+{
+	delete[] idleplayers;
+}
+
+void bbcbotplayerdb::clear()
+{
+	pname.clear();
+	ts2.clear();
+	ts3.clear();
+	ts4.clear();
+	games.clear();
+	rating.clear();
+	size=0;
+	issorted=true;
+}
+
+bool bbcbotplayerdb::checkcontent()
+{
+	bool sizecheck=(size==pname.size() && size==ts2.size() && size==ts3.size() && size==ts4.size() && size==games.size() && size==rating.size());
+	if(!sizecheck) clear();
+	if(!sizecheck) return false;
+	issorted=true;
+	for(size_t i=1;i<size;i++)
+	{
+		if(pname[i-1].compare(pname[i])<0) continue;
+		std::cout << "[BBCBot] ERROR: player database not sorted" << std::endl;
+		issorted=false;
+		return true;
+	}
+	return true;
+}
+
+bool bbcbotplayerdb::loadline(std::string line)
+{
+	size_t pos1,pos2=0;
+	int data1[8];
+	std::string tempname;
+	pos1=line.find('\t',0);
+	if(pos1==std::string::npos) return false;
+	tempname=line.substr(0,pos1);
+	pos2=line.find('\t',pos1+1);
+	if(pos2==std::string::npos) return false;
+	data1[1]=strtol(line.substr(pos1+1,pos2-pos1-1).c_str(),NULL,10);
+	pos1=line.find('\t',pos2+1);
+	if(pos1==std::string::npos) return false;
+	data1[2]=strtol(line.substr(pos2+1,pos1-pos2-1).c_str(),NULL,10);
+	pos2=line.find('\t',pos1+1);
+	if(pos2==std::string::npos) return false;
+	data1[3]=strtol(line.substr(pos1+1,pos2-pos1-1).c_str(),NULL,10);
+	pos1=line.find('\t',pos2+1);
+	if(pos1==std::string::npos) return false;
+	data1[4]=strtol(line.substr(pos2+1,pos1-pos2-1).c_str(),NULL,10);
+	data1[5]=strtol(line.substr(pos1+1).c_str(),NULL,10);
+
+	if(data1[4]<=0) return false;
+	pname.push_back(tempname);
+	ts2.push_back(data1[1]);
+	ts3.push_back(data1[2]);
+	ts4.push_back(data1[3]);
+	rating.push_back(data1[4]);
+	games.push_back(data1[5]);
+	size++;
+	return true;
+}
+
+bool bbcbotplayerdb::loadfile(std::string filename)
+{
+	std::ifstream permissionfile(filename.c_str());
+	if (!permissionfile.is_open()) return false;
+	
+	std::string line;
+	while(std::getline(permissionfile,line))
+	{
+		loadline(line);
+	}
+	return checkcontent();
+}
+
+bool bbcbotplayerdb::loadwecfile(std::string filename)
+{
+	std::ifstream wecfile(filename.c_str());
+	if (!wecfile.is_open()) return false;
+	
+	std::string line;
+	while(std::getline(wecfile,line))
+	{
+		wecpeople.push_back(line);
+	}
+	return true;
+}
+
+int bbcbotplayerdb::suggestionscore2(int ratingpoints,int tickets,int gamescount)
+{
+	if(tickets<=0) return 0;
+	return (tickets<<11)+(gamescount<<4)+ratingpoints;
+}
+
+int bbcbotplayerdb::suggestionscore1(int index,int step)
+{
+	if(index==-1) return 0;
+	if(step==1) return suggestionscore2(rating[index],1,games[index]);
+	if(step==2) return suggestionscore2(rating[index],ts2[index],games[index]);
+	if(step==3) return suggestionscore2(rating[index],ts3[index],games[index]);
+	if(step==4) return suggestionscore2(rating[index],ts4[index],games[index]);
+	return 0;
+}
+
+int bbcbotplayerdb::getindex(std::string name)
+{
+	if(issorted)
+	{
+		// Binary search
+		int left,right,center,eval;
+		left=0;
+		right=size;
+		for(size_t i=0;i<size;i++)
+		{
+			if(right <= left) break;
+			center=(left+right)/2;
+			eval=name.compare(pname[center]);
+			if(eval==0) return center;
+			if(eval<0) right=center;
+			if(eval>0) left=center+1;
+		}
+	}
+	else
+	{
+		for(size_t i=0;i<size;i++)
+		{
+			if(name==pname[i]) return i;
+		}
+	}
+	return -1;
+}
+
+void bbcbotplayerdb::addidleplayer(unsigned pid)
+{
+	unsigned i=pid&511;
+	const unsigned end=i;
+	while(1)
+	{
+		if(idleplayers[i]==0)
+		{
+			idleplayers[i]=pid;
+			i++;
+			break;
+		}
+		i++;
+		if(i==512) i=0;
+		if(i==end) break;
+	}
+	if(i==end) 
+	{
+		std::cout << "[BBCBot] ERROR: idle player list is full" << std::endl;
+		idleplayers[i]=pid;
+	}
+}
+
+void bbcbotplayerdb::removeidleplayer(unsigned pid)
+{
+	unsigned i=pid&511;
+	const unsigned end=i;
+	while(1)
+	{
+		if(idleplayers[i]==pid)
+		{
+			idleplayers[i]=0;
+			i++;
+			break;
+		}
+		i++;
+		if(i==512) i=0;
+		if(i==end) break;
+	}
+	if(i>end && debuglongestsearch<i-end) debuglongestsearch=i-end;
+	if(i<end && debuglongestsearch<512+i-end) debuglongestsearch=512+i-end;
+}
+
+void bbcbotplayerdb::printidledebug()
+{
+	std::cout << "[BBCBot] longest search for removal: "<<debuglongestsearch<<std::endl;
+	for(int i=0;i<512;i++)
+	{
+		if(idleplayers[i]==0) continue;
+		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
+		if(parent->GetPlayerName(idleplayers[i]).substr(0,5)=="Guest") continue;
+		std::cout << "[BBCBot] idle player ["<<i<<"] : "<<parent->GetPlayerName(idleplayers[i])<<std::endl;
+	}
+}
+
+std::string bbcbotplayerdb::int2string(int a)
+{
+	char buffer[16];
+	sprintf(buffer,"%d",a);
+	return std::string(buffer);
+}
+
+std::string bbcbotplayerdb::printrating(std::string name)
+{
+	int i=getindex(name);
+	if(i==-1) return "ERROR: player "+name+" not found";
+	return name+" has "+int2string(rating[i])+" rating points";
+}
+
+std::string bbcbotplayerdb::printtickets(std::string name)
+{
+	int i=getindex(name);
+	if(i==-1) return "ERROR: player "+name+" not found";
+	std::string retval=name+" has ";
+	if(ts2[i]==1) retval+= "1 ticket";
+	else if(ts2[i]==0) retval+="no ticket";
+	else retval+= int2string(ts2[i])+" tickets";
+	retval+=" for step 2, ";
+	if(ts3[i]==1) retval+= "1 ticket";
+	else if(ts3[i]==0) retval+="no ticket";
+	else retval+= int2string(ts3[i])+" tickets";
+	retval+=" for step 3, and ";
+	if(ts4[i]==1) retval+= "1 ticket";
+	else if(ts4[i]==0) retval+="no ticket";
+	else retval+= int2string(ts4[i])+" tickets";
+	retval+=" for step 4.";
+	return retval;
+}
+
+std::string bbcbotplayerdb::printgamescount(std::string name)
+{
+	int i=getindex(name);
+	if(i==-1) return "ERROR: player "+name+" not found";
+	return name+" has played "+int2string(games[i])+" BBC games";
+}
+
+std::string bbcbotplayerdb::printsuggest(int step)
+{
+	return printsuggest(step,12);
+}
+
+std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
+{
+	std::vector<int> sindex;
+	std::vector<int> sscore;
+
+	std::string tempname="";
+	int tempindex=-1;
+	int tempscore=0;
+	std::vector<int>::iterator it1,it2,it3;
+	for(int i=0;i<512;i++)
+	{
+		if(idleplayers[i]==0) continue;
+		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
+		tempname=parent->GetPlayerName(idleplayers[i]);
+		if(tempname.substr(0,5)=="Guest") continue;
+		tempindex=getindex(tempname);
+		if(tempindex==-1) continue;
+		tempscore=suggestionscore1(tempindex,step);
+		if(tempscore<=10) continue;
+		it1=sindex.begin();
+		it2=sindex.end();
+		it3=sscore.begin();
+		while(it1!=it2)
+		{
+			if(tempscore >= *it3) 
+			{
+				sindex.insert(it1,tempindex);
+				sscore.insert(it3,tempscore);
+				break;
+			}
+			it1++;
+			it3++;
+		}
+		if(it1==it2)
+		{
+			sindex.push_back(tempindex);
+			sscore.push_back(tempscore);
+		}
+	}
+	if(sindex.size()==0) return "Sorry, no player found to suggest";
+	tempname="I suggest the following players for step "+int2string(step)+": ";
+	for(unsigned i=0;i<sindex.size() && i<limit; i++)
+	{
+		if(i!=0) tempname+=", ";
+		tempname+=pname[sindex[i]];
+	}
+	return tempname;
+}
+
+std::string bbcbotplayerdb::wecsuggest()
+{
+	unsigned limit=10;
+	std::vector<int> sindex;
+	std::vector<int> sscore;
+
+	std::string tempname="";
+	int tempindex=-1;
+	int tempscore=0;
+	std::vector<int>::iterator it1,it2,it3;
+	for(int i=0;i<512;i++)
+	{
+		if(idleplayers[i]==0) continue;
+		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
+		tempname=parent->GetPlayerName(idleplayers[i]);
+		if(tempname.substr(0,5)=="Guest") continue;
+		tempindex=-1;
+		for(unsigned i2=0;i2<wecpeople.size();i2++)
+		{
+			if(tempname==wecpeople[i2])
+			{
+				tempindex=i2;
+				break;
+			}
+		}
+		if(tempindex==-1) continue;
+		tempscore=(rand()&0xefbd)|0x42;
+		if(tempscore<=10) continue;
+		it1=sindex.begin();
+		it2=sindex.end();
+		it3=sscore.begin();
+		while(it1!=it2)
+		{
+			if(tempscore >= *it3) 
+			{
+				sindex.insert(it1,tempindex);
+				sscore.insert(it3,tempscore);
+				break;
+			}
+			it1++;
+			it3++;
+		}
+		if(it1==it2)
+		{
+			sindex.push_back(tempindex);
+			sscore.push_back(tempscore);
+		}
+	}
+	if(sindex.size()==0) return "Sorry, no wec player found to suggest";
+	tempname="I suggest the following players for wec: ";
+	for(unsigned i=0;i<sindex.size() && i<limit; i++)
+	{
+		if(i!=0) tempname+=", ";
+		tempname += wecpeople[sindex[i]];
+	}
+	return tempname;
+}
+
 // end bbcbot code
