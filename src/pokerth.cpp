@@ -334,7 +334,13 @@ int main( int argc, char **argv )
 	qRegisterMetaType<DenyGameInvitationReason>("DenyGameInvitationReason");
 	///////////////////////////////////////////////////
 
-	startWindowImpl mainWin(myConfig,myLog);
+	// bbcbot code - check for password in argv[1] for auto-login
+	std::string bbcbotPassword;
+	if (argc > 1) {
+		bbcbotPassword = argv[1];
+	}
+
+	startWindowImpl mainWin(myConfig, myLog, bbcbotPassword);
 #ifdef ANDROID
 // 	//Do not start if API is smaller than x
 // 	int api = -2;

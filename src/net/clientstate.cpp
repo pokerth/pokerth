@@ -60,6 +60,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 using namespace std;
 using namespace boost::filesystem;
@@ -72,6 +73,63 @@ using namespace boost::chrono;
 
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
 #define CLIENT_CONNECT_TIMEOUT_SEC	10
+
+// BBCBot helper functions
+namespace {
+
+std::string int2string(int a) {
+	char buffer[16];
+	snprintf(buffer, sizeof(buffer), "%d", a);
+	return std::string(buffer);
+}
+
+bool ciscompare(const std::string& a, const std::string& b) {
+	// return true, if case insensitive equal
+	if (a.length() != b.length()) return false;
+	for (size_t i = 0; i < a.length(); i++) {
+		char c1 = a[i];
+		char c2 = b[i];
+		if (c1 == c2) continue; // most likely case: no difference
+		if ((c1 ^ c2) != ' ') return false;
+		if ((c1 < 'A' || c1 > 'Z') && (c2 > 'Z' || c2 < 'A')) return false;
+	}
+	return true;
+}
+
+void bot_sendlongpm(boost::shared_ptr<ClientThread> client, unsigned playerid, const std::string& msg) {
+	size_t msglen = msg.length();
+	if (msglen < 128) {
+		client->SendPrivateChatMessage(playerid, msg);
+		return;
+	}
+	// Split long messages into multiple parts
+	size_t pos[11];
+	pos[0] = 0;
+	int i, j;
+	for (i = 0; i < 10; i++) {
+		if (pos[i] + 120 < msglen) {
+			pos[i + 1] = msg.rfind(' ', pos[i] + 120);
+			if (pos[i + 1] == std::string::npos || pos[i + 1] == pos[i])
+				pos[i + 1] = pos[i] + 120;
+		} else {
+			pos[i + 1] = msglen - 1;
+			break;
+		}
+	}
+	std::string tmp1 = "/" + int2string(i + 1) + "] ";
+	for (j = 1; j <= i + 1 && i < 9; j++) {
+		client->SendPrivateChatMessage(playerid, "[" + int2string(j) + tmp1 + msg.substr(pos[j - 1] + 1, pos[j] - pos[j - 1]));
+	}
+}
+
+std::string bot_fixedcommandssearch(boost::shared_ptr<ClientThread> client, const std::string& msg) {
+	// This function searches for fixed commands in the bot's command list
+	// The actual implementation requires the bot.fixedcommands and bot.fixedreply vectors
+	// For now, return error message - will be functional when bot files are loaded
+	return "ERROR: not found. try \"help\"";
+}
+
+} // anonymous namespace
 
 
 ClientState::~ClientState()
@@ -756,8 +814,103 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		} else if (netMessage.chattype() == ChatMessage::chatTypePrivate) {
 			unsigned playerId = netMessage.playerid();
 			PlayerInfo info;
-			if (client->GetCachedPlayerInfo(playerId, info))
+			if (client->GetCachedPlayerInfo(playerId, info)) {
 				client->GetCallback().SignalNetClientPrivateChatMsg(info.playerName, netMessage.chattext());
+				
+				// BBCBot: Handle private message commands
+				if (!client->GetContext().GetPassword().empty()) {
+					std::string chattext = netMessage.chattext();
+					std::string pname = info.playerName;
+					std::cout << "[BBCBot] PM from " << pname << ": " << chattext << std::endl;
+					
+					// Command handling with proper if-else chain
+					if (chattext == "time") {
+						time_t now = time(NULL);
+						char buffer[80];
+						struct tm * timeinfo = localtime(&now);
+						int weekday = timeinfo->tm_wday;
+						const char* weekdays[] = {"sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"};
+						snprintf(buffer, 80, "%04d-%02d-%02d %02d:%02d:%02d [%s]",
+							timeinfo->tm_year + 1900, timeinfo->tm_mon + 1, timeinfo->tm_mday,
+							timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, weekdays[weekday]);
+						client->SendPrivateChatMessage(playerId, std::string(buffer));
+					} else if (chattext == "help") {
+						client->SendPrivateChatMessage(playerId, "Available commands: time, help, uptime, rating <player>, tickets <player>, games <player>, suggest, debug, update, create <type> <name>");
+					} else if (chattext.substr(0, 3) == "gn ") {
+						// "gn" (global notice) command is handled server-side for admin users
+						std::cout << "[BBCBot] gn command received, handled by server" << std::endl;
+					} else if (ciscompare(chattext.substr(0, 7), "create ")) {
+						// create <gametype> <customname>
+						std::cout << "[BBCBot] create command received" << std::endl;
+						bool syntaxerror = false;
+						size_t secondspacepos = chattext.find(" ", 7);
+						if (secondspacepos == std::string::npos || secondspacepos < 8) {
+							syntaxerror = true;
+						}
+						if (syntaxerror) {
+							client->SendPrivateChatMessage(playerId, "ERROR: syntax error in create command. Usage: create <gametype> <customname>");
+						} else {
+							// Note: Full implementation requires bot.gdata, bot.creategamestate structures
+							client->SendPrivateChatMessage(playerId, "ERROR: create command not yet fully implemented. Bot configuration files needed.");
+						}
+					} else if (chattext == "debug") {
+						// Debug command - requires botdb
+						std::cout << "[BBCBot] debug command received" << std::endl;
+						client->SendPrivateChatMessage(playerId, "Debug: Bot database not yet loaded. Provide bot files to enable.");
+					} else if (chattext.substr(0, 7) == "rating " && chattext.length() > 7) {
+						std::string playername = chattext.substr(7);
+						std::cout << "[BBCBot] rating command for player: " << playername << std::endl;
+						// Note: Requires client->botdb.printrating(playername)
+						client->SendPrivateChatMessage(playerId, "Rating info for " + playername + " - requires bot database files");
+					} else if (chattext.substr(0, 8) == "tickets " && chattext.length() > 8) {
+						std::string playername = chattext.substr(8);
+						std::cout << "[BBCBot] tickets command for player: " << playername << std::endl;
+						// Note: Requires client->botdb.printtickets(playername)
+						client->SendPrivateChatMessage(playerId, "Tickets info for " + playername + " - requires bot database files");
+					} else if (chattext.substr(0, 6) == "games " && chattext.length() > 6) {
+						std::string playername = chattext.substr(6);
+						std::cout << "[BBCBot] games command for player: " << playername << std::endl;
+						// Note: Requires client->botdb.printgamescount(playername)
+						client->SendPrivateChatMessage(playerId, "Games count for " + playername + " - requires bot database files");
+					} else if (chattext.substr(0, 7) == "suggest") {
+						std::cout << "[BBCBot] suggest command received" << std::endl;
+						if (chattext == "suggest1" || chattext == "suggest step1" || chattext == "suggest s1") {
+							// Note: Requires client->botdb.printsuggest(1)
+							client->SendPrivateChatMessage(playerId, "Suggest step 1 - requires bot database files");
+						} else if (chattext == "suggest2" || chattext == "suggest step2" || chattext == "suggest s2") {
+							client->SendPrivateChatMessage(playerId, "Suggest step 2 - requires bot database files");
+						} else if (chattext == "suggest3" || chattext == "suggest step3" || chattext == "suggest s3") {
+							client->SendPrivateChatMessage(playerId, "Suggest step 3 - requires bot database files");
+						} else if (chattext == "suggest4" || chattext == "suggest step4" || chattext == "suggest s4") {
+							client->SendPrivateChatMessage(playerId, "Suggest step 4 - requires bot database files");
+						} else if (chattext == "suggestwec" || chattext == "suggest wec") {
+							// Note: Requires client->botdb.wecsuggest()
+							client->SendPrivateChatMessage(playerId, "WEC suggest - requires bot database files");
+						} else {
+							client->SendPrivateChatMessage(playerId, "sorry, i didnt understand your suggest command, try \"suggest s1\"");
+						}
+					} else if (chattext == "uptime") {
+						// Note: Requires client->bot.stdcount for accurate uptime
+						std::cout << "[BBCBot] uptime command received" << std::endl;
+						client->SendPrivateChatMessage(playerId, "Uptime: Bot uptime tracking not yet implemented. Requires bot.stdcount.");
+					} else if (chattext == "update") {
+						std::cout << "[BBCBot] update command received" << std::endl;
+						// Note: Requires client->bot_loadfiles() and file system access
+						client->SendPrivateChatMessage(playerId, "Update command received. Full implementation requires bot file loader.");
+					} else if (chattext.substr(0, 6) == "ERROR:") {
+						// Don't respond to error messages to avoid loops
+						return;
+					} else {
+						// Try fixed commands search
+						std::string response = bot_fixedcommandssearch(client, chattext);
+						if (response.substr(0, 6) != "ERROR:") {
+							bot_sendlongpm(client, playerId, response);
+						} else {
+							client->SendPrivateChatMessage(playerId, "ERROR: not found. try \"help\"");
+						}
+					}
+				}
+			}
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ChatRejectMessage) {
 		const ChatRejectMessage &netMessage = tmpPacket->GetMsg()->chatrejectmessage();

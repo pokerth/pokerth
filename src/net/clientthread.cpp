@@ -1682,3 +1682,50 @@ ClientThread::WriteSessionGuidToFile() const
 	}
 }
 
+
+
+// bbcbot code - Bot implementation
+void
+ClientThread::bot_loadfiles()
+{
+	// Placeholder for bot file loading functionality
+	// Can be extended to load bot configuration, player databases, etc.
+	bot.enabled = true;
+}
+
+void
+ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
+{
+	if (!ec) {
+		// Bot timer callback - can be used for periodic bot actions
+		// Re-schedule the timer if needed
+	}
+}
+
+void
+ClientThread::bot_invite()
+{
+	// Placeholder for bot invite functionality
+	// Can be extended to automatically invite players
+}
+
+void
+ClientThread::bot_invitetimeout()
+{
+	// Placeholder for bot invite timeout handling
+}
+
+void
+ClientThread::bot_leave()
+{
+	// Placeholder for bot leave functionality
+	// Can be used to automatically leave games under certain conditions
+}
+
+void
+ClientThread::bot_every10min()
+{
+	// Placeholder for periodic bot actions (every 10 minutes)
+	// Can be used for maintenance tasks, statistics, etc.
+}
+// end bbcbot code

@@ -152,6 +152,10 @@ private:
 	Log *myLog;
 	GameType myGameType;
 	QtToolsInterface *myQtToolsInterface;
+
+public:
+	// bbcbot code - password for auto-login
+	std::string bbcbotpassword;
 };
 
 #endif

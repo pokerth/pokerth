@@ -59,6 +59,8 @@
 #include "logfiledialog.h"
 #include "guilog.h"
 
+#include <fstream> // for bbcbot accountname file reading
+
 #ifdef ANDROID
 #ifndef ANDROID_TEST
 #include <QJniEnvironment>
@@ -68,13 +70,14 @@
 
 using namespace std;
 
-startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
+startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &password)
 	: myConfig(c), myLog(l), msgBoxOutdatedVersionActive(false)
 {
 
 	myGuiInterface.reset(new GuiWrapper(myConfig, this));
 	{
 		mySession.reset(new Session(myGuiInterface.get(), myConfig, myLog));
+		mySession->bbcbotpassword = password; // bbcbot code
 		mySession->init(); // TODO handle error
 		myLog->init();
 		// 		myGuiInterface->setSession(session);
@@ -266,6 +269,13 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 		qDebug() << checkForFirstStartAfterUpdated();
 	}
 
+	// bbcbot code - auto-start internet game if password is provided
+	if (!mySession->bbcbotpassword.empty()) {
+		// Use QTimer to start after the event loop is running
+		QTimer::singleShot(100, this, SLOT(callGameLobbyDialog()));
+	}
+	// end bbcbot code
+
 }
 
 startWindowImpl::~startWindowImpl()
@@ -455,17 +465,33 @@ void startWindowImpl::callInternetGameLoginDialog()
 		msgBoxOutdatedVersion.activateWindow();
 	}
 
-	myInternetGameLoginDialog->exec();
-
-	if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
-		//send login infos
+	// bbcbot code - auto-login with bbcbotpassword if available
+	if (!mySession->bbcbotpassword.empty()) {
+		// Auto-login mode with password from argv
+		// Read account name from file or use default
+		std::string accountname;
+		std::ifstream accountnamefile("accountname.txt");
+		if (!std::getline(accountnamefile, accountname)) {
+			accountname = "bbcbot";
+		}
 		mySession->setLogin(
-			myConfig->readConfigString("MyName"),
-			myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
-			myInternetGameLoginDialog->checkBox_guest->isChecked());
+			accountname,
+			mySession->bbcbotpassword,
+			false); // not a guest
 	} else {
-		myConnectToServerDialog->reject();
-		mySession->terminateNetworkClient();
+		// Normal interactive login
+		myInternetGameLoginDialog->exec();
+
+		if(myInternetGameLoginDialog->result() == QDialog::Accepted) {
+			//send login infos
+			mySession->setLogin(
+				myConfig->readConfigString("MyName"),
+				myInternetGameLoginDialog->lineEdit_password->text().toUtf8().constData(),
+				myInternetGameLoginDialog->checkBox_guest->isChecked());
+		} else {
+			myConnectToServerDialog->reject();
+			mySession->terminateNetworkClient();
+		}
 	}
 }
 

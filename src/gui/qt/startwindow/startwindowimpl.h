@@ -73,7 +73,7 @@ class startWindowImpl: public QMainWindow, public Ui::startWindow
 {
 	Q_OBJECT
 public:
-	startWindowImpl(ConfigFile *c, Log *l);
+	startWindowImpl(ConfigFile *c, Log *l, const std::string &password = "");
 	~startWindowImpl();
 
 	void setSession(boost::shared_ptr<Session> session)

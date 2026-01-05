@@ -102,11 +102,31 @@ private:
 	boost::timers::portable::microsec_timer pingTimer;
 };
 
+// bbcbot code - Bot data structures
+struct bbcbotdata {
+	// Bot specific data can be added here
+	bool enabled;
+	bbcbotdata() : enabled(false) {}
+};
+
+struct bbcbotplayerdb {
+	// Bot player database can be added here
+	std::map<unsigned, std::string> playerNames;
+};
+// end bbcbot code
+
 class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>, public SessionDataCallback
 {
 public:
 	ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog);
 	virtual ~ClientThread();
+
+	// bbcbot code - bot member variables and methods
+	bbcbotdata bot;
+	bbcbotplayerdb botdb;
+	void bot_loadfiles();
+	std::string GetPlayerName(unsigned id); // made public for bot access
+	// end bbcbot code
 
 	// Set the parameters. Does not do any error checking.
 	// Error checking will be done during connect
@@ -208,7 +228,7 @@ protected:
 	void SetUnknownPlayer(unsigned id);
 	void SetNewGameAdmin(unsigned id);
 	void RetrieveAvatarIfNeeded(unsigned id, const PlayerInfo &info);
-	std::string GetPlayerName(unsigned id);
+	// GetPlayerName is already declared public for bot access above
 
 	void AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type);
 	void StoreInTempAvatarFile(unsigned playerId, const std::vector<unsigned char> &data);
@@ -217,6 +237,14 @@ protected:
 	void SetUnknownAvatar(unsigned playerId);
 
 	void TimerCheckAvatarDownloads(const boost::system::error_code& ec);
+
+	// bbcbot code - bot timer callbacks
+	void bbcbotTimerCallback(const boost::system::error_code& ec);
+	void bot_invite();
+	void bot_invitetimeout();
+	void bot_leave();
+	void bot_every10min(); // other time intervals are possible in a similar way
+	// end bbcbot code
 
 	void UnsubscribeLobbyMsg();
 	void ResubscribeLobbyMsg();
