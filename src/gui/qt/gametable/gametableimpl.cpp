@@ -527,7 +527,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
 	myUniversalMessageDialog->setParent(this);
 
-	//hide left and right icon and menubar from maemo gui for ANDROID
+	//hide left and right icon and menubar gui for ANDROID
 #ifdef ANDROID
     // fullscreenButton existiert nur in Desktop-Version
     // Entfernen oder kommentieren Sie die Zeile:

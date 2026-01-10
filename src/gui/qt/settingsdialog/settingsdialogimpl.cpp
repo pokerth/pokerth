@@ -321,12 +321,10 @@ void settingsDialogImpl::prepareDialog()
 	//TABLE
 
 #ifdef GUI_800x480
-	// 	define PokerTH default GameTableStyle for Maemo
+	// 	define PokerTH default GameTableStyle for Android
 	treeWidget_gameTableStyles->clear();
 	QString filename;
-#ifdef MAEMO
-	filename = "defaulttablestyle_800x480.xml";
-#elif ANDROID
+#if ANDROID
 	filename = "android_tablestyle_800x480.xml";
 #endif
 	GameTableStyleReader defaultTableStyle(myConfig, this);

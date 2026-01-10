@@ -67,19 +67,6 @@ GameTableStyleReader::GameTableStyleReader(ConfigFile *c, QWidget *w)
 	bigBoardFontSize = "17";
 	humanPlayerButtonFontSize = "12";
 	betValueFontSize = "10";
-#elif MAEMO
-	font1String = "font-family: \"Nimbus Sans L\";";
-	font2String = "font-family: \"DejaVu Sans\";";
-	tabBarPaddingTop = "0";
-	tabBarPaddingSide = "9";
-	textBrowserFontsize= "10";
-	cashFontSize = "12";
-	setLabelFontSize = "13";
-	playerNameLabelFontSize = "11";
-	smallBoardFontSize = "13";
-	bigBoardFontSize = "17";
-	humanPlayerButtonFontSize = "12";
-	betValueFontSize = "10";
 #elif ANDROID
 	font1String = "font-family: \"Nimbus Sans L\";";
 	font2String = "font-family: \"DejaVu Sans\";";
@@ -1640,10 +1627,7 @@ void GameTableStyleReader::setTabWidgetStyle(QTabWidget *tw, QTabBar *tb)
 	tabTextFontSize = "font-size: 11px; ";
 #endif
 
-#ifndef MAEMO
 	tb->setStyleSheet("QTabBar::tab{ "+ font1String + tabTextFontSize +" color: #"+TabWidgetTextColor+"; background-color: #"+TabWidgetBgColor+"; border: 2px solid #"+TabWidgetBorderColor+"; border-bottom-color: #"+TabWidgetBorderColor+"; border-top-left-radius: 4px; border-top-right-radius: 4px; padding-top: "+tabBarPaddingTop+"px;"+bottomPadding+" padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected, QTabBar::tab:hover { background-color: #"+TabWidgetBgColor+"; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { border-color: #"+TabWidgetBorderColor+"; border-bottom-color: #"+TabWidgetBgColor+"; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;}  QTabBar::tab:!selected { margin-top: 2px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:selected { margin-left: -4px; margin-right: -4px; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:first:selected { margin-left: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:last:selected { margin-right: 0; padding-top: "+tabBarPaddingTop+"px; padding-left:"+tabBarPaddingSide+"px; padding-right:"+tabBarPaddingSide+"px;} QTabBar::tab:only-one { margin: 0; } ");
-#endif
-
 }
 
 void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)

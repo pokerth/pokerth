@@ -686,10 +686,6 @@ android{
 	SOURCES += src/gui/qt/sound/sdlplayer.cpp
 }
 
-maemo{
-	DEFINES += MAEMO
-}
-
 android_test{
 	DEFINES += ANDROID
 	DEFINES += ANDROID_TEST
