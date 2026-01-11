@@ -114,6 +114,7 @@ enum GameCreateState {
 };
 
 struct bbcbotpermissiongroup {
+	std::string name;
 	std::list<std::string> players;
 	bool isblacklist;
 	bbcbotpermissiongroup() : isblacklist(false) {}

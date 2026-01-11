@@ -1841,7 +1841,7 @@ ClientThread::bot_loadfiles()
 					} else if (value == "manual") {
 						currentGame->gdata.raiseMode = MANUAL_BLINDS_ORDER;
 					} else if (value == "always") {
-						currentGame->gdata.afterManualBlindsMode = AFTERMB_ALWAYS_RAISE;
+						currentGame->gdata.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
 					}
 				}
 				else if (key == "manualblindlist") {
