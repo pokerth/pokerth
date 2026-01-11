@@ -58,7 +58,7 @@
 #include <sstream>
 #include <algorithm>
 #include <fstream>
-#include <fstream>
+#include <filesystem>
 #include <memory>
 #include <cassert>
 #include <typeinfo>
@@ -1917,27 +1917,47 @@ bool bbcbotplayerdb::loadline(std::string line)
 
 bool bbcbotplayerdb::loadfile(std::string filename)
 {
+	std::cout << "[BBCBot DEBUG] Attempting to load file: " << filename << std::endl;
 	std::ifstream permissionfile(filename.c_str());
-	if (!permissionfile.is_open()) return false;
+	if (!permissionfile.is_open()) {
+		std::cout << "[BBCBot DEBUG] ERROR: Could not open file: " << filename << std::endl;
+		std::cout << "[BBCBot DEBUG] Current working directory might be: " << std::filesystem::current_path() << std::endl;
+		return false;
+	}
 	
+	std::cout << "[BBCBot DEBUG] File opened successfully: " << filename << std::endl;
+	int lineCount = 0;
 	std::string line;
 	while(std::getline(permissionfile,line))
 	{
 		loadline(line);
+		lineCount++;
 	}
-	return checkcontent();
+	std::cout << "[BBCBot DEBUG] Loaded " << lineCount << " lines from " << filename << std::endl;
+	bool checkResult = checkcontent();
+	std::cout << "[BBCBot DEBUG] Content check result: " << (checkResult ? "OK" : "FAILED") << std::endl;
+	return checkResult;
 }
 
 bool bbcbotplayerdb::loadwecfile(std::string filename)
 {
+	std::cout << "[BBCBot DEBUG] Attempting to load WEC file: " << filename << std::endl;
 	std::ifstream wecfile(filename.c_str());
-	if (!wecfile.is_open()) return false;
+	if (!wecfile.is_open()) {
+		std::cout << "[BBCBot DEBUG] ERROR: Could not open WEC file: " << filename << std::endl;
+		std::cout << "[BBCBot DEBUG] Current working directory might be: " << std::filesystem::current_path() << std::endl;
+		return false;
+	}
 	
+	std::cout << "[BBCBot DEBUG] WEC file opened successfully: " << filename << std::endl;
+	int lineCount = 0;
 	std::string line;
 	while(std::getline(wecfile,line))
 	{
 		wecpeople.push_back(line);
+		lineCount++;
 	}
+	std::cout << "[BBCBot DEBUG] Loaded " << lineCount << " WEC players from " << filename << std::endl;
 	return true;
 }
 
