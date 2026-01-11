@@ -865,6 +865,8 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 					} else if (ciscompare(chattext.substr(0, 7), "create ")) {
 						// create <gametype> <customname>
 						std::cout << "[BBCBot] create command received from " << pname << std::endl;
+						std::cout << "[BBCBot DEBUG] Number of game templates loaded: " << client->bot.gdata.size() << std::endl;
+						
 						bool syntaxerror = false, notfounderror = false, nopermissionerror = false;
 						bool er1 = false, busyerror = false;
 						
@@ -876,6 +878,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 						} else {
 							secondword = chattext.substr(7, secondspacepos - 7);
 							customname = chattext.substr(secondspacepos + 1);
+							std::cout << "[BBCBot DEBUG] Looking for game type: " << secondword << ", custom name: " << customname << std::endl;
 						}
 						
 						bbcbotgamedata* gd2 = NULL;
@@ -997,8 +1000,15 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 
 		if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListNew) {
 			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList.playerid(), client->GetPlayerName(netPlayerList.playerid()));
+			// BBCBot: Track idle players in lobby
+			client->botdb.addidleplayer(netPlayerList.playerid());
+			std::cout << "[BBCBot DEBUG] Player joined lobby: " << client->GetPlayerName(netPlayerList.playerid()) 
+			          << " (ID: " << netPlayerList.playerid() << ")" << std::endl;
 		} else if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListLeft) {
 			client->GetCallback().SignalLobbyPlayerLeft(netPlayerList.playerid());
+			// BBCBot: Remove from idle players
+			client->botdb.removeidleplayer(netPlayerList.playerid());
+			std::cout << "[BBCBot DEBUG] Player left lobby (ID: " << netPlayerList.playerid() << ")" << std::endl;
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListNewMessage) {
 		// A new game was created on the server.

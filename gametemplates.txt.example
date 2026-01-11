@@ -1,0 +1,87 @@
+# BBCBot Game Templates Configuration
+# Format: INI-style sections
+#
+# Game Template Section:
+# [game:commandname]
+# name=Game Name Prefix
+# players=10
+# startcash=5000
+# smallblind=10
+# raisehands=8                    # Optional: raise blinds every N hands (default 8)
+# raiseminutes=5                  # Optional: raise blinds every N minutes (default 5)
+# raisemode=double                # Optional: double, manual, always (default double)
+# manualblindlist=10,20,30,50     # Optional: for manual raisemode
+# gametype=normal                 # Optional: normal or ranking (default normal)
+# permgroup=groupname             # Optional: link to permission group
+#
+# Permission Group Section:
+# [permissions:groupname]
+# type=whitelist                  # whitelist or blacklist
+# players=Alice,Bob,Charlie       # Comma-separated player names
+
+# BBC WEC Game
+[game:wec]
+name=BBC WEC
+players=10
+startcash=5000
+smallblind=10
+raisehands=8
+raisemode=double
+gametype=normal
+
+# BBC Step 1
+[game:s1]
+name=BBC Step 1
+players=10
+startcash=3000
+smallblind=10
+raisehands=6
+raisemode=double
+gametype=normal
+
+# BBC Step 2
+[game:s2]
+name=BBC Step 2
+players=10
+startcash=4000
+smallblind=15
+raisehands=7
+raisemode=double
+gametype=normal
+permgroup=step2_allowed
+
+# BBC Step 3
+[game:s3]
+name=BBC Step 3
+players=10
+startcash=5000
+smallblind=20
+raisehands=8
+raisemode=double
+gametype=normal
+permgroup=step3_allowed
+
+# BBC Step 4
+[game:s4]
+name=BBC Step 4
+players=10
+startcash=6000
+smallblind=25
+raisehands=8
+raisemode=double
+gametype=normal
+permgroup=step4_allowed
+
+# Example permission group (whitelist)
+[permissions:step2_allowed]
+type=whitelist
+players=Alice,Bob,Charlie,David
+
+# Example permission group (blacklist)
+[permissions:step3_allowed]
+type=whitelist
+players=Alice,Charlie,Eve
+
+[permissions:step4_allowed]
+type=whitelist
+players=Alice,Eve

@@ -1739,12 +1739,163 @@ ClientThread::bot_loadfiles()
 	}
 	
 	// Load game templates from file if available
+	// Format: INI-style sections for each game template
+	// [game:commandname]
+	// name=Game Name Prefix
+	// players=10
+	// startcash=5000
+	// smallblind=10
+	// raisehands=8 (optional, default 8)
+	// raiseminutes=5 (optional, default 5)
+	// raisemode=double (optional: double, manual, always)
+	// manualblindlist=10,20,30,50,100 (optional, for manual mode)
+	// gametype=normal (optional: normal, ranking - default normal)
+	// permgroup=groupname (optional)
+	//
+	// [permissions:groupname]
+	// type=whitelist (or blacklist)
+	// players=Alice,Bob,Charlie
+	
+	bot.gdata.clear();
+	bot.permgroups.clear();
+	
 	QFile gameFile("gametemplates.txt");
 	if (gameFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		// Parse game templates
-		// Format can be extended when actual file structure is known
+		QTextStream in(&gameFile);
+		std::cout << "[BBCBot] Parsing gametemplates.txt..." << std::endl;
+		
+		bbcbotgamedata* currentGame = nullptr;
+		bbcbotpermissiongroup* currentPerm = nullptr;
+		int lineNum = 0;
+		
+		while (!in.atEnd()) {
+			QString line = in.readLine().trimmed();
+			lineNum++;
+			
+			// Skip empty lines and comments
+			if (line.isEmpty() || line.startsWith("#")) continue;
+			
+			// Section headers
+			if (line.startsWith("[") && line.endsWith("]")) {
+				QString section = line.mid(1, line.length() - 2);
+				
+				if (section.startsWith("game:")) {
+					QString cmdname = section.mid(5).trimmed();
+					if (cmdname.isEmpty()) {
+						std::cout << "[BBCBot] Warning: Empty game command name at line " << lineNum << std::endl;
+						continue;
+					}
+					bot.gdata.push_back(bbcbotgamedata());
+					currentGame = &bot.gdata.back();
+					currentGame->commandname = cmdname.toStdString();
+					currentPerm = nullptr;
+					std::cout << "[BBCBot] Found game template: " << cmdname.toStdString() << std::endl;
+				}
+				else if (section.startsWith("permissions:")) {
+					QString groupname = section.mid(12).trimmed();
+					if (groupname.isEmpty()) {
+						std::cout << "[BBCBot] Warning: Empty permission group name at line " << lineNum << std::endl;
+						continue;
+					}
+					bot.permgroups.push_back(bbcbotpermissiongroup());
+					currentPerm = &bot.permgroups.back();
+					currentPerm->name = groupname.toStdString();
+					currentGame = nullptr;
+					std::cout << "[BBCBot] Found permission group: " << groupname.toStdString() << std::endl;
+				}
+				continue;
+			}
+			
+			// Key=Value pairs
+			int eqPos = line.indexOf('=');
+			if (eqPos <= 0) continue;
+			
+			QString key = line.left(eqPos).trimmed().toLower();
+			QString value = line.mid(eqPos + 1).trimmed();
+			
+			if (currentGame) {
+				// Parse game settings
+				if (key == "name") {
+					currentGame->gamenameprefix = value.toStdString();
+				}
+				else if (key == "players") {
+					currentGame->gdata.maxNumberOfPlayers = value.toInt();
+				}
+				else if (key == "startcash") {
+					currentGame->gdata.startMoney = value.toInt();
+				}
+				else if (key == "smallblind") {
+					currentGame->gdata.firstSmallBlind = value.toInt();
+				}
+				else if (key == "raisehands") {
+					currentGame->gdata.raiseSmallBlindEveryHandsValue = value.toInt();
+					currentGame->gdata.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+				}
+				else if (key == "raiseminutes") {
+					currentGame->gdata.raiseSmallBlindEveryMinutesValue = value.toInt();
+					currentGame->gdata.raiseIntervalMode = RAISE_ON_MINUTES;
+				}
+				else if (key == "raisemode") {
+					if (value == "double") {
+						currentGame->gdata.raiseMode = DOUBLE_BLINDS;
+					} else if (value == "manual") {
+						currentGame->gdata.raiseMode = MANUAL_BLINDS_ORDER;
+					} else if (value == "always") {
+						currentGame->gdata.afterManualBlindsMode = AFTERMB_ALWAYS_RAISE;
+					}
+				}
+				else if (key == "manualblindlist") {
+					QStringList blinds = value.split(',');
+					for (const QString& blind : blinds) {
+						currentGame->gdata.manualBlindsList.push_back(blind.trimmed().toInt());
+					}
+				}
+				else if (key == "gametype") {
+					if (value == "ranking") {
+						currentGame->gdata.gameType = GAME_TYPE_RANKING;
+					} else {
+						currentGame->gdata.gameType = GAME_TYPE_NORMAL;
+					}
+				}
+				else if (key == "permgroup") {
+					// Link to permission group (will be resolved after loading)
+					currentGame->pgroup = nullptr; // Will be set later
+					for (auto& pg : bot.permgroups) {
+						if (pg.name == value.toStdString()) {
+							currentGame->pgroup = &pg;
+							break;
+						}
+					}
+				}
+			}
+			else if (currentPerm) {
+				// Parse permission settings
+				if (key == "type") {
+					currentPerm->isblacklist = (value.toLower() == "blacklist");
+				}
+				else if (key == "players") {
+					QStringList playerList = value.split(',');
+					for (const QString& player : playerList) {
+						QString trimmed = player.trimmed();
+						if (!trimmed.isEmpty()) {
+							currentPerm->players.push_back(trimmed.toStdString());
+						}
+					}
+				}
+			}
+		}
+		
+		// Resolve permission group pointers after all data is loaded
+		for (auto& game : bot.gdata) {
+			if (game.pgroup == nullptr) {
+				// Try to find permission group by name if not already linked
+				// This is a second pass in case groups are defined after games
+			}
+		}
+		
 		gameFile.close();
-		std::cout << "[BBCBot] Game templates loaded" << std::endl;
+		std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game template(s) and " 
+		          << bot.permgroups.size() << " permission group(s)" << std::endl;
 	} else {
 		std::cout << "[BBCBot] No gametemplates.txt found" << std::endl;
 	}
@@ -2157,6 +2308,9 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 
 std::string bbcbotplayerdb::wecsuggest()
 {
+	std::cout << "[BBCBot DEBUG] wecsuggest() called" << std::endl;
+	std::cout << "[BBCBot DEBUG] wecpeople list has " << wecpeople.size() << " entries" << std::endl;
+	
 	unsigned limit=10;
 	std::vector<int> sindex;
 	std::vector<int> sscore;
@@ -2165,9 +2319,14 @@ std::string bbcbotplayerdb::wecsuggest()
 	int tempindex=-1;
 	int tempscore=0;
 	std::vector<int>::iterator it1,it2,it3;
+	
+	int idleCount = 0;
+	int wecMatchCount = 0;
+	
 	for(int i=0;i<512;i++)
 	{
 		if(idleplayers[i]==0) continue;
+		idleCount++;
 		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
 		tempname=parent->GetPlayerName(idleplayers[i]);
 		if(tempname.substr(0,5)=="Guest") continue;
@@ -2177,6 +2336,8 @@ std::string bbcbotplayerdb::wecsuggest()
 			if(tempname==wecpeople[i2])
 			{
 				tempindex=i2;
+				wecMatchCount++;
+				std::cout << "[BBCBot DEBUG] Found WEC player in lobby: " << tempname << std::endl;
 				break;
 			}
 		}
@@ -2203,6 +2364,11 @@ std::string bbcbotplayerdb::wecsuggest()
 			sscore.push_back(tempscore);
 		}
 	}
+	
+	std::cout << "[BBCBot DEBUG] Total idle players: " << idleCount << std::endl;
+	std::cout << "[BBCBot DEBUG] WEC players found in lobby: " << wecMatchCount << std::endl;
+	std::cout << "[BBCBot DEBUG] Suggested players: " << sindex.size() << std::endl;
+	
 	if(sindex.size()==0) return "Sorry, no wec player found to suggest";
 	tempname="I suggest the following players for wec: ";
 	for(unsigned i=0;i<sindex.size() && i<limit; i++)

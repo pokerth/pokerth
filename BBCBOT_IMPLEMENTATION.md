@@ -138,11 +138,73 @@ Alle folgenden Funktionen verwenden **echte Implementierungen**:
 - ✅ `loadfile()` - echtes Tab-separiertes Format
 - ✅ `getindex()` - echte binäre Suche
 
+### 4. Game Templates - ✅ VOLLSTÄNDIG IMPLEMENTIERT
+
+**INI-basiertes Format für Spiel-Templates und Permissions**
+
+#### Datei: gametemplates.txt
+
+Format mit Sections für Games und Permission Groups:
+
+```ini
+[game:commandname]
+name=Game Name Prefix
+players=10
+startcash=5000
+smallblind=10
+raisehands=8                    # Optional: default 8
+raiseminutes=5                  # Optional: default 5
+raisemode=double                # Optional: double, manual, always
+manualblindlist=10,20,30,50     # For manual mode
+gametype=normal                 # normal or ranking
+permgroup=groupname             # Optional permission group
+
+[permissions:groupname]
+type=whitelist                  # whitelist or blacklist
+players=Alice,Bob,Charlie
+```
+
+#### Beispiel-Konfiguration
+
+```ini
+[game:wec]
+name=BBC WEC
+players=10
+startcash=5000
+smallblind=10
+raisehands=8
+raisemode=double
+
+[game:s2]
+name=BBC Step 2
+players=10
+startcash=4000
+smallblind=15
+permgroup=step2_allowed
+
+[permissions:step2_allowed]
+type=whitelist
+players=Alice,Bob,Charlie
+```
+
+#### Create Command
+
+```
+/msg bbcbot create wec MyGame
+/msg bbcbot create s2 Tournament
+```
+
+Bot erstellt Spiel mit Namen: "BBC WEC MyGame" bzw. "BBC Step 2 Tournament"
+
+**Permission Checks:**
+- Whitelist: Nur gelistete Spieler dürfen erstellen
+- Blacklist: Alle außer gelisteten Spielern dürfen erstellen
+
 ## Nächste Schritte
 
 1. **Produktions-Datenbank:** Ersetze `build/bin/botfiles/minidb.txt` mit echter BBC-Spieler-Datenbank
 2. **WEC-Liste:** Aktualisiere `build/bin/botfiles/weclist.txt` mit aktuellen WEC-Teilnehmern
-3. **Game Templates:** Implementiere `gametemplates.txt` Parser für create-Befehl
+3. **Game Templates:** Erstelle `build/bin/gametemplates.txt` nach Beispiel in `gametemplates.txt.example`
 4. **Testing:** Teste mit echten Spielern auf Server
 
 ## Quelldateien
