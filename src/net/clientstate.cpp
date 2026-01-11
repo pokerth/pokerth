@@ -1504,6 +1504,13 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		client->GetContext().SetSessionGuid(netInitAck.yoursessionid());
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
+		
+		// BBCBot: Auto-load bot files when session is established
+		if (!client->GetContext().GetPassword().empty()) {
+			std::cout << "[BBCBot] Session established, auto-loading bot files..." << std::endl;
+			client->bot_loadfiles();
+		}
+		
 		if (netInitAck.has_rejoingameid()) {
 			qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Rejoin game ID:" << netInitAck.rejoingameid();
 			client->GetCallback().SignalNetClientRejoinPossible(netInitAck.rejoingameid());
