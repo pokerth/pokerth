@@ -1701,7 +1701,7 @@ ClientThread::bot_loadfiles()
 	
 	// Load fixed commands from file if available
 	// Format: lines with "command=reply"
-	QFile fixedFile("fixedcommands.txt");
+	QFile fixedFile("botfiles/fixedcommands.txt");
 	if (fixedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QTextStream in(&fixedFile);
 		while (!in.atEnd()) {
@@ -1719,7 +1719,7 @@ ClientThread::bot_loadfiles()
 		fixedFile.close();
 		std::cout << "[BBCBot] Loaded " << bot.fixedcommands.size() << " fixed commands" << std::endl;
 	} else {
-		std::cout << "[BBCBot] No fixedcommands.txt found, using defaults" << std::endl;
+		std::cout << "[BBCBot] No botfiles/fixedcommands.txt found, using defaults" << std::endl;
 	}
 	
 	// Sort fixed commands for binary search
@@ -1759,7 +1759,7 @@ ClientThread::bot_loadfiles()
 	bot.gdata.clear();
 	bot.permgroups.clear();
 	
-	QFile gameFile("gametemplates.txt");
+	QFile gameFile("botfiles/gametemplates.txt");
 	if (gameFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QTextStream in(&gameFile);
 		std::cout << "[BBCBot] Parsing gametemplates.txt..." << std::endl;
@@ -1897,7 +1897,7 @@ ClientThread::bot_loadfiles()
 		std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game template(s) and " 
 		          << bot.permgroups.size() << " permission group(s)" << std::endl;
 	} else {
-		std::cout << "[BBCBot] No gametemplates.txt found" << std::endl;
+		std::cout << "[BBCBot] No botfiles/gametemplates.txt found" << std::endl;
 	}
 	
 	// Load player database
