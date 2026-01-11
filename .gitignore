@@ -37,3 +37,11 @@ tests/*
 .DS_Store
 *.log
 *lldb*
+
+# BBCBot sensitive data - do not commit
+botfiles/
+build/bin/botfiles/
+build/bin/gametemplates.txt
+build/bin/fixedcommands.txt
+gametemplates.txt
+fixedcommands.txt
