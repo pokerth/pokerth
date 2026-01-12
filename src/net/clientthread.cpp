@@ -1710,6 +1710,8 @@ ClientThread::bot_loadfiles()
 	
 	// Initialize bot as enabled
 	bot.enabled = true;
+	// Initialize idle players list
+	botdb.clear_idleplayers();
 	// Disable interactive info popups for bot runs
 	qputenv("POKERTH_BBCBOT_NOPOPUPS", QByteArray("1"));
 	bot.stdcount = 0;
@@ -2083,14 +2085,18 @@ ClientThread::bot_loadfiles()
 	}
 	
 	// Load player database
-	if (botdb.loadfile("botfiles/minidb.txt")) {
+	QString minidbPath = resolveBotFile("minidb.txt");
+	if (minidbPath.isEmpty()) minidbPath = QString("botfiles/minidb.txt");
+	if (botdb.loadfile(minidbPath.toStdString())) {
 		std::cout << "[BBCBot] Player database loaded successfully" << std::endl;
 	} else {
 		std::cout << "[BBCBot] Warning: Could not load player database" << std::endl;
 	}
 	
 	// Load WEC player list
-	if (botdb.loadwecfile("botfiles/weclist.txt")) {
+	QString wecPath = resolveBotFile("weclist.txt");
+	if (wecPath.isEmpty()) wecPath = QString("botfiles/weclist.txt");
+	if (botdb.loadwecfile(wecPath.toStdString())) {
 		std::cout << "[BBCBot] WEC player list loaded" << std::endl;
 	} else {
 		std::cout << "[BBCBot] Warning: Could not load WEC list" << std::endl;
@@ -2396,6 +2402,11 @@ void bbcbotplayerdb::printidledebug()
 	}
 }
 
+void bbcbotplayerdb::clear_idleplayers()
+{
+	memset(idleplayers, 0, sizeof(unsigned) * 512);
+}
+
 std::string bbcbotplayerdb::int2string(int a)
 {
 	char buffer[16];
@@ -2447,6 +2458,12 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 	std::vector<int> sindex;
 	std::vector<int> sscore;
 
+	std::cout << "[BBCBot DEBUG] printsuggest() called for step " << step << std::endl;
+	int idleCount = 0;
+	int validCount = 0;
+	int dbCount = 0;
+	int scoreCount = 0;
+
 	std::string tempname="";
 	int tempindex=-1;
 	int tempscore=0;
@@ -2454,13 +2471,17 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 	for(int i=0;i<512;i++)
 	{
 		if(idleplayers[i]==0) continue;
+		idleCount++;
 		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
+		validCount++;
 		tempname=parent->GetPlayerName(idleplayers[i]);
 		if(tempname.substr(0,5)=="Guest") continue;
 		tempindex=getindex(tempname);
 		if(tempindex==-1) continue;
+		dbCount++;
 		tempscore=suggestionscore1(tempindex,step);
 		if(tempscore<=10) continue;
+		scoreCount++;
 		it1=sindex.begin();
 		it2=sindex.end();
 		it3=sscore.begin();
@@ -2481,6 +2502,7 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 			sscore.push_back(tempscore);
 		}
 	}
+	std::cout << "[BBCBot DEBUG] Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount << std::endl;
 	if(sindex.size()==0) return "Sorry, no player found to suggest";
 	tempname="I suggest the following players for step "+int2string(step)+": ";
 	for(unsigned i=0;i<sindex.size() && i<limit; i++)

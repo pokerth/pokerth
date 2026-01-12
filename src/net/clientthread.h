@@ -160,6 +160,7 @@ public:
 	void removeidleplayer(unsigned pid);
 	void addidleplayer(unsigned pid);
 	void printidledebug();
+	void clear_idleplayers();
 	bool loadwecfile(std::string filename);
 	std::string wecsuggest();
 private:

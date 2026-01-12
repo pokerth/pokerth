@@ -1614,6 +1614,10 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		if (!client->GetContext().GetPassword().empty()) {
 			std::cout << "[BBCBot] Session established, auto-loading bot files..." << std::endl;
 			client->bot_loadfiles();
+			// Add bot itself as idle player
+			client->botdb.addidleplayer(netInitAck.yourplayerid());
+			// Subscribe to lobby messages
+			client->ResubscribeLobbyMsg();
 		}
 		
 		if (netInitAck.has_rejoingameid()) {

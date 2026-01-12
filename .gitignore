@@ -40,7 +40,6 @@ tests/*
 *.log
 *lldb*
 
-<<<<<<< HEAD
 # BBCBot sensitive data - do not commit
 botfiles/
 build/bin/botfiles/
@@ -48,8 +47,6 @@ build/bin/gametemplates.txt
 build/bin/fixedcommands.txt
 gametemplates.txt
 fixedcommands.txt
-=======
 # Windows installer artifacts
 docker/windows/*.exe
 docker/windows/pokerth.ico
->>>>>>> stable
