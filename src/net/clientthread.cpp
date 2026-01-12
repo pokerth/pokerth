@@ -432,7 +432,6 @@ ClientThread::CloseSession(boost::shared_ptr<SessionData> /*session*/)
 void
 ClientThread::HandlePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
 {
-	qDebug() << "[AUTH DEBUG] ClientThread::HandlePacket - Received packet, message type:" << packet->GetMsg()->messagetype();
 	GetState().HandlePacket(shared_from_this(), packet);
 }
 
@@ -643,9 +642,6 @@ ClientThread::InitGame()
 	boost::shared_ptr<EngineFactory> factory(new ClientEngineFactory); // LocalEngine erstellen
 
 	MapPlayerDataList();
-	// TODO
-	//if (GetPlayerDataList().size() != (unsigned)GetStartData().numberOfPlayers)
-	//	throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_PLAYER_COUNT, 0);
 	m_startData.numberOfPlayers = (int)GetPlayerDataList().size();
 	m_game.reset(new Game(&m_gui, factory, GetPlayerDataList(), GetGameData(), GetStartData(), m_curGameNum++, m_clientLog.get()));
 	// Initialize Minimum GUI speed.
