@@ -899,7 +899,7 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	break;
 	case ERR_NET_VERSION_NOT_SUPPORTED: {
 		MyMessageBox msgBox(QMessageBox::Warning, tr("Network Error"),
-							tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."),
+							tr("The PokerTH server does not support this version of the game.<br>Please go to <a href=\"https://www.pokerth.net/\" target=\"_blank\">https://www.pokerth.net</a> and download the latest version."),
 							QMessageBox::Close, this);
 		msgBox.setTextFormat(Qt::RichText);
 		msgBox.exec();
@@ -1149,7 +1149,7 @@ void startWindowImpl::networkNotification(int notificationId)
 	case NTF_NET_NEW_RELEASE_AVAILABLE: {
 		msgBoxOutdatedVersion.setIcon(QMessageBox::Information);
 		msgBoxOutdatedVersion.setWindowTitle(tr("Network Notification"));
-		msgBoxOutdatedVersion.setText(tr("A new release of PokerTH is available.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."));
+		msgBoxOutdatedVersion.setText(tr("A new release of PokerTH is available.<br>Please go to <a href=\"https://www.pokerth.net/\" target=\"_blank\">https://www.pokerth.net</a> and download the latest version."));
 		msgBoxOutdatedVersion.setTextFormat(Qt::RichText);
 		msgBoxOutdatedVersion.setStandardButtons(QMessageBox::Ok);
 		msgBoxOutdatedVersion.setDefaultButton(QMessageBox::Ok);
@@ -1160,7 +1160,7 @@ void startWindowImpl::networkNotification(int notificationId)
 	case NTF_NET_OUTDATED_BETA: {
 		msgBoxOutdatedVersion.setIcon(QMessageBox::Information);
 		msgBoxOutdatedVersion.setWindowTitle(tr("Network Notification"));
-		msgBoxOutdatedVersion.setText(tr("This beta release of PokerTH is outdated.<br>Please go to <a href=\"http://www.pokerth.net/\" target=\"_blank\">http://www.pokerth.net</a> and download the latest version."));
+		msgBoxOutdatedVersion.setText(tr("This beta release of PokerTH is outdated.<br>Please go to <a href=\"https://www.pokerth.net/\" target=\"_blank\">https://www.pokerth.net</a> and download the latest version."));
 		msgBoxOutdatedVersion.setTextFormat(Qt::RichText);
 		msgBoxOutdatedVersion.setStandardButtons(QMessageBox::Ok);
 		msgBoxOutdatedVersion.setDefaultButton(QMessageBox::Ok);

@@ -71,7 +71,7 @@ std::string QtHelper::getDataPathStdString(const char * /*argv0*/)
 	path += "/data/";
 #else
 #ifdef __APPLE__
-	if (QRegularExpression("Contents/MacOS/?$").indexIn(path) != -1) {
+	if (QRegularExpression("Contents/MacOS/?$").match(path).hasMatch()) {
 		// pointing into an macosx application bundle
 		path += "/../Resources/data/";
 	} else {

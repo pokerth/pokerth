@@ -1,45 +1,81 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Window
 
 import "../config" as Config
 
 
-Window {
-    id: serverConnectDialogWindow
-    width: 200
-    height: 150
-    visible: true
-    title: qsTr("Server Connection")
+Rectangle {
+    id: serverConnectionPage
+    width: mainWindow.width
+    height: mainWindow.height
+    color: Config.StaticData.palette.secondary.col700
 
-    Rectangle {
-        color: Config.StaticData.palette.secondary.col700
-        anchors.fill: parent
+    Component.onCompleted: {
+        // Load saved credentials from config
+        usernameInput.text = ServerConnection.savedUsername
+        passwordInput.text = ServerConnection.savedPassword
+        rememberMeCheckbox.checked = ServerConnection.rememberPassword
+    }
 
-        StackLayout {
-            id: mainStack
-            anchors.fill: parent
-            currentIndex: 0 // Start with the initial choices view
+    // Connections to backend signals
+    Connections {
+        target: ServerConnection
+        
+        function onConnectionProgressChanged(progress) {
+            connectionProgress.value = progress
+        }
+        
+        function onStatusMessageChanged(message) {
+            statusText.text = message
+        }
+        
+        function onConnectionSucceeded() {
+            console.log("Connection succeeded!")
+        }
+        
+        function onConnectionFailed(errorMessage) {
+            console.log("Connection failed:", errorMessage)
+            // Show error and go back to initial view
+            statusText.text = errorMessage
+            statusText.color = "#FF5252"
+            
+            // Reset after delay
+            Qt.callLater(function() {
+                mainStack.currentIndex = 0
+                statusText.color = Config.StaticData.palette.secondary.col300
+            })
+        }
+        
+        function onShowLobby() {
+            console.log("Showing lobby...")
+            mainStackView.push("LobbyPage.qml")
+        }
+    }
 
-            // View 0: Initial choices
-            ColumnLayout {
-                id: initialChoicesView
-                spacing: 15
+    StackLayout {
+        id: mainStack
+        anchors.centerIn: parent
+        width: Math.min(parent.width * 0.9, 500)
+        height: Math.min(parent.height * 0.9, 400)
+        currentIndex: 0 // Start with the initial choices view
+
+        // View 0: Initial choices
+        ColumnLayout {
+            id: initialChoicesView
+            spacing: 15
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            Button {
+                text: qsTr("Login as User")
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: 16
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-
-                Button {
-                    text: qsTr("Login as User")
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 16
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    onClicked: {
-                        serverConnectDialogWindow.width = 500
-                        serverConnectDialogWindow.height = 280
-                        mainStack.currentIndex = 1 // Switch to login form view
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                onClicked: {
+                    mainStack.currentIndex = 1 // Switch to login form view
                     }
                 }
 
@@ -63,11 +99,13 @@ Window {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     onClicked: {
-                        serverConnectDialogWindow.width = 300
-                        serverConnectDialogWindow.height = 135
-
-                        usernameLabel.text = "Guest" + Math.floor(Math.random() * 10000)
+                        var guestName = "Guest" + Math.floor(Math.random() * 10000)
+                        usernameLabel.text = guestName
+                        connectionProgress.value = 0
                         mainStack.currentIndex = 2 // Switch to connecting
+                        
+                        // Call backend to connect (guest, don't save credentials)
+                        ServerConnection.connectToServer(guestName, "", true, false)
                     }
                 }
             }
@@ -136,11 +174,11 @@ Window {
                     onClicked: {
                         console.log("Login clicked. Username:", usernameInput.text, "Password:", passwordInput.text, "Remember me:", rememberMeCheckbox.checked)
                         usernameLabel.text = usernameInput.text
-
-                        serverConnectDialogWindow.width = 300
-                        serverConnectDialogWindow.height = 135
+                        connectionProgress.value = 0
                         mainStack.currentIndex = 2 // Go to login section
-                        // Login Logic
+                        
+                        // Call backend to connect with username and password, passing remember me flag
+                        ServerConnection.connectToServer(usernameInput.text, passwordInput.text, false, rememberMeCheckbox.checked)
                     }
                 }
 
@@ -150,8 +188,6 @@ Window {
                     font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 14
                     onClicked: {
-                        serverConnectDialogWindow.width = 200
-                        serverConnectDialogWindow.height = 150
                         mainStack.currentIndex = 0 // Go back to initial choices
                     }
                 }
@@ -163,7 +199,11 @@ Window {
                 Layout.minimumWidth: 0
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                spacing: 15
+                spacing: 20
+
+                Item {
+                    Layout.fillHeight: true
+                }
 
                 Text {
                     text: qsTr("Connecting as...")
@@ -173,6 +213,7 @@ Window {
                     color: Config.StaticData.palette.secondary.col200
                     Layout.alignment: Qt.AlignHCenter
                 }
+
                 Text {
                     id: usernameLabel
                     text: qsTr("Username/Guest")
@@ -182,28 +223,67 @@ Window {
                     color: Config.StaticData.palette.secondary.col200
                     Layout.alignment: Qt.AlignHCenter
                 }
-                Text {
-                    text: qsTr("STATUS INDICATOR ??%")
-                    font.pixelSize: 16
-                    Layout.fillWidth: false
-                    font.family: Config.StaticData.loadedFont.font.family
-                    color: Config.StaticData.palette.secondary.col200
+
+                // Progress Bar
+                ColumnLayout {
+                    Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter
+                    spacing: 10
+
+                    ProgressBar {
+                        id: connectionProgress
+                        Layout.preferredWidth: Math.min(parent.width * 0.8, 300)
+                        Layout.alignment: Qt.AlignHCenter
+                        from: 0
+                        to: 100
+                        value: 0
+
+                        background: Rectangle {
+                            implicitWidth: 300
+                            implicitHeight: 8
+                            color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.5)
+                            radius: 4
+                        }
+
+                        contentItem: Item {
+                            implicitWidth: 300
+                            implicitHeight: 6
+
+                            Rectangle {
+                                width: connectionProgress.visualPosition * parent.width
+                                height: parent.height
+                                radius: 4
+                                color: Config.StaticData.palette.secondary.col500
+                            }
+                        }
+                    }
+
+                    Text {
+                        id: statusText
+                        text: qsTr("Initializing connection...")
+                        font.pixelSize: 14
+                        font.family: Config.StaticData.loadedFont.font.family
+                        color: Config.StaticData.palette.secondary.col300
+                        Layout.alignment: Qt.AlignHCenter
+                    }
                 }
-                 Button {
+
+                Item {
+                    Layout.fillHeight: true
+                }
+
+                Button {
                     text: qsTr("Cancel")
                     Layout.alignment: Qt.AlignHCenter
                     font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 14
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: 120
                     onClicked: {
-                        serverConnectDialogWindow.width = 200
-                        serverConnectDialogWindow.height = 150
-
+                        ServerConnection.cancelConnection()
+                        connectionProgress.value = 0
                         mainStack.currentIndex = 0 // Go back to initial choices
                     }
                 }
             }
         }
-    }
 }

@@ -159,7 +159,6 @@ RUN ${ROOT}/vcpkg/bootstrap-vcpkg.sh && \
   boost-foreach:${VCPKG_ARCH}-android \
   boost-uuid:${VCPKG_ARCH}-android \
   openssl:${VCPKG_ARCH}-android \
-  curl:${VCPKG_ARCH}-android \
   protobuf:x64-linux
 
 ### ###

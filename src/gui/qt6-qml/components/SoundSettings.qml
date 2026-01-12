@@ -54,6 +54,11 @@ Rectangle {
             CustomToggle {
                 id: playSounds
                 label: qsTr("Spiele Klangeffekte")
+                checked: SettingsManager ? SettingsManager.soundEnabled : false
+                onCheckedChanged: {
+                    if (SettingsManager)
+                        SettingsManager.soundEnabled = checked
+                }
             }
         }
     }

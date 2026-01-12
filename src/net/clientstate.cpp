@@ -540,6 +540,7 @@ ClientStateStartConnect::Instance()
 }
 
 ClientStateStartConnect::ClientStateStartConnect()
+	: m_handshakeRetryCount(0)
 {
 }
 
@@ -550,6 +551,7 @@ ClientStateStartConnect::~ClientStateStartConnect()
 void
 ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 {
+    m_handshakeRetryCount = 0; // Reset retry counter
     client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
     client->GetStateTimer().async_wait(
         boost::bind(
@@ -646,25 +648,90 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 void
 ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
+    qDebug() << "[TLS-CONNECT] HandleSslHandshake called - ec:" << ec.value() << "State match:" << (&client->GetState() == this);
+    
     if (&client->GetState() == this) {
         if (!ec) {
             qDebug() << "[TLS-CONNECT] SSL Handshake completed successfully!";
+            m_handshakeRetryCount = 0; // Reset counter on success
             client->GetCallback().SignalNetClientConnect(MSG_SOCK_CONNECT_DONE);
             client->SetState(ClientStateStartSession::Instance());
         } else {
+            qDebug() << "[TLS-CONNECT] SSL Handshake ERROR - operation_aborted:" << (ec == boost::asio::error::operation_aborted);
             if (ec != boost::asio::error::operation_aborted) {
                 qDebug() << "[TLS-CONNECT] SSL Handshake FAILED:" << ec.message().c_str() 
-                         << "(code:" << ec.value() << ")";
-                throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+                         << "(code:" << ec.value() << "category:" << ec.category().name() << ")";
+                
+                // Try to get more detailed SSL error information
+                SSL* ssl = client->GetContext().GetSessionData()->GetSslStream()->native_handle();
+                if (ssl) {
+                    unsigned long ssl_err = ERR_get_error();
+                    if (ssl_err != 0) {
+                        char err_buf[256];
+                        ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
+                        qDebug() << "[TLS-CONNECT] OpenSSL error:" << err_buf;
+                    }
+                }
+                
+                // Retry handshake up to 3 times
+                if (m_handshakeRetryCount < 3) {
+                    m_handshakeRetryCount++;
+                    qDebug() << "[TLS-CONNECT] Retrying TLS handshake (attempt" << m_handshakeRetryCount << "of 3)...";
+                    RetryHandshake(client);
+                } else {
+                    qDebug() << "[TLS-CONNECT] TLS handshake failed after 3 attempts, giving up.";
+                    throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
+                }
+            } else {
+                qDebug() << "[TLS-CONNECT] Handshake was aborted (timeout or user cancel), not retrying.";
             }
         }
+    } else {
+        qDebug() << "[TLS-CONNECT] HandleSslHandshake ignored - state mismatch (connection probably timed out)";
     }
+}
+
+void
+ClientStateStartConnect::RetryHandshake(boost::shared_ptr<ClientThread> client)
+{
+    ClientContext &context = client->GetContext();
+    
+    // Reset the timeout timer to give the retry attempt enough time
+    qDebug() << "[TLS-CONNECT] Resetting connection timer for retry...";
+    client->GetStateTimer().cancel();
+    client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+    client->GetStateTimer().async_wait(
+        boost::bind(
+            &ClientStateStartConnect::TimerTimeout, this, boost::asio::placeholders::error, client));
+    
+    // Close the current SSL stream
+    boost::system::error_code closeEc;
+    context.GetSessionData()->GetSslStream()->lowest_layer().close(closeEc);
+    
+    // Recreate the session with a new SSL stream
+    qDebug() << "[TLS-CONNECT] Recreating SSL session for retry...";
+    client->CreateContextSession();
+    
+    // Get the current endpoint
+    boost::asio::ip::tcp::endpoint endpoint = m_remoteEndpointIterator->endpoint();
+    
+    // Try to connect again
+    context.GetSessionData()->GetSslStream()->lowest_layer().async_connect(
+        endpoint,
+        boost::bind(&ClientStateStartConnect::HandleConnect,
+                    this,
+                    boost::asio::placeholders::error,
+                    m_remoteEndpointIterator,
+                    client));
 }
 
 void
 ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
 {
+    qDebug() << "[TLS-CONNECT] TimerTimeout called - ec:" << ec.value() << "State match:" << (&client->GetState() == this);
+    
     if (!ec && &client->GetState() == this) {
+        qDebug() << "[TLS-CONNECT] Connection TIMEOUT! Closing socket and throwing exception.";
         ClientContext &context = client->GetContext();
 
         if (context.GetSessionData()) {
@@ -678,6 +745,12 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
             throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, 0);
         else
             throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, 0);
+    } else {
+        if (ec) {
+            qDebug() << "[TLS-CONNECT] Timer was cancelled (ec:" << ec.message().c_str() << ")";
+        } else {
+            qDebug() << "[TLS-CONNECT] Timer fired but state mismatch - ignoring";
+        }
     }
 }
 
@@ -1354,6 +1427,8 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
             netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
             netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
             netInit->set_buildid(0);
+            
+            // Include session GUID and server password BEFORE setting login type
             if (!context.GetSessionGuid().empty()) {
                 qDebug() << "[AUTH DEBUG] TimerLoop - Using previous session GUID:" << QString::fromStdString(context.GetSessionGuid());
                 netInit->set_mylastsessionid(context.GetSessionGuid());

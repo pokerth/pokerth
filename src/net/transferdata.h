@@ -28,24 +28,29 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* libcurl transfer data struct. */
+/* Qt Network transfer data struct. */
 
 #ifndef _TRANSFERDATA_H_
 #define _TRANSFERDATA_H_
 
 #include <string>
-#include <curl/curl.h>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QFile>
+#include <QHttpMultiPart>
 
 
 struct TransferData {
-	TransferData() : curlHandle(NULL), curlMultiHandle(NULL), targetFile(NULL), post(NULL) {}
-	CURL *curlHandle;
-	CURLM *curlMultiHandle;
-	FILE *targetFile;
-	std::string curlUrl;
+	TransferData() : networkManager(NULL), networkReply(NULL), targetFile(NULL), multiPart(NULL), finished(false) {}
+	QNetworkAccessManager *networkManager;
+	QNetworkReply *networkReply;
+	QFile *targetFile;
+	std::string url;
 	std::string userCredentials;
-	struct curl_mime *post;
+	QHttpMultiPart *multiPart;
 	std::string returnMessage;
+	bool finished;
+	int errorCode;
 };
 
 #endif

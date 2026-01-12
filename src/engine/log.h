@@ -53,8 +53,8 @@ public:
 private:
 
     void exec_transaction();
+    QSqlDatabase getDatabase() const; // Helper to get the database connection
 
-    QSqlDatabase mySqliteLogDb;
     QString myConnectionName;
 
     boost::filesystem::path mySqliteLogFileName;

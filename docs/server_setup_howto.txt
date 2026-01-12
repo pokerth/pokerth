@@ -55,7 +55,7 @@ the PokerTH daemon (for example named pokerth). The user is
 If you do not have root access, log in as usual.
 
 To use the stable version, download the latest PokerTH
-source release from http://www.pokerth.net/.
+source release from https://www.pokerth.net/.
 Unpack the source release:
 	tar xjf PokerTH-0.9.src.tar.bz2
 

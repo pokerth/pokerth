@@ -1341,7 +1341,12 @@ void GameTableStyleReader::showOutdatedErrorMessage()
 
 void GameTableStyleReader::setTableBackground(gameTableImpl *gt)
 {
+#ifdef DISABLE_COMPLEX_STYLESHEETS_MACOS
+	// macOS workaround for Qt 6.9 on Monterey: background-image crashes
+	gt->setStyleSheet("QMainWindow { background-color: #2d5016; }");
+#else
 	gt->setStyleSheet("QMainWindow { background-image: url(\""+Table+"\"); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+#endif
 }
 
 void GameTableStyleReader::setChatLogStyle(QTextBrowser *tb)

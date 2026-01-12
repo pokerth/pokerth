@@ -12,6 +12,9 @@ Rectangle {
 
     property bool isToggled: true
     property alias label: toggleLabel.text
+    
+    // Compatibility alias for standard CheckBox/Toggle API
+    property alias checked: toggle.isToggled
 
     Layout.fillWidth: true
     Layout.fillHeight: false

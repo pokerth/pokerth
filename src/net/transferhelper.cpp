@@ -35,11 +35,16 @@
 #include <net/socket_msg.h>
 #include <net/transferdata.h>
 
+#include <QUrl>
+#include <QNetworkRequest>
+#include <QEventLoop>
+#include <QTimer>
+
 #include <cstdio>
 
 using namespace std;
 
-#define CURL_RECV_TIMEOUT_MSEC		50
+#define QT_RECV_TIMEOUT_MSEC		50
 
 TransferHelper::TransferHelper()
 {
@@ -57,105 +62,65 @@ TransferHelper::Init(const string &url, const string &targetFileName, const stri
 	// Cleanup data.
 	Cleanup();
 	m_data->returnMessage.clear();
-	// Initialise curl.
-	m_data->curlHandle = curl_easy_init();
-	if (!m_data->curlHandle)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INIT_FAILED, 0);
-	m_data->curlMultiHandle = curl_multi_init();
-	if (!m_data->curlMultiHandle)
+	m_data->finished = false;
+	m_data->errorCode = 0;
+
+	// Initialise Qt Network Access Manager.
+	m_data->networkManager = new QNetworkAccessManager();
+	if (!m_data->networkManager)
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INIT_FAILED, 0);
 
-	// Use a copy of the url string, because some curl versions require a copy.
-	m_data->curlUrl = url;
-	if (curl_easy_setopt(m_data->curlHandle, CURLOPT_URL, m_data->curlUrl.c_str()) != CURLE_OK)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INVALID_URL, 0);
+	// Store the URL
+	m_data->url = url;
 
 	InternalInit(url, targetFileName, user, password, filesize, httpPost);
-
-	// Use the multi interface for better abort handling.
-	if (curl_multi_add_handle(m_data->curlMultiHandle, m_data->curlHandle) != CURLM_OK)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INIT_FAILED, 0);
 }
 
 bool
 TransferHelper::Process()
 {
 	bool retVal = false;
-	int runningHandles = 0;
-	CURLMcode curlResult;
-	do {
-		curlResult = curl_multi_perform(m_data->curlMultiHandle, &runningHandles);
-	} while (curlResult == CURLM_CALL_MULTI_PERFORM);
 
-	if (curlResult != CURLM_OK)
-		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_FAILED, 0);
-
-	if (runningHandles) {
-		struct timeval timeout;
-		fd_set readSet;
-		fd_set writeSet;
-		fd_set exceptSet;
-		int maxfd = -1;
-
-		FD_ZERO(&readSet);
-		FD_ZERO(&writeSet);
-		FD_ZERO(&exceptSet);
-
-		timeout.tv_sec = 0;
-		timeout.tv_usec = CURL_RECV_TIMEOUT_MSEC * 1000;
-
-		curl_multi_fdset(m_data->curlMultiHandle, &readSet, &writeSet, &exceptSet, &maxfd);
-
-		if (maxfd >= 0) {
-			int selectResult = select(maxfd+1, &readSet, &writeSet, &exceptSet, &timeout);
-			if (selectResult == -1)
-				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_SELECT_FAILED, 0);
-		}
-	} else {
-		// Retrieve actual error code.
-		int numMsgs;
-		CURLMsg *tmpMsg;
-		CURLcode code = CURLE_FAILED_INIT;
-		do {
-			tmpMsg = curl_multi_info_read(m_data->curlMultiHandle, &numMsgs);
-			if (tmpMsg)
-				code = tmpMsg->data.result;
-		} while (tmpMsg && tmpMsg->msg != CURLMSG_DONE);
-
-		// Clean up the curl handles.
+	// Check if the transfer has already finished
+	if (m_data->finished) {
+		// Clean up the network objects.
 		Cleanup();
 
-		// Throw exception if an error occured.
-		if (code != CURLE_OK) {
-			if (code == CURLE_URL_MALFORMAT)
-				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_INVALID_URL, 0);
-			else
-				throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_FAILED, 0);
+		// Throw exception if an error occurred.
+		if (m_data->errorCode != 0) {
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_FAILED, 0);
 		}
 
 		retVal = true;
+	} else {
+		// Process Qt events briefly to allow network operations to progress
+		QEventLoop loop;
+		QTimer::singleShot(QT_RECV_TIMEOUT_MSEC, &loop, &QEventLoop::quit);
+		loop.exec();
 	}
+
 	return retVal;
 }
 
 void
 TransferHelper::Cleanup()
 {
-	if (m_data->post) {
-		curl_mime_free(m_data->post);
-		m_data->post = NULL;
+	if (m_data->multiPart) {
+		delete m_data->multiPart;
+		m_data->multiPart = NULL;
 	}
-	if (m_data->curlMultiHandle) {
-		curl_multi_cleanup(m_data->curlMultiHandle);
-		m_data->curlMultiHandle = NULL;
+	if (m_data->networkReply) {
+		m_data->networkReply->deleteLater();
+		m_data->networkReply = NULL;
 	}
-	if (m_data->curlHandle) {
-		curl_easy_cleanup(m_data->curlHandle);
-		m_data->curlHandle = NULL;
+	if (m_data->networkManager) {
+		delete m_data->networkManager;
+		m_data->networkManager = NULL;
 	}
 	if (m_data->targetFile) {
-		fflush(m_data->targetFile);
-		fclose(m_data->targetFile);
+		m_data->targetFile->flush();
+		m_data->targetFile->close();
+		delete m_data->targetFile;
 		m_data->targetFile = NULL;
 	}
 }

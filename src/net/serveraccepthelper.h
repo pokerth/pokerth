@@ -207,7 +207,21 @@ protected:
             boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
             GetLobbyThread().AddConnection(sessionData);
         } else {
-            LOG_ERROR("TLS handshake failed: " << error.message());
+            LOG_MSG("[TLS-DEBUG] TLS handshake failed: " << error.message() 
+                    << " (code: " << error.value() 
+                    << ", category: " << error.category().name() << ")");
+            
+            // Try to get more detailed SSL error information
+            SSL* ssl = sslStream->native_handle();
+            if (ssl) {
+                unsigned long ssl_err = ERR_get_error();
+                while (ssl_err != 0) {
+                    char err_buf[256];
+                    ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
+                    LOG_MSG("[TLS-DEBUG] OpenSSL error: " << err_buf);
+                    ssl_err = ERR_get_error();
+                }
+            }
         }
 
         boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));

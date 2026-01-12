@@ -118,7 +118,7 @@
           <string notr="true">QLabel {font-size: 20px}</string>
          </property>
          <property name="text">
-          <string>&lt;a href=&quot;http://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</string>
+          <string>&lt;a href=&quot;https://www.pokerth.net&quot; target=&quot;_blank&quot;&gt;http://www.pokerth.net&lt;a&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

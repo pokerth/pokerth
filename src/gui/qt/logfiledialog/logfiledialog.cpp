@@ -239,7 +239,7 @@ void LogFileDialog::uploadFile()
 
 		uploadInProgressAnimationStart();
 		uploader->QueueUpload(
-			"http://pokerth.net/log_file_analysis/upload.php",
+			"https://www.pokerth.net/log_file_analysis/upload.php",
 			"",
 			"",
 			file.fileName().toStdString(),
@@ -281,7 +281,7 @@ void LogFileDialog::showLogAnalysis(QString /*filename*/, QString returnMessage)
 		QString hash(returnMessage.mid(retStr.size()).trimmed());
 		hash = hash.mid(0, hash.indexOf(' '));
 		qDebug() << hash << "\n";
-		QDesktopServices::openUrl(QUrl("http://logfile-analysis.pokerth.net/?ID=" + hash));
+		QDesktopServices::openUrl(QUrl("https://logfile-analysis.pokerth.net/?ID=" + hash));
 	} else {
 		qDebug() << returnMessage << "\n";
 		QString serverMsg(tr("Processing of the log file on the web server failed.\nPlease verify that you are uploading a valid PokerTH log file."));

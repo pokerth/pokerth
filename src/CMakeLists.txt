@@ -32,7 +32,7 @@ target_include_directories(pokerth_dedicated_server PUBLIC
     config 
     core)
 
-target_link_libraries(pokerth_dedicated_server PUBLIC CURL::libcurl)
+target_link_libraries(pokerth_dedicated_server PUBLIC Qt6::Network)
 target_link_libraries(pokerth_dedicated_server PUBLIC pokerth_lib)
 target_link_libraries(pokerth_dedicated_server PUBLIC pokerth_db)
 target_link_libraries(pokerth_dedicated_server PUBLIC pokerth_protocol)

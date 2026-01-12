@@ -38,9 +38,9 @@
 #include <websocketpp/common/functional.hpp>
 
 #include <boost/asio.hpp>
+#include <boost/asio/bind_executor.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/system/error_code.hpp>
-#include <boost/asio/bind_executor.hpp>
 
 #include <sstream>
 #include <string>
@@ -88,7 +88,7 @@ public:
     /// Type of a shared pointer to the resolver being used
     typedef lib::shared_ptr<boost::asio::ip::tcp::resolver> resolver_ptr;
     /// Type of timer handle
-    typedef lib::shared_ptr<boost::asio::deadline_timer> timer_ptr;
+    typedef lib::shared_ptr<boost::asio::steady_timer> timer_ptr;
     /// Type of a shared pointer to an io_context work object
     typedef lib::shared_ptr<boost::asio::executor_work_guard<boost::asio::io_context::executor_type>> work_ptr;
 
@@ -644,9 +644,9 @@ public:
      * needed.
      */
     timer_ptr set_timer(long duration, timer_handler callback) {
-        timer_ptr new_timer = lib::make_shared<boost::asio::deadline_timer>(
+        timer_ptr new_timer = lib::make_shared<boost::asio::steady_timer>(
             *m_io_service,
-            boost::posix_time::milliseconds(duration)
+            std::chrono::milliseconds(duration)
         );
 
         new_timer->async_wait(
@@ -896,7 +896,7 @@ protected:
         boost::asio::ip::tcp::resolver::results_type iterator)
     {
         if (ec == boost::asio::error::operation_aborted ||
-            dns_timer->expires_from_now().is_negative())
+            (dns_timer->expiry() - std::chrono::steady_clock::now()).count() < 0)
         {
             m_alog->write(log::alevel::devel,"async_resolve cancelled");
             return;
@@ -1003,7 +1003,7 @@ protected:
         connect_handler callback, boost::system::error_code const & ec)
     {
         if (ec == boost::asio::error::operation_aborted ||
-            con_timer->expires_from_now().is_negative())
+            (con_timer->expiry() - std::chrono::steady_clock::now()).count() < 0)
         {
             m_alog->write(log::alevel::devel,"async_connect cancelled");
             return;

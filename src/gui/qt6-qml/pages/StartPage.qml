@@ -12,15 +12,6 @@ Rectangle {
     height: mainWindow.height
     color: "transparent"
 
-    property var internetDialog: null
-
-    function dialogClosing(closeEvent) {
-        internetDialog.closing.disconnect(dialogClosing)
-        mainWindow.show()
-        internetDialog.destroy()
-        internetDialog = null;
-    }
-
     Image {
         id: preLoaderBackground
         anchors.fill: parent
@@ -59,13 +50,7 @@ Rectangle {
                     CustomButton {
                         text: qsTr("Internetspiel")
                         onClicked: {
-                            var component = Qt.createComponent("ServerConnectionDialog.qml")
-                            internetDialog = component.createObject(mainWindow)
-
-                            internetDialog.closing.connect(dialogClosing)
-
-                            internetDialog.show()
-                            mainWindow.hide()
+                            mainStackView.push("ServerConnectionDialog.qml");
                         }
                     }
 

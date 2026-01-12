@@ -42,11 +42,16 @@
 #include <boost/shared_ptr.hpp>
 #include "configfile.h"
 #include "session.h"
+#include "log.h"
 #include <QTranslator>
 #include <QQmlContext>
 #include <QDebug>
 #include <retranslate.h>
 #include <settingsxmlhandler.h>
+#include <settingsmanager.h>
+#include "gui/qt6-qml/cpp/serverconnectionhandler.h"
+#include "gui/qt6-qml/cpp/lobbyhandler.h"
+#include "gui/qt6-qml/cpp/qmlguiinterface.h"
 
 int main(int argc, char *argv[])
 {
@@ -92,20 +97,68 @@ int main(int argc, char *argv[])
 		qDebug() << "Locale not found in translations";
 	}
 
+    // Initialize Log
+    Log *log = new Log(myConfig.get());
+    
+    // Create handlers
+    ServerConnectionHandler *connectionHandler = new ServerConnectionHandler(&app);
+    connectionHandler->setConfig(myConfig.get());
+    
+    LobbyHandler *lobbyHandler = new LobbyHandler(&app);
+    lobbyHandler->setConfig(myConfig.get());
+    
+    // Create GUI Interface with handlers
+    QmlGuiInterface *guiInterface = new QmlGuiInterface(myConfig.get(), connectionHandler, lobbyHandler);
+    
+    // Create and initialize Session
+    boost::shared_ptr<Session> session;
+    try {
+        session.reset(new Session(guiInterface, myConfig.get(), log));
+        int initResult = session->init();
+        if (initResult != 0) {
+            qWarning() << "Session initialization failed with code:" << initResult;
+        }
+        log->init();
+        
+        guiInterface->setSession(session);
+        connectionHandler->setSession(session);
+        lobbyHandler->setSession(session);
+        
+        qDebug() << "Session initialized successfully";
+    } catch (const std::exception &e) {
+        qWarning() << "Exception during session init:" << e.what();
+    }
+
     QQmlApplicationEngine engine;
 
+    SettingsManager settingsMgr(myConfig);
     LanguageManager langMgr(&engine);
+    engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
     engine.rootContext()->setContextProperty("LanguageManager", &langMgr);
+    engine.rootContext()->setContextProperty("ServerConnection", connectionHandler);
+    engine.rootContext()->setContextProperty("Lobby", lobbyHandler);
 	engine.load(QUrl(QStringLiteral("qrc:/pokerth.qml")));
 
-	if (engine.rootObjects().isEmpty())
+	if (engine.rootObjects().isEmpty()) {
+        delete lobbyHandler;
+        delete connectionHandler;
+        delete guiInterface;
+        delete log;
         return -1;
+    }
 
-	// @DEBUG: session test
-	// Session s = new Session();
-
-    // QmlWrapper myQml(myConfig);
-    return app.exec();
+    int result = app.exec();
+    
+    // Cleanup
+    if (session) {
+        session->terminateNetworkClient();
+    }
+    delete lobbyHandler;
+    delete connectionHandler;
+    delete guiInterface;
+    delete log;
+    
+    return result;
 }
 
 #else
@@ -124,8 +177,6 @@ int main(int argc, char *argv[])
 #include <QDebug>
 #include <QScreen>
 #include <QGuiApplication>
-
-#include <curl/curl.h>
 
 #include "session.h"
 #include "startwindowimpl.h"
@@ -172,7 +223,6 @@ int main( int argc, char **argv )
 
     //_CrtSetBreakAlloc(49937);
     socket_startup();
-    curl_global_init(CURL_GLOBAL_NOTHING);
 
 #ifdef __APPLE__
 	// The following needs to be done before the application is created, otherwise loading platforms plugin fails.
@@ -370,8 +420,6 @@ int main( int argc, char **argv )
 	// a.setActivationWindow(&mainWin, true);
 #endif
 	int retVal = a.exec();
-	curl_global_cleanup();
-	socket_cleanup();
 	return retVal;
 }
 

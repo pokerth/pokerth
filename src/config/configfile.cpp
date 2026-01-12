@@ -240,7 +240,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ServerWebSocketPort", CONFIG_TYPE_INT, "7233"));
 	configList.push_back(ConfigInfo("ServerWebSocketResource", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerWebSocketOrigin", CONFIG_TYPE_STRING, ""));
-	configList.push_back(ConfigInfo("ServerUsePutAvatars", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("ServerUsePutAvatars", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("ServerPutAvatarsAddress", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerPutAvatarsUser", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerPutAvatarsPassword", CONFIG_TYPE_STRING, ""));

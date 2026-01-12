@@ -20,19 +20,24 @@
 
 using namespace std;
 
-Log::Log(ConfigFile *c) : mySqliteLogDb(), myConnectionName(), mySqliteLogFileName(""), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
+Log::Log(ConfigFile *c) : myConnectionName(), mySqliteLogFileName(""), myConfig(c), uniqueGameID(0), currentHandID(0), currentRound(GAME_STATE_PREFLOP), sql("")
 {
 }
 
 Log::~Log()
 {
-    // close Qt SQL database and remove connection
-    if (mySqliteLogDb.isValid() && mySqliteLogDb.isOpen()) {
-        mySqliteLogDb.close();
+    // Qt will automatically clean up QSqlDatabase connections on application exit
+    // Attempting to manually close/remove here can cause crashes during shutdown
+    // when Qt's SQL driver manager is already being destroyed
+}
+
+QSqlDatabase
+Log::getDatabase() const
+{
+    if (myConnectionName.isEmpty()) {
+        return QSqlDatabase();
     }
-    if (!myConnectionName.isEmpty()) {
-        QSqlDatabase::removeDatabase(myConnectionName);
-    }
+    return QSqlDatabase::database(myConnectionName, false);
 }
 
 void
@@ -68,7 +73,7 @@ Log::init()
                 mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
 
                 myConnectionName = QString("pokerth_log_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
-                mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
+                QSqlDatabase mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
                 mySqliteLogDb.setDatabaseName(QString::fromStdString(mySqliteLogFileName.string()));
 
                 if (mySqliteLogDb.open()) {
@@ -145,8 +150,7 @@ Log::init()
                     exec_transaction();
                 } else {
                     // open failed: du kannst hier Fehlerlog ergänzen
-                    QSqlError err = mySqliteLogDb.lastError();
-                    cout << "Failed to open sqlite (Qt): " << err.text().toStdString() << endl;
+                    cout << "Failed to open sqlite (Qt)" << endl;
                 }
             }
         }
@@ -165,7 +169,7 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 
 			PlayerListConstIterator it_c;
 
-			if( mySqliteLogDb.isValid() && mySqliteLogDb.isOpen() ) {
+			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
 				// sqlite-db is open
 				int i;
 
@@ -221,7 +225,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-			if( mySqliteLogDb.isValid() && mySqliteLogDb.isOpen() ) {
+			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
 				// sqlite-db is open
 			 int i;
 
@@ -305,11 +309,11 @@ Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
         if(myConfig->readConfigInt("LogOnOff")) {
             //if write logfiles is enabled
 
-            if( mySqliteLogDb.isValid() && mySqliteLogDb.isOpen() ) {
+            if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
                 // sqlite-db (Qt) is open
 
                 // read seat using QSqlQuery
-                QSqlQuery q(mySqliteLogDb);
+                QSqlQuery q(getDatabase());
                 q.prepare(QString::fromUtf8("SELECT Seat FROM Player WHERE UniqueGameID = ? AND Player = ?"));
                 q.addBindValue(uniqueGameID);
                 q.addBindValue(QString::fromStdString(playerName));
@@ -338,7 +342,7 @@ Log::logPlayerAction(int seat, PlayerActionLog action, int amount)
         if(myConfig->readConfigInt("LogOnOff")) {
             //if write logfiles is enabled
 
-            if( mySqliteLogDb.isValid() && mySqliteLogDb.isOpen() ) {
+            if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
                 // sqlite-db (Qt) is open
 
                 if(action!=LOG_ACTION_NONE) {
@@ -469,7 +473,7 @@ Log::logBoardCards(int boardCards[5])
         if(myConfig->readConfigInt("LogOnOff")) {
             //if write logfiles is enabled
 
-            if( mySqliteLogDb.isValid() && mySqliteLogDb.isOpen() ) {
+            if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
                 // sqlite-db is open
 
                 switch(currentRound) {
@@ -529,7 +533,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-			if( mySqliteLogDb.isValid() && mySqliteLogDb.isOpen() ) {
+			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
                 // sqlite-db (Qt) is open
 
 				int myCards[2];
@@ -651,17 +655,20 @@ void
 Log::exec_transaction()
 {
     // Execute accumulated SQL statements using QSqlQuery inside a Qt transaction.
-    if(!(mySqliteLogDb.isValid() && mySqliteLogDb.isOpen())) {
-        sql.clear();
-        return;
-    }
-
-    QSqlError err;
-    if(!mySqliteLogDb.transaction()) {
-        err = mySqliteLogDb.lastError();
-        cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
-        // Try to execute without transaction fallback
-    }
+    // Check if connection exists before accessing the database
+    if (!myConnectionName.isEmpty() && QSqlDatabase::contains(myConnectionName)) {
+        QSqlDatabase db = QSqlDatabase::database(myConnectionName, false);
+        if (!(db.isValid() && db.isOpen())) {
+            sql.clear();
+            return;
+        }
+        
+        QSqlError err;
+        if(!db.transaction()) {
+            err = db.lastError();
+            cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
+            // Try to execute without transaction fallback
+        }
 
     // Split the SQL buffer by ';' and execute each statement separately
     std::string buf = sql;
@@ -681,7 +688,7 @@ Log::exec_transaction()
         auto r = stmt.find_last_not_of(" \t\r\n");
         if(l != std::string::npos && r != std::string::npos && l <= r) {
             stmt = stmt.substr(l, r - l + 1);
-            QSqlQuery q(mySqliteLogDb);
+            QSqlQuery q(db);
             if(!q.exec(QString::fromStdString(stmt))) {
                 QSqlError qe = q.lastError();
                 cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
@@ -691,18 +698,11 @@ Log::exec_transaction()
         start = pos + 1;
     }
 
-    if(!mySqliteLogDb.commit()) {
-        err = mySqliteLogDb.lastError();
+    if(!db.commit()) {
+        err = db.lastError();
         cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
     }
+    } else {
+        sql.clear();
+    }
 }
-
-//void
-//Log::closeLogDbAtExit()
-//{
-//    if(SQLITE_LOG) {
-//        // close sqlite-db
-//        sqlite3_close(mySqliteLogDb);
-//        mySqliteLogDb = NULL;
-//    }
-//}

@@ -215,10 +215,12 @@ protected:
 	void TimerTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
 
     void HandleSslHandshake(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client);
+    void RetryHandshake(boost::shared_ptr<ClientThread> client);
 
 private:
 	boost::asio::ip::tcp::resolver::results_type m_remoteEndpoint;
 	boost::asio::ip::basic_resolver_iterator<boost::asio::ip::tcp> m_remoteEndpointIterator;
+	int m_handshakeRetryCount;
 };
 
 // Abstract State: Receiving

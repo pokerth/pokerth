@@ -35,6 +35,10 @@
 #include <net/socket_msg.h>
 #include <net/transferdata.h>
 
+#include <QUrl>
+#include <QNetworkRequest>
+#include <QFile>
+
 #include <cstdio>
 
 using namespace std;
@@ -52,13 +56,42 @@ void
 DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/, size_t /*filesize*/, const string &/*httpPost*/)
 {
 	// Open target file for writing.
-	GetData()->targetFile = fopen(targetFileName.c_str(), "wb");
-	if (!GetData()->targetFile)
+	GetData()->targetFile = new QFile(QString::fromStdString(targetFileName));
+	if (!GetData()->targetFile->open(QIODevice::WriteOnly))
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
 
-	// Assume that the following calls never fail.
-	// NOTE: A writefunction needs to be set if a DLL version of curl is used on Windows.
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEFUNCTION, NULL);
-	curl_easy_setopt(GetData()->curlHandle, CURLOPT_WRITEDATA, GetData()->targetFile);
+	// Ensure URL has a protocol prefix (http:// or https://)
+	string urlWithProtocol = GetData()->url;
+	if (urlWithProtocol.find("://") == string::npos) {
+		urlWithProtocol = "https://" + urlWithProtocol;
+	}
+
+	QUrl qUrl(QString::fromStdString(urlWithProtocol));
+	QNetworkRequest request(qUrl);
+	request.setRawHeader("User-Agent", "PokerTH/2.0 (Qt Network)");
+
+	GetData()->networkReply = GetData()->networkManager->get(request);
+
+	// Connect signals to write data as it arrives
+	QObject::connect(GetData()->networkReply, &QNetworkReply::readyRead, [this]() {
+		QByteArray data = GetData()->networkReply->readAll();
+		if (GetData()->targetFile) {
+			GetData()->targetFile->write(data);
+		}
+	});
+
+	QObject::connect(GetData()->networkReply, &QNetworkReply::finished, [this]() {
+		if (GetData()->networkReply->error() == QNetworkReply::NoError) {
+			// Write any remaining data
+			QByteArray data = GetData()->networkReply->readAll();
+			if (GetData()->targetFile && !data.isEmpty()) {
+				GetData()->targetFile->write(data);
+			}
+			GetData()->errorCode = 0;
+		} else {
+			GetData()->errorCode = GetData()->networkReply->error();
+		}
+		GetData()->finished = true;
+	});
 }
 

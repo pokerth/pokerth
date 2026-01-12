@@ -50,8 +50,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 {
 
 #ifdef __APPLE__
-	// Don't use ApplicationModal on macOS - it disables the parent's menu
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
 #elif _WIN32
 //	setWindowFlags(Qt::Dialog | Qt::WindowMinimizeButtonHint);
 #endif
@@ -85,9 +84,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	inviteOnlyInfoMsgBox = new myMessageDialogImpl(myConfig, this);
 
 	//HTML stuff
-	QString pokerthDotNet("<a href='http://www.pokerth.net'>http://www.pokerth.net</a>");
+	QString pokerthDotNet("<a href='https://www.pokerth.net'>https://www.pokerth.net</a>");
 	QString clickToRanking(QString("<a href='http://online-ranking.pokerth.net'>%1</a>").arg(tr("Click here to view the online rankings")));
-	QString clickToSpectate(QString("<a href='http://pokerth.net/live'><b>%1</b></a>").arg(tr("Spectate")));
+	QString clickToSpectate(QString("<a href='https://www.pokerth.net/live'><b>%1</b></a>").arg(tr("Spectate")));
 	label_pokerthDotNet->setText(pokerthDotNet);
 	label_rankings->setText(clickToRanking);
 	label_spectate->setText(clickToSpectate);
@@ -145,7 +144,11 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	treeView_GameList->setColumnWidth(4,20);
 	treeView_GameList->setColumnWidth(5,75);
 
+#ifdef __APPLE__
+	// macOS workaround: background-image in stylesheets crashes on Monterey - disabled
+#else
 	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 22px}");
+#endif
 	treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 
 	//make the scrollbars touchable for mobile guis
@@ -1592,13 +1595,25 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 	writeDialogSettings(1);
 
 #ifdef GUI_800x480
+#ifdef __APPLE__
+	// macOS workaround: background-image in stylesheets crashes on Monterey
+	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; color:rgb(0, 0, 0); font: 20px}");
+	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; color:rgb(0, 0, 0); font: 20px}");
+#else
 	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
 	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
+#endif
 
 	treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 #else
+#ifdef __APPLE__
+	// macOS workaround: background-image in stylesheets crashes on Monterey
+	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; }");
+	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; }");
+#else
 	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
 	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+#endif
 #endif
 }
 
@@ -1886,7 +1901,7 @@ void gameLobbyDialogImpl::openPlayerStats1()
 
 		unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
-			QUrl url("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(myNickListSelectionModel->currentIndex().data(Qt::DisplayRole).toString()));
+			QUrl url("https://www.pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(myNickListSelectionModel->currentIndex().data(Qt::DisplayRole).toString()));
 			QDesktopServices::openUrl(url);
 		}
 	}
@@ -1898,7 +1913,7 @@ void gameLobbyDialogImpl::openPlayerStats2()
 
 		unsigned playerId = treeWidget_connectedPlayers->currentItem()->data(0, Qt::UserRole).toUInt();
 		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
-			QUrl url("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(treeWidget_connectedPlayers->currentItem()->data(0, Qt::DisplayRole).toString()));
+			QUrl url("https://www.pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(treeWidget_connectedPlayers->currentItem()->data(0, Qt::DisplayRole).toString()));
 			QDesktopServices::openUrl(url);
 		}
 	}
@@ -2253,6 +2268,11 @@ void gameLobbyDialogImpl::changeEvent(QEvent *event)
 
 void gameLobbyDialogImpl::updateGameListStyleSheet()
 {
+#ifdef __APPLE__
+    // macOS workaround: setStyleSheet crashes on Monterey Qt 6.9.2 - skip entirely
+    return;
+#endif
+    
     // Guard against being called before widget is fully constructed
     if (!treeView_GameList) {
         return;
@@ -2266,6 +2286,8 @@ void gameLobbyDialogImpl::updateGameListStyleSheet()
     
     QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
 
-    QString styleSheet = QString("QTreeView {background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}").arg(backgroundColor).arg(myAppDataPath);
+    // macOS workaround: background-image stylesheet causes crash on Monterey
+    // QString styleSheet = QString("QTreeView {background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}").arg(backgroundColor).arg(myAppDataPath);
+    QString styleSheet = QString("QTreeView {background-color: %1;}").arg(backgroundColor);
     treeView_GameList->setStyleSheet(styleSheet);
 }

@@ -24,7 +24,13 @@ if(GUI_800_480)
     add_definitions(-DGUI_800x480)
 endif()
 
-set(CMAKE_CXX_STANDARD 20)
+# macOS-only workaround for Qt 6.9 setStyleSheet crashes on Monterey
+# Using __APPLE__ preprocessor define in source code instead
+# if(APPLE)
+#     add_definitions(-DDISABLE_COMPLEX_STYLESHEETS_MACOS)
+# endif()
+
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -34,7 +40,7 @@ include(FindProtobuf)
  
 find_package(Boost REQUIRED COMPONENTS iostreams random thread filesystem program_options)
 find_package(OpenSSL REQUIRED)
-find_package(CURL REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Network)
 
 if(ANDROID)
     set(Protobuf_USE_STATIC_LIBS ON)
@@ -43,8 +49,12 @@ if(ANDROID)
     add_compile_options(-femulated-tls)  # WICHTIG: Emuliere TLS für Android
 endif()
 
-find_package(Protobuf REQUIRED)
-find_package(Protobuf CONFIG)
+# vcpkg uses CONFIG mode for all platforms
+if(DEFINED VCPKG_TOOLCHAIN OR DEFINED CMAKE_TOOLCHAIN_FILE)
+    find_package(Protobuf CONFIG REQUIRED)
+else()
+    find_package(Protobuf REQUIRED)
+endif()
 
 if(ANDROID)
     # Find abseil and utf8_range (required for protobuf >= 5.27)
@@ -158,10 +168,10 @@ target_include_directories(pokerth_lib PUBLIC
 
 target_link_libraries(pokerth_lib PUBLIC "${Boost_LIBRARIES}")
 target_link_libraries(pokerth_lib PUBLIC "${OPENSSL_LIBRARIES}")
-target_link_libraries(pokerth_lib PUBLIC CURL::libcurl)
+target_link_libraries(pokerth_lib PUBLIC Qt6::Network)
 target_link_libraries(pokerth_lib PUBLIC pokerth_protocol)
 target_link_libraries(pokerth_lib PRIVATE Qt6::Xml Qt6::Sql)
-target_compile_options(pokerth_lib PUBLIC -fexceptions -frtti -Wno-stringop-overflow)
+target_compile_options(pokerth_lib PUBLIC -fexceptions -frtti)
 target_compile_definitions(pokerth_lib PUBLIC ENABLE_IPV6 HAVE_OPENSSL BOOST_FILESYSTEM_DEPRECATED)
 
 

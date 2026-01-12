@@ -92,9 +92,9 @@ void MyNameLabel::setText ( const QString &t, bool trans, bool guest, bool compu
 					}
 				}
 
-				linkString = QString("http://pokerth.net/redirect_user_profile.php?tableview=1"+nickList+"&table="+QUrl::toPercentEncoding(QString::fromUtf8(info.name.c_str())));
+				linkString = QString("https://www.pokerth.net/redirect_user_profile.php?tableview=1"+nickList+"&table="+QUrl::toPercentEncoding(QString::fromUtf8(info.name.c_str())));
 			} else {
-				linkString = QString("http://pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t));
+				linkString = QString("https://www.pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(t));
 			}
 
 			// truncate nicknames longer than 13 characters

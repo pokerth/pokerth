@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=PokerTH
+Name=PokerTH-QML
 Name[bg]=PokerTH
 Name[de]=PokerTH
 Name[es]=PokerTH
@@ -39,7 +39,7 @@ Comment[ru]=Игра в техасский холдем
 Comment[tr]=Texas hold'em oyunu
 Comment[uk]=Гра в техаський холдем
 StartupWMClass=pokerth_qml-client
-Exec=env QT_SCALE_FACTOR=1 QT_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt6/plugins pokerth_qml-client
+Exec=env QT_SCALE_FACTOR=1 QT_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/qt6/plugins QML_IMPORT_PATH=/usr/lib/x86_64-linux-gnu/qt6/qml pokerth_qml-client
 Icon=pokerth
 Terminal=false
 Type=Application

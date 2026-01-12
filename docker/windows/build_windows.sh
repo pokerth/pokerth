@@ -216,10 +216,93 @@ else
     echo "  No data directory"
 fi
 echo ""
-echo "To test with Wine on Linux:"
-echo "  cd ${DEPLOY_DIR}"
-echo "  wine ${TARGET}.exe"
+
+# Create Windows Installer with NSIS
+echo "======================================"
+echo "Creating Windows Installer with NSIS"
+echo "======================================"
+
+# Check if NSIS is installed
+if ! command -v makensis &> /dev/null; then
+    echo "NSIS not found. Installing..."
+    apt-get update && apt-get install -y nsis
+    
+    if [ $? -ne 0 ]; then
+        echo "Failed to install NSIS. Installer creation skipped."
+        echo "You can install NSIS manually with: apt-get install nsis"
+        exit 0
+    fi
+fi
+
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Create icon from SVG if ImageMagick is available
+if command -v convert &> /dev/null; then
+    echo "Converting SVG to ICO..."
+    if [ -f "${ROOT}/pokerth/pokerth.svg" ]; then
+        convert -background none -density 256 "${ROOT}/pokerth/pokerth.svg" \
+                -define icon:auto-resize=256,128,64,48,32,16 \
+                "${SCRIPT_DIR}/pokerth.ico" 2>/dev/null || \
+        echo "  Warning: Could not convert SVG to ICO"
+    elif [ -f "${ROOT}/pokerth/pokerth.png" ]; then
+        convert "${ROOT}/pokerth/pokerth.png" -resize 256x256 \
+                -define icon:auto-resize=256,128,64,48,32,16 \
+                "${SCRIPT_DIR}/pokerth.ico" 2>/dev/null || \
+        echo "  Warning: Could not convert PNG to ICO"
+    fi
+else
+    echo "  ImageMagick not found, skipping icon conversion"
+    echo "  Install with: apt-get install imagemagick"
+fi
+
+# Copy icon to deploy directory if it exists
+if [ -f "${SCRIPT_DIR}/pokerth.ico" ]; then
+    cp "${SCRIPT_DIR}/pokerth.ico" "${DEPLOY_DIR}/" 2>/dev/null
+fi
+
+# Create the installer
+echo "Running makensis..."
+cd "${SCRIPT_DIR}"
+
+if makensis -NOCD installer.nsi; then
+    echo ""
+    echo "======================================"
+    echo "Installer created successfully!"
+    echo "======================================"
+    
+    # Find the created installer
+    INSTALLER=$(find . -name "PokerTH-*-Setup.exe" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
+    
+    if [ -n "$INSTALLER" ]; then
+        INSTALLER_SIZE=$(du -h "$INSTALLER" | cut -f1)
+        echo ""
+        echo "Installer: ${INSTALLER}"
+        echo "Size: ${INSTALLER_SIZE}"
+        echo ""
+        echo "The installer includes:"
+        echo "  ✓ PokerTH Game Client"
+        echo "  ✓ All required DLLs and dependencies"
+        echo "  ✓ Game data files (graphics, sounds, translations)"
+        echo "  ✓ Desktop shortcut"
+        echo "  ✓ Start Menu entries"
+        echo "  ✓ Uninstaller"
+        echo ""
+    fi
+else
+    echo ""
+    echo "======================================"
+    echo "Installer creation failed!"
+    echo "======================================"
+    echo "Please check the NSIS output above for errors."
+    echo ""
+fi
+
 echo ""
-echo "To create installer (requires NSIS):"
-echo "  makensis installer.nsi"
+echo "To test the deployment package with Wine on Linux:"
+echo "  cd ${DEPLOY_DIR}"
+echo "  wine pokerth_client.exe"
+echo ""
+echo "To test the installer with Wine:"
+echo "  wine ${SCRIPT_DIR}/PokerTH-*-Setup.exe"
 echo ""

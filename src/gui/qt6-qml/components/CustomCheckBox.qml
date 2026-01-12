@@ -13,6 +13,9 @@ Rectangle {
     property bool defaultValue: true
     property bool isChecked: Config.Parameters[checkBox.objectName] ?? defaultValue
     property alias label: checkBoxLabel.text
+    
+    // Compatibility alias for standard CheckBox API
+    property alias checked: checkBox.isChecked
 
     Layout.fillWidth: true
     Layout.fillHeight: false

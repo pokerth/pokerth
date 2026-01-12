@@ -196,7 +196,7 @@ CleanerConfig::CleanerConfig()
 
 	list<string> urlExceptionStringsList;
 	urlExceptionStringsList.push_back("http://www.esl.");
-	urlExceptionStringsList.push_back("http://www.pokerth.net");
+	urlExceptionStringsList.push_back("https://www.pokerth.net");
 	urlExceptionStringsList.push_back("pokerth.net");
 	configList.push_back(ConfigInfo("UrlExceptionStringsList", CONFIG_TYPE_STRING_LIST, "UrlExceptionStrings", urlExceptionStringsList));
 

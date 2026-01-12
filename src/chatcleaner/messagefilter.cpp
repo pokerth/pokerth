@@ -179,13 +179,13 @@ QStringList MessageFilter::check(unsigned gameId, unsigned playerId, QString nic
 			}
 			returnAction = QString("warn");
 		} else if(action == KICK) {
-			returnMessage = QString("%1 kicked! Please respect: http://chatrules.pokerth.net\n").arg(nick);
+			returnMessage = QString("%1 kicked! Please respect: https://chatrules.pokerth.net\n").arg(nick);
 			returnAction = QString("kick");
 		} else if(action == KICKBAN) {
-			returnMessage = QString("%1 kicked and banned! Please respect: http://chatrules.pokerth.net\n").arg(nick);
+			returnMessage = QString("%1 kicked and banned! Please respect: https://chatrules.pokerth.net\n").arg(nick);
 			returnAction = QString("kickban");
 		} else if(action == MUTE) {
-			returnMessage = QString("%1 muted! Please respect: http://chatrules.pokerth.net\n").arg(nick);
+			returnMessage = QString("%1 muted! Please respect: https://chatrules.pokerth.net\n").arg(nick);
 			returnAction = QString("mute");
 		}
 	} else {

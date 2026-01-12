@@ -44,7 +44,6 @@
 #include <websocketpp/common/connection_hdl.hpp>
 
 #include <boost/asio.hpp>
-#include <boost/asio/deadline_timer.hpp>
 #include <boost/system/error_code.hpp>
 
 #include <istream>
@@ -91,7 +90,7 @@ public:
     /// Type of a pointer to the ASIO io_context::strand being used
     typedef lib::shared_ptr<boost::asio::io_context::strand> strand_ptr;
     /// Type of a pointer to the ASIO timer class
-    typedef lib::shared_ptr<boost::asio::deadline_timer> timer_ptr;
+    typedef lib::shared_ptr<boost::asio::steady_timer> timer_ptr;
 
     // connection is friends with its associated endpoint to allow the endpoint
     // to call private/protected utility methods that we don't want to expose
@@ -296,7 +295,7 @@ public:
      * needed.
      */
     timer_ptr set_timer(long duration, timer_handler callback) {
-        timer_ptr new_timer = lib::make_shared<boost::asio::deadline_timer>(*m_io_service, boost::posix_time::milliseconds(duration));
+        timer_ptr new_timer = lib::make_shared<boost::asio::steady_timer>(*m_io_service, std::chrono::milliseconds(duration));
 
         if (config::enable_multithreading) {
             new_timer->async_wait(boost::asio::bind_executor(*m_strand, lib::bind(
@@ -552,7 +551,7 @@ protected:
         lib::error_code const & ec)
     {
         if (ec == transport::error::operation_aborted ||
-            (post_timer && post_timer->expires_from_now().is_negative()))
+            (post_timer && (post_timer->expiry() - std::chrono::steady_clock::now()).count() < 0))
         {
             m_alog.write(log::alevel::devel,"post_init cancelled");
             return;
@@ -658,7 +657,7 @@ protected:
         // Whatever aborted it will be issuing the callback so we are safe to
         // return
         if (ec == boost::asio::error::operation_aborted ||
-            m_proxy_data->timer->expires_from_now().is_negative())
+            (m_proxy_data->timer->expiry() - std::chrono::steady_clock::now()).count() < 0)
         {
             m_elog.write(log::elevel::devel,"write operation aborted");
             return;
@@ -730,7 +729,7 @@ protected:
         // Whatever aborted it will be issuing the callback so we are safe to
         // return
         if (ec == boost::asio::error::operation_aborted ||
-            m_proxy_data->timer->expires_from_now().is_negative())
+            (m_proxy_data->timer->expiry() - std::chrono::steady_clock::now()).count() < 0)
         {
             m_elog.write(log::elevel::devel,"read operation aborted");
             return;
@@ -1061,7 +1060,7 @@ protected:
         callback, boost::system::error_code const & ec)
     {
         if (ec == boost::asio::error::operation_aborted ||
-            shutdown_timer->expires_from_now().is_negative())
+            (shutdown_timer->expiry() - std::chrono::steady_clock::now()).count() < 0)
         {
             m_alog.write(log::alevel::devel,"async_shutdown cancelled");
             return;

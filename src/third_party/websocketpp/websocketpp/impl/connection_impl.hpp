@@ -45,8 +45,6 @@
 #include <utility>
 #include <vector>
 
-#include <boost/asio/deadline_timer.hpp>
-
 namespace websocketpp {
 
 namespace istate = session::internal_state;
