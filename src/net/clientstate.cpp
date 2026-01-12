@@ -785,6 +785,13 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 
 		boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined.playerid(), netPlayerJoined.isgameadmin());
 		client->AddPlayerData(playerData);
+		
+		// BBCBot: If invited player joined, prepare to leave
+		if (client->bot.enabled && client->bot.creategamestate == GS_SENDINV && netPlayerJoined.playerid() == client->bot.creatorid) {
+			std::cout << "[BBCBot] Invited player joined game, scheduling leave" << std::endl;
+			client->bot.creategamestate = GS_ACCEPTED;
+			client->bot.countdownleave = 3;
+		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameSpectatorJoinedMessage) {
 		// Another spectator joined the network game.
 		const GameSpectatorJoinedMessage &netSpectatorJoined = tmpPacket->GetMsg()->gamespectatorjoinedmessage();
@@ -872,13 +879,26 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 						
 						size_t secondspacepos = chattext.find(" ", 7);
 						std::string secondword = "", customname = "", gname = "";
-						
-						if (secondspacepos == std::string::npos || secondspacepos < 8) {
-							er1 = syntaxerror = true;
+
+						if (secondspacepos == std::string::npos) {
+							// No custom name provided: accept command like "create step1"
+							secondword = chattext.substr(7);
+							// trim trailing spaces
+							while (!secondword.empty() && isspace((unsigned char)secondword.back())) secondword.pop_back();
+							customname = "";
+							if (secondword.empty()) {
+								er1 = syntaxerror = true;
+							} else {
+								std::cout << "[BBCBot DEBUG] Looking for game type: " << secondword << ", no custom name provided" << std::endl;
+							}
 						} else {
-							secondword = chattext.substr(7, secondspacepos - 7);
-							customname = chattext.substr(secondspacepos + 1);
-							std::cout << "[BBCBot DEBUG] Looking for game type: " << secondword << ", custom name: " << customname << std::endl;
+							if (secondspacepos < 8) {
+								er1 = syntaxerror = true;
+							} else {
+								secondword = chattext.substr(7, secondspacepos - 7);
+								customname = chattext.substr(secondspacepos + 1);
+								std::cout << "[BBCBot DEBUG] Looking for game type: " << secondword << ", custom name: " << customname << std::endl;
+							}
 						}
 						
 						bbcbotgamedata* gd2 = NULL;

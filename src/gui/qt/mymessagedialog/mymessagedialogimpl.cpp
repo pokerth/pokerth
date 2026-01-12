@@ -55,6 +55,22 @@ myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
 
 int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox)
 {
+	// If running automated (bbcbot), skip interactive dialogs
+	if (!qgetenv("POKERTH_BBCBOT_NOPOPUPS").isEmpty()) {
+		// Remember default behaviour for this message id if not present
+		currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
+		bool found = false;
+		for (std::list<std::string>::iterator it1 = currentMsgShowList.begin(); it1 != currentMsgShowList.end(); ++it1) {
+			QString tmpString = QString::fromUtf8(it1->c_str());
+			if (QString("%1").arg(messageId) == tmpString.split(",").at(1)) { found = true; break; }
+		}
+		if (!found) {
+			currentMsgShowList.push_back(QString("0,%1").arg(messageId).toUtf8().constData());
+			myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
+			myConfig->writeBuffer();
+		}
+		return -1;
+	}
 	if(showCheckBox) checkBox->show();
 	else checkBox->hide();
 
@@ -98,6 +114,22 @@ int myMessageDialogImpl::exec(int messageId, QString msg, QString title, QPixmap
 
 void myMessageDialogImpl::show(int messageId, QString msg, QString title, QPixmap pix, QDialogButtonBox::StandardButtons buttons, bool showCheckBox)
 {
+	// If running automated (bbcbot), skip interactive dialogs
+	if (!qgetenv("POKERTH_BBCBOT_NOPOPUPS").isEmpty()) {
+		// Ensure entry exists in config to not show later
+		currentMsgShowList = myConfig->readConfigStringList("IfInfoMessageShowList");
+		bool found = false;
+		for (std::list<std::string>::iterator it1 = currentMsgShowList.begin(); it1 != currentMsgShowList.end(); ++it1) {
+			QString tmpString = QString::fromUtf8(it1->c_str());
+			if (QString("%1").arg(messageId) == tmpString.split(",").at(1)) { found = true; break; }
+		}
+		if (!found) {
+			currentMsgShowList.push_back(QString("0,%1").arg(messageId).toUtf8().constData());
+			myConfig->writeConfigStringList("IfInfoMessageShowList", currentMsgShowList);
+			myConfig->writeBuffer();
+		}
+		return;
+	}
 	if(showCheckBox) checkBox->show();
 	else checkBox->hide();
 
@@ -172,6 +204,10 @@ void myMessageDialogImpl::writeConfig()
 
 bool myMessageDialogImpl::checkIfMesssageWillBeDisplayed(int id)
 {
+	// If running automated (bbcbot), do not display messages
+	if (!qgetenv("POKERTH_BBCBOT_NOPOPUPS").isEmpty()) {
+		return false;
+	}
 	bool found = false;
 	bool show = true;
 

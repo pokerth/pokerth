@@ -605,12 +605,19 @@ ClientThread::RegisterTimers()
 	m_avatarTimer.async_wait(
 		boost::bind(
 			&ClientThread::TimerCheckAvatarDownloads, shared_from_this(), boost::asio::placeholders::error));
+	
+	// Start BBCBot timer (1 second interval)
+	m_bbcbotTimer.expires_after(seconds(1));
+	m_bbcbotTimer.async_wait(
+		boost::bind(
+			&ClientThread::bbcbotTimerCallback, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void
 ClientThread::CancelTimers()
 {
 	m_avatarTimer.cancel();
+	m_bbcbotTimer.cancel();
 }
 
 void
@@ -1409,6 +1416,16 @@ ClientThread::AddGameInfo(unsigned gameId, const GameInfo &info)
 		m_gameInfoMap.insert(GameInfoMap::value_type(gameId, info));
 	}
 	GetCallback().SignalNetClientGameListNew(gameId);
+
+	// If bbcbot requested a create and this new game belongs to this client, move to CREATED
+	if (bot.creategamestate == GS_GOTCOMMAND) {
+		unsigned myId = GetGuiPlayerId();
+		if (info.adminPlayerId == myId) {
+			std::cout << "[BBCBot] Detected created game id " << gameId << " by bot; scheduling invite." << std::endl;
+			bot.creategamestate = GS_CREATED;
+			bot.countdowninvite = 2; // small delay to allow client join to settle
+		}
+	}
 }
 
 void
@@ -1697,7 +1714,15 @@ ClientThread::bot_loadfiles()
 	
 	// Initialize bot as enabled
 	bot.enabled = true;
+	// Disable interactive info popups for bot runs
+	qputenv("POKERTH_BBCBOT_NOPOPUPS", QByteArray("1"));
 	bot.stdcount = 0;
+	// Initialize create-game state and counters to sane defaults
+	bot.creatorid = 0;
+	bot.creategamestate = GS_NORMAL;
+	bot.countdowninvite = 0;
+	bot.countdownleave = 0;
+	bot.countdowninvitetimeout = 0;
 	
 	// Load fixed commands from file if available
 	// Format: lines with "command=reply"
@@ -1759,145 +1784,306 @@ ClientThread::bot_loadfiles()
 	bot.gdata.clear();
 	bot.permgroups.clear();
 	
-	QFile gameFile("botfiles/gametemplates.txt");
-	if (gameFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		QTextStream in(&gameFile);
-		std::cout << "[BBCBot] Parsing gametemplates.txt..." << std::endl;
-		
-		bbcbotgamedata* currentGame = nullptr;
-		bbcbotpermissiongroup* currentPerm = nullptr;
-		int lineNum = 0;
-		
+	// Helper: resolve botfiles path in several likely locations (cwd, build/bin, parent)
+	auto resolveBotFile = [](const QString &name) -> QString {
+		QStringList candidates = {QString("botfiles/") + name,
+			QString("build/bin/botfiles/") + name,
+			QString("./build/bin/botfiles/") + name,
+			QString("../build/bin/botfiles/") + name};
+		for (const QString &c : candidates) {
+			if (QFile::exists(c)) return c;
+		}
+		return QString();
+	};
+
+	// First try legacy format: botfiles/gameslist.txt and botfiles/permissions.txt
+	QString gamesListPath = resolveBotFile("gameslist.txt");
+	QFile gamesListFile(gamesListPath.isEmpty() ? QString("botfiles/gameslist.txt") : gamesListPath);
+	if (gamesListFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		QTextStream in(&gamesListFile);
+		std::cout << "[BBCBot] Parsing gameslist.txt (legacy format)..." << std::endl;
+
+		// Load permissions first if present
+		QString permPath = resolveBotFile("permissions.txt");
+		QFile permFile(permPath.isEmpty() ? QString("botfiles/permissions.txt") : permPath);
+		if (permFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QTextStream pin(&permFile);
+			bbcbotpermissiongroup* currentPerm = nullptr;
+			while (!pin.atEnd()) {
+				QString line = pin.readLine().trimmed();
+				if (line.isEmpty()) continue;
+				if (line.startsWith("//")) continue;
+				if (line.startsWith("#")) {
+					QStringList parts = line.split('#');
+					if (parts.size() >= 3) {
+						QString groupname = parts[2].trimmed();
+						if (!groupname.isEmpty()) {
+							bot.permgroups.push_back(bbcbotpermissiongroup());
+							currentPerm = &bot.permgroups.back();
+							currentPerm->name = groupname.toStdString();
+							currentPerm->isblacklist = false; // default to whitelist
+							std::cout << "[BBCBot] Found permission group: " << groupname.toStdString() << std::endl;
+						} else {
+							currentPerm = nullptr;
+						}
+					}
+					continue;
+				}
+				if (line.startsWith("+")) {
+					if (currentPerm) {
+						QString player = line.mid(1).trimmed();
+						if (!player.isEmpty()) currentPerm->players.push_back(player.toStdString());
+					}
+				}
+			}
+			permFile.close();
+		}
+
+		// Parse gameslist entries
 		while (!in.atEnd()) {
 			QString line = in.readLine().trimmed();
-			lineNum++;
-			
-			// Skip empty lines and comments
-			if (line.isEmpty() || line.startsWith("#")) continue;
-			
-			// Section headers
-			if (line.startsWith("[") && line.endsWith("]")) {
-				QString section = line.mid(1, line.length() - 2);
-				
-				if (section.startsWith("game:")) {
-					QString cmdname = section.mid(5).trimmed();
-					if (cmdname.isEmpty()) {
-						std::cout << "[BBCBot] Warning: Empty game command name at line " << lineNum << std::endl;
-						continue;
-					}
-					bot.gdata.push_back(bbcbotgamedata());
-					currentGame = &bot.gdata.back();
-					currentGame->commandname = cmdname.toStdString();
-					currentPerm = nullptr;
-					std::cout << "[BBCBot] Found game template: " << cmdname.toStdString() << std::endl;
-				}
-				else if (section.startsWith("permissions:")) {
-					QString groupname = section.mid(12).trimmed();
-					if (groupname.isEmpty()) {
-						std::cout << "[BBCBot] Warning: Empty permission group name at line " << lineNum << std::endl;
-						continue;
-					}
-					bot.permgroups.push_back(bbcbotpermissiongroup());
-					currentPerm = &bot.permgroups.back();
-					currentPerm->name = groupname.toStdString();
-					currentGame = nullptr;
-					std::cout << "[BBCBot] Found permission group: " << groupname.toStdString() << std::endl;
-				}
-				continue;
-			}
-			
-			// Key=Value pairs
-			int eqPos = line.indexOf('=');
-			if (eqPos <= 0) continue;
-			
-			QString key = line.left(eqPos).trimmed().toLower();
-			QString value = line.mid(eqPos + 1).trimmed();
-			
-			if (currentGame) {
-				// Parse game settings
-				if (key == "name") {
-					currentGame->gamenameprefix = value.toStdString();
-				}
-				else if (key == "players") {
-					currentGame->gdata.maxNumberOfPlayers = value.toInt();
-				}
-				else if (key == "startcash") {
-					currentGame->gdata.startMoney = value.toInt();
-				}
-				else if (key == "smallblind") {
-					currentGame->gdata.firstSmallBlind = value.toInt();
-				}
-				else if (key == "raisehands") {
-					currentGame->gdata.raiseSmallBlindEveryHandsValue = value.toInt();
-					currentGame->gdata.raiseIntervalMode = RAISE_ON_HANDNUMBER;
-				}
-				else if (key == "raiseminutes") {
-					currentGame->gdata.raiseSmallBlindEveryMinutesValue = value.toInt();
-					currentGame->gdata.raiseIntervalMode = RAISE_ON_MINUTES;
-				}
-				else if (key == "raisemode") {
-					if (value == "double") {
-						currentGame->gdata.raiseMode = DOUBLE_BLINDS;
-					} else if (value == "manual") {
-						currentGame->gdata.raiseMode = MANUAL_BLINDS_ORDER;
-					} else if (value == "always") {
-						currentGame->gdata.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
-					}
-				}
-				else if (key == "manualblindlist") {
-					QStringList blinds = value.split(',');
-					for (const QString& blind : blinds) {
-						currentGame->gdata.manualBlindsList.push_back(blind.trimmed().toInt());
-					}
-				}
-				else if (key == "gametype") {
-					if (value == "ranking") {
-						currentGame->gdata.gameType = GAME_TYPE_RANKING;
-					} else {
-						currentGame->gdata.gameType = GAME_TYPE_NORMAL;
-					}
-				}
-				else if (key == "permgroup") {
-					// Link to permission group (will be resolved after loading)
-					currentGame->pgroup = nullptr; // Will be set later
-					for (auto& pg : bot.permgroups) {
-						if (pg.name == value.toStdString()) {
-							currentGame->pgroup = &pg;
+			if (line.isEmpty()) continue;
+			if (line.startsWith("//")) continue;
+			// Legacy format uses lines like: #command#permgroup#Game Title Prefix#
+			int hashCount = line.count('#');
+			if (hashCount < 4) continue;
+			QStringList parts = line.split('#');
+			if (parts.size() >= 4) {
+				QString cmd = parts[1].trimmed();
+				QString permname = parts[2].trimmed();
+				QString title = parts[3].trimmed();
+				if (cmd.isEmpty()) continue;
+				bot.gdata.push_back(bbcbotgamedata());
+				bbcbotgamedata &g = bot.gdata.back();
+				g.commandname = cmd.toStdString();
+				g.gamenameprefix = title.toStdString();
+
+				// attempt to link permission group by name
+				if (!permname.isEmpty()) {
+					for (auto &pg : bot.permgroups) {
+						if (pg.name == permname.toStdString()) {
+							g.pgroup = &pg;
 							break;
 						}
 					}
 				}
+
+					// Try to load per-command settings file: <cmd>_settings.txt
+					QString settingsName = cmd + QString("_settings.txt");
+					QString settingsPath = resolveBotFile(settingsName);
+					if (settingsPath.isEmpty()) settingsPath = QString("botfiles/") + settingsName;
+					QFile sfile(settingsPath);
+					if (sfile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+						QTextStream sin(&sfile);
+						while (!sin.atEnd()) {
+							QString line2 = sin.readLine().trimmed();
+							if (line2.isEmpty() || line2.startsWith("#")) continue;
+							int eq = line2.indexOf('=');
+							if (eq <= 0) continue;
+							QString key2 = line2.left(eq).trimmed().toLower();
+							QString val2 = line2.mid(eq + 1).trimmed();
+
+							// Legacy keys mapping
+							if (key2 == "players" || key2 == "numberofplayers") {
+								g.gdata.maxNumberOfPlayers = val2.toInt();
+							} else if (key2 == "startcash" || key2 == "startcash") {
+								g.gdata.startMoney = val2.toInt();
+							} else if (key2 == "smallblind" || key2 == "firstsmallblind") {
+								g.gdata.firstSmallBlind = val2.toInt();
+							} else if (key2 == "raisehands" || key2 == "raisesmallblindeveryhands") {
+								g.gdata.raiseSmallBlindEveryHandsValue = val2.toInt();
+								g.gdata.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+							} else if (key2 == "raiseminutes" || key2 == "raisesmallblindeveryminutes") {
+								g.gdata.raiseSmallBlindEveryMinutesValue = val2.toInt();
+								g.gdata.raiseIntervalMode = RAISE_ON_MINUTES;
+							} else if (key2 == "raisemode" || key2 == "alwaysdoubleblinds" || key2 == "manualblindsorder") {
+								// Handle multiple representations
+								if (key2 == "raisemode") {
+									if (val2 == "double") g.gdata.raiseMode = DOUBLE_BLINDS;
+									else if (val2 == "manual") g.gdata.raiseMode = MANUAL_BLINDS_ORDER;
+									else if (val2 == "always") g.gdata.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+								} else {
+									// boolean flags
+									if (key2 == "alwaysdoubleblinds") {
+										if (val2 == "1" || val2.toLower() == "true") g.gdata.raiseMode = DOUBLE_BLINDS;
+									} else if (key2 == "manualblindsorder") {
+										if (val2 == "1" || val2.toLower() == "true") g.gdata.raiseMode = MANUAL_BLINDS_ORDER;
+									}
+								}
+							} else if (key2 == "manualblindlist" || key2 == "listblind") {
+								// 'ListBlind' can appear multiple times
+								if (key2 == "manualblindlist") {
+									QStringList blinds = val2.split(',');
+									for (const QString &b : blinds) g.gdata.manualBlindsList.push_back(b.trimmed().toInt());
+								} else {
+									g.gdata.manualBlindsList.push_back(val2.toInt());
+								}
+							} else if (key2.startsWith("gametypenormal") || key2.startsWith("gametyperegisteredonly") || key2.startsWith("gametypeinviteonly") || key2.startsWith("gametyperanking")) {
+								// keys like GameTypeInviteOnly=1
+								if ((key2.contains("inviteonly") && (val2 == "1" || val2.toLower() == "true"))) g.gdata.gameType = GAME_TYPE_INVITE_ONLY;
+								if ((key2.contains("registeredonly") && (val2 == "1" || val2.toLower() == "true"))) g.gdata.gameType = GAME_TYPE_REGISTERED_ONLY;
+								if ((key2.contains("ranking") && (val2 == "1" || val2.toLower() == "true"))) g.gdata.gameType = GAME_TYPE_RANKING;
+								// if GameTypeNormal==1 or none set, default remains
+							} else if (key2 == "gamespeed" || key2 == "gamespeed") {
+								g.gdata.guiSpeed = val2.toInt();
+							} else if (key2 == "delaybetweenhands") {
+								g.gdata.delayBetweenHandsSec = val2.toInt();
+							} else if (key2 == "timeoutplayeraction") {
+								g.gdata.playerActionTimeoutSec = val2.toInt();
+							}
+						}
+						sfile.close();
+						std::cout << "[BBCBot] Loaded settings for: " << g.commandname << std::endl;
+					}
+
+				std::cout << "[BBCBot] Found legacy game entry: " << g.commandname << " -> " << g.gamenameprefix << std::endl;
 			}
-			else if (currentPerm) {
-				// Parse permission settings
-				if (key == "type") {
-					currentPerm->isblacklist = (value.toLower() == "blacklist");
+		}
+
+		gamesListFile.close();
+		std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game(s) and " << bot.permgroups.size() << " permission group(s) from legacy files" << std::endl;
+	} else {
+		// Fallback: existing INI-style gametemplates.txt loader
+		QString gtPath = resolveBotFile("gametemplates.txt");
+		QFile gameFile(gtPath.isEmpty() ? QString("botfiles/gametemplates.txt") : gtPath);
+		if (gameFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+			QTextStream in(&gameFile);
+			std::cout << "[BBCBot] Parsing gametemplates.txt..." << std::endl;
+            
+			bbcbotgamedata* currentGame = nullptr;
+			bbcbotpermissiongroup* currentPerm = nullptr;
+			int lineNum = 0;
+            
+			while (!in.atEnd()) {
+				QString line = in.readLine().trimmed();
+				lineNum++;
+                
+				// Skip empty lines and comments
+				if (line.isEmpty() || line.startsWith("#")) continue;
+                
+				// Section headers
+				if (line.startsWith("[") && line.endsWith("]")) {
+					QString section = line.mid(1, line.length() - 2);
+                    
+					if (section.startsWith("game:")) {
+						QString cmdname = section.mid(5).trimmed();
+						if (cmdname.isEmpty()) {
+							std::cout << "[BBCBot] Warning: Empty game command name at line " << lineNum << std::endl;
+							continue;
+						}
+						bot.gdata.push_back(bbcbotgamedata());
+						currentGame = &bot.gdata.back();
+						currentGame->commandname = cmdname.toStdString();
+						currentPerm = nullptr;
+						std::cout << "[BBCBot] Found game template: " << cmdname.toStdString() << std::endl;
+					}
+					else if (section.startsWith("permissions:")) {
+						QString groupname = section.mid(12).trimmed();
+						if (groupname.isEmpty()) {
+							std::cout << "[BBCBot] Warning: Empty permission group name at line " << lineNum << std::endl;
+							continue;
+						}
+						bot.permgroups.push_back(bbcbotpermissiongroup());
+						currentPerm = &bot.permgroups.back();
+						currentPerm->name = groupname.toStdString();
+						currentGame = nullptr;
+						std::cout << "[BBCBot] Found permission group: " << groupname.toStdString() << std::endl;
+					}
+					continue;
 				}
-				else if (key == "players") {
-					QStringList playerList = value.split(',');
-					for (const QString& player : playerList) {
-						QString trimmed = player.trimmed();
-						if (!trimmed.isEmpty()) {
-							currentPerm->players.push_back(trimmed.toStdString());
+                
+				// Key=Value pairs
+				int eqPos = line.indexOf('=');
+				if (eqPos <= 0) continue;
+                
+				QString key = line.left(eqPos).trimmed().toLower();
+				QString value = line.mid(eqPos + 1).trimmed();
+                
+				if (currentGame) {
+					// Parse game settings
+					if (key == "name") {
+						currentGame->gamenameprefix = value.toStdString();
+					}
+					else if (key == "players") {
+						currentGame->gdata.maxNumberOfPlayers = value.toInt();
+					}
+					else if (key == "startcash") {
+						currentGame->gdata.startMoney = value.toInt();
+					}
+					else if (key == "smallblind") {
+						currentGame->gdata.firstSmallBlind = value.toInt();
+					}
+					else if (key == "raisehands") {
+						currentGame->gdata.raiseSmallBlindEveryHandsValue = value.toInt();
+						currentGame->gdata.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+					}
+					else if (key == "raiseminutes") {
+						currentGame->gdata.raiseSmallBlindEveryMinutesValue = value.toInt();
+						currentGame->gdata.raiseIntervalMode = RAISE_ON_MINUTES;
+					}
+					else if (key == "raisemode") {
+						if (value == "double") {
+							currentGame->gdata.raiseMode = DOUBLE_BLINDS;
+						} else if (value == "manual") {
+							currentGame->gdata.raiseMode = MANUAL_BLINDS_ORDER;
+						} else if (value == "always") {
+							currentGame->gdata.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+						}
+					}
+					else if (key == "manualblindlist") {
+						QStringList blinds = value.split(',');
+						for (const QString& blind : blinds) {
+							currentGame->gdata.manualBlindsList.push_back(blind.trimmed().toInt());
+						}
+					}
+					else if (key == "gametype") {
+						if (value == "ranking") {
+							currentGame->gdata.gameType = GAME_TYPE_RANKING;
+						} else {
+							currentGame->gdata.gameType = GAME_TYPE_NORMAL;
+						}
+					}
+					else if (key == "permgroup") {
+						// Link to permission group (will be resolved after loading)
+						currentGame->pgroup = nullptr; // Will be set later
+						for (auto& pg : bot.permgroups) {
+							if (pg.name == value.toStdString()) {
+								currentGame->pgroup = &pg;
+								break;
+							}
+						}
+					}
+				}
+				else if (currentPerm) {
+					// Parse permission settings
+					if (key == "type") {
+						currentPerm->isblacklist = (value.toLower() == "blacklist");
+					}
+					else if (key == "players") {
+						QStringList playerList = value.split(',');
+						for (const QString& player : playerList) {
+							QString trimmed = player.trimmed();
+							if (!trimmed.isEmpty()) {
+								currentPerm->players.push_back(trimmed.toStdString());
+							}
 						}
 					}
 				}
 			}
-		}
-		
-		// Resolve permission group pointers after all data is loaded
-		for (auto& game : bot.gdata) {
-			if (game.pgroup == nullptr) {
-				// Try to find permission group by name if not already linked
-				// This is a second pass in case groups are defined after games
+
+			// Resolve permission group pointers after all data is loaded
+			for (auto& game : bot.gdata) {
+				if (game.pgroup == nullptr) {
+					// nothing to do here for legacy format; groups were linked above
+				}
 			}
+
+			gameFile.close();
+			std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game template(s) and " 
+					  << bot.permgroups.size() << " permission group(s)" << std::endl;
+		} else {
+			std::cout << "[BBCBot] No botfiles/gametemplates.txt found" << std::endl;
 		}
-		
-		gameFile.close();
-		std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game template(s) and " 
-		          << bot.permgroups.size() << " permission group(s)" << std::endl;
-	} else {
-		std::cout << "[BBCBot] No botfiles/gametemplates.txt found" << std::endl;
 	}
 	
 	// Load player database
@@ -1948,7 +2134,10 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 		}
 		
 		// Re-schedule the timer for 1 second from now
-		// Note: Actual timer re-scheduling would happen in the calling code
+		m_bbcbotTimer.expires_after(seconds(1));
+		m_bbcbotTimer.async_wait(
+			boost::bind(
+				&ClientThread::bbcbotTimerCallback, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 
