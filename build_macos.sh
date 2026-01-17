@@ -167,7 +167,7 @@ if [ -d "$QT_DIR" ] && [ -f "$QT_DIR/bin/qmake" ] && [ -f "$QT_DIR/bin/macdeploy
   log "Qt ${QT_VERSION} already installed at: $QT_DIR"
 else
   log "Installing Qt ${QT_VERSION} for macOS (clang_64) with modules…"
-  
+
   QT_MODULES=(
     qt3d
     qt5compat
@@ -198,11 +198,11 @@ else
     qtwebsockets
     qtwebview
   )
-  
+
   aqt install-qt mac desktop "$QT_VERSION" clang_64 \
     --outputdir "$QT_OUTPUT_DIR" \
     --modules "${QT_MODULES[@]}"
-  
+
   log "Qt installed at: $QT_DIR"
 fi
 
@@ -265,11 +265,11 @@ fi
 if [ -n "$ICON_SOURCE" ]; then
     ICONSET_DIR="$BUILD_DIR/pokerth.iconset"
     mkdir -p "$ICONSET_DIR"
-    
+
     # Use PNG directly with sips (works for both SVG and PNG sources)
     # For best results with transparency, use PNG source
     BASE_PNG="$ICON_SOURCE"
-    
+
     # If SVG, convert to PNG first using qlmanage (best we have without librsvg)
     if [[ "$ICON_SOURCE" == *.svg ]]; then
         # Try to use PNG instead if available
@@ -281,7 +281,7 @@ if [ -n "$ICON_SOURCE" ]; then
             BASE_PNG="$BUILD_DIR/$(basename "$ICON_SOURCE").png"
         fi
     fi
-    
+
     # Generate different sizes from the base PNG
     sips -z 16 16     "$BASE_PNG" --out "$ICONSET_DIR/icon_16x16.png" >/dev/null 2>&1
     sips -z 32 32     "$BASE_PNG" --out "$ICONSET_DIR/icon_16x16@2x.png" >/dev/null 2>&1
@@ -293,11 +293,11 @@ if [ -n "$ICON_SOURCE" ]; then
     sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_256x256@2x.png" >/dev/null 2>&1
     sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512.png" >/dev/null 2>&1
     sips -z 1024 1024 "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512@2x.png" >/dev/null 2>&1
-    
+
     if [[ "$BASE_PNG" == *"qlmanage"* ]] || [[ "$BASE_PNG" == *".svg.png" ]]; then
         rm -f "$BASE_PNG"
     fi
-    
+
     # Create icns from iconset    # Convert to icns
     iconutil -c icns "$ICONSET_DIR" -o "$APP_RESOURCES/pokerth.icns"
     rm -rf "$ICONSET_DIR"
@@ -350,23 +350,27 @@ fi
 # Usage: export CODESIGN_IDENTITY="Developer ID Application: Your Name (TEAM_ID)"
 if [ -n "${CODESIGN_IDENTITY:-}" ]; then
     log "Code signing with identity: $CODESIGN_IDENTITY"
-    
+
     # Sign all frameworks and dylibs first
     find "$APP_BUNDLE/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "Qt*" \) -exec codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime {} \;
-    
+
     # Sign the main executable
     codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime "$APP_BUNDLE/Contents/MacOS/PokerTH"
-    
+
     # Sign the app bundle
     codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime --entitlements /dev/null "$APP_BUNDLE"
-    
+
     # Verify signature
     codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
-    
+
     log "Code signing complete!"
 else
-    log "Skipping code signing (CODESIGN_IDENTITY not set)"
-    echo "  To enable code signing, set: export CODESIGN_IDENTITY=\"Developer ID Application: Your Name (TEAM_ID)\""
+    log "Ad-hoc signing app bundle (no Developer ID identity)"
+    codesign --force --deep --sign - "$APP_BUNDLE"
+    xattr -dr com.apple.quarantine "$APP_BUNDLE" || true
+    codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
+    log "Ad-hoc signing complete."
+    echo "  To enable Developer ID signing, set: export CODESIGN_IDENTITY=\"Developer ID Application: Your Name (TEAM_ID)\""
 fi
 
 ########################################
@@ -398,18 +402,18 @@ cat > "$ARROW_SVG" <<'ARROW_EOF'
 <svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
   <!-- Light background -->
   <rect width="500" height="300" fill="#f5f5f5"/>
-  
+
   <!-- Arrow from app icon area to Applications area -->
   <defs>
-    <marker id="arrowhead" markerWidth="8" markerHeight="8" 
+    <marker id="arrowhead" markerWidth="8" markerHeight="8"
             refX="7" refY="4" orient="auto">
       <path d="M 0 0 L 8 4 L 0 8 z" fill="#999"/>
     </marker>
   </defs>
-  
+
   <!-- Arrow line (from right of app ~180 to left of Applications ~340) -->
-  <line x1="200" y1="150" x2="300" y2="150" 
-        stroke="#999" stroke-width="2" 
+  <line x1="200" y1="150" x2="300" y2="150"
+        stroke="#999" stroke-width="2"
         marker-end="url(#arrowhead)"/>
 </svg>
 ARROW_EOF
