@@ -690,6 +690,16 @@ ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec,
                     // Exponential backoff: 500ms, 1s, 2s, 4s, 8s
                     int delayMs = 250 * (1 << m_handshakeRetryCount);
                     qDebug() << "[TLS-CONNECT] Retrying TLS handshake (attempt" << m_handshakeRetryCount << "of 5) after" << delayMs << "ms...";
+                    
+                    // Reset timeout timer to give all retries enough time
+                    client->GetStateTimer().cancel();
+                    client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+                    client->GetStateTimer().async_wait(
+                        boost::bind(&ClientStateStartConnect::TimerTimeout,
+                                    this,
+                                    boost::asio::placeholders::error,
+                                    client));
+                    
                     RetryHandshake(client);
                 } else {
                     qDebug() << "[TLS-CONNECT] TLS handshake failed after 5 attempts, giving up.";
