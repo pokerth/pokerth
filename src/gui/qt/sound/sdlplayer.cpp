@@ -66,7 +66,6 @@ void SDLPlayer::initAudio()
 			Mix_QuerySpec(&audio_rate, &audio_format, &audio_channels);
 			audioEnabled = 1;
 		} else {
-			qDebug() << "Mix_OpenAudio() was not successfull, no sound possible :(";
 		}
 	}
 }
@@ -154,7 +153,6 @@ void SDLPlayer::closeAudio()
 		delete[] soundData;
 		soundData = NULL;
 		Mix_CloseAudio();
-		qDebug() << "Mix_CloseAudio()";
 		audioEnabled = false;
 	}
 }

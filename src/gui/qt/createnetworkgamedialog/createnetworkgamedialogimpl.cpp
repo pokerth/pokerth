@@ -32,6 +32,7 @@
 #include "session.h"
 #include "configfile.h"
 #include "changecompleteblindsdialogimpl.h"
+#include <QScreen>
 
 createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
 	: QDialog(parent), myConfig(c)

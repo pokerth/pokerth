@@ -1,9 +1,9 @@
 #include "serverconnectionhandler.h"
 #include "session.h"
 #include "configfile.h"
-#include <QDebug>
 #include <QByteArray>
 #include <QTimer>
+#include <QDebug>
 
 ServerConnectionHandler::ServerConnectionHandler(QObject *parent)
     : QObject(parent)
@@ -27,13 +27,11 @@ ServerConnectionHandler::~ServerConnectionHandler()
 void ServerConnectionHandler::setSession(boost::shared_ptr<Session> session)
 {
     m_session = session;
-    qDebug() << "ServerConnectionHandler: Session set:" << (m_session ? "valid" : "null");
 }
 
 void ServerConnectionHandler::setConfig(ConfigFile *config)
 {
     m_config = config;
-    qDebug() << "ServerConnectionHandler: Config set:" << (m_config ? "valid" : "null");
     
     // Load saved credentials when config is set
     if (m_config) {
@@ -49,8 +47,6 @@ void ServerConnectionHandler::connectToServer(const QString &username, const QSt
         emit connectionFailed(tr("No session available"));
         return;
     }
-
-    qDebug() << "ServerConnectionHandler: Connecting with username:" << username << "isGuest:" << isGuest << "rememberPassword:" << rememberPassword;
     
     // Save credentials
     saveCredentials(username, password, rememberPassword);
@@ -79,7 +75,6 @@ void ServerConnectionHandler::cancelConnection()
         return;
     }
 
-    qDebug() << "ServerConnectionHandler: Canceling connection";
     m_isConnecting = false;
     emit isConnectingChanged(false);
     updateProgress(0, tr("Connection canceled"));
@@ -102,7 +97,6 @@ void ServerConnectionHandler::updateProgress(int progress, const QString &messag
 
 void ServerConnectionHandler::handleLoginDialog()
 {
-    qDebug() << "ServerConnectionHandler: handleLoginDialog called";
     // This is called when the server requires login credentials
     // We have them from connectToServer, now send them to the session
     if (!m_session) {
@@ -119,15 +113,11 @@ void ServerConnectionHandler::handleLoginDialog()
             m_pendingPassword.toStdString(),
             m_pendingIsGuest
         );
-        
-        qDebug() << "ServerConnectionHandler: Sent credentials to session - username:" << m_pendingUsername << "isGuest:" << m_pendingIsGuest;
     }
 }
 
 void ServerConnectionHandler::onNetClientConnect(int actionID)
 {
-    qDebug() << "ServerConnectionHandler: onNetClientConnect - actionID:" << actionID;
-    
     // Update progress based on connection phase
     // 1 = MSG_SOCK_INIT_DONE, 2 = MSG_SOCK_SERVER_LIST_DONE, 
     // 3 = MSG_SOCK_RESOLVE_DONE, 4 = MSG_SOCK_CONNECT_DONE, 5 = MSG_SOCK_SESSION_DONE
@@ -152,14 +142,12 @@ void ServerConnectionHandler::onNetClientConnect(int actionID)
             emit showLobby();
             break;
         default:
-            qDebug() << "Unknown connection actionID:" << actionID;
             break;
     }
 }
 
 void ServerConnectionHandler::onNetClientLoginShow()
 {
-    qDebug() << "ServerConnectionHandler: onNetClientLoginShow";
     handleLoginDialog();
 }
 
@@ -172,7 +160,6 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
     // Error 11 is often a TLS handshake issue that succeeds on retry
     if (errorID == 11 && m_retryCount < 1 && !m_pendingUsername.isEmpty()) {
         m_retryCount++;
-        qDebug() << "ServerConnectionHandler: Retrying connection (attempt" << (m_retryCount + 1) << ")";
         updateProgress(15, tr("Connection failed, retrying..."));
         
         // Wait a moment before retrying
@@ -219,7 +206,6 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
 void ServerConnectionHandler::loadCredentials()
 {
     if (!m_config) {
-        qDebug() << "ServerConnectionHandler::loadCredentials - No config available";
         return;
     }
     
@@ -243,9 +229,6 @@ void ServerConnectionHandler::loadCredentials()
         m_savedPassword = "";
         emit savedPasswordChanged();
     }
-    
-    qDebug() << "ServerConnectionHandler::loadCredentials - Username:" << m_savedUsername 
-             << "RememberPassword:" << m_rememberPassword;
 }
 
 void ServerConnectionHandler::saveCredentials(const QString &username, const QString &password, bool rememberPassword)
@@ -277,7 +260,4 @@ void ServerConnectionHandler::saveCredentials(const QString &username, const QSt
         m_savedPassword = "";
         emit savedPasswordChanged();
     }
-    
-    qDebug() << "ServerConnectionHandler::saveCredentials - Username:" << username 
-             << "RememberPassword:" << rememberPassword;
 }

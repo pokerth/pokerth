@@ -30,6 +30,7 @@
  *****************************************************************************/
 #include "serverlistdialogimpl.h"
 #include "configfile.h"
+#include <QScreen>
 #include "startwindowimpl.h"
 #include "connecttoserverdialogimpl.h"
 #include "serverdata.h"

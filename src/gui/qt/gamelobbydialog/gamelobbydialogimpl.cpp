@@ -33,6 +33,7 @@
 #include "mynicklistsortfilterproxymodel.h"
 #include "startwindowimpl.h"
 #include "chattools.h"
+#include <QScreen>
 #include "changecompleteblindsdialogimpl.h"
 #include "session.h"
 #include "configfile.h"
@@ -41,6 +42,9 @@
 #include <net/socket_msg.h>
 #include "mymessagedialogimpl.h"
 #include "soundevents.h"
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 using namespace std;
 
@@ -58,6 +62,13 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
+	QScreen *screen = QGuiApplication::primaryScreen();
+	if (screen) {
+		QRect screenGeometry = screen->availableGeometry();
+		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
+	}
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_ChatInput);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_searchForPlayers);
 #endif
 	//wait start game message
 	waitStartGameMsgBox = new MyMessageBox(this);
@@ -144,10 +155,17 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	treeView_GameList->setColumnWidth(4,20);
 	treeView_GameList->setColumnWidth(5,75);
 
+	// Detect dark mode for Android
+	QPalette palette = QApplication::palette();
+	QColor windowColor = palette.color(QPalette::Window);
+	bool isDarkMode = windowColor.lightness() < 128;
+	QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
+	QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
+
 #ifdef __APPLE__
 	// macOS workaround: background-image in stylesheets crashes on Monterey - disabled
 #else
-	treeView_GameList->setStyleSheet("QTreeView {background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 22px}");
+	treeView_GameList->setStyleSheet(QString("QTreeView {background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color: %3; font: 22px}").arg(backgroundColor).arg(myAppDataPath).arg(textColor));
 #endif
 	treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 
@@ -283,6 +301,12 @@ int gameLobbyDialogImpl::exec()
 
 #ifdef ANDROID
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+	
+	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
+	this->show();
+	this->raise();
+	this->activateWindow();
+	QCoreApplication::processEvents(); // Force event processing
 #endif
 	int ret = QDialog::exec();
 	waitStartGameMsgBoxTimer->stop();
@@ -1420,7 +1444,23 @@ bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 		event->ignore();
 		this->reject();
 		return false;
+	} else if (obj == lineEdit_ChatInput && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Up) {
+		if((keyUpCounter + 1) <= myChat->getChatLinesHistorySize()) {
+			keyUpCounter++;
+		}
+		myChat->showChatHistoryIndex(keyUpCounter);
+		return true;
+	} else if (obj == lineEdit_ChatInput && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Down) {
+		if((keyUpCounter - 1) >= 0) {
+			keyUpCounter--;
+		}
+		myChat->showChatHistoryIndex(keyUpCounter);
+		return true;
 	} else {
+		// Reset counter for other keys when chat input has focus
+		if (obj == lineEdit_ChatInput && event->type() == QEvent::KeyPress) {
+			keyUpCounter = 0;
+		}
 		// pass the event on to the parent class
 		return QDialog::eventFilter(obj, event);
 	}
@@ -1594,25 +1634,33 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 
 	writeDialogSettings(1);
 
+	// Detect dark mode
+	QPalette palette = QApplication::palette();
+	QColor windowColor = palette.color(QPalette::Window);
+	bool isDarkMode = windowColor.lightness() < 128;
+	
+	QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
+	QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
+
 #ifdef GUI_800x480
 #ifdef __APPLE__
 	// macOS workaround: background-image in stylesheets crashes on Monterey
-	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; color:rgb(0, 0, 0); font: 20px}");
-	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; color:rgb(0, 0, 0); font: 20px}");
+	if(index) treeView_GameList->setStyleSheet(QString("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: %1; color: %2; font: 20px}").arg(backgroundColor).arg(textColor));
+	else treeView_GameList->setStyleSheet(QString("QTreeView { background-color: %1; color: %2; font: 20px}").arg(backgroundColor).arg(textColor));
 #else
-	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
-	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color:rgb(0, 0, 0); font: 20px}");
+	if(index) treeView_GameList->setStyleSheet(QString("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color: %3; font: 20px}").arg(backgroundColor).arg(myAppDataPath).arg(textColor));
+	else treeView_GameList->setStyleSheet(QString("QTreeView { background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color: %3; font: 20px}").arg(backgroundColor).arg(myAppDataPath).arg(textColor));
 #endif
 
 	treeView_GameList->header()->setStyleSheet("QObject {font: bold 18px}");
 #else
 #ifdef __APPLE__
 	// macOS workaround: background-image in stylesheets crashes on Monterey
-	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; }");
-	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; }");
+	if(index) treeView_GameList->setStyleSheet(QString("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: %1; color: %2; }").arg(backgroundColor).arg(textColor));
+	else treeView_GameList->setStyleSheet(QString("QTreeView { background-color: %1; color: %2; }").arg(backgroundColor).arg(textColor));
 #else
-	if(index) treeView_GameList->setStyleSheet("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
-	else treeView_GameList->setStyleSheet("QTreeView { background-color: white; background-image: url(\""+myAppDataPath +"gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}");
+	if(index) treeView_GameList->setStyleSheet(QString("QTreeView { border-radius: 4px; border: 2px solid blue; background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color: %3; }").arg(backgroundColor).arg(myAppDataPath).arg(textColor));
+	else treeView_GameList->setStyleSheet(QString("QTreeView { background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat; color: %3; }").arg(backgroundColor).arg(myAppDataPath).arg(textColor));
 #endif
 #endif
 }
@@ -2285,9 +2333,10 @@ void gameLobbyDialogImpl::updateGameListStyleSheet()
     bool isDarkMode = windowColor.lightness() < 128;
     
     QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
+    QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
 
     // macOS workaround: background-image stylesheet causes crash on Monterey
-    // QString styleSheet = QString("QTreeView {background-color: %1; background-image: url(\"%2gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}").arg(backgroundColor).arg(myAppDataPath);
-    QString styleSheet = QString("QTreeView {background-color: %1;}").arg(backgroundColor);
+    // QString styleSheet = QString("QTreeView {background-color: %1; color: %2; background-image: url(\"%3gfx/gui/misc/background_gamelist.png\"); background-attachment: fixed; background-position: top center ; background-repeat: no-repeat;}").arg(backgroundColor).arg(textColor).arg(myAppDataPath);
+    QString styleSheet = QString("QTreeView {background-color: %1; color: %2;}").arg(backgroundColor).arg(textColor);
     treeView_GameList->setStyleSheet(styleSheet);
 }

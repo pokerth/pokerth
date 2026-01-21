@@ -196,43 +196,72 @@ mkdir -p "$ANDROID_BUILD_DIR/libs/$ARCH"
 if [[ -d "$ANDROID_SOURCE_DIR" ]]; then
   echo "Copying Android source files from: $ANDROID_SOURCE_DIR"
   cp -rv "$ANDROID_SOURCE_DIR"/* "$ANDROID_BUILD_DIR/" || true
-else
-  echo "WARNING: Android source directory not found: $ANDROID_SOURCE_DIR"
-  echo "Creating minimal Android directory structure..."
-  mkdir -p "$ANDROID_BUILD_DIR/res/values"
-  
-  # Erstelle minimales AndroidManifest.xml mit korrektem lib_name
-  cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
+fi
+
+# Erstelle Verzeichnisse für Ressourcen
+mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
+mkdir -p "$ANDROID_BUILD_DIR/res/values"
+
+# Erstelle immer das dynamische AndroidManifest.xml mit korrektem lib_name und Version
+cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
 <?xml version="1.0"?>
-<manifest package="org.pokerth.widget" xmlns:android="http://schemas.android.com/apk/res/android" 
-          android:versionName="1.1.0" android:versionCode="11" android:installLocation="auto">
-    <uses-sdk android:minSdkVersion="28" android:targetSdkVersion="$API_LEVEL"/>
-    <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
-    <application android:hardwareAccelerated="true" 
-                 android:name="org.qtproject.qt.android.bindings.QtApplication" 
-                 android:label="PokerTH"
-                 android:extractNativeLibs="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" 
-                  android:name="org.qtproject.qt.android.bindings.QtActivity" 
-                  android:label="PokerTH" 
-                  android:screenOrientation="landscape" 
-                  android:launchMode="singleTop"
-                  android:exported="true">
+<manifest package="org.pokerth.widget"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionName="2.0"
+          android:versionCode="20"
+          android:installLocation="auto">
+
+    <uses-sdk
+        android:minSdkVersion="28"
+        android:targetSdkVersion="$API_LEVEL"/>
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:anyDensity="true"
+        android:smallScreens="true"/>
+
+    <application
+        android:hardwareAccelerated="true"
+        android:name="org.qtproject.qt.android.bindings.QtApplication"
+        android:label="PokerTH"
+        android:icon="@drawable/ic_launcher"
+        android:extractNativeLibs="true"
+        android:usesCleartextTraffic="true"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"> <!-- ← FIX -->
+
+        <activity
+            android:name="org.qtproject.qt.android.bindings.QtActivity"
+            android:label="PokerTH"
+            android:screenOrientation="landscape"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true"
+            android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <meta-data android:name="android.app.lib_name" android:value="$TARGET"/>
-            <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="$TARGET"/>
+
+            <meta-data
+                android:name="android.app.extract_android_style"
+                android:value="minimal"/>
+
         </activity>
     </application>
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 </manifest>
 MANIFEST
-  
-  echo "Created minimal AndroidManifest.xml with lib_name=$TARGET"
-fi
+
+echo "Created dynamic AndroidManifest.xml with lib_name=$TARGET"
 
 # Finde .so-Datei - suche sowohl nach lib${TARGET}.so als auch nach Varianten
 SO_FILE=$(find "$BUILD_DIR" -type f \( -name "lib${TARGET}.so" -o -name "lib${TARGET}_*.so" \) | head -n1)
@@ -262,6 +291,37 @@ fi
 
 echo "Library successfully copied to: $ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME"
 
+# Download OpenSSL 3.x libraries for Android (required for Qt Network HTTPS)
+echo ""
+echo "Downloading OpenSSL 3.x libraries for Android..."
+OPENSSL_DIR="$ANDROID_BUILD_DIR/libs/$ARCH"
+mkdir -p "$OPENSSL_DIR"
+
+OPENSSL_BASE_URL="https://github.com/KDAB/android_openssl/raw/master/ssl_3"
+if [[ "$ARCH" == "arm64-v8a" ]]; then
+  OPENSSL_ARCH="arm64-v8a"
+elif [[ "$ARCH" == "armeabi-v7a" ]]; then
+  OPENSSL_ARCH="armeabi-v7a"
+elif [[ "$ARCH" == "x86_64" ]]; then
+  OPENSSL_ARCH="x86_64"
+elif [[ "$ARCH" == "x86" ]]; then
+  OPENSSL_ARCH="x86"
+else
+  echo "WARNING: Unknown architecture $ARCH for OpenSSL download"
+  OPENSSL_ARCH="$ARCH"
+fi
+
+echo "Downloading OpenSSL for architecture: $OPENSSL_ARCH"
+wget -q -O "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
+wget -q -O "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
+
+if [[ -f "$OPENSSL_DIR/libssl_3.so" && -f "$OPENSSL_DIR/libcrypto_3.so" ]]; then
+  echo "OpenSSL libraries downloaded successfully"
+  ls -lh "$OPENSSL_DIR"/lib{ssl,crypto}_3.so
+else
+  echo "WARNING: OpenSSL download incomplete - HTTPS may not work"
+fi
+
 # Verwende androiddeployqt
 ANDROIDDEPLOYQT="${QT_HOST_PATH}/bin/androiddeployqt"
 
@@ -278,13 +338,23 @@ set +e
   --output "$ANDROID_BUILD_DIR" \
   --android-platform "android-${API_LEVEL}" \
   --jdk "$JAVA_HOME" \
-  --gradle \
   --verbose
 DEPLOYQT_EXIT=$?
 set -e
 
 echo ""
 echo "androiddeployqt exit code: $DEPLOYQT_EXIT"
+
+# Kopiere PokerTH Icon NACH androiddeployqt, da es das Verzeichnis neu anlegt
+echo ""
+echo "Copying PokerTH icon after androiddeployqt..."
+mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
+cp -v "${ROOT}/pokerth/data/gfx/gui/misc/windowicon_transparent.png" "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png"
+if [[ -f "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" ]]; then
+  echo "Icon successfully copied to: $ANDROID_BUILD_DIR/res/drawable/ic_launcher.png"
+else
+  echo "WARNING: Failed to copy icon"
+fi
 
 # Prüfe und patche gradle.properties (nicht build.gradle!)
 if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then

@@ -80,6 +80,15 @@ DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName
 		}
 	});
 
+	// Ignore SSL errors on Android (certificate validation issues with system CA store)
+#ifdef ANDROID
+	QObject::connect(GetData()->networkReply, 
+		static_cast<void(QNetworkReply::*)(const QList<QSslError>&)>(&QNetworkReply::sslErrors),
+		[this](const QList<QSslError> &errors) {
+			GetData()->networkReply->ignoreSslErrors(errors);
+		});
+#endif
+
 	QObject::connect(GetData()->networkReply, &QNetworkReply::finished, [this]() {
 		if (GetData()->networkReply->error() == QNetworkReply::NoError) {
 			// Write any remaining data

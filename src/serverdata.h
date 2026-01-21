@@ -36,7 +36,7 @@
 #include <string>
 
 struct ServerInfo {
-	ServerInfo() : id(0), supportsSctp(false), port(0) {}
+	ServerInfo() : id(0), supportsSctp(false), useTLS(true), port(0) {}
 	unsigned id;
 	std::string name;
 	std::string sponsor;
@@ -44,6 +44,7 @@ struct ServerInfo {
 	std::string ipv4addr;
 	std::string ipv6addr;
 	bool supportsSctp;
+	bool useTLS;  // Default: true for new servers, can be overridden by serverlist
 	int port;
 	std::string avatarServerAddr;
 };

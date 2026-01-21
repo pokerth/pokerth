@@ -52,20 +52,20 @@ main(int argc, char *argv[])
 	// Use input file name, and write to input file with additional ".z".
 	path inputFilePath(argv[1]);
 	path outputFilePath(inputFilePath);
-	outputFilePath = change_extension(outputFilePath, extension(outputFilePath) + ".z");
+	outputFilePath += ".z";
 	// Check whether file exists.
 	if (!exists(inputFilePath)) {
 		cerr << "Input file does not exist." << endl;
 		return 2;
 	}
 	try {
-		std::ifstream inFile(inputFilePath.directory_string().c_str(), ios_base::in);
-		std::ofstream outFile(outputFilePath.directory_string().c_str(), ios_base::out | ios_base::binary);
+		std::ifstream inFile(inputFilePath.string().c_str(), ios_base::in);
+		std::ofstream outFile(outputFilePath.string().c_str(), ios_base::out | ios_base::binary);
 		boost::iostreams::filtering_streambuf<boost::iostreams::output> out;
 		out.push(boost::iostreams::zlib_compressor());
 		out.push(outFile);
 		boost::iostreams::copy(inFile, out);
-		cout << "Compression of \"" << inputFilePath.directory_string() << "\" to \"" << outputFilePath.directory_string() << "\" was successful." << endl;
+		cout << "Compression of \"" << inputFilePath.string() << "\" to \"" << outputFilePath.string() << "\" was successful." << endl;
 	} catch (...) {
 		cerr << "Compression failed." << endl;
 		return 3;

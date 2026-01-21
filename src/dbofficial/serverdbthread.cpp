@@ -119,48 +119,42 @@ ServerDBThread::Stop()
 void
 ServerDBThread::AsyncPlayerLogin(unsigned requestId, const string &playerName)
 {
-	if (IsConnected()) {
-		list<string> params;
-		params.push_back(m_connData->encryptionKey);
-		params.push_back(playerName);
-		boost::shared_ptr<AsyncDBQuery> asyncQuery(
-			new AsyncDBAuth(
-				requestId,
-				QUERY_NICK_PREPARE,
-				params));
+	// Always queue the request, even if not currently connected.
+	// The DB thread will process it once connection is re-established.
+	list<string> params;
+	params.push_back(m_connData->encryptionKey);
+	params.push_back(playerName);
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBAuth(
+			requestId,
+			QUERY_NICK_PREPARE,
+			params));
 
-		{
-			boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-			m_asyncQueue.push(asyncQuery);
-		}
-		m_semaphore.post();
-	} else {
-		// If not connected to database, login fails.
-		boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::PlayerLoginFailed, &m_callback, requestId));
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		m_asyncQueue.push(asyncQuery);
 	}
+	m_semaphore.post();
 }
 
 void
 ServerDBThread::AsyncCheckAvatarBlacklist(unsigned requestId, const std::string &avatarHash)
 {
-	if (IsConnected()) {
-		list<string> params;
-		params.push_back(avatarHash);
-		boost::shared_ptr<AsyncDBQuery> asyncQuery(
-			new AsyncDBAvatarBlacklist(
-				requestId,
-				QUERY_AVATAR_BLACKLIST_PREPARE,
-				params));
+	// Always queue the request, even if not currently connected.
+	// The DB thread will process it once connection is re-established.
+	list<string> params;
+	params.push_back(avatarHash);
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBAvatarBlacklist(
+			requestId,
+			QUERY_AVATAR_BLACKLIST_PREPARE,
+			params));
 
-		{
-			boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-			m_asyncQueue.push(asyncQuery);
-		}
-		m_semaphore.post();
-	} else {
-		// If not connected to database, all avatars are blacklisted.
-		boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::AvatarIsBlacklisted, &m_callback, requestId));
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		m_asyncQueue.push(asyncQuery);
 	}
+	m_semaphore.post();
 }
 
 void
@@ -550,6 +544,7 @@ ServerDBThread::HandleNextQuery()
 		}
 	}
 	if (nextQuery) {
+		bool queryFailed = false;
 		do {
 			nextQuery->Init(m_dbIdManager);
 			mysqlpp::Query executeQuery = m_connData->conn.query();
@@ -583,22 +578,54 @@ ServerDBThread::HandleNextQuery()
 					string tmpError = paramQuery.error();
 					m_connData->conn.disconnect();
 					boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::QueryError, &m_callback, tmpError));
+					queryFailed = true;
 					break;
 				}
 			}
 			if (nextQuery->RequiresResultSet()) {
 				mysqlpp::StoreQueryResult res = executeQuery.store();
-				if (res)
+				if (res) {
 					nextQuery->HandleResult(executeQuery, m_dbIdManager, res, *m_ioService, m_callback);
-				else
-					nextQuery->HandleError(*m_ioService, m_callback);
+				} else {
+					// Check if this is a connection error
+					string error = executeQuery.error();
+					if (error.find("Lost connection") != string::npos || 
+					    error.find("MySQL server has gone away") != string::npos ||
+					    !m_connData->conn.connected()) {
+						m_connData->conn.disconnect();
+						queryFailed = true;
+						break;
+					} else {
+						nextQuery->HandleError(*m_ioService, m_callback);
+					}
+				}
 			} else {
-				if (executeQuery.exec())
+				if (executeQuery.exec()) {
 					nextQuery->HandleNoResult(executeQuery, m_dbIdManager, *m_ioService, m_callback);
-				else
-					nextQuery->HandleError(*m_ioService, m_callback);
+				} else {
+					// Check if this is a connection error
+					string error = executeQuery.error();
+					if (error.find("Lost connection") != string::npos || 
+					    error.find("MySQL server has gone away") != string::npos ||
+					    !m_connData->conn.connected()) {
+						m_connData->conn.disconnect();
+						queryFailed = true;
+						break;
+					} else {
+						nextQuery->HandleError(*m_ioService, m_callback);
+					}
+				}
 			}
 		} while (nextQuery->Next()); // Consider composite queries.
+		
+		// If query failed due to connection loss, put it back in the queue
+		// so it can be retried after reconnection
+		if (queryFailed) {
+			boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+			m_asyncQueue.push(nextQuery);
+			// Post semaphore again so the query will be processed after reconnection
+			m_semaphore.post();
+		}
 	}
 }
 

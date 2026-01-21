@@ -56,7 +56,9 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     sound/soundevents.cpp
     sound/qtaudioplayer.cpp
     mymessagebox/mymessagebox.cpp
-    logfiledialog/logfiledialog.cpp)
+    logfiledialog/logfiledialog.cpp
+    mobileinputhelper.cpp
+    androidlineedit.cpp)
 
 if(ANDROID)
     list(APPEND POKERTH_CLIENT_SRC "resources/pokerth_android.qrc")

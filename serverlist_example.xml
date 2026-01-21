@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServerList>
+	<!-- Example: New server with TLS enabled (default) -->
+	<Server id="1">
+		<Name value="PokerTH Official Server (TLS)"/>
+		<Sponsor value="PokerTH.net"/>
+		<Country value="de"/>
+		<IPv4Address value="pthsrv.inquies.de"/>
+		<IPv6Address value="pthsrv.inquies.de"/>
+		<SCTP value="0"/>
+		<TLS value="on"/>
+		<ProtobufPort value="7236"/>
+		<AvatarServerAddress value="pthsrv.inquies.de"/>
+	</Server>
+
+	<!-- Example: Legacy server without TLS (for transition period) -->
+	<Server id="2">
+		<Name value="PokerTH Legacy Server (no TLS)"/>
+		<Country value="de"/>
+		<IPv4Address value="old.server.example.com"/>
+		<IPv6Address value="old.server.example.com"/>
+		<SCTP value="0"/>
+		<TLS value="off"/>
+		<ProtobufPort value="7234"/>
+	</Server>
+
+	<!-- Example: Server without TLS field (defaults to TLS enabled) -->
+	<Server id="3">
+		<Name value="PokerTH Server (TLS default)"/>
+		<IPv4Address value="default.server.example.com"/>
+		<IPv6Address value="default.server.example.com"/>
+		<ProtobufPort value="7236"/>
+	</Server>
+</ServerList>

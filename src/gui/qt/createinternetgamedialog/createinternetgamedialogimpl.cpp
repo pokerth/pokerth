@@ -30,9 +30,13 @@
  *****************************************************************************/
 #include "createinternetgamedialogimpl.h"
 #include "session.h"
+#include <QScreen>
 #include "configfile.h"
 #include "gamedata.h"
 #include "changecompleteblindsdialogimpl.h"
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 
 createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
@@ -46,6 +50,8 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	this->installEventFilter(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_gameName);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_Password);
 #endif
 	spinBox_netDelayBetweenHands->installEventFilter(this);
 	spinBox_netTimeOutPlayerAction->installEventFilter(this);

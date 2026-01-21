@@ -1390,6 +1390,7 @@ ClientThread::UseServer(unsigned serverId)
 
 	context.SetServerPort((unsigned)useInfo.port);
 	context.SetAvatarServerAddr(useInfo.avatarServerAddr);
+	context.SetTls(useInfo.useTLS);  // Use TLS setting from serverlist
 }
 
 bool

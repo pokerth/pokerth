@@ -30,6 +30,7 @@
  *****************************************************************************/
 #include "connecttoserverdialogimpl.h"
 #include <net/socket_msg.h>
+#include <QScreen>
 
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 	: QDialog(parent)

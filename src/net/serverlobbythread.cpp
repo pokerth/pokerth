@@ -1812,7 +1812,13 @@ void
 ServerLobbyThread::UserInvalid(unsigned playerId)
 {
 	LOG_MSG("[AUTH DEBUG] UserInvalid - Player ID: " << playerId << " - sending ERR_NET_INVALID_PASSWORD");
-	SessionError(m_sessionManager.GetSessionByUniquePlayerId(playerId, true), ERR_NET_INVALID_PASSWORD);
+	boost::shared_ptr<SessionData> tmpSession = m_sessionManager.GetSessionByUniquePlayerId(playerId, true);
+	if (tmpSession) {
+		LOG_MSG("[AUTH DEBUG] UserInvalid - Found session, calling SessionError");
+	} else {
+		LOG_MSG("[AUTH DEBUG] UserInvalid - Session NOT found!");
+	}
+	SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
 }
 
 void
@@ -2092,7 +2098,9 @@ ServerLobbyThread::SessionTimeoutWarning(boost::shared_ptr<SessionData> session,
 void
 ServerLobbyThread::SessionError(boost::shared_ptr<SessionData> session, int errorCode)
 {
+	LOG_MSG("[AUTH DEBUG] SessionError - Error code: " << errorCode << " Session: " << (session ? "valid" : "NULL"));
 	if (session) {
+		LOG_MSG("[AUTH DEBUG] SessionError - Session ID: " << session->GetId() << " ClientAddr: " << session->GetClientAddr());
 		if (errorCode == ERR_NET_PLAYER_KICKED || errorCode == ERR_NET_SESSION_TIMED_OUT) {
 			if (session->GetGame() && session->GetPlayerData()) {
 				session->GetGame()->MarkPlayerAsKicked(session->GetPlayerData()->GetUniqueId());
@@ -2100,7 +2108,9 @@ ServerLobbyThread::SessionError(boost::shared_ptr<SessionData> session, int erro
 		}
 
 		SendError(session, errorCode);
+		LOG_MSG("[AUTH DEBUG] SessionError - SendError called, now closing session");
 		CloseSession(session);
+		LOG_MSG("[AUTH DEBUG] SessionError - Session closed");
 	}
 }
 
@@ -2108,11 +2118,14 @@ void
 ServerLobbyThread::SendError(boost::shared_ptr<SessionData> s, int errorCode)
 {
 	LOG_VERBOSE("Sending error code " << errorCode << " to session #" << s->GetId() << ".");
+	LOG_MSG("[AUTH DEBUG] SendError - Creating ErrorMessage packet, error code: " << errorCode);
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ErrorMessage);
 	ErrorMessage *netError = packet->GetMsg()->mutable_errormessage();
 	netError->set_errorreason(NetPacket::GameErrorToNetError(errorCode));
+	LOG_MSG("[AUTH DEBUG] SendError - Calling GetSender().Send()");
 	GetSender().Send(s, packet);
+	LOG_MSG("[AUTH DEBUG] SendError - Send() completed");
 }
 
 void

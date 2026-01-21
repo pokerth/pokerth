@@ -52,7 +52,6 @@ bool AndroidSoundEffect::load()
 //    qDebug() << "opening:" << mPath;
 
 	if (!lSoundFile.open(QIODevice::ReadOnly)) {
-		qDebug() << "Could not open: " << mPath;
 		return false;
 	}
 
@@ -62,7 +61,6 @@ bool AndroidSoundEffect::load()
 	char id[4];
 	lSoundFile.read(id, 4);
 	if( strncmp(id, "RIFF", 4) != 0 ) {
-		qDebug() << "not a WAV file - header not RIFF";
 		lSoundFile.close();
 		return false;
 	}
@@ -73,7 +71,6 @@ bool AndroidSoundEffect::load()
 
 	lSoundFile.read(id, 4);
 	if( strncmp(id, "WAVE", 4) != 0 ) {
-		qDebug() << "not a WAV file - header not WAVE";
 		lSoundFile.close();
 		return false;
 	}
@@ -108,7 +105,6 @@ bool AndroidSoundEffect::load()
 
 	lSoundFile.read(id, 4);
 	if( strncmp(id, "data", 4) != 0 ) {
-		qDebug() << "not a WAV file - didn't find data";
 		lSoundFile.close();
 		return false;
 	}
@@ -121,7 +117,6 @@ bool AndroidSoundEffect::load()
 
 	int dataRead = lSoundFile.read(mBuffer, mLength);
 	if (dataRead != mLength) {
-		qDebug() << "didn't read correct amount of data' :" << mPath;
 		lSoundFile.close();
 		delete [] mBuffer;
 		mBuffer = NULL;

@@ -30,9 +30,13 @@
  *****************************************************************************/
 #include "selectavatardialogimpl.h"
 #include "myavatarlistitem.h"
+#include <QScreen>
 #include "mymessagebox.h"
 #include "configfile.h"
 #include <iostream>
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 
 selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
@@ -45,6 +49,7 @@ selectAvatarDialogImpl::selectAvatarDialogImpl(QWidget *parent, ConfigFile *c)
 	setupUi(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit);
 #endif
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 

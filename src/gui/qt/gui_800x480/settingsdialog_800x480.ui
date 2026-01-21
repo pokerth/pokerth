@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>424</height>
+    <width>320</width>
+    <height>240</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>424</height>
+    <width>320</width>
+    <height>240</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -39,16 +39,16 @@
     <layout class="QGridLayout" name="gridLayout_10">
      <item row="0" column="0">
       <widget class="QListWidget" name="listWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>1</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>200</width>
+         <width>220</width>
          <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>200</width>
-         <height>16777215</height>
         </size>
        </property>
        <property name="iconSize">
@@ -210,7 +210,7 @@
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -421,12 +421,6 @@
                  <height>170</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>170</height>
-                </size>
-               </property>
                <property name="title">
                 <string>Preview - Information:</string>
                </property>
@@ -434,12 +428,6 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_gameTableStylePreview">
                   <property name="minimumSize">
-                   <size>
-                    <width>160</width>
-                    <height>120</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>160</width>
                     <height>120</height>
@@ -455,13 +443,7 @@
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>150</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>150</height>
+                    <height>0</height>
                    </size>
                   </property>
                   <property name="styleSheet">
@@ -501,12 +483,6 @@ p, li { white-space: pre-wrap; }
                 <size>
                  <width>0</width>
                  <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>16777215</height>
                 </size>
                </property>
                <property name="indentation">
@@ -609,12 +585,6 @@ p, li { white-space: pre-wrap; }
                  <height>170</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>170</height>
-                </size>
-               </property>
                <property name="title">
                 <string>Preview - Information:</string>
                </property>
@@ -622,12 +592,6 @@ p, li { white-space: pre-wrap; }
                 <item row="0" column="0">
                  <widget class="QLabel" name="label_cardDeckStylePreview">
                   <property name="minimumSize">
-                   <size>
-                    <width>160</width>
-                    <height>120</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>160</width>
                     <height>120</height>
@@ -643,12 +607,6 @@ p, li { white-space: pre-wrap; }
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
-                    <height>160</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
                     <height>160</height>
                    </size>
                   </property>
@@ -787,7 +745,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_OwnFlipsideFilename">
+                  <widget class="AndroidLineEdit" name="lineEdit_OwnFlipsideFilename">
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
@@ -802,12 +760,6 @@ p, li { white-space: pre-wrap; }
                     <bool>false</bool>
                    </property>
                    <property name="minimumSize">
-                    <size>
-                     <width>27</width>
-                     <height>26</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
                     <size>
                      <width>27</width>
                      <height>26</height>
@@ -1519,12 +1471,6 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout">
            <item>
             <widget class="QGroupBox" name="groupBox_8">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>105</height>
-              </size>
-             </property>
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -1614,12 +1560,6 @@ p, li { white-space: pre-wrap; }
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>105</height>
-              </size>
              </property>
              <property name="styleSheet">
               <string notr="true"/>
@@ -1765,7 +1705,7 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QSpinBox" name="spinBox_serverPort">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -1866,7 +1806,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_InternetServerListAddress">
+                 <widget class="AndroidLineEdit" name="lineEdit_InternetServerListAddress">
                   <property name="inputMethodHints">
                    <set>Qt::ImhNoPredictiveText</set>
                   </property>
@@ -1924,7 +1864,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="3" column="1">
-                 <widget class="QLineEdit" name="lineEdit_avatarServerAddress">
+                 <widget class="AndroidLineEdit" name="lineEdit_avatarServerAddress">
                   <property name="inputMethodHints">
                    <set>Qt::ImhNoPredictiveText</set>
                   </property>
@@ -1941,7 +1881,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLineEdit" name="lineEdit_InternetServerAddress">
+                 <widget class="AndroidLineEdit" name="lineEdit_InternetServerAddress">
                   <property name="inputMethodHints">
                    <set>Qt::ImhNoPredictiveText</set>
                   </property>
@@ -1958,7 +1898,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLineEdit" name="lineEdit_InternetServerPassword">
+                 <widget class="AndroidLineEdit" name="lineEdit_InternetServerPassword">
                   <property name="echoMode">
                    <enum>QLineEdit::Password</enum>
                   </property>
@@ -2006,7 +1946,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2053,7 +1993,7 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
-                   <width>40</width>
+                   <width>0</width>
                    <height>20</height>
                   </size>
                  </property>
@@ -2091,7 +2031,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_internetGameName">
+                <widget class="AndroidLineEdit" name="lineEdit_internetGameName">
                  <property name="inputMethodHints">
                   <set>Qt::ImhNoPredictiveText</set>
                  </property>
@@ -2125,7 +2065,7 @@ p, li { white-space: pre-wrap; }
                <item>
                 <widget class="QComboBox" name="comboBox_internetGameType">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -2187,7 +2127,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <widget class="QLineEdit" name="lineEdit_InternetGamePassword">
+                <widget class="AndroidLineEdit" name="lineEdit_InternetGamePassword">
                  <property name="enabled">
                   <bool>false</bool>
                  </property>
@@ -2288,9 +2228,9 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEdit_HumanPlayerName">
+              <widget class="AndroidLineEdit" name="lineEdit_HumanPlayerName">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -2311,18 +2251,12 @@ p, li { white-space: pre-wrap; }
                  <height>60</height>
                 </size>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>60</width>
-                 <height>60</height>
-                </size>
-               </property>
                <property name="text">
                 <string/>
                </property>
                <property name="iconSize">
                 <size>
-                 <width>50</width>
+                 <width>0</width>
                  <height>50</height>
                 </size>
                </property>
@@ -2380,7 +2314,7 @@ p, li { white-space: pre-wrap; }
                  <number>0</number>
                 </property>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent1Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent1Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -2388,12 +2322,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -2417,14 +2345,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -2482,15 +2404,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -2534,7 +2450,7 @@ p, li { white-space: pre-wrap; }
                  <number>0</number>
                 </property>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent2Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent2Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -2542,12 +2458,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -2571,14 +2481,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -2636,15 +2540,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -2697,14 +2595,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -2716,7 +2608,7 @@ p, li { white-space: pre-wrap; }
                  </widget>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent3Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent3Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -2724,12 +2616,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -2790,15 +2676,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -2842,7 +2722,7 @@ p, li { white-space: pre-wrap; }
                  <number>0</number>
                 </property>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent4Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent4Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -2850,12 +2730,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -2879,14 +2753,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -2944,15 +2812,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -3005,14 +2867,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -3070,15 +2926,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -3103,7 +2953,7 @@ p, li { white-space: pre-wrap; }
                  </layout>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent5Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent5Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -3111,12 +2961,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -3200,15 +3044,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -3233,7 +3071,7 @@ p, li { white-space: pre-wrap; }
                  </layout>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent6Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent6Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -3241,12 +3079,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -3270,14 +3102,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -3354,15 +3180,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -3387,7 +3207,7 @@ p, li { white-space: pre-wrap; }
                  </layout>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent7Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent7Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -3395,12 +3215,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -3424,14 +3238,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -3508,15 +3316,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -3541,7 +3343,7 @@ p, li { white-space: pre-wrap; }
                  </layout>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent8Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent8Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -3549,12 +3351,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -3578,14 +3374,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -3662,15 +3452,9 @@ p, li { white-space: pre-wrap; }
                       <height>60</height>
                      </size>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>60</height>
-                     </size>
-                    </property>
                     <property name="iconSize">
                      <size>
-                      <width>50</width>
+                      <width>0</width>
                       <height>50</height>
                      </size>
                     </property>
@@ -3695,7 +3479,7 @@ p, li { white-space: pre-wrap; }
                  </layout>
                 </item>
                 <item row="2" column="0">
-                 <widget class="QLineEdit" name="lineEdit_Opponent9Name">
+                 <widget class="AndroidLineEdit" name="lineEdit_Opponent9Name">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -3703,12 +3487,6 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="minimumSize">
-                   <size>
-                    <width>110</width>
-                    <height>25</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
                    <size>
                     <width>110</width>
                     <height>25</height>
@@ -3732,14 +3510,8 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <property name="minimumSize">
                    <size>
-                    <width>100</width>
+                    <width>0</width>
                     <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>100</width>
-                    <height>16777215</height>
                    </size>
                   </property>
                   <property name="text">
@@ -3879,7 +3651,7 @@ p, li { white-space: pre-wrap; }
                <number>0</number>
               </property>
               <item>
-               <widget class="QLineEdit" name="lineEdit_logDir">
+               <widget class="AndroidLineEdit" name="lineEdit_logDir">
                 <property name="inputMethodHints">
                  <set>Qt::ImhNoPredictiveText</set>
                 </property>
@@ -3888,12 +3660,6 @@ p, li { white-space: pre-wrap; }
               <item>
                <widget class="QPushButton" name="pushButton_openLogDir">
                 <property name="minimumSize">
-                 <size>
-                  <width>27</width>
-                  <height>26</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
                  <size>
                   <width>27</width>
                   <height>26</height>
@@ -4008,7 +3774,7 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>40</width>
+               <width>0</width>
                <height>20</height>
               </size>
              </property>
@@ -4042,7 +3808,7 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="sizeHint" stdset="0">
               <size>
-               <width>40</width>
+               <width>0</width>
                <height>20</height>
               </size>
              </property>
@@ -4096,7 +3862,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>20</height>
         </size>
        </property>
@@ -4135,7 +3901,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>0</width>
          <height>20</height>
         </size>
        </property>
@@ -4369,4 +4135,11 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
  </connections>
+ <customwidgets>
+  <customwidget>
+   <class>AndroidLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>androidlineedit.h</header>
+  </customwidget>
+ </customwidgets>
 </ui>

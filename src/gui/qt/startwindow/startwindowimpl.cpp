@@ -266,7 +266,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 
 	//update HACKS
 	if(!checkForFirstStartAfterUpdated().isEmpty()) {
-		qDebug() << checkForFirstStartAfterUpdated();
 	}
 
 	// bbcbot code - auto-start internet game if password is provided

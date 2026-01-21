@@ -32,8 +32,6 @@
 #include "androidsoundeffect.h"
 #include "configfile.h"
 
-#include <QDebug>
-
 AndroidAudio::AndroidAudio(ConfigFile *c, QObject *parent) :
 	QObject(parent), mEngineObject(NULL), mEngineEngine(NULL), mOutputMixObject(NULL), mSounds(), mSoundCount(0), mPlayerObject(NULL), myConfig(c), audioEnabled(false)
 {
@@ -98,8 +96,6 @@ void AndroidAudio::createEngine()
 	// realize the output mix
 	result = (*mOutputMixObject)->Realize(mOutputMixObject, SL_BOOLEAN_FALSE);
 	Q_ASSERT(SL_RESULT_SUCCESS == result);
-
-	qDebug() << "Created Android Audio Engine";
 }
 
 void AndroidAudio::destroyEngine()
@@ -119,8 +115,6 @@ void AndroidAudio::destroyEngine()
 	for (int32_t i = 0; i < mSoundCount; ++i) {
 		mSounds.values().at(i)->unload();
 	}
-
-	qDebug() << "Destroyed Android Audio Engine";
 }
 
 void AndroidAudio::registerSound(const QString& path, const QString& name)
@@ -192,8 +186,6 @@ void AndroidAudio::startSoundPlayer()
 
 	lRes = (*mPlayerPlay)->SetPlayState(mPlayerPlay, SL_PLAYSTATE_PLAYING);
 	Q_ASSERT(SL_RESULT_SUCCESS == lRes);
-
-//    qDebug() << "Created Buffer Player";
 }
 
 void AndroidAudio::playSound(const std::string& name, int i)
@@ -214,7 +206,6 @@ void AndroidAudio::reallyPlaySound(const QString& name)
 	AndroidSoundEffect* sound = mSounds[name];
 
 	if (!sound) {
-		qDebug() << "No such sound:" << name;
 		return;
 	}
 	//Get the current state of the player

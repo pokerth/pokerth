@@ -32,6 +32,7 @@
 #include "configfile.h"
 #include "game_defs.h"
 #include <QtCore>
+#include <QScreen>
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST

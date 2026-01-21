@@ -30,13 +30,16 @@
  *****************************************************************************/
 #include "joinnetworkgamedialogimpl.h"
 #include "session.h"
+#include <QScreen>
 #include "mymessagebox.h"
 #include "configfile.h"
 #include <QDomDocument>
 #include <QDomElement>
-#include <QDebug>
 #include <QFile>
 #include <net/socket_startup.h>
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 using namespace std;
 
@@ -50,6 +53,8 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 	setupUi(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_profileName);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_ipAddress);
 #endif
 // 	QShortcut *connectKey = new QShortcut(QKeySequence(Qt::Key_Enter), this);
 // 	connect( connectKey, SIGNAL(activated() ), pushButton_connect, SLOT( click() ) );
@@ -110,7 +115,6 @@ int joinNetworkGameDialogImpl::exec()
 			QFile file( QString::fromUtf8(myServerProfilesFile.c_str()) );
 			if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
 			{
-				qDebug( "Failed to open file for writing." );
 			}else{
 				QTextStream stream( &file );
 				stream << xmlDoc.toString();

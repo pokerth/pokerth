@@ -11,21 +11,15 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>480</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>1980</width>
-    <height>1200</height>
+    <width>320</width>
+    <height>240</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -36,22 +30,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>800</width>
-     <height>424</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>1980</width>
-     <height>1200</height>
-    </size>
    </property>
    <layout class="QGridLayout" name="gridLayout_4">
     <property name="leftMargin">

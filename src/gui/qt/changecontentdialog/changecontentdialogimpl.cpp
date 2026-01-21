@@ -33,6 +33,10 @@
 #include "configfile.h"
 #include <QtGui>
 #include <QtCore>
+#include <QScreen>
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t)
 	: QDialog(parent), myConfig(config), myType(t)
@@ -45,6 +49,7 @@ changeContentDialogImpl::changeContentDialogImpl(QWidget *parent, ConfigFile *co
 	this->installEventFilter(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit);
 #endif
 
 	switch (myType) {

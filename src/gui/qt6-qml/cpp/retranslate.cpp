@@ -1,6 +1,5 @@
 #include "retranslate.h"
 #include <QCoreApplication>
-#include <QDebug>
 
 LanguageManager::LanguageManager(QQmlApplicationEngine *engine, QObject *parent)
     : QObject(parent)

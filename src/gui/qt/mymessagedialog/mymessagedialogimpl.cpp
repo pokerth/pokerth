@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "mymessagedialogimpl.h"
+#include <QScreen>
 #include <QtCore>
 #include "configfile.h"
 #include <iostream>

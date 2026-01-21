@@ -79,7 +79,6 @@ MyListViewItemData* CreateLocalGameViewImpl::listItem(QString id)
         if (static_cast<MyListViewItemData*>(myListData.at(i))->myId() == id)
             return static_cast<MyListViewItemData*>(myListData.at(i));
     }
-    qDebug("ERROR: listItem in createLocalGameViewImpl could not be found");
     return NULL;
 }
 
@@ -110,9 +109,6 @@ void CreateLocalGameViewImpl::readConfigValues()
 
 void CreateLocalGameViewImpl::startGame()
 {
-    qDebug() << "Start Game from CreateLocalGameViewImpl:";
-    qDebug() << "Number of players: " << listItem("comboBox_NumberOfPlayers")->myValue();
-
     GameData gameData;
     gameData.maxNumberOfPlayers = listItem("comboBox_NumberOfPlayers")->myValue().toInt();
     gameData.startMoney = listItem("spinBox_StartCash")->myValue().toInt();

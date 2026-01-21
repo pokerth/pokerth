@@ -33,6 +33,7 @@
 #include "mymessagedialogimpl.h"
 #include "settingsdialogimpl.h"
 #include "startwindowimpl.h"
+#include <QScreen>
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -45,6 +46,9 @@
 #include "mytimeoutlabel.h"
 #include "guilog.h"
 #include "chattools.h"
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 #include "playerinterface.h"
 #include "boardinterface.h"
@@ -117,6 +121,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 #ifdef ANDROID
 	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
 	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareMobileLineEdit(tabs.lineEdit_ChatInput);
 #else
 	tabs.pushButton_settings->hide();
 #endif
@@ -696,6 +701,16 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 #ifdef GUI_800x480
 	connect( tabsButton, SIGNAL( clicked() ), this, SLOT( tabsButtonClicked() ) );
+#endif
+
+#ifdef ANDROID
+	// Qt6 Android: Setze explizite Geometrie nach Initialisierung für korrektes Vollbild
+	// Dies behebt das Querformat-Problem, bei dem der untere/rechte Bereich abgeschnitten wird
+	QScreen *screen = QGuiApplication::primaryScreen();
+	if (screen) {
+		QRect screenGeometry = screen->availableGeometry();
+		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
+	}
 #endif
 }
 
@@ -3274,7 +3289,35 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	} else if (event->type() == QEvent::Resize) {
 		refreshSpectatorsDisplay();
 		return true;
+	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Up && 
+#ifdef GUI_800x480
+	           tabs.lineEdit_ChatInput->hasFocus()
+#else
+	           lineEdit_ChatInput->hasFocus()
+#endif
+	          ) {
+		if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) {
+			keyUpDownChatCounter++;
+		}
+		myChat->showChatHistoryIndex(keyUpDownChatCounter);
+		return true;
+	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Down && 
+#ifdef GUI_800x480
+	           tabs.lineEdit_ChatInput->hasFocus()
+#else
+	           lineEdit_ChatInput->hasFocus()
+#endif
+	          ) {
+		if((keyUpDownChatCounter - 1) >= 0) {
+			keyUpDownChatCounter--;
+		}
+		myChat->showChatHistoryIndex(keyUpDownChatCounter);
+		return true;
 	} else {
+		// Reset counter for other keys
+		if (event->type() == QEvent::KeyPress) {
+			keyUpDownChatCounter = 0;
+		}
 		// pass the event on to the parent class
 		return QMainWindow::eventFilter(obj, event);
 	}
@@ -4315,16 +4358,13 @@ void gameTableImpl::restoreGameTableGeometry()
 		}
 	}
 #ifdef ANDROID
-	if(getAndroidApiVersion() == 10) {
-		QScreen *screen = QGuiApplication::primaryScreen();
-		QRect screenGeometry = screen->geometry();
-		int availableWidth = screenGeometry.width();
-		int availableHeight = screenGeometry.height(); 
-		// QDesktopWidget dw;
-		// int availableWidth = dw.screenGeometry().width();
-		// int availableHeight = dw.screenGeometry().height();
-		this->showNormal();
-		this->setGeometry(0,0,availableWidth, availableHeight);
+	// Für Android: Setze explizit die Vollbild-Geometrie für alle API-Versionen
+	// Dies ist notwendig, da Qt6 setWindowState(Qt::WindowFullScreen) allein
+	// nicht ausreicht, um die korrekte Größe in allen Orientierungen zu gewährleisten
+	QScreen *screen = QGuiApplication::primaryScreen();
+	if (screen) {
+		QRect screenGeometry = screen->availableGeometry();
+		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
 	}
 #endif
 }

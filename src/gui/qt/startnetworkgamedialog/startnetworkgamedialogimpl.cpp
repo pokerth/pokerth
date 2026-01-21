@@ -33,8 +33,12 @@
 #include "session.h"
 #include "configfile.h"
 #include "chattools.h"
+#include <QScreen>
 #include "soundevents.h"
 #include <net/socket_msg.h>
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#endif
 
 startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, ConfigFile *config)
 	: QDialog(parent), myW(NULL), myStartWindow(parent), keyUpDownChatCounter(0), myPlayerId(0), isAdmin(false), myConfig(config), myChat(NULL)
@@ -46,6 +50,7 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 	setupUi(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareMobileLineEdit(lineEdit_ChatInput);
 #endif
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, LAN_LOBBY_CHAT, textBrowser_ChatDisplay);
 

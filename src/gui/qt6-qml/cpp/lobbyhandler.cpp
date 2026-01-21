@@ -6,7 +6,6 @@
 #include "lobbyhandler.h"
 #include "session.h"
 #include "configfile.h"
-#include <QDebug>
 
 // PlayerListModel implementation
 PlayerListModel::PlayerListModel(QObject *parent)
@@ -68,8 +67,6 @@ void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bo
     m_playerIndexMap[playerId] = newRow;
     
     endInsertRows();
-    
-    qDebug() << "Added player:" << playerName << "ID:" << playerId;
 }
 
 void PlayerListModel::removePlayer(unsigned playerId)
@@ -91,8 +88,6 @@ void PlayerListModel::removePlayer(unsigned playerId)
     }
     
     endRemoveRows();
-    
-    qDebug() << "Removed player ID:" << playerId;
 }
 
 void PlayerListModel::updatePlayer(unsigned playerId, const QString &newName)
@@ -118,7 +113,6 @@ void PlayerListModel::updatePlayerInfo(unsigned playerId, const QString &playerN
     
     QModelIndex idx = index(row);
     emit dataChanged(idx, idx);
-    qDebug() << "PlayerListModel: Updated player at index" << row << "Name:" << playerName;
 }
 
 void PlayerListModel::clear()
@@ -200,8 +194,6 @@ void GameListModel::addGame(unsigned gameId, const QString &gameName)
     m_gameIndexMap[gameId] = newRow;
     
     endInsertRows();
-    
-    qDebug() << "Added game:" << game.name << "ID:" << gameId;
 }
 
 void GameListModel::removeGame(unsigned gameId)
@@ -223,8 +215,6 @@ void GameListModel::removeGame(unsigned gameId)
     }
     
     endRemoveRows();
-    
-    qDebug() << "Removed game ID:" << gameId;
 }
 
 void GameListModel::updateGameMode(unsigned gameId, int mode)
@@ -274,29 +264,23 @@ void LobbyHandler::setConfig(ConfigFile *config)
 
 void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerName)
 {
-    qDebug() << "LobbyHandler: Player joined -" << playerName << "ID:" << playerId;
     m_playerListModel.addPlayer(playerId, playerName);
 }
 
 void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 {
-    qDebug() << "LobbyHandler: Player left - ID:" << playerId;
     m_playerListModel.removePlayer(playerId);
 }
 
 void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName, bool isAdmin)
 {
-    qDebug() << "LobbyHandler: Update player name -" << playerName << "ID:" << playerId << "Admin:" << isAdmin;
-    
     // Update in player list model
     m_playerListModel.updatePlayerInfo(playerId, playerName, isAdmin);
     
     // Check if this is our own player by comparing with session's unique player ID
     if (m_session) {
         unsigned myId = m_session->getClientUniquePlayerId();
-        qDebug() << "Checking if this is me: playerId =" << playerId << ", myId =" << myId;
         if (playerId == myId) {
-            qDebug() << "This is me! Setting my player info to:" << playerName;
             setMyPlayerInfo(playerId, playerName);
         }
     }
@@ -304,27 +288,21 @@ void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName
 
 void LobbyHandler::onGameListNew(unsigned gameId, const QString &gameName)
 {
-    qDebug() << "LobbyHandler: New game - ID:" << gameId << "Name:" << gameName;
     m_gameListModel.addGame(gameId, gameName.isEmpty() ? QString("Game #%1").arg(gameId) : gameName);
 }
 
 void LobbyHandler::onGameListRemove(unsigned gameId)
 {
-    qDebug() << "LobbyHandler: Game removed - ID:" << gameId;
     m_gameListModel.removeGame(gameId);
 }
 
 void LobbyHandler::onGameListUpdateMode(unsigned gameId, int mode)
 {
-    qDebug() << "LobbyHandler: Game mode updated - ID:" << gameId << "Mode:" << mode;
     m_gameListModel.updateGameMode(gameId, mode);
 }
 
 void LobbyHandler::setMyPlayerInfo(unsigned playerId, const QString &playerName)
 {
-    qDebug() << "LobbyHandler::setMyPlayerInfo called - ID:" << playerId << "Name:" << playerName;
-    qDebug() << "Current myPlayerId:" << m_myPlayerId << "Current myPlayerName:" << m_myPlayerName;
-    
     if (m_myPlayerId != playerId) {
         m_myPlayerId = playerId;
         emit myPlayerIdChanged();
@@ -333,18 +311,13 @@ void LobbyHandler::setMyPlayerInfo(unsigned playerId, const QString &playerName)
     if (m_myPlayerName != playerName) {
         m_myPlayerName = playerName;
         emit myPlayerNameChanged();
-        qDebug() << "Player name changed to:" << m_myPlayerName;
     }
-    
-    qDebug() << "LobbyHandler: My player info set -" << playerName << "ID:" << playerId;
 }
 
 void LobbyHandler::sendChatMessage(const QString &message)
 {
     if (!m_session || message.trimmed().isEmpty())
         return;
-    
-    qDebug() << "LobbyHandler: Sending chat message:" << message;
     
     try {
         m_session->sendLobbyChatMessage(message.toStdString());
@@ -356,7 +329,6 @@ void LobbyHandler::sendChatMessage(const QString &message)
 
 void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &message)
 {
-    qDebug() << "LobbyHandler: Chat message from" << playerName << ":" << message;
     emit chatMessageReceived(playerName, message);
 }
 
@@ -367,7 +339,6 @@ void LobbyHandler::createGame()
         return;
     }
     
-    qDebug() << "LobbyHandler: Creating game...";
     // TODO: Implement game creation via session
 }
 
@@ -378,7 +349,6 @@ void LobbyHandler::joinGame(unsigned gameId)
         return;
     }
     
-    qDebug() << "LobbyHandler: Joining game ID:" << gameId;
     // TODO: Implement game join via session
     emit gameJoined(gameId);
 }
@@ -388,6 +358,5 @@ void LobbyHandler::leaveGame()
     if (!m_session)
         return;
     
-    qDebug() << "LobbyHandler: Leaving game...";
     // TODO: Implement game leave via session
 }

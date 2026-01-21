@@ -271,3 +271,11 @@ add_subdirectory(src/dbofficial)
 add_subdirectory(src/gui/qt)
 add_subdirectory(src/gui/qt6-qml)
 
+# zlib_compress utility tool for compressing serverlist
+add_executable(zlib_compress src/zlib_compress.cpp)
+target_link_libraries(zlib_compress 
+    PRIVATE 
+    Boost::filesystem 
+    Boost::iostreams
+)
+

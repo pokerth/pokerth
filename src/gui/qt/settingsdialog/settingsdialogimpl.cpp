@@ -36,6 +36,10 @@
 #include "configfile.h"
 #include <net/socket_startup.h>
 #include <QSet>
+#ifdef ANDROID
+#include "mobileinputhelper.h"
+#include <QScrollArea>
+#endif
 enum StyleType { POKERTH_DISTRIBUTED_STYLE, ADDITIONAL_STYLE };
 
 using namespace std;
@@ -67,6 +71,27 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     }
     
     label_soundVolume->hide();
+    
+	// Setze Column Stretch für listWidget (Spalte 0) und stackedWidget (Spalte 1)
+	QGridLayout* grid = qobject_cast<QGridLayout*>(layout()->itemAt(0)->layout());
+	if (grid) {
+		grid->setColumnStretch(0, 1);  // listWidget
+		grid->setColumnStretch(1, 3);  // stackedWidget
+	}
+	
+	// Setze Vollbild-Geometrie bereits im Konstruktor für sofortige Verfügbarkeit
+	this->setWindowState(Qt::WindowFullScreen);
+	QScreen *screen = QGuiApplication::primaryScreen();
+	if (screen) {
+		QRect screenGeometry = screen->availableGeometry();
+		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
+	}
+	
+	// Prepare all QLineEdit widgets for mobile input
+	QList<QLineEdit*> lineEdits = this->findChildren<QLineEdit*>();
+	for (QLineEdit* le : lineEdits) {
+		MobileInputHelper::prepareMobileLineEdit(le);
+	}
 #endif
 
 	myManualBlindsOrderDialog = new manualBlindsOrderDialogImpl;
@@ -359,7 +384,7 @@ void settingsDialogImpl::prepareDialog()
 		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
 		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 	}
-	//add danuxi table
+	//add danuxi1 table
 	GameTableStyleReader danuxi1TableStyle(myConfig, this);
 	danuxi1TableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
 	if(danuxi1TableStyle.getLoadedSuccessfull()) {
@@ -419,7 +444,6 @@ void settingsDialogImpl::prepareDialog()
 			}
 		}
 	} else {
-		qDebug() << "Config ERROR: current game table style file could not be loaded. Try to mark default as selected.";
 		QTreeWidgetItem *item = treeWidget_gameTableStyles->topLevelItem(0);
 		if(item) {
 			item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
@@ -512,7 +536,6 @@ void settingsDialogImpl::prepareDialog()
 			} else item->setIcon(0, QIcon());
 		}
 		if(!currentCardDeckFound) {
-			qDebug() << "Config ERROR: current card deck style file not found in List. Try to mark default as selected.";
 			QTreeWidgetItem *item = treeWidget_cardDeckStyles->topLevelItem(0);
 			if(item) {
 				item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
@@ -520,7 +543,6 @@ void settingsDialogImpl::prepareDialog()
 			}
 		}
 	} else {
-		qDebug() << "Config ERROR: current card deck style file could not be loaded. Try to mark default as selected.";
 		QTreeWidgetItem *item = treeWidget_cardDeckStyles->topLevelItem(0);
 		if(item) {
 			item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
@@ -603,6 +625,15 @@ void settingsDialogImpl::exec(bool in_game)
 {
 	calledIngame = in_game;
 	prepareDialog();
+	
+#ifdef ANDROID
+	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
+	this->show();
+	this->raise();
+	this->activateWindow();
+	QCoreApplication::processEvents(); // Force event processing
+#endif
+	
 	QDialog::exec();
 }
 
@@ -1262,7 +1293,6 @@ void settingsDialogImpl::addGameTableStyle()
 				treeWidget_gameTableStyles->setCurrentItem(newItem);
 				treeWidget_gameTableStyles->sortItems(0, Qt::AscendingOrder);
 
-				qDebug() << "settings: " << newStyle.getStyleDescription() << newStyle.getState();
 				if(newStyle.getState() != GT_STYLE_OK) newStyle.showErrorMessage();
 			} else {
 				MyMessageBox::warning(this, tr("Game Table Style File Error"),
@@ -1385,7 +1415,6 @@ void settingsDialogImpl::addCardDeckStyle()
 				if(newStyle.getState() != CD_STYLE_OK) newItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
 				else newItem->setIcon(2, QIcon(":/gfx/dialog-ok-apply.png"));
 
-				qDebug() << "settings: " << newStyle.getStyleDescription() << newStyle.getState();
 				if(newStyle.getState() != CD_STYLE_OK) newStyle.showErrorMessage();
 
 				treeWidget_cardDeckStyles->addTopLevelItem(newItem);

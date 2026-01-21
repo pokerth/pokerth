@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "manualblindsorderdialogimpl.h"
+#include <QScreen>
 #include "configfile.h"
 #include "mymessagebox.h"
 #include <iostream>
