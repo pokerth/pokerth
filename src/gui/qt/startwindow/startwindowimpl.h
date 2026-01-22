@@ -171,6 +171,8 @@ public slots:
 	void hideTimeoutDialog();
 
 	void networkError(int, int);
+	void bbcbotAttemptReconnect();
+	void bbcbotResetReconnectAttempts();
 	void networkNotification(int);
 	void networkMessage(QString);
 	void networkMessage(unsigned);
@@ -207,6 +209,11 @@ private:
 
 	MyMessageBox msgBoxOutdatedVersion;
 	bool msgBoxOutdatedVersionActive;
+
+	// BBCBot: Auto-reconnect support
+	QTimer *bbcbotReconnectTimer;
+	bool bbcbotReconnectEnabled;
+	int bbcbotReconnectAttempts;
 
 	friend class GuiWrapper;
 };

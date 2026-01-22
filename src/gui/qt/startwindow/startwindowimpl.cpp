@@ -220,6 +220,11 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), myStartNetworkGameDialog, SLOT(gameCreated(unsigned)));
 
 	connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, bool)), myGameLobbyDialog, SLOT(joinedNetworkGame(unsigned, QString, bool)));
+	
+	// BBCBot: Reset reconnect attempts on successful connection
+	if (bbcbotReconnectEnabled) {
+		connect(this, SIGNAL(signalNetClientSelfJoined(unsigned, QString, bool)), this, SLOT(bbcbotResetReconnectAttempts()));
+	}
 	connect(this, SIGNAL(signalNetClientPlayerJoined(unsigned, QString, bool)), myGameLobbyDialog, SLOT(addConnectedPlayer(unsigned, QString, bool)));
 	connect(this, SIGNAL(signalNetClientPlayerChanged(unsigned, QString)), myGameLobbyDialog, SLOT(updatePlayer(unsigned, QString)));
 	connect(this, SIGNAL(signalNetClientPlayerLeft(unsigned, QString)), myGameLobbyDialog, SLOT(removePlayer(unsigned, QString)));
@@ -272,6 +277,17 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	if (!mySession->bbcbotpassword.empty()) {
 		// Use QTimer to start after the event loop is running
 		QTimer::singleShot(100, this, SLOT(callGameLobbyDialog()));
+		
+		// Initialize reconnect timer for BBCBot
+		bbcbotReconnectTimer = new QTimer(this);
+		bbcbotReconnectTimer->setSingleShot(true);
+		connect(bbcbotReconnectTimer, SIGNAL(timeout()), this, SLOT(bbcbotAttemptReconnect()));
+		bbcbotReconnectEnabled = true;
+		bbcbotReconnectAttempts = 0;
+	} else {
+		bbcbotReconnectTimer = nullptr;
+		bbcbotReconnectEnabled = false;
+		bbcbotReconnectAttempts = 0;
 	}
 	// end bbcbot code
 
@@ -840,9 +856,18 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	break;
 	case ERR_SOCK_RECV_FAILED: // Sometimes windows reports recv failed on close.
 	case ERR_SOCK_CONN_RESET: {
-		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("The connection to the server was lost."),
-							  QMessageBox::Close);
+		// BBCBot: Automatic reconnect on connection loss
+		if (bbcbotReconnectEnabled && !mySession->bbcbotpassword.empty()) {
+			bbcbotReconnectAttempts++;
+			int delaySeconds = std::min(5 + (bbcbotReconnectAttempts - 1) * 5, 30); // 5s, 10s, 15s, ... max 30s
+			std::cout << "[BBCBot] Connection lost. Attempting reconnect #" << bbcbotReconnectAttempts 
+			          << " in " << delaySeconds << " seconds..." << std::endl;
+			bbcbotReconnectTimer->start(delaySeconds * 1000);
+		} else {
+			MyMessageBox::warning(this, tr("Network Error"),
+								  tr("The connection to the server was lost."),
+								  QMessageBox::Close);
+		}
 	}
 	break;
 	case ERR_SOCK_CONN_EXISTS: {
@@ -1287,6 +1312,36 @@ QString startWindowImpl::checkForFirstStartAfterUpdated()
 
 	return QString();
 
+}
+
+void startWindowImpl::bbcbotAttemptReconnect()
+{
+	std::cout << "[BBCBot] Attempting to reconnect to server..." << std::endl;
+	
+	// Close any existing dialogs
+	if (myGameLobbyDialog && myGameLobbyDialog->isVisible()) {
+		myGameLobbyDialog->close();
+	}
+	if (myStartNetworkGameDialog && myStartNetworkGameDialog->isVisible()) {
+		myStartNetworkGameDialog->close();
+	}
+	
+	// Terminate the existing client connection
+	if (mySession) {
+		mySession->terminateNetworkClient();
+	}
+	
+	// Trigger reconnect after a short delay to allow cleanup
+	// Use callGameLobbyDialog which will handle the connection setup
+	QTimer::singleShot(500, this, SLOT(callGameLobbyDialog()));
+}
+
+void startWindowImpl::bbcbotResetReconnectAttempts()
+{
+	if (bbcbotReconnectEnabled) {
+		std::cout << "[BBCBot] Connection successful. Resetting reconnect attempts counter." << std::endl;
+		bbcbotReconnectAttempts = 0;
+	}
 }
 
 bool startWindowImpl::eventFilter(QObject *obj, QEvent *event)
