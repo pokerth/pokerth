@@ -55,6 +55,14 @@
 #include <QFile>
 #include <QTextStream>
 #include <QIODevice>
+#include <QDir>
+#include <QEventLoop>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QSslConfiguration>
+#include <QSslSocket>
+#include <QUrl>
 #include <sstream>
 #include <algorithm>
 #include <fstream>
@@ -2184,8 +2192,100 @@ void
 ClientThread::bot_every10min()
 {
 	std::cout << "[BBCBot] Running 10-minute maintenance tasks" << std::endl;
-	// Placeholder for periodic maintenance tasks
-	// Could include: database cleanup, statistics updates, etc.
+	// Download updated bot files from server
+	bot_downloadfiles();
+}
+
+void
+ClientThread::bot_downloadfiles()
+{
+	std::cout << "[BBCBot] Downloading updated bot files from server..." << std::endl;
+	
+	// Create botfiles directory if it doesn't exist
+	QDir botfilesDir("botfiles");
+	if (!botfilesDir.exists()) {
+		botfilesDir.mkpath(".");
+		std::cout << "[BBCBot] Created botfiles directory: " << botfilesDir.absolutePath().toStdString() << std::endl;
+	} else {
+		std::cout << "[BBCBot] Using existing botfiles directory: " << botfilesDir.absolutePath().toStdString() << std::endl;
+	}
+	
+	// List of all files to download
+	QStringList files;
+	files << "bbcupfinal_settings.txt" << "gameslist.txt" << "husctest2_settings.txt"
+	      << "mcupfinal_settings.txt" << "newweclist.txt" << "step2_settings.txt"
+	      << "wecgfinal_settings.txt" << "weclist.old3.txt" << "weclist.txt"
+	      << "bbcup_settings.txt" << "hash2.txt" << "manual_fixedcommands.txt"
+	      << "mcup_settings.txt" << "permissions.txt" << "step3_settings.txt"
+	      << "wecmfinal_settings.txt" << "fixedcommands.txt" << "husc_settings.txt"
+	      << "manual_permissions.txt" << "minidb.txt" << "step1_settings.txt"
+	      << "step4_settings.txt" << "wec_settings.txt" << "duckscup_settings.txt";
+	
+	const QString baseUrl = "https://bbc.pokerth.net/exp3/bbcbot/";
+	std::cout << "[BBCBot] Starting synchronous download of " << files.size() << " files from " << baseUrl.toStdString() << std::endl;
+	
+	// Use QNetworkAccessManager for downloads (no parent since ClientThread is not a QObject)
+	QNetworkAccessManager *manager = new QNetworkAccessManager();
+	
+	int successCount = 0;
+	int errorCount = 0;
+	
+	// Download each file synchronously using QEventLoop
+	for (const QString &filename : files) {
+		QUrl url(baseUrl + filename);
+		QNetworkRequest request(url);
+		
+		// Set timeout to 30 seconds
+		request.setTransferTimeout(30000);
+		
+		// Disable SSL verification (like curl -k)
+		QSslConfiguration sslConfig = request.sslConfiguration();
+		sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
+		request.setSslConfiguration(sslConfig);
+		
+		QNetworkReply *reply = manager->get(request);
+		
+		// Create a local event loop to wait for this download
+		QEventLoop loop;
+		QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+		loop.exec(); // Wait for download to finish
+		
+		std::cout << "[BBCBot] Download finished for: " << filename.toStdString() << std::endl;
+		
+		if (reply->error() == QNetworkReply::NoError) {
+			QByteArray data = reply->readAll();
+			QString filepath = "botfiles/" + filename;
+			QFile file(filepath);
+			
+			if (file.open(QIODevice::WriteOnly)) {
+				file.write(data);
+				file.close();
+				std::cout << "[BBCBot] Successfully saved: " << filename.toStdString() 
+				          << " (" << data.size() << " bytes)" << std::endl;
+				successCount++;
+			} else {
+				std::cout << "[BBCBot] Error: Could not save file: " << filename.toStdString() << std::endl;
+				errorCount++;
+			}
+		} else {
+			std::cout << "[BBCBot] Error downloading " << filename.toStdString() 
+			          << ": " << reply->errorString().toStdString() << std::endl;
+			errorCount++;
+		}
+		
+		reply->deleteLater();
+	}
+	
+	delete manager;
+	
+	std::cout << "[BBCBot] Download complete: " << successCount << " successful, " 
+	          << errorCount << " errors" << std::endl;
+	
+	// Reload bot files after successful downloads
+	if (successCount > 0) {
+		std::cout << "[BBCBot] Reloading bot files..." << std::endl;
+		bot_loadfiles();
+	}
 }
 
 // bbcbotplayerdb implementation

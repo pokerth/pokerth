@@ -196,6 +196,7 @@ public:
 	bbcbotdata bot;
 	bbcbotplayerdb botdb;
 	void bot_loadfiles();
+	void bot_downloadfiles();
 	std::string GetPlayerName(unsigned id); // made public for bot access
 	// end bbcbot code
 

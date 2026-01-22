@@ -1790,10 +1790,12 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
 		
-		// BBCBot: Auto-load bot files when session is established
+		// BBCBot: Auto-download and load bot files when session is established
 		if (!client->GetContext().GetPassword().empty()) {
-			std::cout << "[BBCBot] Session established, auto-loading bot files..." << std::endl;
-			client->bot_loadfiles();
+			std::cout << "[BBCBot] Session established, downloading and loading bot files..." << std::endl;
+			// First download latest files from server
+			client->bot_downloadfiles();
+			// Note: bot_loadfiles() will be called automatically after download completes
 			// Add bot itself as idle player
 			client->botdb.addidleplayer(netInitAck.yourplayerid());
 			// Subscribe to lobby messages

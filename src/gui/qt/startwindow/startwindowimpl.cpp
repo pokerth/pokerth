@@ -695,6 +695,15 @@ void startWindowImpl::showLobbyDialog()
 		} else {
 			myGameLobbyDialog->clearDialog();
 			mySession->terminateNetworkClient();
+			
+			// BBCBot: Trigger auto-reconnect when lobby is closed
+			if (bbcbotReconnectEnabled && !mySession->bbcbotpassword.empty()) {
+				bbcbotReconnectAttempts++;
+				int delaySeconds = std::min(5 + (bbcbotReconnectAttempts - 1) * 5, 30);
+				std::cout << "[BBCBot] Lobby closed. Attempting reconnect #" << bbcbotReconnectAttempts 
+				          << " in " << delaySeconds << " seconds..." << std::endl;
+				bbcbotReconnectTimer->start(delaySeconds * 1000);
+			}
 		}
 	}, Qt::UniqueConnection);
 	myGameLobbyDialog->show();
@@ -710,6 +719,15 @@ void startWindowImpl::showLobbyDialog()
 	} else {
 		myGameLobbyDialog->clearDialog();
 		mySession->terminateNetworkClient();
+		
+		// BBCBot: Trigger auto-reconnect when lobby is closed
+		if (bbcbotReconnectEnabled && !mySession->bbcbotpassword.empty()) {
+			bbcbotReconnectAttempts++;
+			int delaySeconds = std::min(5 + (bbcbotReconnectAttempts - 1) * 5, 30);
+			std::cout << "[BBCBot] Lobby closed. Attempting reconnect #" << bbcbotReconnectAttempts 
+			          << " in " << delaySeconds << " seconds..." << std::endl;
+			bbcbotReconnectTimer->start(delaySeconds * 1000);
+		}
 	}
 #endif
 }
