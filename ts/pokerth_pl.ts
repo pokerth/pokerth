@@ -6681,19 +6681,33 @@ Proszę wybrierz inny nick.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>Nie udało się polączyć z serwerem.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>Nie udało się połączyć z serwerem.
+
+Serwer może jeszcze przetwarzać poprzednią próbę połączenia.
+Proszę chwilę odczekać i spróbować ponownie za około 1 minutę.
+
+Jeśli problem się utrzymuje, serwer może być tymczasowo niedostępny.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation>Połączenie nie udało sie w określonym czasie..
-Proszę sprawdź adres serwera.
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
 
-Jeśli serwer jest w sieci z routerem NAT, to upewnij się, że &quot;port forwarding&quot; został poprawnie skonfigurowany.</translation>
+If the problem persists, please check the server address or try again later.</source>
+        <translation>Przekroczono czas oczekiwania na połączenie.
+
+Serwer może być zajęty lub jeszcze przetwarzać poprzednie połączenie.
+Proszę chwilę odczekać i spróbować ponownie za około 1 minutę.
+
+Jeśli problem się utrzymuje, proszę sprawdzić adres serwera lub spróbować później.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

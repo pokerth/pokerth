@@ -174,13 +174,26 @@ protected:
                 boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
                 sslStream->next_layer() = std::move(*acceptedSocket);
 
-                // SSL_set_info_callback(sslStream->native_handle(), &SslServerInfoCallback);
-                // LOG_MSG("Starting TLS handshake for accepted connection.");
+                // Create a timeout timer for the handshake (5 seconds)
+                auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
+                handshakeTimer->expires_after(std::chrono::seconds(5));
+                handshakeTimer->async_wait(
+                    [sslStream, handshakeTimer](const boost::system::error_code& ec) {
+                        if (!ec) {
+                            // Timeout: close the socket to abort the handshake
+                            boost::system::error_code closeEc;
+                            sslStream->lowest_layer().close(closeEc);
+                            LOG_MSG("[TLS-SERVER] Handshake timeout after 5s - closed socket");
+                        }
+                    });
 
                 sslStream->async_handshake(
                     boost::asio::ssl::stream_base::server,
-                    boost::bind(&ServerAcceptHelper::HandleHandshake, this, sslStream,
-                                boost::asio::placeholders::error)
+                    [this, sslStream, handshakeTimer](const boost::system::error_code& error) {
+                        // Cancel the timeout timer
+                        handshakeTimer->cancel();
+                        this->HandleHandshake(sslStream, error);
+                    }
                 );
             } else {
                 boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
@@ -222,6 +235,10 @@ protected:
                     ssl_err = ERR_get_error();
                 }
             }
+            
+            // Close the SSL stream and socket immediately to free resources
+            boost::system::error_code ec;
+            sslStream->lowest_layer().close(ec);
         }
 
         boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));

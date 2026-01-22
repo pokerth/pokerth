@@ -7357,19 +7357,33 @@ Please choose another one.</source>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>Не удалось соединиться с сервером.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>Не удалось подключиться к серверу.
+
+Сервер может всё ещё обрабатывать предыдущую попытку подключения.
+Пожалуйста, подождите момент и повторите попытку примерно через 1 минуту.
+
+Если проблема сохраняется, сервер может быть временно недоступен.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation>Истекло время ожидания соединения.
-Проверьте адрес сервера.
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
 
-Если сервер находится за NAT-маршрутизатором, удостоверьтесь, что обращение к порту сервера разрешено.</translation>
+If the problem persists, please check the server address or try again later.</source>
+        <translation>Истекло время ожидания подключения.
+
+Сервер может быть занят или всё ещё обрабатывать предыдущее подключение.
+Пожалуйста, подождите момент и повторите попытку примерно через 1 минуту.
+
+Если проблема сохраняется, проверьте адрес сервера или повторите попытку позже.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

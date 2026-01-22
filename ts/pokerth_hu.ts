@@ -6791,18 +6791,33 @@ Kérlek válassz másik nevet.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>Nem lehet kapcsolódni a kiszolgálóhoz.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>Nem lehet kapcsolódni a kiszolgálóhoz.
+
+A kiszolgáló még feldolgozhatja az előző csatlakozási kísérletet.
+Kérlek várj egy pillanatig és próbáld újra körülbelül 1 perc múlva.
+
+Ha a probléma továbbra is fennáll, a kiszolgáló ideiglenesen nem elérhető.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, please check the server address or try again later.</source>
         <translation>Kapcsolat időtúllépése.
-Kérlek ellenőrizd a kiszolgáló címét.
-Ha a kiszolgáló NAT router mögött van, akkor bizonyosodj meg róla hogy a porttovábbítás engedélyezett.</translation>
+
+A kiszolgáló foglalt lehet vagy még feldolgozza az előző kapcsolatot.
+Kérlek várj egy pillanatig és próbáld újra körülbelül 1 perc múlva.
+
+Ha a probléma továbbra is fennáll, ellenőrizd a kiszolgáló címét vagy próbáld újra később.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

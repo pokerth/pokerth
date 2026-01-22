@@ -574,6 +574,16 @@ ClientThread::Main()
 		m_ioService->run(); // Will only be aborted asynchronously.
 
 	} catch (const PokerTHException &e) {
+		// Close the session completely before handling the error
+		qDebug() << "[CLIENT] Exception caught - closing session";
+		if (GetContext().GetSessionData()) {
+			try {
+				GetContext().GetSessionData()->Close();
+			} catch (...) {
+				// Ignore any errors during cleanup
+			}
+		}
+		
 		// Delete the cached server list, as it may be outdated.
 		path tmpServerListPath(GetCacheServerListFileName());
 		if (exists(tmpServerListPath)) {
@@ -581,10 +591,6 @@ ClientThread::Main()
 		}
 		GetCallback().SignalNetClientError(e.GetErrorId(), e.GetOsErrorCode());
 	}
-	// Close the socket.
-	boost::system::error_code ec;
-	if(GetContext().GetSessionData()->GetAsioSocket())
-		GetContext().GetSessionData()->GetAsioSocket()->close(ec);
 	// Set a state which does not do anything.
 	SetState(CLIENT_FINAL_STATE::Instance());
 	// Cancel timers.

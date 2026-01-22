@@ -8559,19 +8559,33 @@ Seleccione otro.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>No se puede conectar al servidor.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>No se pudo conectar al servidor.
+
+El servidor podría estar procesando todavía un intento de conexión anterior.
+Por favor, espere un momento e inténtelo de nuevo en aproximadamente 1 minuto.
+
+Si el problema persiste, el servidor podría estar temporalmente no disponible.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation>Tiempo de espera de la conexión superado.
-Por favor, compruebe la dirección del servidor.
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
 
-Si el servidor está detrás de un enrutador NAT, asegúrese de que el puerto de reenvío está configurado en el servidor.</translation>
+If the problem persists, please check the server address or try again later.</source>
+        <translation>Tiempo de conexión agotado.
+
+El servidor podría estar ocupado o procesando todavía una conexión anterior.
+Por favor, espere un momento e inténtelo de nuevo en aproximadamente 1 minuto.
+
+Si el problema persiste, verifique la dirección del servidor o inténtelo más tarde.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

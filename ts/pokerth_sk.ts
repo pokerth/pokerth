@@ -7281,19 +7281,33 @@ Prosím vyberte si inú prezývku.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>Nepodarilo sa pripojiť k serveru.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>Nepodarilo sa pripojiť k serveru.
+
+Server môže ešte späcovať predchádzajúci pokus o pripojenie.
+Prosím, počakajte chvíľu a skúste to znova o približne 1 minútu.
+
+Ak problém pretrváva, server môže byť dočasne nedostupný.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, please check the server address or try again later.</source>
         <translation>Vypršal časový limit na spojenie.
-Prosím, skontrolujte adresu serveru.
 
-Ak je server za NAT routrom, ubezpečte sa, že je na strane servera zapnuté presmerovanie portov (port forwarding).</translation>
+Server môže byť zaneprázdnený alebo ešte späcovať predchádzajúce pripojenie.
+Prosím, počakajte chvíľu a skúste to znova o približne 1 minútu.
+
+Ak problém pretrváva, prosím skontrolujte adresu servera alebo to skúste neskôr.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

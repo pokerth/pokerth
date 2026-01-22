@@ -3,18 +3,12 @@ Requirements
 
 To compile PokerTH you need following libs: 
 
-Linux (outdated! ... update follows):
-- Qt version >= 6.7.0, 6.8.x recommended  --> http://qtsoftware.com/
-- zlib version >= 1.2.3  --> http://www.zlib.net/
-- libcurl version >= 7.16  --> http://curl.haxx.se/
+- Qt version >= 6.7.0, 6.9.2 LTS recommended  --> http://qtsoftware.com/
 - libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
   libboost_iostreams, libboost_asio, libboost_regex, libboost_random, libboost_uuid
   (version >= 1.83, latest always recommended)  --> http://www.boost.org/
 - protoc >= 2.3.0 (during build), libprotobuf >= 2.3.0 -> https://github.com/google/protobuf
-
-Windows (outdated):
-see docs/build_mingw_windows.txt
-
+- OpenSSL
 
 Basic Installation
 ==================
@@ -34,3 +28,12 @@ Linux:
 
   3. Become root (typing "su" or "sudo -s") and type 
       `cmake --install ./build`
+
+Windows:
+see ./docker/windows folder
+
+Android:
+see ./docker/android folder
+
+MacOS:
+see ./build_macos.sh

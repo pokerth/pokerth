@@ -1478,9 +1478,17 @@ void GameTableStyleReader::setPlayerSeatInactiveStyle(QGroupBox *ps)
 {
 	// 	check if seat is on top or bottom line
 	if(ps->objectName() == "groupBox2" || ps->objectName() == "groupBox1" || ps->objectName() == "groupBox0" || ps->objectName() == "groupBox9" || ps->objectName() == "groupBox8") {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerBottomSeatInactive+"\") }");
+		if(!PlayerBottomSeatInactive.contains("NULL") && QFile::exists(PlayerBottomSeatInactive)) {
+			ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerBottomSeatInactive+"\") }");
+		} else {
+			ps->setStyleSheet("QGroupBox { border:none; }");
+		}
 	} else {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerTopSeatInactive+"\") }");
+		if(!PlayerTopSeatInactive.contains("NULL") && QFile::exists(PlayerTopSeatInactive)) {
+			ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerTopSeatInactive+"\") }");
+		} else {
+			ps->setStyleSheet("QGroupBox { border:none; }");
+		}
 	}
 }
 
@@ -1488,9 +1496,17 @@ void GameTableStyleReader::setPlayerSeatActiveStyle(QGroupBox *ps)
 {
 	// 	check if seat is on top or bottom line
 	if(ps->objectName() == "groupBox2" || ps->objectName() == "groupBox1" || ps->objectName() == "groupBox0" || ps->objectName() == "groupBox9" || ps->objectName() == "groupBox8") {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerBottomSeatActive+"\") }");
+		if(!PlayerBottomSeatActive.contains("NULL") && QFile::exists(PlayerBottomSeatActive)) {
+			ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerBottomSeatActive+"\") }");
+		} else {
+			ps->setStyleSheet("QGroupBox { border:none; }");
+		}
 	} else {
-		ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerTopSeatActive+"\") }");
+		if(!PlayerTopSeatActive.contains("NULL") && QFile::exists(PlayerTopSeatActive)) {
+			ps->setStyleSheet("QGroupBox { border:none; background-image: url(\""+PlayerTopSeatActive+"\") }");
+		} else {
+			ps->setStyleSheet("QGroupBox { border:none; }");
+		}
 	}
 }
 

@@ -72,7 +72,7 @@ using namespace boost::chrono;
 #endif
 
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
-#define CLIENT_CONNECT_TIMEOUT_SEC	10
+#define CLIENT_CONNECT_TIMEOUT_SEC	12
 
 // BBCBot helper functions
 namespace {
@@ -557,6 +557,13 @@ void
 ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 {
     m_handshakeRetryCount = 0; // Reset retry counter
+    
+    // Initialize handshake timer if using SSL
+    if (client->GetContext().GetSessionData()->IsSsl() && !m_handshakeTimer) {
+        qDebug() << "[TLS-CONNECT] Initializing handshake timer in Enter()";
+        m_handshakeTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
+    }
+    
     client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
     client->GetStateTimer().async_wait(
         boost::bind(
@@ -586,10 +593,23 @@ ClientStateStartConnect::Enter(boost::shared_ptr<ClientThread> client)
 void
 ClientStateStartConnect::Exit(boost::shared_ptr<ClientThread> client)
 {
+	qDebug() << "[TLS-CONNECT] Exit called - cleaning up timers";
+	
+	// Cancel and reset all timers
 	client->GetStateTimer().cancel();
 	if (m_retryTimer) {
+		qDebug() << "[TLS-CONNECT] Cancelling and resetting retry timer";
 		m_retryTimer->cancel();
+		m_retryTimer.reset();  // Komplett zurücksetzen
 	}
+	if (m_handshakeTimer) {
+		qDebug() << "[TLS-CONNECT] Cancelling and resetting handshake timer";
+		m_handshakeTimer->cancel();
+		m_handshakeTimer.reset();  // Komplett zurücksetzen
+	}
+	// Retry-Counter auch zurücksetzen für den nächsten Verbindungsversuch
+	m_handshakeRetryCount = 0;
+	qDebug() << "[TLS-CONNECT] Exit complete - all timers reset";
 }
 
 void
@@ -606,6 +626,26 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
     if (&client->GetState() == this) {
         if (!ec) {
             if (client->GetContext().GetSessionData()->IsSsl()) {
+                // Start handshake with a timeout
+                qDebug() << "[TLS-CONNECT] TCP connected, starting TLS handshake with 10s timeout...";
+                
+                // Create handshake timeout timer
+                if (!m_handshakeTimer) {
+                    qDebug() << "[TLS-CONNECT] Creating new handshake timer";
+                    m_handshakeTimer.reset(new boost::asio::steady_timer(client->GetStateTimer().get_executor()));
+                } else {
+                    qDebug() << "[TLS-CONNECT] Reusing existing handshake timer";
+                }
+                qDebug() << "[TLS-CONNECT] Setting handshake timer to expire in 4 seconds...";
+                m_handshakeTimer->expires_after(boost::asio::chrono::seconds(4));
+                qDebug() << "[TLS-CONNECT] Scheduling async_wait for handshake timeout...";
+                m_handshakeTimer->async_wait(
+                    boost::bind(&ClientStateStartConnect::HandshakeTimeout,
+                                this,
+                                boost::asio::placeholders::error,
+                                client));
+                qDebug() << "[TLS-CONNECT] Handshake timer scheduled successfully";
+                
                 client->GetContext().GetSessionData()->GetSslStream()->async_handshake(
                     boost::asio::ssl::stream_base::client,
                     boost::bind(&ClientStateStartConnect::HandleSslHandshake,
@@ -659,6 +699,11 @@ ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec,
     qDebug() << "[TLS-CONNECT] HandleSslHandshake called - ec:" << ec.value() << "State match:" << (&client->GetState() == this);
     
     if (&client->GetState() == this) {
+        // Cancel the handshake timeout timer
+        if (m_handshakeTimer) {
+            m_handshakeTimer->cancel();
+        }
+        
         if (!ec) {
             qDebug() << "[TLS-CONNECT] SSL Handshake completed successfully!";
             m_handshakeRetryCount = 0; // Reset counter on success
@@ -684,12 +729,12 @@ ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec,
                     }
                 }
                 
-                // Retry handshake up to 5 times with exponential backoff
-                if (m_handshakeRetryCount < 5) {
+                // Retry handshake up to 1 time
+                if (m_handshakeRetryCount < 1) {
                     m_handshakeRetryCount++;
-                    // Exponential backoff: 500ms, 1s, 2s, 4s, 8s
-                    int delayMs = 250 * (1 << m_handshakeRetryCount);
-                    qDebug() << "[TLS-CONNECT] Retrying TLS handshake (attempt" << m_handshakeRetryCount << "of 5) after" << delayMs << "ms...";
+                    // Delay: 2s
+                    int delayMs = 2000;
+                    qDebug() << "[TLS-CONNECT] Retrying TLS handshake (attempt" << m_handshakeRetryCount << "of 1) after" << delayMs << "ms...";
                     
                     // Reset timeout timer to give all retries enough time
                     client->GetStateTimer().cancel();
@@ -702,11 +747,23 @@ ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec,
                     
                     RetryHandshake(client);
                 } else {
-                    qDebug() << "[TLS-CONNECT] TLS handshake failed after 5 attempts, giving up.";
+                    qDebug() << "[TLS-CONNECT] TLS handshake failed after 1 retry, giving up.";
+                    // Close the session to clean up async operations
+                    try {
+                        client->GetContext().GetSessionData()->Close();
+                    } catch (...) {
+                        // Ignore errors during close
+                    }
                     throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, ec.value());
                 }
             } else {
                 qDebug() << "[TLS-CONNECT] Handshake was aborted (timeout or user cancel), not retrying.";
+                // Close the session to clean up async operations
+                try {
+                    client->GetContext().GetSessionData()->Close();
+                } catch (...) {
+                    // Ignore errors during close
+                }
             }
         }
     } else {
@@ -749,14 +806,13 @@ ClientStateStartConnect::RetryHandshakeTimer(const boost::system::error_code& ec
         
         ClientContext &context = client->GetContext();
         
-        // Shutdown the SSL stream properly before retry
-        boost::system::error_code shutdownEc;
-        context.GetSessionData()->GetSslStream()->shutdown(shutdownEc);
-        // Ignore shutdown errors as the connection might already be closed
-        
-        // Close and reconnect the TCP socket
-        boost::system::error_code closeEc;
-        context.GetSessionData()->GetSslStream()->lowest_layer().close(closeEc);
+        // Close the old session completely
+        qDebug() << "[TLS-CONNECT] Closing old session before retry...";
+        try {
+            context.GetSessionData()->Close();
+        } catch (...) {
+            // Ignore errors during close
+        }
         
         // Recreate the session with a new SSL stream
         qDebug() << "[TLS-CONNECT] Recreating SSL session for retry...";
@@ -771,19 +827,75 @@ ClientStateStartConnect::RetryHandshakeTimer(const boost::system::error_code& ec
                         boost::asio::placeholders::error,
                         client));
         
-        // Get the current endpoint
+        // Reset iterator to first endpoint for retry
+        m_remoteEndpointIterator = m_remoteEndpoint.begin();
+        qDebug() << "[TLS-CONNECT] Reset endpoint iterator to first endpoint";
+        
+        // Get the first endpoint
         boost::asio::ip::tcp::endpoint endpoint = m_remoteEndpointIterator->endpoint();
         
-        // Reconnect and retry handshake
+        // Reconnect with the NEW session
         context.GetSessionData()->GetSslStream()->lowest_layer().async_connect(
             endpoint,
             boost::bind(&ClientStateStartConnect::HandleConnect,
                         this,
                         boost::asio::placeholders::error,
-                        m_remoteEndpointIterator,
+                        ++m_remoteEndpointIterator,
                         client));
     } else if (ec == boost::asio::error::operation_aborted) {
         qDebug() << "[TLS-CONNECT] Retry timer cancelled";
+    }
+}
+
+void
+ClientStateStartConnect::HandshakeTimeout(const boost::system::error_code& ec, boost::shared_ptr<ClientThread> client)
+{
+    qDebug() << "[TLS-CONNECT] *** HandshakeTimeout FIRED *** - ec:" << ec.value() << "State match:" << (&client->GetState() == this);
+    
+    if (!ec && &client->GetState() == this) {
+        qDebug() << "[TLS-CONNECT] *** Handshake TIMEOUT after 10s - triggering retry! ***";
+        
+        // Close the hanging SSL connection
+        ClientContext &context = client->GetContext();
+        if (context.GetSessionData()) {
+            try {
+                context.GetSessionData()->CloseSocketHandle();
+            } catch (...) {
+            }
+        }
+        
+        // Trigger retry logic
+        if (m_handshakeRetryCount < 1) {
+            m_handshakeRetryCount++;
+            // Wartezeit: 2s (insgesamt ~10s: 4s + 2s + 4s)
+            int delayMs = 2000;
+            qDebug() << "[TLS-CONNECT] Retrying TLS handshake (attempt" << m_handshakeRetryCount << "of 1) after" << delayMs << "ms...";
+            
+            // Reset connection timeout timer
+            client->GetStateTimer().cancel();
+            client->GetStateTimer().expires_after(seconds(CLIENT_CONNECT_TIMEOUT_SEC));
+            client->GetStateTimer().async_wait(
+                boost::bind(&ClientStateStartConnect::TimerTimeout,
+                            this,
+                            boost::asio::placeholders::error,
+                            client));
+            
+            RetryHandshake(client);
+        } else {
+            qDebug() << "[TLS-CONNECT] TLS handshake failed after 1 retry, giving up.";
+            // Close the session to clean up async operations
+            try {
+                context.GetSessionData()->Close();
+            } catch (...) {
+                // Ignore errors during close
+            }
+            if (context.GetAddrFamily() == AF_INET6)
+                throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_IPV6_FAILED, 0);
+            else
+                throw ClientException(__FILE__, __LINE__, ERR_SOCK_CONNECT_FAILED, 0);
+        }
+    } else if (ec == boost::asio::error::operation_aborted) {
+        qDebug() << "[TLS-CONNECT] Handshake timer was cancelled";
     }
 }
 
@@ -798,8 +910,9 @@ ClientStateStartConnect::TimerTimeout(const boost::system::error_code& ec, boost
 
         if (context.GetSessionData()) {
             try {
-                context.GetSessionData()->CloseSocketHandle();
+                context.GetSessionData()->Close();
             } catch (...) {
+                // Ignore errors during close
             }
         }
 

@@ -8178,18 +8178,33 @@ Bitte wählen Sie einen anderen Nicknamen.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>Keine Verbindung zum Server.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>Keine Verbindung zum Server möglich.
+
+Der Server verarbeitet möglicherweise noch einen vorherigen Verbindungsversuch.
+Bitte warten Sie einen Moment und versuchen Sie es in etwa 1 Minute erneut.
+
+Falls das Problem weiterhin besteht, ist der Server möglicherweise vorübergehend nicht verfügbar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation>Verbindungszeit abgelaufen.
-Bitte überprüfen Sie die Serveradresse.
-Wenn der Server hinter einem NAT-Router betrieben wird, stellen Sie sicher, dass serverseitig die Portweiterleitung aktiviert wurde.</translation>
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, please check the server address or try again later.</source>
+        <translation>Zeitüberschreitung bei der Verbindung.
+
+Der Server ist möglicherweise ausgelastet oder verarbeitet noch eine vorherige Verbindung.
+Bitte warten Sie einen Moment und versuchen Sie es in etwa 1 Minute erneut.
+
+Falls das Problem weiterhin besteht, überprüfen Sie bitte die Serveradresse oder versuchen Sie es später erneut.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

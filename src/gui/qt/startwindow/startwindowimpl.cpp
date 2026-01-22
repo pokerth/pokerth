@@ -816,13 +816,13 @@ void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 	break;
 	case ERR_SOCK_CONNECT_FAILED: {
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("Could not connect to the server.\n\nPlease note: IPv6 is enabled in the settings. The connection fails if your provider does not support IPv6.\nThis may be fixed by unchecking the \"Use IPv6\" checkbox in the settings."),
+							  tr("Could not connect to the server.\n\nThe server might still be processing a previous connection attempt.\nPlease wait a moment and try again in about 1 minute.\n\nIf the problem persists, the server might be temporarily unavailable."),
 							  QMessageBox::Close);
 	}
 	break;
 	case ERR_SOCK_CONNECT_TIMEOUT: {
 		MyMessageBox::warning(this, tr("Network Error"),
-							  tr("Connection timed out.\nPlease check the server address.\n\nPlease note: IPv6 is enabled in the settings. The connection fails if your provider does not support IPv6.\nThis may be fixed by unchecking the \"Use IPv6\" checkbox in the settings."),
+							  tr("Connection timed out.\n\nThe server might be busy or still processing a previous connection.\nPlease wait a moment and try again in about 1 minute.\n\nIf the problem persists, please check the server address or try again later."),
 							  QMessageBox::Close);
 	}
 	break;

@@ -422,6 +422,9 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			tmpGame->RemoveSession(session, NTF_NET_INTERNAL);
 		}
 		session->SetGame(boost::shared_ptr<ServerGame>());
+		
+		// Save the session state before marking as closed
+		SessionData::State oldState = session->GetState();
 		session->SetState(SessionData::Closed);
 
 		m_sessionManager.RemoveSession(session->GetId());
@@ -439,8 +442,17 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			boost::system::error_code ec;
 			session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
 		}
-		// Close this session after send.
-		GetSender().SetCloseAfterSend(session);
+		
+		// For Init state sessions (e.g., TLS handshake failures), close immediately
+		// For established sessions, close after sending pending messages
+		if (oldState == SessionData::Init) {
+			qDebug() << "[SERVER] Init state session - closing socket immediately";
+			session->Close();
+		} else {
+			// Close this session after send for established sessions
+			GetSender().SetCloseAfterSend(session);
+		}
+		
 		// Cancel all timers of the session.
 		session->CancelTimers();
 	}

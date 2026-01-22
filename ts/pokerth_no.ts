@@ -6181,19 +6181,33 @@ Do you really want to reset factory settings?</source>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation type="unfinished">Kunne ikke koble til tjeneren.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation type="unfinished">Kunne ikke koble til tjeneren.
+
+Tjeneren kan fortsatt behandle et tidligere tilkoblingsforsøk.
+Vennligst vent et øyeblikk og prøv igjen om omtrent 1 minutt.
+
+Hvis problemet vedvarer, kan tjeneren være midlertidig utilgjengelig.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, please check the server address or try again later.</source>
         <translation type="unfinished">Det oppstod et tidsavbrudd.
-Vennligst sjekk tjener-adressen.
 
-Hvis tjeneren er bak en NAT-ruter, forsikre deg om at videresending er satt opp riktig.</translation>
+Tjeneren kan være opptatt eller fortsatt behandle en tidligere tilkobling.
+Vennligst vent et øyeblikk og prøv igjen om omtrent 1 minutt.
+
+Hvis problemet vedvarer, vennligst sjekk tjener-adressen eller prøv igjen senere.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

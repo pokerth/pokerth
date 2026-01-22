@@ -6001,19 +6001,33 @@ Välj ett nytt namn.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation type="unfinished">Kunde inte ansluta till servern.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation type="unfinished">Kunde inte ansluta till servern.
+
+Servern kan fortfarande bearbeta ett tidigare anslutningsförsök.
+Vänligen vänta ett ögonblick och försök igen om cirka 1 minut.
+
+Om problemet kvarstår kan servern vara tillfälligt otillgänglig.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation type="unfinished">Anslutningen slutfördes inte.
-Vänligen kontrollera serveradressen.
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
 
-Om servern befinner sig bakom en NAT-router, försäkra dig om att serverns portar har blivit korrekt inställda.</translation>
+If the problem persists, please check the server address or try again later.</source>
+        <translation type="unfinished">Anslutningstiden överskreds.
+
+Servern kan vara upptagen eller fortfarande bearbeta en tidigare anslutning.
+Vänligen vänta ett ögonblick och försök igen om cirka 1 minut.
+
+Om problemet kvarstår, vänligen kontrollera serveradressen eller försök senare.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>

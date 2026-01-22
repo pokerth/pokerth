@@ -1,15 +1,20 @@
-Best practice is to use the VS Code Dev-Container feature.
+## Prerequisites
 
-Before building the container Image, edit Dockerfile in `.devcontainer` folder and set architecture and target to build for.
-... you might also need to edit docker-compose.yml for network settings
+- Docker
+- VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
+
+## Build Instructions
+
+Best practice is to use the VS Code Dev-Container feature.
 
 Inside the running container:
 
-`cd ${ROOT}/pokerth`
-`bash docker/windows/build_windows.sh`
+```bash
+cd ${ROOT}/pokerth
+bash docker/windows/build_windows.sh
+```
 
-The `pokerth_client.exe` plus all necessary dlls are located in `${ROOT}/pokerth/build/deploy`.
-You can zip the whole deploy folder and transfer it to your windows machine.
-... tested on Windows 11
+The build creates a Windows installer package (.exe) with all dependencies included.
+Output location and packaging details are defined in build_windows.sh script.
 
 

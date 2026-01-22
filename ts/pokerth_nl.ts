@@ -8462,19 +8462,33 @@ Kies een andere naam.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="772"/>
-        <source>Could not connect to the server.</source>
-        <translation>Kan geen verbinding maken met de server.</translation>
+        <source>Could not connect to the server.
+
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again in about 1 minute.
+
+If the problem persists, the server might be temporarily unavailable.</source>
+        <translation>Kan geen verbinding maken met de server.
+
+De server verwerkt mogelijk nog een eerdere verbindingspoging.
+Wacht even en probeer het over ongeveer 1 minuut opnieuw.
+
+Als het probleem aanhoudt, is de server mogelijk tijdelijk niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="778"/>
         <source>Connection timed out.
-Please check the server address.
 
-If the server is behind a NAT-Router, make sure port forwarding has been set up on server side.</source>
-        <translation>Verbinding maken mislukt.
-Controleer het serveradres.
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again in about 1 minute.
 
-Als de server zich achter een NAT-router bevindt, controleer dan daar of port forwarding goed ingesteld is.</translation>
+If the problem persists, please check the server address or try again later.</source>
+        <translation>Verbindingstijd verlopen.
+
+De server is mogelijk bezet of verwerkt nog een eerdere verbinding.
+Wacht even en probeer het over ongeveer 1 minuut opnieuw.
+
+Als het probleem aanhoudt, controleer dan het serveradres of probeer het later opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/startwindow/startwindowimpl.cpp" line="784"/>
