@@ -174,13 +174,16 @@ protected:
                 boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
                 sslStream->next_layer() = std::move(*acceptedSocket);
 
+                // Shared state to prevent timeout from closing an established connection
+                auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
+                
                 // Create a timeout timer for the handshake (5 seconds)
                 auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
                 handshakeTimer->expires_after(std::chrono::seconds(5));
                 handshakeTimer->async_wait(
-                    [sslStream, handshakeTimer](const boost::system::error_code& ec) {
-                        if (!ec) {
-                            // Timeout: close the socket to abort the handshake
+                    [sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& ec) {
+                        if (!ec && !handshakeCompleted->load()) {
+                            // Timeout: close the socket to abort the handshake (only if not completed)
                             boost::system::error_code closeEc;
                             sslStream->lowest_layer().close(closeEc);
                             LOG_MSG("[TLS-SERVER] Handshake timeout after 5s - closed socket");
@@ -189,8 +192,9 @@ protected:
 
                 sslStream->async_handshake(
                     boost::asio::ssl::stream_base::server,
-                    [this, sslStream, handshakeTimer](const boost::system::error_code& error) {
-                        // Cancel the timeout timer
+                    [this, sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& error) {
+                        // Mark handshake as completed before canceling timer
+                        handshakeCompleted->store(true);
                         handshakeTimer->cancel();
                         this->HandleHandshake(sslStream, error);
                     }
