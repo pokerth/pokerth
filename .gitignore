@@ -17,6 +17,9 @@ moc_*
 build*/
 docker/android/build/
 /chatcleaner
+pokerth-linux-binary/
+pokerth-linux-*.tar.gz
+pokerth-linux-*.zip
 lib/
 mocs/
 obj/

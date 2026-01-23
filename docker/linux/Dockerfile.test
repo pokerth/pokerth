@@ -1,0 +1,19 @@
+FROM ubuntu:24.04
+
+# Nur Runtime-Abhängigkeiten, keine Build-Tools!
+RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y \
+    libgl1 \
+    libxcb1 \
+    libx11-6 \
+    libxkbcommon0 \
+    libdbus-1-3 \
+    libfontconfig1 \
+    libfreetype6 \
+    libglib2.0-0 \
+    && apt clean && rm -rf /var/lib/apt/lists/*
+
+# Kein cmake, kein gcc, kein g++, kein qt6-dev - nur Runtime!
+
+WORKDIR /app
+
+CMD ["/bin/bash"]
