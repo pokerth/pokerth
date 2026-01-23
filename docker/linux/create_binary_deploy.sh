@@ -7,7 +7,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BUILD_DIR="${PROJECT_ROOT}/build"
-DEPLOY_DIR="${PROJECT_ROOT}/pokerth-linux-binary"
+DEPLOY_DIR="${SCRIPT_DIR}/pokerth-linux-binary"
 DEPLOY_NAME="pokerth-linux-$(uname -m)-$(date +%Y%m%d)"
 
 echo "=== PokerTH Binary Deploy Erstellung ==="
@@ -62,7 +62,14 @@ collect_dependencies() {
     process_binary() {
         local bin="$1"
         
-        ldd "$bin" 2>/dev/null | grep "=>" | awk '{print $3}' | while read lib; do
+        # Verwende Array statt Pipe, um Subshell zu vermeiden
+        local libs=()
+        while IFS= read -r line; do
+            local lib=$(echo "$line" | grep "=>" | awk '{print $3}')
+            [ -n "$lib" ] && libs+=("$lib")
+        done < <(ldd "$bin" 2>/dev/null)
+        
+        for lib in "${libs[@]}"; do
             if [ -z "$lib" ] || [ ! -f "$lib" ]; then
                 continue
             fi
@@ -114,6 +121,34 @@ for binary in "$DEPLOY_DIR/bin/pokerth_client" "$DEPLOY_DIR/bin/pokerth_qml-clie
 done
 
 echo ""
+echo "=== Sammle Qt-Plugins ==="
+# Finde Qt6-Plugin-Verzeichnis
+QT6_PLUGINS=$(find /usr/lib* -type d -name "qt6" -path "*/plugins" 2>/dev/null | head -1)
+if [ -z "$QT6_PLUGINS" ]; then
+    QT6_PLUGINS="/usr/lib/x86_64-linux-gnu/qt6/plugins"
+fi
+
+if [ -d "$QT6_PLUGINS" ]; then
+    echo "Qt6 Plugins gefunden: $QT6_PLUGINS"
+    
+    # Kopiere wichtige Plugin-Kategorien
+    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes; do
+        if [ -d "$QT6_PLUGINS/$plugin_category" ]; then
+            echo "Kopiere $plugin_category plugins..."
+            mkdir -p "$DEPLOY_DIR/plugins/$plugin_category"
+            cp -v "$QT6_PLUGINS/$plugin_category"/*.so "$DEPLOY_DIR/plugins/$plugin_category/" 2>/dev/null || true
+            
+            # Sammle Abhängigkeiten der Plugins
+            for plugin in "$DEPLOY_DIR/plugins/$plugin_category"/*.so; do
+                [ -f "$plugin" ] && collect_dependencies "$plugin" "$DEPLOY_DIR/lib"
+            done
+        fi
+    done
+else
+    echo "WARNUNG: Qt6 Plugins nicht gefunden in $QT6_PLUGINS"
+fi
+
+echo ""
 echo "=== Kopiere Data-Verzeichnis ==="
 if [ -d "$PROJECT_ROOT/data" ]; then
     cp -rv "$PROJECT_ROOT/data"/* "$DEPLOY_DIR/data/"
@@ -158,6 +193,7 @@ cat > "$DEPLOY_DIR/pokerth" << 'EOF'
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
+export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_client" "$@"
 EOF
@@ -169,6 +205,7 @@ if [ -f "$DEPLOY_DIR/bin/pokerth_qml-client" ]; then
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
+export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
 EOF
@@ -233,19 +270,22 @@ Build-Informationen:
 EOF
 
 echo ""
-echo "=== Erstelle Archiv ==="
-cd "$PROJECT_ROOT"
-tar czf "${DEPLOY_NAME}.tar.gz" -C "$(dirname $DEPLOY_DIR)" "$(basename $DEPLOY_DIR)"
+echo "=== Erstelle Archive ==="
+cd "$(dirname $DEPLOY_DIR)"
+tar czf "${DEPLOY_NAME}.tar.gz" "$(basename $DEPLOY_DIR)"
 
-# Erstelle auch ZIP für bessere Windows-Kompatibilität
+# Erstelle auch ZIP für bessere Benutzerfreundlichkeit
 if command -v zip &> /dev/null; then
-    cd "$(dirname $DEPLOY_DIR)"
-    zip -r "${PROJECT_ROOT}/${DEPLOY_NAME}.zip" "$(basename $DEPLOY_DIR)"
+    zip -qr "${DEPLOY_NAME}.zip" "$(basename $DEPLOY_DIR)"
+    echo "ZIP-Archiv erstellt: ${DEPLOY_NAME}.zip"
+else
+    echo "WARNUNG: zip-Programm nicht gefunden, ZIP-Archiv wird übersprungen"
 fi
 
 echo ""
 echo "=== Zusammenfassung ==="
 echo "Deploy-Verzeichnis: $DEPLOY_DIR"
+cd "$(dirname $DEPLOY_DIR)"
 ls -lh "${DEPLOY_NAME}.tar.gz" 2>/dev/null || true
 ls -lh "${DEPLOY_NAME}.zip" 2>/dev/null || true
 echo ""
@@ -258,6 +298,6 @@ echo "Um das Binary-Paket zu testen:"
 echo "  cd $DEPLOY_DIR"
 echo "  ./pokerth"
 echo ""
-echo "Um das Archiv zu verteilen:"
+echo "Um die Archive zu verteilen:"
 echo "  ${DEPLOY_NAME}.tar.gz"
 [ -f "${DEPLOY_NAME}.zip" ] && echo "  ${DEPLOY_NAME}.zip"

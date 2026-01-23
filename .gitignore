@@ -17,9 +17,9 @@ moc_*
 build*/
 docker/android/build/
 /chatcleaner
-pokerth-linux-binary/
-pokerth-linux-*.tar.gz
-pokerth-linux-*.zip
+docker/linux/pokerth-linux-binary/
+docker/linux/pokerth-linux-*.tar.gz
+docker/linux/pokerth-linux-*.zip
 lib/
 mocs/
 obj/
@@ -53,3 +53,4 @@ fixedcommands.txt
 # Windows installer artifacts
 docker/windows/*.exe
 docker/windows/pokerth.ico
+docker/linux/pokerth-linux-binary/  
