@@ -99,9 +99,9 @@ collect_dependencies() {
             # Markiere als bearbeitet
             echo "$lib" >> "$processed_libs"
             
-            # Kopiere die Bibliothek
+            # Kopiere die Bibliothek und setze Ausführungsrechte
             if [ ! -f "$lib_dir/$libname" ]; then
-                cp -L "$lib" "$lib_dir/" 2>/dev/null && echo "  + $libname" || true
+                cp -L "$lib" "$lib_dir/" 2>/dev/null && chmod +x "$lib_dir/$libname" && echo "  + $libname" || true
             fi
             
             # Rekursiv die Abhängigkeiten dieser Bibliothek sammeln
@@ -137,6 +137,7 @@ if [ -d "$QT6_PLUGINS" ]; then
             echo "Kopiere $plugin_category plugins..."
             mkdir -p "$DEPLOY_DIR/plugins/$plugin_category"
             cp -v "$QT6_PLUGINS/$plugin_category"/*.so "$DEPLOY_DIR/plugins/$plugin_category/" 2>/dev/null || true
+            chmod +x "$DEPLOY_DIR/plugins/$plugin_category"/*.so 2>/dev/null || true
             
             # Sammle Abhängigkeiten der Plugins
             for plugin in "$DEPLOY_DIR/plugins/$plugin_category"/*.so; do
@@ -153,6 +154,13 @@ echo "=== Kopiere Data-Verzeichnis ==="
 if [ -d "$PROJECT_ROOT/data" ]; then
     cp -rv "$PROJECT_ROOT/data"/* "$DEPLOY_DIR/data/"
 fi
+
+# Erstelle Symlink-Struktur für PokerTH's Datei-Such-Logik
+# PokerTH sucht: bin/../share/pokerth/data/ wenn Binary in bin/ liegt
+echo ""
+echo "=== Erstelle Share-Symlink-Struktur ==="
+mkdir -p "$DEPLOY_DIR/share/pokerth"
+ln -sf "../../data" "$DEPLOY_DIR/share/pokerth/data"
 
 echo ""
 echo "=== Kopiere zusätzliche Ressourcen ==="
@@ -194,7 +202,9 @@ cat > "$DEPLOY_DIR/pokerth" << 'EOF'
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
+export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
 cd "$SCRIPT_DIR"
+# Setze Working Directory sodass bin/../data/ gefunden wird
 exec "$SCRIPT_DIR/bin/pokerth_client" "$@"
 EOF
 chmod +x "$DEPLOY_DIR/pokerth"
@@ -206,6 +216,7 @@ if [ -f "$DEPLOY_DIR/bin/pokerth_qml-client" ]; then
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
+export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
 EOF
@@ -215,27 +226,37 @@ fi
 echo ""
 echo "=== Erstelle README ==="
 cat > "$DEPLOY_DIR/README.txt" << EOF
-PokerTH Binary Distribution für Linux
+PokerTH Binary Distribution for Linux
 ======================================
 
-Dies ist eine portable Binary-Distribution von PokerTH für Linux.
-Sie enthält alle notwendigen Abhängigkeiten und kann ohne Installation
-ausgeführt werden.
+This is a portable binary distribution of PokerTH for Linux.
+It contains all necessary dependencies and can be run without installation.
 
 INSTALLATION:
 -------------
-1. Entpacken Sie das Archiv an einen beliebigen Ort
-2. Führen Sie ./pokerth aus, um das Spiel zu starten
+1. Extract the archive to any location
+2. Run ./pokerth to start the game
 
-AUSFÜHREN:
-----------
-Standard-Client (Qt):
+RUNNING:
+--------
+Standard Client (Qt):
   ./pokerth
 
-QML-Client (falls verfügbar):
+QML Client (if available):
   ./pokerth-qml
 
-SYSTEMANFORDERUNGEN:
+IMPORTANT:
+----------
+⚠️  ALWAYS use the launcher scripts (./pokerth or ./pokerth-qml)!
+⚠️  DO NOT run the binaries in bin/ directly - they won't find
+    libraries and data files.
+
+The launcher scripts automatically set the correct environment variables:
+  - LD_LIBRARY_PATH for the included libraries
+  - QT_PLUGIN_PATH for the Qt plugins
+  - Working directory for the data files
+
+SYSTEM REQUIREMENTS:
 --------------------
 - Linux mit glibc 2.x
 - X11 oder Wayland Display-Server
