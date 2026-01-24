@@ -18,6 +18,12 @@ build*/
 docker/android/build/
 /chatcleaner
 docker/linux/pokerth-linux-binary/
+
+# Test infrastructure - sensitive data
+*_with_key.sh
+*.key
+*.aes
+*_private.sql
 docker/linux/pokerth-linux-*.tar.gz
 docker/linux/pokerth-linux-*.zip
 lib/

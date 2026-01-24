@@ -1352,7 +1352,9 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 	} else if (!ServerGame::CheckSettings(tmpData, password, GetServerMode())) {
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
 	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))
-			&& tmpData.gameType == GAME_TYPE_RANKING ) {
+			&& tmpData.gameType == GAME_TYPE_RANKING
+			// Ausnahme: test* Bots dürfen Ranking Games erstellen (für Test-Infrastruktur)
+			&& session->GetPlayerData()->GetName().substr(0, 4) != "test") {
 		LOG_ERROR("not allowed due to ranklimit");
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
 	} else {
@@ -1412,6 +1414,8 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
+				   // Ausnahme: test* Bots dürfen mehrere von gleicher IP (für Test-Infrastruktur)
+				   && session->GetPlayerData()->GetName().substr(0, 4) != "test"
 				   && game->IsClientAddressConnected(session->GetClientAddr())) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {
