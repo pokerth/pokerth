@@ -101,6 +101,19 @@ using namespace std::chrono;
 using namespace boost::chrono;
 #endif
 
+// Hilfsfunktion: Prüft, ob ein Username zu den Test-/Dev-Accounts gehört
+static bool IsTestOrDevAccount(const std::string &username) {
+	// test* Bots (test1, test2, ..., test100)
+	if (username.length() >= 4 && username.substr(0, 4) == "test") {
+		return true;
+	}
+	// Entwickler-Accounts für Tests
+	if (username == "sp0ck" || username == "q4z1" || username == "boehmi") {
+		return true;
+	}
+	return false;
+}
+
 class InternalServerCallback : public SessionDataCallback, public ChatCleanerCallback, public ServerDBCallback
 {
 public:
@@ -1353,8 +1366,8 @@ ServerLobbyThread::HandleNetPacketCreateGame(boost::shared_ptr<SessionData> sess
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_INVALID_SETTINGS);
 	} else if (!session->GetPlayerData()->IsPlayerAllowedToJoinCreateLimitRank(m_serverConfig.readConfigString("ServerLimitRankNum"), m_serverConfig.readConfigString("ServerLimitRankPeriod"))
 			&& tmpData.gameType == GAME_TYPE_RANKING
-			// Ausnahme: test* Bots dürfen Ranking Games erstellen (für Test-Infrastruktur)
-			&& session->GetPlayerData()->GetName().substr(0, 4) != "test") {
+			// Ausnahme: Test-/Dev-Accounts dürfen Ranking Games erstellen (für Test-Infrastruktur)
+			&& !IsTestOrDevAccount(session->GetPlayerData()->GetName())) {
 		LOG_ERROR("not allowed due to ranklimit");
 		SendJoinGameFailed(session, gameId, NTF_NET_JOIN_IP_BLOCKED);
 	} else {
@@ -1414,8 +1427,8 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4V6
 				   && session->GetClientAddr() != SERVER_ADDRESS_LOCALHOST_STR_V4
-				   // Ausnahme: test* Bots dürfen mehrere von gleicher IP (für Test-Infrastruktur)
-				   && session->GetPlayerData()->GetName().substr(0, 4) != "test"
+				   // Ausnahme: Test-/Dev-Accounts dürfen mehrere von gleicher IP (für Test-Infrastruktur)
+				   && !IsTestOrDevAccount(session->GetPlayerData()->GetName())
 				   && game->IsClientAddressConnected(session->GetClientAddr())) {
 				SendJoinGameFailed(session, joinGame.gameid(), NTF_NET_JOIN_IP_BLOCKED);
 			} else {

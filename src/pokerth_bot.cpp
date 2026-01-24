@@ -177,9 +177,9 @@ public:
             bots_.push_back(bot);
             cout << "[" << botName << "] Connected" << endl;
             
-            // Pause zwischen Bot-Logins (Server-Schonung)
+            // Lange Pause zwischen Bot-Logins (Server-Schonung - Server ist langsam!)
             if (i < numBots - 1) {
-                this_thread::sleep_for(chrono::milliseconds(800));
+                this_thread::sleep_for(chrono::seconds(2));  // 2 Sekunden!
             }
         }
 
@@ -273,16 +273,18 @@ public:
                 createdGameId = reply->GetMsg()->joingameackmessage().gameid();
                 creator->setGameId(createdGameId);
                 cout << "[" << creator->name() << "] Created game ID: " << createdGameId << endl;
+                
+                // WICHTIG: Nach Game-Create pending Messages konsumieren!
+                this_thread::sleep_for(chrono::milliseconds(100));
+                flushPendingMessages(creator);
+                
                 return createdGameId;
             } else if (msgType == PokerTHMessage::Type_JoinGameFailedMessage) {
                 auto reason = reply->GetMsg()->joingamefailedmessage().joingamefailurereason();
                 cerr << "[" << creator->name() << "] JoinGameFailed, reason: " << reason << endl;
                 return 0;
-            } else {
-                // Andere Messages ignorieren (z.B. PlayerInfoReply, GameListNew, etc.)
-                // Debug-Output
-                cout << "[" << creator->name() << "] Received message type: " << msgType << " (waiting for JoinGameAck)" << endl;
             }
+            // Alle anderen Messages ignorieren (nicht mehr loggen)
         }
 
         cerr << "[" << creator->name() << "] Timeout waiting for JoinGameAck" << endl;
@@ -314,18 +316,22 @@ public:
 private:
     bool connectBot(shared_ptr<BotSession> bot) {
         try {
+            cout << "[" << bot->name() << "] Resolving..." << flush;
             // Resolve
             tcp::resolver resolver(io_);
             auto endpoints = resolver.resolve(server_, port_);
             
+            cout << " Connecting..." << flush;
             // Connect TCP
             boost::asio::connect(bot->socket().lowest_layer(), endpoints);
             
             // TLS Handshake
             if (useTls_) {
+                cout << " TLS handshake..." << flush;
                 bot->socket().handshake(ssl::stream_base::client);
             }
 
+            cout << " Waiting for announce..." << flush;
             // Empfange AnnounceMessage
             auto announce = bot->receiveMessage();
             if (!announce || announce->GetMsg()->messagetype() != PokerTHMessage::Type_AnnounceMessage) {
@@ -333,7 +339,7 @@ private:
                 return false;
             }
 
-            // Sende InitMessage
+            cout << " Sending init..." << flush;
             boost::shared_ptr<NetPacket> init(new NetPacket);
             init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
             
@@ -349,6 +355,7 @@ private:
                 return false;
             }
 
+            cout << " Waiting for init ack..." << flush;
             // Empfange InitAckMessage
             auto initAck = bot->receiveMessage();
             if (!initAck) {
@@ -385,8 +392,8 @@ private:
             return false;
         }
 
-        // Warte auf JoinGameAck
-        for (int attempts = 0; attempts < 20; attempts++) {
+        // Warte auf JoinGameAck - ALLE Messages konsumieren!
+        for (int attempts = 0; attempts < 50; attempts++) {
             auto reply = bot->receiveMessage();
             if (!reply) {
                 cerr << "[" << bot->name() << "] Connection lost while waiting for JoinGameAck" << endl;
@@ -398,17 +405,36 @@ private:
             if (msgType == PokerTHMessage::Type_JoinGameAckMessage) {
                 bot->setGameId(gameId);
                 cout << "[" << bot->name() << "] Joined game " << gameId << endl;
+                
+                // WICHTIG: Nach dem Join alle pending Messages konsumieren!
+                // Der Server sendet GamePlayerJoinedMessage, GameListPlayerJoinedMessage, etc.
+                this_thread::sleep_for(chrono::milliseconds(100));
+                flushPendingMessages(bot);
+                
                 return true;
             } else if (msgType == PokerTHMessage::Type_JoinGameFailedMessage) {
                 auto reason = reply->GetMsg()->joingamefailedmessage().joingamefailurereason();
                 cerr << "[" << bot->name() << "] JoinGameFailed, reason: " << reason << endl;
                 return false;
             }
-            // Andere Messages ignorieren
+            // ALLE anderen Messages einfach ignorieren (nicht loggen - zu viel Output)
         }
 
         cerr << "[" << bot->name() << "] Timeout waiting for JoinGameAck" << endl;
         return false;
+    }
+    
+    // Konsumiere alle verfügbaren Messages ohne zu warten
+    void flushPendingMessages(shared_ptr<BotSession> bot) {
+        for (int i = 0; i < 10; i++) {  // Max 10 pending messages
+            boost::system::error_code ec;
+            size_t available = bot->socket().lowest_layer().available(ec);
+            if (ec || available == 0) break;
+            
+            auto msg = bot->receiveMessage();
+            if (!msg) break;
+            // Message ignorieren (PlayerJoinedMessage, GameListUpdate, etc.)
+        }
     }
 
     void handleMessage(shared_ptr<BotSession> bot, boost::shared_ptr<NetPacket> msg) {
@@ -440,7 +466,17 @@ private:
         } else if (msgType == PokerTHMessage::Type_EndOfGameMessage) {
             cout << "[" << bot->name() << "] Game ended" << endl;
         } else if (msgType == PokerTHMessage::Type_StartEventMessage) {
-            cout << "[" << bot->name() << "] Game starting!" << endl;
+            cout << "[" << bot->name() << "] Game starting! Sending Ack..." << endl;
+            
+            // WICHTIG: StartEventAckMessage senden, sonst hängt der Server!
+            boost::shared_ptr<NetPacket> ack(new NetPacket);
+            ack->GetMsg()->set_messagetype(PokerTHMessage::Type_StartEventAckMessage);
+            StartEventAckMessage *ackMsg = ack->GetMsg()->mutable_starteventackmessage();
+            ackMsg->set_gameid(bot->gameId());
+            
+            this_thread::sleep_for(chrono::milliseconds(100));
+            bot->sendMessage(ack);
+            
         } else if (msgType == PokerTHMessage::Type_HandStartMessage) {
             cout << "[" << bot->name() << "] New hand started" << endl;
         }
@@ -526,7 +562,7 @@ int main(int argc, char *argv[]) {
                         cerr << "Failed to join bot " << i << " to game" << endl;
                         return 1;
                     }
-                    this_thread::sleep_for(chrono::milliseconds(800));
+                    this_thread::sleep_for(chrono::seconds(2));  // 2 Sekunden zwischen Joins!
                 }
                 
                 cout << "All bots joined. Waiting for 10th player (human) to start game..." << endl;
