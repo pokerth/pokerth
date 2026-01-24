@@ -43,11 +43,16 @@
 #include <memory>
 #include <thread>
 #include <chrono>
+#include <csignal>
+#include <atomic>
 
 using namespace std;
 using boost::asio::ip::tcp;
 namespace po = boost::program_options;
 namespace ssl = boost::asio::ssl;
+
+// Global flag für graceful shutdown
+static atomic<bool> g_shutdownRequested(false);
 
 #define NET_VERSION_MAJOR 5
 #define NET_VERSION_MINOR 1
@@ -304,22 +309,50 @@ public:
     void run() {
         cout << "Bots running... Press Ctrl+C to exit" << endl;
         
-        while (true) {
+        while (!g_shutdownRequested) {
             for (auto &bot : bots_) {
-                // Non-blocking check für verfügbare Daten
+                // ALLE verfügbaren Messages sofort verarbeiten
                 boost::system::error_code ec;
                 size_t available = bot->socket().lowest_layer().available(ec);
                 
-                if (!ec && available > 0) {
+                while (!ec && available > 0) {
                     auto msg = bot->receiveMessage();
                     if (msg) {
                         handleMessage(bot, msg);
+                    } else {
+                        break;  // Keine Message mehr verfügbar oder Fehler
                     }
+                    // Check wieder für weitere Messages
+                    available = bot->socket().lowest_layer().available(ec);
                 }
             }
             
-            this_thread::sleep_for(chrono::milliseconds(100));
+            this_thread::sleep_for(chrono::milliseconds(10));  // Kürzerer Poll-Interval
         }
+        
+        // Graceful Shutdown: Alle Bots sauber disconnecten
+        cout << "Shutting down gracefully..." << endl;
+        for (auto &bot : bots_) {
+            try {
+                // LeaveGameRequestMessage senden falls in einem Spiel
+                if (bot->gameId() != 0) {
+                    boost::shared_ptr<NetPacket> leave(new NetPacket);
+                    leave->GetMsg()->set_messagetype(PokerTHMessage::Type_LeaveGameRequestMessage);
+                    LeaveGameRequestMessage *leaveMsg = leave->GetMsg()->mutable_leavegamerequestmessage();
+                    leaveMsg->set_gameid(bot->gameId());
+                    bot->sendMessage(leave);
+                    this_thread::sleep_for(chrono::milliseconds(50));
+                }
+                
+                // Socket sauber schließen
+                boost::system::error_code ec;
+                bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, ec);
+                bot->socket().lowest_layer().close(ec);
+            } catch (...) {
+                // Ignoriere Fehler beim Shutdown
+            }
+        }
+        cout << "All bots disconnected." << endl;
     }
 
 private:
@@ -550,13 +583,20 @@ private:
 };
 
 int main(int argc, char *argv[]) {
+    // SIGINT Handler für graceful shutdown
+    signal(SIGINT, [](int) {
+        cout << "\nReceived interrupt signal, shutting down..." << endl;
+        g_shutdownRequested = true;
+    });
+    
     try {
         po::options_description desc("PokerTH Bot Client - Automated test clients");
         desc.add_options()
             ("help,h", "Show help message")
             ("server,s", po::value<string>()->default_value("localhost"), "Server address")
             ("port,p", po::value<string>()->default_value("7234"), "Server port")
-            ("bots,b", po::value<int>()->default_value(10), "Number of bots")
+            ("bots,b", po::value<int>(), "Number of bots (default: 10 - humans)")
+            ("humans,H", po::value<int>()->default_value(1), "Number of human player slots (1-10)")
             ("start-id,i", po::value<int>()->default_value(1), "First bot ID (test<id>)")
             ("password,P", po::value<string>()->default_value(""), "Password (default: same as username)")
             ("create-game,c", "Create a game with first bot")
@@ -572,15 +612,51 @@ int main(int argc, char *argv[]) {
 
         if (vm.count("help")) {
             cout << desc << endl;
+            cout << "\nDescription:" << endl;
+            cout << "  Creates automated bot players for PokerTH testing. Bots use auto-check/auto-fold" << endl;
+            cout << "  strategy and react instantly to their turns. Perfect for load testing and" << endl;
+            cout << "  ranking game database validation." << endl;
             cout << "\nExamples:" << endl;
-            cout << "  Create game with 10 bots:  pokerth_bot -s pokerth.net -b 10 -c" << endl;
-            cout << "  Join existing game:         pokerth_bot -s pokerth.net -b 9 -j 12345" << endl;
+            cout << "  Create game with 9 bots + 1 human slot:" << endl;
+            cout << "    pokerth_bot -s pokerth.net -p 7236 -c --humans 1" << endl;
+            cout << "\n  Create game with 7 bots + 3 human slots:" << endl;
+            cout << "    pokerth_bot -s pokerth.net -p 7236 -c --humans 3" << endl;
+            cout << "\n  Create game with all 10 bots (no humans):" << endl;
+            cout << "    pokerth_bot -s pokerth.net -p 7236 -c --humans 0" << endl;
+            cout << "\n  Join existing game with 5 bots:" << endl;
+            cout << "    pokerth_bot -s pokerth.net -p 7236 -j 12345 -b 5" << endl;
+            cout << "\nNotes:" << endl;
+            cout << "  - Ranking games require exactly 10 players" << endl;
+            cout << "  - Bots are named test1, test2, ..., test<N>" << endl;
+            cout << "  - If both --bots and --humans are given, --humans takes priority" << endl;
+            cout << "  - Use Ctrl+C for graceful shutdown" << endl;
             return 0;
         }
 
         string server = vm["server"].as<string>();
         string port = vm["port"].as<string>();
-        int numBots = vm["bots"].as<int>();
+        int numHumans = vm["humans"].as<int>();
+        int numBots;
+        
+        // Validiere humans parameter
+        if (numHumans < 0 || numHumans > 10) {
+            cerr << "Error: --humans must be between 0 and 10" << endl;
+            return 1;
+        }
+        
+        // -H hat Priorität: Immer 10 - humans berechnen
+        // -b wird nur verwendet wenn -H nicht angegeben wurde (für join-game Szenarien)
+        if (vm.count("bots") && numHumans != 1) {  // numHumans != 1 bedeutet -H wurde explizit gesetzt
+            cout << "Warning: Both --bots and --humans specified. Using --humans, ignoring --bots." << endl;
+        }
+        
+        numBots = 10 - numHumans;
+        
+        if (numBots < 1) {
+            cerr << "Error: Need at least 1 bot (humans must be < 10)" << endl;
+            return 1;
+        }
+        
         int startId = vm["start-id"].as<int>();
         string password = vm["password"].as<string>();
         bool useTls = !vm.count("no-tls");
@@ -590,6 +666,8 @@ int main(int argc, char *argv[]) {
         cout << "Server: " << server << ":" << port << endl;
         cout << "TLS: " << (useTls ? "enabled" : "disabled") << endl;
         cout << "Bots: " << numBots << " (test" << startId << " - test" << (startId + numBots - 1) << ")" << endl;
+        cout << "Human slots: " << numHumans << endl;
+        cout << "Total players: " << (numBots + numHumans) << "/10" << endl;
         cout << endl;
 
         BotController controller(server, port, useTls);
@@ -609,10 +687,10 @@ int main(int argc, char *argv[]) {
                 return 1;
             }
 
-            // Nur 8 weitere Bots joinen (test2-test9), damit ein menschlicher Spieler als 10. joinen kann
+            // Weitere Bots joinen lassen (test1 hat schon das Game erstellt)
             if (numBots > 1) {
                 this_thread::sleep_for(chrono::seconds(3));
-                int botsToJoin = min(numBots - 1, 8);  // Max 8 weitere Bots (test1 ist schon drin)
+                int botsToJoin = numBots - 1;  // -1 weil test1 bereits im Game ist
                 cout << "Joining " << botsToJoin << " more bots to game " << gameId << "..." << endl;
                 
                 for (int i = 1; i <= botsToJoin; i++) {
@@ -620,10 +698,14 @@ int main(int argc, char *argv[]) {
                         cerr << "Failed to join bot " << i << " to game" << endl;
                         return 1;
                     }
-                    this_thread::sleep_for(chrono::seconds(2));  // 2 Sekunden zwischen Joins!
+                    this_thread::sleep_for(chrono::seconds(2));
                 }
                 
-                cout << "All bots joined. Waiting for 10th player (human) to start game..." << endl;
+                if (numHumans > 0) {
+                    cout << "All bots joined. Waiting for " << numHumans << " human player(s) to start game..." << endl;
+                } else {
+                    cout << "All 10 bots joined. Game will start automatically." << endl;
+                }
             }
         } else if (vm.count("join-game")) {
             uint32_t gameId = vm["join-game"].as<uint32_t>();
