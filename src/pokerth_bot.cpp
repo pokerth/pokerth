@@ -59,7 +59,7 @@ public:
     BotSession(boost::asio::io_context &io, ssl::context &sslCtx, 
                const string &name, const string &password)
         : socket_(io, sslCtx), name_(name), password_(password), 
-          playerId_(0), gameId_(0), handNum_(0), recBufPos_(0) {
+          playerId_(0), gameId_(0), handNum_(0), mySet_(0), highestSet_(0), recBufPos_(0) {
         recBuf_.fill(0);
     }
 
@@ -71,6 +71,10 @@ public:
     void setGameId(uint32_t id) { gameId_ = id; }
     uint32_t handNum() const { return handNum_; }
     void setHandNum(uint32_t num) { handNum_ = num; }
+    uint32_t mySet() const { return mySet_; }
+    void setMySet(uint32_t val) { mySet_ = val; }
+    uint32_t highestSet() const { return highestSet_; }
+    void setHighestSet(uint32_t val) { highestSet_ = val; }
 
     // Empfange Nachricht (blocking)
     boost::shared_ptr<NetPacket> receiveMessage() {
@@ -148,6 +152,8 @@ private:
     uint32_t playerId_;
     uint32_t gameId_;
     uint32_t handNum_;
+    uint32_t mySet_;        // Mein aktueller Einsatz in der Runde
+    uint32_t highestSet_;   // Höchster Einsatz am Tisch
     boost::array<char, BUF_SIZE> recBuf_;
     size_t recBufPos_;
 };
@@ -328,6 +334,14 @@ private:
             // Connect TCP
             boost::asio::connect(bot->socket().lowest_layer(), endpoints);
             
+            // Deaktiviere Nagle's Algorithm für sofortiges Senden
+            boost::system::error_code ec;
+            tcp::no_delay no_delay_option(true);
+            bot->socket().lowest_layer().set_option(no_delay_option, ec);
+            if (ec) {
+                cerr << "[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
+            }
+            
             // TLS Handshake
             if (useTls_) {
                 cout << " TLS handshake..." << flush;
@@ -443,10 +457,28 @@ private:
     void handleMessage(shared_ptr<BotSession> bot, boost::shared_ptr<NetPacket> msg) {
         auto msgType = msg->GetMsg()->messagetype();
         
+        // DEBUG: Alle Message-Types loggen
+        if (msgType != PokerTHMessage::Type_PlayersTurnMessage && 
+            msgType != PokerTHMessage::Type_HandStartMessage) {
+            cout << "[" << bot->name() << "] Received msgType: " << msgType << endl;
+        }
+        
         if (msgType == PokerTHMessage::Type_HandStartMessage) {
-            // Hand-Nummer inkrementieren (wird bei jeder neuen Hand hochgezählt)
+            // Hand-Nummer inkrementieren, Sets zurücksetzen
             bot->setHandNum(bot->handNum() + 1);
+            bot->setMySet(0);
+            bot->setHighestSet(0);
             cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started" << endl;
+            
+        } else if (msgType == PokerTHMessage::Type_PlayersActionDoneMessage) {
+            // Tracke highestSet und mySet
+            auto actionDone = msg->GetMsg()->playersactiondonemessage();
+            bot->setHighestSet(actionDone.highestset());
+            
+            // Wenn es meine Action war, update mySet
+            if (actionDone.playerid() == bot->playerId()) {
+                bot->setMySet(actionDone.totalplayerbet());
+            }
             
         } else if (msgType == PokerTHMessage::Type_PlayersTurnMessage) {
             // Ein Spieler ist am Zug - prüfen ob wir es sind
@@ -456,23 +488,40 @@ private:
                  << " (mine: " << bot->playerId() << ")" << endl;
             
             if (playersTurn.playerid() == bot->playerId()) {
-                // Wir sind am Zug - immer fold für einfache Tests
+                // Auto-check/auto-fold Logik
                 boost::shared_ptr<NetPacket> action(new NetPacket);
                 action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                 MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
                 actionMsg->set_gameid(bot->gameId());
                 actionMsg->set_handnum(bot->handNum());
                 actionMsg->set_gamestate(playersTurn.gamestate());
-                actionMsg->set_myrelativebet(0);
                 
-                // Immer fold für einfache Tests
-                actionMsg->set_myaction(netActionFold);
-                cout << "[" << bot->name() << "] Sending FOLD action" << endl;
+                // Prüfe ob check möglich ist (kein zusätzliches Geld nötig)
+                if (bot->highestSet() == bot->mySet()) {
+                    // CHECK: Kein Bet liegt oder bereits gematched
+                    actionMsg->set_myaction(netActionCheck);
+                    actionMsg->set_myrelativebet(0);
+                    cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() 
+                         << ", mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
+                } else {
+                    // FOLD: Wenn Geld nötig ist
+                    actionMsg->set_myaction(netActionFold);
+                    actionMsg->set_myrelativebet(0);
+                    cout << "[" << bot->name() << "] FOLD (hand=" << bot->handNum() 
+                         << ", mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
+                }
                 
-                // Kleine Pause vor Aktion-Senden (Server-Schonung)
-                this_thread::sleep_for(chrono::milliseconds(200));
+                auto before = chrono::steady_clock::now();
                 bot->sendMessage(action);
+                auto after = chrono::steady_clock::now();
+                auto duration = chrono::duration_cast<chrono::microseconds>(after - before).count();
+                cout << "[" << bot->name() << "] Action sent in " << duration << " µs" << endl;
             }
+            
+        } else if (msgType == PokerTHMessage::Type_YourActionRejectedMessage) {
+            auto rejected = msg->GetMsg()->youractionrejectedmessage();
+            cerr << "[" << bot->name() << "] ACTION REJECTED! Reason: " << rejected.rejectionreason() 
+                 << " Action: " << rejected.youraction() << " Bet: " << rejected.yourrelativebet() << endl;
             
         } else if (msgType == PokerTHMessage::Type_EndOfGameMessage) {
             cout << "[" << bot->name() << "] Game ended" << endl;
