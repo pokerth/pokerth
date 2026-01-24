@@ -59,7 +59,7 @@ public:
     BotSession(boost::asio::io_context &io, ssl::context &sslCtx, 
                const string &name, const string &password)
         : socket_(io, sslCtx), name_(name), password_(password), 
-          playerId_(0), gameId_(0), recBufPos_(0) {
+          playerId_(0), gameId_(0), handNum_(0), recBufPos_(0) {
         recBuf_.fill(0);
     }
 
@@ -69,6 +69,8 @@ public:
     void setPlayerId(uint32_t id) { playerId_ = id; }
     uint32_t gameId() const { return gameId_; }
     void setGameId(uint32_t id) { gameId_ = id; }
+    uint32_t handNum() const { return handNum_; }
+    void setHandNum(uint32_t num) { handNum_ = num; }
 
     // Empfange Nachricht (blocking)
     boost::shared_ptr<NetPacket> receiveMessage() {
@@ -145,6 +147,7 @@ private:
     string password_;
     uint32_t playerId_;
     uint32_t gameId_;
+    uint32_t handNum_;
     boost::array<char, BUF_SIZE> recBuf_;
     size_t recBufPos_;
 };
@@ -440,23 +443,31 @@ private:
     void handleMessage(shared_ptr<BotSession> bot, boost::shared_ptr<NetPacket> msg) {
         auto msgType = msg->GetMsg()->messagetype();
         
-        if (msgType == PokerTHMessage::Type_PlayersTurnMessage) {
+        if (msgType == PokerTHMessage::Type_HandStartMessage) {
+            // Hand-Nummer inkrementieren (wird bei jeder neuen Hand hochgezählt)
+            bot->setHandNum(bot->handNum() + 1);
+            cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started" << endl;
+            
+        } else if (msgType == PokerTHMessage::Type_PlayersTurnMessage) {
             // Ein Spieler ist am Zug - prüfen ob wir es sind
             auto playersTurn = msg->GetMsg()->playersturnmessage();
             
+            cout << "[" << bot->name() << "] PlayersTurn - playerID: " << playersTurn.playerid() 
+                 << " (mine: " << bot->playerId() << ")" << endl;
+            
             if (playersTurn.playerid() == bot->playerId()) {
-                // Wir sind am Zug - check wenn möglich, sonst fold
+                // Wir sind am Zug - immer fold für einfache Tests
                 boost::shared_ptr<NetPacket> action(new NetPacket);
                 action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                 MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
                 actionMsg->set_gameid(bot->gameId());
-                actionMsg->set_handnum(0);  // TODO: Track hand number
+                actionMsg->set_handnum(bot->handNum());
                 actionMsg->set_gamestate(playersTurn.gamestate());
                 actionMsg->set_myrelativebet(0);
                 
                 // Immer fold für einfache Tests
                 actionMsg->set_myaction(netActionFold);
-                cout << "[" << bot->name() << "] Fold" << endl;
+                cout << "[" << bot->name() << "] Sending FOLD action" << endl;
                 
                 // Kleine Pause vor Aktion-Senden (Server-Schonung)
                 this_thread::sleep_for(chrono::milliseconds(200));
@@ -465,6 +476,7 @@ private:
             
         } else if (msgType == PokerTHMessage::Type_EndOfGameMessage) {
             cout << "[" << bot->name() << "] Game ended" << endl;
+            
         } else if (msgType == PokerTHMessage::Type_StartEventMessage) {
             cout << "[" << bot->name() << "] Game starting! Sending Ack..." << endl;
             
@@ -476,9 +488,6 @@ private:
             
             this_thread::sleep_for(chrono::milliseconds(100));
             bot->sendMessage(ack);
-            
-        } else if (msgType == PokerTHMessage::Type_HandStartMessage) {
-            cout << "[" << bot->name() << "] New hand started" << endl;
         }
         // Weitere Messages stillschweigend ignorieren
     }

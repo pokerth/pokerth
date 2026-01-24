@@ -110,7 +110,15 @@ static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterfa
 	netActionDone->set_playeraction(static_cast<NetPlayerAction>(player->getMyAction()));
 	netActionDone->set_playerid(player->getMyUniqueID());
 	netActionDone->set_playermoney(player->getMyCash());
-	netActionDone->set_totalplayerbet(player->getMySet());
+	
+	// Server-Härtung: Validiere totalplayerbet (muss >= 0 sein, sonst Client-Crash)
+	int totalBet = player->getMySet();
+	if (totalBet < 0) {
+		LOG_ERROR("CRITICAL: Player " << player->getMyUniqueID() << " has negative totalplayerbet: " << totalBet << " - correcting to 0");
+		totalBet = 0;
+	}
+	netActionDone->set_totalplayerbet(totalBet);
+	
 	server.SendToAllPlayers(packet, SessionData::Game | SessionData::Spectating);
 }
 
