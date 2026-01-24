@@ -16,7 +16,7 @@ RUN apt update && DEBIAN_FRONTEND="noninteractive" && apt upgrade -y
 RUN apt install -y wget git ca-certificates build-essential cmake debhelper zip ninja-build \ 
     libwebsocketpp-dev libprotobuf-dev protobuf-compiler libboost1.88-all-dev \
     qt6-base-dev qt6-svg-dev qt6-declarative-dev qt6-tools-dev linguist-qt6 qt6-websockets-dev  \
-    qt6-multimedia-dev libqt6sql6-mysql
+    qt6-multimedia-dev libqt6sql6-mysql libssl-dev
 ## INFO: in order to run a gui client inside a docker container you should use distrobox as it automatically integrates necessary xserver components
 
 # cleanup
