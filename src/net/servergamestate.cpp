@@ -1096,21 +1096,21 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				EndOfHandShowCardsMessage *netEndHand = endHand->GetMsg()->mutable_endofhandshowcardsmessage();
 				netEndHand->set_gameid(server->GetId());
 
-				LOG_MSG("[SHOWCARD SRV] showList size: " << showList.size());
+				LOG_MSG("[SHOWCARD SRV] showList size: " + std::to_string(showList.size()));
 				PlayerIdList::const_iterator i = showList.begin();
 				PlayerIdList::const_iterator end = showList.end();
 
 				while (i != end) {
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
 					if (tmpPlayer) {
-						LOG_MSG("[SHOWCARD SRV] Adding player " << tmpPlayer->getMyName() << " (ID:" << *i 
-							<< ") Action:" << tmpPlayer->getMyAction() << " Active:" << tmpPlayer->getMyActiveStatus());
+						LOG_MSG("[SHOWCARD SRV] Adding player " + tmpPlayer->getMyName() + " (ID:" + std::to_string(*i) 
+							+ ") Action:" + std::to_string(tmpPlayer->getMyAction()) + " Active:" + std::to_string(tmpPlayer->getMyActiveStatus()));
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
 					++i;
 				}
-				LOG_MSG("[SHOWCARD SRV] Sending EndOfHandShowCardsMessage with " << netEndHand->playerresults_size() << " players");
+				LOG_MSG("[SHOWCARD SRV] Sending EndOfHandShowCardsMessage with " + std::to_string(netEndHand->playerresults_size()) + " players");
 				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
 			}
 
