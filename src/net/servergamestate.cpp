@@ -1096,18 +1096,21 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				EndOfHandShowCardsMessage *netEndHand = endHand->GetMsg()->mutable_endofhandshowcardsmessage();
 				netEndHand->set_gameid(server->GetId());
 
+				LOG_MSG("[SHOWCARD SRV] showList size: " << showList.size());
 				PlayerIdList::const_iterator i = showList.begin();
 				PlayerIdList::const_iterator end = showList.end();
 
 				while (i != end) {
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
-					// Only send cards for players who didn't fold
-					if (tmpPlayer && tmpPlayer->getMyAction() != PLAYER_ACTION_FOLD) {
+					if (tmpPlayer) {
+						LOG_MSG("[SHOWCARD SRV] Adding player " << tmpPlayer->getMyName() << " (ID:" << *i 
+							<< ") Action:" << tmpPlayer->getMyAction() << " Active:" << tmpPlayer->getMyActiveStatus());
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
 					++i;
 				}
+				LOG_MSG("[SHOWCARD SRV] Sending EndOfHandShowCardsMessage with " << netEndHand->playerresults_size() << " players");
 				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
 			}
 

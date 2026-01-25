@@ -625,6 +625,20 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 {
     if (&client->GetState() == this) {
         if (!ec) {
+            // Set TCP_NODELAY to disable Nagle's algorithm for reduced latency
+            boost::asio::ip::tcp::no_delay option(true);
+            boost::system::error_code nodelay_ec;
+            if (client->GetContext().GetSessionData()->IsSsl()) {
+                client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(option, nodelay_ec);
+            } else {
+                client->GetContext().GetSessionData()->GetAsioSocket()->set_option(option, nodelay_ec);
+            }
+            if (nodelay_ec) {
+                qDebug() << "[TCP-NODELAY] Failed to set TCP_NODELAY:" << nodelay_ec.message().c_str();
+            } else {
+                qDebug() << "[TCP-NODELAY] TCP_NODELAY enabled successfully";
+            }
+
             if (client->GetContext().GetSessionData()->IsSsl()) {
                 // Start handshake with a timeout
                 qDebug() << "[TLS-CONNECT] TCP connected, starting TLS handshake with 10s timeout...";
@@ -2583,6 +2597,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfHandShowCardsMessage) {
 		const EndOfHandShowCardsMessage &showCards = tmpPacket->GetMsg()->endofhandshowcardsmessage();
 
+		LOG_MSG("[SHOWCARD CLI] Received EndOfHandShowCardsMessage with " << showCards.playerresults_size() << " players");
+
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// Reset player sets
 		ResetPlayerSets(*curGame);
@@ -2604,10 +2620,14 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
+			LOG_MSG("[SHOWCARD CLI] Processing player " << tmpPlayer->getMyName() << " (ID:" << r.playerid() 
+				<< ") Action:" << tmpPlayer->getMyAction() << " Active:" << tmpPlayer->getMyActiveStatus());
+
 			int tmpCards[2];
 			int bestHandPos[5];
 			tmpCards[0] = static_cast<int>(r.resultcard1());
 			tmpCards[1] = static_cast<int>(r.resultcard2());
+			LOG_MSG("[SHOWCARD CLI] Setting cards for " << tmpPlayer->getMyName() << ": " << tmpCards[0] << ", " << tmpCards[1]);
 			tmpPlayer->setMyCards(tmpCards);
 			for (int num = 0; num < 5; num++) {
 				bestHandPos[num] = r.besthandposition(num);
@@ -2622,8 +2642,10 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			tmpPlayer->setLastMoneyWon(r.moneywon());
 			if (r.moneywon())
 				winnerList.push_back(r.playerid());
+			LOG_MSG("[SHOWCARD CLI] Adding player ID " << r.playerid() << " to showList");
 			showList.push_back(r.playerid());
 		}
+		LOG_MSG("[SHOWCARD CLI] Final showList size: " << showList.size());
 
 		curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
