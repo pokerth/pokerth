@@ -2597,7 +2597,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfHandShowCardsMessage) {
 		const EndOfHandShowCardsMessage &showCards = tmpPacket->GetMsg()->endofhandshowcardsmessage();
 
-		LOG_MSG("[SHOWCARD CLI] Received EndOfHandShowCardsMessage with " + std::to_string(showCards.playerresults_size()) + " players");
+		qDebug() << "[SHOWCARD CLI] Received EndOfHandShowCardsMessage with" << showCards.playerresults_size() << "players";
 
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// Reset player sets
@@ -2620,14 +2620,14 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 
-			LOG_MSG("[SHOWCARD CLI] Processing player " + tmpPlayer->getMyName() + " (ID:" + std::to_string(r.playerid()) 
-				+ ") Action:" + std::to_string(tmpPlayer->getMyAction()) + " Active:" + std::to_string(tmpPlayer->getMyActiveStatus()));
+			qDebug() << "[SHOWCARD CLI] Processing player" << tmpPlayer->getMyName().c_str() << "(ID:" << r.playerid()
+				<< ") Action:" << tmpPlayer->getMyAction() << "Active:" << tmpPlayer->getMyActiveStatus();
 
 			int tmpCards[2];
 			int bestHandPos[5];
 			tmpCards[0] = static_cast<int>(r.resultcard1());
 			tmpCards[1] = static_cast<int>(r.resultcard2());
-			LOG_MSG("[SHOWCARD CLI] Setting cards for " + tmpPlayer->getMyName() + ": " + std::to_string(tmpCards[0]) + ", " + std::to_string(tmpCards[1]));
+			qDebug() << "[SHOWCARD CLI] Setting cards for" << tmpPlayer->getMyName().c_str() << ":" << tmpCards[0] << "," << tmpCards[1];
 			tmpPlayer->setMyCards(tmpCards);
 			for (int num = 0; num < 5; num++) {
 				bestHandPos[num] = r.besthandposition(num);
@@ -2642,10 +2642,10 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			tmpPlayer->setLastMoneyWon(r.moneywon());
 			if (r.moneywon())
 				winnerList.push_back(r.playerid());
-			LOG_MSG("[SHOWCARD CLI] Adding player ID " + std::to_string(r.playerid()) + " to showList");
+			qDebug() << "[SHOWCARD CLI] Adding player ID" << r.playerid() << "to showList";
 			showList.push_back(r.playerid());
 		}
-		LOG_MSG("[SHOWCARD CLI] Final showList size: " + std::to_string(showList.size()));
+		qDebug() << "[SHOWCARD CLI] Final showList size:" << showList.size();
 
 		curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
