@@ -1101,7 +1101,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 
 				while (i != end) {
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
-					if (tmpPlayer) {
+					// Only send cards for players who didn't fold
+					if (tmpPlayer && tmpPlayer->getMyAction() != PLAYER_ACTION_FOLD) {
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
