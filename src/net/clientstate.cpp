@@ -1580,7 +1580,6 @@ ClientStateWaitEnterLogin::~ClientStateWaitEnterLogin()
 void
 ClientStateWaitEnterLogin::Enter(boost::shared_ptr<ClientThread> client)
 {
-	qDebug() << "[AUTH DEBUG] ClientStateWaitEnterLogin::Enter - Entering login state";
 	client->GetStateTimer().expires_after(milliseconds(CLIENT_WAIT_TIMEOUT_MSEC));
 	client->GetStateTimer().async_wait(
 		boost::bind(
@@ -1590,18 +1589,15 @@ ClientStateWaitEnterLogin::Enter(boost::shared_ptr<ClientThread> client)
 void
 ClientStateWaitEnterLogin::Exit(boost::shared_ptr<ClientThread> client)
 {
-	qDebug() << "[AUTH DEBUG] ClientStateWaitEnterLogin::Exit - Exiting login state";
 	client->GetStateTimer().cancel();
 }
 
 void
 ClientStateWaitEnterLogin::HandlePacket(boost::shared_ptr<ClientThread> /*client*/, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	qDebug() << "[AUTH DEBUG] ClientStateWaitEnterLogin::HandlePacket - Message type:" << tmpPacket->GetMsg()->messagetype();
 	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_ErrorMessage) {
 		// Server reported an error.
 		const ErrorMessage &netError = tmpPacket->GetMsg()->errormessage();
-		qDebug() << "[AUTH DEBUG] ClientStateWaitEnterLogin::HandlePacket - ERROR from server, reason:" << netError.errorreason();
 		// Show the error.
 		throw ClientException(__FILE__, __LINE__, NetPacket::NetErrorToGameError(netError.errorreason()), 0);
 	}
@@ -1613,7 +1609,6 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
     if (!ec && &client->GetState() == this) {
         ClientThread::LoginData loginData;
         if (client->GetLoginData(loginData)) {
-            qDebug() << "[AUTH DEBUG] TimerLoop - Got login data, preparing InitMessage";
             ClientContext &context = client->GetContext();
             boost::shared_ptr<NetPacket> init(new NetPacket);
             init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
@@ -1624,11 +1619,9 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
             
             // Include session GUID and server password BEFORE setting login type
             if (!context.GetSessionGuid().empty()) {
-                qDebug() << "[AUTH DEBUG] TimerLoop - Using previous session GUID:" << QString::fromStdString(context.GetSessionGuid());
                 netInit->set_mylastsessionid(context.GetSessionGuid());
             }
             if (!context.GetServerPassword().empty()) {
-                qDebug() << "[AUTH DEBUG] TimerLoop - Server password is set";
                 netInit->set_authserverpassword(context.GetServerPassword());
             }
 
@@ -1636,28 +1629,23 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
 
             // Handle guest login first.
             if (loginData.isGuest) {
-                qDebug() << "[AUTH DEBUG] TimerLoop - Guest login for:" << QString::fromStdString(loginData.userName);
                 context.SetPassword("");
                 context.SetPlayerRights(PLAYER_RIGHTS_GUEST);
                 netInit->set_login(InitMessage::guestLogin);
                 netInit->set_nickname(context.GetPlayerName());
 
-                qDebug() << "[AUTH DEBUG] TimerLoop - Sending guest InitMessage, switching to WaitSession";
                 client->GetSender().Send(context.GetSessionData(), init);
                 client->SetState(ClientStateWaitSession::Instance());
             }
             // If the player is not a guest, authenticate.
             else {
-                qDebug() << "[AUTH DEBUG] TimerLoop - Authenticated login for:" << QString::fromStdString(loginData.userName);
                 context.SetPassword(loginData.password);
                 netInit->set_login(InitMessage::authenticatedLogin);
                 netInit->set_nickname(context.GetPlayerName());
                 if (!context.GetPassword().empty()) {
-                    qDebug() << "[AUTH DEBUG] TimerLoop - Password is set (plain text auth)";
                     netInit->set_clientuserdata(context.GetPassword());
                 }
 
-                qDebug() << "[AUTH DEBUG] TimerLoop - Sending authenticated InitMessage, switching to WaitSession";
                 client->GetSender().Send(context.GetSessionData(), init);
                 client->SetState(ClientStateWaitSession::Instance());
             }
@@ -1779,27 +1767,21 @@ ClientStateWaitSession::~ClientStateWaitSession()
 void
 ClientStateWaitSession::Enter(boost::shared_ptr<ClientThread> /*client*/)
 {
-	qDebug() << "[AUTH DEBUG] ClientStateWaitSession::Enter - Waiting for server session response (InitAck or AvatarRequest)";
 }
 
 void
 ClientStateWaitSession::Exit(boost::shared_ptr<ClientThread> /*client*/)
 {
-	qDebug() << "[AUTH DEBUG] ClientStateWaitSession::Exit - Exiting session wait state";
 }
 
 void
 ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> client, boost::shared_ptr<NetPacket> tmpPacket)
 {
-	qDebug() << "[AUTH DEBUG] ClientStateWaitSession::InternalHandlePacket - Received message type:" << tmpPacket->GetMsg()->messagetype();
 	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InitAckMessage) {
-		qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Received InitAckMessage (session established!)";
 		// Everything is fine - we are in the lobby.
 		const InitAckMessage &netInitAck = tmpPacket->GetMsg()->initackmessage();
 		client->SetGuiPlayerId(netInitAck.yourplayerid());
 
-		qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Player ID:" << netInitAck.yourplayerid() 
-		         << "Session GUID:" << QString::fromStdString(netInitAck.yoursessionid());
 		client->GetContext().SetSessionGuid(netInitAck.yoursessionid());
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
@@ -1817,17 +1799,13 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		}
 		
 		if (netInitAck.has_rejoingameid()) {
-			qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Rejoin game ID:" << netInitAck.rejoingameid();
 			client->GetCallback().SignalNetClientRejoinPossible(netInitAck.rejoingameid());
 		}
-		qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Switching to WaitJoin state";
 		client->SetState(ClientStateWaitJoin::Instance());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarRequestMessage) {
-		qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Received AvatarRequestMessage";
 		// Before letting us join the lobby, the server requests our avatar.
 		const AvatarRequestMessage &netAvatarRequest = tmpPacket->GetMsg()->avatarrequestmessage();
 
-		qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Avatar request ID:" << netAvatarRequest.requestid();
 		// TODO compare SHA1.
 		NetPacketList tmpList;
 		int avatarError = client->GetAvatarManager().AvatarFileToNetPackets(
@@ -1836,14 +1814,11 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 							  tmpList);
 
 		if (!avatarError) {
-			qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Sending avatar data";
 			client->GetSender().Send(client->GetContext().GetSessionData(), tmpList);
 		} else {
-			qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Avatar error:" << avatarError;
 			throw ClientException(__FILE__, __LINE__, avatarError, 0);
 		}
 	} else {
-		qDebug() << "[AUTH DEBUG] ClientStateWaitSession - Unexpected message type:" << tmpPacket->GetMsg()->messagetype();
 	}
 }
 

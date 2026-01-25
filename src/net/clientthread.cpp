@@ -1092,15 +1092,10 @@ ClientThread::GetState()
 void
 ClientThread::SetState(ClientState &newState)
 {
-	const char* newStateName = typeid(newState).name();
-	qDebug() << "[AUTH DEBUG] ClientThread::SetState - Changing state to:" << newStateName;
 	if (m_curState) {
-		const char* oldStateName = typeid(*m_curState).name();
-		qDebug() << "[AUTH DEBUG] ClientThread::SetState - Exiting state:" << oldStateName;
 		m_curState->Exit(shared_from_this());
 	}
 	m_curState = &newState;
-	qDebug() << "[AUTH DEBUG] ClientThread::SetState - Entering new state:" << newStateName;
 	m_curState->Enter(shared_from_this());
 }
 

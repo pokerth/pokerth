@@ -48,7 +48,6 @@ AsioReceiveBuffer::AsioReceiveBuffer()
 void
 AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 {
-    qDebug() << "[ASYNC-READ DEBUG] StartAsyncRead called - SSL:" << session->IsSsl() << "Session ID:" << session->GetId();
     if (session->IsSsl()) {
         session->GetSslStream()->async_read_some(
             boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
@@ -68,38 +67,30 @@ AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
                 boost::asio::placeholders::error,
                 boost::asio::placeholders::bytes_transferred));
     }
-    qDebug() << "[ASYNC-READ DEBUG] async_read_some call initiated";
 }
 
 void
 AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead)
 {
     // unchanged behavior; both TCP and SSL report through error/bytesRead
-    qDebug() << "[ASYNC-READ DEBUG] HandleRead called - error:" << error.value() << "bytesRead:" << bytesRead;
     if (error != boost::asio::error::operation_aborted) {
         try {
             if (!error) {
-                qDebug() << "[ASYNC-READ DEBUG] Successfully read" << bytesRead << "bytes, processing...";
                 recvBufUsed += bytesRead;
                 ScanPackets(session);
                 ProcessPackets(session);
                 StartAsyncRead(session);
             } else if (error == boost::asio::error::interrupted || error == boost::asio::error::try_again) {
                 LOG_ERROR("Session " << session->GetId() << " - recv interrupted: " << error);
-                qDebug() << "[ASYNC-READ DEBUG] Read interrupted, retrying...";
                 StartAsyncRead(session);
             } else {
                 LOG_ERROR("Session " << session->GetId() << " - Connection closed: " << error);
-                qDebug() << "[ASYNC-READ DEBUG] Connection closed with error:" << error.message().c_str();
                 session->Close();
             }
         } catch (const exception &e) {
             LOG_ERROR("Session " << session->GetId() << " - unhandled exception in HandleRead: " << e.what());
-            qDebug() << "[ASYNC-READ DEBUG] Exception in HandleRead:" << e.what();
             throw;
         }
-    } else {
-        qDebug() << "[ASYNC-READ DEBUG] HandleRead called but operation was aborted";
     }
 }
 

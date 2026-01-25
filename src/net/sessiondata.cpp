@@ -157,31 +157,24 @@ SessionData::CreateServerAuthSession(Gsasl *context)
 bool
 SessionData::CreateClientAuthSession(Gsasl *context, const string &userName, const string &password)
 {
-	qDebug() << "[AUTH DEBUG] SessionData::CreateClientAuthSession - User:" << QString::fromStdString(userName) 
-	         << "Password length:" << password.length();
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	InternalClearAuthSession();
 	m_password = password;
 	m_authSession = NULL;
 	m_curAuthStep = 0;
 	(void)context; (void)userName;
-	qDebug() << "[AUTH DEBUG] SessionData::CreateClientAuthSession - Auth session created (plain text mode)";
 	return true;
 }
 
 bool
 SessionData::AuthStep(int stepNum, const std::string &inData)
 {
-	qDebug() << "[AUTH DEBUG] SessionData::AuthStep - Requested step:" << stepNum 
-	         << "Current step:" << m_curAuthStep << "InData length:" << inData.length();
 	boost::mutex::scoped_lock lock(m_dataMutex);
 	if (stepNum == m_curAuthStep + 1) {
-		qDebug() << "[AUTH DEBUG] SessionData::AuthStep - Step accepted, advancing to step" << stepNum;
 		m_curAuthStep = stepNum;
 		m_nextGsaslMsg.clear();
 		return true;
 	}
-	qDebug() << "[AUTH DEBUG] SessionData::AuthStep - Step REJECTED (invalid sequence)";
 	return false;
 }
 

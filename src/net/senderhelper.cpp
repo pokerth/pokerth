@@ -54,7 +54,6 @@ void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet && session) {
-		qDebug() << "[AUTH DEBUG] SenderHelper::Send - Sending packet, message type:" << packet->GetMsg()->messagetype();
 		SendBuffer &tmpBuffer = session->GetSendBuffer();
 		// Add packet to specific queue.
 		boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
