@@ -625,24 +625,6 @@ ClientStateStartConnect::HandleConnect(const boost::system::error_code& ec, boos
 {
     if (&client->GetState() == this) {
         if (!ec) {
-            // Enable TCP_NODELAY to disable Nagle's algorithm (reduces latency)
-            try {
-                boost::system::error_code nodelay_ec;
-                boost::asio::ip::tcp::no_delay no_delay_option(true);
-                if (client->GetContext().GetSessionData()->IsSsl()) {
-                    client->GetContext().GetSessionData()->GetSslStream()->lowest_layer().set_option(no_delay_option, nodelay_ec);
-                } else {
-                    client->GetContext().GetSessionData()->GetAsioSocket()->set_option(no_delay_option, nodelay_ec);
-                }
-                if (nodelay_ec) {
-                    qDebug() << "[NETWORK] Warning: Could not set TCP_NODELAY:" << nodelay_ec.message().c_str();
-                } else {
-                    qDebug() << "[NETWORK] TCP_NODELAY enabled for reduced latency";
-                }
-            } catch (const std::exception &e) {
-                qDebug() << "[NETWORK] Exception setting TCP_NODELAY:" << e.what();
-            }
-            
             if (client->GetContext().GetSessionData()->IsSsl()) {
                 // Start handshake with a timeout
                 qDebug() << "[TLS-CONNECT] TCP connected, starting TLS handshake with 10s timeout...";
@@ -2389,16 +2371,15 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			isBigBlind = true;
 		} else { // no blind -> log
 			if (netActionDone.playeraction()) {
-				// Defensive check: Clamp betAmount to prevent negative values
-				int betAmount = max(0, (int)netActionDone.totalplayerbet() - tmpPlayer->getMySet());
+				assert((int)netActionDone.totalplayerbet() >= tmpPlayer->getMySet());
 				client->GetGui().logPlayerActionMsg(
 					tmpPlayer->getMyName(),
 					netActionDone.playeraction(),
-					betAmount);
+					netActionDone.totalplayerbet() - tmpPlayer->getMySet());
 				client->GetClientLog()->logPlayerAction(
 					tmpPlayer->getMyName(),
 					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone.playeraction())),
-					betAmount
+					netActionDone.totalplayerbet() - tmpPlayer->getMySet()
 				);
 				if (tmpPlayer->getMyID() == 0) {
 					client->EndPing();
@@ -2641,7 +2622,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			tmpPlayer->setLastMoneyWon(r.moneywon());
 			if (r.moneywon())
 				winnerList.push_back(r.playerid());
-			// Server already filtered folded players, so add all to showList
 			showList.push_back(r.playerid());
 		}
 

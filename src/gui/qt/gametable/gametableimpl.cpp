@@ -2530,13 +2530,6 @@ void gameTableImpl::postRiverRunAnimation1()
 void gameTableImpl::postRiverRunAnimation2()
 {
 
-	// Hide all opponent cards first (except player 0 = human)
-	for (int i = 1; i < MAX_NUMBER_OF_PLAYERS; i++) {
-		for (int j = 0; j <= 1; j++) {
-			holeCardsArray[i][j]->setPixmap(flipside, false);
-		}
-	}
-
 	uncheckMyButtons();
 	myButtonsCheckable(false);
 	clearMyButtons();
@@ -2563,8 +2556,7 @@ void gameTableImpl::postRiverRunAnimation2()
 		if(!flipHolecardsAllInAlreadyDone) {
 
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-				// Only show cards if needToShow flag is set
-				if((*it_c)->checkIfINeedToShowCards()) {
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->checkIfINeedToShowCards()) {
 
 					showHoleCards((*it_c)->getMyUniqueID());
 				}
@@ -2618,16 +2610,7 @@ void gameTableImpl::postRiverRunAnimation3()
 	list<unsigned> winners = currentHand->getBoard()->getWinners();
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		// Check if player is in winners list (not just highest cards value)
-		bool isWinner = false;
-		for(list<unsigned>::iterator it_win = winners.begin(); it_win != winners.end(); ++it_win) {
-			if((*it_win) == (*it_c)->getMyUniqueID()) {
-				isWinner = true;
-				break;
-			}
-		}
-		
-		if(isWinner && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
 
 			//Show "Winner" label
 			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(7))));
@@ -2935,13 +2918,6 @@ void gameTableImpl::flipHolecardsAllIn()
 void gameTableImpl::startNewHand()
 {
 
-	// Hide all opponent cards before starting new hand
-	for (int i = 1; i < MAX_NUMBER_OF_PLAYERS; i++) {
-		for (int j = 0; j <= 1; j++) {
-			holeCardsArray[i][j]->setPixmap(flipside, false);
-		}
-	}
-
 	if( !breakAfterCurrentHand) {
 		myStartWindow->getSession()->getCurrentGame()->initHand();
 		myStartWindow->getSession()->getCurrentGame()->startHand();
@@ -2994,10 +2970,6 @@ void gameTableImpl::nextRoundCleanGui()
 		for ( j=0; j<=1; j++ ) {
 			holeCardsArray[i][j]->setFadeOutAction(false);
 			holeCardsArray[i][j]->stopFlipCardsAnimation();
-			// Hide cards by setting them back to flipside (except for player 0 who sees their own cards)
-			if (i != 0) {
-				holeCardsArray[i][j]->setPixmap(flipside, false);
-			}
 		}
 	}
 

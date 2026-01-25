@@ -1099,17 +1099,15 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				PlayerIdList::const_iterator i = showList.begin();
 				PlayerIdList::const_iterator end = showList.end();
 
-				LOG_MSG("[SHOWCARD DEBUG] Processing EndOfHandShowCardsMessage, showList size: " << showList.size());
 				while (i != end) {
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
-					if (tmpPlayer) {
-						LOG_MSG("[SHOWCARD DEBUG] Player " << tmpPlayer->getMyName() << " (ID:" << *i << ")");
+					// Only send cards for players who didn't fold
+					if (tmpPlayer && tmpPlayer->getMyAction() != PLAYER_ACTION_FOLD) {
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
 					++i;
 				}
-				LOG_MSG("[SHOWCARD DEBUG] Final EndOfHandShowCardsMessage has " << netEndHand->playerresults_size() << " players");
 				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
 			}
 
