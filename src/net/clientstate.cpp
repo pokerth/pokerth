@@ -2385,15 +2385,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			isBigBlind = true;
 		} else { // no blind -> log
 			if (netActionDone.playeraction()) {
-				assert((int)netActionDone.totalplayerbet() >= tmpPlayer->getMySet());
+				// Defensive: Clamp totalplayerbet to prevent negative values
+				int betAmount = std::max(0, (int)netActionDone.totalplayerbet() - tmpPlayer->getMySet());
 				client->GetGui().logPlayerActionMsg(
 					tmpPlayer->getMyName(),
 					netActionDone.playeraction(),
-					netActionDone.totalplayerbet() - tmpPlayer->getMySet());
+					betAmount);
 				client->GetClientLog()->logPlayerAction(
 					tmpPlayer->getMyName(),
 					client->GetClientLog()->transformPlayerActionLog(PlayerAction(netActionDone.playeraction())),
-					netActionDone.totalplayerbet() - tmpPlayer->getMySet()
+					betAmount
 				);
 				if (tmpPlayer->getMyID() == 0) {
 					client->EndPing();
