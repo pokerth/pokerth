@@ -43,7 +43,7 @@
      <number>2</number>
     </property>
     <property name="bottomMargin">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="spacing">
      <number>0</number>
@@ -1567,7 +1567,7 @@ p, li { white-space: pre-wrap; }
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>13</height>
+          <height>17</height>
          </size>
         </property>
        </spacer>
@@ -1870,7 +1870,7 @@ p, li { white-space: pre-wrap; }
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>28</height>
+          <height>13</height>
          </size>
         </property>
        </spacer>
@@ -2188,7 +2188,7 @@ p, li { white-space: pre-wrap; }
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>40</height>
+        <height>20</height>
        </size>
       </property>
      </spacer>
@@ -2222,13 +2222,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>600</width>
-          <height>114</height>
+          <height>96</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>600</width>
-          <height>114</height>
+          <height>96</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -2261,7 +2261,7 @@ p, li { white-space: pre-wrap; }
            <property name="sizeHint" stdset="0">
             <size>
              <width>3</width>
-             <height>91</height>
+             <height>96</height>
             </size>
            </property>
           </spacer>
@@ -2277,7 +2277,7 @@ p, li { white-space: pre-wrap; }
            <property name="sizeHint" stdset="0">
             <size>
              <width>3</width>
-             <height>91</height>
+             <height>96</height>
             </size>
            </property>
           </spacer>
@@ -2383,7 +2383,7 @@ p, li { white-space: pre-wrap; }
            <property name="minimumSize">
             <size>
              <width>285</width>
-             <height>0</height>
+             <height>96</height>
             </size>
            </property>
            <widget class="MyCardsPixmapLabel" name="pixmapLabel_cardBoard4">
@@ -2664,7 +2664,7 @@ p, li { white-space: pre-wrap; }
       <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
-        <height>40</height>
+        <height>20</height>
        </size>
       </property>
      </spacer>
@@ -3940,13 +3940,13 @@ p, li { white-space: pre-wrap; }
         <property name="minimumSize">
          <size>
           <width>168</width>
-          <height>188</height>
+          <height>211</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>168</width>
-          <height>188</height>
+          <height>211</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -4042,6 +4042,79 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="3" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_potButtons">
+           <property name="spacing">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="pushButton_Pot33">
+             <property name="minimumSize">
+              <size>
+               <width>52</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>52</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="text">
+              <string>33%</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_Pot50">
+             <property name="minimumSize">
+              <size>
+               <width>52</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>52</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="text">
+              <string>50%</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_Pot100">
+             <property name="minimumSize">
+              <size>
+               <width>52</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>52</width>
+               <height>22</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="text">
+              <string>100%</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0">
           <widget class="MyActionButton" name="pushButton_BetRaise">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -4066,7 +4139,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
+         <item row="5" column="0">
           <widget class="MyActionButton" name="pushButton_CallCheck">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -4091,7 +4164,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
+         <item row="6" column="0">
           <widget class="MyActionButton" name="pushButton_Fold">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -4129,7 +4202,7 @@ p, li { white-space: pre-wrap; }
            </property>
           </spacer>
          </item>
-         <item row="6" column="0">
+         <item row="7" column="0">
           <spacer name="verticalSpacer_11">
            <property name="orientation">
             <enum>Qt::Vertical</enum>

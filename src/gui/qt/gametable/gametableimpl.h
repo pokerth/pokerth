@@ -229,6 +229,9 @@ public slots:
 	void pushButtonCallCheckClicked(bool checked);
 	void pushButtonFoldClicked(bool checked);
 	void pushButtonAllInClicked(bool checked);
+	void pushButtonPot33Clicked();
+	void pushButtonPot50Clicked();
+	void pushButtonPot100Clicked();
 
 	void myCallCheck();
 
@@ -386,6 +389,8 @@ public slots:
 	int getAndroidApiVersion();
 
 private:
+	void applyPotFraction(double fraction);
+	void setPotButtonsEnabled(bool enabled);
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 	guiLog *myGuiLog;
@@ -433,7 +438,8 @@ private:
 	boost::timers::portable::microsec_timer voteOnKickRealTimer;
 	QTimer *enableCallCheckPushButtonTimer;
 
-	QWidget *userWidgetsArray[6];
+	static const int UserWidgetCount = 9;
+	QWidget *userWidgetsArray[UserWidgetCount];
 	QLabel *buttonLabelArray[MAX_NUMBER_OF_PLAYERS];
 	MyCashLabel *cashLabelArray[MAX_NUMBER_OF_PLAYERS];
 	QLabel *cashTopLabelArray[MAX_NUMBER_OF_PLAYERS];
