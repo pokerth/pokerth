@@ -153,6 +153,7 @@ add_library(pokerth_lib STATIC ${POKERTH_LIB_SRC})
 # Füge Include-Pfad für generierte Protobuf-Header hinzu
 target_include_directories(pokerth_lib PRIVATE "${CMAKE_SOURCE_DIR}/src/third_party/protobuf")
 target_include_directories(pokerth_lib PRIVATE "${Boost_INCLUDE_DIRS}")
+target_include_directories(pokerth_lib PRIVATE "${OPENSSL_INCLUDE_DIR}")
 target_include_directories(pokerth_lib PUBLIC
     src
     src/engine src/engine/local_engine 
@@ -167,7 +168,11 @@ target_include_directories(pokerth_lib PUBLIC
     src/third_party/websocketpp)
 
 target_link_libraries(pokerth_lib PUBLIC "${Boost_LIBRARIES}")
-target_link_libraries(pokerth_lib PUBLIC "${OPENSSL_LIBRARIES}")
+if(TARGET OpenSSL::SSL)
+    target_link_libraries(pokerth_lib PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+else()
+    target_link_libraries(pokerth_lib PUBLIC "${OPENSSL_LIBRARIES}")
+endif()
 target_link_libraries(pokerth_lib PUBLIC Qt6::Network)
 target_link_libraries(pokerth_lib PUBLIC pokerth_protocol)
 target_link_libraries(pokerth_lib PRIVATE Qt6::Xml Qt6::Sql)
