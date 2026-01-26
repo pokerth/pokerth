@@ -66,7 +66,7 @@ HashBuf::ToString() const
 	tmpBuf[sizeof(tmpBuf) - 1] = 0;
 	const unsigned char *tmpData = GetData();
 	for (int i = 0; i < GetDataSize(); i++) {
-		sprintf(tmpBuf, "%02x", tmpData[i]);
+		snprintf(tmpBuf, sizeof(tmpBuf), "%02x", tmpData[i]);
 		retValue += tmpBuf;
 	}
 	return retValue;
