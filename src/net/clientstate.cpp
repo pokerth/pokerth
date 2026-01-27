@@ -2631,6 +2631,10 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				highestValueOfCards = tmpPlayer->getMyCardsValueInt();
 			tmpPlayer->setMyCash(r.playermoney());
 			tmpPlayer->setLastMoneyWon(r.moneywon());
+			
+			qDebug() << "[WINNER DEBUG]" << tmpPlayer->getMyName().c_str() << "- Cash:" << r.playermoney() 
+				<< "MoneyWon:" << r.moneywon() << "CardsValue:" << (r.has_cardsvalue() ? r.cardsvalue() : 0);
+			
 			if (r.moneywon())
 				winnerList.push_back(r.playerid());
 			qDebug() << "[SHOWCARD CLI] Adding player ID" << r.playerid() << "to showList";
