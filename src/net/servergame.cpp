@@ -942,11 +942,17 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, b
 	case NTF_NET_REMOVED_ON_REQUEST :
 		netReason = GamePlayerLeftMessage::leftOnRequest;
 		// Player left voluntarily, clear GUID to prevent rejoin.
+		LOG_MSG("Player " << player->GetName() << " left voluntarily, m_game=" << (m_game ? "yes" : "no") << ", spectateOnly=" << spectateOnly);
 		if (m_game && !spectateOnly) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(player->GetUniqueId()));
 			if (tmpPlayer) {
+				LOG_MSG("Clearing GUID for player " << player->GetName() << ", old GUID=" << tmpPlayer->getMyGuid());
 				tmpPlayer->setMyGuid("");
+			} else {
+				LOG_MSG("Player " << player->GetName() << " not found in game");
 			}
+		} else {
+			LOG_MSG("Not clearing GUID: m_game=" << (m_game ? "yes" : "no") << ", spectateOnly=" << spectateOnly);
 		}
 		break;
 	case NTF_NET_REMOVED_KICKED :

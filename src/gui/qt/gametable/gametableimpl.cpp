@@ -3819,6 +3819,12 @@ void gameTableImpl::closeGameTable()
 
 		if(close) {
 			//now really close the table
+			// Send leave game request before terminating if in a network game
+			if(myStartWindow->getSession()->isNetworkClientRunning() && 
+			   (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || 
+			    myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
+				myStartWindow->getSession()->sendLeaveCurrentGame();
+			}
 			myStartWindow->getSession()->terminateNetworkClient();
 			stopTimer();
 			saveGameTableGeometry();
