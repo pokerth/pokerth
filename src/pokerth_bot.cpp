@@ -521,7 +521,7 @@ private:
                  << " (mine: " << bot->playerId() << ")" << endl;
             
             if (playersTurn.playerid() == bot->playerId()) {
-                // Auto-check/auto-fold Logik
+                // Auto-check/auto-call Logik (kein Fold für schnellere Tests)
                 boost::shared_ptr<NetPacket> action(new NetPacket);
                 action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                 MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
@@ -537,10 +537,11 @@ private:
                     cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() 
                          << ", mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
                 } else {
-                    // FOLD: Wenn Geld nötig ist
-                    actionMsg->set_myaction(netActionFold);
-                    actionMsg->set_myrelativebet(0);
-                    cout << "[" << bot->name() << "] FOLD (hand=" << bot->handNum() 
+                    // CALL: Gehe mit bis zum höchsten Bet
+                    uint32_t callAmount = bot->highestSet() - bot->mySet();
+                    actionMsg->set_myaction(netActionCall);
+                    actionMsg->set_myrelativebet(callAmount);
+                    cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() 
                          << ", mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
                 }
                 
