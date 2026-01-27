@@ -228,9 +228,8 @@ SetPlayerResult(PlayerResult &playerResult, boost::shared_ptr<PlayerInterface> t
 		playerResult.add_besthandposition(bestHandPos[num]);
 	}
 
-	if (roundBeforePostRiver == GAME_STATE_RIVER) {
-		playerResult.set_cardsvalue(tmpPlayer->getMyCardsValueInt());
-	}
+	// Immer cardsvalue senden, auch bei All-In vor River (sonst zeigt Client falsche Winner)
+	playerResult.set_cardsvalue(tmpPlayer->getMyCardsValueInt());
 	playerResult.set_moneywon(tmpPlayer->getLastMoneyWon());
 	playerResult.set_playermoney(tmpPlayer->getMyCash());
 }
