@@ -511,17 +511,28 @@ private:
             // Wenn es meine Action war, update mySet
             if (actionDone.playerid() == bot->playerId()) {
                 bot->setMySet(actionDone.totalplayerbet());
+                cout << "[" << bot->name() << "] My action done: mySet=" << bot->mySet() 
+                     << ", highestSet=" << bot->highestSet() << endl;
             }
+            
+        } else if (msgType == PokerTHMessage::Type_DealFlopCardsMessage ||
+                   msgType == PokerTHMessage::Type_DealTurnCardMessage ||
+                   msgType == PokerTHMessage::Type_DealRiverCardMessage) {
+            // Neue Betting-Runde: Sets zurücksetzen (aber nicht die Hand!)
+            cout << "[" << bot->name() << "] New betting round - resetting sets" << endl;
+            bot->setMySet(0);
+            bot->setHighestSet(0);
             
         } else if (msgType == PokerTHMessage::Type_PlayersTurnMessage) {
             // Ein Spieler ist am Zug - prüfen ob wir es sind
             auto playersTurn = msg->GetMsg()->playersturnmessage();
             
             cout << "[" << bot->name() << "] PlayersTurn - playerID: " << playersTurn.playerid() 
-                 << " (mine: " << bot->playerId() << ")" << endl;
+                 << " (mine: " << bot->playerId() << "), mySet=" << bot->mySet() 
+                 << ", highestSet=" << bot->highestSet() << endl;
             
             if (playersTurn.playerid() == bot->playerId()) {
-                // Auto-check/auto-call Logik (kein Fold für schnellere Tests)
+                // SOFORT reagieren - Auto-check/auto-call Logik (kein Fold für schnellere Tests)
                 boost::shared_ptr<NetPacket> action(new NetPacket);
                 action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                 MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
@@ -534,22 +545,16 @@ private:
                     // CHECK: Kein Bet liegt oder bereits gematched
                     actionMsg->set_myaction(netActionCheck);
                     actionMsg->set_myrelativebet(0);
-                    cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() 
-                         << ", mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
+                    cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() << ")" << endl;
                 } else {
                     // CALL: Gehe mit bis zum höchsten Bet
                     uint32_t callAmount = bot->highestSet() - bot->mySet();
                     actionMsg->set_myaction(netActionCall);
                     actionMsg->set_myrelativebet(callAmount);
-                    cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() 
-                         << ", mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
+                    cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() << ")" << endl;
                 }
                 
-                auto before = chrono::steady_clock::now();
                 bot->sendMessage(action);
-                auto after = chrono::steady_clock::now();
-                auto duration = chrono::duration_cast<chrono::microseconds>(after - before).count();
-                cout << "[" << bot->name() << "] Action sent in " << duration << " µs" << endl;
             }
             
         } else if (msgType == PokerTHMessage::Type_YourActionRejectedMessage) {
