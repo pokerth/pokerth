@@ -532,7 +532,21 @@ private:
                  << ", highestSet=" << bot->highestSet() << endl;
             
             if (playersTurn.playerid() == bot->playerId()) {
-                // SOFORT reagieren - Auto-check/auto-call Logik (kein Fold für schnellere Tests)
+                // WICHTIG: Erst ALLE ausstehenden Messages verarbeiten (z.B. PlayersActionDoneMessage)
+                // um sicherzustellen, dass mySet/highestSet aktuell sind!
+                boost::system::error_code ec;
+                size_t available = bot->socket().lowest_layer().available(ec);
+                while (!ec && available > 0) {
+                    auto pendingMsg = bot->receiveMessage();
+                    if (pendingMsg) {
+                        handleMessage(bot, pendingMsg);
+                    } else {
+                        break;
+                    }
+                    available = bot->socket().lowest_layer().available(ec);
+                }
+                
+                // Jetzt mit aktuellen Werten reagieren - Auto-check/auto-call Logik
                 boost::shared_ptr<NetPacket> action(new NetPacket);
                 action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                 MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
@@ -545,13 +559,15 @@ private:
                     // CHECK: Kein Bet liegt oder bereits gematched
                     actionMsg->set_myaction(netActionCheck);
                     actionMsg->set_myrelativebet(0);
-                    cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() << ")" << endl;
+                    cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() 
+                         << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
                 } else {
                     // CALL: Gehe mit bis zum höchsten Bet
                     uint32_t callAmount = bot->highestSet() - bot->mySet();
                     actionMsg->set_myaction(netActionCall);
                     actionMsg->set_myrelativebet(callAmount);
-                    cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() << ")" << endl;
+                    cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() 
+                         << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
                 }
                 
                 bot->sendMessage(action);
