@@ -2229,6 +2229,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				break;
 			case netPlayerStateNoMoney :
 				tmpPlayer->setMyCash(0);
+				tmpPlayer->setMyActiveStatus(false);
 				break;
 			}
 		}
@@ -2463,8 +2464,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Start displaying the timeout for the player.
 		client->GetGui().startTimeoutAnimation(tmpPlayer->getMyID(), client->GetGameData().playerActionTimeoutSec);
 
-		if (tmpPlayer->getMyID() == 0) // Is this the GUI player?
-			client->GetGui().meInAction();
+		if (tmpPlayer->getMyID() == 0) { // Is this the GUI player?
+			// Only allow action if player has cash and is not already All-In
+			if (tmpPlayer->getMyCash() > 0 || tmpPlayer->getMyAction() != PLAYER_ACTION_ALLIN) {
+				client->GetGui().meInAction();
+			}
+		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealFlopCardsMessage) {
 		const DealFlopCardsMessage &netDealFlop = tmpPacket->GetMsg()->dealflopcardsmessage();
 

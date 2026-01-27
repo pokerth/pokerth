@@ -1725,7 +1725,9 @@ void gameTableImpl::provideMyActions(int mode)
 	PlayerList activePlayerList = currentHand->getActivePlayerList();
 
 	//really disabled buttons if human player is fold/all-in or server-autofold... and not called from dealberocards
-	if(/*pushButton_BetRaise->isCheckable() && */(mode != 0 && (humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE)))) || !humanPlayer->isSessionActive() /*server-autofold*/) {
+	if((humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD) || 
+	   (mode != 0 && (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE))) || 
+	   !humanPlayer->isSessionActive() /*server-autofold*/) {
 
 		pushButton_BetRaise->setText("");
 		pushButton_CallCheck->setText("");
@@ -1752,7 +1754,12 @@ void gameTableImpl::provideMyActions(int mode)
 			if (humanPlayer->getMySet()== currentHand->getCurrentBeRo()->getHighestSet() &&  humanPlayer->getMyButton() == 3) {
 				pushButtonCallCheckString = CheckString;
 			} else {
-				pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(getMyCallAmount());
+				int callAmount = getMyCallAmount();
+				if (callAmount == 0) {
+					pushButtonCallCheckString = CheckString;
+				} else {
+					pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(callAmount);
+				}
 			}
 
 			pushButtonFoldString = FoldString;
@@ -1772,7 +1779,12 @@ void gameTableImpl::provideMyActions(int mode)
 				pushButtonBetRaiseString = BetString+"\n$"+QString("%L1").arg(getMyBetAmount());
 			}
 			if (currentHand->getCurrentBeRo()->getHighestSet() > 0 && currentHand->getCurrentBeRo()->getHighestSet() > humanPlayer->getMySet()) {
-				pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(getMyCallAmount());
+				int callAmount = getMyCallAmount();
+				if (callAmount == 0) {
+					pushButtonCallCheckString = CheckString;
+				} else {
+					pushButtonCallCheckString = CallString+"\n$"+QString("%L1").arg(callAmount);
+				}
 				if (humanPlayer->getMyCash()+humanPlayer->getMySet() > currentHand->getCurrentBeRo()->getHighestSet() && !currentHand->getCurrentBeRo()->getFullBetRule()) {
 					pushButtonBetRaiseString = RaiseString+"\n$"+QString("%L1").arg(getMyBetAmount());
 				}
@@ -1783,7 +1795,7 @@ void gameTableImpl::provideMyActions(int mode)
 		}
 
 		if(mode == 0) {
-			if( humanPlayer->getMyAction() != PLAYER_ACTION_FOLD ) {
+			if( humanPlayer->getMyAction() != PLAYER_ACTION_FOLD && humanPlayer->getMyAction() != PLAYER_ACTION_ALLIN ) {
 				pushButtonBetRaiseString = BetString+"\n$"+QString("%L1").arg(getMyBetAmount());
 				pushButtonCallCheckString = CheckString;
 				if( (activePlayerList->size() > 2 && humanPlayer->getMyButton() == BUTTON_SMALL_BLIND ) || ( activePlayerList->size() <= 2 && humanPlayer->getMyButton() == BUTTON_BIG_BLIND)) {
