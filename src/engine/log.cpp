@@ -745,6 +745,7 @@ Log::exec_transaction()
     std::string buf = sql;
     sql.clear();
 
+    bool hasError = false;
     size_t start = 0;
     while(true) {
         size_t pos = buf.find(';', start);
@@ -763,13 +764,17 @@ Log::exec_transaction()
             if(!q.exec(QString::fromStdString(stmt))) {
                 QSqlError qe = q.lastError();
                 cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
+                hasError = true;
             }
         }
         if(pos == std::string::npos) break;
         start = pos + 1;
     }
 
-    if(!db.commit()) {
+    if(hasError) {
+        db.rollback();
+        cout << "Transaction rolled back due to errors." << endl;
+    } else if(!db.commit()) {
         err = db.lastError();
         cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
     }

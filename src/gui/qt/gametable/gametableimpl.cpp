@@ -3819,17 +3819,23 @@ void gameTableImpl::closeGameTable()
 
 		if(close) {
 			//now really close the table
-			// Send leave game request before terminating if in a network game
+			// In network games, go back to lobby instead of terminating
 			if(myStartWindow->getSession()->isNetworkClientRunning() && 
 			   (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || 
 			    myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
+				// Same behavior as lobby button - just leave the game
 				myStartWindow->getSession()->sendLeaveCurrentGame();
+				stopTimer();
+				saveGameTableGeometry();
+				this->hide();
+			} else {
+				// For local games, terminate client and show start window
+				myStartWindow->getSession()->terminateNetworkClient();
+				stopTimer();
+				saveGameTableGeometry();
+				myStartWindow->show();
+				this->hide();
 			}
-			myStartWindow->getSession()->terminateNetworkClient();
-			stopTimer();
-			saveGameTableGeometry();
-			myStartWindow->show();
-			this->hide();
 		}
 	}
 }
