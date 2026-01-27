@@ -941,6 +941,13 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, b
 	switch (reason) {
 	case NTF_NET_REMOVED_ON_REQUEST :
 		netReason = GamePlayerLeftMessage::leftOnRequest;
+		// Player left voluntarily, clear GUID to prevent rejoin.
+		if (m_game && !spectateOnly) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(player->GetUniqueId()));
+			if (tmpPlayer) {
+				tmpPlayer->setMyGuid("");
+			}
+		}
 		break;
 	case NTF_NET_REMOVED_KICKED :
 		netReason = GamePlayerLeftMessage::leftKicked;
@@ -1002,7 +1009,7 @@ ServerGame::RemoveDisconnectedPlayers()
 					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID()))) {
 				// Setting player cash to 0 will deactivate the player.
 				// The player should only be deactivated if rejoin is not possible.
-				if (tmpPlayer->isKicked() || tmpPlayer->getMyGuid().empty()) {
+				if (tmpPlayer->isKicked() || tmpPlayer->getMyGuid().empty() || tmpPlayer->getMyCash() == 0) {
 					tmpPlayer->setMyCash(0);
 					tmpPlayer->setMyGuid("");
 				}
