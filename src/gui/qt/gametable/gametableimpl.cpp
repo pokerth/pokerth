@@ -4260,6 +4260,7 @@ void gameTableImpl::refreshGameTableStyle()
 
 	myGameTableStyle->setTabWidgetStyle(tabs.tabWidget_Right, tabs.tabWidget_Right->getMyTabBar());
 	myGameTableStyle->setTabWidgetStyle(tabs.tabWidget_Left, tabs.tabWidget_Left->getMyTabBar());
+	tabs.tabWidget_Right->tabBar()->setElideMode(Qt::ElideNone);
 
 	tabs.label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
 #else
@@ -4272,6 +4273,7 @@ void gameTableImpl::refreshGameTableStyle()
 
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Right, tabWidget_Right->getMyTabBar());
 	myGameTableStyle->setTabWidgetStyle(tabWidget_Left, tabWidget_Left->getMyTabBar());
+	tabWidget_Right->tabBar()->setElideMode(Qt::ElideNone);
 
 	label_Handranking->setPixmap(myGameTableStyle->getHandRanking());
 #endif
