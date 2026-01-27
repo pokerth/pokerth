@@ -2233,6 +2233,16 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			}
 		}
 
+		// Reset all player cards before starting new hand to avoid showing old cards from previous hand
+		PlayerListIterator it = client->GetGame()->getSeatsList()->begin();
+		PlayerListIterator end = client->GetGame()->getSeatsList()->end();
+		int emptyCards[2] = {-1, -1};
+		while (it != end) {
+			(*it)->setMyCards(emptyCards);
+			(*it)->setMyCardsValueInt(0);
+			++it;
+		}
+
 		// Basic synchronisation before a new hand is started.
 		client->GetGui().waitForGuiUpdateDone();
 		// Start new hand.
