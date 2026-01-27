@@ -2623,6 +2623,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 		qDebug() << "[SHOWCARD CLI] Final showList size:" << showList.size();
 
+		// Reset all player actions after showdown to avoid displaying wrong cards in next hand
+		ResetPlayerActions(*curGame);
+
 		curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestCardsValue(highestValueOfCards);

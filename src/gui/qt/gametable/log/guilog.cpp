@@ -41,6 +41,7 @@
 using namespace std;
 
 #include <cstring>
+#include <QThread>
 
 // Provide a tiny compatibility layer so guilog.cpp can keep using the old
 // sqlite3_get_table-style API but implemented on top of Qt's QSqlDatabase.
@@ -58,7 +59,10 @@ extern "C" int sqlite3_open(const char *filename, sqlite3 **ppDb)
 {
 	if (!ppDb) return SQLITE_ERROR;
 	sqlite3 *p = new sqlite3();
-	p->connName = QString("guilog_conn_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
+	// Include thread ID to make connection name unique per thread
+	p->connName = QString("guilog_conn_%1_thread_%2")
+		.arg((qulonglong)QDateTime::currentMSecsSinceEpoch())
+		.arg((qulonglong)QThread::currentThreadId());
 	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", p->connName);
 	db.setDatabaseName(QString::fromUtf8(filename));
 	if (!db.open()) {
@@ -74,7 +78,7 @@ extern "C" int sqlite3_open(const char *filename, sqlite3 **ppDb)
 extern "C" int sqlite3_get_table(sqlite3 *pDb, const char *zSql, char ***pazResult, int *pnRow, int *pnColumn, char **pErrMsg)
 {
 	if(!pDb || !pazResult || !pnRow || !pnColumn) return SQLITE_ERROR;
-	QSqlDatabase db = QSqlDatabase::database(pDb->connName);
+	QSqlDatabase db = QSqlDatabase::database(pDb->connName, false);
 	QSqlQuery q(db);
 	if(!q.exec(QString::fromUtf8(zSql))) {
 		if(pErrMsg) {

@@ -14,6 +14,8 @@
 #include <QVariant>
 #include <QDateTime>
 #include <QDir>
+#include <QThread>
+#include <QMutex>
 
 #include <dirent.h>
 #include <boost/lexical_cast.hpp>
@@ -34,10 +36,35 @@ Log::~Log()
 QSqlDatabase
 Log::getDatabase() const
 {
-    if (myConnectionName.isEmpty()) {
+    if (myConnectionName.isEmpty() || myDatabaseFileName.isEmpty()) {
         return QSqlDatabase();
     }
-    return QSqlDatabase::database(myConnectionName, false);
+    
+    // Create a thread-specific connection name
+    QString threadConnName = QString("%1_thread_%2")
+        .arg(myConnectionName)
+        .arg((qulonglong)QThread::currentThreadId());
+    
+    // Try to get the thread-specific connection (use false to avoid warnings)
+    QSqlDatabase threadDb = QSqlDatabase::database(threadConnName, false);
+    
+    // If connection exists but is not open, try to open it
+    if (threadDb.isValid()) {
+        if (!threadDb.isOpen()) {
+            threadDb.open();
+        }
+        return threadDb;
+    }
+    
+    // Connection doesn't exist yet for this thread, create a new one
+    // Don't touch the original connection from another thread!
+    threadDb = QSqlDatabase::addDatabase("QSQLITE", threadConnName);
+    threadDb.setDatabaseName(myDatabaseFileName);
+    if (threadDb.open()) {
+        return threadDb;
+    }
+    
+    return QSqlDatabase();
 }
 
 void
@@ -73,6 +100,7 @@ Log::init()
                 mySqliteLogFileName /= string("pokerth-log-") + curDateTime + ".pdb";
 
                 myConnectionName = QString("pokerth_log_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
+                myDatabaseFileName = QString::fromStdString(mySqliteLogFileName.string());
                 QSqlDatabase mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
                 mySqliteLogDb.setDatabaseName(QString::fromStdString(mySqliteLogFileName.string()));
 
@@ -147,7 +175,45 @@ Log::init()
                     sql += ",Amount INTEGER";
                     sql += ");";
 
-                    exec_transaction();
+                    // Execute initial setup in the current thread using the just-opened connection
+                    QSqlError err;
+                    if(!mySqliteLogDb.transaction()) {
+                        err = mySqliteLogDb.lastError();
+                        cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
+                    }
+
+                    // Split the SQL buffer by ';' and execute each statement separately
+                    std::string buf = sql;
+                    sql.clear();
+
+                    size_t start = 0;
+                    while(true) {
+                        size_t pos = buf.find(';', start);
+                        std::string stmt;
+                        if(pos == std::string::npos) {
+                            stmt = buf.substr(start);
+                        } else {
+                            stmt = buf.substr(start, pos - start);
+                        }
+                        // trim whitespace
+                        auto l = stmt.find_first_not_of(" \t\r\n");
+                        auto r = stmt.find_last_not_of(" \t\r\n");
+                        if(l != std::string::npos && r != std::string::npos && l <= r) {
+                            stmt = stmt.substr(l, r - l + 1);
+                            QSqlQuery q(mySqliteLogDb);
+                            if(!q.exec(QString::fromStdString(stmt))) {
+                                QSqlError qe = q.lastError();
+                                cout << "Error in statement: " << stmt << " [" << qe.text().toStdString() << "]." << endl;
+                            }
+                        }
+                        if(pos == std::string::npos) break;
+                        start = pos + 1;
+                    }
+
+                    if(!mySqliteLogDb.commit()) {
+                        err = mySqliteLogDb.lastError();
+                        cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
+                    }
                 } else {
                     // open failed: du kannst hier Fehlerlog ergänzen
                     cout << "Failed to open sqlite (Qt)" << endl;
@@ -169,7 +235,8 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 
 			PlayerListConstIterator it_c;
 
-			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
+			QSqlDatabase db = getDatabase();
+			if(db.isValid() && db.isOpen()) {
 				// sqlite-db is open
 				int i;
 
@@ -225,7 +292,8 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
+			QSqlDatabase db = getDatabase();
+			if(db.isValid() && db.isOpen()) {
 				// sqlite-db is open
 			 int i;
 
@@ -342,7 +410,8 @@ Log::logPlayerAction(int seat, PlayerActionLog action, int amount)
         if(myConfig->readConfigInt("LogOnOff")) {
             //if write logfiles is enabled
 
-            if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
+            QSqlDatabase db = getDatabase();
+            if(db.isValid() && db.isOpen()) {
                 // sqlite-db (Qt) is open
 
                 if(action!=LOG_ACTION_NONE) {
@@ -473,7 +542,8 @@ Log::logBoardCards(int boardCards[5])
         if(myConfig->readConfigInt("LogOnOff")) {
             //if write logfiles is enabled
 
-            if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
+            QSqlDatabase db = getDatabase();
+            if(db.isValid() && db.isOpen()) {
                 // sqlite-db is open
 
                 switch(currentRound) {
@@ -533,7 +603,8 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-			if(QSqlDatabase::contains(myConnectionName) && getDatabase().isOpen()) {
+			QSqlDatabase db = getDatabase();
+			if(db.isValid() && db.isOpen()) {
                 // sqlite-db (Qt) is open
 
 				int myCards[2];
@@ -656,8 +727,8 @@ Log::exec_transaction()
 {
     // Execute accumulated SQL statements using QSqlQuery inside a Qt transaction.
     // Check if connection exists before accessing the database
-    if (!myConnectionName.isEmpty() && QSqlDatabase::contains(myConnectionName)) {
-        QSqlDatabase db = QSqlDatabase::database(myConnectionName, false);
+    if (!myConnectionName.isEmpty()) {
+        QSqlDatabase db = getDatabase();
         if (!(db.isValid() && db.isOpen())) {
             sql.clear();
             return;

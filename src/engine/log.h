@@ -56,6 +56,7 @@ private:
     QSqlDatabase getDatabase() const; // Helper to get the database connection
 
     QString myConnectionName;
+    QString myDatabaseFileName;  // Store DB filename for thread-local connections
 
     boost::filesystem::path mySqliteLogFileName;
     ConfigFile *myConfig;
