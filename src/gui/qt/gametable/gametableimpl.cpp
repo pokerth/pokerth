@@ -1724,8 +1724,8 @@ void gameTableImpl::provideMyActions(int mode)
 	boost::shared_ptr<PlayerInterface> humanPlayer = currentHand->getSeatsList()->front();
 	PlayerList activePlayerList = currentHand->getActivePlayerList();
 
-	//really disabled buttons if human player is fold/all-in or server-autofold... and not called from dealberocards
-	if((humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD) || 
+	//really disabled buttons if human player is fold/all-in (no cash) or server-autofold... and not called from dealberocards
+	if((humanPlayer->getMyAction() == PLAYER_ACTION_ALLIN || humanPlayer->getMyAction() == PLAYER_ACTION_FOLD || humanPlayer->getMyCash() == 0) || 
 	   (mode != 0 && (humanPlayer->getMySet() == currentHand->getCurrentBeRo()->getHighestSet() && (humanPlayer->getMyAction() != PLAYER_ACTION_NONE))) || 
 	   !humanPlayer->isSessionActive() /*server-autofold*/) {
 

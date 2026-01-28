@@ -87,11 +87,16 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 	PlayerListIterator it;
 	PlayerListConstIterator it_c;
 
+	LOG_MSG("[SIDEPOT DEBUG] distributePot() called - Total pot: " << pot);
+
 	// filling player sets vector
 	std::vector<unsigned> playerSets;
 	for(it=seatsList->begin(); it!=seatsList->end(); ++it) {
 		if((*it)->getMyActiveStatus()) {
-			playerSets.push_back( ( ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash()) ) );
+			unsigned betAmount = ( ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash()) );
+			playerSets.push_back(betAmount);
+			LOG_MSG("[SIDEPOT DEBUG] Player " << (*it)->getMyName() << " bet: " << betAmount 
+				<< " (StartCash: " << (*it)->getMyRoundStartCash() << ", EndCash: " << (*it)->getMyCash() << ")");
 		} else {
 			playerSets.push_back(0);
 		}
@@ -162,6 +167,9 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 			}
 
 			if(finalPot) {
+				LOG_MSG("[SIDEPOT DEBUG] Distributing pot level " << i << ": amount=" << potLevel[0] 
+					<< ", sum=" << potLevel[1] << ", winners=" << (potLevel.size()-2));
+				
 				// distribute the pot level sum to level winners
 				mod = (potLevel[1])%winnerCount;
 				// pot level sum divisible by winnerCount
@@ -177,11 +185,14 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 						if(it == seatsList->end()) {
 							throw LocalException(__FILE__, __LINE__, ERR_SEAT_NOT_FOUND);
 						}
-						(*it)->setMyCash( (*it)->getMyCash() + ((potLevel[1])/winnerCount));
+						unsigned winAmount = (potLevel[1])/winnerCount;
+						(*it)->setMyCash( (*it)->getMyCash() + winAmount);
+
+						LOG_MSG("[SIDEPOT DEBUG] Winner " << (*it)->getMyName() << " gets $" << winAmount);
 
 						// filling winners vector
 						winners.push_back((*it)->getMyUniqueID());
-						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + (potLevel[1])/winnerCount );
+						(*it)->setLastMoneyWon( (*it)->getLastMoneyWon() + winAmount );
 					}
 
 				}
