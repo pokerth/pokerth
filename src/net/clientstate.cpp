@@ -2652,6 +2652,11 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->setWinners(winnerList);
 		curGame->getCurrentHand()->getBoard()->setPlayerNeedToShowCards(showList);
 
+		// CRITICAL: Force immediate GUI cash update to prevent race condition with next hand's HandStartMessage
+		// This ensures the GUI shows correct cash values before any animation or next hand processing
+		client->GetGui().refreshCash();
+		client->GetGui().waitForGuiUpdateDone();
+
 		// logging
 		client->GetClientLog()->logHoleCardsHandName(curGame->getActivePlayerList());
 		client->GetClientLog()->logHandWinner(curGame->getActivePlayerList(), highestValueOfCards, winnerList);

@@ -441,7 +441,10 @@ AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &ser
 	int playerCounter = 0;
 	while (player_i != player_end && playerCounter < server.GetStartData().numberOfPlayers) {
 		NetPlayerState seatState;
-		if (!(*player_i)->getMyActiveStatus()) {
+		// Check cash first - player with 0 cash should be marked as NoMoney
+		if ((*player_i)->getMyCash() == 0) {
+			seatState = netPlayerStateNoMoney;
+		} else if (!(*player_i)->getMyActiveStatus()) {
 			seatState = netPlayerStateNoMoney;
 		} else if (!(*player_i)->isSessionActive()) {
 			seatState = netPlayerStateSessionInactive;
