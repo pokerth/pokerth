@@ -2255,6 +2255,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->GetGui().dealHoleCards();
 		client->GetGui().refreshGameLabels(GAME_STATE_PREFLOP);
 		client->GetGui().refreshPot();
+		client->GetGui().refreshCash(); // CRITICAL: Update cash display after hand start (fixes Qt6 timing issue)
 		client->GetGui().waitForGuiUpdateDone();
 
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_HAND_START);
@@ -2392,7 +2393,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		tmpPlayer->setMyAction(PlayerAction(netActionDone.playeraction()));
 		tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
-		tmpPlayer->setMyCash(netActionDone.playermoney());
+		// CRITICAL: Only update cash if it would not increase from 0
+		// Players with 0 cash (all-in losers) get their final value from EndOfHandShowCardsMessage
+		// Never restore cash from PlayersActionDoneMessage - it may contain stale pre-pot-distribution values
+		if (tmpPlayer->getMyCash() > 0 || netActionDone.playermoney() == 0) {
+			tmpPlayer->setMyCash(netActionDone.playermoney());
+		}
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone.highestset());
 		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone.minimumraise());
 		curGame->getCurrentHand()->getBoard()->collectSets();
@@ -2488,6 +2494,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshGameLabels(GAME_STATE_FLOP);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
+		client->GetGui().refreshCash();
 		client->GetGui().dealBeRoCards(1);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealTurnCardMessage) {
 		const DealTurnCardMessage &netDealTurn = tmpPacket->GetMsg()->dealturncardmessage();
@@ -2505,6 +2512,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshGameLabels(GAME_STATE_TURN);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
+		client->GetGui().refreshCash();
 		client->GetGui().dealBeRoCards(2);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealRiverCardMessage) {
 		const DealRiverCardMessage &netDealRiver = tmpPacket->GetMsg()->dealrivercardmessage();
@@ -2522,6 +2530,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().refreshGameLabels(GAME_STATE_RIVER);
 		client->GetGui().refreshPot();
 		client->GetGui().refreshSet();
+		client->GetGui().refreshCash();
 		client->GetGui().dealBeRoCards(3);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AllInShowCardsMessage) {
 		const AllInShowCardsMessage &netAllInShow = tmpPacket->GetMsg()->allinshowcardsmessage();
