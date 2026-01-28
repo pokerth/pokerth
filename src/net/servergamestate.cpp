@@ -1078,6 +1078,18 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 
 			if (nonFoldPlayers.size() == 1) {
 				// End of Hand, but keep cards hidden.
+				
+				// Double-check: Ensure all-in losers are set to 0 cash (defensive programming for race conditions)
+				PlayerListIterator pit = curGame.getSeatsList()->begin();
+				PlayerListIterator pend = curGame.getSeatsList()->end();
+				while (pit != pend) {
+					if ((*pit)->getMyAction() == PLAYER_ACTION_ALLIN && (*pit)->getLastMoneyWon() == 0) {
+						LOG_MSG("[SIDEPOT SRV] Final check (hide): Setting " + (*pit)->getMyName() + " to 0 (was: " + std::to_string((*pit)->getMyCash()) + ")");
+						(*pit)->setMyCash(0);
+					}
+					++pit;
+				}
+				
 				boost::shared_ptr<PlayerInterface> player = nonFoldPlayers.front();
 				boost::shared_ptr<NetPacket> endHand(new NetPacket);
 				endHand->GetMsg()->set_messagetype(PokerTHMessage::Type_EndOfHandHideCardsMessage);
@@ -1090,6 +1102,18 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			} else {
 				// End of Hand - show cards.
 				const PlayerIdList showList(curGame.getCurrentHand()->getBoard()->getPlayerNeedToShowCards());
+				
+				// Double-check: Ensure all-in losers are set to 0 cash (defensive programming for race conditions)
+				PlayerListIterator pit = curGame.getSeatsList()->begin();
+				PlayerListIterator pend = curGame.getSeatsList()->end();
+				while (pit != pend) {
+					if ((*pit)->getMyAction() == PLAYER_ACTION_ALLIN && (*pit)->getLastMoneyWon() == 0) {
+						LOG_MSG("[SIDEPOT SRV] Final check: Setting " + (*pit)->getMyName() + " to 0 (was: " + std::to_string((*pit)->getMyCash()) + ")");
+						(*pit)->setMyCash(0);
+					}
+					++pit;
+				}
+				
 				boost::shared_ptr<NetPacket> endHand(new NetPacket);
 				endHand->GetMsg()->set_messagetype(PokerTHMessage::Type_EndOfHandShowCardsMessage);
 				EndOfHandShowCardsMessage *netEndHand = endHand->GetMsg()->mutable_endofhandshowcardsmessage();
@@ -1103,7 +1127,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
 					if (tmpPlayer) {
 						LOG_MSG("[SHOWCARD SRV] Adding player " + tmpPlayer->getMyName() + " (ID:" + std::to_string(*i) 
-							+ ") Action:" + std::to_string(tmpPlayer->getMyAction()) + " Active:" + std::to_string(tmpPlayer->getMyActiveStatus()));
+							+ ") Action:" + std::to_string(tmpPlayer->getMyAction()) + " Active:" + std::to_string(tmpPlayer->getMyActiveStatus())
+							+ " Cash:" + std::to_string(tmpPlayer->getMyCash()) + " Won:" + std::to_string(tmpPlayer->getLastMoneyWon()));
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
