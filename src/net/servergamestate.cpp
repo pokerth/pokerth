@@ -1123,19 +1123,24 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				netEndHand->set_gameid(server->GetId());
 
 				LOG_MSG("[SHOWCARD SRV] showList size: " + std::to_string(showList.size()));
-				PlayerIdList::const_iterator i = showList.begin();
-				PlayerIdList::const_iterator end = showList.end();
-
-				while (i != end) {
-					boost::shared_ptr<PlayerInterface> tmpPlayer(curGame.getPlayerByUniqueId(*i));
+				
+				// CRITICAL: Send PlayerResults for ALL active players, not just showList
+				// This ensures clients get correct cash updates for all players including those who folded or went all-in
+				PlayerListIterator allPlayers = curGame.getActivePlayerList()->begin();
+				PlayerListIterator allPlayersEnd = curGame.getActivePlayerList()->end();
+				
+				while (allPlayers != allPlayersEnd) {
+					boost::shared_ptr<PlayerInterface> tmpPlayer = *allPlayers;
 					if (tmpPlayer) {
-						LOG_MSG("[SHOWCARD SRV] Adding player " + tmpPlayer->getMyName() + " (ID:" + std::to_string(*i) 
+						bool inShowList = std::find(showList.begin(), showList.end(), tmpPlayer->getMyUniqueID()) != showList.end();
+						LOG_MSG("[SHOWCARD SRV] Adding player " + tmpPlayer->getMyName() + " (ID:" + std::to_string(tmpPlayer->getMyUniqueID()) 
 							+ ") Action:" + std::to_string(tmpPlayer->getMyAction()) + " Active:" + std::to_string(tmpPlayer->getMyActiveStatus())
-							+ " Cash:" + std::to_string(tmpPlayer->getMyCash()) + " Won:" + std::to_string(tmpPlayer->getLastMoneyWon()));
+							+ " Cash:" + std::to_string(tmpPlayer->getMyCash()) + " Won:" + std::to_string(tmpPlayer->getLastMoneyWon())
+							+ " InShowList:" + (inShowList ? "YES" : "NO"));
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
-					++i;
+					++allPlayers;
 				}
 				LOG_MSG("[SHOWCARD SRV] Sending EndOfHandShowCardsMessage with " + std::to_string(netEndHand->playerresults_size()) + " players");
 				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
