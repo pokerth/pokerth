@@ -270,6 +270,17 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 	winners.sort();
 	winners.unique();
 
+	// Set cash to 0 for all-in players who didn't win
+	for(it=seatsList->begin(), j=0; it!=seatsList->end(); ++it, j++) {
+		if((*it)->getMyActiveStatus()) {
+			unsigned betAmount = ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash());
+			// If player went all-in (bet everything) and didn't win anything, set cash to 0
+			if(betAmount == (*it)->getMyRoundStartCash() && (*it)->getLastMoneyWon() == 0) {
+				LOG_MSG("[SIDEPOT DEBUG] Setting " << (*it)->getMyName() << " cash to 0 (bet all " << betAmount << ", won nothing)");
+				(*it)->setMyCash(0);
+			}
+		}
+	}
 
 	// ERROR-Outputs
 
