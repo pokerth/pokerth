@@ -424,12 +424,44 @@ private:
                     return false;
                 }
                 
-                cout << " Connecting..." << flush;
-                // Connect TCP
+                cout << " [" << getTimestamp() << "] Connecting..." << flush;
+                // Connect TCP with timeout (async)
+                atomic<bool> connectComplete(false);
                 boost::system::error_code connectEc;
-                boost::asio::connect(bot->socket().lowest_layer(), endpoints, connectEc);
+                
+                auto connectTimer = make_shared<boost::asio::deadline_timer>(io_);
+                connectTimer->expires_from_now(boost::posix_time::seconds(10));
+                
+                connectTimer->async_wait([&connectComplete, &connectEc, &bot, connectTimer](const boost::system::error_code& ec) {
+                    if (!ec && !connectComplete) {
+                        boost::system::error_code closeEc;
+                        bot->socket().lowest_layer().close(closeEc);
+                        connectEc = boost::asio::error::timed_out;
+                        connectComplete = true;
+                    }
+                });
+                
+                boost::asio::async_connect(
+                    bot->socket().lowest_layer(), 
+                    endpoints,
+                    [&connectComplete, &connectEc, connectTimer](const boost::system::error_code& ec, const tcp::endpoint&) {
+                        if (!connectComplete) {
+                            connectTimer->cancel();
+                            connectEc = ec;
+                            connectComplete = true;
+                        }
+                    });
+                
+                while (!connectComplete) {
+                    io_.run_one();
+                }
+                
+                connectTimer->cancel();
+                io_.poll();
+                io_.restart();
+                
                 if (connectEc) {
-                    cerr << "\n[" << bot->name() << "] TCP connect failed: " << connectEc.message() << endl;
+                    cerr << "\n[" << getTimestamp() << "] [" << bot->name() << "] TCP connect failed: " << connectEc.message() << endl;
                     if (attempt < 1) continue; // Retry
                     return false;
                 }
