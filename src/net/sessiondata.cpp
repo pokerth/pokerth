@@ -225,6 +225,7 @@ SessionData::TimerInitTimeout(const boost::system::error_code &ec)
 		// Close session ONLY if still in Init state (hanging TLS handshake or stuck login)
 		// Do NOT close sessions that are Established, Game, Spectating, etc.
 		if (GetState() == SessionData::Init) {
+			qDebug() << "[SESSION-TIMEOUT] Init timeout for session" << GetId() << "- forcing close";
 			// Force-close the socket to abort any pending async operations (e.g., hanging TLS handshake)
 			CloseSocketHandle();
 			m_callback.SessionError(shared_from_this(), ERR_NET_SESSION_TIMED_OUT);

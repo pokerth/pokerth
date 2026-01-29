@@ -432,7 +432,7 @@ private:
                     
                     boost::system::error_code handshakeEc;
                     auto startTime = chrono::steady_clock::now();
-                    const int timeoutSec = 10;
+                    const int timeoutSec = 15;  // Erhöht auf 15s (Server hat 12s)
                     
                     // Poll-basierter Handshake mit Timeout
                     while (true) {
@@ -472,10 +472,14 @@ private:
                         string botName = bot->name();
                         string botPassword = bot->password();
                         
-                        // Sauber schließen
+                        // Sauber schließen - bei Timeout KEIN shutdown() (verhindert 'stream truncated')
                         try {
                             boost::system::error_code closeEc;
-                            bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, closeEc);
+                            if (handshakeEc != boost::asio::error::timed_out) {
+                                // Nur bei echten Fehlern graceful shutdown versuchen
+                                bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, closeEc);
+                            }
+                            // Socket immer schließen
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {
                             // Ignoriere Fehler beim Cleanup

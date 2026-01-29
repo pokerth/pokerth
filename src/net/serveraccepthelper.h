@@ -177,16 +177,16 @@ protected:
                 // Shared state to prevent timeout from closing an established connection
                 auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
                 
-                // Create a timeout timer for the handshake (8 seconds - increased for slow bots)
+                // Create a timeout timer for the handshake (12 seconds - increased for slow clients)
                 auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
-                handshakeTimer->expires_after(std::chrono::seconds(8));
+                handshakeTimer->expires_after(std::chrono::seconds(12));
                 handshakeTimer->async_wait(
                     [this, sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& ec) {
                         if (!ec && !handshakeCompleted->load()) {
                             // Timeout: close the socket to abort the handshake (only if not completed)
                             boost::system::error_code closeEc;
                             sslStream->lowest_layer().close(closeEc);
-                            LOG_MSG("[TLS-SERVER] Handshake timeout after 8s - closed socket");
+                            LOG_MSG("[TLS-SERVER] Handshake timeout after 12s - closed socket");
                             
                             // CRITICAL: Accept next connection after timeout
                             boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
