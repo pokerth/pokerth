@@ -314,10 +314,15 @@ SessionData::CloseSocketHandle()
 {
     if (m_socket) {
         boost::system::error_code ec;
+        // Cancel all pending async operations first
+        m_socket->cancel(ec);
+        // Then close the socket
         m_socket->close(ec);
     } else if (m_sslStream) {
         boost::system::error_code ec;
-        // close underlying socket
+        // Cancel all pending async operations first
+        m_sslStream->lowest_layer().cancel(ec);
+        // Then close underlying socket
         m_sslStream->lowest_layer().close(ec);
     }
 }

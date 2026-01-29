@@ -177,26 +177,41 @@ protected:
                 // Shared state to prevent timeout from closing an established connection
                 auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
                 
-                // Create a timeout timer for the handshake (5 seconds)
+                // Create a timeout timer for the handshake (8 seconds - increased for slow bots)
                 auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
-                handshakeTimer->expires_after(std::chrono::seconds(5));
+                handshakeTimer->expires_after(std::chrono::seconds(8));
                 handshakeTimer->async_wait(
-                    [sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& ec) {
+                    [this, sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& ec) {
                         if (!ec && !handshakeCompleted->load()) {
                             // Timeout: close the socket to abort the handshake (only if not completed)
                             boost::system::error_code closeEc;
                             sslStream->lowest_layer().close(closeEc);
-                            LOG_MSG("[TLS-SERVER] Handshake timeout after 5s - closed socket");
+                            LOG_MSG("[TLS-SERVER] Handshake timeout after 8s - closed socket");
+                            
+                            // CRITICAL: Accept next connection after timeout
+                            boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
+                            m_acceptor->async_accept(
+                                *newSocket,
+                                boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
+                                            boost::asio::placeholders::error)
+                            );
                         }
                     });
 
                 sslStream->async_handshake(
                     boost::asio::ssl::stream_base::server,
                     [this, sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& error) {
-                        // Mark handshake as completed before canceling timer
-                        handshakeCompleted->store(true);
-                        handshakeTimer->cancel();
-                        this->HandleHandshake(sslStream, error);
+                        // Mark handshake as completed before any other action
+                        bool wasCompleted = handshakeCompleted->exchange(true);
+                        
+                        // Only handle if this is the first completion (not a timeout-triggered close)
+                        if (!wasCompleted) {
+                            handshakeTimer->cancel();
+                            this->HandleHandshake(sslStream, error);
+                        } else {
+                            // Handshake callback fired after timeout - socket already closed
+                            LOG_MSG("[TLS-SERVER] Ignoring late handshake callback after timeout");
+                        }
                     }
                 );
             } else {

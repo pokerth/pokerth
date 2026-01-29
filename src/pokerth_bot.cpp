@@ -45,6 +45,9 @@
 #include <chrono>
 #include <csignal>
 #include <atomic>
+#include <future>
+#include <sys/socket.h>
+#include <sys/time.h>
 
 using namespace std;
 using boost::asio::ip::tcp;
@@ -71,6 +74,7 @@ public:
 
     ssl::stream<tcp::socket>& socket() { return socket_; }
     const string& name() const { return name_; }
+    const string& password() const { return password_; }
     uint32_t playerId() const { return playerId_; }
     void setPlayerId(uint32_t id) { playerId_ = id; }
     uint32_t gameId() const { return gameId_; }
@@ -128,10 +132,22 @@ public:
                 size_t bytesRead = socket_.read_some(
                     boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec);
                 
-                if (ec) {
-                    cerr << "[" << name_ << "] Read error: " << ec.message() << endl;
+                if (ec == boost::asio::error::eof) {
+                    cerr << "[" << name_ << "] Connection closed by server" << endl;
+                    return boost::shared_ptr<NetPacket>();
+                } else if (ec == boost::asio::error::timed_out) {
+                    cerr << "[" << name_ << "] Read timeout (server not responding)" << endl;
+                    return boost::shared_ptr<NetPacket>();
+                } else if (ec) {
+                    cerr << "[" << name_ << "] Read error: " << ec.message() << " (code: " << ec.value() << ")" << endl;
                     return boost::shared_ptr<NetPacket>();
                 }
+                
+                if (bytesRead == 0) {
+                    cerr << "[" << name_ << "] No data read (connection closed?)" << endl;
+                    return boost::shared_ptr<NetPacket>();
+                }
+                
                 recBufPos_ += bytesRead;
             }
         } while (!tmpPacket);
@@ -206,7 +222,7 @@ public:
             
             // Lange Pause zwischen Bot-Logins (Server-Schonung - Server ist langsam!)
             if (i < numBots - 1) {
-                this_thread::sleep_for(chrono::seconds(2));  // 2 Sekunden!
+                this_thread::sleep_for(chrono::seconds(4));  // 4 Sekunden!
             }
         }
 
@@ -369,78 +385,189 @@ public:
     }
 
 private:
-    bool connectBot(shared_ptr<BotSession> bot) {
-        try {
-            cout << "[" << bot->name() << "] Resolving..." << flush;
-            // Resolve
-            tcp::resolver resolver(io_);
-            auto endpoints = resolver.resolve(server_, port_);
-            
-            cout << " Connecting..." << flush;
-            // Connect TCP
-            boost::asio::connect(bot->socket().lowest_layer(), endpoints);
-            
-            // Deaktiviere Nagle's Algorithm für sofortiges Senden
-            boost::system::error_code ec;
-            tcp::no_delay no_delay_option(true);
-            bot->socket().lowest_layer().set_option(no_delay_option, ec);
-            if (ec) {
-                cerr << "[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
+    bool connectBot(shared_ptr<BotSession>& bot) {
+        // Retry-Logik: Bis zu 2 Versuche (initial + 1 retry)
+        for (int attempt = 0; attempt < 2; attempt++) {
+            if (attempt > 0) {
+                cout << "\n[" << bot->name() << "] Retry " << attempt << "/1..." << endl;
+                this_thread::sleep_for(chrono::milliseconds(3000)); // 3s delay vor retry
             }
             
-            // TLS Handshake
-            if (useTls_) {
-                cout << " TLS handshake..." << flush;
-                bot->socket().handshake(ssl::stream_base::client);
-            }
+            try {
+                cout << "[" << bot->name() << "] Resolving..." << flush;
+                // Resolve
+                tcp::resolver resolver(io_);
+                boost::system::error_code resolveEc;
+                auto endpoints = resolver.resolve(server_, port_, resolveEc);
+                if (resolveEc) {
+                    cerr << "\n[" << bot->name() << "] Resolve failed: " << resolveEc.message() << endl;
+                    if (attempt < 1) continue; // Retry
+                    return false;
+                }
+                
+                cout << " Connecting..." << flush;
+                // Connect TCP
+                boost::system::error_code connectEc;
+                boost::asio::connect(bot->socket().lowest_layer(), endpoints, connectEc);
+                if (connectEc) {
+                    cerr << "\n[" << bot->name() << "] TCP connect failed: " << connectEc.message() << endl;
+                    if (attempt < 1) continue; // Retry
+                    return false;
+                }
+                
+                // Deaktiviere Nagle's Algorithm für sofortiges Senden
+                boost::system::error_code ec;
+                tcp::no_delay no_delay_option(true);
+                bot->socket().lowest_layer().set_option(no_delay_option, ec);
+                if (ec) {
+                    cerr << "\n[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
+                }
+                
+                // TLS Handshake mit async + timeout (verhindert Race Conditions)
+                if (useTls_) {
+                    cout << " TLS handshake..." << flush;
+                    
+                    // Setze Socket-Timeout
+                    bot->socket().lowest_layer().set_option(
+                        boost::asio::detail::socket_option::integer<SOL_SOCKET, SO_RCVTIMEO>{9000});
+                    bot->socket().lowest_layer().set_option(
+                        boost::asio::detail::socket_option::integer<SOL_SOCKET, SO_SNDTIMEO>{9000});
+                    
+                    boost::system::error_code handshakeEc;
+                    try {
+                        // Blocking handshake mit Socket-level Timeout (keine Threads!)
+                        bot->socket().handshake(ssl::stream_base::client, handshakeEc);
+                    } catch (const exception &e) {
+                        handshakeEc = boost::asio::error::connection_aborted;
+                        cerr << "\n[" << bot->name() << "] TLS handshake exception: " << e.what() << endl;
+                    }
+                    
+                    if (handshakeEc) {
+                        cerr << "\n[" << bot->name() << "] TLS handshake failed: " << handshakeEc.message() 
+                             << " (code: " << handshakeEc.value() << ")" << endl;
+                        
+                        // Sauber schließen
+                        try {
+                            boost::system::error_code closeEc;
+                            bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, closeEc);
+                            bot->socket().lowest_layer().close(closeEc);
+                        } catch (...) {
+                            // Ignoriere Fehler beim Cleanup
+                        }
+                        
+                        if (attempt < 1) {
+                            cerr << "[" << bot->name() << "] Will retry with new connection..." << endl;
+                            // WICHTIG: Altes Socket-Objekt vollständig verwerfen
+                            bot.reset();
+                            // Neues Socket erstellen für retry
+                            bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                            continue; // Retry
+                        }
+                        return false;
+                    }
+                }
+                
+                // TLS Handshake erfolgreich - weiter mit Announce/Init
+                cout << " Waiting for announce..." << flush;
+                // Empfange AnnounceMessage
+                auto announce = bot->receiveMessage();
+                if (!announce || announce->GetMsg()->messagetype() != PokerTHMessage::Type_AnnounceMessage) {
+                    cerr << "\n[" << bot->name() << "] No announce message" << endl;
+                    if (attempt < 1) {
+                        // Socket sauber schließen vor Retry
+                        try {
+                            boost::system::error_code closeEc;
+                            bot->socket().lowest_layer().close(closeEc);
+                        } catch (...) {}
+                        bot.reset();
+                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        continue; // Retry
+                    }
+                    return false;
+                }
 
-            cout << " Waiting for announce..." << flush;
-            // Empfange AnnounceMessage
-            auto announce = bot->receiveMessage();
-            if (!announce || announce->GetMsg()->messagetype() != PokerTHMessage::Type_AnnounceMessage) {
-                cerr << "[" << bot->name() << "] No announce message" << endl;
+                cout << " Sending init..." << flush;
+                boost::shared_ptr<NetPacket> init(new NetPacket);
+                init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
+                
+                InitMessage *initMsg = init->GetMsg()->mutable_initmessage();
+                initMsg->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
+                initMsg->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
+                initMsg->set_buildid(0);
+                initMsg->set_login(InitMessage::authenticatedLogin);
+                initMsg->set_nickname(bot->name());
+                initMsg->set_clientuserdata(bot->name());  // Password = username (für test* accounts)
+
+                if (!bot->sendMessage(init)) {
+                    cerr << "\n[" << bot->name() << "] Failed to send init" << endl;
+                    if (attempt < 1) {
+                        try {
+                            boost::system::error_code closeEc;
+                            bot->socket().lowest_layer().close(closeEc);
+                        } catch (...) {}
+                        bot.reset();
+                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        continue; // Retry
+                    }
+                    return false;
+                }
+
+                cout << " Waiting for init ack..." << flush;
+                // Empfange InitAckMessage
+                auto initAck = bot->receiveMessage();
+                if (!initAck) {
+                    cerr << "\n[" << bot->name() << "] Connection lost waiting for init ack" << endl;
+                    if (attempt < 1) {
+                        try {
+                            boost::system::error_code closeEc;
+                            bot->socket().lowest_layer().close(closeEc);
+                        } catch (...) {}
+                        bot.reset();
+                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        continue; // Retry
+                    }
+                    return false;
+                }
+                
+                if (initAck->GetMsg()->messagetype() != PokerTHMessage::Type_InitAckMessage) {
+                    cerr << "\n[" << bot->name() << "] Expected InitAck, got message type: " 
+                         << initAck->GetMsg()->messagetype() << endl;
+                    if (attempt < 1) {
+                        try {
+                            boost::system::error_code closeEc;
+                            bot->socket().lowest_layer().close(closeEc);
+                        } catch (...) {}
+                        bot.reset();
+                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        continue; // Retry
+                    }
+                    return false;
+                }
+
+                bot->setPlayerId(initAck->GetMsg()->initackmessage().yourplayerid());
+                cout << "[" << bot->name() << "] Logged in, Player ID: " << bot->playerId() << endl;
+
+                return true; // Erfolg!
+
+            } catch (const exception &e) {
+                cerr << "\n[" << bot->name() << "] Connect exception: " << e.what() << endl;
+                if (attempt < 1) {
+                    // Socket sauber schließen
+                    try {
+                        boost::system::error_code closeEc;
+                        bot->socket().lowest_layer().close(closeEc);
+                    } catch (...) {}
+                    // Altes Objekt vollständig verwerfen
+                    bot.reset();
+                    // Neues Socket erstellen für retry
+                    bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                    continue; // Retry
+                }
                 return false;
             }
-
-            cout << " Sending init..." << flush;
-            boost::shared_ptr<NetPacket> init(new NetPacket);
-            init->GetMsg()->set_messagetype(PokerTHMessage::Type_InitMessage);
-            
-            InitMessage *initMsg = init->GetMsg()->mutable_initmessage();
-            initMsg->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
-            initMsg->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
-            initMsg->set_buildid(0);
-            initMsg->set_login(InitMessage::authenticatedLogin);
-            initMsg->set_nickname(bot->name());
-            initMsg->set_clientuserdata(bot->name());  // Password = username (für test* accounts)
-
-            if (!bot->sendMessage(init)) {
-                return false;
-            }
-
-            cout << " Waiting for init ack..." << flush;
-            // Empfange InitAckMessage
-            auto initAck = bot->receiveMessage();
-            if (!initAck) {
-                cerr << "[" << bot->name() << "] Connection lost waiting for init ack" << endl;
-                return false;
-            }
-            
-            if (initAck->GetMsg()->messagetype() != PokerTHMessage::Type_InitAckMessage) {
-                cerr << "[" << bot->name() << "] Expected InitAck, got message type: " 
-                     << initAck->GetMsg()->messagetype() << endl;
-                return false;
-            }
-
-            bot->setPlayerId(initAck->GetMsg()->initackmessage().yourplayerid());
-            cout << "[" << bot->name() << "] Logged in, Player ID: " << bot->playerId() << endl;
-
-            return true;
-
-        } catch (const exception &e) {
-            cerr << "[" << bot->name() << "] Connect exception: " << e.what() << endl;
-            return false;
-        }
+        } // Ende retry-loop
+        
+        return false; // Alle Versuche fehlgeschlagen
     }
 
     bool sendJoinGame(shared_ptr<BotSession> bot, uint32_t gameId) {

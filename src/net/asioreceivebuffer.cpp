@@ -48,8 +48,26 @@ AsioReceiveBuffer::AsioReceiveBuffer()
 void
 AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 {
+    // Prüfe ob Session bereits geschlossen ist
+    if (session->GetState() == SessionData::Closed) {
+        return;  // Keine async_read auf geschlossenen Sessions
+    }
+    
     if (session->IsSsl()) {
-        session->GetSslStream()->async_read_some(
+        auto sslStream = session->GetSslStream();
+        if (!sslStream) {
+            LOG_ERROR("Session " << session->GetId() << " - SSL stream is null, cannot start async read");
+            return;
+        }
+        
+        // Prüfe ob Socket noch offen ist
+        boost::system::error_code ec;
+        if (!sslStream->lowest_layer().is_open()) {
+            LOG_ERROR("Session " << session->GetId() << " - SSL socket is closed, cannot start async read");
+            return;
+        }
+        
+        sslStream->async_read_some(
             boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
             boost::bind(
                 &ReceiveBuffer::HandleRead,
@@ -58,7 +76,20 @@ AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
                 boost::asio::placeholders::error,
                 boost::asio::placeholders::bytes_transferred));
     } else {
-        session->GetAsioSocket()->async_read_some(
+        auto socket = session->GetAsioSocket();
+        if (!socket) {
+            LOG_ERROR("Session " << session->GetId() << " - Socket is null, cannot start async read");
+            return;
+        }
+        
+        // Prüfe ob Socket noch offen ist
+        boost::system::error_code ec;
+        if (!socket->is_open()) {
+            LOG_ERROR("Session " << session->GetId() << " - Socket is closed, cannot start async read");
+            return;
+        }
+        
+        socket->async_read_some(
             boost::asio::buffer(recvBuf + recvBufUsed, RECV_BUF_SIZE - recvBufUsed),
             boost::bind(
                 &ReceiveBuffer::HandleRead,
