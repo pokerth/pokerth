@@ -755,21 +755,6 @@ private:
                 return;
             }
             
-            // SANITY CHECK: Wenn mySet=0 und highestSet>0 nach Flop/Turn/River,
-            // dann ist highestSet wahrscheinlich ein veralteter Wert vom Preflop
-            // (Race condition: Server sendet Message mit richtigem gamestate aber falschem highestSet)
-            // ABER: Eigene Actions (Bestätigungen) immer akzeptieren!
-            bool isOwnAction = (actionDone.playerid() == bot->playerId());
-            bool isPostFlop = (bot->currentGameState() == netStateFlop || 
-                              bot->currentGameState() == netStateTurn ||
-                              bot->currentGameState() == netStateRiver);
-            if (!isOwnAction && isPostFlop && bot->mySet() == 0 && actionDone.highestset() > 0) {
-                // Ignoriere falschen highestSet-Wert von anderen Spielern
-                cout << "[" << bot->name() << "] Ignoring stale highestSet=" << actionDone.highestset() 
-                     << " (mySet=0 in post-flop round)" << endl;
-                return;
-            }
-            
             bot->setHighestSet(actionDone.highestset());
             
             // Wenn es meine Action war, update mySet UND Cash
