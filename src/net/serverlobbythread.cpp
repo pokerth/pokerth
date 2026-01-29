@@ -885,7 +885,13 @@ ServerLobbyThread::Main()
 		// Register all timers.
 		RegisterTimers();
 
-		m_ioService->run(); // Will only be aborted asynchronously.
+		// Use poll() instead of run() to prevent blocking on long-running handlers
+		// This ensures accept operations are processed promptly
+		boost::asio::io_service::work work(*m_ioService);
+		while (!m_ioService->stopped()) {
+			m_ioService->poll();  // Non-blocking: process ready handlers
+			Thread::Msleep(1);     // Small sleep to prevent busy-wait
+		}
 
 	} catch (const PokerTHException &e) {
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
