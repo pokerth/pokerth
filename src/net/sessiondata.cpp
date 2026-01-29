@@ -36,8 +36,8 @@
 #include <net/websendbuffer.h>
 #include <net/socket_msg.h>
 #include <net/websocketdata.h>
+#include <core/loghelper.h>
 #include <boost/asio/ssl.hpp>
-#include <QDebug>
 
 using namespace std;
 using boost::asio::ip::tcp;
