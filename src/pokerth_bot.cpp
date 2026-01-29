@@ -721,18 +721,18 @@ private:
             fallbackMsg->set_handnum(bot->handNum());
             fallbackMsg->set_gamestate(bot->lastGameState());
             
-            // Wenn nicht genug Cash zum Callen: Gehe All-In oder Fold
-            uint32_t needed = bot->highestSet() - bot->mySet();
-            if (bot->myCash() > 0 && bot->myCash() < needed) {
-                // All-In mit verbleibendem Cash
-                fallbackMsg->set_myaction(netActionAllIn);
-                fallbackMsg->set_myrelativebet(bot->myCash());
-                cerr << "[" << bot->name() << "] Fallback: ALL-IN " << bot->myCash() << endl;
-            } else {
-                // Kein Cash mehr oder andere Fehler: Fold
-                fallbackMsg->set_myaction(netActionFold);
+            // Auto-Check/Auto-Call Verhalten: NIEMALS FOLD!
+            if (bot->myCash() == 0) {
+                // Kein Cash mehr: CALL 0 (Server handled als Skip oder Auto-Check)
+                fallbackMsg->set_myaction(netActionCall);
                 fallbackMsg->set_myrelativebet(0);
-                cerr << "[" << bot->name() << "] Fallback: FOLD" << endl;
+                cerr << "[" << bot->name() << "] Fallback: CALL 0 (All-In)" << endl;
+            } else {
+                // Noch Cash vorhanden: Calle mit allem was ich habe (All-In)
+                fallbackMsg->set_myaction(netActionCall);
+                fallbackMsg->set_myrelativebet(bot->myCash());
+                cerr << "[" << bot->name() << "] Fallback: CALL " << bot->myCash() << " (All-In)" << endl;
+                bot->setIsAllIn(true);
             }
             
             bot->sendMessage(fallbackAction);
