@@ -141,7 +141,8 @@ protected:
             m_acceptor->set_option(boost::asio::ip::v6_only(false));
         }
         m_acceptor->bind(*m_endpoint);
-        m_acceptor->listen();
+        // Use larger backlog (128) to handle burst connections from bots
+        m_acceptor->listen(128);
 
         if(m_tls){
             boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
