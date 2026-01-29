@@ -2229,6 +2229,7 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 				break;
 			case netPlayerStateNoMoney :
 				tmpPlayer->setMyCash(0);
+				tmpPlayer->setMySetNull(); // Also clear set display for players with no money
 				tmpPlayer->setMyActiveStatus(false);
 				break;
 			}
@@ -2241,11 +2242,15 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		while (it != end) {
 			(*it)->setMyCards(emptyCards);
 			(*it)->setMyCardsValueInt(0);
+			// Also clear sets for all players at hand start to remove stale bet displays
+			(*it)->setMySetNull();
 			++it;
 		}
 
 		// Basic synchronisation before a new hand is started.
 		client->GetGui().waitForGuiUpdateDone();
+		// CRITICAL: Refresh Set display BEFORE starting hand to clear stale bets from eliminated players
+		client->GetGui().refreshSet();
 		// Start new hand.
 		client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
 		client->GetGame()->initHand();
@@ -2392,7 +2397,35 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 
 		tmpPlayer->setMyAction(PlayerAction(netActionDone.playeraction()));
-		tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
+		// CRITICAL: Only update set if we're still in the same game state
+		// After Flop/Turn/River, collectPot() has already been called and sets were cleared
+		// Don't restore sets from stale PlayersActionDoneMessage that arrive after card dealing
+		GameState currentRound = curGame->getCurrentHand()->getCurrentRound();
+		bool shouldUpdateSet = false;
+		
+		switch (netActionDone.gamestate()) {
+			case netStatePreflopSmallBlind:
+			case netStatePreflopBigBlind:
+			case netStatePreflop:
+				shouldUpdateSet = (currentRound == GAME_STATE_PREFLOP);
+				break;
+			case netStateFlop:
+				shouldUpdateSet = (currentRound == GAME_STATE_FLOP);
+				break;
+			case netStateTurn:
+				shouldUpdateSet = (currentRound == GAME_STATE_TURN);
+				break;
+			case netStateRiver:
+				shouldUpdateSet = (currentRound == GAME_STATE_RIVER);
+				break;
+			default:
+				shouldUpdateSet = true;
+				break;
+		}
+		
+		if (shouldUpdateSet) {
+			tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
+		}
 		// CRITICAL: Only update cash if it would not increase from 0
 		// Players with 0 cash (all-in losers) get their final value from EndOfHandShowCardsMessage
 		// Never restore cash from PlayersActionDoneMessage - it may contain stale pre-pot-distribution values
@@ -2485,6 +2518,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		tmpCards[2] = static_cast<int>(netDealFlop.flopcard3());
 		tmpCards[3] = tmpCards[4] = 0;
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
+		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
@@ -2503,6 +2538,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 		tmpCards[3] = static_cast<int>(netDealTurn.turncard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
+		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
@@ -2521,6 +2558,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 		tmpCards[4] = static_cast<int>(netDealRiver.rivercard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
+		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
+		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
 
@@ -2664,6 +2703,7 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// CRITICAL: Force immediate GUI cash update to prevent race condition with next hand's HandStartMessage
 		// This ensures the GUI shows correct cash values before any animation or next hand processing
 		client->GetGui().refreshCash();
+		client->GetGui().refreshSet(); // Also refresh sets to clear any stale bet displays
 		client->GetGui().waitForGuiUpdateDone();
 
 		// logging
@@ -2700,10 +2740,14 @@ ClientStateRunHand::ResetPlayerActions(Game &curGame)
 void
 ClientStateRunHand::ResetPlayerSets(Game &curGame)
 {
-    PlayerListIterator i = curGame.getActivePlayerList()->begin();
-    PlayerListIterator end = curGame.getActivePlayerList()->end();
+    // CRITICAL: Iterate over ALL players in seats, not just active players
+    // Eliminated players (with $0) are not in active list but still need their sets cleared
+    PlayerListIterator i = curGame.getSeatsList()->begin();
+    PlayerListIterator end = curGame.getSeatsList()->end();
     while (i != end) {
-        (*i)->setMySet(0);
+        qDebug() << "[RESET SETS] Player ID" << (*i)->getMyID() << (*i)->getMyName().c_str() << "- Before:" << (*i)->getMySet();
+        (*i)->setMySetNull(); // CRITICAL: setMySet(0) doesn't work! Must use setMySetNull() to clear both mySet and myLastRelativeSet
+        qDebug() << "[RESET SETS] Player ID" << (*i)->getMyID() << (*i)->getMyName().c_str() << "- After:" << (*i)->getMySet();
         ++i;
     }
 }

@@ -1424,8 +1424,12 @@ void gameTableImpl::refreshPot()
 {
 	boost::shared_ptr<HandInterface> currentHand = myStartWindow->getSession()->getCurrentGame()->getCurrentHand();
 
-	textLabel_Sets->setText("$"+QString("%L1").arg(currentHand->getBoard()->getSets()));
-	textLabel_Pot->setText("$"+QString("%L1").arg(currentHand->getBoard()->getPot()));
+	int sets = currentHand->getBoard()->getSets();
+	int pot = currentHand->getBoard()->getPot();
+	qDebug() << "[REFRESH POT] Sets:" << sets << "Pot:" << pot << "Total:" << (sets + pot);
+	
+	textLabel_Sets->setText("$"+QString("%L1").arg(sets));
+	textLabel_Pot->setText("$"+QString("%L1").arg(pot));
 }
 
 void gameTableImpl::guiUpdateDone()
