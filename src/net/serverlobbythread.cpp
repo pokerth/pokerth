@@ -887,7 +887,7 @@ ServerLobbyThread::Main()
 
 		// Use poll() instead of run() to prevent blocking on long-running handlers
 		// This ensures accept operations are processed promptly
-		boost::asio::io_service::work work(*m_ioService);
+		auto work = boost::asio::make_work_guard(*m_ioService);
 		while (!m_ioService->stopped()) {
 			m_ioService->poll();  // Non-blocking: process ready handlers
 			Thread::Msleep(1);     // Small sleep to prevent busy-wait
