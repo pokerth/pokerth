@@ -165,6 +165,17 @@ protected:
                       const boost::system::error_code &error)
     {
         if (!error) {
+            // Get peer endpoint for debug logging
+            std::string peerAddr;
+            try {
+                auto endpoint = acceptedSocket->remote_endpoint();
+                peerAddr = endpoint.address().to_string() + ":" + std::to_string(endpoint.port());
+            } catch (...) {
+                peerAddr = "unknown";
+            }
+            
+            LOG_MSG("[TLS-SERVER] New connection accepted from " << peerAddr);
+            
             acceptedSocket->non_blocking(true);
             acceptedSocket->set_option(typename P::no_delay(true));
             acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
@@ -174,8 +185,11 @@ protected:
                 boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
                 sslStream->next_layer() = std::move(*acceptedSocket);
 
+                LOG_MSG("[TLS-SERVER] Starting TLS handshake for " << peerAddr);
+                
                 // Shared state to prevent timeout from closing an established connection
                 auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
+                auto peerAddrShared = std::make_shared<std::string>(peerAddr);
                 
                 // Create a timeout timer for the handshake (12 seconds - increased for slow clients)
                 auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
@@ -183,21 +197,28 @@ protected:
                 
                 // Wichtig: Alle Lambdas müssen thread-safe sein
                 handshakeTimer->async_wait(
-                    [handshakeCompleted, sslStream, handshakeTimer](const boost::system::error_code& ec) {
+                    [handshakeCompleted, sslStream, handshakeTimer, peerAddrShared](const boost::system::error_code& ec) {
                         if (!ec && !handshakeCompleted->load(std::memory_order_acquire)) {
                             // Timeout: close the socket to abort the handshake (only if not completed)
+                            LOG_MSG("[TLS-SERVER] Handshake timeout after 12s for " << *peerAddrShared << " - closing socket");
                             boost::system::error_code closeEc;
                             sslStream->lowest_layer().close(closeEc);
-                            LOG_MSG("[TLS-SERVER] Handshake timeout after 12s - closed socket");
+                            LOG_MSG("[TLS-SERVER] Socket closed after timeout for " << *peerAddrShared);
                             // KEIN async_accept hier! Das macht HandleHandshake am Ende
+                        } else if (ec) {
+                            LOG_MSG("[TLS-SERVER] Handshake timer cancelled for " << *peerAddrShared << " (normal success)");
                         }
                     });
 
                 sslStream->async_handshake(
                     boost::asio::ssl::stream_base::server,
-                    [this, sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& error) {
+                    [this, sslStream, handshakeTimer, handshakeCompleted, peerAddrShared](const boost::system::error_code& error) {
                         // Mark handshake as completed before any other action (memory_order_release für synchronization)
                         bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
+                        
+                        LOG_MSG("[TLS-SERVER] Handshake callback fired for " << *peerAddrShared 
+                                << " - wasCompleted=" << wasCompleted 
+                                << " error=" << error.message());
                         
                         // Only handle if this is the first completion (not a timeout-triggered close)
                         if (!wasCompleted) {
@@ -231,12 +252,18 @@ protected:
     void HandleHandshake(boost::shared_ptr<boost::asio::ssl::stream<P_socket>> sslStream,
                          const boost::system::error_code &error)
     {
+        std::string peerAddr = "unknown";
+        try {
+            auto endpoint = sslStream->lowest_layer().remote_endpoint();
+            peerAddr = endpoint.address().to_string() + ":" + std::to_string(endpoint.port());
+        } catch (...) {}
+        
         if (!error) {
-            LOG_MSG("TLS handshake succeeded.");
+            LOG_MSG("[TLS-SERVER] Handshake SUCCEEDED for " << peerAddr << " - creating session");
             boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
             GetLobbyThread().AddConnection(sessionData);
         } else {
-            LOG_MSG("[TLS-DEBUG] TLS handshake failed: " << error.message() 
+            LOG_MSG("[TLS-SERVER] Handshake FAILED for " << peerAddr << ": " << error.message() 
                     << " (code: " << error.value() 
                     << ", category: " << error.category().name() << ")");
             
@@ -257,6 +284,7 @@ protected:
             sslStream->lowest_layer().close(ec);
         }
 
+        LOG_MSG("[TLS-SERVER] Starting new async_accept (after handshake for " << peerAddr << ")");
         boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
         m_acceptor->async_accept(
             *newSocket,
