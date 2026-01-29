@@ -65,7 +65,7 @@ public:
                const string &name, const string &password)
         : socket_(io, sslCtx), name_(name), password_(password), 
           playerId_(0), gameId_(0), handNum_(0), mySet_(0), highestSet_(0), 
-          myCash_(10000), lastGameState_(netStatePreflop), recBufPos_(0) {
+          myCash_(10000), lastGameState_(netStatePreflop), currentGameState_(netStatePreflop), isAllIn_(false), recBufPos_(0) {
         recBuf_.fill(0);
     }
 
@@ -85,6 +85,10 @@ public:
     void setMyCash(uint32_t val) { myCash_ = val; }
     NetGameState lastGameState() const { return lastGameState_; }
     void setLastGameState(NetGameState state) { lastGameState_ = state; }
+    NetGameState currentGameState() const { return currentGameState_; }
+    void setCurrentGameState(NetGameState state) { currentGameState_ = state; }
+    bool isAllIn() const { return isAllIn_; }
+    void setIsAllIn(bool val) { isAllIn_ = val; }
 
     // Empfange Nachricht (blocking)
     boost::shared_ptr<NetPacket> receiveMessage() {
@@ -166,6 +170,8 @@ private:
     uint32_t highestSet_;   // Höchster Einsatz am Tisch
     uint32_t myCash_;       // Verfügbares Cash
     NetGameState lastGameState_; // Letzter GameState für Rejection-Fallback
+    NetGameState currentGameState_; // Aktueller GameState (Preflop/Flop/Turn/River)
+    bool isAllIn_;          // Merke ob Bot All-In ist in dieser Hand
     boost::array<char, BUF_SIZE> recBuf_;
     size_t recBufPos_;
 };
@@ -515,7 +521,10 @@ private:
             bot->setHandNum(bot->handNum() + 1);
             bot->setMySet(0);
             bot->setHighestSet(0);
-            cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started" << endl;
+            bot->setIsAllIn(false); // Reset All-In Status für neue Hand
+            bot->setCurrentGameState(netStatePreflop); // Start in Preflop
+            // myCash bleibt unverändert - wird von EndOfHandShowCardsMessage der vorherigen Hand gesetzt
+            cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started (myCash=" << bot->myCash() << ")" << endl;
                     } else if (msgType == PokerTHMessage::Type_EndOfHandShowCardsMessage) {
             // End of hand: Update cash from playerResults
             auto endOfHand = msg->GetMsg()->endofhandshowcardsmessage();
@@ -539,6 +548,51 @@ private:
         } else if (msgType == PokerTHMessage::Type_PlayersActionDoneMessage) {
             // Tracke highestSet und mySet
             auto actionDone = msg->GetMsg()->playersactiondonemessage();
+            
+            // CRITICAL: Nur Messages aus der aktuellen Runde verarbeiten
+            // Nach Flop/Turn/River kommen noch verspätete Messages aus Preflop/Flop/Turn
+            // die highestSet auf alte Werte setzen würden
+            bool isCurrentRound = false;
+            switch (actionDone.gamestate()) {
+                case netStatePreflopSmallBlind:
+                case netStatePreflopBigBlind:
+                case netStatePreflop:
+                    isCurrentRound = (bot->currentGameState() == netStatePreflop);
+                    break;
+                case netStateFlop:
+                    isCurrentRound = (bot->currentGameState() == netStateFlop);
+                    break;
+                case netStateTurn:
+                    isCurrentRound = (bot->currentGameState() == netStateTurn);
+                    break;
+                case netStateRiver:
+                    isCurrentRound = (bot->currentGameState() == netStateRiver);
+                    break;
+                default:
+                    isCurrentRound = true;
+                    break;
+            }
+            
+            if (!isCurrentRound) {
+                // Ignoriere Messages aus alten Runden
+                return;
+            }
+            
+            // SANITY CHECK: Wenn mySet=0 und highestSet>0 nach Flop/Turn/River,
+            // dann ist highestSet wahrscheinlich ein veralteter Wert vom Preflop
+            // (Race condition: Server sendet Message mit richtigem gamestate aber falschem highestSet)
+            // ABER: Eigene Actions (Bestätigungen) immer akzeptieren!
+            bool isOwnAction = (actionDone.playerid() == bot->playerId());
+            bool isPostFlop = (bot->currentGameState() == netStateFlop || 
+                              bot->currentGameState() == netStateTurn ||
+                              bot->currentGameState() == netStateRiver);
+            if (!isOwnAction && isPostFlop && bot->mySet() == 0 && actionDone.highestset() > 0) {
+                // Ignoriere falschen highestSet-Wert von anderen Spielern
+                cout << "[" << bot->name() << "] Ignoring stale highestSet=" << actionDone.highestset() 
+                     << " (mySet=0 in post-flop round)" << endl;
+                return;
+            }
+            
             bot->setHighestSet(actionDone.highestset());
             
             // Wenn es meine Action war, update mySet UND Cash
@@ -559,7 +613,12 @@ private:
             // Neue Betting-Runde: Sets zurücksetzen (aber nicht die Hand!)
             // Debug-Ausgabe nur bei DealFlopCardsMessage (erste neue Runde)
             if (msgType == PokerTHMessage::Type_DealFlopCardsMessage) {
+                bot->setCurrentGameState(netStateFlop);
                 cout << "[" << bot->name() << "] Flop dealt - resetting sets" << endl;
+            } else if (msgType == PokerTHMessage::Type_DealTurnCardMessage) {
+                bot->setCurrentGameState(netStateTurn);
+            } else if (msgType == PokerTHMessage::Type_DealRiverCardMessage) {
+                bot->setCurrentGameState(netStateRiver);
             }
             bot->setMySet(0);
             bot->setHighestSet(0);
@@ -589,8 +648,9 @@ private:
                 
                 // Wenn Bot bereits All-In ist (kein Cash mehr), sende CALL 0
                 // Der Server erkennt das und handhabt es korrekt (skip oder auto-check)
-                if (bot->myCash() == 0) {
+                if (bot->myCash() == 0 || bot->isAllIn()) {
                     cout << "[" << bot->name() << "] Already All-In, sending CALL 0" << endl;
+                    bot->setIsAllIn(true); // Merke All-In Status
                     boost::shared_ptr<NetPacket> action(new NetPacket);
                     action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                     MyActionRequestMessage *actionMsg = action->GetMsg()->mutable_myactionrequestmessage();
@@ -600,6 +660,17 @@ private:
                     actionMsg->set_myaction(netActionCall);
                     actionMsg->set_myrelativebet(0);
                     bot->sendMessage(action);
+                    
+                    // CRITICAL: Wait for PlayersActionDoneMessage to confirm myCash stays at 0
+                    // This prevents the bot from thinking it has cash in the next round
+                    auto confirmMsg = bot->receiveMessage();
+                    if (confirmMsg && confirmMsg->GetMsg()->messagetype() == PokerTHMessage::Type_PlayersActionDoneMessage) {
+                        auto actionDone = confirmMsg->GetMsg()->playersactiondonemessage();
+                        if (actionDone.playerid() == bot->playerId()) {
+                            bot->setMyCash(actionDone.playermoney());
+                            cout << "[" << bot->name() << "] All-In confirmed: myCash=" << bot->myCash() << endl;
+                        }
+                    }
                     return;
                 }
                 
@@ -626,6 +697,7 @@ private:
                     uint32_t callAmount = bot->highestSet() - bot->mySet();
                     if (callAmount > bot->myCash()) {
                         callAmount = bot->myCash(); // All-In mit verfügbarem Cash
+                        bot->setIsAllIn(true); // Merke All-In Status
                     }
                     actionMsg->set_myaction(netActionCall);
                     actionMsg->set_myrelativebet(callAmount);

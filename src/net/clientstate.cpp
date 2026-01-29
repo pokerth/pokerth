@@ -2423,8 +2423,33 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 				break;
 		}
 		
+		// CRITICAL: If message is from a different game state, ignore it completely
+		// (e.g., Preflop All-In action arriving during Flop/Turn/River)
+		// This prevents stale values from being processed and displayed
+		if (!shouldUpdateSet) {
+			// Explicitly clear set to prevent any stale display
+			tmpPlayer->setMySetNull();
+			// Force immediate GUI update to ensure the cleared set is displayed
+			client->GetGui().refreshSet();
+			client->GetGui().waitForGuiUpdateDone();
+			// Skip all further processing for this stale message
+			return;
+		}
+		
 		if (shouldUpdateSet) {
-			tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
+			// CRITICAL: totalplayerbet is cumulative over the entire hand, not just current round
+			// After collectPot() (when switching to Flop/Turn/River), all sets are reset to 0
+			// But PlayersActionDoneMessage still contains the total from previous rounds
+			// Only use totalplayerbet if player made a new bet/raise in current round
+			// For all-in players (myCash=0) or CHECK actions, keep set at 0
+			if (netActionDone.playermoney() > 0 && netActionDone.totalplayerbet() > 0) {
+				// Player has cash and made a bet → use totalplayerbet
+				tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
+			} else if (netActionDone.playermoney() == 0 && currentRound == GAME_STATE_PREFLOP) {
+				// All-in during Preflop → use totalplayerbet
+				tmpPlayer->setMySetAbsolute(netActionDone.totalplayerbet());
+			}
+			// else: All-in player in post-Flop rounds → keep set at 0 (already set by collectPot)
 		}
 		// CRITICAL: Only update cash if it would not increase from 0
 		// Players with 0 cash (all-in losers) get their final value from EndOfHandShowCardsMessage
@@ -2432,15 +2457,37 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		if (tmpPlayer->getMyCash() > 0 || netActionDone.playermoney() == 0) {
 			tmpPlayer->setMyCash(netActionDone.playermoney());
 		}
-		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone.highestset());
+		
+		// CRITICAL: Sanity check for highestSet
+		// After new cards are dealt, all sets are reset to 0 by collectPot()
+		// If this is a CHECK action (totalplayerbet=0) in Flop/Turn/River, then highestSet should also be 0
+		// This prevents stale highestSet values from Preflop affecting post-Flop betting
+		unsigned int highestSetToUse = netActionDone.highestset();
+		if (shouldUpdateSet && (currentRound != GAME_STATE_PREFLOP)) {
+			// If player just checked (totalplayerbet=0) but highestSet>0, this is suspicious
+			// Check if ALL active players have set=0
+			bool allSetsAreZero = true;
+			PlayerListConstIterator it_c;
+			for (it_c = curGame->getSeatsList()->begin(); it_c != curGame->getSeatsList()->end(); ++it_c) {
+				if ((*it_c)->getMyActiveStatus()) {
+					if ((*it_c)->getMySet() > 0) {
+						allSetsAreZero = false;
+						break;
+					}
+				}
+			}
+			// If all sets are 0, then highestSet must also be 0
+			if (allSetsAreZero) {
+				highestSetToUse = 0;
+			}
+		}
+		
+		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(highestSetToUse);
 		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone.minimumraise());
 		
-		// CRITICAL: Only collectSets() and switchRounds() if we're still in the same game state
-		// Prevents double-counting of sets from stale messages after Flop/Turn/River
-		if (shouldUpdateSet) {
-			curGame->getCurrentHand()->getBoard()->collectSets();
-			curGame->getCurrentHand()->switchRounds();
-		}
+		// collectSets() and switchRounds() are always called when shouldUpdateSet is true
+		curGame->getCurrentHand()->getBoard()->collectSets();
+		curGame->getCurrentHand()->switchRounds();
 
 		//log blinds sets after setting bigblind-button
 		if (isBigBlind) {
@@ -2526,14 +2573,17 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
 		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
+		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
+		// to prevent race condition with stale PlayersActionDoneMessages
+		client->GetGui().refreshSet();
+		client->GetGui().refreshPot();
+		client->GetGui().waitForGuiUpdateDone();
+		
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
-
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_FLOP);
 		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_FLOP);
-		client->GetGui().refreshPot();
-		client->GetGui().refreshSet();
 		client->GetGui().refreshCash();
 		client->GetGui().dealBeRoCards(1);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealTurnCardMessage) {
@@ -2546,14 +2596,17 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
 		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
+		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
+		// to prevent race condition with stale PlayersActionDoneMessages
+		client->GetGui().refreshSet();
+		client->GetGui().refreshPot();
+		client->GetGui().waitForGuiUpdateDone();
+		
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
-
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_TURN);
 		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_TURN);
-		client->GetGui().refreshPot();
-		client->GetGui().refreshSet();
 		client->GetGui().refreshCash();
 		client->GetGui().dealBeRoCards(2);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_DealRiverCardMessage) {
@@ -2566,14 +2619,17 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
 		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
+		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
+		// to prevent race condition with stale PlayersActionDoneMessages
+		client->GetGui().refreshSet();
+		client->GetGui().refreshPot();
+		client->GetGui().waitForGuiUpdateDone();
+		
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
-
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_RIVER);
 		client->GetClientLog()->logBoardCards(tmpCards);
 		client->GetGui().refreshGameLabels(GAME_STATE_RIVER);
-		client->GetGui().refreshPot();
-		client->GetGui().refreshSet();
 		client->GetGui().refreshCash();
 		client->GetGui().dealBeRoCards(3);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AllInShowCardsMessage) {
