@@ -128,3 +128,5 @@ build_windows/deploy/
   - **Usage:** Any argument to a setup or build script prints usage and exits.
 - **scripts/build_macos.sh**
   - Does not install any utilities; run `scripts/setup_macos.sh` first. Reuse and `CLEAN=yes make macos` same idea as Linux. `make macos-installer` creates DMG installer.
+
+**Refactor history and future plans:** See **docs/building-future.md** (what changed vs pre-refactor, how it works for devs, planned devcontainer/CI work).

@@ -98,7 +98,15 @@ Plugins = plugins
 And `plugins/platforms/qwindows.dll` exists.
 
 ### Check MinGW Runtime Version
-The MinGW runtime DLLs (libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll) must match the version Qt was built with. We're using Qt's versions, which should be correct.
+The MinGW runtime DLLs (libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll) must match the compiler that **linked** the exe (the system x86_64-w64-mingw32-g++). The build script copies them from the system toolchain first, then falls back to Qt's if needed.
+
+---
+
+## Error: "The procedure entry point ... could not be found"
+
+This usually means a **DLL version mismatch**: the exe was linked against one version of a runtime (e.g. libstdc++-6.dll from your MinGW toolchain) but a different version was copied into the deploy folder (e.g. Qt's libstdc++, built with another GCC).
+
+**Fix:** Rebuild and redeploy. The build script now **prefers the system MinGW runtime DLLs** (same toolchain that linked the exe) and only uses Qt's as fallback. Ensure you have the MinGW-w64 toolchain installed (`apt install mingw-w64`), then run the Windows build again and copy the new `deploy` folder to Windows.
 
 ## If Nothing Works
 
@@ -122,6 +130,7 @@ If the Windows build fails on Ubuntu or when reusing a build directory, see **bu
 | DEP blocking | Disable DEP or add exception |
 | Antivirus blocking | Disable/whitelist directory |
 | Missing DLL | Use Dependency Walker to find |
+| **Procedure entry point ... could not be found** | DLL version mismatch; rebuild so deploy uses system MinGW DLLs (see above) |
 | Wrong architecture | Ensure 64-bit Windows |
 | Corrupted files | Re-copy all files |
 | Path issues | Use simple path like C:\pokerth |
