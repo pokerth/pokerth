@@ -2434,8 +2434,13 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone.highestset());
 		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone.minimumraise());
-		curGame->getCurrentHand()->getBoard()->collectSets();
-		curGame->getCurrentHand()->switchRounds();
+		
+		// CRITICAL: Only collectSets() and switchRounds() if we're still in the same game state
+		// Prevents double-counting of sets from stale messages after Flop/Turn/River
+		if (shouldUpdateSet) {
+			curGame->getCurrentHand()->getBoard()->collectSets();
+			curGame->getCurrentHand()->switchRounds();
+		}
 
 		//log blinds sets after setting bigblind-button
 		if (isBigBlind) {
