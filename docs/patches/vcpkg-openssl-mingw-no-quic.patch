@@ -1,0 +1,10 @@
+--- a/unix/portfile.cmake
++++ b/unix/portfile.cmake
+@@ -97,6 +97,7 @@ elseif(VCPKG_TARGET_IS_MINGW)
+     else()
+         set(OPENSSL_ARCH mingw)
+     endif()
++    vcpkg_list(APPEND CONFIGURE_OPTIONS no-quic)
+ elseif(VCPKG_TARGET_IS_EMSCRIPTEN)
+     set(OPENSSL_ARCH linux-x32)
+     vcpkg_list(APPEND CONFIGURE_OPTIONS

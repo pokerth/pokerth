@@ -52,6 +52,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+	// Connect sound volume slider to label. Done here instead of in .ui: QLabel::setNum has overloads (int/double);
+	// Qt 6.4 uic-generated connection to setNum(int) failed to compile (overload resolution). Qt 6.7+ uic may be fixed.
+	connect(horizontalSlider_soundVolume, &QSlider::valueChanged, label_soundVolume, [this](int v) { label_soundVolume->setNum(v); });
 
 #ifdef ANDROID
     int styleSPageIndex = -1;
@@ -62,23 +65,23 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
             break;
         }
     }
-    
+
     if (styleSPageIndex >= 0 && styleSPageIndex < listWidget->count()) {
         QListWidgetItem* item = listWidget->item(styleSPageIndex);
         if (item) {
             item->setHidden(true); // Verstecken statt löschen
         }
     }
-    
+
     label_soundVolume->hide();
-    
+
 	// Setze Column Stretch für listWidget (Spalte 0) und stackedWidget (Spalte 1)
 	QGridLayout* grid = qobject_cast<QGridLayout*>(layout()->itemAt(0)->layout());
 	if (grid) {
 		grid->setColumnStretch(0, 1);  // listWidget
 		grid->setColumnStretch(1, 3);  // stackedWidget
 	}
-	
+
 	// Setze Vollbild-Geometrie bereits im Konstruktor für sofortige Verfügbarkeit
 	this->setWindowState(Qt::WindowFullScreen);
 	QScreen *screen = QGuiApplication::primaryScreen();
@@ -86,7 +89,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 		QRect screenGeometry = screen->availableGeometry();
 		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
 	}
-	
+
 	// Prepare all QLineEdit widgets for mobile input
 	QList<QLineEdit*> lineEdits = this->findChildren<QLineEdit*>();
 	for (QLineEdit* le : lineEdits) {
@@ -140,7 +143,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	for(const auto& language : languages)
 	{
-		comboBox_switchLanguage->addItem(language->getLanguageLabel(), language->getCode());	
+		comboBox_switchLanguage->addItem(language->getLanguageLabel(), language->getCode());
 	}
 #ifdef GUI_800x480
 	connect( pushButton_ok, SIGNAL( clicked() ), this, SLOT( isAccepted() ) );
@@ -625,7 +628,7 @@ void settingsDialogImpl::exec(bool in_game)
 {
 	calledIngame = in_game;
 	prepareDialog();
-	
+
 #ifdef ANDROID
 	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
 	this->show();
@@ -633,7 +636,7 @@ void settingsDialogImpl::exec(bool in_game)
 	this->activateWindow();
 	QCoreApplication::processEvents(); // Force event processing
 #endif
-	
+
 	QDialog::exec();
 }
 
@@ -1470,4 +1473,3 @@ void settingsDialogImpl::resetSettings()
 	}
 
 }
-

@@ -1,5 +1,4 @@
 # exclude changes done by make process
-Makefile
 Makefile.chatcleaner
 Makefile.pokerth_db
 Makefile.pokerth_game
@@ -24,7 +23,6 @@ lib/
 mocs/
 obj/
 /pokerth
-src/third_party/protobuf/*
 qrc_pokerth.cpp
 qrc_qml.cpp
 uics/
@@ -40,10 +38,11 @@ qrc_qmake_qmake_qm_files.cpp
 .qm
 tests/*
 .DS_Store
+.stamp-setup-*
 *.log
 *lldb*
 
 # Windows installer artifacts
 docker/windows/*.exe
 docker/windows/pokerth.ico
-docker/linux/pokerth-linux-binary/  
+docker/linux/pokerth-linux-binary/

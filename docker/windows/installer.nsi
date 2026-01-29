@@ -86,8 +86,8 @@ Section "Hauptprogramm" SecMain
   
   SetOutPath "$INSTDIR"
   
-  ; Copy all files from deploy directory
-  File /r "../../build/deploy\*.*"
+  ; Copy all files from deploy directory (created by scripts/build.sh or docker/windows/build_windows.sh)
+  File /r "../../build_windows/deploy\*.*"
   
   ; Store installation folder
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\pokerth_client.exe"

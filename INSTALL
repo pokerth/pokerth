@@ -1,39 +1,30 @@
 Requirements
 ============
 
-To compile PokerTH you need following libs: 
+To compile PokerTH you need:
 
-- Qt version >= 6.7.0, 6.9.2 LTS recommended  --> http://qtsoftware.com/
-- libboost_thread, libboost_filesystem, libboost_datetime, libboost_program_options,
-  libboost_iostreams, libboost_asio, libboost_regex, libboost_random, libboost_uuid
-  (version >= 1.83, latest always recommended)  --> http://www.boost.org/
-- protoc >= 2.3.0 (during build), libprotobuf >= 2.3.0 -> https://github.com/google/protobuf
+- Qt version >= 6.7.0, 6.9.2 LTS recommended  --> https://www.qt.io/
+- Boost (thread, filesystem, datetime, program_options, iostreams, asio, regex, random, uuid; version >= 1.83)  --> https://www.boost.org/
+- protoc >= 2.3.0 (during build), libprotobuf >= 2.3.0  --> https://github.com/protocolbuffers/protobuf
 - OpenSSL
 
-Basic Installation
-==================
+Build and install
+=================
 
-Linux:
+The recommended way to build is via the top-level Makefile. See docs/building.md for the full guide.
 
-  Type "cd path/to/the/sources". Then type:
+Quick start:
 
-  0. if you are out for a clean build & testing binaries without installation call:
-    `bash clean_build.sh` ... it'll cleanup & copy tls cert and data-dir into build dir.
+  Linux (native):    make setup-linux && make linux
+  Windows (cross):   make setup-windows && make windows
+  macOS:             make setup-macos && make macos
 
-  1. Type `cmake -DCMAKE_BUILD_TYPE:STRING=Release -S. -B./build -G Ninja`
+Run `make` or `make help` for all targets (setup, build, installers, clean).
 
-  2. Type `cmake --build ./build --config Release --target all --` to compile all targets.
-      ... you can specify the following binary build targets instead:
-      `pokerth_client`, `pokerth_qml-client` (not yet finished!), `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`
+Manual / legacy
+---------------
 
-  3. Become root (typing "su" or "sudo -s") and type 
-      `cmake --install ./build`
-
-Windows:
-see ./docker/windows folder
-
-Android:
-see ./docker/android folder
-
-MacOS:
-see ./build_macos.sh
+  Linux:   See docs/building.md (or use: ./scripts/setup.sh then ./scripts/build.sh)
+  Windows: See docker/windows/
+  Android: See docker/android/
+  macOS:   See docs/building.md (or use: ./scripts/setup_macos.sh then ./scripts/build_macos.sh)

@@ -1,7 +1,7 @@
 # POKERTH.qml-client ... unfinisihed
 
 set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
-    ../../session.cpp 
+    ../../session.cpp
     ../../core/loghelper_client.cpp
     ../../net/net_helper_client.cpp
     ../../core/qttools/qthelper/qthelper.cpp
@@ -54,20 +54,24 @@ set(TS_FILES
     i18n/pokerth_en_US.ts
 )
 
+# Target must exist before qt_add_translations (Qt macros need it)
+if(ANDROID)
+    qt_add_executable(pokerth_qml-client MANUAL_FINALIZATION ${POKERTH_QML_CLIENT_SRC})
+    target_include_directories(pokerth_qml-client PRIVATE "${Protobuf_INCLUDE_DIR}")
+    if(TARGET protobuf::libprotobuf)
+        target_link_libraries(pokerth_qml-client PUBLIC protobuf::libprotobuf)
+    else()
+        target_link_libraries(pokerth_qml-client PUBLIC "${Protobuf_LIBRARIES}")
+    endif()
+else()
+    add_executable(pokerth_qml-client ${POKERTH_QML_CLIENT_SRC})
+endif()
+
 qt_add_translations(pokerth_qml-client
     TS_FILES        ${TS_FILES}
     SOURCES         ${POKERTH_QML_CLIENT_SRC} ${QML_FILES}
     RESOURCE_PREFIX "/i18n"
 )
-
-# Für Android muss qt_add_executable mit MANUAL_FINALIZATION verwendet werden
-if(ANDROID)
-    qt_add_executable(pokerth_qml-client MANUAL_FINALIZATION ${POKERTH_QML_CLIENT_SRC})
-    target_include_directories(pokerth_qml-client PRIVATE "${Protobuf_INCLUDE_DIR}")
-    target_link_libraries(pokerth_qml-client PUBLIC "${Protobuf_LIBRARIES}")
-else()
-    add_executable(pokerth_qml-client ${POKERTH_QML_CLIENT_SRC})
-endif()
 
 target_include_directories(pokerth_qml-client PUBLIC
     ../../config
@@ -85,7 +89,7 @@ if(ANDROID)
     find_library(ABSL_RAW_HASH_SET absl_raw_hash_set PATHS ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib NO_DEFAULT_PATH)
     find_library(ABSL_HASHTABLEZ_SAMPLER absl_hashtablez_sampler PATHS ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib NO_DEFAULT_PATH)
     find_library(ABSL_LOW_LEVEL_HASH absl_low_level_hash PATHS ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib NO_DEFAULT_PATH)
-    
+
     # Erstelle eine Liste der gefundenen Bibliotheken
     set(ABSL_EXTRA_LIBS)
     if(ABSL_RAW_HASH_SET)
@@ -100,7 +104,7 @@ if(ANDROID)
         list(APPEND ABSL_EXTRA_LIBS ${ABSL_LOW_LEVEL_HASH})
         message(STATUS "Found absl_low_level_hash: ${ABSL_LOW_LEVEL_HASH}")
     endif()
-    
+
     # Linke die gefundenen Bibliotheken
     if(ABSL_EXTRA_LIBS)
         target_link_libraries(pokerth_qml-client PRIVATE ${ABSL_EXTRA_LIBS})
@@ -125,7 +129,7 @@ if(ANDROID)
         QT_ANDROID_MIN_SDK_VERSION "28"
         QT_ANDROID_TARGET_SDK_VERSION "35"
     )
-    
+
     # Finalisiere das Target (generiert deployment-settings.json)
     qt_finalize_target(pokerth_qml-client)
 endif()

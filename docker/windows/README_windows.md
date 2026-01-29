@@ -16,5 +16,3 @@ bash docker/windows/build_windows.sh
 
 The build creates a Windows installer package (.exe) with all dependencies included.
 Output location and packaging details are defined in build_windows.sh script.
-
-
