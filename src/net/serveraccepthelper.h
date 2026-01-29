@@ -260,8 +260,17 @@ protected:
         
         if (!error) {
             LOG_MSG("[TLS-SERVER] Handshake SUCCEEDED for " << peerAddr << " - creating session");
-            boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
-            GetLobbyThread().AddConnection(sessionData);
+            
+            try {
+                boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
+                LOG_MSG("[TLS-SERVER] SessionData created, adding to lobby...");
+                GetLobbyThread().AddConnection(sessionData);
+                LOG_MSG("[TLS-SERVER] Session added successfully");
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] EXCEPTION while creating/adding session: " << e.what());
+            } catch (...) {
+                LOG_ERROR("[TLS-SERVER] UNKNOWN EXCEPTION while creating/adding session");
+            }
         } else {
             LOG_MSG("[TLS-SERVER] Handshake FAILED for " << peerAddr << ": " << error.message() 
                     << " (code: " << error.value() 
@@ -285,12 +294,23 @@ protected:
         }
 
         LOG_MSG("[TLS-SERVER] Starting new async_accept (after handshake for " << peerAddr << ")");
+        
+        // Check if acceptor is still open
+        if (!m_acceptor->is_open()) {
+            LOG_ERROR("[TLS-SERVER] CRITICAL: Acceptor is CLOSED - cannot start async_accept!");
+            return;
+        }
+        
         boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
+        LOG_MSG("[TLS-SERVER] Created new socket, calling async_accept...");
+        
         m_acceptor->async_accept(
             *newSocket,
             boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
                         boost::asio::placeholders::error)
         );
+        
+        LOG_MSG("[TLS-SERVER] async_accept posted successfully - waiting for next connection");
     }
 
     static inline void SslServerInfoCallback(const SSL *ssl, int where, int ret)
