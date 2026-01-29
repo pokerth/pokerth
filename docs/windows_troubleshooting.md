@@ -19,7 +19,7 @@ This error typically means STATUS_ACCESS_DENIED and can have several causes.
 
 ### 3. Check Antivirus/Windows Defender
 - Temporarily disable Windows Defender/antivirus
-- Add the `bin` directory to exclusions
+- Add the folder containing the game (e.g. the copied deploy folder) to exclusions
 - Try running again
 
 ### 4. Verify All Files Copied Correctly
@@ -57,7 +57,7 @@ This error typically means STATUS_ACCESS_DENIED and can have several causes.
 - Check the details for specific DLL loading errors
 
 ### 7. Try Simple Path
-- Copy `bin` directory to `C:\pokerth` (avoid spaces, special characters)
+- Copy the deploy folder to e.g. `C:\pokerth` (avoid spaces and special characters in the path)
 - Run from there
 
 ### 8. Run from Command Prompt
@@ -98,22 +98,30 @@ Plugins = plugins
 And `plugins/platforms/qwindows.dll` exists.
 
 ### Check MinGW Runtime Version
-The MinGW runtime DLLs (libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll) must match the version Qt was built with. We're using Qt's versions, which should be correct.
+The MinGW runtime DLLs (libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll) must match the compiler that **linked** the exe (the system x86_64-w64-mingw32-g++). The build script copies them from the system toolchain first, then falls back to Qt's if needed.
+
+---
+
+## Error: "The procedure entry point ... could not be found"
+
+This usually means a **DLL version mismatch**: the exe was linked against one version of a runtime (e.g. libstdc++-6.dll from your MinGW toolchain) but a different version was copied into the deploy folder (e.g. Qt's libstdc++, built with another GCC).
+
+**Fix:** Rebuild and redeploy. The build script now **prefers the system MinGW runtime DLLs** (same toolchain that linked the exe) and only uses Qt's as fallback. Ensure you have the MinGW-w64 toolchain installed (`apt install mingw-w64`), then run the Windows build again and copy the new `deploy` folder to Windows.
 
 ## If Nothing Works
 
 1. **Rebuild with static linking** (if possible) - eliminates DLL dependency issues
 2. **Use Qt's windeployqt tool** - automatically copies all required DLLs:
    ```bash
-   # On Linux, if you have Qt installed:
-   windeployqt --dir deploy build_windows/bin/pokerth_client.exe
+   # From repo root (Linux host with Qt MinGW installed):
+   windeployqt --dir build_windows/deploy build_windows/bin/pokerth_client.exe
    ```
 3. **Check if Qt was built correctly** - verify Qt installation isn't corrupted
 4. **Try a different Windows machine** - to rule out system-specific issues
 
 ## Build Failures on Linux (Before Copying to Windows)
 
-If the Windows build fails on Ubuntu or when reusing a build directory, see **building.md**: section **Building on Linux (Ubuntu vs Debian)** (Qt version, reconfigure) and **Build Script Behavior** (when configure runs, `build.ninja`, `CLEAN=yes`).
+If the Windows build fails on Ubuntu or when reusing a build directory, see **docs/building.md**: sections **Linux** (Ubuntu vs Debian, Qt version) and **Windows (cross-compile from Linux)** (vcpkg, reconfigure), and **Build script context** (when configure runs, `build.ninja`, `CLEAN=yes`).
 
 ## Common Causes Summary
 
@@ -122,6 +130,7 @@ If the Windows build fails on Ubuntu or when reusing a build directory, see **bu
 | DEP blocking | Disable DEP or add exception |
 | Antivirus blocking | Disable/whitelist directory |
 | Missing DLL | Use Dependency Walker to find |
+| **Procedure entry point ... could not be found** | DLL version mismatch; rebuild so deploy uses system MinGW DLLs (see above) |
 | Wrong architecture | Ensure 64-bit Windows |
 | Corrupted files | Re-copy all files |
 | Path issues | Use simple path like C:\pokerth |

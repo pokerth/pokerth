@@ -79,7 +79,7 @@ build_windows/deploy/
 2. Ensure all DLLs are next to the exe and `plugins/platforms/qwindows.dll` and `data/` are present.
 3. Run `pokerth_client.exe`.
 
-**Troubleshooting:** See **windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see “Building on Linux” above and “Build Script Behavior” in the dev context below. **Ubuntu:** If setup fails during vcpkg install with “unreachable code was reached” / “Download failed”, see the “Windows cross-compile on Ubuntu” section below.
+**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **Build script context** below. **Ubuntu:** If setup fails during vcpkg install with “unreachable code was reached” / “Download failed”, see the “Windows cross-compile on Ubuntu” section below.
 
 ### Windows cross-compile on Ubuntu (vcpkg bug)
 
@@ -109,7 +109,7 @@ build_windows/deploy/
 - **Setup scripts** (`scripts/setup.sh`, `scripts/setup_macos.sh`): Install dependencies only (packages, vcpkg, Qt). Do not build.
 - **Build scripts** (`scripts/build.sh`, `scripts/build_macos.sh`): Check that dependencies exist, then configure and build. If you use the Makefile, setup is run automatically when the stamp is missing.
 - **make clean:** Runs `scripts/clean_build.sh` (removes `build_linux/`, `build_windows/`, `build_macos/`) and deletes the setup stamp files. Next `make` or `make linux` (etc.) will run setup again. Or use `CLEAN=yes make linux` (or make windows / make macos) to only wipe the build dir and reconfigure.
-- **create_serverlist.sh** (root, legacy): Uses `./build/bin/zlib_compress`. Run from repo root after building (e.g. `make linux`). If you built in a different dir, build there or symlink.
+- **create_serverlist.sh** (root, legacy): Expects `./build/bin/zlib_compress`. The Makefile puts the Linux build in `build_linux/`, so the binary is at `build_linux/bin/zlib_compress`. Symlink `build` → `build_linux` or run the compress step manually with `build_linux/bin/zlib_compress`.
 
 ## Build script context (for developers)
 
@@ -128,3 +128,5 @@ build_windows/deploy/
   - **Usage:** Any argument to a setup or build script prints usage and exits.
 - **scripts/build_macos.sh**
   - Does not install any utilities; run `scripts/setup_macos.sh` first. Reuse and `CLEAN=yes make macos` same idea as Linux. `make macos-installer` creates DMG installer.
+
+**Refactor history and future plans:** See **docs/building-future.md** (what changed vs pre-refactor, how it works for devs, planned devcontainer/CI work).
