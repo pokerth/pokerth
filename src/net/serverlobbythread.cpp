@@ -459,7 +459,7 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 		// For Init state sessions (e.g., TLS handshake failures), close immediately
 		// For established sessions, close after sending pending messages
 		if (oldState == SessionData::Init) {
-			qDebug() << "[SERVER] Init state session - closing socket immediately";
+			LOG_VERBOSE("[SERVER] Init state session - closing socket immediately");
 			session->Close();
 		} else {
 			// Close this session after send for established sessions

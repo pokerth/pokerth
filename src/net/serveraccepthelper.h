@@ -180,9 +180,11 @@ protected:
                 // Create a timeout timer for the handshake (12 seconds - increased for slow clients)
                 auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
                 handshakeTimer->expires_after(std::chrono::seconds(12));
+                
+                // Wichtig: Alle Lambdas müssen thread-safe sein
                 handshakeTimer->async_wait(
-                    [sslStream, handshakeCompleted](const boost::system::error_code& ec) {
-                        if (!ec && !handshakeCompleted->load()) {
+                    [handshakeCompleted, sslStream, handshakeTimer](const boost::system::error_code& ec) {
+                        if (!ec && !handshakeCompleted->load(std::memory_order_acquire)) {
                             // Timeout: close the socket to abort the handshake (only if not completed)
                             boost::system::error_code closeEc;
                             sslStream->lowest_layer().close(closeEc);
@@ -194,8 +196,8 @@ protected:
                 sslStream->async_handshake(
                     boost::asio::ssl::stream_base::server,
                     [this, sslStream, handshakeTimer, handshakeCompleted](const boost::system::error_code& error) {
-                        // Mark handshake as completed before any other action
-                        bool wasCompleted = handshakeCompleted->exchange(true);
+                        // Mark handshake as completed before any other action (memory_order_release für synchronization)
+                        bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
                         
                         // Only handle if this is the first completion (not a timeout-triggered close)
                         if (!wasCompleted) {
