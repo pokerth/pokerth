@@ -61,6 +61,18 @@ static atomic<bool> g_shutdownRequested(false);
 #define NET_VERSION_MINOR 1
 #define BUF_SIZE 4096
 
+// Helper: Get current timestamp as string (HH:MM:SS.mmm)
+static string getTimestamp() {
+    auto now = chrono::system_clock::now();
+    auto now_c = chrono::system_clock::to_time_t(now);
+    auto ms = chrono::duration_cast<chrono::milliseconds>(now.time_since_epoch()) % 1000;
+    
+    char buf[32];
+    strftime(buf, sizeof(buf), "%H:%M:%S", localtime(&now_c));
+    snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf), ".%03d", (int)ms.count());
+    return string(buf);
+}
+
 // Bot Session - Ein Bot-Client
 class BotSession {
 public:
@@ -220,12 +232,12 @@ public:
             auto bot = make_shared<BotSession>(io_, sslCtx_, botName, password);
             
             if (!connectBot(bot)) {
-                cerr << "Failed to connect bot: " << botName << endl;
+                cerr << "[" << getTimestamp() << "] Failed to connect bot: " << botName << endl;
                 return false;
             }
             
             bots_.push_back(bot);
-            cout << "[" << botName << "] Connected" << endl;
+            cout << "[" << getTimestamp() << "] [" << botName << "] Connected" << endl;
             
             // Pause zwischen Bot-Logins
             if (i < numBots - 1) {
@@ -396,12 +408,12 @@ private:
         // Retry-Logik: Bis zu 2 Versuche (initial + 1 retry)
         for (int attempt = 0; attempt < 2; attempt++) {
             if (attempt > 0) {
-                cout << "\n[" << bot->name() << "] Retry " << attempt << "/1..." << endl;
+                cout << "\n[" << getTimestamp() << "] [" << bot->name() << "] Retry " << attempt << "/1..." << endl;
                 this_thread::sleep_for(chrono::milliseconds(3000)); // 3s delay vor retry
             }
             
             try {
-                cout << "[" << bot->name() << "] Resolving..." << flush;
+                cout << "[" << getTimestamp() << "] [" << bot->name() << "] Resolving..." << flush;
                 // Resolve
                 tcp::resolver resolver(io_);
                 boost::system::error_code resolveEc;
@@ -432,7 +444,7 @@ private:
                 
                 // TLS Handshake mit async + deadline_timer (exakt wie GUI Client)
                 if (useTls_) {
-                    cout << " TLS handshake..." << flush;
+                    cout << " [" << getTimestamp() << "] TLS handshake..." << flush;
                     
                     atomic<bool> handshakeComplete(false);
                     boost::system::error_code handshakeEc;
@@ -475,7 +487,7 @@ private:
                     io_.restart();  // Restart io_context für nächsten Bot/Retry
                     
                     if (handshakeEc) {
-                        cerr << "\n[" << bot->name() << "] TLS handshake failed: " << handshakeEc.message() 
+                        cerr << "\n[" << getTimestamp() << "] [" << bot->name() << "] TLS handshake failed: " << handshakeEc.message() 
                              << " (code: " << handshakeEc.value() << ")" << endl;
                         
                         // WICHTIG: Speichere Name/Passwort VOR reset()
@@ -496,7 +508,7 @@ private:
                         }
                         
                         if (attempt < 1) {
-                            cerr << "[" << botName << "] Will retry with new connection..." << endl;
+                            cerr << "[" << getTimestamp() << "] [" << botName << "] Will retry with new connection..." << endl;
                             // WICHTIG: Altes Socket-Objekt vollständig verwerfen
                             bot.reset();
                             // Neues Socket erstellen für retry mit gespeicherten Werten
@@ -593,7 +605,7 @@ private:
                 }
 
                 bot->setPlayerId(initAck->GetMsg()->initackmessage().yourplayerid());
-                cout << "[" << bot->name() << "] Logged in, Player ID: " << bot->playerId() << endl;
+                cout << "[" << getTimestamp() << "] [" << bot->name() << "] Logged in, Player ID: " << bot->playerId() << endl;
 
                 return true; // Erfolg!
 
