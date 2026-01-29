@@ -423,28 +423,54 @@ private:
                     cerr << "\n[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
                 }
                 
-                // TLS Handshake mit async + timeout (verhindert Race Conditions)
+                // TLS Handshake mit non-blocking Polling (einfach und robust)
                 if (useTls_) {
                     cout << " TLS handshake..." << flush;
                     
-                    // Setze Socket-Timeout
-                    bot->socket().lowest_layer().set_option(
-                        boost::asio::detail::socket_option::integer<SOL_SOCKET, SO_RCVTIMEO>{9000});
-                    bot->socket().lowest_layer().set_option(
-                        boost::asio::detail::socket_option::integer<SOL_SOCKET, SO_SNDTIMEO>{9000});
+                    // Setze Socket non-blocking
+                    bot->socket().lowest_layer().non_blocking(true);
                     
                     boost::system::error_code handshakeEc;
-                    try {
-                        // Blocking handshake mit Socket-level Timeout (keine Threads!)
+                    auto startTime = chrono::steady_clock::now();
+                    const int timeoutSec = 10;
+                    
+                    // Poll-basierter Handshake mit Timeout
+                    while (true) {
+                        handshakeEc.clear();
                         bot->socket().handshake(ssl::stream_base::client, handshakeEc);
-                    } catch (const exception &e) {
-                        handshakeEc = boost::asio::error::connection_aborted;
-                        cerr << "\n[" << bot->name() << "] TLS handshake exception: " << e.what() << endl;
+                        
+                        if (!handshakeEc) {
+                            // Erfolgreich
+                            break;
+                        } else if (handshakeEc == boost::asio::error::would_block) {
+                            // Noch nicht fertig - prüfe Timeout
+                            auto elapsed = chrono::duration_cast<chrono::seconds>(
+                                chrono::steady_clock::now() - startTime).count();
+                            if (elapsed > timeoutSec) {
+                                cerr << "\n[" << bot->name() << "] TLS handshake TIMEOUT after " << elapsed << " seconds!" << endl;
+                                handshakeEc = boost::asio::error::timed_out;
+                                break;
+                            }
+                            // Warte kurz und versuche erneut
+                            this_thread::sleep_for(chrono::milliseconds(100));
+                        } else {
+                            // Anderer Fehler
+                            break;
+                        }
+                    }
+                    
+                    // Setze Socket zurück auf blocking (falls erfolgreich)
+                    if (!handshakeEc) {
+                        bot->socket().lowest_layer().non_blocking(false);
                     }
                     
                     if (handshakeEc) {
                         cerr << "\n[" << bot->name() << "] TLS handshake failed: " << handshakeEc.message() 
                              << " (code: " << handshakeEc.value() << ")" << endl;
+                        
+                        // WICHTIG: Speichere Name/Passwort VOR reset()
+                        string botName = bot->name();
+                        string botPassword = bot->password();
                         
                         // Sauber schließen
                         try {
@@ -456,11 +482,11 @@ private:
                         }
                         
                         if (attempt < 1) {
-                            cerr << "[" << bot->name() << "] Will retry with new connection..." << endl;
+                            cerr << "[" << botName << "] Will retry with new connection..." << endl;
                             // WICHTIG: Altes Socket-Objekt vollständig verwerfen
                             bot.reset();
-                            // Neues Socket erstellen für retry
-                            bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                            // Neues Socket erstellen für retry mit gespeicherten Werten
+                            bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
                             continue; // Retry
                         }
                         return false;
@@ -474,13 +500,15 @@ private:
                 if (!announce || announce->GetMsg()->messagetype() != PokerTHMessage::Type_AnnounceMessage) {
                     cerr << "\n[" << bot->name() << "] No announce message" << endl;
                     if (attempt < 1) {
+                        string botName = bot->name();
+                        string botPassword = bot->password();
                         // Socket sauber schließen vor Retry
                         try {
                             boost::system::error_code closeEc;
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
                         continue; // Retry
                     }
                     return false;
@@ -501,12 +529,14 @@ private:
                 if (!bot->sendMessage(init)) {
                     cerr << "\n[" << bot->name() << "] Failed to send init" << endl;
                     if (attempt < 1) {
+                        string botName = bot->name();
+                        string botPassword = bot->password();
                         try {
                             boost::system::error_code closeEc;
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
                         continue; // Retry
                     }
                     return false;
@@ -518,12 +548,14 @@ private:
                 if (!initAck) {
                     cerr << "\n[" << bot->name() << "] Connection lost waiting for init ack" << endl;
                     if (attempt < 1) {
+                        string botName = bot->name();
+                        string botPassword = bot->password();
                         try {
                             boost::system::error_code closeEc;
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
                         continue; // Retry
                     }
                     return false;
@@ -533,12 +565,14 @@ private:
                     cerr << "\n[" << bot->name() << "] Expected InitAck, got message type: " 
                          << initAck->GetMsg()->messagetype() << endl;
                     if (attempt < 1) {
+                        string botName = bot->name();
+                        string botPassword = bot->password();
                         try {
                             boost::system::error_code closeEc;
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
                         continue; // Retry
                     }
                     return false;
@@ -552,6 +586,8 @@ private:
             } catch (const exception &e) {
                 cerr << "\n[" << bot->name() << "] Connect exception: " << e.what() << endl;
                 if (attempt < 1) {
+                    string botName = bot->name();
+                    string botPassword = bot->password();
                     // Socket sauber schließen
                     try {
                         boost::system::error_code closeEc;
@@ -560,7 +596,7 @@ private:
                     // Altes Objekt vollständig verwerfen
                     bot.reset();
                     // Neues Socket erstellen für retry
-                    bot = make_shared<BotSession>(io_, sslCtx_, bot->name(), bot->password());
+                    bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
                     continue; // Retry
                 }
                 return false;
