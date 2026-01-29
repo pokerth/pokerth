@@ -2570,7 +2570,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		tmpCards[2] = static_cast<int>(netDealFlop.flopcard3());
 		tmpCards[3] = tmpCards[4] = 0;
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
-		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
+		// CRITICAL: Berechne Summe aller Spieler-Sets und setze Board.sets
+		// BEVOR collectPot() aufgerufen wird (damit pot += sets korrekt funktioniert)
+		int totalSets = 0;
+		PlayerListIterator setIt = curGame->getSeatsList()->begin();
+		PlayerListIterator setEnd = curGame->getSeatsList()->end();
+		while (setIt != setEnd) {
+			totalSets += (*setIt)->getMySet();
+			++setIt;
+		}
+		curGame->getCurrentHand()->getBoard()->setSets(totalSets);
 		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
@@ -2593,7 +2602,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 		tmpCards[3] = static_cast<int>(netDealTurn.turncard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
-		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
+		// CRITICAL: Berechne Summe aller Spieler-Sets und setze Board.sets
+		// BEVOR collectPot() aufgerufen wird (damit pot += sets korrekt funktioniert)
+		int totalSets = 0;
+		PlayerListIterator setIt = curGame->getSeatsList()->begin();
+		PlayerListIterator setEnd = curGame->getSeatsList()->end();
+		while (setIt != setEnd) {
+			totalSets += (*setIt)->getMySet();
+			++setIt;
+		}
+		curGame->getCurrentHand()->getBoard()->setSets(totalSets);
 		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
@@ -2616,7 +2634,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getBoard()->getMyCards(tmpCards);
 		tmpCards[4] = static_cast<int>(netDealRiver.rivercard());
 		curGame->getCurrentHand()->getBoard()->setMyCards(tmpCards);
-		// CRITICAL: collectSets() was already called in last PlayersActionDoneMessage
+		// CRITICAL: Berechne Summe aller Spieler-Sets und setze Board.sets
+		// BEVOR collectPot() aufgerufen wird (damit pot += sets korrekt funktioniert)
+		int totalSets = 0;
+		PlayerListIterator setIt = curGame->getSeatsList()->begin();
+		PlayerListIterator setEnd = curGame->getSeatsList()->end();
+		while (setIt != setEnd) {
+			totalSets += (*setIt)->getMySet();
+			++setIt;
+		}
+		curGame->getCurrentHand()->getBoard()->setSets(totalSets);
 		// Only call collectPot() to add sets to pot and clear player sets
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// CRITICAL: Immediately refresh and sync GUI BEFORE any other operations
@@ -2660,6 +2687,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_EndOfHandHideCardsMessage) {
 		const EndOfHandHideCardsMessage &hideCards = tmpPacket->GetMsg()->endofhandhidecardsmessage();
+		// CRITICAL: Berechne Summe aller Spieler-Sets und setze Board.sets
+		// BEVOR collectPot() aufgerufen wird (damit pot += sets korrekt funktioniert)
+		int totalSets = 0;
+		PlayerListIterator setIt = curGame->getSeatsList()->begin();
+		PlayerListIterator setEnd = curGame->getSeatsList()->end();
+		while (setIt != setEnd) {
+			totalSets += (*setIt)->getMySet();
+			++setIt;
+		}
+		curGame->getCurrentHand()->getBoard()->setSets(totalSets);
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// Reset player sets
 		ResetPlayerSets(*curGame);
@@ -2699,6 +2736,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		qDebug() << "[SHOWCARD CLI] Received EndOfHandShowCardsMessage with" << showCards.playerresults_size() << "players";
 
+		// CRITICAL: Berechne Summe aller Spieler-Sets und setze Board.sets
+		// BEVOR collectPot() aufgerufen wird (damit pot += sets korrekt funktioniert)
+		int totalSets = 0;
+		PlayerListIterator setIt = curGame->getSeatsList()->begin();
+		PlayerListIterator setEnd = curGame->getSeatsList()->end();
+		while (setIt != setEnd) {
+			totalSets += (*setIt)->getMySet();
+			++setIt;
+		}
+		curGame->getCurrentHand()->getBoard()->setSets(totalSets);
 		curGame->getCurrentHand()->getBoard()->collectPot();
 		// Reset player sets
 		ResetPlayerSets(*curGame);

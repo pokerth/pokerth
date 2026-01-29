@@ -196,11 +196,18 @@ private:
 class BotController {
 public:
     BotController(const string &server, const string &port, bool useTls)
-        : io_(), sslCtx_(ssl::context::tlsv12_client), 
+        : io_(), sslCtx_(ssl::context::sslv23_client),  // sslv23 = TLS 1.0-1.3 (wie GUI Client)
           server_(server), port_(port), useTls_(useTls) {
         
         if (useTls_) {
             sslCtx_.set_verify_mode(ssl::verify_none);
+            // Disable alte/unsichere Protokolle
+            sslCtx_.set_options(
+                ssl::context::default_workarounds |
+                ssl::context::no_sslv2 |
+                ssl::context::no_sslv3 |
+                ssl::context::no_tlsv1 |
+                ssl::context::no_tlsv1_1);
         }
     }
 
@@ -220,9 +227,9 @@ public:
             bots_.push_back(bot);
             cout << "[" << botName << "] Connected" << endl;
             
-            // Lange Pause zwischen Bot-Logins (Server-Schonung - Server ist langsam!)
+            // Pause zwischen Bot-Logins
             if (i < numBots - 1) {
-                this_thread::sleep_for(chrono::seconds(4));  // 4 Sekunden!
+                this_thread::sleep_for(chrono::seconds(4));
             }
         }
 
@@ -423,46 +430,49 @@ private:
                     cerr << "\n[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
                 }
                 
-                // TLS Handshake mit non-blocking Polling (einfach und robust)
+                // TLS Handshake mit async + deadline_timer (exakt wie GUI Client)
                 if (useTls_) {
                     cout << " TLS handshake..." << flush;
                     
-                    // Setze Socket non-blocking
-                    bot->socket().lowest_layer().non_blocking(true);
-                    
+                    atomic<bool> handshakeComplete(false);
                     boost::system::error_code handshakeEc;
-                    auto startTime = chrono::steady_clock::now();
-                    const int timeoutSec = 15;  // Erhöht auf 15s (Server hat 12s)
                     
-                    // Poll-basierter Handshake mit Timeout
-                    while (true) {
-                        handshakeEc.clear();
-                        bot->socket().handshake(ssl::stream_base::client, handshakeEc);
-                        
-                        if (!handshakeEc) {
-                            // Erfolgreich
-                            break;
-                        } else if (handshakeEc == boost::asio::error::would_block) {
-                            // Noch nicht fertig - prüfe Timeout
-                            auto elapsed = chrono::duration_cast<chrono::seconds>(
-                                chrono::steady_clock::now() - startTime).count();
-                            if (elapsed > timeoutSec) {
-                                cerr << "\n[" << bot->name() << "] TLS handshake TIMEOUT after " << elapsed << " seconds!" << endl;
-                                handshakeEc = boost::asio::error::timed_out;
-                                break;
-                            }
-                            // Warte kurz und versuche erneut
-                            this_thread::sleep_for(chrono::milliseconds(100));
-                        } else {
-                            // Anderer Fehler
-                            break;
+                    // Erstelle Timeout-Timer (als shared_ptr um Lebensdauer zu kontrollieren)
+                    auto handshakeTimer = make_shared<boost::asio::deadline_timer>(io_);
+                    handshakeTimer->expires_from_now(boost::posix_time::seconds(12));
+                    
+                    // Timer-Callback für Timeout
+                    handshakeTimer->async_wait([&handshakeComplete, &handshakeEc, &bot, handshakeTimer](const boost::system::error_code& ec) {
+                        if (!ec && !handshakeComplete) {
+                            // Timeout! Socket schließen um Handshake abzubrechen
+                            boost::system::error_code closeEc;
+                            bot->socket().lowest_layer().close(closeEc);
+                            handshakeEc = boost::asio::error::timed_out;
+                            handshakeComplete = true;
                         }
+                    });
+                    
+                    // Async Handshake starten
+                    bot->socket().async_handshake(
+                        ssl::stream_base::client,
+                        [&handshakeComplete, &handshakeEc, handshakeTimer](const boost::system::error_code& ec) {
+                            if (!handshakeComplete) {
+                                handshakeTimer->cancel();  // WICHTIG: Timer canceln bei Erfolg
+                                handshakeEc = ec;
+                                handshakeComplete = true;
+                            }
+                        });
+                    
+                    // Warte bis Handshake fertig (blocking mit run_one)
+                    while (!handshakeComplete) {
+                        io_.run_one();
                     }
                     
-                    // Setze Socket zurück auf blocking (falls erfolgreich)
-                    if (!handshakeEc) {
-                        bot->socket().lowest_layer().non_blocking(false);
-                    }
+                    // CRITICAL: Timer explizit canceln um sicherzustellen dass keine callbacks mehr kommen
+                    handshakeTimer->cancel();
+                    // Alle pending handler verarbeiten (damit cancel-callbacks durchlaufen)
+                    io_.poll();
+                    io_.restart();  // Restart io_context für nächsten Bot/Retry
                     
                     if (handshakeEc) {
                         cerr << "\n[" << bot->name() << "] TLS handshake failed: " << handshakeEc.message() 
@@ -766,6 +776,13 @@ private:
             if (actionDone.playerid() == bot->playerId()) {
                 bot->setMySet(actionDone.totalplayerbet());
                 bot->setMyCash(actionDone.playermoney());
+                
+                // WICHTIG: Wenn Cash=0, dann sind wir All-In!
+                if (bot->myCash() == 0) {
+                    bot->setIsAllIn(true);
+                    cout << "[" << bot->name() << "] Now All-In! (myCash=0)" << endl;
+                }
+                
                 cout << "[" << bot->name() << "] My action done: mySet=" << bot->mySet() 
                      << ", highestSet=" << bot->highestSet() 
                      << ", myCash=" << bot->myCash() << endl;
