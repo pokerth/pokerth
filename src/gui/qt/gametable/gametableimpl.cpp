@@ -775,6 +775,16 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	}
 #endif
 
+	// Pot % button visibility (takes effect immediately when user controls are visible)
+	if (pushButton_BetRaise->isVisible()) {
+		for (int j = 6; j <= 8; j++) {
+			if (myConfig->readConfigInt("ShowPotPercentButtons"))
+				userWidgetsArray[j]->show();
+			else
+				userWidgetsArray[j]->hide();
+		}
+	}
+
 	//Add avatar (if set)
 	myStartWindow->getSession()->addOwnAvatar(QString::fromUtf8(myConfig->readConfigString("MyAvatar").c_str()).toLocal8Bit().constData());
 
@@ -911,7 +921,14 @@ void gameTableImpl::initGui(int speed)
 
 	//show human player buttons
 	for(int i=0; i<UserWidgetCount; i++) {
-		userWidgetsArray[i]->show();
+		if(i >= 6 && i <= 8) {
+			if(myConfig->readConfigInt("ShowPotPercentButtons"))
+				userWidgetsArray[i]->show();
+			else
+				userWidgetsArray[i]->hide();
+		} else {
+			userWidgetsArray[i]->show();
+		}
 	}
 
 	//set speeds for local game and for first network game
@@ -1294,7 +1311,14 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 					if((*it_c)->getMyID()==0) {
 						//show buttons
 						for(j=0; j<UserWidgetCount; j++) {
-							userWidgetsArray[j]->show();
+							if(j >= 6 && j <= 8) {
+								if(myConfig->readConfigInt("ShowPotPercentButtons"))
+									userWidgetsArray[j]->show();
+								else
+									userWidgetsArray[j]->hide();
+							} else {
+								userWidgetsArray[j]->show();
+							}
 						}
 					}
 					myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[(*it_c)->getMyID()]);
@@ -1337,7 +1361,14 @@ void gameTableImpl::refreshGroupbox(int playerID, int status)
 			if (!playerID) {
 				//show buttons
 				for(j=0; j<UserWidgetCount; j++) {
-					userWidgetsArray[j]->show();
+					if(j >= 6 && j <= 8) {
+						if(myConfig->readConfigInt("ShowPotPercentButtons"))
+							userWidgetsArray[j]->show();
+						else
+							userWidgetsArray[j]->hide();
+					} else {
+						userWidgetsArray[j]->show();
+					}
 				}
 			}
 			myGameTableStyle->setPlayerSeatInactiveStyle(groupBoxArray[playerID]);

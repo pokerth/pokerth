@@ -330,6 +330,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_showFadeOutCardsAnimation->setChecked(myConfig->readConfigInt("ShowFadeOutCardsAnimation"));
 	checkBox_showFlipCardsAnimation->setChecked(myConfig->readConfigInt("ShowFlipCardsAnimation"));
 	checkBox_showBlindButtons->setChecked(myConfig->readConfigInt("ShowBlindButtons"));
+	checkBox_showPotPercentButtons->setChecked(myConfig->readConfigInt("ShowPotPercentButtons"));
 	checkBox_showCountryFlagInAvatar->setChecked(myConfig->readConfigInt("ShowCountryFlagInAvatar"));
 	checkBox_showPingStateInAvatar->setChecked(myConfig->readConfigInt("ShowPingStateInAvatar"));
 	checkBox_antiPeekMode->setChecked(myConfig->readConfigInt("AntiPeekMode"));
@@ -788,6 +789,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("ShowFadeOutCardsAnimation", checkBox_showFadeOutCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowFlipCardsAnimation", checkBox_showFlipCardsAnimation->isChecked());
 	myConfig->writeConfigInt("ShowBlindButtons", checkBox_showBlindButtons->isChecked());
+	myConfig->writeConfigInt("ShowPotPercentButtons", checkBox_showPotPercentButtons->isChecked());
 	myConfig->writeConfigInt("ShowCardsChanceMonitor", checkBox_cardsChanceMonitor->isChecked());
 	myConfig->writeConfigInt("AntiPeekMode", checkBox_antiPeekMode->isChecked());
 	myConfig->writeConfigInt("ShowCountryFlagInAvatar", checkBox_showCountryFlagInAvatar->isChecked());

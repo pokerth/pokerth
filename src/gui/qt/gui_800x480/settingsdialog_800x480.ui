@@ -234,6 +234,13 @@
                  </property>
                 </widget>
                </item>
+               <item row="7" column="0" colspan="2">
+                <widget class="QCheckBox" name="checkBox_showPotPercentButtons">
+                 <property name="text">
+                  <string>Show 33%/50%/100% pot bet sizing buttons</string>
+                 </property>
+                </widget>
+               </item>
                <item row="6" column="0" colspan="2">
                 <widget class="QCheckBox" name="checkBox_dontTranslatePokerStrings">
                  <property name="text">
@@ -3929,6 +3936,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>checkBox_showFadeOutCardsAnimation</tabstop>
   <tabstop>checkBox_showFlipCardsAnimation</tabstop>
   <tabstop>checkBox_showBlindButtons</tabstop>
+  <tabstop>checkBox_showPotPercentButtons</tabstop>
   <tabstop>checkBox_cardsChanceMonitor</tabstop>
   <tabstop>checkBox_antiPeekMode</tabstop>
   <tabstop>checkBox_disableSplashscreen</tabstop>
