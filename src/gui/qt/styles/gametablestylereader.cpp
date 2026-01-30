@@ -34,6 +34,9 @@
 #include <QDomElement>
 #include <QDebug>
 #include <QFile>
+#include <QPainter>
+#include <QPainterPath>
+#include <QFontMetricsF>
 
 using namespace std;
 
@@ -1578,6 +1581,36 @@ QString GameTableStyleReader::getActionPic(int action)
 	break;
 	}
 	return QString("");
+}
+
+QPixmap GameTableStyleReader::renderActionStyleText(const QString &text)
+{
+	if (text.isEmpty())
+		return QPixmap();
+	// Match the "Winner" overlay (action_winner.png) – black text, yellow outline.
+	QFont font("DejaVu Sans");
+	font.setPixelSize(bigBoardFontSize.toInt());
+	font.setBold(true);
+	QFontMetricsF fm(font);
+	const int outlineWidth = 3;
+	const int padding = 6;
+	QRectF textBounds = fm.boundingRect(QRectF(0, 0, 10000, 10000), Qt::AlignLeft | Qt::AlignTop, text);
+	int w = static_cast<int>(textBounds.width()) + 2 * outlineWidth + 2 * padding;
+	int h = static_cast<int>(textBounds.height()) + 2 * outlineWidth + 2 * padding;
+	QPixmap pixmap(w, h);
+	pixmap.fill(Qt::transparent);
+	QPainter painter(&pixmap);
+	painter.setRenderHint(QPainter::Antialiasing);
+	painter.setRenderHint(QPainter::TextAntialiasing);
+	QPainterPath path;
+	path.addText(padding + outlineWidth, padding + outlineWidth + fm.ascent(), font, text);
+	painter.setPen(QPen(Qt::yellow, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+	painter.setBrush(Qt::NoBrush);
+	painter.drawPath(path);
+	painter.setPen(Qt::NoPen);
+	painter.setBrush(Qt::black);
+	painter.drawPath(path);
+	return pixmap;
 }
 
 void GameTableStyleReader::setButtonsStyle(MyActionButton *br, MyActionButton *cc, MyActionButton *f, MyActionButton *a, int state)

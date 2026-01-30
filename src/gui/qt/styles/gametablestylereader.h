@@ -116,6 +116,7 @@ public:
 	}
 
 	QString getActionPic(int);
+	QPixmap renderActionStyleText(const QString &text);
 
 	QString getFKeyIndicatorColor() const
 	{
