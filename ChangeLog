@@ -1,6 +1,6 @@
 2026-01-22 version 2.0
 - port from qmake to cmake
-- port from Qt5 to Qt6 LTS
+- port from Qt5 to Qt6.9.2 LTS
 - port to libboost >=1.83
 - removed mysqplpp dependency
 - removed curl dependency
