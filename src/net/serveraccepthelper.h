@@ -181,6 +181,15 @@ protected:
             acceptedSocket->set_option(typename P::no_delay(true));
             acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
 
+            // WICHTIG: Sofort neuen async_accept starten BEVOR wir den Handshake machen
+            // Das erlaubt parallele Handshakes!
+            boost::shared_ptr<P_socket> nextSocket(new P_socket(*m_ioService));
+            m_acceptor->async_accept(
+                *nextSocket,
+                boost::bind(&ServerAcceptHelper::HandleAccept, this, nextSocket,
+                            boost::asio::placeholders::error)
+            );
+
             if (m_tls) {
                 typedef boost::asio::ssl::stream<P_socket> ssl_stream_t;
                 boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
@@ -205,7 +214,6 @@ protected:
                             boost::system::error_code closeEc;
                             sslStream->lowest_layer().close(closeEc);
                             LOG_MSG("[TLS-SERVER] Socket closed after timeout for " << *peerAddrShared);
-                            // KEIN async_accept hier! Das macht HandleHandshake am Ende
                         } else if (ec) {
                             LOG_MSG("[TLS-SERVER] Handshake timer cancelled for " << *peerAddrShared << " (normal success)");
                         }
@@ -224,25 +232,16 @@ protected:
                         // Only handle if this is the first completion (not a timeout-triggered close)
                         if (!wasCompleted) {
                             handshakeTimer->cancel();
-                            this->HandleHandshake(sslStream, error);
+                            this->HandleHandshakeOnly(sslStream, error);
                         } else {
                             // Handshake callback fired after timeout - socket already closed
-                            // HandleHandshake needs to be called anyway to continue accept loop
-                            LOG_MSG("[TLS-SERVER] Late handshake callback after timeout - calling HandleHandshake for accept loop");
-                            this->HandleHandshake(sslStream, boost::asio::error::operation_aborted);
+                            LOG_MSG("[TLS-SERVER] Late handshake callback after timeout - ignoring");
                         }
                     }
                 );
             } else {
                 boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
                 GetLobbyThread().AddConnection(sessionData);
-
-                boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
-                m_acceptor->async_accept(
-                    *newSocket,
-                    boost::bind(&ServerAcceptHelper::HandleAccept, this, newSocket,
-                                boost::asio::placeholders::error)
-                );
             }
         } else {
             LOG_ERROR("In boost::asio handler: Accept failed.");
