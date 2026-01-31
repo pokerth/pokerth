@@ -195,7 +195,7 @@ bool CleanerServer::handleMessage(ChatCleanerMessage &msg)
 				netReply->set_cleaneractiontype(CleanerChatReplyMessage_CleanerActionType_cleanerActionMute);
 			}
 
-			netReply->set_cleanertext(checkMessage.toUtf8());
+			netReply->set_cleanertext(static_cast<const char *>(checkMessage.toUtf8()));
 			sendMessageToClient(*tmpReply);
 		}
 	}
