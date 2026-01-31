@@ -249,6 +249,53 @@ protected:
         }
     }
 
+    // HandleHandshakeOnly - does NOT start new async_accept (already started in HandleAccept)
+    void HandleHandshakeOnly(boost::shared_ptr<boost::asio::ssl::stream<P_socket>> sslStream,
+                             const boost::system::error_code &error)
+    {
+        std::string peerAddr = "unknown";
+        try {
+            auto endpoint = sslStream->lowest_layer().remote_endpoint();
+            peerAddr = endpoint.address().to_string() + ":" + std::to_string(endpoint.port());
+        } catch (...) {}
+        
+        if (!error) {
+            LOG_MSG("[TLS-SERVER] Handshake SUCCEEDED for " << peerAddr << " - creating session");
+            
+            try {
+                boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
+                LOG_MSG("[TLS-SERVER] SessionData created, adding to lobby...");
+                GetLobbyThread().AddConnection(sessionData);
+                LOG_MSG("[TLS-SERVER] Session added successfully");
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] EXCEPTION while creating/adding session: " << e.what());
+            } catch (...) {
+                LOG_ERROR("[TLS-SERVER] UNKNOWN EXCEPTION while creating/adding session");
+            }
+        } else {
+            LOG_MSG("[TLS-SERVER] Handshake FAILED for " << peerAddr << ": " << error.message() 
+                    << " (code: " << error.value() 
+                    << ", category: " << error.category().name() << ")");
+            
+            // Try to get more detailed SSL error information
+            SSL* ssl = sslStream->native_handle();
+            if (ssl) {
+                unsigned long ssl_err = ERR_get_error();
+                while (ssl_err != 0) {
+                    char err_buf[256];
+                    ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
+                    LOG_MSG("[TLS-DEBUG] OpenSSL error: " << err_buf);
+                    ssl_err = ERR_get_error();
+                }
+            }
+            
+            // Close the SSL stream and socket immediately to free resources
+            boost::system::error_code ec;
+            sslStream->lowest_layer().close(ec);
+        }
+        // NOTE: No new async_accept here - it's already running from HandleAccept
+    }
+
     void HandleHandshake(boost::shared_ptr<boost::asio::ssl::stream<P_socket>> sslStream,
                          const boost::system::error_code &error)
     {
