@@ -889,13 +889,28 @@ ServerLobbyThread::Main()
 		// This ensures accept operations are processed promptly
 		auto work = boost::asio::make_work_guard(*m_ioService);
 		while (!m_ioService->stopped()) {
-			m_ioService->poll();  // Non-blocking: process ready handlers
-			Thread::Msleep(1);     // Small sleep to prevent busy-wait
+			try {
+				size_t handlers = m_ioService->poll();  // Non-blocking: process ready handlers
+				if (handlers == 0) {
+					Thread::Msleep(1);  // Only sleep if no handlers were processed
+				}
+			} catch (const std::exception& e) {
+				LOG_ERROR("[SERVER-MAIN] Exception in poll loop: " << e.what());
+				// Continue running - don't let one bad handler crash the server
+			} catch (...) {
+				LOG_ERROR("[SERVER-MAIN] Unknown exception in poll loop");
+				// Continue running
+			}
 		}
+		LOG_MSG("[SERVER-MAIN] io_service stopped - exiting main loop");
 
 	} catch (const PokerTHException &e) {
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
 		LOG_ERROR("Lobby exception: " << e.what());
+	} catch (const std::exception& e) {
+		LOG_ERROR("[SERVER-MAIN] Fatal exception in Main(): " << e.what());
+	} catch (...) {
+		LOG_ERROR("[SERVER-MAIN] Unknown fatal exception in Main()");
 	}
 	// Clear all sessions and games.
 	m_sessionManager.Clear();

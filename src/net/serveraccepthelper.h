@@ -165,6 +165,21 @@ protected:
     void HandleAccept(boost::shared_ptr<P_socket> acceptedSocket,
                       const boost::system::error_code &error)
     {
+        // IMMER neuen async_accept starten - auch bei Fehlern!
+        // Das verhindert dass der Accept-Loop stoppt
+        auto startNextAccept = [this]() {
+            try {
+                boost::shared_ptr<P_socket> nextSocket(new P_socket(*m_ioService));
+                m_acceptor->async_accept(
+                    *nextSocket,
+                    boost::bind(&ServerAcceptHelper::HandleAccept, this, nextSocket,
+                                boost::asio::placeholders::error)
+                );
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] CRITICAL: Failed to start next async_accept: " << e.what());
+            }
+        };
+        
         if (!error) {
             // Get peer endpoint for debug logging
             std::string peerAddr;
@@ -177,18 +192,19 @@ protected:
             
             LOG_MSG("[TLS-SERVER] New connection accepted from " << peerAddr);
             
-            acceptedSocket->non_blocking(true);
-            acceptedSocket->set_option(typename P::no_delay(true));
-            acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
+            try {
+                acceptedSocket->non_blocking(true);
+                acceptedSocket->set_option(typename P::no_delay(true));
+                acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] Failed to set socket options: " << e.what());
+                startNextAccept();
+                return;
+            }
 
-            // WICHTIG: Sofort neuen async_accept starten BEVOR wir den Handshake machen
+            // Sofort neuen async_accept starten BEVOR wir den Handshake machen
             // Das erlaubt parallele Handshakes!
-            boost::shared_ptr<P_socket> nextSocket(new P_socket(*m_ioService));
-            m_acceptor->async_accept(
-                *nextSocket,
-                boost::bind(&ServerAcceptHelper::HandleAccept, this, nextSocket,
-                            boost::asio::placeholders::error)
-            );
+            startNextAccept();
 
             if (m_tls) {
                 typedef boost::asio::ssl::stream<P_socket> ssl_stream_t;
@@ -240,12 +256,27 @@ protected:
                     }
                 );
             } else {
-                boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
-                GetLobbyThread().AddConnection(sessionData);
+                try {
+                    boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
+                    GetLobbyThread().AddConnection(sessionData);
+                } catch (const std::exception& e) {
+                    LOG_ERROR("[TLS-SERVER] Exception creating non-TLS session: " << e.what());
+                }
             }
         } else {
-            LOG_ERROR("In boost::asio handler: Accept failed.");
-            GetCallback().SignalNetServerError(ERR_SOCK_ACCEPT_FAILED, 0);
+            LOG_ERROR("[TLS-SERVER] Accept failed: " << error.message() << " - starting new accept");
+            // WICHTIG: Auch bei Accept-Fehlern neuen async_accept starten!
+            try {
+                boost::shared_ptr<P_socket> nextSocket(new P_socket(*m_ioService));
+                m_acceptor->async_accept(
+                    *nextSocket,
+                    boost::bind(&ServerAcceptHelper::HandleAccept, this, nextSocket,
+                                boost::asio::placeholders::error)
+                );
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] CRITICAL: Failed to restart accept after error: " << e.what());
+                GetCallback().SignalNetServerError(ERR_SOCK_ACCEPT_FAILED, 0);
+            }
         }
     }
 
