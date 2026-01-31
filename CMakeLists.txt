@@ -41,6 +41,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 include(FindBoost)
+
+# On macOS, prefer system frameworks (e.g. OpenGL.framework) so Qt's FindWrapOpenGL
+# does not pick up X11's /usr/X11R6/lib and trigger "linking to directory" warnings.
+if(APPLE)
+    set(CMAKE_FIND_FRAMEWORK FIRST)
+endif()
+
 find_package(Boost REQUIRED COMPONENTS iostreams random thread filesystem program_options)
 find_package(OpenSSL REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Network)

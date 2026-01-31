@@ -53,7 +53,24 @@ brew install \
   ninja \
   git \
   python \
-  pkg-config
+  pkg-config \
+  libiodbc \
+  libpq \
+  imagemagick
+# Optional: Mimer SQL client (libmimerapi) is not in Homebrew; install from
+# https://developer.mimer.com/downloads if you need the Qt Mimer SQL driver.
+
+# On Apple Silicon, Qt SQL plugins may expect /usr/local/opt; symlink so macdeployqt finds them.
+BREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix 2>/dev/null)}"
+if [ -n "$BREW_PREFIX" ] && [ "$BREW_PREFIX" != "/usr/local" ] && [ -d "$BREW_PREFIX/opt" ]; then
+  for pkg in libiodbc libpq; do
+    if [ -d "$BREW_PREFIX/opt/$pkg" ] && [ ! -d "/usr/local/opt/$pkg" ]; then
+      log "Linking $pkg for Qt SQL plugins (macdeployqt expects /usr/local/opt on some Qt builds)..."
+      sudo mkdir -p /usr/local/opt
+      sudo ln -sf "$BREW_PREFIX/opt/$pkg" "/usr/local/opt/$pkg"
+    fi
+  done
+fi
 
 ########################################
 # 3. pipx and aqtinstall

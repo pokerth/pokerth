@@ -91,7 +91,27 @@ create_macos_app_bundle() {
     sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512.png" >/dev/null 2>&1
     sips -z 1024 1024 "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512@2x.png" >/dev/null 2>&1
     [[ "$BASE_PNG" == *"qlmanage"* ]] || [[ "$BASE_PNG" == *".svg.png" ]] && rm -f "$BASE_PNG"
-    iconutil -c icns "$ICONSET_DIR" -o "$APP_RESOURCES/pokerth.icns"
+    if ! iconutil -c icns "$ICONSET_DIR" -o "$APP_RESOURCES/pokerth.icns" 2>/dev/null; then
+      # Fallback: ImageMagick convert works on Linux/headless (e.g. Cursor sandbox); creates single-res .icns
+      if command -v convert >/dev/null 2>&1; then
+        IMG_SRC=""
+        [ -f "$REPO_ROOT/pokerth.png" ] && IMG_SRC="$REPO_ROOT/pokerth.png"
+        [ -z "$IMG_SRC" ] && [ -f "$REPO_ROOT/pokerth.svg" ] && IMG_SRC="$REPO_ROOT/pokerth.svg"
+        if [ -n "$IMG_SRC" ] && convert "$IMG_SRC" -resize 1024x1024 "$APP_RESOURCES/pokerth.icns" 2>/dev/null; then
+          log "Icon: used ImageMagick (iconutil unavailable or failed)"
+        elif [ -f "$REPO_ROOT/pokerth.icns" ]; then
+          log "Icon: using repo pokerth.icns"
+          cp "$REPO_ROOT/pokerth.icns" "$APP_RESOURCES/pokerth.icns"
+        else
+          log "Warning: icon conversion failed and no repo pokerth.icns; app will use default icon"
+        fi
+      elif [ -f "$REPO_ROOT/pokerth.icns" ]; then
+        log "Icon: using repo pokerth.icns"
+        cp "$REPO_ROOT/pokerth.icns" "$APP_RESOURCES/pokerth.icns"
+      else
+        log "Warning: icon conversion failed and no repo pokerth.icns; app will use default icon"
+      fi
+    fi
     rm -rf "$ICONSET_DIR"
   fi
 
@@ -126,12 +146,19 @@ create_macos_app_bundle() {
 EOF
 
   log "Deploying Qt frameworks with macdeployqt…"
+  rm -f "$APP_RESOURCES/qt.conf"
   if [[ "$BUILD_TARGET" == *"qml"* ]]; then
     QML_DIR="$REPO_ROOT/src/gui/qt6-qml"
     "$QT_DIR/bin/macdeployqt" "$APP_BUNDLE" -qmldir="$QML_DIR" -verbose=1
   else
     "$QT_DIR/bin/macdeployqt" "$APP_BUNDLE" -verbose=1
   fi
+
+  # Ensure qt.conf is correct so plugins load from Contents/PlugIns (avoids macdeployqt warning).
+  cat > "$APP_RESOURCES/qt.conf" <<'QTCONF'
+[Paths]
+Plugins = PlugIns
+QTCONF
 
   if [ -n "${CODESIGN_IDENTITY:-}" ]; then
     log "Code signing with identity: $CODESIGN_IDENTITY"
