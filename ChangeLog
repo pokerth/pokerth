@@ -17,6 +17,7 @@
 - removed QtSingleApplication dependency
 - reproducable docker build environments for linux, windows and android build
 - reproducable build_macos.sh Script for easy build & deploy on macOS
+- new feature: 33%, 50%, 100% pot bet sizes
 
 2017-09-01 version 1.1.2
 - PokerTH is now fully compatible with c++11 compilation mode 
