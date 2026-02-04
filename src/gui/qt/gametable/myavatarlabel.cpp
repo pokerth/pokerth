@@ -423,13 +423,13 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 			QColor pingColor;
 			if(myAvgPing >= 0 && myAvgPing <= 1000) {
 #if QT_VERSION >= 0x060600
-				pingColor.fromString("green");
+				pingColor = QColor::fromString("green");
 			} else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
-				pingColor.fromString("yellow");
+				pingColor = QColor::fromString("yellow");
 			} else if(myAvgPing > 2000) {
-				pingColor.fromString("red");
+				pingColor = QColor::fromString("red");
 			} else {
-				pingColor.fromString("white");
+				pingColor = QColor::fromString("white");
 #else
 				pingColor.setNamedColor("green");
 			} else if(myAvgPing > 1000 && myAvgPing <= 2000 ) {
