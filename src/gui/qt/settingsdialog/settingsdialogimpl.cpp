@@ -322,6 +322,10 @@ void settingsDialogImpl::prepareDialog()
 
 	//Interface
 	comboBox_switchLanguage->setCurrentIndex(comboBox_switchLanguage->findData(QString::fromUtf8(myConfig->readConfigString("Language").c_str()).section('_', 0, 0)));
+	// DarkMode: Config values: 0=Light, 1=Dark, 2=Auto -> ComboBox indices: 0=Auto, 1=Light, 2=Dark
+	int darkModeConfig = myConfig->readConfigInt("DarkMode");
+	int darkModeIndex = (darkModeConfig == 2) ? 0 : (darkModeConfig == 0) ? 1 : 2;
+	comboBox_darkMode->setCurrentIndex(darkModeIndex);
 #ifndef GUI_800x480
 	checkBox_showLeftToolbox->setChecked(myConfig->readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig->readConfigInt("ShowRightToolBox"));
@@ -781,6 +785,10 @@ void settingsDialogImpl::isAccepted()
 
 	// 	Interface
 	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());
+	// DarkMode: ComboBox indices: 0=Auto, 1=Light, 2=Dark -> Config values: 0=Light, 1=Dark, 2=Auto
+	int darkModeIndex = comboBox_darkMode->currentIndex();
+	int darkModeConfig = (darkModeIndex == 0) ? 2 : (darkModeIndex == 1) ? 0 : 1;
+	myConfig->writeConfigInt("DarkMode", darkModeConfig);
 #ifndef GUI_800x480
 	myConfig->writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
 	myConfig->writeConfigInt("ShowRightToolBox", checkBox_showRightToolbox->isChecked());

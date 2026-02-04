@@ -66,7 +66,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 104;
+	configRev = 105;
 
 	// standard defaults
 	logOnOffDefault = "1";
@@ -177,6 +177,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontHideAvatarsOfIgnored", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableChatEmoticons", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));

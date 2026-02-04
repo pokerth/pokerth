@@ -184,6 +184,7 @@ int main(int argc, char *argv[])
 #include "log.h"
 #include "startsplash.h"
 #include "game_defs.h"
+#include "darkmodehelper.h"
 #include <net/socket_startup.h>
 
 
@@ -298,6 +299,8 @@ int main( int argc, char **argv )
 	a.setPalette(p);
 #else
 	QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 12px; }");
+	// Apply dark mode palette based on config setting
+	DarkModeHelper::applyPalette(myConfig);
 #endif
 	qApp->setStyleSheet(font1String + " QDialogButtonBox, QMessageBox { dialogbuttonbox-buttons-have-icons: 1; dialog-ok-icon: url(:/gfx/dialog_ok_apply.png); dialog-cancel-icon: url(:/gfx/dialog_close.png); dialog-close-icon: url(:/gfx/dialog_close.png); dialog-yes-icon: url(:/gfx/dialog_ok_apply.png); dialog-no-icon: url(:/gfx/dialog_close.png) }");
 

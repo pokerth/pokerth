@@ -193,6 +193,35 @@
                  </property>
                 </spacer>
                </item>
+               <item>
+                <widget class="QLabel" name="label_darkMode">
+                 <property name="text">
+                  <string>Appearance:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBox_darkMode</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBox_darkMode">
+                 <item>
+                  <property name="text">
+                   <string>Auto (System)</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Light</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Dark</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
               </layout>
              </item>
              <item row="1" column="0">

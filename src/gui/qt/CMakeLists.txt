@@ -11,6 +11,7 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     guiwrapper.cpp
     qttools/qttoolswrapper.cpp
     qttools/qthelper/qthelper.cpp
+    qttools/darkmodehelper.cpp
     gametable/gametableimpl.cpp
     gametable/mycardspixmaplabel.cpp
     gametable/mysetlabel.cpp

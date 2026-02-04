@@ -171,9 +171,9 @@ public slots:
 	void removeSpectator(unsigned spectatorId, QString);
 	void gameAddSpectator(unsigned, unsigned);
 	void gameRemoveSpectator(unsigned, unsigned);
+	void updateGameListStyleSheet();
 
 private:
-    void updateGameListStyleSheet();
 
 	gameTableImpl* myW;
 	startWindowImpl* myStartWindow;

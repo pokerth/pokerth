@@ -33,6 +33,7 @@
 #include "mynicklistsortfilterproxymodel.h"
 #include "startwindowimpl.h"
 #include "chattools.h"
+#include "darkmodehelper.h"
 #include <QScreen>
 #include "changecompleteblindsdialogimpl.h"
 #include "session.h"
@@ -155,10 +156,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	treeView_GameList->setColumnWidth(4,20);
 	treeView_GameList->setColumnWidth(5,75);
 
-	// Detect dark mode for Android
-	QPalette palette = QApplication::palette();
-	QColor windowColor = palette.color(QPalette::Window);
-	bool isDarkMode = windowColor.lightness() < 128;
+	// Use DarkModeHelper for consistent dark mode detection with config override
+	bool isDarkMode = DarkModeHelper::isDarkMode(myConfig);
 	QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
 	QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
 
@@ -1634,10 +1633,8 @@ void gameLobbyDialogImpl::changeGameListFilter(int index)
 
 	writeDialogSettings(1);
 
-	// Detect dark mode
-	QPalette palette = QApplication::palette();
-	QColor windowColor = palette.color(QPalette::Window);
-	bool isDarkMode = windowColor.lightness() < 128;
+	// Use DarkModeHelper for consistent dark mode detection with config override
+	bool isDarkMode = DarkModeHelper::isDarkMode(myConfig);
 	
 	QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
 	QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
@@ -2326,11 +2323,8 @@ void gameLobbyDialogImpl::updateGameListStyleSheet()
         return;
     }
     
-    QPalette palette = QApplication::palette();
-    QColor windowColor = palette.color(QPalette::Window);
-    
-    // Dark Mode?
-    bool isDarkMode = windowColor.lightness() < 128;
+    // Use DarkModeHelper for consistent dark mode detection with config override
+    bool isDarkMode = DarkModeHelper::isDarkMode(myConfig);
     
     QString backgroundColor = isDarkMode ? "#2b2b2b" : "white";
     QString textColor = isDarkMode ? "#ffffff" : "rgb(0, 0, 0)";
