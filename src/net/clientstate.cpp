@@ -2787,13 +2787,9 @@ ClientStateRunHand::ResetPlayerSets(Game &curGame)
     PlayerListIterator i = curGame.getSeatsList()->begin();
     PlayerListIterator end = curGame.getSeatsList()->end();
     while (i != end) {
-<<<<<<< HEAD
         qDebug() << "[RESET SETS] Player ID" << (*i)->getMyID() << (*i)->getMyName().c_str() << "- Before:" << (*i)->getMySet();
         (*i)->setMySetNull(); // CRITICAL: setMySet(0) doesn't work! Must use setMySetNull() to clear both mySet and myLastRelativeSet
         qDebug() << "[RESET SETS] Player ID" << (*i)->getMyID() << (*i)->getMyName().c_str() << "- After:" << (*i)->getMySet();
-=======
-        (*i)->setMySetNull();
->>>>>>> stable
         ++i;
     }
 }
