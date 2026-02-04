@@ -428,46 +428,83 @@ void
 ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetState() != SessionData::Closed) { // Make this call reentrant.
-		LOG_VERBOSE("Closing session #" << session->GetId() << ".");
+		try {
+			LOG_VERBOSE("Closing session #" << session->GetId() << ".");
 
-		boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
-		if (tmpGame) {
-			tmpGame->RemoveSession(session, NTF_NET_INTERNAL);
-		}
-		session->SetGame(boost::shared_ptr<ServerGame>());
-		
-		// Save the session state before marking as closed
-		SessionData::State oldState = session->GetState();
-		session->SetState(SessionData::Closed);
+			// Save the session state FIRST before any other operation
+			SessionData::State oldState = session->GetState();
+			session->SetState(SessionData::Closed);
+			
+			// Cancel all timers FIRST to prevent timer callbacks from accessing closing session
+			try {
+				session->CancelTimers();
+			} catch (const std::exception& e) {
+				LOG_ERROR("Exception cancelling timers for session #" << session->GetId() << ": " << e.what());
+			}
 
-		m_sessionManager.RemoveSession(session->GetId());
-		m_gameSessionManager.RemoveSession(session->GetId());
+			try {
+				boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
+				if (tmpGame) {
+					tmpGame->RemoveSession(session, NTF_NET_INTERNAL);
+				}
+				session->SetGame(boost::shared_ptr<ServerGame>());
+			} catch (const std::exception& e) {
+				LOG_ERROR("Exception removing session #" << session->GetId() << " from game: " << e.what());
+			}
 
-		if (session->GetPlayerData()) {
-			NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
-		}
-		// Update stats (if needed).
-		UpdateStatisticsNumberOfPlayers();
+			try {
+				m_sessionManager.RemoveSession(session->GetId());
+				m_gameSessionManager.RemoveSession(session->GetId());
+			} catch (const std::exception& e) {
+				LOG_ERROR("Exception removing session #" << session->GetId() << " from managers: " << e.what());
+			}
 
-		// Ignore error when shutting down the socket.
-		boost::shared_ptr<boost::asio::ip::tcp::socket> sock = session->GetAsioSocket();
-		if (sock) {
-			boost::system::error_code ec;
-			session->GetAsioSocket()->shutdown(boost::asio::ip::tcp::socket::shutdown_receive, ec);
+			try {
+				if (session->GetPlayerData()) {
+					NotifyPlayerLeftLobby(session->GetPlayerData()->GetUniqueId());
+				}
+			} catch (const std::exception& e) {
+				LOG_ERROR("Exception notifying player left for session #" << session->GetId() << ": " << e.what());
+			}
+			
+			// Update stats (if needed).
+			try {
+				UpdateStatisticsNumberOfPlayers();
+			} catch (...) {}
+
+			// Close sockets - wrap in try-catch to prevent exceptions from propagating
+			try {
+				// Shutdown and close sockets
+				if (session->IsSsl()) {
+					auto sslStream = session->GetSslStream();
+					if (sslStream) {
+						boost::system::error_code ec;
+						sslStream->lowest_layer().cancel(ec);  // Cancel pending async ops
+						sslStream->lowest_layer().shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+						sslStream->lowest_layer().close(ec);
+					}
+				} else {
+					boost::shared_ptr<boost::asio::ip::tcp::socket> sock = session->GetAsioSocket();
+					if (sock) {
+						boost::system::error_code ec;
+						sock->cancel(ec);  // Cancel pending async ops
+						sock->shutdown(boost::asio::ip::tcp::socket::shutdown_both, ec);
+						sock->close(ec);
+					}
+				}
+			} catch (const std::exception& e) {
+				LOG_ERROR("Exception closing socket for session #" << session->GetId() << ": " << e.what());
+			} catch (...) {
+				LOG_ERROR("Unknown exception closing socket for session #" << session->GetId());
+			}
+			
+			// Note: We no longer use CloseSocketHandle() recursively or SetCloseAfterSend 
+			// since we already closed the socket above
+		} catch (const std::exception& e) {
+			LOG_ERROR("Exception in CloseSession for session #" << session->GetId() << ": " << e.what());
+		} catch (...) {
+			LOG_ERROR("Unknown exception in CloseSession");
 		}
-		
-		// For Init state sessions (e.g., TLS handshake failures), close immediately
-		// For established sessions, close after sending pending messages
-		if (oldState == SessionData::Init) {
-			LOG_VERBOSE("[SERVER] Init state session - closing socket immediately");
-			session->Close();
-		} else {
-			// Close this session after send for established sessions
-			GetSender().SetCloseAfterSend(session);
-		}
-		
-		// Cancel all timers of the session.
-		session->CancelTimers();
 	}
 }
 
