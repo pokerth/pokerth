@@ -241,7 +241,7 @@ public:
             
             // Pause zwischen Bot-Logins
             if (i < numBots - 1) {
-                this_thread::sleep_for(chrono::seconds(4));
+                this_thread::sleep_for(chrono::milliseconds(500));
             }
         }
 
@@ -309,7 +309,7 @@ public:
         gameInfo->set_raiseeveryhands(11);  // MUSS 11 sein für Ranking Games!
         gameInfo->set_endraisemode(NetGameInfo::doubleBlinds);  // MUSS doubleBlinds sein!
         gameInfo->set_proposedguispeed(5);
-        gameInfo->set_delaybetweenhands(6);
+        gameInfo->set_delaybetweenhands(2);
         gameInfo->set_playeractiontimeout(10);
         gameInfo->set_endraisesmallblindvalue(0);
         gameInfo->set_firstsmallblind(50);  // MUSS 50 sein
@@ -452,7 +452,7 @@ private:
         for (int attempt = 0; attempt < 2; attempt++) {
             if (attempt > 0) {
                 cout << "\n[" << getTimestamp() << "] [" << bot->name() << "] Retry " << attempt << "/1..." << endl;
-                this_thread::sleep_for(chrono::milliseconds(3000)); // 3s delay vor retry
+                this_thread::sleep_for(chrono::milliseconds(500)); // 0.5s delay vor retry
             }
             
             try {
@@ -1126,7 +1126,7 @@ int main(int argc, char *argv[]) {
 
             // Weitere Bots joinen lassen (test1 hat schon das Game erstellt)
             if (numBots > 1) {
-                this_thread::sleep_for(chrono::seconds(3));
+                this_thread::sleep_for(chrono::milliseconds(500));
                 int botsToJoin = numBots - 1;  // -1 weil test1 bereits im Game ist
                 cout << "Joining " << botsToJoin << " more bots to game " << gameId << "..." << endl;
                 
@@ -1135,7 +1135,7 @@ int main(int argc, char *argv[]) {
                         cerr << "Failed to join bot " << i << " to game" << endl;
                         return 1;
                     }
-                    this_thread::sleep_for(chrono::seconds(2));
+                    this_thread::sleep_for(chrono::milliseconds(200));
                 }
                 
                 if (numHumans > 0) {
