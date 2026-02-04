@@ -5003,15 +5003,39 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Pokaż okno informacyjne przy starcie</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="199"/>
+        <source>Appearance:</source>
+        <translation>Wygląd:</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Show right toolbox</source>
         <translation>Pokaż prawy zestaw narzędzi</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1398"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1200"/>
-        <source>Show game settings dialog on every new game</source>
-        <translation>Zawsze pytaj o ustawienia przed rozpoczęciem gry</translation>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <source>Auto (System)</source>
+        <translation>Automatyczny (System)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="215"/>
+        <source>Light</source>
+        <translation>Jasny</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="220"/>
+        <source>Dark</source>
+        <translation>Ciemny</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
+        <source>Show left toolbox</source>
+        <translation>Pokaż lewy zestaw narzędzi</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Pokaż przyciski zakładu 33%/50%/100% puli</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1145"/>

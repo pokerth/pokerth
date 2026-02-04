@@ -5415,8 +5415,9 @@ p, li { white-space: pre-wrap; }
         <translation>Ψευδώνυμα/Εικόνα Παίχτη</translation>
     </message>
     <message>
-        <source>Show left toolbox </source>
-        <translation type="obsolete">Εμφάνιση αριστερού  toolbox </translation>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="199"/>
+        <source>Appearance:</source>
+        <translation>Εμφάνιση:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
@@ -5424,9 +5425,29 @@ p, li { white-space: pre-wrap; }
         <translation>Εμφάνιση δεξιού toolbox </translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <source>Auto (System)</source>
+        <translation>Αυτόματο (Σύστημα)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="215"/>
+        <source>Light</source>
+        <translation>Ανοιχτό</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="220"/>
+        <source>Dark</source>
+        <translation>Σκούρο</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
         <source>Show left toolbox</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Εμφάνιση κουμπιών πονταρίσματος 33%/50%/100% του pot</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1088"/>

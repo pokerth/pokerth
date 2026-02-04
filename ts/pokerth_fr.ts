@@ -6785,14 +6785,39 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Afficher l&apos;intro au démarrage</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="199"/>
+        <source>Appearance:</source>
+        <translation>Apparence :</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Show right toolbox</source>
         <translation>Afficher les fenêtres d&apos;info (onglets) en bas à droite</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <source>Auto (System)</source>
+        <translation>Automatique (Système)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="215"/>
+        <source>Light</source>
+        <translation>Clair</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="220"/>
+        <source>Dark</source>
+        <translation>Sombre</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
         <source>Show left toolbox</source>
         <translation>Afficher les fenêtres d&apos;info (onglets) en bas à gauche</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Afficher les boutons de mise 33%/50%/100% du pot</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1088"/>

@@ -6417,14 +6417,39 @@ p, li { white-space: pre-wrap; }
         <translation>Eigene Karten nur bei Mausklick anzeigen</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="199"/>
+        <source>Appearance:</source>
+        <translation>Erscheinungsbild:</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Show right toolbox</source>
         <translation>Rechte Toolbox anzeigen</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <source>Auto (System)</source>
+        <translation>Automatisch (System)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="215"/>
+        <source>Light</source>
+        <translation>Hell</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="220"/>
+        <source>Dark</source>
+        <translation>Dunkel</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
         <source>Show left toolbox</source>
         <translation>Linke Toolbox anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>33%/50%/100% Pot-Wett-Schaltflächen anzeigen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1088"/>

@@ -5088,9 +5088,29 @@ p, li { white-space: pre-wrap; }
         <translation>Spiller navn/avatars</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="199"/>
+        <source>Appearance:</source>
+        <translation>Udseende:</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Show right toolbox</source>
         <translation>Vis højre værktøjskasse</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <source>Auto (System)</source>
+        <translation>Automatisk (System)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="215"/>
+        <source>Light</source>
+        <translation>Lys</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="220"/>
+        <source>Dark</source>
+        <translation>Mørk</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="140"/>
@@ -5103,6 +5123,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
         <source>Show left toolbox</source>
         <translation>Vis venstre værktøjskasse</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Vis indsatsknapper for 33%/50%/100% af puljen</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="338"/>

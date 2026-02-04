@@ -5583,8 +5583,28 @@ p, li { white-space: pre-wrap; }(new line)
         <translation type="obsolete">Mostrar introdução ao iniciar</translation>
     </message>
     <message>
+        <source>Appearance:</source>
+        <translation>Aparência:</translation>
+    </message>
+    <message>
+        <source>Auto (System)</source>
+        <translation>Automático (Sistema)</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Claro</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>Escuro</translation>
+    </message>
+    <message>
         <source>Show left toolbox</source>
         <translation>Mostrar caixa de ferramentas a esquerda</translation>
+    </message>
+    <message>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Mostrar botões de aposta 33%/50%/100% do pote</translation>
     </message>
     <message>
         <source>Show right toolbox</source>

@@ -4507,12 +4507,32 @@ p, li { white-space: pre-wrap; }
         <translation>Hráčské přezdívky/avatary</translation>
     </message>
     <message>
+        <source>Appearance:</source>
+        <translation>Vzhled:</translation>
+    </message>
+    <message>
+        <source>Auto (System)</source>
+        <translation>Automaticky (Systém)</translation>
+    </message>
+    <message>
+        <source>Light</source>
+        <translation>Světlý</translation>
+    </message>
+    <message>
+        <source>Dark</source>
+        <translation>Tmavý</translation>
+    </message>
+    <message>
         <source>Show right toolbox</source>
         <translation>Zobrazit pravou nástrojovou lištu</translation>
     </message>
     <message>
         <source>Show left toolbox</source>
         <translation>Zobrazit levou nástrojovou lištu</translation>
+    </message>
+    <message>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Zobrazit tlačítka pro sázky 33%/50%/100% potu</translation>
     </message>
     <message>
         <source>Automatic Server Configuration URL</source>

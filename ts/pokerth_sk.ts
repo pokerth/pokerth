@@ -5534,15 +5534,39 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Zobrazovať na začiatku intro</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="199"/>
+        <source>Appearance:</source>
+        <translation>Výzor:</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="203"/>
         <source>Show right toolbox</source>
         <translation>Zobrazovať pravú nástrojovú lištu</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="1398"/>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="1200"/>
-        <source>Show game settings dialog on every new game</source>
-        <translation>Zobrazovať dialógové okno s nastaveniami pred každou novou hrou</translation>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="210"/>
+        <source>Auto (System)</source>
+        <translation>Automaticky (Systém)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="215"/>
+        <source>Light</source>
+        <translation>Svetlý</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="220"/>
+        <source>Dark</source>
+        <translation>Tmavý</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
+        <source>Show left toolbox</source>
+        <translation>Zobrazovať ľavú nástrojovú lištu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
+        <source>Show 33%/50%/100% pot bet sizing buttons</source>
+        <translation>Zobrazovať tlačidlá sádzok 33%/50%/100% potu</translation>
     </message>
     <message>
         <source>Hands before raise small blind:</source>
