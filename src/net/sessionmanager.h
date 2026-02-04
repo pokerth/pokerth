@@ -35,6 +35,7 @@
 
 #include <boost/function.hpp>
 #include <map>
+#include <vector>
 
 #include <net/sessiondata.h>
 #include <playerdata.h>
@@ -57,6 +58,7 @@ public:
 	boost::shared_ptr<SessionData> GetSessionById(SessionId id) const;
 	boost::shared_ptr<SessionData> GetSessionByPlayerName(const std::string &playerName) const;
 	boost::shared_ptr<SessionData> GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions = false) const;
+	std::vector<boost::shared_ptr<SessionData>> GetAllSessions() const;
 
 	PlayerDataList GetPlayerDataList() const;
 	PlayerDataList GetSpectatorDataList() const;

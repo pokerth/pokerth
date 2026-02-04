@@ -143,6 +143,21 @@ SessionManager::GetSessionByUniquePlayerId(unsigned uniqueId, bool initSessions)
 	return tmpSession;
 }
 
+std::vector<boost::shared_ptr<SessionData>>
+SessionManager::GetAllSessions() const
+{
+	std::vector<boost::shared_ptr<SessionData>> sessions;
+	boost::recursive_mutex::scoped_lock lock(m_sessionMapMutex);
+	
+	sessions.reserve(m_sessionMap.size());
+	for (const auto& pair : m_sessionMap) {
+		if (pair.second) {
+			sessions.push_back(pair.second);
+		}
+	}
+	return sessions;
+}
+
 PlayerDataList
 SessionManager::GetPlayerDataList() const
 {
@@ -291,7 +306,13 @@ SessionManager::ForEach(boost::function<void (boost::shared_ptr<SessionData>)> f
 	while (i != end) {
 		SessionMap::iterator next = i;
 		++next;
-		func((*i).second);
+		try {
+			func((*i).second);
+		} catch (const std::exception& e) {
+			LOG_ERROR("Exception in SessionManager::ForEach: " << e.what());
+		} catch (...) {
+			LOG_ERROR("Unknown exception in SessionManager::ForEach");
+		}
 		i = next;
 	}
 }
@@ -334,11 +355,20 @@ SessionManager::Clear()
 	SessionMap::iterator i = m_sessionMap.begin();
 	SessionMap::iterator end = m_sessionMap.end();
 
-	boost::system::error_code ec;
 	while (i != end) {
-		// Close all raw handles.
-		i->second->CloseSocketHandle();
-		i->second->CloseWebSocketHandle();
+		try {
+			// Setze State auf Closed ZUERST um weitere async-Operationen zu verhindern
+			i->second->SetState(SessionData::Closed);
+			// Cancel alle Timer
+			i->second->CancelTimers();
+			// Close all raw handles.
+			i->second->CloseSocketHandle();
+			i->second->CloseWebSocketHandle();
+		} catch (const std::exception& e) {
+			LOG_ERROR("Exception in SessionManager::Clear for session " << i->first << ": " << e.what());
+		} catch (...) {
+			LOG_ERROR("Unknown exception in SessionManager::Clear for session " << i->first);
+		}
 		++i;
 	}
 	m_sessionMap.clear();

@@ -69,13 +69,28 @@ void
 AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error)
 {
 	try {
+		// Prüfe ob Socket noch gültig ist
+		if (!socket) {
+			boost::mutex::scoped_lock lock(dataMutex);
+			curWriteBufUsed = 0;
+			sendBufUsed = 0;
+			closeAfterSend = false;
+			return;
+		}
+		
 		if (!error) {
 			// Successfully sent the data.
 			boost::mutex::scoped_lock lock(dataMutex);
 			curWriteBufUsed = 0;
 			// Send more data, if available.
 			AsyncSendNextPacket(socket);
-		} else if (error != boost::asio::error::operation_aborted) {
+		} else if (error == boost::asio::error::operation_aborted) {
+			// Operation abgebrochen - Puffer leeren, nicht mehr senden
+			boost::mutex::scoped_lock lock(dataMutex);
+			curWriteBufUsed = 0;
+			sendBufUsed = 0;
+			closeAfterSend = false;
+		} else {
 			// Write error - log and close socket
 			LOG_ERROR("HandleWrite error: " << error.message());
 			boost::mutex::scoped_lock lock(dataMutex);
@@ -83,18 +98,24 @@ AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> sock
 			sendBufUsed = 0;  // Discard pending data
 			closeAfterSend = false;
 			try {
-				boost::system::error_code ec;
-				socket->close(ec);
+				if (socket->is_open()) {
+					boost::system::error_code ec;
+					socket->close(ec);
+				}
 			} catch (...) {}
 		}
 	} catch (const std::exception& e) {
 		LOG_ERROR("Exception in HandleWrite: " << e.what());
-		try {
-			boost::system::error_code ec;
-			socket->close(ec);
-		} catch (...) {}
+		boost::mutex::scoped_lock lock(dataMutex);
+		curWriteBufUsed = 0;
+		sendBufUsed = 0;
+		closeAfterSend = false;
 	} catch (...) {
 		LOG_ERROR("Unknown exception in HandleWrite");
+		boost::mutex::scoped_lock lock(dataMutex);
+		curWriteBufUsed = 0;
+		sendBufUsed = 0;
+		closeAfterSend = false;
 	}
 }
 
@@ -103,12 +124,27 @@ void
 AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream, const boost::system::error_code &error)
 {
     try {
+        // Prüfe ob SSL-Stream noch gültig ist
+        if (!sslStream) {
+            boost::mutex::scoped_lock lock(dataMutex);
+            curWriteBufUsed = 0;
+            sendBufUsed = 0;
+            closeAfterSend = false;
+            return;
+        }
+        
         if (!error) {
             boost::mutex::scoped_lock lock(dataMutex);
             curWriteBufUsed = 0;
             // Weiter senden (ruft die passende SSL-Send-Funktion)
             AsyncSendNextPacketSsl(sslStream);
-        } else if (error != boost::asio::error::operation_aborted) {
+        } else if (error == boost::asio::error::operation_aborted) {
+            // Operation abgebrochen - Puffer leeren, nicht mehr senden
+            boost::mutex::scoped_lock lock(dataMutex);
+            curWriteBufUsed = 0;
+            sendBufUsed = 0;
+            closeAfterSend = false;
+        } else {
             // Write error - log and close socket
             LOG_ERROR("HandleWriteSsl error: " << error.message());
             boost::mutex::scoped_lock lock(dataMutex);
@@ -116,18 +152,24 @@ AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost:
             sendBufUsed = 0;  // Discard pending data
             closeAfterSend = false;
             try {
-                boost::system::error_code ec;
-                sslStream->lowest_layer().close(ec);
+                if (sslStream->lowest_layer().is_open()) {
+                    boost::system::error_code ec;
+                    sslStream->lowest_layer().close(ec);
+                }
             } catch (...) {}
         }
     } catch (const std::exception& e) {
         LOG_ERROR("Exception in HandleWriteSsl: " << e.what());
-        try {
-            boost::system::error_code ec;
-            sslStream->lowest_layer().close(ec);
-        } catch (...) {}
+        boost::mutex::scoped_lock lock(dataMutex);
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
     } catch (...) {
         LOG_ERROR("Unknown exception in HandleWriteSsl");
+        boost::mutex::scoped_lock lock(dataMutex);
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
     }
 }
 
@@ -183,6 +225,30 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 void
 AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::socket> socket)
 {
+    // KRITISCH: Prüfe ob Socket gültig und offen ist BEVOR wir async_write starten
+    if (!socket) {
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
+        return;
+    }
+    
+    try {
+        if (!socket->is_open()) {
+            // Socket bereits geschlossen - Puffer leeren und beenden
+            curWriteBufUsed = 0;
+            sendBufUsed = 0;
+            closeAfterSend = false;
+            return;
+        }
+    } catch (...) {
+        // Exception beim Prüfen - Socket ist wahrscheinlich ungültig
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
+        return;
+    }
+    
     if (!curWriteBufUsed) {
         // Swap buffers and send data.
 #if BOOST_VERSION >= 108400
@@ -195,15 +261,33 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::sock
 		boost::swap(curWriteBufUsed, sendBufUsed);
 #endif
         if (curWriteBufUsed) {
-            boost::asio::async_write(
-				*socket,
-				boost::asio::buffer(curWriteBuf, curWriteBufUsed),
-				boost::bind(&SendBuffer::HandleWrite,
-							shared_from_this(),
-							socket,
-							boost::asio::placeholders::error));
+            try {
+                // WICHTIG: Erneut prüfen ob Socket noch offen (Race Condition vermeiden)
+                if (!socket->is_open()) {
+                    curWriteBufUsed = 0;
+                    return;
+                }
+                
+                boost::asio::async_write(
+					*socket,
+					boost::asio::buffer(curWriteBuf, curWriteBufUsed),
+					boost::bind(&SendBuffer::HandleWrite,
+								shared_from_this(),
+								socket,
+								boost::asio::placeholders::error));
+            } catch (const std::exception& e) {
+                LOG_ERROR("Exception starting async_write TCP: " << e.what());
+                curWriteBufUsed = 0;
+            } catch (...) {
+                LOG_ERROR("Unknown exception starting async_write TCP");
+                curWriteBufUsed = 0;
+            }
         } else if (closeAfterSend) {
-            socket->close();
+            try {
+                boost::system::error_code ec;
+                socket->close(ec);
+            } catch (...) {}
+            closeAfterSend = false;
         }
     }
 }
@@ -212,6 +296,30 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<boost::asio::ip::tcp::sock
 void
 AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::basic_stream_socket<boost::asio::ip::tcp, boost::asio::any_io_executor>>> sslStream)
 {
+    // KRITISCH: Prüfe ob Stream gültig und Socket offen ist BEVOR wir async_write starten
+    if (!sslStream) {
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
+        return;
+    }
+    
+    try {
+        if (!sslStream->lowest_layer().is_open()) {
+            // Socket bereits geschlossen - Puffer leeren und beenden
+            curWriteBufUsed = 0;
+            sendBufUsed = 0;
+            closeAfterSend = false;
+            return;
+        }
+    } catch (...) {
+        // Exception beim Prüfen - Socket ist wahrscheinlich ungültig
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
+        return;
+    }
+    
     if (!curWriteBufUsed) {
 #if BOOST_VERSION >= 108400
         boost::core::invoke_swap(curWriteBuf, sendBuf);
@@ -223,15 +331,35 @@ AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::strea
         boost::swap(curWriteBufUsed, sendBufUsed);
 #endif
         if (curWriteBufUsed) {
-            boost::asio::async_write(
-                *sslStream,
-                boost::asio::buffer(curWriteBuf, curWriteBufUsed),
-                boost::bind(&AsioSendBuffer::HandleWriteSsl,
-                            this,
-                            sslStream,
-                            boost::asio::placeholders::error));
+            try {
+                // WICHTIG: Erneut prüfen ob Socket noch offen (Race Condition vermeiden)
+                if (!sslStream->lowest_layer().is_open()) {
+                    curWriteBufUsed = 0;
+                    return;
+                }
+                
+                // shared_from_this() verwenden um sicherzustellen dass das Objekt nicht
+                // während des async_write zerstört wird
+                boost::asio::async_write(
+                    *sslStream,
+                    boost::asio::buffer(curWriteBuf, curWriteBufUsed),
+                    boost::bind(&AsioSendBuffer::HandleWriteSsl,
+                                boost::static_pointer_cast<AsioSendBuffer>(shared_from_this()),
+                                sslStream,
+                                boost::asio::placeholders::error));
+            } catch (const std::exception& e) {
+                LOG_ERROR("Exception starting async_write SSL: " << e.what());
+                curWriteBufUsed = 0;
+            } catch (...) {
+                LOG_ERROR("Unknown exception starting async_write SSL");
+                curWriteBufUsed = 0;
+            }
         } else if (closeAfterSend) {
-            sslStream->lowest_layer().close();
+            try {
+                boost::system::error_code ec;
+                sslStream->lowest_layer().close(ec);
+            } catch (...) {}
+            closeAfterSend = false;
         }
     }
 }
