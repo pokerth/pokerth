@@ -10,7 +10,7 @@
 - removed libSDL dependency
 - implemented TLS for websocket-Server
 - implemented TLS for game-server & client
-- new feature: dark-/light-/auto (system) appearance mode with settings and translations
+- new feature: dark-/light-/auto (system) appearance mode with settings option and translations
 - replaced gsasl auth mechanism with plain text auth (encrypted in combination with TLS!)
 - macOS: several bugfixes, functional build for macOS Monterey as minimum OS version
 - android: Qt Widget GUI adapted to qt6 - no more fixed Width/Height values in ui files
