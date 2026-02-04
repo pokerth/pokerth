@@ -2555,6 +2555,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().waitForGuiUpdateDone();
 		
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
+		ResetPlayerSets(*curGame);
+
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_FLOP, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_FLOP);
 		client->GetClientLog()->logBoardCards(tmpCards);
@@ -2577,6 +2579,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().waitForGuiUpdateDone();
 		
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
+		ResetPlayerSets(*curGame);
+
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_TURN, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_TURN);
 		client->GetClientLog()->logBoardCards(tmpCards);
@@ -2599,6 +2603,8 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		client->GetGui().waitForGuiUpdateDone();
 		
 		curGame->getCurrentHand()->setPreviousPlayerID(-1);
+		ResetPlayerSets(*curGame);
+
 		client->GetGui().logDealBoardCardsMsg(GAME_STATE_RIVER, tmpCards[0], tmpCards[1], tmpCards[2], tmpCards[3], tmpCards[4]);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_RIVER);
 		client->GetClientLog()->logBoardCards(tmpCards);
@@ -2781,9 +2787,13 @@ ClientStateRunHand::ResetPlayerSets(Game &curGame)
     PlayerListIterator i = curGame.getSeatsList()->begin();
     PlayerListIterator end = curGame.getSeatsList()->end();
     while (i != end) {
+<<<<<<< HEAD
         qDebug() << "[RESET SETS] Player ID" << (*i)->getMyID() << (*i)->getMyName().c_str() << "- Before:" << (*i)->getMySet();
         (*i)->setMySetNull(); // CRITICAL: setMySet(0) doesn't work! Must use setMySetNull() to clear both mySet and myLastRelativeSet
         qDebug() << "[RESET SETS] Player ID" << (*i)->getMyID() << (*i)->getMyName().c_str() << "- After:" << (*i)->getMySet();
+=======
+        (*i)->setMySetNull();
+>>>>>>> stable
         ++i;
     }
 }

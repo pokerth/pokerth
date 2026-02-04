@@ -60,8 +60,6 @@
 #include "guilog.h"
 #include "darkmodehelper.h"
 
-#include <fstream> // for bbcbot accountname file reading
-
 #ifdef ANDROID
 #ifndef ANDROID_TEST
 #include <QJniEnvironment>
