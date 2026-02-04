@@ -776,6 +776,12 @@ void startWindowImpl::callLogFileDialog()
 
 void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration)
 {
+	// BBCBot: Automatically reset timeout without showing dialog
+	if (!mySession->bbcbotpassword.empty()) {
+		mySession->resetNetworkTimeout();
+		return;
+	}
+	
 	if(myTimeoutDialog->isHidden()) {
 		myTimeoutDialog->setMySession(mySession);
 		myTimeoutDialog->setMsgID((NetTimeoutReason)msgID);
