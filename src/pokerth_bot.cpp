@@ -309,8 +309,8 @@ public:
         gameInfo->set_raiseeveryhands(11);  // MUSS 11 sein für Ranking Games!
         gameInfo->set_endraisemode(NetGameInfo::doubleBlinds);  // MUSS doubleBlinds sein!
         gameInfo->set_proposedguispeed(5);
-        gameInfo->set_delaybetweenhands(2);
-        gameInfo->set_playeractiontimeout(10);
+        gameInfo->set_delaybetweenhands(5);
+        gameInfo->set_playeractiontimeout(5);
         gameInfo->set_endraisesmallblindvalue(0);
         gameInfo->set_firstsmallblind(50);  // MUSS 50 sein
         gameInfo->set_startmoney(10000);    // MUSS 10000 sein für Ranking Games!
