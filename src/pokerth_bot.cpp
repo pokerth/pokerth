@@ -384,18 +384,61 @@ public:
             try {
                 // LeaveGameRequestMessage senden falls in einem Spiel
                 if (bot->gameId() != 0) {
+                    cout << "[" << bot->name() << "] Leaving game " << bot->gameId() << "..." << endl;
                     boost::shared_ptr<NetPacket> leave(new NetPacket);
                     leave->GetMsg()->set_messagetype(PokerTHMessage::Type_LeaveGameRequestMessage);
                     LeaveGameRequestMessage *leaveMsg = leave->GetMsg()->mutable_leavegamerequestmessage();
                     leaveMsg->set_gameid(bot->gameId());
                     bot->sendMessage(leave);
-                    this_thread::sleep_for(chrono::milliseconds(50));
+                    this_thread::sleep_for(chrono::milliseconds(100));  // Warte auf Server-Verarbeitung
                 }
                 
-                // Socket sauber schließen
+                cout << "[" << bot->name() << "] Closing SSL connection..." << endl;
+                
+                // SSL Shutdown (bidirektional - wichtig!)
                 boost::system::error_code ec;
-                bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, ec);
-                bot->socket().lowest_layer().close(ec);
+                
+                // Erst SSL shutdown versuchen (aber mit Timeout, falls Server nicht antwortet)
+                if (useTls_) {
+                    // Setze non-blocking für den Shutdown um nicht zu blocken
+                    bot->socket().lowest_layer().non_blocking(true, ec);
+                    
+                    // SSL async_shutdown mit kurzem Timeout
+                    auto shutdownTimer = std::make_shared<boost::asio::deadline_timer>(io_);
+                    shutdownTimer->expires_from_now(boost::posix_time::seconds(2));
+                    
+                    std::atomic<bool> shutdownDone(false);
+                    
+                    shutdownTimer->async_wait([&shutdownDone, &bot](const boost::system::error_code&) {
+                        if (!shutdownDone) {
+                            // Timeout: Force close
+                            boost::system::error_code ec2;
+                            bot->socket().lowest_layer().close(ec2);
+                            shutdownDone = true;
+                        }
+                    });
+                    
+                    bot->socket().async_shutdown([&shutdownDone, shutdownTimer](const boost::system::error_code&) {
+                        shutdownTimer->cancel();
+                        shutdownDone = true;
+                    });
+                    
+                    // Poll bis shutdown fertig oder timeout
+                    while (!shutdownDone) {
+                        io_.poll_one();
+                        this_thread::sleep_for(chrono::milliseconds(10));
+                    }
+                }
+                
+                // Socket schließen (falls noch offen)
+                if (bot->socket().lowest_layer().is_open()) {
+                    bot->socket().lowest_layer().shutdown(tcp::socket::shutdown_both, ec);
+                    bot->socket().lowest_layer().close(ec);
+                }
+                
+                cout << "[" << bot->name() << "] Disconnected." << endl;
+            } catch (const std::exception& e) {
+                cerr << "[" << bot->name() << "] Shutdown error: " << e.what() << endl;
             } catch (...) {
                 // Ignoriere Fehler beim Shutdown
             }

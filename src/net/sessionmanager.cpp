@@ -33,6 +33,7 @@
 #include <net/senderhelper.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
+#include <core/loghelper.h>
 
 #include <ctime>
 
@@ -395,13 +396,24 @@ SessionManager::SendToAllSessions(SenderHelper &sender, boost::shared_ptr<NetPac
 	SessionMap::iterator end = m_sessionMap.end();
 
 	while (i != end) {
-		if (!i->second.get())
-			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-
-		// Send each client (with a certain state) a copy of the packet.
-		if ((i->second->GetState() & state) != 0)
-			sender.Send(i->second, packet);
-		++i;
+		SessionMap::iterator next = i;
+		++next;  // Sichere nächste Position vor möglicher Modifikation
+		
+		try {
+			if (i->second.get()) {
+				// Prüfe ob Session noch offen ist (nicht Closed)
+				SessionData::State sessionState = i->second->GetState();
+				if (sessionState != SessionData::Closed && (sessionState & state) != 0) {
+					sender.Send(i->second, packet);
+				}
+			}
+		} catch (const std::exception& e) {
+			LOG_ERROR("Exception in SendToAllSessions for session " << i->first << ": " << e.what());
+		} catch (...) {
+			LOG_ERROR("Unknown exception in SendToAllSessions for session " << i->first);
+		}
+		
+		i = next;
 	}
 }
 
@@ -414,13 +426,24 @@ SessionManager::SendLobbyMsgToAllSessions(SenderHelper &sender, boost::shared_pt
 	SessionMap::iterator end = m_sessionMap.end();
 
 	while (i != end) {
-		if (!i->second.get())
-			throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
-
-		// Send each client (with a certain state) a copy of the packet.
-		if ((i->second->GetState() & state) != 0 && i->second->WantsLobbyMsg())
-			sender.Send(i->second, packet);
-		++i;
+		SessionMap::iterator next = i;
+		++next;  // Sichere nächste Position vor möglicher Modifikation
+		
+		try {
+			if (i->second.get()) {
+				// Prüfe ob Session noch offen ist (nicht Closed)
+				SessionData::State sessionState = i->second->GetState();
+				if (sessionState != SessionData::Closed && (sessionState & state) != 0 && i->second->WantsLobbyMsg()) {
+					sender.Send(i->second, packet);
+				}
+			}
+		} catch (const std::exception& e) {
+			LOG_ERROR("Exception in SendLobbyMsgToAllSessions for session " << i->first << ": " << e.what());
+		} catch (...) {
+			LOG_ERROR("Unknown exception in SendLobbyMsgToAllSessions for session " << i->first);
+		}
+		
+		i = next;
 	}
 }
 
@@ -433,11 +456,24 @@ SessionManager::SendToAllButOneSessions(SenderHelper &sender, boost::shared_ptr<
 	SessionMap::iterator end = m_sessionMap.end();
 
 	while (i != end) {
-		// Send each fully connected client but one a copy of the packet.
-		if ((i->second->GetState() & state) != 0)
-			if (i->first != except)
-				sender.Send(i->second, packet);
-		++i;
+		SessionMap::iterator next = i;
+		++next;  // Sichere nächste Position vor möglicher Modifikation
+		
+		try {
+			if (i->second.get() && i->first != except) {
+				// Prüfe ob Session noch offen ist (nicht Closed)
+				SessionData::State sessionState = i->second->GetState();
+				if (sessionState != SessionData::Closed && (sessionState & state) != 0) {
+					sender.Send(i->second, packet);
+				}
+			}
+		} catch (const std::exception& e) {
+			LOG_ERROR("Exception in SendToAllButOneSessions for session " << i->first << ": " << e.what());
+		} catch (...) {
+			LOG_ERROR("Unknown exception in SendToAllButOneSessions for session " << i->first);
+		}
+		
+		i = next;
 	}
 }
 

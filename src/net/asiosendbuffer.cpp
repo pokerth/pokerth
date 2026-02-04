@@ -136,21 +136,47 @@ AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 {
     try {
         if (!session) return;
+        
+        // Prüfe ob Session noch offen ist
+        if (session->GetState() == SessionData::Closed) {
+            // Session bereits geschlossen, Puffer leeren
+            curWriteBufUsed = 0;
+            sendBufUsed = 0;
+            closeAfterSend = false;
+            return;
+        }
+        
         if (session->IsSsl()) {
             auto sslStream = session->GetSslStream();
-            if (sslStream) {
+            if (sslStream && sslStream->lowest_layer().is_open()) {
                 AsyncSendNextPacketSsl(sslStream);
+            } else {
+                // Socket geschlossen, Puffer leeren
+                curWriteBufUsed = 0;
+                sendBufUsed = 0;
+                closeAfterSend = false;
             }
         } else {
             auto socket = session->GetAsioSocket();
-            if (socket) {
+            if (socket && socket->is_open()) {
                 AsyncSendNextPacket(socket);
+            } else {
+                // Socket geschlossen, Puffer leeren
+                curWriteBufUsed = 0;
+                sendBufUsed = 0;
+                closeAfterSend = false;
             }
         }
     } catch (const std::exception& e) {
         LOG_ERROR("Exception in AsyncSendNextPacket: " << e.what());
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
     } catch (...) {
         LOG_ERROR("Unknown exception in AsyncSendNextPacket");
+        curWriteBufUsed = 0;
+        sendBufUsed = 0;
+        closeAfterSend = false;
     }
 }
 
