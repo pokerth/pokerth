@@ -5,12 +5,12 @@
 		<Name value="PokerTH Official Server (TLS)"/>
 		<Sponsor value="PokerTH.net"/>
 		<Country value="de"/>
-		<IPv4Address value="pthsrv.inquies.de"/>
-		<IPv6Address value="pthsrv.inquies.de"/>
+		<IPv4Address value="new.server.example.com"/>
+		<IPv6Address value="new.server.example.com"/>
 		<SCTP value="0"/>
 		<TLS value="on"/>
 		<ProtobufPort value="7236"/>
-		<AvatarServerAddress value="pthsrv.inquies.de"/>
+		<AvatarServerAddress value="new.server.example.com"/>
 	</Server>
 
 	<!-- Example: Legacy server without TLS (for transition period) -->

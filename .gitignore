@@ -18,6 +18,7 @@ build*/
 docker/android/build/
 /chatcleaner
 docker/linux/pokerth-linux-binary/
+*workspace
 
 # Test infrastructure - sensitive data
 *_with_key.sh

@@ -37,10 +37,3 @@ SQL TEMPLATE
 Die Datei create_test_users.sql enthält ein Template.
 Ersetze 'YOUR_AES_KEY_HERE' mit deinem Key vor der Nutzung!
 
-GITIGNORE
-=========
-Folgende Dateien werden NICHT ins Repo committed:
-- *_with_key.sh
-- *.key
-- *.aes  
-- *_private.sql
