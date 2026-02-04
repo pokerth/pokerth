@@ -404,8 +404,8 @@ public:
                     bot->socket().lowest_layer().non_blocking(true, ec);
                     
                     // SSL async_shutdown mit kurzem Timeout
-                    auto shutdownTimer = std::make_shared<boost::asio::deadline_timer>(io_);
-                    shutdownTimer->expires_from_now(boost::posix_time::seconds(2));
+                    auto shutdownTimer = std::make_shared<boost::asio::steady_timer>(io_);
+                    shutdownTimer->expires_after(std::chrono::seconds(2));
                     
                     std::atomic<bool> shutdownDone(false);
                     
@@ -472,8 +472,8 @@ private:
                 atomic<bool> connectComplete(false);
                 boost::system::error_code connectEc;
                 
-                auto connectTimer = make_shared<boost::asio::deadline_timer>(io_);
-                connectTimer->expires_from_now(boost::posix_time::seconds(10));
+                auto connectTimer = make_shared<boost::asio::steady_timer>(io_);
+                connectTimer->expires_after(std::chrono::seconds(10));
                 
                 connectTimer->async_wait([&connectComplete, &connectEc, &bot, connectTimer](const boost::system::error_code& ec) {
                     if (!ec && !connectComplete) {
@@ -517,7 +517,7 @@ private:
                     cerr << "\n[" << bot->name() << "] Warning: Could not set TCP_NODELAY: " << ec.message() << endl;
                 }
                 
-                // TLS Handshake mit async + deadline_timer (exakt wie GUI Client)
+                // TLS Handshake mit async + steady_timer (exakt wie GUI Client)
                 if (useTls_) {
                     cout << " [" << getTimestamp() << "] TLS handshake..." << flush;
                     
@@ -525,8 +525,8 @@ private:
                     boost::system::error_code handshakeEc;
                     
                     // Erstelle Timeout-Timer (als shared_ptr um Lebensdauer zu kontrollieren)
-                    auto handshakeTimer = make_shared<boost::asio::deadline_timer>(io_);
-                    handshakeTimer->expires_from_now(boost::posix_time::seconds(12));
+                    auto handshakeTimer = make_shared<boost::asio::steady_timer>(io_);
+                    handshakeTimer->expires_after(std::chrono::seconds(12));
                     
                     // Timer-Callback für Timeout
                     handshakeTimer->async_wait([&handshakeComplete, &handshakeEc, &bot, handshakeTimer](const boost::system::error_code& ec) {
