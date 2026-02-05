@@ -289,11 +289,7 @@ add_executable(pokerth_bot src/pokerth_bot.cpp)
 target_link_libraries(pokerth_bot
     PRIVATE
     pokerth_lib
-    pokerth_protocol
-    Boost::system
     Boost::program_options
-    OpenSSL::SSL
-    OpenSSL::Crypto
 )
 target_include_directories(pokerth_bot PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
