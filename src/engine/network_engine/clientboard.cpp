@@ -153,7 +153,105 @@ ClientBoard::distributePot(unsigned)
 void
 ClientBoard::determinePlayerNeedToShowCards()
 {
+	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
+	playerNeedToShowCards.clear();
 
+	// in All In Condition everybody have to show the cards
+	if(allInCondition) {
+		PlayerListConstIterator it_c;
+		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
+			if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+				playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+			}
+		}
+	} else {
+		// all winners have to show their cards
+		std::list<std::pair<int,int> > level;
+		PlayerListConstIterator lastActionPlayerIt;
+		PlayerListConstIterator it_c;
+
+		// search lastActionPlayer
+		for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
+			if((*it_c)->getMyUniqueID() == lastActionPlayerID && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+				lastActionPlayerIt = it_c;
+				break;
+			}
+		}
+
+		if(it_c == activePlayerList->end()) {
+			for(it_c = activePlayerList->begin(); it_c != activePlayerList->end(); ++it_c) {
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+					lastActionPlayerIt = it_c;
+					break;
+				}
+			}
+		}
+
+		// the player who has done the last action has to show his cards first
+		playerNeedToShowCards.push_back((*lastActionPlayerIt)->getMyUniqueID());
+
+		std::pair<int,int> level_tmp;
+		// get position und cardsValue of the player who show his cards first
+		level_tmp.first = (*lastActionPlayerIt)->getMyCardsValueInt();
+		level_tmp.second = (*lastActionPlayerIt)->getMyRoundStartCash()-(*lastActionPlayerIt)->getMyCash();
+
+		level.push_back(level_tmp);
+
+		std::list<std::pair<int,int> >::iterator level_it;
+		std::list<std::pair<int,int> >::iterator next_level_it;
+
+		it_c = lastActionPlayerIt;
+		++it_c;
+
+		for(unsigned i = 0; i < activePlayerList->size(); i++) {
+			if(it_c == activePlayerList->end()) it_c = activePlayerList->begin();
+
+			if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD) {
+				for(level_it = level.begin(); level_it != level.end(); ++level_it) {
+					if((*it_c)->getMyCardsValueInt() > (*level_it).first) {
+						next_level_it = level_it;
+						++next_level_it;
+						if(next_level_it == level.end()) {
+							playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+							level_tmp.first = (*it_c)->getMyCardsValueInt();
+							level_tmp.second = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+							level.push_back(level_tmp);
+							break;
+						}
+					} else {
+						if((*it_c)->getMyCardsValueInt() == (*level_it).first) {
+							next_level_it = level_it;
+							++next_level_it;
+
+							if(next_level_it == level.end() || (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*next_level_it).second) {
+								playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+								if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it).second) {
+									(*level_it).second = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+								}
+							}
+							break;
+						} else {
+							if((*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash() > (*level_it).second) {
+								playerNeedToShowCards.push_back((*it_c)->getMyUniqueID());
+								level_tmp.first = (*it_c)->getMyCardsValueInt();
+								level_tmp.second = (*it_c)->getMyRoundStartCash()-(*it_c)->getMyCash();
+
+								level.insert(level_it,level_tmp);
+
+								break;
+							}
+						}
+					}
+				}
+			}
+			++it_c;
+		}
+		level.clear();
+	}
+
+	// sort and unique the list
+	playerNeedToShowCards.sort();
+	playerNeedToShowCards.unique();
 }
 
 std::list<unsigned>

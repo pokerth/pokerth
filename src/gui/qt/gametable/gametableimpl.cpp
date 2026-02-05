@@ -67,6 +67,7 @@
 #include <net/socket_msg.h>
 
 #include <cmath>
+#include <algorithm>
 
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
@@ -2715,7 +2716,9 @@ void gameTableImpl::postRiverRunAnimation3()
 	list<unsigned> winners = currentHand->getBoard()->getWinners();
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
+		// Nur echte Winner anzeigen (die in der winners-Liste sind), nicht nur höchster Kartenwert
+		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && isWinner) {
 
 			//Show "Winner" label
 			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(7))));

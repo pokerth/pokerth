@@ -269,6 +269,8 @@ ClientHand::setAllInCondition(bool theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	allInCondition = theValue;
+	// Also update the board so determinePlayerNeedToShowCards() works correctly
+	myBoard->setAllInCondition(theValue);
 }
 
 bool
@@ -311,6 +313,8 @@ ClientHand::setLastActionPlayerID (unsigned theValue)
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 	lastActionPlayerID = theValue;
+	// Also update the board so determinePlayerNeedToShowCards() works correctly
+	myBoard->setLastActionPlayerID(theValue);
 }
 
 unsigned

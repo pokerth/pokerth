@@ -2461,6 +2461,17 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		curGame->getCurrentHand()->getCurrentBeRo()->setHighestSet(netActionDone.highestset());
 		curGame->getCurrentHand()->getCurrentBeRo()->setMinimumRaise(netActionDone.minimumraise());
 		
+		// Track lastActionPlayerID for showdown card reveal logic (same as server)
+		PlayerAction action = PlayerAction(netActionDone.playeraction());
+		if (action == PLAYER_ACTION_BET || action == PLAYER_ACTION_RAISE) {
+			curGame->getCurrentHand()->setLastActionPlayerID(tmpPlayer->getMyUniqueID());
+		} else if (action == PLAYER_ACTION_ALLIN) {
+			// All-in counts as last action only if it raises the highest set
+			if (tmpPlayer->getMySet() > curGame->getCurrentHand()->getCurrentBeRo()->getHighestSet()) {
+				curGame->getCurrentHand()->setLastActionPlayerID(tmpPlayer->getMyUniqueID());
+			}
+		}
+		
 		// collectSets() and switchRounds() are always called when shouldUpdateSet is true
 		curGame->getCurrentHand()->getBoard()->collectSets();
 		curGame->getCurrentHand()->switchRounds();
@@ -2690,7 +2701,6 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 
 		// End of Hand, show cards.
 		list<unsigned> winnerList;
-		list<unsigned> showList;
 		int highestValueOfCards = 0;
 		unsigned numResults = showCards.playerresults_size();
 		// Request player info for players if needed.
@@ -2727,13 +2737,17 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 			
 			if (r.moneywon())
 				winnerList.push_back(r.playerid());
-			qDebug() << "[SHOWCARD CLI] Adding player ID" << r.playerid() << "to showList";
-			showList.push_back(r.playerid());
 		}
-		qDebug() << "[SHOWCARD CLI] Final showList size:" << showList.size();
 
-		// Reset all player actions after showdown to avoid displaying wrong cards in next hand
-		ResetPlayerActions(*curGame);
+		// Let the client determine which players need to show cards based on poker rules
+		// (instead of showing all players from playerresults)
+		curGame->getCurrentHand()->getBoard()->determinePlayerNeedToShowCards();
+		std::list<unsigned> showList = curGame->getCurrentHand()->getBoard()->getPlayerNeedToShowCards();
+		qDebug() << "[SHOWCARD CLI] determinePlayerNeedToShowCards returned showList size:" << showList.size();
+
+		// NOTE: Do NOT call ResetPlayerActions here!
+		// The GUI needs the FOLD actions intact to decide which cards to show in postRiverRunAnimation2().
+		// Player actions are reset properly in initHand() when the next hand starts.
 
 		curGame->getCurrentHand()->setCurrentRound(GAME_STATE_POST_RIVER);
 		client->GetClientLog()->setCurrentRound(GAME_STATE_POST_RIVER);
@@ -2774,7 +2788,11 @@ ClientStateRunHand::ResetPlayerActions(Game &curGame)
     PlayerListIterator i = curGame.getActivePlayerList()->begin();
     PlayerListIterator end = curGame.getActivePlayerList()->end();
     while (i != end) {
-        (*i)->setMyAction(PLAYER_ACTION_NONE);
+        // WICHTIG: FOLD-Actions NIEMALS zurücksetzen!
+        // Sonst wissen wir beim Showdown nicht mehr wer gefoldet hat.
+        if ((*i)->getMyAction() != PLAYER_ACTION_FOLD) {
+            (*i)->setMyAction(PLAYER_ACTION_NONE);
+        }
         ++i;
     }
 }

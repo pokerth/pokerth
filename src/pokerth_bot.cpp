@@ -46,6 +46,7 @@
 #include <csignal>
 #include <atomic>
 #include <future>
+#include <random>
 #include <sys/socket.h>
 #include <sys/time.h>
 
@@ -77,12 +78,26 @@ static string getTimestamp() {
 class BotSession {
 public:
     BotSession(boost::asio::io_context &io, ssl::context &sslCtx, 
-               const string &name, const string &password)
+               const string &name, const string &password, int foldPercent = 0)
         : socket_(io, sslCtx), name_(name), password_(password), 
           playerId_(0), gameId_(0), handNum_(0), mySet_(0), highestSet_(0), 
-          myCash_(10000), lastGameState_(netStatePreflop), currentGameState_(netStatePreflop), isAllIn_(false), recBufPos_(0) {
+          myCash_(10000), lastGameState_(netStatePreflop), currentGameState_(netStatePreflop), 
+          isAllIn_(false), foldPercent_(foldPercent), rng_(std::random_device{}()), recBufPos_(0) {
         recBuf_.fill(0);
     }
+    
+    // Check ob dieser Bot zufällig folden soll (basierend auf foldPercent_)
+    // Die ersten 2 Bots (test1, test2) folden NIE - garantierte Caller
+    bool shouldRandomFold() {
+        if (foldPercent_ <= 0) return false;
+        // test1 und test2 sind "permanente Caller" - folden nie
+        if (name_ == "test1" || name_ == "test2") return false;
+        if (foldPercent_ >= 100) return true;
+        std::uniform_int_distribution<int> dist(1, 100);
+        return dist(rng_) <= foldPercent_;
+    }
+    
+    int foldPercent() const { return foldPercent_; }
 
     ssl::stream<tcp::socket>& socket() { return socket_; }
     const string& name() const { return name_; }
@@ -106,11 +121,12 @@ public:
     bool isAllIn() const { return isAllIn_; }
     void setIsAllIn(bool val) { isAllIn_ = val; }
 
-    // Empfange Nachricht (blocking)
-    boost::shared_ptr<NetPacket> receiveMessage() {
+    // Empfange Nachricht (non-blocking: gibt nullptr zurück wenn keine vollständige Nachricht verfügbar)
+    boost::shared_ptr<NetPacket> receiveMessage(bool blocking = false) {
         boost::shared_ptr<NetPacket> tmpPacket;
 
         do {
+            // Prüfe ob ein vollständiges Paket im Buffer ist
             if (recBufPos_ >= NET_HEADER_SIZE) {
                 uint32_t nativeVal;
                 memcpy(&nativeVal, recBuf_.data(), sizeof(uint32_t));
@@ -130,6 +146,7 @@ public:
                             if (recBufPos_) {
                                 memmove(recBuf_.data(), recBuf_.data() + packetSize + NET_HEADER_SIZE, recBufPos_);
                             }
+                            return tmpPacket;  // Vollständiges Paket gefunden!
                         }
                     } catch (const exception &e) {
                         recBufPos_ = 0;
@@ -139,30 +156,51 @@ public:
                 }
             }
 
-            if (!tmpPacket) {
-                boost::system::error_code ec;
-                size_t bytesRead = socket_.read_some(
-                    boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec);
-                
-                if (ec == boost::asio::error::eof) {
-                    cerr << "[" << name_ << "] Connection closed by server" << endl;
-                    return boost::shared_ptr<NetPacket>();
-                } else if (ec == boost::asio::error::timed_out) {
-                    cerr << "[" << name_ << "] Read timeout (server not responding)" << endl;
-                    return boost::shared_ptr<NetPacket>();
-                } else if (ec) {
-                    cerr << "[" << name_ << "] Read error: " << ec.message() << " (code: " << ec.value() << ")" << endl;
-                    return boost::shared_ptr<NetPacket>();
-                }
-                
-                if (bytesRead == 0) {
-                    cerr << "[" << name_ << "] No data read (connection closed?)" << endl;
-                    return boost::shared_ptr<NetPacket>();
-                }
-                
-                recBufPos_ += bytesRead;
+            // Prüfe ob mehr Daten verfügbar sind
+            boost::system::error_code ec;
+            size_t available = socket_.lowest_layer().available(ec);
+            
+            if (ec) {
+                cerr << "[" << name_ << "] Available check error: " << ec.message() << endl;
+                return boost::shared_ptr<NetPacket>();
             }
-        } while (!tmpPacket);
+            
+            // Wenn keine Daten verfügbar und non-blocking, sofort zurückkehren
+            if (available == 0 && !blocking) {
+                return boost::shared_ptr<NetPacket>();
+            }
+            
+            // Lese verfügbare Daten (oder blockiere wenn blocking=true)
+            size_t bytesRead = socket_.read_some(
+                boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec);
+            
+            if (ec == boost::asio::error::eof) {
+                cerr << "[" << name_ << "] Connection closed by server" << endl;
+                return boost::shared_ptr<NetPacket>();
+            } else if (ec == boost::asio::error::would_block || ec == boost::asio::error::try_again) {
+                // Non-blocking socket hat keine Daten - das ist OK
+                if (!blocking) {
+                    return boost::shared_ptr<NetPacket>();
+                }
+                continue;  // Im blocking-Modus weitermachen
+            } else if (ec == boost::asio::error::timed_out) {
+                cerr << "[" << name_ << "] Read timeout (server not responding)" << endl;
+                return boost::shared_ptr<NetPacket>();
+            } else if (ec) {
+                cerr << "[" << name_ << "] Read error: " << ec.message() << " (code: " << ec.value() << ")" << endl;
+                return boost::shared_ptr<NetPacket>();
+            }
+            
+            if (bytesRead == 0) {
+                if (!blocking) {
+                    return boost::shared_ptr<NetPacket>();
+                }
+                cerr << "[" << name_ << "] No data read (connection closed?)" << endl;
+                return boost::shared_ptr<NetPacket>();
+            }
+            
+            recBufPos_ += bytesRead;
+        } while (blocking || recBufPos_ > 0);
 
         return tmpPacket;
     }
@@ -200,6 +238,8 @@ private:
     NetGameState lastGameState_; // Letzter GameState für Rejection-Fallback
     NetGameState currentGameState_; // Aktueller GameState (Preflop/Flop/Turn/River)
     bool isAllIn_;          // Merke ob Bot All-In ist in dieser Hand
+    int foldPercent_;       // Wahrscheinlichkeit für zufälliges Fold (0-100)
+    mutable std::mt19937 rng_;  // Random number generator für fold
     boost::array<char, BUF_SIZE> recBuf_;
     size_t recBufPos_;
 };
@@ -207,9 +247,9 @@ private:
 // Bot Controller - Verwaltet alle Bots
 class BotController {
 public:
-    BotController(const string &server, const string &port, bool useTls)
+    BotController(const string &server, const string &port, bool useTls, int foldPercent = 0)
         : io_(), sslCtx_(ssl::context::sslv23_client),  // sslv23 = TLS 1.0-1.3 (wie GUI Client)
-          server_(server), port_(port), useTls_(useTls) {
+          server_(server), port_(port), useTls_(useTls), foldPercent_(foldPercent) {
         
         if (useTls_) {
             sslCtx_.set_verify_mode(ssl::verify_none);
@@ -225,11 +265,15 @@ public:
 
     // Erstelle und starte N Bots
     bool createBots(int numBots, int startId, const string &password) {
-        cout << "Creating " << numBots << " bots..." << endl;
+        cout << "Creating " << numBots << " bots...";
+        if (foldPercent_ > 0) {
+            cout << " (fold probability: " << foldPercent_ << "%)";
+        }
+        cout << endl;
 
         for (int i = 0; i < numBots; i++) {
             string botName = "test" + to_string(startId + i);
-            auto bot = make_shared<BotSession>(io_, sslCtx_, botName, password);
+            auto bot = make_shared<BotSession>(io_, sslCtx_, botName, password, foldPercent_);
             
             if (!connectBot(bot)) {
                 cerr << "[" << getTimestamp() << "] Failed to connect bot: " << botName << endl;
@@ -323,7 +367,7 @@ public:
         // Warte auf JoinGameAck (Server kann mehrere Messages senden)
         uint32_t createdGameId = 0;
         for (int attempts = 0; attempts < 20; attempts++) {  // Max 20 Messages
-            auto reply = creator->receiveMessage();
+            auto reply = creator->receiveMessage(true);  // blocking: wait for JoinGameAck
             if (!reply) {
                 cerr << "[" << creator->name() << "] Connection lost while waiting for JoinGameAck" << endl;
                 return 0;
@@ -358,24 +402,22 @@ public:
         cout << "Bots running... Press Ctrl+C to exit" << endl;
         
         while (!g_shutdownRequested) {
+            bool anyActivity = false;
+            
             for (auto &bot : bots_) {
-                // ALLE verfügbaren Messages sofort verarbeiten
-                boost::system::error_code ec;
-                size_t available = bot->socket().lowest_layer().available(ec);
-                
-                while (!ec && available > 0) {
-                    auto msg = bot->receiveMessage();
-                    if (msg) {
-                        handleMessage(bot, msg);
-                    } else {
-                        break;  // Keine Message mehr verfügbar oder Fehler
-                    }
-                    // Check wieder für weitere Messages
-                    available = bot->socket().lowest_layer().available(ec);
+                // ALLE verfügbaren Messages sofort verarbeiten (non-blocking)
+                auto msg = bot->receiveMessage();  // non-blocking by default
+                while (msg) {
+                    handleMessage(bot, msg);
+                    anyActivity = true;
+                    msg = bot->receiveMessage();  // Nächste Message
                 }
             }
             
-            this_thread::sleep_for(chrono::milliseconds(10));  // Kürzerer Poll-Interval
+            // Nur schlafen wenn keine Aktivität war (verhindert unnötiges Warten)
+            if (!anyActivity) {
+                this_thread::sleep_for(chrono::milliseconds(1));  // Minimaler Poll-Interval
+            }
         }
         
         // Graceful Shutdown: Alle Bots sauber disconnecten
@@ -587,7 +629,7 @@ private:
                             // WICHTIG: Altes Socket-Objekt vollständig verwerfen
                             bot.reset();
                             // Neues Socket erstellen für retry mit gespeicherten Werten
-                            bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
+                            bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
                             continue; // Retry
                         }
                         return false;
@@ -597,7 +639,7 @@ private:
                 // TLS Handshake erfolgreich - weiter mit Announce/Init
                 cout << " Waiting for announce..." << flush;
                 // Empfange AnnounceMessage
-                auto announce = bot->receiveMessage();
+                auto announce = bot->receiveMessage(true);  // blocking: wait for AnnounceMessage
                 if (!announce || announce->GetMsg()->messagetype() != PokerTHMessage::Type_AnnounceMessage) {
                     cerr << "\n[" << bot->name() << "] No announce message" << endl;
                     if (attempt < 1) {
@@ -609,7 +651,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
                         continue; // Retry
                     }
                     return false;
@@ -637,7 +679,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
                         continue; // Retry
                     }
                     return false;
@@ -645,7 +687,7 @@ private:
 
                 cout << " Waiting for init ack..." << flush;
                 // Empfange InitAckMessage
-                auto initAck = bot->receiveMessage();
+                auto initAck = bot->receiveMessage(true);  // blocking: wait for InitAck
                 if (!initAck) {
                     cerr << "\n[" << bot->name() << "] Connection lost waiting for init ack" << endl;
                     if (attempt < 1) {
@@ -656,7 +698,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
                         continue; // Retry
                     }
                     return false;
@@ -673,7 +715,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
                         continue; // Retry
                     }
                     return false;
@@ -697,7 +739,7 @@ private:
                     // Altes Objekt vollständig verwerfen
                     bot.reset();
                     // Neues Socket erstellen für retry
-                    bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword);
+                    bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
                     continue; // Retry
                 }
                 return false;
@@ -721,7 +763,7 @@ private:
 
         // Warte auf JoinGameAck - ALLE Messages konsumieren!
         for (int attempts = 0; attempts < 50; attempts++) {
-            auto reply = bot->receiveMessage();
+            auto reply = bot->receiveMessage(true);  // blocking: wait for JoinGameReply
             if (!reply) {
                 cerr << "[" << bot->name() << "] Connection lost while waiting for JoinGameAck" << endl;
                 return false;
@@ -890,16 +932,10 @@ private:
                 
                 // WICHTIG: Erst ALLE ausstehenden Messages verarbeiten (z.B. PlayersActionDoneMessage)
                 // um sicherzustellen, dass mySet/highestSet aktuell sind!
-                boost::system::error_code ec;
-                size_t available = bot->socket().lowest_layer().available(ec);
-                while (!ec && available > 0) {
-                    auto pendingMsg = bot->receiveMessage();
-                    if (pendingMsg) {
-                        handleMessage(bot, pendingMsg);
-                    } else {
-                        break;
-                    }
-                    available = bot->socket().lowest_layer().available(ec);
+                auto pendingMsg = bot->receiveMessage();  // non-blocking
+                while (pendingMsg) {
+                    handleMessage(bot, pendingMsg);
+                    pendingMsg = bot->receiveMessage();
                 }
                 
                 // Wenn Bot bereits All-In ist (kein Cash mehr), sende CALL 0
@@ -916,17 +952,21 @@ private:
                     actionMsg->set_myaction(netActionCall);
                     actionMsg->set_myrelativebet(0);
                     bot->sendMessage(action);
-                    
-                    // CRITICAL: Wait for PlayersActionDoneMessage to confirm myCash stays at 0
-                    // This prevents the bot from thinking it has cash in the next round
-                    auto confirmMsg = bot->receiveMessage();
-                    if (confirmMsg && confirmMsg->GetMsg()->messagetype() == PokerTHMessage::Type_PlayersActionDoneMessage) {
-                        auto actionDone = confirmMsg->GetMsg()->playersactiondonemessage();
-                        if (actionDone.playerid() == bot->playerId()) {
-                            bot->setMyCash(actionDone.playermoney());
-                            cout << "[" << bot->name() << "] All-In confirmed: myCash=" << bot->myCash() << endl;
-                        }
-                    }
+                    return;  // Keine Bestätigung abwarten - run() Loop verarbeitet weitere Messages
+                }
+                
+                // Random fold check (nur wenn foldPercent > 0)
+                if (bot->shouldRandomFold()) {
+                    cout << "[" << bot->name() << "] RANDOM FOLD (hand=" << bot->handNum() << ")" << endl;
+                    boost::shared_ptr<NetPacket> foldAction(new NetPacket);
+                    foldAction->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
+                    MyActionRequestMessage *foldMsg = foldAction->GetMsg()->mutable_myactionrequestmessage();
+                    foldMsg->set_gameid(bot->gameId());
+                    foldMsg->set_handnum(bot->handNum());
+                    foldMsg->set_gamestate(playersTurn.gamestate());
+                    foldMsg->set_myaction(netActionFold);
+                    foldMsg->set_myrelativebet(0);
+                    bot->sendMessage(foldAction);
                     return;
                 }
                 
@@ -1016,6 +1056,7 @@ private:
     string server_;
     string port_;
     bool useTls_;
+    int foldPercent_;
     vector<shared_ptr<BotSession>> bots_;
 };
 
@@ -1041,6 +1082,7 @@ int main(int argc, char *argv[]) {
             ("game-password,G", po::value<string>()->default_value(""), "Game password")
             ("join-game,j", po::value<uint32_t>(), "Join existing game ID")
             ("no-tls", "Disable TLS (use plain TCP)")
+            ("fold-percent,f", po::value<int>()->default_value(0), "Random fold probability (0-100%)")
         ;
 
         po::variables_map vm;
@@ -1066,8 +1108,15 @@ int main(int argc, char *argv[]) {
             cout << "  - Ranking games require exactly 10 players" << endl;
             cout << "  - Bots are named test1, test2, ..., test<N>" << endl;
             cout << "  - If both --bots and --humans are given, --humans takes priority" << endl;
+            cout << "  - Use --fold-percent to make bots randomly fold (better showdown testing)" << endl;
             cout << "  - Use Ctrl+C for graceful shutdown" << endl;
             return 0;
+        }
+        
+        int foldPercent = vm["fold-percent"].as<int>();
+        if (foldPercent < 0 || foldPercent > 100) {
+            cerr << "Error: --fold-percent must be between 0 and 100" << endl;
+            return 1;
         }
 
         string server = vm["server"].as<string>();
@@ -1105,9 +1154,12 @@ int main(int argc, char *argv[]) {
         cout << "Bots: " << numBots << " (test" << startId << " - test" << (startId + numBots - 1) << ")" << endl;
         cout << "Human slots: " << numHumans << endl;
         cout << "Total players: " << (numBots + numHumans) << "/10" << endl;
+        if (foldPercent > 0) {
+            cout << "Fold probability: " << foldPercent << "%" << endl;
+        }
         cout << endl;
 
-        BotController controller(server, port, useTls);
+        BotController controller(server, port, useTls, foldPercent);
 
         if (!controller.createBots(numBots, startId, password)) {
             cerr << "Failed to create bots" << endl;
