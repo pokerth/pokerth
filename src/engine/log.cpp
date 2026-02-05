@@ -30,6 +30,11 @@ Log::Log(ConfigFile *c) : myConnectionName(), mySqliteLogFileName(""), myConfig(
 
 Log::~Log()
 {
+    // Flush any pending SQL statements before destruction
+    // This is critical when LogInterval > 0 (batch logging)
+    if (!sql.empty()) {
+        exec_transaction();
+    }
     // Qt will automatically clean up QSqlDatabase connections on application exit
     // Attempting to manually close/remove here can cause crashes during shutdown
     // when Qt's SQL driver manager is already being destroyed
@@ -229,6 +234,7 @@ void
 Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList)
 {
 	uniqueGameID++;
+	loggedSitsOut.clear();  // Reset sits out tracking for new game
 
 	if(SQLITE_LOG) {
 
@@ -694,7 +700,11 @@ Log::logPlayerSitsOut(PlayerList activePlayerList)
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
 		if((*it_c)->getMyCash() == 0) {
-			logPlayerAction((*it_c)->getMyName(), LOG_ACTION_SIT_OUT);
+			// Only log if not already logged as "sits out" in this game
+			if(loggedSitsOut.find((*it_c)->getMyName()) == loggedSitsOut.end()) {
+				logPlayerAction((*it_c)->getMyName(), LOG_ACTION_SIT_OUT);
+				loggedSitsOut.insert((*it_c)->getMyName());
+			}
 		}
 	}
 
@@ -712,6 +722,16 @@ void
 Log::logAfterGame()
 {
 	if(myConfig->readConfigInt("LogInterval") == 2) {
+		exec_transaction();
+	}
+}
+
+void
+Log::flushLog()
+{
+	// Force flush pending SQL statements regardless of LogInterval
+	// Used when leaving game early to ensure all data is written
+	if (!sql.empty()) {
 		exec_transaction();
 	}
 }

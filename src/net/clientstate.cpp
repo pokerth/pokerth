@@ -2274,6 +2274,8 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			if (!tmpPlayer)
 				throw ClientException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
 			client->GetGui().logPlayerWinGame(tmpPlayer->getMyName(), curGame->getMyGameID());
+			// Flush log to ensure all data is written before leaving game
+			client->GetClientLog()->flushLog();
 			// Resubscribe Lobby messages.
 			client->ResubscribeLobbyMsg();
 			// Show Lobby dialog.

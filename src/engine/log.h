@@ -6,6 +6,7 @@
 #define LOG_H
 
 #include <string>
+#include <set>
 #include <boost/filesystem.hpp>
 
 #include "engine_defs.h"
@@ -38,6 +39,7 @@ public:
     void logPlayerSitsOut(PlayerList activePlayerList);
     void logAfterHand();
     void logAfterGame();
+    void flushLog();  // Force flush pending SQL statements (used when leaving game early)
 //    void closeLogDbAtExit();
 
     void setCurrentRound(GameState theValue)
@@ -64,6 +66,7 @@ private:
     int currentHandID;
     GameState currentRound;
     std::string sql;
+    std::set<std::string> loggedSitsOut;  // Track players already logged as "sits out"
 };
 
 #endif // LOG_H

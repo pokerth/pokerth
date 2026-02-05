@@ -156,6 +156,10 @@ ClientThread::SendKickPlayer(unsigned playerId)
 void
 ClientThread::SendLeaveCurrentGame()
 {
+	// Flush log before leaving game to ensure all data is written to SQLite
+	if (m_clientLog) {
+		m_clientLog->flushLog();
+	}
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LeaveGameRequestMessage);
 	LeaveGameRequestMessage *netLeave = packet->GetMsg()->mutable_leavegamerequestmessage();
