@@ -2804,7 +2804,7 @@ void gameTableImpl::postRiverRunAnimation3()
 			//Wenn River dann auch das Blatt loggen!
 			// 			if (textLabel_handLabel->text() == "River") {
 
-			//set Player value (logging)
+			//set Player value (logging) - alle Gewinner als Hauptgewinn loggen
 			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(),true);
 
 			// 			}
@@ -2823,19 +2823,8 @@ void gameTableImpl::postRiverRunAnimation3()
 		}
 	}
 
-	// log side pot winners -> TODO
-	list<unsigned>::iterator it_int;
-	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
-
-			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
-				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()), (*it_c)->getLastMoneyWon(), false);
-				}
-			}
-
-		}
-	}
+	// Side pot logging entfernt - Server entscheidet wer gewinnt und sendet korrekte MoneyWon Werte
+	// Alle Gewinner wurden bereits oben als "main" geloggt
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {

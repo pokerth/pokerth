@@ -8,6 +8,8 @@
 #include "playerinterface.h"
 #include "cardsvalue.h"
 
+#include <algorithm>
+
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -650,24 +652,16 @@ Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list
 	PlayerListConstIterator it_c;
 	list<unsigned>::iterator it_int;
 
-	// log winner
+	// log all winners - Server determines who wins and sends correct MoneyWon values
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == highestCardsValue) {
+		// Check if player is in winners list
+		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
+		if(isWinner && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getLastMoneyWon() > 0) {
 			logPlayerAction((*it_c)->getMyName(),LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
 		}
 	}
 
-	// log side pot winner
-	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() != highestCardsValue ) {
-
-			for(it_int = winners.begin(); it_int != winners.end(); ++it_int) {
-				if((*it_int) == (*it_c)->getMyUniqueID()) {
-					logPlayerAction((*it_c)->getMyName(),LOG_ACTION_WIN_SIDE_POT,(*it_c)->getLastMoneyWon());
-				}
-			}
-		}
-	}
+	// Side pot logging removed - all winners logged above as main winners
 
 }
 
