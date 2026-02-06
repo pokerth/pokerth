@@ -43,6 +43,7 @@
 #include <game_defs.h>
 #include <serverdata.h>
 #include <QMessageBox>
+#include <QDateTime>
 #include "mymessagebox.h"
 
 class GuiInterface;
@@ -173,6 +174,8 @@ public slots:
 	void networkError(int, int);
 	void bbcbotAttemptReconnect();
 	void bbcbotResetReconnectAttempts();
+	void bbcbotHeartbeatCheck();
+	void bbcbotUpdateActivity();
 	void networkNotification(int);
 	void networkMessage(QString);
 	void networkMessage(unsigned);
@@ -214,6 +217,10 @@ private:
 	QTimer *bbcbotReconnectTimer;
 	bool bbcbotReconnectEnabled;
 	int bbcbotReconnectAttempts;
+	
+	// BBCBot: Connection heartbeat monitoring
+	QTimer *bbcbotHeartbeatTimer;
+	QDateTime bbcbotLastActivity;
 
 	friend class GuiWrapper;
 };
