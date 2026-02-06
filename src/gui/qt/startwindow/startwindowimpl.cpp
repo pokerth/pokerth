@@ -839,8 +839,8 @@ void startWindowImpl::connectionHeartbeatCheck()
 		return;
 	}
 	
-	// Check if we received server activity in the last 90 seconds
-	// (GameList/PlayerList updates are very frequent on an active server)
+	// Server sends stats heartbeat every 60 seconds
+	// Warn after 90 seconds (1.5x interval) without any server activity
 	qint64 secondsSinceActivity = lastServerActivity.secsTo(QDateTime::currentDateTime());
 	if (secondsSinceActivity > 90) {
 		// Connection appears to be lost silently

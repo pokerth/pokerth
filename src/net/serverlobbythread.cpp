@@ -2340,6 +2340,12 @@ ServerLobbyThread::TimerSaveStatisticsFile(const boost::system::error_code &ec)
 				m_statDataChanged = false;
 			}
 		}
+		// Broadcast current stats to all clients as heartbeat
+		ServerStats heartbeatStats;
+		heartbeatStats.numberOfPlayersOnServer = m_statData.numberOfPlayersOnServer;
+		lock.unlock();
+		BroadcastStatisticsUpdate(heartbeatStats);
+		
 		// Restart timer
 		m_saveStatisticsTimer.expires_after(seconds(SERVER_SAVE_STATISTICS_INTERVAL_SEC));
 		m_saveStatisticsTimer.async_wait(
