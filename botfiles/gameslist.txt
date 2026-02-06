@@ -1,0 +1,33 @@
+
+
+// every line which does not contain 4 times the sign "#" will be ignored
+
+// every line represents a game, with the format
+// #[command name]#[permission group]#[Game Title Prefix]# , the rest of the line will be ignored
+// about [command name]: this should only contain numbers and letters
+// the settings should be written in a file named [command name]_settings.txt
+// NOTE: if there is no such a file, some default settings will be used.
+// about [permission group]: right now you have the choices to write "all", "admin", or "huscalive" here.
+//         "admin" means bbc admin, "huscalive" means people that are alive in the current husc season(s), "all" are all players
+// about [Game Title Prefix]: this is the beginning of the game name, the rest should be from the creator
+
+
+// ok, here are some examples, if you want, you can add more of them.
+
+
+#step1#admin#BBC Step 1#
+#husc#huscalive#HUSC#
+#step2#admin#BBC Step 2#
+#step3#admin#BBC Step 3#
+#step4#admin#BBC Step 4#
+#wec#wec#WEC#
+#wecmfinal#wec#WEC#
+#wecgfinal#wec#WEC#
+#mcup#mcup#January Cup#
+#mcupfinal#mcup#January Cup Final#
+#bbcup#all#BBC Cup & Coins Cup#
+#bbcupfinal#all#BBC Cup & Coins Cup Final#
+#husctest2#all#testgame for HUSC#
+#nyd#admin#New Years Ducks#
+#nydfinal#admin#New Years Ducks Final#
+

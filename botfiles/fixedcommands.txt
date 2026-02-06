@@ -1,0 +1,12 @@
+:-*	♥
+hello	hello, nice to see you :)
+help	possible commands: "create"."uptime","help","suggest","tickets","rating","games". Try "help2" for more help
+help create	syntax is "create <game name> <game title>", with the possible game names "step1","step2","step3","step4","husc"
+help games	syntax is "tickets <player name>", where player name is case sensitive
+help rating	syntax is "rating <player name>", where player name is case sensitive
+help suggest	possible is "suggest s1","suggest s2","suggest s3","suggest s4"
+help tickets	syntax is "tickets <player name>", where player name is case sensitive
+help uptime	syntax is just "uptime" - not precise means, that it is ~1 second per hour slower
+help2	You want more help? Check out our website about bbcbot: http://bbcpoker.bplaced.net/exp3/bbcbotmanual.php and see if it answers your question. You also can try "help <command>" for further information about a sepcific command
+longmessagetest	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb cccccccccccccccccccc dddddddddddddddd eeeeeeeeeeeee
+♥	:-*

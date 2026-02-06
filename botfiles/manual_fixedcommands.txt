@@ -1,0 +1,3 @@
+help	possible commands: "create"."uptime","help".
+hello	hello, nice to see you :)
+help create	syntax is "create <game name> <game title>", with the possible game names "step1","step2","step3","step4","husc"

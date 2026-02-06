@@ -1,0 +1,79 @@
+
+// the pattern is always "name=value",
+// lines, that do not mach this pattern, will be ignored
+// IMPORTANT: the names here are case sensitive
+// most of the tag names are very similar to the ones in "config.xml", but we omit "Net" at the start
+
+// there are a lot of "0-1-options", that means, the value can only be 0 or 1
+// 1 means "yes"/"true"/"enabled", 0 means "no"/"false"/"disabled"
+
+GameTypeNormal=0
+GameTypeRegisteredOnly=0
+GameTypeInviteOnly=1
+GameTypeRanking=0
+// if no GameType is given, then it defaults to Invite_only
+
+NumberOfPlayers=2
+// should be between 2 and 10
+
+StartCash=1500
+FirstSmallBlind=15
+
+RaiseBlindsAtHands=0
+RaiseBlindsAtMinutes=1
+// exactly one of those should be 1, the other 0
+
+RaiseSmallBlindEveryHands=11
+RaiseSmallBlindEveryMinutes=2
+
+AlwaysDoubleBlinds=0
+ManualBlindsOrder=1
+
+AfterMBAlwaysDoubleBlinds=1
+AfterMBAlwaysRaiseAbout=0
+AfterMBAlwaysRaiseValue=1000
+AfterMBStayAtLastBlind=0
+
+GameSpeed=4
+// graphical user interface - maybe not needed, i dont know
+
+DelayBetweenHands=7
+TimeOutPlayerAction=10
+
+//finally, here comes the Blind List
+// (Note: if you do not want to have a blinds list, delete all those blinds, even if you have "ManualBlindsOrder=1")
+
+ListBlind=20
+ListBlind=25
+ListBlind=30
+ListBlind=40
+ListBlind=50
+ListBlind=60
+ListBlind=80
+ListBlind=100
+ListBlind=120
+ListBlind=150
+ListBlind=200
+ListBlind=250
+ListBlind=300
+ListBlind=400
+ListBlind=500
+ListBlind=600
+ListBlind=800
+ListBlind=1000
+ListBlind=1200
+ListBlind=1500
+ListBlind=2000
+ListBlind=2500
+ListBlind=3000
+ListBlind=4000
+ListBlind=5000
+ListBlind=6000
+ListBlind=8000
+ListBlind=10000
+ListBlind=12000
+ListBlind=15000
+
+// if you have more than 30 blinds on your list, the rest will simply be ignored
+
+// END of script :)
