@@ -2292,7 +2292,9 @@ ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
 		data->set_statisticsvalue(m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount());
 
 		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
-		m_gameSessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
+		// Use SendToAllSessions for game sessions - SendLobbyMsgToAllSessions checks
+		// WantsLobbyMsg() which is false for players in-game, so heartbeat would not arrive
+		m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 	}
 }
 

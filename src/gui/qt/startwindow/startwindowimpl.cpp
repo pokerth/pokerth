@@ -249,6 +249,9 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), this, SLOT(updateServerActivity()));
 	connect(this, SIGNAL(signalLobbyPlayerLeft(unsigned)), this, SLOT(updateServerActivity()));
 	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), this, SLOT(updateServerActivity()));
+	// Also track activity from in-game signals (belt-and-suspenders for heartbeat)
+	connect(this, SIGNAL(signalNetClientGameChatMsg(QString, QString)), this, SLOT(updateServerActivity()));
+	connect(this, SIGNAL(signalNetClientGameStart(boost::shared_ptr<Game>)), this, SLOT(updateServerActivity()));
 
 	connect(this, SIGNAL(signalNetClientGameChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myStartNetworkGameDialog->getMyChat(), SLOT(receiveMessage(QString, QString)));
