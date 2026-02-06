@@ -10,9 +10,27 @@ static const char* SOUND_FILES[] = {
 };
 
 QtAudioPlayer::QtAudioPlayer(ConfigFile *config)
-    : myConfig(config), audioEnabled(false)
+    : myConfig(config), audioEnabled(false), mediaDevices(nullptr), deviceChangeDebounceTimer(nullptr)
 {
     myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+    
+    // Initialize device monitoring
+    mediaDevices = new QMediaDevices(this);
+    lastDefaultDevice = QMediaDevices::defaultAudioOutput();
+    
+    // Debounce timer for Bluetooth reconnects etc.
+    deviceChangeDebounceTimer = new QTimer(this);
+    deviceChangeDebounceTimer->setSingleShot(true);
+    connect(deviceChangeDebounceTimer, &QTimer::timeout,
+            this, &QtAudioPlayer::onDeviceChangeDebounceTimeout);
+    
+    // Connect device change signals
+    connect(mediaDevices, &QMediaDevices::audioOutputsChanged,
+            this, &QtAudioPlayer::onAudioOutputsChanged);
+    
+    // Note: defaultAudioOutputChanged is available in newer Qt versions
+    // We also check in audioOutputsChanged as fallback
+    
     initAudio();
 }
 
@@ -31,6 +49,18 @@ void QtAudioPlayer::initAudio()
 
     qDebug() << "[Audio] Initializing Qt audio with path:" << myAppDataPath;
     
+    // Determine which device to use
+    QAudioDevice deviceToUse = selectedDevice.isNull() 
+        ? QMediaDevices::defaultAudioOutput() 
+        : selectedDevice;
+    
+    if (deviceToUse.isNull()) {
+        qWarning() << "[Audio] No audio output device available!";
+        return;
+    }
+    
+    qDebug() << "[Audio] Using device:" << deviceToUse.description();
+    
     // Volume slider is 1-10, QSoundEffect expects 0.0-1.0
     float vol = myConfig->readConfigInt("SoundVolume") / 10.0f;
     qDebug() << "[Audio] Volume:" << vol;
@@ -47,6 +77,7 @@ void QtAudioPlayer::initAudio()
         }
         
         auto effect = QSharedPointer<QSoundEffect>::create();
+        effect->setAudioDevice(deviceToUse);
         effect->setSource(QUrl::fromLocalFile(filePath));
         effect->setLoopCount(1);
         effect->setVolume(vol);
@@ -131,4 +162,119 @@ void QtAudioPlayer::reInit()
     qDebug() << "[Audio] Reinitializing";
     closeAudio();
     initAudio();
+}
+
+// --- Audio Device Management ---
+
+QList<QAudioDevice> QtAudioPlayer::availableDevices() const
+{
+    return QMediaDevices::audioOutputs();
+}
+
+QAudioDevice QtAudioPlayer::currentDevice() const
+{
+    if (!selectedDevice.isNull()) {
+        return selectedDevice;
+    }
+    return QMediaDevices::defaultAudioOutput();
+}
+
+void QtAudioPlayer::setAudioDevice(const QAudioDevice& device)
+{
+    if (selectedDevice == device) {
+        return;
+    }
+    
+    qDebug() << "[Audio] Setting audio device to:" 
+             << (device.isNull() ? "System Default" : device.description());
+    
+    selectedDevice = device;
+    
+    // Apply to all existing effects without full reinit
+    applyDeviceToEffects();
+}
+
+void QtAudioPlayer::applyDeviceToEffects()
+{
+    if (!audioEnabled) {
+        return;
+    }
+    
+    QAudioDevice deviceToUse = selectedDevice.isNull() 
+        ? QMediaDevices::defaultAudioOutput() 
+        : selectedDevice;
+    
+    if (deviceToUse.isNull()) {
+        qWarning() << "[Audio] No audio device available for apply!";
+        return;
+    }
+    
+    qDebug() << "[Audio] Applying device:" << deviceToUse.description() 
+             << "to" << effects.size() << "effects";
+    
+    for (auto& effect : effects) {
+        if (effect) {
+            effect->setAudioDevice(deviceToUse);
+        }
+    }
+}
+
+void QtAudioPlayer::onAudioOutputsChanged()
+{
+    qDebug() << "[Audio] Audio outputs changed - scheduling debounced check";
+    
+    // Restart debounce timer - this handles rapid connect/disconnect events
+    // (e.g., Bluetooth momentarily losing connection)
+    scheduleDeviceCheck();
+}
+
+void QtAudioPlayer::scheduleDeviceCheck()
+{
+    // Restart timer on each change event - only act after stable period
+    deviceChangeDebounceTimer->start(DEVICE_CHANGE_DEBOUNCE_MS);
+}
+
+void QtAudioPlayer::onDeviceChangeDebounceTimeout()
+{
+    qDebug() << "[Audio] Debounce timeout - processing device change. Available devices:";
+    for (const auto& dev : QMediaDevices::audioOutputs()) {
+        qDebug() << "  -" << dev.description() << (dev.isDefault() ? "(default)" : "");
+    }
+    
+    // Check if default device changed
+    QAudioDevice newDefault = QMediaDevices::defaultAudioOutput();
+    if (newDefault != lastDefaultDevice) {
+        onDefaultOutputChanged();
+        lastDefaultDevice = newDefault;
+    }
+    
+    // If user selected a specific device that's no longer available, fall back to default
+    if (!selectedDevice.isNull()) {
+        bool deviceStillExists = false;
+        for (const auto& dev : QMediaDevices::audioOutputs()) {
+            if (dev == selectedDevice) {
+                deviceStillExists = true;
+                break;
+            }
+        }
+        
+        if (!deviceStillExists) {
+            qDebug() << "[Audio] Selected device disconnected, falling back to default";
+            selectedDevice = QAudioDevice(); // Clear selection, use default
+            applyDeviceToEffects();
+        }
+    }
+}
+
+void QtAudioPlayer::onDefaultOutputChanged()
+{
+    QAudioDevice newDefault = QMediaDevices::defaultAudioOutput();
+    qDebug() << "[Audio] Default audio output changed to:" 
+             << (newDefault.isNull() ? "None" : newDefault.description());
+    
+    // Only auto-switch if user hasn't selected a specific device
+    if (selectedDevice.isNull()) {
+        qDebug() << "[Audio] Following default device change...";
+        applyDeviceToEffects();
+    }
 }
