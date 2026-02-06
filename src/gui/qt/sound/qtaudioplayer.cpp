@@ -1,6 +1,7 @@
 #include "qtaudioplayer.h"
 #include <QDebug>
 #include <QFileInfo>
+#include <QStandardPaths>
 
 // All sound files to preload
 static const char* SOUND_FILES[] = {
@@ -10,7 +11,8 @@ static const char* SOUND_FILES[] = {
 };
 
 QtAudioPlayer::QtAudioPlayer(ConfigFile *config)
-    : myConfig(config), audioEnabled(false), mediaDevices(nullptr), deviceChangeDebounceTimer(nullptr)
+    : myConfig(config), audioEnabled(false), backend(AudioBackend::QSoundEffectBackend),
+      mediaDevices(nullptr), deviceChangeDebounceTimer(nullptr)
 {
     myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
     
@@ -27,9 +29,6 @@ QtAudioPlayer::QtAudioPlayer(ConfigFile *config)
     // Connect device change signals
     connect(mediaDevices, &QMediaDevices::audioOutputsChanged,
             this, &QtAudioPlayer::onAudioOutputsChanged);
-    
-    // Note: defaultAudioOutputChanged is available in newer Qt versions
-    // We also check in audioOutputsChanged as fallback
     
     initAudio();
 }
@@ -49,23 +48,79 @@ void QtAudioPlayer::initAudio()
 
     qDebug() << "[Audio] Initializing Qt audio with path:" << myAppDataPath;
     
-    // Determine which device to use
-    QAudioDevice deviceToUse = selectedDevice.isNull() 
-        ? QMediaDevices::defaultAudioOutput() 
-        : selectedDevice;
-    
-    if (deviceToUse.isNull()) {
-        qWarning() << "[Audio] No audio output device available!";
-        return;
+    // Check for forced backend via environment variable
+    QString forcedBackend = qEnvironmentVariable("POKERTH_AUDIO_BACKEND");
+    if (!forcedBackend.isEmpty()) {
+        qDebug() << "[Audio] POKERTH_AUDIO_BACKEND=" << forcedBackend;
     }
     
-    qDebug() << "[Audio] Using device:" << deviceToUse.description();
+    // === Audio subsystem diagnostics ===
+    {
+        auto outputs = QMediaDevices::audioOutputs();
+        qDebug() << "[Audio] Available output devices:" << outputs.size();
+        for (const auto& dev : outputs) {
+            qDebug() << "[Audio]   -" << dev.description() 
+                     << "id:" << dev.id()
+                     << (dev.isDefault() ? "(DEFAULT)" : "");
+        }
+    }
     
-    // Volume slider is 1-10, QSoundEffect expects 0.0-1.0
+    // Determine which backend to use
+    if (forcedBackend.toLower() == "paplay") {
+        qDebug() << "[Audio] Forced paplay backend via environment variable";
+        backend = AudioBackend::PaPlayBackend;
+    } else if (forcedBackend.toLower() == "qsoundeffect") {
+        qDebug() << "[Audio] Forced QSoundEffect backend via environment variable";
+        backend = AudioBackend::QSoundEffectBackend;
+    } else {
+        // Auto-detect best backend
+#ifdef Q_OS_LINUX
+        // On Linux, QSoundEffect/QAudioSink can silently fail on PipeWire setups
+        // even though probing reports success. 
+        // Prefer paplay/pw-play which reliably creates PulseAudio streams.
+        if (detectPaPlay()) {
+            qDebug() << "[Audio] Auto-select: using paplay backend (most reliable on Linux)";
+            backend = AudioBackend::PaPlayBackend;
+        } else {
+            qDebug() << "[Audio] Auto-select: paplay not available, using QSoundEffect";
+            backend = AudioBackend::QSoundEffectBackend;
+        }
+#else
+        backend = AudioBackend::QSoundEffectBackend;
+#endif
+    }
+    
+    // Initialize selected backend
     float vol = myConfig->readConfigInt("SoundVolume") / 10.0f;
     qDebug() << "[Audio] Volume:" << vol;
     
-    // Preload ALL sound files at startup
+    if (backend == AudioBackend::PaPlayBackend) {
+        if (detectPaPlay()) {
+            initPaPlayBackend();
+        } else {
+            qWarning() << "[Audio] paplay not found - falling back to QSoundEffect";
+            backend = AudioBackend::QSoundEffectBackend;
+            QAudioDevice deviceToUse = selectedDevice.isNull() 
+                ? QMediaDevices::defaultAudioOutput() 
+                : selectedDevice;
+            initQSoundEffectBackend(deviceToUse, vol);
+        }
+    } else {
+        QAudioDevice deviceToUse = selectedDevice.isNull() 
+            ? QMediaDevices::defaultAudioOutput() 
+            : selectedDevice;
+        initQSoundEffectBackend(deviceToUse, vol);
+    }
+    
+    audioEnabled = true;
+    qDebug() << "[Audio] Initialization complete, backend:" 
+             << (backend == AudioBackend::PaPlayBackend ? "paplay" : "QSoundEffect");
+}
+
+void QtAudioPlayer::initQSoundEffectBackend(const QAudioDevice& device, float volume)
+{
+    qDebug() << "[Audio] Initializing QSoundEffect backend";
+    
     for (const char* soundName : SOUND_FILES) {
         QString key = QString::fromLatin1(soundName);
         QString filePath = myAppDataPath + "sounds/default/" + key + ".wav";
@@ -77,12 +132,14 @@ void QtAudioPlayer::initAudio()
         }
         
         auto effect = QSharedPointer<QSoundEffect>::create();
-        effect->setAudioDevice(deviceToUse);
+        // Only set audio device explicitly if user chose a non-default device.
+        if (!selectedDevice.isNull() && !device.isNull()) {
+            effect->setAudioDevice(device);
+        }
         effect->setSource(QUrl::fromLocalFile(filePath));
         effect->setLoopCount(1);
-        effect->setVolume(vol);
+        effect->setVolume(volume);
         
-        // Connect status signal for debugging
         connect(effect.data(), &QSoundEffect::statusChanged, this, [key, effect]() {
             if (effect->status() == QSoundEffect::Error) {
                 qWarning() << "[Audio] Error loading sound:" << key;
@@ -90,11 +147,46 @@ void QtAudioPlayer::initAudio()
         });
         
         effects.insert(key, effect);
-        qDebug() << "[Audio] Preloaded:" << key;
+    }
+    qDebug() << "[Audio] QSoundEffect:" << effects.size() << "sounds loaded";
+}
+
+void QtAudioPlayer::initPaPlayBackend()
+{
+    qDebug() << "[Audio] Initializing paplay backend, binary:" << paplayBinary;
+    
+    for (const char* soundName : SOUND_FILES) {
+        QString key = QString::fromLatin1(soundName);
+        QString filePath = myAppDataPath + "sounds/default/" + key + ".wav";
+        
+        QFileInfo fileInfo(filePath);
+        if (!fileInfo.exists()) {
+            qWarning() << "[Audio] Sound file not found:" << filePath;
+            continue;
+        }
+        
+        soundFilePaths.insert(key, fileInfo.absoluteFilePath());
+    }
+    qDebug() << "[Audio] paplay:" << soundFilePaths.size() << "sounds registered";
+}
+
+bool QtAudioPlayer::detectPaPlay()
+{
+    // Check for paplay (PulseAudio) or pw-play (PipeWire native)
+    paplayBinary = QStandardPaths::findExecutable("paplay");
+    if (!paplayBinary.isEmpty()) {
+        qDebug() << "[Audio] Found paplay:" << paplayBinary;
+        return true;
     }
     
-    audioEnabled = true;
-    qDebug() << "[Audio] Initialization complete," << effects.size() << "sounds loaded";
+    paplayBinary = QStandardPaths::findExecutable("pw-play");
+    if (!paplayBinary.isEmpty()) {
+        qDebug() << "[Audio] Found pw-play:" << paplayBinary;
+        return true;
+    }
+    
+    qWarning() << "[Audio] Neither paplay nor pw-play found in PATH";
+    return false;
 }
 
 void QtAudioPlayer::playSound(std::string audioName, int /*playerID*/)
@@ -104,43 +196,71 @@ void QtAudioPlayer::playSound(std::string audioName, int /*playerID*/)
 
     const QString key = QString::fromStdString(audioName);
     
+    if (backend == AudioBackend::PaPlayBackend) {
+        playSoundPaPlay(key);
+    } else {
+        playSoundQSoundEffect(key);
+    }
+}
+
+void QtAudioPlayer::playSoundQSoundEffect(const QString& key)
+{
     if (!effects.contains(key)) {
         qWarning() << "[Audio] Unknown sound:" << key;
         return;
     }
 
     auto effect = effects.value(key);
-    if (!effect) {
-        qWarning() << "[Audio] Null effect for:" << key;
-        return;
-    }
+    if (!effect) return;
     
-    // Check status
     if (effect->status() == QSoundEffect::Error) {
         qWarning() << "[Audio] Cannot play (error state):" << key;
         return;
     }
     
     if (effect->isLoaded()) {
-        // Sound is ready - play immediately
-        // If already playing, stop and restart for responsive feedback
         if (effect->isPlaying()) {
             effect->stop();
         }
         effect->play();
     } else if (effect->status() == QSoundEffect::Loading) {
-        // Still loading - queue playback when ready (only once)
         QMetaObject::Connection* conn = new QMetaObject::Connection();
         *conn = connect(effect.data(), &QSoundEffect::loadedChanged, this, [this, effect, key, conn]() {
             if (effect->isLoaded()) {
-                qDebug() << "[Audio] Delayed play after load:" << key;
                 effect->play();
             }
             disconnect(*conn);
             delete conn;
         });
+    }
+}
+
+void QtAudioPlayer::playSoundPaPlay(const QString& key)
+{
+    if (!soundFilePaths.contains(key)) {
+        qWarning() << "[Audio] Unknown sound:" << key;
+        return;
+    }
+    
+    const QString& filePath = soundFilePaths.value(key);
+    
+    // Volume: paplay uses --volume with PA volume (0-65536), 100% = 65536
+    float vol = myConfig->readConfigInt("SoundVolume") / 10.0f;
+    QString volumeStr = QString::number(qRound(vol * 65536.0f));
+    
+    QStringList args;
+    if (paplayBinary.endsWith("paplay")) {
+        args << "--volume" << volumeStr << filePath;
     } else {
-        qWarning() << "[Audio] Cannot play, status:" << effect->status() << "for:" << key;
+        // pw-play uses --volume as 0.0-1.0 float
+        args << "--volume" << QString::number(vol, 'f', 2) << filePath;
+    }
+
+    qDebug() << "[Audio] paplay:" << key << "vol:" << vol;
+    
+    bool ok = QProcess::startDetached(paplayBinary, args);
+    if (!ok) {
+        qWarning() << "[Audio] *** Failed to start" << paplayBinary << args;
     }
 }
 
@@ -154,6 +274,7 @@ void QtAudioPlayer::closeAudio()
         }
     }
     effects.clear();
+    soundFilePaths.clear();
     audioEnabled = false;
 }
 
@@ -277,4 +398,61 @@ void QtAudioPlayer::onDefaultOutputChanged()
         qDebug() << "[Audio] Following default device change...";
         applyDeviceToEffects();
     }
+}
+
+bool QtAudioPlayer::probeAudioOutput(const QAudioDevice& device)
+{
+    qDebug() << "[Audio] Probing audio output on:" << device.description();
+    
+    // Create a format matching our WAV files: 16-bit signed LE, stereo, 44100Hz
+    QAudioFormat format;
+    format.setSampleRate(44100);
+    format.setChannelCount(2);
+    format.setSampleFormat(QAudioFormat::Int16);
+    
+    if (!device.isFormatSupported(format)) {
+        qWarning() << "[Audio] Probe: device does NOT support 44100/16bit/stereo!";
+        qDebug() << "[Audio] Probe: preferred format:" 
+                 << device.preferredFormat().sampleRate()
+                 << device.preferredFormat().channelCount()
+                 << device.preferredFormat().sampleFormat();
+        // Try with the device's preferred format
+        format = device.preferredFormat();
+    } else {
+        qDebug() << "[Audio] Probe: format 44100/16bit/stereo is supported";
+    }
+    
+    // Try creating a QAudioSink
+    QAudioSink sink(device, format);
+    
+    // Create a small buffer of silence (100ms)
+    int bytesPerSample = format.bytesPerSample() * format.channelCount();
+    int bufferSize = format.sampleRate() / 10 * bytesPerSample; // 100ms
+    QByteArray silenceData(bufferSize, '\0');
+    QBuffer buffer(&silenceData);
+    buffer.open(QIODevice::ReadOnly);
+    
+    // Try to start the sink
+    sink.start(&buffer);
+    
+    auto state = sink.state();
+    auto error = sink.error();
+    
+    qDebug() << "[Audio] Probe: QAudioSink state:" << state << "error:" << error;
+    
+    sink.stop();
+    buffer.close();
+    
+    if (error != QAudio::NoError) {
+        qWarning() << "[Audio] Probe: FAILED with error:" << error;
+        return false;
+    }
+    
+    if (state == QAudio::ActiveState || state == QAudio::IdleState) {
+        qDebug() << "[Audio] Probe: SUCCESS - audio output is functional";
+        return true;
+    }
+    
+    qWarning() << "[Audio] Probe: unexpected state:" << state;
+    return false;
 }

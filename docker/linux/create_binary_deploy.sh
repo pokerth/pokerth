@@ -76,7 +76,8 @@ collect_dependencies() {
             
             local libname="$(basename $lib)"
             
-            # Überspringe nur die absolut grundlegenden glibc-Bibliotheken
+            # Überspringe grundlegende glibc-Bibliotheken
+            # sowie PulseAudio/ALSA Client-Libs (müssen zum System-Audiodaemon passen)
             case "$libname" in
                 libc.so.* | libc-*.so | \
                 libm.so.* | libm-*.so | \
@@ -86,7 +87,9 @@ collect_dependencies() {
                 libresolv.so.* | libresolv-*.so | \
                 libutil.so.* | libutil-*.so | \
                 libnsl.so.* | libnsl-*.so | \
-                ld-linux*.so.* | ld-*.so)
+                ld-linux*.so.* | ld-*.so | \
+                libpulse.so.* | libpulse-simple.so.* | libpulsecommon-*.so | \
+                libasound.so.*)
                     continue
                     ;;
             esac
@@ -132,7 +135,7 @@ if [ -d "$QT6_PLUGINS" ]; then
     echo "Qt6 Plugins gefunden: $QT6_PLUGINS"
     
     # Kopiere wichtige Plugin-Kategorien
-    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia; do
+    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia sqldrivers; do
         if [ -d "$QT6_PLUGINS/$plugin_category" ]; then
             echo "Kopiere $plugin_category plugins..."
             mkdir -p "$DEPLOY_DIR/plugins/$plugin_category"
@@ -194,6 +197,16 @@ if [ -f "$PROJECT_ROOT/ChangeLog" ]; then
 fi
 
 echo ""
+echo "=== Erstelle qt.conf für Plugin-Pfade ==="
+# qt.conf neben dem Binary ist die zuverlässigste Methode für Qt Plugin-Pfade
+cat > "$DEPLOY_DIR/bin/qt.conf" << 'EOF'
+[Paths]
+Plugins = ../plugins
+Libraries = ../lib
+EOF
+echo "qt.conf erstellt in bin/"
+
+echo ""
 echo "=== Erstelle Launcher-Scripts ==="
 
 # Launcher für pokerth_client
@@ -204,8 +217,22 @@ export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
 
-# Audio debugging: uncomment to see Qt Multimedia messages
-# export QT_LOGGING_RULES="qt.multimedia.*=true"
+# Audio: FFmpeg-Backend explizit setzen (Qt6 Multimedia auf Linux)
+export QT_MEDIA_BACKEND=ffmpeg
+
+# Debug-Modus: mit --debug-audio starten für ausführliche Audio/Plugin-Diagnose
+if [[ "$1" == "--debug-audio" ]]; then
+    shift
+    export QT_DEBUG_PLUGINS=1
+    export QT_LOGGING_RULES="qt.multimedia.*=true"
+    echo "[DEBUG] LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+    echo "[DEBUG] QT_PLUGIN_PATH=$QT_PLUGIN_PATH"
+    echo "[DEBUG] QT_MEDIA_BACKEND=$QT_MEDIA_BACKEND"
+    echo "[DEBUG] Multimedia plugins:"
+    ls -la "$SCRIPT_DIR/plugins/multimedia/" 2>/dev/null || echo "  (keine gefunden!)"
+    echo "[DEBUG] PulseAudio libs in deploy:"
+    ls "$SCRIPT_DIR/lib/" | grep -i pulse || echo "  (keine gefunden!)"
+fi
 
 cd "$SCRIPT_DIR"
 # Setze Working Directory sodass bin/../data/ gefunden wird
@@ -221,6 +248,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
+export QT_MEDIA_BACKEND=ffmpeg
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
 EOF
@@ -295,9 +323,9 @@ Build-Informationen:
 EOF
 
 echo ""
-echo "=== Erstelle Archive ==="
+echo "=== Erstelle Archiv ==="
 cd "$(dirname $DEPLOY_DIR)"
-tar czf "${DEPLOY_NAME}.tar.gz" "$(basename $DEPLOY_DIR)"
+# tar czf "${DEPLOY_NAME}.tar.gz" "$(basename $DEPLOY_DIR)"
 
 # Erstelle auch ZIP für bessere Benutzerfreundlichkeit
 if command -v zip &> /dev/null; then
@@ -311,7 +339,6 @@ echo ""
 echo "=== Zusammenfassung ==="
 echo "Deploy-Verzeichnis: $DEPLOY_DIR"
 cd "$(dirname $DEPLOY_DIR)"
-ls -lh "${DEPLOY_NAME}.tar.gz" 2>/dev/null || true
 ls -lh "${DEPLOY_NAME}.zip" 2>/dev/null || true
 echo ""
 echo "Anzahl Bibliotheken: $(ls -1 $DEPLOY_DIR/lib 2>/dev/null | wc -l)"
@@ -324,5 +351,4 @@ echo "  cd $DEPLOY_DIR"
 echo "  ./pokerth"
 echo ""
 echo "Um die Archive zu verteilen:"
-echo "  ${DEPLOY_NAME}.tar.gz"
 [ -f "${DEPLOY_NAME}.zip" ] && echo "  ${DEPLOY_NAME}.zip"
