@@ -132,7 +132,7 @@ if [ -d "$QT6_PLUGINS" ]; then
     echo "Qt6 Plugins gefunden: $QT6_PLUGINS"
     
     # Kopiere wichtige Plugin-Kategorien
-    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes; do
+    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia; do
         if [ -d "$QT6_PLUGINS/$plugin_category" ]; then
             echo "Kopiere $plugin_category plugins..."
             mkdir -p "$DEPLOY_DIR/plugins/$plugin_category"
@@ -203,6 +203,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
+
+# Audio debugging: uncomment to see Qt Multimedia messages
+# export QT_LOGGING_RULES="qt.multimedia.*=true"
+
 cd "$SCRIPT_DIR"
 # Setze Working Directory sodass bin/../data/ gefunden wird
 exec "$SCRIPT_DIR/bin/pokerth_client" "$@"
