@@ -33,6 +33,7 @@
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 #include <net/socket_msg.h>
+#include <iostream>
 #include "tools.h"
 #include "session.h"
 #include "game.h"
@@ -240,15 +241,6 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalNetClientGameListSpectatorJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddSpectator(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListSpectatorLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemoveSpectator(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
-<<<<<<< HEAD
-	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
-	
-	// BBCBot: Track activity for heartbeat monitoring
-	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), this, SLOT(bbcbotUpdateActivity()));
-	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), this, SLOT(bbcbotUpdateActivity()));
-	connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), this, SLOT(bbcbotUpdateActivity()));
-	connect(this, SIGNAL(signalLobbyPlayerLeft(unsigned)), this, SLOT(bbcbotUpdateActivity()));
-=======
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), this, SLOT(handleStatsUpdate(ServerStats)));
 
 	// Connection monitoring: update activity on frequent server events
@@ -256,7 +248,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), this, SLOT(updateServerActivity()));
 	connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), this, SLOT(updateServerActivity()));
 	connect(this, SIGNAL(signalLobbyPlayerLeft(unsigned)), this, SLOT(updateServerActivity()));
->>>>>>> 2ed71df8 (silent disconnect hardening)
+	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), this, SLOT(updateServerActivity()));
 
 	connect(this, SIGNAL(signalNetClientGameChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myStartNetworkGameDialog->getMyChat(), SLOT(receiveMessage(QString, QString)));
@@ -305,17 +297,10 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 		connect(bbcbotReconnectTimer, SIGNAL(timeout()), this, SLOT(bbcbotAttemptReconnect()));
 		bbcbotReconnectEnabled = true;
 		bbcbotReconnectAttempts = 0;
-		
-		// Initialize heartbeat timer for connection monitoring (checks every 30 seconds)
-		bbcbotHeartbeatTimer = new QTimer(this);
-		connect(bbcbotHeartbeatTimer, SIGNAL(timeout()), this, SLOT(bbcbotHeartbeatCheck()));
-		bbcbotHeartbeatTimer->start(30000); // 30 seconds
-		bbcbotLastActivity = QDateTime::currentDateTime();
 	} else {
 		bbcbotReconnectTimer = nullptr;
 		bbcbotReconnectEnabled = false;
 		bbcbotReconnectAttempts = 0;
-		bbcbotHeartbeatTimer = nullptr;
 	}
 	// end bbcbot code
 
@@ -869,7 +854,26 @@ void startWindowImpl::showConnectionLostDialog()
 	connectionMonitoringActive = false;
 	connectionHeartbeatTimer->stop();
 	
-	// Show warning to user
+	// BBCBot: auto-reconnect instead of showing dialog
+	if (bbcbotReconnectEnabled && !mySession->bbcbotpassword.empty()) {
+		std::cout << "[BBCBot] Connection lost (silent disconnect). Triggering reconnect..." << std::endl;
+		bbcbotReconnectAttempts++;
+		int delaySeconds = std::min(5 + (bbcbotReconnectAttempts - 1) * 5, 30);
+		std::cout << "[BBCBot] Reconnect #" << bbcbotReconnectAttempts 
+		          << " in " << delaySeconds << " seconds..." << std::endl;
+		
+		// Close lobby and terminate broken connection
+		if (myGameLobbyDialog && myGameLobbyDialog->isVisible()) {
+			myGameLobbyDialog->close();
+		}
+		mySession->terminateNetworkClient();
+		
+		// Schedule reconnect
+		bbcbotReconnectTimer->start(delaySeconds * 1000);
+		return;
+	}
+	
+	// Normal client: Show warning to user
 	MyMessageBox::warning(this, tr("Connection Lost"),
 						  tr("The connection to the server was lost.\nPlease reconnect to continue."),
 						  QMessageBox::Ok);
@@ -1452,54 +1456,7 @@ void startWindowImpl::bbcbotResetReconnectAttempts()
 		std::cout << "[BBCBot] Connection successful. Resetting reconnect attempts counter." << std::endl;
 		bbcbotReconnectAttempts = 0;
 		// Reset activity timestamp on successful connection
-		bbcbotLastActivity = QDateTime::currentDateTime();
-	}
-}
-
-void startWindowImpl::bbcbotUpdateActivity()
-{
-	if (bbcbotReconnectEnabled) {
-		bbcbotLastActivity = QDateTime::currentDateTime();
-	}
-}
-
-void startWindowImpl::bbcbotHeartbeatCheck()
-{
-	if (!bbcbotReconnectEnabled || mySession->bbcbotpassword.empty()) {
-		return;
-	}
-	
-	// Check if lobby dialog is visible (we're supposed to be connected)
-	if (!myGameLobbyDialog || !myGameLobbyDialog->isVisible()) {
-		return;
-	}
-	
-	// Check if we haven't received any activity in the last 90 seconds
-	int secondsSinceActivity = bbcbotLastActivity.secsTo(QDateTime::currentDateTime());
-	
-	if (secondsSinceActivity > 90) {
-		std::cout << "[BBCBot] No server activity for " << secondsSinceActivity 
-		          << " seconds. Connection appears to be dead. Forcing reconnect..." << std::endl;
-		
-		// Stop heartbeat temporarily during reconnect
-		bbcbotHeartbeatTimer->stop();
-		
-		// Trigger reconnect
-		bbcbotReconnectAttempts++;
-		int delaySeconds = std::min(5 + (bbcbotReconnectAttempts - 1) * 5, 30);
-		std::cout << "[BBCBot] Reconnect #" << bbcbotReconnectAttempts 
-		          << " in " << delaySeconds << " seconds..." << std::endl;
-		
-		// Close lobby and trigger reconnect
-		if (myGameLobbyDialog && myGameLobbyDialog->isVisible()) {
-			myGameLobbyDialog->close();
-		}
-		mySession->terminateNetworkClient();
-		
-		bbcbotReconnectTimer->start(delaySeconds * 1000);
-		
-		// Restart heartbeat timer
-		bbcbotHeartbeatTimer->start(30000);
+		lastServerActivity = QDateTime::currentDateTime();
 	}
 }
 

@@ -181,8 +181,6 @@ public slots:
 	void networkError(int, int);
 	void bbcbotAttemptReconnect();
 	void bbcbotResetReconnectAttempts();
-	void bbcbotHeartbeatCheck();
-	void bbcbotUpdateActivity();
 	void networkNotification(int);
 	void networkMessage(QString);
 	void networkMessage(unsigned);
@@ -220,21 +218,15 @@ private:
 	MyMessageBox msgBoxOutdatedVersion;
 	bool msgBoxOutdatedVersionActive;
 
-<<<<<<< HEAD
-	// BBCBot: Auto-reconnect support
-	QTimer *bbcbotReconnectTimer;
-	bool bbcbotReconnectEnabled;
-	int bbcbotReconnectAttempts;
-	
-	// BBCBot: Connection heartbeat monitoring
-	QTimer *bbcbotHeartbeatTimer;
-	QDateTime bbcbotLastActivity;
-=======
 	// Connection monitoring (heartbeat detection for silent disconnects)
 	QTimer *connectionHeartbeatTimer;
 	QDateTime lastServerActivity;
 	bool connectionMonitoringActive;
->>>>>>> 2ed71df8 (silent disconnect hardening)
+
+	// BBCBot: Auto-reconnect support
+	QTimer *bbcbotReconnectTimer;
+	bool bbcbotReconnectEnabled;
+	int bbcbotReconnectAttempts;
 
 	friend class GuiWrapper;
 };
