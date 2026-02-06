@@ -240,6 +240,7 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalNetClientGameListSpectatorJoined(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameAddSpectator(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientGameListSpectatorLeft(unsigned, unsigned)), myGameLobbyDialog, SLOT(gameRemoveSpectator(unsigned, unsigned)));
 	connect(this, SIGNAL(signalNetClientRemovedFromGame(int)), myGameLobbyDialog, SLOT(removedFromGame(int)));
+<<<<<<< HEAD
 	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), myGameLobbyDialog, SLOT(updateStats(ServerStats)));
 	
 	// BBCBot: Track activity for heartbeat monitoring
@@ -247,6 +248,15 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), this, SLOT(bbcbotUpdateActivity()));
 	connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), this, SLOT(bbcbotUpdateActivity()));
 	connect(this, SIGNAL(signalLobbyPlayerLeft(unsigned)), this, SLOT(bbcbotUpdateActivity()));
+=======
+	connect(this, SIGNAL(signalNetClientStatsUpdate(ServerStats)), this, SLOT(handleStatsUpdate(ServerStats)));
+
+	// Connection monitoring: update activity on frequent server events
+	connect(this, SIGNAL(signalNetClientGameListNew(unsigned)), this, SLOT(updateServerActivity()));
+	connect(this, SIGNAL(signalNetClientGameListRemove(unsigned)), this, SLOT(updateServerActivity()));
+	connect(this, SIGNAL(signalLobbyPlayerJoined(unsigned, QString)), this, SLOT(updateServerActivity()));
+	connect(this, SIGNAL(signalLobbyPlayerLeft(unsigned)), this, SLOT(updateServerActivity()));
+>>>>>>> 2ed71df8 (silent disconnect hardening)
 
 	connect(this, SIGNAL(signalNetClientGameChatMsg(QString, QString)), myGuiInterface->getMyW()->getMyChat(), SLOT(receiveMessage(QString, QString)));
 	connect(this, SIGNAL(signalNetClientLobbyChatMsg(QString, QString)), myStartNetworkGameDialog->getMyChat(), SLOT(receiveMessage(QString, QString)));
@@ -271,6 +281,12 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	connect(this, SIGNAL(signalSelfGameInvitation(unsigned, unsigned)), myGameLobbyDialog, SLOT(showInvitationDialog(unsigned, unsigned)));
 	connect(this, SIGNAL(signalPlayerGameInvitation(unsigned, unsigned, unsigned)), myGameLobbyDialog, SLOT(chatInfoPlayerInvitation(unsigned, unsigned, unsigned)));
 	connect(this, SIGNAL(signalRejectedGameInvitation(unsigned, unsigned, DenyGameInvitationReason)), myGameLobbyDialog, SLOT(chatInfoPlayerRejectedInvitation(unsigned, unsigned, DenyGameInvitationReason)));
+
+	// Initialize connection heartbeat monitoring
+	connectionHeartbeatTimer = new QTimer(this);
+	connect(connectionHeartbeatTimer, SIGNAL(timeout()), this, SLOT(connectionHeartbeatCheck()));
+	connectionMonitoringActive = false;
+	lastServerActivity = QDateTime::currentDateTime();
 
 	this->show();
 
@@ -811,8 +827,62 @@ void startWindowImpl::hideTimeoutDialog()
 	myTimeoutDialog->hide();
 }
 
+void startWindowImpl::handleStatsUpdate(ServerStats stats)
+{
+	// Forward to lobby dialog
+	myGameLobbyDialog->updateStats(stats);
+	
+	// Update activity timestamp
+	updateServerActivity();
+}
+
+void startWindowImpl::updateServerActivity()
+{
+	// Update last activity timestamp for connection monitoring
+	lastServerActivity = QDateTime::currentDateTime();
+	
+	// Start monitoring if not already active
+	if (!connectionMonitoringActive) {
+		connectionMonitoringActive = true;
+		connectionHeartbeatTimer->start(30000); // Check every 30 seconds
+	}
+}
+
+void startWindowImpl::connectionHeartbeatCheck()
+{
+	if (!connectionMonitoringActive) {
+		return;
+	}
+	
+	// Check if we received server activity in the last 90 seconds
+	// (GameList/PlayerList updates are very frequent on an active server)
+	qint64 secondsSinceActivity = lastServerActivity.secsTo(QDateTime::currentDateTime());
+	if (secondsSinceActivity > 90) {
+		// Connection appears to be lost silently
+		showConnectionLostDialog();
+	}
+}
+
+void startWindowImpl::showConnectionLostDialog()
+{
+	// Stop monitoring
+	connectionMonitoringActive = false;
+	connectionHeartbeatTimer->stop();
+	
+	// Show warning to user
+	MyMessageBox::warning(this, tr("Connection Lost"),
+						  tr("The connection to the server was lost.\nPlease reconnect to continue."),
+						  QMessageBox::Ok);
+	
+	// Terminate the broken connection cleanly
+	mySession->terminateNetworkClient();
+}
+
 void startWindowImpl::networkError(int errorID, int /*osErrorID*/)
 {
+	// Stop connection monitoring
+	connectionMonitoringActive = false;
+	connectionHeartbeatTimer->stop();
 
 	hideTimeoutDialog();
 	switch (errorID) {

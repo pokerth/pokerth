@@ -33,6 +33,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <assert.h>
+#include <QDateTime>
 
 #ifdef GUI_800x480
 #include "ui_startwindow_800x480.h"
@@ -171,6 +172,12 @@ public slots:
 	void showTimeoutDialog(int msgID, unsigned duration);
 	void hideTimeoutDialog();
 
+	// Connection monitoring (heartbeat)
+	void handleStatsUpdate(ServerStats stats);
+	void updateServerActivity();
+	void connectionHeartbeatCheck();
+	void showConnectionLostDialog();
+
 	void networkError(int, int);
 	void bbcbotAttemptReconnect();
 	void bbcbotResetReconnectAttempts();
@@ -213,6 +220,7 @@ private:
 	MyMessageBox msgBoxOutdatedVersion;
 	bool msgBoxOutdatedVersionActive;
 
+<<<<<<< HEAD
 	// BBCBot: Auto-reconnect support
 	QTimer *bbcbotReconnectTimer;
 	bool bbcbotReconnectEnabled;
@@ -221,6 +229,12 @@ private:
 	// BBCBot: Connection heartbeat monitoring
 	QTimer *bbcbotHeartbeatTimer;
 	QDateTime bbcbotLastActivity;
+=======
+	// Connection monitoring (heartbeat detection for silent disconnects)
+	QTimer *connectionHeartbeatTimer;
+	QDateTime lastServerActivity;
+	bool connectionMonitoringActive;
+>>>>>>> 2ed71df8 (silent disconnect hardening)
 
 	friend class GuiWrapper;
 };
