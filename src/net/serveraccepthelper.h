@@ -40,6 +40,7 @@
 #include <openssl/err.h>
 #include <sstream>
 #include <sys/socket.h>  // für setsockopt
+#include <netinet/tcp.h>  // für TCP_KEEPIDLE, TCP_KEEPINTVL, TCP_KEEPCNT
 
 #include <net/serveracceptinterface.h>
 #include <net/serverlobbythread.h>
@@ -204,12 +205,16 @@ protected:
                 acceptedSocket->set_option(typename P::no_delay(true));
                 acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
                 
-                // Setze Socket Timeouts für read/write um blocking zu verhindern
-                struct timeval tv;
-                tv.tv_sec = 30;  // 30 Sekunden Timeout
-                tv.tv_usec = 0;
-                setsockopt(acceptedSocket->native_handle(), SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
-                setsockopt(acceptedSocket->native_handle(), SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv));
+                // Configure TCP keepalive parameters to detect broken connections
+                // and prevent NAT/firewall idle-connection drops.
+                // Send first keepalive probe after 60s idle, then every 15s, fail after 5 missed probes.
+                int fd = acceptedSocket->native_handle();
+                int keepidle = 60;    // seconds until first keepalive probe
+                int keepintvl = 15;   // seconds between subsequent probes
+                int keepcnt = 5;      // number of failed probes before disconnect
+                setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &keepidle, sizeof(keepidle));
+                setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
+                setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT, &keepcnt, sizeof(keepcnt));
             } catch (const std::exception& e) {
                 LOG_ERROR("[TLS-SERVER] Failed to set socket options: " << e.what());
                 startNextAccept();

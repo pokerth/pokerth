@@ -43,9 +43,9 @@ Var StartMenuFolder
 !define MUI_ICON "pokerth.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 
-; Welcome page
-!define MUI_WELCOMEPAGE_TITLE "Willkommen beim ${PRODUCT_NAME} Setup"
-!define MUI_WELCOMEPAGE_TEXT "Dieser Assistent wird Sie durch die Installation von ${PRODUCT_NAME} ${PRODUCT_VERSION} führen.$\r$\n$\r$\n${PRODUCT_NAME} ist ein professioneller Texas Hold'em Poker Simulator.$\r$\n$\r$\nKlicken Sie auf Weiter, um fortzufahren."
+; Welcome page - multilingual via LangStrings
+!define MUI_WELCOMEPAGE_TITLE $(WelcomeTitle)
+!define MUI_WELCOMEPAGE_TEXT $(WelcomeText)
 
 ; --------------------------------
 ; Pages
@@ -73,15 +73,49 @@ Var StartMenuFolder
 !insertmacro MUI_UNPAGE_INSTFILES
 
 ; --------------------------------
-; Languages
+; Language Selection Settings (remember choice in registry)
 
-!insertmacro MUI_LANGUAGE "German"
+!define MUI_LANGDLL_REGISTRY_ROOT "HKLM"
+!define MUI_LANGDLL_REGISTRY_KEY "${PRODUCT_UNINST_KEY}"
+!define MUI_LANGDLL_REGISTRY_VALUENAME "InstallerLanguage"
+
+; --------------------------------
+; Languages (English first = default fallback)
+
 !insertmacro MUI_LANGUAGE "English"
+!insertmacro MUI_LANGUAGE "German"
+
+; --------------------------------
+; Multilingual Strings
+
+LangString WelcomeTitle ${LANG_ENGLISH} "Welcome to ${PRODUCT_NAME} Setup"
+LangString WelcomeTitle ${LANG_GERMAN} "Willkommen beim ${PRODUCT_NAME} Setup"
+
+LangString WelcomeText ${LANG_ENGLISH} "This wizard will guide you through the installation of ${PRODUCT_NAME} ${PRODUCT_VERSION}.$\r$\n$\r$\n${PRODUCT_NAME} is a professional Texas Hold'em Poker Simulator.$\r$\n$\r$\nClick Next to continue."
+LangString WelcomeText ${LANG_GERMAN} "Dieser Assistent wird Sie durch die Installation von ${PRODUCT_NAME} ${PRODUCT_VERSION} führen.$\r$\n$\r$\n${PRODUCT_NAME} ist ein professioneller Texas Hold'em Poker Simulator.$\r$\n$\r$\nKlicken Sie auf Weiter, um fortzufahren."
+
+LangString SecMainName ${LANG_ENGLISH} "Main Program"
+LangString SecMainName ${LANG_GERMAN} "Hauptprogramm"
+
+LangString AlreadyInstalled ${LANG_ENGLISH} "${PRODUCT_NAME} is already installed. $\n$\nClick 'OK' to uninstall the previous version, or 'Cancel' to cancel the installation."
+LangString AlreadyInstalled ${LANG_GERMAN} "${PRODUCT_NAME} ist bereits installiert. $\n$\nKlicken Sie auf 'OK', um die vorherige Version zu deinstallieren, oder auf 'Abbrechen', um die Installation abzubrechen."
+
+LangString ReadmeThanks ${LANG_ENGLISH} "Thank you for installing PokerTH!"
+LangString ReadmeThanks ${LANG_GERMAN} "Vielen Dank für die Installation von PokerTH!"
+
+LangString ReadmeDesc ${LANG_ENGLISH} "PokerTH is a professional Texas Hold'em Poker Simulator."
+LangString ReadmeDesc ${LANG_GERMAN} "PokerTH ist ein professioneller Texas Hold'em Poker Simulator."
+
+LangString ReadmeStart ${LANG_ENGLISH} "To start the game, use the Start Menu entry$\r$\nor the desktop shortcut."
+LangString ReadmeStart ${LANG_GERMAN} "Um das Spiel zu starten, verwenden Sie den Startmenü-Eintrag$\r$\noder das Desktop-Symbol."
+
+LangString ReadmeEnjoy ${LANG_ENGLISH} "Enjoy playing!"
+LangString ReadmeEnjoy ${LANG_GERMAN} "Viel Spaß beim Spielen!"
 
 ; --------------------------------
 ; Installer Sections
 
-Section "Hauptprogramm" SecMain
+Section "Main Program" SecMain
   SectionIn RO
   
   SetOutPath "$INSTDIR"
@@ -123,16 +157,15 @@ Section "Hauptprogramm" SecMain
   ; Create Desktop shortcut
   CreateShortcut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\pokerth_client.exe" "" "$INSTDIR\pokerth.ico" 0
   
-  ; Create README
+  ; Create README (multilingual)
   FileOpen $0 "$INSTDIR\README.txt" w
   FileWrite $0 "${PRODUCT_NAME} ${PRODUCT_VERSION}$\r$\n"
   FileWrite $0 "==============================$\r$\n$\r$\n"
-  FileWrite $0 "Vielen Dank für die Installation von PokerTH!$\r$\n$\r$\n"
-  FileWrite $0 "PokerTH ist ein professioneller Texas Hold'em Poker Simulator.$\r$\n$\r$\n"
+  FileWrite $0 "$(ReadmeThanks)$\r$\n$\r$\n"
+  FileWrite $0 "$(ReadmeDesc)$\r$\n$\r$\n"
   FileWrite $0 "Website: ${PRODUCT_WEB_SITE}$\r$\n$\r$\n"
-  FileWrite $0 "Um das Spiel zu starten, verwenden Sie den Startmenü-Eintrag$\r$\n"
-  FileWrite $0 "oder das Desktop-Symbol.$\r$\n$\r$\n"
-  FileWrite $0 "Viel Spaß beim Spielen!$\r$\n"
+  FileWrite $0 "$(ReadmeStart)$\r$\n$\r$\n"
+  FileWrite $0 "$(ReadmeEnjoy)$\r$\n"
   FileClose $0
   
 SectionEnd
@@ -197,12 +230,18 @@ SectionEnd
 ; Installer Functions
 
 Function .onInit
+  ; Show language selection dialog (auto-detects system language)
+  !insertmacro MUI_LANGDLL_DISPLAY
+
+  ; Set section name to match selected language
+  SectionSetText ${SecMain} $(SecMainName)
+
   ; Check if already installed
   ReadRegStr $R0 ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString"
   StrCmp $R0 "" done
   
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  "${PRODUCT_NAME} ist bereits installiert. $\n$\nKlicken Sie auf 'OK', um die vorherige Version zu deinstallieren, oder auf 'Abbrechen', um die Installation abzubrechen." \
+  $(AlreadyInstalled) \
   IDOK uninst
   Abort
   
@@ -211,4 +250,9 @@ uninst:
   ExecWait '$R0 _?=$INSTDIR'
   
 done:
+FunctionEnd
+
+Function un.onInit
+  ; Restore language selection for uninstaller
+  !insertmacro MUI_UNGETLANGUAGE
 FunctionEnd

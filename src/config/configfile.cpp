@@ -316,7 +316,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("DlgGameLobbyGameListFilterIndex", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DlgGameLobbyNickListSortFilterIndex", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("GameTableFullScreenSave", CONFIG_TYPE_INT, "0"));
-	configList.push_back(ConfigInfo("GameTableHeightSave", CONFIG_TYPE_INT, "600"));
+	configList.push_back(ConfigInfo("GameTableHeightSave", CONFIG_TYPE_INT, "621"));
 	configList.push_back(ConfigInfo("GameTableWidthSave", CONFIG_TYPE_INT, "1024"));
 	configList.push_back(ConfigInfo("InternetLoginMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetLoginPassword", CONFIG_TYPE_STRING, ""));
@@ -387,7 +387,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 					QFile file(QString::fromStdString(configFileName));
 					if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
 					{
-						qDebug("Failed to open file for writing.");
+						// qDebug("Failed to open file for writing.");
 					}
 					else
 					{
@@ -546,7 +546,7 @@ void ConfigFile::writeBuffer() const
 		QFile file(QString::fromStdString(configFileName));
 		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
 		{
-			qDebug("Failed to open file for writing.");
+			// qDebug("Failed to open file for writing.");
 		}
 		else
 		{

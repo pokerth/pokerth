@@ -6,6 +6,7 @@
 #include "lobbyhandler.h"
 #include "session.h"
 #include "configfile.h"
+#include "gamedata.h"
 
 // PlayerListModel implementation
 PlayerListModel::PlayerListModel(QObject *parent)
@@ -34,6 +35,8 @@ QVariant PlayerListModel::data(const QModelIndex &index, int role) const
         return player.name;
     case IsAdminRole:
         return player.isAdmin;
+    case CountryCodeRole:
+        return player.countryCode;
     default:
         return QVariant();
     }
@@ -45,10 +48,11 @@ QHash<int, QByteArray> PlayerListModel::roleNames() const
     roles[PlayerIdRole] = "playerId";
     roles[PlayerNameRole] = "playerName";
     roles[IsAdminRole] = "isAdmin";
+    roles[CountryCodeRole] = "countryCode";
     return roles;
 }
 
-void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bool isAdmin)
+void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bool isAdmin, const QString &countryCode)
 {
     // Check if player already exists
     if (m_playerIndexMap.contains(playerId)) {
@@ -63,6 +67,7 @@ void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bo
     player.id = playerId;
     player.name = playerName;
     player.isAdmin = isAdmin;
+    player.countryCode = countryCode;
     m_players.append(player);
     m_playerIndexMap[playerId] = newRow;
     
@@ -102,7 +107,7 @@ void PlayerListModel::updatePlayer(unsigned playerId, const QString &newName)
     emit dataChanged(idx, idx, {PlayerNameRole});
 }
 
-void PlayerListModel::updatePlayerInfo(unsigned playerId, const QString &playerName, bool isAdmin)
+void PlayerListModel::updatePlayerInfo(unsigned playerId, const QString &playerName, bool isAdmin, const QString &countryCode)
 {
     if (!m_playerIndexMap.contains(playerId))
         return;
@@ -110,6 +115,8 @@ void PlayerListModel::updatePlayerInfo(unsigned playerId, const QString &playerN
     int row = m_playerIndexMap[playerId];
     m_players[row].name = playerName;
     m_players[row].isAdmin = isAdmin;
+    if (!countryCode.isEmpty())
+        m_players[row].countryCode = countryCode;
     
     QModelIndex idx = index(row);
     emit dataChanged(idx, idx);
@@ -264,7 +271,12 @@ void LobbyHandler::setConfig(ConfigFile *config)
 
 void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerName)
 {
-    m_playerListModel.addPlayer(playerId, playerName);
+    QString countryCode;
+    if (m_session) {
+        PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+        countryCode = QString::fromStdString(info.countryCode).toLower();
+    }
+    m_playerListModel.addPlayer(playerId, playerName, false, countryCode);
 }
 
 void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
@@ -274,8 +286,14 @@ void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 
 void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName, bool isAdmin)
 {
+    // Fetch country code from session player info
+    QString countryCode;
+    if (m_session) {
+        PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+        countryCode = QString::fromStdString(info.countryCode).toLower();
+    }
     // Update in player list model
-    m_playerListModel.updatePlayerInfo(playerId, playerName, isAdmin);
+    m_playerListModel.updatePlayerInfo(playerId, playerName, isAdmin, countryCode);
     
     // Check if this is our own player by comparing with session's unique player ID
     if (m_session) {

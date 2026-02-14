@@ -586,8 +586,15 @@ ClientThread::Main()
 		m_ioService->run(); // Will only be aborted asynchronously.
 
 	} catch (const PokerTHException &e) {
+		// Flush any pending log data before handling the error
+		// This ensures the current hand's data is written to SQLite
+		// even during unexpected disconnects
+		if (m_clientLog) {
+			m_clientLog->flushLog();
+		}
+
 		// Close the session completely before handling the error
-		qDebug() << "[CLIENT] Exception caught - closing session";
+		// qDebug() << "[CLIENT] Exception caught - closing session";
 		if (GetContext().GetSessionData()) {
 			try {
 				GetContext().GetSessionData()->Close();
@@ -772,15 +779,26 @@ ClientThread::SetPlayerInfo(unsigned id, const PlayerInfo &info)
 		if (info.hasAvatar) {
 			string avatarFile;
 			if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile)) {
-				playerData->SetAvatarFile(GetQtToolsInterface().stringToUtf8(avatarFile));
+				string utf8 = GetQtToolsInterface().stringToUtf8(avatarFile);
+				playerData->SetAvatarFile(utf8);
+			} else {
 			}
 		}
 	}
 	if (GetGame()) {
 		boost::shared_ptr<PlayerInterface> clientPlayer(GetGame()->getPlayerByUniqueId(id));
-		if (clientPlayer)
+		if (clientPlayer) {
 			clientPlayer->setMyName(info.playerName);
-		// Skip avatar here, the game is already running.
+			if (info.hasAvatar) {
+				string avatarFile;
+				if (GetAvatarManager().GetAvatarFileName(info.avatar, avatarFile)) {
+					string utf8File = GetQtToolsInterface().stringToUtf8(avatarFile);
+					clientPlayer->setMyAvatar(utf8File);
+					GetGui().setPlayerAvatar(id, utf8File);
+				} else {
+				}
+			}
+		}
 	}
 
 	if (find(m_avatarShouldRequestList.begin(), m_avatarShouldRequestList.end(), id) != m_avatarShouldRequestList.end()) {
@@ -1011,27 +1029,27 @@ ClientThread::SslInfoCallback(const SSL *ssl, int where, int ret)
     const char *state = SSL_state_string_long((SSL*)ssl);
     
     if (where & SSL_CB_LOOP) {
-        qDebug() << "[TLS-HANDSHAKE] Loop:" << (state ? state : "unknown");
+        // qDebug() << "[TLS-HANDSHAKE] Loop:" << (state ? state : "unknown");
     }
     else if (where & SSL_CB_ALERT) {
         const char *alert_type = (where & SSL_CB_READ) ? "read" : "write";
-        qDebug() << "[TLS-HANDSHAKE] Alert" << alert_type << ":" 
-                 << SSL_alert_type_string_long(ret) << "/"
-                 << SSL_alert_desc_string_long(ret);
+        // qDebug() << "[TLS-HANDSHAKE] Alert" << alert_type << ":" 
+        //          << SSL_alert_type_string_long(ret) << "/"
+        //          << SSL_alert_desc_string_long(ret);
     }
     else if (where & SSL_CB_EXIT) {
         if (ret == 0) {
-            qDebug() << "[TLS-HANDSHAKE] Exit failed in:" << (state ? state : "unknown");
+            // qDebug() << "[TLS-HANDSHAKE] Exit failed in:" << (state ? state : "unknown");
         }
         else if (ret < 0) {
-            qDebug() << "[TLS-HANDSHAKE] Exit error in:" << (state ? state : "unknown") << "ret:" << ret;
+            // qDebug() << "[TLS-HANDSHAKE] Exit error in:" << (state ? state : "unknown") << "ret:" << ret;
         }
     }
     else if (where & SSL_CB_HANDSHAKE_START) {
-        qDebug() << "[TLS-HANDSHAKE] Handshake START";
+        // qDebug() << "[TLS-HANDSHAKE] Handshake START";
     }
     else if (where & SSL_CB_HANDSHAKE_DONE) {
-        qDebug() << "[TLS-HANDSHAKE] Handshake DONE successfully!";
+        // qDebug() << "[TLS-HANDSHAKE] Handshake DONE successfully!";
     }
 }
 
@@ -1040,50 +1058,50 @@ ClientThread::CreateContextSession()
 {
     ClientContext &context = GetContext();
 
-    qDebug() << "========== [TLS-DEBUG] CreateContextSession started ==========";
-    qDebug() << "[TLS-DEBUG] TLS enabled:" << (context.GetTls() ? "YES" : "NO");
-    qDebug() << "[TLS-DEBUG] Server address:" << context.GetServerAddr().c_str();
-    qDebug() << "[TLS-DEBUG] Server port:" << context.GetServerPort();
+    // qDebug() << "========== [TLS-DEBUG] CreateContextSession started ==========";
+    // qDebug() << "[TLS-DEBUG] TLS enabled:" << (context.GetTls() ? "YES" : "NO");
+    // qDebug() << "[TLS-DEBUG] Server address:" << context.GetServerAddr().c_str();
+    // qDebug() << "[TLS-DEBUG] Server port:" << context.GetServerPort();
 
     boost::shared_ptr<boost::asio::ip::tcp::resolver> resolver(new boost::asio::ip::tcp::resolver(*m_ioService));
     context.SetResolver(resolver);
 
     if (context.GetTls()) {
-        qDebug() << "[TLS-DEBUG] >>> Creating SSL context...";
+        // qDebug() << "[TLS-DEBUG] >>> Creating SSL context...";
         boost::shared_ptr<boost::asio::ssl::context> sslCtx(
             new boost::asio::ssl::context(boost::asio::ssl::context::sslv23_client));
-        qDebug() << "[TLS-DEBUG] >>> SSL context created successfully";
+        // qDebug() << "[TLS-DEBUG] >>> SSL context created successfully";
         
-        qDebug() << "[TLS-DEBUG] >>> Setting verify mode to verify_none...";
+        // qDebug() << "[TLS-DEBUG] >>> Setting verify mode to verify_none...";
         sslCtx->set_verify_mode(boost::asio::ssl::verify_none);
-        qDebug() << "[TLS-DEBUG] >>> Verify mode set";
+        // qDebug() << "[TLS-DEBUG] >>> Verify mode set";
 
-        qDebug() << "[TLS-DEBUG] >>> Setting SSL info callback on context...";
+        // qDebug() << "[TLS-DEBUG] >>> Setting SSL info callback on context...";
         SSL_CTX_set_info_callback(sslCtx->native_handle(), &ClientThread::SslInfoCallback);
-        qDebug() << "[TLS-DEBUG] >>> SSL info callback set on context";
+        // qDebug() << "[TLS-DEBUG] >>> SSL info callback set on context";
 
-        qDebug() << "[TLS-DEBUG] >>> Creating SSL stream...";
+        // qDebug() << "[TLS-DEBUG] >>> Creating SSL stream...";
         boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> sslStream(
             new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(*m_ioService, *sslCtx));
-        qDebug() << "[TLS-DEBUG] >>> SSL stream created successfully";
+        // qDebug() << "[TLS-DEBUG] >>> SSL stream created successfully";
 
-        qDebug() << "[TLS-DEBUG] >>> Setting SSL info callback on stream...";
+        // qDebug() << "[TLS-DEBUG] >>> Setting SSL info callback on stream...";
         SSL_set_info_callback(sslStream->native_handle(), &ClientThread::SslInfoCallback);
-        qDebug() << "[TLS-DEBUG] >>> SSL info callback set on stream";
+        // qDebug() << "[TLS-DEBUG] >>> SSL info callback set on stream";
 
-        qDebug() << "[TLS-DEBUG] >>> Creating session data with SSL...";
+        // qDebug() << "[TLS-DEBUG] >>> Creating session data with SSL...";
         boost::shared_ptr<SessionData> session(new SessionData(sslStream, SESSION_ID_GENERIC, *this, *m_ioService, 0));
         context.SetSessionData(session);
-        qDebug() << "[TLS-DEBUG] >>> Session data created with SSL - TLS mode ACTIVE";
+        // qDebug() << "[TLS-DEBUG] >>> Session data created with SSL - TLS mode ACTIVE";
     } else {
-        qDebug() << "[TLS-DEBUG] >>> Creating plain TCP socket (TLS disabled)...";
+        // qDebug() << "[TLS-DEBUG] >>> Creating plain TCP socket (TLS disabled)...";
         boost::shared_ptr<boost::asio::ip::tcp::socket> sock(new boost::asio::ip::tcp::socket(*m_ioService));
         boost::shared_ptr<SessionData> session(new SessionData(sock, SESSION_ID_GENERIC, *this, *m_ioService));
         context.SetSessionData(session);
-        qDebug() << "[TLS-DEBUG] >>> Session data created - PLAIN mode (no TLS)";
+        // qDebug() << "[TLS-DEBUG] >>> Session data created - PLAIN mode (no TLS)";
     }
     
-    qDebug() << "========== [TLS-DEBUG] CreateContextSession completed ==========";
+    // qDebug() << "========== [TLS-DEBUG] CreateContextSession completed ==========";
 }
 
 ClientState &

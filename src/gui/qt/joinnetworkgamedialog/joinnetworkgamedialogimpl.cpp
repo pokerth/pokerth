@@ -37,6 +37,8 @@
 #include <QDomElement>
 #include <QFile>
 #include <net/socket_startup.h>
+#include "core/appimage_utils.h"
+
 #ifdef ANDROID
 #include "mobileinputhelper.h"
 #endif
@@ -51,6 +53,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+	AppImageUtils::patchExternalLinks(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_profileName);

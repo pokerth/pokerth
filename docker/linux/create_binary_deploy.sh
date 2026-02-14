@@ -135,7 +135,7 @@ if [ -d "$QT6_PLUGINS" ]; then
     echo "Qt6 Plugins gefunden: $QT6_PLUGINS"
     
     # Kopiere wichtige Plugin-Kategorien
-    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia sqldrivers; do
+    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia sqldrivers tls; do
         if [ -d "$QT6_PLUGINS/$plugin_category" ]; then
             echo "Kopiere $plugin_category plugins..."
             mkdir -p "$DEPLOY_DIR/plugins/$plugin_category"

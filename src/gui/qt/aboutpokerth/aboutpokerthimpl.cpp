@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "aboutpokerthimpl.h"
+#include "core/appimage_utils.h"
 #include "configfile.h"
 #include "game_defs.h"
 #include <QtCore>
@@ -50,6 +51,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+	AppImageUtils::patchExternalLinks(this);
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 

@@ -78,7 +78,7 @@
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
 #define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
-#define SERVER_SESSION_FORCED_TIMEOUT_SEC			86400	// 1 day, should be quite large.
+#define SERVER_SESSION_FORCED_TIMEOUT_SEC			604800	// 7 days - reset on every client activity
 
 #define SERVER_ADDRESS_LOCALHOST_STR_V4				"127.0.0.1"
 #define SERVER_ADDRESS_LOCALHOST_STR_V4V6			"::ffff:127.0.0.1"
@@ -1043,8 +1043,10 @@ void
 ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (session && packet) {
-		if (packet->IsClientActivity())
+		if (packet->IsClientActivity()) {
 			session->ResetActivityTimer();
+			session->ResetGlobalTimeout();
+		}
 
 		if (session->GetState() == SessionData::Init) {
 			if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_InitMessage) {
@@ -1167,6 +1169,9 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
         noAuth = true;
     } else if (initMessage.login() == InitMessage::authenticatedLogin) {
         playerName = initMessage.nickname();
+        if (initMessage.has_avatarhash()) {
+            memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
+        }
         if (initMessage.has_clientuserdata()) {
             session->AuthSetPassword(initMessage.clientuserdata());
         }
@@ -1867,7 +1872,9 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 
     std::string providedPassword = tmpSession->AuthGetPassword();
     if (!providedPassword.empty() && providedPassword == dbPlayerData.secret) {
-        EstablishSession(tmpSession);
+        tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
+        tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
+        InitAfterLogin(tmpSession);
     } else {
         LOG_MSG("Authentication failed for player " << playerId << " (" << tmpSession->GetClientAddr() << ")");
         SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
@@ -2135,6 +2142,10 @@ ServerLobbyThread::HandleReAddedSession(boost::shared_ptr<SessionData> session)
 		// Set state (back) to established.
 		session->SetState(SessionData::Established);
 		session->SetGame(boost::shared_ptr<ServerGame>());
+		// Reset timers when returning to lobby - prevents stale timeouts from
+		// the original connection time killing long-lived sessions.
+		session->ResetActivityTimer();
+		session->ResetGlobalTimeout();
 		// Add session to lobby list.
 		m_sessionManager.AddSession(session);
 	} else {
@@ -2153,9 +2164,13 @@ ServerLobbyThread::SessionTimeoutWarning(boost::shared_ptr<SessionData> session,
 	netWarning->set_remainingseconds(remainingSec);
 	GetSender().Send(session, packet);
 
-	if (session->GetGame() && session->GetPlayerData()) {
-		session->GetGame()->MarkPlayerAsInactive(session->GetPlayerData()->GetUniqueId());
-	}
+	// Do NOT mark the player as inactive here. This is just a WARNING -
+	// the player still has remainingSec seconds to respond. Marking them
+	// inactive immediately causes the "ghost player" bug where a player
+	// who is still connected but idle (e.g., waiting between hands) gets
+	// treated as disconnected. The actual deactivation happens in
+	// SessionError/TimerSessionTimeout if the player truly times out,
+	// and RemoveDisconnectedPlayers() handles cleanup between hands.
 }
 
 void
@@ -2292,8 +2307,9 @@ ServerLobbyThread::BroadcastStatisticsUpdate(const ServerStats &stats)
 		data->set_statisticsvalue(m_sessionManager.GetRawSessionCount() + m_gameSessionManager.GetRawSessionCount());
 
 		m_sessionManager.SendLobbyMsgToAllSessions(GetSender(), packet, SessionData::Established);
-		// Use SendToAllSessions for game sessions - SendLobbyMsgToAllSessions checks
-		// WantsLobbyMsg() which is false for players in-game, so heartbeat would not arrive
+		// Use SendToAllSessions for game sessions to bypass WantsLobbyMsg check.
+		// Players in-game unsubscribe from lobby messages, but still need the
+		// heartbeat stats for connection monitoring.
 		m_gameSessionManager.SendToAllSessions(GetSender(), packet, SessionData::Game | SessionData::Spectating | SessionData::SpectatorWaiting);
 	}
 }

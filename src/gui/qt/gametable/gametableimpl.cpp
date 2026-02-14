@@ -67,10 +67,13 @@
 #include <net/socket_msg.h>
 
 #include <cmath>
+#include <climits>
 #include <algorithm>
 
 #define FORMATLEFT(X) "<p align='center'>(X)"
 #define FORMATRIGHT(X) "(X)</p>"
+
+#include "core/appimage_utils.h"
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
@@ -98,6 +101,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
 	setupUi(this);
+	AppImageUtils::patchExternalLinks(this);
 
 	//Sound
 	mySoundEventHandler = new SoundEvents(myConfig);
@@ -698,6 +702,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	connect(this, SIGNAL(signalPostRiverShowCards(unsigned)), this, SLOT(showHoleCards(unsigned)));
 	connect(this, SIGNAL(signalFlipHolecardsAllIn()), this, SLOT(flipHolecardsAllIn()));
 	connect(this, SIGNAL(signalNextRoundCleanGui()), this, SLOT(nextRoundCleanGui()));
+	connect(this, SIGNAL(signalPrepareForNewHand()), this, SLOT(prepareForNewHand()));
 	connect(this, SIGNAL(signalStartVoteOnKick(unsigned, unsigned, int, int)), this, SLOT(startVoteOnKick(unsigned, unsigned, int, int)));
 	connect(this, SIGNAL(signalChangeVoteOnKickButtonsState(bool)), this, SLOT(changeVoteOnKickButtonsState(bool)));
 	connect(this, SIGNAL(signalEndVoteOnKick()), this, SLOT(endVoteOnKick()));
@@ -997,7 +1002,9 @@ void gameTableImpl::refreshSet()
 	PlayerListConstIterator it_c;
 	PlayerList seatsList = currentGame->getSeatsList();
 	for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
-		if( (*it_c)->getMySet() == 0 )
+		// Only show set chips for active players - inactive/eliminated players
+		// should never display chips on the table (prevents "ghost player" effect)
+		if( !(*it_c)->getMyActiveStatus() || (*it_c)->getMySet() == 0 )
 			setLabelArray[(*it_c)->getMyID()]->setText("");
 		else
 			setLabelArray[(*it_c)->getMyID()]->setText("$"+QString("%L1").arg((*it_c)->getMySet()));
@@ -1175,7 +1182,6 @@ void gameTableImpl::refreshPlayerAvatar()
 
 void gameTableImpl::setPlayerAvatar(int myID, QString myAvatar)
 {
-
 	if(myStartWindow->getSession()->getCurrentGame()) {
 
 		boost::shared_ptr<PlayerInterface> tmpPlayer = myStartWindow->getSession()->getCurrentGame()->getPlayerByUniqueId(myID);
@@ -1210,8 +1216,8 @@ void gameTableImpl::refreshAction(int playerID, int playerAction)
 		PlayerList seatsList = currentGame->getSeatsList();
 		for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 
-			//if no action --> clear Pixmap
-			if( (*it_c)->getMyAction() == 0) {
+			//if no action or player inactive --> clear Pixmap
+			if( (*it_c)->getMyAction() == 0 || !(*it_c)->getMyActiveStatus()) {
 				actionLabelArray[(*it_c)->getMyID()]->setPixmap(onePix);
 			} else {
 				//paint action pixmap
@@ -1227,8 +1233,20 @@ void gameTableImpl::refreshAction(int playerID, int playerAction)
 			}
 		}
 	} else {
-		//if no action --> clear Pixmap
-		if(playerAction == 0) {
+		// Check if this is an inactive/eliminated player - clear their action label
+		boost::shared_ptr<PlayerInterface> targetPlayer;
+		PlayerListConstIterator it_c;
+		PlayerList seatsList = currentGame->getSeatsList();
+		for (it_c=seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
+			if((*it_c)->getMyID() == playerID) {
+				targetPlayer = *it_c;
+				break;
+			}
+		}
+		bool playerInactive = (targetPlayer && !targetPlayer->getMyActiveStatus());
+
+		//if no action or player inactive --> clear Pixmap
+		if(playerAction == 0 || playerInactive) {
 			actionLabelArray[playerID]->setPixmap(onePix);
 		} else {
 
@@ -1464,7 +1482,7 @@ void gameTableImpl::refreshPot()
 
 	int sets = currentHand->getBoard()->getSets();
 	int pot = currentHand->getBoard()->getPot();
-	qDebug() << "[REFRESH POT] Sets:" << sets << "Pot:" << pot << "Total:" << (sets + pot);
+	// qDebug() << "[REFRESH POT] Sets:" << sets << "Pot:" << pot << "Total:" << (sets + pot);
 	
 	textLabel_Sets->setText("$"+QString("%L1").arg(sets));
 	textLabel_Pot->setText("$"+QString("%L1").arg(pot));
@@ -2630,7 +2648,7 @@ void gameTableImpl::postRiverRunAnimation1()
 
 void gameTableImpl::postRiverRunAnimation2()
 {
-	std::cout << "[GUI DEBUG] postRiverRunAnimation2() called" << std::endl;
+	// std::cout << "[GUI DEBUG] postRiverRunAnimation2() called" << std::endl;
 
 	uncheckMyButtons();
 	myButtonsCheckable(false);
@@ -2659,12 +2677,12 @@ void gameTableImpl::postRiverRunAnimation2()
 
 			for (it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->checkIfINeedToShowCards()) {
-					std::cout << "[GUI DEBUG] Showing cards for player ID " << (*it_c)->getMyUniqueID() 
-						<< " Action:" << (*it_c)->getMyAction() << std::endl;
+					// std::cout << "[GUI DEBUG] Showing cards for player ID " << (*it_c)->getMyUniqueID() 
+					// 	<< " Action:" << (*it_c)->getMyAction() << std::endl;
 					showHoleCards((*it_c)->getMyUniqueID());
 				} else {
-					std::cout << "[GUI DEBUG] NOT showing cards for player ID " << (*it_c)->getMyUniqueID() 
-						<< " Action:" << (*it_c)->getMyAction() << " NeedShow:" << (*it_c)->checkIfINeedToShowCards() << std::endl;
+					// std::cout << "[GUI DEBUG] NOT showing cards for player ID " << (*it_c)->getMyUniqueID() 
+					// 	<< " Action:" << (*it_c)->getMyAction() << " NeedShow:" << (*it_c)->checkIfINeedToShowCards() << std::endl;
 				}
 
 				//if human player dont need to show cards he gets the button "show cards" in internet or network game
@@ -2715,10 +2733,33 @@ void gameTableImpl::postRiverRunAnimation3()
 
 	list<unsigned> winners = currentHand->getBoard()->getWinners();
 
+	// Determine if any winning player was all-in (for main pot / side pot labeling).
+	// In sidepot situations, the all-in player with the smallest bet (= RoundStartCash
+	// for all-in players) wins the main pot (the pot everyone contributed to).
+	// Other winners' pots are side pots.
+	// Note: We compare bet amounts (RoundStartCash), NOT win amounts (MoneyWon),
+	// because the main pot typically has MORE contributors and thus a LARGER
+	// win amount than side pots.
+	bool hasAllInWinner = false;
+	int minAllInWinnerBet = INT_MAX;
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		// Nur echte Winner anzeigen (die in der winners-Liste sind), nicht nur höchster Kartenwert
+		bool isW = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
+		bool actuallyWon = isW && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
+		if(actuallyWon && (*it_c)->getLastMoneyWon() > 0 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN) {
+			hasAllInWinner = true;
+			int betAmount = (*it_c)->getMyRoundStartCash();
+			if(betAmount < minAllInWinnerBet) {
+				minAllInWinnerBet = betAmount;
+			}
+		}
+	}
+
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+		// Nur echte Winner anzeigen: in der winners-Liste UND tatsächlich profitiert
+		// (Spieler die nur ihren Überschuss zurückbekommen sind keine echten Gewinner)
 		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && isWinner) {
+		bool hasActuallyWon = isWinner && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon) {
 
 			//Show "Winner" label
 			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(7))));
@@ -2804,13 +2845,22 @@ void gameTableImpl::postRiverRunAnimation3()
 			//Wenn River dann auch das Blatt loggen!
 			// 			if (textLabel_handLabel->text() == "River") {
 
-			//set Player value (logging) - alle Gewinner als Hauptgewinn loggen
-			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(),true);
+			// Main pot / side pot labeling:
+			// In sidepot scenarios, the all-in player with the smallest bet wins
+			// the "main pot" (the pot all non-folded players contributed to).
+			// Other winners get "(side pot)".
+			// When no winner was all-in, there's no sidepot situation -> always main pot.
+			bool isMainPot;
+			if (!hasAllInWinner) {
+				isMainPot = true; // No sidepot situation
+			} else if ((*it_c)->getMyAction() == PLAYER_ACTION_ALLIN
+					   && (*it_c)->getMyRoundStartCash() <= minAllInWinnerBet) {
+				isMainPot = true; // All-in player with smallest bet = main pot
+			} else {
+				isMainPot = false; // Side pot
+			}
+			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(),isMainPot);
 
-			// 			}
-			// 			else {
-			// 				myLog->logPlayerWinsMsg(i, pot);
-			// 			}
 		} else {
 
 			if( activePlayerList->size() != 1 && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && myConfig->readConfigInt("ShowFadeOutCardsAnimation")
@@ -2822,9 +2872,6 @@ void gameTableImpl::postRiverRunAnimation3()
 			}
 		}
 	}
-
-	// Side pot logging entfernt - Server entscheidet wer gewinnt und sendet korrekte MoneyWon Werte
-	// Alle Gewinner wurden bereits oben als "main" geloggt
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyCash() == 0) {
@@ -2853,6 +2900,8 @@ void gameTableImpl::postRiverRunAnimation5()
 
 	if (distributePotAnimCounter<10) {
 
+		list<unsigned> winners = currentHand->getBoard()->getWinners();
+
 		if (distributePotAnimCounter==0 || distributePotAnimCounter==2 || distributePotAnimCounter==4 || distributePotAnimCounter==6 || distributePotAnimCounter==8) {
 
 #ifndef GUI_800x480
@@ -2860,8 +2909,9 @@ void gameTableImpl::postRiverRunAnimation5()
 #endif
 
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-
-				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
+				bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
+				bool hasActuallyWon = isWinner && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon ) {
 
 					playerNameLabelArray[(*it_c)->getMyID()]->hide();
 				}
@@ -2872,8 +2922,9 @@ void gameTableImpl::postRiverRunAnimation5()
 #endif
 
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-
-				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getMyCardsValueInt() == currentHand->getCurrentBeRo()->getHighestCardsValue() ) {
+				bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
+				bool hasActuallyWon = isWinner && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
+				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon ) {
 
 					playerNameLabelArray[(*it_c)->getMyID()]->show();
 				}
@@ -3049,10 +3100,35 @@ void gameTableImpl::handSwitchRounds()
 	myStartWindow->getSession()->getCurrentGame()->getCurrentHand()->switchRounds();
 }
 
+void gameTableImpl::prepareForNewHand()
+{
+	// CRITICAL: Stop all animation timers in the GUI thread BEFORE the
+	// network thread modifies the game state (activePlayerList etc.) in
+	// initHand().  Without this, a running post-river animation callback
+	// may iterate over the same std::list that initHand() is modifying
+	// (erasing eliminated players), invalidating the GUI-thread's iterator
+	// and causing a crash – particularly reproducible on Windows.
+	stopTimer();
+
+	// Release the synchronisation semaphore so that the network thread
+	// (blocked in waitForGuiUpdateDone) can proceed with initHand().
+	guiUpdateSemaphore.release();
+}
+
 void gameTableImpl::nextRoundCleanGui()
 {
 
 	int i,j;
+
+	// Stop any still-running post-river animation timers from the previous hand
+	// to prevent them from overwriting action labels after refreshAll()
+	postRiverAnimation1Timer->stop();
+	postRiverRunAnimation1Timer->stop();
+	postRiverRunAnimation2Timer->stop();
+	postRiverRunAnimation3Timer->stop();
+	postRiverRunAnimation5Timer->stop();
+	postRiverRunAnimation6Timer->stop();
+	potDistributeTimer->stop();
 
 	// GUI bereinigen - Bilder löschen, Animationen unterbrechen
 	QPixmap onePix = QPixmap::fromImage(QImage(myAppDataPath +"gfx/gui/misc/1px.png"));
@@ -4594,12 +4670,46 @@ SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> 
 		if(player->isSessionActive()) {
 			return SEAT_ACTIVE;
 		} else {
+			// If the player has already taken an active action in this hand
+			// (e.g., All-In from blind posting, or any non-fold action),
+			// show them as active even if their session is inactive.
+			// This prevents players from appearing "offline" during All-In showdowns.
+			PlayerAction action = (PlayerAction)player->getMyAction();
+			if(action != PLAYER_ACTION_NONE && action != PLAYER_ACTION_FOLD) {
+				return SEAT_ACTIVE;
+			}
 			return SEAT_AUTOFOLD;
 		}
 	} else {
+		// SAFETY NET: Detect state desync – a player with cash > 0 should NEVER
+		// have myActiveStatus == false.  If this happens ("ghost player" bug),
+		// treat them as active so they remain visible on the table instead of
+		// silently disappearing while the server keeps playing them.
+		if(player->getMyCash() > 0 && player->getMyUniqueID() != 0) {
+			qDebug() << "[GHOST-SAFETY] Player" << player->getMyName().c_str()
+				<< "(ID:" << player->getMyUniqueID() << ") has cash"
+				<< player->getMyCash() << "but myActiveStatus=false!"
+				<< "Treating as SEAT_ACTIVE to prevent ghost player.";
+			// Auto-repair: restore active status
+			player->setMyActiveStatus(true);
+			if(player->isSessionActive()) {
+				return SEAT_ACTIVE;
+			} else {
+				PlayerAction action = (PlayerAction)player->getMyAction();
+				if(action != PLAYER_ACTION_NONE && action != PLAYER_ACTION_FOLD) {
+					return SEAT_ACTIVE;
+				}
+				return SEAT_AUTOFOLD;
+			}
+		}
 		if(player->getMyStayOnTableStatus() && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
 			return SEAT_STAYONTABLE;
 		} else {
+			qDebug() << "[SEAT_CLEAR]" << player->getMyName().c_str()
+				<< "(ID:" << player->getMyUniqueID() << ") Cash:" << player->getMyCash()
+				<< "Active:" << player->getMyActiveStatus() << "Session:" << player->isSessionActive()
+				<< "StayOnTable:" << player->getMyStayOnTableStatus()
+				<< "Action:" << player->getMyAction();
 			return SEAT_CLEAR;
 		}
 	}
@@ -4722,3 +4832,4 @@ int gameTableImpl::getAndroidApiVersion()
 #endif
     return api;
 }
+

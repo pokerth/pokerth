@@ -278,6 +278,10 @@ void Session::terminateNetworkClient()
 
 	// If termination fails, leave a memory leak to prevent a crash.
 	myGameType = GAME_TYPE_NONE;
+
+	// Clear the current game to prevent stale access from GUI timers
+	// that may still fire during nested event loops (e.g. modal dialogs).
+	currentGame.reset();
 }
 
 void Session::clientCreateGame(const GameData &gameData, const string &name, const string &password)

@@ -1,0 +1,47 @@
+FROM ubuntu:questing
+# Build-Umgebung für PokerTH AppImage
+# Baut das Projekt und erstellt ein portables AppImage,
+# das dank gebündeltem glibc + ld-linux auf älteren Systemen läuft.
+
+ENV TZ=Europe/Berlin
+ENV DEBIAN_FRONTEND=noninteractive
+
+USER root
+
+# deb-src Einträge hinzufügen
+RUN echo '\nTypes: deb-src' >> /etc/apt/sources.list.d/ubuntu.sources && \
+    echo 'URIs: http://archive.ubuntu.com/ubuntu/' >> /etc/apt/sources.list.d/ubuntu.sources && \
+    echo 'Suites: questing questing-updates questing-backports' >> /etc/apt/sources.list.d/ubuntu.sources && \
+    echo 'Components: main universe restricted multiverse' >> /etc/apt/sources.list.d/ubuntu.sources && \
+    echo 'Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg' >> /etc/apt/sources.list.d/ubuntu.sources
+
+# Build-Abhängigkeiten + wget/file (für appimagetool)
+RUN apt update && apt upgrade -y && \
+    apt install -y \
+        wget git ca-certificates file fuse3 libfuse2t64 desktop-file-utils \
+        build-essential cmake ninja-build zip \
+        libwebsocketpp-dev libprotobuf-dev protobuf-compiler \
+        libboost1.88-all-dev \
+        qt6-base-dev qt6-svg-dev qt6-declarative-dev qt6-tools-dev \
+        linguist-qt6 qt6-websockets-dev qt6-multimedia-dev \
+        libqt6sql6-mysql libssl-dev && \
+    apt clean -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /opt/pokerth
+
+# Repo klonen und bauen
+RUN git clone https://github.com/pokerth/pokerth.git . && git checkout stable
+RUN cmake -DCMAKE_BUILD_TYPE:STRING=Release -S. -B./build -G Ninja
+RUN cmake --build ./build --config Release --target all --
+
+# AppImage-Script hineinkopieren und ausführen
+COPY create_appimage_deploy.sh /opt/pokerth/docker/linux/create_appimage_deploy.sh
+RUN chmod +x /opt/pokerth/docker/linux/create_appimage_deploy.sh
+
+# AppImage beim Build erstellen (--appimage-extract-and-run weil FUSE in Docker fehlt)
+RUN /opt/pokerth/docker/linux/create_appimage_deploy.sh
+
+# Ergebnis in /output kopieren (zum Extrahieren via docker cp)
+RUN mkdir -p /output && cp /opt/pokerth/docker/linux/PokerTH-*.AppImage /output/
+
+ENTRYPOINT ["/bin/bash"]

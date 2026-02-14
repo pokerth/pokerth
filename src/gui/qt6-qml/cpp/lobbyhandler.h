@@ -24,7 +24,8 @@ public:
     enum PlayerRoles {
         PlayerIdRole = Qt::UserRole + 1,
         PlayerNameRole,
-        IsAdminRole
+        IsAdminRole,
+        CountryCodeRole
     };
 
     explicit PlayerListModel(QObject *parent = nullptr);
@@ -33,10 +34,10 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    void addPlayer(unsigned playerId, const QString &playerName, bool isAdmin = false);
+    void addPlayer(unsigned playerId, const QString &playerName, bool isAdmin = false, const QString &countryCode = QString());
     void removePlayer(unsigned playerId);
     void updatePlayer(unsigned playerId, const QString &newName);
-    void updatePlayerInfo(unsigned playerId, const QString &playerName, bool isAdmin);
+    void updatePlayerInfo(unsigned playerId, const QString &playerName, bool isAdmin, const QString &countryCode = QString());
     void clear();
 
 private:
@@ -44,6 +45,7 @@ private:
         unsigned id;
         QString name;
         bool isAdmin;
+        QString countryCode;
     };
     
     QList<PlayerInfo> m_players;

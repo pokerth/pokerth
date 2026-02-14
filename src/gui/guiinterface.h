@@ -98,6 +98,7 @@ public:
 	virtual void flipHolecardsAllIn()=0;
 
 	virtual void nextRoundCleanGui()=0;
+	virtual void prepareForNewHand() {}
 	virtual void meInAction()=0;
 	virtual void updateMyButtonsState()=0;
 	virtual void disableMyButtons()=0;

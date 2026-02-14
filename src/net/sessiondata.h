@@ -120,6 +120,7 @@ public:
 	}
 
 	void ResetActivityTimer();
+	void ResetGlobalTimeout();
 
 	void StartTimerInitTimeout(unsigned timeoutSec);
 	void StartTimerGlobalTimeout(unsigned timeoutSec);
@@ -157,6 +158,7 @@ private:
 	bool							m_wantsLobbyMsg;
 	unsigned						m_activityTimeoutSec;
 	unsigned						m_activityWarningRemainingSec;
+	unsigned						m_globalTimeoutSec;
 	boost::asio::steady_timer		m_initTimeoutTimer;
 	boost::asio::steady_timer		m_globalTimeoutTimer;
 	boost::asio::steady_timer		m_activityTimeoutTimer;

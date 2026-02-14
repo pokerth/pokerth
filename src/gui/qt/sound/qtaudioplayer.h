@@ -11,13 +11,47 @@
 #include <QProcess>
 #include "configfile.h"
 
+// Software mixer: pre-loads WAV PCM data into memory,
+// mixes active voices into a single continuous audio stream for QAudioSink.
+// Eliminates per-sound WASAPI session startup latency on Windows.
+struct WavSample {
+    QByteArray pcmData;
+};
+
+struct ActiveVoice {
+    const QByteArray* pcmData;
+    qint64 position;
+};
+
+class WavMixer : public QIODevice
+{
+public:
+    explicit WavMixer(QObject* parent = nullptr);
+    bool loadWav(const QString& key, const QString& filePath);
+    void play(const QString& key);
+    void setVolume(float vol);
+    void stopAll();
+
+    qint64 readData(char* data, qint64 maxSize) override;
+    qint64 writeData(const char* data, qint64 maxSize) override;
+    bool isSequential() const override;
+    qint64 bytesAvailable() const override;
+
+private:
+    QHash<QString, WavSample> samples;
+    QVector<ActiveVoice> voices;
+    QMutex mutex;
+    float volume;
+};
+
 class QtAudioPlayer : public QObject
 {
     Q_OBJECT
 public:
     enum class AudioBackend {
-        QSoundEffectBackend,  // Qt6 native (fast, but broken on some PipeWire setups)
-        PaPlayBackend         // PulseAudio paplay command (robust fallback)
+        QSoundEffectBackend,    // Qt6 native
+        PaPlayBackend,          // PulseAudio paplay command (Linux)
+        SoftwareMixerBackend    // Pre-loaded WAVs + single QAudioSink (low-latency)
     };
 
     QtAudioPlayer(ConfigFile* config);
@@ -45,6 +79,8 @@ private:
     void initPaPlayBackend();
     void playSoundQSoundEffect(const QString& key);
     void playSoundPaPlay(const QString& key);
+    void initSoftwareMixerBackend(const QAudioDevice& device, float volume);
+    void playSoundSoftwareMixer(const QString& key);
     bool detectPaPlay();
     void applyDeviceToEffects();
     void scheduleDeviceCheck();
@@ -61,6 +97,10 @@ private:
     // paplay backend
     QHash<QString, QString> soundFilePaths;  // key -> file path
     QString paplayBinary;                     // path to paplay
+    
+    // Software mixer backend
+    WavMixer* mixer;
+    QAudioSink* mixerSink;
     
     // Device monitoring
     QMediaDevices* mediaDevices;

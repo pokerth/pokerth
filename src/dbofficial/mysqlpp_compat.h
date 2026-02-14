@@ -160,6 +160,16 @@ public:
 
     bool connected() const { return m_connected; }
 
+    // ping(): Validate the connection is still alive by executing a trivial
+    // query. Returns true if the connection is ok, false if it's gone.
+    // This replaces mysql_ping() which is not available in Qt SQL.
+    bool ping() {
+        std::lock_guard<std::mutex> l(m_mutex);
+        if (!m_db.isValid() || !m_db.isOpen()) return false;
+        QSqlQuery q(m_db);
+        return q.exec("SELECT 1");
+    }
+
     Query query() { return Query(this); }
 
     void set_option(SetCharsetNameOption *opt) {

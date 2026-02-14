@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
+#include <boost/bind/bind.hpp>
 #include <dbofficial/asyncdbendgame.h>
 #include <dbofficial/dbidmanager.h>
 
@@ -71,7 +72,8 @@ AsyncDBEndGame::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManag
 }
 
 void
-AsyncDBEndGame::HandleError(boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
+AsyncDBEndGame::HandleError(boost::asio::io_context &service, ServerDBCallback &cb)
 {
-	// Ignore errors for now (as nothing important is done).
+	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb,
+		"AsyncDBEndGame: Failed to set end time for game " + std::to_string(GetId()) + "."));
 }

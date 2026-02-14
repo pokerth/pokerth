@@ -177,7 +177,7 @@ void AndroidAudio::startSoundPlayer()
 	lRes = (*mPlayerObject)->Realize(mPlayerObject, SL_BOOLEAN_FALSE);
 	Q_ASSERT(SL_RESULT_SUCCESS == lRes);
 
-	qDebug() << "Realised Sound Player";
+	// qDebug() << "Realised Sound Player";
 	lRes = (*mPlayerObject)->GetInterface(mPlayerObject, SL_IID_PLAY, &mPlayerPlay);
 	Q_ASSERT(SL_RESULT_SUCCESS == lRes);
 

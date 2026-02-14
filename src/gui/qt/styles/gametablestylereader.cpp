@@ -1730,7 +1730,18 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 				gt->move(50,50);
 			}
 		}
-		gt->setMinimumSize(MinimumWindowWidth.toInt(), MinimumWindowHeight.toInt());
+
+		// Ensure minimum height matches the table background image's aspect ratio
+		// so that no content is clipped at the bottom on first start
+		int effectiveMinHeight = MinimumWindowHeight.toInt();
+		QImage tableImage(Table);
+		if (!tableImage.isNull() && tableImage.width() > 0 && tableImage.height() > 0) {
+			int proportionalHeight = static_cast<int>(qCeil(
+				static_cast<double>(MinimumWindowWidth.toInt()) * tableImage.height() / tableImage.width()));
+			effectiveMinHeight = qMax(effectiveMinHeight, proportionalHeight);
+		}
+
+		gt->setMinimumSize(MinimumWindowWidth.toInt(), effectiveMinHeight);
 		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
 #endif
 	}

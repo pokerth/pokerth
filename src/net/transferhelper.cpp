@@ -88,12 +88,21 @@ TransferHelper::Process()
 
 		// Throw exception if an error occurred.
 		if (m_data->errorCode != 0) {
-			throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_FAILED, 0);
+			throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_FAILED, m_data->errorCode);
 		}
 
 		retVal = true;
+	} else if (m_data->networkReply) {
+		// Use a proper event loop that waits for the finished signal.
+		// This is required because QNetworkAccessManager needs a running
+		// Qt event loop to process network I/O, especially when called
+		// from a non-Qt (boost) thread.
+		QEventLoop loop;
+		QObject::connect(m_data->networkReply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+		QTimer::singleShot(30000, &loop, &QEventLoop::quit); // 30s safety timeout
+		loop.exec();
 	} else {
-		// Process Qt events briefly to allow network operations to progress
+		// No reply object yet, just process events briefly
 		QEventLoop loop;
 		QTimer::singleShot(QT_RECV_TIMEOUT_MSEC, &loop, &QEventLoop::quit);
 		loop.exec();

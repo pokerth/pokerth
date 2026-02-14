@@ -88,6 +88,7 @@ void ServerGuiWrapper::postRiverAnimation1() {}
 void ServerGuiWrapper::postRiverRunAnimation1() {}
 void ServerGuiWrapper::flipHolecardsAllIn() {}
 void ServerGuiWrapper::nextRoundCleanGui() {}
+void ServerGuiWrapper::prepareForNewHand() {}
 void ServerGuiWrapper::meInAction() {}
 void ServerGuiWrapper::disableMyButtons() {}
 void ServerGuiWrapper::updateMyButtonsState() {}

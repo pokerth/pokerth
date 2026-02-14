@@ -49,6 +49,12 @@
 #include <dbofficial/mysqlpp_compat.h>
 
 #include <core/loghelper.h> // @TODO: remove in productive
+#include <boost/date_time/posix_time/posix_time.hpp>
+
+// Interval (in seconds) at which the DB thread sends a keepalive ping
+// to prevent the MySQL server from closing idle connections.
+// 30s is well below typical MySQL wait_timeout values.
+#define DB_KEEPALIVE_INTERVAL_SEC		30
 
 #define QUERY_NICK_PREPARE				"nick_template"
 #define QUERY_LOGIN_PREPARE				"login_template"
@@ -423,8 +429,31 @@ ServerDBThread::Main()
 	while (!ShouldTerminate() && !HasPermanentError()) {
 		if (HasDBConnection()) {
 			SetConnected(true);
-			m_semaphore.wait();
-			HandleNextQuery();
+			// Use a timed wait so we can send periodic keepalive pings
+			// to prevent the MySQL server from closing idle connections
+			// (default wait_timeout is often 28800s, but external/cloud
+			// MySQL hosts frequently use much shorter values like 60-300s).
+			bool hasWork = m_semaphore.timed_wait(
+				boost::posix_time::microsec_clock::universal_time()
+				+ boost::posix_time::seconds(DB_KEEPALIVE_INTERVAL_SEC));
+			if (hasWork) {
+				// Validate the connection is still alive before executing.
+				// mysqlpp::Connection::connected() only checks local state;
+				// ping() actually talks to the server and auto-reconnects
+				// if the connection was dropped (e.g. by MySQL wait_timeout).
+				if (!m_connData->conn.ping()) {
+					LOG_ERROR("DB connection lost before query execution, reconnecting...");
+					m_connData->conn.disconnect();
+					continue;
+				}
+				HandleNextQuery();
+			} else {
+				// Timed out with no work — send a keepalive ping.
+				if (!m_connData->conn.ping()) {
+					LOG_ERROR("DB keepalive ping failed, reconnecting...");
+					m_connData->conn.disconnect();
+				}
+			}
 		} else {
 			SetConnected(false);
 			EstablishDBConnection();

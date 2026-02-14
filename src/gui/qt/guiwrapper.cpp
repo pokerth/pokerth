@@ -215,6 +215,14 @@ void GuiWrapper::nextRoundCleanGui()
 	myW->signalNextRoundCleanGui();
 }
 
+void GuiWrapper::prepareForNewHand()
+{
+	// Emit signal to stop all animation timers in the GUI thread,
+	// then block until the GUI has processed it (semaphore).
+	myW->signalPrepareForNewHand();
+	myW->waitForGuiUpdateDone();
+}
+
 void GuiWrapper::meInAction()
 {
 	myW->signalMeInAction();

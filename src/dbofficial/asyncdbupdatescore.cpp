@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 
+#include <boost/bind/bind.hpp>
 #include <dbofficial/asyncdbupdatescore.h>
 #include <dbofficial/dbidmanager.h>
 
@@ -51,13 +52,16 @@ AsyncDBUpdateScore::Init(DBIdManager& idManager)
 	std::list<std::string> params;
 	GetParams(params);
 	ostringstream paramStream;
-	paramStream << idManager.GetGameDBId(GetId());
+	DB_id gameDbId = idManager.GetGameDBId(GetId());
+	paramStream << gameDbId;
 	// Add game id as first parameter (param for stored procedure).
 	params.push_front(paramStream.str());
 	SetParams(params);
-	// Ensure that "update score" is only called once for a game.
-	// This game id cannot be used any more, without re-init.
-	idManager.RemoveGameId(GetId());
+	// Cache the resolved DB ID so we can detect invalid retries.
+	// Do NOT remove the game ID here — it must survive a connection-loss
+	// retry where Init() is called again.  Removal happens in
+	// HandleNoResult() after the query has actually succeeded.
+	m_resolvedGameDbId = gameDbId;
 }
 
 void
@@ -70,11 +74,15 @@ AsyncDBUpdateScore::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idMan
 void
 AsyncDBUpdateScore::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager& idManager, boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
 {
+	// Query succeeded — now it is safe to remove the game ID so that
+	// "update score" cannot be called twice for the same game.
 	idManager.RemoveGameId(GetId());
 }
 
 void
-AsyncDBUpdateScore::HandleError(boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
+AsyncDBUpdateScore::HandleError(boost::asio::io_context &service, ServerDBCallback &cb)
 {
-	// Ignore errors for now (as nothing important is done).
+	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb,
+		"AsyncDBUpdateScore: Failed to update scores for game " + std::to_string(GetId())
+		+ " (dbId " + std::to_string(m_resolvedGameDbId) + ")."));
 }

@@ -809,18 +809,18 @@ private:
     void handleMessage(shared_ptr<BotSession> bot, boost::shared_ptr<NetPacket> msg) {
         auto msgType = msg->GetMsg()->messagetype();
         
-        // DEBUG: Nur unbekannte Message-Types loggen
-        if (msgType != PokerTHMessage::Type_PlayersTurnMessage && 
-            msgType != PokerTHMessage::Type_HandStartMessage &&
-            msgType != PokerTHMessage::Type_PlayersActionDoneMessage &&
-            msgType != PokerTHMessage::Type_DealFlopCardsMessage &&
-            msgType != PokerTHMessage::Type_DealTurnCardMessage &&
-            msgType != PokerTHMessage::Type_DealRiverCardMessage &&
-            msgType != PokerTHMessage::Type_EndOfHandShowCardsMessage &&
-            msgType != PokerTHMessage::Type_EndOfHandHideCardsMessage &&
-            msgType != PokerTHMessage::Type_AllInShowCardsMessage) {
-            cout << "[" << bot->name() << "] Received msgType: " << msgType << endl;
-        }
+//         // DEBUG: Nur unbekannte Message-Types loggen
+//         if (msgType != PokerTHMessage::Type_PlayersTurnMessage && 
+//             msgType != PokerTHMessage::Type_HandStartMessage &&
+//             msgType != PokerTHMessage::Type_PlayersActionDoneMessage &&
+//             msgType != PokerTHMessage::Type_DealFlopCardsMessage &&
+//             msgType != PokerTHMessage::Type_DealTurnCardMessage &&
+//             msgType != PokerTHMessage::Type_DealRiverCardMessage &&
+//             msgType != PokerTHMessage::Type_EndOfHandShowCardsMessage &&
+//             msgType != PokerTHMessage::Type_EndOfHandHideCardsMessage &&
+//             msgType != PokerTHMessage::Type_AllInShowCardsMessage) {
+//             cout << "[" << bot->name() << "] Received msgType: " << msgType << endl;
+//         }
         
         if (msgType == PokerTHMessage::Type_HandStartMessage) {
             // Hand-Nummer inkrementieren, Sets zurücksetzen
@@ -830,7 +830,7 @@ private:
             bot->setIsAllIn(false); // Reset All-In Status für neue Hand
             bot->setCurrentGameState(netStatePreflop); // Start in Preflop
             // myCash bleibt unverändert - wird von EndOfHandShowCardsMessage der vorherigen Hand gesetzt
-            cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started (myCash=" << bot->myCash() << ")" << endl;
+//             cout << "[" << bot->name() << "] Hand #" << bot->handNum() << " started (myCash=" << bot->myCash() << ")" << endl;
                     } else if (msgType == PokerTHMessage::Type_EndOfHandShowCardsMessage) {
             // End of hand: Update cash from playerResults
             auto endOfHand = msg->GetMsg()->endofhandshowcardsmessage();
@@ -838,7 +838,7 @@ private:
                 auto result = endOfHand.playerresults(i);
                 if (result.playerid() == bot->playerId()) {
                     bot->setMyCash(result.playermoney());
-                    cout << "[" << bot->name() << "] Hand ended - myCash=" << bot->myCash() << endl;
+//                     cout << "[" << bot->name() << "] Hand ended - myCash=" << bot->myCash() << endl;
                     break;
                 }
             }
@@ -848,7 +848,7 @@ private:
             auto endOfHand = msg->GetMsg()->endofhandhidecardsmessage();
             if (endOfHand.playerid() == bot->playerId()) {
                 bot->setMyCash(endOfHand.playermoney());
-                cout << "[" << bot->name() << "] Hand ended (hidden) - myCash=" << bot->myCash() << endl;
+//                 cout << "[" << bot->name() << "] Hand ended (hidden) - myCash=" << bot->myCash() << endl;
             }
             
         } else if (msgType == PokerTHMessage::Type_PlayersActionDoneMessage) {
@@ -894,12 +894,12 @@ private:
                 // WICHTIG: Wenn Cash=0, dann sind wir All-In!
                 if (bot->myCash() == 0) {
                     bot->setIsAllIn(true);
-                    cout << "[" << bot->name() << "] Now All-In! (myCash=0)" << endl;
+//                     cout << "[" << bot->name() << "] Now All-In! (myCash=0)" << endl;
                 }
                 
-                cout << "[" << bot->name() << "] My action done: mySet=" << bot->mySet() 
-                     << ", highestSet=" << bot->highestSet() 
-                     << ", myCash=" << bot->myCash() << endl;
+//                cout << "[" << bot->name() << "] My action done: mySet=" << bot->mySet() 
+//                     << ", highestSet=" << bot->highestSet() 
+//                     << ", myCash=" << bot->myCash() << endl;
             }
             // WICHTIG: Update myCash auch für ANDERE Spieler wenn sie All-In gehen
             // Das hilft, wenn der Bot selbst mal gewinnt aber keine Action macht
@@ -912,7 +912,7 @@ private:
             // Debug-Ausgabe nur bei DealFlopCardsMessage (erste neue Runde)
             if (msgType == PokerTHMessage::Type_DealFlopCardsMessage) {
                 bot->setCurrentGameState(netStateFlop);
-                cout << "[" << bot->name() << "] Flop dealt - resetting sets" << endl;
+//                 cout << "[" << bot->name() << "] Flop dealt - resetting sets" << endl;
             } else if (msgType == PokerTHMessage::Type_DealTurnCardMessage) {
                 bot->setCurrentGameState(netStateTurn);
             } else if (msgType == PokerTHMessage::Type_DealRiverCardMessage) {
@@ -927,8 +927,8 @@ private:
             
             // Debug nur wenn ich am Zug bin
             if (playersTurn.playerid() == bot->playerId()) {
-                cout << "[" << bot->name() << "] MY TURN (hand=" << bot->handNum() 
-                     << ") - mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ", myCash=" << bot->myCash() << endl;
+//                cout << "[" << bot->name() << "] MY TURN (hand=" << bot->handNum() 
+//                     << ") - mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ", myCash=" << bot->myCash() << endl;
                 
                 // WICHTIG: Erst ALLE ausstehenden Messages verarbeiten (z.B. PlayersActionDoneMessage)
                 // um sicherzustellen, dass mySet/highestSet aktuell sind!
@@ -941,7 +941,7 @@ private:
                 // Wenn Bot bereits All-In ist (kein Cash mehr), sende CALL 0
                 // Der Server erkennt das und handhabt es korrekt (skip oder auto-check)
                 if (bot->myCash() == 0 || bot->isAllIn()) {
-                    cout << "[" << bot->name() << "] Already All-In, sending CALL 0" << endl;
+//                     cout << "[" << bot->name() << "] Already All-In, sending CALL 0" << endl;
                     bot->setIsAllIn(true); // Merke All-In Status
                     boost::shared_ptr<NetPacket> action(new NetPacket);
                     action->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
@@ -957,7 +957,7 @@ private:
                 
                 // Random fold check (nur wenn foldPercent > 0)
                 if (bot->shouldRandomFold()) {
-                    cout << "[" << bot->name() << "] RANDOM FOLD (hand=" << bot->handNum() << ")" << endl;
+//                     cout << "[" << bot->name() << "] RANDOM FOLD (hand=" << bot->handNum() << ")" << endl;
                     boost::shared_ptr<NetPacket> foldAction(new NetPacket);
                     foldAction->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
                     MyActionRequestMessage *foldMsg = foldAction->GetMsg()->mutable_myactionrequestmessage();
@@ -986,8 +986,8 @@ private:
                     // CHECK: Kein Bet liegt oder bereits gematched
                     actionMsg->set_myaction(netActionCheck);
                     actionMsg->set_myrelativebet(0);
-                    cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() 
-                         << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
+                    // cout << "[" << bot->name() << "] CHECK (hand=" << bot->handNum() 
+                    //      << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
                 } else {
                     // CALL: Gehe mit bis zum höchsten Bet (aber max. verfügbares Cash)
                     uint32_t callAmount = bot->highestSet() - bot->mySet();
@@ -997,8 +997,8 @@ private:
                     }
                     actionMsg->set_myaction(netActionCall);
                     actionMsg->set_myrelativebet(callAmount);
-                    cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() 
-                         << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
+                    // cout << "[" << bot->name() << "] CALL " << callAmount << " (hand=" << bot->handNum() 
+                    //      << ", final mySet=" << bot->mySet() << ", highestSet=" << bot->highestSet() << ")" << endl;
                 }
                 
                 bot->sendMessage(action);
@@ -1006,8 +1006,8 @@ private:
             
         } else if (msgType == PokerTHMessage::Type_YourActionRejectedMessage) {
             auto rejected = msg->GetMsg()->youractionrejectedmessage();
-            cerr << "[" << bot->name() << "] ACTION REJECTED! Reason: " << rejected.rejectionreason() 
-                 << " Action: " << rejected.youraction() << " Bet: " << rejected.yourrelativebet() << endl;
+//            cerr << "[" << bot->name() << "] ACTION REJECTED! Reason: " << rejected.rejectionreason() 
+//                 << " Action: " << rejected.youraction() << " Bet: " << rejected.yourrelativebet() << endl;
             
             // Fallback: Sende neue Action basierend auf verfügbarem Cash
             boost::shared_ptr<NetPacket> fallbackAction(new NetPacket);
@@ -1022,22 +1022,22 @@ private:
                 // Kein Cash mehr: CALL 0 (Server handled als Skip oder Auto-Check)
                 fallbackMsg->set_myaction(netActionCall);
                 fallbackMsg->set_myrelativebet(0);
-                cerr << "[" << bot->name() << "] Fallback: CALL 0 (All-In)" << endl;
+//                 cerr << "[" << bot->name() << "] Fallback: CALL 0 (All-In)" << endl;
             } else {
                 // Noch Cash vorhanden: Calle mit allem was ich habe (All-In)
                 fallbackMsg->set_myaction(netActionCall);
                 fallbackMsg->set_myrelativebet(bot->myCash());
-                cerr << "[" << bot->name() << "] Fallback: CALL " << bot->myCash() << " (All-In)" << endl;
+//                 cerr << "[" << bot->name() << "] Fallback: CALL " << bot->myCash() << " (All-In)" << endl;
                 bot->setIsAllIn(true);
             }
             
             bot->sendMessage(fallbackAction);
             
         } else if (msgType == PokerTHMessage::Type_EndOfGameMessage) {
-            cout << "[" << bot->name() << "] Game ended" << endl;
+//             cout << "[" << bot->name() << "] Game ended" << endl;
             
         } else if (msgType == PokerTHMessage::Type_StartEventMessage) {
-            cout << "[" << bot->name() << "] Game starting! Sending Ack..." << endl;
+//             cout << "[" << bot->name() << "] Game starting! Sending Ack..." << endl;
             
             // WICHTIG: StartEventAckMessage senden, sonst hängt der Server!
             boost::shared_ptr<NetPacket> ack(new NetPacket);

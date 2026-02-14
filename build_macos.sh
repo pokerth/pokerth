@@ -54,13 +54,15 @@ fi
 ########################################
 
 log "Installing base packages via Homebrew…"
-brew update
-brew install \
-  cmake \
-  ninja \
-  git \
-  python \
-  pkg-config
+brew install cmake python pkg-config ninja || true
+brew pin cmake python pkg-config ninja || true
+# Git nur installieren, falls nicht vorhanden, und sofort pinnen
+if ! brew list git &>/dev/null; then
+  brew install --ignore-dependencies git || true
+  brew pin git || true
+else
+  brew pin git || true
+fi
 
 ########################################
 # 3. pipx
@@ -107,15 +109,15 @@ log "Bootstrapping vcpkg…"
 ########################################
 
 brew install \
-  cmake \
-  ninja \
-  git \
-  python \
-  pkg-config \
-  autoconf \
-  autoconf-archive \
-  automake \
-  libtool
+brew install cmake python pkg-config ninja autoconf autoconf-archive automake libtool || true
+brew pin cmake python pkg-config ninja autoconf autoconf-archive automake libtool || true
+# Git nur installieren, falls nicht vorhanden, und sofort pinnen
+if ! brew list git &>/dev/null; then
+  brew install --ignore-dependencies git || true
+  brew pin git || true
+else
+  brew pin git || true
+fi
 
 declare -a VCPKG_PORTS=(
   boost-any

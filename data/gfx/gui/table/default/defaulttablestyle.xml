@@ -11,9 +11,9 @@
       <!-- Windows Settings --> 
      <IfFixedWindowSize value="0" /><!-- value [1,0] 1 = fixed window size, 0 = resizeable window -->
      <FixedWindowWidth value="1024" /> <!-- value [min 1024] This will set the fixed window width if IfFixedWindowsSize=1 -->
-     <FixedWindowHeight value="600" />  <!-- value [min 600] This will set the fixed window height if IfFixedWindowsSize=1 -->
+     <FixedWindowHeight value="621" />  <!-- value [min 600] This will set the fixed window height if IfFixedWindowsSize=1 -->
      <MinimumWindowWidth value="1024" /> <!-- value [min 1024] This will set the minimum window width if IfFixedWindowsSize=0 -->
-     <MinimumWindowHeight value="600" /> <!-- value [min 600] This will set the minimum window height if IfFixedWindowsSize=0 -->
+     <MinimumWindowHeight value="621" /> <!-- value [min 600] This will set the minimum window height if IfFixedWindowsSize=0 -->
      <MaximumWindowWidth value="1980" /> <!-- value [min 1024] This will set the maximum window width if IfFixedWindowsSize=0 -->
      <MaximumWindowHeight value="1200" /> <!-- value [min 600] This will set the maximum window height if IfFixedWindowsSize=0 -->
      

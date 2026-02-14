@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "settingsdialogimpl.h"
+#include "core/appimage_utils.h"
 #include "myavatarlistitem.h"
 #include "mystylelistitem.h"
 #include "gametablestylereader.h"
@@ -52,6 +53,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
 #endif
 	setupUi(this);
+	AppImageUtils::patchExternalLinks(this);
 
 #ifdef ANDROID
     int styleSPageIndex = -1;
@@ -325,8 +327,8 @@ void settingsDialogImpl::prepareDialog()
 	// DarkMode: Config values: 0=Light, 1=Dark, 2=Auto -> ComboBox indices: 0=Auto, 1=Light, 2=Dark
 	int darkModeConfig = myConfig->readConfigInt("DarkMode");
 	int darkModeIndex = (darkModeConfig == 2) ? 0 : (darkModeConfig == 0) ? 1 : 2;
-	comboBox_darkMode->setCurrentIndex(darkModeIndex);
 #ifndef GUI_800x480
+	comboBox_darkMode->setCurrentIndex(darkModeIndex);
 	checkBox_showLeftToolbox->setChecked(myConfig->readConfigInt("ShowLeftToolBox"));
 	checkBox_showRightToolbox->setChecked(myConfig->readConfigInt("ShowRightToolBox"));
 	checkBox_alternateFKeysUserActionMode->setChecked(myConfig->readConfigInt("AlternateFKeysUserActionMode"));
@@ -441,7 +443,7 @@ void settingsDialogImpl::prepareDialog()
 			} else item->setIcon(0, QIcon());
 		}
 		if(!currentGameTableFound) {
-			qDebug() << "Config ERROR: current game table style file not found in List. Try to mark default as selected.";
+			// qDebug() << "Config ERROR: current game table style file not found in List. Try to mark default as selected.";
 			QTreeWidgetItem *item = treeWidget_gameTableStyles->topLevelItem(0);
 			if(item) {
 				item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
@@ -785,11 +787,11 @@ void settingsDialogImpl::isAccepted()
 
 	// 	Interface
 	myConfig->writeConfigString("Language", comboBox_switchLanguage->itemData(comboBox_switchLanguage->currentIndex()).toString().toUtf8().constData());
+#ifndef GUI_800x480
 	// DarkMode: ComboBox indices: 0=Auto, 1=Light, 2=Dark -> Config values: 0=Light, 1=Dark, 2=Auto
 	int darkModeIndex = comboBox_darkMode->currentIndex();
 	int darkModeConfig = (darkModeIndex == 0) ? 2 : (darkModeIndex == 1) ? 0 : 1;
 	myConfig->writeConfigInt("DarkMode", darkModeConfig);
-#ifndef GUI_800x480
 	myConfig->writeConfigInt("ShowLeftToolBox", checkBox_showLeftToolbox->isChecked());
 	myConfig->writeConfigInt("ShowRightToolBox", checkBox_showRightToolbox->isChecked());
 	myConfig->writeConfigInt("AlternateFKeysUserActionMode", checkBox_alternateFKeysUserActionMode->isChecked());

@@ -441,16 +441,31 @@ AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &ser
 	int playerCounter = 0;
 	while (player_i != player_end && playerCounter < server.GetStartData().numberOfPlayers) {
 		NetPlayerState seatState;
-		// Check cash first - player with 0 cash should be marked as NoMoney
-		if ((*player_i)->getMyCash() == 0) {
-			seatState = netPlayerStateNoMoney;
-		} else if (!(*player_i)->getMyActiveStatus()) {
+		// CRITICAL: Use myActiveStatus (set by initHand BEFORE blind posting)
+		// as the authoritative indicator of player elimination.
+		// DO NOT check getMyCash() == 0 here! By the time this function is
+		// called, setBlinds() has already run inside the Hand constructor
+		// (called from initHand). A player whose cash exactly equals the
+		// blind will have cash=0 after posting, but is still actively
+		// participating in the hand (as all-in). Checking cash here would
+		// incorrectly mark them as "NoMoney" (eliminated), causing the
+		// client to remove them from activePlayerList -- the ghost bug.
+		if (!(*player_i)->getMyActiveStatus()) {
 			seatState = netPlayerStateNoMoney;
 		} else if (!(*player_i)->isSessionActive()) {
 			seatState = netPlayerStateSessionInactive;
 		} else {
 			seatState = netPlayerStateNormal;
 		}
+		const char* stateStr = (seatState == netPlayerStateNormal) ? "Normal" :
+			(seatState == netPlayerStateSessionInactive) ? "SessionInactive" :
+			(seatState == netPlayerStateNoMoney) ? "NoMoney" : "Unknown";
+		LOG_MSG("[HANDSTART SRV] Seat " + std::to_string(playerCounter) + " " + (*player_i)->getMyName()
+			+ " (ID:" + std::to_string((*player_i)->getMyUniqueID()) + ") State:" + stateStr
+			+ " Cash:" + std::to_string((*player_i)->getMyCash())
+			+ " Active:" + std::to_string((*player_i)->getMyActiveStatus())
+			+ " Session:" + std::to_string((*player_i)->isSessionActive())
+			+ " Action:" + std::to_string((*player_i)->getMyAction()));
 		netHandStart->add_seatstates(seatState);
 		++player_i;
 		++playerCounter;
@@ -1075,6 +1090,23 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			// Engine will find out who won.
 			curGame.getCurrentHand()->getCurrentBeRo()->postRiverRun();
 
+			// DEBUG: Log cash values after postRiverRun for ghost-player debugging
+			{
+				PlayerListIterator dbg_i = curGame.getSeatsList()->begin();
+				PlayerListIterator dbg_end = curGame.getSeatsList()->end();
+				int dbg_seat = 0;
+				LOG_MSG("[POST-RIVER SRV] Cash values after postRiverRun():");
+				while (dbg_i != dbg_end) {
+					LOG_MSG("[POST-RIVER SRV] Seat " + std::to_string(dbg_seat) + " " + (*dbg_i)->getMyName()
+						+ " (ID:" + std::to_string((*dbg_i)->getMyUniqueID()) + ") Cash:" + std::to_string((*dbg_i)->getMyCash())
+						+ " Active:" + std::to_string((*dbg_i)->getMyActiveStatus())
+						+ " Action:" + std::to_string((*dbg_i)->getMyAction())
+						+ " Won:" + std::to_string((*dbg_i)->getLastMoneyWon()));
+					++dbg_i;
+					++dbg_seat;
+				}
+			}
+
 			// Retrieve non-fold players. If only one player is left, no cards are shown.
 			list<boost::shared_ptr<PlayerInterface> > nonFoldPlayers = *curGame.getActivePlayerList();
 			nonFoldPlayers.remove_if(boost::bind(&PlayerInterface::getMyAction, boost::placeholders::_1) == PLAYER_ACTION_FOLD);
@@ -1148,6 +1180,24 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 
 			// Remove disconnected players. This is the one and only place to do this.
 			server->RemoveDisconnectedPlayers();
+
+			// DEBUG: Log cash after RemoveDisconnectedPlayers
+			{
+				PlayerListIterator dbg_i = curGame.getSeatsList()->begin();
+				PlayerListIterator dbg_end = curGame.getSeatsList()->end();
+				int dbg_seat = 0;
+				LOG_MSG("[POST-REMOVE SRV] Cash values after RemoveDisconnectedPlayers():");
+				while (dbg_i != dbg_end) {
+					if ((*dbg_i)->getMyActiveStatus() || (*dbg_i)->getMyCash() > 0) {
+						LOG_MSG("[POST-REMOVE SRV] Seat " + std::to_string(dbg_seat) + " " + (*dbg_i)->getMyName()
+							+ " (ID:" + std::to_string((*dbg_i)->getMyUniqueID()) + ") Cash:" + std::to_string((*dbg_i)->getMyCash())
+							+ " Active:" + std::to_string((*dbg_i)->getMyActiveStatus())
+							+ " Session:" + std::to_string((*dbg_i)->isSessionActive()));
+					}
+					++dbg_i;
+					++dbg_seat;
+				}
+			}
 
 			// Update rankings of all remaining players
 			server->UpdateRankingMap();
@@ -1278,6 +1328,22 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 	// Kick inactive players.
 	CheckPlayerTimeouts(server);
 
+	// DEBUG: Log all seat states BEFORE initHand to trace ghost-player bug
+	{
+		PlayerListIterator dbg_i = curGame.getSeatsList()->begin();
+		PlayerListIterator dbg_end = curGame.getSeatsList()->end();
+		int dbg_seat = 0;
+		LOG_MSG("[PRE-INITHAND SRV] Cash values before initHand():");
+		while (dbg_i != dbg_end) {
+			LOG_MSG("[PRE-INITHAND SRV] Seat " + std::to_string(dbg_seat) + " " + (*dbg_i)->getMyName()
+				+ " (ID:" + std::to_string((*dbg_i)->getMyUniqueID()) + ") Cash:" + std::to_string((*dbg_i)->getMyCash())
+				+ " Active:" + std::to_string((*dbg_i)->getMyActiveStatus())
+				+ " Session:" + std::to_string((*dbg_i)->isSessionActive()));
+			++dbg_i;
+			++dbg_seat;
+		}
+	}
+
 	// Initialize hand.
 	curGame.initHand();
 
@@ -1401,17 +1467,18 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
 			if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN
 					&& (int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
+				// Skip timeout for All-In players: they cannot act during the
+				// hand but are legitimately participating.  Without this
+				// exception, long All-In showdowns cause the server to mark
+				// them as session-inactive, which makes them appear "offline"
+				// to other clients.
+				if (tmpPlayer->getMyAction() == PLAYER_ACTION_ALLIN) {
+					tmpPlayer->markRemoteAction();
+					++i;
+					continue;
+				}
 				if (tmpPlayer->isSessionActive()) {
 					tmpPlayer->setIsSessionActive(false);
-					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
-					if (session) {
-						boost::shared_ptr<NetPacket> packet(new NetPacket);
-						packet->GetMsg()->set_messagetype(PokerTHMessage::Type_TimeoutWarningMessage);
-						TimeoutWarningMessage *netWarning = packet->GetMsg()->mutable_timeoutwarningmessage();
-						netWarning->set_timeoutreason(TimeoutWarningMessage::timeoutKickAfterAutofold);
-						netWarning->set_remainingseconds(actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR - tmpPlayer->getTimeSecSinceLastRemoteAction());
-						server->GetLobbyThread().GetSender().Send(session, packet);
-					}
 				}
 				if ((int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
 					server->KickPlayer(tmpPlayer->getMyUniqueID());

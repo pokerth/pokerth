@@ -613,7 +613,7 @@
           <item row="1" column="1">
            <widget class="QLabel" name="label_StartCash">
             <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+             <string notr="true">QLabel { color: palette(link); }</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -639,7 +639,7 @@
           <item row="2" column="1">
            <widget class="QLabel" name="label_SmallBlind">
             <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+             <string notr="true">QLabel { color: palette(link); }</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -665,7 +665,7 @@
           <item row="3" column="1">
            <widget class="QLabel" name="label_blindsRaiseIntervall">
             <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+             <string notr="true">QLabel { color: palette(link); }</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -691,7 +691,7 @@
           <item row="4" column="1">
            <widget class="QLabel" name="label_blindsRaiseMode">
             <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+             <string notr="true">QLabel { color: palette(link); }</string>
             </property>
             <property name="text">
              <string/>
@@ -720,7 +720,7 @@
           <item row="5" column="1">
            <widget class="QLabel" name="label_blindsList">
             <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+             <string notr="true">QLabel { color: palette(link); }</string>
             </property>
             <property name="text">
              <string/>
@@ -749,7 +749,7 @@
           <item row="6" column="1">
            <widget class="QLabel" name="label_GameTiming">
             <property name="styleSheet">
-             <string notr="true">QLabel { color:rgb(0, 0, 255); }</string>
+             <string notr="true">QLabel { color: palette(link); }</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

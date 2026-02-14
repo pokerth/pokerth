@@ -98,11 +98,13 @@ mkdir -p $DEPLOY_DIR/plugins/platforms
 mkdir -p $DEPLOY_DIR/plugins/styles
 mkdir -p $DEPLOY_DIR/plugins/imageformats
 mkdir -p $DEPLOY_DIR/plugins/sqldrivers
+mkdir -p $DEPLOY_DIR/plugins/tls
 
 cp -r ${QT_WINDOWS_DIR}/plugins/platforms/*.dll $DEPLOY_DIR/plugins/platforms/ 2>/dev/null || true
 cp -r ${QT_WINDOWS_DIR}/plugins/styles/*.dll $DEPLOY_DIR/plugins/styles/ 2>/dev/null || true
 cp -r ${QT_WINDOWS_DIR}/plugins/imageformats/*.dll $DEPLOY_DIR/plugins/imageformats/ 2>/dev/null || true
 cp -r ${QT_WINDOWS_DIR}/plugins/sqldrivers/*.dll $DEPLOY_DIR/plugins/sqldrivers/ 2>/dev/null || true
+cp -r ${QT_WINDOWS_DIR}/plugins/tls/*.dll $DEPLOY_DIR/plugins/tls/ 2>/dev/null || true
 
 
 echo "Copying MinGW runtime DLLs from vcpkg..."

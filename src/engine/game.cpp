@@ -37,6 +37,7 @@
 
 #include "localexception.h"
 #include "engine_msg.h"
+#include <core/loghelper.h>
 
 #include <iostream>
 
@@ -164,17 +165,28 @@ void Game::initHand()
 		(*it)->setMyAction(PLAYER_ACTION_NONE);
 	}
 
+	// Log ALL seat states BEFORE removing cash=0 players (critical for ghost-player debugging)
+	LOG_MSG("[INITHAND-BEFORE] Hand " << currentHandID << " - activePlayerList has " << activePlayerList->size() << " players:");
+	for(it=activePlayerList->begin(); it!=activePlayerList->end(); ++it) {
+		LOG_MSG("[INITHAND-BEFORE]   " << (*it)->getMyName() << " (ID:" << (*it)->getMyUniqueID()
+			<< ") Cash:" << (*it)->getMyCash() << " Active:" << (*it)->getMyActiveStatus()
+			<< " Session:" << (*it)->isSessionActive() << " Action:" << (*it)->getMyAction());
+	}
+
 	// set player with empty cash inactive
 	it = activePlayerList->begin();
 	while( it!=activePlayerList->end() ) {
 
 		if((*it)->getMyCash() == 0) {
+			LOG_MSG("[INITHAND] Removing player " << (*it)->getMyName() << " (ID:" << (*it)->getMyUniqueID() << ") from activePlayerList - cash=0");
 			(*it)->setMyActiveStatus(false);
 			it = activePlayerList->erase(it);
 		} else {
 			++it;
 		}
 	}
+
+	LOG_MSG("[INITHAND-AFTER] activePlayerList now has " << activePlayerList->size() << " players remaining");
 
 	runningPlayerList->clear();
 	(*runningPlayerList) = (*activePlayerList);

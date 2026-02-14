@@ -33,7 +33,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <assert.h>
-#include <QDateTime>
+#include <QElapsedTimer>
 
 #ifdef GUI_800x480
 #include "ui_startwindow_800x480.h"
@@ -175,6 +175,7 @@ public slots:
 	// Connection monitoring (heartbeat)
 	void handleStatsUpdate(ServerStats stats);
 	void updateServerActivity();
+	void stopConnectionMonitoring();
 	void connectionHeartbeatCheck();
 	void showConnectionLostDialog();
 
@@ -220,14 +221,15 @@ private:
 
 	// Connection monitoring (heartbeat detection for silent disconnects)
 	QTimer *connectionHeartbeatTimer;
-	QDateTime lastServerActivity;
+	QElapsedTimer lastServerActivityTimer; // monotonic clock – immune to NTP/DST/sleep clock jumps
 	bool connectionMonitoringActive;
-
+	bool connectionLostHandlingActive;
+	int missedHeartbeats;
 	// BBCBot: Auto-reconnect support
 	QTimer *bbcbotReconnectTimer;
 	bool bbcbotReconnectEnabled;
 	int bbcbotReconnectAttempts;
-
+	
 	friend class GuiWrapper;
 };
 

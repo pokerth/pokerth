@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 		// qDebug() << "Locale found!";
 		app.installTranslator(&translator);
 	} else {
-		qDebug() << "Locale not found in translations";
+		// qDebug() << "Locale not found in translations";
 	}
 
     // Initialize Log
@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
         connectionHandler->setSession(session);
         lobbyHandler->setSession(session);
         
-        qDebug() << "Session initialized successfully";
+        // qDebug() << "Session initialized successfully";
     } catch (const std::exception &e) {
         qWarning() << "Exception during session init:" << e.what();
     }

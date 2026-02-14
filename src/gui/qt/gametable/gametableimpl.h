@@ -174,6 +174,7 @@ signals:
 
 	void signalFlipHolecardsAllIn();
 	void signalNextRoundCleanGui();
+	void signalPrepareForNewHand();
 	void signalStartVoteOnKick(unsigned playerId, unsigned voteStarterPlayerId, int timeoutSec, int numVotesNeededToKick);
 	void signalChangeVoteOnKickButtonsState(bool showHide);
 	void signalEndVoteOnKick();
@@ -313,6 +314,7 @@ public slots:
 
 	void stopTimer();
 
+	void prepareForNewHand();
 	void nextRoundCleanGui();
 
 	void breakButtonClicked();

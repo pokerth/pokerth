@@ -16,9 +16,15 @@ moc_*
 .qmake.stash
 build*/
 docker/android/build/
+docker/linux/PokerTH.AppDir/
+docker/linux/appimagetool-x86_64.AppImage
+docker/linux/PokerTH-*.AppImage
 /chatcleaner
 docker/linux/pokerth-linux-binary/
 *workspace
+botfiles/
+
+
 
 # Test infrastructure - sensitive data
 *_with_key.sh

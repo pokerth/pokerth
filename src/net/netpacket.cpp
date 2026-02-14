@@ -82,7 +82,12 @@ NetPacket::IsClientActivity() const
 			 || m_msg->messagetype() == PokerTHMessage::Type_StartEventMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_MyActionRequestMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_ChatRequestMessage)) {
+			 || m_msg->messagetype() == PokerTHMessage::Type_ChatRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_PlayerInfoRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_AvatarRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_SubscriptionRequestMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_RejectGameInvitationMessage
+			 || m_msg->messagetype() == PokerTHMessage::Type_ReportGameMessage)) {
 		retVal = true;
 	}
 	return retVal;

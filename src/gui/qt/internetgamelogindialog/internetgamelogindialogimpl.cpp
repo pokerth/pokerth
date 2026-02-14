@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "internetgamelogindialogimpl.h"
+#include "core/appimage_utils.h"
 #include "configfile.h"
 #include <QScreen>
 #include <tools.h>
@@ -42,6 +43,7 @@ internetGameLoginDialogImpl::internetGameLoginDialogImpl(QWidget *parent, Config
 	QDialog(parent), myConfig(c)
 {
 	setupUi(this);
+	AppImageUtils::patchExternalLinks(this);
 	this->installEventFilter(this);
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);

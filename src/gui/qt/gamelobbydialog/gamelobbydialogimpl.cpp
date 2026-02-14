@@ -34,6 +34,7 @@
 #include "startwindowimpl.h"
 #include "chattools.h"
 #include "darkmodehelper.h"
+#include "core/appimage_utils.h"
 #include <QScreen>
 #include "changecompleteblindsdialogimpl.h"
 #include "session.h"
@@ -60,6 +61,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 //	setWindowFlags(Qt::Dialog | Qt::WindowMinimizeButtonHint);
 #endif
 	setupUi(this);
+	AppImageUtils::patchExternalLinks(this);
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 #ifdef ANDROID
 	this->setWindowState(Qt::WindowFullScreen);
@@ -485,6 +487,19 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		closeAllChildDialogs();
 		this->accept();
 		myW->show();
+	} else if(actionID == MSG_NET_GAME_CLIENT_END) {
+		// Game ended naturally.  The player is still in the game session
+		// on the server (only auto-leave players are removed automatically).
+		// Keep inGame = true and show the Leave button so the player can
+		// manually leave.  Previously this called leftGameDialogUpdate()
+		// which hid the Leave button, leaving non-auto-leave players stuck.
+		isGameAdministrator = false;
+		pushButton_StartGame->hide();
+		pushButton_Kick->hide();
+		pushButton_Kick->setEnabled(false);
+		checkBox_fillUpWithComputerOpponents->hide();
+		pushButton_Leave->show();
+		pushButton_Leave->setEnabled(true);
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCSTART) {
 		waitStartGameMsgBoxTimer->start(2000);
 	} else if(actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
@@ -1161,13 +1176,17 @@ void gameLobbyDialogImpl::removeSpectator(unsigned spectatorId, QString)
 
 void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
 {
+	// Remove ALL entries for this player – don't stop after the first
+	// match.  Duplicate entries may exist if in-flight playerListNew
+	// messages overlapped with a resubscription of the full player list.
 	int it1 = 0;
 	while (myNickListModel->item(it1)) {
-		if (myNickListModel->item(it1, 0)->data(Qt::UserRole) == playerId) {
-			myNickListModel->removeRow(it1);;
-			break;
+		if (myNickListModel->item(it1, 0)->data(Qt::UserRole).toUInt() == playerId) {
+			myNickListModel->removeRow(it1);
+			// Don't increment – the next item shifted into this position.
+		} else {
+			++it1;
 		}
-		++it1;
 	}
 
 	refreshPlayerStats();
@@ -1175,21 +1194,49 @@ void gameLobbyDialogImpl::playerLeftLobby(unsigned playerId)
 
 void gameLobbyDialogImpl::playerJoinedLobby(unsigned playerId, QString /*playerName TODO remove*/)
 {
+	// Check for duplicate: if the player is already in the nick list, update
+	// the existing entry instead of appending a new one.  Duplicates can
+	// occur when in-flight playerListNew messages arrive after the nick list
+	// was cleared (game start) but before the server processed our
+	// unsubscribe – the subsequent resubscription then adds the same
+	// players again.
+	int existingRow = -1;
+	for (int i = 0; myNickListModel->item(i); ++i) {
+		if (myNickListModel->item(i, 0)->data(Qt::UserRole).toUInt() == playerId) {
+			existingRow = i;
+			break;
+		}
+	}
+
 	PlayerInfo playerInfo(mySession->getClientPlayerInfo(playerId));
 	QString countryString = QString::fromUtf8(playerInfo.countryCode.c_str()).toLower();
 
-	QStandardItem *item = new QStandardItem;
-	item->setText(QString::fromUtf8(playerInfo.playerName.c_str()));
-	item->setData(playerId, Qt::UserRole);
-	item->setData(countryString, 33);
-	if(playerInfo.isGuest || countryString.isEmpty()) {
-		item->setIcon(QIcon(":/cflags/cflags/undefined.png"));
+	if (existingRow >= 0) {
+		// Player already present – refresh its data in place.
+		QStandardItem *item = myNickListModel->item(existingRow, 0);
+		item->setText(QString::fromUtf8(playerInfo.playerName.c_str()));
+		item->setData(countryString, 33);
+		if(playerInfo.isGuest || countryString.isEmpty()) {
+			item->setIcon(QIcon(":/cflags/cflags/undefined.png"));
+			item->setToolTip("");
+		} else {
+			item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
+			item->setToolTip(getFullCountryString(countryString.toUpper()));
+		}
 	} else {
-		item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
-		item->setToolTip(getFullCountryString(countryString.toUpper()));
+		QStandardItem *item = new QStandardItem;
+		item->setText(QString::fromUtf8(playerInfo.playerName.c_str()));
+		item->setData(playerId, Qt::UserRole);
+		item->setData(countryString, 33);
+		if(playerInfo.isGuest || countryString.isEmpty()) {
+			item->setIcon(QIcon(":/cflags/cflags/undefined.png"));
+		} else {
+			item->setIcon(QIcon(QString(":/cflags/cflags/%1.png").arg(countryString)));
+			item->setToolTip(getFullCountryString(countryString.toUpper()));
+		}
+		item->setData("idle", 34);
+		myNickListModel->appendRow(item);
 	}
-	item->setData("idle", 34);
-	myNickListModel->appendRow(item);
 
 	refreshPlayerStats();
 }
@@ -1833,7 +1880,13 @@ void gameLobbyDialogImpl::showInvitationDialog(unsigned gameId, unsigned playerI
 
 void gameLobbyDialogImpl::chatInfoPlayerInvitation(unsigned gameId, unsigned playerIdWho, unsigned playerIdFrom)
 {
-	textBrowser_ChatDisplay->append(tr("<span style='color:blue;'>%1 has been invited to %2 by %3.</span>").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str())).arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str())).arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())));
+	textBrowser_ChatDisplay->append(
+		"<span style='color:" + palette().link().color().name() + ";'>" +
+		tr("%1 has been invited to %2 by %3.")
+			.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdWho).playerName.c_str()))
+			.arg(QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str()))
+			.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerIdFrom).playerName.c_str())) +
+		"</span>");
 }
 
 void gameLobbyDialogImpl::chatInfoPlayerRejectedInvitation(unsigned gameId, unsigned playerIdWho, DenyGameInvitationReason reason)
@@ -1899,8 +1952,8 @@ void gameLobbyDialogImpl::removePlayerFromIgnoreList()
 
 void gameLobbyDialogImpl::searchForPlayerRegExpChanged()
 {
-	QRegularExpression regExp(lineEdit_searchForPlayers->text());
-	myNickListSortFilterProxyModel->setFilterRole(regExp.captureCount());
+	QRegularExpression regExp(QRegularExpression::escape(lineEdit_searchForPlayers->text()), QRegularExpression::CaseInsensitiveOption);
+	myNickListSortFilterProxyModel->setFilterRegularExpression(regExp);
 }
 
 void gameLobbyDialogImpl::showAutoStartTimer()
@@ -1947,7 +2000,7 @@ void gameLobbyDialogImpl::openPlayerStats1()
 		unsigned playerId = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
 			QUrl url("https://www.pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(myNickListSelectionModel->currentIndex().data(Qt::DisplayRole).toString()));
-			QDesktopServices::openUrl(url);
+			AppImageUtils::openUrlSafe(url);
 		}
 	}
 }
@@ -1959,7 +2012,7 @@ void gameLobbyDialogImpl::openPlayerStats2()
 		unsigned playerId = treeWidget_connectedPlayers->currentItem()->data(0, Qt::UserRole).toUInt();
 		if(!mySession->getClientPlayerInfo(playerId).isGuest) {
 			QUrl url("https://www.pokerth.net/redirect_user_profile.php?nick="+QUrl::toPercentEncoding(treeWidget_connectedPlayers->currentItem()->data(0, Qt::DisplayRole).toString()));
-			QDesktopServices::openUrl(url);
+			AppImageUtils::openUrlSafe(url);
 		}
 	}
 }

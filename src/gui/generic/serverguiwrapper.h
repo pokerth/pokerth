@@ -100,6 +100,7 @@ public:
 	void flipHolecardsAllIn();
 
 	void nextRoundCleanGui();
+	void prepareForNewHand();
 
 	void meInAction();
 	void updateMyButtonsState();

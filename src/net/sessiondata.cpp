@@ -50,7 +50,7 @@ using namespace boost::chrono;
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService)
 	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
-	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
+	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
 	m_receiveBuffer.reset(new AsioReceiveBuffer);
@@ -59,7 +59,7 @@ SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, S
 
 SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService, int /*filler*/)
 	: m_webData(webData), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
-	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
+	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
 	m_receiveBuffer.reset(new WebReceiveBuffer);
@@ -69,7 +69,7 @@ SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id,
 SessionData::SessionData(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> sslStream, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService, int /*filler*/)
     : m_socket(), m_webData(), m_id(id), m_game(), m_state(SessionData::Init), m_clientAddr(),
       m_receiveBuffer(), m_sendBuffer(), m_readyFlag(false), m_wantsLobbyMsg(true),
-      m_activityTimeoutSec(0), m_activityWarningRemainingSec(0),
+      m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0),
       m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService), m_activityTimeoutTimer(ioService),
       m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
@@ -366,10 +366,23 @@ void
 SessionData::StartTimerGlobalTimeout(unsigned timeoutSec)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_globalTimeoutSec = timeoutSec;
 	m_globalTimeoutTimer.expires_after(seconds(timeoutSec));
 	m_globalTimeoutTimer.async_wait(
 		boost::bind(
 			&SessionData::TimerSessionTimeout, shared_from_this(), boost::asio::placeholders::error));
+}
+
+void
+SessionData::ResetGlobalTimeout()
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	if (m_globalTimeoutSec > 0) {
+		m_globalTimeoutTimer.expires_after(seconds(m_globalTimeoutSec));
+		m_globalTimeoutTimer.async_wait(
+			boost::bind(
+				&SessionData::TimerSessionTimeout, shared_from_this(), boost::asio::placeholders::error));
+	}
 }
 
 void

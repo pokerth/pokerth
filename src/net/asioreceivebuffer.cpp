@@ -35,6 +35,7 @@
 #include <net/asioreceivebuffer.h>
 #include <net/sessiondata.h>
 #include <core/loghelper.h>
+#include <core/pokerthexception.h>
 #include <QDebug>
 
 using namespace std;
@@ -138,9 +139,14 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
                 LOG_ERROR("Session " << session->GetId() << " - Connection closed: " << error);
                 session->Close();
             }
+        } catch (const PokerTHException &) {
+            // Re-throw PokerTH exceptions (ClientException, etc.) so they
+            // propagate to ClientThread::Main() / ServerLobbyThread which
+            // translate them into proper GUI error messages via
+            // SignalNetClientError.
+            throw;
         } catch (const exception &e) {
             LOG_ERROR("Session " << session->GetId() << " - unhandled exception in HandleRead: " << e.what());
-            // Bei Exceptions: Session sauber schließen statt Exception weiterzuwerfen
             try {
                 session->Close();
             } catch (...) {}

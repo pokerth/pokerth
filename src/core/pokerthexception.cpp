@@ -31,14 +31,25 @@
 
 #include "pokerthexception.h"
 #include <sstream>
+#include <cstring>
 
 using namespace std;
 
 PokerTHException::PokerTHException(const char *sourcefile, int sourceline, int errorId, int osErrorCode)
 	: m_errorId(errorId), m_osErrorCode(osErrorCode)
 {
+	// Strip path from __FILE__ to avoid exposing build system paths in release builds
+	const char *filename = sourcefile;
+	if (sourcefile) {
+		const char *lastSlash = strrchr(sourcefile, '/');
+		if (!lastSlash)
+			lastSlash = strrchr(sourcefile, '\\');
+		if (lastSlash)
+			filename = lastSlash + 1;
+	}
+
 	ostringstream msgStream;
-	msgStream << sourcefile << " (" << sourceline << "): Error " << errorId;
+	msgStream << filename << " (" << sourceline << "): Error " << errorId;
 	if (osErrorCode)
 		msgStream << " (system error " << osErrorCode << ")";
 	m_msg = msgStream.str();
