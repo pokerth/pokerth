@@ -1516,7 +1516,7 @@ void startWindowImpl::bbcbotResetReconnectAttempts()
 		std::cout << "[BBCBot] Connection successful. Resetting reconnect attempts counter." << std::endl;
 		bbcbotReconnectAttempts = 0;
 		// Reset activity timestamp on successful connection
-		lastServerActivity = QDateTime::currentDateTime();
+		lastServerActivityTimer.restart();
 	}
 }
 
