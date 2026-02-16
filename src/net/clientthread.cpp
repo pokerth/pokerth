@@ -917,6 +917,15 @@ ClientThread::CompleteTempAvatarFile(unsigned playerId)
 }
 
 void
+ClientThread::AddTempAvatarFile(unsigned requestId, unsigned avatarSize, AvatarFileType type)
+{
+    boost::shared_ptr<AvatarFile> tmpAvatar(new AvatarFile);
+    tmpAvatar->reportedSize = avatarSize;
+    tmpAvatar->fileType = type;
+    m_tempAvatarMap[requestId] = tmpAvatar;
+}
+
+void
 ClientThread::PassAvatarFileToManager(unsigned playerId, boost::shared_ptr<AvatarFile> AvatarFile)
 {
 	PlayerInfo tmpPlayerInfo;
