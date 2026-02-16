@@ -878,17 +878,17 @@ ClientThread::GetPlayerName(unsigned id)
 	return info.playerName;
 }
 
-void
-ClientThread::AddTempAvatarFile(unsigned playerId, unsigned avatarSize, AvatarFileType type)
+void ClientThread::AddAllLobbyPlayersToIdle()
 {
-	boost::shared_ptr<AvatarFile> tmpAvatar(new AvatarFile);
-	tmpAvatar->fileData.reserve(avatarSize);
-	tmpAvatar->fileType = type;
-	tmpAvatar->reportedSize = avatarSize;
-
-	m_tempAvatarMap[playerId] = tmpAvatar;
+        boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
+        for (const auto& p : m_playerInfoMap) {
+                unsigned playerId = p.first;
+                const PlayerInfo& info = p.second;
+                if (GetGameIdOfPlayer(playerId) == 0 && info.playerName.substr(0, 5) != "Guest") {
+                        botdb.addidleplayer(playerId);
+                }
+        }
 }
-
 void
 ClientThread::StoreInTempAvatarFile(unsigned playerId, const vector<unsigned char> &data)
 {
@@ -2666,6 +2666,54 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 	}
 	std::cout << "[BBCBot DEBUG] Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount << std::endl;
 	if(sindex.size()==0) return "Sorry, no player found to suggest";
+        // If no idle players found, try to add all lobby players
+        if (idleCount == 0) {
+                std::cout << "[BBCBot DEBUG] No idle players found, adding all lobby players..." << std::endl;
+                parent->AddAllLobbyPlayersToIdle();
+                // Rescan
+                sindex.clear();
+                sscore.clear();
+                idleCount = 0;
+                validCount = 0;
+                dbCount = 0;
+                scoreCount = 0;
+                for(int i=0;i<512;i++)
+                {
+                        if(idleplayers[i]==0) continue;
+                        idleCount++;
+                        if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
+                        validCount++;
+                        std::string tempname=parent->GetPlayerName(idleplayers[i]);
+                        if(tempname.substr(0,5)=="Guest") continue;
+                        int tempindex=getindex(tempname);
+                        if(tempindex==-1) continue;
+                        dbCount++;
+                        int tempscore=suggestionscore1(tempindex,step);
+                        if(tempscore<=10) continue;
+                        scoreCount++;
+                        auto it1=sindex.begin();
+                        auto it2=sindex.end();
+                        auto it3=sscore.begin();
+                        while(it1!=it2)
+                        {
+                                if(tempscore >= *it3)
+                                {
+                                        sindex.insert(it1,tempindex);
+                                        sscore.insert(it3,tempscore);
+                                        break;
+                                }
+                                it1++;
+                                it3++;
+                        }
+                        if(it1==it2)
+                        {
+                                sindex.push_back(tempindex);
+                                sscore.push_back(tempscore);
+                        }
+                }
+                std::cout << "[BBCBot DEBUG] After adding lobby players: Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount << std::endl;
+        }
+
 	tempname="I suggest the following players for step "+int2string(step)+": ";
 	for(unsigned i=0;i<sindex.size() && i<limit; i++)
 	{
