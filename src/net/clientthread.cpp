@@ -70,6 +70,7 @@
 #include <memory>
 #include <cassert>
 #include <typeinfo>
+#include <cctype>
 #include <openssl/ssl.h>
 
 #define TEMP_AVATAR_FILENAME	"avatar.tmp"
@@ -1742,8 +1743,7 @@ ClientThread::bot_loadfiles()
 	
 	// Initialize bot as enabled
 	bot.enabled = true;
-	// Initialize idle players list
-	botdb.clear_idleplayers();
+	// Keep idle players list to avoid losing lobby players on file reloads.
 	// Disable interactive info popups for bot runs
 	qputenv("POKERTH_BBCBOT_NOPOPUPS", QByteArray("1"));
 	bot.stdcount = 0;
@@ -2306,6 +2306,36 @@ ClientThread::bot_downloadfiles()
 }
 
 // bbcbotplayerdb implementation
+namespace {
+std::string trim_ascii(const std::string &input)
+{
+	size_t start = 0;
+	size_t end = input.size();
+	while (start < end && std::isspace(static_cast<unsigned char>(input[start]))) {
+		++start;
+	}
+	while (end > start && std::isspace(static_cast<unsigned char>(input[end - 1]))) {
+		--end;
+	}
+	return input.substr(start, end - start);
+}
+
+std::string tolower_ascii(const std::string &input)
+{
+	std::string out;
+	out.reserve(input.size());
+	for (char ch : input) {
+		out.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(ch))));
+	}
+	return out;
+}
+
+bool equals_case_insensitive(const std::string &left, const std::string &right)
+{
+	return tolower_ascii(left) == tolower_ascii(right);
+}
+}
+
 bbcbotplayerdb::bbcbotplayerdb(ClientThread*p)
 {
 	issorted=true;
@@ -2420,7 +2450,11 @@ bool bbcbotplayerdb::loadwecfile(std::string filename)
 	std::string line;
 	while(std::getline(wecfile,line))
 	{
-		wecpeople.push_back(line);
+		std::string trimmed = trim_ascii(line);
+		if (trimmed.empty()) {
+			continue;
+		}
+		wecpeople.push_back(trimmed);
 		lineCount++;
 	}
 	std::cout << "[BBCBot DEBUG] Loaded " << lineCount << " WEC players from " << filename << std::endl;
@@ -2467,6 +2501,10 @@ int bbcbotplayerdb::getindex(std::string name)
 		{
 			if(name==pname[i]) return i;
 		}
+	}
+	for(size_t i=0;i<size;i++)
+	{
+		if(equals_case_insensitive(name, pname[i])) return i;
 	}
 	return -1;
 }
@@ -2664,7 +2702,7 @@ std::string bbcbotplayerdb::wecsuggest()
 		tempindex=-1;
 		for(unsigned i2=0;i2<wecpeople.size();i2++)
 		{
-			if(tempname==wecpeople[i2])
+			if(equals_case_insensitive(tempname, wecpeople[i2]))
 			{
 				tempindex=i2;
 				wecMatchCount++;
