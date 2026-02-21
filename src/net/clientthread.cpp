@@ -1929,12 +1929,18 @@ ClientThread::bot_loadfiles()
 								g.gdata.startMoney = val2.toInt();
 							} else if (key2 == "smallblind" || key2 == "firstsmallblind") {
 								g.gdata.firstSmallBlind = val2.toInt();
+							} else if (key2 == "raiseblindsathands") {
+								// Boolean flag: RaiseBlindsAtHands=1 means use RAISE_ON_HANDNUMBER
+								if (val2 == "1" || val2.toLower() == "true") g.gdata.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+							} else if (key2 == "raiseblindsatminutes") {
+								// Boolean flag: RaiseBlindsAtMinutes=1 means use RAISE_ON_MINUTES
+								if (val2 == "1" || val2.toLower() == "true") g.gdata.raiseIntervalMode = RAISE_ON_MINUTES;
 							} else if (key2 == "raisehands" || key2 == "raisesmallblindeveryhands") {
 								g.gdata.raiseSmallBlindEveryHandsValue = val2.toInt();
-								g.gdata.raiseIntervalMode = RAISE_ON_HANDNUMBER;
+								// Only set mode if RaiseBlindsAt* keys were not used (fallback for simple configs)
 							} else if (key2 == "raiseminutes" || key2 == "raisesmallblindeveryminutes") {
 								g.gdata.raiseSmallBlindEveryMinutesValue = val2.toInt();
-								g.gdata.raiseIntervalMode = RAISE_ON_MINUTES;
+								// Only set mode if RaiseBlindsAt* keys were not used (fallback for simple configs)
 							} else if (key2 == "raisemode" || key2 == "alwaysdoubleblinds" || key2 == "manualblindsorder") {
 								// Handle multiple representations
 								if (key2 == "raisemode") {
@@ -1949,6 +1955,14 @@ ClientThread::bot_loadfiles()
 										if (val2 == "1" || val2.toLower() == "true") g.gdata.raiseMode = MANUAL_BLINDS_ORDER;
 									}
 								}
+							} else if (key2 == "aftermbalwaysdoubleblinds") {
+								if (val2 == "1" || val2.toLower() == "true") g.gdata.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS;
+							} else if (key2 == "aftermbalwaysraiseabout") {
+								if (val2 == "1" || val2.toLower() == "true") g.gdata.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+							} else if (key2 == "aftermbalwaysraisevalue") {
+								g.gdata.afterMBAlwaysRaiseValue = val2.toInt();
+							} else if (key2 == "aftermbstayatlastblind") {
+								if (val2 == "1" || val2.toLower() == "true") g.gdata.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND;
 							} else if (key2 == "manualblindlist" || key2 == "listblind") {
 								// 'ListBlind' can appear multiple times
 								if (key2 == "manualblindlist") {
@@ -1963,7 +1977,7 @@ ClientThread::bot_loadfiles()
 								if ((key2.contains("registeredonly") && (val2 == "1" || val2.toLower() == "true"))) g.gdata.gameType = GAME_TYPE_REGISTERED_ONLY;
 								if ((key2.contains("ranking") && (val2 == "1" || val2.toLower() == "true"))) g.gdata.gameType = GAME_TYPE_RANKING;
 								// if GameTypeNormal==1 or none set, default remains
-							} else if (key2 == "gamespeed" || key2 == "gamespeed") {
+							} else if (key2 == "gamespeed") {
 								g.gdata.guiSpeed = val2.toInt();
 							} else if (key2 == "delaybetweenhands") {
 								g.gdata.delayBetweenHandsSec = val2.toInt();
