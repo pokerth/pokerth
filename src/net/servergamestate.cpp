@@ -84,8 +84,8 @@ using namespace boost::chrono;
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
-#define SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR			30
-#define SERVER_GAME_FORCED_TIMEOUT_FACTOR			60
+#define SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR			6
+#define SERVER_GAME_FORCED_TIMEOUT_FACTOR			12
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 #define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
@@ -1457,6 +1457,9 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 {
 	// Check timeout.
 	int actionTimeout = server->GetGameData().playerActionTimeoutSec;
+	LOG_MSG("[AFK-GAME] CheckPlayerTimeouts called. actionTimeout=" << actionTimeout
+		<< " warnThreshold=" << (actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR)
+		<< "s kickThreshold=" << (actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) << "s");
 	if (actionTimeout) {
 		// Consider all active players.
 		PlayerListIterator i = server->GetGame().getActivePlayerList()->begin();
@@ -1465,6 +1468,11 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 		// Check timeouts of players.
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
+			LOG_MSG("[AFK-GAME] Player " << tmpPlayer->getMyName()
+				<< " type=" << tmpPlayer->getMyType()
+				<< " idleSec=" << tmpPlayer->getTimeSecSinceLastRemoteAction()
+				<< " sessionActive=" << tmpPlayer->isSessionActive()
+				<< " action=" << tmpPlayer->getMyAction());
 			if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN
 					&& (int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
 				// Skip timeout for All-In players: they cannot act during the
@@ -1479,8 +1487,29 @@ ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 				}
 				if (tmpPlayer->isSessionActive()) {
 					tmpPlayer->setIsSessionActive(false);
+					// Send AFK warning to the client so it shows the timeout popup.
+					// The player has until FORCED_TIMEOUT_FACTOR to respond (click OK
+					// or perform any action) before being kicked from the game.
+					unsigned forcedTimeoutSec = static_cast<unsigned>(actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR);
+					unsigned elapsedSec = tmpPlayer->getTimeSecSinceLastRemoteAction();
+					unsigned remainingSec = (forcedTimeoutSec > elapsedSec) ? (forcedTimeoutSec - elapsedSec) : 0;
+					LOG_MSG("[AFK-GAME] >>> SENDING WARNING to " << tmpPlayer->getMyName()
+						<< " elapsed=" << elapsedSec << "s remaining=" << remainingSec << "s");
+					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
+					if (session) {
+						boost::shared_ptr<NetPacket> packet(new NetPacket);
+						packet->GetMsg()->set_messagetype(PokerTHMessage::Type_TimeoutWarningMessage);
+						TimeoutWarningMessage *netWarning = packet->GetMsg()->mutable_timeoutwarningmessage();
+						netWarning->set_timeoutreason(TimeoutWarningMessage::timeoutKickAfterAutofold);
+						netWarning->set_remainingseconds(remainingSec);
+						server->GetLobbyThread().GetSender().Send(session, packet);
+					} else {
+						LOG_MSG("[AFK-GAME] >>> WARNING: No session found for player " << tmpPlayer->getMyName());
+					}
 				}
 				if ((int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
+					LOG_MSG("[AFK-GAME] >>> KICKING player " << tmpPlayer->getMyName()
+						<< " idle=" << tmpPlayer->getTimeSecSinceLastRemoteAction() << "s");
 					server->KickPlayer(tmpPlayer->getMyUniqueID());
 				}
 			}

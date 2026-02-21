@@ -80,7 +80,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitStartGameMsgBox->setWindowModality(Qt::NonModal);
 #endif
 #ifdef __APPLE__
-	waitStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	waitStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::Dialog);
 #endif
 	waitStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
@@ -91,7 +91,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	waitRejoinStartGameMsgBox->setWindowModality(Qt::NonModal);
 #endif
 #ifdef __APPLE__
-	waitRejoinStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	waitRejoinStartGameMsgBox->setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::Dialog);
 #endif
 	waitRejoinStartGameMsgBox->setStandardButtons(QMessageBox::NoButton);
 
@@ -485,6 +485,7 @@ void gameLobbyDialogImpl::refresh(int actionID)
 		//stop waitStartGameMsgBoxes
 		waitStartGameMsgBoxTimer->stop();
 		closeAllChildDialogs();
+		myW->networkGameModification();
 		this->accept();
 		myW->show();
 	} else if(actionID == MSG_NET_GAME_CLIENT_END) {

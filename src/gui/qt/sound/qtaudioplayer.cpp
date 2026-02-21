@@ -447,12 +447,34 @@ void QtAudioPlayer::initSoftwareMixerBackend(const QAudioDevice& device, float v
     // transitions the sink to IdleState and stops pulling data.  Without
     // this handler the sound is cut off and never resumes.  Restarting
     // the sink from the IdleState handler recovers playback seamlessly.
+    //
+    // Additionally, when Windows resumes from sleep/hibernate, WASAPI
+    // invalidates the audio session entirely.  The sink transitions to
+    // StoppedState (often with FatalError) or SuspendedState.  We must
+    // detect these and fully recreate the QAudioSink to restore audio.
     connect(mixerSink, &QAudioSink::stateChanged, this, [this](QAudio::State newState) {
-        if (newState == QAudio::IdleState && mixerSink && mixer) {
+        if (!mixerSink || !mixer)
+            return;
+        if (newState == QAudio::IdleState) {
             // Sink ran out of data or WASAPI flagged an underrun.
             // Restart immediately so the next play() is audible.
             mixerSink->stop();
             mixerSink->start(mixer);
+        } else if (newState == QAudio::StoppedState) {
+            // Fatal error or device lost (e.g. after sleep/hibernate).
+            // The existing sink is unusable — recreate it.
+            qWarning() << "[Audio] Mixer sink stopped (error:"
+                       << mixerSink->error() << ") — recreating sink";
+            QMetaObject::invokeMethod(this, [this]() {
+                if (!mixer) return;
+                applyDeviceToEffects();   // recreates the sink
+            }, Qt::QueuedConnection);
+        } else if (newState == QAudio::SuspendedState) {
+            // System suspended audio (e.g. entering sleep).  Try to
+            // resume; if that fails the StoppedState handler above
+            // will take over.
+            qWarning() << "[Audio] Mixer sink suspended — attempting resume";
+            mixerSink->resume();
         }
     });
 
@@ -564,11 +586,24 @@ void QtAudioPlayer::applyDeviceToEffects()
 #else
         mixerSink->setBufferSize(44100 * 4 / 5);      // ~200ms
 #endif
-        // Recover from WASAPI IdleState (see initSoftwareMixerBackend)
+        // Recovery handler: IdleState (underrun), StoppedState (device
+        // lost after sleep/hibernate), SuspendedState (system suspend).
         connect(mixerSink, &QAudioSink::stateChanged, this, [this](QAudio::State newState) {
-            if (newState == QAudio::IdleState && mixerSink && mixer) {
+            if (!mixerSink || !mixer)
+                return;
+            if (newState == QAudio::IdleState) {
                 mixerSink->stop();
                 mixerSink->start(mixer);
+            } else if (newState == QAudio::StoppedState) {
+                qWarning() << "[Audio] Mixer sink stopped (error:"
+                           << mixerSink->error() << ") — recreating sink";
+                QMetaObject::invokeMethod(this, [this]() {
+                    if (!mixer) return;
+                    applyDeviceToEffects();
+                }, Qt::QueuedConnection);
+            } else if (newState == QAudio::SuspendedState) {
+                qWarning() << "[Audio] Mixer sink suspended — attempting resume";
+                mixerSink->resume();
             }
         });
         if (mixer) {

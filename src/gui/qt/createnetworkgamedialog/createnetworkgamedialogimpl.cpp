@@ -39,7 +39,7 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::Dialog);
 #endif
 	setupUi(this);
 	this->installEventFilter(this);

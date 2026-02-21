@@ -45,7 +45,7 @@ startNetworkGameDialogImpl::startNetworkGameDialogImpl(startWindowImpl *parent, 
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
-	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::Dialog);
+	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::Dialog);
 #endif
 	setupUi(this);
 #ifdef ANDROID
@@ -262,6 +262,7 @@ bool startNetworkGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 
 void startNetworkGameDialogImpl::accept()
 {
+	myW->networkGameModification();
 	myW->show();
 	QDialog::accept();
 }
