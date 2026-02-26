@@ -55,21 +55,41 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0)
 {
 
+	setupUi(this);
+
 #ifdef __APPLE__
 	setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
 #elif _WIN32
 //	setWindowFlags(Qt::Dialog | Qt::WindowMinimizeButtonHint);
+#else
+	// Linux: Enable maximize AND minimize buttons (Bug report: Zorin 18).
+	// Qt::Window alone is not enough — QDialog passes the parent as
+	// transient-for hint to the window manager.  GNOME/Mutter treats
+	// transient windows as "attached" to the parent and silently
+	// ignores the minimize request.  Clearing the parent for the
+	// window system breaks the transient-for relationship so the
+	// lobby behaves as an independent top-level window.
+	setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
+	// Remove the WM_TRANSIENT_FOR hint so GNOME/Mutter allows minimize.
+	// On Wayland this is the equivalent of clearing the transient parent.
+	setParent(nullptr);
+	// Re-apply the flags (setParent resets them)
+	setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowMinimizeButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowCloseButtonHint);
 #endif
-	setupUi(this);
 	AppImageUtils::patchExternalLinks(this);
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
-#ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
-	QScreen *screen = QGuiApplication::primaryScreen();
-	if (screen) {
-		QRect screenGeometry = screen->availableGeometry();
-		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
+
+	// React to screen changes (hibernate/resume, DPI changes, monitor switch)
+	QScreen *primaryScreen = QGuiApplication::primaryScreen();
+	if (primaryScreen) {
+		connect(primaryScreen, &QScreen::geometryChanged,
+			this, &gameLobbyDialogImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+		connect(primaryScreen, &QScreen::logicalDotsPerInchChanged,
+			this, &gameLobbyDialogImpl::onScreenDpiChanged, Qt::UniqueConnection);
 	}
+
+#ifdef ANDROID
+	MobileInputHelper::prepareAndroidDialog(this);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_ChatInput);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_searchForPlayers);
 #endif
@@ -1478,39 +1498,44 @@ void gameLobbyDialogImpl::keyPressEvent ( QKeyEvent * event )
 
 bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
-	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-	QFocusEvent *focusEvent = static_cast<QFocusEvent*>(event);
-
-	if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
-		myChat->nickAutoCompletition();
-		return true;
-	} else if (obj == lineEdit_searchForPlayers && focusEvent->gotFocus() && lineEdit_searchForPlayers->text() == tr("search for player ...")) {
-		lineEdit_searchForPlayers->clear();
-		return QDialog::eventFilter(obj, event);
-	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
-		event->ignore();
-		this->reject();
-		return false;
-	} else if (obj == lineEdit_ChatInput && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Up) {
-		if((keyUpCounter + 1) <= myChat->getChatLinesHistorySize()) {
-			keyUpCounter++;
+	if (event->type() == QEvent::KeyPress) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		
+		if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && keyEvent->key() == Qt::Key_Tab) {
+			myChat->nickAutoCompletition();
+			return true;
+		} else if (keyEvent->key() == Qt::Key_Back) {
+			event->ignore();
+			this->reject();
+			return false;
+		} else if (obj == lineEdit_ChatInput && keyEvent->key() == Qt::Key_Up) {
+			if((keyUpCounter + 1) <= myChat->getChatLinesHistorySize()) {
+				keyUpCounter++;
+			}
+			myChat->showChatHistoryIndex(keyUpCounter);
+			return true;
+		} else if (obj == lineEdit_ChatInput && keyEvent->key() == Qt::Key_Down) {
+			if((keyUpCounter - 1) >= 0) {
+				keyUpCounter--;
+			}
+			myChat->showChatHistoryIndex(keyUpCounter);
+			return true;
+		} else {
+			// Reset counter for other keys when chat input has focus
+			if (obj == lineEdit_ChatInput) {
+				keyUpCounter = 0;
+			}
 		}
-		myChat->showChatHistoryIndex(keyUpCounter);
-		return true;
-	} else if (obj == lineEdit_ChatInput && event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Down) {
-		if((keyUpCounter - 1) >= 0) {
-			keyUpCounter--;
+	} else if (event->type() == QEvent::FocusIn) {
+		QFocusEvent *focusEvent = static_cast<QFocusEvent*>(event);
+		if (obj == lineEdit_searchForPlayers && focusEvent->gotFocus() && lineEdit_searchForPlayers->text() == tr("search for player ...")) {
+			lineEdit_searchForPlayers->clear();
+			return QDialog::eventFilter(obj, event);
 		}
-		myChat->showChatHistoryIndex(keyUpCounter);
-		return true;
-	} else {
-		// Reset counter for other keys when chat input has focus
-		if (obj == lineEdit_ChatInput && event->type() == QEvent::KeyPress) {
-			keyUpCounter = 0;
-		}
-		// pass the event on to the parent class
-		return QDialog::eventFilter(obj, event);
 	}
+	
+	// pass the event on to the parent class
+	return QDialog::eventFilter(obj, event);
 }
 
 bool gameLobbyDialogImpl::event ( QEvent * event )
@@ -2361,8 +2386,52 @@ void gameLobbyDialogImpl::changeEvent(QEvent *event)
     if (event->type() == QEvent::PaletteChange || event->type() == QEvent::StyleChange) {
         updateGameListStyleSheet();
     }
+
+    if (event->type() == QEvent::WindowStateChange
+        || event->type() == QEvent::ScreenChangeInternal) {
+        // After hibernate/resume the window may have a mismatched geometry.
+        // Force a full re-layout so every child widget adapts.
+        if (layout()) {
+            layout()->invalidate();
+            layout()->activate();
+        }
+        update();
+    }
     
     QDialog::changeEvent(event);
+}
+
+void gameLobbyDialogImpl::onScreenChanged(QScreen *screen)
+{
+    if (screen) {
+        connect(screen, &QScreen::geometryChanged,
+            this, &gameLobbyDialogImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+        connect(screen, &QScreen::logicalDotsPerInchChanged,
+            this, &gameLobbyDialogImpl::onScreenDpiChanged, Qt::UniqueConnection);
+    }
+    if (layout()) {
+        layout()->invalidate();
+        layout()->activate();
+    }
+    update();
+}
+
+void gameLobbyDialogImpl::onScreenGeometryChanged(const QRect & /*geometry*/)
+{
+    if (layout()) {
+        layout()->invalidate();
+        layout()->activate();
+    }
+    update();
+}
+
+void gameLobbyDialogImpl::onScreenDpiChanged(qreal /*dpi*/)
+{
+    if (layout()) {
+        layout()->invalidate();
+        layout()->activate();
+    }
+    update();
 }
 
 void gameLobbyDialogImpl::updateGameListStyleSheet()

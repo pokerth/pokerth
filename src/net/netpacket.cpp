@@ -80,11 +80,19 @@ NetPacket::IsClientActivity() const
 			 || m_msg->messagetype() == PokerTHMessage::Type_KickPlayerRequestMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_LeaveGameRequestMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_StartEventMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_MyActionRequestMessage
+			 // NOTE: MyActionRequestMessage is NOT included here because
+			 // auto-check, auto-fold and auto-call send exactly the same
+			 // message type as a manual click.  Counting it as activity
+			 // would prevent the in-game AFK timeout from ever firing.
+			 // Real user activity (chat, votes, ResetTimeout) still resets
+			 // the session timer.
 			 || m_msg->messagetype() == PokerTHMessage::Type_ResetTimeoutMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_ChatRequestMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_PlayerInfoRequestMessage
-			 || m_msg->messagetype() == PokerTHMessage::Type_AvatarRequestMessage
+			 // NOTE: PlayerInfoRequestMessage and AvatarRequestMessage are NOT
+			 // included here because they are automated responses to server
+			 // notifications (e.g. new player joined), not deliberate user
+			 // actions.  Counting them as activity would prevent the AFK
+			 // timeout from ever firing in an active lobby.
 			 || m_msg->messagetype() == PokerTHMessage::Type_SubscriptionRequestMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_RejectGameInvitationMessage
 			 || m_msg->messagetype() == PokerTHMessage::Type_ReportGameMessage)) {

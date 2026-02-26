@@ -66,7 +66,7 @@
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				1536		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
 
-#define SERVER_SAVE_STATISTICS_INTERVAL_SEC			60
+#define SERVER_SAVE_STATISTICS_INTERVAL_SEC			15		// heartbeat for WiFi keepalive (was 60)
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
 #define SERVER_REMOVE_GAME_INTERVAL_MSEC			500
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
@@ -78,6 +78,7 @@
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
 #define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
+#define SERVER_INGAME_ACTIVITY_TIMEOUT_SEC			960		// 16 min (warning at 15 min) - only real UI activity resets
 #define SERVER_SESSION_FORCED_TIMEOUT_SEC			604800	// 7 days - reset on every client activity
 
 #define SERVER_ADDRESS_LOCALHOST_STR_V4				"127.0.0.1"
@@ -417,6 +418,11 @@ ServerLobbyThread::MoveSessionToGame(boost::shared_ptr<ServerGame> game, boost::
 	m_gameSessionManager.AddSession(session);
 	// Set the game id of the session.
 	session->SetGame(game);
+	// Switch to a shorter activity timeout for in-game AFK detection.
+	// Only real user activity (chat, votes, ResetTimeout) resets this timer;
+	// auto-check/fold/call do NOT (MyActionRequestMessage excluded from
+	// IsClientActivity).
+	session->StartTimerActivityTimeout(SERVER_INGAME_ACTIVITY_TIMEOUT_SEC, SERVER_TIMEOUT_WARNING_REMAINING_SEC);
 	// Add session to the game.
 	game->AddSession(session, spectateOnly);
 	// Optionally enable auto leave after game finish.
@@ -939,7 +945,6 @@ ServerLobbyThread::Main()
 				// Continue running
 			}
 		}
-		LOG_MSG("[SERVER-MAIN] io_service stopped - exiting main loop");
 
 	} catch (const PokerTHException &e) {
 		GetCallback().SignalNetServerError(e.GetErrorId(), e.GetOsErrorCode());
@@ -2144,7 +2149,9 @@ ServerLobbyThread::HandleReAddedSession(boost::shared_ptr<SessionData> session)
 		session->SetGame(boost::shared_ptr<ServerGame>());
 		// Reset timers when returning to lobby - prevents stale timeouts from
 		// the original connection time killing long-lived sessions.
-		session->ResetActivityTimer();
+		// Explicitly set the lobby timeout (30 min) because the session may
+		// still carry the shorter in-game timeout (15 min).
+		session->StartTimerActivityTimeout(SERVER_SESSION_ACTIVITY_TIMEOUT_SEC, SERVER_TIMEOUT_WARNING_REMAINING_SEC);
 		session->ResetGlobalTimeout();
 		// Add session to lobby list.
 		m_sessionManager.AddSession(session);
@@ -2177,6 +2184,19 @@ void
 ServerLobbyThread::SessionError(boost::shared_ptr<SessionData> session, int errorCode)
 {
 	if (session) {
+		// For in-game session timeouts, move the player back to the lobby
+		// instead of fully disconnecting them.
+		if (errorCode == ERR_NET_SESSION_TIMED_OUT) {
+			boost::shared_ptr<ServerGame> game = session->GetGame();
+			if (game) {
+				// Use NTF_NET_REMOVED_TIMEOUT (not NTF_NET_REMOVED_KICKED) so the
+				// player's GUID is preserved and rejoin is allowed.  KICKED would
+				// cause MarkPlayerAsKicked -> setMyGuid("") -> no rejoin possible.
+				game->MoveSessionToLobby(session, NTF_NET_REMOVED_TIMEOUT);
+				return;
+			}
+		}
+
 		if (errorCode == ERR_NET_PLAYER_KICKED || errorCode == ERR_NET_SESSION_TIMED_OUT) {
 			if (session->GetGame() && session->GetPlayerData()) {
 				session->GetGame()->MarkPlayerAsKicked(session->GetPlayerData()->GetUniqueId());

@@ -51,12 +51,12 @@ class createNetworkGameDialogImpl: public QDialog, public Ui::createNetworkGameD
 public:
 	createNetworkGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
 
-	int exec();
+	int exec() override;
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog()
 	{
 		return myChangeCompleteBlindsDialog;
 	}
-	bool eventFilter(QObject *obj, QEvent *event);
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 public slots:
 
@@ -64,7 +64,7 @@ public slots:
 	void cancel();
 	void fillFormular();
 	void showDialog();
-	void keyPressEvent ( QKeyEvent * event );
+	void keyPressEvent ( QKeyEvent * event ) override;
 
 	void callChangeBlindsDialog(bool);
 private:

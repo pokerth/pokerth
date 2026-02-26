@@ -31,6 +31,7 @@
 #include "newgamedialogimpl.h"
 #include "changecompleteblindsdialogimpl.h"
 #include "configfile.h"
+#include "mobileinputhelper.h"
 
 newGameDialogImpl::newGameDialogImpl(QMainWindow *parent, ConfigFile *c)
 	: QDialog(parent), myConfig(c)
@@ -41,6 +42,9 @@ newGameDialogImpl::newGameDialogImpl(QMainWindow *parent, ConfigFile *c)
 #endif
 	setupUi(this);
 	this->installEventFilter(this);
+#ifdef ANDROID
+	MobileInputHelper::prepareAndroidDialog(this);
+#endif
 
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 	connect( radioButton_changeBlindsSettings, SIGNAL( clicked(bool) ), this, SLOT( callChangeBlindsDialog(bool) ) );

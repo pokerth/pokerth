@@ -49,7 +49,7 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	setupUi(this);
 	this->installEventFilter(this);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_gameName);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_Password);
 #endif
@@ -261,41 +261,42 @@ void createInternetGameDialogImpl::gameTypeChanged()
 bool createInternetGameDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
 #ifdef ANDROID
-	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+	if (event->type() == QEvent::KeyPress) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-	//androi changes for return key behavior (hopefully useless from necessitas beta2)
-	if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Return) {
+		//androi changes for return key behavior (hopefully useless from necessitas beta2)
+		if (keyEvent->key() == Qt::Key_Return) {
 
-		if(spinBox_startCash->hasFocus()) {
-			spinBox_startCash->clearFocus();
-		}
-		if(spinBox_quantityPlayers->hasFocus()) {
-			spinBox_quantityPlayers->clearFocus();
-		}
-		if(spinBox_netTimeOutPlayerAction->hasFocus()) {
-			spinBox_netTimeOutPlayerAction->clearFocus();
-		}
-		if(spinBox_netDelayBetweenHands->hasFocus()) {
-			spinBox_netDelayBetweenHands->clearFocus();
-		}
-		if(lineEdit_gameName->hasFocus()) {
-			lineEdit_gameName->clearFocus();
-		}
-		if(lineEdit_Password->hasFocus()) {
-			lineEdit_Password->clearFocus();
-		}
+			if(spinBox_startCash->hasFocus()) {
+				spinBox_startCash->clearFocus();
+			}
+			if(spinBox_quantityPlayers->hasFocus()) {
+				spinBox_quantityPlayers->clearFocus();
+			}
+			if(spinBox_netTimeOutPlayerAction->hasFocus()) {
+				spinBox_netTimeOutPlayerAction->clearFocus();
+			}
+			if(spinBox_netDelayBetweenHands->hasFocus()) {
+				spinBox_netDelayBetweenHands->clearFocus();
+			}
+			if(lineEdit_gameName->hasFocus()) {
+				lineEdit_gameName->clearFocus();
+			}
+			if(lineEdit_Password->hasFocus()) {
+				lineEdit_Password->clearFocus();
+			}
 
-		event->ignore();
-		return false;
+			event->ignore();
+			return false;
 
-	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
-		event->ignore();
-		this->reject();
-		return false;
-	} else {
-		// pass the event on to the parent class
-		return QDialog::eventFilter(obj, event);
+		} else if (keyEvent->key() == Qt::Key_Back) {
+			event->ignore();
+			this->reject();
+			return false;
+		}
 	}
+	// pass the event on to the parent class
+	return QDialog::eventFilter(obj, event);
 #else
 	return QDialog::eventFilter(obj, event);
 #endif

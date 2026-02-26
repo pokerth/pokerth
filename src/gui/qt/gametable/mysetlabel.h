@@ -52,7 +52,7 @@ public:
 	{
 		myW = theValue;
 	}
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 
 public slots:
 

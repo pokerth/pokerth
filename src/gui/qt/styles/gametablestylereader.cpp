@@ -1701,8 +1701,11 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 	if(IfFixedWindowSize.toInt()) {
 #ifndef GUI_800x480
 		const QScreen *dw = QGuiApplication::primaryScreen();
-		int availableWidth = dw->geometry().width();
-		int availableHeight = dw->geometry().height();
+		// Use availableGeometry() so that macOS menu bar / Dock and
+		// Windows taskbar are correctly excluded from the check.
+		QRect availGeo = dw->availableGeometry();
+		int availableWidth  = availGeo.width();
+		int availableHeight = availGeo.height();
 		if(availableWidth == FixedWindowWidth.toInt() && availableHeight == FixedWindowHeight.toInt()) {
 			gt->actionFullScreen->setEnabled(true);
 		} else {
@@ -1719,8 +1722,9 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 	} else {
 #ifndef GUI_800x480
 		const QScreen *dw = QGuiApplication::primaryScreen();
-		int availableWidth = dw->geometry().width();
-		int availableHeight = dw->geometry().height();
+		QRect availGeo = dw->availableGeometry();
+		int availableWidth  = availGeo.width();
+		int availableHeight = availGeo.height();
 		if(availableWidth <= MaximumWindowWidth.toInt() && availableHeight <= MaximumWindowHeight.toInt()) {
 			gt->actionFullScreen->setEnabled(true);
 		} else {
@@ -1741,8 +1745,16 @@ void GameTableStyleReader::setWindowsGeometry(gameTableImpl *gt)
 			effectiveMinHeight = qMax(effectiveMinHeight, proportionalHeight);
 		}
 
+		// Clamp maximum window size to the available screen geometry so
+		// that the window (including its title bar / frame) can never be
+		// taller or wider than what the OS actually allows.  This
+		// prevents the top of the table from being clipped on macOS
+		// where the menu bar and Dock reduce the usable area.
+		int clampedMaxW = qMin(MaximumWindowWidth.toInt(),  availableWidth);
+		int clampedMaxH = qMin(MaximumWindowHeight.toInt(), availableHeight);
+
 		gt->setMinimumSize(MinimumWindowWidth.toInt(), effectiveMinHeight);
-		gt->setMaximumSize(MaximumWindowWidth.toInt(), MaximumWindowHeight.toInt());
+		gt->setMaximumSize(clampedMaxW, clampedMaxH);
 #endif
 	}
 

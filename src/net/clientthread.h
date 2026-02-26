@@ -219,6 +219,11 @@ public:
 		const std::string &cacheDir);
 	virtual void SignalTermination();
 
+	// Explicitly close the underlying socket (TCP FIN/RST) so the server
+	// detects the disconnect immediately.  Safe to call from any thread
+	// after the io_service has been stopped.
+	void CloseSocket();
+
 	void SendKickPlayer(unsigned playerId);
 	void SendLeaveCurrentGame();
 	void SendStartEvent(bool fillUpWithCpuPlayers);

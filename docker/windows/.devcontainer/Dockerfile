@@ -73,8 +73,7 @@ RUN userdel ubuntu && \
     mkdir -p /etc/sudoers.d && \
     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME && \
-    usermod -aG docker $USERNAME && \
-    usermod -aG systemd-journal $USERNAME
+    usermod -aG docker $USERNAME 
 
 # entry-point
 # COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
@@ -123,7 +122,7 @@ RUN vcpkg install --triplet=x64-mingw-static \
     openssl
 RUN vcpkg install protobuf:x64-linux
 
-RUN cd ${ROOT} && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout stable
+RUN cd ${ROOT} && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout testing
 
 # Entrypoint/Command used from docker-compose.yml
 # ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]

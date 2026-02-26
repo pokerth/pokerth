@@ -33,6 +33,7 @@
 #include "configfile.h"
 #include "mymessagebox.h"
 #include <iostream>
+#include "mobileinputhelper.h"
 
 
 manualBlindsOrderDialogImpl::manualBlindsOrderDialogImpl(QWidget *parent, ConfigFile *c)
@@ -44,7 +45,7 @@ manualBlindsOrderDialogImpl::manualBlindsOrderDialogImpl(QWidget *parent, Config
 #endif
 	setupUi(this);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 #endif
 	connect( pushButton_add, SIGNAL( clicked() ), this, SLOT( addBlindValueToList() ) );
 	connect( pushButton_delete, SIGNAL( clicked() ), this, SLOT( removeBlindFromList() ) );

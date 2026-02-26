@@ -35,6 +35,7 @@
 #include "connecttoserverdialogimpl.h"
 #include "serverdata.h"
 #include "session.h"
+#include "mobileinputhelper.h"
 
 serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *parent, ConfigFile *c)
 	: QDialog(parent), myConfig(c), mySw(sw)
@@ -45,7 +46,7 @@ serverListDialogImpl::serverListDialogImpl(startWindowImpl *sw, QMainWindow *par
 #endif
 	setupUi(this);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 #endif
 	connect( treeWidget_serverList, SIGNAL( itemDoubleClicked ( QTreeWidgetItem*, int) ), this, SLOT( connectToServer() ));
 	connect( buttonBox, SIGNAL( accepted() ), this, SLOT( connectToServer() ));

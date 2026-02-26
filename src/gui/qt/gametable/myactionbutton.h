@@ -44,7 +44,7 @@ public:
 
 	~MyActionButton();
 
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 	void setFKeyText ( const QString& theValue )
 	{
 		fKeyText = theValue;
@@ -59,7 +59,7 @@ public:
 	{
 		eatMyEvents = e;
 	}
-	bool event(QEvent *e);
+	bool event(QEvent *e) override;
 
 public slots:
 	void click();

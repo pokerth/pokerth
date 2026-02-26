@@ -332,6 +332,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ServerRestrictGuestLogin", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerLimitRankNum", CONFIG_TYPE_INT, "4"));
 	configList.push_back(ConfigInfo("ServerLimitRankPeriod", CONFIG_TYPE_INT, "60"));
+	configList.push_back(ConfigInfo("AndroidUiScalePercent", CONFIG_TYPE_INT, "0")); // 0 = auto (fit to screen), >0 = manual override
 
 	// fill tempList firstTime
 	configBufferList = configList;

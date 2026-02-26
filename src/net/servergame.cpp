@@ -1045,18 +1045,9 @@ ServerGame::RemoveDisconnectedPlayers()
 				// Setting player cash to 0 will deactivate the player.
 				// The player should only be deactivated if rejoin is not possible.
 				if (tmpPlayer->isKicked() || tmpPlayer->getMyGuid().empty() || tmpPlayer->getMyCash() == 0) {
-					LOG_MSG("[REMOVE-DISCONN SRV] Setting cash=0 for " + tmpPlayer->getMyName()
-						+ " (ID:" + std::to_string(tmpPlayer->getMyUniqueID())
-						+ ") was:" + std::to_string(tmpPlayer->getMyCash())
-						+ " kicked:" + std::to_string(tmpPlayer->isKicked())
-						+ " guidEmpty:" + std::to_string(tmpPlayer->getMyGuid().empty()));
 					tmpPlayer->setMyCash(0);
 					tmpPlayer->setMyGuid("");
 				} else {
-					LOG_MSG("[REMOVE-DISCONN SRV] NOT zeroing cash for disconnected " + tmpPlayer->getMyName()
-						+ " (ID:" + std::to_string(tmpPlayer->getMyUniqueID())
-						+ ") Cash:" + std::to_string(tmpPlayer->getMyCash())
-						+ " - setting session inactive only");
 				}
 				tmpPlayer->setIsSessionActive(false);
 			}

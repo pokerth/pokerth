@@ -577,7 +577,6 @@ void LocalHand::switchRounds()
 
 	// if only one player non-fold -> distribute pot
 	if(nonFoldPlayerCounter==1) {
-		LOG_MSG("[SWITCH] nonFoldPlayerCounter=1 -> GAME_STATE_POST_RIVER (allInPlayers=" << allInPlayersCounter << ")");
 		myBoard->collectPot();
 		myGui->refreshPot();
 		myGui->refreshSet();
@@ -588,11 +587,9 @@ void LocalHand::switchRounds()
 	// check for all in condition
 	// for all in condition at least two active players have to remain
 	else {
-		LOG_MSG("[SWITCH] nonFoldPlayerCounter=" << nonFoldPlayerCounter << " allInPlayers=" << allInPlayersCounter << " runningPlayers=" << runningPlayerList->size());
 
 		// 1) all players all in
 		if(allInPlayersCounter == nonFoldPlayerCounter) {
-			LOG_MSG("[SWITCH] Condition 1: All players all-in -> allInCondition=true");
 			allInCondition = true;
 			myBoard->setAllInCondition(true);
 		}

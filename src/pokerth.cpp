@@ -206,12 +206,13 @@ int main(int argc, char *argv[])
 #define ENABLE_LEAK_CHECK()
 #endif
 
-// #ifdef ANDROID
-// #ifndef ANDROID_TEST
-// // #include "QtGui/5.3.0/QtGui/qpa/qplatformnativeinterface.h"
-// // #include <jni.h>
-// #endif
-// #endif
+#ifdef ANDROID
+#ifndef ANDROID_TEST
+#include <QJniEnvironment>
+#include <QJniObject>
+#include <cmath>
+#endif
+#endif
 
 using namespace std;
 
@@ -225,6 +226,18 @@ int main( int argc, char **argv )
     //_CrtSetBreakAlloc(49937);
     socket_startup();
 
+    // High DPI support: Use PassThrough rounding to correctly handle fractional
+    // scale factors (e.g. 125% = 1.25x) on Windows.  Must be set before
+    // QApplication is constructed.
+    // NOTE: Do NOT enable on Android – the platform handles DPI scaling natively.
+    // PassThrough causes a non-integer devicePixelRatio on high-DPI phones
+    // (e.g. Galaxy S23 at ~425 PPI → 2.65625× instead of 3×), which can crash
+    // the EGL/SurfaceFlinger rendering pipeline on Android 16+.
+#ifndef ANDROID
+    QGuiApplication::setHighDpiScaleFactorRoundingPolicy(
+        Qt::HighDpiScaleFactorRoundingPolicy::PassThrough);
+#endif
+
 #ifdef __APPLE__
 	// The following needs to be done before the application is created, otherwise loading platforms plugin fails.
 	QDir dir(argv[0]);
@@ -236,6 +249,40 @@ int main( int argc, char **argv )
 
 	/////// can be removed for non-qt-guis ////////////
 #ifdef ANDROID
+	// The 800×480 mobile layout needs ≥480 logical px on the short screen edge.
+	// Modern high-DPI phones only report ~360 logical dp, clipping dialogs.
+	// Compute QT_SCALE_FACTOR dynamically from Android display metrics so the
+	// fix works on ANY device (phones, tablets, foldables, varying densities).
+	// Must be set BEFORE QApplication is constructed.
+#ifndef ANDROID_TEST
+	{
+		QJniObject resources = QJniObject::callStaticObjectMethod(
+			"android/content/res/Resources",
+			"getSystem",
+			"()Landroid/content/res/Resources;");
+		if (resources.isValid()) {
+			QJniObject dm = resources.callObjectMethod(
+				"getDisplayMetrics",
+				"()Landroid/util/DisplayMetrics;");
+			if (dm.isValid()) {
+				int wPx  = dm.getField<jint>("widthPixels");
+				int hPx  = dm.getField<jint>("heightPixels");
+				float density = dm.getField<jfloat>("density");
+				if (wPx > 0 && hPx > 0 && density > 0.0f) {
+					int shortPx  = qMin(wPx, hPx);
+					int qtDpr    = qMax(1, static_cast<int>(std::round(density)));
+					qreal logicalShort = static_cast<qreal>(shortPx) / qtDpr;
+					if (logicalShort > 0.0 && logicalShort < 480.0) {
+						qreal factor = logicalShort / 480.0;
+						qputenv("QT_SCALE_FACTOR",
+							QByteArray::number(static_cast<double>(factor), 'f', 4));
+					}
+				}
+			}
+		}
+	}
+#endif // !ANDROID_TEST
+
 	QApplication a(argc, argv);
 	a.setApplicationName("PokerTH");
 #else
@@ -268,7 +315,31 @@ int main( int argc, char **argv )
 	//            QString font1String("font-family: \"Lucida Grande\";");
 	QString font1String("QApplication, QWidget, QDialog { font-size: 11px; }");
 #elif ANDROID
-	QString font1String("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: 26px; }");
+	// Auto-scale fonts for high-DPI Android screens.
+	// The 800×480 mobile layout was designed with 26px base font at exactly
+	// 800×480 logical resolution.  Modern phones (e.g. Galaxy S23 at ~780×360
+	// logical landscape) have less vertical space, so scale proportionally.
+	int androidBaseFontPx = 26;
+	{
+		int userScale = myConfig->readConfigInt("AndroidUiScalePercent");
+		if (userScale > 0) {
+			// Manual override: percentage of the reference 26px size.
+			androidBaseFontPx = qMax(10, 26 * userScale / 100);
+		} else {
+			// Auto: scale by min(screenW/800, screenH/480).
+			QScreen *scr = QGuiApplication::primaryScreen();
+			if (scr) {
+				QRect geo = scr->availableGeometry();
+				int sw = qMax(geo.width(), geo.height());   // landscape width
+				int sh = qMin(geo.width(), geo.height());   // landscape height
+				qreal scale = qMin(static_cast<qreal>(sw) / 800.0,
+				                   static_cast<qreal>(sh) / 480.0);
+				scale = qBound(0.5, scale, 1.0);
+				androidBaseFontPx = qMax(10, static_cast<int>(26.0 * scale + 0.5));
+			}
+		}
+	}
+	QString font1String(QString("QApplication, QWidget, QDialog { font-family: \"Nimbus Sans L\"; font-size: %1px; }").arg(androidBaseFontPx));
 	QPalette p = a.palette();
 	p.setColor(QPalette::Button, QColor::fromRgb(80,80,80));
 	p.setColor(QPalette::Base, QColor::fromRgb(80,80,80));

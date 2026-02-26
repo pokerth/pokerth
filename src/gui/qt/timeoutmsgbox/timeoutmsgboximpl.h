@@ -79,6 +79,7 @@ private:
 	boost::shared_ptr<Session> mySession;
 	NetTimeoutReason msgID;
 	int timeoutDuration;
+	bool expired{false};
 	boost::timers::portable::microsec_timer realTimer;
 };
 

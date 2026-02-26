@@ -38,6 +38,15 @@
 #include <string>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
+
+// TCP keepalive configuration (cross-platform)
+#ifdef _WIN32
+#include <winsock2.h>
+#include <mstcpip.h>   // SIO_KEEPALIVE_VALS
+#else
+#include <sys/socket.h>
+#include <netinet/tcp.h>
+#endif
 #include <sstream>
 #include <sys/socket.h>  // für setsockopt
 #include <netinet/tcp.h>  // für TCP_KEEPIDLE, TCP_KEEPINTVL, TCP_KEEPCNT
@@ -198,23 +207,54 @@ protected:
                 peerAddr = "unknown";
             }
             
-            LOG_MSG("[TLS-SERVER] New connection accepted from " << peerAddr);
             
             try {
                 acceptedSocket->non_blocking(true);
                 acceptedSocket->set_option(typename P::no_delay(true));
                 acceptedSocket->set_option(boost::asio::socket_base::keep_alive(true));
                 
-                // Configure TCP keepalive parameters to detect broken connections
-                // and prevent NAT/firewall idle-connection drops.
-                // Send first keepalive probe after 60s idle, then every 15s, fail after 5 missed probes.
-                int fd = acceptedSocket->native_handle();
-                int keepidle = 60;    // seconds until first keepalive probe
-                int keepintvl = 15;   // seconds between subsequent probes
-                int keepcnt = 5;      // number of failed probes before disconnect
-                setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE, &keepidle, sizeof(keepidle));
-                setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
-                setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT, &keepcnt, sizeof(keepcnt));
+                // Aggressive TCP keepalive to prevent WiFi power-save drops
+                // and detect broken connections quickly.
+                // First probe after 10s idle, then every 5s, fail after 3.
+                // Total detection: 10 + 3*5 = 25s.
+                {
+                    int fd = acceptedSocket->native_handle();
+#ifdef _WIN32
+                    // Windows: use SIO_KEEPALIVE_VALS via WSAIoctl
+                    struct tcp_keepalive keepaliveVals;
+                    keepaliveVals.onoff = 1;
+                    keepaliveVals.keepalivetime = 10000;      // 10s until first probe (ms)
+                    keepaliveVals.keepaliveinterval = 5000;   // 5s between probes (ms)
+                    DWORD bytesReturned = 0;
+                    WSAIoctl(static_cast<SOCKET>(fd), SIO_KEEPALIVE_VALS,
+                             &keepaliveVals, sizeof(keepaliveVals),
+                             NULL, 0, &bytesReturned, NULL, NULL);
+#else
+                    // Linux / macOS: per-socket keepalive tuning
+                    int keepidle  = 10;   // seconds until first keepalive probe
+                    int keepintvl = 5;    // seconds between subsequent probes
+                    int keepcnt   = 3;    // number of failed probes before disconnect
+                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &keepidle,  sizeof(keepidle));
+                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
+                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &keepcnt,   sizeof(keepcnt));
+                    // TCP_USER_TIMEOUT: abort connection if data remains
+                    // unacknowledged for 30s.  Without this, a dead WiFi
+                    // client can keep the server waiting for minutes.
+#ifdef TCP_USER_TIMEOUT
+                    unsigned int user_timeout_ms = 30000;
+                    setsockopt(fd, IPPROTO_TCP, TCP_USER_TIMEOUT, &user_timeout_ms, sizeof(user_timeout_ms));
+#endif
+#endif
+                }
+
+                // Increase socket buffers for game-start traffic bursts.
+                {
+                    boost::asio::socket_base::send_buffer_size    sndbuf(131072);
+                    boost::asio::socket_base::receive_buffer_size rcvbuf(131072);
+                    boost::system::error_code buf_ec;
+                    acceptedSocket->set_option(sndbuf, buf_ec);
+                    acceptedSocket->set_option(rcvbuf, buf_ec);
+                }
             } catch (const std::exception& e) {
                 LOG_ERROR("[TLS-SERVER] Failed to set socket options: " << e.what());
                 startNextAccept();
@@ -231,7 +271,6 @@ protected:
                     boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
                     sslStream->next_layer() = std::move(*acceptedSocket);
 
-                    LOG_MSG("[TLS-SERVER] Starting TLS handshake for " << peerAddr);
                     
                     // Shared state to prevent timeout from closing an established connection
                     auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
@@ -247,12 +286,9 @@ protected:
                             try {
                                 if (!ec && !handshakeCompleted->load(std::memory_order_acquire)) {
                                     // Timeout: close the socket to abort the handshake (only if not completed)
-                                    LOG_MSG("[TLS-SERVER] Handshake timeout after 12s for " << *peerAddrShared << " - closing socket");
                                     boost::system::error_code closeEc;
                                     sslStream->lowest_layer().close(closeEc);
-                                    LOG_MSG("[TLS-SERVER] Socket closed after timeout for " << *peerAddrShared);
                                 } else if (ec && ec != boost::asio::error::operation_aborted) {
-                                    LOG_MSG("[TLS-SERVER] Handshake timer error for " << *peerAddrShared << ": " << ec.message());
                                 }
                             } catch (const std::exception& e) {
                                 LOG_ERROR("[TLS-SERVER] Exception in handshake timer: " << e.what());
@@ -268,9 +304,6 @@ protected:
                                 // Mark handshake as completed before any other action (memory_order_release für synchronization)
                                 bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
                                 
-                                LOG_MSG("[TLS-SERVER] Handshake callback fired for " << *peerAddrShared 
-                                        << " - wasCompleted=" << wasCompleted 
-                                        << " error=" << error.message());
                                 
                                 // Only handle if this is the first completion (not a timeout-triggered close)
                                 if (!wasCompleted) {
@@ -278,7 +311,6 @@ protected:
                                     this->HandleHandshakeOnly(sslStream, error);
                                 } else {
                                     // Handshake callback fired after timeout - socket already closed
-                                    LOG_MSG("[TLS-SERVER] Late handshake callback after timeout - ignoring");
                                 }
                             } catch (const std::exception& e) {
                                 LOG_ERROR("[TLS-SERVER] Exception in handshake callback: " << e.what());
@@ -346,22 +378,16 @@ protected:
         } catch (...) {}
         
         if (!error) {
-            LOG_MSG("[TLS-SERVER] Handshake SUCCEEDED for " << peerAddr << " - creating session");
             
             try {
                 boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
-                LOG_MSG("[TLS-SERVER] SessionData created, adding to lobby...");
                 GetLobbyThread().AddConnection(sessionData);
-                LOG_MSG("[TLS-SERVER] Session added successfully");
             } catch (const std::exception& e) {
                 LOG_ERROR("[TLS-SERVER] EXCEPTION while creating/adding session: " << e.what());
             } catch (...) {
                 LOG_ERROR("[TLS-SERVER] UNKNOWN EXCEPTION while creating/adding session");
             }
         } else {
-            LOG_MSG("[TLS-SERVER] Handshake FAILED for " << peerAddr << ": " << error.message() 
-                    << " (code: " << error.value() 
-                    << ", category: " << error.category().name() << ")");
             
             // Try to get more detailed SSL error information
             SSL* ssl = sslStream->native_handle();
@@ -370,7 +396,6 @@ protected:
                 while (ssl_err != 0) {
                     char err_buf[256];
                     ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
-                    LOG_MSG("[TLS-DEBUG] OpenSSL error: " << err_buf);
                     ssl_err = ERR_get_error();
                 }
             }
@@ -392,22 +417,16 @@ protected:
         } catch (...) {}
         
         if (!error) {
-            LOG_MSG("[TLS-SERVER] Handshake SUCCEEDED for " << peerAddr << " - creating session");
             
             try {
                 boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
-                LOG_MSG("[TLS-SERVER] SessionData created, adding to lobby...");
                 GetLobbyThread().AddConnection(sessionData);
-                LOG_MSG("[TLS-SERVER] Session added successfully");
             } catch (const std::exception& e) {
                 LOG_ERROR("[TLS-SERVER] EXCEPTION while creating/adding session: " << e.what());
             } catch (...) {
                 LOG_ERROR("[TLS-SERVER] UNKNOWN EXCEPTION while creating/adding session");
             }
         } else {
-            LOG_MSG("[TLS-SERVER] Handshake FAILED for " << peerAddr << ": " << error.message() 
-                    << " (code: " << error.value() 
-                    << ", category: " << error.category().name() << ")");
             
             // Try to get more detailed SSL error information
             SSL* ssl = sslStream->native_handle();
@@ -416,7 +435,6 @@ protected:
                 while (ssl_err != 0) {
                     char err_buf[256];
                     ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
-                    LOG_MSG("[TLS-DEBUG] OpenSSL error: " << err_buf);
                     ssl_err = ERR_get_error();
                 }
             }
@@ -426,7 +444,6 @@ protected:
             sslStream->lowest_layer().close(ec);
         }
 
-        LOG_MSG("[TLS-SERVER] Starting new async_accept (after handshake for " << peerAddr << ")");
         
         // Check if acceptor is still open
         if (!m_acceptor->is_open()) {
@@ -435,7 +452,6 @@ protected:
         }
         
         boost::shared_ptr<P_socket> newSocket(new P_socket(*m_ioService));
-        LOG_MSG("[TLS-SERVER] Created new socket, calling async_accept...");
         
         m_acceptor->async_accept(
             *newSocket,
@@ -443,7 +459,6 @@ protected:
                         boost::asio::placeholders::error)
         );
         
-        LOG_MSG("[TLS-SERVER] async_accept posted successfully - waiting for next connection");
     }
 
     static inline void SslServerInfoCallback(const SSL *ssl, int where, int ret)

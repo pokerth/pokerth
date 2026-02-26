@@ -46,7 +46,7 @@ class changeContentDialogImpl: public QDialog, public Ui::changeContentDialog
 	Q_OBJECT
 public:
 	changeContentDialogImpl(QWidget *parent, ConfigFile *config, DialogType t);
-	bool eventFilter(QObject *obj, QEvent *event);
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 public slots:
 

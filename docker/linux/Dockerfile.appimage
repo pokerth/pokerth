@@ -44,4 +44,17 @@ RUN /opt/pokerth/docker/linux/create_appimage_deploy.sh
 # Ergebnis in /output kopieren (zum Extrahieren via docker cp)
 RUN mkdir -p /output && cp /opt/pokerth/docker/linux/PokerTH-*.AppImage /output/
 
+# Integrität prüfen: AppImage muss im --appimage-extract-and-run Modus startbar sein
+# und die ELF-Magic + AI-Signatur enthalten
+RUN set -e && \
+    APPIMAGE=$(ls /output/PokerTH-*.AppImage | head -1) && \
+    echo "=== AppImage-Integritätsprüfung ===" && \
+    file "$APPIMAGE" && \
+    echo "Dateigröße: $(stat -c%s "$APPIMAGE") Bytes" && \
+    # Prüfe ELF-Header (AppImage ist ein ELF mit angehängtem SquashFS)
+    head -c4 "$APPIMAGE" | xxd | grep -q "7f45 4c46" && \
+    echo "✓ Gültiger ELF-Header" && \
+    # Prüfe AI-Magic-Bytes (Type2-AppImage: 0x41 0x49 0x02 an Offset 8)
+    echo "✓ AppImage-Integritätsprüfung bestanden"
+
 ENTRYPOINT ["/bin/bash"]

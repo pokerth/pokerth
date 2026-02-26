@@ -53,8 +53,8 @@ public:
 		myW = theValue;
 	}
 
-	void mousePressEvent ( QMouseEvent *);
-	void mouseReleaseEvent ( QMouseEvent *);
+	void mousePressEvent ( QMouseEvent *) override;
+	void mouseReleaseEvent ( QMouseEvent *) override;
 
 
 private:

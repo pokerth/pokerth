@@ -53,6 +53,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	setWindowFlags(Qt::WindowSystemMenuHint | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint | Qt::Dialog);
 #endif
 	setupUi(this);
+	this->installEventFilter(this);
 	AppImageUtils::patchExternalLinks(this);
 
 #ifdef ANDROID
@@ -73,22 +74,25 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
     }
     
     label_soundVolume->hide();
-    
+
+	// Add right padding to root layout so content doesn't touch the edge.
+	if (auto *rootGrid = qobject_cast<QGridLayout *>(layout())) {
+		rootGrid->setContentsMargins(0, 0, 8, 0);
+	}
+
 	// Setze Column Stretch für listWidget (Spalte 0) und stackedWidget (Spalte 1)
 	QGridLayout* grid = qobject_cast<QGridLayout*>(layout()->itemAt(0)->layout());
 	if (grid) {
 		grid->setColumnStretch(0, 1);  // listWidget
 		grid->setColumnStretch(1, 3);  // stackedWidget
 	}
-	
-	// Setze Vollbild-Geometrie bereits im Konstruktor für sofortige Verfügbarkeit
-	this->setWindowState(Qt::WindowFullScreen);
-	QScreen *screen = QGuiApplication::primaryScreen();
-	if (screen) {
-		QRect screenGeometry = screen->availableGeometry();
-		this->setGeometry(0, 0, screenGeometry.width(), screenGeometry.height());
-	}
-	
+
+	MobileInputHelper::prepareAndroidDialog(this);
+
+	// Wrap each stacked widget page into a QScrollArea so the user
+	// can scroll vertically when content doesn't fit the screen.
+	MobileInputHelper::wrapStackedWidgetPagesInScrollAreas(stackedWidget);
+
 	// Prepare all QLineEdit widgets for mobile input
 	QList<QLineEdit*> lineEdits = this->findChildren<QLineEdit*>();
 	for (QLineEdit* le : lineEdits) {
@@ -203,10 +207,52 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	comboBox_switchLanguage->setStyleSheet("QObject {font: 30px} QScrollBar:vertical { border: 1px solid grey; background: white; width: 60px; margin: 0px -1px 0px 0px; } QScrollBar::handle:vertical { border-radius: 3px; border: 2px solid grey; background: LightGrey ; min-height: 60px; } QScrollBar::add-line:vertical { background: none; } QScrollBar::sub-line:vertical { background: none; } QScrollBar:up-arrow:vertical, QScrollBar::down-arrow:vertical { background: none; } QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical { background: none; }");
 #endif
 
+#ifdef ANDROID
+	// Add UI scale option programmatically on Android.
+	// Placed in the Interface tab after the existing checkboxes.
+	{
+		QLabel *scaleLabel = new QLabel(tr("UI Scale (0 = Auto):"), this);
+		spinBox_androidUiScale = new QSpinBox(this);
+		spinBox_androidUiScale->setRange(0, 150);
+		spinBox_androidUiScale->setSingleStep(5);
+		spinBox_androidUiScale->setSuffix("%");
+		spinBox_androidUiScale->setSpecialValueText(tr("Auto"));
+		spinBox_androidUiScale->setToolTip(tr("0 = automatic scaling to fit screen.\n50-150 = manual percentage (requires restart)."));
+		// Insert into the Interface tab's first page layout.
+		// checkBox_disableChatEmoticons is the last checkbox in that section.
+		QWidget *interfacePage = checkBox_disableChatEmoticons->parentWidget();
+		if (interfacePage && interfacePage->layout()) {
+			QGridLayout *grid = qobject_cast<QGridLayout*>(interfacePage->layout());
+			if (grid) {
+				int row = grid->rowCount();
+				QHBoxLayout *hbox = new QHBoxLayout;
+				hbox->addWidget(scaleLabel);
+				hbox->addWidget(spinBox_androidUiScale);
+				hbox->addStretch();
+				grid->addLayout(hbox, row, 0);
+			}
+		}
+	}
+#endif
+
 }
 
 settingsDialogImpl::~settingsDialogImpl()
 {
+}
+
+bool settingsDialogImpl::eventFilter(QObject *obj, QEvent *event)
+{
+#ifdef ANDROID
+	if (event->type() == QEvent::KeyPress) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		if (keyEvent->key() == Qt::Key_Back) {
+			this->reject();
+			return true;
+		}
+	}
+#endif
+	return QDialog::eventFilter(obj, event);
 }
 
 void settingsDialogImpl::prepareDialog()
@@ -348,9 +394,17 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_dontHideAvatarsOfIgnored->setChecked(myConfig->readConfigInt("DontHideAvatarsOfIgnored"));
 	checkBox_disableChatEmoticons->setChecked(myConfig->readConfigInt("DisableChatEmoticons"));
 
+#ifdef ANDROID
+	spinBox_androidUiScale->setValue(myConfig->readConfigInt("AndroidUiScalePercent"));
+#endif
 
 	//S t y l e
 	//TABLE
+
+	// Block signals while rebuilding the tree to prevent the
+	// currentItemChanged -> setSelectedGameTableStyleActivated() cascade
+	// from moving the "active" icon during clear/add/sort.
+	treeWidget_gameTableStyles->blockSignals(true);
 
 #ifdef GUI_800x480
 	// 	define PokerTH default GameTableStyle for Maemo
@@ -458,8 +512,14 @@ void settingsDialogImpl::prepareDialog()
 		}
 	}
 
+	// Unblock signals now that the correct item is selected.
+	treeWidget_gameTableStyles->blockSignals(false);
+
 	//refresh Game Table Style Preview
 	showCurrentGameTableStylePreview();
+
+	// Block signals while rebuilding the card deck tree (same reason as above).
+	treeWidget_cardDeckStyles->blockSignals(true);
 
 	//CARDS
 	// 	define PokerTH 1.0 default carddeck
@@ -556,6 +616,8 @@ void settingsDialogImpl::prepareDialog()
 			treeWidget_cardDeckStyles->setCurrentItem(item);
 		}
 	}
+
+	treeWidget_cardDeckStyles->blockSignals(false);
 
 	// 	refresh Card Deck Style Preview
 	showCurrentCardDeckStylePreview();
@@ -810,6 +872,10 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("DontHideAvatarsOfIgnored", checkBox_dontHideAvatarsOfIgnored->isChecked());
 	myConfig->writeConfigInt("DisableChatEmoticons", checkBox_disableChatEmoticons->isChecked());
+
+#ifdef ANDROID
+	myConfig->writeConfigInt("AndroidUiScalePercent", spinBox_androidUiScale->value());
+#endif
 
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());

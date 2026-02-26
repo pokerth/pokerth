@@ -55,14 +55,14 @@ public:
 	{
 		return myChangeCompleteBlindsDialog;
 	}
-	bool eventFilter(QObject *obj, QEvent *event);
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 public slots:
 
 	void createGame();
 	void cancel();
 	void fillFormular(bool guestMode, QString playerName);
-	void keyPressEvent ( QKeyEvent * event );
+	void keyPressEvent ( QKeyEvent * event ) override;
 	void clearGamePassword(bool);
 	void gameTypeChanged();
 

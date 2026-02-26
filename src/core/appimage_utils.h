@@ -39,6 +39,7 @@
 #include <QString>
 #include <QStringList>
 #include <QLabel>
+#include <QTextBrowser>
 #include <QWidget>
 #include <cstdlib>
 
@@ -135,7 +136,6 @@ inline bool openUrlSafe(const QUrl& url)
         process.setProgram(QStringLiteral("xdg-open"));
         process.setArguments({url.toString()});
 
-        qDebug() << "[AppImage] openUrlSafe: launching xdg-open with clean env for" << url.toString();
         return process.startDetached();
     }
 #endif
@@ -157,7 +157,6 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
         process.setProcessEnvironment(cleanProcessEnvironment());
         process.setProgram(program);
         process.setArguments(args);
-        qDebug() << "[AppImage] startDetachedSafe:" << program << args;
         return process.startDetached();
     }
 #endif
@@ -165,7 +164,8 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
 }
 
 /**
- * Patches all QLabels with openExternalLinks=true inside the given widget tree.
+ * Patches all QLabels and QTextBrowsers with openExternalLinks=true
+ * inside the given widget tree.
  *
  * When running inside an AppImage, openExternalLinks causes Qt to call
  * QDesktopServices::openUrl() internally, which inherits the bundled
@@ -173,8 +173,12 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
  *
  * This function:
  *  1. Finds all QLabel children with openExternalLinks == true
- *  2. Disables openExternalLinks on each label
- *  3. Connects the linkActivated signal to our safe openUrlSafe() handler
+ *     - Disables openExternalLinks
+ *     - Connects linkActivated to openUrlSafe()
+ *  2. Finds all QTextBrowser children with openExternalLinks == true
+ *     (e.g. chat displays in lobby and game table)
+ *     - Disables openExternalLinks and openLinks
+ *     - Connects anchorClicked to openUrlSafe()
  *
  * Call this once after setupUi() in each dialog constructor.
  * On non-AppImage builds this is a no-op.
@@ -186,12 +190,28 @@ inline void patchExternalLinks(QWidget* root)
         return;
     }
 
+    // Patch QLabels
     const auto labels = root->findChildren<QLabel*>();
     for (QLabel* label : labels) {
         if (label->openExternalLinks()) {
             label->setOpenExternalLinks(false);
             QObject::connect(label, &QLabel::linkActivated, [](const QString& urlString) {
                 openUrlSafe(QUrl(urlString));
+            });
+        }
+    }
+
+    // Patch QTextBrowsers (chat displays, about dialogs, etc.)
+    const auto browsers = root->findChildren<QTextBrowser*>();
+    for (QTextBrowser* browser : browsers) {
+        if (browser->openExternalLinks()) {
+            // Disable Qt's built-in external link handling
+            browser->setOpenExternalLinks(false);
+            // Also disable openLinks so QTextBrowser doesn't try to
+            // navigate internally — we handle all clicks ourselves.
+            browser->setOpenLinks(false);
+            QObject::connect(browser, &QTextBrowser::anchorClicked, [](const QUrl& url) {
+                openUrlSafe(url);
             });
         }
     }

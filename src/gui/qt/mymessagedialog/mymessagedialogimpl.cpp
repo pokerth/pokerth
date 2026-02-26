@@ -36,6 +36,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <fstream>
+#include "mobileinputhelper.h"
 
 using namespace std;
 
@@ -50,7 +51,7 @@ myMessageDialogImpl::myMessageDialogImpl(ConfigFile *c, QWidget *parent)
 	setupUi(this);
 
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 #endif
 }
 

@@ -68,8 +68,8 @@ public slots:
 	void startGame();
 	void cancel();
 	void refresh(int actionID);
-	void accept();
-	void reject();
+	void accept() override;
+	void reject() override;
 	void joinedNetworkGame(unsigned playerId, QString playerName, bool admin);
 	void addConnectedPlayer(unsigned playerId, QString playerName, bool admin);
 	void updatePlayer(unsigned playerId, QString newPlayerName);
@@ -83,8 +83,8 @@ public slots:
 	void checkPlayerQuantity();
 	void clearDialog();
 
-	void keyPressEvent ( QKeyEvent*);
-	bool eventFilter(QObject *obj, QEvent *event);
+	void keyPressEvent ( QKeyEvent*) override;
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 	void setMaxPlayerNumber ( int theValue )
 	{
@@ -96,7 +96,7 @@ public slots:
 		return maxPlayerNumber;
 	}
 
-	int exec();
+	int exec() override;
 
 private:
 

@@ -44,7 +44,7 @@ public:
 	~MyLeftTabWidget();
 
 
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 	void startBlinkChatTab();
 	void stopBlinkChatTab();
 	void showDefaultChatTab();

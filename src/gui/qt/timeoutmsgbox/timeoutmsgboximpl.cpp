@@ -30,6 +30,7 @@
  *****************************************************************************/
 #include "timeoutmsgboximpl.h"
 #include "session.h"
+#include <QDebug>
 
 timeoutMsgBoxImpl::timeoutMsgBoxImpl(QMainWindow *parent)
 	: QMessageBox(parent), msgID(NETWORK_TIMEOUT_GENERIC)
@@ -58,6 +59,8 @@ timeoutMsgBoxImpl::~timeoutMsgBoxImpl()
 void timeoutMsgBoxImpl::startTimeout()
 {
 	//start the real timer
+	okButton->setEnabled(true);
+	expired = false;
 	realTimer.reset();
 	realTimer.start();
 	timerRefresh();
@@ -71,6 +74,26 @@ void timeoutMsgBoxImpl::timerRefresh()
 	unsigned int realTimerValue = realTimer.elapsed().total_milliseconds();
 	sec -= realTimerValue/1000;
 	if (sec < 0) sec = 0;
+
+	// When countdown reaches 0, take action and stop
+	if (sec <= 0 && !expired) {
+		expired = true;
+		timeOutTimer->stop();
+		okButton->setEnabled(false);
+		if (msgID == NETWORK_TIMEOUT_KICK_AFTER_AUTOFOLD) {
+			// In-game timeout: proactively leave game to return to lobby
+			this->setText(tr("Timeout expired. You are being moved back to the lobby."));
+			this->setInformativeText("");
+			mySession->sendLeaveCurrentGame();
+			QTimer::singleShot(3000, this, SLOT(hide()));
+		} else {
+			// Lobby/admin timeout: server will disconnect us
+			this->setText(tr("Timeout expired. You will be disconnected."));
+			this->setInformativeText("");
+		}
+		return;
+	}
+
 	switch (msgID) {
 	case NETWORK_TIMEOUT_GAME_ADMIN_IDLE:
 		this->setText(tr("You are game-admin of an open game which will time out in %1 seconds.").arg(sec,0,10));
@@ -86,6 +109,5 @@ void timeoutMsgBoxImpl::timerRefresh()
 
 void timeoutMsgBoxImpl::stopTimeout()
 {
-
 	mySession->resetNetworkTimeout();
 }

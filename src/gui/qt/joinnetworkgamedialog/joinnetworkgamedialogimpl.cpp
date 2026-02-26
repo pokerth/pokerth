@@ -55,7 +55,7 @@ joinNetworkGameDialogImpl::joinNetworkGameDialogImpl(QWidget *parent, ConfigFile
 	setupUi(this);
 	AppImageUtils::patchExternalLinks(this);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_profileName);
 	MobileInputHelper::prepareMobileLineEdit(lineEdit_ipAddress);
 #endif

@@ -59,7 +59,7 @@ public:
 	{
 		myUniqueId = theValue;
 	}
-	void contextMenuEvent ( QContextMenuEvent * event );
+	void contextMenuEvent ( QContextMenuEvent * event ) override;
 	QString getPlayerTip(QString);
 	int getPlayerRating(QString);
 
@@ -79,7 +79,7 @@ public slots:
 	{
 		myPath = theValue;
 	}
-	void paintEvent(QPaintEvent*);
+	void paintEvent(QPaintEvent*) override;
 	void putPlayerOnIgnoreList();
 	void removePlayerFromIgnoreList();
 	bool playerIsOnIgnoreList(QString playerName);

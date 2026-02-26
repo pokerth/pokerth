@@ -273,8 +273,16 @@ void Session::terminateNetworkClient()
 		return; // already terminated
 	myNetClient->SignalTermination();
 	// Give the threads some time to terminate.
-	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC))
+	if (myNetClient->Join(NET_CLIENT_TERMINATE_TIMEOUT_MSEC)) {
 		myNetClient.reset();
+	} else {
+		// Join timed out — the thread did not finish in time.
+		// Explicitly close the socket so the server detects the disconnect
+		// (TCP FIN/RST) instead of keeping a ghost session alive.  The
+		// ClientThread object is intentionally leaked to prevent a crash,
+		// but at least the network connection is torn down.
+		myNetClient->CloseSocket();
+	}
 
 	// If termination fails, leave a memory leak to prevent a crash.
 	myGameType = GAME_TYPE_NONE;

@@ -54,7 +54,7 @@ public:
 	ConfigFile *myConfig;
 	std::string myServerProfilesFile;
 
-	int exec();
+	int exec() override;
 
 public slots:
 
@@ -63,7 +63,7 @@ public slots:
 	void itemFillForm (QTreeWidgetItem* item, int column);
 	void saveServerProfile();
 	void deleteServerProfile();
-	void keyPressEvent ( QKeyEvent * event );
+	void keyPressEvent ( QKeyEvent * event ) override;
 	void checkIp();
 	void connectButtonTest();
 };

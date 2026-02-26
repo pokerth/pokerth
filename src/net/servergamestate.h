@@ -136,7 +136,7 @@ public:
 	virtual ~ServerGameStateStartGame();
 
 	virtual void NotifyGameAdminChanged(boost::shared_ptr<ServerGame> /*server*/) {}
-	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> /*server*/) {}
+	virtual void NotifySessionRemoved(boost::shared_ptr<ServerGame> server);
 	virtual void HandleNewPlayer(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 	virtual void HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session);
 
@@ -146,6 +146,7 @@ protected:
 	virtual void InternalProcessPacket(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
 	void TimerTimeout(const boost::system::error_code &ec, boost::shared_ptr<ServerGame> server);
 	void DoStart(boost::shared_ptr<ServerGame> server);
+	void TryStartWithRemainingPlayers(boost::shared_ptr<ServerGame> server);
 
 private:
 	static ServerGameStateStartGame s_state;

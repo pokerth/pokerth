@@ -1,3 +1,24 @@
+2026-02-25 version 2.0.4
+- possible bugfix: win client disconnects over wifi
+- audio output improved for linux and macOS
+- bugfix: minimize Lobby for Zorin OS
+- bugfix: pasting too long text into chat causes disconnects
+- bugfix: appimage can open links clicked in chat messages now
+- bugfix: changing sound settings also changed table style to danuxi
+
+2026-02-21 version 2.0.2
+- macOS GUI fix
+- AFK timeout fix
+- lobby playerlist fix
+
+2026-02-20 version 2.0.1
+- several bugfixes for linux and windows audio output
+- hibernate/suspend fixes for GUI scaling
+- minor sidepot issue fixed
+- TCP keep-alive added
+- universal apk build for arm64-v8a and armeabi-v7a
+- AFK timeout re-enabled
+
 2026-02-09 version 2.0
 - port from qmake to cmake
 - port from Qt5 to Qt6.9.2 LTS

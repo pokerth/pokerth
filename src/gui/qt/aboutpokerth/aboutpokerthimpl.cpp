@@ -34,6 +34,7 @@
 #include "game_defs.h"
 #include <QtCore>
 #include <QScreen>
+#include "mobileinputhelper.h"
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
@@ -75,7 +76,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 
 #ifdef ANDROID
     int api = -2;
-    this->setWindowState(Qt::WindowFullScreen);
+    MobileInputHelper::prepareAndroidDialog(this);
 #ifndef ANDROID_TEST
     // Qt6: Verwende QJniEnvironment für Android API-Zugriff
     QJniEnvironment env;

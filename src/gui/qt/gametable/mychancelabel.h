@@ -56,7 +56,7 @@ public:
 	{
 		myStyle = theValue;
 	}
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 	void refreshChance(std::vector< std::vector<int> >, bool);
 	void resetChance();
 

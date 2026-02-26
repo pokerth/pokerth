@@ -33,6 +33,7 @@
 #include "configfile.h"
 #include "changecompleteblindsdialogimpl.h"
 #include <QScreen>
+#include "mobileinputhelper.h"
 
 createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, ConfigFile *c)
 	: QDialog(parent), myConfig(c)
@@ -44,7 +45,7 @@ createNetworkGameDialogImpl::createNetworkGameDialogImpl(QWidget *parent, Config
 	setupUi(this);
 	this->installEventFilter(this);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 #endif
 	myChangeCompleteBlindsDialog = new changeCompleteBlindsDialogImpl;
 	fillFormular();

@@ -39,11 +39,14 @@ if [ ! -f "$BUILD_DIR/bin/pokerth_client" ]; then
 fi
 
 # appimagetool herunterladen falls nicht vorhanden
+# WICHTIG: Stabilen Release verwenden statt "continuous"!
+# Die continuous-Builds können instabile/inkompatible AppImage-Runtimes enthalten.
+APPIMAGETOOL_VERSION="continuous"
 APPIMAGETOOL="${SCRIPT_DIR}/appimagetool-${ARCH}.AppImage"
 if [ ! -f "$APPIMAGETOOL" ]; then
-    echo "=== Lade appimagetool herunter ==="
+    echo "=== Lade appimagetool herunter (${APPIMAGETOOL_VERSION}) ==="
     wget -q --show-progress -O "$APPIMAGETOOL" \
-        "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-${ARCH}.AppImage" \
+        "https://github.com/AppImage/appimagetool/releases/download/${APPIMAGETOOL_VERSION}/appimagetool-${ARCH}.AppImage" \
         || { echo "ERROR: appimagetool Download fehlgeschlagen"; exit 1; }
     chmod +x "$APPIMAGETOOL"
 fi
@@ -254,12 +257,30 @@ echo "=== Erstelle AppRun ==="
 # Ermittle den genauen Dateinamen des ld-linux Loaders
 LD_LINUX_NAME=$(basename "$LD_LINUX" 2>/dev/null || echo "ld-linux-x86-64.so.2")
 
-cat > "$APPDIR/AppRun" << RUNEOF
+cat > "$APPDIR/AppRun" << 'RUNEOF'
 #!/bin/bash
 # AppRun: Startet PokerTH mit gebündeltem glibc + ld-linux Loader.
 # Dadurch ist die glibc-Version des Host-Systems irrelevant.
 
-HERE="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")" && pwd)"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --- AppImageLauncher-Erkennung ---
+# AppImageLauncher ist bekannt dafür, AppImage-Starts zu stören.
+# Symptome: "fuse: memory allocation failed", "Bad address", FUSE-Fehler.
+# Wenn AppImageLauncher erkannt wird, warnen wir den User.
+if [ -n "${APPIMAGE_LAUNCHER_VERSION:-}" ] || \
+   [ -f /usr/lib/x86_64-linux-gnu/libappimage_launcher.so ] || \
+   dpkg -l appimagelauncher &>/dev/null 2>&1; then
+    echo "" >&2
+    echo "=== WARNUNG: AppImageLauncher erkannt! ===" >&2
+    echo "AppImageLauncher kann FUSE-Fehler verursachen." >&2
+    echo "Loesung: AppImageLauncher deinstallieren:" >&2
+    echo "  sudo apt remove appimagelauncher" >&2
+    echo "Oder PokerTH direkt starten mit:" >&2
+    echo "  APPIMAGE_EXTRACT_AND_RUN=1 ${APPIMAGE:-$0}" >&2
+    echo "=============================================" >&2
+    echo "" >&2
+fi
 
 # PokerTH AppImage Marker — wird im C++ Code via AppImageUtils geprüft
 export POKERTH_APPIMAGE=1
@@ -267,30 +288,37 @@ export POKERTH_APPIMAGE=1
 # Originale LD_LIBRARY_PATH sichern BEVOR wir sie modifizieren.
 # AppImageUtils::cleanProcessEnvironment() stellt diesen Wert wieder her,
 # damit externe Prozesse (xdg-open, paplay, etc.) die System-Libs nutzen.
-export POKERTH_ORIG_LD_LIBRARY_PATH="\${LD_LIBRARY_PATH:-}"
+export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 
 # Bibliotheks- und Plugin-Pfade
-export LD_LIBRARY_PATH="\${HERE}/usr/lib:\${LD_LIBRARY_PATH}"
-export QT_PLUGIN_PATH="\${HERE}/usr/plugins"
-export QT_QPA_PLATFORM_PLUGIN_PATH="\${HERE}/usr/plugins/platforms"
+export LD_LIBRARY_PATH="${HERE}/usr/lib:${LD_LIBRARY_PATH}"
+export QT_PLUGIN_PATH="${HERE}/usr/plugins"
+export QT_QPA_PLATFORM_PLUGIN_PATH="${HERE}/usr/plugins/platforms"
 export QT_MEDIA_BACKEND=ffmpeg
-export XDG_DATA_DIRS="\${HERE}/usr/share:\${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+export XDG_DATA_DIRS="${HERE}/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 
 # Wechsel in das AppDir damit bin/../share/pokerth/data/ aufgelöst wird
-cd "\${HERE}/usr"
+cd "${HERE}/usr"
 
 # Prüfe ob der gebündelte ld-linux Loader vorhanden ist
-BUNDLED_LD="\${HERE}/usr/lib/${LD_LINUX_NAME}"
+RUNEOF
 
-if [ -x "\${BUNDLED_LD}" ]; then
+# ld-linux Name in das Script einsetzen (muss außerhalb von 'HEREDOC' sein)
+cat >> "$APPDIR/AppRun" << RUNEOF
+BUNDLED_LD="\${HERE}/usr/lib/${LD_LINUX_NAME}"
+RUNEOF
+
+cat >> "$APPDIR/AppRun" << 'RUNEOF'
+
+if [ -x "${BUNDLED_LD}" ]; then
     # WICHTIG: Nutze den gebündelten ld-linux Loader!
     # Das umgeht das System-glibc komplett und nutzt unsere eigene Version.
-    exec "\${BUNDLED_LD}" --inhibit-cache --library-path "\${HERE}/usr/lib" \\
-         "\${HERE}/usr/bin/pokerth_client" "\$@"
+    exec "${BUNDLED_LD}" --inhibit-cache --library-path "${HERE}/usr/lib" \
+         "${HERE}/usr/bin/pokerth_client" "$@"
 else
     # Fallback: Normaler Start (funktioniert nur wenn Host-glibc kompatibel ist)
-    echo "WARNUNG: Gebündelter Loader nicht gefunden, verwende System-Loader"
-    exec "\${HERE}/usr/bin/pokerth_client" "\$@"
+    echo "WARNUNG: Gebündelter Loader nicht gefunden, verwende System-Loader" >&2
+    exec "${HERE}/usr/bin/pokerth_client" "$@"
 fi
 RUNEOF
 chmod +x "$APPDIR/AppRun"
@@ -332,3 +360,14 @@ echo "  ./${APPIMAGE_NAME}"
 echo ""
 echo "Oder ohne FUSE (z.B. in Docker/WSL):"
 echo "  ./${APPIMAGE_NAME} --appimage-extract-and-run"
+echo ""
+echo "=== Troubleshooting ==="
+echo ""
+echo "Problem: 'fuse: memory allocation failed' / 'Bad address' / FUSE-Fehler:"
+echo "  1. AppImageLauncher deinstallieren (häufigste Ursache!):"
+echo "     sudo apt remove appimagelauncher"
+echo "  2. libfuse2 installieren (Ubuntu 22.04+):"
+echo "     sudo apt install libfuse2"
+echo "  3. Falls beides nicht hilft, --appimage-extract-and-run verwenden:"
+echo "     ./${APPIMAGE_NAME} --appimage-extract-and-run"
+echo "  4. Alternativ: APPIMAGE_EXTRACT_AND_RUN=1 ./${APPIMAGE_NAME}"

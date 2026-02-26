@@ -46,9 +46,9 @@ class internetGameLoginDialogImpl : public QDialog, public Ui::internetGameLogin
 public:
 	internetGameLoginDialogImpl(QWidget *parent = 0, ConfigFile *c =0);
 
-	int exec();
-	void accept();
-	bool eventFilter(QObject *obj, QEvent *event);
+	int exec() override;
+	void accept() override;
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 public slots:
 	void regUserToggled(bool);

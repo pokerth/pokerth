@@ -59,7 +59,7 @@ public:
 	void startTimeOutAnimation(int secs, bool beep);
 	void stopTimeOutAnimation();
 
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 
 
 public slots:

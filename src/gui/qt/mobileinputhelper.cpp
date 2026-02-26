@@ -22,6 +22,9 @@
 #include <QRect>
 #include <QInputMethodEvent>
 #include <QKeyEvent>
+#include <QScreen>
+#include <QStackedWidget>
+#include <QFrame>
 
 MobileInputHelper::MobileInputHelper()
 	: QObject(nullptr), currentScrollArea(nullptr)
@@ -77,6 +80,41 @@ void MobileInputHelper::prepareMobilePlainTextEdit(QPlainTextEdit *textEdit)
 	textEdit->setAttribute(Qt::WA_InputMethodEnabled, true);
 	textEdit->installEventFilter(&instance());
 #endif
+}
+
+void MobileInputHelper::prepareAndroidDialog(QDialog *dialog)
+{
+#ifdef ANDROID
+	if (!dialog) return;
+	// Remove hardcoded minimumSize from .ui files (designed for 800×480).
+	dialog->setMinimumSize(0, 0);
+	// v2.0 approach: fullscreen state. The actual geometry is applied
+	// when the dialog becomes visible (exec()/show()).
+	dialog->setWindowState(dialog->windowState() | Qt::WindowFullScreen);
+#else
+	Q_UNUSED(dialog);
+#endif
+}
+
+void MobileInputHelper::wrapStackedWidgetPagesInScrollAreas(QStackedWidget *sw)
+{
+	if (!sw) return;
+	for (int i = 0; i < sw->count(); ++i) {
+		QWidget *page = sw->widget(i);
+		if (!page) continue;
+		// Skip if this page is already a QScrollArea
+		if (qobject_cast<QScrollArea*>(page)) continue;
+
+		QScrollArea *scroll = new QScrollArea(sw);
+		scroll->setWidgetResizable(true);
+		scroll->setFrameShape(QFrame::NoFrame);
+		scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+		// Take the page out of the stacked widget and put it inside the scroll area
+		sw->removeWidget(page);
+		scroll->setWidget(page);
+		sw->insertWidget(i, scroll);
+	}
 }
 
 bool MobileInputHelper::eventFilter(QObject *watched, QEvent *event)

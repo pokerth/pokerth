@@ -56,6 +56,14 @@ void ChatTools::sendMessage()
 	if(myLineEdit->text().size() && mySession) {
 		fillChatLinesHistory(myLineEdit->text());
 		QString chatText(myLineEdit->text());
+
+		// Safety: truncate to server max chat message size (128 bytes UTF-8)
+		// to prevent server from closing the connection on validation failure.
+		static const int MAX_CHAT_TEXT_SIZE = 128;
+		while(chatText.toUtf8().size() > MAX_CHAT_TEXT_SIZE) {
+			chatText.chop(1);
+		}
+
 		if(myChatType == INGAME_CHAT) {
 			mySession->sendGameChatMessage(chatText.toUtf8().constData());
 		} else {
@@ -195,8 +203,22 @@ void ChatTools::clearChat()
 
 void ChatTools::checkInputLength(QString string)
 {
+	// Server validates: VALIDATE_STRING_SIZE(chattext, 1, MAX_CHAT_TEXT_SIZE)
+	// and closes the connection on violation (asioreceivebuffer.cpp).
+	// Old code only called setMaxLength(string.length()) which did NOT
+	// prevent already-pasted oversized text from being sent.
+	static const int MAX_CHAT_TEXT_SIZE = 128;
 
-	if(string.toUtf8().length() > 120) myLineEdit->setMaxLength(string.length());
+	if(string.toUtf8().size() > MAX_CHAT_TEXT_SIZE) {
+		// Truncate at character boundary until UTF-8 fits within server limit
+		while(string.length() > 0 && string.toUtf8().size() > MAX_CHAT_TEXT_SIZE) {
+			string.chop(1);
+		}
+		myLineEdit->blockSignals(true);
+		myLineEdit->setText(string);
+		myLineEdit->setCursorPosition(string.length());
+		myLineEdit->blockSignals(false);
+	}
 }
 
 void ChatTools::fillChatLinesHistory(QString fillString)

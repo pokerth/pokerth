@@ -62,10 +62,10 @@ public:
 	{
 		myGuiLog = g;
 	}
-	int exec();
+	int exec() override;
 
-	virtual void UploadCompleted(const std::string &filename, const std::string &returnMessage);
-	virtual void UploadError(const std::string &filename, const std::string &errorMessage);
+	void UploadCompleted(const std::string &filename, const std::string &returnMessage) override;
+	void UploadError(const std::string &filename, const std::string &errorMessage) override;
 
 signals:
 	void signalUploadCompleted(QString filename, QString returnMessage);
@@ -86,7 +86,7 @@ public slots:
 		showLogFilePreview(SELECTED_GAME);
 	}
 	void showLogFilePreview(ShowLogMode);
-	void keyPressEvent ( QKeyEvent * event );
+	void keyPressEvent ( QKeyEvent * event ) override;
 	void uploadFile();
 	void uploadInProgressAnimationStart();
 	void uploadInProgressAnimationStop();

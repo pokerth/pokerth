@@ -31,6 +31,7 @@
 #include "connecttoserverdialogimpl.h"
 #include <net/socket_msg.h>
 #include <QScreen>
+#include "mobileinputhelper.h"
 
 connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 	: QDialog(parent)
@@ -41,7 +42,7 @@ connectToServerDialogImpl::connectToServerDialogImpl(QWidget *parent)
 #endif
 	setupUi(this);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 #endif
 }
 

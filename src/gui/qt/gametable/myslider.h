@@ -76,7 +76,7 @@ protected:
 		return orientation() == Qt::Horizontal ? pt.x() : pt.y();
 	}
 
-	virtual void mousePressEvent( QMouseEvent* ev )   // getted from QSlider.cpp with little adapt
+	void mousePressEvent( QMouseEvent* ev ) override   // getted from QSlider.cpp with little adapt
 	{
 		if (maximum() == minimum() || (ev->buttons() ^ ev->button())) {
 			ev->ignore();

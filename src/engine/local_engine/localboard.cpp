@@ -87,7 +87,6 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 	PlayerListIterator it;
 	PlayerListConstIterator it_c;
 
-	LOG_MSG("[SIDEPOT DEBUG] distributePot() called - Total pot: " << pot);
 
 	// filling player sets vector
 	std::vector<unsigned> playerSets;
@@ -95,8 +94,6 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 		if((*it)->getMyActiveStatus()) {
 			unsigned betAmount = ( ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash()) );
 			playerSets.push_back(betAmount);
-			LOG_MSG("[SIDEPOT DEBUG] Player " << (*it)->getMyName() << " bet: " << betAmount 
-				<< " (StartCash: " << (*it)->getMyRoundStartCash() << ", EndCash: " << (*it)->getMyCash() << ")");
 		} else {
 			playerSets.push_back(0);
 		}
@@ -167,8 +164,6 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 			}
 
 			if(finalPot) {
-				LOG_MSG("[SIDEPOT DEBUG] Distributing pot level " << i << ": amount=" << potLevel[0] 
-					<< ", sum=" << potLevel[1] << ", winners=" << (potLevel.size()-2));
 				
 				// distribute the pot level sum to level winners
 				mod = (potLevel[1])%winnerCount;
@@ -188,7 +183,6 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 						unsigned winAmount = (potLevel[1])/winnerCount;
 						(*it)->setMyCash( (*it)->getMyCash() + winAmount);
 
-						LOG_MSG("[SIDEPOT DEBUG] Winner " << (*it)->getMyName() << " gets $" << winAmount);
 
 						// filling winners vector
 						winners.push_back((*it)->getMyUniqueID());
@@ -275,7 +269,6 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 		// If player went all-in and didn't win anything, set cash to 0
 		if((*it)->getMyAction() == PLAYER_ACTION_ALLIN && (*it)->getLastMoneyWon() == 0) {
 			unsigned betAmount = ((*it)->getMyRoundStartCash()) - ((*it)->getMyCash());
-			LOG_MSG("[SIDEPOT DEBUG] Setting " << (*it)->getMyName() << " cash to 0 (action=ALLIN, bet=" << betAmount << ", won nothing)");
 			(*it)->setMyCash(0);
 		}
 	}

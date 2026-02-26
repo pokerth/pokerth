@@ -80,7 +80,7 @@ public:
 		flipside = p;
 	}
 
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 
 signals:
 	void signalFastFlipCards(bool);
@@ -98,8 +98,8 @@ public slots:
 
 // 	void mouseMoveEvent ( QMouseEvent *);
 
-	void mousePressEvent ( QMouseEvent *);
-	void mouseReleaseEvent ( QMouseEvent *);
+	void mousePressEvent ( QMouseEvent *) override;
+	void mouseReleaseEvent ( QMouseEvent *) override;
 
 	void setFront ( const QPixmap& theValue );
 

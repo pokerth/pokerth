@@ -225,7 +225,6 @@ SessionData::TimerInitTimeout(const boost::system::error_code &ec)
 		// Close session ONLY if still in Init state (hanging TLS handshake or stuck login)
 		// Do NOT close sessions that are Established, Game, Spectating, etc.
 		if (GetState() == SessionData::Init) {
-			LOG_MSG("[SESSION-TIMEOUT] Init timeout for session " << GetId() << " - forcing close");
 			// Force-close the socket to abort any pending async operations (e.g., hanging TLS handshake)
 			CloseSocketHandle();
 			m_callback.SessionError(shared_from_this(), ERR_NET_SESSION_TIMED_OUT);
@@ -346,7 +345,8 @@ void
 SessionData::ResetActivityTimer()
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);
-	m_activityTimeoutTimer.expires_after(seconds(m_activityTimeoutSec - m_activityWarningRemainingSec));
+	unsigned delaySec = m_activityTimeoutSec - m_activityWarningRemainingSec;
+	m_activityTimeoutTimer.expires_after(seconds(delaySec));
 	m_activityTimeoutTimer.async_wait(
 		boost::bind(
 			&SessionData::TimerActivityWarning, shared_from_this(), boost::asio::placeholders::error));
@@ -392,7 +392,8 @@ SessionData::StartTimerActivityTimeout(unsigned timeoutSec, unsigned warningRema
 	m_activityTimeoutSec = timeoutSec;
 	m_activityWarningRemainingSec = warningRemainingSec;
 
-	m_activityTimeoutTimer.expires_after(seconds(timeoutSec - warningRemainingSec));
+	unsigned delaySec = timeoutSec - warningRemainingSec;
+	m_activityTimeoutTimer.expires_after(seconds(delaySec));
 	m_activityTimeoutTimer.async_wait(
 		boost::bind(
 			&SessionData::TimerActivityWarning, shared_from_this(), boost::asio::placeholders::error));
@@ -444,6 +445,16 @@ SessionData::GetRemoteIPAddressFromSocket() const
         } catch (...) {
         }
     }
+
+    if (m_webData && m_webData->webSocketServer) {
+        try {
+            auto con = m_webData->webSocketServer->get_con_from_hdl(m_webData->webHandle);
+            auto ep = con->get_raw_socket().remote_endpoint(ec);
+            if (!ec) return ep.address().to_string();
+        } catch (...) {
+        }
+    }
+
     return std::string();
 }
 

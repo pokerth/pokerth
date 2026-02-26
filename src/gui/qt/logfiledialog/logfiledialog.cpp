@@ -44,6 +44,7 @@
 #include "core/appimage_utils.h"
 #include <game_defs.h>
 #include <net/uploaderthread.h>
+#include "mobileinputhelper.h"
 
 LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
 	QDialog(parent), myConfig(c),
@@ -53,7 +54,7 @@ LogFileDialog::LogFileDialog(QWidget *parent, ConfigFile *c) :
 	ui->label_animation->setMaximumWidth(0);
 	ui->horizontalLayout_animation->setSpacing(0);
 #ifdef ANDROID
-	this->setWindowState(Qt::WindowFullScreen);
+	MobileInputHelper::prepareAndroidDialog(this);
 #endif
 	connect( ui->pushButton_deleteLog, SIGNAL(clicked()), this, SLOT (deleteLogFile()));
 	connect( ui->pushButton_exportLogHtml, SIGNAL(clicked()), this, SLOT (exportLogToHtml()));

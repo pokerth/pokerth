@@ -34,6 +34,7 @@
 #include "settingsdialogimpl.h"
 #include "startwindowimpl.h"
 #include <QScreen>
+#include <QWindow>
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -86,7 +87,7 @@
 using namespace std;
 
 gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
-	: QMainWindow(parent), myChat(NULL), myConfig(c), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(false), pushButtonCallCheckIsChecked(false), pushButtonFoldIsChecked(false), pushButtonAllInIsChecked(false), myButtonsAreCheckable(false), breakAfterCurrentHand(false), currentGameOver(false), betSliderChangedByInput(false), guestMode(false), myLastPreActionBetValue(0), playingMode(0)
+	: QMainWindow(parent), myChat(NULL), myConfig(c), myStartWindow(nullptr), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(false), pushButtonCallCheckIsChecked(false), pushButtonFoldIsChecked(false), pushButtonAllInIsChecked(false), myButtonsAreCheckable(false), breakAfterCurrentHand(false), currentGameOver(false), betSliderChangedByInput(false), guestMode(false), myLastPreActionBetValue(0), playingMode(0)
 {
 	int i;
 
@@ -97,6 +98,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		statisticArray[i] = 0;
 	}
 	////////////////////////////
+
+	// Initialize AFK reset rate-limiter as already expired so the first
+	// user input will immediately send a ResetTimeoutMessage.
+	lastAfkResetSentTimer.start();
 
 	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
 
@@ -124,7 +129,26 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	tabs.setupUi(tabsDiag);
 	textLabel_handLabel->hide();
 #ifdef ANDROID
-	tabsDiag->setStyleSheet("QObject { font: 26px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}");
+	// Scale gametable dialog font to screen, same algorithm as in pokerth.cpp.
+	int gtFontPx = 26;
+	{
+		int userScale = myConfig->readConfigInt("AndroidUiScalePercent");
+		if (userScale > 0) {
+			gtFontPx = qMax(10, 26 * userScale / 100);
+		} else {
+			QScreen *scr = QGuiApplication::primaryScreen();
+			if (scr) {
+				QRect geo = scr->availableGeometry();
+				int sw = qMax(geo.width(), geo.height());
+				int sh = qMin(geo.width(), geo.height());
+				qreal scale = qMin(static_cast<qreal>(sw) / 800.0,
+				                   static_cast<qreal>(sh) / 480.0);
+				scale = qBound(0.5, scale, 1.0);
+				gtFontPx = qMax(10, static_cast<int>(26.0 * scale + 0.5));
+			}
+		}
+	}
+	tabsDiag->setStyleSheet(QString("QObject { font: %1px; } QDialog { background-image: url(:/android/android-data/gfx/gui/table/default_800x480/table_dark.png); background-position: bottom center; background-origin: content;  background-repeat: no-repeat;}").arg(gtFontPx));
 	this->setWindowState(Qt::WindowFullScreen);
 	MobileInputHelper::prepareMobileLineEdit(tabs.lineEdit_ChatInput);
 #else
@@ -536,6 +560,25 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 	this->installEventFilter(this);
 
+	// Install event filter on QApplication to catch ALL input events,
+	// including clicks on child widgets (Fold/Call/Raise buttons, slider,
+	// checkboxes).  this->installEventFilter(this) alone only catches
+	// events delivered directly to the QMainWindow, not to its children.
+	QApplication::instance()->installEventFilter(this);
+
+	// React to screen changes (hibernate/resume, DPI changes, monitor switch)
+	if (windowHandle()) {
+		connect(windowHandle(), &QWindow::screenChanged,
+			this, &gameTableImpl::onScreenChanged);
+	}
+	QScreen *primaryScreen = QGuiApplication::primaryScreen();
+	if (primaryScreen) {
+		connect(primaryScreen, &QScreen::geometryChanged,
+			this, &gameTableImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+		connect(primaryScreen, &QScreen::logicalDotsPerInchChanged,
+			this, &gameTableImpl::onScreenDpiChanged, Qt::UniqueConnection);
+	}
+
 	// create universal messageDialgo
 	myUniversalMessageDialog = new myMessageDialogImpl(myConfig, this);
 	myUniversalMessageDialog->setParent(this);
@@ -728,14 +771,23 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 
 gameTableImpl::~gameTableImpl()
 {
-
-
+	// Remove QApplication-level event filter to prevent stale callbacks
+	// after this widget is destroyed.
+	QApplication::instance()->removeEventFilter(this);
 }
 
 void gameTableImpl::callSettingsDialog()
 {
 	bool iamInGame = true;
+	// Stop animation timers while the modal settings dialog is open.
+	// On Windows, the many concurrent QTimer events flooding the event
+	// loop during exec() cause UI sluggishness / apparent hangs.
+	stopTimer();
 	myStartWindow->callSettingsDialog(iamInGame);
+	// Restart timers — setSpeeds() recalculates animation intervals
+	// and the game engine will retrigger the appropriate timers on the
+	// next GUI update cycle.
+	setSpeeds();
 }
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
@@ -1482,7 +1534,6 @@ void gameTableImpl::refreshPot()
 
 	int sets = currentHand->getBoard()->getSets();
 	int pot = currentHand->getBoard()->getPot();
-	// qDebug() << "[REFRESH POT] Sets:" << sets << "Pot:" << pot << "Total:" << (sets + pot);
 	
 	textLabel_Sets->setText("$"+QString("%L1").arg(sets));
 	textLabel_Pot->setText("$"+QString("%L1").arg(pot));
@@ -2733,24 +2784,27 @@ void gameTableImpl::postRiverRunAnimation3()
 
 	list<unsigned> winners = currentHand->getBoard()->getWinners();
 
-	// Determine if any winning player was all-in (for main pot / side pot labeling).
-	// In sidepot situations, the all-in player with the smallest bet (= RoundStartCash
-	// for all-in players) wins the main pot (the pot everyone contributed to).
-	// Other winners' pots are side pots.
-	// Note: We compare bet amounts (RoundStartCash), NOT win amounts (MoneyWon),
-	// because the main pot typically has MORE contributors and thus a LARGER
-	// win amount than side pots.
-	bool hasAllInWinner = false;
-	int minAllInWinnerBet = INT_MAX;
+	// Determine if there was any all-in player and the smallest bet among winners.
+	// Side pot labeling: if there is an all-in AND multiple winners, then the winner(s)
+	// with the smallest bet amount are main pot; others are side pots.
+	bool hasAllInPlayer = false;
+	int minWinnerBet = INT_MAX;
+	int winnersWithMoney = 0;
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+		if((*it_c)->getMyAction() == PLAYER_ACTION_ALLIN) {
+			hasAllInPlayer = true;
+		}
 		bool isW = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
-		bool actuallyWon = isW && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
-		if(actuallyWon && (*it_c)->getLastMoneyWon() > 0 && (*it_c)->getMyAction() == PLAYER_ACTION_ALLIN) {
-			hasAllInWinner = true;
-			int betAmount = (*it_c)->getMyRoundStartCash();
-			if(betAmount < minAllInWinnerBet) {
-				minAllInWinnerBet = betAmount;
+		bool actuallyWon = isW && (*it_c)->getLastMoneyWon() > 0;
+		if(actuallyWon) {
+			int betAmount = (*it_c)->getMyRoundStartCash() - (*it_c)->getMyCash() + (*it_c)->getLastMoneyWon();
+			if(betAmount < 0) {
+				betAmount = 0;
 			}
+			if(betAmount < minWinnerBet) {
+				minWinnerBet = betAmount;
+			}
+			winnersWithMoney++;
 		}
 	}
 
@@ -2758,8 +2812,25 @@ void gameTableImpl::postRiverRunAnimation3()
 		// Nur echte Winner anzeigen: in der winners-Liste UND tatsächlich profitiert
 		// (Spieler die nur ihren Überschuss zurückbekommen sind keine echten Gewinner)
 		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
-		bool hasActuallyWon = isWinner && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
-		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon) {
+		bool hasActuallyWon = isWinner && (*it_c)->getLastMoneyWon() > 0;
+		
+		// Calculate if this winner won the main pot (vs side pot)
+		// Main pot: if there was an all-in AND multiple winners, then the winner(s)
+		// with the smallest bet amount are main pot; others are side pots.
+		// Otherwise, always main pot.
+		bool isMainPot = true;
+		if (hasAllInPlayer && winnersWithMoney > 1) {
+			int betAmount = (*it_c)->getMyRoundStartCash() - (*it_c)->getMyCash() + (*it_c)->getLastMoneyWon();
+			if(betAmount < 0) {
+				betAmount = 0;
+			}
+			if(betAmount > minWinnerBet) {
+				isMainPot = false;
+			}
+		}
+		
+		// Show Winner label and animation only for main pot winners
+		if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon && isMainPot) {
 
 			//Show "Winner" label
 			actionLabelArray[(*it_c)->getMyID()]->setPixmap(QPixmap::fromImage(QImage(myGameTableStyle->getActionPic(7))));
@@ -2845,21 +2916,12 @@ void gameTableImpl::postRiverRunAnimation3()
 			//Wenn River dann auch das Blatt loggen!
 			// 			if (textLabel_handLabel->text() == "River") {
 
-			// Main pot / side pot labeling:
-			// In sidepot scenarios, the all-in player with the smallest bet wins
-			// the "main pot" (the pot all non-folded players contributed to).
-			// Other winners get "(side pot)".
-			// When no winner was all-in, there's no sidepot situation -> always main pot.
-			bool isMainPot;
-			if (!hasAllInWinner) {
-				isMainPot = true; // No sidepot situation
-			} else if ((*it_c)->getMyAction() == PLAYER_ACTION_ALLIN
-					   && (*it_c)->getMyRoundStartCash() <= minAllInWinnerBet) {
-				isMainPot = true; // All-in player with smallest bet = main pot
-			} else {
-				isMainPot = false; // Side pot
-			}
-			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(),isMainPot);
+			// Log as main pot (already filtered above)
+			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(), true);
+
+		} else if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon && !isMainPot) {
+			// Sidepot winner - log but don't animate
+			myGuiLog->logPlayerWinsMsg(QString::fromUtf8((*it_c)->getMyName().c_str()),(*it_c)->getLastMoneyWon(), false);
 
 		} else {
 
@@ -2910,7 +2972,7 @@ void gameTableImpl::postRiverRunAnimation5()
 
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 				bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
-				bool hasActuallyWon = isWinner && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
+				bool hasActuallyWon = isWinner && (*it_c)->getLastMoneyWon() > 0;
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon ) {
 
 					playerNameLabelArray[(*it_c)->getMyID()]->hide();
@@ -2923,7 +2985,7 @@ void gameTableImpl::postRiverRunAnimation5()
 
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 				bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
-				bool hasActuallyWon = isWinner && (*it_c)->getMyCash() >= (*it_c)->getMyRoundStartCash();
+				bool hasActuallyWon = isWinner && (*it_c)->getLastMoneyWon() > 0;
 				if((*it_c)->getMyAction() != PLAYER_ACTION_FOLD && hasActuallyWon ) {
 
 					playerNameLabelArray[(*it_c)->getMyID()]->show();
@@ -3446,54 +3508,152 @@ void gameTableImpl::changePlayingMode()
 
 bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 {
-	QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+	const auto etype = event->type();
 
-	if (/*obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && */event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Tab) {
-		myChat->nickAutoCompletition();
-		return true;
-	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Back) {
-		event->ignore();
-		closeGameTable();
-		return true;
-	} else if (event->type() == QEvent::Close) {
-		event->ignore();
-		closeGameTable();
-		return true;
-	} else if (event->type() == QEvent::Resize) {
-		refreshSpectatorsDisplay();
-		return true;
-	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Up &&
-#ifdef GUI_800x480
-	           tabs.lineEdit_ChatInput->hasFocus()
-#else
-	           lineEdit_ChatInput->hasFocus()
-#endif
-	          ) {
-		if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) {
-			keyUpDownChatCounter++;
+	// --- Rate-limited AFK timeout reset ---
+	if (etype == QEvent::MouseButtonPress
+		|| etype == QEvent::KeyPress) {
+		if (lastAfkResetSentTimer.elapsed() >= AFK_RESET_INTERVAL_MS) {
+			if (myStartWindow && myStartWindow->getSession()
+				&& myStartWindow->getSession()->isNetworkClientRunning()) {
+				myStartWindow->getSession()->resetNetworkTimeout();
+				lastAfkResetSentTimer.restart();
+			}
 		}
-		myChat->showChatHistoryIndex(keyUpDownChatCounter);
-		return true;
-	} else if (event->type() == QEvent::KeyPress && keyEvent->key() == Qt::Key_Down &&
+	}
+
+	// Only handle events when the game table window is active/visible
+	QWidget *focusWidget = QApplication::focusWidget();
+	bool isGameTableFocused = (this == focusWidget || this->isAncestorOf(focusWidget));
+	
+	if (etype == QEvent::KeyPress) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		
+		if (isGameTableFocused && keyEvent->key() == Qt::Key_Tab) {
+			myChat->nickAutoCompletition();
+			return true;
+		} else if (isGameTableFocused && keyEvent->key() == Qt::Key_Back) {
+			event->ignore();
+			closeGameTable();
+			return true;
+		} else if (isGameTableFocused && keyEvent->key() == Qt::Key_Up &&
 #ifdef GUI_800x480
-	           tabs.lineEdit_ChatInput->hasFocus()
+		           tabs.lineEdit_ChatInput->hasFocus()
 #else
-	           lineEdit_ChatInput->hasFocus()
+		           lineEdit_ChatInput->hasFocus()
 #endif
-	          ) {
-		if((keyUpDownChatCounter - 1) >= 0) {
-			keyUpDownChatCounter--;
-		}
-		myChat->showChatHistoryIndex(keyUpDownChatCounter);
-		return true;
-	} else {
-		// Reset counter for other keys
-		if (event->type() == QEvent::KeyPress) {
+		          ) {
+			if((keyUpDownChatCounter + 1) <= myChat->getChatLinesHistorySize()) {
+				keyUpDownChatCounter++;
+			}
+			myChat->showChatHistoryIndex(keyUpDownChatCounter);
+			return true;
+		} else if (isGameTableFocused && keyEvent->key() == Qt::Key_Down &&
+#ifdef GUI_800x480
+		           tabs.lineEdit_ChatInput->hasFocus()
+#else
+		           lineEdit_ChatInput->hasFocus()
+#endif
+		          ) {
+			if((keyUpDownChatCounter - 1) >= 0) {
+				keyUpDownChatCounter--;
+			}
+			myChat->showChatHistoryIndex(keyUpDownChatCounter);
+			return true;
+		} else if (isGameTableFocused) {
 			keyUpDownChatCounter = 0;
 		}
-		// pass the event on to the parent class
-		return QMainWindow::eventFilter(obj, event);
+		return false;
+	} else if (etype == QEvent::Close) {
+		QWidget *targetWidget = qobject_cast<QWidget*>(obj);
+		if (targetWidget && (targetWidget == this || this->isAncestorOf(targetWidget))) {
+			event->ignore();
+			closeGameTable();
+			return true;
+		}
+	} else if (etype == QEvent::Resize) {
+		if (isGameTableFocused) {
+			refreshSpectatorsDisplay();
+			if (layout()) {
+				layout()->invalidate();
+				layout()->activate();
+			}
+			return false;
+		}
 	}
+	
+	return QMainWindow::eventFilter(obj, event);
+}
+
+void gameTableImpl::changeEvent(QEvent *event)
+{
+	if (event->type() == QEvent::WindowStateChange
+		|| event->type() == QEvent::ScreenChangeInternal) {
+		// After hibernate/resume or monitor switch the window geometry may
+		// be stale.  Force a full relayout and – if in fullscreen – reapply
+		// the screen geometry so the table background and widgets match.
+		if (layout()) {
+			layout()->invalidate();
+			layout()->activate();
+		}
+#ifndef GUI_800x480
+		if (this->isFullScreen()) {
+			QScreen *screen = QGuiApplication::primaryScreen();
+			if (screen) {
+				QRect screenGeometry = screen->availableGeometry();
+				this->setGeometry(screenGeometry);
+			}
+		}
+#endif
+		refreshSpectatorsDisplay();
+		update();
+	}
+	QMainWindow::changeEvent(event);
+}
+
+void gameTableImpl::onScreenChanged(QScreen *screen)
+{
+	if (screen) {
+		connect(screen, &QScreen::geometryChanged,
+			this, &gameTableImpl::onScreenGeometryChanged, Qt::UniqueConnection);
+		connect(screen, &QScreen::logicalDotsPerInchChanged,
+			this, &gameTableImpl::onScreenDpiChanged, Qt::UniqueConnection);
+	}
+	// Force relayout after screen change (e.g. hibernate/resume, DPI change)
+	if (layout()) {
+		layout()->invalidate();
+		layout()->activate();
+	}
+	refreshSpectatorsDisplay();
+	update();
+}
+
+void gameTableImpl::onScreenGeometryChanged(const QRect & /*geometry*/)
+{
+	if (layout()) {
+		layout()->invalidate();
+		layout()->activate();
+	}
+#ifndef GUI_800x480
+	if (this->isFullScreen()) {
+		QScreen *screen = QGuiApplication::primaryScreen();
+		if (screen) {
+			this->setGeometry(screen->availableGeometry());
+		}
+	}
+#endif
+	refreshSpectatorsDisplay();
+	update();
+}
+
+void gameTableImpl::onScreenDpiChanged(qreal /*dpi*/)
+{
+	if (layout()) {
+		layout()->invalidate();
+		layout()->activate();
+	}
+	refreshSpectatorsDisplay();
+	update();
 }
 
 void gameTableImpl::switchChatWindow()
@@ -4601,7 +4761,37 @@ void gameTableImpl::restoreGameTableGeometry()
 		//resize only if style size allow this and if NOT fixed windows size
 		if(!myGameTableStyle->getIfFixedWindowSize().toInt() && myConfig->readConfigInt("GameTableHeightSave") <= myGameTableStyle->getMaximumWindowHeight().toInt() && myConfig->readConfigInt("GameTableHeightSave") >= myGameTableStyle->getMinimumWindowHeight().toInt() && myConfig->readConfigInt("GameTableWidthSave") <= myGameTableStyle->getMaximumWindowWidth().toInt() && myConfig->readConfigInt("GameTableWidthSave") >= myGameTableStyle->getMinimumWindowWidth().toInt()) {
 
-			this->resize(myConfig->readConfigInt("GameTableWidthSave"), myConfig->readConfigInt("GameTableHeightSave"));
+			int w = myConfig->readConfigInt("GameTableWidthSave");
+			int h = myConfig->readConfigInt("GameTableHeightSave");
+
+			// Clamp the restored size to the available screen geometry
+			// so the window (including its title-bar frame) never
+			// exceeds the usable desktop area.  This prevents the top
+			// of the table from being clipped on macOS where the
+			// system menu bar and Dock reduce the available space.
+			QScreen *screen = QGuiApplication::primaryScreen();
+			if (screen) {
+				QRect avail = screen->availableGeometry();
+				w = qMin(w, avail.width());
+				h = qMin(h, avail.height());
+			}
+
+			this->resize(w, h);
+
+			// Make sure the window is fully visible on screen.
+			if (screen) {
+				QRect avail = screen->availableGeometry();
+				QRect frame = this->frameGeometry();
+				int nx = frame.x();
+				int ny = frame.y();
+				if (frame.right()  > avail.right())  nx = avail.right()  - frame.width();
+				if (frame.bottom() > avail.bottom()) ny = avail.bottom() - frame.height();
+				if (nx < avail.x()) nx = avail.x();
+				if (ny < avail.y()) ny = avail.y();
+				if (nx != frame.x() || ny != frame.y()) {
+					this->move(nx, ny);
+				}
+			}
 		}
 	}
 #ifdef ANDROID
@@ -4716,10 +4906,6 @@ SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> 
 		// treat them as active so they remain visible on the table instead of
 		// silently disappearing while the server keeps playing them.
 		if(player->getMyCash() > 0 && player->getMyUniqueID() != 0) {
-			qDebug() << "[GHOST-SAFETY] Player" << player->getMyName().c_str()
-				<< "(ID:" << player->getMyUniqueID() << ") has cash"
-				<< player->getMyCash() << "but myActiveStatus=false!"
-				<< "Treating as SEAT_ACTIVE to prevent ghost player.";
 			// Auto-repair: restore active status
 			player->setMyActiveStatus(true);
 			if(player->isSessionActive()) {
@@ -4735,11 +4921,6 @@ SeatState gameTableImpl::getCurrentSeatState(boost::shared_ptr<PlayerInterface> 
 		if(player->getMyStayOnTableStatus() && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK)) {
 			return SEAT_STAYONTABLE;
 		} else {
-			qDebug() << "[SEAT_CLEAR]" << player->getMyName().c_str()
-				<< "(ID:" << player->getMyUniqueID() << ") Cash:" << player->getMyCash()
-				<< "Active:" << player->getMyActiveStatus() << "Session:" << player->isSessionActive()
-				<< "StayOnTable:" << player->getMyStayOnTableStatus()
-				<< "Action:" << player->getMyAction();
 			return SEAT_CLEAR;
 		}
 	}
@@ -4807,7 +4988,9 @@ void gameTableImpl::checkActionLabelPosition()
 
 void gameTableImpl::refreshSpectatorsDisplay()
 {
-	assert(myStartWindow->getSession());
+	if (!myStartWindow || !myStartWindow->getSession()) {
+		return;
+	}
 	GameInfo info(myStartWindow->getSession()->getClientGameInfo(myStartWindow->getSession()->getClientCurrentGameId()));
 	if(!info.spectatorsDuringGame.empty()) {
 		spectatorIcon->show();
@@ -4862,4 +5045,3 @@ int gameTableImpl::getAndroidApiVersion()
 #endif
     return api;
 }
-

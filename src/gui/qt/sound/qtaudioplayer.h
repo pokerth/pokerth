@@ -9,7 +9,13 @@
 #include <QTimer>
 #include <QBuffer>
 #include <QProcess>
+#include <atomic>
 #include "configfile.h"
+
+#ifdef Q_OS_WIN
+#include <windows.h>
+#include <mmsystem.h>
+#endif
 
 // Software mixer: pre-loads WAV PCM data into memory,
 // mixes active voices into a single continuous audio stream for QAudioSink.
@@ -31,6 +37,7 @@ public:
     void play(const QString& key);
     void setVolume(float vol);
     void stopAll();
+    bool hasActiveVoices();
 
     qint64 readData(char* data, qint64 maxSize) override;
     qint64 writeData(const char* data, qint64 maxSize) override;
@@ -51,7 +58,8 @@ public:
     enum class AudioBackend {
         QSoundEffectBackend,    // Qt6 native
         PaPlayBackend,          // PulseAudio paplay command (Linux)
-        SoftwareMixerBackend    // Pre-loaded WAVs + single QAudioSink (low-latency)
+        SoftwareMixerBackend,   // Pre-loaded WAVs + single QAudioSink (low-latency)
+        WinMMBackend            // Win32 waveOut API (Windows, threaded, concurrent)
     };
 
     QtAudioPlayer(ConfigFile* config);
@@ -69,6 +77,8 @@ public:
     
     AudioBackend activeBackend() const { return backend; }
 
+
+
 private slots:
     void onAudioOutputsChanged();
     void onDefaultOutputChanged();
@@ -81,6 +91,9 @@ private:
     void playSoundPaPlay(const QString& key);
     void initSoftwareMixerBackend(const QAudioDevice& device, float volume);
     void playSoundSoftwareMixer(const QString& key);
+    void connectMixerSinkSignals();
+    void initWinMMBackend(float volume);
+    void playSoundWinMM(const QString& key);
     bool detectPaPlay();
     void applyDeviceToEffects();
     void scheduleDeviceCheck();
@@ -98,9 +111,29 @@ private:
     QHash<QString, QString> soundFilePaths;  // key -> file path
     QString paplayBinary;                     // path to paplay
     
+#ifdef Q_OS_WIN
+    // WinMM pool-based backend: N pre-opened waveOut handles for
+    // concurrent low-latency playback.  Each slot plays one sound;
+    // sounds on different slots overlap naturally.  Pre-loaded PCM
+    // data is volume-scaled and submitted via waveOutWrite — zero
+    // CPU when idle, no threads, no streaming loop.
+    static const int WINMM_POOL_SIZE = 6;
+    struct WinMMSlot {
+        HWAVEOUT handle = nullptr;
+        WAVEHDR header = {};
+        QByteArray buffer;      // volume-scaled PCM copy
+        bool prepared = false;  // header is prepared
+    };
+    WinMMSlot winmmSlots[WINMM_POOL_SIZE];
+    bool winmmPoolOpen = false;
+    QHash<QString, QByteArray> winmmPcmData;  // pre-loaded raw PCM
+    float winmmVolume = 1.0f;
+#endif
+    
     // Software mixer backend
     WavMixer* mixer;
     QAudioSink* mixerSink;
+    bool m_stoppingMixerIntentionally = false;
     
     // Device monitoring
     QMediaDevices* mediaDevices;

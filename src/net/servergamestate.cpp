@@ -80,12 +80,12 @@ using namespace boost::chrono;
 #define SERVER_PLAYER_TIMEOUT_ADD_DELAY_SEC		2
 #endif
 
-#define SERVER_START_GAME_TIMEOUT_SEC				10
+#define SERVER_START_GAME_TIMEOUT_SEC				20
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
-#define SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR			6
-#define SERVER_GAME_FORCED_TIMEOUT_FACTOR			12
+#define SERVER_GAME_AFK_WARNING_SEC					900		// 15 min - warn player after this idle time
+#define SERVER_GAME_AFK_KICK_SEC					960		// 16 min - kick player (60s after warning)
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 #define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100
@@ -460,12 +460,6 @@ AbstractServerGameStateReceiving::CreateNetPacketHandStart(const ServerGame &ser
 		const char* stateStr = (seatState == netPlayerStateNormal) ? "Normal" :
 			(seatState == netPlayerStateSessionInactive) ? "SessionInactive" :
 			(seatState == netPlayerStateNoMoney) ? "NoMoney" : "Unknown";
-		LOG_MSG("[HANDSTART SRV] Seat " + std::to_string(playerCounter) + " " + (*player_i)->getMyName()
-			+ " (ID:" + std::to_string((*player_i)->getMyUniqueID()) + ") State:" + stateStr
-			+ " Cash:" + std::to_string((*player_i)->getMyCash())
-			+ " Active:" + std::to_string((*player_i)->getMyActiveStatus())
-			+ " Session:" + std::to_string((*player_i)->isSessionActive())
-			+ " Action:" + std::to_string((*player_i)->getMyAction()));
 		netHandStart->add_seatstates(seatState);
 		++player_i;
 		++playerCounter;
@@ -847,6 +841,38 @@ ServerGameStateStartGame::TimerTimeout(const boost::system::error_code &ec, boos
 }
 
 void
+ServerGameStateStartGame::NotifySessionRemoved(boost::shared_ptr<ServerGame> server)
+{
+	// A player disconnected during the start-game handshake (e.g. WiFi drop).
+	// Instead of waiting the full timeout, check if remaining players are
+	// all ready and start right away.
+	TryStartWithRemainingPlayers(server);
+}
+
+void
+ServerGameStateStartGame::TryStartWithRemainingPlayers(boost::shared_ptr<ServerGame> server)
+{
+	unsigned gameCount = server->GetSessionManager().GetSessionCountWithState(SessionData::Game);
+	if (gameCount < 2) {
+		// Not enough players left — abort game start immediately instead
+		// of waiting the full 20s timeout.
+		LOG_MSG("Game " << server->GetId() << " - not enough players to start (" << gameCount << "), aborting.");
+		server->GetStateTimer1().cancel();
+		server->GetSessionManager().ResetAllReadyFlags();
+		DoStart(server);  // Will move remaining player back to lobby
+		return;
+	}
+	// If all remaining players have ACKed, start immediately.
+	if (server->GetSessionManager().CountReadySessions() >= gameCount) {
+		LOG_MSG("Game " << server->GetId() << " - all remaining " << gameCount << " players ready after disconnect, starting.");
+		server->GetStateTimer1().cancel();
+		server->GetSessionManager().ResetAllReadyFlags();
+		DoStart(server);
+	}
+	// Otherwise, keep waiting for more ACKs or timeout.
+}
+
+void
 ServerGameStateStartGame::DoStart(boost::shared_ptr<ServerGame> server)
 {
 	PlayerDataList tmpPlayerList(server->InternalStartGame());
@@ -1095,13 +1121,7 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				PlayerListIterator dbg_i = curGame.getSeatsList()->begin();
 				PlayerListIterator dbg_end = curGame.getSeatsList()->end();
 				int dbg_seat = 0;
-				LOG_MSG("[POST-RIVER SRV] Cash values after postRiverRun():");
 				while (dbg_i != dbg_end) {
-					LOG_MSG("[POST-RIVER SRV] Seat " + std::to_string(dbg_seat) + " " + (*dbg_i)->getMyName()
-						+ " (ID:" + std::to_string((*dbg_i)->getMyUniqueID()) + ") Cash:" + std::to_string((*dbg_i)->getMyCash())
-						+ " Active:" + std::to_string((*dbg_i)->getMyActiveStatus())
-						+ " Action:" + std::to_string((*dbg_i)->getMyAction())
-						+ " Won:" + std::to_string((*dbg_i)->getLastMoneyWon()));
 					++dbg_i;
 					++dbg_seat;
 				}
@@ -1119,7 +1139,6 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				PlayerListIterator pend = curGame.getSeatsList()->end();
 				while (pit != pend) {
 					if ((*pit)->getMyAction() == PLAYER_ACTION_ALLIN && (*pit)->getLastMoneyWon() == 0) {
-						LOG_MSG("[SIDEPOT SRV] Final check (hide): Setting " + (*pit)->getMyName() + " to 0 (was: " + std::to_string((*pit)->getMyCash()) + ")");
 						(*pit)->setMyCash(0);
 					}
 					++pit;
@@ -1143,7 +1162,6 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				PlayerListIterator pend = curGame.getSeatsList()->end();
 				while (pit != pend) {
 					if ((*pit)->getMyAction() == PLAYER_ACTION_ALLIN && (*pit)->getLastMoneyWon() == 0) {
-						LOG_MSG("[SIDEPOT SRV] Final check: Setting " + (*pit)->getMyName() + " to 0 (was: " + std::to_string((*pit)->getMyCash()) + ")");
 						(*pit)->setMyCash(0);
 					}
 					++pit;
@@ -1154,7 +1172,6 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				EndOfHandShowCardsMessage *netEndHand = endHand->GetMsg()->mutable_endofhandshowcardsmessage();
 				netEndHand->set_gameid(server->GetId());
 
-				LOG_MSG("[SHOWCARD SRV] showList size: " + std::to_string(showList.size()));
 				
 				// CRITICAL: Send PlayerResults for ALL active players, not just showList
 				// This ensures clients get correct cash updates for all players including those who folded or went all-in
@@ -1165,16 +1182,11 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 					boost::shared_ptr<PlayerInterface> tmpPlayer = *allPlayers;
 					if (tmpPlayer) {
 						bool inShowList = std::find(showList.begin(), showList.end(), tmpPlayer->getMyUniqueID()) != showList.end();
-						LOG_MSG("[SHOWCARD SRV] Adding player " + tmpPlayer->getMyName() + " (ID:" + std::to_string(tmpPlayer->getMyUniqueID()) 
-							+ ") Action:" + std::to_string(tmpPlayer->getMyAction()) + " Active:" + std::to_string(tmpPlayer->getMyActiveStatus())
-							+ " Cash:" + std::to_string(tmpPlayer->getMyCash()) + " Won:" + std::to_string(tmpPlayer->getLastMoneyWon())
-							+ " InShowList:" + (inShowList ? "YES" : "NO"));
 						PlayerResult *playerResult = netEndHand->add_playerresults();
 						SetPlayerResult(*playerResult, tmpPlayer, GAME_STATE_RIVER);
 					}
 					++allPlayers;
 				}
-				LOG_MSG("[SHOWCARD SRV] Sending EndOfHandShowCardsMessage with " + std::to_string(netEndHand->playerresults_size()) + " players");
 				server->SendToAllPlayers(endHand, SessionData::Game | SessionData::Spectating);
 			}
 
@@ -1186,13 +1198,8 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 				PlayerListIterator dbg_i = curGame.getSeatsList()->begin();
 				PlayerListIterator dbg_end = curGame.getSeatsList()->end();
 				int dbg_seat = 0;
-				LOG_MSG("[POST-REMOVE SRV] Cash values after RemoveDisconnectedPlayers():");
 				while (dbg_i != dbg_end) {
 					if ((*dbg_i)->getMyActiveStatus() || (*dbg_i)->getMyCash() > 0) {
-						LOG_MSG("[POST-REMOVE SRV] Seat " + std::to_string(dbg_seat) + " " + (*dbg_i)->getMyName()
-							+ " (ID:" + std::to_string((*dbg_i)->getMyUniqueID()) + ") Cash:" + std::to_string((*dbg_i)->getMyCash())
-							+ " Active:" + std::to_string((*dbg_i)->getMyActiveStatus())
-							+ " Session:" + std::to_string((*dbg_i)->isSessionActive()));
 					}
 					++dbg_i;
 					++dbg_seat;
@@ -1333,12 +1340,7 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 		PlayerListIterator dbg_i = curGame.getSeatsList()->begin();
 		PlayerListIterator dbg_end = curGame.getSeatsList()->end();
 		int dbg_seat = 0;
-		LOG_MSG("[PRE-INITHAND SRV] Cash values before initHand():");
 		while (dbg_i != dbg_end) {
-			LOG_MSG("[PRE-INITHAND SRV] Seat " + std::to_string(dbg_seat) + " " + (*dbg_i)->getMyName()
-				+ " (ID:" + std::to_string((*dbg_i)->getMyUniqueID()) + ") Cash:" + std::to_string((*dbg_i)->getMyCash())
-				+ " Active:" + std::to_string((*dbg_i)->getMyActiveStatus())
-				+ " Session:" + std::to_string((*dbg_i)->isSessionActive()));
 			++dbg_i;
 			++dbg_seat;
 		}
@@ -1455,67 +1457,15 @@ ServerGameStateHand::StartNewHand(boost::shared_ptr<ServerGame> server)
 void
 ServerGameStateHand::CheckPlayerTimeouts(boost::shared_ptr<ServerGame> server)
 {
-	// Check timeout.
-	int actionTimeout = server->GetGameData().playerActionTimeoutSec;
-	LOG_MSG("[AFK-GAME] CheckPlayerTimeouts called. actionTimeout=" << actionTimeout
-		<< " warnThreshold=" << (actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR)
-		<< "s kickThreshold=" << (actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) << "s");
-	if (actionTimeout) {
-		// Consider all active players.
-		PlayerListIterator i = server->GetGame().getActivePlayerList()->begin();
-		PlayerListIterator end = server->GetGame().getActivePlayerList()->end();
-
-		// Check timeouts of players.
-		while (i != end) {
-			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-			LOG_MSG("[AFK-GAME] Player " << tmpPlayer->getMyName()
-				<< " type=" << tmpPlayer->getMyType()
-				<< " idleSec=" << tmpPlayer->getTimeSecSinceLastRemoteAction()
-				<< " sessionActive=" << tmpPlayer->isSessionActive()
-				<< " action=" << tmpPlayer->getMyAction());
-			if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN
-					&& (int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_AUTOFOLD_TIMEOUT_FACTOR) {
-				// Skip timeout for All-In players: they cannot act during the
-				// hand but are legitimately participating.  Without this
-				// exception, long All-In showdowns cause the server to mark
-				// them as session-inactive, which makes them appear "offline"
-				// to other clients.
-				if (tmpPlayer->getMyAction() == PLAYER_ACTION_ALLIN) {
-					tmpPlayer->markRemoteAction();
-					++i;
-					continue;
-				}
-				if (tmpPlayer->isSessionActive()) {
-					tmpPlayer->setIsSessionActive(false);
-					// Send AFK warning to the client so it shows the timeout popup.
-					// The player has until FORCED_TIMEOUT_FACTOR to respond (click OK
-					// or perform any action) before being kicked from the game.
-					unsigned forcedTimeoutSec = static_cast<unsigned>(actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR);
-					unsigned elapsedSec = tmpPlayer->getTimeSecSinceLastRemoteAction();
-					unsigned remainingSec = (forcedTimeoutSec > elapsedSec) ? (forcedTimeoutSec - elapsedSec) : 0;
-					LOG_MSG("[AFK-GAME] >>> SENDING WARNING to " << tmpPlayer->getMyName()
-						<< " elapsed=" << elapsedSec << "s remaining=" << remainingSec << "s");
-					boost::shared_ptr<SessionData> session = server->GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->getMyUniqueID());
-					if (session) {
-						boost::shared_ptr<NetPacket> packet(new NetPacket);
-						packet->GetMsg()->set_messagetype(PokerTHMessage::Type_TimeoutWarningMessage);
-						TimeoutWarningMessage *netWarning = packet->GetMsg()->mutable_timeoutwarningmessage();
-						netWarning->set_timeoutreason(TimeoutWarningMessage::timeoutKickAfterAutofold);
-						netWarning->set_remainingseconds(remainingSec);
-						server->GetLobbyThread().GetSender().Send(session, packet);
-					} else {
-						LOG_MSG("[AFK-GAME] >>> WARNING: No session found for player " << tmpPlayer->getMyName());
-					}
-				}
-				if ((int)tmpPlayer->getTimeSecSinceLastRemoteAction() >= actionTimeout * SERVER_GAME_FORCED_TIMEOUT_FACTOR) {
-					LOG_MSG("[AFK-GAME] >>> KICKING player " << tmpPlayer->getMyName()
-						<< " idle=" << tmpPlayer->getTimeSecSinceLastRemoteAction() << "s");
-					server->KickPlayer(tmpPlayer->getMyUniqueID());
-				}
-			}
-			++i;
-		}
-	}
+	// In-game AFK detection is now handled entirely by the session activity
+	// timer (set to 15 min when the player enters a game).  Only real user
+	// activity (chat, votes, ResetTimeout) resets that timer – auto-check,
+	// auto-fold and auto-call do NOT reset it because MyActionRequestMessage
+	// is excluded from IsClientActivity().
+	//
+	// Disconnected-player handling is done separately by
+	// RemoveDisconnectedPlayers() / MarkPlayerAsInactive().
+	(void)server;
 }
 
 void

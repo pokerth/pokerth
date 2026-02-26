@@ -44,7 +44,7 @@ public:
 	~MyRightTabWidget();
 
 
-	void paintEvent(QPaintEvent * event);
+	void paintEvent(QPaintEvent * event) override;
 
 	QTabBar* getMyTabBar() const
 	{

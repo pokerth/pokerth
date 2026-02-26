@@ -35,9 +35,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-include(FindBoost)
-include(FindProtobuf)
- 
 find_package(Boost REQUIRED COMPONENTS iostreams random thread filesystem program_options)
 find_package(OpenSSL REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Network)
@@ -167,7 +164,7 @@ target_include_directories(pokerth_lib PUBLIC
     src/core
     src/third_party/websocketpp)
 
-target_link_libraries(pokerth_lib PUBLIC "${Boost_LIBRARIES}")
+target_link_libraries(pokerth_lib PUBLIC Boost::iostreams Boost::random Boost::thread Boost::filesystem Boost::program_options)
 if(TARGET OpenSSL::SSL)
     target_link_libraries(pokerth_lib PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 else()
@@ -210,7 +207,7 @@ message(STATUS "Protobuf include dir: ${Protobuf_INCLUDE_DIR}")
 target_include_directories(pokerth_protocol PRIVATE "${Protobuf_INCLUDE_DIR}")
 target_include_directories(pokerth_protocol PUBLIC "src/third_party/protobuf")
 
-target_link_libraries(pokerth_protocol PUBLIC "${Protobuf_LIBRARIES}")
+target_link_libraries(pokerth_protocol PUBLIC protobuf::libprotobuf)
 
 if(ANDROID)
     target_compile_definitions(pokerth_protocol PUBLIC PROTOBUF_USE_DLLS)

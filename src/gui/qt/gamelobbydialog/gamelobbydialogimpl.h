@@ -64,7 +64,7 @@ public:
 
 	~gameLobbyDialogImpl();
 
-	int exec();
+	int exec() override;
 
 	ChatTools *getMyChat()
 	{
@@ -130,15 +130,15 @@ public slots:
 	void leftGameDialogUpdate();
 	void updateDialogBlinds(const GameData &gameData);
 	void clearDialog();
-	void keyPressEvent(QKeyEvent * keyEvent);
-	bool event(QEvent * event);
+	void keyPressEvent(QKeyEvent * keyEvent) override;
+	bool event(QEvent * event) override;
 	void showGameDescription(bool show);
 	void showWaitStartGameMsgBox();
 	void hideWaitStartGameMsgBox();
 	void stopWaitStartGameMsgBoxTimer();
-	void reject();
-	void closeEvent(QCloseEvent *event);
-	void accept();
+	void reject() override;
+	void closeEvent(QCloseEvent *event) override;
+	void accept() override;
 	void writeDialogSettings(int);
 	void readDialogSettings();
 	void changeGameListFilter(int);
@@ -235,8 +235,13 @@ private:
 	int lastNickListFilterState;
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event);
-    void changeEvent(QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event) override;
+    void changeEvent(QEvent *event) override;
+
+private slots:
+    void onScreenChanged(QScreen *screen);
+    void onScreenGeometryChanged(const QRect &geometry);
+    void onScreenDpiChanged(qreal dpi);
 };
 
 #endif
