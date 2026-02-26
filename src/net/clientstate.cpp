@@ -1969,7 +1969,12 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
-			client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
+			if (client->bot.enabled) {
+				std::cout << "[BBCBot] Rejecting game invitation from " << netInvNotify.playeridbywhom() << std::endl;
+				client->SendRejectGameInvitation(netInvNotify.gameid(), DENY_GAME_INVITATION_BUSY);
+			} else {
+				client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
+			}
 		}
 	}
 }
@@ -2014,10 +2019,15 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->SetState(ClientStateSynchronizeStart::Instance());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
-		client->GetCallback().SignalPlayerGameInvitation(
-			netInvNotify.gameid(),
-			netInvNotify.playeridwho(),
-			netInvNotify.playeridbywhom());
+		if (client->bot.enabled && netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
+			std::cout << "[BBCBot] Rejecting game invitation from " << netInvNotify.playeridbywhom() << std::endl;
+			client->SendRejectGameInvitation(netInvNotify.gameid(), DENY_GAME_INVITATION_BUSY);
+		} else {
+			client->GetCallback().SignalPlayerGameInvitation(
+				netInvNotify.gameid(),
+				netInvNotify.playeridwho(),
+				netInvNotify.playeridbywhom());
+		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_RejectInvNotifyMessage) {
 		const RejectInvNotifyMessage &netRejNotify = tmpPacket->GetMsg()->rejectinvnotifymessage();
 		client->GetCallback().SignalRejectedGameInvitation(
