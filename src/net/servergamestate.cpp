@@ -84,8 +84,8 @@ using namespace boost::chrono;
 #define SERVER_AUTOSTART_GAME_DELAY_SEC				6
 #define SERVER_GAME_ADMIN_WARNING_REMAINING_SEC		60
 #define SERVER_GAME_ADMIN_TIMEOUT_SEC				300		// 5 min, MUST be > SERVER_GAME_ADMIN_WARNING_REMAINING_SEC
-#define SERVER_GAME_AFK_WARNING_SEC					900		// 15 min - warn player after this idle time
-#define SERVER_GAME_AFK_KICK_SEC					960		// 16 min - kick player (60s after warning)
+#define SERVER_GAME_AFK_WARNING_SEC					1800	// 30 min - warn player after this idle time
+#define SERVER_GAME_AFK_KICK_SEC					1860	// 31 min - kick player (60s after warning)
 #define SERVER_VOTE_KICK_TIMEOUT_SEC				30
 #define SERVER_LOOP_DELAY_MSEC						50
 #define SERVER_MAX_NUM_SPECTATORS_PER_GAME			100

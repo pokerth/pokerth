@@ -987,6 +987,16 @@ ServerGame::RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, b
 	case NTF_NET_REMOVED_KICKED :
 		netReason = GamePlayerLeftMessage::leftKicked;
 		break;
+	case NTF_NET_REMOVED_TIMEOUT :
+		netReason = GamePlayerLeftMessage::leftKicked;
+		// Timeout removal: clear GUID to prevent rejoin, same as a kick.
+		if (m_game && !spectateOnly) {
+			boost::shared_ptr<PlayerInterface> tmpPlayer(m_game->getPlayerByUniqueId(player->GetUniqueId()));
+			if (tmpPlayer) {
+				tmpPlayer->setMyGuid("");
+			}
+		}
+		break;
 	}
 
 	if (spectateOnly) {

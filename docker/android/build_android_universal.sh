@@ -198,7 +198,7 @@ cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
 <?xml version="1.0"?>
 <manifest package="org.pokerth.widget"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="2.0.4"
+          android:versionName="2.0.5"
           android:versionCode="20"
           android:installLocation="auto">
 

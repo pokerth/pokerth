@@ -66,7 +66,7 @@
 #define SERVER_MAX_NUM_LOBBY_SESSIONS				1536		// Maximum number of idle users in lobby.
 #define SERVER_MAX_NUM_TOTAL_SESSIONS				2000	// Total maximum of sessions, fitting a 2048 handle limit
 
-#define SERVER_SAVE_STATISTICS_INTERVAL_SEC			15		// heartbeat for WiFi keepalive (was 60)
+#define SERVER_SAVE_STATISTICS_INTERVAL_SEC			45		// heartbeat interval (s): keeps NAT alive, feeds client connection monitor
 #define SERVER_CHECK_SESSION_TIMEOUTS_INTERVAL_MSEC	500
 #define SERVER_REMOVE_GAME_INTERVAL_MSEC			500
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
@@ -78,7 +78,7 @@
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
 #define SERVER_SESSION_ACTIVITY_TIMEOUT_SEC			1800	// 30 min, MUST be > SERVER_TIMEOUT_WARNING_REMAINING_SEC
-#define SERVER_INGAME_ACTIVITY_TIMEOUT_SEC			960		// 16 min (warning at 15 min) - only real UI activity resets
+#define SERVER_INGAME_ACTIVITY_TIMEOUT_SEC			1860	// 31 min (warning at 30 min) - only real UI activity resets
 #define SERVER_SESSION_FORCED_TIMEOUT_SEC			604800	// 7 days - reset on every client activity
 
 #define SERVER_ADDRESS_LOCALHOST_STR_V4				"127.0.0.1"
@@ -2184,15 +2184,18 @@ void
 ServerLobbyThread::SessionError(boost::shared_ptr<SessionData> session, int errorCode)
 {
 	if (session) {
-		// For in-game session timeouts, move the player back to the lobby
-		// instead of fully disconnecting them.
+		// For in-game session timeouts, kick the player from the game and
+		// move them back to the lobby instead of fully disconnecting them.
+		// Using KickPlayer ensures:
+		//   - MarkPlayerAsKicked → setIsKicked(true) + setMyGuid("") → no rejoin
+		//   - MoveSessionToLobby with NTF_NET_REMOVED_KICKED → other clients
+		//     receive GamePlayerLeftMessage with leftKicked
+		//   - RemovedFromGameMessage with kickedFromGame sent to the player
+		//   - RemoveDisconnectedPlayers will zero cash (isKicked is true)
 		if (errorCode == ERR_NET_SESSION_TIMED_OUT) {
 			boost::shared_ptr<ServerGame> game = session->GetGame();
-			if (game) {
-				// Use NTF_NET_REMOVED_TIMEOUT (not NTF_NET_REMOVED_KICKED) so the
-				// player's GUID is preserved and rejoin is allowed.  KICKED would
-				// cause MarkPlayerAsKicked -> setMyGuid("") -> no rejoin possible.
-				game->MoveSessionToLobby(session, NTF_NET_REMOVED_TIMEOUT);
+			if (game && session->GetPlayerData()) {
+				game->KickPlayer(session->GetPlayerData()->GetUniqueId());
 				return;
 			}
 		}

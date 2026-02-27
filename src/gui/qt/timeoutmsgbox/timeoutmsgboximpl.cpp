@@ -81,11 +81,15 @@ void timeoutMsgBoxImpl::timerRefresh()
 		timeOutTimer->stop();
 		okButton->setEnabled(false);
 		if (msgID == NETWORK_TIMEOUT_KICK_AFTER_AUTOFOLD) {
-			// In-game timeout: proactively leave game to return to lobby
-			this->setText(tr("Timeout expired. You are being moved back to the lobby."));
+			// In-game timeout: do NOT send sendLeaveCurrentGame() here.
+			// The server's session activity timer fires at the same time
+			// and handles the kick via KickPlayer() (marks as kicked,
+			// clears GUID, notifies other clients with leftKicked).
+			// Sending LeaveGameRequestMessage would race with the server
+			// timeout, reset the activity timer, and result in a voluntary
+			// leave (NTF_NET_REMOVED_ON_REQUEST) instead of a proper kick.
+			this->setText(tr("Timeout expired. You are being removed from the game."));
 			this->setInformativeText("");
-			mySession->sendLeaveCurrentGame();
-			QTimer::singleShot(3000, this, SLOT(hide()));
 		} else {
 			// Lobby/admin timeout: server will disconnect us
 			this->setText(tr("Timeout expired. You will be disconnected."));

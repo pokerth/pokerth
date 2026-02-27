@@ -1,3 +1,8 @@
+2026-02-27 version 2.0.5
+- possible bugfix: win client disconnects over wifi
+- bugfix: AFK Timeout proper server disconnect, ingame timeout increase to 30 minutes
+- bugfix: game admin state in custom games in lobby
+
 2026-02-25 version 2.0.4
 - possible bugfix: win client disconnects over wifi
 - audio output improved for linux and macOS
@@ -5,6 +10,12 @@
 - bugfix: pasting too long text into chat causes disconnects
 - bugfix: appimage can open links clicked in chat messages now
 - bugfix: changing sound settings also changed table style to danuxi
+
+2026-02-24 version 2.0.3
+- android bugfixes - functional universal apk
+- AFK timeout bugfix
+- Windows audio output improvements
+- sidepot follow-up
 
 2026-02-21 version 2.0.2
 - macOS GUI fix

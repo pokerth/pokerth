@@ -952,9 +952,9 @@ void startWindowImpl::connectionHeartbeatCheck()
 		return;
 	}
 	
-	// Server sends stats heartbeat every 60 seconds. In-game signals
+	// Server sends stats heartbeat every 45 seconds. In-game signals
 	// (hand start/end, player actions) also update the activity timestamp.
-	// Use a 300s window (5x the server heartbeat interval) to tolerate
+	// Use a 300s window (~7x the heartbeat interval) to tolerate
 	// network jitter, server load spikes, and brief WiFi suspensions
 	// that are common on Windows laptops.
 	// QElapsedTimer uses a monotonic clock, immune to NTP/DST/sleep clock jumps

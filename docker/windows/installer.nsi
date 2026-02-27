@@ -8,7 +8,7 @@
 ; General Configuration
 
 !define PRODUCT_NAME "PokerTH"
-!define PRODUCT_VERSION "2.0.4"
+!define PRODUCT_VERSION "2.0.5"
 !define PRODUCT_PUBLISHER "PokerTH Team"
 !define PRODUCT_WEB_SITE "http://www.pokerth.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\pokerth_client.exe"
