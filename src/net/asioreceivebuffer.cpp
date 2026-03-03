@@ -130,8 +130,15 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
                         StartAsyncRead(session);
                     }
                 }
-            } else if (error == boost::asio::error::interrupted || error == boost::asio::error::try_again) {
-                LOG_ERROR("Session " << session->GetId() << " - recv interrupted: " << error);
+            } else if (error == boost::asio::error::interrupted
+                       || error == boost::asio::error::try_again
+                       || error == boost::asio::error::would_block) {
+                // Transient errors: interrupted (EINTR), try_again (EAGAIN),
+                // would_block (EWOULDBLOCK / WSAEWOULDBLOCK on Windows).
+                // On Windows + WiFi, would_block can appear when the network
+                // stack is temporarily overwhelmed after a power-save resume.
+                // Retry the async read instead of closing the connection.
+                LOG_ERROR("Session " << session->GetId() << " - recv transient error, retrying: " << error);
                 if (session->GetState() != SessionData::Closed) {
                     StartAsyncRead(session);
                 }

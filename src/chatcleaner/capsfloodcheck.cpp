@@ -42,7 +42,6 @@ bool CapsFloodCheck::run(QString msg)
 	msg = msg.simplified().remove(" ");
 	QRegularExpression e(QString("[A-Z]{%1,}").arg(capsNumberToTrigger));
 	if(e.isValid()) {
-		e.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 		if(e.match(msg).hasMatch()) return true;
 		else return false;
 	} else {

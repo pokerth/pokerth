@@ -52,6 +52,10 @@ public:
 	{
 		return false;
 	}
+
+private:
+	bool m_initDone{false};
+	DB_id m_resolvedGameDbId{DB_ID_INVALID};
 };
 
 #endif

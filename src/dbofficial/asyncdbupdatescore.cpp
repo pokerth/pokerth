@@ -49,10 +49,22 @@ AsyncDBUpdateScore::~AsyncDBUpdateScore()
 void
 AsyncDBUpdateScore::Init(DBIdManager& idManager)
 {
+	// Guard: Init() must be idempotent because it is called again on
+	// retry after a transient DB connection loss.  Without this guard
+	// the game-DB-ID would be prepended to the parameter list a second
+	// time, corrupting the CALL statement.
+	if (m_resolvedGameDbId != DB_ID_INVALID)
+		return;
+
+	DB_id gameDbId = idManager.GetGameDBId(GetId());
+	if (gameDbId == DB_ID_INVALID) {
+		// CreateGame hasn't completed yet or failed.
+		return;
+	}
+
 	std::list<std::string> params;
 	GetParams(params);
 	ostringstream paramStream;
-	DB_id gameDbId = idManager.GetGameDBId(GetId());
 	paramStream << gameDbId;
 	// Add game id as first parameter (param for stored procedure).
 	params.push_front(paramStream.str());

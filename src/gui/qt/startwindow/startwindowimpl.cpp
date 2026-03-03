@@ -884,6 +884,10 @@ void startWindowImpl::callSettingsDialog(bool ingame)
 		myGuiInterface->getMyW()->applySettings(mySettingsDialog);
 		// Apply dark mode palette based on updated config
 		DarkModeHelper::applyPalette(myConfig);
+		// Re-apply game table style AFTER DarkModeHelper, because
+		// applyPalette() iterates all widgets with unpolish/polish/
+		// setPalette which can override stylesheet-based styling.
+		myGuiInterface->getMyW()->refreshGameTableStyle();
 		// Update lobby dialog dark mode styling if visible
 		myGameLobbyDialog->updateGameListStyleSheet();
 	}
@@ -954,13 +958,14 @@ void startWindowImpl::connectionHeartbeatCheck()
 	
 	// Server sends stats heartbeat every 45 seconds. In-game signals
 	// (hand start/end, player actions) also update the activity timestamp.
-	// Use a 300s window (~7x the heartbeat interval) to tolerate
+	// Use a 180s window (~4x the heartbeat interval) to tolerate
 	// network jitter, server load spikes, and brief WiFi suspensions
-	// that are common on Windows laptops.
+	// that are common on Windows laptops, while detecting truly dead
+	// connections in a reasonable time (~4 min worst case with 3 misses).
 	// QElapsedTimer uses a monotonic clock, immune to NTP/DST/sleep clock jumps
 	// that caused false disconnects on Windows.
 	qint64 elapsedMs = lastServerActivityTimer.elapsed(); // milliseconds
-	if (elapsedMs > 300000) {
+	if (elapsedMs > 180000) {
 		// Require three consecutive missed checks before declaring connection lost.
 		// This avoids false positives from transient network issues.
 		missedHeartbeats++;

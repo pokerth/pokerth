@@ -49,13 +49,27 @@ AsyncDBEndGame::~AsyncDBEndGame()
 void
 AsyncDBEndGame::Init(DBIdManager& idManager)
 {
+	// Guard: Init() must be idempotent because it is called again on
+	// retry after a transient DB connection loss.  Without this guard
+	// the game-DB-ID would be appended to the parameter list a second
+	// time, corrupting the UPDATE statement.
+	if (m_initDone)
+		return;
+
+	DB_id gameDbId = idManager.GetGameDBId(GetId());
+	if (gameDbId == DB_ID_INVALID) {
+		return;
+	}
+
 	std::list<std::string> params;
 	GetParams(params);
 	ostringstream paramStream;
-	paramStream << idManager.GetGameDBId(GetId());
+	paramStream << gameDbId;
 	// Add game id as last parameter (where-clause).
 	params.push_back(paramStream.str());
 	SetParams(params);
+
+	m_initDone = true;
 }
 
 void

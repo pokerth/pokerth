@@ -561,6 +561,41 @@ ServerDBThread::EstablishDBConnection()
 	}
 }
 
+// Helper: check whether a MySQL/Qt error message indicates a transient
+// failure that is worth retrying (connection loss, deadlock, lock timeout).
+static bool IsTransientDBError(const string &error)
+{
+	// Connection-level errors
+	if (error.find("Lost connection") != string::npos)          return true;
+	if (error.find("server has gone away") != string::npos)     return true;
+	if (error.find("gone away") != string::npos)                return true;
+	if (error.find("lost connection") != string::npos)          return true;
+	// InnoDB deadlock / lock-wait timeout — safe to retry
+	if (error.find("Deadlock") != string::npos)                 return true;
+	if (error.find("deadlock") != string::npos)                 return true;
+	if (error.find("Lock wait timeout") != string::npos)        return true;
+	if (error.find("lock wait timeout") != string::npos)        return true;
+	// Qt QMYSQL driver may report these
+	if (error.find("QMYSQL: Unable to execute query") != string::npos
+	    && (error.find("2006") != string::npos       // CR_SERVER_GONE_ERROR
+	        || error.find("2013") != string::npos))  // CR_SERVER_LOST
+		return true;
+	return false;
+}
+
+// Helper: check whether the transient error is specifically a connection loss
+// (as opposed to a deadlock that does not require reconnection).
+static bool IsConnectionLossError(const string &error)
+{
+	if (error.find("Lost connection") != string::npos)          return true;
+	if (error.find("server has gone away") != string::npos)     return true;
+	if (error.find("gone away") != string::npos)                return true;
+	if (error.find("lost connection") != string::npos)          return true;
+	if (error.find("2006") != string::npos)                     return true;
+	if (error.find("2013") != string::npos)                     return true;
+	return false;
+}
+
 void
 ServerDBThread::HandleNextQuery()
 {
@@ -574,6 +609,12 @@ ServerDBThread::HandleNextQuery()
 	}
 	if (nextQuery) {
 		bool queryFailed = false;
+		// Number of immediate retries for transient errors (deadlock etc.)
+		// that do NOT require a full reconnect.
+		static const int MAX_TRANSIENT_RETRIES = 2;
+		int transientRetries = 0;
+
+retry_query:
 		do {
 			nextQuery->Init(m_dbIdManager);
 			mysqlpp::Query executeQuery = m_connData->conn.query();
@@ -605,6 +646,20 @@ ServerDBThread::HandleNextQuery()
 				}
 				if (!paramQuery.exec()) {
 					string tmpError = paramQuery.error();
+					if (IsTransientDBError(tmpError)) {
+						if (IsConnectionLossError(tmpError) || !m_connData->conn.connected()) {
+							m_connData->conn.disconnect();
+							queryFailed = true;
+							break;
+						}
+						// Deadlock / lock-wait: retry in-place
+						if (++transientRetries <= MAX_TRANSIENT_RETRIES) {
+							LOG_ERROR("Transient DB error in param-set (retry "
+								+ std::to_string(transientRetries) + "): " + tmpError);
+							Msleep(50 * transientRetries);
+							goto retry_query;
+						}
+					}
 					m_connData->conn.disconnect();
 					boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::QueryError, &m_callback, tmpError));
 					queryFailed = true;
@@ -616,33 +671,41 @@ ServerDBThread::HandleNextQuery()
 				if (res) {
 					nextQuery->HandleResult(executeQuery, m_dbIdManager, res, *m_ioService, m_callback);
 				} else {
-					// Check if this is a connection error
 					string error = executeQuery.error();
-					if (error.find("Lost connection") != string::npos || 
-					    error.find("MySQL server has gone away") != string::npos ||
-					    !m_connData->conn.connected()) {
-						m_connData->conn.disconnect();
-						queryFailed = true;
-						break;
-					} else {
-						nextQuery->HandleError(*m_ioService, m_callback);
+					if (IsTransientDBError(error)) {
+						if (IsConnectionLossError(error) || !m_connData->conn.connected()) {
+							m_connData->conn.disconnect();
+							queryFailed = true;
+							break;
+						}
+						if (++transientRetries <= MAX_TRANSIENT_RETRIES) {
+							LOG_ERROR("Transient DB error in store (retry "
+								+ std::to_string(transientRetries) + "): " + error);
+							Msleep(50 * transientRetries);
+							goto retry_query;
+						}
 					}
+					nextQuery->HandleError(*m_ioService, m_callback);
 				}
 			} else {
 				if (executeQuery.exec()) {
 					nextQuery->HandleNoResult(executeQuery, m_dbIdManager, *m_ioService, m_callback);
 				} else {
-					// Check if this is a connection error
 					string error = executeQuery.error();
-					if (error.find("Lost connection") != string::npos || 
-					    error.find("MySQL server has gone away") != string::npos ||
-					    !m_connData->conn.connected()) {
-						m_connData->conn.disconnect();
-						queryFailed = true;
-						break;
-					} else {
-						nextQuery->HandleError(*m_ioService, m_callback);
+					if (IsTransientDBError(error)) {
+						if (IsConnectionLossError(error) || !m_connData->conn.connected()) {
+							m_connData->conn.disconnect();
+							queryFailed = true;
+							break;
+						}
+						if (++transientRetries <= MAX_TRANSIENT_RETRIES) {
+							LOG_ERROR("Transient DB error in exec (retry "
+								+ std::to_string(transientRetries) + "): " + error);
+							Msleep(50 * transientRetries);
+							goto retry_query;
+						}
 					}
+					nextQuery->HandleError(*m_ioService, m_callback);
 				}
 			}
 		} while (nextQuery->Next()); // Consider composite queries.

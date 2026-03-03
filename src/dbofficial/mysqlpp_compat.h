@@ -165,9 +165,16 @@ public:
     // This replaces mysql_ping() which is not available in Qt SQL.
     bool ping() {
         std::lock_guard<std::mutex> l(m_mutex);
-        if (!m_db.isValid() || !m_db.isOpen()) return false;
+        if (!m_db.isValid() || !m_db.isOpen()) {
+            m_connected = false;
+            return false;
+        }
         QSqlQuery q(m_db);
-        return q.exec("SELECT 1");
+        if (!q.exec("SELECT 1")) {
+            m_connected = false;
+            return false;
+        }
+        return true;
     }
 
     Query query() { return Query(this); }
@@ -184,12 +191,22 @@ public:
         std::lock_guard<std::mutex> l(m_mutex);
         if (!m_db.isValid() || !m_db.isOpen()) {
             errorOut = "No DB connection";
+            m_connected = false;
             return false;
         }
         QSqlQuery q(m_db);
         bool ok = q.exec(QString::fromStdString(sql));
         if (!ok) {
-            errorOut = q.lastError().text().toStdString();
+            QSqlError err = q.lastError();
+            errorOut = err.text().toStdString();
+            // Native MySQL error codes indicating connection loss:
+            //   2006 = CR_SERVER_GONE_ERROR
+            //   2013 = CR_SERVER_LOST
+            int nativeCode = err.nativeErrorCode().toInt();
+            if (nativeCode == 2006 || nativeCode == 2013
+                || !m_db.isOpen()) {
+                m_connected = false;
+            }
             return false;
         }
         if (out) {

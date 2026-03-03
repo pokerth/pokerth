@@ -36,7 +36,9 @@
 #include <boost/program_options.hpp>
 #include <boost/array.hpp>
 #include <third_party/protobuf/pokerth.pb.h>
+#include <third_party/protobuf/chatcleaner.pb.h>
 #include <net/netpacket.h>
+#include <game_defs.h>
 
 #include <iostream>
 #include <vector>
@@ -78,11 +80,13 @@ static string getTimestamp() {
 class BotSession {
 public:
     BotSession(boost::asio::io_context &io, ssl::context &sslCtx, 
-               const string &name, const string &password, int foldPercent = 0)
+               const string &name, const string &password, int foldPercent = 0,
+               bool useTls = true)
         : socket_(io, sslCtx), name_(name), password_(password), 
           playerId_(0), gameId_(0), handNum_(0), mySet_(0), highestSet_(0), 
           myCash_(10000), lastGameState_(netStatePreflop), currentGameState_(netStatePreflop), 
-          isAllIn_(false), foldPercent_(foldPercent), rng_(std::random_device{}()), recBufPos_(0) {
+          isAllIn_(false), foldPercent_(foldPercent), useTls_(useTls),
+          rng_(std::random_device{}()), recBufPos_(0) {
         recBuf_.fill(0);
     }
     
@@ -171,8 +175,13 @@ public:
             }
             
             // Lese verfügbare Daten (oder blockiere wenn blocking=true)
-            size_t bytesRead = socket_.read_some(
-                boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec);
+            // Bei non-TLS direkt über den TCP-Socket lesen (next_layer()),
+            // da ssl::stream ohne Handshake nicht funktioniert.
+            size_t bytesRead = useTls_
+                ? socket_.read_some(
+                    boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec)
+                : socket_.next_layer().read_some(
+                    boost::asio::buffer(recBuf_.data() + recBufPos_, BUF_SIZE - recBufPos_), ec);
             
             if (ec == boost::asio::error::eof) {
                 cerr << "[" << name_ << "] Connection closed by server" << endl;
@@ -216,7 +225,11 @@ public:
         packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
         
         boost::system::error_code ec;
-        boost::asio::write(socket_, boost::asio::buffer(buf), ec);
+        // Bei non-TLS direkt über den TCP-Socket schreiben
+        if (useTls_)
+            boost::asio::write(socket_, boost::asio::buffer(buf), ec);
+        else
+            boost::asio::write(socket_.next_layer(), boost::asio::buffer(buf), ec);
         
         if (ec) {
             cerr << "[" << name_ << "] Send error: " << ec.message() << endl;
@@ -225,8 +238,11 @@ public:
         return true;
     }
 
+    bool useTls() const { return useTls_; }
+
 private:
     ssl::stream<tcp::socket> socket_;
+    bool useTls_;
     string name_;
     string password_;
     uint32_t playerId_;
@@ -273,7 +289,7 @@ public:
 
         for (int i = 0; i < numBots; i++) {
             string botName = "test" + to_string(startId + i);
-            auto bot = make_shared<BotSession>(io_, sslCtx_, botName, password, foldPercent_);
+            auto bot = make_shared<BotSession>(io_, sslCtx_, botName, password, foldPercent_, useTls_);
             
             if (!connectBot(bot)) {
                 cerr << "[" << getTimestamp() << "] Failed to connect bot: " << botName << endl;
@@ -435,7 +451,7 @@ public:
                     this_thread::sleep_for(chrono::milliseconds(100));  // Warte auf Server-Verarbeitung
                 }
                 
-                cout << "[" << bot->name() << "] Closing SSL connection..." << endl;
+                cout << "[" << bot->name() << "] Closing connection..." << endl;
                 
                 // SSL Shutdown (bidirektional - wichtig!)
                 boost::system::error_code ec;
@@ -629,14 +645,14 @@ private:
                             // WICHTIG: Altes Socket-Objekt vollständig verwerfen
                             bot.reset();
                             // Neues Socket erstellen für retry mit gespeicherten Werten
-                            bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
+                            bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
                             continue; // Retry
                         }
                         return false;
                     }
                 }
                 
-                // TLS Handshake erfolgreich - weiter mit Announce/Init
+                // TLS Handshake erfolgreich (oder übersprungen) - weiter mit Announce/Init
                 cout << " Waiting for announce..." << flush;
                 // Empfange AnnounceMessage
                 auto announce = bot->receiveMessage(true);  // blocking: wait for AnnounceMessage
@@ -651,7 +667,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
                         continue; // Retry
                     }
                     return false;
@@ -664,7 +680,7 @@ private:
                 InitMessage *initMsg = init->GetMsg()->mutable_initmessage();
                 initMsg->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
                 initMsg->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
-                initMsg->set_buildid(0);
+                initMsg->set_buildid(POKERTH_BUILD_ID);
                 initMsg->set_login(InitMessage::authenticatedLogin);
                 initMsg->set_nickname(bot->name());
                 initMsg->set_clientuserdata(bot->name());  // Password = username (für test* accounts)
@@ -679,7 +695,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
                         continue; // Retry
                     }
                     return false;
@@ -698,7 +714,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
                         continue; // Retry
                     }
                     return false;
@@ -715,7 +731,7 @@ private:
                             bot->socket().lowest_layer().close(closeEc);
                         } catch (...) {}
                         bot.reset();
-                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
+                        bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
                         continue; // Retry
                     }
                     return false;
@@ -739,7 +755,7 @@ private:
                     // Altes Objekt vollständig verwerfen
                     bot.reset();
                     // Neues Socket erstellen für retry
-                    bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_);
+                    bot = make_shared<BotSession>(io_, sslCtx_, botName, botPassword, foldPercent_, useTls_);
                     continue; // Retry
                 }
                 return false;
@@ -1060,6 +1076,225 @@ private:
     vector<shared_ptr<BotSession>> bots_;
 };
 
+// ============================================================================
+// Chatcleaner Test Mode
+// Verbindet sich direkt zum Chatcleaner-Server (plain TCP), sendet einen
+// Test-String und gibt die Antwort aus. Einmaliger Durchlauf, dann Exit.
+// ============================================================================
+
+#define CLEANER_NET_HEADER_SIZE     4
+#define MAX_CLEANER_PACKET_SIZE     512
+#define CLEANER_PROTOCOL_VERSION    2
+
+static int runChatcleanerTest(const string &server, const string &port,
+                              const string &clientSecret, const string &serverSecret,
+                              const string &testMessage, const string &playerName,
+                              unsigned playerId, bool lobbyChat, unsigned gameId)
+{
+    try {
+        boost::asio::io_context io;
+        tcp::resolver resolver(io);
+        
+        cout << "Chatcleaner Test" << endl;
+        cout << "================" << endl;
+        cout << "Server:        " << server << ":" << port << endl;
+        cout << "Player:        " << playerName << " (ID: " << playerId << ")" << endl;
+        cout << "Chat type:     " << (lobbyChat ? "lobby" : "game") << endl;
+        if (!lobbyChat) cout << "Game ID:       " << gameId << endl;
+        cout << "Message:       \"" << testMessage << "\"" << endl;
+        cout << endl;
+
+        // 1. DNS Resolve
+        cout << "[1/4] Resolving " << server << ":" << port << "..." << endl;
+        boost::system::error_code ec;
+        auto endpoints = resolver.resolve(server, port, ec);
+        if (ec) {
+            cerr << "ERROR: Could not resolve: " << ec.message() << endl;
+            return 1;
+        }
+
+        // 2. TCP Connect (plain, kein TLS)
+        cout << "[2/4] Connecting..." << endl;
+        tcp::socket socket(io);
+        boost::asio::connect(socket, endpoints, ec);
+        if (ec) {
+            cerr << "ERROR: Could not connect: " << ec.message() << endl;
+            return 1;
+        }
+        cout << "       Connected to " << socket.remote_endpoint() << endl;
+
+        // Helper: Send a ChatCleanerMessage
+        auto sendMsg = [&](ChatCleanerMessage &msg) -> bool {
+            uint32_t packetSize = msg.ByteSizeLong();
+            vector<uint8_t> buf(packetSize + CLEANER_NET_HEADER_SIZE);
+            *((uint32_t *)buf.data()) = htonl(packetSize);
+            msg.SerializeToArray(buf.data() + CLEANER_NET_HEADER_SIZE, packetSize);
+            boost::system::error_code wec;
+            boost::asio::write(socket, boost::asio::buffer(buf), wec);
+            if (wec) {
+                cerr << "ERROR: Send failed: " << wec.message() << endl;
+                return false;
+            }
+            return true;
+        };
+
+        // Helper: Receive a ChatCleanerMessage (blocking, with timeout)
+        auto recvMsg = [&](int timeoutSec) -> shared_ptr<ChatCleanerMessage> {
+            unsigned char recvBuf[2 * MAX_CLEANER_PACKET_SIZE];
+            size_t recvBufUsed = 0;
+
+            // Set receive timeout via socket option
+            struct timeval tv;
+            tv.tv_sec = timeoutSec;
+            tv.tv_usec = 0;
+            setsockopt(socket.native_handle(), SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
+
+            while (recvBufUsed < sizeof(recvBuf)) {
+                boost::system::error_code rec;
+                size_t bytesRead = socket.read_some(
+                    boost::asio::buffer(recvBuf + recvBufUsed, sizeof(recvBuf) - recvBufUsed), rec);
+                
+                if (rec == boost::asio::error::timed_out || rec == boost::asio::error::try_again ||
+                    rec == boost::asio::error::would_block) {
+                    return shared_ptr<ChatCleanerMessage>(); // Timeout
+                }
+                if (rec) {
+                    cerr << "ERROR: Receive failed: " << rec.message() << endl;
+                    return shared_ptr<ChatCleanerMessage>();
+                }
+                if (bytesRead == 0) {
+                    cerr << "ERROR: Connection closed by server" << endl;
+                    return shared_ptr<ChatCleanerMessage>();
+                }
+                
+                recvBufUsed += bytesRead;
+
+                // Check if we have a complete packet
+                if (recvBufUsed >= CLEANER_NET_HEADER_SIZE) {
+                    uint32_t nativeVal;
+                    memcpy(&nativeVal, recvBuf, sizeof(uint32_t));
+                    size_t packetSize = ntohl(nativeVal);
+                    if (packetSize > MAX_CLEANER_PACKET_SIZE) {
+                        cerr << "ERROR: Invalid packet size: " << packetSize << endl;
+                        return shared_ptr<ChatCleanerMessage>();
+                    }
+                    if (recvBufUsed >= packetSize + CLEANER_NET_HEADER_SIZE) {
+                        auto parsed = make_shared<ChatCleanerMessage>();
+                        if (parsed->ParseFromArray(recvBuf + CLEANER_NET_HEADER_SIZE, packetSize)) {
+                            return parsed;
+                        }
+                        cerr << "ERROR: Failed to parse protobuf message" << endl;
+                        return shared_ptr<ChatCleanerMessage>();
+                    }
+                }
+            }
+            return shared_ptr<ChatCleanerMessage>();
+        };
+
+        // 3. Handshake: Send CleanerInitMessage
+        cout << "[3/4] Sending handshake (CleanerInitMessage)..." << endl;
+        {
+            ChatCleanerMessage initMsg;
+            initMsg.set_messagetype(ChatCleanerMessage::Type_CleanerInitMessage);
+            CleanerInitMessage *init = initMsg.mutable_cleanerinitmessage();
+            init->set_requestedversion(CLEANER_PROTOCOL_VERSION);
+            init->set_clientsecret(clientSecret);
+            if (!sendMsg(initMsg)) return 1;
+        }
+
+        // Receive CleanerInitAckMessage
+        cout << "       Waiting for CleanerInitAckMessage..." << endl;
+        {
+            auto ack = recvMsg(5);
+            if (!ack) {
+                cerr << "ERROR: No response from chatcleaner (timeout 5s)" << endl;
+                return 1;
+            }
+            if (ack->messagetype() != ChatCleanerMessage::Type_CleanerInitAckMessage) {
+                cerr << "ERROR: Unexpected message type: " << ack->messagetype() << endl;
+                return 1;
+            }
+            const auto &ackMsg = ack->cleanerinitackmessage();
+            cout << "       Server version: " << ackMsg.serverversion() << endl;
+            
+            if (ackMsg.serverversion() != CLEANER_PROTOCOL_VERSION) {
+                cerr << "ERROR: Version mismatch! Expected " << CLEANER_PROTOCOL_VERSION 
+                     << ", got " << ackMsg.serverversion() << endl;
+                return 1;
+            }
+            if (ackMsg.serversecret() != serverSecret) {
+                cerr << "ERROR: Server secret mismatch!" << endl;
+                cerr << "       Expected: \"" << serverSecret << "\"" << endl;
+                cerr << "       Got:      \"" << ackMsg.serversecret() << "\"" << endl;
+                return 1;
+            }
+            cout << "       Handshake OK!" << endl;
+        }
+
+        // 4. Send chat message
+        cout << "[4/4] Sending chat message: \"" << testMessage << "\"" << endl;
+        {
+            ChatCleanerMessage chatMsg;
+            chatMsg.set_messagetype(ChatCleanerMessage::Type_CleanerChatRequestMessage);
+            CleanerChatRequestMessage *req = chatMsg.mutable_cleanerchatrequestmessage();
+            req->set_requestid(1);
+            req->set_cleanerchattype(lobbyChat ? cleanerChatTypeLobby : cleanerChatTypeGame);
+            if (!lobbyChat) req->set_gameid(gameId);
+            req->set_playerid(playerId);
+            req->set_playername(playerName);
+            req->set_chatmessage(testMessage);
+            if (!sendMsg(chatMsg)) return 1;
+        }
+
+        // Wait for reply (timeout: chatcleaner only replies if offence detected)
+        cout << "       Waiting for response (3s timeout)..." << endl;
+        {
+            auto reply = recvMsg(3);
+            cout << endl;
+            cout << "========== RESULT ==========" << endl;
+            if (!reply) {
+                cout << "No reply received (timeout)." << endl;
+                cout << "=> Message is CLEAN (no offence detected)." << endl;
+                cout << "   Note: Chatcleaner only sends a reply when an offence is found." << endl;
+            } else if (reply->messagetype() == ChatCleanerMessage::Type_CleanerChatReplyMessage) {
+                const auto &r = reply->cleanerchatreplymessage();
+                
+                string actionStr;
+                switch (r.cleaneractiontype()) {
+                    case CleanerChatReplyMessage_CleanerActionType_cleanerActionNone:    actionStr = "NONE"; break;
+                    case CleanerChatReplyMessage_CleanerActionType_cleanerActionWarning: actionStr = "WARNING"; break;
+                    case CleanerChatReplyMessage_CleanerActionType_cleanerActionKick:    actionStr = "KICK"; break;
+                    case CleanerChatReplyMessage_CleanerActionType_cleanerActionBan:     actionStr = "BAN"; break;
+                    case CleanerChatReplyMessage_CleanerActionType_cleanerActionMute:    actionStr = "MUTE"; break;
+                    default: actionStr = "UNKNOWN(" + to_string(r.cleaneractiontype()) + ")"; break;
+                }
+                
+                cout << "Action:     " << actionStr << endl;
+                cout << "Request ID: " << r.requestid() << endl;
+                cout << "Player ID:  " << r.playerid() << endl;
+                cout << "Chat type:  " << (r.cleanerchattype() == cleanerChatTypeLobby ? "lobby" : "game") << endl;
+                if (r.cleanerchattype() == cleanerChatTypeGame) {
+                    cout << "Game ID:    " << r.gameid() << endl;
+                }
+                if (!r.cleanertext().empty()) {
+                    cout << "Message:    " << r.cleanertext() << endl;
+                }
+            } else {
+                cerr << "Unexpected message type: " << reply->messagetype() << endl;
+                return 1;
+            }
+            cout << "============================" << endl;
+        }
+
+        socket.close();
+        return 0;
+
+    } catch (const exception &e) {
+        cerr << "ERROR: " << e.what() << endl;
+        return 1;
+    }
+}
+
 int main(int argc, char *argv[]) {
     // SIGINT Handler für graceful shutdown
     signal(SIGINT, [](int) {
@@ -1083,6 +1318,13 @@ int main(int argc, char *argv[]) {
             ("join-game,j", po::value<uint32_t>(), "Join existing game ID")
             ("no-tls", "Disable TLS (use plain TCP)")
             ("fold-percent,f", po::value<int>()->default_value(0), "Random fold probability (0-100%)")
+            // Chatcleaner test mode
+            ("chatcleaner-test,C", po::value<string>(), "Test chatcleaner: send this message and show response")
+            ("client-secret", po::value<string>()->default_value(""), "Chatcleaner client auth secret")
+            ("server-secret", po::value<string>()->default_value(""), "Chatcleaner server auth secret")
+            ("player-name", po::value<string>()->default_value("TestPlayer"), "Player name for chatcleaner test")
+            ("player-id", po::value<unsigned>()->default_value(42), "Player ID for chatcleaner test")
+            ("game-chat", po::value<unsigned>(), "Use game chat (with game ID) instead of lobby chat")
         ;
 
         po::variables_map vm;
@@ -1110,17 +1352,37 @@ int main(int argc, char *argv[]) {
             cout << "  - If both --bots and --humans are given, --humans takes priority" << endl;
             cout << "  - Use --fold-percent to make bots randomly fold (better showdown testing)" << endl;
             cout << "  - Use Ctrl+C for graceful shutdown" << endl;
+            cout << "\nChatcleaner Test Mode:" << endl;
+            cout << "  Test chatcleaner server directly (plain TCP, no game server needed):" << endl;
+            cout << "    pokerth_bot -C \"fuck you\" -s localhost -p 4327" << endl;
+            cout << "    pokerth_bot -C \"hello\" -s localhost -p 4327 --client-secret s1 --server-secret s2" << endl;
+            cout << "    pokerth_bot -C \"bad message\" -s localhost -p 4327 --game-chat 123" << endl;
             return 0;
         }
         
+        string server = vm["server"].as<string>();
+        string port = vm["port"].as<string>();
+
+        // ===== Chatcleaner Test Mode =====
+        if (vm.count("chatcleaner-test")) {
+            string testMsg = vm["chatcleaner-test"].as<string>();
+            string cSecret = vm["client-secret"].as<string>();
+            string sSecret = vm["server-secret"].as<string>();
+            string pName = vm["player-name"].as<string>();
+            unsigned pId = vm["player-id"].as<unsigned>();
+            bool lobbyChat = !vm.count("game-chat");
+            unsigned gId = vm.count("game-chat") ? vm["game-chat"].as<unsigned>() : 0;
+            
+            return runChatcleanerTest(server, port, cSecret, sSecret, testMsg, pName, pId, lobbyChat, gId);
+        }
+
+        // ===== Normal Bot Mode =====
         int foldPercent = vm["fold-percent"].as<int>();
         if (foldPercent < 0 || foldPercent > 100) {
             cerr << "Error: --fold-percent must be between 0 and 100" << endl;
             return 1;
         }
 
-        string server = vm["server"].as<string>();
-        string port = vm["port"].as<string>();
         int numHumans = vm["humans"].as<int>();
         int numBots;
         

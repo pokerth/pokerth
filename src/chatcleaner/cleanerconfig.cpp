@@ -207,7 +207,7 @@ CleanerConfig::CleanerConfig()
 
 	// Prüfen ob Configfile existiert --> sonst anlegen
 	QDomDocument xmlDoc;
-	QFile file(std::filesystem::path((const char8_t*)&configFileName));
+	QFile file(QString::fromStdString(configFileName));
 	if (!file.open(QIODevice::ReadOnly) || !xmlDoc.setContent(&file))
 	{
 		file.close();
@@ -248,7 +248,7 @@ void CleanerConfig::fillBuffer()
 	string tempString2("");
 
 	QDomDocument xmlDoc;
-	QFile file(std::filesystem::path((const char8_t*)&configFileName));
+	QFile file(QString::fromStdString(configFileName));
 	if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
 	{
 		file.close();
@@ -259,15 +259,12 @@ void CleanerConfig::fillBuffer()
 			if (!conf.isNull())
 			{
 
-				const char *tmpStr1 = conf.attribute("value", "").toStdString().c_str();
-				if (tmpStr1)
-					tempString1 = tmpStr1;
+				tempString1 = conf.attribute("value", "").toStdString();
 				configBufferList[i].defaultValue = tempString1;
 
-				const char *tmpStr2 = conf.attribute("type").toStdString().c_str();
-				if (tmpStr2)
+				tempString2 = conf.attribute("type").toStdString();
+				if (!tempString2.empty())
 				{
-					tempString2 = tmpStr2;
 					if (tempString2 == "list")
 					{
 
@@ -396,7 +393,7 @@ void CleanerConfig::updateConfig(ConfigState myConfigState)
 	if (myConfigState == OLD)
 	{
 		QDomDocument oldDoc;
-		QFile file(std::filesystem::path((const char8_t*)&configFileName));
+		QFile file(QString::fromStdString(configFileName));
 		if (file.open(QIODevice::ReadOnly) && oldDoc.setContent(&file))
 		{
 			file.close();

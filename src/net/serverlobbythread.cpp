@@ -1139,6 +1139,43 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 		return;
 	}
+
+	// Check client version via buildId.
+	// buildId encoding: (clientType << 24) | (major << 16) | (minor << 8) | revision
+	{
+		unsigned clientBuildId = initMessage.buildid();
+		unsigned clientType = BUILD_ID_GET_TYPE(clientBuildId);
+
+		if (clientBuildId == 0) {
+			// Legacy client (pre-2.0.6) sends buildId=0 - no longer supported.
+			LOG_MSG("Rejected legacy client (buildId=0) from " << session->GetClientAddr()
+					<< " - legacy clients are no longer supported.");
+			SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+			return;
+		} else if (clientType == CLIENT_TYPE_QT_WIDGET) {
+			if (clientBuildId < MIN_BUILD_ID_QT_WIDGET) {
+				LOG_MSG("Rejected Qt Widget client from " << session->GetClientAddr()
+						<< " - outdated version (buildId: 0x" << std::hex << clientBuildId
+						<< ", min required: 0x" << MIN_BUILD_ID_QT_WIDGET << std::dec << ").");
+				SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+				return;
+			}
+		} else if (clientType == CLIENT_TYPE_QML) {
+			if (clientBuildId < MIN_BUILD_ID_QML) {
+				LOG_MSG("Rejected QML client from " << session->GetClientAddr()
+						<< " - outdated version (buildId: 0x" << std::hex << clientBuildId
+						<< ", min required: 0x" << MIN_BUILD_ID_QML << std::dec << ").");
+				SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+				return;
+			}
+		} else {
+			LOG_MSG("Rejected client with unknown type from " << session->GetClientAddr()
+					<< " (buildId: 0x" << std::hex << clientBuildId << std::dec << ").");
+			SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+			return;
+		}
+	}
+
 #ifndef POKERTH_OFFICIAL_SERVER
 	// Check (clear text) server password (skip for official server, they are open to everyone).
 	string serverPassword;
@@ -1879,6 +1916,10 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
     if (!providedPassword.empty() && providedPassword == dbPlayerData.secret) {
         tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
         tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
+        // Set admin rights if the player is in the admin list.
+        if (GetBanManager().IsAdminPlayer(dbPlayerData.id)) {
+            tmpSession->GetPlayerData()->SetRights(PLAYER_RIGHTS_ADMIN);
+        }
         InitAfterLogin(tmpSession);
     } else {
         LOG_MSG("Authentication failed for player " << playerId << " (" << tmpSession->GetClientAddr() << ")");

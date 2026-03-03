@@ -226,9 +226,22 @@ protected:
                     keepaliveVals.keepalivetime = 30000;      // 30s until first probe (ms)
                     keepaliveVals.keepaliveinterval = 10000;  // 10s between probes (ms)
                     DWORD bytesReturned = 0;
-                    WSAIoctl(static_cast<SOCKET>(fd), SIO_KEEPALIVE_VALS,
+                    int wsaRet = WSAIoctl(static_cast<SOCKET>(fd), SIO_KEEPALIVE_VALS,
                              &keepaliveVals, sizeof(keepaliveVals),
                              NULL, 0, &bytesReturned, NULL, NULL);
+                    if (wsaRet != 0) {
+                        LOG_ERROR("WSAIoctl SIO_KEEPALIVE_VALS failed: " << WSAGetLastError());
+                    }
+                    // TCP_KEEPCNT: Limit keepalive probes to 6 (matching Linux).
+                    // Available since Windows 10 1703; silently fails on older.
+#ifndef TCP_KEEPCNT
+#define TCP_KEEPCNT 16
+#endif
+                    {
+                        int keepcnt = 6;
+                        setsockopt(static_cast<SOCKET>(fd), IPPROTO_TCP, TCP_KEEPCNT,
+                                   (const char*)&keepcnt, sizeof(keepcnt));
+                    }
 #else
                     // Linux / macOS: per-socket keepalive tuning
                     int keepidle  = 30;   // seconds until first keepalive probe

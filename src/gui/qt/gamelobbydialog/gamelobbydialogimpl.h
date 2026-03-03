@@ -131,6 +131,7 @@ public slots:
 	void updateDialogBlinds(const GameData &gameData);
 	void clearDialog();
 	void keyPressEvent(QKeyEvent * keyEvent) override;
+	void showEvent(QShowEvent *event) override;
 	bool event(QEvent * event) override;
 	void showGameDescription(bool show);
 	void showWaitStartGameMsgBox();

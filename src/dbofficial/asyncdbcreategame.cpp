@@ -32,6 +32,7 @@
 #include <boost/bind/bind.hpp>
 #include <dbofficial/asyncdbcreategame.h>
 #include <dbofficial/dbidmanager.h>
+#include <core/loghelper.h>
 
 
 using namespace std;
@@ -62,6 +63,10 @@ AsyncDBCreateGame::HandleNoResult(mysqlpp::Query &query, DBIdManager& idManager,
 	mysqlpp::StoreQueryResult tmpResult = query.store();
 	DB_id insertId = tmpResult[0][0];
 	if (!tmpResult || tmpResult.num_rows() != 1 || insertId == 0) {
+		LOG_ERROR("AsyncDBCreateGame: LAST_INSERT_ID() failed for game "
+			+ std::to_string(GetId()) + " (rows: "
+			+ std::to_string(tmpResult.num_rows()) + ", insertId: "
+			+ std::to_string(insertId) + ", error: " + query.error() + ").");
 		boost::asio::post(service, boost::bind(&ServerDBCallback::CreateGameFailed, &cb, GetId()));
 	} else {
 		boost::asio::post(service, boost::bind(&ServerDBCallback::CreateGameSuccess, &cb, GetId()));
@@ -72,5 +77,6 @@ AsyncDBCreateGame::HandleNoResult(mysqlpp::Query &query, DBIdManager& idManager,
 void
 AsyncDBCreateGame::HandleError(boost::asio::io_context &service, ServerDBCallback &cb)
 {
+	LOG_ERROR("AsyncDBCreateGame: INSERT failed for game " + std::to_string(GetId()) + ".");
 	boost::asio::post(service, boost::bind(&ServerDBCallback::CreateGameFailed, &cb, GetId()));
 }

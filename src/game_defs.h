@@ -45,8 +45,34 @@
 #define POKERTH_VERSION_MINOR	0
 #define POKERTH_VERSION			((POKERTH_VERSION_MAJOR << 8) | POKERTH_VERSION_MINOR)
 
-#define POKERTH_BETA_REVISION	5
-#define POKERTH_BETA_RELEASE_STRING	 "2.0.5"
+#define POKERTH_BETA_REVISION	6
+#define POKERTH_BETA_RELEASE_STRING	 "2.0.6"
+
+// --- Client type identifiers (encoded in high byte of buildId) ---
+#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.0.6)
+#define CLIENT_TYPE_QML			0x02	// QML client (starting at 2.1.0)
+
+// --- Build ID encoding: (clientType << 24) | (major << 16) | (minor << 8) | revision ---
+#define MAKE_BUILD_ID(type, major, minor, rev) \
+	(((unsigned)(type) << 24) | ((unsigned)(major) << 16) | ((unsigned)(minor) << 8) | (unsigned)(rev))
+#define BUILD_ID_GET_TYPE(id)		(((id) >> 24) & 0xFF)
+#define BUILD_ID_GET_VERSION(id)	((id) & 0x00FFFFFF)
+
+// Build ID for the Qt Widget client (this binary)
+#define POKERTH_BUILD_ID	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, POKERTH_BETA_REVISION)
+
+// --- QML client version ---
+// The QML client continues the version scheme as 2.1.x.
+#define QML_VERSION_MAJOR		2
+#define QML_VERSION_MINOR		1
+#define QML_VERSION_REVISION	0
+
+// --- Minimum supported build IDs (server rejects anything below) ---
+// Policy: current and previous release are allowed for each client type.
+// Qt Widget: min 2.0.6 (if a bugfix 2.0.7 is released, bump version above and keep min at 2.0.6)
+#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 0, 6)
+// QML: update min to previous release with each new release (e.g. min=2.1.0 when releasing 2.1.1)
+#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
 
 #define SQLITE_LOG_VERSION		1
 

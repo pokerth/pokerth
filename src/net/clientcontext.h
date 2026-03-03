@@ -37,6 +37,7 @@
 
 #include <net/sessiondata.h>
 #include <playerdata.h>
+#include <game_defs.h>
 
 
 class ClientContext
@@ -180,6 +181,15 @@ public:
 		m_sessionGuid = sessionGuid;
 	}
 
+	unsigned GetClientType() const
+	{
+		return m_clientType;
+	}
+	void SetClientType(unsigned clientType)
+	{
+		m_clientType = clientType;
+	}
+
 private:
 	boost::shared_ptr<SessionData> m_sessionData;
 	boost::shared_ptr<boost::asio::ip::tcp::resolver> m_resolver;
@@ -199,6 +209,7 @@ private:
 	std::string			m_cacheDir;
 	bool				m_hasSubscribedLobbyMsg;
 	std::string			m_sessionGuid;
+	unsigned			m_clientType;
 };
 
 #endif

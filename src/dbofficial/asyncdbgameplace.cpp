@@ -49,13 +49,30 @@ AsyncDBGamePlace::~AsyncDBGamePlace()
 void
 AsyncDBGamePlace::Init(DBIdManager& idManager)
 {
+	// Guard: Init() must be idempotent because it is called again on
+	// retry after a transient DB connection loss.  Without this guard
+	// the game-DB-ID would be prepended to the parameter list a second
+	// time, corrupting the INSERT statement.
+	if (m_initDone)
+		return;
+
+	DB_id gameDbId = idManager.GetGameDBId(GetId());
+	if (gameDbId == DB_ID_INVALID) {
+		// CreateGame has not completed yet or failed – this query will
+		// fail at execution time and HandleError() will be called.
+		return;
+	}
+
 	std::list<std::string> params;
 	GetParams(params);
 	ostringstream paramStream;
-	paramStream << idManager.GetGameDBId(GetId());
+	paramStream << gameDbId;
 	// Add game id as first parameter (according to the order in insert).
 	params.push_front(paramStream.str());
 	SetParams(params);
+
+	m_resolvedGameDbId = gameDbId;
+	m_initDone = true;
 }
 
 void
@@ -74,5 +91,12 @@ AsyncDBGamePlace::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager& /*idMan
 void
 AsyncDBGamePlace::HandleError(boost::asio::io_context &service, ServerDBCallback &cb)
 {
-	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb, "AsyncDBGamePlace: Failure."));
+	std::list<std::string> params;
+	GetParams(params);
+	std::string paramInfo;
+	for (const auto &p : params) { paramInfo += p + ","; }
+	boost::asio::post(service, boost::bind(&ServerDBCallback::QueryError, &cb,
+		"AsyncDBGamePlace: Failed to record player placement for game "
+		+ std::to_string(GetId()) + " (dbId " + std::to_string(m_resolvedGameDbId)
+		+ ", params: " + paramInfo + ")."));
 }

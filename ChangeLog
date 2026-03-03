@@ -1,3 +1,14 @@
+2026-03-03 version 2.0.6:
+- hardening win client disconnects over wifi
+- hardening spinbox and slider in game
+- hardening sql queries
+- bugfix: admin actions functional again
+- follow-up Zorin OS minimize lobby
+- follow-up unwanted table style change
+- follow-up linux audio and headsets
+- versioning for Qt Widget and QML Client with minimum client version for server connects
+- bugfix: chatcleaner load config
+
 2026-02-27 version 2.0.5
 - possible bugfix: win client disconnects over wifi
 - bugfix: AFK Timeout proper server disconnect, ingame timeout increase to 30 minutes

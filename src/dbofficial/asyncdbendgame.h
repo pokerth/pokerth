@@ -52,6 +52,9 @@ public:
 	{
 		return false;
 	}
+
+private:
+	bool m_initDone{false};
 };
 
 #endif

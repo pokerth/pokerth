@@ -497,18 +497,37 @@ void settingsDialogImpl::prepareDialog()
 			} else item->setIcon(0, QIcon());
 		}
 		if(!currentGameTableFound) {
-			// qDebug() << "Config ERROR: current game table style file not found in List. Try to mark default as selected.";
-			QTreeWidgetItem *item = treeWidget_gameTableStyles->topLevelItem(0);
-			if(item) {
-				item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-				treeWidget_gameTableStyles->setCurrentItem(item);
+			// Current style not found in list – fall back to the known
+			// default style by path rather than blindly taking index 0
+			// (which may be danuxi after case-insensitive sort).
+			QString defaultPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml";
+			QTreeWidgetItem *fallbackItem = nullptr;
+			for(int k=0; k < treeWidget_gameTableStyles->topLevelItemCount(); k++) {
+				if(treeWidget_gameTableStyles->topLevelItem(k)->data(0, 15).toString() == defaultPath) {
+					fallbackItem = treeWidget_gameTableStyles->topLevelItem(k);
+					break;
+				}
+			}
+			if(!fallbackItem) fallbackItem = treeWidget_gameTableStyles->topLevelItem(0);
+			if(fallbackItem) {
+				fallbackItem->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+				treeWidget_gameTableStyles->setCurrentItem(fallbackItem);
 			}
 		}
 	} else {
-		QTreeWidgetItem *item = treeWidget_gameTableStyles->topLevelItem(0);
-		if(item) {
-			item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
-			treeWidget_gameTableStyles->setCurrentItem(item);
+		// Style file could not be loaded at all – same robust fallback.
+		QString defaultPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml";
+		QTreeWidgetItem *fallbackItem = nullptr;
+		for(int k=0; k < treeWidget_gameTableStyles->topLevelItemCount(); k++) {
+			if(treeWidget_gameTableStyles->topLevelItem(k)->data(0, 15).toString() == defaultPath) {
+				fallbackItem = treeWidget_gameTableStyles->topLevelItem(k);
+				break;
+			}
+		}
+		if(!fallbackItem) fallbackItem = treeWidget_gameTableStyles->topLevelItem(0);
+		if(fallbackItem) {
+			fallbackItem->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+			treeWidget_gameTableStyles->setCurrentItem(fallbackItem);
 		}
 	}
 

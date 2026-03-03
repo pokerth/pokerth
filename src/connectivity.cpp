@@ -34,6 +34,7 @@
 #include <boost/asio.hpp>
 #include <third_party/protobuf/pokerth.pb.h>
 #include <net/netpacket.h>
+#include <game_defs.h>
 #include <boost/program_options.hpp>
 #include <boost/array.hpp>
 #include <third_party/boost/timers.hpp>
@@ -203,7 +204,7 @@ main(int argc, char *argv[])
 		InitMessage *netInit = msg->GetMsg()->mutable_initmessage();
 		netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
 		netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
-		netInit->set_buildid(0);
+		netInit->set_buildid(POKERTH_BUILD_ID);
 		if (password.empty()) {
 			netInit->set_login(InitMessage_LoginType_guestLogin);
 			netInit->set_nickname(username);

@@ -137,6 +137,12 @@ ClientThread::Init(
 }
 
 void
+ClientThread::SetClientType(unsigned clientType)
+{
+	GetContext().SetClientType(clientType);
+}
+
+void
 ClientThread::SignalTermination()
 {
 	Thread::SignalTermination();

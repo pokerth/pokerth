@@ -246,6 +246,8 @@ public:
 	void SendAdminRemoveGame(unsigned removeGameId);
 	void SendAdminBanPlayer(unsigned playerId);
 
+	void SetClientType(unsigned clientType);
+
 	void StartAsyncRead();
 	virtual void CloseSession(boost::shared_ptr<SessionData> session);
 	virtual void SessionError(boost::shared_ptr<SessionData> /*session*/, int /*errorCode*/) {}

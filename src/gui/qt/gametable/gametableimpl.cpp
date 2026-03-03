@@ -779,15 +779,54 @@ gameTableImpl::~gameTableImpl()
 void gameTableImpl::callSettingsDialog()
 {
 	bool iamInGame = true;
+
+	// Collect all animation timers whose state must survive the modal
+	// settings dialog.  We record which ones were active and how much
+	// time was left so we can resume them after the dialog closes.
+	QTimer* animTimers[] = {
+		dealFlopCards0Timer, dealFlopCards1Timer, dealFlopCards2Timer,
+		dealFlopCards3Timer, dealFlopCards4Timer, dealFlopCards5Timer,
+		dealFlopCards6Timer,
+		dealTurnCards0Timer, dealTurnCards1Timer, dealTurnCards2Timer,
+		dealRiverCards0Timer, dealRiverCards1Timer, dealRiverCards2Timer,
+		nextPlayerAnimationTimer,
+		preflopAnimation1Timer, preflopAnimation2Timer,
+		flopAnimation1Timer, flopAnimation2Timer,
+		turnAnimation1Timer, turnAnimation2Timer,
+		riverAnimation1Timer, riverAnimation2Timer,
+		postRiverAnimation1Timer,
+		postRiverRunAnimation1Timer, postRiverRunAnimation2Timer,
+		postRiverRunAnimation3Timer,
+		potDistributeTimer,
+		postRiverRunAnimation5Timer, postRiverRunAnimation6Timer
+	};
+	const int timerCount = sizeof(animTimers) / sizeof(animTimers[0]);
+
+	// Save state before stopping.
+	bool wasActive[timerCount];
+	int  remaining[timerCount];
+	for (int i = 0; i < timerCount; ++i) {
+		wasActive[i] = animTimers[i]->isActive();
+		remaining[i] = wasActive[i] ? animTimers[i]->remainingTime() : 0;
+	}
+
 	// Stop animation timers while the modal settings dialog is open.
 	// On Windows, the many concurrent QTimer events flooding the event
 	// loop during exec() cause UI sluggishness / apparent hangs.
 	stopTimer();
 	myStartWindow->callSettingsDialog(iamInGame);
-	// Restart timers — setSpeeds() recalculates animation intervals
-	// and the game engine will retrigger the appropriate timers on the
-	// next GUI update cycle.
+	// Recalculate animation intervals from the (possibly changed) speed
+	// setting.
 	setSpeeds();
+
+	// Restart every timer that was running before the dialog opened,
+	// using whatever time was left (clamped to 0 so an already-elapsed
+	// timer fires immediately).
+	for (int i = 0; i < timerCount; ++i) {
+		if (wasActive[i]) {
+			animTimers[i]->start(qMax(0, remaining[i]));
+		}
+	}
 }
 
 void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
@@ -3519,6 +3558,18 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 				myStartWindow->getSession()->resetNetworkTimeout();
 				lastAfkResetSentTimer.restart();
 			}
+		}
+	}
+
+	// --- Block accidental mouse-wheel changes on the bet SpinBox and Slider ---
+	// The SpinBox receives automatic focus (setFocus + selectAll) whenever the
+	// player is in action, so any scroll-wheel movement would silently change
+	// the bet value.  The slider also reacts to wheel events by default.
+	// Both widgets are still fully usable via keyboard input / click-drag.
+	if (etype == QEvent::Wheel) {
+		QWidget *targetWidget = qobject_cast<QWidget*>(obj);
+		if (targetWidget == spinBox_betValue || targetWidget == horizontalSlider_bet) {
+			return true; // eat the event
 		}
 	}
 

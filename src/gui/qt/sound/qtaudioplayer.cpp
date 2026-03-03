@@ -564,11 +564,13 @@ void QtAudioPlayer::connectMixerSinkSignals()
             if (err == QAudio::NoError)
                 return;   // Clean stop — nothing to recover from
             qWarning() << "[Audio] Mixer sink stopped (error:" << err
-                       << ") — recreating sink";
-            QMetaObject::invokeMethod(this, [this]() {
-                if (!mixer) return;
-                applyDeviceToEffects();   // recreates the sink
-            }, Qt::QueuedConnection);
+                       << ") — scheduling debounced recreation";
+            // Use the debounce timer instead of immediate retry.
+            // PipeWire/PulseAudio may still be reconfiguring after a
+            // device change; retrying instantly causes pw_stream_connect
+            // to fail ("No such device") and can spin into an infinite
+            // retry loop that degrades UI performance.
+            scheduleDeviceCheck();
         } else if (newState == QAudio::SuspendedState) {
             qWarning() << "[Audio] Mixer sink suspended — attempting resume";
             mixerSink->resume();
@@ -969,6 +971,19 @@ void QtAudioPlayer::onDeviceChangeDebounceTimeout()
             selectedDevice = QAudioDevice(); // Clear selection, use default
             applyDeviceToEffects();
         }
+    }
+
+    // Safety net: if the mixer sink is in a stopped/error state after the
+    // debounce period (e.g. device went away, PipeWire error, or the
+    // default-change handler above didn't cover this case), recreate it
+    // with the current default device.  This runs at most once per
+    // debounce interval (500 ms), so it cannot spin.
+    if (backend == AudioBackend::SoftwareMixerBackend && mixer && mixerSink
+            && mixerSink->state() == QAudio::StoppedState
+            && mixerSink->error() != QAudio::NoError) {
+        qWarning() << "[Audio] Mixer sink still in error state after debounce"
+                   << "— recreating with current default device";
+        applyDeviceToEffects();
     }
 }
 
