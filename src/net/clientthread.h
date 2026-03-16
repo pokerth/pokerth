@@ -175,8 +175,7 @@ private:
 	std::vector<int> ts4;
 	std::vector<int> games;
 	std::vector<int> rating;
-	unsigned*idleplayers;
-	unsigned debuglongestsearch;
+	std::set<unsigned> idleplayers;
 	std::vector<std::string> wecpeople;
 
 	int suggestionscore2(int rating,int tickets,int games);

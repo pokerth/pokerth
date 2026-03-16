@@ -2366,15 +2366,12 @@ bool equals_case_insensitive(const std::string &left, const std::string &right)
 bbcbotplayerdb::bbcbotplayerdb(ClientThread*p)
 {
 	issorted=true;
-	idleplayers=new unsigned[512]();
 	size=0;
 	parent=p;
-	debuglongestsearch=0;
 }
 
 bbcbotplayerdb::~bbcbotplayerdb()
 {
-	delete[] idleplayers;
 }
 
 void bbcbotplayerdb::clear()
@@ -2539,59 +2536,29 @@ int bbcbotplayerdb::getindex(std::string name)
 void bbcbotplayerdb::addidleplayer(unsigned pid)
 {
 	if(pid==0) return;
-	unsigned i=pid&511;
-	const unsigned end=i;
-	// First check if already present (avoid duplicates)
-	while(1)
-	{
-		if(idleplayers[i]==pid) return; // already in list
-		if(idleplayers[i]==0) break; // found empty slot, not a duplicate
-		i++;
-		if(i==512) i=0;
-		if(i==end) break;
-	}
-	// Now insert at the first empty slot starting from hash position
-	i=pid&511;
-	while(1)
-	{
-		if(idleplayers[i]==0)
-		{
-			idleplayers[i]=pid;
-			return;
-		}
-		i++;
-		if(i==512) i=0;
-		if(i==end) break;
-	}
-	std::cout << "[BBCBot] ERROR: idle player list is full" << std::endl;
+	idleplayers.insert(pid);
 }
 
 void bbcbotplayerdb::removeidleplayer(unsigned pid)
 {
 	if(pid==0) return;
-	// Remove ALL occurrences (in case of duplicates from older code)
-	for(int i=0;i<512;i++)
-	{
-		if(idleplayers[i]==pid)
-			idleplayers[i]=0;
-	}
+	idleplayers.erase(pid);
 }
 
 void bbcbotplayerdb::printidledebug()
 {
-	std::cout << "[BBCBot] longest search for removal: "<<debuglongestsearch<<std::endl;
-	for(int i=0;i<512;i++)
+	std::cout << "[BBCBot] idle player count: " << idleplayers.size() << std::endl;
+	for(auto pid : idleplayers)
 	{
-		if(idleplayers[i]==0) continue;
-		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
-		if(parent->GetPlayerName(idleplayers[i]).substr(0,5)=="Guest") continue;
-		std::cout << "[BBCBot] idle player ["<<i<<"] : "<<parent->GetPlayerName(idleplayers[i])<<std::endl;
+		if(parent->GetGameIdOfPlayer(pid)) continue;
+		if(parent->GetPlayerName(pid).substr(0,5)=="Guest") continue;
+		std::cout << "[BBCBot] idle player: "<<parent->GetPlayerName(pid)<<" (ID: "<<pid<<")"<<std::endl;
 	}
 }
 
 void bbcbotplayerdb::clear_idleplayers()
 {
-	memset(idleplayers, 0, sizeof(unsigned) * 512);
+	idleplayers.clear();
 }
 
 std::string bbcbotplayerdb::int2string(int a)
@@ -2655,13 +2622,12 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 	int tempindex=-1;
 	int tempscore=0;
 	std::vector<int>::iterator it1,it2,it3;
-	for(int i=0;i<512;i++)
+	for(auto pid : idleplayers)
 	{
-		if(idleplayers[i]==0) continue;
 		idleCount++;
-		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
+		if(parent->GetGameIdOfPlayer(pid)) continue;
 		validCount++;
-		tempname=parent->GetPlayerName(idleplayers[i]);
+		tempname=parent->GetPlayerName(pid);
 		if(tempname.substr(0,5)=="Guest") continue;
 		tempindex=getindex(tempname);
 		if(tempindex==-1) continue;
@@ -2717,12 +2683,11 @@ std::string bbcbotplayerdb::wecsuggest()
 	int idleCount = 0;
 	int wecMatchCount = 0;
 	
-	for(int i=0;i<512;i++)
+	for(auto pid : idleplayers)
 	{
-		if(idleplayers[i]==0) continue;
 		idleCount++;
-		if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
-		tempname=parent->GetPlayerName(idleplayers[i]);
+		if(parent->GetGameIdOfPlayer(pid)) continue;
+		tempname=parent->GetPlayerName(pid);
 		if(tempname.substr(0,5)=="Guest") continue;
 		tempindex=-1;
 		for(unsigned i2=0;i2<wecpeople.size();i2++)
