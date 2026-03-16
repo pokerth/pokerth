@@ -2532,45 +2532,43 @@ int bbcbotplayerdb::getindex(std::string name)
 
 void bbcbotplayerdb::addidleplayer(unsigned pid)
 {
+	if(pid==0) return;
 	unsigned i=pid&511;
 	const unsigned end=i;
+	// First check if already present (avoid duplicates)
+	while(1)
+	{
+		if(idleplayers[i]==pid) return; // already in list
+		if(idleplayers[i]==0) break; // found empty slot, not a duplicate
+		i++;
+		if(i==512) i=0;
+		if(i==end) break;
+	}
+	// Now insert at the first empty slot starting from hash position
+	i=pid&511;
 	while(1)
 	{
 		if(idleplayers[i]==0)
 		{
 			idleplayers[i]=pid;
-			i++;
-			break;
+			return;
 		}
 		i++;
 		if(i==512) i=0;
 		if(i==end) break;
 	}
-	if(i==end) 
-	{
-		std::cout << "[BBCBot] ERROR: idle player list is full" << std::endl;
-		idleplayers[i]=pid;
-	}
+	std::cout << "[BBCBot] ERROR: idle player list is full" << std::endl;
 }
 
 void bbcbotplayerdb::removeidleplayer(unsigned pid)
 {
-	unsigned i=pid&511;
-	const unsigned end=i;
-	while(1)
+	if(pid==0) return;
+	// Remove ALL occurrences (in case of duplicates from older code)
+	for(int i=0;i<512;i++)
 	{
 		if(idleplayers[i]==pid)
-		{
 			idleplayers[i]=0;
-			i++;
-			break;
-		}
-		i++;
-		if(i==512) i=0;
-		if(i==end) break;
 	}
-	if(i>end && debuglongestsearch<i-end) debuglongestsearch=i-end;
-	if(i<end && debuglongestsearch<512+i-end) debuglongestsearch=512+i-end;
 }
 
 void bbcbotplayerdb::printidledebug()
@@ -2687,54 +2685,6 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 	}
 	std::cout << "[BBCBot DEBUG] Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount << std::endl;
 	if(sindex.size()==0) return "Sorry, no player found to suggest";
-        // If no idle players found, try to add all lobby players
-        if (idleCount == 0) {
-                std::cout << "[BBCBot DEBUG] No idle players found, adding all lobby players..." << std::endl;
-                parent->AddAllLobbyPlayersToIdle();
-                // Rescan
-                sindex.clear();
-                sscore.clear();
-                idleCount = 0;
-                validCount = 0;
-                dbCount = 0;
-                scoreCount = 0;
-                for(int i=0;i<512;i++)
-                {
-                        if(idleplayers[i]==0) continue;
-                        idleCount++;
-                        if(parent->GetGameIdOfPlayer(idleplayers[i])) continue;
-                        validCount++;
-                        std::string tempname=parent->GetPlayerName(idleplayers[i]);
-                        if(tempname.substr(0,5)=="Guest") continue;
-                        int tempindex=getindex(tempname);
-                        if(tempindex==-1) continue;
-                        dbCount++;
-                        int tempscore=suggestionscore1(tempindex,step);
-                        if(tempscore<=10) continue;
-                        scoreCount++;
-                        auto it1=sindex.begin();
-                        auto it2=sindex.end();
-                        auto it3=sscore.begin();
-                        while(it1!=it2)
-                        {
-                                if(tempscore >= *it3)
-                                {
-                                        sindex.insert(it1,tempindex);
-                                        sscore.insert(it3,tempscore);
-                                        break;
-                                }
-                                it1++;
-                                it3++;
-                        }
-                        if(it1==it2)
-                        {
-                                sindex.push_back(tempindex);
-                                sscore.push_back(tempscore);
-                        }
-                }
-                std::cout << "[BBCBot DEBUG] After adding lobby players: Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount << std::endl;
-        }
-
 	tempname="I suggest the following players for step "+int2string(step)+": ";
 	for(unsigned i=0;i<sindex.size() && i<limit; i++)
 	{
