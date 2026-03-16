@@ -45,9 +45,10 @@ AsyncDBAdminPlayers::~AsyncDBAdminPlayers()
 {
 }
 
-void
+bool
 AsyncDBAdminPlayers::Init(DBIdManager& /*idManager*/)
 {
+	return true;
 }
 
 void

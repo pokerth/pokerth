@@ -1,0 +1,111 @@
+{
+  "app-id": "net.pokerth.PokerTH",
+  "runtime": "org.kde.Platform",
+  "runtime-version": "6.9",
+  "sdk": "org.kde.Sdk",
+  "command": "pokerth_client",
+  "finish-args": [
+    "--share=network",
+    "--share=ipc",
+    "--socket=x11",
+    "--socket=wayland",
+    "--socket=pulseaudio",
+    "--device=dri",
+    "--filesystem=home"
+  ],
+  "cleanup": [
+    "/include",
+    "/lib/cmake",
+    "/lib/pkgconfig",
+    "/share/doc"
+  ],
+  "modules": [
+    {
+      "name": "gsfonts",
+      "buildsystem": "simple",
+      "sources": [
+        {
+          "type": "file",
+          "url": "http://archive.ubuntu.com/ubuntu/pool/universe/g/gsfonts/gsfonts_8.11+urwcyr1.0.7~pre44-4.4_all.deb",
+          "sha256": "14b9c058a7bb18c0d19d9f2735f3ad34cbc613702440bb46e8adafbeec4aabad"
+        }
+      ],
+      "build-commands": [
+        "ar x gsfonts_*.deb",
+        "tar xf data.tar.* ./usr/share/fonts/type1/gsfonts/n019003l.pfb",
+        "install -Dm644 usr/share/fonts/type1/gsfonts/n019003l.pfb /app/share/fonts/type1/gsfonts/n019003l.pfb"
+      ]
+    },
+    {
+      "name": "boost",
+      "buildsystem": "simple",
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz",
+          "sha256": "3621533e820dcab1e8012afd583c0c73cf0f77694952b81352bf38c1488f9cb4"
+        }
+      ],
+      "build-commands": [
+        "./bootstrap.sh --prefix=/app --with-libraries=iostreams,random,thread,filesystem,program_options,system,date_time",
+        "./b2 -j$FLATPAK_BUILDER_N_JOBS install --prefix=/app"
+      ]
+    },
+    {
+      "name": "protobuf",
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-Dprotobuf_BUILD_TESTS=OFF",
+        "-Dprotobuf_BUILD_SHARED_LIBS=ON",
+        "-DABSL_PROPAGATE_CXX_STD=ON"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz",
+          "sha256": "2c6a36c7b5a55accae063667ef3c55f2642e67476d96d355ff0acb13dbb47f09"
+        }
+      ]
+    },
+    {
+      "name": "websocketpp",
+      "buildsystem": "cmake-ninja",
+      "config-opts": [
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DBUILD_TESTS=OFF",
+        "-DBUILD_EXAMPLES=OFF"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/zaphoyd/websocketpp/archive/refs/tags/0.8.2.tar.gz",
+          "sha256": "6ce889d85ecdc2d8fa07408d6787e7352510750daa66b5ad44aacb47bea76755"
+        }
+      ]
+    },
+    {
+      "name": "pokerth",
+      "buildsystem": "simple",
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ],
+      "build-commands": [
+        "rm -f cmake/FindBoost.cmake",
+        "cmake -B _build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/app -DCMAKE_POLICY_DEFAULT_CMP0144=NEW -DBOOST_ROOT=/app",
+        "cmake --build _build --target pokerth_client pokerth_lib pokerth_db pokerth_protocol zlib_compress -j$FLATPAK_BUILDER_N_JOBS",
+        "cmake --install _build --component pokerth_client"
+      ],
+      "post-install": [
+        "install -Dm644 pokerth.png /app/share/icons/hicolor/256x256/apps/net.pokerth.PokerTH.png",
+        "mv /app/share/applications/pokerth.desktop /app/share/applications/net.pokerth.PokerTH.desktop",
+        "sed -i 's/^Exec=.*$/Exec=pokerth_client/' /app/share/applications/net.pokerth.PokerTH.desktop",
+        "sed -i 's/^Icon=pokerth$/Icon=net.pokerth.PokerTH/' /app/share/applications/net.pokerth.PokerTH.desktop",
+        "cp /app/share/fonts/type1/gsfonts/n019003l.pfb /app/share/pokerth/data/fonts/n019003l.pfb"
+      ]
+    }
+  ]
+}

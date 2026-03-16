@@ -314,7 +314,7 @@ cat > "$APP_CONTENTS/Info.plist" <<EOF
     <key>CFBundleExecutable</key>
     <string>$APP_NAME</string>
     <key>CFBundleIdentifier</key>
-    <string>org.pokerth.PokerTH</string>
+    <string>net.pokerth.PokerTH</string>
     <key>CFBundleName</key>
     <string>$APP_NAME</string>
     <key>CFBundleDisplayName</key>

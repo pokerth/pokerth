@@ -1,0 +1,204 @@
+name: pokerth
+version: '2.0.6'
+title: PokerTH
+summary: Multiplayer Texas Hold'em poker client and server
+description: |
+  PokerTH is an open-source multiplayer Texas Hold'em poker client and server.
+  Play Texas Hold'em against up to nine computer opponents or online with
+  other players from around the world.
+license: AGPL-3.0-only
+contact: https://github.com/pokerth/pokerth/issues
+issues: https://github.com/pokerth/pokerth/issues
+source-code: https://github.com/pokerth/pokerth
+website: https://www.pokerth.net
+donation: https://www.pokerth.net
+icon: pokerth.png
+base: core24
+grade: stable
+confinement: strict
+
+lint:
+  ignore:
+    - library:
+        - lib/libQt6WaylandClient.so*
+        - lib/libQt6OpenGL.so*
+        - lib/libQt6WebSockets.so*
+        - usr/lib/x86_64-linux-gnu/libEGL_mesa.so*
+        - usr/lib/x86_64-linux-gnu/libGLX_mesa.so*
+        - usr/lib/x86_64-linux-gnu/libicuio.so*
+        - usr/lib/x86_64-linux-gnu/libicutest.so*
+        - usr/lib/x86_64-linux-gnu/libicutu.so*
+        - usr/lib/x86_64-linux-gnu/libpulse-simple.so*
+        - usr/lib/x86_64-linux-gnu/libvulkan.so*
+        - usr/lib/x86_64-linux-gnu/libwayland-egl.so*
+        - usr/lib/x86_64-linux-gnu/libXxf86vm.so*
+        - usr/lib/x86_64-linux-gnu/libxcb-glx.so*
+
+apps:
+  pokerth:
+    command: bin/pokerth_client
+    command-chain: [bin/launcher]
+    desktop: share/applications/pokerth.desktop
+    environment:
+      LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
+      QT_PLUGIN_PATH: $SNAP/plugins
+      QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
+      XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+      FONTCONFIG_PATH: $SNAP/etc/fonts
+      FONTCONFIG_SYSROOT: $SNAP
+    plugs:
+      - desktop
+      - desktop-legacy
+      - network
+      - network-bind
+      - home
+      - removable-media
+      - audio-playback
+      - x11
+      - wayland
+      - opengl
+
+parts:
+  # Build Boost 1.88 from source (Ubuntu 24.04 only has 1.83)
+  boost:
+    plugin: nil
+    source: https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+    build-packages:
+      - build-essential
+      - python3-dev
+    override-build: |
+      cd $CRAFT_PART_SRC
+      ./bootstrap.sh --prefix=$CRAFT_PART_INSTALL/usr
+      ./b2 -j$(nproc) install --prefix=$CRAFT_PART_INSTALL/usr
+    prime:
+      - usr/lib/libboost_iostreams*
+      - usr/lib/libboost_random*
+      - usr/lib/libboost_thread*
+      - usr/lib/libboost_filesystem*
+      - usr/lib/libboost_system*
+      - usr/lib/libboost_date_time*
+
+  # Install Qt 6.9.2 via aqtinstall (Ubuntu 24.04 only has Qt 6.4.2)
+  qt6:
+    plugin: nil
+    build-packages:
+      - python3-pip
+      - python3-venv
+    override-build: |
+      python3 -m venv /tmp/aqt-venv
+      /tmp/aqt-venv/bin/pip install aqtinstall
+      /tmp/aqt-venv/bin/aqt install-qt linux desktop 6.9.2 \
+        -m qtwebsockets qtmultimedia qtshadertools \
+        -O $CRAFT_PART_INSTALL/opt/qt6
+    override-prime: |
+      # Qt libs/plugins are copied selectively in the pokerth part,
+      # so exclude the full aqtinstall tree from the snap to avoid duplicates
+      true
+
+  pokerth:
+    after: [boost, qt6]
+    plugin: nil
+    source: .
+    build-packages:
+      - build-essential
+      - cmake
+      - ninja-build
+      - libssl-dev
+      - libprotobuf-dev
+      - protobuf-compiler
+      - libwebsocketpp-dev
+      - libgl-dev
+      - libx11-dev
+      - libxkbcommon-dev
+      - libglib2.0-dev
+      - libfontconfig-dev
+      - libfreetype-dev
+      - libegl-dev
+      - libpulse-dev
+      - gsfonts
+    stage-packages:
+      - libx11-6
+      - libssl3t64
+      - zlib1g
+      - libprotobuf32t64
+      - libgl1
+      - libxkbcommon0
+      - libfontconfig1
+      - libfreetype6
+      - libegl1
+      - libpulse0
+      - libsndfile1
+      - libxcb-cursor0
+      - libxcb-icccm4
+      - libxcb-image0
+      - libxcb-keysyms1
+      - libxcb-render-util0
+      - libxcb-render0
+      - libxcb-shape0
+      - libxcb-util1
+      - libxcb-xkb1
+      - libxkbcommon-x11-0
+      - libwayland-client0
+      - libwayland-cursor0
+      - libwayland-egl1
+      - libpipewire-0.3-0
+      - fontconfig
+      - fonts-dejavu-core
+      - gsfonts
+      - pulseaudio-utils
+    override-build: |
+      # Remove outdated custom FindBoost.cmake that disables imported targets
+      # for Boost >= 1.66 — CMake's built-in module handles 1.88 correctly
+      rm -f ${CRAFT_PART_SRC}/cmake/FindBoost.cmake
+      QT_DIR="${CRAFT_STAGE}/opt/qt6/6.9.2/gcc_64"
+      cmake ${CRAFT_PART_SRC} \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=${CRAFT_PART_INSTALL} \
+        -DBOOST_ROOT=${CRAFT_STAGE}/usr \
+        -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+        -DCMAKE_PREFIX_PATH="${QT_DIR}" \
+        -DQt6_DIR="${QT_DIR}/lib/cmake/Qt6"
+      cmake --build . --target pokerth_client pokerth_lib pokerth_db pokerth_protocol zlib_compress -j$(nproc)
+      cmake --install . --component pokerth_client
+      # Fix desktop file: Snapcraft needs a simple Exec= line to map to the snap command
+      sed -i 's|^Exec=.*|Exec=pokerth_client|' ${CRAFT_PART_INSTALL}/share/applications/pokerth.desktop
+      # Copy icon for desktop file (usr/ prefix for snapcraft linter)
+      mkdir -p ${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/256x256/apps
+      cp ${CRAFT_PART_SRC}/pokerth.png ${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/256x256/apps/pokerth.png
+      # Copy only needed Qt runtime libs into snap
+      mkdir -p ${CRAFT_PART_INSTALL}/lib
+      for lib in Core Gui Widgets Network Sql Xml Multimedia Svg OpenGL DBus XcbQpa WaylandClient WebSockets; do
+        cp -a ${QT_DIR}/lib/libQt6${lib}.so* ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
+      done
+      # Copy ICU libs needed by Qt (only data, i18n, uc — skip io, test, tu)
+      for iculib in libicudata libicui18n libicuuc; do
+        cp -a ${QT_DIR}/lib/${iculib}.so* ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
+      done
+      # Copy Qt plugins — only the specific ones we need
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/platforms
+      cp -a ${QT_DIR}/plugins/platforms/libqxcb.so ${CRAFT_PART_INSTALL}/plugins/platforms/
+      cp -a ${QT_DIR}/plugins/platforms/libqwayland-generic.so ${CRAFT_PART_INSTALL}/plugins/platforms/ 2>/dev/null || true
+      cp -a ${QT_DIR}/plugins/platforms/libqminimal.so ${CRAFT_PART_INSTALL}/plugins/platforms/ 2>/dev/null || true
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/imageformats
+      cp -a ${QT_DIR}/plugins/imageformats/*.so ${CRAFT_PART_INSTALL}/plugins/imageformats/
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/sqldrivers
+      cp -a ${QT_DIR}/plugins/sqldrivers/libqsqlite.so ${CRAFT_PART_INSTALL}/plugins/sqldrivers/
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/tls
+      cp -a ${QT_DIR}/plugins/tls/*.so ${CRAFT_PART_INSTALL}/plugins/tls/
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/iconengines
+      cp -a ${QT_DIR}/plugins/iconengines/*.so ${CRAFT_PART_INSTALL}/plugins/iconengines/ 2>/dev/null || true
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/platforminputcontexts
+      cp -a ${QT_DIR}/plugins/platforminputcontexts/*.so ${CRAFT_PART_INSTALL}/plugins/platforminputcontexts/ 2>/dev/null || true
+      # Copy Qt multimedia plugins (FFmpeg backend for audio/video)
+      mkdir -p ${CRAFT_PART_INSTALL}/plugins/multimedia
+      cp -a ${QT_DIR}/plugins/multimedia/*.so ${CRAFT_PART_INSTALL}/plugins/multimedia/ 2>/dev/null || true
+      # Copy Qt bundled multimedia support libs (FFmpeg etc.)
+      for lib in ${QT_DIR}/lib/libav*.so* ${QT_DIR}/lib/libsw*.so*; do
+        [ -f "$lib" ] && cp -a "$lib" ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
+      done
+      # Copy missing Nimbus Sans L font (referenced by PokerTH on Linux)
+      cp /usr/share/fonts/type1/gsfonts/n019003l.pfb \
+        ${CRAFT_PART_INSTALL}/share/pokerth/data/fonts/ 2>/dev/null || true
+      # Install launcher script for PulseAudio socket fix in snap confinement
+      install -m 755 ${CRAFT_PART_SRC}/docker/linux/snap/launcher.sh ${CRAFT_PART_INSTALL}/bin/launcher

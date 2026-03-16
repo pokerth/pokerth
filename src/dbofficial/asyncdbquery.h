@@ -45,7 +45,13 @@ class AsyncDBQuery
 public:
 	virtual ~AsyncDBQuery();
 
-	virtual void Init(DBIdManager& idManager) = 0;
+	// Returns true if the query is ready to execute.
+	// Returns false if a dependency (e.g. game DB ID from CreateGame)
+	// is not yet available and the query should be deferred.
+	virtual bool Init(DBIdManager& idManager) = 0;
+
+	unsigned GetDeferCount() const { return m_deferCount; }
+	void IncrementDeferCount() { ++m_deferCount; }
 
 	virtual std::string GetPreparedName() const = 0;
 	virtual void GetParams(std::list<std::string> &params) const = 0;
@@ -56,6 +62,9 @@ public:
 	virtual void HandleError(boost::asio::io_context &service, ServerDBCallback &cb) = 0;
 	virtual bool RequiresResultSet() const = 0;
 	virtual bool Next() = 0;
+
+private:
+	unsigned m_deferCount{0};
 };
 
 #endif

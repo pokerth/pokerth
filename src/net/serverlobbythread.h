@@ -40,6 +40,7 @@
 
 #include <net/sessionmanager.h>
 #include <net/netpacket.h>
+#include <net/discordwebhook.h>
 #include <db/serverdbcallback.h>
 #include <gui/guiinterface.h>
 #include <gamedata.h>
@@ -99,6 +100,9 @@ public:
 	std::string GetPlayerNameFromId(unsigned playerId) const;
 	void RemovePlayer(unsigned playerId, unsigned errorCode);
 	void MutePlayerInGame(unsigned playerId);
+
+	bool IsPlayerInLobby(unsigned playerId) const;
+	bool IsPlayerInAnotherGame(unsigned playerId, unsigned currentGameId) const;
 
 	void SendGlobalChat(const std::string &message);
 	void SendGlobalMsgBox(const std::string &message);
@@ -264,6 +268,7 @@ private:
 
 	boost::shared_ptr<ServerBanManager> m_banManager;
 	boost::shared_ptr<ChatCleanerManager> m_chatCleanerManager;
+	boost::shared_ptr<DiscordWebhookSender> m_discordWebhook;
 	boost::shared_ptr<ServerDBInterface> m_database;
 
 	boost::asio::steady_timer m_removeGameTimer;

@@ -45,10 +45,10 @@ CompositeAsyncDBQuery::~CompositeAsyncDBQuery()
 {
 }
 
-void
+bool
 CompositeAsyncDBQuery::Init(DBIdManager& idManager)
 {
-	(*m_currentQuery)->Init(idManager);
+	return (*m_currentQuery)->Init(idManager);
 }
 
 std::string

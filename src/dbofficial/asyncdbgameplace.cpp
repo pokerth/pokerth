@@ -46,7 +46,7 @@ AsyncDBGamePlace::~AsyncDBGamePlace()
 {
 }
 
-void
+bool
 AsyncDBGamePlace::Init(DBIdManager& idManager)
 {
 	// Guard: Init() must be idempotent because it is called again on
@@ -54,13 +54,14 @@ AsyncDBGamePlace::Init(DBIdManager& idManager)
 	// the game-DB-ID would be prepended to the parameter list a second
 	// time, corrupting the INSERT statement.
 	if (m_initDone)
-		return;
+		return true;
 
 	DB_id gameDbId = idManager.GetGameDBId(GetId());
 	if (gameDbId == DB_ID_INVALID) {
-		// CreateGame has not completed yet or failed – this query will
-		// fail at execution time and HandleError() will be called.
-		return;
+		// CreateGame has not completed yet or failed – signal the caller
+		// to defer this query so it can be retried once the game DB ID
+		// becomes available.
+		return false;
 	}
 
 	std::list<std::string> params;
@@ -73,6 +74,7 @@ AsyncDBGamePlace::Init(DBIdManager& idManager)
 
 	m_resolvedGameDbId = gameDbId;
 	m_initDone = true;
+	return true;
 }
 
 void

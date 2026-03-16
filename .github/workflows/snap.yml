@@ -1,0 +1,62 @@
+name: Build & Publish Snap
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-snap:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout stable
+        uses: actions/checkout@v4
+        with:
+          ref: stable
+
+      # snapcraft expects snap/snapcraft.yaml in the repo root
+      - name: Prepare snapcraft.yaml
+        run: |
+          mkdir -p snap
+          cp docker/linux/snap/snapcraft.yaml snap/snapcraft.yaml
+
+      - name: Set up LXD
+        uses: canonical/setup-lxd@main
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Build snap
+        run: snapcraft --verbose 2>&1 | tee snapcraft.log
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapcraft-log
+          path: snapcraft.log
+          retention-days: 7
+
+      - name: Upload snap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pokerth-snap
+          path: "*.snap"
+          retention-days: 30
+
+  # Publish to Snap Store after successful build
+  publish-snap:
+    needs: build-snap
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download snap artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pokerth-snap
+
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+
+      - name: Publish to Snap Store
+        run: |
+          snapcraft upload --release=stable pokerth_*.snap
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}

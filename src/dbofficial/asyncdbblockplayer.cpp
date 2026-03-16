@@ -46,9 +46,10 @@ AsyncDBBlockPlayer::~AsyncDBBlockPlayer()
 {
 }
 
-void
+bool
 AsyncDBBlockPlayer::Init(DBIdManager &/*idManager*/)
 {
+	return true;
 }
 
 void

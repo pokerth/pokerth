@@ -51,6 +51,7 @@
 
 #define SERVER_CHECK_VOTE_KICK_INTERVAL_MSEC	500
 #define SERVER_KICK_TIMEOUT_ADD_DELAY_SEC		2
+#define SERVER_OFFLINE_RECONNECT_TIMEOUT_SEC	300		// 5 min - max time an offline player may reconnect
 
 using namespace std;
 
@@ -328,7 +329,6 @@ ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 PlayerDataList
 ServerGame::InternalStartGame()
 {
-	LOG_ERROR("InternalStartGame() entered.");
 	// Initialize the game.
 	PlayerDataList playerData(GetFullPlayerDataList());
 
@@ -497,9 +497,9 @@ ServerGame::StoreLastGames(const PlayerDataList &playerDataList)
 		boost::shared_ptr<PlayerData> tmpPlayer(*i);
 		// tmpPlayer->GetUniqueId()
 		tmpPlayer->AddPlayerLastGame((long)time(NULL));
-		LOG_ERROR("TimeStamp stored: " << tmpPlayer->GetPlayerLastGames().back());
+		LOG_VERBOSE("TimeStamp stored: " << tmpPlayer->GetPlayerLastGames().back());
 		std::vector<long> last_games = tmpPlayer->GetPlayerLastGames();
-		LOG_ERROR("Ready for storing vector for player " << tmpPlayer->GetDBId() << " - lastGameTs " << last_games.back());
+		LOG_VERBOSE("Ready for storing vector for player " << tmpPlayer->GetDBId() << " - lastGameTs " << last_games.back());
 		if(tmpPlayer->GetDBId() != DB_ID_INVALID){
 			GetDatabase().SetPlayerLastGames(GetId(), tmpPlayer->GetDBId(), last_games, GetSessionManager().GetSessionByUniquePlayerId(tmpPlayer->GetUniqueId())->GetClientAddr());
 		}
@@ -1050,16 +1050,49 @@ ServerGame::RemoveDisconnectedPlayers()
 		PlayerListIterator end = tmpList->end();
 		while (i != end) {
 			boost::shared_ptr<PlayerInterface> tmpPlayer = *i;
-			if ((tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(tmpPlayer->getMyUniqueID()))
-					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(tmpPlayer->getMyUniqueID()))) {
-				// Setting player cash to 0 will deactivate the player.
-				// The player should only be deactivated if rejoin is not possible.
+			unsigned playerId = tmpPlayer->getMyUniqueID();
+			bool isDisconnected = (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN && !GetSessionManager().IsPlayerConnected(playerId))
+					|| (tmpPlayer->getMyType() == PLAYER_TYPE_COMPUTER && !IsComputerPlayerActive(playerId));
+
+			if (isDisconnected) {
+				bool forceDeactivate = false;
+
 				if (tmpPlayer->isKicked() || tmpPlayer->getMyGuid().empty() || tmpPlayer->getMyCash() == 0) {
+					forceDeactivate = true;
+				}
+				// Check if player went back to lobby or joined another game.
+				else if (tmpPlayer->getMyType() == PLAYER_TYPE_HUMAN) {
+					if (GetLobbyThread().IsPlayerInLobby(playerId)) {
+						LOG_MSG("Player " << playerId << " is in lobby while absent from game " << GetId() << " - deactivating.");
+						forceDeactivate = true;
+					} else if (GetLobbyThread().IsPlayerInAnotherGame(playerId, GetId())) {
+						LOG_MSG("Player " << playerId << " joined another game while absent from game " << GetId() << " - deactivating.");
+						forceDeactivate = true;
+					} else {
+						// Player is truly offline - enforce 5 min reconnect limit.
+						auto now = steady_clock::now();
+						auto it = m_disconnectTimeMap.find(playerId);
+						if (it == m_disconnectTimeMap.end()) {
+							m_disconnectTimeMap[playerId] = now;
+						} else {
+							auto elapsedSec = duration_cast<seconds>(now - it->second).count();
+							if (elapsedSec >= SERVER_OFFLINE_RECONNECT_TIMEOUT_SEC) {
+								LOG_MSG("Player " << playerId << " offline for " << elapsedSec << "s in game " << GetId() << " - deactivating.");
+								forceDeactivate = true;
+							}
+						}
+					}
+				}
+
+				if (forceDeactivate) {
 					tmpPlayer->setMyCash(0);
 					tmpPlayer->setMyGuid("");
-				} else {
+					m_disconnectTimeMap.erase(playerId);
 				}
 				tmpPlayer->setIsSessionActive(false);
+			} else {
+				// Player is connected - clear any tracked disconnect time.
+				m_disconnectTimeMap.erase(playerId);
 			}
 			++i;
 		}

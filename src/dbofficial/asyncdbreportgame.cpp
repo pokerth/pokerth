@@ -46,7 +46,7 @@ AsyncDBReportGame::~AsyncDBReportGame()
 {
 }
 
-void
+bool
 AsyncDBReportGame::Init(DBIdManager& idManager)
 {
 	std::list<std::string> params;
@@ -61,6 +61,7 @@ AsyncDBReportGame::Init(DBIdManager& idManager)
 		params.push_back("NULL");
 	}
 	SetParams(params);
+	return true;
 }
 
 void

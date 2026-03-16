@@ -45,7 +45,7 @@ public:
 	CompositeAsyncDBQuery(const AsyncQueryList &queries);
 	virtual ~CompositeAsyncDBQuery();
 
-	virtual void Init(DBIdManager& idManager);
+	virtual bool Init(DBIdManager& idManager);
 
 	virtual std::string GetPreparedName() const;
 	virtual void GetParams(std::list<std::string> &params) const;

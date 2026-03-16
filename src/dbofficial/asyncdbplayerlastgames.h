@@ -42,7 +42,7 @@ public:
 	AsyncDBPlayerLastGames(unsigned queryId, const std::string &preparedName, const std::list<std::string> &params);
 	virtual ~AsyncDBPlayerLastGames();
 
-	virtual void Init(DBIdManager& /*idManager*/) {}
+	virtual bool Init(DBIdManager& /*idManager*/) { return true; }
 
 	virtual void HandleResult(mysqlpp::Query &query, DBIdManager& idManager, mysqlpp::StoreQueryResult& result, boost::asio::io_context &service, ServerDBCallback &cb);
 	virtual void HandleNoResult(mysqlpp::Query &query, DBIdManager& idManager, boost::asio::io_context &service, ServerDBCallback &cb);

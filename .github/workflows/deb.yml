@@ -1,0 +1,157 @@
+name: Build deb Package (Ubuntu 24.04)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout stable branch
+        uses: actions/checkout@v4
+        with:
+          ref: stable
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake ninja-build \
+            python3-pip python3-venv \
+            libssl-dev libprotobuf-dev protobuf-compiler \
+            libwebsocketpp-dev \
+            libgl-dev libx11-dev libxkbcommon-dev \
+            libglib2.0-dev libfontconfig-dev libfreetype-dev \
+            libegl-dev libpulse-dev gsfonts
+
+      - name: Build Boost 1.88 from source
+        run: |
+          curl -L https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz | tar xz
+          cd boost_1_88_0
+          ./bootstrap.sh --prefix=$HOME/boost-install
+          ./b2 -j$(nproc) install --prefix=$HOME/boost-install \
+            --with-iostreams --with-random --with-thread \
+            --with-filesystem --with-program_options \
+            --with-system --with-date_time
+
+      - name: Install Qt 6.9.2 via aqtinstall
+        run: |
+          python3 -m venv /tmp/aqt-venv
+          /tmp/aqt-venv/bin/pip install aqtinstall
+          /tmp/aqt-venv/bin/aqt install-qt linux desktop 6.9.2 \
+            -m qtwebsockets qtmultimedia qtshadertools \
+            -O $HOME/qt6
+
+      - name: Build pokerth_client
+        run: |
+          QT_DIR="$HOME/qt6/6.9.2/gcc_64"
+          rm -f cmake/FindBoost.cmake
+          cmake -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=$HOME/pokerth-install/usr \
+            -DBOOST_ROOT=$HOME/boost-install \
+            -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+            -DCMAKE_PREFIX_PATH="${QT_DIR}" \
+            -DQt6_DIR="${QT_DIR}/lib/cmake/Qt6" \
+            -S . -B ./build
+          cmake --build ./build \
+            --target pokerth_client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
+            -j$(nproc)
+          cmake --install ./build --component pokerth_client
+
+      - name: Assemble deb package
+        run: |
+          VERSION=$(grep 'POKERTH_BETA_RELEASE_STRING' src/game_defs.h | grep -oP '"\K[^"]+')
+          QT_DIR="$HOME/qt6/6.9.2/gcc_64"
+          PKG_DIR=pokerth_${VERSION}_amd64
+          INSTALL=$HOME/pokerth-install/usr
+
+          mkdir -p ${PKG_DIR}/DEBIAN
+          # Copy installed files (preserves /usr/ prefix for deb)
+          mkdir -p ${PKG_DIR}/usr
+          cp -r ${INSTALL}/* ${PKG_DIR}/usr/
+
+          # Bundle required Qt libs
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth
+          for lib in Core Gui Widgets Network Sql Xml Multimedia Svg OpenGL DBus XcbQpa WaylandClient WebSockets; do
+            cp -a ${QT_DIR}/lib/libQt6${lib}.so* ${PKG_DIR}/usr/lib/pokerth/ 2>/dev/null || true
+          done
+          for iculib in libicudata libicui18n libicuuc; do
+            cp -a ${QT_DIR}/lib/${iculib}.so* ${PKG_DIR}/usr/lib/pokerth/ 2>/dev/null || true
+          done
+
+          # Bundle Qt plugins
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/platforms
+          cp -a ${QT_DIR}/plugins/platforms/libqxcb.so          ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/platforms/
+          cp -a ${QT_DIR}/plugins/platforms/libqminimal.so       ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/platforms/ 2>/dev/null || true
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/imageformats
+          cp -a ${QT_DIR}/plugins/imageformats/*.so              ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/imageformats/
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/sqldrivers
+          cp -a ${QT_DIR}/plugins/sqldrivers/libqsqlite.so       ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/sqldrivers/
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/tls
+          cp -a ${QT_DIR}/plugins/tls/*.so                       ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/tls/
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/multimedia
+          cp -a ${QT_DIR}/plugins/multimedia/*.so                ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/multimedia/ 2>/dev/null || true
+          # Bundle Qt's own FFmpeg libs required by the multimedia backend
+          for lib in ${QT_DIR}/lib/libav*.so* ${QT_DIR}/lib/libsw*.so*; do
+            [ -f "$lib" ] && cp -a "$lib" ${PKG_DIR}/usr/lib/pokerth/ || true
+          done
+
+          # Bundle all built Boost runtime libs (avoids missing lib issues on target)
+          cp -a $HOME/boost-install/lib/libboost_*.so* ${PKG_DIR}/usr/lib/pokerth/ 2>/dev/null || true
+
+          # Install AppStream MetaInfo so package managers show "PokerTH" as display name
+          mkdir -p ${PKG_DIR}/usr/share/metainfo
+          {
+            echo '<?xml version="1.0" encoding="UTF-8"?>'
+            echo '<component type="desktop-application">'
+            echo '  <id>net.pokerth.PokerTH</id>'
+            echo '  <metadata_license>CC-BY-3.0</metadata_license>'
+            echo '  <project_license>AGPL-3.0</project_license>'
+            echo "  <name>PokerTH</name>"
+            echo '  <summary>Poker game with single and multiplayer support</summary>'
+            echo "  <releases><release version=\"${VERSION}\" date=\"$(date +%Y-%m-%d)\" type=\"stable\"/></releases>"
+            echo '</component>'
+          } > ${PKG_DIR}/usr/share/metainfo/net.pokerth.PokerTH.metainfo.xml
+
+          # Fix desktop file: Exec must point to wrapper so LD_LIBRARY_PATH is set
+          sed -i 's|^Exec=.*|Exec=pokerth|' ${PKG_DIR}/usr/share/applications/pokerth.desktop
+
+          # Wrapper script that sets QT_PLUGIN_PATH and LD_LIBRARY_PATH
+          mkdir -p ${PKG_DIR}/usr/bin
+          {
+            echo '#!/bin/sh'
+            echo 'export LD_LIBRARY_PATH=/usr/lib/pokerth:$LD_LIBRARY_PATH'
+            echo 'export QT_PLUGIN_PATH=/usr/lib/pokerth/qt6-plugins'
+            echo 'exec /usr/bin/pokerth_client "$@"'
+          } > ${PKG_DIR}/usr/bin/pokerth
+          chmod +x ${PKG_DIR}/usr/bin/pokerth
+
+          # Copy font
+          mkdir -p ${PKG_DIR}/usr/share/pokerth/data/fonts
+          cp /usr/share/fonts/type1/gsfonts/n019003l.pfb \
+            ${PKG_DIR}/usr/share/pokerth/data/fonts/ 2>/dev/null || true
+
+          {
+            echo "Package: pokerth"
+            echo "Version: ${VERSION}"
+            echo "Architecture: amd64"
+            echo "Maintainer: PokerTH GbR <webmaster@pokerth.net>"
+            echo "Depends: libssl3t64, libprotobuf32t64, libgl1, libx11-6, libxkbcommon0, libfontconfig1, libfreetype6, libegl1, libpulse0, zlib1g"
+            echo "Section: games"
+            echo "Priority: optional"
+            echo "Homepage: https://www.pokerth.net"
+            echo "Description: PokerTH ${VERSION} - Texas Hold'em poker game"
+            echo " PokerTH is an open-source multiplayer Texas Hold'em poker client and server."
+            echo " Play against up to nine computer opponents or online with other players."
+          } > ${PKG_DIR}/DEBIAN/control
+
+          dpkg-deb --build --root-owner-group ${PKG_DIR}
+
+      - name: Upload deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pokerth-deb-ubuntu24.04
+          path: "*.deb"
+          retention-days: 30

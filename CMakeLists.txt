@@ -108,6 +108,7 @@ set(POKERTH_LIB_SRC
     src/engine/network_engine/clientbero.cpp 
     src/net/chatcleanermanager.cpp 
     src/net/chatcleanercallback.cpp 
+    src/net/discordwebhook.cpp 
     src/net/clientcallback.cpp 
     src/net/clientcontext.cpp 
     src/net/clientstate.cpp 

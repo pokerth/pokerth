@@ -46,7 +46,7 @@ AsyncDBUpdateScore::~AsyncDBUpdateScore()
 {
 }
 
-void
+bool
 AsyncDBUpdateScore::Init(DBIdManager& idManager)
 {
 	// Guard: Init() must be idempotent because it is called again on
@@ -54,12 +54,12 @@ AsyncDBUpdateScore::Init(DBIdManager& idManager)
 	// the game-DB-ID would be prepended to the parameter list a second
 	// time, corrupting the CALL statement.
 	if (m_resolvedGameDbId != DB_ID_INVALID)
-		return;
+		return true;
 
 	DB_id gameDbId = idManager.GetGameDBId(GetId());
 	if (gameDbId == DB_ID_INVALID) {
 		// CreateGame hasn't completed yet or failed.
-		return;
+		return false;
 	}
 
 	std::list<std::string> params;
@@ -74,6 +74,7 @@ AsyncDBUpdateScore::Init(DBIdManager& idManager)
 	// retry where Init() is called again.  Removal happens in
 	// HandleNoResult() after the query has actually succeeded.
 	m_resolvedGameDbId = gameDbId;
+	return true;
 }
 
 void

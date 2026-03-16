@@ -1,0 +1,41 @@
+name: Build & Publish Flatpak
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-flatpak:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout stable branch
+        uses: actions/checkout@v4
+        with:
+          ref: stable
+
+      - name: Install flatpak and flatpak-builder
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder
+          sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          sudo flatpak install -y --noninteractive flathub org.kde.Platform//6.9 org.kde.Sdk//6.9
+
+      # flatpak-builder expects the manifest to reference sources relative to
+      # its own location — copy manifest to repo root so "type: dir, path: ."
+      # points at the full source tree
+      - name: Prepare manifest
+        run: cp docker/linux/flatpak/net.pokerth.PokerTH.json .
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          manifest-path: net.pokerth.PokerTH.json
+          bundle: pokerth.flatpak
+          cache-key: flatpak-builder-${{ github.sha }}
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-build-log
+          path: .flatpak-builder/build/pokerth/
+          retention-days: 7

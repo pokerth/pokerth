@@ -36,6 +36,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <third_party/boost/timers.hpp>
+#include <chrono>
 #include <map>
 
 #include <net/sessionmanager.h>
@@ -260,6 +261,10 @@ private:
 	friend class ServerGameStateWaitNextHand;
 
 	NumJoinsPerPlayerMap m_numJoinsPerPlayer;
+
+	// Track when each player was first seen as disconnected (for offline reconnect timeout).
+	typedef std::map<unsigned, std::chrono::steady_clock::time_point> DisconnectTimeMap;
+	DisconnectTimeMap m_disconnectTimeMap;
 };
 
 #endif

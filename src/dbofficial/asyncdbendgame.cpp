@@ -46,7 +46,7 @@ AsyncDBEndGame::~AsyncDBEndGame()
 {
 }
 
-void
+bool
 AsyncDBEndGame::Init(DBIdManager& idManager)
 {
 	// Guard: Init() must be idempotent because it is called again on
@@ -54,11 +54,11 @@ AsyncDBEndGame::Init(DBIdManager& idManager)
 	// the game-DB-ID would be appended to the parameter list a second
 	// time, corrupting the UPDATE statement.
 	if (m_initDone)
-		return;
+		return true;
 
 	DB_id gameDbId = idManager.GetGameDBId(GetId());
 	if (gameDbId == DB_ID_INVALID) {
-		return;
+		return false;
 	}
 
 	std::list<std::string> params;
@@ -70,6 +70,7 @@ AsyncDBEndGame::Init(DBIdManager& idManager)
 	SetParams(params);
 
 	m_initDone = true;
+	return true;
 }
 
 void

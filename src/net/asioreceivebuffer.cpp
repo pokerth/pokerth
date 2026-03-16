@@ -109,7 +109,7 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
         try {
             // Prüfe ob Session noch gültig und nicht geschlossen
             if (!session || session->GetState() == SessionData::Closed) {
-                LOG_MSG("Session " << (session ? session->GetId() : 0) << " - HandleRead on closed session, ignoring");
+                LOG_VERBOSE("Session " << (session ? session->GetId() : 0) << " - HandleRead on closed session, ignoring");
                 return;
             }
             
