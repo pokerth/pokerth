@@ -316,6 +316,12 @@ cmake -S "$REPO_ROOT" -B "$BUILD_DIR" \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake" \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0
 
+# So Cursor/clangd see the same compile flags and includes as the build
+if [ -f "$BUILD_DIR/compile_commands.json" ]; then
+  ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
+  log "  ✓ compile_commands.json linked for clangd/Cursor"
+fi
+
 log "Building ${BUILD_TARGET}…"
 ninja -C "$BUILD_DIR" "$BUILD_TARGET"
 

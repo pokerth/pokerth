@@ -110,6 +110,11 @@ configure_cmake_windows() {
   )
   [ -n "$PROTOC_EXECUTABLE" ] && CMAKE_ARGS+=(-DProtobuf_PROTOC_EXECUTABLE="$PROTOC_EXECUTABLE")
   $CMAKE_CMD "${CMAKE_ARGS[@]}"
+  # So Cursor/clangd see the same compile flags and includes as the build
+  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
+    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
+    log "  ✓ compile_commands.json linked for clangd/Cursor"
+  fi
 }
 
 configure_cmake_linux() {
@@ -129,6 +134,11 @@ configure_cmake_linux() {
     CMAKE_ARGS+=(-DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE")
   fi
   cmake "${CMAKE_ARGS[@]}"
+  # So Cursor/clangd see the same compile flags and includes as the build
+  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
+    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
+    log "  ✓ compile_commands.json linked for clangd/Cursor"
+  fi
 }
 
 create_windows_deploy_dir() {

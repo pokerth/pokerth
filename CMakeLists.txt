@@ -5,6 +5,9 @@ set(QT_MIN_VERSION "6.4.2")
 
 project(POKERTH)
 
+# So clangd/Cursor use the same includes and flags as the build (see scripts that symlink to repo root)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Disable vcpkg applocal deployment for cross-compilation
 if(CMAKE_CROSSCOMPILING)
     set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
