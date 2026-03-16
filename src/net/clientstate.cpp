@@ -1082,6 +1082,12 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			break;
 		}
 		client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
+		// BBCBot: Reset game creation state when removed from game
+		if (client->bot.enabled && client->bot.creategamestate != GS_NORMAL) {
+			std::cout << "[BBCBot] Removed from game (reason=" << removeReason << "), resetting state from " << client->bot.creategamestate << std::endl;
+			client->bot.creategamestate = GS_NORMAL;
+			client->bot.creatorid = 0;
+		}
 		client->SetState(ClientStateWaitJoin::Instance());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GamePlayerLeftMessage) {
 		// A player left the game.
@@ -1117,9 +1123,10 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		boost::shared_ptr<PlayerData> playerData = client->CreatePlayerData(netPlayerJoined.playerid(), netPlayerJoined.isgameadmin());
 		client->AddPlayerData(playerData);
 		
-		// BBCBot: If invited player joined, prepare to leave
-		if (client->bot.enabled && client->bot.creategamestate == GS_SENDINV && netPlayerJoined.playerid() == client->bot.creatorid) {
-			std::cout << "[BBCBot] Invited player joined game, scheduling leave" << std::endl;
+		// BBCBot: If invited player joined (or joined before invite was sent), prepare to leave
+		if (client->bot.enabled && netPlayerJoined.playerid() == client->bot.creatorid
+			&& (client->bot.creategamestate == GS_SENDINV || client->bot.creategamestate == GS_CREATED)) {
+			std::cout << "[BBCBot] Invited player joined game (state=" << client->bot.creategamestate << "), scheduling leave" << std::endl;
 			client->bot.creategamestate = GS_ACCEPTED;
 			client->bot.countdownleave = 3;
 		}
@@ -1993,6 +2000,15 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		}
 
 		client->GetCallback().SignalNetClientNotification(failureCode);
+		// BBCBot: Reset state on game creation failure
+		if (client->bot.enabled && client->bot.creategamestate != GS_NORMAL) {
+			std::cout << "[BBCBot] Game join/create failed, resetting state from " << client->bot.creategamestate << std::endl;
+			if (client->bot.creatorid > 0) {
+				client->SendPrivateChatMessage(client->bot.creatorid, "ERROR: game creation failed");
+			}
+			client->bot.creategamestate = GS_NORMAL;
+			client->bot.creatorid = 0;
+		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {

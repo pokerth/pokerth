@@ -2165,6 +2165,12 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 		// Increment uptime counter
 		bot.stdcount++;
 		
+		// Log game state periodically for debugging
+		if (bot.creategamestate != GS_NORMAL && bot.stdcount % 5 == 0) {
+			std::cout << "[BBCBot] Timer tick: state=" << bot.creategamestate 
+			          << " creatorid=" << bot.creatorid << std::endl;
+		}
+		
 		// Handle game creation states
 		if (bot.creategamestate == GS_CREATED) {
 			bot.countdowninvite--;
