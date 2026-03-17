@@ -1,5 +1,5 @@
---- a/unix/portfile.cmake
-+++ b/unix/portfile.cmake
+--- a/ports/openssl/unix/portfile.cmake
++++ b/ports/openssl/unix/portfile.cmake
 @@ -97,6 +97,7 @@ elseif(VCPKG_TARGET_IS_MINGW)
      else()
          set(OPENSSL_ARCH mingw)

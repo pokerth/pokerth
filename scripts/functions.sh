@@ -372,15 +372,9 @@ setup_vcpkg() {
   log "Bootstrapping vcpkg..."
   "$VCPKG_DIR/bootstrap-vcpkg.sh" -disableMetrics
 
-  # For MinGW triplets, patch vcpkg's OpenSSL port to add no-quic so the build
-  # does not fail on SIO_UDP_NETRESET (missing in older MinGW headers).
   if [ -n "$triplet" ] && [[ "$triplet" == *mingw* ]]; then
-    local portfile="$VCPKG_DIR/ports/openssl/unix/portfile.cmake"
-    local patch_file="${REPO_ROOT}/docs/patches/vcpkg-openssl-mingw-no-quic.patch"
-    if [ -f "$portfile" ] && [ -f "$patch_file" ] && ! grep -q "no-quic" "$portfile"; then
-      log "Applying vcpkg OpenSSL MinGW no-quic patch (avoids SIO_UDP_NETRESET build error)..."
-      (cd "$VCPKG_DIR/ports/openssl" && patch -p1 --forward < "$patch_file") || true
-    fi
+    log "Applying vcpkg OpenSSL MinGW no-quic patch (avoids SIO_UDP_NETRESET build error)..."
+    (cd "$VCPKG_DIR" && patch -p1 --forward < "${REPO_ROOT}/docs/patches/vcpkg-openssl-mingw-no-quic.patch") || true
   fi
 
   if [ -n "$triplet" ]; then
