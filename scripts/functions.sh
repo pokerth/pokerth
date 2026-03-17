@@ -147,6 +147,7 @@ check_dependency() {
 # Setup Linux Qt paths based on target platform
 # Usage: setup_linux_paths TARGET_PLATFORM [USE_AQT] [USE_VCPKG]
 # Sets: QT_DIR, QT_WINDOWS_DIR, QT_HOST_PATH, VCPKG_TARGET_TRIPLET, MINGW_DIR
+# Windows cross-build is x86_64 only (host tools are gcc_64); ARM is not supported.
 setup_linux_paths() {
   local target_platform="${1:-linux}"
   local use_aqt="${2:-no}"
@@ -170,7 +171,7 @@ setup_linux_paths() {
         QT_WINDOWS_DIR="$QT_OUTPUT_DIR/$QT_VERSION/mingw_64"
       fi
     fi
-    # Linux host tools use linux_gcc_64, but directory is still gcc_64
+    # Linux host tools for MinGW build (x86_64 only; ARM not supported)
     QT_HOST_PATH="$QT_OUTPUT_DIR/$QT_VERSION/gcc_64"
     QT_DIR="$QT_WINDOWS_DIR"
     VCPKG_TARGET_TRIPLET="x64-mingw-static"
@@ -473,7 +474,7 @@ check_qt_deps() {
         error "Qt Windows ($arch_name) not found at $qt_windows_dir. Please run $setup_script TARGET_PLATFORM=windows"
       fi
       if [ ! -d "$qt_host_path" ] || [ ! -f "$qt_host_path/bin/qt-cmake" ]; then
-        error "Qt host tools (gcc_64) not found at $qt_host_path. Please run $setup_script TARGET_PLATFORM=windows"
+        error "Qt host tools not found at $qt_host_path. Please run $setup_script TARGET_PLATFORM=windows"
       fi
       export CMAKE_PREFIX_PATH="$qt_windows_dir"
       export Qt6_DIR="$qt_windows_dir/lib/cmake/Qt6"

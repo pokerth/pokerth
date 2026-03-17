@@ -99,6 +99,14 @@ if [ "$MAKE_TARGET" = "windows" ] || [ "$MAKE_TARGET" = "windows-installer" ]; t
 fi
 
 # Android (or any other target): classic build + run with repo mount and -e/--target/--mount pass-through.
+# Android Dockerfile uses packages (e.g. google-android-build-tools) that are amd64-only; require x86_64 host.
+if [ "$MAKE_TARGET" = "android-in-docker" ]; then
+  case "$(uname -m)" in
+    x86_64) ;;
+    *) echo "Android Docker build requires an x86_64 host. Detected $(uname -m) is not supported." >&2; exit 1 ;;
+  esac
+fi
+
 BUILD_CMD=(docker build -f "$DOCKERFILE" -t "$IMAGE" "$CONTEXT")
 [ -n "$BUILD_TARGET_OPT" ] && BUILD_CMD+=(--target "$BUILD_TARGET_OPT")
 echo "Building $IMAGE..."

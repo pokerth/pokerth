@@ -38,6 +38,14 @@ USE_VCPKG="${USE_VCPKG:-no}"
 # Setup Qt paths based on target platform
 setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
 
+# Windows cross-build requires x86_64 (amd64) host; fail early otherwise
+if [ "$TARGET_PLATFORM" = "windows" ]; then
+  case "$(uname -m)" in
+    x86_64) ;;
+    *) error "Windows cross-build requires an x86_64 (amd64) host. Detected $(uname -m) is not supported." ;;
+  esac
+fi
+
 ########################################
 # Linux-specific Helper functions
 ########################################
