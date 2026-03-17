@@ -102,6 +102,7 @@ if(DEFINED VCPKG_TOOLCHAIN OR DEFINED CMAKE_TOOLCHAIN_FILE)
 
         add_custom_command(
             OUTPUT ${PROTO_SRC} ${PROTO_HDR}
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${PROTOBUF_GEN_DIR}
             COMMAND protobuf::protoc
             ARGS --cpp_out=${PROTOBUF_GEN_DIR}
                  --proto_path=${CMAKE_CURRENT_SOURCE_DIR}
