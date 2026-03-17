@@ -72,10 +72,10 @@ $(LINUX_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh $(S
 	$(SCRIPTS)/setup.sh
 	@touch $@
 
+# When SETUP_ALREADY_DONE=1 (e.g. ensure_windows_deps.sh ran setup as root), only create the stamp; otherwise run setup then touch.
 $(WINDOWS_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env $(SCRIPTS)/windows-apt-packages.txt
 	@mkdir -p $(WINDOWS_BUILD_DIR)
-	TARGET_PLATFORM=windows $(SCRIPTS)/setup.sh
-	@touch $@
+	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else TARGET_PLATFORM=windows $(SCRIPTS)/setup.sh; touch $@; fi
 
 $(MACOS_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(MACOS_BUILD_DIR)

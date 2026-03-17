@@ -31,10 +31,10 @@ if [ -z "${vcpkg_ok:-}" ]; then
     ./scripts/setup.sh
 fi
 
-# If we are root (e.g. make windows-docker), fix cache dir ownership so the bind mount is not root-owned, then run make as vscode.
-if [ "$(id -u)" -eq 0 ] && [ -d "$CACHE_DIR" ]; then
-  chown -R "${VSCODE_UID}:${VSCODE_GID}" "$CACHE_DIR"
-  exec runuser -u vscode -- make "$@"
+# If we are root (e.g. make windows-docker): chown cache so bind mount is not root-owned; then run make as vscode. The Makefile is the only place that creates the stamp; we set SETUP_ALREADY_DONE=1 so the stamp rule only touches the file (setup was already run above).
+if [ "$(id -u)" -eq 0 ]; then
+  [ -d "$CACHE_DIR" ] && chown -R "${VSCODE_UID}:${VSCODE_GID}" "$CACHE_DIR"
+  exec runuser -u vscode -- env SETUP_ALREADY_DONE=1 make "$@"
 fi
 
 exec make "$@"
