@@ -5,22 +5,16 @@
 
 ## Build Instructions
 
-Best practice is to use the VS Code Dev-Container feature.
+**From the command line (Linux and macOS):** From the **repo root** run **`make android`**. This builds the devcontainer image (if needed), runs the Android build inside the container with the repo mounted, and leaves the APK in **`build-android-<arch>/android-build/build/outputs/apk/release/`**. For other architectures: **`make android ANDROID_BUILD_ARGS="--arch armeabi-v7a"`** or **`ANDROID_BUILD_ARGS="--arch x86_64"`** (see docker/android/build_android.sh --help). Requires Docker only.
 
-Before building the container image, edit Dockerfile in `.devcontainer` folder and set architecture and target to build for.
-Supported architectures: `arm64-v8a`, `armeabi-v7a`, `x86_64`
-
-You might also need to edit docker-compose.yml for network settings.
-
-Inside the running container:
+**Using the VS Code Dev Container:** Open the **docker/android** folder, then Rebuild and Reopen in Container. Before building, edit the Dockerfile in `.devcontainer` to set the architecture (e.g. `ANDROID_ARCH=arm64-v8a`). You may need to edit docker-compose.yml for network settings. Inside the container the workspace is the repo; run:
 
 ```bash
-cd ${ROOT}/pokerth
 bash docker/android/build_android.sh
 ```
 
-The unsigned APK will be available at:
-`${ROOT}/pokerth/build-android-${ANDROID_ARCH}/android-build/build/outputs/apk/release/android-build-release-unsigned.apk`
+The unsigned APK will be at:
+`build-android-${ANDROID_ARCH}/android-build/build/outputs/apk/release/android-build-release-unsigned.apk`
 
 ## Sign the APK
 

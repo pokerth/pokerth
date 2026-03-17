@@ -1,16 +1,28 @@
 {
   "name": "Windows Development Container",
-  "dockerFile": "Dockerfile",
-  "context": "..",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "../../..",
+    "target": "base"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder}/../..,target=/workspaces/pokerth,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/pokerth",
+  "mounts": [
+    "source=${localWorkspaceFolder}/vcpkg,target=/opt/pokerth-windows,type=bind"
+  ],
+  "containerEnv": {
+    "VCPKG_DIR": "/opt/pokerth-windows/vcpkg",
+    "QT_OUTPUT_DIR": "/opt/pokerth-windows/Qt",
+    "WINDOWS_BUILD_SUBDIR": "docker/windows/build"
+  },
   "extensions": [
     "ms-vscode.cmake-tools",
-    "ms-vscode.cpptools",
-    "ms-vscode.cmake-tools"
+    "ms-vscode.cpptools"
   ],
   "settings": {
     "cmake.configureOnOpen": true,
-    "cmake.buildDirectory": "${workspaceFolder}/build"
+    "cmake.buildDirectory": "${workspaceFolder}/docker/windows/build"
   },
-  "postCreateCommand": "bash build_windows.sh",
+  "postCreateCommand": "bash scripts/ensure_windows_deps.sh windows",
   "remoteUser": "vscode"
 }

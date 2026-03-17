@@ -33,6 +33,10 @@ RequestExecutionLevel admin
 
 ; --------------------------------
 ; Variables
+; DeployPath: source deploy dir (relative to docker/windows), set by makensis -DDeployPath=... when using build_windows_docker
+!ifndef DeployPath
+!define DeployPath "../../build_windows/deploy"
+!endif
 
 Var StartMenuFolder
 
@@ -120,8 +124,8 @@ Section "Main Program" SecMain
   
   SetOutPath "$INSTDIR"
   
-  ; Copy all files from deploy directory (created by scripts/build.sh or docker/windows/build_windows.sh)
-  File /r "../../build_windows/deploy\*.*"
+  ; Copy all files from deploy directory (created by make windows / scripts/build.sh)
+  File /r "${DeployPath}\*.*"
   
   ; Store installation folder
   WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\pokerth_client.exe"

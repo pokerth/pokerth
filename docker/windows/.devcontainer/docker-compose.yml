@@ -1,13 +1,17 @@
+# Aligns with make windows-docker: base image, docker/windows/vcpkg mount, repo at /workspaces/pokerth.
+# Build from repo root so Dockerfile COPY scripts/ and docs/ work. Run from repo root: docker compose -f docker/windows/.devcontainer/docker-compose.yml up
 version: '3.8'
 
 services:
   windows-build:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: "../../.."
+      dockerfile: docker/windows/.devcontainer/Dockerfile
+      target: base
     volumes:
       - windows-build-cache:/home/vscode/.cache
-      - ../../windows:/workspaces/windows:cached
+      - "../../..:/workspaces/pokerth:cached"
+      - "../vcpkg:/opt/pokerth-windows"
       - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
     networks:

@@ -1,11 +1,13 @@
 #!/bin/bash
 
+echo "DEPRECATED: Use 'make windows-docker' or (inside the devcontainer) 'make windows' instead. This script is kept for reference only." >&2
+
 # Set environment variables from Dockerfile
 ROOT=${ROOT:-/opt/pokerth-windows}
 QT_VERSION=${QT_VERSION:-6.9.3}
 
 # Set Qt paths
-export QT_WINDOWS_DIR=${ROOT}/Qt/${QT_VERSION}/mingw_64
+export QT_WINDOWS_DIR=${ROOT}/Qt/${QT_VERSION}/win64_mingw
 export QT_HOST_PATH=${ROOT}/Qt/${QT_VERSION}/gcc_64
 export CMAKE_PREFIX_PATH=${QT_WINDOWS_DIR}
 export Qt6_DIR=${QT_WINDOWS_DIR}/lib/cmake/Qt6

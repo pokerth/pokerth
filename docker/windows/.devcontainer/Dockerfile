@@ -1,16 +1,12 @@
-FROM ubuntu:25.10
+# Windows cross-build image: base + scripts/setup.sh (single source of truth for vcpkg, Qt, ports).
+# Build from repo root: docker build -f docker/windows/.devcontainer/Dockerfile .
+# Run: make windows-docker (mounts repo, runs make windows which uses scripts/build.sh).
+#
+# Cache: apt runs in a layer that only depends on scripts/windows-apt-packages.txt; other script/doc changes don't invalidate it. setup.sh uses the same file (SKIP_SYSTEM_PACKAGES=yes here).
 
-ENV QT_VERSION=6.9.3
-# set target (pokerth_client or pokerth_qml-client)
-ENV TARGET=pokerth_client
+# Stage "base": everything before setup.sh (use --target base to run setup with a log mount and capture vcpkg logs on failure).
+FROM ubuntu:25.10 AS base
 
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources
-
-# Set up cross-compilation environment
-ENV CMAKE_TOOLCHAIN_FILE=${ROOT}/vcpkg/scripts/buildsystems/vcpkg.cmake
-ENV VCPKG_TARGET_TRIPLET=x64-mingw-static
-
-# Set other build environment variables
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -18,111 +14,50 @@ ARG LANG=de_DE.UTF-8
 ARG LANGUAGE=de_DE.UTF-8
 ARG LC_ALL=de_DE.UTF-8
 
-ARG ROOT=/opt/pokerth-windows
-ENV ROOT=${ROOT}
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TARGET=pokerth_client
 
-# Install build dependencies for Windows cross-compilation
-RUN apt-get update && apt-get install -y \
-    locales \
-    mingw-w64 \
-    cmake \
-    git \
-    wget \
-    curl \
-    zip unzip \
-    p7zip-full \
-    build-essential \
-    pkg-config \
-    autoconf \
-    automake \
-    libtool \
-    nsis \
-    imagemagick \
-    python3 python3-pip python3-venv jq \
-        && rm -rf /var/lib/apt/lists/*
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources
 
-# Install docker
-RUN install -m 0755 -d /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
-    chmod a+r /etc/apt/keyrings/docker.asc && \
-    echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-    tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+# Locales first so perl (during apt) does not warn
+RUN unset LANG LC_ALL LANGUAGE && apt-get update && apt-get install -y --no-install-recommends locales && rm -rf /var/lib/apt/lists/*
+RUN _locale="${LANG}" && unset LANG LC_ALL LANGUAGE && sed -i '/'${_locale}'/s/^# *//' /etc/locale.gen && locale-gen
+ENV LANG=${LANG}
+ENV LANGUAGE=${LANGUAGE}
+ENV LC_ALL=${LC_ALL}
 
-# locales & timezone
-RUN sed -i '/'${LANG}'/s/^# //g' /etc/locale.gen && \
-    locale-gen
-ENV LANG ${LANG}
-ENV LANGUAGE ${LANGUAGE}
-ENV LC_ALL ${LC_ALL}
-ENV TZ=Europe/Berlin
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# System packages from shared list (scripts/windows-apt-packages.txt); only this COPY + RUN invalidate when the list changes.
+COPY scripts/windows-apt-packages.txt /tmp/windows-apt-packages.txt
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    $(grep -v '^#' /tmp/windows-apt-packages.txt | tr '\n' ' ') \
+    && rm -rf /var/lib/apt/lists/*
 
-# apt cleanup
-RUN apt-get autoremove --purge && rm -Rf /var/cache/apt/archives && \
-    unset DEBIAN_FRONTEND
+# User and dir for vcpkg/Qt (setup.sh will populate these)
+RUN userdel ubuntu 2>/dev/null || true; rm -Rf /home/ubuntu
+RUN groupadd -g ${USER_GID} ${USERNAME} && useradd -s /bin/bash -m -d /home/vscode -u ${USER_UID} -g ${USERNAME} ${USERNAME}
+RUN mkdir -p /etc/sudoers.d && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && chmod 0440 /etc/sudoers.d/${USERNAME}
+RUN mkdir -p /opt/pokerth-windows && chown -R ${USERNAME}:${USERNAME} /opt/pokerth-windows
 
-# vscode user
-RUN userdel ubuntu && \
-    rm -Rf /home/ubuntu && \
-    groupadd -g $USER_GID $USERNAME && \
-    useradd -s /bin/bash -m -d /home/vscode -u $USER_UID -g $USER_GID $USERNAME && \
-    mkdir -p /etc/sudoers.d && \
-    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME && \
-    usermod -aG docker $USERNAME 
+# Default to vscode so make/setup create repo and cache files as vscode (not root); matches remoteUser in devcontainer.
+USER ${USERNAME}
 
-# entry-point
-# COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-# RUN chmod u+rwx,g+rx,o+rx /usr/local/bin/docker-entrypoint
+# Copy only what setup.sh needs (scripts + docs for patches); build context must be repo root.
+COPY scripts /workspaces/pokerth/scripts
+COPY docs    /workspaces/pokerth/docs
+WORKDIR /workspaces/pokerth
 
-RUN mkdir -p ${ROOT} && chown -R vscode:vscode ${ROOT}
+# Stage "final": run setup (skip apt; vcpkg + aqtinstall only). Single source of truth for ports and Qt.
+FROM base AS final
+RUN SKIP_SYSTEM_PACKAGES=yes \
+    VCPKG_DIR=/opt/pokerth-windows/vcpkg \
+    QT_OUTPUT_DIR=/opt/pokerth-windows/Qt \
+    TARGET_PLATFORM=windows \
+    USE_AQT=yes \
+    USE_VCPKG=yes \
+    ./scripts/setup.sh
 
-USER vscode
+RUN chown -R ${USERNAME}:${USERNAME} /opt/pokerth-windows
+USER ${USERNAME}
 
-# Install vcpkg for Windows dependencies
-RUN git clone https://github.com/Microsoft/vcpkg.git ${ROOT}/vcpkg 
-RUN ${ROOT}/vcpkg/bootstrap-vcpkg.sh
-
-ENV VCPKG_ROOT=${ROOT}/vcpkg
-ENV PATH="${VCPKG_ROOT}:${PATH}"
-
-# install aqtinstall
-RUN python3 -m venv ${ROOT}/venv
-ENV PATH="${ROOT}/venv/bin:$PATH"
-RUN pip install --upgrade pip
-RUN pip install aqtinstall
-
-RUN mkdir -p ${ROOT}/Qt
-
-# install Qt for Windows
-RUN cd ${ROOT}/Qt && aqt install-qt windows desktop ${QT_VERSION} win64_mingw --autodesktop --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d qtquick3dphysics qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
-ENV QT_WINDOWS_DIR=${ROOT}/Qt/${QT_VERSION}/mingw_64
-# install host (desktop) Qt needed as QT_HOST_PATH for cross-build
-RUN cd ${ROOT}/Qt && aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d qtquick3dphysics qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
-
-# Install common Windows libraries via vcpkg
-RUN vcpkg install --triplet=x64-mingw-static \
-    boost-system \
-    boost-thread \
-    boost-program-options \
-    boost-filesystem \
-    boost-chrono \
-    boost-date-time \
-    boost-asio \
-    boost-interprocess \
-    boost-iostreams \
-    boost-lambda \
-    boost-foreach \
-    boost-uuid \
-    protobuf \
-    openssl
-RUN vcpkg install protobuf:x64-linux
-
-RUN cd ${ROOT} && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout testing
-
-# Entrypoint/Command used from docker-compose.yml
-# ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+# At runtime the repo is mounted at /workspaces/pokerth; make windows runs scripts/build.sh.
+# VCPKG_DIR and QT_OUTPUT_DIR are passed by the Makefile when running the container.
