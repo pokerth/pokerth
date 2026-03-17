@@ -9,7 +9,7 @@
 ########################################
 
 # Qt version
-QT_VERSION="${QT_VERSION:-6.9.2}"
+QT_VERSION="${QT_VERSION:-6.9.3}"
 
 # Qt installation directory
 QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-$HOME/Qt}"
@@ -342,10 +342,17 @@ setup_pipx_aqt() {
 # Setup vcpkg
 # Usage: setup_vcpkg [triplet]
 # If triplet not provided, will determine based on platform
+# When VCPKG_DIR is a mount (e.g. Docker volume), the dir may exist but be empty; we clone when bootstrap-vcpkg.sh is missing.
 setup_vcpkg() {
   local triplet="${1:-}"
 
-  if [ ! -d "$VCPKG_DIR" ]; then
+  if [ ! -f "$VCPKG_DIR/bootstrap-vcpkg.sh" ]; then
+    if [ -d "$VCPKG_DIR" ]; then
+      log "vcpkg path exists but is incomplete (e.g. empty volume); populating..."
+      rm -rf "${VCPKG_DIR:?}"/* "${VCPKG_DIR:?}"/.git 2>/dev/null || true
+    else
+      mkdir -p "$VCPKG_DIR"
+    fi
     log "Cloning vcpkg..."
     git clone https://github.com/microsoft/vcpkg.git "$VCPKG_DIR"
   else
@@ -376,10 +383,35 @@ setup_vcpkg() {
 
   if [ -n "$triplet" ]; then
     log "Installing vcpkg dependencies (${triplet})..."
-    VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install \
-      --triplet="$triplet" \
-      --disable-metrics \
-      "${VCPKG_PORTS[@]}"
+    vcpkg_install "$triplet"
+  fi
+}
+
+# Run vcpkg install; on "File exists" (interrupted copy) remove partial package and retry once.
+vcpkg_install() {
+  local triplet="$1"
+  local vcpkg_log
+  vcpkg_log=$(mktemp) || exit 1
+  trap "rm -f '$vcpkg_log'" RETURN
+
+  if ! VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install \
+    --triplet="$triplet" \
+    --disable-metrics \
+    "${VCPKG_PORTS[@]}" 2>&1 | tee "$vcpkg_log"; then
+    if grep -q "File exists" "$vcpkg_log" && grep -q "packages/" "$vcpkg_log"; then
+      local pkg_dir
+      pkg_dir=$(grep "File exists" "$vcpkg_log" | grep -o 'packages/[^/]*' | head -1)
+      if [ -n "$pkg_dir" ] && [ -d "$VCPKG_DIR/$pkg_dir" ]; then
+        log "Removing partial package $pkg_dir (interrupted copy) and retrying install..."
+        rm -rf "$VCPKG_DIR/$pkg_dir"
+        VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install \
+          --triplet="$triplet" \
+          --disable-metrics \
+          "${VCPKG_PORTS[@]}"
+        return
+      fi
+    fi
+    return 1
   fi
 }
 

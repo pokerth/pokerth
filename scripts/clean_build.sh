@@ -9,7 +9,7 @@ set -e
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 cd "$REPO_ROOT"
 
-for dir in build_linux build_windows build_macos; do
+for dir in build_linux build_windows build_macos docker/windows/build; do
   if [ -d "$dir" ]; then
     echo "Removing $dir/..."
     rm -rf "$dir"

@@ -52,18 +52,11 @@ CLEAN="${CLEAN:-no}"
 setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
 
 ########################################
-# Script-local functions (plan section 1)
+# CMake and deploy helpers
 ########################################
 
 configure_cmake_windows() {
-  log "Configuring CMake build for Windows..."
-  log "Building with:"
-  log "  Qt Windows: ${QT_WINDOWS_DIR}"
-  log "  Qt Host: ${QT_HOST_PATH}"
-  log "  Qt6_DIR: ${Qt6_DIR}"
-  log "  vcpkg: ${VCPKG_DIR}"
-  log "  Toolchain: ${CMAKE_TOOLCHAIN_FILE}"
-  log "  Target triplet: ${VCPKG_TARGET_TRIPLET}"
+  log "Configuring CMake for Windows (Qt: ${QT_WINDOWS_DIR}, vcpkg: ${VCPKG_DIR})..."
   if command_exists qt-cmake; then
     CMAKE_CMD="qt-cmake"
   elif [ -f "$QT_HOST_PATH/bin/qt-cmake" ]; then
@@ -72,14 +65,7 @@ configure_cmake_windows() {
     error "qt-cmake not found. Required for Windows cross-compilation."
   fi
   VCPKG_OPENSSL_ROOT="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET"
-  VCPKG_PROTOC="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET/tools/protobuf/protoc.exe"
-  if [ -f "$VCPKG_PROTOC" ]; then
-    PROTOC_EXECUTABLE="$VCPKG_PROTOC"
-    log "Using Windows protoc: $PROTOC_EXECUTABLE"
-  else
-    PROTOC_EXECUTABLE=$(find "$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET" -name "protoc.exe" -type f 2>/dev/null | head -1)
-    [ -n "$PROTOC_EXECUTABLE" ] && log "Using Windows protoc: $PROTOC_EXECUTABLE" || log "⚠ Warning: Windows protoc not found, CMake will try to find it"
-  fi
+  # Use vcpkg's protoc for code gen so generated .pb.cc/.pb.h match vcpkg's libprotobuf version (no version mismatch).
   CXX_FLAGS="-fpermissive -Wno-error"
   CMAKE_ARGS=(
     -S "$REPO_ROOT"
@@ -108,7 +94,6 @@ configure_cmake_windows() {
     -DQT_NO_DEPLOY=ON
     -DQT_DEPLOY_SUPPORT=OFF
   )
-  [ -n "$PROTOC_EXECUTABLE" ] && CMAKE_ARGS+=(-DProtobuf_PROTOC_EXECUTABLE="$PROTOC_EXECUTABLE")
   $CMAKE_CMD "${CMAKE_ARGS[@]}"
   # So Cursor/clangd see the same compile flags and includes as the build
   if [ -f "$BUILD_DIR/compile_commands.json" ]; then
@@ -132,6 +117,10 @@ configure_cmake_linux() {
   fi
   if is_yes "$USE_VCPKG"; then
     CMAKE_ARGS+=(-DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE")
+  fi
+  # Use system protoc so native and Windows cross-build use the same version (avoid mismatch between make and make windows)
+  if command_exists protoc; then
+    CMAKE_ARGS+=(-DProtobuf_PROTOC_EXECUTABLE="$(command -v protoc)")
   fi
   cmake "${CMAKE_ARGS[@]}"
   # So Cursor/clangd see the same compile flags and includes as the build
@@ -160,40 +149,38 @@ create_windows_deploy_dir() {
   else
     log "  ⚠ Warning: data directory not found"
   fi
-  log "Copying Qt DLLs..."
-  for dll in Qt6Core Qt6Gui Qt6Widgets Qt6Network Qt6Sql Qt6Xml Qt6Multimedia; do
-    [ -f "${QT_WINDOWS_DIR}/bin/${dll}.dll" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}.dll" "$DEPLOY_DIR/" 2>/dev/null && log "  ✓ ${dll}.dll" || true
+  for dll in Qt6Core Qt6Gui Qt6Widgets Qt6Network Qt6Sql Qt6Xml Qt6Multimedia Qt6WebSockets Qt6MultimediaWidgets Qt6Qml Qt6Quick Qt6QuickControls2 Qt6Svg; do
+    [ -f "${QT_WINDOWS_DIR}/bin/${dll}.dll" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}.dll" "$DEPLOY_DIR/" 2>/dev/null || true
   done
-  # Prefer system MinGW runtime DLLs (same toolchain that linked the exe).
-  # Qt's DLLs may be from a different GCC version and cause "procedure entry point ... could not be found".
-  log "Copying MinGW runtime DLLs..."
+  # Prefer system MinGW runtime DLLs (same toolchain that linked the exe)
   for dll in libgcc_s_seh-1.dll libstdc++-6.dll libwinpthread-1.dll; do
     copied=
     for path in /usr/lib/gcc/x86_64-w64-mingw32 /usr/x86_64-w64-mingw32/lib; do
       [ ! -d "$path" ] && continue
       dll_path=$(find "$path" -name "$dll" 2>/dev/null | head -1)
       if [ -n "$dll_path" ] && [ -f "$dll_path" ]; then
-        cp "$dll_path" "$DEPLOY_DIR/" && log "  ✓ $dll (from system toolchain)" && copied=1 && break
+        cp "$dll_path" "$DEPLOY_DIR/" && copied=1 && break
       fi
     done
-    if [ -z "$copied" ] && [ -f "${QT_WINDOWS_DIR}/bin/${dll}" ]; then
-      cp "${QT_WINDOWS_DIR}/bin/${dll}" "$DEPLOY_DIR/" && log "  ✓ $dll (from Qt, fallback)" || true
-    fi
+    [ -z "$copied" ] && [ -f "${QT_WINDOWS_DIR}/bin/${dll}" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}" "$DEPLOY_DIR/" 2>/dev/null || true
   done
-  log "Copying Qt plugins..."
-  mkdir -p "$DEPLOY_DIR/plugins/platforms"
-  [ -d "${QT_WINDOWS_DIR}/plugins/platforms" ] && cp "${QT_WINDOWS_DIR}/plugins/platforms"/*.dll "$DEPLOY_DIR/plugins/platforms/" 2>/dev/null && log "  ✓ Platform plugins" || true
+  for subdir in platforms styles imageformats sqldrivers tls generic; do
+    mkdir -p "$DEPLOY_DIR/plugins/$subdir"
+    [ -d "${QT_WINDOWS_DIR}/plugins/$subdir" ] && cp "${QT_WINDOWS_DIR}/plugins/$subdir"/*.dll "$DEPLOY_DIR/plugins/$subdir/" 2>/dev/null || true
+  done
+  [ ! -f "$DEPLOY_DIR/plugins/platforms/qwindows.dll" ] && [ -d "${QT_WINDOWS_DIR}/plugins/platforms" ] && \
+    qwin=$(find "${QT_WINDOWS_DIR}" -name "qwindows.dll" 2>/dev/null | head -1) && [ -n "$qwin" ] && cp "$qwin" "$DEPLOY_DIR/plugins/platforms/" 2>/dev/null || true
+  VCPKG_BIN="${VCPKG_DIR}/installed/${VCPKG_TARGET_TRIPLET}/bin"
+  [ -d "$VCPKG_BIN" ] && for pat in zlib libpng libjpeg; do cp "$VCPKG_BIN"/${pat}*.dll "$DEPLOY_DIR/" 2>/dev/null || true; done
   cat > "$DEPLOY_DIR/qt.conf" << 'EOF'
 [Paths]
 Plugins = plugins
 EOF
-  log "  ✓ qt.conf created"
-  log "Setting executable bit on DLLs..."
+  cp "$REPO_ROOT/scripts/pokerth_launcher.bat" "$DEPLOY_DIR/"
+  cp "$REPO_ROOT/scripts/run_pokerth.sh" "$DEPLOY_DIR/"
+  chmod +x "$DEPLOY_DIR/run_pokerth.sh"
   find "$DEPLOY_DIR" -name "*.dll" -exec chmod +x {} \;
-  log "  ✓ DLLs marked executable"
-  log "Windows deployment directory ready: $DEPLOY_DIR"
-  log "  → Ready for native Windows execution"
-  log "  → Ready for NSIS installer (installer.nsi expects ../../build_windows/deploy)"
+  log "Windows deploy ready: $DEPLOY_DIR (Qt/MinGW/plugins copied)"
 }
 
 create_windows_nsis_installer() {
@@ -230,7 +217,8 @@ create_windows_nsis_installer() {
     log "  ✓ Icon created"
   fi
   [ -f "$NSIS_DIR/pokerth.ico" ] && cp "$NSIS_DIR/pokerth.ico" "$DEPLOY_DIR/" 2>/dev/null || true
-  if ! (cd "$NSIS_DIR" && makensis -NOCD installer.nsi); then
+  DEPLOY_PATH_REL="../../${WINDOWS_BUILD_SUBDIR:-build_windows}/deploy"
+  if ! (cd "$NSIS_DIR" && makensis -NOCD -DDeployPath="$DEPLOY_PATH_REL" installer.nsi); then
     error "NSIS failed (see output above). Ensure pokerth.ico exists in $NSIS_DIR."
   fi
   INSTALLER_SRC=$(find "$NSIS_DIR" -maxdepth 1 -name "PokerTH-*-Setup.exe" -type f -printf "%T@ %p\n" 2>/dev/null | sort -n | tail -1 | cut -d' ' -f2-)
@@ -326,42 +314,13 @@ print_build_summary() {
   echo "✓ Target: $BUILD_TARGET"
   echo ""
   if [ "$TARGET_PLATFORM" = "windows" ]; then
-    if is_yes "${CREATE_INSTALLER:-no}"; then
-      if [ -n "${INSTALLER:-}" ]; then
-        echo "Installer: $INSTALLER"
-      else
-        echo "Installer: docker/windows/PokerTH-*-Setup.exe"
-      fi
-      echo ""
-      echo "To test with Wine: cd $BUILD_DIR/deploy && wine pokerth_client.exe"
-    else
-      echo "Windows deployment directory: $BUILD_DIR/deploy"
-      echo ""
-      echo "This directory contains everything needed:"
-      echo "  - Executable and all DLLs"
-      echo "  - Data directory (stylesheets, icons, sounds, translations)"
-      echo "  - Qt plugins"
-      echo ""
-      echo "Usage:"
-      echo "  1. Copy entire 'deploy' directory to Windows and run pokerth_client.exe"
-      echo "  2. Or create installer: make windows-installer"
-      echo "     (output: docker/windows/PokerTH-*-Setup.exe)"
-      echo ""
-      echo "To test with Wine:"
-      echo "  cd $BUILD_DIR/deploy"
-      echo "  wine pokerth_client.exe"
-    fi
+    is_yes "${CREATE_INSTALLER:-no}" && echo "Installer: ${INSTALLER:-docker/windows/PokerTH-*-Setup.exe}"
+    echo "Deploy: $BUILD_DIR/deploy (exe, DLLs, data, Qt plugins)"
+    echo "  Copy deploy/ to Windows, or: make windows-installer"
+    echo "  Test with Wine: cd $BUILD_DIR/deploy && wine pokerth_client.exe"
   else
-    echo "Linux deployment directory: $BUILD_DIR/deploy"
-    echo ""
-    echo "To run:"
-    echo "  cd $BUILD_DIR/deploy && ./$BINARY_NAME"
-    echo "  # or: $BUILD_DIR/bin/$BINARY_NAME  (bin/data points to repo data)"
-    echo ""
-    if is_yes "$USE_AQT"; then
-      echo "Note: Qt was installed via aqtinstall at: $QT_DIR"
-      echo "      Make sure Qt libraries are in your LD_LIBRARY_PATH or use system packages"
-    fi
+    echo "Deploy: $BUILD_DIR/deploy — run: cd $BUILD_DIR/deploy && ./$BINARY_NAME"
+    is_yes "$USE_AQT" && echo "  (Qt via aqtinstall: $QT_DIR)"
   fi
   echo ""
 }
@@ -396,7 +355,8 @@ log "✓ All dependencies found"
 ########################################
 
 if [ "$TARGET_PLATFORM" = "windows" ]; then
-  BUILD_DIR="$REPO_ROOT/build_windows"
+  # Use build_windows_docker in Docker so local and Docker do not share the same dir (avoids path/ownership issues).
+  BUILD_DIR="$REPO_ROOT/${WINDOWS_BUILD_SUBDIR:-build_windows}"
 else
   BUILD_DIR="$REPO_ROOT/build_linux"
 fi
@@ -410,10 +370,15 @@ else
   log "Reusing existing build directory for $TARGET_PLATFORM..."
   mkdir -p "$BUILD_DIR"
   if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
-    # Linux native build uses Ninja; skip configure only if build.ninja exists
-    if [ "$TARGET_PLATFORM" = "linux" ] && [ ! -f "$BUILD_DIR/build.ninja" ]; then
+    # Only reconfigure if cache was for a different repo path (e.g. make windows vs make windows-docker).
+    # If the build dir is broken (e.g. missing Makefile), run CLEAN=yes and retry.
+    CACHED_HOME="$(grep -E '^CMAKE_HOME_DIRECTORY' "$BUILD_DIR/CMakeCache.txt" 2>/dev/null | cut -d= -f2- | sed 's|/$||')"
+    REPO_NORM="${REPO_ROOT%/}"
+    if [ -n "$CACHED_HOME" ] && [ "$CACHED_HOME" != "$REPO_NORM" ]; then
       NEED_CONFIGURE=1
-      log "Reconfiguring (build.ninja missing; may be from different generator or partial build)."
+      log "Build dir was for a different path; reconfiguring for $REPO_NORM."
+      rm -rf "$BUILD_DIR"
+      mkdir -p "$BUILD_DIR"
     else
       NEED_CONFIGURE=0
       log "Skipping configure (CMakeCache.txt present); building only."

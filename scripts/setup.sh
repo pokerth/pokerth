@@ -120,35 +120,44 @@ esac
 ########################################
 # 2. Install base packages
 ########################################
+# Skip when SKIP_SYSTEM_PACKAGES=yes (e.g. Dockerfile already ran apt).
+SKIP_SYSTEM_PACKAGES="${SKIP_SYSTEM_PACKAGES:-no}"
+if is_yes "$SKIP_SYSTEM_PACKAGES"; then
+  log "Skipping system package install (SKIP_SYSTEM_PACKAGES=yes)."
+else
+  log "Updating package lists..."
+  $UPDATE_CMD
 
-log "Updating package lists..."
-$UPDATE_CMD
+  log "Installing base packages via $PKG_MANAGER..."
 
-log "Installing base packages via $PKG_MANAGER..."
+  # Windows + apt: use shared list (same as docker/windows Dockerfile). Windows + dnf/pacman and Linux: use inline lists below.
+  if [ "$TARGET_PLATFORM" = "windows" ] && [ "$PKG_MANAGER" = "apt" ] && [ -f "${REPO_ROOT}/scripts/windows-apt-packages.txt" ]; then
+    BASE_PKGS=$(grep -v '^#' "${REPO_ROOT}/scripts/windows-apt-packages.txt" | tr '\n' ' ')
+  else
+    # Common base packages per package manager (shared by Windows and Linux builds)
+    COMMON_APT="build-essential cmake ninja-build git python3 python3-pip pkg-config"
+    COMMON_DNF="gcc gcc-c++ cmake ninja-build git python3 python3-pip pkgconfig"
+    COMMON_PACMAN="base-devel cmake ninja git python python-pip pkgconf"
+    # Platform-specific extras (Windows dnf/pacman use these; Windows apt uses windows-apt-packages.txt when available)
+    WINDOWS_APT_EXTRA="mingw-w64 autoconf automake libtool curl zip unzip tar nsis imagemagick librsvg2-bin protobuf-compiler"
+    WINDOWS_DNF_EXTRA="mingw64-gcc mingw64-gcc-c++ autoconf automake libtool curl zip unzip tar nsis ImageMagick"
+    WINDOWS_PACMAN_EXTRA="mingw-w64-gcc autoconf automake libtool curl zip unzip tar nsis imagemagick"
+    LINUX_APT_EXTRA="libssl-dev libprotobuf-dev protobuf-compiler libboost-all-dev libwebsocketpp-dev libfuse2 fuse"
+    LINUX_DNF_EXTRA="openssl-devel protobuf-devel protobuf-compiler boost-devel websocketpp-devel fuse fuse-libs"
+    LINUX_PACMAN_EXTRA="openssl protobuf boost websocketpp fuse2"
 
-# Common base packages per package manager (shared by Windows and Linux builds)
-COMMON_APT="build-essential cmake ninja-build git python3 python3-pip pkg-config"
-COMMON_DNF="gcc gcc-c++ cmake ninja-build git python3 python3-pip pkgconfig"
-COMMON_PACMAN="base-devel cmake ninja git python python-pip pkgconf"
-# Platform-specific extras
-WINDOWS_APT_EXTRA="mingw-w64 autoconf automake libtool curl zip unzip tar nsis imagemagick librsvg2-bin"
-WINDOWS_DNF_EXTRA="mingw64-gcc mingw64-gcc-c++ autoconf automake libtool curl zip unzip tar nsis ImageMagick"
-WINDOWS_PACMAN_EXTRA="mingw-w64-gcc autoconf automake libtool curl zip unzip tar nsis imagemagick"
-LINUX_APT_EXTRA="libssl-dev libprotobuf-dev protobuf-compiler libboost-all-dev libwebsocketpp-dev libfuse2 fuse"
-LINUX_DNF_EXTRA="openssl-devel protobuf-devel protobuf-compiler boost-devel websocketpp-devel fuse fuse-libs"
-LINUX_PACMAN_EXTRA="openssl protobuf boost websocketpp fuse2"
-
-# Map PKG_MANAGER to suffix for COMMON_* / *_EXTRA variable names
-case "$PKG_MANAGER" in
-  apt)   PKG_SUFFIX="APT" ;;
-  dnf)   PKG_SUFFIX="DNF" ;;
-  pacman) PKG_SUFFIX="PACMAN" ;;
-  *)     error "Unsupported package manager: $PKG_MANAGER" ;;
-esac
-ref_common="COMMON_${PKG_SUFFIX}"
-ref_extra="$([ "$TARGET_PLATFORM" = "windows" ] && echo "WINDOWS_" || echo "LINUX_")${PKG_SUFFIX}_EXTRA"
-BASE_PKGS="${!ref_common} ${!ref_extra}"
-$INSTALL_CMD $BASE_PKGS
+    case "$PKG_MANAGER" in
+      apt)   PKG_SUFFIX="APT" ;;
+      dnf)   PKG_SUFFIX="DNF" ;;
+      pacman) PKG_SUFFIX="PACMAN" ;;
+      *)     error "Unsupported package manager: $PKG_MANAGER" ;;
+    esac
+    ref_common="COMMON_${PKG_SUFFIX}"
+    ref_extra="$([ "$TARGET_PLATFORM" = "windows" ] && echo "WINDOWS_" || echo "LINUX_")${PKG_SUFFIX}_EXTRA"
+    BASE_PKGS="${!ref_common} ${!ref_extra}"
+  fi
+  $INSTALL_CMD $BASE_PKGS
+fi
 
 if [ "$TARGET_PLATFORM" = "windows" ]; then
   if ! command_exists x86_64-w64-mingw32-gcc; then
