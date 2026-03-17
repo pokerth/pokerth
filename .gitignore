@@ -53,7 +53,7 @@ qrc_qmake_qmake_qm_files.cpp
 .qm
 tests/*
 .DS_Store
-.stamp-setup-*
+.stamp-setup
 compile_commands.json
 *.log
 *lldb*

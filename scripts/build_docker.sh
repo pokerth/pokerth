@@ -97,8 +97,9 @@ else
   echo "Running build in container (repo mounted at /workspaces/pokerth)..."
 fi
 
+# Docker Windows build uses docker/windows/build so local and Docker do not share the same tree.
 if [ ${#MOUNTS[@]} -gt 0 ]; then
-  ENV_ARGS+=(-e "WINDOWS_BUILD_SUBDIR=docker/windows/build")
+  ENV_ARGS+=(-e "WINDOWS_BUILD_DIR=docker/windows/build")
 fi
 
 # When using mounts, run as root and chown so host user can edit/delete; pass command via env to avoid duplicating it.

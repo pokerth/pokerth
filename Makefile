@@ -14,9 +14,11 @@ else
 endif
 
 SCRIPTS := ./scripts
-STAMP_SETUP_LINUX  := .stamp-setup-linux
-STAMP_SETUP_WINDOWS := .stamp-setup-windows
-STAMP_SETUP_MACOS  := .stamp-setup-macos
+# Stamp = BUILD_DIR/.stamp_setup (one per build dir so host vs Docker don't share a file).
+LINUX_BUILD_DIR   := build_linux
+WINDOWS_BUILD_DIR ?= build_windows
+MACOS_BUILD_DIR   := build_macos
+STAMP_DIRS        := build_linux build_windows build_macos docker/windows/build
 
 # Docker-based builds (windows/windows-installer on macOS or via -docker; android always).
 # Override with env: IMAGE_NAME, ANDROID_BUILD_ARGS (e.g. make android ANDROID_BUILD_ARGS="--arch x86_64").
@@ -64,34 +66,36 @@ help:
 	@echo ""
 	@echo "Examples: make   make setup   make windows-docker   make android"
 
-# Stamp files: created when setup finishes. make linux/windows/macos run setup if stamp is missing
-# or if setup scripts are newer than the stamp (force re-setup when scripts change).
-$(STAMP_SETUP_LINUX): $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh
+# Stamp = BUILD_DIR/.stamp_setup. Created when setup finishes; make linux/windows/macos run setup if missing.
+$(LINUX_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh
+	@mkdir -p $(LINUX_BUILD_DIR)
 	$(SCRIPTS)/setup.sh
-	@touch $(STAMP_SETUP_LINUX)
+	@touch $@
 
-$(STAMP_SETUP_WINDOWS): $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh
+$(WINDOWS_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh
+	@mkdir -p $(WINDOWS_BUILD_DIR)
 	TARGET_PLATFORM=windows $(SCRIPTS)/setup.sh
-	@touch $(STAMP_SETUP_WINDOWS)
+	@touch $@
 
-$(STAMP_SETUP_MACOS): $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/functions.sh
+$(MACOS_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/functions.sh
+	@mkdir -p $(MACOS_BUILD_DIR)
 	$(SCRIPTS)/setup_macos.sh
-	@touch $(STAMP_SETUP_MACOS)
+	@touch $@
 
-# Explicit setup always runs (removes stamp first). make linux/windows/macos run setup if stamp missing or scripts newer.
+# Explicit setup: remove stamp then run setup.
 setup-linux:
-	@rm -f $(STAMP_SETUP_LINUX)
-	$(MAKE) $(STAMP_SETUP_LINUX)
+	@rm -f $(LINUX_BUILD_DIR)/.stamp_setup
+	$(MAKE) $(LINUX_BUILD_DIR)/.stamp_setup
 
 setup-windows:
-	@rm -f $(STAMP_SETUP_WINDOWS)
-	$(MAKE) $(STAMP_SETUP_WINDOWS)
+	@rm -f $(WINDOWS_BUILD_DIR)/.stamp_setup
+	$(MAKE) $(WINDOWS_BUILD_DIR)/.stamp_setup
 
 setup-macos:
-	@rm -f $(STAMP_SETUP_MACOS)
-	$(MAKE) $(STAMP_SETUP_MACOS)
+	@rm -f $(MACOS_BUILD_DIR)/.stamp_setup
+	$(MAKE) $(MACOS_BUILD_DIR)/.stamp_setup
 
-linux: $(STAMP_SETUP_LINUX)
+linux: $(LINUX_BUILD_DIR)/.stamp_setup
 	$(SCRIPTS)/build.sh
 
 # Windows: host cross-compile on Linux; Docker on macOS (no host toolchain). Use windows-docker to force Docker on any host.
@@ -99,7 +103,7 @@ windows:
 ifeq ($(UNAME_S),Darwin)
 	$(MAKE) windows-docker
 else
-	$(MAKE) $(STAMP_SETUP_WINDOWS)
+	$(MAKE) $(WINDOWS_BUILD_DIR)/.stamp_setup
 	TARGET_PLATFORM=windows $(SCRIPTS)/build.sh
 endif
 
@@ -109,7 +113,7 @@ windows-docker:
 	$(WINDOWS_DOCKER_RUN_ENV) --setup-if-missing
 	@echo "Done. Check docker/windows/build/deploy/ for the Windows build."
 
-macos: $(STAMP_SETUP_MACOS)
+macos: $(MACOS_BUILD_DIR)/.stamp_setup
 	$(SCRIPTS)/build_macos.sh
 
 # Android: Docker only (no host build path). Pass ANDROID_BUILD_ARGS for build_android.sh (e.g. --arch x86_64).
@@ -127,14 +131,14 @@ windows-installer_BUILD_ARGS =
 android-in-docker:
 	bash docker/android/build_android.sh $($(MAKECMDGOALS)_BUILD_ARGS)
 
-linux-installer: $(STAMP_SETUP_LINUX)
+linux-installer: $(LINUX_BUILD_DIR)/.stamp_setup
 	CREATE_INSTALLER=yes $(SCRIPTS)/build.sh
 
 windows-installer:
 ifeq ($(UNAME_S),Darwin)
 	$(MAKE) windows-installer-docker
 else
-	$(MAKE) $(STAMP_SETUP_WINDOWS)
+	$(MAKE) $(WINDOWS_BUILD_DIR)/.stamp_setup
 	CREATE_INSTALLER=yes TARGET_PLATFORM=windows $(SCRIPTS)/build.sh
 endif
 
@@ -144,7 +148,7 @@ windows-installer-docker:
 	$(WINDOWS_DOCKER_RUN_ENV) --setup-if-missing
 	@echo "Done. Check docker/windows/build/deploy/ for the Windows build."
 
-macos-installer: $(STAMP_SETUP_MACOS)
+macos-installer: $(MACOS_BUILD_DIR)/.stamp_setup
 	CREATE_INSTALLER=yes $(SCRIPTS)/build_macos.sh
 
 installer: installers
@@ -160,4 +164,4 @@ endif
 
 clean:
 	$(SCRIPTS)/clean_build.sh
-	@rm -f $(STAMP_SETUP_LINUX) $(STAMP_SETUP_WINDOWS) $(STAMP_SETUP_MACOS)
+	@rm -f $(addsuffix /.stamp_setup,$(STAMP_DIRS))

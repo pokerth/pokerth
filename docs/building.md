@@ -4,7 +4,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 
 - **Default `make`:** On Linux runs `make linux`; on macOS runs `make macos`. So you can run **`make`** after setup and get the native build.
 - **Default `make setup`:** On Linux runs `make setup-linux`; on macOS runs `make setup-macos`. Run **`make setup`** once to install dependencies for the current OS.
-- **Stamp files:** When you run `make linux`, `make windows`, or `make macos`, Make checks for a setup stamp (`.stamp-setup-linux`, `.stamp-setup-windows`, or `.stamp-setup-macos`). If the stamp is missing, it runs the corresponding setup first, then builds. So **`make`** or **`make linux`** (etc.) can be run without having run setup beforehand; setup will run once and create the stamp.
+- **Stamp files:** When you run `make linux`, `make windows`, or `make macos`, Make checks for a setup stamp in that target’s build dir (**BUILD_DIR/..stamp_setup**, e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup` when `WINDOWS_BUILD_DIR=docker/windows/build`). If the stamp is missing, it runs the corresponding setup first, then builds. So **`make`** or **`make linux`** (etc.) can be run without having run setup beforehand; setup will run once and create the stamp.
 - **`make clean`:** Removes `build_linux/`, `build_windows/`, `build_macos/`, `docker/windows/build/` and the setup stamp files. After that, the next `make` or `make linux` (etc.) will run setup again.
 
 ## Summary by platform
@@ -29,7 +29,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 
 ## Linux
 
-1. **Setup (once):** `make setup-linux` or `make setup` (on Linux). Or run `./scripts/setup.sh` (may need sudo). If you skip this, **`make linux`** or **`make`** will run setup automatically (creates `.stamp-setup-linux` when done).
+1. **Setup (once):** `make setup-linux` or `make setup` (on Linux). Or run `./scripts/setup.sh` (may need sudo). If you skip this, **`make linux`** or **`make`** will run setup automatically (creates `build_linux/.stamp_setup` when done).
 2. **Build:** `make linux` or `make` (on Linux) → binary in `build_linux/bin/` and deploy dir in `build_linux/deploy/`.
 3. **Run:** `cd build_linux/deploy && ./pokerth_client` or `./build_linux/bin/pokerth_client` (bin has `data` pointing to repo data).
 4. **Optional:** `make linux-installer` or `CREATE_INSTALLER=yes ./scripts/build.sh` runs linuxdeployqt to create an AppImage (deploy dir is always created; this only adds the AppImage step). **make setup-linux** installs linuxdeployqt to `~/bin` if missing; ensure `~/bin` is in your PATH (e.g. `export PATH="$HOME/bin:$PATH"` in `.bashrc`). To install manually, see [linuxdeployqt releases](https://github.com/probonopd/linuxdeployqt/releases). linuxdeployqt needs Qt6’s **qmake** to find plugins; the build script prefers Qt6 qmake over system `/usr/bin/qmake` (Qt5). If you see “qmake: could not exec … No such file or directory”, install Qt6 qmake (e.g. **`apt install qmake6`** or **`qt6-tools-dev`**) so the script can pass it to linuxdeployqt.
@@ -48,7 +48,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 
 ## Windows (cross-compile from Linux, or via Docker on macOS)
 
-1. **On Linux:** **Setup (once):** `make setup-windows` (or `TARGET_PLATFORM=windows ./scripts/setup.sh`). If you skip this, **`make windows`** will run setup automatically (creates `.stamp-setup-windows` when done).
+1. **On Linux:** **Setup (once):** `make setup-windows` (or `TARGET_PLATFORM=windows ./scripts/setup.sh`). If you skip this, **`make windows`** will run setup automatically (creates `build_windows/.stamp_setup` when done).
 2. **On macOS:** **`make windows`** and **`make windows-installer`** run the Windows build inside Docker (same as **`make windows-docker`** / **`make windows-installer-docker`**). No host setup required; Docker is required.
 3. **Build:** `make windows` → `build_windows/deploy/` is populated with the exe, Qt/MinGW DLLs, `data/`, plugins, and `qt.conf`.
 4. Copy **`build_windows/deploy`** to Windows and run `pokerth_client.exe` from that directory, or run **`make windows-installer`** to create an NSIS installer.
@@ -89,7 +89,7 @@ build_windows/deploy/
 
 ### Building in Dev Container (Windows)
 
-Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer matches **`make windows-docker`**: **base** image, **`docker/windows/vcpkg`** mount, and **`WINDOWS_BUILD_SUBDIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
+Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer matches **`make windows-docker`**: **base** image, **`docker/windows/vcpkg`** mount, and **`WINDOWS_BUILD_DIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
 
 ### Windows cross-compile on Ubuntu (vcpkg bug)
 
@@ -103,7 +103,7 @@ Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer
 
 ## macOS
 
-1. **Setup (once):** `make setup-macos` or `make setup` (on macOS). Or run `./scripts/setup_macos.sh`. Requires Xcode and Xcode command line tools. If you skip this, **`make macos`** or **`make`** will run setup automatically (creates `.stamp-setup-macos` when done).
+1. **Setup (once):** `make setup-macos` or `make setup` (on macOS). Or run `./scripts/setup_macos.sh`. Requires Xcode and Xcode command line tools. If you skip this, **`make macos`** or **`make`** will run setup automatically (creates `build_macos/.stamp_setup` when done).
 2. **Build:** `make macos` or `make` (on macOS) → builds into `build_macos/` and creates `build_macos/PokerTH.app`.
 3. **Optional:** `make macos-installer` or `CREATE_INSTALLER=yes ./scripts/build_macos.sh` creates a DMG installer after the app bundle.
 
@@ -123,7 +123,7 @@ Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer
 
 - **Top-level entry:** Use **make** (see `make help`). Scripts live in **scripts/** (`build.sh`, `setup.sh`, `build_macos.sh`, `setup_macos.sh`, `clean_build.sh`).
 - **Default goals:** On Linux, `make` = `make linux` and `make setup` = `make setup-linux`. On macOS, `make` = `make macos` and `make setup` = `make setup-macos`.
-- **Stamp files:** `.stamp-setup-linux`, `.stamp-setup-windows`, `.stamp-setup-macos` are created when setup finishes; if missing, Make runs setup first, then the build.
+- **Stamp files:** One per build dir: **BUILD_DIR/..stamp_setup** (e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup` when `WINDOWS_BUILD_DIR` is set). Created when setup finishes; if missing, Make runs setup first, then the build.
 - **Setup scripts:** Install deps only (packages, vcpkg, Qt). **Build scripts:** Configure and build; deploy dir is always created. **make clean:** Removes build dirs and stamps; next `make` will run setup again. Or `CLEAN=yes make <target>` to only wipe the build dir and reconfigure.
 - **create_serverlist.sh** (root, legacy): Expects `./build/bin/zlib_compress`. Binary is at `build_linux/bin/zlib_compress`; symlink `build` → `build_linux` or run it manually.
 

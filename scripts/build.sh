@@ -217,7 +217,7 @@ create_windows_nsis_installer() {
     log "  ✓ Icon created"
   fi
   [ -f "$NSIS_DIR/pokerth.ico" ] && cp "$NSIS_DIR/pokerth.ico" "$DEPLOY_DIR/" 2>/dev/null || true
-  DEPLOY_PATH_REL="../../${WINDOWS_BUILD_SUBDIR:-build_windows}/deploy"
+  DEPLOY_PATH_REL="../../${WINDOWS_BUILD_DIR:-build_windows}/deploy"
   if ! (cd "$NSIS_DIR" && makensis -NOCD -DDeployPath="$DEPLOY_PATH_REL" installer.nsi); then
     error "NSIS failed (see output above). Ensure pokerth.ico exists in $NSIS_DIR."
   fi
@@ -356,7 +356,7 @@ log "✓ All dependencies found"
 
 if [ "$TARGET_PLATFORM" = "windows" ]; then
   # Use build_windows_docker in Docker so local and Docker do not share the same dir (avoids path/ownership issues).
-  BUILD_DIR="$REPO_ROOT/${WINDOWS_BUILD_SUBDIR:-build_windows}"
+  BUILD_DIR="$REPO_ROOT/${WINDOWS_BUILD_DIR:-build_windows}"
 else
   BUILD_DIR="$REPO_ROOT/build_linux"
 fi
