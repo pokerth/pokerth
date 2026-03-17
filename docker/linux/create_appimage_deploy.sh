@@ -39,9 +39,13 @@ if [ ! -f "$BUILD_DIR/bin/pokerth_client" ]; then
 fi
 
 # appimagetool herunterladen falls nicht vorhanden
-# WICHTIG: Stabilen Release verwenden statt "continuous"!
-# Die continuous-Builds können instabile/inkompatible AppImage-Runtimes enthalten.
-APPIMAGETOOL_VERSION="continuous"
+# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. APPIMAGETOOL_VERSION), check there.
+# WICHTIG: Stabilen Release verwenden statt "continuous"! Die continuous-Builds können instabile/inkompatible AppImage-Runtimes enthalten.
+if [ -f "${PROJECT_ROOT}/scripts/versions.env" ]; then
+    # shellcheck source=/dev/null
+    . "${PROJECT_ROOT}/scripts/versions.env"
+fi
+APPIMAGETOOL_VERSION="${APPIMAGETOOL_VERSION:-continuous}"
 APPIMAGETOOL="${SCRIPT_DIR}/appimagetool-${ARCH}.AppImage"
 if [ ! -f "$APPIMAGETOOL" ]; then
     echo "=== Lade appimagetool herunter (${APPIMAGETOOL_VERSION}) ==="

@@ -5,6 +5,14 @@ set -euo pipefail
 # Erwartet als Umgebungsvariablen:
 #  ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME, QT_ANDROID_DIR
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. ANDROID_*), check there.
+if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
+  # shellcheck source=/dev/null
+  . "$REPO_ROOT/scripts/versions.env"
+fi
+
 usage(){
   cat <<EOF
 Usage: $0 [--arch arm64-v8a|armeabi-v7a|x86|x86_64] [--build-type Debug|Release] [--api-level 28]
@@ -19,7 +27,7 @@ ARCH=${ANDROID_ARCH:-x64}
 #   ARCH="x86_64"
 # fi
 BUILD_TYPE=Release
-API_LEVEL=${ANDROID_API_LEVEL:-35}
+API_LEVEL=${ANDROID_API_LEVEL:-$ANDROID_TARGET_SDK_VERSION}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -113,6 +121,8 @@ qt-cmake -S . -B "$BUILD_DIR" -G Ninja \
   -C "$BUILD_DIR/InitialCache.cmake" \
   -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
   -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" \
+  -DANDROID_MIN_SDK_VERSION="$ANDROID_MIN_SDK_VERSION" \
+  -DANDROID_TARGET_SDK_VERSION="$ANDROID_TARGET_SDK_VERSION" \
   "${VCPKG_CMAKE_ARGS[@]}" \
   -DANDROID_ABI="$ARCH" \
   -DANDROID_NATIVE_API_LEVEL="$API_LEVEL" \
@@ -170,13 +180,14 @@ if command -v jq >/dev/null 2>&1; then
   # Patche ALLE relevanten Felder UND setze application-binary auf den tatsächlichen Target-Namen
   jq --arg bt "$BUILD_TOOLS_VERSION" \
      --arg al "$API_LEVEL" \
+     --arg min_sdk "$ANDROID_MIN_SDK_VERSION" \
      --arg arch "$ARCH" \
      --arg target "$TARGET" \
      --arg android_src "$ANDROID_SOURCE_DIR" \
-    '.["android-build-tools-revision"] = $bt | 
+    '.["android-build-tools-revision"] = $bt |
      .["android-sdk-build-tools-revision"] = $bt |
      .["android-target-sdk-version"] = $al |
-     .["android-min-sdk-version"] = "28" |
+     .["android-min-sdk-version"] = $min_sdk |
      .["target-architecture"] = $arch |
      .["application-binary"] = $target |
      .["android-package-source-directory"] = $android_src' \
@@ -212,7 +223,7 @@ cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
           android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="28"
+        android:minSdkVersion="$ANDROID_MIN_SDK_VERSION"
         android:targetSdkVersion="$API_LEVEL"/>
 
     <supports-screens

@@ -1,26 +1,16 @@
 #!/usr/bin/env bash
-# Build a Docker image and run a make target (or custom command) in the container.
-# Repo is always mounted at /workspaces/pokerth. Optional: --target, extra mounts, env, setup-if-missing.
+# Build Docker image and run a make target. Windows: config from devcontainer.json (jq).
+# Android: explicit DOCKERFILE/CONTEXT and -e ANDROID_BUILD_ARGS.
 #
 # Usage:
 #   build_docker.sh IMAGE DOCKERFILE CONTEXT MAKE_TARGET [OPTIONS]
 #
-# Positional: IMAGE, DOCKERFILE, CONTEXT (e.g. .), MAKE_TARGET (e.g. windows or android-in-docker)
-# Options:
-#   --target NAME         docker build --target NAME
-#   --mount HOST:GUEST    add -v REPO_ROOT/HOST:GUEST (mkdir -p REPO_ROOT/HOST). Can repeat.
-#   -e KEY=VAL            add -e to docker run. Can repeat.
-#   --setup-if-missing    run setup when vcpkg not present, then make MAKE_TARGET (for Windows docker)
+# Windows (make windows-docker / windows-installer-docker):
+#   MAKE_TARGET=windows or windows-installer. DOCKERFILE/CONTEXT ignored; uses docker/windows/.devcontainer/devcontainer.json.
+#   Requires jq. Runs: ensure_windows_deps.sh MAKE_TARGET.
 #
-# Example (Windows):
-#   build_docker.sh pokerth-windows-dev docker/windows/.devcontainer/Dockerfile . windows \
-#     --target base --mount docker/windows/vcpkg:/opt/pokerth-windows \
-#     -e VCPKG_DIR=/opt/pokerth-windows/vcpkg -e QT_OUTPUT_DIR=/opt/pokerth-windows/Qt \
-#     --setup-if-missing
-#
-# Example (Android):
-#   build_docker.sh pokerth-android-dev docker/android/.devcontainer/Dockerfile docker/android/.devcontainer android-in-docker \
-#     -e ANDROID_BUILD_ARGS=""
+# Android (make android-docker):
+#   MAKE_TARGET=android-in-docker. Uses DOCKERFILE, CONTEXT. Options: -e KEY=VAL (e.g. ANDROID_BUILD_ARGS).
 
 set -euo pipefail
 
@@ -28,7 +18,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 if [ $# -lt 4 ]; then
-  echo "Usage: $0 IMAGE DOCKERFILE CONTEXT MAKE_TARGET [--target NAME] [--mount HOST:GUEST] [-e KEY=VAL] [--setup-if-missing]" >&2
+  echo "Usage: $0 IMAGE DOCKERFILE CONTEXT MAKE_TARGET [-e KEY=VAL] ..." >&2
   exit 1
 fi
 
@@ -38,93 +28,85 @@ CONTEXT="$3"
 MAKE_TARGET="$4"
 shift 4
 
-DOCKER_TARGET=""
-MOUNTS=()
 ENV_ARGS=()
-SETUP_IF_MISSING=0
-
+BUILD_TARGET_OPT=""
+MOUNT_OPTS=()
 while [ $# -gt 0 ]; do
   case "$1" in
-    --target)
-      DOCKER_TARGET="$2"
-      shift 2
-      ;;
-    --mount)
-      MOUNTS+=("$2")
-      shift 2
-      ;;
-    -e)
-      ENV_ARGS+=(-e "$2")
-      shift 2
-      ;;
-    --setup-if-missing)
-      SETUP_IF_MISSING=1
-      shift
-      ;;
-    *)
-      echo "Unknown option: $1" >&2
-      exit 1
-      ;;
+    -e) ENV_ARGS+=(-e "$2"); shift 2 ;;
+    --target) BUILD_TARGET_OPT="$2"; shift 2 ;;
+    --mount) MOUNT_OPTS+=(-v "$2"); shift 2 ;;
+    *) echo "Unknown option: $1" >&2; exit 1 ;;
   esac
 done
 
 cd "$REPO_ROOT"
 
-# Build
+# Windows: drive from devcontainer.json so make windows-docker matches devcontainer.
+if [ "$MAKE_TARGET" = "windows" ] || [ "$MAKE_TARGET" = "windows-installer" ]; then
+  command -v jq >/dev/null 2>&1 || { echo "jq required for Windows docker (e.g. brew install jq)." >&2; exit 1; }
+  DEVCONTAINER_JSON="$REPO_ROOT/docker/windows/.devcontainer/devcontainer.json"
+  DEVCONTAINER_DIR="$(cd "$(dirname "$DEVCONTAINER_JSON")" && pwd)"
+
+  DOCKERFILE_ABS="$DEVCONTAINER_DIR/$(jq -r '.build.dockerfile' "$DEVCONTAINER_JSON")"
+  BUILD_TARGET="$(jq -r '.build.target // empty' "$DEVCONTAINER_JSON")"
+  BUILD_CONTEXT_ABS="$(cd "$DEVCONTAINER_DIR" && cd "$(jq -r '.build.context' "$DEVCONTAINER_JSON")" && pwd)"
+  REMOTE_USER="$(jq -r '.remoteUser // empty' "$DEVCONTAINER_JSON")"
+  LOCAL_WORKSPACE_FOLDER="$REPO_ROOT/docker/windows"
+
+  WORKSPACE_MOUNT_STR="$(jq -r '.workspaceMount' "$DEVCONTAINER_JSON")"
+  WORKSPACE_MOUNT_STR="${WORKSPACE_MOUNT_STR//\$\{localWorkspaceFolder\}/$LOCAL_WORKSPACE_FOLDER}"
+  workspace_source=""; workspace_target=""; consistency=""
+  IFS=',' read -ra workspace_parts <<< "$WORKSPACE_MOUNT_STR"
+  for part in "${workspace_parts[@]}"; do
+    key="${part%%=*}"; val="${part#*=}"
+    case "$key" in source) workspace_source="$val" ;; target) workspace_target="$val" ;; consistency) consistency="$val" ;; esac
+  done
+  workspace_source="$(cd "$workspace_source" && pwd)"
+  CONSISTENCY_SUFFIX=""; [ "$consistency" = "cached" ] && CONSISTENCY_SUFFIX=":cached"
+
+  RUN_EXTRA=()
+  RUN_EXTRA+=(-v "$workspace_source:$workspace_target${CONSISTENCY_SUFFIX}")
+  while IFS= read -r mount_str; do
+    mount_str="${mount_str//\$\{localWorkspaceFolder\}/$LOCAL_WORKSPACE_FOLDER}"
+    mount_source="$(printf '%s' "$mount_str" | awk -F',' '{for(i=1;i<=NF;i++){if($i~/^source=/){print substr($i,8)}}}')"
+    mount_target="$(printf '%s' "$mount_str" | awk -F',' '{for(i=1;i<=NF;i++){if($i~/^target=/){print substr($i,8)}}}')"
+    if [ -n "$mount_source" ] && [ -n "$mount_target" ]; then
+      mkdir -p "$mount_source"
+      RUN_EXTRA+=(-v "$mount_source:$mount_target")
+    fi
+  done < <(jq -r '.mounts // [] | .[]' "$DEVCONTAINER_JSON")
+
+  while IFS= read -r line; do
+    key="${line%%=*}"; val="${line#*=}"
+    [ -n "$key" ] && ENV_ARGS+=(-e "$key=$val")
+  done < <(jq -r '.containerEnv // {} | to_entries[] | "\(.key)=\(.value)"' "$DEVCONTAINER_JSON")
+
+  BUILD_CMD=(docker build -f "$DOCKERFILE_ABS" -t "$IMAGE" "$BUILD_CONTEXT_ABS")
+  [ -n "$BUILD_TARGET" ] && [ "$BUILD_TARGET" != "null" ] && BUILD_CMD+=(--target "$BUILD_TARGET")
+  echo "Building $IMAGE (Windows devcontainer config)..."
+  "${BUILD_CMD[@]}"
+
+  docker run --rm \
+    "${RUN_EXTRA[@]}" \
+    "${ENV_ARGS[@]}" \
+    -w "$workspace_target" \
+    ${REMOTE_USER:+--user "$REMOTE_USER"} \
+    "$IMAGE" \
+    bash scripts/ensure_windows_deps.sh "$MAKE_TARGET"
+  exit 0
+fi
+
+# Android (or any other target): classic build + run with repo mount and -e/--target/--mount pass-through.
 BUILD_CMD=(docker build -f "$DOCKERFILE" -t "$IMAGE" "$CONTEXT")
-if [ -n "$DOCKER_TARGET" ]; then
-  BUILD_CMD+=(--target "$DOCKER_TARGET")
-fi
-echo "Building image $IMAGE (this may take a while on first run)..."
+[ -n "$BUILD_TARGET_OPT" ] && BUILD_CMD+=(--target "$BUILD_TARGET_OPT")
+echo "Building $IMAGE..."
 "${BUILD_CMD[@]}"
-
-# Ensure mount dirs exist and build docker run args
-RUN_EXTRA=()
-for m in "${MOUNTS[@]}"; do
-  host_path="${m%%:*}"
-  guest_path="${m#*:}"
-  if [[ "$host_path" != /* ]]; then
-    mkdir -p "$REPO_ROOT/$host_path"
-    RUN_EXTRA+=(-v "$REPO_ROOT/$host_path:$guest_path")
-  else
-    RUN_EXTRA+=(-v "$m")
-  fi
-done
-
-if [ ${#MOUNTS[@]} -gt 0 ]; then
-  echo "Running build in container (repo + extra mounts)..."
-else
-  echo "Running build in container (repo mounted at /workspaces/pokerth)..."
-fi
-
-# Docker Windows build uses docker/windows/build so local and Docker do not share the same tree.
-if [ ${#MOUNTS[@]} -gt 0 ]; then
-  ENV_ARGS+=(-e "WINDOWS_BUILD_DIR=docker/windows/build")
-fi
-
-# When using mounts, run as root and chown so host user can edit/delete; pass command via env to avoid duplicating it.
-HOST_UID="$(id -u 2>/dev/null || true)"
-HOST_GID="$(id -g 2>/dev/null || true)"
-if [ "$SETUP_IF_MISSING" -eq 1 ]; then
-  DOCKER_CMD="bash scripts/ensure_windows_deps.sh $MAKE_TARGET"
-else
-  DOCKER_CMD="make $MAKE_TARGET"
-fi
-if [ ${#MOUNTS[@]} -gt 0 ] && [ -n "$HOST_UID" ] && [ "$HOST_UID" != "0" ]; then
-  CHOWN_DIRS="/workspaces/pokerth/docker/windows/build"
-  for m in "${MOUNTS[@]}"; do CHOWN_DIRS="$CHOWN_DIRS ${m#*:}"; done
-  ENV_ARGS+=(-e "HOST_UID=$HOST_UID" -e "HOST_GID=$HOST_GID")
-  CMD=(bash -c "set -e; eval \"\$DOCKER_CMD\"; r=\$?; chown -R \${HOST_UID}:\${HOST_GID} ${CHOWN_DIRS} 2>/dev/null || true; exit \$r")
-else
-  CMD=(bash -c 'eval "$DOCKER_CMD"')
-fi
-ENV_ARGS+=(-e "DOCKER_CMD=$DOCKER_CMD")
 
 docker run --rm \
   -v "$REPO_ROOT:/workspaces/pokerth:rw" \
-  "${RUN_EXTRA[@]}" \
+  "${MOUNT_OPTS[@]}" \
   "${ENV_ARGS[@]}" \
   -w /workspaces/pokerth \
-  --user root \
   "$IMAGE" \
-  "${CMD[@]}"
+  make "$MAKE_TARGET"

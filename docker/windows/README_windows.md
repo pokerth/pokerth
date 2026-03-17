@@ -1,6 +1,7 @@
 ## Prerequisites
 
 - Docker
+- **jq** (on host: for `make windows-docker` / `make windows-installer-docker`; install with `apt install jq`, `brew install jq`, or run `make setup-windows` on Linux / `make setup-macos` on macOS)
 - VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
 
 ## Build Instructions

@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-# 6.4.2 matches Ubuntu 24.04 LTS system Qt; Debian/testing has 6.7+
-set(QT_MIN_VERSION "6.4.2")
+set(QT_MIN_VERSION "6.7.0")
 
 project(POKERTH)
 

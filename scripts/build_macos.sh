@@ -25,7 +25,7 @@ CLEAN="${CLEAN:-no}"
 CREATE_INSTALLER="${CREATE_INSTALLER:-no}"
 
 QT_DIR="$QT_OUTPUT_DIR/$QT_VERSION/macos"
-MACOSX_DEPLOYMENT_TARGET=12.0
+MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-12.0}"
 
 if [ $# -gt 0 ]; then
   echo "Usage: make macos or ./scripts/build_macos.sh"

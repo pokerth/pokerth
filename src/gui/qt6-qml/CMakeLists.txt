@@ -123,11 +123,14 @@ target_compile_definitions(pokerth_qml-client PUBLIC QML_CLIENT)
 
 # Android: Konfiguriere und finalisiere Target
 if(ANDROID)
+    if(NOT DEFINED ANDROID_MIN_SDK_VERSION OR NOT DEFINED ANDROID_TARGET_SDK_VERSION)
+        message(FATAL_ERROR "ANDROID_MIN_SDK_VERSION and ANDROID_TARGET_SDK_VERSION must be set for Android builds (canonical source: scripts/versions.env; pass -DANDROID_MIN_SDK_VERSION=... -DANDROID_TARGET_SDK_VERSION=... or use docker/android/build_android.sh).")
+    endif()
     # Setze Properties VOR qt_finalize_target
     set_target_properties(pokerth_qml-client PROPERTIES
         QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android"
-        QT_ANDROID_MIN_SDK_VERSION "28"
-        QT_ANDROID_TARGET_SDK_VERSION "35"
+        QT_ANDROID_MIN_SDK_VERSION "${ANDROID_MIN_SDK_VERSION}"
+        QT_ANDROID_TARGET_SDK_VERSION "${ANDROID_TARGET_SDK_VERSION}"
     )
 
     # Finalisiere das Target (generiert deployment-settings.json)

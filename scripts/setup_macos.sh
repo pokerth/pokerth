@@ -52,6 +52,7 @@ brew install \
   cmake \
   ninja \
   git \
+  jq \
   python \
   pkg-config \
   libiodbc \

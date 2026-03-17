@@ -4,7 +4,14 @@ echo "DEPRECATED: Use 'make windows-docker' or (inside the devcontainer) 'make w
 
 # Set environment variables from Dockerfile
 ROOT=${ROOT:-/opt/pokerth-windows}
-QT_VERSION=${QT_VERSION:-6.9.3}
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. QT_VERSION), check there.
+if [ -f "${SCRIPT_DIR}/../../scripts/versions.env" ]; then
+  # shellcheck source=/dev/null
+  . "${SCRIPT_DIR}/../../scripts/versions.env"
+fi
+QT_VERSION="${QT_VERSION:-6.9.3}"
 
 # Set Qt paths
 export QT_WINDOWS_DIR=${ROOT}/Qt/${QT_VERSION}/win64_mingw

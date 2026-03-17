@@ -12,9 +12,17 @@ set -euo pipefail
 #   bash build_android_universal.sh [--build-type Release] [--api-level 35]
 # =============================================================================
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. ANDROID_*), check there.
+if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
+  # shellcheck source=/dev/null
+  . "$REPO_ROOT/scripts/versions.env"
+fi
+
 ABIS=("arm64-v8a" "armeabi-v7a")
 BUILD_TYPE=Release
-API_LEVEL=${ANDROID_API_LEVEL:-35}
+API_LEVEL=${ANDROID_API_LEVEL:-$ANDROID_TARGET_SDK_VERSION}
 TARGET=${TARGET:-pokerth_client}
 
 usage() {
@@ -203,7 +211,7 @@ cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
           android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="28"
+        android:minSdkVersion="$ANDROID_MIN_SDK_VERSION"
         android:targetSdkVersion="$API_LEVEL"/>
 
     <supports-screens
@@ -310,6 +318,7 @@ jq -n \
   --arg sdk "$ANDROID_SDK_ROOT" \
   --arg bt "$BUILD_TOOLS_VERSION" \
   --arg al "$API_LEVEL" \
+  --arg min_sdk "$ANDROID_MIN_SDK_VERSION" \
   --arg android_src "$ANDROID_SOURCE_DIR" \
   --arg target "$TARGET" \
 '
@@ -347,7 +356,7 @@ jq -n \
   .["android-build-tools-revision"] = $bt |
   .["android-sdk-build-tools-revision"] = $bt |
   .["android-target-sdk-version"] = $al |
-  .["android-min-sdk-version"] = "28" |
+  .["android-min-sdk-version"] = $min_sdk |
   .["application-binary"] = $target |
   .["android-package-source-directory"] = $android_src
 ' > "$MERGED_JSON"

@@ -38,7 +38,7 @@ ENV ANDROID_NDK_ROOT=${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}
 ENV ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}
 
 ENV VCPKG_ROOT=${ROOT}/vcpkg
-ENV VCPKG_CHAINLOAD_TOOLCHAIN_FILE $ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake
+ENV VCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake
 
 ENV QT_ANDROID_DIR=${ROOT}/Qt/${QT_VERSION}/android
 ENV QT_HOST_PATH=${ROOT}/Qt/${QT_VERSION}/gcc_64
@@ -69,9 +69,9 @@ RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io d
 # locales & timezone
 RUN sed -i '/'${LANG}'/s/^# //g' /etc/locale.gen && \
     locale-gen
-ENV LANG ${LANG}
-ENV LANGUAGE ${LANGUAGE}
-ENV LC_ALL ${LC_ALL}
+ENV LANG=${LANG}
+ENV LANGUAGE=${LANGUAGE}
+ENV LC_ALL=${LC_ALL}
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 

@@ -8,8 +8,12 @@
 # Common Configuration
 ########################################
 
-# Qt version
-QT_VERSION="${QT_VERSION:-6.9.3}"
+# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. QT_VERSION), check there.
+_func_dir="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd)"
+if [ -f "$_func_dir/versions.env" ]; then
+  # shellcheck source=/dev/null
+  . "$_func_dir/versions.env"
+fi
 
 # Qt installation directory
 QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-$HOME/Qt}"
@@ -17,8 +21,6 @@ QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-$HOME/Qt}"
 # vcpkg directory
 VCPKG_DIR="${VCPKG_DIR:-$HOME/vcpkg}"
 
-# Repo root: when functions.sh lives in scripts/, use parent of scripts/; else use dir of this script
-_func_dir="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd)"
 if [ "$(basename "$_func_dir")" = "scripts" ]; then
   REPO_ROOT="${REPO_ROOT:-$(cd "$_func_dir/.." && pwd)}"
 else
