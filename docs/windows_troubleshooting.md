@@ -23,7 +23,7 @@ This error typically means STATUS_ACCESS_DENIED and can have several causes.
 - Try running again
 
 ### 4. Verify All Files Copied Correctly
-- Ensure entire deployment directory (e.g. `build_windows/deploy` copied to Windows) is present:
+- Ensure entire deployment directory (e.g. `build_windows/deploy` or `docker/windows/build/deploy` when using Docker, copied to Windows) is present:
   ```
   deploy/
   ├── pokerth_client.exe

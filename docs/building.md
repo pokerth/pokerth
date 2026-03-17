@@ -1,26 +1,29 @@
 # Build guide
 
-**Top-level entry:** Use the **Makefile**. Run `make help` for all targets.
+How to build PokerTH (for contributors and packagers). **Top-level entry:** Use the **Makefile**. Run `make help` for all targets.
 
 - **Default `make`:** On Linux runs `make linux`; on macOS runs `make macos`. So you can run **`make`** after setup and get the native build.
 - **Default `make setup`:** On Linux runs `make setup-linux`; on macOS runs `make setup-macos`. Run **`make setup`** once to install dependencies for the current OS.
 - **Stamp files:** When you run `make linux`, `make windows`, or `make macos`, Make checks for a setup stamp (`.stamp-setup-linux`, `.stamp-setup-windows`, or `.stamp-setup-macos`). If the stamp is missing, it runs the corresponding setup first, then builds. So **`make`** or **`make linux`** (etc.) can be run without having run setup beforehand; setup will run once and create the stamp.
-- **`make clean`:** Removes `build_linux/`, `build_windows/`, `build_macos/` and the setup stamp files. After that, the next `make` or `make linux` (etc.) will run setup again.
+- **`make clean`:** Removes `build_linux/`, `build_windows/`, `build_macos/`, `docker/windows/build/` and the setup stamp files. After that, the next `make` or `make linux` (etc.) will run setup again.
 
 ## Summary by platform
 
 | Platform | Setup | Build | Build dir | Notes |
 |----------|--------|-------|-----------|--------|
 | **Linux** (native) | `make setup-linux` or `make setup` (on Linux) | `make linux` or `make` (on Linux) | `build_linux/` | Qt 6.4.2+ (e.g. Ubuntu 24.04 system Qt). Deploy: `build_linux/deploy/` (binary + data). |
-| **Windows** (cross from Linux) | `make setup-windows` | `make windows` | `build_windows/` | MinGW + vcpkg + Qt (aqtinstall). Output: `build_windows/deploy/`. |
+| **Windows** (cross from Linux; or Docker on macOS) | `make setup-windows` (Linux) or none (macOS: Docker) | `make windows` | `build_windows/` or `docker/windows/build/` (Docker) | Linux: MinGW + vcpkg + Qt. macOS: **make windows** runs in Docker. Local output: `build_windows/deploy/`. Docker: **make windows-docker** → `docker/windows/build/deploy/`. |
 | **macOS** | `make setup-macos` or `make setup` (on macOS) | `make macos` or `make` (on macOS) | `build_macos/` | Homebrew, vcpkg, Qt via aqtinstall. Produces `.app` bundle. |
+| **Android** | none (Docker) | `make android` | `build-android-<arch>/` | Via Docker on Linux and macOS. APK in `build-android-<arch>/android-build/build/outputs/apk/release/`. |
 
-- **Clean rebuild:** `make clean` (removes build dirs and stamps) or `CLEAN=yes make linux` (or make windows / make macos) wipes the build dir and reconfigures from scratch.
+- **Clean rebuild:** `make clean` (removes build dirs and stamps) or `CLEAN=yes make linux` (or make windows / make macos) wipes the build dir and reconfigures from scratch. If you see "Makefile not found", "Configure incomplete", or cache/toolchain errors, run `CLEAN=yes make <target>` and retry.
 - **Create installer:** `make linux-installer`, `make windows-installer`, or `make macos-installer` — Linux: AppImage (linuxdeployqt); Windows: NSIS (makensis); macOS: DMG.
 - **Usage:** Pass any argument (e.g. `--help`) to a setup or build script to print usage and exit.
 - **Build targets:** `pokerth_client` (default), `pokerth_qml-client`, `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`. Override with `BUILD_TARGET=…`.
 
-**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make macos`, `make setup-linux`, `make setup-windows`, `make setup-macos`, `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`.
+**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android`, `make setup-linux`, `make setup-windows`, `make setup-macos`, `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make windows-installer-docker`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`.
+
+**Windows vs Android (Docker):** **`make windows`** means “produce a Windows build”; on Linux it uses the host toolchain (MinGW, vcpkg, Qt), on macOS it uses Docker (no host Windows toolchain). So the *method* depends on the host. To always use Docker for Windows, use **`make windows-docker`** or **`make windows-installer-docker`**. **`make android`** always means “build for Android in Docker” — there is no host Android build path, so the meaning is unambiguous.
 
 ---
 
@@ -33,7 +36,7 @@
 
 **Deploy directory:** Like Windows, every Linux build creates `build_linux/deploy/` with the binary and `deploy/data` pointing to repo data (no copy). `build_linux/bin/data` also points to repo data so running from `bin/` works.
 
-**Script behavior:** Reuses `build_linux/` by default. Configure is skipped only if `CMakeCache.txt` and `build.ninja` exist; if `build.ninja` is missing (e.g. partial or copied build), the script reconfigures automatically.
+**Script behavior:** Reuses `build_linux/` by default; reconfigure only on path change or if you run `CLEAN=yes` / remove the build dir (see Summary above).
 
 **Ubuntu vs Debian:** Qt 6.4.2+ is required. Ubuntu **24.04** has Qt 6.4.2 (fine; use system Qt). Ubuntu **22.04** has Qt 6.2.x — too old; use **USE_AQT=yes make setup-linux** on 22.04 to install Qt 6.4.2+ via aqtinstall, then you can build and create the AppImage there. If you see “Could not find … Qt6 … 6.7.0”, run `CLEAN=yes make linux` to pick up the lower minimum.
 
@@ -43,15 +46,18 @@
 
 ---
 
-## Windows (cross-compile from Linux)
+## Windows (cross-compile from Linux, or via Docker on macOS)
 
-1. **Setup (once):** `make setup-windows` (or `TARGET_PLATFORM=windows ./scripts/setup.sh`). If you skip this, **`make windows`** will run setup automatically (creates `.stamp-setup-windows` when done).
-2. **Build:** `make windows` → `build_windows/deploy/` is populated with the exe, Qt/MinGW DLLs, `data/`, plugins, and `qt.conf`.
-3. Copy **`build_windows/deploy`** to Windows and run `pokerth_client.exe` from that directory, or run **`make windows-installer`** to create an NSIS installer. Requires `makensis` (e.g. `apt install nsis`).
+1. **On Linux:** **Setup (once):** `make setup-windows` (or `TARGET_PLATFORM=windows ./scripts/setup.sh`). If you skip this, **`make windows`** will run setup automatically (creates `.stamp-setup-windows` when done).
+2. **On macOS:** **`make windows`** and **`make windows-installer`** run the Windows build inside Docker (same as **`make windows-docker`** / **`make windows-installer-docker`**). No host setup required; Docker is required.
+3. **Build:** `make windows` → `build_windows/deploy/` is populated with the exe, Qt/MinGW DLLs, `data/`, plugins, and `qt.conf`.
+4. Copy **`build_windows/deploy`** to Windows and run `pokerth_client.exe` from that directory, or run **`make windows-installer`** to create an NSIS installer.
 
-**Script behavior:** Same reuse logic as Linux; when reusing, configure is skipped if cache and generator files exist. Windows deploy dir is always created for Windows builds.
+**NSIS (makensis):** Required only for **`make windows-installer`** (or `CREATE_INSTALLER=yes`). We assume it is already installed: on Linux run **`make setup-windows`** (which installs the `nsis` package), or install it yourself (e.g. **`apt install nsis`**). In the Windows Docker image, **`scripts/setup.sh`** installs nsis as part of the base packages. **scripts/build.sh** does not install nsis; it fails with a clear message if `makensis` is missing.
 
-**Host vs Docker:** You can build Windows binaries and the NSIS installer either **on the host** (`make windows` / `make windows-installer` with MinGW, vcpkg, Qt, makensis) or **inside Docker** (`docker/windows/build_windows.sh`). Both use the same **Windows packaging assets** in `docker/windows/` (installer.nsi, pokerth.ico, and the created PokerTH-*-Setup.exe). So `docker/windows/` is shared: not Docker-only.
+**Script behavior:** Same reuse logic as Linux (reconfigure on path change or `CLEAN=yes`; see Summary). If broken on host: `CLEAN=yes make windows`. If broken in Docker: remove `docker/windows/build` then `make windows-docker`. Launchers `pokerth_launcher.bat` and `run_pokerth.sh` are copied from **scripts/**.
+
+**Host vs Docker:** You can build Windows binaries and the NSIS installer either **on the host** (`make windows` → `build_windows/deploy/`) or **via Docker** (`make windows-docker` → `docker/windows/build/deploy/`). Docker uses `docker/windows/build/` so local and Docker do not share the same tree. All use the same **Windows packaging assets** in `docker/windows/` (installer.nsi, pokerth.ico).
 
 ### Required files in deploy
 
@@ -79,7 +85,11 @@ build_windows/deploy/
 2. Ensure all DLLs are next to the exe and `plugins/platforms/qwindows.dll` and `data/` are present.
 3. Run `pokerth_client.exe`.
 
-**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **Build script context** below. **Ubuntu:** If setup fails during vcpkg install with “unreachable code was reached” / “Download failed”, see the “Windows cross-compile on Ubuntu” section below.
+**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Ubuntu:** If setup fails during vcpkg install with “unreachable code was reached” / “Download failed”, see the “Windows cross-compile on Ubuntu” section below. **Docker:** vcpkg and Qt live in **`docker/windows/vcpkg/`**; you can inspect **`docker/windows/vcpkg/vcpkg/buildtrees/`** for vcpkg build logs (e.g. `*/install-*-out.log`) if setup fails.
+
+### Building in Dev Container (Windows)
+
+Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer matches **`make windows-docker`**: **base** image, **`docker/windows/vcpkg`** mount, and **`WINDOWS_BUILD_SUBDIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
 
 ### Windows cross-compile on Ubuntu (vcpkg bug)
 
@@ -97,36 +107,24 @@ build_windows/deploy/
 2. **Build:** `make macos` or `make` (on macOS) → builds into `build_macos/` and creates `build_macos/PokerTH.app`.
 3. **Optional:** `make macos-installer` or `CREATE_INSTALLER=yes ./scripts/build_macos.sh` creates a DMG installer after the app bundle.
 
-**Script behavior:** Reuses `build_macos/` by default; `CLEAN=yes make macos` for a full reconfigure. Uses vcpkg for Boost, Protobuf, etc., and Qt from aqtinstall (e.g. 6.9.2).
+**Script behavior:** Reuses `build_macos/` by default; `CLEAN=yes make macos` for a full reconfigure. Uses vcpkg for Boost, Protobuf, etc., and Qt from aqtinstall (default **QT_VERSION** 6.9.3 in `scripts/functions.sh`).
+
+---
+
+## Android (via Docker, Linux and macOS)
+
+1. **Build:** From the repo root run **`make android`**. The Makefile builds the Android devcontainer image (first run can take a long time), mounts the repo, and runs **`make android-in-docker`** inside the container (which runs **docker/android/build_android.sh**). Requires Docker; no host setup.
+2. **Output:** Unsigned APK at **`build-android-<arch>/android-build/build/outputs/apk/release/android-build-release-unsigned.apk`** (default arch is set in **docker/android/.devcontainer/Dockerfile**, e.g. `arm64-v8a`).
+3. **Other architectures:** Run **`make android ANDROID_BUILD_ARGS="--arch armeabi-v7a"`** or **`ANDROID_BUILD_ARGS="--arch x86_64"`** etc. See **docker/android/README_android.md** for signing and devcontainer usage.
 
 ---
 
 ## Script roles
 
-- **Top-level entry:** Use **make** (see `make help`). Scripts live in **scripts/** (`scripts/build.sh`, `scripts/setup.sh`, `scripts/build_macos.sh`, `scripts/setup_macos.sh`, `scripts/clean_build.sh`).
+- **Top-level entry:** Use **make** (see `make help`). Scripts live in **scripts/** (`build.sh`, `setup.sh`, `build_macos.sh`, `setup_macos.sh`, `clean_build.sh`).
 - **Default goals:** On Linux, `make` = `make linux` and `make setup` = `make setup-linux`. On macOS, `make` = `make macos` and `make setup` = `make setup-macos`.
-- **Stamp files:** `.stamp-setup-linux`, `.stamp-setup-windows`, `.stamp-setup-macos` are created when the corresponding setup finishes. Build targets (`make linux`, `make windows`, `make macos`) depend on these stamps; if a stamp is missing, Make runs the setup first, then the build. So you can run **`make`** or **`make linux`** (etc.) without having run setup beforehand.
-- **Setup scripts** (`scripts/setup.sh`, `scripts/setup_macos.sh`): Install dependencies only (packages, vcpkg, Qt). Do not build.
-- **Build scripts** (`scripts/build.sh`, `scripts/build_macos.sh`): Check that dependencies exist, then configure and build. If you use the Makefile, setup is run automatically when the stamp is missing.
-- **make clean:** Runs `scripts/clean_build.sh` (removes `build_linux/`, `build_windows/`, `build_macos/`) and deletes the setup stamp files. Next `make` or `make linux` (etc.) will run setup again. Or use `CLEAN=yes make linux` (or make windows / make macos) to only wipe the build dir and reconfigure.
-- **create_serverlist.sh** (root, legacy): Expects `./build/bin/zlib_compress`. The Makefile puts the Linux build in `build_linux/`, so the binary is at `build_linux/bin/zlib_compress`. Symlink `build` → `build_linux` or run the compress step manually with `build_linux/bin/zlib_compress`.
+- **Stamp files:** `.stamp-setup-linux`, `.stamp-setup-windows`, `.stamp-setup-macos` are created when setup finishes; if missing, Make runs setup first, then the build.
+- **Setup scripts:** Install deps only (packages, vcpkg, Qt). **Build scripts:** Configure and build; deploy dir is always created. **make clean:** Removes build dirs and stamps; next `make` will run setup again. Or `CLEAN=yes make <target>` to only wipe the build dir and reconfigure.
+- **create_serverlist.sh** (root, legacy): Expects `./build/bin/zlib_compress`. Binary is at `build_linux/bin/zlib_compress`; symlink `build` → `build_linux` or run it manually.
 
-## Build script context (for developers)
-
-- **scripts/build.sh** (Linux host; Linux and Windows target)
-  - **Target:** Set `TARGET_PLATFORM=linux` or `TARGET_PLATFORM=windows`; the Makefile sets it (e.g. `make windows`).
-  - **Reuse:** Does not delete build dir unless `CLEAN=yes`.
-  - **Configure skipped:** Only if `CMakeCache.txt` exists and (for Linux) `build.ninja` exists; otherwise script reconfigures.
-  - **Linux:** Always populates `build_linux/deploy/` with binary and `deploy/data` → `../../data`; also creates `bin/data` → `../../data` so running from `bin/` finds data. `make linux-installer` runs linuxdeployqt for AppImage.
-  - **Windows:** Always populates `build_windows/deploy/`; `chmod +x` on all `.dll`. `make windows-installer` runs NSIS (requires `makensis`).
-- **scripts/setup.sh**
-  - **Target:** Set `TARGET_PLATFORM=linux` or `TARGET_PLATFORM=windows`; the Makefile sets it (e.g. `make setup-windows`).
-- **scripts/functions.sh**
-  - **REPO_ROOT:** Set to repo root (parent of `scripts/` when sourced from `scripts/`).
-  - **Windows cross-compile:** `QT_HOST_PATH` = `$QT_OUTPUT_DIR/$QT_VERSION/gcc_64`.
-  - **SETUP_SCRIPT / BUILD_SCRIPT:** `scripts/setup.sh`, `scripts/build.sh` for usage messages.
-  - **Usage:** Any argument to a setup or build script prints usage and exits.
-- **scripts/build_macos.sh**
-  - Does not install any utilities; run `scripts/setup_macos.sh` first. Reuse and `CLEAN=yes make macos` same idea as Linux. `make macos-installer` creates DMG installer.
-
-**Refactor history and future plans:** See **docs/building-future.md** (what changed vs pre-refactor, how it works for devs, planned devcontainer/CI work).
+**Build system details (scripts, env, reconfigure, Docker):** **docs/building-developer.md**.
