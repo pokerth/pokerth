@@ -87,11 +87,12 @@ if [ "$MAKE_TARGET" = "windows" ] || [ "$MAKE_TARGET" = "windows-installer" ]; t
   echo "Building $IMAGE (Windows devcontainer config)..."
   "${BUILD_CMD[@]}"
 
+  # Run as root (override image USER vscode) so ensure_windows_deps.sh can write to the cache and chown it to vscode; the script then runs make as vscode.
   docker run --rm \
+    --user root \
     "${RUN_EXTRA[@]}" \
     "${ENV_ARGS[@]}" \
     -w "$workspace_target" \
-    ${REMOTE_USER:+--user "$REMOTE_USER"} \
     "$IMAGE" \
     bash scripts/ensure_windows_deps.sh "$MAKE_TARGET"
   exit 0
