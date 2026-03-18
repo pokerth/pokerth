@@ -141,49 +141,13 @@ ENV QT_ANDROID_DIR=${ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}
 # install host (desktop) Qt needed as QT_HOST_PATH for cross-build
 RUN cd ${ROOT}/Qt && aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d qtquick3dphysics qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
 
-# boost & openssl for android
-RUN git clone https://github.com/microsoft/vcpkg.git ${ROOT}/vcpkg
-RUN ${ROOT}/vcpkg/bootstrap-vcpkg.sh && \
-  ${ROOT}/vcpkg/vcpkg install \
-  boost-system:${VCPKG_ARCH}-android \
-  boost-filesystem:${VCPKG_ARCH}-android \
-  boost-thread:${VCPKG_ARCH}-android boost-regex:${VCPKG_ARCH}-android \
-  boost-chrono:${VCPKG_ARCH}-android \
-  boost-date-time:${VCPKG_ARCH}-android boost-serialization:${VCPKG_ARCH}-android \
-  boost-asio:${VCPKG_ARCH}-android \
-  boost-interprocess:${VCPKG_ARCH}-android \
-  boost-iostreams:${VCPKG_ARCH}-android \
-  boost-program-options:${VCPKG_ARCH}-android \
-  boost-lambda:${VCPKG_ARCH}-android \
-  boost-foreach:${VCPKG_ARCH}-android \
-  boost-uuid:${VCPKG_ARCH}-android \
-  openssl:${VCPKG_ARCH}-android \
-  protobuf:x64-linux
+# vcpkg for Android is populated at run time by scripts/ensure_docker_deps.sh android (calls docker/android/.devcontainer/install_vcpkg_android.sh). No build-time clone/install here to avoid duplication.
 
 ### ###
 
 RUN cd ${ROOT} && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout stable
 
-# build protobuf with tls-emulation
-RUN mkdir -p ${ROOT}/vcpkg-overlays/protobuf
-RUN cp -r ${ROOT}/vcpkg/ports/protobuf/* ${ROOT}/vcpkg-overlays/protobuf/
-
-# Füge TLS-Emulation am Anfang der portfile.cmake ein
-RUN sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' ${ROOT}/vcpkg-overlays/protobuf/portfile.cmake
-
-# Entferne Protobuf komplett und lösche Build-Cache
-RUN ${ROOT}/vcpkg/vcpkg remove protobuf:${VCPKG_ARCH}-android --recurse
-RUN rm -rf ${ROOT}/vcpkg/buildtrees/protobuf
-RUN rm -rf ${ROOT}/vcpkg/packages/protobuf_${VCPKG_ARCH}-android
-RUN rm -rf /tmp/vcpkg-buildtrees/protobuf
-
-# Installiere Protobuf neu mit Overlay
-RUN ${ROOT}/vcpkg/vcpkg install protobuf:${VCPKG_ARCH}-android \
-    --overlay-ports=${ROOT}/vcpkg-overlays/protobuf \
-    --x-buildtrees-root=/tmp/vcpkg-buildtrees \
-    --no-binarycaching
-
-# RUN cd ${ROOT}/pokerth && bash docker/android/build_android.sh
+# RUN cd ${ROOT}/pokerth && docker/android/build_android.sh
 
 # Entrypoint/Command used from docker-compose.yml
 # ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
