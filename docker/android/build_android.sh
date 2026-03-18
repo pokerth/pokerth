@@ -55,6 +55,8 @@ esac
 : ${ANDROID_NDK_ROOT:?Please set ANDROID_NDK_ROOT}
 : ${JAVA_HOME:?Please set JAVA_HOME}
 : ${QT_ANDROID_DIR:?Please set QT_ANDROID_DIR (Qt installation for Android)}
+# CMake/ninja target (e.g. pokerth_client). Set by Makefile when invoked via make android-in-docker so the make goal name is not passed to ninja.
+: ${TARGET:=pokerth_client}
 
 # Prüfe Android-Plattform
 if [[ ! -d "${ANDROID_SDK_ROOT}/platforms/android-${API_LEVEL}" ]]; then
@@ -175,7 +177,10 @@ echo "Found deployment settings: $DEPLOY_JSON"
 # Patche deployment-settings.json - WICHTIG: Ändere application-binary!
 if command -v jq >/dev/null 2>&1; then
   echo "Patching deployment settings JSON..."
-  TMP_JSON=$(mktemp)
+  # Use a temp file next to the destination so rename is atomic and
+  # avoids cross-filesystem/bind-mount quirks ("mv ...: File exists").
+  DEPLOY_DIR="$(dirname "$DEPLOY_JSON")"
+  TMP_JSON="$(mktemp "$DEPLOY_DIR/.deployment-settings.json.tmp.XXXXXX")"
   
   # Patche ALLE relevanten Felder UND setze application-binary auf den tatsächlichen Target-Namen
   jq --arg bt "$BUILD_TOOLS_VERSION" \
@@ -192,7 +197,7 @@ if command -v jq >/dev/null 2>&1; then
      .["application-binary"] = $target |
      .["android-package-source-directory"] = $android_src' \
     "$DEPLOY_JSON" > "$TMP_JSON"
-  mv "$TMP_JSON" "$DEPLOY_JSON"
+  mv -f "$TMP_JSON" "$DEPLOY_JSON"
   
   echo "Deployment settings after patch:"
   jq '.["application-binary"], .["android-package-source-directory"], .["target-architecture"]' "$DEPLOY_JSON"
@@ -289,18 +294,24 @@ echo "Found library: $SO_FILE"
 # Kopiere mit dem Namen, den androiddeployqt erwartet
 EXPECTED_SO_NAME="lib${TARGET}_${ARCH}.so"
 echo "Copying library as: $EXPECTED_SO_NAME"
-cp -v "$SO_FILE" "$ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME"
+DEST_SO="$ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME"
+# Idempotent: avoid failing when source is already at destination.
+if command -v realpath >/dev/null 2>&1 && [ -e "$DEST_SO" ] && [ "$(realpath "$SO_FILE")" = "$(realpath "$DEST_SO")" ]; then
+  echo "Library already in place: $DEST_SO"
+else
+  cp -v "$SO_FILE" "$DEST_SO"
+fi
 
 # Erstelle auch einen Symlink mit dem ursprünglichen Namen
 ln -sf "$EXPECTED_SO_NAME" "$ANDROID_BUILD_DIR/libs/$ARCH/lib${TARGET}.so"
 
 # Überprüfe, ob die Datei kopiert wurde
-if [[ ! -f "$ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME" ]]; then
+if [[ ! -f "$DEST_SO" ]]; then
   echo "ERROR: Failed to copy library to $ANDROID_BUILD_DIR/libs/$ARCH/"
   exit 9
 fi
 
-echo "Library successfully copied to: $ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME"
+echo "Library ready at: $DEST_SO"
 
 # Download OpenSSL 3.x libraries for Android (required for Qt Network HTTPS)
 echo ""
