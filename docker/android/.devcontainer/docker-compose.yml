@@ -5,7 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ../../android:/workspaces/android:cached
+      - ../../../:/workspaces/pokerth:cached
+      - ../build/vcpkg:/opt/pokerth-android/vcpkg:cached
       - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
     networks:
