@@ -38,12 +38,9 @@ USE_VCPKG="${USE_VCPKG:-no}"
 # Setup Qt paths based on target platform
 setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
 
-# Windows cross-build requires x86_64 (amd64) host; fail early otherwise
-if [ "$TARGET_PLATFORM" = "windows" ]; then
-  case "$(uname -m)" in
-    x86_64) ;;
-    *) error "Windows cross-build requires an x86_64 (amd64) host. Detected $(uname -m) is not supported." ;;
-  esac
+# Windows cross-build: x86_64 is the only tested path.
+if [ "$TARGET_PLATFORM" = "windows" ] && [ "$(uname -m)" != "x86_64" ]; then
+  log "Warning: Windows cross-build is only tested on x86_64."
 fi
 
 ########################################
