@@ -21,7 +21,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 - **Usage:** Pass any argument (e.g. `--help`) to a setup or build script to print usage and exit.
 - **Build targets:** `pokerth_client` (default), `pokerth_qml-client`, `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`. Override with `BUILD_TARGET=…`.
 
-**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android-docker`, `make setup-linux`, `make setup-windows`, `make setup-macos`, `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make windows-installer-docker`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`. **jq** is required on the host for **`make windows-docker`** and **`make windows-installer-docker`**; it is installed by **`make setup-windows`** (Linux) or **`make setup-macos`** (macOS), or install manually (`apt install jq`, `brew install jq`).
+**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android-docker`, `make setup-linux`, `make setup-windows`, `make setup-macos`, `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make windows-installer-docker`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`. **Python 3** is required on the host for **`make windows-docker`** and **`make windows-installer-docker`** (used to parse devcontainer.json).
 
 **Windows vs Android (Docker):** **`make windows`** means “produce a Windows build”; on Linux it uses the host toolchain (MinGW, vcpkg, Qt), on macOS it uses Docker (no host Windows toolchain). So the *method* depends on the host. To always use Docker for Windows, use **`make windows-docker`** or **`make windows-installer-docker`**. **`make android-docker`** builds for Android in Docker — there is no host Android build path, so the meaning is unambiguous.
 
@@ -89,7 +89,7 @@ build_windows/deploy/
 
 ### Building in Dev Container (Windows)
 
-Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/build_docker.sh**): **base** image, **`docker/windows/build`** mount (to `/opt/pokerth-windows`), and **`WINDOWS_BUILD_DIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
+Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/run_devcontainer.py**): **base** image, **`docker/windows/build`** mount (to `/opt/pokerth-windows`), and **`WINDOWS_BUILD_DIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
 
 ### OpenSSL MinGW (SIO_UDP_NETRESET)
 

@@ -34,8 +34,8 @@ ANDROID_DOCKERFILE := docker/android/.devcontainer/Dockerfile
 ANDROID_CONTEXT := docker/android/.devcontainer
 ANDROID_DOCKER_RUN_ENV := -e ANDROID_BUILD_ARGS="$(ANDROID_BUILD_ARGS)"
 
-# Docker build+run: scripts/build_docker.sh. Windows: uses devcontainer.json (jq). Android: DOCKERFILE/CONTEXT + -e.
-# Usage: $(SCRIPTS)/build_docker.sh IMAGE DOCKERFILE CONTEXT MAKE_TARGET [--target NAME] [--mount HOST:GUEST] [-e K=V]
+# Docker build+run: scripts/run_devcontainer.py. Windows/Android: derives docker build/run plan from devcontainer.json.
+# Usage: $(SCRIPTS)/run_devcontainer.py IMAGE DOCKERFILE CONTEXT MAKE_TARGET [--target NAME] [--mount HOST:GUEST] [-e K=V]
 
 .PHONY: linux windows macos android setup setup-linux setup-windows setup-macos clean help
 .PHONY: windows-docker windows-installer-docker android-in-docker
@@ -108,7 +108,7 @@ else
 endif
 
 windows-docker:
-	$(SCRIPTS)/build_docker.sh $(WINDOWS_IMAGE) $(WINDOWS_DOCKERFILE) $(WINDOWS_CONTEXT) windows
+	$(SCRIPTS)/run_devcontainer.py $(WINDOWS_IMAGE) $(WINDOWS_DOCKERFILE) $(WINDOWS_CONTEXT) windows
 	@echo "Done. Check docker/windows/build/deploy/ for the Windows build."
 
 macos: $(MACOS_BUILD_DIR)/.stamp_setup
@@ -116,7 +116,7 @@ macos: $(MACOS_BUILD_DIR)/.stamp_setup
 
 # Android: Docker only (no host build path). Pass ANDROID_BUILD_ARGS for build_android.sh (e.g. --arch x86_64).
 android-docker:
-	$(SCRIPTS)/build_docker.sh $(ANDROID_IMAGE) $(ANDROID_DOCKERFILE) $(ANDROID_CONTEXT) android-in-docker \
+	$(SCRIPTS)/run_devcontainer.py $(ANDROID_IMAGE) $(ANDROID_DOCKERFILE) $(ANDROID_CONTEXT) android-in-docker \
 	  -e ANDROID_BUILD_ARGS="$(ANDROID_BUILD_ARGS)"
 	@echo "Done. Check build-android-<arch>/android-build/build/outputs/apk/release/ for the APK."
 
@@ -145,7 +145,7 @@ else
 endif
 
 windows-installer-docker:
-	$(SCRIPTS)/build_docker.sh $(WINDOWS_IMAGE) $(WINDOWS_DOCKERFILE) $(WINDOWS_CONTEXT) windows-installer
+	$(SCRIPTS)/run_devcontainer.py $(WINDOWS_IMAGE) $(WINDOWS_DOCKERFILE) $(WINDOWS_CONTEXT) windows-installer
 	@echo "Done. Check docker/windows/build/deploy/ for the Windows build."
 
 macos-installer: $(MACOS_BUILD_DIR)/.stamp_setup

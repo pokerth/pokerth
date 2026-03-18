@@ -23,6 +23,7 @@ docker/windows/build/
 docker/linux/pokerth-linux-binary/
 *workspace
 botfiles/
+__pycache__
 
 
 

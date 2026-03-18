@@ -11,6 +11,15 @@
     "dockerComposeFile": "docker-compose.yml",
     "service": "devcontainer",
     "workspaceFolder": "/workspaces/pokerth",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "runArgs": ["--platform", "linux/amd64"],
+    "workspaceMount": "source=${localWorkspaceFolder}/../..,target=/workspaces/pokerth,type=bind",
+    "mounts": [
+        "source=${localWorkspaceFolder}/build/vcpkg,target=/opt/pokerth-android/vcpkg,type=bind,consistency=cached"
+    ],
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
     // Configure tool-specific properties.
