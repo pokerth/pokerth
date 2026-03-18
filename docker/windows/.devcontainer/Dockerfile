@@ -32,6 +32,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     $(grep -v '^#' /tmp/windows-apt-packages.txt | tr '\n' ' ') \
     && rm -rf /var/lib/apt/lists/*
 
+# abseil (and other C++11 code) needs std::mutex; MinGW win32 thread model does not provide it. Use posix variant for vcpkg x64-mingw-static.
+RUN for t in gcc g++; do update-alternatives --set x86_64-w64-mingw32-${t} /usr/bin/x86_64-w64-mingw32-${t}-posix 2>/dev/null || true; done
+
 # User and dir for vcpkg/Qt (setup.sh will populate these)
 RUN userdel ubuntu 2>/dev/null || true; rm -Rf /home/ubuntu
 RUN groupadd -g ${USER_GID} ${USERNAME} && useradd -s /bin/bash -m -d /home/vscode -u ${USER_UID} -g ${USERNAME} ${USERNAME}
