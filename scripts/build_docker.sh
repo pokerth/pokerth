@@ -7,7 +7,7 @@
 #
 # Windows (make windows-docker / windows-installer-docker):
 #   MAKE_TARGET=windows or windows-installer. DOCKERFILE/CONTEXT ignored; uses docker/windows/.devcontainer/devcontainer.json.
-#   Requires jq. Runs: ensure_windows_deps.sh MAKE_TARGET.
+#   Requires jq. Runs: ensure_docker_deps.sh MAKE_TARGET.
 #
 # Android (make android-docker):
 #   MAKE_TARGET=android-in-docker. Uses DOCKERFILE, CONTEXT. Options: -e KEY=VAL (e.g. ANDROID_BUILD_ARGS).
@@ -41,6 +41,12 @@ while [ $# -gt 0 ]; do
 done
 
 cd "$REPO_ROOT"
+
+# On macOS, enforce amd64 for Windows/Android Docker (arm64 has limited support for aqt and Android tooling).
+PLATFORM_OPT=()
+if [ "$(uname -s)" = "Darwin" ] && { [ "$MAKE_TARGET" = "windows" ] || [ "$MAKE_TARGET" = "windows-installer" ] || [ "$MAKE_TARGET" = "android-in-docker" ]; }; then
+  PLATFORM_OPT=(--platform linux/amd64)
+fi
 
 # Windows: drive from devcontainer.json so make windows-docker matches devcontainer.
 if [ "$MAKE_TARGET" = "windows" ] || [ "$MAKE_TARGET" = "windows-installer" ]; then
@@ -82,35 +88,50 @@ if [ "$MAKE_TARGET" = "windows" ] || [ "$MAKE_TARGET" = "windows-installer" ]; t
     [ -n "$key" ] && ENV_ARGS+=(-e "$key=$val")
   done < <(jq -r '.containerEnv // {} | to_entries[] | "\(.key)=\(.value)"' "$DEVCONTAINER_JSON")
 
-  BUILD_CMD=(docker build -f "$DOCKERFILE_ABS" -t "$IMAGE" "$BUILD_CONTEXT_ABS")
+  BUILD_CMD=(docker build -f "$DOCKERFILE_ABS" -t "$IMAGE" "${PLATFORM_OPT[@]}" "$BUILD_CONTEXT_ABS")
   [ -n "$BUILD_TARGET" ] && [ "$BUILD_TARGET" != "null" ] && BUILD_CMD+=(--target "$BUILD_TARGET")
   echo "Building $IMAGE (Windows devcontainer config)..."
   "${BUILD_CMD[@]}"
 
-  # Run as root (override image USER vscode) so ensure_windows_deps.sh can write to the cache and chown it to vscode; the script then runs make as vscode.
+  # Run as root so ensure_docker_deps.sh can write to the cache, chown it (best-effort), then run make as vscode.
   docker run --rm \
+    "${PLATFORM_OPT[@]}" \
     --user root \
     "${RUN_EXTRA[@]}" \
     "${ENV_ARGS[@]}" \
     -w "$workspace_target" \
     "$IMAGE" \
-    bash scripts/ensure_windows_deps.sh "$MAKE_TARGET"
+    ./scripts/ensure_docker_deps.sh "$MAKE_TARGET"
   exit 0
 fi
 
-# Android (or any other target): classic build + run with repo mount and -e/--target/--mount pass-through.
-# Android Dockerfile uses packages (e.g. google-android-build-tools) that are amd64-only; require x86_64 host.
+# Android: bind-mount only vcpkg at /opt/pokerth-android/vcpkg so SDK/NDK/Qt from the image stay visible.
 if [ "$MAKE_TARGET" = "android-in-docker" ]; then
-  case "$(uname -m)" in
-    x86_64) ;;
-    *) echo "Android Docker build requires an x86_64 host. Detected $(uname -m) is not supported." >&2; exit 1 ;;
-  esac
+  ANDROID_VCPKG_HOST="$REPO_ROOT/docker/android/build/vcpkg"
+  mkdir -p "$ANDROID_VCPKG_HOST"
+  ANDROID_VCPKG_HOST="$(cd "$ANDROID_VCPKG_HOST" && pwd)"
+  # :cached (macOS Docker) can avoid bind-mount utime errors (e.g. tar "Cannot utime"); keeps downloads cached like windows-docker.
+  MOUNT_OPTS+=( -v "${ANDROID_VCPKG_HOST}:/opt/pokerth-android/vcpkg:cached" )
 fi
 
-BUILD_CMD=(docker build -f "$DOCKERFILE" -t "$IMAGE" "$CONTEXT")
+BUILD_CMD=(docker build -f "$DOCKERFILE" -t "$IMAGE" "${PLATFORM_OPT[@]}" "$CONTEXT")
 [ -n "$BUILD_TARGET_OPT" ] && BUILD_CMD+=(--target "$BUILD_TARGET_OPT")
 echo "Building $IMAGE..."
 "${BUILD_CMD[@]}"
+
+# Android: run as root (like Windows) so ensure_docker_deps.sh can run vcpkg (tar etc.) and chown the cache, then run make as vscode.
+if [ "$MAKE_TARGET" = "android-in-docker" ]; then
+  docker run --rm \
+    "${PLATFORM_OPT[@]}" \
+    --user root \
+    -v "$REPO_ROOT:/workspaces/pokerth:rw" \
+    "${MOUNT_OPTS[@]}" \
+    "${ENV_ARGS[@]}" \
+    -w /workspaces/pokerth \
+    "$IMAGE" \
+    ./scripts/ensure_docker_deps.sh android-in-docker
+  exit 0
+fi
 
 docker run --rm \
   -v "$REPO_ROOT:/workspaces/pokerth:rw" \

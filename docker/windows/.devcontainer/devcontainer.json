@@ -5,10 +5,11 @@
     "context": "../../..",
     "target": "base"
   },
+  "runArgs": ["--platform", "linux/amd64"],
   "workspaceMount": "source=${localWorkspaceFolder}/../..,target=/workspaces/pokerth,type=bind,consistency=cached",
   "workspaceFolder": "/workspaces/pokerth",
   "mounts": [
-    "source=${localWorkspaceFolder}/vcpkg,target=/opt/pokerth-windows,type=bind"
+    "source=${localWorkspaceFolder}/build/vcpkg,target=/opt/pokerth-windows/vcpkg,type=bind,consistency=cached"
   ],
   "containerEnv": {
     "VCPKG_DIR": "/opt/pokerth-windows/vcpkg",
@@ -23,6 +24,6 @@
     "cmake.configureOnOpen": true,
     "cmake.buildDirectory": "${workspaceFolder}/docker/windows/build"
   },
-  "postCreateCommand": "bash scripts/ensure_windows_deps.sh windows",
+  "postCreateCommand": "./scripts/ensure_docker_deps.sh windows",
   "remoteUser": "vscode"
 }

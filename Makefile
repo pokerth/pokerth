@@ -72,7 +72,7 @@ $(LINUX_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh $(S
 	$(SCRIPTS)/setup.sh
 	@touch $@
 
-# When SETUP_ALREADY_DONE=1 (e.g. ensure_windows_deps.sh ran setup as root), only create the stamp; otherwise run setup then touch.
+# When SETUP_ALREADY_DONE=1 (e.g. ensure_docker_deps.sh windows ran setup as root), only create the stamp; otherwise run setup then touch.
 $(WINDOWS_BUILD_DIR)/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env $(SCRIPTS)/windows-apt-packages.txt
 	@mkdir -p $(WINDOWS_BUILD_DIR)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else TARGET_PLATFORM=windows $(SCRIPTS)/setup.sh; touch $@; fi
@@ -126,8 +126,12 @@ windows_BUILD_ARGS =
 windows-installer_BUILD_ARGS =
 
 # Used only inside devcontainers (make windows-docker / android etc.). Recipe uses $($(MAKECMDGOALS)_BUILD_ARGS).
+# ensure_docker_deps.sh android populates the bind-mounted docker/android/vcpkg when empty (same script as Windows).
+# Pass ANDROID_BUILD_TARGET so build_android.sh uses the CMake target (e.g. pokerth_client), not the make goal name.
+ANDROID_BUILD_TARGET ?= pokerth_client
 android-in-docker:
-	bash docker/android/build_android.sh $($(MAKECMDGOALS)_BUILD_ARGS)
+	@if [ -z "$${SETUP_ALREADY_DONE:-}" ]; then $(SCRIPTS)/ensure_docker_deps.sh android; fi && \
+	TARGET=$(ANDROID_BUILD_TARGET) docker/android/build_android.sh $($(MAKECMDGOALS)_BUILD_ARGS)
 
 linux-installer: $(LINUX_BUILD_DIR)/.stamp_setup
 	CREATE_INSTALLER=yes $(SCRIPTS)/build.sh
@@ -159,5 +163,6 @@ else
 endif
 
 clean:
-	$(SCRIPTS)/clean_build.sh
+	@rm -rf build_linux build_windows build_macos
+	@rm -rf docker/android/build docker/windows/build
 	@rm -f $(addsuffix /.stamp_setup,$(STAMP_DIRS))
