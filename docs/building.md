@@ -85,11 +85,11 @@ build_windows/deploy/
 2. Ensure all DLLs are next to the exe and `plugins/platforms/qwindows.dll` and `data/` are present.
 3. Run `pokerth_client.exe`.
 
-**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Docker:** vcpkg and Qt live in **`docker/windows/vcpkg/`**; you can inspect **`docker/windows/vcpkg/vcpkg/buildtrees/`** for vcpkg build logs (e.g. `*/install-*-out.log`) if setup fails.
+**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Docker:** vcpkg and Qt are cached on the host under **`docker/windows/build/`** (mounted to `/opt/pokerth-windows` in the container). vcpkg build logs are under **`docker/windows/build/vcpkg/buildtrees/`** (e.g. `*/install-*-out.log`) if setup fails.
 
 ### Building in Dev Container (Windows)
 
-Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/build_docker.sh**): **base** image, **`docker/windows/vcpkg`** mount, and **`WINDOWS_BUILD_DIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
+Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/build_docker.sh**): **base** image, **`docker/windows/build`** mount (to `/opt/pokerth-windows`), and **`WINDOWS_BUILD_DIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
 
 ### OpenSSL MinGW (SIO_UDP_NETRESET)
 
@@ -117,11 +117,11 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 
 ## Script roles
 
-- **Top-level entry:** Use **make** (see `make help`). Scripts live in **scripts/** (`build.sh`, `setup.sh`, `build_macos.sh`, `setup_macos.sh`, `clean_build.sh`).
+- **Top-level entry:** Use **make** (see `make help`). Scripts live in **scripts/** (`build.sh`, `setup.sh`, `build_macos.sh`, `setup_macos.sh`).
 - **Default goals:** On Linux, `make` = `make linux` and `make setup` = `make setup-linux`. On macOS, `make` = `make macos` and `make setup` = `make setup-macos`.
 - **Stamp files:** One per build dir: **BUILD_DIR/..stamp_setup** (e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup` when `WINDOWS_BUILD_DIR` is set). Created when setup finishes; if missing, Make runs setup first, then the build.
 - **Setup scripts:** Install deps only (packages, vcpkg, Qt). **Build scripts:** Configure and build; deploy dir is always created. **make clean:** Removes build dirs and stamps; next `make` will run setup again. Or `CLEAN=yes make <target>` to only wipe the build dir and reconfigure.
-- **vcpkg location:** Local (host) vcpkg is not in the repo; it defaults to **~/vcpkg**. Docker builds use their own vcpkg paths (e.g. **docker/windows/vcpkg** for the Windows container). See **docs/building-developer.md** for VCPKG_DIR and QT_OUTPUT_DIR.
+- **vcpkg location:** Local (host) vcpkg is not in the repo; it defaults to **~/vcpkg**. Docker builds cache vcpkg under their Docker build dirs (e.g. **`docker/windows/build/vcpkg`** and **`docker/android/build/vcpkg`**). See **docs/building-developer.md** for VCPKG_DIR and QT_OUTPUT_DIR.
 - **create_serverlist.sh** (root, legacy): Expects `./build/bin/zlib_compress`. Binary is at `build_linux/bin/zlib_compress`; symlink `build` → `build_linux` or run it manually.
 
 **Build system details (scripts, env, reconfigure, Docker):** **docs/building-developer.md**.

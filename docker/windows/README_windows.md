@@ -16,7 +16,7 @@ make windows
 
 Or **`make windows-installer`** to build and create the NSIS installer. Output is in **docker/windows/build/deploy/** (and the installer in **docker/windows/**). The container runs **`make windows`** automatically after create (postCreateCommand).
 
-**`docker/windows/build_windows.sh`** is **deprecated**; use **`make windows`** (inside the container) or **`make windows-docker`** (from the host). All build and deploy logic lives in **scripts/build.sh** and **scripts/functions.sh**; the devcontainer runs **scripts/ensure_windows_deps.sh** (setup if needed, then make windows). To get a clean build inside Docker, remove **docker/windows/build** on the host, then run **`make windows-docker`** again (CLEAN is not passed into the container).
+**`docker/windows/build_windows.sh`** is **deprecated**; use **`make windows`** (inside the container) or **`make windows-docker`** (from the host). All build and deploy logic lives in **scripts/build.sh** and **scripts/functions.sh**; the devcontainer runs **scripts/ensure_docker_deps.sh windows** (setup if needed, then make windows). To get a clean build inside Docker, remove **docker/windows/build** on the host, then run **`make windows-docker`** again (CLEAN is not passed into the container).
 
 ## Testing from the command line (no VS Code/Cursor)
 
