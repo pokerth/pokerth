@@ -10,24 +10,26 @@ set -euo pipefail
 # Source shared build environment (sets REPO_ROOT when in scripts/)
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
+# Dispatch to platform-specific build or fall through for linux/windows shared path
+require_target_platform
+run_build "$TARGET_PLATFORM"
+
 ########################################
 # Linux-specific Configuration
 ########################################
 
-detect_target_platform_linux "$0"
-
 show_usage() {
-  echo "Usage: $BUILD_SCRIPT"
+  echo "Usage: scripts/build.sh (prefer: make linux, make windows)"
   echo "  No arguments. Set environment variables to change behavior."
   echo ""
   echo "Environment: TARGET_PLATFORM, BUILD_TARGET, USE_AQT, USE_VCPKG, CLEAN, CREATE_INSTALLER"
   echo ""
   echo "Examples:"
-  echo "  $BUILD_SCRIPT"
-  echo "  CREATE_INSTALLER=yes $BUILD_SCRIPT"
-  echo "  CLEAN=yes $BUILD_SCRIPT"
+  echo "  make linux"
+  echo "  CREATE_INSTALLER=yes make linux-installer"
+  echo "  CLEAN=yes make linux"
   echo ""
-  echo "Note: Run $SETUP_SCRIPT first if dependencies are missing."
+  echo "Note: Run make setup-<platform> first if dependencies are missing."
 }
 if [ $# -gt 0 ]; then
   show_usage
@@ -52,136 +54,8 @@ CLEAN="${CLEAN:-no}"
 setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
 
 ########################################
-# CMake and deploy helpers
+# Installer helpers (deploy helpers are in functions.sh)
 ########################################
-
-configure_cmake_windows() {
-  log "Configuring CMake for Windows (Qt: ${QT_WINDOWS_DIR}, vcpkg: ${VCPKG_DIR})..."
-  if command_exists qt-cmake; then
-    CMAKE_CMD="qt-cmake"
-  elif [ -f "$QT_HOST_PATH/bin/qt-cmake" ]; then
-    CMAKE_CMD="$QT_HOST_PATH/bin/qt-cmake"
-  else
-    error "qt-cmake not found. Required for Windows cross-compilation."
-  fi
-  VCPKG_OPENSSL_ROOT="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET"
-  # Use vcpkg's protoc for code gen so generated .pb.cc/.pb.h match vcpkg's libprotobuf version (no version mismatch).
-  CXX_FLAGS="-fpermissive -Wno-error"
-  CMAKE_ARGS=(
-    -S "$REPO_ROOT"
-    -B "$BUILD_DIR"
-    -DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE"
-    -DVCPKG_TARGET_TRIPLET="$VCPKG_TARGET_TRIPLET"
-    -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH"
-    -DQt6_DIR="$Qt6_DIR"
-    -DQT_HOST_PATH="$QT_HOST_PATH"
-    -DCMAKE_BUILD_TYPE=Release
-    -DCMAKE_CXX_STANDARD=17
-    -DCMAKE_CXX_FLAGS="$CXX_FLAGS"
-    -DCMAKE_C_FLAGS=""
-    -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc
-    -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++
-    -DCMAKE_RC_COMPILER=x86_64-w64-mingw32-windres
-    -DCMAKE_SYSTEM_NAME=Windows
-    -DCMAKE_SYSROOT="${MINGW_DIR}"
-    -DCMAKE_SYSTEM_PREFIX_PATH="${MINGW_DIR}"
-    -DCMAKE_FIND_ROOT_PATH="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET;${MINGW_DIR}"
-    -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER
-    -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY
-    -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY
-    -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=BOTH
-    -DOPENSSL_ROOT_DIR="$VCPKG_OPENSSL_ROOT"
-    -DQT_NO_DEPLOY=ON
-    -DQT_DEPLOY_SUPPORT=OFF
-  )
-  $CMAKE_CMD "${CMAKE_ARGS[@]}"
-  # So Cursor/clangd see the same compile flags and includes as the build
-  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
-    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
-    log "  ✓ compile_commands.json linked for clangd/Cursor"
-  fi
-}
-
-configure_cmake_linux() {
-  log "Configuring CMake build for Linux..."
-  CMAKE_ARGS=(
-    -S "$REPO_ROOT"
-    -B "$BUILD_DIR"
-    -G Ninja
-    -DCMAKE_BUILD_TYPE=Release
-    -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG"
-  )
-  if is_yes "$USE_AQT"; then
-    CMAKE_ARGS+=(-DCMAKE_PREFIX_PATH="$QT_DIR")
-    CMAKE_ARGS+=(-DQt6_DIR="$Qt6_DIR")
-  fi
-  if is_yes "$USE_VCPKG"; then
-    CMAKE_ARGS+=(-DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE")
-  fi
-  # Use system protoc so native and Windows cross-build use the same version (avoid mismatch between make and make windows)
-  if command_exists protoc; then
-    CMAKE_ARGS+=(-DProtobuf_PROTOC_EXECUTABLE="$(command -v protoc)")
-  fi
-  cmake "${CMAKE_ARGS[@]}"
-  # So Cursor/clangd see the same compile flags and includes as the build
-  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
-    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
-    log "  ✓ compile_commands.json linked for clangd/Cursor"
-  fi
-}
-
-create_windows_deploy_dir() {
-  log "Preparing Windows deployment directory..."
-  DEPLOY_DIR="$BUILD_DIR/deploy"
-  rm -rf "$DEPLOY_DIR"
-  mkdir -p "$DEPLOY_DIR"
-  BINARY_NAME="${BUILD_TARGET//-/_}.exe"
-  [ ! -f "$BUILD_DIR/bin/$BINARY_NAME" ] && BINARY_NAME="$BUILD_TARGET.exe"
-  if [ -f "$BUILD_DIR/bin/$BINARY_NAME" ]; then
-    cp "$BUILD_DIR/bin/$BINARY_NAME" "$DEPLOY_DIR/"
-    log "  ✓ Copied $BINARY_NAME"
-  else
-    error "Executable not found: $BUILD_DIR/bin/$BINARY_NAME"
-  fi
-  if [ -d "$REPO_ROOT/data" ]; then
-    cp -rL "$REPO_ROOT/data" "$DEPLOY_DIR/" 2>/dev/null || cp -r "$REPO_ROOT/data" "$DEPLOY_DIR/"
-    log "  ✓ Data directory copied"
-  else
-    log "  ⚠ Warning: data directory not found"
-  fi
-  for dll in Qt6Core Qt6Gui Qt6Widgets Qt6Network Qt6Sql Qt6Xml Qt6Multimedia Qt6WebSockets Qt6MultimediaWidgets Qt6Qml Qt6Quick Qt6QuickControls2 Qt6Svg; do
-    [ -f "${QT_WINDOWS_DIR}/bin/${dll}.dll" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}.dll" "$DEPLOY_DIR/" 2>/dev/null || true
-  done
-  # Prefer system MinGW runtime DLLs (same toolchain that linked the exe)
-  for dll in libgcc_s_seh-1.dll libstdc++-6.dll libwinpthread-1.dll; do
-    copied=
-    for path in /usr/lib/gcc/x86_64-w64-mingw32 /usr/x86_64-w64-mingw32/lib; do
-      [ ! -d "$path" ] && continue
-      dll_path=$(find "$path" -name "$dll" 2>/dev/null | head -1)
-      if [ -n "$dll_path" ] && [ -f "$dll_path" ]; then
-        cp "$dll_path" "$DEPLOY_DIR/" && copied=1 && break
-      fi
-    done
-    [ -z "$copied" ] && [ -f "${QT_WINDOWS_DIR}/bin/${dll}" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}" "$DEPLOY_DIR/" 2>/dev/null || true
-  done
-  for subdir in platforms styles imageformats sqldrivers tls generic; do
-    mkdir -p "$DEPLOY_DIR/plugins/$subdir"
-    [ -d "${QT_WINDOWS_DIR}/plugins/$subdir" ] && cp "${QT_WINDOWS_DIR}/plugins/$subdir"/*.dll "$DEPLOY_DIR/plugins/$subdir/" 2>/dev/null || true
-  done
-  [ ! -f "$DEPLOY_DIR/plugins/platforms/qwindows.dll" ] && [ -d "${QT_WINDOWS_DIR}/plugins/platforms" ] && \
-    qwin=$(find "${QT_WINDOWS_DIR}" -name "qwindows.dll" 2>/dev/null | head -1) && [ -n "$qwin" ] && cp "$qwin" "$DEPLOY_DIR/plugins/platforms/" 2>/dev/null || true
-  VCPKG_BIN="${VCPKG_DIR}/installed/${VCPKG_TARGET_TRIPLET}/bin"
-  [ -d "$VCPKG_BIN" ] && for pat in zlib libpng libjpeg; do cp "$VCPKG_BIN"/${pat}*.dll "$DEPLOY_DIR/" 2>/dev/null || true; done
-  cat > "$DEPLOY_DIR/qt.conf" << 'EOF'
-[Paths]
-Plugins = plugins
-EOF
-  cp "$REPO_ROOT/scripts/pokerth_launcher.bat" "$DEPLOY_DIR/"
-  cp "$REPO_ROOT/scripts/run_pokerth.sh" "$DEPLOY_DIR/"
-  chmod +x "$DEPLOY_DIR/run_pokerth.sh"
-  find "$DEPLOY_DIR" -name "*.dll" -exec chmod +x {} \;
-  log "Windows deploy ready: $DEPLOY_DIR (Qt/MinGW/plugins copied)"
-}
 
 create_windows_nsis_installer() {
   NSIS_DIR="$REPO_ROOT/docker/windows"
@@ -229,34 +103,6 @@ create_windows_nsis_installer() {
   else
     log "  ✓ NSIS completed (check $NSIS_DIR for .exe)"
   fi
-}
-
-create_linux_deploy_dir() {
-  log "Preparing Linux deployment directory..."
-  BINARY_NAME="${BUILD_TARGET//-/_}"
-  [ ! -f "$BUILD_DIR/bin/$BINARY_NAME" ] && BINARY_NAME="$BUILD_TARGET"
-  DEPLOY_DIR="$BUILD_DIR/deploy"
-  rm -rf "$DEPLOY_DIR"
-  mkdir -p "$DEPLOY_DIR"
-  if [ -f "$BUILD_DIR/bin/$BINARY_NAME" ]; then
-    cp "$BUILD_DIR/bin/$BINARY_NAME" "$DEPLOY_DIR/"
-    log "  ✓ Copied $BINARY_NAME"
-  else
-    error "Binary not found: $BUILD_DIR/bin/$BINARY_NAME"
-  fi
-  if [ -d "$REPO_ROOT/data" ]; then
-    ln -sf ../../data "$DEPLOY_DIR/data"
-    log "  ✓ Data directory linked (deploy/data -> ../../data)"
-  else
-    log "  ⚠ Warning: data directory not found"
-  fi
-  if [ -d "$REPO_ROOT/data" ] && [ ! -e "$BUILD_DIR/bin/data" ]; then
-    ln -sf ../../data "$BUILD_DIR/bin/data"
-    log "  ✓ Data linked in bin (bin/data -> ../../data)"
-  fi
-  log "Linux deployment directory ready: $DEPLOY_DIR"
-  log "  → Run from deploy: cd $DEPLOY_DIR && ./$BINARY_NAME"
-  log "  → Or from bin: $BUILD_DIR/bin/$BINARY_NAME"
 }
 
 create_linux_appimage() {
@@ -331,21 +177,21 @@ print_build_summary() {
 
 log "Checking build dependencies..."
 
-check_dependency cmake "$SETUP_SCRIPT"
-check_dependency ninja "$SETUP_SCRIPT"
-check_dependency git "$SETUP_SCRIPT"
+check_dependency cmake "make setup-${TARGET_PLATFORM}"
+check_dependency ninja "make setup-${TARGET_PLATFORM}"
+check_dependency git "make setup-${TARGET_PLATFORM}"
 
 if [ "$TARGET_PLATFORM" = "windows" ]; then
-  check_dependency x86_64-w64-mingw32-gcc "$SETUP_SCRIPT"
-  check_dependency x86_64-w64-mingw32-g++ "$SETUP_SCRIPT"
-  check_dependency x86_64-w64-mingw32-windres "$SETUP_SCRIPT"
+  check_dependency x86_64-w64-mingw32-gcc "make setup-windows"
+  check_dependency x86_64-w64-mingw32-g++ "make setup-windows"
+  check_dependency x86_64-w64-mingw32-windres "make setup-windows"
   log "✓ MinGW-w64 toolchain found"
 fi
 
-check_qt_deps "$TARGET_PLATFORM" "$USE_AQT" "$QT_DIR" "$SETUP_SCRIPT"
+check_qt_deps "$TARGET_PLATFORM" "$USE_AQT" "$QT_DIR" "make setup-${TARGET_PLATFORM}"
 
 if is_yes "$USE_VCPKG"; then
-  check_vcpkg_deps "$SETUP_SCRIPT"
+  check_vcpkg_deps "make setup-${TARGET_PLATFORM}"
 fi
 
 log "✓ All dependencies found"
@@ -389,34 +235,26 @@ else
 fi
 
 if [ "$NEED_CONFIGURE" = "1" ]; then
-  if [ "$TARGET_PLATFORM" = "windows" ]; then
-    configure_cmake_windows
-  else
-    configure_cmake_linux
-  fi
+  configure_cmake_for_platform "$TARGET_PLATFORM"
 fi
 
 log "Building ${BUILD_TARGET}..."
 cmake --build "$BUILD_DIR" --target "$BUILD_TARGET" --parallel $(nproc)
 
 ########################################
-# 3. Create Windows deployment directory (always for Windows builds)
+# 3. Create deployment directory (always)
 ########################################
 
-if [ "$TARGET_PLATFORM" = "windows" ]; then
-  create_windows_deploy_dir
-  if is_yes "${CREATE_INSTALLER:-no}"; then
+create_deploy_for_platform "$TARGET_PLATFORM"
+
+########################################
+# 4. Create installer if requested
+########################################
+
+if is_yes "${CREATE_INSTALLER:-no}"; then
+  if [ "$TARGET_PLATFORM" = "windows" ]; then
     create_windows_nsis_installer
-  fi
-fi
-
-########################################
-# 4. Create Linux deployment directory (always, like Windows)
-########################################
-
-if [ "$TARGET_PLATFORM" != "windows" ]; then
-  create_linux_deploy_dir
-  if is_yes "${CREATE_INSTALLER:-no}"; then
+  else
     create_linux_appimage
   fi
 fi

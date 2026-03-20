@@ -4,10 +4,11 @@ set -euo pipefail
 # Minimaler Android-Build-Helper für ${TARGET} (Template)
 # Erwartet als Umgebungsvariablen:
 #  ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME, QT_ANDROID_DIR
-
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. ANDROID_*), check there.
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$REPO_ROOT"
+
+# Canonical version definitions: scripts/versions.env
 if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
   # shellcheck source=/dev/null
   . "$REPO_ROOT/scripts/versions.env"
@@ -17,15 +18,10 @@ usage(){
   cat <<EOF
 Usage: $0 [--arch arm64-v8a|armeabi-v7a|x86|x86_64] [--build-type Debug|Release] [--api-level 28]
 
-Wichtig: Installiere Android SDK/NDK und eine Qt-for-Android-Build-Installation.
-Setze mindestens ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME und QT_ANDROID_DIR.
+Install Android SDK/NDK and a Qt-for-Android build. Set ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME, QT_ANDROID_DIR.
 EOF
 }
-ARCH=${ANDROID_ARCH:-x64}
-# if [[ $ARCH = "x64" ]]
-# then
-#   ARCH="x86_64"
-# fi
+ARCH=${ANDROID_ARCH:-arm64-v8a}
 BUILD_TYPE=Release
 API_LEVEL=${ANDROID_API_LEVEL:-$ANDROID_TARGET_SDK_VERSION}
 
@@ -42,7 +38,7 @@ done
 echo "=== PokerTH Android build helper ==="
 echo "arch=$ARCH build=$BUILD_TYPE api-level=$API_LEVEL"
 
-# Validiere erlaubte ABIs
+# Validate ABIs
 case "$ARCH" in
   arm64-v8a|armeabi-v7a|x86|x86_64) ;;
   *)
@@ -55,7 +51,6 @@ esac
 : ${ANDROID_NDK_ROOT:?Please set ANDROID_NDK_ROOT}
 : ${JAVA_HOME:?Please set JAVA_HOME}
 : ${QT_ANDROID_DIR:?Please set QT_ANDROID_DIR (Qt installation for Android)}
-# CMake/ninja target (e.g. pokerth_client). Set by Makefile when invoked via make android-in-docker so the make goal name is not passed to ninja.
 : ${TARGET:=pokerth_client}
 
 # Prüfe Android-Plattform
@@ -140,7 +135,7 @@ cmake --build "$BUILD_DIR" --target ${TARGET} -j $(nproc || echo 1)
 
 echo "Build finished. Artefacts in: $BUILD_DIR"
 
-# Bestimme das Android Source Directory basierend auf dem Target
+# Android source directory based on target
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   ANDROID_SOURCE_DIR="${PWD}/src/gui/qt6-qml/android"
   BUILD_SUBDIR="src/gui/qt6-qml"
@@ -156,19 +151,11 @@ DEPLOY_JSON=$(find "$BUILD_DIR/$BUILD_SUBDIR" -type f -name "*deployment-setting
 
 if [[ -z "$DEPLOY_JSON" ]]; then
   echo "WARNING: No deployment settings JSON found in $BUILD_DIR/$BUILD_SUBDIR"
-  echo "Searching in entire build directory..."
   DEPLOY_JSON=$(find "$BUILD_DIR" -type f -name "*deployment-settings.json" 2>/dev/null | head -n1 || true)
 fi
 
 if [[ -z "$DEPLOY_JSON" ]]; then
   echo "ERROR: No deployment settings JSON found."
-  echo "Searched in: $BUILD_DIR/$BUILD_SUBDIR and $BUILD_DIR"
-  echo ""
-  echo "Available JSON files in build directory:"
-  find "$BUILD_DIR" -type f -name "*.json" 2>/dev/null || echo "No JSON files found"
-  echo ""
-  echo "This usually means qt_finalize_target() didn't generate the deployment settings."
-  echo "Check if the CMakeLists.txt for $TARGET calls qt_finalize_target()."
   exit 10
 fi
 
@@ -177,11 +164,9 @@ echo "Found deployment settings: $DEPLOY_JSON"
 # Patche deployment-settings.json - WICHTIG: Ändere application-binary!
 if command -v jq >/dev/null 2>&1; then
   echo "Patching deployment settings JSON..."
-  # Use a temp file next to the destination so rename is atomic and
-  # avoids cross-filesystem/bind-mount quirks ("mv ...: File exists").
   DEPLOY_DIR="$(dirname "$DEPLOY_JSON")"
   TMP_JSON="$(mktemp "$DEPLOY_DIR/.deployment-settings.json.tmp.XXXXXX")"
-  
+
   # Patche ALLE relevanten Felder UND setze application-binary auf den tatsächlichen Target-Namen
   jq --arg bt "$BUILD_TOOLS_VERSION" \
      --arg al "$API_LEVEL" \
@@ -198,9 +183,6 @@ if command -v jq >/dev/null 2>&1; then
      .["android-package-source-directory"] = $android_src' \
     "$DEPLOY_JSON" > "$TMP_JSON"
   mv -f "$TMP_JSON" "$DEPLOY_JSON"
-  
-  echo "Deployment settings after patch:"
-  jq '.["application-binary"], .["android-package-source-directory"], .["target-architecture"]' "$DEPLOY_JSON"
 else
   echo "WARNING: jq not found, cannot patch deployment settings"
 fi
@@ -244,7 +226,7 @@ cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
         android:icon="@drawable/ic_launcher"
         android:extractNativeLibs="true"
         android:usesCleartextTraffic="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"> <!-- ← FIX -->
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
         <activity
             android:name="org.qtproject.qt.android.bindings.QtActivity"
@@ -277,25 +259,16 @@ cat > "$ANDROID_BUILD_DIR/AndroidManifest.xml" <<MANIFEST
 </manifest>
 MANIFEST
 
-echo "Created dynamic AndroidManifest.xml with lib_name=$TARGET"
-
 # Finde .so-Datei - suche sowohl nach lib${TARGET}.so als auch nach Varianten
 SO_FILE=$(find "$BUILD_DIR" -type f \( -name "lib${TARGET}.so" -o -name "lib${TARGET}_*.so" \) | head -n1)
 
 if [[ -z "$SO_FILE" ]]; then
   echo "ERROR: Could not find lib${TARGET}*.so"
-  echo "Searching for any .so files in build directory:"
-  find "$BUILD_DIR" -type f -name "*.so" | head -20
   exit 6
 fi
 
-echo "Found library: $SO_FILE"
-
-# Kopiere mit dem Namen, den androiddeployqt erwartet
 EXPECTED_SO_NAME="lib${TARGET}_${ARCH}.so"
-echo "Copying library as: $EXPECTED_SO_NAME"
 DEST_SO="$ANDROID_BUILD_DIR/libs/$ARCH/$EXPECTED_SO_NAME"
-# Idempotent: avoid failing when source is already at destination.
 if command -v realpath >/dev/null 2>&1 && [ -e "$DEST_SO" ] && [ "$(realpath "$SO_FILE")" = "$(realpath "$DEST_SO")" ]; then
   echo "Library already in place: $DEST_SO"
 else
@@ -307,52 +280,30 @@ ln -sf "$EXPECTED_SO_NAME" "$ANDROID_BUILD_DIR/libs/$ARCH/lib${TARGET}.so"
 
 # Überprüfe, ob die Datei kopiert wurde
 if [[ ! -f "$DEST_SO" ]]; then
-  echo "ERROR: Failed to copy library to $ANDROID_BUILD_DIR/libs/$ARCH/"
+  echo "ERROR: Failed to copy library"
   exit 9
 fi
 
-echo "Library ready at: $DEST_SO"
-
 # Download OpenSSL 3.x libraries for Android (required for Qt Network HTTPS)
-echo ""
-echo "Downloading OpenSSL 3.x libraries for Android..."
 OPENSSL_DIR="$ANDROID_BUILD_DIR/libs/$ARCH"
 mkdir -p "$OPENSSL_DIR"
-
 OPENSSL_BASE_URL="https://github.com/KDAB/android_openssl/raw/master/ssl_3"
-if [[ "$ARCH" == "arm64-v8a" ]]; then
-  OPENSSL_ARCH="arm64-v8a"
-elif [[ "$ARCH" == "armeabi-v7a" ]]; then
-  OPENSSL_ARCH="armeabi-v7a"
-elif [[ "$ARCH" == "x86_64" ]]; then
-  OPENSSL_ARCH="x86_64"
-elif [[ "$ARCH" == "x86" ]]; then
-  OPENSSL_ARCH="x86"
-else
-  echo "WARNING: Unknown architecture $ARCH for OpenSSL download"
-  OPENSSL_ARCH="$ARCH"
-fi
-
-echo "Downloading OpenSSL for architecture: $OPENSSL_ARCH"
+case "$ARCH" in
+  arm64-v8a) OPENSSL_ARCH="arm64-v8a";;
+  armeabi-v7a) OPENSSL_ARCH="armeabi-v7a";;
+  x86_64) OPENSSL_ARCH="x86_64";;
+  x86) OPENSSL_ARCH="x86";;
+  *) OPENSSL_ARCH="$ARCH";;
+esac
 wget -q -O "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
 wget -q -O "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
 
-if [[ -f "$OPENSSL_DIR/libssl_3.so" && -f "$OPENSSL_DIR/libcrypto_3.so" ]]; then
-  echo "OpenSSL libraries downloaded successfully"
-  ls -lh "$OPENSSL_DIR"/lib{ssl,crypto}_3.so
-else
-  echo "WARNING: OpenSSL download incomplete - HTTPS may not work"
-fi
-
-# Verwende androiddeployqt
 ANDROIDDEPLOYQT="${QT_HOST_PATH}/bin/androiddeployqt"
-
 if [[ ! -x "$ANDROIDDEPLOYQT" ]]; then
   echo "ERROR: androiddeployqt not found at $ANDROIDDEPLOYQT"
   exit 7
 fi
 
-echo ""
 echo "Running androiddeployqt..."
 set +e
 "$ANDROIDDEPLOYQT" \
@@ -364,96 +315,41 @@ set +e
 DEPLOYQT_EXIT=$?
 set -e
 
-echo ""
-echo "androiddeployqt exit code: $DEPLOYQT_EXIT"
-
-# Kopiere PokerTH Icon NACH androiddeployqt, da es das Verzeichnis neu anlegt
-echo ""
-echo "Copying PokerTH icon after androiddeployqt..."
+echo "Copying PokerTH icon..."
 mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
-cp -v "${ROOT}/pokerth/data/gfx/gui/misc/windowicon_transparent.png" "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png"
-if [[ -f "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" ]]; then
-  echo "Icon successfully copied to: $ANDROID_BUILD_DIR/res/drawable/ic_launcher.png"
-else
-  echo "WARNING: Failed to copy icon"
-fi
+cp -v "${REPO_ROOT}/data/gfx/gui/misc/windowicon_transparent.png" "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" || echo "WARNING: Failed to copy icon"
 
 # Prüfe und patche gradle.properties (nicht build.gradle!)
 if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
-  echo ""
-  echo "Checking and patching gradle.properties..."
-  
-  echo "Current gradle.properties content:"
-  cat "$ANDROID_BUILD_DIR/gradle.properties"
-  
-  echo ""
-  echo "Applying patch..."
-  
   # Setze oder aktualisiere androidBuildToolsVersion in gradle.properties
   if grep -q "^androidBuildToolsVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    # Ersetze existierende Zeile
     sed -i "s/^androidBuildToolsVersion=.*/androidBuildToolsVersion=$BUILD_TOOLS_VERSION/" "$ANDROID_BUILD_DIR/gradle.properties"
   else
     # Füge neue Zeile hinzu
     echo "androidBuildToolsVersion=$BUILD_TOOLS_VERSION" >> "$ANDROID_BUILD_DIR/gradle.properties"
   fi
-  
   # Setze auch compileSdkVersion falls nötig
   if ! grep -q "^androidCompileSdkVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
     echo "androidCompileSdkVersion=$API_LEVEL" >> "$ANDROID_BUILD_DIR/gradle.properties"
   fi
-  
-  echo ""
-  echo "After patch:"
-  cat "$ANDROID_BUILD_DIR/gradle.properties"
-  
+
   # Führe Gradle Build manuell aus
-  echo ""
-  echo "Running Gradle build manually..."
+  echo "Running Gradle build..."
   cd "$ANDROID_BUILD_DIR"
-  
-  if [[ ! -f "gradlew" ]]; then
-    echo "ERROR: gradlew not found in $ANDROID_BUILD_DIR"
-    exit 8
-  fi
-  
   chmod +x gradlew
   ./gradlew assembleRelease --stacktrace
-  
   cd -
 else
-  echo "WARNING: gradle.properties not found at $ANDROID_BUILD_DIR/gradle.properties"
-  
   if [[ $DEPLOYQT_EXIT -ne 0 ]]; then
-    echo "ERROR: androiddeployqt failed and no gradle.properties to fix"
-    echo ""
-    echo "Listing android-build directory contents:"
-    ls -la "$ANDROID_BUILD_DIR" || true
     exit $DEPLOYQT_EXIT
   fi
 fi
 
-echo ""
-echo "Looking for generated APK..."
 APK_FILE=$(find "$ANDROID_BUILD_DIR" -type f -name "*.apk" | grep -E "(release|debug)" | grep -v "unaligned" | head -n1)
-
 if [[ -n "$APK_FILE" ]]; then
-  echo ""
-  echo "======================================"
-  echo "APK created successfully!"
-  echo "Location: $APK_FILE"
-  
-  if command -v aapt >/dev/null 2>&1; then
-    echo ""
-    echo "APK Info:"
-    aapt dump badging "$APK_FILE" | grep -E "package|sdkVersion|targetSdkVersion"
-  fi
-  
-  echo "======================================"
+  echo "APK created: $APK_FILE"
 else
   echo "WARNING: Could not find generated APK"
-  echo "APK files in build directory:"
-  find "$ANDROID_BUILD_DIR" -type f -name "*.apk" || echo "No APK files found"
 fi
 
 echo "Done."
