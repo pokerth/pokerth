@@ -113,21 +113,252 @@ is_arm64() {
 }
 
 ########################################
-# Linux/Windows target detection
+# Platform (Makefile is the entry point; passes TARGET_PLATFORM)
 ########################################
 
-# Set TARGET_PLATFORM, SETUP_SCRIPT, BUILD_SCRIPT. TARGET_PLATFORM env overrides;
-# otherwise derived from script name ($0) when called from scripts/setup.sh / scripts/build.sh.
-detect_target_platform_linux() {
-  local name
-  name="$(basename "${1:-}")"
-  if [[ "$name" == *windows* ]]; then
-    TARGET_PLATFORM="${TARGET_PLATFORM:-windows}"
-  else
-    TARGET_PLATFORM="${TARGET_PLATFORM:-linux}"
+# Require TARGET_PLATFORM. Scripts are invoked by Makefile with TARGET_PLATFORM set.
+require_target_platform() {
+  if [ -z "${TARGET_PLATFORM:-}" ]; then
+    error "TARGET_PLATFORM required. Use make setup-<platform> or make <platform> (e.g. make setup-linux, make linux)."
   fi
-  SETUP_SCRIPT="scripts/setup.sh"
-  BUILD_SCRIPT="scripts/build.sh"
+}
+
+# Resolve and export VCPKG_DIR based on platform and BUILD_DIR.
+# Usage: resolve_vcpkg_dir <platform>
+# Order: VCPKG_DIR > VCPKG_ROOT > (BUILD_DIR or build_<platform>)/vcpkg
+resolve_vcpkg_dir() {
+  local platform="${1:-$TARGET_PLATFORM}"
+  local default_build="${BUILD_DIR:-build_${platform}}"
+  export VCPKG_DIR="${VCPKG_DIR:-${VCPKG_ROOT:-${default_build}/vcpkg}}"
+}
+
+# Resolve USE_AQT and USE_VCPKG for the given platform.
+# Usage: resolve_use_aqt_use_vcpkg <platform>
+# Windows requires both; linux/android use env or default "no".
+resolve_use_aqt_use_vcpkg() {
+  local platform="${1:-$TARGET_PLATFORM}"
+  if [ "$platform" = "windows" ]; then
+    USE_AQT="yes"
+    USE_VCPKG="yes"
+  else
+    USE_AQT="${USE_AQT:-no}"
+    USE_VCPKG="${USE_VCPKG:-no}"
+  fi
+}
+
+# Dispatch setup to platform-specific script or fall through for linux/windows.
+# Usage: run_setup [platform]
+# android → exec setup_android.sh; macos → exec setup_macos.sh; else return (shared path continues).
+run_setup() {
+  local platform="${1:-$TARGET_PLATFORM}"
+  resolve_vcpkg_dir "$platform"
+  resolve_use_aqt_use_vcpkg "$platform"
+  case "$platform" in
+    android)
+      log "Android setup..."
+      exec "${REPO_ROOT}/scripts/setup_android.sh"
+      ;;
+    macos)
+      log "Macos setup..."
+      exec "${REPO_ROOT}/scripts/setup_macos.sh"
+      ;;
+    *) return 0 ;;
+  esac
+}
+
+# Dispatch build to platform-specific script or fall through for linux/windows.
+# Usage: run_build [platform]
+# macos → exec build_macos.sh; android → exec build_android.sh; else return (shared path continues).
+run_build() {
+  local platform="${1:-$TARGET_PLATFORM}"
+  case "$platform" in
+    macos)
+      exec "${REPO_ROOT}/scripts/build_macos.sh"
+      ;;
+    android)
+      exec "${REPO_ROOT}/scripts/build_android.sh"
+      ;;
+    *) return 0 ;;
+  esac
+}
+
+########################################
+# CMake configure and deploy (centralized for linux/windows)
+########################################
+
+# Internal: configure CMake for Windows cross-build.
+_configure_cmake_windows() {
+  log "Configuring CMake for Windows (Qt: ${QT_WINDOWS_DIR}, vcpkg: ${VCPKG_DIR})..."
+  if command_exists qt-cmake; then
+    CMAKE_CMD="qt-cmake"
+  elif [ -f "$QT_HOST_PATH/bin/qt-cmake" ]; then
+    CMAKE_CMD="$QT_HOST_PATH/bin/qt-cmake"
+  else
+    error "qt-cmake not found. Required for Windows cross-compilation."
+  fi
+  VCPKG_OPENSSL_ROOT="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET"
+  CXX_FLAGS="-fpermissive -Wno-error"
+  CMAKE_ARGS=(
+    -S "$REPO_ROOT"
+    -B "$BUILD_DIR"
+    -DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE"
+    -DVCPKG_TARGET_TRIPLET="$VCPKG_TARGET_TRIPLET"
+    -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH"
+    -DQt6_DIR="$Qt6_DIR"
+    -DQT_HOST_PATH="$QT_HOST_PATH"
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_CXX_STANDARD=17
+    -DCMAKE_CXX_FLAGS="$CXX_FLAGS"
+    -DCMAKE_C_FLAGS=""
+    -DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc
+    -DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++
+    -DCMAKE_RC_COMPILER=x86_64-w64-mingw32-windres
+    -DCMAKE_SYSTEM_NAME=Windows
+    -DCMAKE_SYSROOT="${MINGW_DIR}"
+    -DCMAKE_SYSTEM_PREFIX_PATH="${MINGW_DIR}"
+    -DCMAKE_FIND_ROOT_PATH="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET;${MINGW_DIR}"
+    -DCMAKE_FIND_ROOT_PATH_MODE_PROGRAM=NEVER
+    -DCMAKE_FIND_ROOT_PATH_MODE_LIBRARY=ONLY
+    -DCMAKE_FIND_ROOT_PATH_MODE_INCLUDE=ONLY
+    -DCMAKE_FIND_ROOT_PATH_MODE_PACKAGE=BOTH
+    -DOPENSSL_ROOT_DIR="$VCPKG_OPENSSL_ROOT"
+    -DQT_NO_DEPLOY=ON
+    -DQT_DEPLOY_SUPPORT=OFF
+  )
+  $CMAKE_CMD "${CMAKE_ARGS[@]}"
+  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
+    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
+    log "  ✓ compile_commands.json linked for clangd/Cursor"
+  fi
+}
+
+# Internal: configure CMake for Linux native build.
+_configure_cmake_linux() {
+  log "Configuring CMake build for Linux..."
+  CMAKE_ARGS=(
+    -S "$REPO_ROOT"
+    -B "$BUILD_DIR"
+    -G Ninja
+    -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_CXX_FLAGS_RELEASE="-O2 -DNDEBUG"
+  )
+  if is_yes "$USE_AQT"; then
+    CMAKE_ARGS+=(-DCMAKE_PREFIX_PATH="$QT_DIR")
+    CMAKE_ARGS+=(-DQt6_DIR="$Qt6_DIR")
+  fi
+  if is_yes "$USE_VCPKG"; then
+    CMAKE_ARGS+=(-DCMAKE_TOOLCHAIN_FILE="$CMAKE_TOOLCHAIN_FILE")
+  fi
+  if command_exists protoc; then
+    CMAKE_ARGS+=(-DProtobuf_PROTOC_EXECUTABLE="$(command -v protoc)")
+  fi
+  cmake "${CMAKE_ARGS[@]}"
+  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
+    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
+    log "  ✓ compile_commands.json linked for clangd/Cursor"
+  fi
+}
+
+# Configure CMake for platform. Usage: configure_cmake_for_platform <platform>
+# platform: linux | windows. Requires BUILD_DIR, setup_linux_paths, check_qt_deps.
+configure_cmake_for_platform() {
+  case "${1:-$TARGET_PLATFORM}" in
+    windows) _configure_cmake_windows ;;
+    linux)   _configure_cmake_linux ;;
+    *)       error "configure_cmake_for_platform: unsupported platform $1" ;;
+  esac
+}
+
+# Internal: create Windows deploy directory.
+_create_windows_deploy_dir() {
+  log "Preparing Windows deployment directory..."
+  DEPLOY_DIR="$BUILD_DIR/deploy"
+  rm -rf "$DEPLOY_DIR"
+  mkdir -p "$DEPLOY_DIR"
+  BINARY_NAME="${BUILD_TARGET//-/_}.exe"
+  [ ! -f "$BUILD_DIR/bin/$BINARY_NAME" ] && BINARY_NAME="$BUILD_TARGET.exe"
+  if [ -f "$BUILD_DIR/bin/$BINARY_NAME" ]; then
+    cp "$BUILD_DIR/bin/$BINARY_NAME" "$DEPLOY_DIR/"
+    log "  ✓ Copied $BINARY_NAME"
+  else
+    error "Executable not found: $BUILD_DIR/bin/$BINARY_NAME"
+  fi
+  if [ -d "$REPO_ROOT/data" ]; then
+    cp -rL "$REPO_ROOT/data" "$DEPLOY_DIR/" 2>/dev/null || cp -r "$REPO_ROOT/data" "$DEPLOY_DIR/"
+    log "  ✓ Data directory copied"
+  else
+    log "  ⚠ Warning: data directory not found"
+  fi
+  for dll in Qt6Core Qt6Gui Qt6Widgets Qt6Network Qt6Sql Qt6Xml Qt6Multimedia Qt6WebSockets Qt6MultimediaWidgets Qt6Qml Qt6Quick Qt6QuickControls2 Qt6Svg; do
+    [ -f "${QT_WINDOWS_DIR}/bin/${dll}.dll" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}.dll" "$DEPLOY_DIR/" 2>/dev/null || true
+  done
+  for dll in libgcc_s_seh-1.dll libstdc++-6.dll libwinpthread-1.dll; do
+    copied=
+    for path in /usr/lib/gcc/x86_64-w64-mingw32 /usr/x86_64-w64-mingw32/lib; do
+      [ ! -d "$path" ] && continue
+      dll_path=$(find "$path" -name "$dll" 2>/dev/null | head -1)
+      if [ -n "$dll_path" ] && [ -f "$dll_path" ]; then
+        cp "$dll_path" "$DEPLOY_DIR/" && copied=1 && break
+      fi
+    done
+    [ -z "$copied" ] && [ -f "${QT_WINDOWS_DIR}/bin/${dll}" ] && cp "${QT_WINDOWS_DIR}/bin/${dll}" "$DEPLOY_DIR/" 2>/dev/null || true
+  done
+  for subdir in platforms styles imageformats sqldrivers tls generic; do
+    mkdir -p "$DEPLOY_DIR/plugins/$subdir"
+    [ -d "${QT_WINDOWS_DIR}/plugins/$subdir" ] && cp "${QT_WINDOWS_DIR}/plugins/$subdir"/*.dll "$DEPLOY_DIR/plugins/$subdir/" 2>/dev/null || true
+  done
+  [ ! -f "$DEPLOY_DIR/plugins/platforms/qwindows.dll" ] && [ -d "${QT_WINDOWS_DIR}/plugins/platforms" ] && \
+    qwin=$(find "${QT_WINDOWS_DIR}" -name "qwindows.dll" 2>/dev/null | head -1) && [ -n "$qwin" ] && cp "$qwin" "$DEPLOY_DIR/plugins/platforms/" 2>/dev/null || true
+  VCPKG_BIN="${VCPKG_DIR}/installed/${VCPKG_TARGET_TRIPLET}/bin"
+  [ -d "$VCPKG_BIN" ] && for pat in zlib libpng libjpeg; do cp "$VCPKG_BIN"/${pat}*.dll "$DEPLOY_DIR/" 2>/dev/null || true; done
+  cat > "$DEPLOY_DIR/qt.conf" << 'EOF'
+[Paths]
+Plugins = plugins
+EOF
+  cp "$REPO_ROOT/scripts/pokerth_launcher.bat" "$DEPLOY_DIR/"
+  cp "$REPO_ROOT/scripts/run_pokerth.sh" "$DEPLOY_DIR/"
+  chmod +x "$DEPLOY_DIR/run_pokerth.sh"
+  find "$DEPLOY_DIR" -name "*.dll" -exec chmod +x {} \;
+  log "Windows deploy ready: $DEPLOY_DIR (Qt/MinGW/plugins copied)"
+}
+
+# Internal: create Linux deploy directory.
+_create_linux_deploy_dir() {
+  log "Preparing Linux deployment directory..."
+  BINARY_NAME="${BUILD_TARGET//-/_}"
+  [ ! -f "$BUILD_DIR/bin/$BINARY_NAME" ] && BINARY_NAME="$BUILD_TARGET"
+  DEPLOY_DIR="$BUILD_DIR/deploy"
+  rm -rf "$DEPLOY_DIR"
+  mkdir -p "$DEPLOY_DIR"
+  if [ -f "$BUILD_DIR/bin/$BINARY_NAME" ]; then
+    cp "$BUILD_DIR/bin/$BINARY_NAME" "$DEPLOY_DIR/"
+    log "  ✓ Copied $BINARY_NAME"
+  else
+    error "Binary not found: $BUILD_DIR/bin/$BINARY_NAME"
+  fi
+  if [ -d "$REPO_ROOT/data" ]; then
+    ln -sf ../../data "$DEPLOY_DIR/data"
+    log "  ✓ Data directory linked (deploy/data -> ../../data)"
+  else
+    log "  ⚠ Warning: data directory not found"
+  fi
+  if [ -d "$REPO_ROOT/data" ] && [ ! -e "$BUILD_DIR/bin/data" ]; then
+    ln -sf ../../data "$BUILD_DIR/bin/data"
+    log "  ✓ Data linked in bin (bin/data -> ../../data)"
+  fi
+  log "Linux deployment directory ready: $DEPLOY_DIR"
+  log "  → Run from deploy: cd $DEPLOY_DIR && ./$BINARY_NAME"
+  log "  → Or from bin: $BUILD_DIR/bin/$BINARY_NAME"
+}
+
+# Create deploy directory for platform. Usage: create_deploy_for_platform <platform>
+# Sets DEPLOY_DIR and BINARY_NAME. platform: linux | windows.
+create_deploy_for_platform() {
+  case "${1:-$TARGET_PLATFORM}" in
+    windows) _create_windows_deploy_dir ;;
+    linux)   _create_linux_deploy_dir ;;
+    *)       error "create_deploy_for_platform: unsupported platform $1" ;;
+  esac
 }
 
 # Usage: check_dependency <command> [setup_script]

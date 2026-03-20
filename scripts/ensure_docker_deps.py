@@ -1,0 +1,219 @@
+#!/usr/bin/env python3
+"""
+Ensure vcpkg/Qt deps exist inside Docker for supported target kinds, then optionally run `make`.
+
+Per-kind defaults: _KIND_DEFAULT_VCPKG_TRIPLET, _KIND_INSTALL_QT_DURING_ENSURE in this file.
+"""
+
+from __future__ import annotations
+
+import os
+import subprocess
+import sys
+from dataclasses import dataclass
+from pathlib import Path
+
+
+def run_checked(cmd: list[str], env: dict[str, str] | None = None, cwd: Path | None = None) -> None:
+    subprocess.run(cmd, check=True, env=env, cwd=str(cwd) if cwd else None)
+
+
+# Subdir of cache root for Qt when _KIND_INSTALL_QT_DURING_ENSURE[kind] is True.
+_QT_RELATIVE_TO_ROOT = "Qt"
+
+
+def vcpkg_ready(vcpkg_root: Path, triplet: str, port: str) -> bool:
+    vcpkg_bin = vcpkg_root / "vcpkg"
+    installed_dir = vcpkg_root / "installed"
+    if not vcpkg_bin.exists() or not installed_dir.is_dir():
+        return False
+
+    try:
+        proc = subprocess.run(
+            [str(vcpkg_bin), "list", f"--triplet={triplet}"],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+        )
+    except OSError:
+        return False
+
+    for line in (proc.stdout or "").splitlines():
+        l = line.strip()
+        if l.startswith(f"{port}[") or l.startswith(f"{port}:"):
+            return True
+    return False
+
+
+@dataclass(frozen=True)
+class EnsurePlan:
+    kind: str
+    root: Path
+    vcpkg_root: Path
+    cache_dir: Path
+    triplet: str
+    check_port: str
+    run_make_target: str | None
+    run_make_extra_env: dict[str, str]
+    install_qt_during_ensure: bool
+    setup_stamp_file: str | None
+
+
+def target_to_kind(target: str) -> str:
+    kind = target.split("-", 1)[0]
+    return kind
+
+
+def kind_run_make_targets(kind: str) -> frozenset[str]:
+    """Targets that run `make <target>` after deps setup: <kind> and <kind>-installer."""
+    return frozenset((kind, f"{kind}-installer"))
+
+
+_KIND_DEFAULT_VCPKG_TRIPLET: dict[str, str] = {
+    "windows": "x64-mingw-static",
+    "android": "arm64-android",
+}
+
+# When True, ensure passes QT_OUTPUT_DIR=$ROOT/Qt during setup.sh (Windows cross-build).
+# TODO: Bake Windows Qt into the Windows image (Android-style Dockerfile aqt RUN), then set
+# _KIND_INSTALL_QT_DURING_ENSURE["windows"] to False so ensure only refreshes vcpkg.
+_KIND_INSTALL_QT_DURING_ENSURE: dict[str, bool] = {
+    "windows": True,
+    "android": False,
+}
+
+
+def build_ensure_plan(target: str) -> EnsurePlan:
+    kind = target_to_kind(target)
+
+    root_default = Path(f"/opt/pokerth-{kind}")
+    root = Path(os.environ.get("ROOT", str(root_default)))
+    vcpkg_root = Path(os.environ.get("VCPKG_ROOT", str(root / "vcpkg")))
+    cache_dir = root
+
+    check_port = "protobuf"
+
+    triplet_default = _KIND_DEFAULT_VCPKG_TRIPLET.get(kind)
+    if not triplet_default:
+        raise RuntimeError(
+            f"ensure_docker_deps: add kind {kind!r} to _KIND_DEFAULT_VCPKG_TRIPLET or set VCPKG_TRIPLET"
+        )
+    triplet = os.environ.get("VCPKG_TRIPLET", triplet_default)
+
+    if kind not in _KIND_INSTALL_QT_DURING_ENSURE:
+        raise RuntimeError(
+            f"ensure_docker_deps: add kind {kind!r} to _KIND_INSTALL_QT_DURING_ENSURE"
+        )
+    install_qt = _KIND_INSTALL_QT_DURING_ENSURE[kind]
+
+    run_make_target = target if target in kind_run_make_targets(kind) else None
+    run_make_extra_env: dict[str, str] = {}
+    # Mark that the following Make invocation is running inside a docker/devcontainer build.
+    # Makefile uses this to select docker/ vs host stamp locations.
+    run_make_extra_env["IN_DOCKER"] = "1"
+
+    # For docker kinds, keep stamp location in the standard docker cache tree.
+    docker_stamp_dir = f"docker/{kind}/build"
+    setup_stamp_file = f"{docker_stamp_dir}/.stamp_setup"
+
+    return EnsurePlan(
+        kind=kind,
+        root=root,
+        vcpkg_root=vcpkg_root,
+        cache_dir=cache_dir,
+        triplet=triplet,
+        check_port=check_port,
+        run_make_target=run_make_target,
+        run_make_extra_env=run_make_extra_env,
+        install_qt_during_ensure=install_qt,
+        setup_stamp_file=setup_stamp_file,
+    )
+
+
+def chown_dir_recursively(path: Path, uid: str, gid: str) -> None:
+    if not path.exists():
+        return
+    try:
+        run_checked(["chown", "-R", f"{uid}:{gid}", str(path)])
+    except subprocess.CalledProcessError:
+        pass
+
+
+def run_make_if_requested(plan: EnsurePlan, make_args: list[str]) -> None:
+    if not plan.run_make_target:
+        return
+
+    cache_dir = plan.cache_dir
+    extra_env = dict(plan.run_make_extra_env or {})
+    if plan.setup_stamp_file:
+        repo_root = Path(__file__).resolve().parent.parent
+        stamp_path = Path(plan.setup_stamp_file)
+        if not stamp_path.is_absolute():
+            stamp_path = repo_root / stamp_path
+        stamp_path = stamp_path.resolve()
+        stamp_path.parent.mkdir(parents=True, exist_ok=True)
+        stamp_path.touch()
+
+    if int(subprocess.check_output(["id", "-u"], text=True).strip()) == 0:
+        uid = os.environ.get("VSCODE_UID", "1000")
+        gid = os.environ.get("VSCODE_GID", "1000")
+        chown_dir_recursively(cache_dir, uid, gid)
+
+        env_assignments: list[str] = [f"{k}={v}" for k, v in extra_env.items()]
+        cmd = ["runuser", "-u", "vscode", "--", "env", *env_assignments, "make", plan.run_make_target, *make_args]
+        run_checked(cmd)
+    else:
+        cmd = ["make", plan.run_make_target, *make_args]
+        run_checked(cmd)
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) < 2:
+        print("Usage: ensure_docker_deps.py <target> [make args...]", file=sys.stderr)
+        return 1
+
+    target = argv[1]
+    make_args = argv[2:]
+
+    script_dir = Path(__file__).resolve().parent
+
+    last_step = "init"
+    try:
+        plan = build_ensure_plan(target)
+
+        vcpkg_not_ready = not vcpkg_ready(plan.vcpkg_root, plan.triplet, plan.check_port)
+        if vcpkg_not_ready:
+            last_step = "deps setup (setup.sh)"
+            setup_env: dict[str, str] = {
+                "SKIP_SYSTEM_PACKAGES": "yes",
+                "TARGET_PLATFORM": plan.kind,
+                "VCPKG_DIR": str(plan.vcpkg_root),
+                "VCPKG_TRIPLET": plan.triplet,
+                "USE_AQT": "yes",
+                "USE_VCPKG": "yes",
+            }
+            if plan.install_qt_during_ensure:
+                setup_env["QT_OUTPUT_DIR"] = str(plan.root / _QT_RELATIVE_TO_ROOT)
+            # Windows path uses USE_AQT/USE_VCPKG; android exits setup.sh before they matter.
+            setup_sh = script_dir / "setup.sh"
+            run_checked(
+                ["bash", str(setup_sh)],
+                env={**os.environ, **setup_env},
+                cwd=script_dir.parent,
+            )
+        run_make_if_requested(plan, make_args)
+        return 0
+    except subprocess.CalledProcessError as e:
+        print(
+            f"ensure_docker_deps.py failed (exit {e.returncode}) at step={last_step} (target={target}).",
+            file=sys.stderr,
+        )
+        return e.returncode
+    except Exception as e:
+        print(f"ensure_docker_deps.py failed at step={last_step} (target={target}): {e}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))

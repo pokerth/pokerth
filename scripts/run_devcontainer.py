@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build a Docker image from a devcontainer.json and run `./scripts/ensure_docker_deps.sh`.
+Build a Docker image from a devcontainer.json and run `./scripts/ensure_docker_deps.py`.
 
 The Docker build/run plan (dockerfile/build context, mounts, workdir) is derived
 from the matching devcontainer.json based on the target.
@@ -186,11 +186,10 @@ def main(argv: list[str]) -> int:
 
     parser = argparse.ArgumentParser(
         prog="run_devcontainer.py",
-        description="Build docker image + run ensure_docker_deps.sh + make target inside container.",
+        description="Build docker image + run ensure_docker_deps.py + make target inside container.",
     )
     parser.add_argument("image")
     parser.add_argument("dockerfile")
-    parser.add_argument("context")
     parser.add_argument("make_target")
     parser.add_argument("--target", dest="build_target_opt", default=None)
     parser.add_argument(
@@ -268,7 +267,7 @@ def main(argv: list[str]) -> int:
         "-w",
         plan.workdir,
         image,
-        "./scripts/ensure_docker_deps.sh",
+        "./scripts/ensure_docker_deps.py",
         make_target,
     ]
 

@@ -14,28 +14,27 @@ source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 # Linux-specific Configuration
 ########################################
 
-detect_target_platform_linux "$0"
+require_target_platform
 
 if [ $# -gt 0 ]; then
-  echo "Usage: $SETUP_SCRIPT"
+  echo "Usage: scripts/setup.sh (prefer: make setup-linux, make setup-windows, make setup-android, make setup-macos)"
   echo "  No arguments. Set environment variables to change behavior."
   echo ""
-  echo "Environment: TARGET_PLATFORM, USE_AQT, USE_VCPKG"
+  echo "Environment: TARGET_PLATFORM, USE_AQT, USE_VCPKG, VCPKG_DIR / BUILD_DIR (android and windows), VCPKG_TRIPLET (android)"
   echo ""
   echo "Examples:"
-  echo "  $SETUP_SCRIPT"
-  echo "  TARGET_PLATFORM=windows $SETUP_SCRIPT"
+  echo "  make setup-linux"
+  echo "  TARGET_PLATFORM=windows scripts/setup.sh"
+  echo "  TARGET_PLATFORM=android scripts/setup.sh  # VCPKG_DIR defaults to BUILD_DIR/vcpkg or build_android/vcpkg"
   echo ""
   echo "Then run make linux or make windows to build."
   exit 0
 fi
 
-# Use system packages by default, set to "yes" to use aqtinstall for Qt
-# For Windows cross-compilation, aqtinstall is required
-USE_AQT="${USE_AQT:-no}"
-USE_VCPKG="${USE_VCPKG:-no}"
+# Dispatch to platform-specific setup or fall through for linux/windows shared path
+run_setup "$TARGET_PLATFORM"
 
-# Setup Qt paths based on target platform
+# Setup Qt paths based on target platform (USE_AQT/USE_VCPKG resolved by run_setup)
 setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
 
 # Windows cross-build: x86_64 is the only tested path.
