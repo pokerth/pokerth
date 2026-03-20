@@ -11,6 +11,14 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
 # Dispatch to platform-specific build or fall through for linux/windows shared path
+if [ -z "${TARGET_PLATFORM:-}" ]; then
+  # Allow running this script directly without env; prefer OS defaults.
+  # `make` always sets TARGET_PLATFORM explicitly, so this only affects manual runs.
+  case "$(uname -s)" in
+    Darwin) TARGET_PLATFORM="macos" ;;
+    *) TARGET_PLATFORM="linux" ;;
+  esac
+fi
 require_target_platform
 run_build "$TARGET_PLATFORM"
 
@@ -22,7 +30,7 @@ show_usage() {
   echo "Usage: scripts/build.sh (prefer: make linux, make windows)"
   echo "  No arguments. Set environment variables to change behavior."
   echo ""
-  echo "Environment: TARGET_PLATFORM, BUILD_TARGET, USE_AQT, USE_VCPKG, CLEAN, CREATE_INSTALLER"
+  echo "Environment: TARGET_PLATFORM (optional; default based on host OS), REPO_BUILD_ROOT (optional; default build_<platform>, same as Makefile when unset on host), BUILD_TARGET, USE_AQT, USE_VCPKG, CLEAN, CREATE_INSTALLER"
   echo ""
   echo "Examples:"
   echo "  make linux"
@@ -91,7 +99,7 @@ create_windows_nsis_installer() {
     log "  ✓ Icon created"
   fi
   [ -f "$NSIS_DIR/pokerth.ico" ] && cp "$NSIS_DIR/pokerth.ico" "$DEPLOY_DIR/" 2>/dev/null || true
-  DEPLOY_PATH_REL="../../${WINDOWS_BUILD_DIR:-build_windows}/deploy"
+  DEPLOY_PATH_REL="../../${BUILD_DIR_REL}/deploy"
   if ! (cd "$NSIS_DIR" && makensis -NOCD -DDeployPath="$DEPLOY_PATH_REL" installer.nsi); then
     error "NSIS failed (see output above). Ensure pokerth.ico exists in $NSIS_DIR."
   fi
@@ -199,13 +207,15 @@ log "✓ All dependencies found"
 ########################################
 # 2. Build PokerTH
 ########################################
+# Repo-relative build tree: Makefile passes REPO_BUILD_ROOT (matches stamp path in Docker).
+# Manual runs default to build_<TARGET_PLATFORM> (same as host Makefile when IN_DOCKER is unset).
 
-if [ "$TARGET_PLATFORM" = "windows" ]; then
-  # Use build_windows_docker in Docker so local and Docker do not share the same dir (avoids path/ownership issues).
-  BUILD_DIR="$REPO_ROOT/${WINDOWS_BUILD_DIR:-build_windows}"
+if [ -n "${REPO_BUILD_ROOT:-}" ]; then
+  BUILD_DIR_REL="$REPO_BUILD_ROOT"
 else
-  BUILD_DIR="$REPO_ROOT/build_linux"
+  BUILD_DIR_REL="build_${TARGET_PLATFORM}"
 fi
+BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
 
 if is_yes "$CLEAN"; then
   log "Cleaning and reconfiguring build for $TARGET_PLATFORM..."

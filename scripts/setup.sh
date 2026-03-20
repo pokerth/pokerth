@@ -3,7 +3,7 @@
 ###
 # Setup script for PokerTH build environment on Linux
 # Installs all required dependencies and tools
-# Run this once as root/sudo, then use make linux / make windows or scripts/build.sh as a regular user
+# Run this once as root/sudo, then use make linux / make windows or TARGET_PLATFORM=linux|windows ./scripts/build.sh (defaults to build_<platform>/)
 
 set -euo pipefail
 

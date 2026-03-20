@@ -1,7 +1,7 @@
 ## Prerequisites
 
 - Docker
-- **jq** (on host: for `make windows-docker` / `make docker-windows-installer`; install with `apt install jq`, `brew install jq`, or run `make setup-windows` on Linux / `make setup-macos` on macOS)
+- **jq** (on host: for `make windows-docker` / `make windows-docker-installer`; install with `apt install jq`, `brew install jq`, or run `make setup-windows` on Linux / `make setup-macos` on macOS)
 - VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
 
 ## Build Instructions
@@ -32,7 +32,7 @@ On macOS **`make windows`** uses Docker (same as **`make windows-docker`**). On 
 make windows-docker
 ```
 
-For the NSIS installer: on **Linux** you can use **`make windows-installer`** (host MinGW) or **`make docker-windows-installer`** (Docker). On **macOS**, **`make windows-installer`** uses Docker (no choice; same as **`make docker-windows-installer`**).
+For the NSIS installer: on **Linux** you can use **`make windows-installer`** (host MinGW) or **`make windows-docker-installer`** (Docker). On **macOS**, **`make windows-installer`** uses Docker (no choice; same as **`make windows-docker-installer`**).
 
 The Makefile builds the devcontainer image (if needed), runs a container with the repo mounted at `/workspaces/pokerth`, and runs **`make windows`** (or **`make windows-installer`**) inside it. Output ends up in **docker/windows/build/deploy/** (build dir is under docker/windows). Requires only Docker.
 

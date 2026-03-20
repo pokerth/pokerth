@@ -15,7 +15,7 @@ endif
 # Default target: Native builds: host toolchain.
 all: build_$(TARGET_PLATFORM)/.stamp_setup
 	@echo "Building for $(TARGET_PLATFORM)"
-	@TARGET_PLATFORM=$(TARGET_PLATFORM) $(SCRIPTS)/build.sh
+	@TARGET_PLATFORM=$(TARGET_PLATFORM) REPO_BUILD_ROOT=$(REPO_BUILD_ROOT) $(SCRIPTS)/build.sh
 
 SCRIPTS := ./scripts
 
@@ -30,9 +30,13 @@ DOCKER_KINDS_STAMP := windows android
 STAMP_DIRS := $(foreach p,$(NATIVE_PLATFORMS),build_$(p)) build_android \
               $(foreach k,$(DOCKER_KINDS_STAMP),docker/$(k)/build)
 
-.PHONY: linux windows macos android android-installer setup setup-platform setup-linux setup-windows setup-macos setup-android clean help
-.PHONY: docker windows-docker android-docker docker-windows-installer docker-android-installer
-.PHONY: linux-installer windows-installer macos-installer installer installers
+# Repo-relative setup stamp + build.sh tree (passed to build.sh as REPO_BUILD_ROOT).
+# IN_DOCKER -> docker/$(TARGET_PLATFORM)/build, else build_$(TARGET_PLATFORM).
+# Use `=`; expand in recipes/submakes where TARGET_PLATFORM matches the build.
+REPO_BUILD_ROOT = $(if $(IN_DOCKER),docker/$(TARGET_PLATFORM)/build,build_$(TARGET_PLATFORM))
+
+.PHONY: help linux windows macos android setup setup-platform setup-linux setup-windows setup-macos setup-android clean
+.PHONY: installer installers linux-installer windows-installer macos-installer android-installer
 # help when explicitly requested
 help:
 	@echo "PokerTH build targets:"
@@ -47,8 +51,8 @@ help:
 	@echo "  make android-installer - Placeholder (no-op; future signed APK / store flow)"
 	@echo "  make linux-installer - Build + Linux AppImage"
 	@echo "  make windows-installer        - Build + Windows NSIS (Linux: host; macOS: Docker)"
-	@echo "  make docker-windows-installer - Windows NSIS in Docker"
-	@echo "  make docker-android-installer  - Android APK in Docker (placeholder)"
+	@echo "  make windows-docker-installer - Windows NSIS in Docker"
+	@echo "  make android-docker-installer - Android APK in Docker (placeholder)"
 	@echo "  make macos-installer - Build + macOS DMG"
 	@echo "  make installer       - Same as make installers"
 	@echo "  make installers      - Build installers for this host (Linux: AppImage + Windows NSIS; macOS: DMG; linux-installer may fail)"
@@ -99,31 +103,37 @@ linux:
 macos:
 	$(MAKE) TARGET_PLATFORM=macos all
 
+# Agnostic build helper target: host build: stamp + build.sh. Caller must set TARGET_PLATFORM=windows|android (for REPO_BUILD_ROOT).
+.PHONY: __do_host_build
+__do_host_build:
+	$(MAKE) TARGET_PLATFORM=$(TARGET_PLATFORM) $(REPO_BUILD_ROOT)/.stamp_setup
+	TARGET_PLATFORM=$(TARGET_PLATFORM) REPO_BUILD_ROOT=$(REPO_BUILD_ROOT) $(SCRIPTS)/build.sh
+
 # host cross-compile on Linux; force Docker on macOS (no host toolchain).
 # Use windows-docker to force Docker on any host.
 windows:
 ifeq ($(UNAME_S),Darwin)
-	$(MAKE) TARGET_PLATFORM=windows docker
+	$(MAKE) TARGET_PLATFORM=windows __do_docker
 else
-    # docker/windows/build or build_windows
-	$(MAKE) $(if $(IN_DOCKER),docker/windows/build,build_windows)/.stamp_setup
-	TARGET_PLATFORM=windows $(SCRIPTS)/build.sh
+	$(MAKE) TARGET_PLATFORM=windows __do_host_build
 endif
 
 # Use android-docker to force Docker on any host.
 android:
 ifeq ($(UNAME_S),Darwin)
-	$(MAKE) TARGET_PLATFORM=android docker
+	$(MAKE) TARGET_PLATFORM=android __do_docker
 else
-    # docker/android/build or build_android
-	$(MAKE) $(if $(IN_DOCKER),docker/android/build,build_android)/.stamp_setup
-	TARGET=$(ANDROID_BUILD_TARGET) TARGET_PLATFORM=android $(SCRIPTS)/build.sh
+	$(MAKE) TARGET_PLATFORM=android __do_host_build
 endif
 
-DOCKER_GOAL ?= $(TARGET_PLATFORM)
+#
+# Targets that use docker
+#
 
-# Agnostic docker build, called as submake target by %-docker and docker-%-installer.
-docker:
+# Agnostic docker build helper target, called as submake target by %-docker and docker-%-installer.
+DOCKER_GOAL ?= $(TARGET_PLATFORM)
+.PHONY: __do_docker
+__do_docker:
 	@plat="$(TARGET_PLATFORM)"; img="$${DOCKER_IMAGE:-pokerth-$$plat-dev}"; \
 	$(SCRIPTS)/run_devcontainer.py "$$img" "docker/$$plat/.devcontainer/Dockerfile" "$(DOCKER_GOAL)"
 	@case "$(DOCKER_GOAL)" in \
@@ -132,25 +142,41 @@ docker:
 	   *) echo "Done. DOCKER_GOAL=$(DOCKER_GOAL).";; \
 	esac
 
-# Docker builds: windows-docker, android-docker.
-%-docker:
-	$(MAKE) TARGET_PLATFORM=$* docker
+#
+# Use "TARGET: %-pattern:" static pattern rules over the known sets to force GNU Make to allow phony pattern rules
+#
 
-# Docker installer builds: docker-windows-installer, docker-android-installer.
-docker-%-installer:
-	$(MAKE) TARGET_PLATFORM=$* DOCKER_GOAL=$*-installer docker
+# Docker builds
+DOCKER_TARGETS := windows-docker android-docker
+.PHONY: $(DOCKER_TARGETS)
+$(DOCKER_TARGETS): %-docker:
+	$(MAKE) TARGET_PLATFORM=$* __do_docker
 
-installers: installer
+# Docker installer builds
+DOCKER_INSTALLER_TARGETS := windows-docker-installer android-docker-installer
+.PHONY: $(DOCKER_INSTALLER_TARGETS)
+$(DOCKER_INSTALLER_TARGETS): %-docker-installer:
+	$(MAKE) TARGET_PLATFORM=$* DOCKER_GOAL=$*-installer __do_docker
 
-# On Linux: linux-installer (may fail) + windows-installer. On macOS: macos-installer only.
-installer:
+#
+# Installer targets
+#
+
+installers installer:
 ifeq ($(UNAME_S),Darwin)
+    # On macOS: macos-installer only.
 	$(MAKE) macos-installer
 else
-    # allow linux installer to fail
+    # On Linux: linux-installer (may fail) + windows-installer
 	-$(MAKE) linux-installer
 	$(MAKE) windows-installer
 endif
+
+# Installer helper target: stamp + build.sh. Caller must set TARGET_PLATFORM=windows|android (for REPO_BUILD_ROOT).
+.PHONY: __do_host_installer
+__do_host_installer:
+	$(MAKE) TARGET_PLATFORM=$(TARGET_PLATFORM) $(REPO_BUILD_ROOT)/.stamp_setup
+	CREATE_INSTALLER=yes TARGET_PLATFORM=$(TARGET_PLATFORM) REPO_BUILD_ROOT=$(REPO_BUILD_ROOT) $(SCRIPTS)/build.sh
 
 #
 # Installer builds: android-installer, linux-installer, windows-installer, macos-installer.
@@ -160,14 +186,13 @@ android-installer:
 	@:
 
 linux-installer: build_linux/.stamp_setup
-	CREATE_INSTALLER=yes TARGET_PLATFORM=linux $(SCRIPTS)/build.sh
+	CREATE_INSTALLER=yes TARGET_PLATFORM=linux REPO_BUILD_ROOT=build_linux $(SCRIPTS)/build.sh
 
 windows-installer:
 ifeq ($(UNAME_S),Darwin)
-	$(MAKE) docker-windows-installer
+	$(MAKE) windows-docker-installer
 else
-	$(MAKE) $(if $(IN_DOCKER),docker/windows/build,build_windows)/.stamp_setup
-	CREATE_INSTALLER=yes TARGET_PLATFORM=windows $(SCRIPTS)/build.sh
+	$(MAKE) TARGET_PLATFORM=windows __do_host_installer
 endif
 
 macos-installer: build_macos/.stamp_setup

@@ -21,7 +21,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 - **Usage:** Pass any argument (e.g. `--help`) to a setup or build script to print usage and exit.
 - **Build targets:** `pokerth_client` (default), `pokerth_qml-client`, `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`. Override with `BUILD_TARGET=…`.
 
-**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android`, `make android-docker`, `make setup-linux`, `make setup-windows`, `make setup-macos`, **`make setup-android`** (**VCPKG_DIR** required), `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make docker-windows-installer`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`. **Python 3** on the host for **`make windows-docker`** / **`make docker-windows-installer`** (**run_devcontainer.py**).
+**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android`, `make android-docker`, `make setup-linux`, `make setup-windows`, `make setup-macos`, **`make setup-android`** (**VCPKG_DIR** required), `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make windows-docker-installer`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`. **Python 3** on the host for **`make windows-docker`** / **`make windows-docker-installer`** (**run_devcontainer.py**).
 
 **Windows vs Android:** **`make windows`** / **`make android`** follow the same idea: on Linux they use the host toolchain when you have it configured; on macOS there is no host Android/Windows cross toolchain, so **`make android`** and **`make windows`** run the Docker flow. Use **`make android-docker`** or **`make windows-docker`** to force Docker on any host.
 
@@ -32,7 +32,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 1. **Setup (once):** `make setup-linux` or `make setup` (on Linux). Or run `./scripts/setup.sh` (may need sudo). If you skip this, **`make linux`** or **`make`** will run setup automatically (creates `build_linux/.stamp_setup` when done).
 2. **Build:** `make linux` or `make` (on Linux) → binary in `build_linux/bin/` and deploy dir in `build_linux/deploy/`.
 3. **Run:** `cd build_linux/deploy && ./pokerth_client` or `./build_linux/bin/pokerth_client` (bin has `data` pointing to repo data).
-4. **Optional:** `make linux-installer` or `CREATE_INSTALLER=yes ./scripts/build.sh` runs linuxdeployqt to create an AppImage (deploy dir is always created; this only adds the AppImage step). **make setup-linux** installs linuxdeployqt to `~/bin` if missing; ensure `~/bin` is in your PATH (e.g. `export PATH="$HOME/bin:$PATH"` in `.bashrc`). To install manually, see [linuxdeployqt releases](https://github.com/probonopd/linuxdeployqt/releases). linuxdeployqt needs Qt6’s **qmake** to find plugins; the build script prefers Qt6 qmake over system `/usr/bin/qmake` (Qt5). If you see “qmake: could not exec … No such file or directory”, install Qt6 qmake (e.g. **`apt install qmake6`** or **`qt6-tools-dev`**) so the script can pass it to linuxdeployqt.
+4. **Optional:** `make linux-installer` or `CREATE_INSTALLER=yes TARGET_PLATFORM=linux ./scripts/build.sh` runs linuxdeployqt to create an AppImage (deploy dir is always created; this only adds the AppImage step). **make setup-linux** installs linuxdeployqt to `~/bin` if missing; ensure `~/bin` is in your PATH (e.g. `export PATH="$HOME/bin:$PATH"` in `.bashrc`). To install manually, see [linuxdeployqt releases](https://github.com/probonopd/linuxdeployqt/releases). linuxdeployqt needs Qt6’s **qmake** to find plugins; the build script prefers Qt6 qmake over system `/usr/bin/qmake` (Qt5). If you see “qmake: could not exec … No such file or directory”, install Qt6 qmake (e.g. **`apt install qmake6`** or **`qt6-tools-dev`**) so the script can pass it to linuxdeployqt.
 
 **Deploy directory:** Like Windows, every Linux build creates `build_linux/deploy/` with the binary and `deploy/data` pointing to repo data (no copy). `build_linux/bin/data` also points to repo data so running from `bin/` works.
 
@@ -49,11 +49,11 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 ## Windows (cross-compile from Linux, or via Docker on macOS)
 
 1. **On Linux:** **Setup (once):** `make setup-windows` (or `TARGET_PLATFORM=windows ./scripts/setup.sh`). If you skip this, **`make windows`** will run setup automatically (creates `build_windows/.stamp_setup` when done).
-2. **On macOS:** **`make windows`** and **`make windows-installer`** run the Windows build inside Docker (same as **`make windows-docker`** / **`make docker-windows-installer`**). No host setup required; Docker is required.
+2. **On macOS:** **`make windows`** and **`make windows-installer`** run the Windows build inside Docker (same as **`make windows-docker`** / **`make windows-docker-installer`**). No host setup required; Docker is required.
 3. **Build:** `make windows` → `build_windows/deploy/` is populated with the exe, Qt/MinGW DLLs, `data/`, plugins, and `qt.conf`.
 4. Copy **`build_windows/deploy`** to Windows and run `pokerth_client.exe` from that directory, or run **`make windows-installer`** to create an NSIS installer.
 
-**NSIS (makensis):** Required only for **`make windows-installer`** (or `CREATE_INSTALLER=yes`). We assume it is already installed: on Linux run **`make setup-windows`** (which installs the `nsis` package), or install it yourself (e.g. **`apt install nsis`**). In the Windows Docker image, **`scripts/setup.sh`** installs nsis as part of the base packages. **scripts/build.sh** does not install nsis; it fails with a clear message if `makensis` is missing.
+**NSIS (makensis):** Required only for **`make windows-installer`** (or `CREATE_INSTALLER=yes TARGET_PLATFORM=windows ./scripts/build.sh`). We assume it is already installed: on Linux run **`make setup-windows`** (which installs the `nsis` package), or install it yourself (e.g. **`apt install nsis`**). In the Windows Docker image, **`scripts/setup.sh`** installs nsis as part of the base packages. **scripts/build.sh** does not install nsis; it fails with a clear message if `makensis` is missing.
 
 **Script behavior:** Same reuse logic as Linux (reconfigure on path change or `CLEAN=yes`; see Summary). If broken on host: `CLEAN=yes make windows`. If broken in Docker: remove `docker/windows/build` then `make windows-docker`. Launchers `pokerth_launcher.bat` and `run_pokerth.sh` are copied from **scripts/**.
 
@@ -89,7 +89,7 @@ build_windows/deploy/
 
 ### Building in Dev Container (Windows)
 
-Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/run_devcontainer.py**): **base** image, **`docker/windows/build`** mount (to `/opt/pokerth-windows`), and **`WINDOWS_BUILD_DIR=docker/windows/build`**. After first create, run **`make windows`** or **`make windows-installer`**; output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
+Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/run_devcontainer.py**): **base** image and **`docker/windows/build`** mount (to `/opt/pokerth-windows`). In Docker, **ensure_docker_deps.py** sets **`IN_DOCKER=1`**; the **Makefile** computes **`REPO_BUILD_ROOT`** and passes it to **scripts/build.sh**, so output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
 
 ### OpenSSL MinGW (SIO_UDP_NETRESET)
 
