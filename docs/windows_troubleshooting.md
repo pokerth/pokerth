@@ -121,7 +121,7 @@ This usually means a **DLL version mismatch**: the exe was linked against one ve
 
 ## Build Failures on Linux (Before Copying to Windows)
 
-If the Windows build fails on Ubuntu or when reusing a build directory, see **docs/building.md**: sections **Linux** (Ubuntu vs Debian, Qt version) and **Windows (cross-compile from Linux)** (vcpkg, reconfigure), and **Build script context** (when configure runs, `build.ninja`, `CLEAN=yes`).
+If the Windows build fails on Ubuntu or when reusing a build directory, see **docs/building.md** (Linux Qt, Windows vcpkg, reconfigure) and **docs/building-developer.md** (Docker ensure, **ensure_docker_deps.py**, **docker/windows/build** cache).
 
 ## Common Causes Summary
 

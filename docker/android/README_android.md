@@ -5,12 +5,17 @@
 
 ## Build Instructions
 
-**From the command line (Linux and macOS):** From the **repo root** run **`make android-docker`**. This builds the Android image (if needed), runs the Android build inside the container with the repo mounted, and leaves the APK in **`build-android-<arch>/android-build/build/outputs/apk/release/`**. For other architectures: **`make android-docker ANDROID_BUILD_ARGS="--arch armeabi-v7a"`** or **`ANDROID_BUILD_ARGS="--arch x86_64"`** (see `docker/android/build_android.sh --help`). Requires Docker only.
+**Command line (recommended):** From **repo root**, **`make android-docker`**. Flow: **`scripts/ensure_docker_deps.py android`** → **`scripts/setup.sh`** (**TARGET_PLATFORM=android**) → **`scripts/setup_android.sh`** (vcpkg + protobuf into **`docker/android/build`**), then **`make android`**. In Docker, `ensure_docker_deps.py` makes the stamp location consistent with Windows by using **`docker/android/build/.stamp_setup`** (via `ANDROID_BUILD_DIR` override). Two binds: **`build_android`** (workspace dev convenience) and **`docker/android/build/vcpkg`** → **`/opt/pokerth-android/vcpkg`** (SDK/NDK/Qt in image). APK under **`build-android-<arch>/android-build/.../release/`**. Other ABIs: **`ANDROID_BUILD_ARGS="--arch x86_64"`** etc. (**scripts/build_android.sh --help**). Align **`VCPKG_TRIPLET`** with the ABI when pre-seeding vcpkg (see **docs/building-developer.md**).
 
-**Using the VS Code Dev Container:** The Android devcontainer is docker-compose based and mounts **`docker/android/`** as the workspace (not the repo root). It’s useful for working on the Android Docker tooling; for actually building PokerTH for Android, use **`make android-docker`** from the repo root (recommended).
+**Host Linux (vcpkg only):** **`export VCPKG_DIR=…`** then **`make setup-android`** — same port install as Docker ensure before **`make android`**.
+
+**Deprecated (do not run):** **`docker/android/.devcontainer/install_vcpkg_android.sh`** — like **`docker/windows/build_windows.sh`**; reference-only.
+
+**Using the VS Code Dev Container:** Open **docker/android** in VS Code → **Dev Containers: Rebuild and Reopen in Container**. The repo is mounted at `/workspaces/pokerth`. Run **`make setup-android`** then **`make android`** to build. Or use **`make android-docker`** from the repo root for an all-in-one flow.
 
 ```bash
-docker/android/build_android.sh
+make setup-android
+make android
 ```
 
 The unsigned APK will be at:

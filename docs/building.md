@@ -4,7 +4,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 
 - **Default `make`:** On Linux runs `make linux`; on macOS runs `make macos`. So you can run **`make`** after setup and get the native build.
 - **Default `make setup`:** On Linux runs `make setup-linux`; on macOS runs `make setup-macos`. Run **`make setup`** once to install dependencies for the current OS.
-- **Stamp files:** When you run `make linux`, `make windows`, or `make macos`, Make checks for a setup stamp in that target’s build dir (**BUILD_DIR/..stamp_setup**, e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup` when `WINDOWS_BUILD_DIR=docker/windows/build`). If the stamp is missing, it runs the corresponding setup first, then builds. So **`make`** or **`make linux`** (etc.) can be run without having run setup beforehand; setup will run once and create the stamp.
+- **Stamp files:** When you run `make linux`, `make windows`, or `make macos`, Make checks for a setup stamp in that target’s build dir (**BUILD_DIR/.stamp_setup**, e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup`). If the stamp is missing, it runs the corresponding setup first, then builds. So **`make`** or **`make linux`** (etc.) can be run without having run setup beforehand; setup will run once and create the stamp.
 - **`make clean`:** Removes `build_linux/`, `build_windows/`, `build_macos/`, `docker/windows/build/` and the setup stamp files. After that, the next `make` or `make linux` (etc.) will run setup again.
 
 ## Summary by platform
@@ -14,16 +14,16 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 | **Linux** (native) | `make setup-linux` or `make setup` (on Linux) | `make linux` or `make` (on Linux) | `build_linux/` | Qt 6.4.2+ (e.g. Ubuntu 24.04 system Qt). Deploy: `build_linux/deploy/` (binary + data). |
 | **Windows** (cross from Linux; or Docker on macOS) | `make setup-windows` (Linux) or none (macOS: Docker) | `make windows` | `build_windows/` or `docker/windows/build/` (Docker) | Linux: MinGW + vcpkg + Qt. macOS: **make windows** runs in Docker. Local output: `build_windows/deploy/`. Docker: **make windows-docker** → `docker/windows/build/deploy/`. |
 | **macOS** | `make setup-macos` or `make setup` (on macOS) | `make macos` or `make` (on macOS) | `build_macos/` | Homebrew, vcpkg, Qt via aqtinstall. Produces `.app` bundle. |
-| **Android** | none (Docker) | `make android-docker` | `build-android-<arch>/` | Via Docker on Linux and macOS. APK in `build-android-<arch>/android-build/build/outputs/apk/release/`. |
+| **Android** | Host: **make setup-android** (**VCPKG_DIR**) for vcpkg ports + SDK/NDK/Qt; Docker on macOS | `make android` or `make android-docker` | `build-android-<arch>/` | Linux host **scripts/build_android.sh**; macOS **make android** uses Docker. Docker ensure runs **setup.sh** → **setup_android.sh** then **make android**. |
 
 - **Clean rebuild:** `make clean` (removes build dirs and stamps) or `CLEAN=yes make linux` (or make windows / make macos) wipes the build dir and reconfigures from scratch. If you see "Makefile not found", "Configure incomplete", or cache/toolchain errors, run `CLEAN=yes make <target>` and retry.
 - **Create installer:** `make linux-installer`, `make windows-installer`, or `make macos-installer` — Linux: AppImage (linuxdeployqt); Windows: NSIS (makensis); macOS: DMG.
 - **Usage:** Pass any argument (e.g. `--help`) to a setup or build script to print usage and exit.
 - **Build targets:** `pokerth_client` (default), `pokerth_qml-client`, `pokerth_dedicated_server`, `pokerth_official_server`, `pokerth_chatcleaner`. Override with `BUILD_TARGET=…`.
 
-**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android-docker`, `make setup-linux`, `make setup-windows`, `make setup-macos`, `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make windows-installer-docker`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`. **Python 3** is required on the host for **`make windows-docker`** and **`make windows-installer-docker`** (used to parse devcontainer.json).
+**Makefile targets:** `make`, `make setup`, `make linux`, `make windows`, `make windows-docker`, `make macos`, `make android`, `make android-docker`, `make setup-linux`, `make setup-windows`, `make setup-macos`, **`make setup-android`** (**VCPKG_DIR** required), `make clean`, `make help`. Installers: `make linux-installer`, `make windows-installer`, `make docker-windows-installer`, `make macos-installer`, `make installers`. Pass env: `CLEAN=yes make linux`. **Python 3** on the host for **`make windows-docker`** / **`make docker-windows-installer`** (**run_devcontainer.py**).
 
-**Windows vs Android (Docker):** **`make windows`** means “produce a Windows build”; on Linux it uses the host toolchain (MinGW, vcpkg, Qt), on macOS it uses Docker (no host Windows toolchain). So the *method* depends on the host. To always use Docker for Windows, use **`make windows-docker`** or **`make windows-installer-docker`**. **`make android-docker`** builds for Android in Docker — there is no host Android build path, so the meaning is unambiguous.
+**Windows vs Android:** **`make windows`** / **`make android`** follow the same idea: on Linux they use the host toolchain when you have it configured; on macOS there is no host Android/Windows cross toolchain, so **`make android`** and **`make windows`** run the Docker flow. Use **`make android-docker`** or **`make windows-docker`** to force Docker on any host.
 
 ---
 
@@ -49,7 +49,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 ## Windows (cross-compile from Linux, or via Docker on macOS)
 
 1. **On Linux:** **Setup (once):** `make setup-windows` (or `TARGET_PLATFORM=windows ./scripts/setup.sh`). If you skip this, **`make windows`** will run setup automatically (creates `build_windows/.stamp_setup` when done).
-2. **On macOS:** **`make windows`** and **`make windows-installer`** run the Windows build inside Docker (same as **`make windows-docker`** / **`make windows-installer-docker`**). No host setup required; Docker is required.
+2. **On macOS:** **`make windows`** and **`make windows-installer`** run the Windows build inside Docker (same as **`make windows-docker`** / **`make docker-windows-installer`**). No host setup required; Docker is required.
 3. **Build:** `make windows` → `build_windows/deploy/` is populated with the exe, Qt/MinGW DLLs, `data/`, plugins, and `qt.conf`.
 4. Copy **`build_windows/deploy`** to Windows and run `pokerth_client.exe` from that directory, or run **`make windows-installer`** to create an NSIS installer.
 
@@ -85,7 +85,7 @@ build_windows/deploy/
 2. Ensure all DLLs are next to the exe and `plugins/platforms/qwindows.dll` and `data/` are present.
 3. Run `pokerth_client.exe`.
 
-**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Docker:** vcpkg and Qt are cached on the host under **`docker/windows/build/`** (mounted to `/opt/pokerth-windows` in the container). vcpkg build logs are under **`docker/windows/build/vcpkg/buildtrees/`** (e.g. `*/install-*-out.log`) if setup fails.
+**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Docker:** vcpkg and Qt land under **`docker/windows/build/`** (→ `/opt/pokerth-windows`). First container run: **ensure_docker_deps.py** runs **setup.sh**. Logs: **`docker/windows/build/vcpkg/buildtrees/`** if setup fails.
 
 ### Building in Dev Container (Windows)
 
@@ -107,11 +107,12 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 
 ---
 
-## Android (via Docker, Linux and macOS)
+## Android
 
-1. **Build:** From the repo root run **`make android-docker`**. The Makefile builds the Android devcontainer image (first run can take a long time), mounts the repo, and inside the container runs **`make android-in-docker`** (that target runs **docker/android/build_android.sh**). Requires Docker; no host setup. You do not run **make android-in-docker** on the host — only **make android-docker**.
-2. **Output:** Unsigned APK at **`build-android-<arch>/android-build/build/outputs/apk/release/android-build-release-unsigned.apk`** (default arch is set in **docker/android/.devcontainer/Dockerfile**, e.g. `arm64-v8a`).
-3. **Other architectures:** Run **`make android-docker ANDROID_BUILD_ARGS="--arch armeabi-v7a"`** or **`ANDROID_BUILD_ARGS="--arch x86_64"`** etc. See **docker/android/README_android.md** for signing and devcontainer usage.
+1. **macOS:** **`make android`** or **`make android-docker`** — Docker: **`scripts/ensure_docker_deps.py android`** runs **`scripts/setup.sh`** (**TARGET_PLATFORM=android**) → **`scripts/setup_android.sh`** (vcpkg + protobuf), then **`make android`** → **scripts/build_android.sh**.
+2. **Linux (host build):** Optional vcpkg step: **`export VCPKG_DIR=/path/to/vcpkg`** then **`make setup-android`** (same port list as Docker). Then set **ANDROID_SDK_ROOT**, **ANDROID_NDK_ROOT**, **JAVA_HOME**, **QT_ANDROID_DIR** (see **scripts/build_android.sh**) and **`make android`**. Or use **`make android-docker`** for an all-in-container flow (vcpkg cache **docker/android/build/vcpkg**).
+3. **Output:** Unsigned APK under **`build-android-<arch>/android-build/build/outputs/apk/release/`** (default arch in **docker/android/.devcontainer/Dockerfile**, e.g. `arm64-v8a`).
+4. **Other architectures:** **`make android ANDROID_BUILD_ARGS="--arch x86_64"`** or match **`VCPKG_TRIPLET`** to the ABI when using **setup-android**. See **docker/android/README_android.md**.
 
 ---
 
@@ -119,9 +120,10 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 
 - **Top-level entry:** Use **make** (see `make help`). Scripts live in **scripts/** (`build.sh`, `setup.sh`, `build_macos.sh`, `setup_macos.sh`).
 - **Default goals:** On Linux, `make` = `make linux` and `make setup` = `make setup-linux`. On macOS, `make` = `make macos` and `make setup` = `make setup-macos`.
-- **Stamp files:** One per build dir: **BUILD_DIR/..stamp_setup** (e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup` when `WINDOWS_BUILD_DIR` is set). Created when setup finishes; if missing, Make runs setup first, then the build.
-- **Setup scripts:** Install deps only (packages, vcpkg, Qt). **Build scripts:** Configure and build; deploy dir is always created. **make clean:** Removes build dirs and stamps; next `make` will run setup again. Or `CLEAN=yes make <target>` to only wipe the build dir and reconfigure.
-- **vcpkg location:** Local (host) vcpkg is not in the repo; it defaults to **~/vcpkg**. Docker builds cache vcpkg under their Docker build dirs (e.g. **`docker/windows/build/vcpkg`** and **`docker/android/build/vcpkg`**). See **docs/building-developer.md** for VCPKG_DIR and QT_OUTPUT_DIR.
+- **Stamp files:** One per build dir: **BUILD_DIR/.stamp_setup** (e.g. `build_linux/`, `build_windows/`, `build_macos/`). Docker ensure touches **`docker/windows/build/.stamp_setup`** and **`docker/android/build/.stamp_setup`** after vcpkg setup so Make can depend on the same paths.
+- **Setup scripts:** **setup.sh** (**linux** / **windows** via shared path; **android** → **setup_android.sh**; **macos** → **setup_macos.sh**). **Build scripts:** **build.sh**, **build_macos.sh**, **build_android.sh**. **make clean:** Removes build dirs and stamps.
+- **vcpkg:** Host default **~/vcpkg** (**VCPKG_DIR**). Docker: **docker/windows/build/vcpkg**, **docker/android/build/vcpkg**. **scripts/ensure_docker_deps.py** implements Docker ensure (triplet / Qt-during-ensure defaults in that file). Details: **docs/building-developer.md**.
+- **Devcontainers:** Windows and Android use **devcontainer.json** only (no docker-compose). **make X-docker** and VS Code "Reopen in Container" share the same config. See **docs/building-developer.md**.
 - **create_serverlist.sh** (root, legacy): Expects `./build/bin/zlib_compress`. Binary is at `build_linux/bin/zlib_compress`; symlink `build` → `build_linux` or run it manually.
 
 **Build system details (scripts, env, reconfigure, Docker):** **docs/building-developer.md**.

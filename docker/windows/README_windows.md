@@ -1,7 +1,7 @@
 ## Prerequisites
 
 - Docker
-- **jq** (on host: for `make windows-docker` / `make windows-installer-docker`; install with `apt install jq`, `brew install jq`, or run `make setup-windows` on Linux / `make setup-macos` on macOS)
+- **jq** (on host: for `make windows-docker` / `make docker-windows-installer`; install with `apt install jq`, `brew install jq`, or run `make setup-windows` on Linux / `make setup-macos` on macOS)
 - VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
 
 ## Build Instructions
@@ -16,7 +16,7 @@ make windows
 
 Or **`make windows-installer`** to build and create the NSIS installer. Output is in **docker/windows/build/deploy/** (and the installer in **docker/windows/**). The container runs **`make windows`** automatically after create (postCreateCommand).
 
-**`docker/windows/build_windows.sh`** is **deprecated**; use **`make windows`** (inside the container) or **`make windows-docker`** (from the host). All build and deploy logic lives in **scripts/build.sh** and **scripts/functions.sh**; the devcontainer runs **scripts/ensure_docker_deps.sh windows** (setup if needed, then make windows). To get a clean build inside Docker, remove **docker/windows/build** on the host, then run **`make windows-docker`** again (CLEAN is not passed into the container).
+**`docker/windows/build_windows.sh`** is **deprecated** (stderr warning only); use **`make windows`** or **`make windows-docker`**. Build logic: **scripts/build.sh** / **functions.sh**. Devcontainer / **`make windows-docker`**: **scripts/ensure_docker_deps.py windows** runs **scripts/setup.sh** when vcpkg/protobuf missing (**SKIP_SYSTEM_PACKAGES** set in Python), then **make windows**. Config knobs: **scripts/ensure_docker_deps_config.env** (e.g. Qt path template, stamp file). See **docs/building-developer.md**. Clean Docker tree: remove **docker/windows/build** on the host, then **`make windows-docker`** again.
 
 ## Testing from the command line (no VS Code/Cursor)
 
@@ -30,9 +30,9 @@ On macOS **`make windows`** uses Docker (same as **`make windows-docker`**). On 
 
 ```bash
 make windows-docker
-# or for the NSIS installer:
-make windows-installer-docker
 ```
+
+For the NSIS installer: on **Linux** you can use **`make windows-installer`** (host MinGW) or **`make docker-windows-installer`** (Docker). On **macOS**, **`make windows-installer`** uses Docker (no choice; same as **`make docker-windows-installer`**).
 
 The Makefile builds the devcontainer image (if needed), runs a container with the repo mounted at `/workspaces/pokerth`, and runs **`make windows`** (or **`make windows-installer`**) inside it. Output ends up in **docker/windows/build/deploy/** (build dir is under docker/windows). Requires only Docker.
 
