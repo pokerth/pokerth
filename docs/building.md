@@ -85,11 +85,11 @@ build_windows/deploy/
 2. Ensure all DLLs are next to the exe and `plugins/platforms/qwindows.dll` and `data/` are present.
 3. Run `pokerth_client.exe`.
 
-**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Docker:** vcpkg and Qt land under **`docker/windows/build/`** (→ `/opt/pokerth-windows`). First container run: **ensure_docker_deps.py** runs **setup.sh**. Logs: **`docker/windows/build/vcpkg/buildtrees/`** if setup fails.
+**Troubleshooting:** See **docs/windows_troubleshooting.md** (e.g. 0xc0000022, DEP, antivirus, missing DLLs). For build failures on Linux before copying, see the **Linux** section above and **docs/building-developer.md**. **Docker:** vcpkg cache is **`docker/windows/build/vcpkg`** (mounted to `/opt/pokerth-windows/vcpkg`); Qt stays in the image at `/opt/pokerth-windows/Qt`. First container run: **ensure_docker_deps.py** runs **setup.sh**. Logs: **`docker/windows/build/vcpkg/buildtrees/`** if setup fails.
 
 ### Building in Dev Container (Windows)
 
-Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/run_devcontainer.py**): **base** image and **`docker/windows/build`** mount (to `/opt/pokerth-windows`). In Docker, **ensure_docker_deps.py** sets **`IN_DOCKER=1`**; the **Makefile** computes **`REPO_BUILD_ROOT`** and passes it to **scripts/build.sh**, so output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
+Open the **docker/windows** folder in Cursor/VS Code so the Windows devcontainer (**docker/windows/.devcontainer/**) is used; the repo root is mounted at `/workspaces/pokerth`. The devcontainer flow matches **`make windows-docker`** (same config from `devcontainer.json` via **scripts/run_devcontainer.py**): **base** image and a vcpkg cache mount **`docker/windows/build/vcpkg`** to `/opt/pokerth-windows/vcpkg` (Qt remains image-provided). In Docker, **ensure_docker_deps.py** sets **`IN_DOCKER=1`**; the **Makefile** computes **`REPO_BUILD_ROOT`** and passes it to **scripts/build.sh**, so output is in **`docker/windows/build/deploy/`**. See **docker/windows/README_windows.md** for prerequisites.
 
 ### OpenSSL MinGW (SIO_UDP_NETRESET)
 
