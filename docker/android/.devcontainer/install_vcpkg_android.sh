@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Install vcpkg ports for Android (PokerTH deps). Single source of truth for the port list.
-# Used by docker/android/.devcontainer/Dockerfile and scripts/ensure_docker_deps.sh (android).
-# Expects: ROOT, VCPKG_ROOT, VCPKG_ARCH.
+echo "DEPRECATED: Do not run this script. Use scripts/setup_android.sh, or TARGET_PLATFORM=android scripts/setup.sh, or make setup-android / make android-docker. Kept for reference only (same idea as docker/windows/build_windows.sh)." >&2
+
+# Legacy copy of Android vcpkg port install; maintained path is scripts/setup_android.sh.
+# Expects: ROOT, VCPKG_ROOT, VCPKG_TRIPLET.
 set -euo pipefail
 
 ROOT="${ROOT:-/opt/pokerth-android}"
 VCPKG_ROOT="${VCPKG_ROOT:-$ROOT/vcpkg}"
-VCPKG_ARCH="${VCPKG_ARCH:-arm64}"
-TRIPLET="${VCPKG_ARCH}-android"
+TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
 
 "$VCPKG_ROOT/vcpkg" install \
   boost-system:${TRIPLET} \
@@ -31,7 +31,7 @@ sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_
 
 "$VCPKG_ROOT/vcpkg" remove "protobuf:${TRIPLET}" --recurse 2>/dev/null || true
 rm -rf "$VCPKG_ROOT/buildtrees/protobuf"
-rm -rf "$VCPKG_ROOT/packages/protobuf_${VCPKG_ARCH}-android"
+rm -rf "$VCPKG_ROOT/packages/protobuf_${TRIPLET}"
 rm -rf /tmp/vcpkg-buildtrees/protobuf
 
 "$VCPKG_ROOT/vcpkg" install "protobuf:${TRIPLET}" \

@@ -4,10 +4,10 @@ FROM ubuntu:25.10
 # as android, vcpkg and qt architectures have slightly different namings, we define all three here
 # possible values are:
 # ANDROID_ARCH: armeabi-v7a, arm64-v8a, x86, x86_64
-# VCPKG_ARCH: arm, arm64, x86, x64
+# VCPKG_TRIPLET: full vcpkg Android triplet (same shape as Windows ensure_docker_deps).
 # QT_ARCH: armv7, arm64_v8a, x86, x86_64
 ENV ANDROID_ARCH=arm64-v8a
-ENV VCPKG_ARCH=arm64
+ENV VCPKG_TRIPLET=arm64-android
 ENV QT_ARCH=arm64_v8a
 # set target (pokerth_client or pokerth_qml-client)
 ENV TARGET=pokerth_client
@@ -141,13 +141,14 @@ ENV QT_ANDROID_DIR=${ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}
 # install host (desktop) Qt needed as QT_HOST_PATH for cross-build
 RUN cd ${ROOT}/Qt && aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d qtquick3dphysics qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
 
-# vcpkg for Android is populated at run time by scripts/ensure_docker_deps.sh android (calls docker/android/.devcontainer/install_vcpkg_android.sh). No build-time clone/install here to avoid duplication.
+# vcpkg for Android: run time via scripts/setup.sh (TARGET_PLATFORM=android) → scripts/setup_android.sh. No build-time clone/install here.
 
 ### ###
 
 RUN cd ${ROOT} && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout stable
 
-# RUN cd ${ROOT}/pokerth && docker/android/build_android.sh
+# Build runs at container runtime via ensure_docker_deps (make android-docker) or manual make android.
+# RUN cd ${ROOT}/pokerth && scripts/build_android.sh
 
-# Entrypoint/Command used from docker-compose.yml
+# At runtime the repo is mounted at /workspaces/pokerth; make android runs scripts/build.sh.
 # ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]

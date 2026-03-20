@@ -13,8 +13,7 @@
   ],
   "containerEnv": {
     "VCPKG_DIR": "/opt/pokerth-windows/vcpkg",
-    "QT_OUTPUT_DIR": "/opt/pokerth-windows/Qt",
-    "WINDOWS_BUILD_DIR": "docker/windows/build"
+    "QT_OUTPUT_DIR": "/opt/pokerth-windows/Qt"
   },
   "extensions": [
     "ms-vscode.cmake-tools",
@@ -24,6 +23,6 @@
     "cmake.configureOnOpen": true,
     "cmake.buildDirectory": "${workspaceFolder}/docker/windows/build"
   },
-  "postCreateCommand": "./scripts/ensure_docker_deps.sh windows",
+  "postCreateCommand": "./scripts/ensure_docker_deps.py windows",
   "remoteUser": "vscode"
 }
