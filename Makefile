@@ -77,8 +77,7 @@ build_windows/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
 build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else \
-	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh; \
-	  touch $@; fi
+	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh && touch $@; fi
 
 # docker/windows/build additional dep on windows-apt-packages.txt
 docker/windows/build/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
@@ -86,8 +85,7 @@ docker/windows/build/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
 docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else \
-	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh; \
-	  touch $@; fi
+	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh && touch $@; fi
 
 # Host setup for all platforms.
 setup: build_$(TARGET_PLATFORM)/.stamp_setup
