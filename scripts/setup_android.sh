@@ -8,9 +8,22 @@ ROOT="${ROOT:-$(dirname "$VCPKG_ROOT")}"
 TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
 
 if [ ! -f "$VCPKG_ROOT/vcpkg" ]; then
-  echo "Cloning vcpkg into $VCPKG_ROOT ..."
   mkdir -p "$(dirname "$VCPKG_ROOT")"
-  git clone https://github.com/microsoft/vcpkg.git "$VCPKG_ROOT"
+  if [ -d "$VCPKG_ROOT" ]; then
+    # Interrupted clones can leave partial checkouts.
+    # Require both a valid git work tree and bootstrap script; otherwise recreate.
+    if ! git -C "$VCPKG_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1 || \
+       [ ! -f "$VCPKG_ROOT/bootstrap-vcpkg.sh" ]; then
+      echo "Cleaning incomplete vcpkg directory: $VCPKG_ROOT"
+      # VCPKG_ROOT can be a bind-mount root inside Docker; deleting the mount point fails.
+      # Clear contents instead, including dotfiles.
+      rm -rf "$VCPKG_ROOT"/.[!.]* "$VCPKG_ROOT"/..?* "$VCPKG_ROOT"/* 2>/dev/null || true
+    fi
+  fi
+  if [ ! -d "$VCPKG_ROOT/.git" ]; then
+    echo "Cloning vcpkg into $VCPKG_ROOT ..."
+    git clone https://github.com/microsoft/vcpkg.git "$VCPKG_ROOT"
+  fi
   echo "Bootstrapping vcpkg ..."
   "$VCPKG_ROOT/bootstrap-vcpkg.sh"
 fi

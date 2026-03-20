@@ -42,6 +42,20 @@ def vcpkg_ready(vcpkg_root: Path, triplet: str, port: str) -> bool:
     for line in (proc.stdout or "").splitlines():
         l = line.strip()
         if l.startswith(f"{port}[") or l.startswith(f"{port}:"):
+            # `vcpkg list` can be true even when an interrupted build left the port
+            # partially installed (e.g. protobuf present but ProtobufConfig.cmake missing).
+            if port == "protobuf":
+                installed_root = vcpkg_root / "installed" / triplet
+                # Depending on the vcpkg port/version, protobuf's config may live in
+                # either `lib/cmake/protobuf/` or `share/protobuf/`.
+                candidates = [
+                    installed_root / "lib" / "cmake" / "protobuf",
+                    installed_root / "share" / "protobuf",
+                ]
+                for d in candidates:
+                    if (d / "ProtobufConfig.cmake").exists() or (d / "protobuf-config.cmake").exists():
+                        return True
+                return False
             return True
     return False
 
