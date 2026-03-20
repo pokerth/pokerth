@@ -46,3 +46,4 @@ Type=Application
 X-DCOP-ServiceType=Multi
 X-KDE-StartupNotify=true
 Categories=Qt;Game;CardGame;
+X-AppImage-Version=c81ec055

@@ -275,7 +275,7 @@ if makensis -NOCD installer.nsi; then
     
     # Find the created installer
     INSTALLER=$(find . -name "PokerTH-*-Setup.exe" -type f -printf "%T@ %p\n" | sort -n | tail -1 | cut -d' ' -f2-)
-    
+
     if [ -n "$INSTALLER" ]; then
         INSTALLER_SIZE=$(du -h "$INSTALLER" | cut -f1)
         echo ""
