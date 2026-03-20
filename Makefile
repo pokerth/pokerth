@@ -35,7 +35,7 @@ STAMP_DIRS := $(foreach p,$(NATIVE_PLATFORMS),build_$(p)) build_android \
 # Use `=`; expand in recipes/submakes where TARGET_PLATFORM matches the build.
 REPO_BUILD_ROOT = $(if $(IN_DOCKER),docker/$(TARGET_PLATFORM)/build,build_$(TARGET_PLATFORM))
 
-.PHONY: help linux windows macos android setup setup-platform setup-linux setup-windows setup-macos setup-android clean
+.PHONY: help linux windows macos android setup clean
 .PHONY: installer installers linux-installer windows-installer macos-installer android-installer
 # help when explicitly requested
 help:
@@ -91,7 +91,10 @@ docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_android.sh $(S
 setup: build_$(TARGET_PLATFORM)/.stamp_setup
 
 # Host-only setup wrappers (Docker stamps are handled by ensure_docker_deps.py).
-setup-%:
+# Static pattern rule over a known finite set so the wrapper dispatch works reliably.
+SETUP_TARGETS := setup-linux setup-windows setup-macos setup-android
+.PHONY: $(SETUP_TARGETS)
+$(SETUP_TARGETS): setup-%:
 	$(MAKE) TARGET_PLATFORM=$* setup
 
 # Native builds: host toolchain wrappers.
