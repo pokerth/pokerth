@@ -55,6 +55,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	setupUi(this);
 	this->installEventFilter(this);
 	AppImageUtils::patchExternalLinks(this);
+	// Connect sound volume slider to label. Done here instead of in .ui: QLabel::setNum has overloads (int/double);
+	// Qt 6.4 uic-generated connection to setNum(int) failed to compile (overload resolution). Qt 6.7+ uic may be fixed.
+	connect(horizontalSlider_soundVolume, &QSlider::valueChanged, label_soundVolume, [this](int v) { label_soundVolume->setNum(v); });
 
 #ifdef ANDROID
     int styleSPageIndex = -1;

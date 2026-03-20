@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(QT_MIN_VERSION "6.7.0")
+# Minimum Qt version. Single source of truth: only defined here (scripts do not pass -DQT_MIN_VERSION).
+# Needed for building on Ubuntu 24.04 LTS with system Qt package version 6.4.2
+set(QT_MIN_VERSION "6.4.2" CACHE STRING "Minimum Qt version")
 
 project(POKERTH)
 

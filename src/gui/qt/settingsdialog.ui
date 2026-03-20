@@ -4151,22 +4151,7 @@ p, li { white-space: pre-wrap; }
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>horizontalSlider_soundVolume</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>label_soundVolume</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>765</x>
-     <y>92</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>322</x>
-     <y>92</y>
-    </hint>
-   </hints>
-  </connection>
+  <!-- Sound volume slider->label: done in settingsdialogimpl.cpp (QLabel::setNum overload; Qt 6.4 uic failed to compile) -->
   <connection>
    <sender>radioButton_manualBlindsOrder</sender>
    <signal>toggled(bool)</signal>
