@@ -110,7 +110,7 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 ## Android
 
 1. **macOS:** **`make android`** or **`make android-docker`** — Docker: **`scripts/ensure_docker_deps.py android`** runs **`scripts/setup.sh`** (**TARGET_PLATFORM=android**) → **`scripts/setup_android.sh`** (vcpkg + protobuf), then **`make android`** → **scripts/build_android.sh**.
-2. **Linux (host build):** Optional vcpkg step: **`export VCPKG_DIR=/path/to/vcpkg`** then **`make setup-android`** (same port list as Docker). Then set **ANDROID_SDK_ROOT**, **ANDROID_NDK_ROOT**, **JAVA_HOME**, **QT_ANDROID_DIR** (see **scripts/build_android.sh**) and **`make android`**. Or use **`make android-docker`** for an all-in-container flow (vcpkg cache **docker/android/build/vcpkg**).
+2. **Linux (host build):** **`make setup-android`** provisions Android SDK/NDK, Gradle, Qt (when needed), and vcpkg ports. Requires **VCPKG_DIR** (e.g. **`export VCPKG_DIR=build_android/vcpkg`**) and Java (e.g. **`sudo apt install openjdk-17-jdk`**). Host caches: **`~/.pokerth-android/`** (SDK, NDK, Gradle, Qt). After setup, **`make android`** succeeds without manual environment setup. Or use **`make android-docker`** for an all-in-container flow (vcpkg cache **docker/android/build/vcpkg**).
 3. **Output:** Unsigned APK under **`build-android-<arch>/android-build/build/outputs/apk/release/`** (default arch in **docker/android/.devcontainer/Dockerfile**, e.g. `arm64-v8a`).
 4. **Other architectures:** **`make android ANDROID_BUILD_ARGS="--arch x86_64"`** or match **`VCPKG_TRIPLET`** to the ABI when using **setup-android**. See **docker/android/README_android.md**.
 

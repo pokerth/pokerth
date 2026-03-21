@@ -8,6 +8,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 cd "$REPO_ROOT"
 
+# Source env file written by setup_android.sh (ANDROID_SDK_ROOT, NDK, JAVA_HOME, QT_ANDROID_DIR, etc.)
+# Repo-local first; when in Docker with repo mount, $ROOT/.android_env persists (setup writes there too).
+ENV_FILE="${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}/.android_env"
+if [ -f "$ENV_FILE" ]; then
+  # shellcheck source=/dev/null
+  . "$ENV_FILE"
+elif [ -n "${ROOT:-}" ] && [ -f "${ROOT}/.android_env" ]; then
+  # shellcheck source=/dev/null
+  . "${ROOT}/.android_env"
+fi
+
 # Canonical version definitions: scripts/versions.env
 if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
   # shellcheck source=/dev/null
@@ -104,7 +115,13 @@ if [[ -n "${VCPKG_ROOT:-}" ]]; then
   )
 fi
 
-BUILD_DIR=build-android-${ARCH}
+# Same pattern as build.sh: REPO_BUILD_ROOT separates host (build_android) vs Docker (docker/android/build)
+if [ -n "${REPO_BUILD_ROOT:-}" ]; then
+  BUILD_DIR_REL="$REPO_BUILD_ROOT"
+else
+  BUILD_DIR_REL="build_android"
+fi
+BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
 mkdir -p "$BUILD_DIR"
 
 # CMake Initial Cache
@@ -304,18 +321,22 @@ if [[ ! -x "$ANDROIDDEPLOYQT" ]]; then
   exit 7
 fi
 
+# --aux-mode: stop after updating Android files; do not run androiddeployqt's internal Gradle.
+# Qt's deploy step can sync res/ against the template (no drawable/), then fail on @drawable/ic_launcher.
+# Do NOT use --no-build: with build=false, Qt skips copyAndroidTemplate/cleanAndroidFiles entirely
+# (qtbase src/tools/androiddeployqt/main.cpp: options.build && !copyDependenciesOnly).
+# We copy ic_launcher after deployqt, then run gradlew ourselves. See:
+# https://doc.qt.io/qt-6/android-deploy-qt-tool.html (--aux-mode)
 echo "Running androiddeployqt..."
-set +e
 "$ANDROIDDEPLOYQT" \
   --input "$DEPLOY_JSON" \
   --output "$ANDROID_BUILD_DIR" \
   --android-platform "android-${API_LEVEL}" \
   --jdk "$JAVA_HOME" \
+  --aux-mode \
   --verbose
-DEPLOYQT_EXIT=$?
-set -e
 
-echo "Copying PokerTH icon..."
+# androiddeployqt removes res/drawable if Qt template lacks it; add icon after
 mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
 cp -v "${REPO_ROOT}/data/gfx/gui/misc/windowicon_transparent.png" "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" || echo "WARNING: Failed to copy icon"
 
@@ -333,16 +354,16 @@ if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
     echo "androidCompileSdkVersion=$API_LEVEL" >> "$ANDROID_BUILD_DIR/gradle.properties"
   fi
 
-  # Führe Gradle Build manuell aus
+  # Führe Gradle Build manuell aus (clean für reproduzierbare Builds; mit --aux-mode kein vorheriger Qt-Gradle-Lauf)
   echo "Running Gradle build..."
   cd "$ANDROID_BUILD_DIR"
   chmod +x gradlew
-  ./gradlew assembleRelease --stacktrace
+  echo "sdk.dir=${ANDROID_SDK_ROOT}" >> local.properties
+  ./gradlew clean assembleRelease --stacktrace
   cd -
 else
-  if [[ $DEPLOYQT_EXIT -ne 0 ]]; then
-    exit $DEPLOYQT_EXIT
-  fi
+  echo "ERROR: gradle.properties not found under $ANDROID_BUILD_DIR after androiddeployqt."
+  exit 8
 fi
 
 APK_FILE=$(find "$ANDROID_BUILD_DIR" -type f -name "*.apk" | grep -E "(release|debug)" | grep -v "unaligned" | head -n1)

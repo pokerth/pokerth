@@ -179,12 +179,15 @@ def main(argv: list[str]) -> int:
         vcpkg_not_ready = not vcpkg_ready(plan.vcpkg_root, plan.triplet, plan.check_port)
         if vcpkg_not_ready:
             last_step = "deps setup (setup.sh)"
+            # BUILD_DIR must match stamp dir so setup_android.sh writes .android_env where build_android.sh expects it
+            build_dir_rel = plan.setup_stamp_file.rsplit("/", 1)[0]  # e.g. docker/android/build
             setup_env: dict[str, str] = {
                 "SKIP_QT_INSTALL": "yes",
                 "SKIP_SYSTEM_PACKAGES": "yes",
                 "TARGET_PLATFORM": plan.kind,
                 "VCPKG_DIR": str(plan.vcpkg_root),
                 "VCPKG_TRIPLET": plan.triplet,
+                "BUILD_DIR": build_dir_rel,
             }
             # QT_OUTPUT_DIR comes from devcontainer.json containerEnv / docker run -e; Qt is baked in image.
             setup_sh = script_dir / "setup.sh"

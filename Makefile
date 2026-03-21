@@ -59,7 +59,7 @@ help:
 	@echo "  make setup-linux     - Install dependencies for Linux build"
 	@echo "  make setup-windows   - Install dependencies for Windows cross-build"
 	@echo "  make setup-macos     - Install dependencies for macOS build"
-	@echo "  make setup-android   - vcpkg Android ports (requires VCPKG_DIR; refreshes build_android/.stamp_setup)"
+	@echo "  make setup-android   - Android SDK/NDK/Qt + vcpkg (VCPKG_DIR required; e.g. VCPKG_DIR=build_android/vcpkg)"
 	@echo "  make clean           - Remove build_linux/, build_windows/, build_macos/"
 	@echo "  (Docker Windows: vcpkg+Qt cache in docker/windows/vcpkg/; first run runs setup, later runs reuse it.)"
 	@echo ""
@@ -73,6 +73,8 @@ help:
 
 # windows additional dep on windows-apt-packages.txt
 build_windows/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
+# android additional dep on android-apt-packages.txt
+build_android/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
 # Native stamps: build_linux/.stamp_setup, build_windows/.stamp_setup, build_macos/.stamp_setup, build_android/.stamp_setup
 build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
@@ -81,6 +83,8 @@ build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/s
 
 # docker/windows/build additional dep on windows-apt-packages.txt
 docker/windows/build/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
+# android additional dep on android-apt-packages.txt
+docker/android/build/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
 # Docker stamps: docker/windows/build/.stamp_setup and docker/android/build/.stamp_setup
 docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
@@ -141,7 +145,7 @@ __do_docker:
 	$(SCRIPTS)/run_devcontainer.py "$$img" "docker/$$plat/.devcontainer/Dockerfile" "$(DOCKER_GOAL)"
 	@case "$(DOCKER_GOAL)" in \
 	   windows*) echo "Done. Check docker/windows/build/deploy/.";; \
-	   android) echo "Done. Check build-android-<arch>/android-build/.../release/ for APK.";; \
+	   android) echo "Done. Check docker/android/build/android-build/.../release/ for APK (host: build_android/android-build/...).";; \
 	   *) echo "Done. DOCKER_GOAL=$(DOCKER_GOAL).";; \
 	esac
 

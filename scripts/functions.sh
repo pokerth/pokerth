@@ -573,6 +573,30 @@ setup_pipx_aqt() {
   export PATH="$HOME/.local/bin:$PATH"
 }
 
+# Clone and bootstrap vcpkg at VCPKG_DIR when the vcpkg executable is missing.
+# Handles interrupted/partial clones (e.g. Docker bind mounts). Does not git pull.
+# For Windows/Linux flows that update and rebuild the binary, use setup_vcpkg().
+ensure_vcpkg_clone_bootstrap_if_missing() {
+  local root="${VCPKG_DIR:?ensure_vcpkg_clone_bootstrap_if_missing: VCPKG_DIR required}"
+  if [ -f "$root/vcpkg" ]; then
+    return 0
+  fi
+  mkdir -p "$(dirname "$root")"
+  if [ -d "$root" ]; then
+    if ! git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1 || \
+       [ ! -f "$root/bootstrap-vcpkg.sh" ]; then
+      log "Cleaning incomplete vcpkg directory: $root"
+      rm -rf "$root"/.[!.]* "$root"/..?* "$root"/* 2>/dev/null || true
+    fi
+  fi
+  if [ ! -d "$root/.git" ]; then
+    log "Cloning vcpkg into $root ..."
+    git clone https://github.com/microsoft/vcpkg.git "$root"
+  fi
+  log "Bootstrapping vcpkg ..."
+  "$root/bootstrap-vcpkg.sh" -disableMetrics
+}
+
 # Setup vcpkg
 # Usage: setup_vcpkg [triplet]
 # If triplet not provided, will determine based on platform
@@ -622,7 +646,7 @@ vcpkg_install() {
   vcpkg_log=$(mktemp) || exit 1
   trap "rm -f '$vcpkg_log'" RETURN
 
-  if ! VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install \
+  if ! VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install --no-print-usage \
     --triplet="$triplet" \
     --disable-metrics \
     "${VCPKG_PORTS[@]}" 2>&1 | tee "$vcpkg_log"; then
@@ -632,7 +656,7 @@ vcpkg_install() {
       if [ -n "$pkg_dir" ] && [ -d "$VCPKG_DIR/$pkg_dir" ]; then
         log "Removing partial package $pkg_dir (interrupted copy) and retrying install..."
         rm -rf "$VCPKG_DIR/$pkg_dir"
-        VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install \
+        VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install --no-print-usage \
           --triplet="$triplet" \
           --disable-metrics \
           "${VCPKG_PORTS[@]}"
