@@ -4,7 +4,8 @@
     "name": "Android Development Container",
     "build": {
         "dockerfile": "Dockerfile",
-        "context": "."
+        "context": ".",
+        "options": ["--platform=linux/amd64"]
     },
     "runArgs": ["--platform", "linux/amd64"],
     "workspaceFolder": "/workspaces/pokerth",

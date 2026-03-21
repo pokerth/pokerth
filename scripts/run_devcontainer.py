@@ -66,6 +66,7 @@ class DevcontainerPlan:
     dockerfile_abs: str
     build_context_abs: str
     build_target: str | None
+    build_options: list[str]  # devcontainer.json build.options (containers.dev)
     workdir: str
     run_mounts: list[str]  # each is host:dest[:cached]
     container_env: list[str]  # each is KEY=VAL
@@ -100,6 +101,10 @@ def devcontainer_plan_from_json(
     dockerfile_rel = build.get("dockerfile")
     context_rel = build.get("context")
     build_target = build.get("target")
+    raw_opts = build.get("options") or []
+    if not isinstance(raw_opts, list):
+        raise RuntimeError(f"{devcontainer_json_path}: build.options must be an array of strings when set")
+    build_options = [str(x) for x in raw_opts]
 
     if not dockerfile_rel or not context_rel:
         raise RuntimeError(
@@ -152,6 +157,7 @@ def devcontainer_plan_from_json(
         dockerfile_abs=dockerfile_abs,
         build_context_abs=build_context_abs,
         build_target=build_target,
+        build_options=build_options,
         workdir=workdir,
         run_mounts=run_mounts,
         container_env=container_env,
@@ -230,10 +236,12 @@ def main(argv: list[str]) -> int:
 
     devcontainer_json_for_runargs = load_devcontainer_json(devcontainer_path)
     run_args = devcontainer_json_for_runargs.get("runArgs")
-    # Forward devcontainer.json `runArgs` directly to docker build/run options.
-    platform_opt: list[str] = run_args if isinstance(run_args, list) else []
+    # runArgs: docker run (always). docker build: use build.options when set (containers.dev); else runArgs (legacy).
+    run_opts: list[str] = run_args if isinstance(run_args, list) else []
 
     plan = devcontainer_plan_from_json(devcontainer_path, local_workspace_folder=local_workspace_folder)
+
+    docker_build_extras = plan.build_options if plan.build_options else run_opts
 
     docker_cmd = [
         "docker",
@@ -242,7 +250,7 @@ def main(argv: list[str]) -> int:
         plan.dockerfile_abs,
         "-t",
         image,
-        *platform_opt,
+        *docker_build_extras,
         plan.build_context_abs,
     ]
     effective_build_target = build_target_opt or plan.build_target
@@ -259,7 +267,7 @@ def main(argv: list[str]) -> int:
         "docker",
         "run",
         "--rm",
-        *platform_opt,
+        *run_opts,
         "--user",
         "root",
         *vol_args,
