@@ -2,7 +2,9 @@
 """
 Ensure vcpkg/Qt deps exist inside Docker for supported target kinds, then optionally run `make`.
 
-Per-kind defaults: _KIND_DEFAULT_VCPKG_TRIPLET, _KIND_INSTALL_QT_DURING_ENSURE in this file.
+Platform/kind agnosticism is a hard requirement: the logic must not special-case individual
+platforms. The sole exception is _KIND_DEFAULT_VCPKG_TRIPLET, which provides a failsafe
+default triplet per kind when VCPKG_TRIPLET is unset.
 """
 
 from __future__ import annotations
@@ -16,10 +18,6 @@ from pathlib import Path
 
 def run_checked(cmd: list[str], env: dict[str, str] | None = None, cwd: Path | None = None) -> None:
     subprocess.run(cmd, check=True, env=env, cwd=str(cwd) if cwd else None)
-
-
-# Subdir of cache root for Qt when _KIND_INSTALL_QT_DURING_ENSURE[kind] is True.
-_QT_RELATIVE_TO_ROOT = "Qt"
 
 
 def vcpkg_ready(vcpkg_root: Path, triplet: str, port: str) -> bool:
@@ -63,14 +61,12 @@ def vcpkg_ready(vcpkg_root: Path, triplet: str, port: str) -> bool:
 @dataclass(frozen=True)
 class EnsurePlan:
     kind: str
-    root: Path
     vcpkg_root: Path
     cache_dir: Path
     triplet: str
     check_port: str
     run_make_target: str | None
     run_make_extra_env: dict[str, str]
-    install_qt_during_ensure: bool
     setup_stamp_file: str | None
 
 
@@ -87,14 +83,6 @@ def kind_run_make_targets(kind: str) -> frozenset[str]:
 _KIND_DEFAULT_VCPKG_TRIPLET: dict[str, str] = {
     "windows": "x64-mingw-static",
     "android": "arm64-android",
-}
-
-# When True, ensure passes QT_OUTPUT_DIR=$ROOT/Qt during setup.sh (Windows cross-build).
-# TODO: Bake Windows Qt into the Windows image (Android-style Dockerfile aqt RUN), then set
-# _KIND_INSTALL_QT_DURING_ENSURE["windows"] to False so ensure only refreshes vcpkg.
-_KIND_INSTALL_QT_DURING_ENSURE: dict[str, bool] = {
-    "windows": True,
-    "android": False,
 }
 
 
@@ -115,12 +103,6 @@ def build_ensure_plan(target: str) -> EnsurePlan:
         )
     triplet = os.environ.get("VCPKG_TRIPLET", triplet_default)
 
-    if kind not in _KIND_INSTALL_QT_DURING_ENSURE:
-        raise RuntimeError(
-            f"ensure_docker_deps: add kind {kind!r} to _KIND_INSTALL_QT_DURING_ENSURE"
-        )
-    install_qt = _KIND_INSTALL_QT_DURING_ENSURE[kind]
-
     run_make_target = target if target in kind_run_make_targets(kind) else None
     run_make_extra_env: dict[str, str] = {}
     # Mark that the following Make invocation is running inside a docker/devcontainer build.
@@ -133,14 +115,12 @@ def build_ensure_plan(target: str) -> EnsurePlan:
 
     return EnsurePlan(
         kind=kind,
-        root=root,
         vcpkg_root=vcpkg_root,
         cache_dir=cache_dir,
         triplet=triplet,
         check_port=check_port,
         run_make_target=run_make_target,
         run_make_extra_env=run_make_extra_env,
-        install_qt_during_ensure=install_qt,
         setup_stamp_file=setup_stamp_file,
     )
 
@@ -200,16 +180,13 @@ def main(argv: list[str]) -> int:
         if vcpkg_not_ready:
             last_step = "deps setup (setup.sh)"
             setup_env: dict[str, str] = {
+                "SKIP_QT_INSTALL": "yes",
                 "SKIP_SYSTEM_PACKAGES": "yes",
                 "TARGET_PLATFORM": plan.kind,
                 "VCPKG_DIR": str(plan.vcpkg_root),
                 "VCPKG_TRIPLET": plan.triplet,
-                "USE_AQT": "yes",
-                "USE_VCPKG": "yes",
             }
-            if plan.install_qt_during_ensure:
-                setup_env["QT_OUTPUT_DIR"] = str(plan.root / _QT_RELATIVE_TO_ROOT)
-            # Windows path uses USE_AQT/USE_VCPKG; android exits setup.sh before they matter.
+            # QT_OUTPUT_DIR comes from devcontainer.json containerEnv / docker run -e; Qt is baked in image.
             setup_sh = script_dir / "setup.sh"
             run_checked(
                 ["bash", str(setup_sh)],

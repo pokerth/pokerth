@@ -90,8 +90,10 @@ docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_android.sh $(S
 # Host setup for all platforms.
 setup: build_$(TARGET_PLATFORM)/.stamp_setup
 
-# Host-only setup wrappers (Docker stamps are handled by ensure_docker_deps.py).
-# Static pattern rule over a known finite set so the wrapper dispatch works reliably.
+# setup-* wrappers only create native stamps (build_<platform>/.stamp_setup), not docker/.../build/.stamp_setup.
+# Docker stamps: same recipe as docker/%/build/.stamp_setup above; Make runs it when IN_DOCKER=1 and a target
+# depends on $(REPO_BUILD_ROOT)/.stamp_setup. scripts/ensure_docker_deps.py may run setup.sh directly and touch
+# docker/<kind>/build/.stamp_setup without invoking this recipe (equivalent outcome).
 SETUP_TARGETS := setup-linux setup-windows setup-macos setup-android
 .PHONY: $(SETUP_TARGETS)
 $(SETUP_TARGETS): setup-%:

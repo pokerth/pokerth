@@ -175,6 +175,11 @@ fi
 ########################################
 
 install_qt_for_platform() {
+  # Docker flows: Qt is always in the image; skip install (SKIP_QT_INSTALL set by ensure / Makefile docker stamp).
+  if is_yes "${SKIP_QT_INSTALL:-}"; then
+    log "Qt comes from image (SKIP_QT_INSTALL=yes), skipping Qt install."
+    return 0
+  fi
   if is_yes "$USE_AQT"; then
     log "Using aqtinstall for Qt installation..."
     setup_pipx_aqt "$PKG_MANAGER" "$INSTALL_CMD"

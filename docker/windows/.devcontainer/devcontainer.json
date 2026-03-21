@@ -2,8 +2,7 @@
   "name": "Windows Development Container",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": "../../..",
-    "target": "base"
+    "context": "../../.."
   },
   "runArgs": ["--platform", "linux/amd64"],
   "workspaceMount": "source=${localWorkspaceFolder}/../..,target=/workspaces/pokerth,type=bind,consistency=cached",
