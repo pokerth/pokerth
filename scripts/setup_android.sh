@@ -31,7 +31,7 @@ TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
 BUILD_DIR="${BUILD_DIR:-build_android}"
 QT_ARCH="${QT_ARCH:-arm64_v8a}"
 
-# Host provisioning: cache root when SDK is not pre-configured (e.g. Docker image).
+# ANDROID_CACHE_ROOT: where SDK/NDK/Qt live. Default $HOME/.pokerth-android (persists across make clean). Docker sets it to ROOT.
 ANDROID_CACHE_ROOT="${ANDROID_CACHE_ROOT:-$HOME/.pokerth-android}"
 
 # Resolve ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME for later use and for .android_env

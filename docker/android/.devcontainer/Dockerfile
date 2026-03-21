@@ -1,26 +1,13 @@
-FROM ubuntu:25.10
+# Android cross-build image: base + scripts/setup_android.sh (single source of truth for SDK/NDK/Gradle/Qt/vcpkg).
+# Build from repo root: docker build -f docker/android/.devcontainer/Dockerfile .
+# Run: make android-docker (mounts repo, runs make android which uses scripts/build_android.sh).
+#
+# Mirrors docker/windows/.devcontainer/Dockerfile: apt from file, COPY scripts/docs, run setup script.
+# Cache: apt runs in a layer that only depends on scripts/android-apt-packages.txt.
 
-# Set architecture environment variables:
-# as android, vcpkg and qt architectures have slightly different namings, we define all three here
-# possible values are:
-# ANDROID_ARCH: armeabi-v7a, arm64-v8a, x86, x86_64
-# VCPKG_TRIPLET: full vcpkg Android triplet (same shape as Windows ensure_docker_deps).
-# QT_ARCH: armv7, arm64_v8a, x86, x86_64
-ENV ANDROID_ARCH=arm64-v8a
-ENV VCPKG_TRIPLET=arm64-android
-ENV QT_ARCH=arm64_v8a
-# set target (pokerth_client or pokerth_qml-client)
-ENV TARGET=pokerth_client
+# Stage "base": everything before setup_android.sh.
+FROM ubuntu:25.10 AS base
 
-RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources
-
-# better not touch these values
-ENV ANDROID_API_LEVEL=35
-ENV QT_VERSION=6.9.3
-ENV GRADLE_VERSION=8.3
-ENV ANDROID_NDK_VERSION=28.0.13004108
-
-# Set other build environment variables
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -28,127 +15,68 @@ ARG LANG=de_DE.UTF-8
 ARG LANGUAGE=de_DE.UTF-8
 ARG LC_ALL=de_DE.UTF-8
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TARGET=pokerth_client
+
+# Architecture names: android (armeabi-v7a/arm64-v8a/x86/x86_64), vcpkg (arm-android/arm64-android/...), Qt (armv7/arm64_v8a/...)
+ENV ANDROID_ARCH=arm64-v8a
+ENV VCPKG_TRIPLET=arm64-android
+ENV QT_ARCH=arm64_v8a
+
 ARG ROOT=/opt/pokerth-android
 ENV ROOT=${ROOT}
-ENV DEBIAN_FRONTEND=noninteractive
+ENV VCPKG_DIR=${ROOT}/vcpkg
 
-ARG ANDROID_SDK_ROOT=${ROOT}/android-sdk
-ENV ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT}
-ENV ANDROID_NDK_ROOT=${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}
-ENV ANDROID_NDK_HOME=${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}
+RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources
 
-ENV VCPKG_ROOT=${ROOT}/vcpkg
-ENV VCPKG_CHAINLOAD_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake
-
-ENV QT_ANDROID_DIR=${ROOT}/Qt/${QT_VERSION}/android
-ENV QT_HOST_PATH=${ROOT}/Qt/${QT_VERSION}/gcc_64
-
-ENV PATH=$PATH:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ROOT}/gradle/gradle-${GRADLE_VERSION}/bin:${ROOT}/Qt/${QT_VERSION}/gcc_64/bin:${ROOT}/vcpkg
-
-# Install dependencies
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends \
-    ca-certificates curl wget unzip git build-essential pkg-config \
-    python3 python3-pip python3-venv jq \
-    libwebsocketpp-dev \
-    libboost1.88-all-dev \
-    locales sudo nano mc openjdk-17-jdk-headless cmake ninja-build zip unzip \
-    google-android-build-tools-28.0.1-installer \
-  && rm -rf /var/lib/apt/lists/*
-
-# Install docker
-RUN install -m 0755 -d /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
-    chmod a+r /etc/apt/keyrings/docker.asc && \
-    echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-    $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-    tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# locales & timezone
-RUN sed -i '/'${LANG}'/s/^# //g' /etc/locale.gen && \
-    locale-gen
+# Locales first (so perl during apt does not warn)
+RUN unset LANG LC_ALL LANGUAGE && apt-get update && apt-get install -y --no-install-recommends locales && rm -rf /var/lib/apt/lists/*
+RUN _locale="${LANG}" && unset LANG LC_ALL LANGUAGE && sed -i '/'${_locale}'/s/^# *//' /etc/locale.gen && locale-gen
 ENV LANG=${LANG}
 ENV LANGUAGE=${LANGUAGE}
 ENV LC_ALL=${LC_ALL}
+
+# System packages from shared list (scripts/android-apt-packages.txt)
+COPY scripts/android-apt-packages.txt /tmp/android-apt-packages.txt
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    $(grep -v '^#' /tmp/android-apt-packages.txt | tr '\n' ' ') \
+    && rm -rf /var/lib/apt/lists/*
+
+# Docker-in-Docker (Android devcontainer convenience)
+RUN install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
+    chmod a+r /etc/apt/keyrings/docker.asc && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+    tee /etc/apt/sources.list.d/docker.list > /dev/null
+RUN apt-get update && apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && rm -rf /var/lib/apt/lists/*
+
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# apt cleanup
-RUN apt-get autoremove --purge && rm -Rf /var/cache/apt/archives && \
-    unset DEBIAN_FRONTEND
+# User and dir for SDK/NDK/Qt/vcpkg (setup_android.sh will populate these)
+RUN userdel ubuntu 2>/dev/null || true; rm -Rf /home/ubuntu
+RUN groupadd -g ${USER_GID} ${USERNAME} && useradd -s /bin/bash -m -d /home/vscode -u ${USER_UID} -g ${USERNAME} ${USERNAME}
+RUN mkdir -p /etc/sudoers.d && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && chmod 0440 /etc/sudoers.d/${USERNAME}
+RUN usermod -aG docker ${USERNAME}
+RUN mkdir -p ${ROOT} && chown -R ${USERNAME}:${USERNAME} ${ROOT}
 
-# vscode user
-RUN userdel ubuntu && \
-    rm -Rf /home/ubuntu && \
-    groupadd -g $USER_GID $USERNAME && \
-    useradd -s /bin/bash -m -d /home/vscode -u $USER_UID -g $USER_GID $USERNAME && \
-    mkdir -p /etc/sudoers.d && \
-    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME && \
-    usermod -aG docker $USERNAME
+# Copy only what setup_android.sh needs (scripts + docs); build context must be repo root.
+COPY scripts /workspaces/pokerth/scripts
+COPY docs    /workspaces/pokerth/docs
+RUN chown -R ${USERNAME}:${USERNAME} /workspaces/pokerth
+WORKDIR /workspaces/pokerth
 
+USER ${USERNAME}
 
+# Stage "final": run setup_android.sh (skip apt; SDK/NDK/Gradle/Qt/vcpkg). Single source of truth.
+FROM base AS final
+RUN SKIP_SYSTEM_PACKAGES=yes \
+    ANDROID_CACHE_ROOT=${ROOT} \
+    VCPKG_DIR=${VCPKG_DIR} \
+    ROOT=${ROOT} \
+    BUILD_DIR=docker/android/build \
+    ./scripts/setup_android.sh
 
-# entry-point
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-RUN chmod u+rwx,g+rx,o+rx /usr/local/bin/docker-entrypoint
-
-# Create sdk root
-RUN mkdir -p ${ANDROID_SDK_ROOT} \
-  && chown -R vscode:vscode ${ROOT}
-
-USER vscode
-
-### Android stuff
-
-# Install Android command line tools
-WORKDIR /tmp
-RUN curl -fSL https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -o cmdline-tools.zip \
-  && unzip cmdline-tools.zip -d /tmp \
-  && mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools/latest \
-  && if [ -d /tmp/cmdline-tools ]; then \
-       mv /tmp/cmdline-tools/* ${ANDROID_SDK_ROOT}/cmdline-tools/latest/; \
-     else \
-       mv /tmp/commandlinetools* ${ANDROID_SDK_ROOT}/cmdline-tools/latest/ || true; \
-     fi \
-  && rm -rf /tmp/cmdline-tools* cmdline-tools.zip
-
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-
-# Install SDK components (platform-tools, build-tools, ndk)
-RUN yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses || true
-RUN ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "platforms;android-35" "build-tools;33.0.2" "ndk;${ANDROID_NDK_VERSION}" "cmake;3.22.1"
-
-# Install Gradle (binary distribution)
-RUN mkdir -p ${ROOT}/gradle \
-  && curl -fSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip \
-  && unzip /tmp/gradle.zip -d ${ROOT}/gradle \
-  && rm /tmp/gradle.zip
-
-# install aqtinstall
-RUN python3 -m venv ${ROOT}/venv
-ENV PATH="${ROOT}/venv/bin:$PATH"
-RUN pip install --upgrade pip
-RUN pip install aqtinstall
-
-RUN mkdir -p ${ROOT}/Qt
-
-# install Qt for Android
-RUN cd ${ROOT}/Qt && aqt install-qt all_os android ${QT_VERSION} android_${QT_ARCH} --autodesktop --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d qtquick3dphysics qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
-ENV QT_ANDROID_DIR=${ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}
-# install host (desktop) Qt needed as QT_HOST_PATH for cross-build
-RUN cd ${ROOT}/Qt && aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth qtpositioning qtquick3d qtquick3dphysics qtquicktimeline qtremoteobjects qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
-
-# vcpkg for Android: run time via scripts/setup.sh (TARGET_PLATFORM=android) → scripts/setup_android.sh. No build-time clone/install here.
-
-### ###
-
-RUN cd ${ROOT} && git clone https://github.com/pokerth/pokerth.git && cd pokerth && git checkout stable
-
-# Build runs at container runtime via ensure_docker_deps (make android-docker) or manual make android.
-# RUN cd ${ROOT}/pokerth && scripts/build_android.sh
-
-# At runtime the repo is mounted at /workspaces/pokerth; make android runs scripts/build.sh.
-# ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+# setup_android.sh writes ${ROOT}/.android_env (survives repo mount). build_android.sh sources it when repo-local .android_env is missing.
+# At runtime the repo is mounted at /workspaces/pokerth; make android runs scripts/build_android.sh.
+# SDK/NDK/Qt/vcpkg live under /opt/pokerth-android. ensure_docker_deps runs setup when vcpkg not ready.
