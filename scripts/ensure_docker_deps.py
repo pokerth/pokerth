@@ -2,9 +2,10 @@
 """
 Ensure vcpkg/Qt deps exist inside Docker for supported target kinds, then optionally run `make`.
 
-Platform/kind agnosticism is a hard requirement: the logic must not special-case individual
-platforms. The sole exception is _KIND_DEFAULT_VCPKG_TRIPLET, which provides a failsafe
-default triplet per kind when VCPKG_TRIPLET is unset.
+Readiness is kind-driven via tables only (no kind branches in the check loop): each kind has a
+default triplet (_KIND_DEFAULT_VCPKG_TRIPLET) and optional extra triplets that must also satisfy
+the same port probe (_KIND_EXTRA_READINESS_TRIPLETS), e.g. Android setup installs protobuf for
+x64-linux as well as for VCPKG_TRIPLET.
 """
 
 from __future__ import annotations
@@ -84,6 +85,19 @@ _KIND_DEFAULT_VCPKG_TRIPLET: dict[str, str] = {
     "windows": "x64-mingw-static",
     "android": "arm64-android",
 }
+
+# Additional triplets that must pass the same vcpkg_ready(check_port) probe as the primary triplet.
+_KIND_EXTRA_READINESS_TRIPLETS: dict[str, frozenset[str]] = {
+    "windows": frozenset(),
+    "android": frozenset(("x64-linux",)),
+}
+
+
+def vcpkg_deps_ready(plan: EnsurePlan) -> bool:
+    """True if check_port is ready for the primary triplet and any kind-specific extra triplets."""
+    extra = _KIND_EXTRA_READINESS_TRIPLETS.get(plan.kind, frozenset())
+    triplets = frozenset((plan.triplet,)) | extra
+    return all(vcpkg_ready(plan.vcpkg_root, t, plan.check_port) for t in triplets)
 
 
 def build_ensure_plan(target: str) -> EnsurePlan:
@@ -176,7 +190,7 @@ def main(argv: list[str]) -> int:
     try:
         plan = build_ensure_plan(target)
 
-        vcpkg_not_ready = not vcpkg_ready(plan.vcpkg_root, plan.triplet, plan.check_port)
+        vcpkg_not_ready = not vcpkg_deps_ready(plan)
         if vcpkg_not_ready:
             last_step = "deps setup (setup.sh)"
             # BUILD_DIR must match stamp dir so setup_android.sh writes .android_env where build_android.sh expects it
