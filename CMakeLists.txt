@@ -55,6 +55,8 @@ find_package(OpenSSL REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Network)
 
 if(ANDROID)
+    # Qt 6.6+ QTP0002: OLD deprecated; NEW allows generator expressions in Android paths.
+    qt_policy(SET QTP0002 NEW)
     set(Protobuf_USE_STATIC_LIBS ON)
     set(protobuf_MODULE_COMPATIBLE ON)
     # Force Protobuf to use emulated TLS instead of native TLS
