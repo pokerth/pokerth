@@ -146,9 +146,9 @@ else
     WINDOWS_APT_EXTRA="mingw-w64 autoconf automake libtool curl zip unzip tar nsis imagemagick librsvg2-bin protobuf-compiler"
     WINDOWS_DNF_EXTRA="mingw64-gcc mingw64-gcc-c++ autoconf automake libtool curl zip unzip tar nsis ImageMagick"
     WINDOWS_PACMAN_EXTRA="mingw-w64-gcc autoconf automake libtool curl zip unzip tar nsis imagemagick"
-    LINUX_APT_EXTRA="libssl-dev libprotobuf-dev protobuf-compiler libboost-all-dev libwebsocketpp-dev libfuse2 fuse"
-    LINUX_DNF_EXTRA="openssl-devel protobuf-devel protobuf-compiler boost-devel websocketpp-devel fuse fuse-libs"
-    LINUX_PACMAN_EXTRA="openssl protobuf boost websocketpp fuse2"
+    LINUX_APT_EXTRA="curl libssl-dev libprotobuf-dev protobuf-compiler libboost-all-dev libwebsocketpp-dev libfuse2 fuse"
+    LINUX_DNF_EXTRA="curl openssl-devel protobuf-devel protobuf-compiler boost-devel websocketpp-devel fuse fuse-libs"
+    LINUX_PACMAN_EXTRA="curl openssl protobuf boost websocketpp fuse2"
 
     case "$PKG_MANAGER" in
       apt)   PKG_SUFFIX="APT" ;;
@@ -289,13 +289,7 @@ if [ "$TARGET_PLATFORM" = "linux" ]; then
       log "✓ linuxdeployqt already present in $BIN_DIR"
     else
       LINUXDEPLOYQT_URL="https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-      if command_exists curl; then
-        curl -sL -o "$BIN_DIR/linuxdeployqt" "$LINUXDEPLOYQT_URL" || error "Failed to download linuxdeployqt. Install manually from https://github.com/probonopd/linuxdeployqt/releases"
-      elif command_exists wget; then
-        wget -q -O "$BIN_DIR/linuxdeployqt" "$LINUXDEPLOYQT_URL" || error "Failed to download linuxdeployqt. Install manually from https://github.com/probonopd/linuxdeployqt/releases"
-      else
-        error "curl or wget required to download linuxdeployqt. Install curl or wget, or install linuxdeployqt manually from https://github.com/probonopd/linuxdeployqt/releases"
-      fi
+      curl_cmd -o "$BIN_DIR/linuxdeployqt" "$LINUXDEPLOYQT_URL" || error "Failed to download linuxdeployqt. Install manually from https://github.com/probonopd/linuxdeployqt/releases"
       chmod +x "$BIN_DIR/linuxdeployqt"
       log "✓ linuxdeployqt installed to $BIN_DIR/linuxdeployqt"
     fi

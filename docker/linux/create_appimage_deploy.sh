@@ -45,11 +45,13 @@ if [ -f "${PROJECT_ROOT}/scripts/versions.env" ]; then
     # shellcheck source=/dev/null
     . "${PROJECT_ROOT}/scripts/versions.env"
 fi
+# shellcheck source=/dev/null
+. "${PROJECT_ROOT}/scripts/functions.sh"
 APPIMAGETOOL_VERSION="${APPIMAGETOOL_VERSION:-continuous}"
 APPIMAGETOOL="${SCRIPT_DIR}/appimagetool-${ARCH}.AppImage"
 if [ ! -f "$APPIMAGETOOL" ]; then
     echo "=== Lade appimagetool herunter (${APPIMAGETOOL_VERSION}) ==="
-    wget -q --show-progress -O "$APPIMAGETOOL" \
+    curl_cmd -# -o "$APPIMAGETOOL" \
         "https://github.com/AppImage/appimagetool/releases/download/${APPIMAGETOOL_VERSION}/appimagetool-${ARCH}.AppImage" \
         || { echo "ERROR: appimagetool Download fehlgeschlagen"; exit 1; }
     chmod +x "$APPIMAGETOOL"

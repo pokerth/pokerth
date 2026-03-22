@@ -24,6 +24,8 @@ if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
   # shellcheck source=/dev/null
   . "$REPO_ROOT/scripts/versions.env"
 fi
+# shellcheck source=/dev/null
+. "$REPO_ROOT/scripts/functions.sh"
 
 usage(){
   cat <<EOF
@@ -312,8 +314,8 @@ case "$ARCH" in
   x86) OPENSSL_ARCH="x86";;
   *) OPENSSL_ARCH="$ARCH";;
 esac
-wget -q -O "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
-wget -q -O "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
+curl_cmd -o "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
+curl_cmd -o "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
 
 ANDROIDDEPLOYQT="${QT_HOST_PATH}/bin/androiddeployqt"
 if [[ ! -x "$ANDROIDDEPLOYQT" ]]; then

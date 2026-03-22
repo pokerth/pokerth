@@ -15,10 +15,10 @@ RUN echo '\nTypes: deb-src' >> /etc/apt/sources.list.d/ubuntu.sources && \
     echo 'Components: main universe restricted multiverse' >> /etc/apt/sources.list.d/ubuntu.sources && \
     echo 'Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg' >> /etc/apt/sources.list.d/ubuntu.sources
 
-# Build-Abhängigkeiten + wget/file (für appimagetool)
+# Build-Abhängigkeiten + curl/file (für appimagetool)
 RUN apt update && apt upgrade -y && \
     apt install -y \
-        wget git ca-certificates file fuse3 libfuse2t64 desktop-file-utils \
+        curl git ca-certificates file fuse3 libfuse2t64 desktop-file-utils \
         build-essential cmake ninja-build zip \
         libwebsocketpp-dev libprotobuf-dev protobuf-compiler \
         libboost1.88-all-dev \

@@ -78,6 +78,13 @@ VCPKG_PORTS=(
 # Note: Qt6 is installed via aqtinstall, not vcpkg
 
 ########################################
+# Download command: adjust timeouts/retries here.
+########################################
+CURL_DOWNLOAD_CMD="curl --connect-timeout 15 --max-time 180 --retry 3 --retry-delay 5 -fSL"
+
+curl_cmd() { $CURL_DOWNLOAD_CMD "$@"; }
+
+########################################
 # Helper Functions
 ########################################
 

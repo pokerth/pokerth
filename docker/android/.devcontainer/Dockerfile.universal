@@ -30,6 +30,7 @@ ARG LC_ALL=de_DE.UTF-8
 
 ARG ROOT=/opt/pokerth-android
 ENV ROOT=${ROOT}
+ARG CURL_OPTS="--connect-timeout 15 --max-time 180 --retry 3 --retry-delay 5 -fSL"
 ENV DEBIAN_FRONTEND=noninteractive
 
 ARG ANDROID_SDK_ROOT=${ROOT}/android-sdk
@@ -56,7 +57,7 @@ ENV PATH=$PATH:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-to
 # Install dependencies
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    ca-certificates curl wget unzip git build-essential pkg-config \
+    ca-certificates curl unzip git build-essential pkg-config \
     python3 python3-pip python3-venv jq \
     libwebsocketpp-dev \
     libboost1.88-all-dev \
@@ -66,7 +67,7 @@ RUN apt-get update \
 
 # Install docker
 RUN install -m 0755 -d /etc/apt/keyrings && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
+    curl ${CURL_OPTS} https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
     chmod a+r /etc/apt/keyrings/docker.asc && \
     echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
@@ -111,7 +112,7 @@ USER vscode
 
 # Install Android command line tools
 WORKDIR /tmp
-RUN curl -fSL https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -o cmdline-tools.zip \
+RUN curl ${CURL_OPTS} https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip -o cmdline-tools.zip \
   && unzip cmdline-tools.zip -d /tmp \
   && mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools/latest \
   && if [ -d /tmp/cmdline-tools ]; then \
@@ -129,7 +130,7 @@ RUN ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID
 
 # Install Gradle (binary distribution)
 RUN mkdir -p ${ROOT}/gradle \
-  && curl -fSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip \
+  && curl ${CURL_OPTS} https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o /tmp/gradle.zip \
   && unzip /tmp/gradle.zip -d ${ROOT}/gradle \
   && rm /tmp/gradle.zip
 

@@ -16,5 +16,4 @@ python3-venv
 sudo
 tar
 unzip
-wget
 zip

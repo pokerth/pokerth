@@ -19,6 +19,8 @@ if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
   # shellcheck source=/dev/null
   . "$REPO_ROOT/scripts/versions.env"
 fi
+# shellcheck source=/dev/null
+. "$REPO_ROOT/scripts/functions.sh"
 
 ABIS=("arm64-v8a" "armeabi-v7a")
 BUILD_TYPE=Release
@@ -390,9 +392,9 @@ for ABI in "${ABIS[@]}"; do
   ln -sf "$EXPECTED_SO_NAME" "$ANDROID_BUILD_DIR/libs/$ABI/lib${TARGET}.so"
 
   # OpenSSL
-  wget -q -O "$ANDROID_BUILD_DIR/libs/$ABI/libssl_3.so" "$OPENSSL_BASE_URL/$ABI/libssl_3.so" \
+  curl_cmd -o "$ANDROID_BUILD_DIR/libs/$ABI/libssl_3.so" "$OPENSSL_BASE_URL/$ABI/libssl_3.so" \
     || echo "WARNING: libssl_3.so Download fehlgeschlagen für $ABI"
-  wget -q -O "$ANDROID_BUILD_DIR/libs/$ABI/libcrypto_3.so" "$OPENSSL_BASE_URL/$ABI/libcrypto_3.so" \
+  curl_cmd -o "$ANDROID_BUILD_DIR/libs/$ABI/libcrypto_3.so" "$OPENSSL_BASE_URL/$ABI/libcrypto_3.so" \
     || echo "WARNING: libcrypto_3.so Download fehlgeschlagen für $ABI"
 
   echo "  libs/$ABI: $(ls -1 "$ANDROID_BUILD_DIR/libs/$ABI/"*.so 2>/dev/null | wc -l) .so-Dateien (vor androiddeployqt)"
