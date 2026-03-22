@@ -14,11 +14,9 @@ moc_*
 *.o
 .qmake.stash
 build*/
-docker/android/build/
 docker/linux/PokerTH.AppDir/
 docker/linux/appimagetool-x86_64.AppImage
 docker/linux/PokerTH-*.AppImage
-docker/windows/build/
 /chatcleaner
 docker/linux/pokerth-linux-binary/
 *workspace
@@ -37,7 +35,6 @@ docker/linux/pokerth-linux-*.zip
 lib/
 mocs/
 obj/
-/pokerth
 qrc_pokerth.cpp
 qrc_qml.cpp
 uics/
@@ -53,6 +50,10 @@ qrc_qmake_qmake_qm_files.cpp
 .qm
 tests/*
 .DS_Store
+.idea/
+*~
+*.swp
+*.swo
 .stamp*
 compile_commands.json
 *.log
@@ -61,4 +62,3 @@ compile_commands.json
 # Windows installer artifacts
 docker/windows/*.exe
 docker/windows/pokerth.ico
-docker/linux/pokerth-linux-binary/

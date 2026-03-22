@@ -459,6 +459,7 @@ install_qt_with_modules() {
   local arch="$3"
   local output_dir="$4"
   shift 4
+  local aqt_opts=""
   local modules=("$@")
 
   # For Windows, Qt 6.9+ uses win64_mingw instead of mingw_64
@@ -502,24 +503,20 @@ install_qt_with_modules() {
     fi
   fi
 
+  if [ "$platform" = "windows" ]; then
+    # Windows requires --autodesktop flag
+    aqt_opts="$aqt_opts --autodesktop"
+  fi
+
   if [ ${#modules[@]} -eq 0 ]; then
     # No modules, install base Qt only
     log "Installing Qt ${version} base (no additional modules) for ${arch}..."
-    if [ "$platform" = "windows" ]; then
-      # Windows requires --autodesktop flag
-      aqt install-qt "$platform" desktop "$version" "$arch" --outputdir "$output_dir" --autodesktop
-    else
-      aqt install-qt "$platform" desktop "$version" "$arch" --outputdir "$output_dir"
-    fi
+    aqt install-qt "$aqt_opts" "$platform" desktop "$version" "$arch" --outputdir "$output_dir"
   else
     # Try with modules first
     log "Installing Qt ${version} with modules: ${modules[*]}..."
     local aqt_cmd
-    if [ "$platform" = "windows" ]; then
-      aqt_cmd="aqt install-qt $platform desktop $version $arch --outputdir $output_dir --autodesktop --modules ${modules[*]}"
-    else
-      aqt_cmd="aqt install-qt $platform desktop $version $arch --outputdir $output_dir --modules ${modules[*]}"
-    fi
+    aqt_cmd="aqt install-qt $aqt_opts $platform desktop $version $arch --outputdir $output_dir --modules ${modules[*]}"
 
     local aqt_output
     aqt_output=$(eval "$aqt_cmd" 2>&1) || {
@@ -527,11 +524,7 @@ install_qt_with_modules() {
       if echo "$aqt_output" | grep -q "were not found"; then
         log "⚠ Some modules were not found for Qt ${version}"
         log "  Installing base Qt without optional modules..."
-        if [ "$platform" = "windows" ]; then
-          aqt install-qt "$platform" desktop "$version" "$arch" --outputdir "$output_dir" --autodesktop
-        else
-          aqt install-qt "$platform" desktop "$version" "$arch" --outputdir "$output_dir"
-        fi
+        aqt install-qt "$aqt_opts" "$platform" desktop "$version" "$arch" --outputdir "$output_dir"
       else
         # Other error, re-raise it
         echo "$aqt_output" >&2
