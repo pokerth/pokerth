@@ -199,12 +199,10 @@ if [ ! -f "$PROTOBUF_OVERLAY_STAMP" ]; then
   "$VCPKG_ROOT/vcpkg" remove "protobuf:${TRIPLET}" --recurse 2>/dev/null || true
   rm -rf "$VCPKG_ROOT/buildtrees/protobuf"
   rm -rf "$VCPKG_ROOT/packages/protobuf_${TRIPLET}"
-  # FIXME: Fixed /tmp path can clash with parallel Android setups; use a private temp root (mktemp -d) and thread through --x-buildtrees-root.
-  rm -rf /tmp/vcpkg-buildtrees/protobuf
 
+  # Use default buildtrees ($VCPKG_ROOT/buildtrees) so protobuf build cache persists on bind mount; /tmp is ephemeral (lost on container restart).
   "$VCPKG_ROOT/vcpkg" install --no-print-usage "protobuf:${TRIPLET}" \
     --overlay-ports="$ROOT/vcpkg-overlays/protobuf" \
-    --x-buildtrees-root=/tmp/vcpkg-buildtrees \
     --no-binarycaching
   # FIXME: how do we know to remove the stamp if we install the original protobuf?
   touch "$PROTOBUF_OVERLAY_STAMP"
