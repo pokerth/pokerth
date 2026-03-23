@@ -2,6 +2,10 @@
 # Build from repo root: docker build -f docker/windows/.devcontainer/Dockerfile .
 # Run: make windows-docker (mounts repo, runs make windows which uses scripts/build.sh).
 #
+# vcpkg source archives at image build: RUN --mount=type=cache (BuildKit) on /opt/.../vcpkg/downloads.
+# Shared id with Android Dockerfile so both images reuse the same BuildKit cache entry where tarballs overlap.
+# docker run: devcontainer.json bind-mounts the whole vcpkg tree — no separate download mount.
+#
 # Cache: apt runs in a layer that only depends on scripts/windows-apt-packages.txt; other script/doc changes don't invalidate it. setup.sh uses the same file (SKIP_SYSTEM_PACKAGES=yes here).
 
 # Stage "base": everything before setup.sh (use --target base to run setup with a log mount and capture vcpkg logs on failure).
@@ -53,7 +57,8 @@ USER ${USERNAME}
 
 # Stage "final": run setup (skip apt; vcpkg + aqtinstall only). Single source of truth for ports and Qt.
 FROM base AS final
-RUN SKIP_SYSTEM_PACKAGES=yes \
+RUN --mount=type=cache,target=/opt/pokerth-windows/vcpkg/downloads,id=vcpkg-downloads-pokerth \
+    SKIP_SYSTEM_PACKAGES=yes \
     VCPKG_DIR=/opt/pokerth-windows/vcpkg \
     QT_OUTPUT_DIR=/opt/pokerth-windows/Qt \
     TARGET_PLATFORM=windows \

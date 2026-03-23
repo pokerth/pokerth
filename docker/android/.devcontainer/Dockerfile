@@ -2,6 +2,10 @@
 # Build from repo root: docker build -f docker/android/.devcontainer/Dockerfile .
 # Run: make android-docker (mounts repo, runs make android which uses scripts/build_android.sh).
 #
+# vcpkg source archives at image build: RUN --mount=type=cache (BuildKit) on /opt/.../vcpkg/downloads.
+# Shared id with Windows Dockerfile so both images reuse the same BuildKit cache entry for identical tarballs.
+# docker run: devcontainer.json bind-mounts the whole vcpkg tree (clone, downloads/, installed/, …) — no separate download mount.
+#
 # Mirrors docker/windows/.devcontainer/Dockerfile: apt from file, COPY scripts/docs, run setup script.
 # Cache: apt runs in a layer that only depends on scripts/android-apt-packages.txt.
 
@@ -71,7 +75,8 @@ USER ${USERNAME}
 
 # Stage "final": run setup_android.sh (skip apt; SDK/NDK/Gradle/Qt/vcpkg). Single source of truth.
 FROM base AS final
-RUN SKIP_SYSTEM_PACKAGES=yes \
+RUN --mount=type=cache,target=/opt/pokerth-android/vcpkg/downloads,id=vcpkg-downloads-pokerth \
+    SKIP_SYSTEM_PACKAGES=yes \
     ANDROID_CACHE_ROOT=${ROOT} \
     VCPKG_DIR=${VCPKG_DIR} \
     ROOT=${ROOT} \
