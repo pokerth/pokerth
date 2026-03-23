@@ -61,7 +61,7 @@ help:
 	@echo "  make setup-macos     - Install dependencies for macOS build"
 	@echo "  make setup-android   - Android SDK/NDK/Qt + vcpkg (VCPKG_DIR required; e.g. VCPKG_DIR=build_android/vcpkg)"
 	@echo "  make clean           - Remove build_linux/, build_windows/, build_macos/"
-	@echo "  (Docker Windows: vcpkg+Qt cache in docker/windows/vcpkg/; first run runs setup, later runs reuse it.)"
+	@echo "  Docker (*-docker): run_devcontainer.py skips docker build if the image tag exists (default). Force rebuild: POKERTH_DOCKER_FORCE_BUILD=1."
 	@echo ""
 	@echo "Windows: 'make windows' uses host toolchain on Linux, Docker on macOS. Use 'make windows-docker' to always use Docker."
 	@echo "Android: 'make android' on Linux runs build_android/.stamp_setup; macOS uses Docker which uses docker/android/build/.stamp_setup."

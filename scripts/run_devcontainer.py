@@ -4,12 +4,15 @@ Build a Docker image from a devcontainer.json and run `./scripts/ensure_docker_d
 
 The Docker build/run plan (dockerfile/build context, mounts, workdir) is derived
 from the matching devcontainer.json based on the target.
+
+By default, skips `docker build` when the image tag already exists (fast local iteration).
+Force a rebuild with `--force-build` or `POKERTH_DOCKER_FORCE_BUILD=1`.
 """
 
 from __future__ import annotations
 
 import json
-import platform
+import os
 import re
 import subprocess
 import sys
@@ -173,6 +176,43 @@ def run_checked(cmd: list[str]) -> None:
     subprocess.run(cmd, check=True)
 
 
+def docker_image_exists(image: str) -> bool:
+    r = subprocess.run(
+        ["docker", "image", "inspect", image],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    return r.returncode == 0
+
+
+def force_docker_build(cli_force: bool) -> bool:
+    """True when `docker build` must run even if IMAGE already exists."""
+
+    if cli_force:
+        return True
+    if os.environ.get("POKERTH_DOCKER_FORCE_BUILD", "").strip().lower() in ("1", "yes", "true", "on"):
+        return True
+    return False
+
+
+def merge_run_env(
+    plan_env: list[str],
+    cli_env: list[str],
+    forward_from_os: dict[str, str],
+) -> list[str]:
+    """Later entries win for duplicate keys; forward_from_os only adds keys not already set."""
+    merged: dict[str, str] = {}
+    for kv in plan_env + cli_env:
+        if "=" in kv:
+            k, v = kv.split("=", 1)
+            merged[k] = v
+    for k, v in forward_from_os.items():
+        if k not in merged:
+            merged[k] = v
+    return [f"{k}={v}" for k, v in merged.items()]
+
+
 def dedup_mounts_by_dest(mounts: list[str]) -> list[str]:
     # mount format we generate: HOST:DEST[:cached]
     # Keep the last mount per destination path.
@@ -212,6 +252,11 @@ def main(argv: list[str]) -> int:
         default=[],
         metavar="KEY=VAL",
         help="Extra container environment variable. Can be repeated.",
+    )
+    parser.add_argument(
+        "--force-build",
+        action="store_true",
+        help="Always run docker build (use after Dockerfile/script changes; set POKERTH_DOCKER_FORCE_BUILD=1 in CI if the image tag may already exist).",
     )
 
     args = parser.parse_args(argv[1:])
@@ -258,7 +303,12 @@ def main(argv: list[str]) -> int:
         docker_cmd += ["--target", effective_build_target]
 
     run_mounts = dedup_mounts_by_dest(plan.run_mounts + cli_mount_specs)
-    run_env = env_cli + plan.container_env
+    forward: dict[str, str] = {}
+    for key in ("CLEAN", "BUILD_TARGET"):
+        val = os.environ.get(key)
+        if val is not None and val != "":
+            forward[key] = val
+    run_env = merge_run_env(plan.container_env, env_cli, forward)
 
     vol_args: list[str] = [item for m in run_mounts for item in ("-v", m)]
     env_args: list[str] = [item for kv in run_env for item in ("-e", kv)]
@@ -268,8 +318,6 @@ def main(argv: list[str]) -> int:
         "run",
         "--rm",
         *run_opts,
-        "--user",
-        "root",
         *vol_args,
         *env_args,
         "-w",
@@ -279,7 +327,10 @@ def main(argv: list[str]) -> int:
         make_target,
     ]
 
-    run_checked(docker_cmd)
+    if not force_docker_build(args.force_build) and docker_image_exists(image):
+        print(f"Skipping docker build (reuse image: {image})")
+    else:
+        run_checked(docker_cmd)
     run_checked(run_cmd)
     return 0
 
