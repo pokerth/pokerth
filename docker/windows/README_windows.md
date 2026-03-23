@@ -16,7 +16,7 @@ make windows
 
 Or **`make windows-installer`** to build and create the NSIS installer. Output is in **docker/windows/build/deploy/** (and the installer in **docker/windows/**). The container runs **`make windows`** automatically after create (postCreateCommand).
 
-**`docker/windows/build_windows.sh`** is **deprecated** (stderr warning only); use **`make windows`** or **`make windows-docker`**. Build logic: **scripts/build.sh** / **functions.sh**. Devcontainer / **`make windows-docker`**: **scripts/ensure_docker_deps.py windows** runs **scripts/setup.sh** when vcpkg/protobuf missing (**SKIP_SYSTEM_PACKAGES** set in Python), then **make windows**. Config knobs: **scripts/ensure_docker_deps_config.env** (e.g. Qt path template, stamp file). See **docs/building-developer.md**. Clean Docker tree: remove **docker/windows/build** on the host, then **`make windows-docker`** again.
+Use **`make windows`** or **`make windows-docker`**. Build logic: **scripts/build.sh** / **functions.sh**. Devcontainer / **`make windows-docker`**: **scripts/ensure_docker_deps.py windows** runs **scripts/setup.sh** when vcpkg/protobuf missing (**SKIP_SYSTEM_PACKAGES** set in Python), then **make windows**. Kind defaults and readiness triplets are defined directly in **scripts/ensure_docker_deps.py** (no separate config file). See **docs/building-developer.md**. Clean Docker tree: remove **docker/windows/build** on the host, then **`make windows-docker`** again.
 
 ## Testing from the command line (no VS Code/Cursor)
 

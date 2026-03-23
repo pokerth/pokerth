@@ -5,7 +5,7 @@ How to build PokerTH (for contributors and packagers). **Top-level entry:** Use 
 - **Default `make`:** On Linux runs `make linux`; on macOS runs `make macos`. So you can run **`make`** after setup and get the native build.
 - **Default `make setup`:** On Linux runs `make setup-linux`; on macOS runs `make setup-macos`. Run **`make setup`** once to install dependencies for the current OS.
 - **Stamp files:** When you run `make linux`, `make windows`, or `make macos`, Make checks for a setup stamp in that target’s build dir (**BUILD_DIR/.stamp_setup**, e.g. `build_linux/.stamp_setup`, `build_windows/.stamp_setup`, `build_macos/.stamp_setup`; Windows in Docker uses `docker/windows/build/.stamp_setup`). If the stamp is missing, it runs the corresponding setup first, then builds. So **`make`** or **`make linux`** (etc.) can be run without having run setup beforehand; setup will run once and create the stamp.
-- **`make clean`:** Removes `build_linux/`, `build_windows/`, `build_macos/`, `docker/windows/build/` and the setup stamp files. After that, the next `make` or `make linux` (etc.) will run setup again.
+- **`make clean`:** Removes `build_linux/`, `build_windows/`, `build_macos/`, `build_android/`, `docker/windows/build/`, `docker/android/build/` and the setup stamp files. After that, the next `make` or `make linux` (etc.) will run setup again.
 
 ## Summary by platform
 
