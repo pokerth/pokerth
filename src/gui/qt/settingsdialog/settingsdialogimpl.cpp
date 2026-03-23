@@ -65,14 +65,14 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
             break;
         }
     }
-    
+
     if (styleSPageIndex >= 0 && styleSPageIndex < listWidget->count()) {
         QListWidgetItem* item = listWidget->item(styleSPageIndex);
         if (item) {
             item->setHidden(true); // Verstecken statt löschen
         }
     }
-    
+
     label_soundVolume->hide();
 
 	// Add right padding to root layout so content doesn't touch the edge.
@@ -146,7 +146,7 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 
 	for(const auto& language : languages)
 	{
-		comboBox_switchLanguage->addItem(language->getLanguageLabel(), language->getCode());	
+		comboBox_switchLanguage->addItem(language->getLanguageLabel(), language->getCode());
 	}
 #ifdef GUI_800x480
 	connect( pushButton_ok, SIGNAL( clicked() ), this, SLOT( isAccepted() ) );
@@ -713,7 +713,7 @@ void settingsDialogImpl::exec(bool in_game)
 {
 	calledIngame = in_game;
 	prepareDialog();
-	
+
 #ifdef ANDROID
 	// Ensure Dialog ist sichtbar und hat korrekte Geometrie vor exec()
 	this->show();
@@ -721,7 +721,7 @@ void settingsDialogImpl::exec(bool in_game)
 	this->activateWindow();
 	QCoreApplication::processEvents(); // Force event processing
 #endif
-	
+
 	QDialog::exec();
 }
 
@@ -1567,4 +1567,3 @@ void settingsDialogImpl::resetSettings()
 	}
 
 }
-
