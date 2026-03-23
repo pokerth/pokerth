@@ -27,6 +27,9 @@ fi
 # shellcheck source=/dev/null
 . "$REPO_ROOT/scripts/functions.sh"
 
+# Incremental Gradle by default (fast back-to-back android-docker). Full Android/Java clean: CLEAN=yes (forwarded by run_devcontainer.py from host).
+CLEAN="${CLEAN:-no}"
+
 usage(){
   cat <<EOF
 Usage: $0 [--arch arm64-v8a|armeabi-v7a|x86|x86_64] [--build-type Debug|Release] [--api-level 28]
@@ -314,8 +317,12 @@ case "$ARCH" in
   x86) OPENSSL_ARCH="x86";;
   *) OPENSSL_ARCH="$ARCH";;
 esac
-curl_cmd -o "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
-curl_cmd -o "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
+if [[ ! -s "$OPENSSL_DIR/libssl_3.so" ]]; then
+  curl_cmd -o "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
+fi
+if [[ ! -s "$OPENSSL_DIR/libcrypto_3.so" ]]; then
+  curl_cmd -o "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
+fi
 
 ANDROIDDEPLOYQT="${QT_HOST_PATH}/bin/androiddeployqt"
 if [[ ! -x "$ANDROIDDEPLOYQT" ]]; then
@@ -356,12 +363,16 @@ if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
     echo "androidCompileSdkVersion=$API_LEVEL" >> "$ANDROID_BUILD_DIR/gradle.properties"
   fi
 
-  # Führe Gradle Build manuell aus (clean für reproduzierbare Builds; mit --aux-mode kein vorheriger Qt-Gradle-Lauf)
+  # Gradle: default incremental assembleRelease; CLEAN=yes for clean+assemble (broken Gradle state / need full APK rebuild)
   echo "Running Gradle build..."
   cd "$ANDROID_BUILD_DIR"
   chmod +x gradlew
   echo "sdk.dir=${ANDROID_SDK_ROOT}" >> local.properties
-  ./gradlew clean assembleRelease --stacktrace
+  if is_yes "$CLEAN"; then
+    ./gradlew clean assembleRelease --stacktrace
+  else
+    ./gradlew assembleRelease --stacktrace
+  fi
   cd -
 else
   echo "ERROR: gradle.properties not found under $ANDROID_BUILD_DIR after androiddeployqt."

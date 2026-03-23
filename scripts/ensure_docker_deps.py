@@ -21,6 +21,32 @@ def run_checked(cmd: list[str], env: dict[str, str] | None = None, cwd: Path | N
     subprocess.run(cmd, check=True, env=env, cwd=str(cwd) if cwd else None)
 
 
+def touch_stamp_file(stamp_path: Path) -> None:
+    """
+    Create empty stamp; replace an existing file we cannot write (e.g. root-owned after sudo docker).
+
+    On Unix, the directory owner may unlink a root-owned file in that directory, then recreate it.
+    """
+
+    stamp_path = stamp_path.resolve()
+    stamp_path.parent.mkdir(parents=True, exist_ok=True)
+    if stamp_path.exists() and not os.access(stamp_path, os.W_OK):
+        try:
+            stamp_path.unlink()
+        except OSError as exc:
+            raise PermissionError(
+                f"Cannot remove stale stamp {stamp_path} ({exc}). "
+                f"Fix: sudo chown -R \"$(id -u)\":\"$(id -g)\" {stamp_path.parent}"
+            ) from exc
+    try:
+        stamp_path.touch()
+    except OSError as exc:
+        raise PermissionError(
+            f"Cannot write stamp {stamp_path} ({exc}). "
+            f"Fix: sudo chown -R \"$(id -u)\":\"$(id -g)\" {stamp_path.parent}"
+        ) from exc
+
+
 def vcpkg_ready(vcpkg_root: Path, triplet: str, port: str) -> bool:
     vcpkg_bin = vcpkg_root / "vcpkg"
     installed_dir = vcpkg_root / "installed"
@@ -139,41 +165,20 @@ def build_ensure_plan(target: str) -> EnsurePlan:
     )
 
 
-def chown_dir_recursively(path: Path, uid: str, gid: str) -> None:
-    if not path.exists():
-        return
-    try:
-        run_checked(["chown", "-R", f"{uid}:{gid}", str(path)])
-    except subprocess.CalledProcessError:
-        pass
-
-
 def run_make_if_requested(plan: EnsurePlan, make_args: list[str]) -> None:
     if not plan.run_make_target:
         return
 
-    cache_dir = plan.cache_dir
     extra_env = dict(plan.run_make_extra_env or {})
     if plan.setup_stamp_file:
         repo_root = Path(__file__).resolve().parent.parent
         stamp_path = Path(plan.setup_stamp_file)
         if not stamp_path.is_absolute():
             stamp_path = repo_root / stamp_path
-        stamp_path = stamp_path.resolve()
-        stamp_path.parent.mkdir(parents=True, exist_ok=True)
-        stamp_path.touch()
+        touch_stamp_file(stamp_path)
 
-    if int(subprocess.check_output(["id", "-u"], text=True).strip()) == 0:
-        uid = os.environ.get("VSCODE_UID", "1000")
-        gid = os.environ.get("VSCODE_GID", "1000")
-        chown_dir_recursively(cache_dir, uid, gid)
-
-        env_assignments: list[str] = [f"{k}={v}" for k, v in extra_env.items()]
-        cmd = ["runuser", "-u", "vscode", "--", "env", *env_assignments, "make", plan.run_make_target, *make_args]
-        run_checked(cmd)
-    else:
-        cmd = ["make", plan.run_make_target, *make_args]
-        run_checked(cmd)
+    cmd = ["make", plan.run_make_target, *make_args]
+    run_checked(cmd, env={**os.environ, **extra_env})
 
 
 def main(argv: list[str]) -> int:
@@ -210,6 +215,7 @@ def main(argv: list[str]) -> int:
                 env={**os.environ, **setup_env},
                 cwd=script_dir.parent,
             )
+        last_step = "stamp and make"
         run_make_if_requested(plan, make_args)
         return 0
     except subprocess.CalledProcessError as e:

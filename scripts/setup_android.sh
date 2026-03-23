@@ -35,22 +35,49 @@ QT_ARCH="${QT_ARCH:-arm64_v8a}"
 ANDROID_CACHE_ROOT="${ANDROID_CACHE_ROOT:-$HOME/.pokerth-android}"
 
 # Resolve ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME for later use and for .android_env
+# Important: don't force sdkmanager runs just because ANDROID_SDK_ROOT isn't set.
+# In Docker runs, SDK/NDK are baked into the image; we only want network provisioning if something is actually missing.
 need_provision_sdk=0
 if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
   ANDROID_SDK_ROOT="${ANDROID_CACHE_ROOT}/android-sdk"
-  ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}"
-  need_provision_sdk=1
-elif [ -z "${ANDROID_NDK_ROOT:-}" ]; then
+fi
+if [ -z "${ANDROID_NDK_ROOT:-}" ]; then
   ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}"
 fi
 
 TOOLCHAIN_FILE="${ANDROID_NDK_ROOT}/build/cmake/android.toolchain.cmake"
-if [ "$need_provision_sdk" = "1" ] || [ ! -f "$TOOLCHAIN_FILE" ]; then
+SDKMANAGER_FILE="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+
+missing_component=0
+if [ ! -f "$TOOLCHAIN_FILE" ]; then missing_component=1; fi
+if [ ! -f "$SDKMANAGER_FILE" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/platform-tools" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/platforms/android-${ANDROID_TARGET_SDK_VERSION}" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/build-tools/${ANDROID_BUILD_TOOLS_VERSION}" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/cmake/${ANDROID_CMAKE_VERSION}" ]; then missing_component=1; fi
+
+if [ "$missing_component" = "1" ]; then
   need_provision_sdk=1
 fi
 
 # Export for aqt, vcpkg, and child processes (ANDROID_NDK_HOME = NDK_ROOT, some tools expect either)
 export ANDROID_SDK_ROOT ANDROID_NDK_ROOT ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}"
+
+# Resolve JAVA_HOME (prefer Java 17 for Android Gradle plugin) regardless of whether SDK provisioning runs.
+# Otherwise an existing SDK/NDK can skip provisioning and leave JAVA_HOME empty in .android_env.
+if [ -z "${JAVA_HOME:-}" ]; then
+  for jdk in java-17-openjdk-amd64 java-17-openjdk; do
+    if [ -d "/usr/lib/jvm/$jdk" ]; then
+      JAVA_HOME="/usr/lib/jvm/$jdk"
+      break
+    fi
+  done
+fi
+if [ -z "${JAVA_HOME:-}" ]; then
+  echo "ERROR: Java 17 not found. Install with: sudo apt install openjdk-17-jdk (or set JAVA_HOME)."
+  exit 1
+fi
+export JAVA_HOME
 
 if [ "$need_provision_sdk" = "1" ]; then
   echo "Provisioning Android SDK/NDK (${ANDROID_SDK_ROOT})..."
@@ -67,21 +94,6 @@ if [ "$need_provision_sdk" = "1" ]; then
       exit 1
     fi
   fi
-
-  # Resolve JAVA_HOME (prefer Java 17 for Android Gradle plugin)
-  if [ -z "${JAVA_HOME:-}" ]; then
-    for jdk in java-17-openjdk-amd64 java-17-openjdk; do
-      if [ -d "/usr/lib/jvm/$jdk" ]; then
-        JAVA_HOME="/usr/lib/jvm/$jdk"
-        break
-      fi
-    done
-  fi
-  if [ -z "${JAVA_HOME:-}" ]; then
-    echo "ERROR: Java 17 not found. Run setup with SKIP_SYSTEM_PACKAGES=no to install, or: sudo apt install openjdk-17-jdk"
-    exit 1
-  fi
-  export JAVA_HOME
 
   mkdir -p "$ANDROID_SDK_ROOT"
   if [ ! -f "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" ]; then
@@ -172,30 +184,49 @@ fi
 
 ensure_vcpkg_clone_bootstrap_if_missing
 
-"$VCPKG_ROOT/vcpkg" install --no-print-usage \
-  boost-system:"${TRIPLET}" \
-  boost-filesystem:"${TRIPLET}" \
-  boost-thread:"${TRIPLET}" boost-regex:"${TRIPLET}" \
-  boost-chrono:"${TRIPLET}" \
-  boost-date-time:"${TRIPLET}" boost-serialization:"${TRIPLET}" \
-  boost-asio:"${TRIPLET}" \
-  boost-interprocess:"${TRIPLET}" \
-  boost-iostreams:"${TRIPLET}" \
-  boost-program-options:"${TRIPLET}" \
-  boost-lambda:"${TRIPLET}" \
-  boost-foreach:"${TRIPLET}" \
-  boost-uuid:"${TRIPLET}" \
+# Android boost/openssl/protobuf (host protobuf for codegen). Uses vcpkg_install from functions.sh.
+
+vcpkg_install "${TRIPLET}" \
+  boost-system:"${TRIPLET}" boost-filesystem:"${TRIPLET}" \
+  boost-thread:"${TRIPLET}" boost-regex:"${TRIPLET}" boost-chrono:"${TRIPLET}" \
+  boost-date-time:"${TRIPLET}" boost-serialization:"${TRIPLET}" boost-asio:"${TRIPLET}" \
+  boost-interprocess:"${TRIPLET}" boost-iostreams:"${TRIPLET}" boost-program-options:"${TRIPLET}" \
+  boost-lambda:"${TRIPLET}" boost-foreach:"${TRIPLET}" boost-uuid:"${TRIPLET}" \
   openssl:"${TRIPLET}" \
   protobuf:x64-linux
 
 mkdir -p "$ROOT/vcpkg-overlays/protobuf"
-PROTOBUF_OVERLAY_STAMP="$ROOT/vcpkg-overlays/.stamp_protobuf_${TRIPLET}"
+PROTOBUF_OVERLAY_HASH_FILE="$ROOT/vcpkg-overlays/.protobuf_overlay_hash_${TRIPLET}"
+PROTOBUF_INSTALLED_ROOT="$VCPKG_ROOT/installed/$TRIPLET"
+PROTOBUF_CONFIG_OK=0
+if [ -f "$PROTOBUF_INSTALLED_ROOT/lib/cmake/protobuf/ProtobufConfig.cmake" ] || \
+   [ -f "$PROTOBUF_INSTALLED_ROOT/share/protobuf/protobuf-config.cmake" ] || \
+   [ -f "$PROTOBUF_INSTALLED_ROOT/share/protobuf/ProtobufConfig.cmake" ]; then
+  PROTOBUF_CONFIG_OK=1
+fi
 
-# Only remove+reinstall if overlay not yet applied (idempotent)
-if [ ! -f "$PROTOBUF_OVERLAY_STAMP" ]; then
-  cp -r "$VCPKG_ROOT/ports/protobuf/"* "$ROOT/vcpkg-overlays/protobuf/"
-  sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' "$ROOT/vcpkg-overlays/protobuf/portfile.cmake"
+# Rebuild overlay dir each run, then hash it. Reinstall protobuf only if overlay hash changed
+# or if protobuf config for this triplet is missing/corrupt (interrupted install recovery).
+rm -rf "$ROOT/vcpkg-overlays/protobuf"
+mkdir -p "$ROOT/vcpkg-overlays/protobuf"
+cp -r "$VCPKG_ROOT/ports/protobuf/"* "$ROOT/vcpkg-overlays/protobuf/"
+sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' "$ROOT/vcpkg-overlays/protobuf/portfile.cmake"
 
+PROTOBUF_OVERLAY_HASH="$(
+  cd "$ROOT/vcpkg-overlays/protobuf"
+  find . -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}'
+)"
+PREV_PROTOBUF_OVERLAY_HASH=""
+if [ -f "$PROTOBUF_OVERLAY_HASH_FILE" ]; then
+  PREV_PROTOBUF_OVERLAY_HASH="$(cat "$PROTOBUF_OVERLAY_HASH_FILE")"
+fi
+
+if [ "$PROTOBUF_CONFIG_OK" != "1" ] || [ "$PROTOBUF_OVERLAY_HASH" != "$PREV_PROTOBUF_OVERLAY_HASH" ]; then
+  if [ "$PROTOBUF_CONFIG_OK" != "1" ]; then
+    echo "protobuf config missing; forcing reinstall for ${TRIPLET}."
+  elif [ "$PROTOBUF_OVERLAY_HASH" != "$PREV_PROTOBUF_OVERLAY_HASH" ]; then
+    echo "protobuf overlay changed; reinstalling for ${TRIPLET}."
+  fi
   "$VCPKG_ROOT/vcpkg" remove "protobuf:${TRIPLET}" --recurse 2>/dev/null || true
   rm -rf "$VCPKG_ROOT/buildtrees/protobuf"
   rm -rf "$VCPKG_ROOT/packages/protobuf_${TRIPLET}"
@@ -204,8 +235,7 @@ if [ ! -f "$PROTOBUF_OVERLAY_STAMP" ]; then
   "$VCPKG_ROOT/vcpkg" install --no-print-usage "protobuf:${TRIPLET}" \
     --overlay-ports="$ROOT/vcpkg-overlays/protobuf" \
     --no-binarycaching
-  # FIXME: how do we know to remove the stamp if we install the original protobuf?
-  touch "$PROTOBUF_OVERLAY_STAMP"
+  printf '%s\n' "$PROTOBUF_OVERLAY_HASH" > "$PROTOBUF_OVERLAY_HASH_FILE"
 fi
 
 echo "Android vcpkg setup complete (${TRIPLET})."

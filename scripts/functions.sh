@@ -635,13 +635,16 @@ setup_vcpkg() {
 
   if [ -n "$triplet" ]; then
     log "Installing vcpkg dependencies (${triplet})..."
-    vcpkg_install "$triplet"
+    vcpkg_install "$triplet" "${VCPKG_PORTS[@]}"
   fi
 }
 
 # Run vcpkg install; on "File exists" (interrupted copy) remove partial package and retry once.
+# Usage: vcpkg_install <triplet> [port port:triplet ...]
 vcpkg_install() {
   local triplet="$1"
+  shift
+  local ports=("${@:-${VCPKG_PORTS[@]}}")
   local vcpkg_log
   vcpkg_log=$(mktemp) || exit 1
   trap "rm -f '$vcpkg_log'" RETURN
@@ -649,7 +652,7 @@ vcpkg_install() {
   if ! VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install --no-print-usage \
     --triplet="$triplet" \
     --disable-metrics \
-    "${VCPKG_PORTS[@]}" 2>&1 | tee "$vcpkg_log"; then
+    "${ports[@]}" 2>&1 | tee "$vcpkg_log"; then
     if grep -q "File exists" "$vcpkg_log" && grep -q "packages/" "$vcpkg_log"; then
       local pkg_dir
       pkg_dir=$(grep "File exists" "$vcpkg_log" | grep -o 'packages/[^/]*' | head -1)
@@ -659,7 +662,7 @@ vcpkg_install() {
         VCPKG_DISABLE_METRICS=1 "$VCPKG_DIR/vcpkg" install --no-print-usage \
           --triplet="$triplet" \
           --disable-metrics \
-          "${VCPKG_PORTS[@]}"
+          "${ports[@]}"
         return
       fi
     fi
