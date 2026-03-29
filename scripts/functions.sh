@@ -630,7 +630,7 @@ setup_vcpkg() {
 
   if [ -n "$triplet" ] && [[ "$triplet" == *mingw* ]]; then
     log "Applying vcpkg OpenSSL MinGW no-quic patch (avoids SIO_UDP_NETRESET build error)..."
-    (cd "$VCPKG_DIR" && patch -p1 --forward < "${REPO_ROOT}/docs/patches/vcpkg-openssl-mingw-no-quic.patch") || true
+    (cd "$VCPKG_DIR" && patch -p1 --forward < "${REPO_ROOT}/scripts/patches/vcpkg-openssl-mingw-no-quic.patch") || true
   fi
 
   if [ -n "$triplet" ]; then
