@@ -44,10 +44,10 @@ help:
 	@echo "  make setup           - Default setup (make setup-linux on Linux, make setup-macos on macOS)"
 	@echo "  make linux           - Build for Linux (native)"
 	@echo "  make windows         - Build for Windows (Linux: host cross-compile; macOS: Docker)"
-	@echo "  make windows-docker  - TARGET_PLATFORM=windows docker (Windows in Docker)"
+	@echo "  make windows-docker  - Windows in Docker (run_devcontainer.py; or VS Code/Cursor devcontainer)"
 	@echo "  make macos           - Build for macOS"
 	@echo "  make android           - Android (Linux: host SDK/NDK/Qt; macOS: Docker)"
-	@echo "  make android-docker    - TARGET_PLATFORM=android docker (any host)"
+	@echo "  make android-docker    - Android in Docker (run_devcontainer.py; or VS Code/Cursor devcontainer)"
 	@echo "  make android-installer - Placeholder (no-op; future signed APK / store flow)"
 	@echo "  make linux-installer - Build + Linux AppImage"
 	@echo "  make windows-installer        - Build + Windows NSIS (Linux: host; macOS: Docker)"
@@ -60,8 +60,13 @@ help:
 	@echo "  make setup-windows   - Install dependencies for Windows cross-build"
 	@echo "  make setup-macos     - Install dependencies for macOS build"
 	@echo "  make setup-android   - Android SDK/NDK/Qt + vcpkg (VCPKG_DIR required; e.g. VCPKG_DIR=build_android/vcpkg)"
-	@echo "  make clean           - Remove build_linux/, build_windows/, build_macos/"
-	@echo "  Docker (*-docker): run_devcontainer.py skips docker build if the image tag exists (default). Force rebuild: POKERTH_DOCKER_FORCE_BUILD=1."
+	@echo "  make clean           - Remove build_* (incl. build_android) and docker/windows/build/, docker/android/build/ (see STAMP_DIRS in this Makefile)"
+	@echo "  Docker (*-docker or devcontainer): run_devcontainer.py skips docker build if the image tag exists (default). Force rebuild: POKERTH_DOCKER_FORCE_BUILD=1."
+	@echo ""
+	@echo "Host directory convention (STAMP_DIRS, REPO_BUILD_ROOT in this Makefile):"
+	@echo "  Non-Docker: build_<platform>/ — stamps, CMake, deploy (e.g. build_linux/, build_android/)."
+	@echo "  Docker: docker/<kind>/build/ — vcpkg/Qt mounts, stamps, outputs (REPO_BUILD_ROOT when IN_DOCKER=1)."
+	@echo "  More: docs/building-developer.md"
 	@echo ""
 	@echo "Windows: 'make windows' uses host toolchain on Linux, Docker on macOS. Use 'make windows-docker' to always use Docker."
 	@echo "Android: 'make android' on Linux runs build_android/.stamp_setup; macOS uses Docker which uses docker/android/build/.stamp_setup."
@@ -76,7 +81,7 @@ build_windows/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
 # android additional dep on android-apt-packages.txt
 build_android/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
 # Native stamps: build_linux/.stamp_setup, build_windows/.stamp_setup, build_macos/.stamp_setup, build_android/.stamp_setup
-build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
+build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_linux.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else \
 	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh && touch $@; fi
@@ -86,7 +91,10 @@ docker/windows/build/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
 # android additional dep on android-apt-packages.txt
 docker/android/build/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
 # Docker stamps: docker/windows/build/.stamp_setup and docker/android/build/.stamp_setup
-docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
+docker/windows/build/.stamp_setup: $(SCRIPTS)/setup_linux.sh # We build windows targets on linux host, so we need to use the linux setup script
+docker/android/build/.stamp_setup: $(SCRIPTS)/setup_android.sh
+# stem rule needs the recipe, since it depends on $*
+docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else \
 	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh && touch $@; fi
