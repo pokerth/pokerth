@@ -6,7 +6,7 @@
 
 ## Build Instructions
 
-Best practice is to use the VS Code Dev Containers feature: open the **repository root** (the `pokerth` checkout), then **Rebuild and Reopen in Container** using **docker/windows/.devcontainer**. The workspace inside the container is the **repo root** (mounted at `/workspaces/pokerth`).
+Best practice is to use the VS Code Dev Containers feature: open the **repository root** (the `pokerth` checkout), then **Rebuild and Reopen in Container** and choose **`.devcontainer/windows/devcontainer.json`**. The workspace inside the container is the **repo root** (mounted at `/workspaces/pokerth`).
 
 Inside the running container:
 

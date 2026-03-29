@@ -63,6 +63,8 @@ fi
 
 command -v cmake >/dev/null || { echo "cmake nicht gefunden"; exit 2; }
 
+resolve_qt_cmake_cmd "qt-cmake not found. Set QT_HOST_PATH (Qt linux_gcc_64) or put qt-cmake on PATH."
+
 # Toolchain-Validierung wird pro ABI in der Build-Schleife gemacht
 
 # Build-Tools-Version ermitteln
@@ -153,7 +155,7 @@ EOF
   fi
 
   echo "Konfiguriere CMake für $ABI ..."
-  qt-cmake -S . -B "$BUILD_DIR" -G Ninja \
+  "$QT_CMAKE_CMD" -S . -B "$BUILD_DIR" -G Ninja \
     -C "$BUILD_DIR/InitialCache.cmake" \
     -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
     -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" \

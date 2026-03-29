@@ -7,7 +7,8 @@
 # CACHE / bind — mainly vcpkg tree under the repo cache / bind mount (protobuf overlay is part of vcpkg); SDK/NDK/Qt may live there too
 # depending on path env, but they are not "system packages" in the name above.
 # Args: optional first argument all|toolchain|deps (default is all).
-# Env: VCPKG_DIR / VCPKG_TRIPLET, ROOT, BUILD_DIR, SKIP_SYSTEM_PACKAGES. Android manifest: ${MANIFEST_ENV} (default .manifest.env).
+# Env: VCPKG_DIR / VCPKG_TRIPLET, ROOT, BUILD_DIR, SKIP_SYSTEM_PACKAGES, optional QT_OUTPUT_DIR
+# (optional QT_OUTPUT_DIR; else ${ANDROID_CACHE_ROOT}/Qt). Android manifest: ${MANIFEST_ENV} (default .manifest.env).
 # Native host: leave SKIP_SYSTEM_PACKAGES unset so the apt block runs (Linux). macOS: no apt here — brew/manual or
 # SKIP_SYSTEM_PACKAGES=yes if already satisfied. Docker: ENV SKIP_SYSTEM_PACKAGES=yes when base already ran apt list.
 set -euo pipefail
@@ -57,9 +58,12 @@ provision_android_sdk_ndk() {
 }
 
 # Toolchain stage only: set Qt paths from ROOT/env without running aqt (deps/all run provision_qt_for_android).
+# Qt base: optional QT_OUTPUT_DIR (e.g. devcontainer), else ${ANDROID_CACHE_ROOT}/Qt (ANDROID_CACHE_ROOT set below before use).
 set_qt_paths_from_root_or_env() {
-  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}}"
-  QT_HOST_PATH="${QT_HOST_PATH:-${ROOT}/Qt/${QT_VERSION}/gcc_64}"
+  local _qb
+  _qb="${QT_OUTPUT_DIR:-${ANDROID_CACHE_ROOT}/Qt}"
+  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${_qb}/${QT_VERSION}/android_${QT_ARCH}}"
+  QT_HOST_PATH="${QT_HOST_PATH:-${_qb}/${QT_VERSION}/gcc_64}}"
 }
 
 # Implemented only in this file (not scripts/functions.sh). Related: install_qt_with_modules / setup_pipx_aqt
@@ -72,8 +76,10 @@ provision_qt_for_android() {
     qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech
     qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
   "
-  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${ANDROID_CACHE_ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}}"
-  QT_HOST_PATH="${QT_HOST_PATH:-${ANDROID_CACHE_ROOT}/Qt/${QT_VERSION}/gcc_64}"
+  local _qb
+  _qb="${QT_OUTPUT_DIR:-${ANDROID_CACHE_ROOT}/Qt}"
+  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${_qb}/${QT_VERSION}/android_${QT_ARCH}}"
+  QT_HOST_PATH="${QT_HOST_PATH:-${_qb}/${QT_VERSION}/gcc_64}}"
   if [ ! -f "${QT_ANDROID_DIR}/lib/cmake/Qt6/Qt6Config.cmake" ]; then
     echo "Provisioning Qt ${QT_VERSION} for Android..."
     command -v aqt >/dev/null || {
@@ -82,14 +88,15 @@ provision_qt_for_android() {
       "${ANDROID_CACHE_ROOT}/venv/bin/pip" install --upgrade pip aqtinstall 2>/dev/null || true
       export PATH="${ANDROID_CACHE_ROOT}/venv/bin:$PATH"
     }
-    mkdir -p "${ANDROID_CACHE_ROOT}/Qt"
-    (cd "${ANDROID_CACHE_ROOT}/Qt" && aqt install-qt all_os android "${QT_VERSION}" "android_${QT_ARCH}" --autodesktop --modules ${QT_MODULES})
-    (cd "${ANDROID_CACHE_ROOT}/Qt" && aqt install-qt linux desktop "${QT_VERSION}" linux_gcc_64 --modules ${QT_MODULES})
+    mkdir -p "$_qb"
+    (cd "$_qb" && aqt install-qt all_os android "${QT_VERSION}" "android_${QT_ARCH}" --autodesktop --modules ${QT_MODULES})
+    (cd "$_qb" && aqt install-qt linux desktop "${QT_VERSION}" linux_gcc_64 --modules ${QT_MODULES})
   fi
 }
 
 # Writes Android-specific exports into ${MANIFEST_ENV}.
 _write_android_manifest() {
+  sync_qt_host_path_from_android_kit
   cat <<ENVEOF
 export ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT}"
 export ANDROID_NDK_ROOT="${ANDROID_NDK_ROOT}"

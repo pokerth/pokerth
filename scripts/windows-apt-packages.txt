@@ -1,4 +1,4 @@
-# Windows cross-build: apt packages (shared by scripts/setup_linux.sh and docker/windows/.devcontainer/Dockerfile).
+# Windows cross-build: apt packages (shared by scripts/setup_linux.sh and docker/windows/Dockerfile).
 # One package per line; lines starting with # are ignored.
 # jq: required on host for make windows-docker (scripts/build_docker.sh reads devcontainer.json).
 autoconf

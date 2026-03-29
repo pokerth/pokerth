@@ -1,12 +1,13 @@
-// Android devcontainer. Single source of truth: devcontainer.json (no docker-compose).
-// VS Code and make android-docker both use this config. See docs/building-developer.md.
+// Android devcontainer at .devcontainer/android/devcontainer.json (single source of truth; no docker-compose).
+// Image: docker/android/Dockerfile. VS Code/Cursor and make android-docker (run_devcontainer.py) read this file. See docs/building-developer.md.
 // Paths: keep containerEnv in sync with Dockerfile ROOT=/opt/pokerth-android (VCPKG_DIR, etc.).
+// IN_DOCKER=1 comes from docker/android/Dockerfile `ENV` (do not duplicate in containerEnv).
 // Open the repository root. Only vcpkg + Qt dirs bind onto /opt/pokerth-android so SDK/NDK in the image are not hidden.
 {
     "name": "Android Development Container",
     "build": {
-        "dockerfile": "Dockerfile",
-        "context": "../../..",
+        "dockerfile": "../../docker/android/Dockerfile",
+        "context": "../..",
         "options": ["--platform=linux/amd64"]
     },
     "runArgs": ["--platform", "linux/amd64"],
@@ -19,7 +20,8 @@
     "containerEnv": {
         "ROOT": "/opt/pokerth-android",
         "VCPKG_DIR": "/opt/pokerth-android/vcpkg",
-        "ANDROID_CACHE_ROOT": "/opt/pokerth-android"
+        "ANDROID_CACHE_ROOT": "/opt/pokerth-android",
+        "IN_DEVCONTAINER": "1"
     },
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},

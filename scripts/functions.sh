@@ -197,16 +197,36 @@ resolve_setup_platform_env() {
 # CMake configure and deploy (centralized for linux/windows)
 ########################################
 
+# aqt installs Qt for Android under .../<ver>/android_<arch> and host tools under .../<ver>/gcc_64.
+# Call before resolving qt-cmake or writing .manifest.env so QT_HOST_PATH matches the on-disk gcc_64 kit.
+sync_qt_host_path_from_android_kit() {
+  [[ -n "${QT_ANDROID_DIR:-}" ]] || return 0
+  local host="${QT_ANDROID_DIR%/*}/gcc_64"
+  [[ -x "${host}/bin/qt-cmake" ]] || return 0
+  if [[ -z "${QT_HOST_PATH:-}" || ! -x "${QT_HOST_PATH}/bin/qt-cmake" ]]; then
+    QT_HOST_PATH="$host"
+    export QT_HOST_PATH
+  fi
+}
+
+# Sets QT_CMAKE_CMD: qt-cmake on PATH, else ${QT_HOST_PATH}/bin/qt-cmake (after sync_qt_host_path_from_android_kit).
+resolve_qt_cmake_cmd() {
+  local err_msg="${1:-}"
+  sync_qt_host_path_from_android_kit
+  if command_exists qt-cmake; then
+    QT_CMAKE_CMD="qt-cmake"
+  elif [[ -n "${QT_HOST_PATH:-}" && -x "${QT_HOST_PATH}/bin/qt-cmake" ]]; then
+    QT_CMAKE_CMD="${QT_HOST_PATH}/bin/qt-cmake"
+  else
+    error "${err_msg:-qt-cmake not found. Install Qt host tools (see docs/building-developer.md).}"
+  fi
+}
+
 # Internal: configure CMake for Windows cross-build.
 _configure_cmake_windows() {
   log "Configuring CMake for Windows (Qt: ${QT_WINDOWS_DIR}, vcpkg: ${VCPKG_DIR})..."
-  if command_exists qt-cmake; then
-    CMAKE_CMD="qt-cmake"
-  elif [ -f "$QT_HOST_PATH/bin/qt-cmake" ]; then
-    CMAKE_CMD="$QT_HOST_PATH/bin/qt-cmake"
-  else
-    error "qt-cmake not found. Required for Windows cross-compilation."
-  fi
+  resolve_qt_cmake_cmd "qt-cmake not found. Required for Windows cross-compilation."
+  CMAKE_CMD="$QT_CMAKE_CMD"
   VCPKG_OPENSSL_ROOT="$VCPKG_DIR/installed/$VCPKG_TARGET_TRIPLET"
   CXX_FLAGS="-fpermissive -Wno-error"
   CMAKE_ARGS=(

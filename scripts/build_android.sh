@@ -88,6 +88,8 @@ fi
 
 command -v cmake >/dev/null || { echo "cmake not found"; exit 2; }
 
+resolve_qt_cmake_cmd "qt-cmake not found. Run setup (e.g. make setup-android) so build_android/.manifest.env is written, or install Qt desktop (linux_gcc_64) and ensure QT_HOST_PATH points at it (see docs/building-developer.md)."
+
 TOOLCHAIN_FILE="$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake"
 if [[ ! -f "$TOOLCHAIN_FILE" ]]; then
   echo "Cannot find Android toolchain file: $TOOLCHAIN_FILE"
@@ -132,10 +134,9 @@ set(ANDROID_SDK_BUILD_TOOLS_REVISION "$BUILD_TOOLS_VERSION" CACHE STRING "")
 set(QT_ANDROID_SDK_BUILD_TOOLS_REVISION "$BUILD_TOOLS_VERSION" CACHE STRING "")
 EOF
 
-# qt-cmake on PATH: expected from ${MANIFEST_ENV} (setup_android exports PATH with ${QT_HOST_PATH}/bin when QT_HOST_PATH was set at write time).
-# Likely failure: manifest missing/stale, or ensure skipped setup.sh deps while vcpkg looked ready — PATH never got host Qt bin.
+# QT_CMAKE_CMD from resolve_qt_cmake_cmd (functions.sh); manifest PATH may omit ${QT_HOST_PATH}/bin.
 echo "Configuring CMake..."
-qt-cmake -S . -B "$BUILD_DIR" -G Ninja \
+"$QT_CMAKE_CMD" -S . -B "$BUILD_DIR" -G Ninja \
   -C "$BUILD_DIR/InitialCache.cmake" \
   -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
   -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" \

@@ -1,9 +1,11 @@
-// Windows devcontainer. vcpkg + Qt bind onto /opt/pokerth-windows (SDK/toolchain from image not hidden).
+// Windows devcontainer at .devcontainer/windows/devcontainer.json. Image: docker/windows/Dockerfile.
+// vcpkg + Qt bind onto /opt/pokerth-windows (SDK/toolchain from image not hidden).
+// IN_DOCKER=1 comes from docker/windows/Dockerfile `ENV` (do not duplicate in containerEnv).
 {
   "name": "Windows Development Container",
   "build": {
-    "dockerfile": "Dockerfile",
-    "context": "../../..",
+    "dockerfile": "../../docker/windows/Dockerfile",
+    "context": "../..",
     "options": ["--platform=linux/amd64"]
   },
   "runArgs": ["--platform", "linux/amd64"],
@@ -15,7 +17,8 @@
   ],
   "containerEnv": {
     "VCPKG_DIR": "/opt/pokerth-windows/vcpkg",
-    "QT_OUTPUT_DIR": "/opt/pokerth-windows/Qt"
+    "QT_OUTPUT_DIR": "/opt/pokerth-windows/Qt",
+    "IN_DEVCONTAINER": "1"
   },
   "extensions": [
     "ms-vscode.cmake-tools",

@@ -30,6 +30,11 @@ if [ "$#" -gt 0 ]; then
   error "setup_linux.sh: unexpected argument: $1 (expected optional all|toolchain|deps only, before other args)"
 fi
 
+# Windows + ROOT (e.g. Docker /opt/pokerth-windows): Qt mount is ${ROOT}/Qt; align with functions.sh (else default $HOME/Qt).
+if [ "$TARGET_PLATFORM" = "windows" ] && [ -z "${QT_OUTPUT_DIR:-}" ] && [ -n "${ROOT:-}" ]; then
+  export QT_OUTPUT_DIR="${ROOT}/Qt"
+fi
+
 init_setup_linux_host_env
 warn_if_windows_cross_not_x86_64
 

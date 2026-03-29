@@ -6,7 +6,8 @@ The Docker build/run plan (dockerfile/build context, mounts, workdir) is derived
 from the matching devcontainer.json based on the target.
 
 By default, skips `docker build` when the image tag already exists (fast local iteration).
-Force a rebuild with `--force-build` or `POKERTH_DOCKER_FORCE_BUILD=1`.
+There is no Dockerfile freshness check — editing the Dockerfile does not by itself trigger a build.
+Force a rebuild with `--force-build` or `POKERTH_DOCKER_FORCE_BUILD=1`, or remove the image tag.
 """
 
 from __future__ import annotations
@@ -307,7 +308,7 @@ def main(argv: list[str]) -> int:
     # Example: foo-bar -> kind foo
     kind = make_target.split("-", 1)[0]
 
-    devcontainer_path = repo_root / "docker" / kind / ".devcontainer" / "devcontainer.json"
+    devcontainer_path = repo_root / ".devcontainer" / kind / "devcontainer.json"
     if not devcontainer_path.exists():
         raise RuntimeError(f"Unsupported devcontainer target: {make_target}")
     # Must match devcontainer.json: ${localWorkspaceFolder} is repo root so vcpkg is docker/<kind>/build/vcpkg.

@@ -19,11 +19,17 @@ all: build_$(TARGET_PLATFORM)/.stamp_setup
 
 SCRIPTS := ./scripts
 
+# Snapshot `IN_DEVCONTAINER` from the environment before redefining it (`.devcontainer` may set `IN_DEVCONTAINER=1`).
+_DEVCONTAINER_ENV := $(IN_DEVCONTAINER)
+# 1 when in a Dev Containers editor session: env from devcontainer.json and/or `REMOTE_CONTAINERS` (VS Code/Cursor). Not set in `docker run` from `make *-docker` on the host.
+IN_DEVCONTAINER := $(if $(filter 1,$(_DEVCONTAINER_ENV)),1,$(if $(strip $(REMOTE_CONTAINERS)),1,))
+
 # Stamp roots:
 # - host: build_linux/, build_windows/, build_macos/, build_android/
 # - docker: docker/windows/build/, docker/android/build/
 #
-# `ensure_docker_deps.py` sets `IN_DOCKER=1` when running `make` inside containers.
+# `ensure_docker_deps.py` sets `IN_DOCKER=1` for `make` inside `docker run` (`make *-docker`). Dockerfiles set `ENV IN_DOCKER=1`.
+# `IN_DEVCONTAINER=1` comes from `.devcontainer/*/devcontainer.json` `containerEnv` (editor session; not set for plain `docker run`).
 NATIVE_PLATFORMS   := linux windows macos
 DOCKER_KINDS_STAMP := windows android
 
@@ -61,7 +67,8 @@ help:
 	@echo "  make setup-macos     - Install dependencies for macOS build"
 	@echo "  make setup-android   - Android SDK/NDK/Qt + vcpkg (VCPKG_DIR required; e.g. VCPKG_DIR=build_android/vcpkg)"
 	@echo "  make clean           - Remove build_* (incl. build_android) and docker/windows/build/, docker/android/build/ (see STAMP_DIRS in this Makefile)"
-	@echo "  Docker (*-docker or devcontainer): run_devcontainer.py skips docker build if the image tag exists (default). Force rebuild: POKERTH_DOCKER_FORCE_BUILD=1."
+	@echo "  Docker (*-docker): run_devcontainer.py skips docker build if the image tag already exists — editing docker/<kind>/Dockerfile does not by itself trigger a rebuild. Force: POKERTH_DOCKER_FORCE_BUILD=1 or docker rmi <image>."
+	@echo "  Dev Container: do not run 'make *-docker' inside the container; use 'make android' or 'make windows' (see docs/building-developer.md)."
 	@echo ""
 	@echo "Host directory convention (STAMP_DIRS, REPO_BUILD_ROOT in this Makefile):"
 	@echo "  Non-Docker: build_<platform>/ — stamps, CMake, deploy (e.g. build_linux/, build_android/)."
@@ -150,7 +157,7 @@ DOCKER_GOAL ?= $(TARGET_PLATFORM)
 .PHONY: __do_docker
 __do_docker:
 	@plat="$(TARGET_PLATFORM)"; img="$${DOCKER_IMAGE:-pokerth-$$plat-dev}"; \
-	$(SCRIPTS)/run_devcontainer.py "$$img" "docker/$$plat/.devcontainer/Dockerfile" "$(DOCKER_GOAL)"
+	$(SCRIPTS)/run_devcontainer.py "$$img" "docker/$$plat/Dockerfile" "$(DOCKER_GOAL)"
 	@case "$(DOCKER_GOAL)" in \
 	   windows*) echo "Done. Check docker/windows/build/deploy/.";; \
 	   android) echo "Done. Check docker/android/build/android-build/.../release/ for APK (host: build_android/android-build/...).";; \
@@ -165,12 +172,14 @@ __do_docker:
 DOCKER_TARGETS := windows-docker android-docker
 .PHONY: $(DOCKER_TARGETS)
 $(DOCKER_TARGETS): %-docker:
+	$(if $(IN_DEVCONTAINER),$(error pokerth: 'make $*-docker' is for the host CLI Docker. Inside a Dev Container run 'make $*' instead. See docs/building-developer.md),)
 	$(MAKE) TARGET_PLATFORM=$* __do_docker
 
 # Docker installer builds
 DOCKER_INSTALLER_TARGETS := windows-docker-installer android-docker-installer
 .PHONY: $(DOCKER_INSTALLER_TARGETS)
 $(DOCKER_INSTALLER_TARGETS): %-docker-installer:
+	$(if $(IN_DEVCONTAINER),$(error pokerth: 'make $*-docker-installer' is for the host. Inside a Dev Container run 'make $*-installer' instead. See docs/building-developer.md),)
 	$(MAKE) TARGET_PLATFORM=$* DOCKER_GOAL=$*-installer __do_docker
 
 #

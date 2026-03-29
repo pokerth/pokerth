@@ -99,7 +99,7 @@ RUN userdel ubuntu && \
     usermod -aG docker $USERNAME
 
 # entry-point
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY docker/android/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod u+rwx,g+rx,o+rx /usr/local/bin/docker-entrypoint
 
 # Create sdk root
