@@ -1,15 +1,14 @@
-# Android cross-build image: base + scripts/setup_android.sh (single source of truth for SDK/NDK/Gradle/Qt/vcpkg).
-# Build from repo root: docker build -f docker/android/.devcontainer/Dockerfile .
-# Run: make android-docker (mounts repo, runs make android which uses scripts/build_android.sh).
+# Android image: base + final: toolchain only (SDK/NDK/Gradle + .manifest.env). No RUN --mount.
+# Heavy deps (Qt aqt, vcpkg) run under docker run (ensure_docker_deps.py → setup.sh deps).
+# Host persistence: devcontainer binds docker/android/build/{vcpkg,Qt} onto /opt/pokerth-android/{vcpkg,Qt};
+# SDK/NDK stay in the image under /opt/pokerth-android (workspace bind mount does not cover /opt).
+# Intended: make android-docker (run_devcontainer.py) or devcontainer rebuild.
 #
-# vcpkg source archives at image build: RUN --mount=type=cache (BuildKit) on /opt/.../vcpkg/downloads.
-# Shared id with Windows Dockerfile so both images reuse the same BuildKit cache entry for identical tarballs.
-# docker run: devcontainer.json bind-mounts the whole vcpkg tree (clone, downloads/, installed/, …) — no separate download mount.
-#
-# Mirrors docker/windows/.devcontainer/Dockerfile: apt from file, COPY scripts/docs, run setup script.
 # Cache: apt runs in a layer that only depends on scripts/android-apt-packages.txt.
+#
+# ROOT/VCPKG_DIR/BUILD_DIR match Makefile REPO_BUILD_ROOT when using this image; setup_android.sh defaults caches. SKIP_SYSTEM_PACKAGES = skip apt in setup only.
 
-# Stage "base": everything before setup_android.sh.
+# Stage "base": everything before setup.sh (android).
 FROM ubuntu:25.10 AS base
 
 ARG CURL_OPTS="--connect-timeout 15 --max-time 180 --retry 3 --retry-delay 5 -fSL"
@@ -20,8 +19,13 @@ ARG LANG=de_DE.UTF-8
 ARG LANGUAGE=de_DE.UTF-8
 ARG LC_ALL=de_DE.UTF-8
 
+# So later stages (e.g. final) can USER ${USERNAME}; ARG alone is not inherited across FROM.
+ENV USERNAME=${USERNAME}
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TARGET=pokerth_client
+# setup.sh dispatch; do not rely on uname in the image.
+ENV TARGET_PLATFORM=android
 
 # Architecture names: android (armeabi-v7a/arm64-v8a/x86/x86_64), vcpkg (arm-android/arm64-android/...), Qt (armv7/arm64_v8a/...)
 ENV ANDROID_ARCH=arm64-v8a
@@ -31,6 +35,11 @@ ENV QT_ARCH=arm64_v8a
 ARG ROOT=/opt/pokerth-android
 ENV ROOT=${ROOT}
 ENV VCPKG_DIR=${ROOT}/vcpkg
+# Align with Makefile REPO_BUILD_ROOT=docker/android/build when IN_DOCKER=1.
+ENV BUILD_DIR=docker/android/build
+# Skip only setup_android.sh's apt-get step (same list as base). Toolchain: sdkmanager, Gradle; deps RUN: Qt paths/aqt + vcpkg.
+# SKIP_SYSTEM_PACKAGES = apt/brew OS packages only — not NDK/Qt/pip/vcpkg.
+ENV SKIP_SYSTEM_PACKAGES=yes
 
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources
 
@@ -60,29 +69,24 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # User and dir for SDK/NDK/Qt/vcpkg (setup_android.sh will populate these)
 RUN userdel ubuntu 2>/dev/null || true; rm -Rf /home/ubuntu
-RUN groupadd -g ${USER_GID} ${USERNAME} && useradd -s /bin/bash -m -d /home/vscode -u ${USER_UID} -g ${USERNAME} ${USERNAME}
+RUN groupadd -g ${USER_GID} ${USERNAME} && useradd -s /bin/bash -m -d "/home/${USERNAME}" -u ${USER_UID} -g ${USERNAME} ${USERNAME}
 RUN mkdir -p /etc/sudoers.d && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && chmod 0440 /etc/sudoers.d/${USERNAME}
 RUN usermod -aG docker ${USERNAME}
 RUN mkdir -p ${ROOT} && chown -R ${USERNAME}:${USERNAME} ${ROOT}
 
-# Copy only what setup_android.sh needs (scripts + docs); build context must be repo root.
+# Copy only what setup needs (scripts includes patches/); build context must be repo root.
 COPY scripts /workspaces/pokerth/scripts
-COPY docs    /workspaces/pokerth/docs
 RUN chown -R ${USERNAME}:${USERNAME} /workspaces/pokerth
 WORKDIR /workspaces/pokerth
 
+# Leave default USER root here. Stage `final` switches to ${USERNAME} before RUN setup.
+
+FROM base AS final
+LABEL org.opencontainers.image.description="PokerTH Android devcontainer (image: toolchain only; deps on docker run)"
+
 USER ${USERNAME}
 
-# Stage "final": run setup_android.sh (skip apt; SDK/NDK/Gradle/Qt/vcpkg). Single source of truth.
-FROM base AS final
-RUN --mount=type=cache,target=/opt/pokerth-android/vcpkg/downloads,id=vcpkg-downloads-pokerth \
-    SKIP_SYSTEM_PACKAGES=yes \
-    ANDROID_CACHE_ROOT=${ROOT} \
-    VCPKG_DIR=${VCPKG_DIR} \
-    ROOT=${ROOT} \
-    BUILD_DIR=docker/android/build \
-    ./scripts/setup_android.sh
+# sdkmanager/Gradle write under /opt/pokerth-android. BUILD_DIR under the repo is created by setup_android.sh (same user as this RUN) so manifests/stamps are not root-owned.
+RUN ./scripts/setup.sh toolchain
 
-# setup_android.sh writes ${ROOT}/.android_env (survives repo mount). build_android.sh sources it when repo-local .android_env is missing.
-# At runtime the repo is mounted at /workspaces/pokerth; make android runs scripts/build_android.sh.
-# SDK/NDK/Qt/vcpkg live under /opt/pokerth-android. ensure_docker_deps runs setup when vcpkg not ready.
+# setup_android.sh writes ${ROOT}/.manifest.env when ROOT=/opt/pokerth-android (survives workspace bind mount).

@@ -1,3 +1,4 @@
+// Windows devcontainer. vcpkg + Qt bind onto /opt/pokerth-windows (SDK/toolchain from image not hidden).
 {
   "name": "Windows Development Container",
   "build": {
@@ -6,10 +7,11 @@
     "options": ["--platform=linux/amd64"]
   },
   "runArgs": ["--platform", "linux/amd64"],
-  "workspaceMount": "source=${localWorkspaceFolder}/../..,target=/workspaces/pokerth,type=bind,consistency=cached",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/pokerth,type=bind,consistency=cached",
   "workspaceFolder": "/workspaces/pokerth",
   "mounts": [
-    "source=${localWorkspaceFolder}/build/vcpkg,target=/opt/pokerth-windows/vcpkg,type=bind,consistency=cached"
+    "source=${localWorkspaceFolder}/docker/windows/build/vcpkg,target=/opt/pokerth-windows/vcpkg,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/docker/windows/build/Qt,target=/opt/pokerth-windows/Qt,type=bind,consistency=cached"
   ],
   "containerEnv": {
     "VCPKG_DIR": "/opt/pokerth-windows/vcpkg",

@@ -1,5 +1,7 @@
 // Android devcontainer. Single source of truth: devcontainer.json (no docker-compose).
 // VS Code and make android-docker both use this config. See docs/building-developer.md.
+// Paths: keep containerEnv in sync with Dockerfile ROOT=/opt/pokerth-android (VCPKG_DIR, etc.).
+// Open the repository root. Only vcpkg + Qt dirs bind onto /opt/pokerth-android so SDK/NDK in the image are not hidden.
 {
     "name": "Android Development Container",
     "build": {
@@ -9,11 +11,13 @@
     },
     "runArgs": ["--platform", "linux/amd64"],
     "workspaceFolder": "/workspaces/pokerth",
-    "workspaceMount": "source=${localWorkspaceFolder}/../..,target=/workspaces/pokerth,type=bind,consistency=cached",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/pokerth,type=bind,consistency=cached",
     "mounts": [
-        "source=${localWorkspaceFolder}/build/vcpkg,target=/opt/pokerth-android/vcpkg,type=bind,consistency=cached"
+        "source=${localWorkspaceFolder}/docker/android/build/vcpkg,target=/opt/pokerth-android/vcpkg,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/docker/android/build/Qt,target=/opt/pokerth-android/Qt,type=bind,consistency=cached"
     ],
     "containerEnv": {
+        "ROOT": "/opt/pokerth-android",
         "VCPKG_DIR": "/opt/pokerth-android/vcpkg",
         "ANDROID_CACHE_ROOT": "/opt/pokerth-android"
     },
