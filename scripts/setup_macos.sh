@@ -10,20 +10,23 @@ set -euo pipefail
 # Source shared build environment (sets REPO_ROOT when in scripts/)
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
+BUILD_DIR="${BUILD_DIR:-build_macos}"
+resolve_setup_platform_env macos
+
+setup_macos_usage() {
+  echo "Usage: make setup-macos or ./scripts/setup_macos.sh"
+  echo "  No arguments."
+  echo ""
+  echo "Then run make macos or ./scripts/build_macos.sh to build."
+}
+exit_with_usage_if_args setup_macos_usage "$@"
+
 ########################################
 # macOS-specific Configuration
 ########################################
 
 BREW_PREFIX_DEFAULT="/opt/homebrew"   # Apple Silicon
 QT_DIR="$QT_OUTPUT_DIR/$QT_VERSION/macos"
-
-if [ $# -gt 0 ]; then
-  echo "Usage: make setup-macos or ./scripts/setup_macos.sh"
-  echo "  No arguments."
-  echo ""
-  echo "Then run make macos or ./scripts/build_macos.sh to build."
-  exit 0
-fi
 
 ########################################
 # 1. Homebrew

@@ -14,11 +14,6 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. ANDROID_*), check there.
-if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
-  # shellcheck source=/dev/null
-  . "$REPO_ROOT/scripts/versions.env"
-fi
 # shellcheck source=/dev/null
 . "$REPO_ROOT/scripts/functions.sh"
 
@@ -51,13 +46,12 @@ echo "ABIs: ${ABIS[*]}"
 echo "build=$BUILD_TYPE  api-level=$API_LEVEL  target=$TARGET"
 echo ""
 
-# ─── Umgebung prüfen ────────────────────────────────────────────────────────
-: "${ANDROID_SDK_ROOT:?Bitte ANDROID_SDK_ROOT setzen}"
-: "${ANDROID_NDK_ROOT:?Bitte ANDROID_NDK_ROOT setzen}"
-: "${JAVA_HOME:?Bitte JAVA_HOME setzen}"
-: "${QT_ANDROID_DIR_ARM64:?Bitte QT_ANDROID_DIR_ARM64 setzen}"
-: "${QT_ANDROID_DIR_ARMV7:?Bitte QT_ANDROID_DIR_ARMV7 setzen}"
-: "${QT_HOST_PATH:?Bitte QT_HOST_PATH setzen}"
+ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-}"
+ANDROID_NDK_ROOT="${ANDROID_NDK_ROOT:-}"
+JAVA_HOME="${JAVA_HOME:-}"
+QT_ANDROID_DIR_ARM64="${QT_ANDROID_DIR_ARM64:-}"
+QT_ANDROID_DIR_ARMV7="${QT_ANDROID_DIR_ARMV7:-}"
+QT_HOST_PATH="${QT_HOST_PATH:-}"
 
 # NDK r28 hat 32-bit-Support (armeabi-v7a) entfernt → NDK r27 für armv7 nötig
 # ANDROID_NDK_ROOT_ARMV7 muss gesetzt sein (wird im Dockerfile.universal definiert)
@@ -400,10 +394,7 @@ for ABI in "${ABIS[@]}"; do
   echo "  libs/$ABI: $(ls -1 "$ANDROID_BUILD_DIR/libs/$ABI/"*.so 2>/dev/null | wc -l) .so-Dateien (vor androiddeployqt)"
 done
 
-# Icon VOR androiddeployqt kopieren
-mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
-cp "${ROOT}/pokerth/data/gfx/gui/misc/windowicon_transparent.png" \
-   "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" 2>/dev/null || true
+# Icon liegt in Package-Source (android-package-source-directory), z. B. res/drawable/ic_launcher.png unter src/gui/qt/android/.
 
 # ─── Schritt 3: androiddeployqt mit merged JSON aufrufen ───────────────────
 #
@@ -411,8 +402,8 @@ cp "${ROOT}/pokerth/data/gfx/gui/misc/windowicon_transparent.png" \
 # (libs.xml, build.gradle, gradlew, gradle.properties) nur als Teil des
 # vollständigen Laufs. --no-build überspringt die Projekt-Generierung komplett.
 # Da sdk + sdkBuildToolsRevision jetzt korrekt im JSON stehen, läuft der
-# interne Gradle-Build durch (erzeugt ein debug-APK, das wir ignorieren).
-# Danach bauen wir nochmal manuell als assembleRelease.
+# interne Gradle-Build durch (mit --release: assembleRelease statt Debug).
+# Danach bauen wir nochmal manuell als assembleRelease (nach Cross-Arch-Cleanup; Multi-ABI-Qt-Bug).
 
 echo ""
 echo "--- androiddeployqt mit Multi-ABI deployment-settings.json ---"
@@ -424,16 +415,16 @@ set +e
   --output "$ANDROID_BUILD_DIR" \
   --android-platform "android-${API_LEVEL}" \
   --jdk "$JAVA_HOME" \
+  --release \
   --verbose
 DEPLOYQT_EXIT=$?
 set -e
 echo ""
 echo "androiddeployqt Exit-Code: $DEPLOYQT_EXIT"
-
-# Icon erneut sicherstellen (androiddeployqt kann res/ überschreiben)
-mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
-cp "${ROOT}/pokerth/data/gfx/gui/misc/windowicon_transparent.png" \
-   "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" 2>/dev/null || true
+if [[ $DEPLOYQT_EXIT -ne 0 ]]; then
+  echo "ERROR: androiddeployqt fehlgeschlagen (exit $DEPLOYQT_EXIT)"
+  exit "$DEPLOYQT_EXIT"
+fi
 
 # ─── Schritt 3b: Cross-Arch-Cleanup ────────────────────────────────────────
 #
@@ -511,34 +502,7 @@ echo "  gradlew: $([[ -f "$ANDROID_BUILD_DIR/gradlew" ]] && echo 'VORHANDEN' || 
 
 if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
   echo ""
-  echo "Patche gradle.properties ..."
-
-  # Build-Tools-Version
-  if grep -q "^androidBuildToolsVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    sed -i "s/^androidBuildToolsVersion=.*/androidBuildToolsVersion=$BUILD_TOOLS_VERSION/" "$ANDROID_BUILD_DIR/gradle.properties"
-  else
-    echo "androidBuildToolsVersion=$BUILD_TOOLS_VERSION" >> "$ANDROID_BUILD_DIR/gradle.properties"
-  fi
-
-  if ! grep -q "^androidCompileSdkVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    echo "androidCompileSdkVersion=$API_LEVEL" >> "$ANDROID_BUILD_DIR/gradle.properties"
-  fi
-
-  # ENTSCHEIDEND: qtTargetAbiList auf BEIDE ABIs setzen!
-  # Ohne das packt Gradle nur die primäre ABI ein.
-  ABI_LIST=$(IFS=,; echo "${ABIS[*]}")
-  if grep -q "^qtTargetAbiList=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    sed -i "s/^qtTargetAbiList=.*/qtTargetAbiList=$ABI_LIST/" "$ANDROID_BUILD_DIR/gradle.properties"
-  else
-    echo "qtTargetAbiList=$ABI_LIST" >> "$ANDROID_BUILD_DIR/gradle.properties"
-  fi
-
-  echo ""
-  echo "gradle.properties nach Patch:"
-  cat "$ANDROID_BUILD_DIR/gradle.properties"
-
-  echo ""
-  echo "Starte Gradle assembleRelease ..."
+  echo "Starte Gradle assembleRelease (nach Cross-Arch-Cleanup) ..."
   cd "$ANDROID_BUILD_DIR"
 
   if [[ ! -f "gradlew" ]]; then

@@ -1,11 +1,27 @@
 #!/usr/bin/env python3
 """
-Ensure vcpkg/Qt deps exist inside Docker for supported target kinds, then optionally run `make`.
+Ensure vcpkg + Qt readiness inside a Linux container, then optionally run `make`.
 
-Readiness is kind-driven via tables only (no kind branches in the check loop): each kind has a
-default triplet (_KIND_DEFAULT_VCPKG_TRIPLET) and optional extra triplets that must also satisfy
-the same port probe (_KIND_EXTRA_READINESS_TRIPLETS), e.g. Android setup installs protobuf for
-x64-linux as well as for VCPKG_TRIPLET.
+Invocation (only Docker / devcontainer flows):
+  `run_devcontainer.py` passes this as the container command for `make *-docker`;
+  devcontainer `postCreateCommand` may run it on first open (Windows).
+
+NOT used for native host setup:
+  Use `make setup-<platform>` or `scripts/setup.sh` directly — different BUILD_DIR, ROOT,
+  and no `ensure` orchestration.
+
+Docker build vs docker run (contract for supported kinds — see _KIND_DEFAULT_VCPKG_TRIPLET):
+  - Toolchain (`setup.sh toolchain`) is expected to live in the **image** from `docker build`,
+    not be re-run here except if we add an explicit recovery path.
+  - Deps (Qt, vcpkg under the mounted cache) run only under **`docker run`** with a real `-v`
+    to the host cache. `ensure` invokes **`setup.sh deps`** when `docker_deps_ready` is false
+    (vcpkg and/or Qt) — not the same as a full host **`setup.sh all`**.
+  - For kinds in _KIND_DEFAULT_VCPKG_TRIPLET, invoke setup with the **deps** stage only
+    (not full **all**); do not assume host Makefile stamp rules inside this entrypoint.
+
+Readiness (`docker_deps_ready`): (1) `vcpkg_deps_ready` — check_port (protobuf) for primary
+triplet + _KIND_EXTRA_READINESS_TRIPLETS; (2) `qt_cmake_ready` — executable **qt-cmake**
+under QT_OUTPUT_DIR or ROOT/Qt (same for Android and Windows).
 """
 
 from __future__ import annotations
@@ -126,6 +142,29 @@ def vcpkg_deps_ready(plan: EnsurePlan) -> bool:
     return all(vcpkg_ready(plan.vcpkg_root, t, plan.check_port) for t in triplets)
 
 
+def qt_install_base(plan: EnsurePlan) -> Path:
+    """Root of the aqt Qt tree: QT_OUTPUT_DIR when set, else ROOT/Qt (devcontainer / run_devcontainer)."""
+    return Path(os.environ.get("QT_OUTPUT_DIR", str(plan.cache_dir / "Qt")))
+
+
+def qt_cmake_ready(qt_base: Path) -> bool:
+    """True if some **qt-cmake** under qt_base exists and is executable (mingw_64 / gcc_64 / etc.)."""
+    if not qt_base.is_dir():
+        return False
+    try:
+        for p in qt_base.rglob("qt-cmake"):
+            if p.is_file() and os.access(p, os.X_OK):
+                return True
+    except OSError:
+        return False
+    return False
+
+
+def docker_deps_ready(plan: EnsurePlan) -> bool:
+    """vcpkg + Qt (qt-cmake on disk under the mounted Qt tree)."""
+    return vcpkg_deps_ready(plan) and qt_cmake_ready(qt_install_base(plan))
+
+
 def build_ensure_plan(target: str) -> EnsurePlan:
     kind = target_to_kind(target)
 
@@ -195,23 +234,23 @@ def main(argv: list[str]) -> int:
     try:
         plan = build_ensure_plan(target)
 
-        vcpkg_not_ready = not vcpkg_deps_ready(plan)
-        if vcpkg_not_ready:
+        if not docker_deps_ready(plan):
             last_step = "deps setup (setup.sh)"
-            # BUILD_DIR must match stamp dir so setup_android.sh writes .android_env where build_android.sh expects it
-            build_dir_rel = plan.setup_stamp_file.rsplit("/", 1)[0]  # e.g. docker/android/build
+            # BUILD_DIR must match the parent of the setup stamp (e.g. docker/<kind>/build) so setup and build agree on REPO_BUILD_ROOT.
+            build_dir_rel = plan.setup_stamp_file.rsplit("/", 1)[0]  # e.g. docker/<kind>/build
             setup_env: dict[str, str] = {
-                "SKIP_QT_INSTALL": "yes",
-                "SKIP_SYSTEM_PACKAGES": "yes",
                 "TARGET_PLATFORM": plan.kind,
                 "VCPKG_DIR": str(plan.vcpkg_root),
                 "VCPKG_TRIPLET": plan.triplet,
                 "BUILD_DIR": build_dir_rel,
             }
-            # QT_OUTPUT_DIR comes from devcontainer.json containerEnv / docker run -e; Qt is baked in image.
+            # QT_OUTPUT_DIR comes from devcontainer.json containerEnv / docker run -e.
+            # deps-only: per TARGET_PLATFORM via setup.sh dispatch.
             setup_sh = script_dir / "setup.sh"
+            # Only supported kinds are those in _KIND_DEFAULT_VCPKG_TRIPLET (see build_ensure_plan); all use `deps` here.
+            setup_cmd = ["bash", str(setup_sh), "deps"]
             run_checked(
-                ["bash", str(setup_sh)],
+                setup_cmd,
                 env={**os.environ, **setup_env},
                 cwd=script_dir.parent,
             )

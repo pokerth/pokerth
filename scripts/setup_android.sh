@@ -1,88 +1,24 @@
 #!/usr/bin/env bash
-# Android setup: provision SDK/NDK/Gradle/Qt (host) + vcpkg ports. Used by make setup-android and Docker ensure.
-# Env: VCPKG_DIR (required), VCPKG_TRIPLET, ROOT, BUILD_DIR, SKIP_QT_INSTALL.
-# Requires scripts/versions.env (Qt/Android/Gradle version pins).
+# Android setup: SDK/NDK, Gradle, then deps (Qt aqt + vcpkg). Used by make setup-android and Docker ensure.
+#
+# "System packages" (SKIP_SYSTEM_PACKAGES) means ONLY OS package-manager installs: apt (android-apt-packages.txt)
+# and, on hosts that support it, brew — what a Dockerfile base stage or CI can RUN before setup. Not: sdkmanager (SDK/NDK),
+# pip/aqt (Qt), Gradle zips, or vcpkg — those are separate steps in this script.
+# CACHE / bind — mainly vcpkg tree under the repo cache / bind mount (protobuf overlay is part of vcpkg); SDK/NDK/Qt may live there too
+# depending on path env, but they are not "system packages" in the name above.
+# Args: optional first argument all|toolchain|deps (default is all).
+# Env: VCPKG_DIR / VCPKG_TRIPLET, ROOT, BUILD_DIR, SKIP_SYSTEM_PACKAGES. Android manifest: ${MANIFEST_ENV} (default .manifest.env).
+# Native host: leave SKIP_SYSTEM_PACKAGES unset so the apt block runs (Linux). macOS: no apt here — brew/manual or
+# SKIP_SYSTEM_PACKAGES=yes if already satisfied. Docker: ENV SKIP_SYSTEM_PACKAGES=yes when base already ran apt list.
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-if [ ! -f "$SCRIPT_DIR/versions.env" ]; then
-  echo "ERROR: $SCRIPT_DIR/versions.env is required for setup_android.sh"
-  exit 1
-fi
 # shellcheck source=/dev/null
-. "$SCRIPT_DIR/versions.env"
-for _v in QT_VERSION GRADLE_VERSION ANDROID_NDK_VERSION ANDROID_BUILD_TOOLS_VERSION \
-          ANDROID_CMAKE_VERSION ANDROID_CMDLINE_TOOLS_VERSION ANDROID_TARGET_SDK_VERSION; do
-  if [ -z "${!_v:-}" ]; then
-    echo "ERROR: $_v must be set in scripts/versions.env"
-    exit 1
-  fi
-done
-unset _v
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/functions.sh"
 
-VCPKG_ROOT="${VCPKG_DIR:?Set VCPKG_DIR to the vcpkg directory for Android}"
-export VCPKG_DIR="$VCPKG_ROOT"
-# shellcheck source=/dev/null
-source "$SCRIPT_DIR/functions.sh"
-
-ROOT="${ROOT:-$(dirname "$VCPKG_ROOT")}"
-TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
-BUILD_DIR="${BUILD_DIR:-build_android}"
-QT_ARCH="${QT_ARCH:-arm64_v8a}"
-
-# ANDROID_CACHE_ROOT: where SDK/NDK/Qt live. Default $HOME/.pokerth-android (persists across make clean). Docker sets it to ROOT.
-ANDROID_CACHE_ROOT="${ANDROID_CACHE_ROOT:-$HOME/.pokerth-android}"
-
-# Resolve ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME for later use and for .android_env
-# Important: don't force sdkmanager runs just because ANDROID_SDK_ROOT isn't set.
-# In Docker runs, SDK/NDK are baked into the image; we only want network provisioning if something is actually missing.
-need_provision_sdk=0
-if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
-  ANDROID_SDK_ROOT="${ANDROID_CACHE_ROOT}/android-sdk"
-fi
-if [ -z "${ANDROID_NDK_ROOT:-}" ]; then
-  ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}"
-fi
-
-TOOLCHAIN_FILE="${ANDROID_NDK_ROOT}/build/cmake/android.toolchain.cmake"
-SDKMANAGER_FILE="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
-
-missing_component=0
-if [ ! -f "$TOOLCHAIN_FILE" ]; then missing_component=1; fi
-if [ ! -f "$SDKMANAGER_FILE" ]; then missing_component=1; fi
-if [ ! -d "${ANDROID_SDK_ROOT}/platform-tools" ]; then missing_component=1; fi
-if [ ! -d "${ANDROID_SDK_ROOT}/platforms/android-${ANDROID_TARGET_SDK_VERSION}" ]; then missing_component=1; fi
-if [ ! -d "${ANDROID_SDK_ROOT}/build-tools/${ANDROID_BUILD_TOOLS_VERSION}" ]; then missing_component=1; fi
-if [ ! -d "${ANDROID_SDK_ROOT}/cmake/${ANDROID_CMAKE_VERSION}" ]; then missing_component=1; fi
-
-if [ "$missing_component" = "1" ]; then
-  need_provision_sdk=1
-fi
-
-# Export for aqt, vcpkg, and child processes (ANDROID_NDK_HOME = NDK_ROOT, some tools expect either)
-export ANDROID_SDK_ROOT ANDROID_NDK_ROOT ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}"
-
-# Resolve JAVA_HOME (prefer Java 17 for Android Gradle plugin) regardless of whether SDK provisioning runs.
-# Otherwise an existing SDK/NDK can skip provisioning and leave JAVA_HOME empty in .android_env.
-if [ -z "${JAVA_HOME:-}" ]; then
-  for jdk in java-17-openjdk-amd64 java-17-openjdk; do
-    if [ -d "/usr/lib/jvm/$jdk" ]; then
-      JAVA_HOME="/usr/lib/jvm/$jdk"
-      break
-    fi
-  done
-fi
-if [ -z "${JAVA_HOME:-}" ]; then
-  echo "ERROR: Java 17 not found. Install with: sudo apt install openjdk-17-jdk (or set JAVA_HOME)."
-  exit 1
-fi
-export JAVA_HOME
-
-if [ "$need_provision_sdk" = "1" ]; then
+provision_android_sdk_ndk() {
   echo "Provisioning Android SDK/NDK (${ANDROID_SDK_ROOT})..."
 
-  # Install host packages (skip when SKIP_SYSTEM_PACKAGES=yes, e.g. Docker)
+  # apt-only block (SKIP_SYSTEM_PACKAGES=yes skips this — e.g. Docker base already ran android-apt-packages.txt).
   if [ "${SKIP_SYSTEM_PACKAGES:-no}" != "yes" ] && [ -f "$SCRIPT_DIR/android-apt-packages.txt" ]; then
     echo "Installing Android host packages..."
     PKGS=$(grep -v '^#' "$SCRIPT_DIR/android-apt-packages.txt" | tr '\n' ' ')
@@ -90,7 +26,7 @@ if [ "$need_provision_sdk" = "1" ]; then
       sudo apt-get update
       sudo apt-get install -y $PKGS
     else
-      echo "ERROR: apt-get required for package install. Install manually: $PKGS"
+      echo "ERROR: This script only runs apt on Linux. On macOS install the same tools (e.g. via brew) or set SKIP_SYSTEM_PACKAGES=yes if they are already installed. Packages: $PKGS"
       exit 1
     fi
   fi
@@ -118,22 +54,17 @@ if [ "$need_provision_sdk" = "1" ]; then
     "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" \
     "ndk;${ANDROID_NDK_VERSION}" \
     "cmake;${ANDROID_CMAKE_VERSION}"
-fi
+}
 
+# Toolchain stage only: set Qt paths from ROOT/env without running aqt (deps/all run provision_qt_for_android).
+set_qt_paths_from_root_or_env() {
+  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}}"
+  QT_HOST_PATH="${QT_HOST_PATH:-${ROOT}/Qt/${QT_VERSION}/gcc_64}"
+}
 
-# Provision Gradle (use persistent cache on host; ROOT in Docker)
-GRADLE_ROOT="$([ "$need_provision_sdk" = "1" ] && echo "$ANDROID_CACHE_ROOT" || echo "$ROOT")"
-GRADLE_DIR="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}"
-if [ ! -d "$GRADLE_DIR" ]; then
-  echo "Provisioning Gradle ${GRADLE_VERSION}..."
-  mkdir -p "$(dirname "$GRADLE_DIR")"
-  curl_cmd "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" -o /tmp/gradle.zip
-  unzip -q /tmp/gradle.zip -d "$(dirname "$GRADLE_DIR")"
-  rm /tmp/gradle.zip
-fi
-
-# Provision Qt (host only; Docker uses SKIP_QT_INSTALL=yes)
-if [ "${SKIP_QT_INSTALL:-}" != "yes" ]; then
+# Implemented only in this file (not scripts/functions.sh). Related: install_qt_with_modules / setup_pipx_aqt
+# in functions.sh handle desktop Qt (linux/windows); Android needs all_os android + host linux_gcc_64 here.
+provision_qt_for_android() {
   QT_MODULES="
     qt3d qt5compat qtcharts qtconnectivity qtdatavis3d qtgraphs qtgrpc
     qthttpserver qtimageformats qtlocation qtlottie qtmultimedia qtnetworkauth
@@ -155,87 +86,258 @@ if [ "${SKIP_QT_INSTALL:-}" != "yes" ]; then
     (cd "${ANDROID_CACHE_ROOT}/Qt" && aqt install-qt all_os android "${QT_VERSION}" "android_${QT_ARCH}" --autodesktop --modules ${QT_MODULES})
     (cd "${ANDROID_CACHE_ROOT}/Qt" && aqt install-qt linux desktop "${QT_VERSION}" linux_gcc_64 --modules ${QT_MODULES})
   fi
-else
-  # Docker: use ROOT-based paths from container env
-  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${ROOT}/Qt/${QT_VERSION}/android_${QT_ARCH}}"
-  QT_HOST_PATH="${QT_HOST_PATH:-${ROOT}/Qt/${QT_VERSION}/gcc_64}"
-fi
+}
 
-# Write env for build_android.sh to source
-_write_android_env() {
+# Writes Android-specific exports into ${MANIFEST_ENV}.
+_write_android_manifest() {
   cat <<ENVEOF
 export ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT}"
 export ANDROID_NDK_ROOT="${ANDROID_NDK_ROOT}"
 export ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}"
 export JAVA_HOME="${JAVA_HOME:-}"
-export QT_ANDROID_DIR="${QT_ANDROID_DIR}"
-export QT_HOST_PATH="${QT_HOST_PATH}"
+export GRADLE_ROOT="${GRADLE_ROOT}"
+export QT_ANDROID_DIR="${QT_ANDROID_DIR:-}"
+export QT_HOST_PATH="${QT_HOST_PATH:-}"
 export VCPKG_ROOT="${VCPKG_ROOT}"
-export PATH="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}/bin:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${QT_HOST_PATH}/bin:\$PATH"
+export PATH="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}/bin:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin${QT_HOST_PATH:+:${QT_HOST_PATH}/bin}:\$PATH"
 ENVEOF
 }
-ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/.android_env"
-mkdir -p "$(dirname "$ENV_FILE")"
-_write_android_env > "$ENV_FILE"
-# Docker: also write under ROOT so it survives repo bind-mount; build_android sources this when repo-local file is missing.
-if [ -n "${ROOT:-}" ]; then
-  _write_android_env > "${ROOT}/.android_env"
-fi
 
-ensure_vcpkg_clone_bootstrap_if_missing
-
-# Android boost/openssl/protobuf (host protobuf for codegen). Uses vcpkg_install from functions.sh.
-
-vcpkg_install "${TRIPLET}" \
-  boost-system:"${TRIPLET}" boost-filesystem:"${TRIPLET}" \
-  boost-thread:"${TRIPLET}" boost-regex:"${TRIPLET}" boost-chrono:"${TRIPLET}" \
-  boost-date-time:"${TRIPLET}" boost-serialization:"${TRIPLET}" boost-asio:"${TRIPLET}" \
-  boost-interprocess:"${TRIPLET}" boost-iostreams:"${TRIPLET}" boost-program-options:"${TRIPLET}" \
-  boost-lambda:"${TRIPLET}" boost-foreach:"${TRIPLET}" boost-uuid:"${TRIPLET}" \
-  openssl:"${TRIPLET}" \
-  protobuf:x64-linux
-
-mkdir -p "$ROOT/vcpkg-overlays/protobuf"
-PROTOBUF_OVERLAY_HASH_FILE="$ROOT/vcpkg-overlays/.protobuf_overlay_hash_${TRIPLET}"
-PROTOBUF_INSTALLED_ROOT="$VCPKG_ROOT/installed/$TRIPLET"
-PROTOBUF_CONFIG_OK=0
-if [ -f "$PROTOBUF_INSTALLED_ROOT/lib/cmake/protobuf/ProtobufConfig.cmake" ] || \
-   [ -f "$PROTOBUF_INSTALLED_ROOT/share/protobuf/protobuf-config.cmake" ] || \
-   [ -f "$PROTOBUF_INSTALLED_ROOT/share/protobuf/ProtobufConfig.cmake" ]; then
-  PROTOBUF_CONFIG_OK=1
-fi
-
-# Rebuild overlay dir each run, then hash it. Reinstall protobuf only if overlay hash changed
-# or if protobuf config for this triplet is missing/corrupt (interrupted install recovery).
-rm -rf "$ROOT/vcpkg-overlays/protobuf"
-mkdir -p "$ROOT/vcpkg-overlays/protobuf"
-cp -r "$VCPKG_ROOT/ports/protobuf/"* "$ROOT/vcpkg-overlays/protobuf/"
-sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' "$ROOT/vcpkg-overlays/protobuf/portfile.cmake"
-
-PROTOBUF_OVERLAY_HASH="$(
-  cd "$ROOT/vcpkg-overlays/protobuf"
-  find . -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}'
-)"
-PREV_PROTOBUF_OVERLAY_HASH=""
-if [ -f "$PROTOBUF_OVERLAY_HASH_FILE" ]; then
-  PREV_PROTOBUF_OVERLAY_HASH="$(cat "$PROTOBUF_OVERLAY_HASH_FILE")"
-fi
-
-if [ "$PROTOBUF_CONFIG_OK" != "1" ] || [ "$PROTOBUF_OVERLAY_HASH" != "$PREV_PROTOBUF_OVERLAY_HASH" ]; then
-  if [ "$PROTOBUF_CONFIG_OK" != "1" ]; then
-    echo "protobuf config missing; forcing reinstall for ${TRIPLET}."
-  elif [ "$PROTOBUF_OVERLAY_HASH" != "$PREV_PROTOBUF_OVERLAY_HASH" ]; then
-    echo "protobuf overlay changed; reinstalling for ${TRIPLET}."
+# When ROOT is the image bind root (/opt/pokerth-*), also write here so a repo workspace bind mount
+# cannot hide ${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}.
+_sync_manifest_to_root() {
+  if [[ -n "${ROOT:-}" && "${ROOT}" =~ ^/opt/pokerth- ]]; then
+    _write_android_manifest > "${ROOT}/${MANIFEST_ENV}"
   fi
-  "$VCPKG_ROOT/vcpkg" remove "protobuf:${TRIPLET}" --recurse 2>/dev/null || true
-  rm -rf "$VCPKG_ROOT/buildtrees/protobuf"
-  rm -rf "$VCPKG_ROOT/packages/protobuf_${TRIPLET}"
+}
 
-  # Use default buildtrees ($VCPKG_ROOT/buildtrees) so protobuf build cache persists on bind mount; /tmp is ephemeral (lost on container restart).
-  "$VCPKG_ROOT/vcpkg" install --no-print-usage "protobuf:${TRIPLET}" \
-    --overlay-ports="$ROOT/vcpkg-overlays/protobuf" \
-    --no-binarycaching
-  printf '%s\n' "$PROTOBUF_OVERLAY_HASH" > "$PROTOBUF_OVERLAY_HASH_FILE"
+# vcpkg ports + protobuf overlay live in the deps layer (setup.sh deps / docker run).
+_setup_android_vcpkg_layer() {
+  ensure_vcpkg_clone_bootstrap_if_missing
+
+  # vcpkg ${TRIPLET} ports need ANDROID_NDK_ROOT (and SDK cmake) — already provisioned above. Qt is not required for boost/openssl/protobuf.
+  # Host protobuf (x64-linux) uses the Linux compiler only.
+  vcpkg_install "${TRIPLET}" \
+    boost-system:"${TRIPLET}" boost-filesystem:"${TRIPLET}" \
+    boost-thread:"${TRIPLET}" boost-regex:"${TRIPLET}" boost-chrono:"${TRIPLET}" \
+    boost-date-time:"${TRIPLET}" boost-serialization:"${TRIPLET}" boost-asio:"${TRIPLET}" \
+    boost-interprocess:"${TRIPLET}" boost-iostreams:"${TRIPLET}" boost-program-options:"${TRIPLET}" \
+    boost-lambda:"${TRIPLET}" boost-foreach:"${TRIPLET}" boost-uuid:"${TRIPLET}" \
+    openssl:"${TRIPLET}" \
+    protobuf:x64-linux
+
+  mkdir -p "$ROOT/vcpkg-overlays/protobuf"
+  PROTOBUF_OVERLAY_HASH_FILE="$ROOT/vcpkg-overlays/.protobuf_overlay_hash_${TRIPLET}"
+  PROTOBUF_INSTALLED_ROOT="$VCPKG_ROOT/installed/$TRIPLET"
+  PROTOBUF_CONFIG_OK=0
+  if [ -f "$PROTOBUF_INSTALLED_ROOT/lib/cmake/protobuf/ProtobufConfig.cmake" ] || \
+     [ -f "$PROTOBUF_INSTALLED_ROOT/share/protobuf/protobuf-config.cmake" ] || \
+     [ -f "$PROTOBUF_INSTALLED_ROOT/share/protobuf/ProtobufConfig.cmake" ]; then
+    PROTOBUF_CONFIG_OK=1
+  fi
+
+  # Rebuild overlay dir each run, then hash it. Reinstall protobuf only if overlay hash changed
+  # or if protobuf config for this triplet is missing/corrupt (interrupted install recovery).
+  rm -rf "$ROOT/vcpkg-overlays/protobuf"
+  mkdir -p "$ROOT/vcpkg-overlays/protobuf"
+  cp -r "$VCPKG_ROOT/ports/protobuf/"* "$ROOT/vcpkg-overlays/protobuf/"
+  sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' "$ROOT/vcpkg-overlays/protobuf/portfile.cmake"
+
+  PROTOBUF_OVERLAY_HASH="$(
+    cd "$ROOT/vcpkg-overlays/protobuf"
+    find . -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}'
+  )"
+  PREV_PROTOBUF_OVERLAY_HASH=""
+  if [ -f "$PROTOBUF_OVERLAY_HASH_FILE" ]; then
+    PREV_PROTOBUF_OVERLAY_HASH="$(cat "$PROTOBUF_OVERLAY_HASH_FILE")"
+  fi
+
+  if [ "$PROTOBUF_CONFIG_OK" != "1" ] || [ "$PROTOBUF_OVERLAY_HASH" != "$PREV_PROTOBUF_OVERLAY_HASH" ]; then
+    if [ "$PROTOBUF_CONFIG_OK" != "1" ]; then
+      echo "protobuf config missing; forcing reinstall for ${TRIPLET}."
+    elif [ "$PROTOBUF_OVERLAY_HASH" != "$PREV_PROTOBUF_OVERLAY_HASH" ]; then
+      echo "protobuf overlay changed; reinstalling for ${TRIPLET}."
+    fi
+    "$VCPKG_ROOT/vcpkg" remove "protobuf:${TRIPLET}" --recurse 2>/dev/null || true
+    rm -rf "$VCPKG_ROOT/buildtrees/protobuf"
+    rm -rf "$VCPKG_ROOT/packages/protobuf_${TRIPLET}"
+
+    # Use default buildtrees ($VCPKG_ROOT/buildtrees) so protobuf build cache persists on bind mount; /tmp is ephemeral (lost on container restart).
+    "$VCPKG_ROOT/vcpkg" install --no-print-usage "protobuf:${TRIPLET}" \
+      --overlay-ports="$ROOT/vcpkg-overlays/protobuf" \
+      --no-binarycaching
+    printf '%s\n' "$PROTOBUF_OVERLAY_HASH" > "$PROTOBUF_OVERLAY_HASH_FILE"
+  fi
+
+  echo "Android vcpkg setup complete (${TRIPLET})."
+}
+
+########################################
+# Main
+########################################
+
+LAYER=""
+case "${1:-}" in
+  all|toolchain|deps)
+    LAYER="$1"
+    shift
+    ;;
+  "")
+    ;;
+  *)
+    echo "setup_android.sh: unknown argument: $1 (expected all, toolchain, or deps)" >&2
+    exit 1
+    ;;
+esac
+if [ $# -gt 0 ]; then
+  echo "setup_android.sh: unexpected argument: $1" >&2
+  exit 1
+fi
+LAYER="${LAYER:-all}"
+case "$LAYER" in
+  all|toolchain|deps) ;;
+  *)
+    echo "Invalid layer: ${LAYER} (use all, toolchain, or deps)." >&2
+    exit 1
+    ;;
+esac
+
+# Second phase only: reuse toolchain output (same paths as _write_android_manifest below).
+# Docker image build: toolchain writes ${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV} into the image layer; ${ROOT}/${MANIFEST_ENV}
+# on the bind mount is optional. Prefer the repo-relative file so split Dockerfile RUN steps still see it.
+if [ "$LAYER" = "deps" ]; then
+  BUILD_DIR="${BUILD_DIR:-build_android}"
+  resolve_setup_platform_env android
+  export VCPKG_DIR
+  export VCPKG_ROOT="$VCPKG_DIR"
+  ROOT="${ROOT:-$(dirname "$VCPKG_DIR")}"
+  TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
+  ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}"
+  ANDROID_ENV_SOURCE=""
+  if [ -f "$ENV_FILE" ]; then
+    ANDROID_ENV_SOURCE="$ENV_FILE"
+  elif [ -n "${ROOT:-}" ] && [ -f "${ROOT}/${MANIFEST_ENV}" ]; then
+    ANDROID_ENV_SOURCE="${ROOT}/${MANIFEST_ENV}"
+  fi
+  if [ -z "$ANDROID_ENV_SOURCE" ]; then
+    echo "deps layer requires ${MANIFEST_ENV} from toolchain (tried ${ENV_FILE} and ${ROOT:-ROOT}/${MANIFEST_ENV})." >&2
+    exit 1
+  fi
+  set -a
+  # shellcheck source=/dev/null
+  . "$ANDROID_ENV_SOURCE"
+  set +a
+
+  # Qt (aqt) lives in deps, not toolchain. Refresh ANDROID_CACHE_ROOT if unset after source.
+  if [ -z "${ANDROID_CACHE_ROOT:-}" ]; then
+    if [[ -n "${ROOT:-}" && "${ROOT}" =~ ^/opt/pokerth- ]]; then
+      ANDROID_CACHE_ROOT="$ROOT"
+    else
+      ANDROID_CACHE_ROOT="${HOME}/.pokerth-android"
+    fi
+  fi
+  export QT_ARCH="${QT_ARCH:-arm64_v8a}"
+  provision_qt_for_android
+  export QT_ANDROID_DIR QT_HOST_PATH
+  ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}"
+  mkdir -p "$(dirname "$ENV_FILE")"
+  _write_android_manifest > "$ENV_FILE"
+  _sync_manifest_to_root
+
+  _setup_android_vcpkg_layer
+  exit 0
 fi
 
-echo "Android vcpkg setup complete (${TRIPLET})."
+BUILD_DIR="${BUILD_DIR:-build_android}"
+resolve_setup_platform_env android
+export VCPKG_DIR
+export VCPKG_ROOT="$VCPKG_DIR"
+
+ROOT="${ROOT:-$(dirname "$VCPKG_DIR")}"
+TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
+QT_ARCH="${QT_ARCH:-arm64_v8a}"
+
+# ANDROID_CACHE_ROOT: SDK/NDK/Qt/venv. Host: ~/.pokerth-android. When ROOT is the standard Docker bind root (/opt/pokerth-*), colocate caches on ROOT.
+if [ -z "${ANDROID_CACHE_ROOT:-}" ]; then
+  if [[ -n "${ROOT:-}" && "${ROOT}" =~ ^/opt/pokerth- ]]; then
+    ANDROID_CACHE_ROOT="$ROOT"
+  else
+    ANDROID_CACHE_ROOT="${HOME}/.pokerth-android"
+  fi
+fi
+
+# Resolve ANDROID_SDK_ROOT / ANDROID_NDK_ROOT for checks and for ${MANIFEST_ENV}.
+# Important: don't force sdkmanager runs just because ANDROID_SDK_ROOT isn't set.
+# In Docker runs, SDK/NDK are baked into the image; we only provision when something is actually missing.
+if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
+  ANDROID_SDK_ROOT="${ANDROID_CACHE_ROOT}/android-sdk"
+fi
+if [ -z "${ANDROID_NDK_ROOT:-}" ]; then
+  ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}"
+fi
+
+TOOLCHAIN_FILE="${ANDROID_NDK_ROOT}/build/cmake/android.toolchain.cmake"
+SDKMANAGER_FILE="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+
+missing_component=0
+if [ ! -f "$TOOLCHAIN_FILE" ]; then missing_component=1; fi
+if [ ! -f "$SDKMANAGER_FILE" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/platform-tools" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/platforms/android-${ANDROID_TARGET_SDK_VERSION}" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/build-tools/${ANDROID_BUILD_TOOLS_VERSION}" ]; then missing_component=1; fi
+if [ ! -d "${ANDROID_SDK_ROOT}/cmake/${ANDROID_CMAKE_VERSION}" ]; then missing_component=1; fi
+
+# Export for aqt, vcpkg, and child processes (ANDROID_NDK_HOME = NDK_ROOT, some tools expect either)
+export ANDROID_SDK_ROOT ANDROID_NDK_ROOT ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}"
+
+if [ "$missing_component" = "1" ]; then
+  provision_android_sdk_ndk
+fi
+
+# Toolchain stage: Qt path hints in ${MANIFEST_ENV} only (aqt runs in deps or LAYER=all).
+if [ "$LAYER" = "toolchain" ]; then
+  set_qt_paths_from_root_or_env
+fi
+
+# Resolve JAVA_HOME (prefer Java 17 for Android Gradle plugin). Runs after SDK provision so host packages from provision_android_sdk_ndk are available when apt ran.
+if [ -z "${JAVA_HOME:-}" ]; then
+  for jdk in java-17-openjdk-amd64 java-17-openjdk; do
+    if [ -d "/usr/lib/jvm/$jdk" ]; then
+      JAVA_HOME="/usr/lib/jvm/$jdk"
+      break
+    fi
+  done
+fi
+export JAVA_HOME
+
+# Gradle: same Java/toolchain family as JDK + Android Gradle Plugin; ideally SYSTEM/image-baked, else cached under GRADLE_ROOT.
+# GRADLE_ROOT: ANDROID_CACHE_ROOT when SDK was just provisioned; else ROOT (e.g. Docker bind). Exported via ${MANIFEST_ENV} for deps layer.
+GRADLE_ROOT="$([ "$missing_component" = "1" ] && echo "$ANDROID_CACHE_ROOT" || echo "$ROOT")"
+export GRADLE_ROOT
+GRADLE_DIR="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}"
+if [ ! -d "$GRADLE_DIR" ]; then
+  echo "Provisioning Gradle ${GRADLE_VERSION}..."
+  mkdir -p "$(dirname "$GRADLE_DIR")"
+  curl_cmd "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" -o /tmp/gradle.zip
+  unzip -q /tmp/gradle.zip -d "$(dirname "$GRADLE_DIR")"
+  rm /tmp/gradle.zip
+fi
+
+# Write env for build_android.sh to source (build_android.sh: REPO_BUILD_ROOT/${MANIFEST_ENV} first, then ROOT/${MANIFEST_ENV}).
+ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}"
+mkdir -p "$(dirname "$ENV_FILE")"
+_write_android_manifest > "$ENV_FILE"
+_sync_manifest_to_root
+
+if [ "$LAYER" = "toolchain" ]; then
+  echo "Android toolchain layer complete (SDK/NDK/Gradle + ${MANIFEST_ENV}). Qt (aqt) and vcpkg: run ./scripts/setup.sh deps or all."
+  exit 0
+fi
+
+# LAYER=all: Qt (aqt when missing) then refresh ${MANIFEST_ENV}, then vcpkg.
+provision_qt_for_android
+export QT_ANDROID_DIR QT_HOST_PATH
+_write_android_manifest > "$ENV_FILE"
+_sync_manifest_to_root
+
+_setup_android_vcpkg_layer

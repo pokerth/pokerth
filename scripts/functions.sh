@@ -8,12 +8,10 @@
 # Common Configuration
 ########################################
 
-# Canonical version definitions: scripts/versions.env. If the build fails on a version (e.g. QT_VERSION), check there.
+# Canonical version pins: scripts/versions.env (repo file; sourced once when this file is sourced).
 _func_dir="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd)"
-if [ -f "$_func_dir/versions.env" ]; then
-  # shellcheck source=/dev/null
-  . "$_func_dir/versions.env"
-fi
+# shellcheck source=/dev/null
+. "$_func_dir/versions.env"
 
 # Qt installation directory
 QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-$HOME/Qt}"
@@ -23,10 +21,14 @@ VCPKG_DIR="${VCPKG_DIR:-$HOME/vcpkg}"
 
 if [ "$(basename "$_func_dir")" = "scripts" ]; then
   REPO_ROOT="${REPO_ROOT:-$(cd "$_func_dir/.." && pwd)}"
+  SCRIPT_DIR="${SCRIPT_DIR:-$_func_dir}"
 else
   REPO_ROOT="${REPO_ROOT:-$_func_dir}"
 fi
 unset _func_dir
+
+# Default basename for the Android handoff file (written by setup_android.sh, sourced by build_android.sh only).
+MANIFEST_ENV="${MANIFEST_ENV:-.manifest.env}"
 
 ########################################
 # Qt Modules List
@@ -130,20 +132,58 @@ require_target_platform() {
   fi
 }
 
-# Resolve and export VCPKG_DIR based on platform and BUILD_DIR.
-# Usage: resolve_vcpkg_dir <platform>
-# Order: VCPKG_DIR > VCPKG_ROOT > (BUILD_DIR or build_<platform>)/vcpkg
-resolve_vcpkg_dir() {
+# If TARGET_PLATFORM is unset, set from host OS (Darwin → macos, else linux).
+default_target_platform_from_uname() {
+  if [ -n "${TARGET_PLATFORM:-}" ]; then
+    return 0
+  fi
+  case "$(uname -s)" in
+    Darwin) TARGET_PLATFORM="macos" ;;
+    *) TARGET_PLATFORM="linux" ;;
+  esac
+}
+
+# Scripts that take no positional args: if any args, run callback and exit 0.
+# Usage: exit_with_usage_if_args <callback> "$@"  (pass script's "$@" from main)
+exit_with_usage_if_args() {
+  local cb="${1:?}"
+  shift
+  if [ $# -eq 0 ]; then
+    return 0
+  fi
+  "$cb"
+  exit 0
+}
+
+# Build script defaults. Mode:
+#   android — CLEAN only (Gradle incremental vs full clean in build_android.sh)
+#   macos     — BUILD_TARGET + CLEAN (BUILD_TARGET: pokerth_client default, or pokerth_qml-client, pokerth_dedicated_server, …)
+#   host      — build_linux.sh: BUILD_TARGET + CLEAN + USE_AQT/USE_VCPKG (overridden by setup_linux_paths for windows)
+init_build_defaults() {
+  local mode="${1:?init_build_defaults: mode (android|macos|host)}"
+  CLEAN="${CLEAN:-no}"
+  case "$mode" in
+    android) ;;
+    macos)
+      BUILD_TARGET="${BUILD_TARGET:-pokerth_client}"
+      ;;
+    host)
+      BUILD_TARGET="${BUILD_TARGET:-pokerth_client}"
+      USE_AQT="${USE_AQT:-no}"
+      USE_VCPKG="${USE_VCPKG:-no}"
+      ;;
+    *)
+      error "init_build_defaults: unknown mode '$mode' (use android, macos, or host)"
+      ;;
+  esac
+}
+
+# Export VCPKG_DIR and set USE_AQT/USE_VCPKG for setup (android, macos, setup_linux via init_setup_linux_host_env).
+# VCPKG_DIR: env > VCPKG_ROOT > (BUILD_DIR or build_<platform>)/vcpkg. Windows requires USE_AQT/USE_VCPKG yes; else default no.
+resolve_setup_platform_env() {
   local platform="${1:-$TARGET_PLATFORM}"
   local default_build="${BUILD_DIR:-build_${platform}}"
   export VCPKG_DIR="${VCPKG_DIR:-${VCPKG_ROOT:-${default_build}/vcpkg}}"
-}
-
-# Resolve USE_AQT and USE_VCPKG for the given platform.
-# Usage: resolve_use_aqt_use_vcpkg <platform>
-# Windows requires both; linux/android use env or default "no".
-resolve_use_aqt_use_vcpkg() {
-  local platform="${1:-$TARGET_PLATFORM}"
   if [ "$platform" = "windows" ]; then
     USE_AQT="yes"
     USE_VCPKG="yes"
@@ -151,42 +191,6 @@ resolve_use_aqt_use_vcpkg() {
     USE_AQT="${USE_AQT:-no}"
     USE_VCPKG="${USE_VCPKG:-no}"
   fi
-}
-
-# Dispatch setup to platform-specific script or fall through for linux/windows.
-# Usage: run_setup [platform]
-# android → exec setup_android.sh; macos → exec setup_macos.sh; else return (shared path continues).
-run_setup() {
-  local platform="${1:-$TARGET_PLATFORM}"
-  resolve_vcpkg_dir "$platform"
-  resolve_use_aqt_use_vcpkg "$platform"
-  case "$platform" in
-    android)
-      log "Android setup..."
-      exec "${REPO_ROOT}/scripts/setup_android.sh"
-      ;;
-    macos)
-      log "Macos setup..."
-      exec "${REPO_ROOT}/scripts/setup_macos.sh"
-      ;;
-    *) return 0 ;;
-  esac
-}
-
-# Dispatch build to platform-specific script or fall through for linux/windows.
-# Usage: run_build [platform]
-# macos → exec build_macos.sh; android → exec build_android.sh; else return (shared path continues).
-run_build() {
-  local platform="${1:-$TARGET_PLATFORM}"
-  case "$platform" in
-    macos)
-      exec "${REPO_ROOT}/scripts/build_macos.sh"
-      ;;
-    android)
-      exec "${REPO_ROOT}/scripts/build_android.sh"
-      ;;
-    *) return 0 ;;
-  esac
 }
 
 ########################################
@@ -421,6 +425,19 @@ setup_linux_paths() {
   fi
 }
 
+# setup_linux.sh: vcpkg dir, USE_AQT/USE_VCPKG, Qt paths (setup_linux.sh calls require_target_platform first).
+init_setup_linux_host_env() {
+  resolve_setup_platform_env "$TARGET_PLATFORM"
+  setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
+}
+
+# setup_linux.sh: MinGW Windows cross-build is only tested on x86_64 hosts.
+warn_if_windows_cross_not_x86_64() {
+  if [ "${TARGET_PLATFORM:-}" = "windows" ] && [ "$(uname -m)" != "x86_64" ]; then
+    log "Warning: Windows cross-build is only tested on x86_64."
+  fi
+}
+
 ########################################
 # Common Setup Functions
 ########################################
@@ -581,6 +598,25 @@ ensure_vcpkg_clone_bootstrap_if_missing() {
   if [ -f "$root/vcpkg" ]; then
     return 0
   fi
+  # Keep this block: it shows what the script actually sees ($VCPKG_DIR, ls, git, bootstrap). Do not delete when changing cleanup/clone — failures are often environment-specific.
+  log "ensure_vcpkg_clone_bootstrap_if_missing: no file at $root/vcpkg (VCPKG_DIR=$root)"
+  if [ ! -e "$root" ]; then
+    log "  path does not exist: $root"
+  elif [ ! -d "$root" ]; then
+    log "  path is not a directory: $root"
+  else
+    log "  ls -la $root (first 40 lines):"
+    ls -la "$root" 2>&1 | head -40 | while IFS= read -r line || [ -n "$line" ]; do log "  $line"; done
+  fi
+  local _git_rc=0
+  local _git_rp
+  _git_rp=$(git -C "$root" rev-parse --is-inside-work-tree 2>&1) || _git_rc=$?
+  log "  git rev-parse --is-inside-work-tree: rc=${_git_rc} output=${_git_rp}"
+  if [ -f "$root/bootstrap-vcpkg.sh" ]; then
+    log "  bootstrap-vcpkg.sh: present"
+  else
+    log "  bootstrap-vcpkg.sh: MISSING"
+  fi
   mkdir -p "$(dirname "$root")"
   if [ -d "$root" ]; then
     if ! git -C "$root" rev-parse --is-inside-work-tree >/dev/null 2>&1 || \
@@ -593,6 +629,9 @@ ensure_vcpkg_clone_bootstrap_if_missing() {
     log "Cloning vcpkg into $root ..."
     git clone https://github.com/microsoft/vcpkg.git "$root"
   fi
+  # Clean working tree before bootstrap (dirty tree can break scripts/bootstrap).
+  log "Resetting vcpkg to HEAD ..."
+  (cd "$root" && git fetch --all git reset --hard @{upstream})
   log "Bootstrapping vcpkg ..."
   "$root/bootstrap-vcpkg.sh" -disableMetrics
 }

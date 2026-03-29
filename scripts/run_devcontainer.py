@@ -171,6 +171,39 @@ def echo_cmd(cmd: list[str]) -> None:
     print(" ".join(str(x) for x in cmd))
 
 
+def _split_docker_bind_mount(spec: str) -> tuple[str, str]:
+    """Parse HOST:DEST[:cached] for Unix absolute paths (repo + container paths)."""
+    s = spec.removesuffix(":cached")
+    for marker in (":/opt/", ":/workspaces/"):
+        i = s.find(marker)
+        if i != -1:
+            return s[:i], s[i + 1 :]
+    if ":" in s:
+        a, b = s.split(":", 1)
+        if b.startswith("/"):
+            return a, b
+    return s, ""
+
+
+def print_docker_run_bind_debug(run_mounts: list[str], repo_root: Path) -> None:
+    """
+    Print resolved -v sources so you can confirm the host path for vcpkg is
+    <repo>/docker/<kind>/build (make *-docker; repo root as localWorkspaceFolder).
+    """
+    print("run_devcontainer: bind mounts:", flush=True)
+    rr = repo_root.resolve()
+    for m in run_mounts:
+        host, dest = _split_docker_bind_mount(m)
+        print(f"  host:      {host}", flush=True)
+        print(f"  container: {dest}", flush=True)
+        if host and host.startswith("/"):
+            try:
+                rel = Path(host).resolve().relative_to(rr)
+                print(f"  under repo: {rel}", flush=True)
+            except ValueError:
+                print(f"  (host path not under repo root {rr})", flush=True)
+
+
 def run_checked(cmd: list[str]) -> None:
     echo_cmd(cmd)
     subprocess.run(cmd, check=True)
@@ -277,11 +310,12 @@ def main(argv: list[str]) -> int:
     devcontainer_path = repo_root / "docker" / kind / ".devcontainer" / "devcontainer.json"
     if not devcontainer_path.exists():
         raise RuntimeError(f"Unsupported devcontainer target: {make_target}")
-    local_workspace_folder = (repo_root / "docker" / kind).as_posix()
+    # Must match devcontainer.json: ${localWorkspaceFolder} is repo root so vcpkg is docker/<kind>/build/vcpkg.
+    local_workspace_folder = repo_root.as_posix()
 
     devcontainer_json_for_runargs = load_devcontainer_json(devcontainer_path)
     run_args = devcontainer_json_for_runargs.get("runArgs")
-    # runArgs: docker run (always). docker build: use build.options when set (containers.dev); else runArgs (legacy).
+    # runArgs: docker run (always). docker build: use build.options when set (containers.dev); else runArgs.
     run_opts: list[str] = run_args if isinstance(run_args, list) else []
 
     plan = devcontainer_plan_from_json(devcontainer_path, local_workspace_folder=local_workspace_folder)
@@ -303,6 +337,7 @@ def main(argv: list[str]) -> int:
         docker_cmd += ["--target", effective_build_target]
 
     run_mounts = dedup_mounts_by_dest(plan.run_mounts + cli_mount_specs)
+    print_docker_run_bind_debug(run_mounts, repo_root)
     forward: dict[str, str] = {}
     for key in ("CLEAN", "BUILD_TARGET"):
         val = os.environ.get(key)

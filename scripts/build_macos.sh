@@ -10,24 +10,7 @@ set -euo pipefail
 # Source shared build environment (sets REPO_ROOT when in scripts/)
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
-########################################
-# macOS-specific Configuration
-########################################
-
-# Build target selection (can be overridden via environment variable)
-# Options: pokerth_client, pokerth_qml-client
-BUILD_TARGET="${BUILD_TARGET:-pokerth_client}"
-
-# Reuse existing build directory by default; set to "yes" for a clean rebuild
-CLEAN="${CLEAN:-no}"
-
-# Set to "yes" to create DMG installer after building the app bundle
-CREATE_INSTALLER="${CREATE_INSTALLER:-no}"
-
-QT_DIR="$QT_OUTPUT_DIR/$QT_VERSION/macos"
-MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-12.0}"
-
-if [ $# -gt 0 ]; then
+build_macos_usage() {
   echo "Usage: make macos or ./scripts/build_macos.sh"
   echo "  No arguments. Set environment variables to change behavior."
   echo ""
@@ -39,8 +22,21 @@ if [ $# -gt 0 ]; then
   echo "  make macos-installer"
   echo ""
   echo "Note: Run make setup-macos or scripts/setup_macos.sh first if dependencies are missing."
-  exit 0
-fi
+}
+exit_with_usage_if_args build_macos_usage "$@"
+
+########################################
+# macOS-specific Configuration
+########################################
+
+# BUILD_TARGET, CLEAN — see init_build_defaults macos in functions.sh
+init_build_defaults macos
+
+# Set to "yes" to create DMG installer after building the app bundle
+CREATE_INSTALLER="${CREATE_INSTALLER:-no}"
+
+QT_DIR="$QT_OUTPUT_DIR/$QT_VERSION/macos"
+MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-12.0}"
 
 ########################################
 # Script-local functions (plan section 3)

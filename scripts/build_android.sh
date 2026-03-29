@@ -4,31 +4,32 @@ set -euo pipefail
 # Minimaler Android-Build-Helper für ${TARGET} (Template)
 # Erwartet als Umgebungsvariablen:
 #  ANDROID_SDK_ROOT, ANDROID_NDK_ROOT, JAVA_HOME, QT_ANDROID_DIR
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+# shellcheck source=/dev/null
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/functions.sh"
+
 cd "$REPO_ROOT"
 
-# Source env file written by setup_android.sh (ANDROID_SDK_ROOT, NDK, JAVA_HOME, QT_ANDROID_DIR, etc.)
-# Repo-local first; when in Docker with repo mount, $ROOT/.android_env persists (setup writes there too).
-ENV_FILE="${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}/.android_env"
-if [ -f "$ENV_FILE" ]; then
+# Source manifest written by setup_android.sh (ANDROID_SDK_ROOT, NDK, JAVA_HOME, QT_ANDROID_DIR, PATH, etc.).
+# Repo-local first, then ${ROOT} (Docker sync). At docker run the host file wins over anything baked at docker build.
+# Likely failure: no file here after a fresh clone — run setup-android or ensure (deps) first.
+_base="${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}"
+if [ -f "${_base}/${MANIFEST_ENV:-.manifest.env}" ]; then
   # shellcheck source=/dev/null
-  . "$ENV_FILE"
-elif [ -n "${ROOT:-}" ] && [ -f "${ROOT}/.android_env" ]; then
+  . "${_base}/${MANIFEST_ENV:-.manifest.env}"
+elif [ -n "${ROOT:-}" ] && [ -f "${ROOT}/${MANIFEST_ENV:-.manifest.env}" ]; then
   # shellcheck source=/dev/null
-  . "${ROOT}/.android_env"
+  . "${ROOT}/${MANIFEST_ENV:-.manifest.env}"
 fi
+unset _base
 
-# Canonical version definitions: scripts/versions.env
-if [ -f "$REPO_ROOT/scripts/versions.env" ]; then
-  # shellcheck source=/dev/null
-  . "$REPO_ROOT/scripts/versions.env"
-fi
-# shellcheck source=/dev/null
-. "$REPO_ROOT/scripts/functions.sh"
+ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-}"
+ANDROID_NDK_ROOT="${ANDROID_NDK_ROOT:-}"
+JAVA_HOME="${JAVA_HOME:-}"
+QT_ANDROID_DIR="${QT_ANDROID_DIR:-}"
+QT_HOST_PATH="${QT_HOST_PATH:-}"
 
 # Incremental Gradle by default (fast back-to-back android-docker). Full Android/Java clean: CLEAN=yes (forwarded by run_devcontainer.py from host).
-CLEAN="${CLEAN:-no}"
+init_build_defaults android
 
 usage(){
   cat <<EOF
@@ -63,10 +64,6 @@ case "$ARCH" in
     ;;
 esac
 
-: ${ANDROID_SDK_ROOT:?Please set ANDROID_SDK_ROOT}
-: ${ANDROID_NDK_ROOT:?Please set ANDROID_NDK_ROOT}
-: ${JAVA_HOME:?Please set JAVA_HOME}
-: ${QT_ANDROID_DIR:?Please set QT_ANDROID_DIR (Qt installation for Android)}
 : ${TARGET:=pokerth_client}
 
 # Prüfe Android-Plattform
@@ -120,7 +117,7 @@ if [[ -n "${VCPKG_ROOT:-}" ]]; then
   )
 fi
 
-# Same pattern as build.sh: REPO_BUILD_ROOT separates host (build_android) vs Docker (docker/android/build)
+# Same pattern as build_linux.sh / build.sh: REPO_BUILD_ROOT separates host (build_android) vs Docker (docker/android/build)
 if [ -n "${REPO_BUILD_ROOT:-}" ]; then
   BUILD_DIR_REL="$REPO_BUILD_ROOT"
 else
@@ -135,6 +132,8 @@ set(ANDROID_SDK_BUILD_TOOLS_REVISION "$BUILD_TOOLS_VERSION" CACHE STRING "")
 set(QT_ANDROID_SDK_BUILD_TOOLS_REVISION "$BUILD_TOOLS_VERSION" CACHE STRING "")
 EOF
 
+# qt-cmake on PATH: expected from ${MANIFEST_ENV} (setup_android exports PATH with ${QT_HOST_PATH}/bin when QT_HOST_PATH was set at write time).
+# Likely failure: manifest missing/stale, or ensure skipped setup.sh deps while vcpkg looked ready — PATH never got host Qt bin.
 echo "Configuring CMake..."
 qt-cmake -S . -B "$BUILD_DIR" -G Ninja \
   -C "$BUILD_DIR/InitialCache.cmake" \
@@ -196,8 +195,11 @@ if command -v jq >/dev/null 2>&1; then
      --arg arch "$ARCH" \
      --arg target "$TARGET" \
      --arg android_src "$ANDROID_SOURCE_DIR" \
+     --arg sdk "$ANDROID_SDK_ROOT" \
     '.["android-build-tools-revision"] = $bt |
      .["android-sdk-build-tools-revision"] = $bt |
+     .["sdkBuildToolsRevision"] = $bt |
+     .["sdk"] = $sdk |
      .["android-target-sdk-version"] = $al |
      .["android-min-sdk-version"] = $min_sdk |
      .["target-architecture"] = $arch |
@@ -209,16 +211,21 @@ else
   echo "WARNING: jq not found, cannot patch deployment settings"
 fi
 
+# CLEAN=yes: remove previous android-build (fresh template/Gradle state; replaces gradlew clean).
+if is_yes "$CLEAN"; then
+  echo "CLEAN=yes: removing $ANDROID_BUILD_DIR"
+  rm -rf "$ANDROID_BUILD_DIR"
+fi
+
 # Erstelle Android Build-Verzeichnisstruktur
 mkdir -p "$ANDROID_BUILD_DIR/libs/$ARCH"
 
-# Kopiere Android-Manifest und Ressourcen BEVOR androiddeployqt läuft
+# Kopiere Android-Manifest und Ressourcen BEVOR androiddeployqt läuft (-L: follow symlinks, e.g. ic_launcher → data/…)
 if [[ -d "$ANDROID_SOURCE_DIR" ]]; then
   echo "Copying Android source files from: $ANDROID_SOURCE_DIR"
-  cp -rv "$ANDROID_SOURCE_DIR"/* "$ANDROID_BUILD_DIR/" || true
+  cp -RLv "$ANDROID_SOURCE_DIR"/* "$ANDROID_BUILD_DIR/"
 fi
 
-# Erstelle Verzeichnisse für Ressourcen
 mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
 mkdir -p "$ANDROID_BUILD_DIR/res/values"
 
@@ -330,51 +337,21 @@ if [[ ! -x "$ANDROIDDEPLOYQT" ]]; then
   exit 7
 fi
 
-# --aux-mode: stop after updating Android files; do not run androiddeployqt's internal Gradle.
-# Qt's deploy step can sync res/ against the template (no drawable/), then fail on @drawable/ic_launcher.
+# Full androiddeployqt (no --aux-mode): Qt runs buildAndroidProject() and Gradle; --release → assembleRelease.
+# ic_launcher: QT_ANDROID_PACKAGE_SOURCE_DIR (e.g. src/gui/qt/android/res/drawable/ic_launcher.png).
 # Do NOT use --no-build: with build=false, Qt skips copyAndroidTemplate/cleanAndroidFiles entirely
 # (qtbase src/tools/androiddeployqt/main.cpp: options.build && !copyDependenciesOnly).
-# We copy ic_launcher after deployqt, then run gradlew ourselves. See:
-# https://doc.qt.io/qt-6/android-deploy-qt-tool.html (--aux-mode)
+# https://doc.qt.io/qt-6/android-deploy-qt-tool.html
 echo "Running androiddeployqt..."
 "$ANDROIDDEPLOYQT" \
   --input "$DEPLOY_JSON" \
   --output "$ANDROID_BUILD_DIR" \
   --android-platform "android-${API_LEVEL}" \
   --jdk "$JAVA_HOME" \
-  --aux-mode \
+  --release \
   --verbose
 
-# androiddeployqt removes res/drawable if Qt template lacks it; add icon after
-mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
-cp -v "${REPO_ROOT}/data/gfx/gui/misc/windowicon_transparent.png" "$ANDROID_BUILD_DIR/res/drawable/ic_launcher.png" || echo "WARNING: Failed to copy icon"
-
-# Prüfe und patche gradle.properties (nicht build.gradle!)
-if [[ -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
-  # Setze oder aktualisiere androidBuildToolsVersion in gradle.properties
-  if grep -q "^androidBuildToolsVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    sed -i "s/^androidBuildToolsVersion=.*/androidBuildToolsVersion=$BUILD_TOOLS_VERSION/" "$ANDROID_BUILD_DIR/gradle.properties"
-  else
-    # Füge neue Zeile hinzu
-    echo "androidBuildToolsVersion=$BUILD_TOOLS_VERSION" >> "$ANDROID_BUILD_DIR/gradle.properties"
-  fi
-  # Setze auch compileSdkVersion falls nötig
-  if ! grep -q "^androidCompileSdkVersion=" "$ANDROID_BUILD_DIR/gradle.properties"; then
-    echo "androidCompileSdkVersion=$API_LEVEL" >> "$ANDROID_BUILD_DIR/gradle.properties"
-  fi
-
-  # Gradle: default incremental assembleRelease; CLEAN=yes for clean+assemble (broken Gradle state / need full APK rebuild)
-  echo "Running Gradle build..."
-  cd "$ANDROID_BUILD_DIR"
-  chmod +x gradlew
-  echo "sdk.dir=${ANDROID_SDK_ROOT}" >> local.properties
-  if is_yes "$CLEAN"; then
-    ./gradlew clean assembleRelease --stacktrace
-  else
-    ./gradlew assembleRelease --stacktrace
-  fi
-  cd -
-else
+if [[ ! -f "$ANDROID_BUILD_DIR/gradle.properties" ]]; then
   echo "ERROR: gradle.properties not found under $ANDROID_BUILD_DIR after androiddeployqt."
   exit 8
 fi
