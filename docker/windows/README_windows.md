@@ -6,7 +6,7 @@
 
 ## Build Instructions
 
-Best practice is to use the VS Code Dev Containers feature: open the **docker/windows** folder, then **Rebuild and Reopen in Container**. The workspace inside the container is the **repo root** (mounted at `/workspaces/pokerth`).
+Best practice is to use the VS Code Dev Containers feature: open the **repository root** (the `pokerth` checkout), then **Rebuild and Reopen in Container** using **docker/windows/.devcontainer**. The workspace inside the container is the **repo root** (mounted at `/workspaces/pokerth`).
 
 Inside the running container:
 
@@ -16,7 +16,7 @@ make windows
 
 Or **`make windows-installer`** to build and create the NSIS installer. Output is in **docker/windows/build/deploy/** (and the installer in **docker/windows/**). The container runs **`make windows`** automatically after create (postCreateCommand).
 
-Use **`make windows`** or **`make windows-docker`**. Build logic: **scripts/build.sh** / **functions.sh**. Devcontainer / **`make windows-docker`**: **scripts/ensure_docker_deps.py windows** runs **scripts/setup.sh** when vcpkg/protobuf missing (**SKIP_SYSTEM_PACKAGES** set in Python), then **make windows**. Kind defaults and readiness triplets are defined directly in **scripts/ensure_docker_deps.py** (no separate config file). See **docs/building-developer.md**. Clean Docker tree: remove **docker/windows/build** on the host, then **`make windows-docker`** again.
+Use **`make windows`** or **`make windows-docker`**. Build logic: **build.sh** → **build_linux.sh** + **functions.sh**. Devcontainer / **`make windows-docker`**: **ensure_docker_deps.py windows** runs **`setup.sh deps`** when **vcpkg** or **Qt** (**`qt-cmake`**) readiness checks fail, then **make windows**. The image sets **SKIP_SYSTEM_PACKAGES=yes** (apt skipped); **vcpkg** and **Qt** live under **docker/windows/build/{vcpkg,Qt}** on the host, mounted to **`/opt/pokerth-windows/{vcpkg,Qt}`** (not baked in **`docker build`**). Kind defaults and readiness triplets are defined in **ensure_docker_deps.py**. See **docs/building-developer.md**. Clean Docker tree: remove **docker/windows/build** on the host (or empty **vcpkg** / **Qt**), then **`make windows-docker`** again.
 
 ## Testing from the command line (no VS Code/Cursor)
 
@@ -38,7 +38,7 @@ The Makefile builds the devcontainer image (if needed), runs a container with th
 
 ## Testing the devcontainer (VS Code/Cursor)
 
-1. Open the **docker/windows** folder in VS Code/Cursor (File → Open Folder → choose `docker/windows`).
+1. Open the **repository root** in VS Code/Cursor (File → Open Folder → the `pokerth` checkout), not only `docker/windows`.
 2. Command Palette (**Ctrl+Shift+P** / **Cmd+Shift+P**) → **Dev Containers: Rebuild and Reopen in Container**.
 3. Wait for the container to start. **postCreateCommand** runs **`make windows`** automatically; watch the terminal for success or failure.
 4. In the container terminal, confirm workspace is repo root and deploy exists:
