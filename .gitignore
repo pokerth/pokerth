@@ -13,7 +13,9 @@ pokerth_qml-client
 moc_*
 *.o
 .qmake.stash
-build*/
+# Host output dirs (build_linux, build_android, …). Do not use `build*` alone — it matches any path component named `build` (e.g. docker/android/build), not only build_* trees. Use `build_*/` plus `docker/**/build/` for Docker caches.
+build_*/
+docker/**/build/
 docker/linux/PokerTH.AppDir/
 docker/linux/appimagetool-x86_64.AppImage
 docker/linux/PokerTH-*.AppImage

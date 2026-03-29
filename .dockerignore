@@ -1,4 +1,7 @@
 .git
 **/__pycache__
 **/*.pyc
-build*/
+build_*/
+# docker/*/build holds large host caches (vcpkg, Qt). Excluding it shrinks **`docker build`** context (repo root as COPY context).
+# Those dirs are populated under **`docker run`** / devcontainer mounts, not needed in the image layers.
+docker/**/build/**
