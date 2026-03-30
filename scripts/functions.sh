@@ -91,6 +91,18 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
+# Apt package lists: same merge as docker/*/Dockerfile base stage —
+#   grep -hv '^#' scripts/apt-packages.txt scripts/${TARGET_PLATFORM}-apt-packages.txt
+# Writes one package name per line (no comments) to stdout.
+apt_packages_merged_lines() {
+  local scripts_dir="${1:?apt_packages_merged_lines: scripts directory}"
+  local target_platform="${2:?apt_packages_merged_lines: TARGET_PLATFORM}"
+  local common="${scripts_dir}/apt-packages.txt"
+  local platform="${scripts_dir}/${target_platform}-apt-packages.txt"
+  [ -f "$common" ] && [ -f "$platform" ] || error "Missing $common or $platform (pair must match docker/*/Dockerfile)"
+  grep -hv '^#' "$common" "$platform"
+}
+
 # True if var is "yes" or "true" (for USE_AQT, CLEAN, CREATE_INSTALLER, etc.)
 is_yes() {
   local v="${1:-}"

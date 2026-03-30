@@ -132,9 +132,10 @@ else
 
   log "Installing base packages via $PKG_MANAGER..."
 
-  # Windows + apt: use shared list (same as docker/windows Dockerfile). Windows + dnf/pacman and Linux: use inline lists below.
-  if [ "$TARGET_PLATFORM" = "windows" ] && [ "$PKG_MANAGER" = "apt" ] && [ -f "${REPO_ROOT}/scripts/windows-apt-packages.txt" ]; then
-    BASE_PKGS=$(grep -v '^#' "${REPO_ROOT}/scripts/windows-apt-packages.txt" | tr '\n' ' ')
+  # Windows + apt: same merge as docker/windows/Dockerfile (apt-packages.txt + windows-apt-packages.txt).
+  if [ "$TARGET_PLATFORM" = "windows" ] && [ "$PKG_MANAGER" = "apt" ]; then
+    BASE_PKGS="$(apt_packages_merged_lines "${REPO_ROOT}/scripts" "$TARGET_PLATFORM" | tr '\n' ' ')"
+    $INSTALL_CMD --no-install-recommends $BASE_PKGS
   else
     # Common base packages per package manager (shared by Windows and Linux builds)
     COMMON_APT="build-essential cmake ninja-build git python3 python3-pip pkg-config"
@@ -157,8 +158,8 @@ else
     ref_common="COMMON_${PKG_SUFFIX}"
     ref_extra="$([ "$TARGET_PLATFORM" = "windows" ] && echo "WINDOWS_" || echo "LINUX_")${PKG_SUFFIX}_EXTRA"
     BASE_PKGS="${!ref_common} ${!ref_extra}"
+    $INSTALL_CMD $BASE_PKGS
   fi
-  $INSTALL_CMD $BASE_PKGS
 fi
 
 if [ "$TARGET_PLATFORM" = "windows" ]; then

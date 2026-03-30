@@ -19,13 +19,13 @@ source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/functions.sh"
 provision_android_sdk_ndk() {
   echo "Provisioning Android SDK/NDK (${ANDROID_SDK_ROOT})..."
 
-  # apt-only block (SKIP_SYSTEM_PACKAGES=yes skips this — e.g. Docker base already ran android-apt-packages.txt).
-  if [ "${SKIP_SYSTEM_PACKAGES:-no}" != "yes" ] && [ -f "$SCRIPT_DIR/android-apt-packages.txt" ]; then
+  # apt-only block (SKIP_SYSTEM_PACKAGES=yes skips this — e.g. Docker base already ran the same lists).
+  if [ "${SKIP_SYSTEM_PACKAGES:-no}" != "yes" ]; then
     echo "Installing Android host packages..."
-    PKGS=$(grep -v '^#' "$SCRIPT_DIR/android-apt-packages.txt" | tr '\n' ' ')
+    PKGS="$(apt_packages_merged_lines "$SCRIPT_DIR" android | tr '\n' ' ')"
     if command -v apt-get >/dev/null 2>&1; then
       sudo apt-get update
-      sudo apt-get install -y $PKGS
+      sudo apt-get install -y --no-install-recommends $PKGS
     else
       echo "ERROR: This script only runs apt on Linux. On macOS install the same tools (e.g. via brew) or set SKIP_SYSTEM_PACKAGES=yes if they are already installed. Packages: $PKGS"
       exit 1
