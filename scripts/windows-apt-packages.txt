@@ -1,26 +1,9 @@
 # Windows cross-build: apt packages (shared by scripts/setup_linux.sh and docker/windows/Dockerfile).
-# One package per line; lines starting with # are ignored.
-# jq: required on host for make windows-docker (scripts/build_docker.sh reads devcontainer.json).
 autoconf
 automake
-build-essential
-cmake
-curl
-git
 imagemagick
-jq
 librsvg2-bin
 libtool
 mingw-w64
-ninja-build
 nsis
-pkg-config
 protobuf-compiler
-python3
-python3-dev
-python3-pip
-python3-venv
-sudo
-tar
-unzip
-zip

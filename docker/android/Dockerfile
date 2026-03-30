@@ -42,10 +42,15 @@ ENV LANG=${LANG}
 ENV LANGUAGE=${LANGUAGE}
 ENV LC_ALL=${LC_ALL}
 
-# --- System packages (scripts/${TARGET_PLATFORM}-apt-packages.txt) ---
-COPY scripts/${TARGET_PLATFORM}-apt-packages.txt /tmp/${TARGET_PLATFORM}-apt-packages.txt
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    $(grep -v '^#' /tmp/${TARGET_PLATFORM}-apt-packages.txt | tr '\n' ' ') \
+ENV WORKSPACE=/workspaces/pokerth
+
+# --- Repo scripts (patches/, etc.); context = repo root ---
+COPY scripts ${WORKSPACE}/scripts/
+
+# --- System packages (scripts/apt-packages.txt and scripts/${TARGET_PLATFORM}-apt-packages.txt) ---
+RUN grep -hv '^#' ${WORKSPACE}/scripts/apt-packages.txt ${WORKSPACE}/scripts/${TARGET_PLATFORM}-apt-packages.txt \
+    > /tmp/apt-packages.txt
+RUN apt-get update && apt-get install -y --no-install-recommends $(cat /tmp/apt-packages.txt) \
     && rm -rf /var/lib/apt/lists/*
 
 # --- User + /opt (setup.sh populates caches) ---
@@ -54,10 +59,8 @@ RUN groupadd -g ${USER_GID} ${USERNAME} && useradd -s /bin/bash -m -d "/home/${U
 RUN mkdir -p /etc/sudoers.d && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} && chmod 0440 /etc/sudoers.d/${USERNAME}
 RUN mkdir -p ${ROOT} && chown -R ${USERNAME}:${USERNAME} ${ROOT}
 
-# --- Repo scripts (patches/, etc.); context = repo root ---
-COPY scripts /workspaces/pokerth/scripts
-RUN chown -R ${USERNAME}:${USERNAME} /workspaces/pokerth
-WORKDIR /workspaces/pokerth
+RUN chown -R ${USERNAME}:${USERNAME} ${WORKSPACE}
+WORKDIR ${WORKSPACE}
 
 # Base runs as ${USERNAME} so make/setup use correct uid; matches remoteUser in devcontainer.
 USER ${USERNAME}

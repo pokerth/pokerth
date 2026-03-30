@@ -1,19 +1,4 @@
 # Android host/Docker: apt packages. Shared by setup_android.sh (when provisioning) and docker/android Dockerfile.
 # openjdk-17-jdk: required by Android Gradle plugin (Java 17)
-build-essential
 ca-certificates
-cmake
-curl
-git
-jq
-locales
-ninja-build
 openjdk-17-jdk
-pkg-config
-python3
-python3-pip
-python3-venv
-sudo
-tar
-unzip
-zip

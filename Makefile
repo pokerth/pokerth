@@ -88,7 +88,7 @@ build_windows/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
 # android additional dep on android-apt-packages.txt
 build_android/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
 # Native stamps: build_linux/.stamp_setup, build_windows/.stamp_setup, build_macos/.stamp_setup, build_android/.stamp_setup
-build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_linux.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
+build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_linux.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env $(SCRIPTS)/apt-packages.txt
 	@mkdir -p $(@D)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else \
 	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh && touch $@; fi
