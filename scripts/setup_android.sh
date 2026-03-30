@@ -133,8 +133,11 @@ _setup_android_vcpkg_layer() {
     openssl:"${TRIPLET}" \
     protobuf:x64-linux
 
-  mkdir -p "$ROOT/vcpkg-overlays/protobuf"
-  PROTOBUF_OVERLAY_HASH_FILE="$ROOT/vcpkg-overlays/.protobuf_overlay_hash_${TRIPLET}"
+  # Keep vcpkg overlay artifacts on the same bind mount as vcpkg itself
+  # (VCPKG_DIR is mounted by docker/devcontainer so these stay non-ephemeral and inspectable on the host).
+  PROTOBUF_OVERLAY_DIR="$VCPKG_ROOT/vcpkg-overlays/protobuf/${TRIPLET}"
+  mkdir -p "$PROTOBUF_OVERLAY_DIR"
+  PROTOBUF_OVERLAY_HASH_FILE="$VCPKG_ROOT/vcpkg-overlays/.protobuf_overlay_hash_${TRIPLET}"
   PROTOBUF_INSTALLED_ROOT="$VCPKG_ROOT/installed/$TRIPLET"
   PROTOBUF_CONFIG_OK=0
   if [ -f "$PROTOBUF_INSTALLED_ROOT/lib/cmake/protobuf/ProtobufConfig.cmake" ] || \
@@ -145,13 +148,13 @@ _setup_android_vcpkg_layer() {
 
   # Rebuild overlay dir each run, then hash it. Reinstall protobuf only if overlay hash changed
   # or if protobuf config for this triplet is missing/corrupt (interrupted install recovery).
-  rm -rf "$ROOT/vcpkg-overlays/protobuf"
-  mkdir -p "$ROOT/vcpkg-overlays/protobuf"
-  cp -r "$VCPKG_ROOT/ports/protobuf/"* "$ROOT/vcpkg-overlays/protobuf/"
-  sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' "$ROOT/vcpkg-overlays/protobuf/portfile.cmake"
+  rm -rf "$PROTOBUF_OVERLAY_DIR"
+  mkdir -p "$PROTOBUF_OVERLAY_DIR"
+  cp -r "$VCPKG_ROOT/ports/protobuf/"* "$PROTOBUF_OVERLAY_DIR/"
+  sed -i '1i\# Workaround für TLS-Emulation\nset(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-warn-execstack")\nset(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execstack")\n' "$PROTOBUF_OVERLAY_DIR/portfile.cmake"
 
   PROTOBUF_OVERLAY_HASH="$(
-    cd "$ROOT/vcpkg-overlays/protobuf"
+    cd "$PROTOBUF_OVERLAY_DIR"
     find . -type f -print0 | sort -z | xargs -0 sha256sum | sha256sum | awk '{print $1}'
   )"
   PREV_PROTOBUF_OVERLAY_HASH=""
@@ -171,7 +174,7 @@ _setup_android_vcpkg_layer() {
 
     # Use default buildtrees ($VCPKG_ROOT/buildtrees) so protobuf build cache persists on bind mount; /tmp is ephemeral (lost on container restart).
     "$VCPKG_ROOT/vcpkg" install --no-print-usage "protobuf:${TRIPLET}" \
-      --overlay-ports="$ROOT/vcpkg-overlays/protobuf" \
+      --overlay-ports="$PROTOBUF_OVERLAY_DIR" \
       --no-binarycaching
     printf '%s\n' "$PROTOBUF_OVERLAY_HASH" > "$PROTOBUF_OVERLAY_HASH_FILE"
   fi

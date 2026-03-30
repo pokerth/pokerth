@@ -105,7 +105,8 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 - **ensure** `docker_deps_ready`: **vcpkg** (triplet + extras) **and** `qt-cmake` under `QT_OUTPUT_DIR` / `${ROOT}/Qt`.
 - **Cold cache:** empty `docker/<kind>/build/vcpkg`, then `make *-docker`.
 - **Path note:** container vcpkg is `/opt/pokerth-<kind>/vcpkg`, not `…/build/vcpkg`.
-- **Android protobuf:** `protobuf:x64-linux` then `protobuf:${VCPKG_TRIPLET}` + overlay under `$ROOT/vcpkg-overlays/`. `.stamp_setup` not triplet-keyed — change ABI → clean stamp / vcpkg.
+- **Android protobuf:** `protobuf:x64-linux` then `protobuf:${VCPKG_TRIPLET}` + overlay under `$VCPKG_ROOT/vcpkg-overlays/` (triplet-scoped to avoid concurrent builds clobbering a shared overlay dir). `.stamp_setup` not triplet-keyed — change ABI → clean stamp / vcpkg.
+- **Overlay changes:** `ensure_docker_deps.py` decides whether to run `setup.sh deps` based on whether protobuf CMake config files already exist in `vcpkg/installed/<triplet>/`. If they exist, overlay-generation changes won’t be reflected until you invalidate protobuf readiness (e.g. remove the protobuf config files for the android triplet or run `CLEAN=yes make android-docker`).
 - **APK / Gradle / icon:** [building.md](building.md#android-build) (Android).
 
 **Repeat Android Docker:** `CLEAN=yes make android-docker`; use `POKERTH_DOCKER_FORCE_BUILD=1` (or `docker rmi`) only when you need to **rebuild the image** (not on every `Dockerfile` edit — unchanged tag reuses the image). **macOS:** Docker Desktop over Colima. `localWorkspaceFolder` = **repo root**.
