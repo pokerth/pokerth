@@ -84,14 +84,13 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 | `IN_DOCKER` | `REPO_BUILD_ROOT` | `docker/$(TARGET_PLATFORM)/build` |
 | `IN_DEVCONTAINER` | Makefile / editor | `1` from `devcontainer.json` or `REMOTE_CONTAINERS`; forbids `make *-docker` / `make *-docker-installer` (use `make <kind>` / `*-installer` inside the container). |
 | `SETUP_ALREADY_DONE` | Makefile | Touch stamp only. |
-| `POKERTH_DOCKER_FORCE_BUILD` | Image rebuild | `run_devcontainer.py` |
+| `DOCKER_FORCE_BUILD` | Image rebuild | `run_devcontainer.py` |
 
 ### Devcontainer vs Dockerfile
 
 - `devcontainer.json:` binds + **run** env. `docker build:` `final` = `setup.sh toolchain` only — no host `docker/<kind>/build` mounts (`downloads/` at **run** use mounts below).
 - **Manual sync:** `Dockerfile` ↔ `.devcontainer/.../devcontainer.json` — `build.context`, mount paths, `/opt/pokerth-*` `ENV`, `containerEnv`.
 - `build.options` → `docker build`; `runArgs` → `docker run` ([containers.dev](https://containers.dev)).
-- `run_devcontainer.py:` skips `docker build` if the image tag already exists (no comparison to `Dockerfile` mtime). Editing `docker/<kind>/Dockerfile` does **not** by itself run `docker build` on the next `make *-docker`. Rebuild when you need a fresh image: `POKERTH_DOCKER_FORCE_BUILD=1`, `--force-build`, or `docker rmi` the tag. Forwards `CLEAN`, `BUILD_TARGET`. `.dockerignore` trims context.
 
 | Aspect | Windows | Android |
 | --- | --- | --- |
@@ -109,7 +108,7 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 - **Overlay changes:** `ensure_docker_deps.py` decides whether to run `setup.sh deps` based on whether protobuf CMake config files already exist in `vcpkg/installed/<triplet>/`. If they exist, overlay-generation changes won’t be reflected until you invalidate protobuf readiness (e.g. remove the protobuf config files for the android triplet or run `CLEAN=yes make android-docker`).
 - **APK / Gradle / icon:** [building.md](building.md#android-build) (Android).
 
-**Repeat Android Docker:** `CLEAN=yes make android-docker`; use `POKERTH_DOCKER_FORCE_BUILD=1` (or `docker rmi`) only when you need to **rebuild the image** (not on every `Dockerfile` edit — unchanged tag reuses the image). **macOS:** Docker Desktop over Colima. `localWorkspaceFolder` = **repo root**.
+**Repeat Android Docker:** `CLEAN=yes make android-docker`; use `DOCKER_FORCE_BUILD=1` (or `docker rmi`) only when you need to **rebuild the image** (not on every `Dockerfile` edit — unchanged tag reuses the image). **macOS:** Docker Desktop over Colima. `localWorkspaceFolder` = **repo root**.
 
 **Targets:** `make windows` / `make android`; `make setup-android` on Linux needs `VCPKG_DIR`.
 
@@ -126,8 +125,7 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 
 ## Planned work
 
-**Next step:** unify devcontainers.
-
+- **Find a way to more reliably detect if a Docker image needs rebuilding:** `run_devcontainer.py:` skips `docker build` if the image tag already exists (no comparison to `Dockerfile` mtime). Editing `docker/<kind>/Dockerfile` does **not** by itself run `docker build` on the next `make *-docker`. Rebuild when you need a fresh image: `DOCKER_FORCE_BUILD=1`, `--force-build`, or `docker rmi` the tag. Forwards `CLEAN`, `BUILD_TARGET`. `.dockerignore` trims context.
 - **Merge devcontainers:** Replace separate `.devcontainer/windows/` and `.devcontainer/android/` with **one** devcontainer (one image or one shared definition) that can run **`make linux`**, **`make windows`**, and **`make android`** as needed—same repo root, coherent mounts under `docker/<kind>/build/`, and alignment with **`run_devcontainer.py`** / **`make *-docker`** so host and editor flows stay consistent.
 - **Android manifest:** unify `${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}` and discovery (no separate doc in repo yet).
 - **Stamps vs ensure:** Ensure vs `.stamp_setup` above; optional: **Make**-only readiness or smaller **ensure**.

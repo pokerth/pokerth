@@ -67,7 +67,7 @@ help:
 	@echo "  make setup-macos     - Install dependencies for macOS build"
 	@echo "  make setup-android   - Android SDK/NDK/Qt + vcpkg (VCPKG_DIR required; e.g. VCPKG_DIR=build_android/vcpkg)"
 	@echo "  make clean           - Remove build_* (incl. build_android) and docker/windows/build/, docker/android/build/ (see STAMP_DIRS in this Makefile)"
-	@echo "  Docker (*-docker): run_devcontainer.py skips docker build if the image tag already exists — editing docker/<kind>/Dockerfile does not by itself trigger a rebuild. Force: POKERTH_DOCKER_FORCE_BUILD=1 or docker rmi <image>."
+	@echo "  Docker (*-docker): run_devcontainer.py skips docker build if the image tag already exists — editing docker/<kind>/Dockerfile does not by itself trigger a rebuild. Force: DOCKER_FORCE_BUILD=1 or docker rmi <image>."
 	@echo "  Dev Container: do not run 'make *-docker' inside the container; use 'make android' or 'make windows' (see docs/building-developer.md)."
 	@echo ""
 	@echo "Host directory convention (STAMP_DIRS, REPO_BUILD_ROOT in this Makefile):"

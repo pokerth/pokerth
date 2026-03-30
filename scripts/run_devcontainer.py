@@ -7,7 +7,7 @@ from the matching devcontainer.json based on the target.
 
 By default, skips `docker build` when the image tag already exists (fast local iteration).
 There is no Dockerfile freshness check — editing the Dockerfile does not by itself trigger a build.
-Force a rebuild with `--force-build` or `POKERTH_DOCKER_FORCE_BUILD=1`, or remove the image tag.
+Force a rebuild with `--force-build` or `DOCKER_FORCE_BUILD=1`, or remove the image tag.
 """
 
 from __future__ import annotations
@@ -225,7 +225,7 @@ def force_docker_build(cli_force: bool) -> bool:
 
     if cli_force:
         return True
-    if os.environ.get("POKERTH_DOCKER_FORCE_BUILD", "").strip().lower() in ("1", "yes", "true", "on"):
+    if os.environ.get("DOCKER_FORCE_BUILD", "").strip().lower() in ("1", "yes", "true", "on"):
         return True
     return False
 
@@ -290,7 +290,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument(
         "--force-build",
         action="store_true",
-        help="Always run docker build (use after Dockerfile/script changes; set POKERTH_DOCKER_FORCE_BUILD=1 in CI if the image tag may already exist).",
+        help="Always run docker build (use after Dockerfile/script changes; set DOCKER_FORCE_BUILD=1 in CI if the image tag may already exist).",
     )
 
     args = parser.parse_args(argv[1:])
