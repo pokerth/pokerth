@@ -388,9 +388,9 @@ for ABI in "${ABIS[@]}"; do
   ln -sf "$EXPECTED_SO_NAME" "$ANDROID_BUILD_DIR/libs/$ABI/lib${TARGET}.so"
 
   # OpenSSL
-  curl_cmd -o "$ANDROID_BUILD_DIR/libs/$ABI/libssl_3.so" "$OPENSSL_BASE_URL/$ABI/libssl_3.so" \
+  $CURL_CMD -o "$ANDROID_BUILD_DIR/libs/$ABI/libssl_3.so" "$OPENSSL_BASE_URL/$ABI/libssl_3.so" \
     || echo "WARNING: libssl_3.so Download fehlgeschlagen für $ABI"
-  curl_cmd -o "$ANDROID_BUILD_DIR/libs/$ABI/libcrypto_3.so" "$OPENSSL_BASE_URL/$ABI/libcrypto_3.so" \
+  $CURL_CMD -o "$ANDROID_BUILD_DIR/libs/$ABI/libcrypto_3.so" "$OPENSSL_BASE_URL/$ABI/libcrypto_3.so" \
     || echo "WARNING: libcrypto_3.so Download fehlgeschlagen für $ABI"
 
   echo "  libs/$ABI: $(ls -1 "$ANDROID_BUILD_DIR/libs/$ABI/"*.so 2>/dev/null | wc -l) .so-Dateien (vor androiddeployqt)"

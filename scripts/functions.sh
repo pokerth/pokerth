@@ -30,24 +30,14 @@ unset _func_dir
 # Default basename for the Android handoff file (written by setup_android.sh, sourced by build_android.sh only).
 MANIFEST_ENV="${MANIFEST_ENV:-.manifest.env}"
 
-########################################
-# Qt Modules List
-# Base Qt includes: Core, Network, Sql, Xml, Widgets, Svg, Qml, Quick, QuickControls2, Multimedia, etc.
-# Only specify additional optional modules here if needed
-# Empty by default - base Qt has everything PokerTH needs
-########################################
-
-QT_MODULES=(
-  # Add optional modules here if needed
-  qtwebsockets   # Required for PokerTH WebSockets support
-  qtmultimedia   # Required for PokerTH Multimedia support
-  # qtsvg         # Usually included in base
-)
+# Extra aqt modules (setup_linux / setup_macos); base Qt covers most of CMakeLists.
+QT_MODULES=(qtwebsockets qtmultimedia)
 
 ########################################
 # vcpkg Ports List
 ########################################
 
+# Boost/protobuf/openssl/abseil — see CMakeLists.txt / protobuf on Windows+macOS
 VCPKG_PORTS=(
   # Boost components (required by CMakeLists.txt)
   boost-any
@@ -80,11 +70,9 @@ VCPKG_PORTS=(
 # Note: Qt6 is installed via aqtinstall, not vcpkg
 
 ########################################
-# Download command: adjust timeouts/retries here.
+# curl for downloads: adjust timeouts/retries here.
 ########################################
-CURL_DOWNLOAD_CMD="curl --connect-timeout 15 --max-time 180 --retry 3 --retry-delay 5 -fSL"
-
-curl_cmd() { $CURL_DOWNLOAD_CMD "$@"; }
+CURL_CMD="curl --connect-timeout 15 --max-time 180 --retry 3 --retry-delay 5 -fSL"
 
 ########################################
 # Helper Functions
@@ -110,27 +98,8 @@ is_yes() {
 }
 
 ########################################
-# Platform Detection
-########################################
-
-detect_arch() {
-  uname -m
-}
-
-is_arm64() {
-  [[ "$(detect_arch)" == "arm64" ]]
-}
-
-########################################
 # Platform (Makefile is the entry point; passes TARGET_PLATFORM)
 ########################################
-
-# Require TARGET_PLATFORM. Scripts are invoked by Makefile with TARGET_PLATFORM set.
-require_target_platform() {
-  if [ -z "${TARGET_PLATFORM:-}" ]; then
-    error "TARGET_PLATFORM required. Use make setup-<platform> or make <platform> (e.g. make setup-linux, make linux)."
-  fi
-}
 
 # If TARGET_PLATFORM is unset, set from host OS (Darwin → macos, else linux).
 default_target_platform_from_uname() {
@@ -155,30 +124,24 @@ exit_with_usage_if_args() {
   exit 0
 }
 
-# Build script defaults. Mode:
-#   android — CLEAN only (Gradle incremental vs full clean in build_android.sh)
-#   macos     — BUILD_TARGET + CLEAN (BUILD_TARGET: pokerth_client default, or pokerth_qml-client, pokerth_dedicated_server, …)
-#   host      — build_linux.sh: BUILD_TARGET + CLEAN + USE_AQT/USE_VCPKG (overridden by setup_linux_paths for windows)
+# Modes: android (CLEAN only), macos|host (BUILD_TARGET default; host sets USE_AQT/USE_VCPKG defaults).
 init_build_defaults() {
   local mode="${1:?init_build_defaults: mode (android|macos|host)}"
   CLEAN="${CLEAN:-no}"
   case "$mode" in
     android) ;;
-    macos)
+    macos|host)
       BUILD_TARGET="${BUILD_TARGET:-pokerth_client}"
+      if [ "$mode" = "host" ]; then
+        USE_AQT="${USE_AQT:-no}"
+        USE_VCPKG="${USE_VCPKG:-no}"
+      fi
       ;;
-    host)
-      BUILD_TARGET="${BUILD_TARGET:-pokerth_client}"
-      USE_AQT="${USE_AQT:-no}"
-      USE_VCPKG="${USE_VCPKG:-no}"
-      ;;
-    *)
-      error "init_build_defaults: unknown mode '$mode' (use android, macos, or host)"
-      ;;
+    *) error "init_build_defaults: unknown mode '$mode' (use android, macos, or host)" ;;
   esac
 }
 
-# Export VCPKG_DIR and set USE_AQT/USE_VCPKG for setup (android, macos, setup_linux via init_setup_linux_host_env).
+# Export VCPKG_DIR and set USE_AQT/USE_VCPKG for setup (android, macos, setup_linux.sh).
 # VCPKG_DIR: env > VCPKG_ROOT > (BUILD_DIR or build_<platform>)/vcpkg. Windows requires USE_AQT/USE_VCPKG yes; else default no.
 resolve_setup_platform_env() {
   local platform="${1:-$TARGET_PLATFORM}"
@@ -257,7 +220,12 @@ _configure_cmake_windows() {
     -DQT_DEPLOY_SUPPORT=OFF
   )
   $CMAKE_CMD "${CMAKE_ARGS[@]}"
-  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
+  _link_compile_commands_to_repo_root
+}
+
+# Symlink build dir compile_commands.json to repo root for clangd/Cursor.
+_link_compile_commands_to_repo_root() {
+  if [[ -f "$BUILD_DIR/compile_commands.json" ]]; then
     ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
     log "  ✓ compile_commands.json linked for clangd/Cursor"
   fi
@@ -284,20 +252,7 @@ _configure_cmake_linux() {
     CMAKE_ARGS+=(-DProtobuf_PROTOC_EXECUTABLE="$(command -v protoc)")
   fi
   cmake "${CMAKE_ARGS[@]}"
-  if [ -f "$BUILD_DIR/compile_commands.json" ]; then
-    ln -sf "$BUILD_DIR/compile_commands.json" "$REPO_ROOT/compile_commands.json"
-    log "  ✓ compile_commands.json linked for clangd/Cursor"
-  fi
-}
-
-# Configure CMake for platform. Usage: configure_cmake_for_platform <platform>
-# platform: linux | windows. Requires BUILD_DIR, setup_linux_paths, check_qt_deps.
-configure_cmake_for_platform() {
-  case "${1:-$TARGET_PLATFORM}" in
-    windows) _configure_cmake_windows ;;
-    linux)   _configure_cmake_linux ;;
-    *)       error "configure_cmake_for_platform: unsupported platform $1" ;;
-  esac
+  _link_compile_commands_to_repo_root
 }
 
 # Internal: create Windows deploy directory.
@@ -382,16 +337,6 @@ _create_linux_deploy_dir() {
   log "  → Or from bin: $BUILD_DIR/bin/$BINARY_NAME"
 }
 
-# Create deploy directory for platform. Usage: create_deploy_for_platform <platform>
-# Sets DEPLOY_DIR and BINARY_NAME. platform: linux | windows.
-create_deploy_for_platform() {
-  case "${1:-$TARGET_PLATFORM}" in
-    windows) _create_windows_deploy_dir ;;
-    linux)   _create_linux_deploy_dir ;;
-    *)       error "create_deploy_for_platform: unsupported platform $1" ;;
-  esac
-}
-
 # Usage: check_dependency <command> [setup_script]
 # setup_script is used in error message (e.g. make setup-linux or scripts/setup.sh)
 check_dependency() {
@@ -406,33 +351,46 @@ check_dependency() {
 # Linux-specific Functions
 ########################################
 
-# Setup Linux Qt paths based on target platform
-# Usage: setup_linux_paths TARGET_PLATFORM [USE_AQT] [USE_VCPKG]
-# Sets: QT_DIR, QT_WINDOWS_DIR, QT_HOST_PATH, VCPKG_TARGET_TRIPLET, MINGW_DIR
-# Windows cross-build is x86_64 only (host tools are gcc_64); ARM is not supported.
+# aqt install-qt arch string for platform windows|linux (echo one line).
+_aqt_resolve_desktop_arch() {
+  local platform="$1" version="$2" list
+  list=$(aqt list-qt "$platform" desktop --arch "$version" 2>/dev/null || echo "")
+  case "$platform" in
+    windows)
+      case "$list" in
+        *win64_mingw*) echo win64_mingw ;;
+        *mingw_64*) echo mingw_64 ;;
+        *) [[ "$version" =~ ^6\.(9|1[0-9]) ]] && echo win64_mingw || echo mingw_64 ;;
+      esac
+      ;;
+    *)
+      case "$list" in
+        *linux_gcc_64*) echo linux_gcc_64 ;;
+        *gcc_64*) echo gcc_64 ;;
+        *) echo linux_gcc_64 ;;
+      esac
+      ;;
+  esac
+}
+
+# MinGW Qt desktop kit under QT_OUTPUT_DIR/QT_VERSION (dirs on disk, else aqt list / version fallback).
+# Sets global QT_WINDOWS_DIR. Used for Windows cross-build setup and check_qt_deps fallbacks.
+set_qt_windows_dir_mingw_kit() {
+  local base="${QT_OUTPUT_DIR}/${QT_VERSION}"
+  if [[ -d "$base/win64_mingw" ]]; then QT_WINDOWS_DIR="$base/win64_mingw"
+  elif [[ -d "$base/mingw_64" ]]; then QT_WINDOWS_DIR="$base/mingw_64"
+  else QT_WINDOWS_DIR="$base/$(_aqt_resolve_desktop_arch windows "$QT_VERSION")"; fi
+}
+
+# Sets QT_DIR, QT_WINDOWS_DIR, QT_HOST_PATH, VCPKG_TARGET_TRIPLET, MINGW_DIR (Windows cross: x86_64 host gcc_64 only).
 setup_linux_paths() {
   local target_platform="${1:-linux}"
-  local use_aqt="${2:-no}"
-  local use_vcpkg="${3:-no}"
 
   if [ "$target_platform" = "windows" ]; then
     # Windows cross-compilation requires aqtinstall
     USE_AQT="yes"
     USE_VCPKG="yes"
-    # Detect actual Qt Windows directory (Qt 6.9+ may use win64_mingw, older uses mingw_64)
-    # Check which one actually exists
-    if [ -d "$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw" ]; then
-      QT_WINDOWS_DIR="$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw"
-    elif [ -d "$QT_OUTPUT_DIR/$QT_VERSION/mingw_64" ]; then
-      QT_WINDOWS_DIR="$QT_OUTPUT_DIR/$QT_VERSION/mingw_64"
-    else
-      # Fallback: try win64_mingw first for Qt 6.9+, then mingw_64
-      if [[ "$QT_VERSION" =~ ^6\.(9|1[0-9]) ]]; then
-        QT_WINDOWS_DIR="$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw"
-      else
-        QT_WINDOWS_DIR="$QT_OUTPUT_DIR/$QT_VERSION/mingw_64"
-      fi
-    fi
+    set_qt_windows_dir_mingw_kit
     # Linux host tools for MinGW build (x86_64 only; ARM not supported)
     QT_HOST_PATH="$QT_OUTPUT_DIR/$QT_VERSION/gcc_64"
     QT_DIR="$QT_WINDOWS_DIR"
@@ -445,48 +403,9 @@ setup_linux_paths() {
   fi
 }
 
-# setup_linux.sh: vcpkg dir, USE_AQT/USE_VCPKG, Qt paths (setup_linux.sh calls require_target_platform first).
-init_setup_linux_host_env() {
-  resolve_setup_platform_env "$TARGET_PLATFORM"
-  setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
-}
-
-# setup_linux.sh: MinGW Windows cross-build is only tested on x86_64 hosts.
-warn_if_windows_cross_not_x86_64() {
-  if [ "${TARGET_PLATFORM:-}" = "windows" ] && [ "$(uname -m)" != "x86_64" ]; then
-    log "Warning: Windows cross-build is only tested on x86_64."
-  fi
-}
-
 ########################################
 # Common Setup Functions
 ########################################
-
-# Install pipx via pip (fallback when package manager fails)
-# Usage: install_pipx_via_pip
-install_pipx_via_pip() {
-  log "Installing pipx via pip..."
-  if command_exists python3; then
-    python3 -m pip install --user pipx --break-system-packages 2>/dev/null || \
-    python3 -m pip install --user pipx
-  elif command_exists python; then
-    python -m pip install --user pipx --break-system-packages 2>/dev/null || \
-    python -m pip install --user pipx
-  else
-    error "Python not found. Please install Python 3."
-  fi
-}
-
-# Ensure pipx is in PATH
-# Usage: ensure_pipx_path
-ensure_pipx_path() {
-  if command_exists python3; then
-    python3 -m pipx ensurepath 2>/dev/null || true
-  elif command_exists python; then
-    python -m pipx ensurepath 2>/dev/null || true
-  fi
-  export PATH="$HOME/.local/bin:$PATH"
-}
 
 # Install Qt with optional modules (handles missing modules gracefully)
 # Usage: install_qt_with_modules [platform] [version] [arch] [output_dir] [modules...]
@@ -499,46 +418,10 @@ install_qt_with_modules() {
   local aqt_opts=""
   local modules=("$@")
 
-  # For Windows, Qt 6.9+ uses win64_mingw instead of mingw_64
-  if [ "$platform" = "windows" ] && [ "$arch" = "mingw_64" ]; then
-    # Check which architecture is available
-    local available_archs
-    available_archs=$(aqt list-qt windows desktop --arch "$version" 2>/dev/null || echo "")
-    if echo "$available_archs" | grep -q "win64_mingw"; then
-      arch="win64_mingw"
-      log "Using architecture: $arch (Qt 6.9+ format)"
-    elif echo "$available_archs" | grep -q "mingw_64"; then
-      arch="mingw_64"
-      log "Using architecture: $arch (older Qt format)"
-    else
-      # Default based on version
-      if [[ "$version" =~ ^6\.(9|1[0-9]) ]]; then
-        arch="win64_mingw"
-        log "Using architecture: $arch (Qt 6.9+ default)"
-      else
-        arch="mingw_64"
-        log "Using architecture: $arch (older Qt default)"
-      fi
-    fi
-  fi
-
-  # For Linux, use linux_gcc_64 instead of gcc_64
-  if [ "$platform" = "linux" ] && [ "$arch" = "gcc_64" ]; then
-    # Check which architecture is available
-    local available_archs
-    available_archs=$(aqt list-qt linux desktop --arch "$version" 2>/dev/null || echo "")
-    if echo "$available_archs" | grep -q "linux_gcc_64"; then
-      arch="linux_gcc_64"
-      log "Using architecture: $arch (Linux format)"
-    elif echo "$available_archs" | grep -q "gcc_64"; then
-      arch="gcc_64"
-      log "Using architecture: $arch (fallback format)"
-    else
-      # Default to linux_gcc_64 for Linux
-      arch="linux_gcc_64"
-      log "Using architecture: $arch (Linux default)"
-    fi
-  fi
+  case "$platform:$arch" in
+    windows:mingw_64) arch="$(_aqt_resolve_desktop_arch windows "$version")"; log "Using aqt desktop arch: $arch" ;;
+    linux:gcc_64) arch="$(_aqt_resolve_desktop_arch linux "$version")"; log "Using aqt desktop arch: $arch" ;;
+  esac
 
   if [ "$platform" = "windows" ]; then
     # Windows requires --autodesktop flag
@@ -571,6 +454,16 @@ install_qt_with_modules() {
   fi
 }
 
+_install_pipx_with_user_pip() {
+  if command_exists python3; then
+    python3 -m pip install --user pipx --break-system-packages 2>/dev/null || python3 -m pip install --user pipx
+  elif command_exists python; then
+    python -m pip install --user pipx --break-system-packages 2>/dev/null || python -m pip install --user pipx
+  else
+    error "Python not found. Please install Python 3."
+  fi
+}
+
 # Setup pipx and aqtinstall
 # Usage: setup_pipx_aqt [pkg_manager] [install_cmd]
 # pkg_manager: "apt", "dnf", "pacman", etc. (optional, for apt install)
@@ -579,34 +472,29 @@ setup_pipx_aqt() {
   local pkg_manager="${1:-}"
   local install_cmd="${2:-}"
 
-  # Install pipx if not available
   if ! command_exists pipx; then
     log "Installing pipx..."
-
-    # Try package manager first if available (apt, dnf, or pacman)
     if [ -n "$pkg_manager" ] && [ -n "$install_cmd" ] && [[ "$pkg_manager" =~ ^(apt|dnf|pacman)$ ]]; then
       $install_cmd pipx || {
         log "pipx not available via $pkg_manager, trying pip..."
-        install_pipx_via_pip
+        _install_pipx_with_user_pip
       }
     else
-      # No supported package manager, use pip
-      install_pipx_via_pip
+      _install_pipx_with_user_pip
     fi
-
-    ensure_pipx_path
+    if command_exists python3; then python3 -m pipx ensurepath 2>/dev/null || true
+    elif command_exists python; then python -m pipx ensurepath 2>/dev/null || true
+    fi
   else
     log "pipx already installed"
   fi
 
-  # Install aqtinstall via pipx (not available in apt)
   if ! command_exists aqt; then
     log "Installing aqtinstall via pipx..."
     pipx install aqtinstall
   else
     log "aqtinstall already installed"
   fi
-
   export PATH="$HOME/.local/bin:$PATH"
 }
 
@@ -618,24 +506,10 @@ ensure_vcpkg_clone_bootstrap_if_missing() {
   if [ -f "$root/vcpkg" ]; then
     return 0
   fi
-  # Keep this block: it shows what the script actually sees ($VCPKG_DIR, ls, git, bootstrap). Do not delete when changing cleanup/clone — failures are often environment-specific.
-  log "ensure_vcpkg_clone_bootstrap_if_missing: no file at $root/vcpkg (VCPKG_DIR=$root)"
-  if [ ! -e "$root" ]; then
-    log "  path does not exist: $root"
-  elif [ ! -d "$root" ]; then
-    log "  path is not a directory: $root"
-  else
-    log "  ls -la $root (first 40 lines):"
+  log "ensure_vcpkg_clone_bootstrap_if_missing: no vcpkg binary at $root/vcpkg (VCPKG_DIR=$root)"
+  if [ "${VCPKG_BOOTSTRAP_DEBUG:-}" = "1" ] && [ -d "$root" ]; then
     ls -la "$root" 2>&1 | head -40 | while IFS= read -r line || [ -n "$line" ]; do log "  $line"; done
-  fi
-  local _git_rc=0
-  local _git_rp
-  _git_rp=$(git -C "$root" rev-parse --is-inside-work-tree 2>&1) || _git_rc=$?
-  log "  git rev-parse --is-inside-work-tree: rc=${_git_rc} output=${_git_rp}"
-  if [ -f "$root/bootstrap-vcpkg.sh" ]; then
-    log "  bootstrap-vcpkg.sh: present"
-  else
-    log "  bootstrap-vcpkg.sh: MISSING"
+    log "  git: $(git -C "$root" rev-parse --is-inside-work-tree 2>&1) bootstrap: $([ -f "$root/bootstrap-vcpkg.sh" ] && echo ok || echo missing)"
   fi
   mkdir -p "$(dirname "$root")"
   if [ -d "$root" ]; then
@@ -651,7 +525,7 @@ ensure_vcpkg_clone_bootstrap_if_missing() {
   fi
   # Clean working tree before bootstrap (dirty tree can break scripts/bootstrap).
   log "Resetting vcpkg to HEAD ..."
-  (cd "$root" && git fetch --all git reset --hard @{upstream})
+  (cd "$root" && git fetch --all && git reset --hard '@{upstream}')
   log "Bootstrapping vcpkg ..."
   "$root/bootstrap-vcpkg.sh" -disableMetrics
 }
@@ -729,16 +603,6 @@ vcpkg_install() {
   fi
 }
 
-# Get vcpkg triplet for macOS
-# Usage: get_vcpkg_triplet_macos
-get_vcpkg_triplet_macos() {
-  if is_arm64; then
-    echo "arm64-osx"
-  else
-    echo "x64-osx"
-  fi
-}
-
 # Check Qt dependencies for build (Linux/Windows only)
 # Usage: check_qt_deps [platform] [use_aqt] [qt_dir] [setup_script]
 # platform: "linux" or "windows"
@@ -751,46 +615,31 @@ check_qt_deps() {
 
   if is_yes "$use_aqt"; then
     if [ "$platform" = "windows" ]; then
-      # Check both possible directory names (win64_mingw for Qt 6.9+, mingw_64 for older)
-      local qt_windows_dir="${QT_WINDOWS_DIR:-}"
-      local arch_name=""
-
-      # First check if QT_WINDOWS_DIR is set and looks valid
-      # Qt 6+ may not ship qmake in target kits; rely on CMake config instead
-      if [ -n "$qt_windows_dir" ] && [ -d "$qt_windows_dir" ] && [ -f "$qt_windows_dir/lib/cmake/Qt6/Qt6Config.cmake" ]; then
-        # Use the provided directory
-        if [[ "$qt_windows_dir" == *"win64_mingw"* ]]; then
-          arch_name="win64_mingw"
-        else
-          arch_name="mingw_64"
-        fi
+      # Qt 6+ MinGW kit: use Qt6Config.cmake (same rules as set_qt_windows_dir_mingw_kit).
+      local qt_windows_dir="" arch_name="" base="${QT_OUTPUT_DIR}/${QT_VERSION}"
+      if [[ -n "${QT_WINDOWS_DIR:-}" && -d "${QT_WINDOWS_DIR}" && -f "${QT_WINDOWS_DIR}/lib/cmake/Qt6/Qt6Config.cmake" ]]; then
+        qt_windows_dir="$QT_WINDOWS_DIR"
       else
-        # Try win64_mingw first (Qt 6.9+)
-        if [ -d "$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw" ] && [ -f "$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw/lib/cmake/Qt6/Qt6Config.cmake" ]; then
-          qt_windows_dir="$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw"
-          arch_name="win64_mingw"
-        # Fall back to mingw_64 (older Qt versions)
-        elif [ -d "$QT_OUTPUT_DIR/$QT_VERSION/mingw_64" ] && [ -f "$QT_OUTPUT_DIR/$QT_VERSION/mingw_64/lib/cmake/Qt6/Qt6Config.cmake" ]; then
-          qt_windows_dir="$QT_OUTPUT_DIR/$QT_VERSION/mingw_64"
-          arch_name="mingw_64"
-        else
-          # Neither exists, determine expected name based on Qt version
-          if [[ "$QT_VERSION" =~ ^6\.(9|1[0-9]) ]]; then
-            qt_windows_dir="$QT_OUTPUT_DIR/$QT_VERSION/win64_mingw"
-            arch_name="win64_mingw"
-          else
-            qt_windows_dir="$QT_OUTPUT_DIR/$QT_VERSION/mingw_64"
-            arch_name="mingw_64"
+        local cand
+        for cand in "$base/win64_mingw" "$base/mingw_64"; do
+          if [[ -f "$cand/lib/cmake/Qt6/Qt6Config.cmake" ]]; then
+            qt_windows_dir="$cand"
+            break
           fi
+        done
+        if [[ -z "$qt_windows_dir" ]]; then
+          set_qt_windows_dir_mingw_kit
+          qt_windows_dir="$QT_WINDOWS_DIR"
         fi
       fi
+      arch_name="${qt_windows_dir##*/}"
 
       local qt_host_path="${QT_HOST_PATH:-$QT_OUTPUT_DIR/$QT_VERSION/gcc_64}"
 
-      if [ ! -d "$qt_windows_dir" ] || [ ! -f "$qt_windows_dir/lib/cmake/Qt6/Qt6Config.cmake" ]; then
+      if [[ ! -d "$qt_windows_dir" || ! -f "$qt_windows_dir/lib/cmake/Qt6/Qt6Config.cmake" ]]; then
         error "Qt Windows ($arch_name) not found at $qt_windows_dir. Please run $setup_script TARGET_PLATFORM=windows"
       fi
-      if [ ! -d "$qt_host_path" ] || [ ! -f "$qt_host_path/bin/qt-cmake" ]; then
+      if [[ ! -d "$qt_host_path" || ! -f "$qt_host_path/bin/qt-cmake" ]]; then
         error "Qt host tools not found at $qt_host_path. Please run $setup_script TARGET_PLATFORM=windows"
       fi
       export CMAKE_PREFIX_PATH="$qt_windows_dir"

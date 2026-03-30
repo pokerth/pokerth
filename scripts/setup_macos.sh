@@ -93,7 +93,10 @@ brew install \
   automake \
   libtool
 
-VCPKG_TRIPLET=$(get_vcpkg_triplet_macos)
+case "$(uname -m)" in
+  arm64) VCPKG_TRIPLET="arm64-osx" ;;
+  *)     VCPKG_TRIPLET="x64-osx" ;;
+esac
 setup_vcpkg "$VCPKG_TRIPLET"
 
 ########################################

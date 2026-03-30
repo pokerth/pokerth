@@ -36,7 +36,7 @@ provision_android_sdk_ndk() {
   if [ ! -f "${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager" ]; then
     echo "Downloading Android command line tools..."
     CMDLINE_ZIP="commandlinetools-linux-${ANDROID_CMDLINE_TOOLS_VERSION}_latest.zip"
-    curl_cmd "https://dl.google.com/android/repository/${CMDLINE_ZIP}" -o /tmp/cmdline-tools.zip
+    $CURL_CMD "https://dl.google.com/android/repository/${CMDLINE_ZIP}" -o /tmp/cmdline-tools.zip
     unzip -q /tmp/cmdline-tools.zip -d /tmp
     mkdir -p "${ANDROID_SDK_ROOT}/cmdline-tools/latest"
     if [ -d /tmp/cmdline-tools ]; then
@@ -325,7 +325,7 @@ GRADLE_DIR="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}"
 if [ ! -d "$GRADLE_DIR" ]; then
   echo "Provisioning Gradle ${GRADLE_VERSION}..."
   mkdir -p "$(dirname "$GRADLE_DIR")"
-  curl_cmd "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" -o /tmp/gradle.zip
+  $CURL_CMD "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" -o /tmp/gradle.zip
   unzip -q /tmp/gradle.zip -d "$(dirname "$GRADLE_DIR")"
   rm /tmp/gradle.zip
 fi

@@ -326,10 +326,10 @@ case "$ARCH" in
   *) OPENSSL_ARCH="$ARCH";;
 esac
 if [[ ! -s "$OPENSSL_DIR/libssl_3.so" ]]; then
-  curl_cmd -o "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
+  $CURL_CMD -o "$OPENSSL_DIR/libssl_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libssl_3.so" || echo "WARNING: Failed to download libssl_3.so"
 fi
 if [[ ! -s "$OPENSSL_DIR/libcrypto_3.so" ]]; then
-  curl_cmd -o "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
+  $CURL_CMD -o "$OPENSSL_DIR/libcrypto_3.so" "$OPENSSL_BASE_URL/$OPENSSL_ARCH/libcrypto_3.so" || echo "WARNING: Failed to download libcrypto_3.so"
 fi
 
 ANDROIDDEPLOYQT="${QT_HOST_PATH}/bin/androiddeployqt"

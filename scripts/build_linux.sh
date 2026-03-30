@@ -38,7 +38,7 @@ init_build_defaults host
 # Optional: CREATE_INSTALLER=yes creates Linux AppImage (linuxdeployqt) or Windows NSIS installer (makensis; apt install nsis)
 
 # Setup Qt paths based on target platform (overwrites USE_AQT/USE_VCPKG for windows — see functions.sh)
-setup_linux_paths "$TARGET_PLATFORM" "$USE_AQT" "$USE_VCPKG"
+setup_linux_paths "$TARGET_PLATFORM"
 
 ########################################
 # Installer helpers (deploy helpers are in functions.sh)
@@ -224,7 +224,11 @@ else
 fi
 
 if [ "$NEED_CONFIGURE" = "1" ]; then
-  configure_cmake_for_platform "$TARGET_PLATFORM"
+  case "$TARGET_PLATFORM" in
+    windows) _configure_cmake_windows ;;
+    linux)   _configure_cmake_linux ;;
+    *)       error "configure: unsupported TARGET_PLATFORM $TARGET_PLATFORM" ;;
+  esac
 fi
 
 log "Building ${BUILD_TARGET}..."
@@ -234,7 +238,11 @@ cmake --build "$BUILD_DIR" --target "$BUILD_TARGET" --parallel "$(nproc)"
 # 3. Create deployment directory (always)
 ########################################
 
-create_deploy_for_platform "$TARGET_PLATFORM"
+case "$TARGET_PLATFORM" in
+  windows) _create_windows_deploy_dir ;;
+  linux)   _create_linux_deploy_dir ;;
+  *)       error "deploy: unsupported TARGET_PLATFORM $TARGET_PLATFORM" ;;
+esac
 
 ########################################
 # 4. Create installer if requested

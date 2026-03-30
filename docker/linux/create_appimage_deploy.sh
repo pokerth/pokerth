@@ -46,7 +46,7 @@ APPIMAGETOOL_VERSION="${APPIMAGETOOL_VERSION:-continuous}"
 APPIMAGETOOL="${SCRIPT_DIR}/appimagetool-${ARCH}.AppImage"
 if [ ! -f "$APPIMAGETOOL" ]; then
     echo "=== Lade appimagetool herunter (${APPIMAGETOOL_VERSION}) ==="
-    curl_cmd -# -o "$APPIMAGETOOL" \
+    $CURL_CMD -# -o "$APPIMAGETOOL" \
         "https://github.com/AppImage/appimagetool/releases/download/${APPIMAGETOOL_VERSION}/appimagetool-${ARCH}.AppImage" \
         || { echo "ERROR: appimagetool Download fehlgeschlagen"; exit 1; }
     chmod +x "$APPIMAGETOOL"

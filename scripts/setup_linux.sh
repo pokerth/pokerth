@@ -14,8 +14,6 @@ set -euo pipefail
 # shellcheck source=/dev/null
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
-require_target_platform
-
 LAYER="all"
 case "${1:-}" in
   all|toolchain|deps)
@@ -35,8 +33,11 @@ if [ "$TARGET_PLATFORM" = "windows" ] && [ -z "${QT_OUTPUT_DIR:-}" ] && [ -n "${
   export QT_OUTPUT_DIR="${ROOT}/Qt"
 fi
 
-init_setup_linux_host_env
-warn_if_windows_cross_not_x86_64
+resolve_setup_platform_env "$TARGET_PLATFORM"
+setup_linux_paths "$TARGET_PLATFORM"
+if [ "${TARGET_PLATFORM:-}" = "windows" ] && [ "$(uname -m)" != "x86_64" ]; then
+  log "Warning: Windows cross-build is only tested on x86_64."
+fi
 
 ########################################
 # Linux-specific Helper functions
@@ -287,7 +288,7 @@ if [ "$TARGET_PLATFORM" = "linux" ]; then
       log "✓ linuxdeployqt already present in $BIN_DIR"
     else
       LINUXDEPLOYQT_URL="https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-      curl_cmd -o "$BIN_DIR/linuxdeployqt" "$LINUXDEPLOYQT_URL" || error "Failed to download linuxdeployqt. Install manually from https://github.com/probonopd/linuxdeployqt/releases"
+      $CURL_CMD -o "$BIN_DIR/linuxdeployqt" "$LINUXDEPLOYQT_URL" || error "Failed to download linuxdeployqt. Install manually from https://github.com/probonopd/linuxdeployqt/releases"
       chmod +x "$BIN_DIR/linuxdeployqt"
       log "✓ linuxdeployqt installed to $BIN_DIR/linuxdeployqt"
     fi
