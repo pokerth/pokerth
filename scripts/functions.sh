@@ -712,3 +712,21 @@ check_vcpkg_deps() {
   export VCPKG_ROOT="$VCPKG_DIR"
   log "✓ vcpkg: $VCPKG_DIR"
 }
+
+# If CMakeCache.txt pins a different Z_VCPKG_ROOT_DIR (e.g. vcpkg moved under docker/<platform>/build),
+# CMake would skip reconfigure and keep wrong paths — drop cache so the next configure is fresh.
+# Args: build directory (-B). Uses VCPKG_ROOT, then VCPKG_DIR. No-op if cache or Z_ line missing.
+invalidate_cmake_cache_if_vcpkg_root_mismatch() {
+  local build_dir="${1:?invalidate_cmake_cache_if_vcpkg_root_mismatch: build directory required}"
+  local cache="${build_dir}/CMakeCache.txt"
+  [[ -f "$cache" ]] || return 0
+  local cached expect
+  cached="$(sed -n 's/^Z_VCPKG_ROOT_DIR:INTERNAL=//p' "$cache" | head -1)"
+  [[ -n "$cached" ]] || return 0
+  expect="${VCPKG_ROOT:-${VCPKG_DIR:-}}"
+  [[ -n "$expect" ]] || return 0
+  if [[ "$cached" != "$expect" ]]; then
+    log "WARNING: CMake cache has stale vcpkg root (cache: $cached, current: $expect); removing CMakeCache.txt and CMakeFiles."
+    rm -rf "${build_dir}/CMakeCache.txt" "${build_dir}/CMakeFiles"
+  fi
+}

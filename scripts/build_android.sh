@@ -30,7 +30,7 @@ QT_HOST_PATH="${QT_HOST_PATH:-}"
 
 # Stamp can exist without .manifest.env (e.g. manifest deleted, SETUP_ALREADY_DONE=touch-only). Avoid ${ANDROID_SDK_ROOT}/build-tools → "/build-tools".
 if [[ -z "${ANDROID_SDK_ROOT}" ]]; then
-  error "ANDROID_SDK_ROOT unset (no ${MANIFEST_ENV:-.manifest.env} loaded?). Try: rm -f \"${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}/.stamp_setup\" && make setup-android (native) or ensure deps ran (Docker)."
+  error "ANDROID_SDK_ROOT unset (no ${MANIFEST_ENV:-.manifest.env} loaded?). Try: make setup-android (native) or ensure deps ran (Docker)."
 fi
 
 # Incremental Gradle by default (fast back-to-back android-docker). Full Android/Java clean: CLEAN=yes (forwarded by run_devcontainer.py from host).
@@ -135,6 +135,9 @@ else
 fi
 BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
 mkdir -p "$BUILD_DIR"
+
+# Cached Z_VCPKG_ROOT_DIR must match manifest (e.g. after moving vcpkg from ROOT to docker/<kind>/build/vcpkg).
+invalidate_cmake_cache_if_vcpkg_root_mismatch "$BUILD_DIR"
 
 # CMake Initial Cache
 cat > "$BUILD_DIR/InitialCache.cmake" <<EOF

@@ -204,6 +204,9 @@ if is_yes "$CLEAN"; then
 else
   log "Reusing existing build directory for $TARGET_PLATFORM..."
   mkdir -p "$BUILD_DIR"
+  if is_yes "$USE_VCPKG"; then
+    invalidate_cmake_cache_if_vcpkg_root_mismatch "$BUILD_DIR"
+  fi
   if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
     # Only reconfigure if cache was for a different repo path (e.g. make windows vs make windows-docker).
     # If the build dir is broken (e.g. missing Makefile), run CLEAN=yes and retry.
