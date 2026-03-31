@@ -83,23 +83,19 @@ help:
 # Pattern stamp rules (single template per stamp tree).
 # Stem ($*) is the real context: linux/windows/macos/android for native, windows/android for docker.
 
-# windows additional dep on windows-apt-packages.txt
-build_windows/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
-# android additional dep on android-apt-packages.txt
-build_android/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
+# windows additional dep on setup script (windows cross-compile) and windows-apt-packages.txt
+build_windows/.stamp_setup: $(SCRIPTS)/setup_linux.sh $(SCRIPTS)/windows-apt-packages.txt
+# android additional dep on setup script (Android) and android-apt-packages.txt
+build_android/.stamp_setup: $(SCRIPTS)/setup_android.sh $(SCRIPTS)/android-apt-packages.txt
 # Native stamps: build_linux/.stamp_setup, build_windows/.stamp_setup, build_macos/.stamp_setup, build_android/.stamp_setup
-build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_linux.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/setup_android.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env $(SCRIPTS)/apt-packages.txt
+build_%/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/setup_macos.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env $(SCRIPTS)/apt-packages.txt
 	@mkdir -p $(@D)
 	@if [ -n "$${SETUP_ALREADY_DONE:-}" ]; then touch $@; else \
 	  TARGET_PLATFORM=$* BUILD_DIR=$(@D) $(SCRIPTS)/setup.sh && touch $@; fi
 
-# docker/windows/build additional dep on windows-apt-packages.txt
-docker/windows/build/.stamp_setup: $(SCRIPTS)/windows-apt-packages.txt
-# android additional dep on android-apt-packages.txt
-docker/android/build/.stamp_setup: $(SCRIPTS)/android-apt-packages.txt
-# Docker stamps: docker/windows/build/.stamp_setup and docker/android/build/.stamp_setup
-docker/windows/build/.stamp_setup: $(SCRIPTS)/setup_linux.sh # We build windows targets on linux host, so we need to use the linux setup script
-docker/android/build/.stamp_setup: $(SCRIPTS)/setup_android.sh
+# Docker stamps: add kind-specific prereqs on these lines only (no recipe).
+docker/windows/build/.stamp_setup: $(SCRIPTS)/setup_linux.sh $(SCRIPTS)/windows-apt-packages.txt
+docker/android/build/.stamp_setup: $(SCRIPTS)/setup_android.sh $(SCRIPTS)/android-apt-packages.txt
 # stem rule needs the recipe, since it depends on $*
 docker/%/build/.stamp_setup: $(SCRIPTS)/setup.sh $(SCRIPTS)/functions.sh $(SCRIPTS)/versions.env
 	@mkdir -p $(@D)
