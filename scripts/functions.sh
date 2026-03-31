@@ -501,13 +501,15 @@ setup_pipx_aqt() {
     log "pipx already installed"
   fi
 
+  # User/pip installs put `pipx` under ~/.local/bin; `pipx ensurepath` does not update this shell's PATH.
+  export PATH="$HOME/.local/bin:$PATH"
+
   if ! command_exists aqt; then
     log "Installing aqtinstall via pipx..."
     pipx install aqtinstall
   else
     log "aqtinstall already installed"
   fi
-  export PATH="$HOME/.local/bin:$PATH"
 }
 
 # Clone and bootstrap vcpkg at VCPKG_DIR when the vcpkg executable is missing.
