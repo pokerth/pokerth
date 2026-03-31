@@ -150,7 +150,7 @@ build_windows/deploy/
 
 ### Building in Dev Container (Windows)
 
-Same **`run_devcontainer.py`** plan and host caches as **`make windows-docker`**: open the **repository root** in Cursor/VS Code and use `.devcontainer/windows/devcontainer.json` (image `docker/windows/Dockerfile`). Repo at `/workspaces/pokerth`; host **`docker/windows/build/{vcpkg,Qt}`** mount to **`/opt/pokerth-windows/{vcpkg,Qt}`**. **`ensure_docker_deps.py`** sets **`IN_DOCKER=1`**; the **`Makefile`** passes **`REPO_BUILD_ROOT`** into **`build.sh`** (**`build_linux.sh`**), so binaries land in **`docker/windows/build/deploy/`**. First run may invoke **`setup.sh deps`** if vcpkg/Qt are not ready; on failure, check **`docker/windows/build/vcpkg/buildtrees/`** logs. Prerequisites: [README_windows.md](../docker/windows/README_windows.md). Mounts, **ensure**, and stamps: **building-developer.md**.
+Same **`run_devcontainer.py`** plan and host caches as **`make windows-docker`**: open the **repository root** in Cursor/VS Code and use `.devcontainer/windows/devcontainer.json` (image `docker/windows/Dockerfile`). Repo at `/workspaces/pokerth`; the image sets **`IN_DOCKER=1`**, so **`scripts/functions.sh`** sets **`VCPKG_DIR`** / **`QT_OUTPUT_DIR`** under **`docker/windows/build/`**. **`ensure_docker_deps.py`** may run **`setup.sh deps`** before the inner **`make windows`**. The **`Makefile`** passes **`REPO_BUILD_ROOT`** into **`build.sh`** (**`build_linux.sh`**), so binaries land in **`docker/windows/build/deploy/`**. On failure, check **`docker/windows/build/vcpkg/buildtrees/`** logs. Prerequisites: [README_windows.md](../docker/windows/README_windows.md). Mounts, **ensure**, and stamps: **building-developer.md**.
 
 ### OpenSSL MinGW (SIO_UDP_NETRESET)
 
@@ -182,7 +182,7 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 
 - **Top-level entry:** Use `make` (see `make help`). Scripts live in `scripts/`: `setup.sh` / `build.sh` dispatch to `setup_linux.sh` / `build_linux.sh` (linux + windows on Linux), `setup_android.sh` / `build_android.sh`, `setup_macos.sh` / `build_macos.sh`.
 - **Default goals:** On Linux, `make` = `make linux` and `make setup` = `make setup-linux`. On macOS, `make` = `make macos` and `make setup` = `make setup-macos`.
-- **Stamp files:** See [Defaults, stamps, and clean](#defaults-stamps-and-clean). Docker **ensure** also touches `docker/windows/build/.stamp_setup` and `docker/android/build/.stamp_setup` when it runs **setup** so Make prerequisites stay consistent.
+- **Stamp files:** See [Defaults, stamps, and clean](#defaults-stamps-and-clean). **`ensure_docker_deps.py`** may run **`setup.sh deps`** when vcpkg/Qt are missing; it does **not** touch **`.stamp_setup`**. The inner **`make`** creates the stamp via the Makefile stamp rules when required.
 - **Setup scripts:** `setup.sh` dispatches: `setup_linux.sh` (linux/windows host), `setup_android.sh`, `setup_macos.sh`.
 - **Build scripts:** `build.sh` dispatches: `build_linux.sh`, `build_android.sh`, `build_macos.sh`.
 - **make clean:** Removes build dirs and stamps.

@@ -28,7 +28,7 @@ IN_DEVCONTAINER := $(if $(filter 1,$(_DEVCONTAINER_ENV)),1,$(if $(strip $(REMOTE
 # - host: build_linux/, build_windows/, build_macos/, build_android/
 # - docker: docker/windows/build/, docker/android/build/
 #
-# `ensure_docker_deps.py` sets `IN_DOCKER=1` for `make` inside `docker run` (`make *-docker`). Dockerfiles set `ENV IN_DOCKER=1`.
+# `docker run` from `make *-docker` and Dockerfiles set `ENV IN_DOCKER=1` (devcontainer.json may add other keys).
 # `IN_DEVCONTAINER=1` comes from `.devcontainer/*/devcontainer.json` `containerEnv` (editor session; not set for plain `docker run`).
 NATIVE_PLATFORMS   := linux windows macos
 DOCKER_KINDS_STAMP := windows android
@@ -72,7 +72,7 @@ help:
 	@echo ""
 	@echo "Host directory convention (STAMP_DIRS, REPO_BUILD_ROOT in this Makefile):"
 	@echo "  Non-Docker: build_<platform>/ — stamps, CMake, deploy (e.g. build_linux/, build_android/)."
-	@echo "  Docker: docker/<kind>/build/ — vcpkg/Qt mounts, stamps, outputs (REPO_BUILD_ROOT when IN_DOCKER=1)."
+	@echo "  Docker: docker/<kind>/build/ — vcpkg/Qt (functions.sh when IN_DOCKER=1), stamps, outputs (REPO_BUILD_ROOT when IN_DOCKER=1)."
 	@echo "  More: docs/building-developer.md"
 	@echo ""
 	@echo "Windows: 'make windows' uses host toolchain on Linux, Docker on macOS. Use 'make windows-docker' to always use Docker."
@@ -107,8 +107,8 @@ setup: build_$(TARGET_PLATFORM)/.stamp_setup
 
 # setup-* wrappers only create native stamps (build_<platform>/.stamp_setup), not docker/.../build/.stamp_setup.
 # Docker stamps: same recipe as docker/%/build/.stamp_setup above; Make runs it when IN_DOCKER=1 and a target
-# depends on $(REPO_BUILD_ROOT)/.stamp_setup. scripts/ensure_docker_deps.py may run setup.sh directly and touch
-# docker/<kind>/build/.stamp_setup without invoking this recipe (equivalent outcome).
+# depends on $(REPO_BUILD_ROOT)/.stamp_setup. scripts/ensure_docker_deps.py runs setup.sh deps when vcpkg/Qt are
+# not ready, then invokes make — it does not touch .stamp_setup; the stamp rule above runs when make needs it.
 SETUP_TARGETS := setup-linux setup-windows setup-macos setup-android
 .PHONY: $(SETUP_TARGETS)
 $(SETUP_TARGETS): setup-%:

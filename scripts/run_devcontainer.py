@@ -311,7 +311,7 @@ def main(argv: list[str]) -> int:
     devcontainer_path = repo_root / ".devcontainer" / kind / "devcontainer.json"
     if not devcontainer_path.exists():
         raise RuntimeError(f"Unsupported devcontainer target: {make_target}")
-    # Must match devcontainer.json: ${localWorkspaceFolder} is repo root so vcpkg is docker/<kind>/build/vcpkg.
+    # Must match devcontainer.json: ${localWorkspaceFolder} is repo root.
     local_workspace_folder = repo_root.as_posix()
 
     devcontainer_json_for_runargs = load_devcontainer_json(devcontainer_path)

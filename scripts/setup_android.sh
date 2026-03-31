@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Android setup: SDK/NDK, Gradle, then deps (Qt aqt + vcpkg). Used by make setup-android and Docker ensure.
 #
-# "System packages" (SKIP_SYSTEM_PACKAGES) means ONLY OS package-manager installs: apt (android-apt-packages.txt)
+# "System packages" (SKIP_SYSTEM_PACKAGES) means ONLY OS package-manager installs: apt — same merge as
+# docker/android/Dockerfile (grep apt-packages.txt + android-apt-packages.txt).
 # and, on hosts that support it, brew — what a Dockerfile base stage or CI can RUN before setup. Not: sdkmanager (SDK/NDK),
 # pip/aqt (Qt), Gradle zips, or vcpkg — those are separate steps in this script.
 # CACHE / bind — mainly vcpkg tree under the repo cache / bind mount (protobuf overlay is part of vcpkg); SDK/NDK/Qt may live there too
@@ -133,8 +134,8 @@ _setup_android_vcpkg_layer() {
     openssl:"${TRIPLET}" \
     protobuf:x64-linux
 
-  # Keep vcpkg overlay artifacts on the same bind mount as vcpkg itself
-  # (VCPKG_DIR is mounted by docker/devcontainer so these stay non-ephemeral and inspectable on the host).
+  # Keep vcpkg overlay artifacts on the same tree as vcpkg itself
+  # (VCPKG_DIR → docker/<kind>/build/vcpkg in repo; persistent via workspace bind in Docker/devcontainer).
   PROTOBUF_OVERLAY_DIR="$VCPKG_ROOT/vcpkg-overlays/protobuf/${TRIPLET}"
   mkdir -p "$PROTOBUF_OVERLAY_DIR"
   PROTOBUF_OVERLAY_HASH_FILE="$VCPKG_ROOT/vcpkg-overlays/.protobuf_overlay_hash_${TRIPLET}"

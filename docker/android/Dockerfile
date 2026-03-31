@@ -1,8 +1,8 @@
 # =============================================================================
 # PokerTH — Android (docker/android/Dockerfile)
 # Base + final: SDK/NDK/Gradle toolchain in image; Qt + vcpkg on docker run (ensure -> setup.sh deps).
-# Host: devcontainer binds docker/${TARGET_PLATFORM}/build/{vcpkg,Qt} -> /opt/pokerth-${TARGET_PLATFORM}/{vcpkg,Qt}.
-#       SDK/NDK stay in image under /opt/pokerth-${TARGET_PLATFORM} (workspace bind mount does not cover /opt).
+# Host: vcpkg/Qt under docker/${TARGET_PLATFORM}/build/ (workspace mount); functions.sh sets VCPKG_* / QT_OUTPUT_DIR when IN_DOCKER=1.
+#       SDK/NDK stay under ROOT / ANDROID_CACHE_ROOT (/opt in image).
 # Intended: make android-docker or devcontainer rebuild (scripts/run_devcontainer.py). No RUN --mount.
 # Cache: apt layer tracks only scripts/${TARGET_PLATFORM}-apt-packages.txt (SKIP_SYSTEM_PACKAGES=yes skips repeat apt in setup).
 # =============================================================================
@@ -26,11 +26,9 @@ ENV TARGET=pokerth_client
 ENV SKIP_SYSTEM_PACKAGES=yes
 
 # --- Platform: Android ---
-# TARGET_PLATFORM, ROOT, and BUILD_DIR for setup.sh; ROOT used for mkdir/chown below.
+# TARGET_PLATFORM, ROOT, BUILD_DIR for setup.sh; ROOT for /opt mkdir. vcpkg/Qt paths: scripts/functions.sh when IN_DOCKER=1.
 ENV TARGET_PLATFORM=android
 ENV ROOT=/opt/pokerth-${TARGET_PLATFORM}
-ENV VCPKG_DIR=${ROOT}/vcpkg
-# Align with Makefile REPO_BUILD_ROOT=docker/${TARGET_PLATFORM}/build when IN_DOCKER=1.
 ENV BUILD_DIR=docker/${TARGET_PLATFORM}/build
 
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources

@@ -1,8 +1,5 @@
-// Android devcontainer at .devcontainer/android/devcontainer.json (single source of truth; no docker-compose).
-// Image: docker/android/Dockerfile. VS Code/Cursor and make android-docker (run_devcontainer.py) read this file. See docs/building-developer.md.
-// Paths: keep containerEnv in sync with Dockerfile ROOT=/opt/pokerth-android (VCPKG_DIR, etc.).
-// IN_DOCKER=1 comes from docker/android/Dockerfile `ENV` (do not duplicate in containerEnv).
-// Open the repository root. Only vcpkg + Qt dirs bind onto /opt/pokerth-android so SDK/NDK in the image are not hidden.
+// Android devcontainer. Image: docker/android/Dockerfile.
+// ROOT / ANDROID_CACHE_ROOT: SDK/NDK in image. vcpkg/Qt: functions.sh when IN_DOCKER=1 (same as make *-docker).
 {
     "name": "Android Development Container",
     "build": {
@@ -13,31 +10,11 @@
     "runArgs": ["--platform", "linux/amd64"],
     "workspaceFolder": "/workspaces/pokerth",
     "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/pokerth,type=bind,consistency=cached",
-    "mounts": [
-        "source=${localWorkspaceFolder}/docker/android/build/vcpkg,target=/opt/pokerth-android/vcpkg,type=bind,consistency=cached",
-        "source=${localWorkspaceFolder}/docker/android/build/Qt,target=/opt/pokerth-android/Qt,type=bind,consistency=cached"
-    ],
     "containerEnv": {
         "ROOT": "/opt/pokerth-android",
-        "VCPKG_DIR": "/opt/pokerth-android/vcpkg",
         "ANDROID_CACHE_ROOT": "/opt/pokerth-android",
         "IN_DEVCONTAINER": "1"
     },
-    // Features to add to the dev container. More info: https://containers.dev/features.
-    // "features": {},
-    // Configure tool-specific properties.
-    // "customizations": {},
-    // Use 'forwardPorts' to make a list of ports inside the container available locally.
-    // "forwardPorts": [
-    //     8080
-    // ],
-    // "features": {
-    //     "ghcr.io/devcontainers/features/node:1": {
-    //         "version": "lts",
-    //         "pnpmVersion": "latest",
-    //         "nvmVersion": "latest"
-    //     }
-    // },
     "remoteUser": "vscode",
     "customizations": {
         "vscode": {

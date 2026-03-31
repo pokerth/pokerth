@@ -28,6 +28,11 @@ JAVA_HOME="${JAVA_HOME:-}"
 QT_ANDROID_DIR="${QT_ANDROID_DIR:-}"
 QT_HOST_PATH="${QT_HOST_PATH:-}"
 
+# Stamp can exist without .manifest.env (e.g. manifest deleted, SETUP_ALREADY_DONE=touch-only). Avoid ${ANDROID_SDK_ROOT}/build-tools → "/build-tools".
+if [[ -z "${ANDROID_SDK_ROOT}" ]]; then
+  error "ANDROID_SDK_ROOT unset (no ${MANIFEST_ENV:-.manifest.env} loaded?). Try: rm -f \"${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}/.stamp_setup\" && make setup-android (native) or ensure deps ran (Docker)."
+fi
+
 # Incremental Gradle by default (fast back-to-back android-docker). Full Android/Java clean: CLEAN=yes (forwarded by run_devcontainer.py from host).
 init_build_defaults android
 
@@ -88,7 +93,10 @@ fi
 
 command -v cmake >/dev/null || { echo "cmake not found"; exit 2; }
 
-resolve_qt_cmake_cmd "qt-cmake not found. Run setup (e.g. make setup-android) so build_android/.manifest.env is written, or install Qt desktop (linux_gcc_64) and ensure QT_HOST_PATH points at it (see docs/building-developer.md)."
+# Error text: manifest path depends on REPO_BUILD_ROOT (build_android/ native vs docker/<kind>/build/ for IN_DOCKER=1).
+_manifest_expected="${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}/${MANIFEST_ENV:-.manifest.env}"
+resolve_qt_cmake_cmd "qt-cmake not found. Expected ${MANIFEST_ENV:-.manifest.env} at ${_manifest_expected}${ROOT:+ (alternate: ${ROOT}/${MANIFEST_ENV:-.manifest.env})} from setup deps, plus Qt host gcc_64 (QT_ANDROID_DIR/QT_HOST_PATH). See docs/building-developer.md."
+unset _manifest_expected
 
 TOOLCHAIN_FILE="$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake"
 if [[ ! -f "$TOOLCHAIN_FILE" ]]; then
@@ -148,7 +156,7 @@ echo "Configuring CMake..."
   -DCMAKE_PREFIX_PATH="${QT_ANDROID_DIR}/lib/cmake" \
   -DCMAKE_FIND_ROOT_PATH=${QT_ANDROID_DIR} \
   -DQt6_DIR="${QT_ANDROID_DIR}/lib/cmake/Qt6" \
-  ${QT_HOST_PATH:+-DQT_HOST_PATH="$QT_HOST_PATH"} \
+  ${QT_HOST_PATH:+-DQT_HOST_PATH="$QT_HOST_PATH" -DQT_HOST_PATH_CMAKE_DIR="${QT_HOST_PATH}/lib/cmake"} \
   -DCMAKE_INSTALL_PREFIX="$(pwd)/$BUILD_DIR/install" \
   -DProtobuf_USE_STATIC_LIBS=ON
 

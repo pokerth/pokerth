@@ -10,9 +10,9 @@ Supplements [building.md](building.md) (**Pick a workflow**, per-platform steps)
 | **Environment** | `IN_DOCKER` unset | `IN_DOCKER=1`, `IN_DEVCONTAINER=1` |
 | **Build tree** | `build_<platform>/` | `docker/<kind>/build/` |
 | **Stamp** | `build_<platform>/.stamp_setup` | `docker/<kind>/build/.stamp_setup` |
-| **More** | [building.md](building.md) | Mounts vcpkg/Qt → `/opt/pokerth-<kind>/…` |
+| **More** | [building.md](building.md) | With **`IN_DOCKER=1`**, **`scripts/functions.sh`** sets **`VCPKG_DIR`**, **`QT_OUTPUT_DIR`** under **`docker/<kind>/build/`** (same as host `make *-docker`). Android **`ROOT`** / **`ANDROID_CACHE_ROOT`** may stay **`/opt/pokerth-android`** for SDK (optional in `.devcontainer/android/`) |
 
-**Note:** `docker build` cannot mount directories on the host, all bind mounts of cache directories are done at `docker run`.
+**Note:** `docker build` cannot mount the repo; the checkout is mounted at `docker run` (one workspace bind; vcpkg/Qt paths follow **`functions.sh`** when **`IN_DOCKER=1`**).
 
 ## Dev Container terminal (VS Code / Cursor)
 
@@ -34,15 +34,15 @@ Supplements [building.md](building.md) (**Pick a workflow**, per-platform steps)
 **ensure** — Docker flows only (not native `make setup-android`).
 
 - `make *-docker:` `run_devcontainer.py` → `docker run … ensure_docker_deps.py <goal>`.
-- **Ready when:** **vcpkg** ports (triplet + `_KIND_EXTRA_READINESS_TRIPLETS`, e.g. `x64-linux`) **and** `qt-cmake` under `QT_OUTPUT_DIR` / `${ROOT}/Qt`.
-- **Else:** `setup.sh deps`, `SKIP_SYSTEM_PACKAGES=yes`, touch `.stamp_setup`, `make` with `IN_DOCKER=1`.
+- **Ready when:** **vcpkg** ports (triplet + `_KIND_EXTRA_READINESS_TRIPLETS`, e.g. `x64-linux`) **and** `qt-cmake` under **`docker/<kind>/build/Qt`** (same as **`QT_OUTPUT_DIR`** from **`functions.sh`** when **`IN_DOCKER=1`**).
+- **Else:** `setup.sh deps`, `SKIP_SYSTEM_PACKAGES=yes`, then `make` (image **`ENV IN_DOCKER=1`**). **`ensure` does not touch `.stamp_setup`**; inner **`make`** runs the usual stamp prerequisites ( **`setup.sh`** + **`touch`** stamp) when needed.
 
 ## Ensure vs `.stamp_setup` (order)
 
 | Aspect | Host `make *-docker` | Devcontainer shell |
 | --- | --- | --- |
 | **ensure** | Runs before inner `make` | `postCreate` (Windows) or manual `ensure` only |
-| `.stamp_setup` | **ensure** may `deps` + touch `docker/.../` | `make` + stamp rules |
+| `.stamp_setup` | Created by **Make** when the stamp rule runs (after **`setup.sh`**), not by **`ensure`** | Same |
 | **Stale cache** | `deps` even if stamp exists | Same |
 
 Triplets, `SKIP_SYSTEM_PACKAGES`, `containerEnv`: env table below.
@@ -76,10 +76,10 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 | `LAYER` | Stage | **linux** + wrong layer → error. |
 | `SKIP_SYSTEM_PACKAGES` | Apt only | `Dockerfile` `ENV` when base apt ran. |
 | `USE_AQT`, `USE_VCPKG` | Setup | `functions.sh`; windows → both **yes**. |
-| `VCPKG_DIR`, `VCPKG_ROOT`, `VCPKG_TRIPLET` | vcpkg | **ensure:** `VCPKG_ROOT` or `$ROOT/vcpkg`. |
+| `VCPKG_DIR`, `VCPKG_ROOT`, `VCPKG_TRIPLET` | vcpkg | **Docker:** `functions.sh` sets **`VCPKG_DIR`** / **`VCPKG_ROOT`** when **`IN_DOCKER=1`**. **ensure** uses repo paths under **`docker/<kind>/build/vcpkg`**. |
 | `BUILD_DIR` | Stamps, manifest | Must match **ensure** (Docker). |
 | `ROOT` | Bind root | `/opt/pokerth-<kind>` |
-| `QT_OUTPUT_DIR` | Qt / `qt_cmake_ready` | Optional. **Windows:** **setup_linux.sh** sets `${ROOT}/Qt` from **ROOT** when unset. **Android:** **setup_android.sh** uses `${ANDROID_CACHE_ROOT}/Qt` when unset. **devcontainer.json** may set **QT_OUTPUT_DIR** for the IDE. |
+| `QT_OUTPUT_DIR` | Qt / `qt_cmake_ready` | **Docker:** **`functions.sh`** sets **`docker/<kind>/build/Qt`** when **`IN_DOCKER=1`**. **Native:** defaults / **setup_linux.sh** / **setup_android.sh** as elsewhere. |
 | `MANIFEST_ENV` | Android manifest | Default `.manifest.env`. |
 | `IN_DOCKER` | `REPO_BUILD_ROOT` | `docker/$(TARGET_PLATFORM)/build` |
 | `IN_DEVCONTAINER` | Makefile / editor | `1` from `devcontainer.json` or `REMOTE_CONTAINERS`; forbids `make *-docker` / `make *-docker-installer` (use `make <kind>` / `*-installer` inside the container). |
@@ -88,22 +88,22 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 
 ### Devcontainer vs Dockerfile
 
-- `devcontainer.json:` binds + **run** env. `docker build:` `final` = `setup.sh toolchain` only — no host `docker/<kind>/build` mounts (`downloads/` at **run** use mounts below).
-- **Manual sync:** `Dockerfile` ↔ `.devcontainer/.../devcontainer.json` — `build.context`, mount paths, `/opt/pokerth-*` `ENV`, `containerEnv`.
+- `devcontainer.json:` workspace bind + minimal **run** env (e.g. **`IN_DEVCONTAINER`**, Android **`ROOT`** / **`ANDROID_CACHE_ROOT`**). **`IN_DOCKER`** and **`TARGET_PLATFORM`** come from the image; **`VCPKG_DIR`** / **`QT_OUTPUT_DIR`** come from **`scripts/functions.sh`** (same as `make *-docker`).
+- **Manual sync:** `Dockerfile` ↔ `.devcontainer/.../devcontainer.json` — `build.context`, Android SDK env if needed.
 - `build.options` → `docker build`; `runArgs` → `docker run` ([containers.dev](https://containers.dev)).
 
 | Aspect | Windows | Android |
 | --- | --- | --- |
 | `postCreateCommand` | `ensure_docker_deps.py windows` → `make windows` | *(none)* |
 | `docker build` (`final`) | `setup.sh toolchain` → MinGW `/opt/pokerth-windows`. No Qt/vcpkg in image. | `setup.sh toolchain` → SDK/NDK/Gradle + manifest in image. |
-| `docker run` mounts | `docker/windows/build/{vcpkg,Qt}` → `/opt/pokerth-windows/{vcpkg,Qt}` | `docker/android/build/{vcpkg,Qt}` → `/opt/pokerth-android/{vcpkg,Qt}` |
+| `docker run` mounts | Workspace repo root only | Same; Android may pass **`ROOT`** / **`ANDROID_CACHE_ROOT`** for SDK |
 | **Run flow** | **ensure** → `deps`? → `make windows` | **ensure** → `deps`? → `make android` |
 
 ### ensure + vcpkg/Qt (short)
 
-- **ensure** `docker_deps_ready`: **vcpkg** (triplet + extras) **and** `qt-cmake` under `QT_OUTPUT_DIR` / `${ROOT}/Qt`.
+- **ensure** `docker_deps_ready`: **vcpkg** (triplet + extras) **and** `qt-cmake` under **`docker/<kind>/build/Qt`**.
 - **Cold cache:** empty `docker/<kind>/build/vcpkg`, then `make *-docker`.
-- **Path note:** container vcpkg is `/opt/pokerth-<kind>/vcpkg`, not `…/build/vcpkg`.
+- **Path note:** vcpkg/Qt dirs are **`docker/<kind>/build/{vcpkg,Qt}`** in the repo (**`functions.sh`** when **`IN_DOCKER=1`**).
 - **Android protobuf:** `protobuf:x64-linux` then `protobuf:${VCPKG_TRIPLET}` + overlay under `$VCPKG_ROOT/vcpkg-overlays/` (triplet-scoped to avoid concurrent builds clobbering a shared overlay dir). `.stamp_setup` not triplet-keyed — change ABI → clean stamp / vcpkg.
 - **Overlay changes:** `ensure_docker_deps.py` decides whether to run `setup.sh deps` based on whether protobuf CMake config files already exist in `vcpkg/installed/<triplet>/`. If they exist, overlay-generation changes won’t be reflected until you invalidate protobuf readiness (e.g. remove the protobuf config files for the android triplet or run `CLEAN=yes make android-docker`).
 - **APK / Gradle / icon:** [building.md](building.md#android-build) (Android).
@@ -119,7 +119,7 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 - **macOS Docker:** devcontainer `runArgs --platform linux/amd64` (**Docker** image arch for the devcontainer, not PokerTH **`platform`**); applies to both kinds.
 - **Colima:** unreliable for `windows-docker` / `android-docker` — use Docker Desktop.
 - **MinGW:** **posix** thread model in Dockerfile.
-- **Bind mounts (uid):** Container user (often `vscode` / 1000) may not own host paths under `docker/<kind>/build/` → `Permission denied` on stamps, **vcpkg**, or **Qt** even when host `ls` looks fine. Mitigations: align uid/gid with the host, avoid **root** writes on mounts, `chown -R "$(id -u):$(id -g)" docker/<kind>/build` on the host. **`touch_stamp_file`** in **ensure** only helps stamp files, not an unwritable cache dir.
+- **Bind mounts (uid):** Container user (often `vscode` / 1000) may not own host paths under `docker/<kind>/build/` → `Permission denied` on stamps, **vcpkg**, or **Qt** even when host `ls` looks fine. Mitigations: align uid/gid with the host, avoid **root** writes on mounts, `chown -R "$(id -u):$(id -g)" docker/<kind>/build` on the host.
 
 ---
 

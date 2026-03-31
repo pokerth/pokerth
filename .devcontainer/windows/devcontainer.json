@@ -1,6 +1,6 @@
-// Windows devcontainer at .devcontainer/windows/devcontainer.json. Image: docker/windows/Dockerfile.
-// vcpkg + Qt bind onto /opt/pokerth-windows (SDK/toolchain from image not hidden).
-// IN_DOCKER=1 comes from docker/windows/Dockerfile `ENV` (do not duplicate in containerEnv).
+// Windows devcontainer. Image: docker/windows/Dockerfile.
+// IN_DOCKER=1 + paths: docker/*/Dockerfile + scripts/functions.sh (same as make *-docker).
+// IN_DEVCONTAINER: editor session only (Makefile forbids make *-docker inside container).
 {
   "name": "Windows Development Container",
   "build": {
@@ -11,13 +11,7 @@
   "runArgs": ["--platform", "linux/amd64"],
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/pokerth,type=bind,consistency=cached",
   "workspaceFolder": "/workspaces/pokerth",
-  "mounts": [
-    "source=${localWorkspaceFolder}/docker/windows/build/vcpkg,target=/opt/pokerth-windows/vcpkg,type=bind,consistency=cached",
-    "source=${localWorkspaceFolder}/docker/windows/build/Qt,target=/opt/pokerth-windows/Qt,type=bind,consistency=cached"
-  ],
   "containerEnv": {
-    "VCPKG_DIR": "/opt/pokerth-windows/vcpkg",
-    "QT_OUTPUT_DIR": "/opt/pokerth-windows/Qt",
     "IN_DEVCONTAINER": "1"
   },
   "extensions": [

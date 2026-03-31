@@ -27,6 +27,16 @@ else
 fi
 unset _func_dir
 
+# Docker / devcontainer (`IN_DOCKER=1`): vcpkg + Qt under `docker/$(TARGET_PLATFORM)/build/` — same as Makefile `REPO_BUILD_ROOT`.
+# Contract: Docker images set `TARGET_PLATFORM` (and `IN_DOCKER=1`); no runtime guard here.
+if [[ "${IN_DOCKER:-}" == "1" ]]; then
+  _docker_build="${REPO_ROOT}/docker/${TARGET_PLATFORM}/build"
+  VCPKG_DIR="${_docker_build}/vcpkg"
+  VCPKG_ROOT="${VCPKG_DIR}"
+  QT_OUTPUT_DIR="${_docker_build}/Qt"
+  export VCPKG_DIR VCPKG_ROOT QT_OUTPUT_DIR
+fi
+
 # Default basename for the Android handoff file (written by setup_android.sh, sourced by build_android.sh only).
 MANIFEST_ENV="${MANIFEST_ENV:-.manifest.env}"
 

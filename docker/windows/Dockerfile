@@ -1,7 +1,7 @@
 # =============================================================================
 # PokerTH — Windows cross (docker/windows/Dockerfile)
 # Base + final: MinGW toolchain in image; Qt + vcpkg on docker run (ensure -> setup.sh deps).
-# Host: devcontainer binds docker/${TARGET_PLATFORM}/build/{vcpkg,Qt} -> /opt/pokerth-${TARGET_PLATFORM}/{vcpkg,Qt}.
+# Host: vcpkg/Qt under docker/${TARGET_PLATFORM}/build/ (workspace mount); functions.sh sets VCPKG_* / QT_OUTPUT_DIR when IN_DOCKER=1.
 # Intended: make windows-docker or devcontainer rebuild (scripts/run_devcontainer.py). No RUN --mount.
 # Cache: apt layer tracks only scripts/${TARGET_PLATFORM}-apt-packages.txt (SKIP_SYSTEM_PACKAGES=yes skips repeat apt in setup).
 # =============================================================================
@@ -25,11 +25,9 @@ ENV TARGET=pokerth_client
 ENV SKIP_SYSTEM_PACKAGES=yes
 
 # --- Platform: Windows ---
-# TARGET_PLATFORM, ROOT, and BUILD_DIR for setup.sh; ROOT used for mkdir/chown below.
+# TARGET_PLATFORM, ROOT, BUILD_DIR for setup.sh; ROOT for /opt mkdir. vcpkg/Qt paths: scripts/functions.sh when IN_DOCKER=1.
 ENV TARGET_PLATFORM=windows
 ENV ROOT=/opt/pokerth-${TARGET_PLATFORM}
-ENV VCPKG_DIR=${ROOT}/vcpkg
-# Align with Makefile REPO_BUILD_ROOT=docker/${TARGET_PLATFORM}/build when IN_DOCKER=1.
 ENV BUILD_DIR=docker/${TARGET_PLATFORM}/build
 
 RUN sed -i 's|http://archive.ubuntu.com/ubuntu/|http://de.archive.ubuntu.com/ubuntu/|' /etc/apt/sources.list.d/ubuntu.sources
