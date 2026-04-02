@@ -28,11 +28,6 @@ if [ "$#" -gt 0 ]; then
   error "setup_linux.sh: unexpected argument: $1 (expected optional all|toolchain|deps only, before other args)"
 fi
 
-# Windows + ROOT (e.g. Docker /opt/pokerth-windows): Qt mount is ${ROOT}/Qt; align with functions.sh (else default $HOME/Qt).
-if [ "$TARGET_PLATFORM" = "windows" ] && [ -z "${QT_OUTPUT_DIR:-}" ] && [ -n "${ROOT:-}" ]; then
-  export QT_OUTPUT_DIR="${ROOT}/Qt"
-fi
-
 resolve_setup_platform_env "$TARGET_PLATFORM"
 setup_linux_paths "$TARGET_PLATFORM"
 if [ "${TARGET_PLATFORM:-}" = "windows" ] && [ "$(uname -m)" != "x86_64" ]; then
@@ -122,8 +117,8 @@ esac
 ########################################
 # 2. Install base packages
 ########################################
-# Skip OS package-manager installs only when SKIP_SYSTEM_PACKAGES=yes (e.g. Dockerfile base already ran apt/brew list).
-SKIP_SYSTEM_PACKAGES="${SKIP_SYSTEM_PACKAGES:-no}"
+# Skip OS package-manager installs only when SKIP_SYSTEM_PACKAGES=yes (e.g. ensure or a pre-provisioned image already satisfied apt).
+SKIP_SYSTEM_PACKAGES="${SKIP_SYSTEM_PACKAGES:-$DEFAULT_OPT_NO}"
 if is_yes "$SKIP_SYSTEM_PACKAGES"; then
   log "Skipping system package install (SKIP_SYSTEM_PACKAGES=yes)."
 else
@@ -132,7 +127,7 @@ else
 
   log "Installing base packages via $PKG_MANAGER..."
 
-  # Windows + apt: same merge as docker/windows/Dockerfile (apt-packages.txt + windows-apt-packages.txt).
+  # Windows + apt: same merge as docker/Dockerfile (apt-packages.txt + windows-apt-packages.txt).
   if [ "$TARGET_PLATFORM" = "windows" ] && [ "$PKG_MANAGER" = "apt" ]; then
     BASE_PKGS="$(apt_packages_merged_lines "${REPO_ROOT}/scripts" "$TARGET_PLATFORM" | tr '\n' ' ')"
     $INSTALL_CMD --no-install-recommends $BASE_PKGS
@@ -167,6 +162,16 @@ if [ "$TARGET_PLATFORM" = "windows" ]; then
     error "MinGW-w64 toolchain not found. Please install mingw-w64 package."
   fi
   log "✓ MinGW-w64 toolchain found"
+  # Debian/Ubuntu: prefer posix thread model (same as historical docker/Dockerfile); win32 variant breaks some deps.
+  if [ "$PKG_MANAGER" = "apt" ]; then
+    for t in gcc g++; do
+      if [ "$EUID" -eq 0 ]; then
+        update-alternatives --set "x86_64-w64-mingw32-${t}" "/usr/bin/x86_64-w64-mingw32-${t}-posix" 2>/dev/null || true
+      else
+        sudo update-alternatives --set "x86_64-w64-mingw32-${t}" "/usr/bin/x86_64-w64-mingw32-${t}-posix" 2>/dev/null || true
+      fi
+    done
+  fi
 fi
 
 if [ "$TARGET_PLATFORM" = "windows" ] && [ "$LAYER" = "toolchain" ]; then
@@ -215,7 +220,8 @@ install_qt_for_platform() {
     log "Installing system Qt packages..."
     case "$PKG_MANAGER" in
       apt)
-        $INSTALL_CMD \
+        # Ubuntu/Debian: same set as docker/unified image (setup_linux.sh USE_AQT=no).
+        $INSTALL_CMD --no-install-recommends \
           qt6-base-dev \
           qt6-svg-dev \
           qt6-declarative-dev \
@@ -298,6 +304,8 @@ if [ "$TARGET_PLATFORM" = "linux" ]; then
     fi
   fi
 fi
+
+write_setup_manifest_linux_windows
 
 ########################################
 # Summary

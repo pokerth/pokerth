@@ -20,7 +20,7 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 ABIS=("arm64-v8a" "armeabi-v7a")
 BUILD_TYPE=Release
 API_LEVEL=${ANDROID_API_LEVEL:-$ANDROID_TARGET_SDK_VERSION}
-TARGET=${TARGET:-pokerth_client}
+TARGET="${TARGET:-$DEFAULT_BUILD_TARGET}"
 
 usage() {
   cat <<EOF

@@ -7,20 +7,27 @@ set -euo pipefail
 # shellcheck source=/dev/null
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/functions.sh"
 
+# Makefile sets TARGET_PLATFORM=android; default here so functions.sh applies when invoked directly.
+export TARGET_PLATFORM="${TARGET_PLATFORM:-$DEFAULT_TARGET_PLATFORM_ANDROID}"
+
 cd "$REPO_ROOT"
 
+# Manifest paths: basename is MANIFEST_ENV from functions.sh (same as Makefile MANIFEST_NAME).
+_android_manifest_rel="${REPO_BUILD_ROOT:-build_${TARGET_PLATFORM}}"
+_android_repo_mf="${REPO_ROOT}/${_android_manifest_rel}/${MANIFEST_ENV}"
+_android_cache_mf="${CACHE_ROOT}/${TARGET_PLATFORM}/${MANIFEST_ENV}"
+
 # Source manifest written by setup_android.sh (ANDROID_SDK_ROOT, NDK, JAVA_HOME, QT_ANDROID_DIR, PATH, etc.).
-# Repo-local first, then ${ROOT} (Docker sync). At docker run the host file wins over anything baked at docker build.
+# Repo-local first; in Docker, re-source cache copy if present (setup_android syncs there).
 # Likely failure: no file here after a fresh clone — run setup-android or ensure (deps) first.
-_base="${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}"
-if [ -f "${_base}/${MANIFEST_ENV:-.manifest.env}" ]; then
+if [ -f "$_android_repo_mf" ]; then
   # shellcheck source=/dev/null
-  . "${_base}/${MANIFEST_ENV:-.manifest.env}"
-elif [ -n "${ROOT:-}" ] && [ -f "${ROOT}/${MANIFEST_ENV:-.manifest.env}" ]; then
-  # shellcheck source=/dev/null
-  . "${ROOT}/${MANIFEST_ENV:-.manifest.env}"
+  . "$_android_repo_mf"
 fi
-unset _base
+if [[ "${IN_DOCKER:-}" == "1" ]] && [[ -f "$_android_cache_mf" ]]; then
+  # shellcheck source=/dev/null
+  . "$_android_cache_mf"
+fi
 
 ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-}"
 ANDROID_NDK_ROOT="${ANDROID_NDK_ROOT:-}"
@@ -28,13 +35,18 @@ JAVA_HOME="${JAVA_HOME:-}"
 QT_ANDROID_DIR="${QT_ANDROID_DIR:-}"
 QT_HOST_PATH="${QT_HOST_PATH:-}"
 
-# Stamp can exist without .manifest.env (e.g. manifest deleted, SETUP_ALREADY_DONE=touch-only). Avoid ${ANDROID_SDK_ROOT}/build-tools → "/build-tools".
+# Without a sourced setup manifest, ANDROID_SDK_ROOT may be unset. Avoid ${ANDROID_SDK_ROOT}/build-tools → "/build-tools".
 if [[ -z "${ANDROID_SDK_ROOT}" ]]; then
-  error "ANDROID_SDK_ROOT unset (no ${MANIFEST_ENV:-.manifest.env} loaded?). Try: make setup-android (native) or ensure deps ran (Docker)."
+  error "ANDROID_SDK_ROOT unset (setup manifest not loaded — expected ${_android_repo_mf}). Try: make setup-android (native) or ensure deps ran (Docker)."
+fi
+
+# Docker: reject a native-host SDK path if .manifest.env was copied or stale (must match CACHE_ROOT; see docs/building-developer.md).
+if [[ "${IN_DOCKER:-}" == "1" ]] && [[ "${ANDROID_SDK_ROOT}" != "${CACHE_ROOT}/android"* ]]; then
+  error "ANDROID_SDK_ROOT (${ANDROID_SDK_ROOT}) must be under ${CACHE_ROOT}/android when IN_DOCKER=1. Fix or remove ${_android_repo_mf} and re-run setup / ensure."
 fi
 
 # Incremental Gradle by default (fast back-to-back android-docker). Full Android/Java clean: CLEAN=yes (forwarded by run_devcontainer.py from host).
-init_build_defaults android
+init_build_defaults "${TARGET_PLATFORM}"
 
 usage(){
   cat <<EOF
@@ -69,7 +81,7 @@ case "$ARCH" in
     ;;
 esac
 
-: ${TARGET:=pokerth_client}
+: "${TARGET:=$DEFAULT_BUILD_TARGET}"
 
 # Prüfe Android-Plattform
 if [[ ! -d "${ANDROID_SDK_ROOT}/platforms/android-${API_LEVEL}" ]]; then
@@ -87,16 +99,19 @@ if [[ -d "${ANDROID_SDK_ROOT}/build-tools" ]]; then
     exit 5
   fi
 else
-  echo "ERROR: ${ANDROID_SDK_ROOT}/build-tools directory not found"
+  echo "ERROR: ${ANDROID_SDK_ROOT}/build-tools not found (no Android SDK at ANDROID_SDK_ROOT)."
+  echo "Either the SDK was never installed in this container, or the manifest at ${_android_repo_mf}"
+  echo "points at ${CACHE_ROOT}/${TARGET_PLATFORM}/... from a different environment."
+  echo "The repo-root devcontainer (unified docker/Dockerfile) does not install the Android SDK under ${CACHE_ROOT}/${TARGET_PLATFORM} by default."
+  echo "Use repo-root .devcontainer/devcontainer.json (image: docker/Dockerfile) for make android, or rebuild that image;"
+  echo "or remove ${_android_repo_mf} and run setup inside an image that provisions the SDK."
   exit 5
 fi
 
 command -v cmake >/dev/null || { echo "cmake not found"; exit 2; }
 
 # Error text: manifest path depends on REPO_BUILD_ROOT (build_android/ native vs docker/<kind>/build/ for IN_DOCKER=1).
-_manifest_expected="${REPO_ROOT}/${REPO_BUILD_ROOT:-build_android}/${MANIFEST_ENV:-.manifest.env}"
-resolve_qt_cmake_cmd "qt-cmake not found. Expected ${MANIFEST_ENV:-.manifest.env} at ${_manifest_expected}${ROOT:+ (alternate: ${ROOT}/${MANIFEST_ENV:-.manifest.env})} from setup deps, plus Qt host gcc_64 (QT_ANDROID_DIR/QT_HOST_PATH). See docs/building-developer.md."
-unset _manifest_expected
+resolve_qt_cmake_cmd "qt-cmake not found. Expected ${MANIFEST_ENV} at ${_android_repo_mf} (toolchain cache: ${_android_cache_mf}) from setup deps, plus Qt host gcc_64 (QT_ANDROID_DIR/QT_HOST_PATH). See docs/building-developer.md."
 
 TOOLCHAIN_FILE="$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake"
 if [[ ! -f "$TOOLCHAIN_FILE" ]]; then
@@ -127,17 +142,17 @@ if [[ -n "${VCPKG_ROOT:-}" ]]; then
   )
 fi
 
-# Same pattern as build_linux.sh / build.sh: REPO_BUILD_ROOT separates host (build_android) vs Docker (docker/android/build)
+# Same pattern as build_linux.sh / build.sh: REPO_BUILD_ROOT separates host (build_<platform>) vs Docker (docker/android/build)
 if [ -n "${REPO_BUILD_ROOT:-}" ]; then
   BUILD_DIR_REL="$REPO_BUILD_ROOT"
 else
-  BUILD_DIR_REL="build_android"
+  BUILD_DIR_REL="build_${TARGET_PLATFORM}"
 fi
 BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
 mkdir -p "$BUILD_DIR"
 
-# Cached Z_VCPKG_ROOT_DIR must match manifest (e.g. after moving vcpkg from ROOT to docker/<kind>/build/vcpkg).
-invalidate_cmake_cache_if_vcpkg_root_mismatch "$BUILD_DIR"
+invalidate_cmake_vcpkg "$BUILD_DIR"
+invalidate_cmake_ndk "$BUILD_DIR"
 
 # CMake Initial Cache
 cat > "$BUILD_DIR/InitialCache.cmake" <<EOF

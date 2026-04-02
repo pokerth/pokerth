@@ -1,0 +1,23 @@
+{
+  "name": "PokerTH (unified)",
+  "build": {
+    "dockerfile": "../docker/Dockerfile",
+    "context": "..",
+    "options": ["--platform=linux/amd64"]
+  },
+  "runArgs": ["--platform", "linux/amd64"],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/pokerth,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/pokerth",
+  "mounts": [
+    "source=${localEnv:HOME}/.pokerth,target=/opt/pokerth,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "IN_DEVCONTAINER": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-vscode.cpptools"]
+    }
+  },
+  "remoteUser": "vscode"
+}

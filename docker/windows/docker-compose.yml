@@ -1,24 +1,32 @@
-# Aligns with make windows-docker: base image, docker/windows/vcpkg mount, repo at /workspaces/pokerth.
-# Build from repo root so Dockerfile COPY scripts/ and docs/ work. Run from repo root: docker compose -f docker/windows/docker-compose.yml up
+# Experimental — weak alignment with unified devcontainer paths (not CI-tested; may still break).
+# Canonical flow: .devcontainer/devcontainer.json + `make windows-docker` / `run_devcontainer.py`.
+#
+# Changes vs old compose: `final` image (toolchains from `make setup-toolchains`), IN_DOCKER + TARGET_PLATFORM,
+# vcpkg/Qt: docker/windows/build/ per functions.sh; toolchain: host ~/.pokerth -> /opt/pokerth in container (CACHE_ROOT).
+#
+# From repo root:
+#   docker compose -f docker/windows/docker-compose.yml build
+#   docker compose -f docker/windows/docker-compose.yml run --rm windows-build bash -lc 'cd /workspaces/pokerth && make windows'
+#
+# If you need a long-lived shell: `... up -d` then `docker compose ... exec windows-build bash`.
+# No Docker socket mount: `make windows` does not need Docker-in-Docker here.
 version: '3.8'
 
 services:
   windows-build:
     build:
       context: "../.."
-      dockerfile: docker/windows/Dockerfile
-      target: base
+      dockerfile: docker/Dockerfile
+      target: final
+    platform: linux/amd64
+    environment:
+      IN_DOCKER: "1"
+      TARGET_PLATFORM: windows
+    working_dir: /workspaces/pokerth
     volumes:
       - windows-build-cache:/home/vscode/.cache
       - "../..:/workspaces/pokerth:cached"
-      - "./vcpkg:/opt/pokerth-windows"
-      - /var/run/docker.sock:/var/run/docker.sock
     command: sleep infinity
-    networks:
-      base_net:
-        ipv4_address: 172.30.0.32
+
 volumes:
   windows-build-cache:
-networks:
-  base_net:
-    external: true

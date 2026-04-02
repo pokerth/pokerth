@@ -12,9 +12,7 @@
 _func_dir="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd)"
 # shellcheck source=/dev/null
 . "$_func_dir/versions.env"
-
-# Qt installation directory
-QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-$HOME/Qt}"
+export MACOSX_DEPLOYMENT_TARGET
 
 # vcpkg directory
 VCPKG_DIR="${VCPKG_DIR:-$HOME/vcpkg}"
@@ -27,18 +25,47 @@ else
 fi
 unset _func_dir
 
-# Docker / devcontainer (`IN_DOCKER=1`): vcpkg + Qt under `docker/$(TARGET_PLATFORM)/build/` — same as Makefile `REPO_BUILD_ROOT`.
-# Contract: Docker images set `TARGET_PLATFORM` (and `IN_DOCKER=1`); no runtime guard here.
-if [[ "${IN_DOCKER:-}" == "1" ]]; then
+# Toolchain caches: ${CACHE_ROOT}/<platform> for android | windows.
+# Native: CACHE_ROOT=~/.pokerth — CMake/embeds use $HOME/.pokerth/...
+# Docker (IN_DOCKER=1): CACHE_ROOT=/opt/pokerth — CMake/embeds use /opt/pokerth/... (not $HOME), so caches stay
+# consistent in-container and do not fight native builds. Devcontainer / make *-docker bind-mount host ~/.pokerth
+# onto /opt/pokerth so both workflows share one physical tree. Override CACHE_ROOT before sourcing if needed.
+if [[ -z "${CACHE_ROOT:-}" ]]; then
+  if [[ "${IN_DOCKER:-}" == "1" ]]; then
+    export CACHE_ROOT=/opt/pokerth
+  else
+    export CACHE_ROOT="${HOME}/.pokerth"
+  fi
+fi
+
+# QT_OUTPUT_DIR / VCPKG_DIR: IN_DOCKER + windows|android → repo docker/<kind>/build/{Qt,vcpkg}; native Windows cross →
+# ${CACHE_ROOT}/windows/Qt; else default $HOME/Qt. Android host may override in setup_android.sh. Full model: docs/building-developer.md.
+if [[ "${IN_DOCKER:-}" == "1" ]] && [[ "${TARGET_PLATFORM:-}" == "windows" || "${TARGET_PLATFORM:-}" == "android" ]]; then
   _docker_build="${REPO_ROOT}/docker/${TARGET_PLATFORM}/build"
   VCPKG_DIR="${_docker_build}/vcpkg"
   VCPKG_ROOT="${VCPKG_DIR}"
   QT_OUTPUT_DIR="${_docker_build}/Qt"
   export VCPKG_DIR VCPKG_ROOT QT_OUTPUT_DIR
+elif [[ "${TARGET_PLATFORM:-}" = "windows" ]]; then
+  QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-${CACHE_ROOT}/${TARGET_PLATFORM}/Qt}"
+  export QT_OUTPUT_DIR
+else
+  QT_OUTPUT_DIR="${QT_OUTPUT_DIR:-$HOME/Qt}"
+  export QT_OUTPUT_DIR
 fi
 
-# Default basename for the Android handoff file (written by setup_android.sh, sourced by build_android.sh only).
+# Setup manifest basename (written by setup_*.sh). Default is assigned only here; must match MANIFEST_NAME in the Makefile.
+# Callers that source this file must use "$MANIFEST_ENV" — do not repeat ${MANIFEST_ENV:-.manifest.env}.
 MANIFEST_ENV="${MANIFEST_ENV:-.manifest.env}"
+export MANIFEST_ENV
+
+# Optional yes/no flags (override via env). Same meaning across setup/build scripts.
+DEFAULT_OPT_NO=no
+DEFAULT_OPT_YES=yes
+
+# Default CMake target / Android entrypoint platform when unset (Makefile usually sets these).
+DEFAULT_BUILD_TARGET=pokerth_client
+DEFAULT_TARGET_PLATFORM_ANDROID=android
 
 # Extra aqt modules (setup_linux / setup_macos); base Qt covers most of CMakeLists.
 QT_MODULES=(qtwebsockets qtmultimedia)
@@ -101,7 +128,8 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# Apt package lists: same merge as docker/*/Dockerfile base stage —
+# Apt package lists: same per-platform pair as native setup / Windows cross use (not the Docker base merge;
+#   unified Dockerfile merges apt + android + windows only; Linux app deps come from setup_linux.sh).
 #   grep -hv '^#' scripts/apt-packages.txt scripts/${TARGET_PLATFORM}-apt-packages.txt
 # Writes one package name per line (no comments) to stdout.
 apt_packages_merged_lines() {
@@ -109,7 +137,7 @@ apt_packages_merged_lines() {
   local target_platform="${2:?apt_packages_merged_lines: TARGET_PLATFORM}"
   local common="${scripts_dir}/apt-packages.txt"
   local platform="${scripts_dir}/${target_platform}-apt-packages.txt"
-  [ -f "$common" ] && [ -f "$platform" ] || error "Missing $common or $platform (pair must match docker/*/Dockerfile)"
+  [ -f "$common" ] && [ -f "$platform" ] || error "Missing $common or $platform (pair must match docker/Dockerfile platform lists)"
   grep -hv '^#' "$common" "$platform"
 }
 
@@ -149,14 +177,14 @@ exit_with_usage_if_args() {
 # Modes: android (CLEAN only), macos|host (BUILD_TARGET default; host sets USE_AQT/USE_VCPKG defaults).
 init_build_defaults() {
   local mode="${1:?init_build_defaults: mode (android|macos|host)}"
-  CLEAN="${CLEAN:-no}"
+  CLEAN="${CLEAN:-$DEFAULT_OPT_NO}"
   case "$mode" in
     android) ;;
     macos|host)
-      BUILD_TARGET="${BUILD_TARGET:-pokerth_client}"
+      BUILD_TARGET="${BUILD_TARGET:-$DEFAULT_BUILD_TARGET}"
       if [ "$mode" = "host" ]; then
-        USE_AQT="${USE_AQT:-no}"
-        USE_VCPKG="${USE_VCPKG:-no}"
+        USE_AQT="${USE_AQT:-$DEFAULT_OPT_NO}"
+        USE_VCPKG="${USE_VCPKG:-$DEFAULT_OPT_NO}"
       fi
       ;;
     *) error "init_build_defaults: unknown mode '$mode' (use android, macos, or host)" ;;
@@ -173,8 +201,8 @@ resolve_setup_platform_env() {
     USE_AQT="yes"
     USE_VCPKG="yes"
   else
-    USE_AQT="${USE_AQT:-no}"
-    USE_VCPKG="${USE_VCPKG:-no}"
+    USE_AQT="${USE_AQT:-$DEFAULT_OPT_NO}"
+    USE_VCPKG="${USE_VCPKG:-$DEFAULT_OPT_NO}"
   fi
 }
 
@@ -423,6 +451,69 @@ setup_linux_paths() {
     QT_DIR="$QT_OUTPUT_DIR/$QT_VERSION/gcc_64"
     VCPKG_TARGET_TRIPLET="x64-linux"
   fi
+}
+
+# ${REPO_ROOT}/${BUILD_DIR:-$1}/${MANIFEST_ENV}
+_setup_manifest_path() {
+  echo "${REPO_ROOT}/${BUILD_DIR:-$1}/${MANIFEST_ENV}"
+}
+
+# One line: export NAME="value" (same quoting as prior hand-written manifests).
+_manifest_export_line() {
+  echo "export ${1}=\"${2}\""
+}
+
+# Optional vcpkg trio when USE_VCPKG is yes (shared shape for linux/windows + macos manifests).
+_manifest_export_vcpkg_triplet() {
+  local triplet="$1"
+  _manifest_export_line VCPKG_DIR "$VCPKG_DIR"
+  _manifest_export_line VCPKG_ROOT "$VCPKG_DIR"
+  _manifest_export_line VCPKG_TARGET_TRIPLET "$triplet"
+}
+
+# Write $(BUILD_DIR)/${MANIFEST_ENV} after successful setup_linux.sh (linux | windows).
+# Refreshes path vars via setup_linux_paths; safe to call at end of setup.
+write_setup_manifest_linux_windows() {
+  local manifest
+  manifest="$(_setup_manifest_path "build_${TARGET_PLATFORM}")"
+  mkdir -p "$(dirname "$manifest")"
+  setup_linux_paths "$TARGET_PLATFORM"
+  {
+    echo "# Generated by setup_linux.sh — do not edit by hand unless you know what you are doing."
+    _manifest_export_line TARGET_PLATFORM "$TARGET_PLATFORM"
+    _manifest_export_line USE_AQT "$USE_AQT"
+    _manifest_export_line USE_VCPKG "$USE_VCPKG"
+    _manifest_export_line QT_OUTPUT_DIR "$QT_OUTPUT_DIR"
+    if is_yes "$USE_VCPKG"; then
+      _manifest_export_vcpkg_triplet "$VCPKG_TARGET_TRIPLET"
+    fi
+    if [ "$TARGET_PLATFORM" = "windows" ]; then
+      _manifest_export_line QT_WINDOWS_DIR "$QT_WINDOWS_DIR"
+      _manifest_export_line QT_HOST_PATH "$QT_HOST_PATH"
+      _manifest_export_line QT_DIR "$QT_DIR"
+      _manifest_export_line MINGW_DIR "$MINGW_DIR"
+    else
+      _manifest_export_line QT_DIR "$QT_DIR"
+    fi
+  } >"$manifest"
+  log "Wrote setup manifest: $manifest"
+}
+
+# Write $(BUILD_DIR)/${MANIFEST_ENV} after successful setup_macos.sh.
+write_setup_manifest_macos() {
+  local manifest
+  manifest="$(_setup_manifest_path "build_macos")"
+  mkdir -p "$(dirname "$manifest")"
+  {
+    echo "# Generated by setup_macos.sh — do not edit by hand unless you know what you are doing."
+    _manifest_export_line TARGET_PLATFORM macos
+    _manifest_export_line USE_AQT yes
+    _manifest_export_line USE_VCPKG yes
+    _manifest_export_line QT_OUTPUT_DIR "$QT_OUTPUT_DIR"
+    _manifest_export_line QT_DIR "$QT_DIR"
+    _manifest_export_vcpkg_triplet "$VCPKG_TRIPLET"
+  } >"$manifest"
+  log "Wrote setup manifest: $manifest"
 }
 
 ########################################
@@ -713,20 +804,50 @@ check_vcpkg_deps() {
   log "✓ vcpkg: $VCPKG_DIR"
 }
 
-# If CMakeCache.txt pins a different Z_VCPKG_ROOT_DIR (e.g. vcpkg moved under docker/<platform>/build),
-# CMake would skip reconfigure and keep wrong paths — drop cache so the next configure is fresh.
-# Args: build directory (-B). Uses VCPKG_ROOT, then VCPKG_DIR. No-op if cache or Z_ line missing.
-invalidate_cmake_cache_if_vcpkg_root_mismatch() {
-  local build_dir="${1:?invalidate_cmake_cache_if_vcpkg_root_mismatch: build directory required}"
-  local cache="${build_dir}/CMakeCache.txt"
-  [[ -f "$cache" ]] || return 0
-  local cached expect
-  cached="$(sed -n 's/^Z_VCPKG_ROOT_DIR:INTERNAL=//p' "$cache" | head -1)"
-  [[ -n "$cached" ]] || return 0
-  expect="${VCPKG_ROOT:-${VCPKG_DIR:-}}"
-  [[ -n "$expect" ]] || return 0
-  if [[ "$cached" != "$expect" ]]; then
-    log "WARNING: CMake cache has stale vcpkg root (cache: $cached, current: $expect); removing CMakeCache.txt and CMakeFiles."
-    rm -rf "${build_dir}/CMakeCache.txt" "${build_dir}/CMakeFiles"
+# Repo-relative path under REPO_ROOT for log lines (works on host and in Docker).
+_cmake_dir_rel() {
+  local d="${1:?}"
+  if [[ -n "${REPO_ROOT:-}" ]] && [[ "$d" == "${REPO_ROOT}/"* ]]; then
+    echo "${d#"${REPO_ROOT}/"}"
+  else
+    echo "$d"
   fi
+}
+
+# Drop CMakeCache + CMakeFiles if Z_VCPKG_ROOT_DIR disagrees with current vcpkg (same run will reconfigure).
+invalidate_cmake_vcpkg() {
+  local d="${1:?}"
+  local c="${d}/CMakeCache.txt"
+  [[ -f "$c" ]] || return 0
+  local got exp
+  got="$(sed -n 's/^Z_VCPKG_ROOT_DIR:INTERNAL=//p' "$c" | head -1)"
+  [[ -n "$got" ]] || return 0
+  exp="${VCPKG_ROOT:-${VCPKG_DIR:-}}"
+  [[ -n "$exp" ]] || return 0
+  if [[ "$got" != "$exp" ]]; then
+    log "Stale CMake cache (vcpkg); removing $(_cmake_dir_rel "$d")/CMakeCache.txt and CMakeFiles/"
+    rm -rf "${d}/CMakeCache.txt" "${d}/CMakeFiles"
+  fi
+}
+
+# Android: drop cache if any absolute path containing /ndk/ in CMakeCache is not under ANDROID_NDK_ROOT.
+invalidate_cmake_ndk() {
+  local d="${1:?}"
+  local c="${d}/CMakeCache.txt"
+  [[ -f "$c" ]] || return 0
+  [[ -n "${ANDROID_NDK_ROOT:-}" ]] || return 0
+  local line val root="${ANDROID_NDK_ROOT}"
+  while IFS= read -r line || [[ -n "${line}" ]]; do
+    # Real entries are NAME:TYPE=value. #/ // lines are headers/help and do not match this pattern.
+    [[ "${line}" =~ ^[[:alnum:]_]+:[[:alnum:]_]+= ]] || continue
+    val="${line#*=}"
+    val="${val//\"/}"
+    [[ "${val}" == /* ]] || continue
+    [[ "${val}" == *"/ndk/"* ]] || continue
+    if [[ "${val}" != "${root}"/* ]]; then
+      log "Stale CMake cache (NDK); removing $(_cmake_dir_rel "$d")/CMakeCache.txt and CMakeFiles/"
+      rm -rf "${d}/CMakeCache.txt" "${d}/CMakeFiles"
+      return 0
+    fi
+  done < "$c"
 }

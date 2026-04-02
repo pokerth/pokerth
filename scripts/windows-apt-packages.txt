@@ -1,4 +1,4 @@
-# Windows cross-build: apt packages (shared by scripts/setup_linux.sh and docker/windows/Dockerfile).
+# Windows cross-build: apt packages (shared by scripts/setup_linux.sh and docker/Dockerfile).
 autoconf
 automake
 imagemagick

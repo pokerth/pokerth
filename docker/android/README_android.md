@@ -1,41 +1,33 @@
+# Android (Docker / devcontainer)
+
+Quick entry for `make android-docker` and **Reopen in Container**. **Canonical detail:** [building-developer.md](../../docs/building-developer.md) (ensure, `CACHE_ROOT`, `.manifest.env`, `REPO_BUILD_ROOT`). **Workflow overview:** [building.md](../../docs/building.md).
+
 ## Prerequisites
 
 - Docker
-- VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
+- VS Code Dev Containers (optional): `ms-vscode-remote.remote-containers`
 
-## Build Instructions
+## Quick start
 
-**Command line (recommended):** From **repo root**, `make android-docker`. `scripts/run_devcontainer.py` reads `.devcontainer/android/devcontainer.json` (same as VS Code/Cursor): `build.options` (e.g. `--platform=linux/amd64` for the **Docker image** arch, not PokerTH `TARGET_PLATFORM`) is passed to `docker build`; `runArgs` to `docker run`.
+From **repo root**:
 
-Flow: container starts → `ensure_docker_deps.py android` — if **vcpkg** or **Qt** (`qt-cmake` under `docker/android/build/Qt`) checks fail, it runs `setup.sh deps` (`TARGET_PLATFORM=android` → `setup_android.sh`; ports into `docker/android/build/vcpkg`), with `BUILD_DIR` = `docker/android/build` so **`.manifest.env`** matches `REPO_BUILD_ROOT` — then `make android` runs the stamp rule and **`build.sh`** → **`build_android.sh`** ( **`ensure` does not touch `.stamp_setup`**).
+- **Host:** `make android-docker` — `scripts/run_devcontainer.py` reads `.devcontainer/devcontainer.json` (same image as **Reopen in Container**).
+- **Editor:** Open the repo root → **Dev Containers: Reopen in Container** → run `make android` in the integrated terminal.
 
-**APK build:** `build_android.sh` invokes `androiddeployqt` with `--release` (Qt runs `buildAndroidProject()` and Gradle `assembleRelease`). `res/drawable/ic_launcher.png` is a **symlink** to `data/gfx/gui/misc/windowicon_transparent.png` under each client’s `android/res/` tree (same icon, no duplicate PNGs). On **Windows** clones, enable Git symlink support if links show as plain files (`git config core.symlinks true`, Developer Mode, or run Android builds in Docker/Linux). `CLEAN=yes make android-docker` removes `docker/android/build/android-build` before packaging when you need a clean Gradle/Android tree.
+The image includes **SDK/NDK/Gradle** and **MinGW** from `docker build` (`make setup-toolchains`). **Qt (aqt)** and **vcpkg** install on first `make android` when `ensure_docker_deps.py` runs `setup.sh deps`. `ensure` does not write `.manifest.env`; `setup_android.sh` does when the Makefile manifest rule runs.
 
-**Mounts / paths:** Repo root → `/workspaces/pokerth`. With **`IN_DOCKER=1`**, **`scripts/functions.sh`** sets **`VCPKG_DIR`** / **`QT_OUTPUT_DIR`** under **`docker/android/build/`**. **`ROOT`** / **`ANDROID_CACHE_ROOT`** stay **`/opt/pokerth-android`** for SDK/NDK (from image / `.devcontainer/android/`).
+## Outputs
 
-**Finding Qt on disk:** `docker/android/build/Qt` (e.g. `…/gcc_64`) is next to `docker/android/build/vcpkg`. That tree is listed in `.gitignore` (`docker/**/build/`), so Git (and some IDEs) will not show it as untracked — use `ls docker/android/build` in a shell to confirm.
+- **Docker / devcontainer:** unsigned APK under  
+  `docker/android/build/android-build/build/outputs/apk/release/`  
+  (exact name may vary, e.g. `*-release-unsigned.apk`).
+- **Native Linux (no Docker):** same layout under `build_android/android-build/...` with `REPO_BUILD_ROOT=build_android`.
 
-**Image:** The Dockerfile `final` stage runs `setup.sh toolchain` only (SDK/NDK/Gradle + `.manifest.env`). Qt (`aqt`) and vcpkg ports run on `docker run` (**ensure** invokes `setup.sh deps` when protobuf/vcpkg is not ready). `${ROOT}/.manifest.env` on `/opt/pokerth-android` survives the repo bind mount (see `setup_android.sh` `_sync_manifest_to_root`).
+**Launcher icon:** `res/drawable/ic_launcher.png` is a **symlink** to `data/gfx/gui/misc/windowicon_transparent.png`. On Windows clones, enable Git symlink support or build in Docker/Linux. `CLEAN=yes make android-docker` wipes `docker/android/build/android-build` before packaging when you need a clean Gradle tree.
 
-**APK (Docker):** `docker/android/build/android-build/build/outputs/apk/release/` (unsigned). **Host** `make android`: `build_android/android-build/...` instead.
+**Other ABIs:** `make android ANDROID_BUILD_ARGS="--arch x86_64"` — see `scripts/build_android.sh --help` and **building-developer.md** for `VCPKG_TRIPLET`.
 
-Other ABIs: `make android ANDROID_BUILD_ARGS="--arch x86_64"` (`scripts/build_android.sh --help`). Align `VCPKG_TRIPLET` with the ABI when pre-seeding vcpkg (see [building-developer.md](../../docs/building-developer.md)).
-
-**Host Linux:** `export VCPKG_DIR=build_android/vcpkg` (example) then `make setup-android` — full SDK/NDK/Gradle/Qt + vcpkg (same script path as Docker ensure), then `make android`.
-
-**Not used:** `install_vcpkg_android.sh` (if present in old trees) — vcpkg is handled by `setup_android.sh` / `make setup-android` / `setup.sh` (`TARGET_PLATFORM=android`).
-
-**VS Code Dev Container:** Open the **repository root** → **Dev Containers: Rebuild and Reopen in Container** (pick `.devcontainer/android/devcontainer.json`). Repo at `/workspaces/pokerth`; same env paths as above. With toolchain in the image, `make android` is usually enough once vcpkg is populated; use `make setup-android` if you need to refresh ports (`VCPKG_DIR` must point at your vcpkg root). `make android-docker` from the host uses the same `devcontainer.json`.
-
-```bash
-make android
-```
-
-Unsigned APK (typical path; exact name may vary):
-
-```text
-docker/android/build/android-build/build/outputs/apk/release/android-build-release-unsigned.apk
-```
+**Host Linux (native tree):** e.g. `export VCPKG_DIR=build_android/vcpkg`, then `make setup-android`, then `make android`.
 
 ## Sign the APK
 
@@ -45,7 +37,7 @@ Generate keystore (first time only):
 keytool -genkey -v -keystore my.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias app
 ```
 
-Sign the APK (Docker output path; use `build_android/...` for a host tree):
+Sign (Docker path; use `build_android/...` for a host tree):
 
 ```bash
 apksigner sign --ks my.keystore --ks-key-alias app \

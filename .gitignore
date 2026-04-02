@@ -56,7 +56,6 @@ tests/*
 *~
 *.swp
 *.swo
-.stamp*
 compile_commands.json
 *.log
 *lldb*

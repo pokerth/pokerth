@@ -2,26 +2,32 @@
 # Android setup: SDK/NDK, Gradle, then deps (Qt aqt + vcpkg). Used by make setup-android and Docker ensure.
 #
 # "System packages" (SKIP_SYSTEM_PACKAGES) means ONLY OS package-manager installs: apt — same merge as
-# docker/android/Dockerfile (grep apt-packages.txt + android-apt-packages.txt).
+# docker/Dockerfile (grep apt-packages.txt + android-apt-packages.txt).
 # and, on hosts that support it, brew — what a Dockerfile base stage or CI can RUN before setup. Not: sdkmanager (SDK/NDK),
 # pip/aqt (Qt), Gradle zips, or vcpkg — those are separate steps in this script.
 # CACHE / bind — mainly vcpkg tree under the repo cache / bind mount (protobuf overlay is part of vcpkg); SDK/NDK/Qt may live there too
 # depending on path env, but they are not "system packages" in the name above.
 # Args: optional first argument all|toolchain|deps (default is all).
-# Env: VCPKG_DIR / VCPKG_TRIPLET, ROOT, BUILD_DIR, SKIP_SYSTEM_PACKAGES, optional QT_OUTPUT_DIR
-# (optional QT_OUTPUT_DIR; else ${ANDROID_CACHE_ROOT}/Qt). Android manifest: ${MANIFEST_ENV} (default .manifest.env).
+# Env: VCPKG_DIR / VCPKG_TRIPLET, BUILD_DIR, SKIP_SYSTEM_PACKAGES, optional QT_OUTPUT_DIR; CACHE_ROOT from functions.sh (~/.pokerth or /opt/pokerth when IN_DOCKER=1).
+# Optional QT_OUTPUT_DIR; else ${CACHE_ROOT}/${TARGET_PLATFORM}/Qt. Manifest basename: MANIFEST_ENV from functions.sh.
 # Native host: leave SKIP_SYSTEM_PACKAGES unset so the apt block runs (Linux). macOS: no apt here — brew/manual or
-# SKIP_SYSTEM_PACKAGES=yes if already satisfied. Docker: ENV SKIP_SYSTEM_PACKAGES=yes when base already ran apt list.
+# SKIP_SYSTEM_PACKAGES=yes if already satisfied. Some Docker/ensure flows set SKIP when apt lists were already applied.
 set -euo pipefail
 
 # shellcheck source=/dev/null
 source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/functions.sh"
+# android-only script; use ${CACHE_ROOT}/${TARGET_PLATFORM} instead of hardcoding "android".
+export TARGET_PLATFORM="${TARGET_PLATFORM:-$DEFAULT_TARGET_PLATFORM_ANDROID}"
+
+# Defaults for this script only (not version pins). Override via VCPKG_TRIPLET / QT_ARCH when invoking setup.
+VCPKG_DEFAULT_TRIPLET_ANDROID=arm64-android
+QT_ARCH_DEFAULT_ANDROID=arm64_v8a
 
 provision_android_sdk_ndk() {
   echo "Provisioning Android SDK/NDK (${ANDROID_SDK_ROOT})..."
 
   # apt-only block (SKIP_SYSTEM_PACKAGES=yes skips this — e.g. Docker base already ran the same lists).
-  if [ "${SKIP_SYSTEM_PACKAGES:-no}" != "yes" ]; then
+  if [ "${SKIP_SYSTEM_PACKAGES:-$DEFAULT_OPT_NO}" != "yes" ]; then
     echo "Installing Android host packages..."
     PKGS="$(apt_packages_merged_lines "$SCRIPT_DIR" android | tr '\n' ' ')"
     if command -v apt-get >/dev/null 2>&1; then
@@ -58,13 +64,12 @@ provision_android_sdk_ndk() {
     "cmake;${ANDROID_CMAKE_VERSION}"
 }
 
-# Toolchain stage only: set Qt paths from ROOT/env without running aqt (deps/all run provision_qt_for_android).
-# Qt base: optional QT_OUTPUT_DIR (e.g. devcontainer), else ${ANDROID_CACHE_ROOT}/Qt (ANDROID_CACHE_ROOT set below before use).
+# Toolchain stage only: set Qt paths from env without running aqt (deps/all run provision_qt_for_android).
+# Qt base: optional QT_OUTPUT_DIR (e.g. devcontainer), else ${CACHE_ROOT}/${TARGET_PLATFORM}/Qt.
 set_qt_paths_from_root_or_env() {
-  local _qb
-  _qb="${QT_OUTPUT_DIR:-${ANDROID_CACHE_ROOT}/Qt}"
-  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${_qb}/${QT_VERSION}/android_${QT_ARCH}}"
-  QT_HOST_PATH="${QT_HOST_PATH:-${_qb}/${QT_VERSION}/gcc_64}}"
+  local qt_base="${QT_OUTPUT_DIR:-${CACHE_ROOT}/${TARGET_PLATFORM}/Qt}"
+  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${qt_base}/${QT_VERSION}/android_${QT_ARCH}}"
+  QT_HOST_PATH="${QT_HOST_PATH:-${qt_base}/${QT_VERSION}/gcc_64}}"
 }
 
 # Implemented only in this file (not scripts/functions.sh). Related: install_qt_with_modules / setup_pipx_aqt
@@ -77,22 +82,31 @@ provision_qt_for_android() {
     qtscxml qtsensors qtserialbus qtserialport qtshadertools qtspeech
     qtvirtualkeyboard qtwebchannel qtwebsockets qtwebview
   "
-  local _qb
-  _qb="${QT_OUTPUT_DIR:-${ANDROID_CACHE_ROOT}/Qt}"
-  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${_qb}/${QT_VERSION}/android_${QT_ARCH}}"
-  QT_HOST_PATH="${QT_HOST_PATH:-${_qb}/${QT_VERSION}/gcc_64}}"
+  local qt_base="${QT_OUTPUT_DIR:-${CACHE_ROOT}/${TARGET_PLATFORM}/Qt}"
+  QT_ANDROID_DIR="${QT_ANDROID_DIR:-${qt_base}/${QT_VERSION}/android_${QT_ARCH}}"
+  QT_HOST_PATH="${QT_HOST_PATH:-${qt_base}/${QT_VERSION}/gcc_64}}"
   if [ ! -f "${QT_ANDROID_DIR}/lib/cmake/Qt6/Qt6Config.cmake" ]; then
     echo "Provisioning Qt ${QT_VERSION} for Android..."
     command -v aqt >/dev/null || {
       echo "Installing aqtinstall..."
-      python3 -m venv "${ANDROID_CACHE_ROOT}/venv" 2>/dev/null || true
-      "${ANDROID_CACHE_ROOT}/venv/bin/pip" install --upgrade pip aqtinstall 2>/dev/null || true
-      export PATH="${ANDROID_CACHE_ROOT}/venv/bin:$PATH"
+      python3 -m venv "${CACHE_ROOT}/${TARGET_PLATFORM}/venv" 2>/dev/null || true
+      "${CACHE_ROOT}/${TARGET_PLATFORM}/venv/bin/pip" install --upgrade pip aqtinstall 2>/dev/null || true
+      export PATH="${CACHE_ROOT}/${TARGET_PLATFORM}/venv/bin:$PATH"
     }
-    mkdir -p "$_qb"
-    (cd "$_qb" && aqt install-qt all_os android "${QT_VERSION}" "android_${QT_ARCH}" --autodesktop --modules ${QT_MODULES})
-    (cd "$_qb" && aqt install-qt linux desktop "${QT_VERSION}" linux_gcc_64 --modules ${QT_MODULES})
+    mkdir -p "$qt_base"
+    (cd "$qt_base" && aqt install-qt all_os android "${QT_VERSION}" "android_${QT_ARCH}" --autodesktop --modules ${QT_MODULES})
+    (cd "$qt_base" && aqt install-qt linux desktop "${QT_VERSION}" linux_gcc_64 --modules ${QT_MODULES})
   fi
+}
+
+# Docker: force SDK paths from ${CACHE_ROOT}/${TARGET_PLATFORM} (same tree as native ~/.pokerth/android).
+_apply_docker_android_sdk_canonical_paths() {
+  if [[ "${IN_DOCKER:-}" != "1" ]]; then
+    return 0
+  fi
+  export ANDROID_SDK_ROOT="${CACHE_ROOT}/${TARGET_PLATFORM}/android-sdk"
+  export ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}"
+  export ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}"
 }
 
 # Writes Android-specific exports into ${MANIFEST_ENV}.
@@ -111,12 +125,12 @@ export PATH="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}/bin:${ANDROID_SDK_RO
 ENVEOF
 }
 
-# When ROOT is the image bind root (/opt/pokerth-*), also write here so a repo workspace bind mount
-# cannot hide ${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}.
+# Mirror manifest under ${CACHE_ROOT}/${TARGET_PLATFORM} so a workspace bind cannot hide the SDK handoff file.
 _sync_manifest_to_root() {
-  if [[ -n "${ROOT:-}" && "${ROOT}" =~ ^/opt/pokerth- ]]; then
-    _write_android_manifest > "${ROOT}/${MANIFEST_ENV}"
+  if [[ "${IN_DOCKER:-}" != "1" ]]; then
+    return 0
   fi
+  _write_android_manifest > "${CACHE_ROOT}/${TARGET_PLATFORM}/${MANIFEST_ENV}"
 }
 
 # vcpkg ports + protobuf overlay live in the deps layer (setup.sh deps / docker run).
@@ -214,40 +228,33 @@ case "$LAYER" in
 esac
 
 # Second phase only: reuse toolchain output (same paths as _write_android_manifest below).
-# Docker image build: toolchain writes ${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV} into the image layer; ${ROOT}/${MANIFEST_ENV}
-# on the bind mount is optional. Prefer the repo-relative file so split Dockerfile RUN steps still see it.
+# Docker image build: toolchain writes repo Android manifest; optional copy under CACHE_ROOT (sync).
 if [ "$LAYER" = "deps" ]; then
-  BUILD_DIR="${BUILD_DIR:-build_android}"
-  resolve_setup_platform_env android
+  BUILD_DIR="${BUILD_DIR:-build_${TARGET_PLATFORM}}"
+  resolve_setup_platform_env "${TARGET_PLATFORM}"
   export VCPKG_DIR
   export VCPKG_ROOT="$VCPKG_DIR"
-  ROOT="${ROOT:-$(dirname "$VCPKG_DIR")}"
-  TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
+  TRIPLET="${VCPKG_TRIPLET:-$VCPKG_DEFAULT_TRIPLET_ANDROID}"
   ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}"
   ANDROID_ENV_SOURCE=""
+  _cache_mf="${CACHE_ROOT}/${TARGET_PLATFORM}/${MANIFEST_ENV}"
   if [ -f "$ENV_FILE" ]; then
     ANDROID_ENV_SOURCE="$ENV_FILE"
-  elif [ -n "${ROOT:-}" ] && [ -f "${ROOT}/${MANIFEST_ENV}" ]; then
-    ANDROID_ENV_SOURCE="${ROOT}/${MANIFEST_ENV}"
+  elif [ -f "$_cache_mf" ]; then
+    ANDROID_ENV_SOURCE="$_cache_mf"
   fi
   if [ -z "$ANDROID_ENV_SOURCE" ]; then
-    echo "deps layer requires ${MANIFEST_ENV} from toolchain (tried ${ENV_FILE} and ${ROOT:-ROOT}/${MANIFEST_ENV})." >&2
+    echo "deps layer requires ${MANIFEST_ENV} from toolchain (tried ${ENV_FILE} and ${_cache_mf})." >&2
     exit 1
   fi
+  unset _cache_mf
   set -a
   # shellcheck source=/dev/null
   . "$ANDROID_ENV_SOURCE"
   set +a
 
-  # Qt (aqt) lives in deps, not toolchain. Refresh ANDROID_CACHE_ROOT if unset after source.
-  if [ -z "${ANDROID_CACHE_ROOT:-}" ]; then
-    if [[ -n "${ROOT:-}" && "${ROOT}" =~ ^/opt/pokerth- ]]; then
-      ANDROID_CACHE_ROOT="$ROOT"
-    else
-      ANDROID_CACHE_ROOT="${HOME}/.pokerth-android"
-    fi
-  fi
-  export QT_ARCH="${QT_ARCH:-arm64_v8a}"
+  _apply_docker_android_sdk_canonical_paths
+  export QT_ARCH="${QT_ARCH:-$QT_ARCH_DEFAULT_ANDROID}"
   provision_qt_for_android
   export QT_ANDROID_DIR QT_HOST_PATH
   ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}"
@@ -259,29 +266,21 @@ if [ "$LAYER" = "deps" ]; then
   exit 0
 fi
 
-BUILD_DIR="${BUILD_DIR:-build_android}"
-resolve_setup_platform_env android
+BUILD_DIR="${BUILD_DIR:-build_${TARGET_PLATFORM}}"
+resolve_setup_platform_env "${TARGET_PLATFORM}"
 export VCPKG_DIR
 export VCPKG_ROOT="$VCPKG_DIR"
 
-ROOT="${ROOT:-$(dirname "$VCPKG_DIR")}"
-TRIPLET="${VCPKG_TRIPLET:-arm64-android}"
-QT_ARCH="${QT_ARCH:-arm64_v8a}"
+TRIPLET="${VCPKG_TRIPLET:-$VCPKG_DEFAULT_TRIPLET_ANDROID}"
+QT_ARCH="${QT_ARCH:-$QT_ARCH_DEFAULT_ANDROID}"
 
-# ANDROID_CACHE_ROOT: SDK/NDK/Qt/venv. Host: ~/.pokerth-android. When ROOT is the standard Docker bind root (/opt/pokerth-*), colocate caches on ROOT.
-if [ -z "${ANDROID_CACHE_ROOT:-}" ]; then
-  if [[ -n "${ROOT:-}" && "${ROOT}" =~ ^/opt/pokerth- ]]; then
-    ANDROID_CACHE_ROOT="$ROOT"
-  else
-    ANDROID_CACHE_ROOT="${HOME}/.pokerth-android"
-  fi
-fi
+_apply_docker_android_sdk_canonical_paths
 
 # Resolve ANDROID_SDK_ROOT / ANDROID_NDK_ROOT for checks and for ${MANIFEST_ENV}.
 # Important: don't force sdkmanager runs just because ANDROID_SDK_ROOT isn't set.
 # In Docker runs, SDK/NDK are baked into the image; we only provision when something is actually missing.
 if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
-  ANDROID_SDK_ROOT="${ANDROID_CACHE_ROOT}/android-sdk"
+  ANDROID_SDK_ROOT="${CACHE_ROOT}/${TARGET_PLATFORM}/android-sdk"
 fi
 if [ -z "${ANDROID_NDK_ROOT:-}" ]; then
   ANDROID_NDK_ROOT="${ANDROID_SDK_ROOT}/ndk/${ANDROID_NDK_VERSION}"
@@ -321,9 +320,8 @@ if [ -z "${JAVA_HOME:-}" ]; then
 fi
 export JAVA_HOME
 
-# Gradle: same Java/toolchain family as JDK + Android Gradle Plugin; ideally SYSTEM/image-baked, else cached under GRADLE_ROOT.
-# GRADLE_ROOT: ANDROID_CACHE_ROOT when SDK was just provisioned; else ROOT (e.g. Docker bind). Exported via ${MANIFEST_ENV} for deps layer.
-GRADLE_ROOT="$([ "$missing_component" = "1" ] && echo "$ANDROID_CACHE_ROOT" || echo "$ROOT")"
+# Gradle: cached under toolchain tree (${CACHE_ROOT}/${TARGET_PLATFORM}).
+GRADLE_ROOT="${CACHE_ROOT}/${TARGET_PLATFORM}"
 export GRADLE_ROOT
 GRADLE_DIR="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}"
 if [ ! -d "$GRADLE_DIR" ]; then
@@ -334,7 +332,7 @@ if [ ! -d "$GRADLE_DIR" ]; then
   rm /tmp/gradle.zip
 fi
 
-# Write env for build_android.sh to source (build_android.sh: REPO_BUILD_ROOT/${MANIFEST_ENV} first, then ROOT/${MANIFEST_ENV}).
+# Write env for build_android.sh to source (repo manifest first; Docker syncs cache copy when IN_DOCKER=1).
 ENV_FILE="${REPO_ROOT}/${BUILD_DIR}/${MANIFEST_ENV}"
 mkdir -p "$(dirname "$ENV_FILE")"
 _write_android_manifest > "$ENV_FILE"

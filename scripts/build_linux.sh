@@ -37,6 +37,19 @@ init_build_defaults host
 
 # Optional: CREATE_INSTALLER=yes creates Linux AppImage (linuxdeployqt) or Windows NSIS installer (makensis; apt install nsis)
 
+# Repo-relative build tree (same as Makefile REPO_BUILD_ROOT / setup manifest path).
+if [ -n "${REPO_BUILD_ROOT:-}" ]; then
+  BUILD_DIR_REL="$REPO_BUILD_ROOT"
+else
+  BUILD_DIR_REL="build_${TARGET_PLATFORM}"
+fi
+BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
+_setup_manifest="${BUILD_DIR}/${MANIFEST_ENV}"
+if [ -f "$_setup_manifest" ]; then
+  # shellcheck source=/dev/null
+  . "$_setup_manifest"
+fi
+
 # Setup Qt paths based on target platform (overwrites USE_AQT/USE_VCPKG for windows — see functions.sh)
 setup_linux_paths "$TARGET_PLATFORM"
 
@@ -132,7 +145,7 @@ create_linux_appimage() {
     LINUXDEPLOYQT_EXTRA_ARGS=()
   fi
 
-  if is_yes "${LINUXDEPLOYQT_ALLOW_NEW_GLIBC:-no}"; then
+  if is_yes "${LINUXDEPLOYQT_ALLOW_NEW_GLIBC:-$DEFAULT_OPT_NO}"; then
     LINUXDEPLOYQT_EXTRA_ARGS+=(-unsupported-allow-new-glibc)
     log "  (LINUXDEPLOYQT_ALLOW_NEW_GLIBC=yes: allowing newer host glibc for testing; AppImage may not run on older distros)"
   fi
@@ -147,7 +160,7 @@ print_build_summary() {
   echo "✓ Target: $BUILD_TARGET"
   echo ""
   if [ "$TARGET_PLATFORM" = "windows" ]; then
-    is_yes "${CREATE_INSTALLER:-no}" && echo "Installer: ${INSTALLER:-docker/windows/PokerTH-*-Setup.exe}"
+    is_yes "${CREATE_INSTALLER:-$DEFAULT_OPT_NO}" && echo "Installer: ${INSTALLER:-docker/windows/PokerTH-*-Setup.exe}"
     echo "Deploy: $BUILD_DIR/deploy (exe, DLLs, data, Qt plugins)"
     echo "  Copy deploy/ to Windows, or: make windows-installer"
     echo "  Test with Wine: cd $BUILD_DIR/deploy && wine pokerth_client.exe"
@@ -186,15 +199,6 @@ log "✓ All dependencies found"
 ########################################
 # 2. Build PokerTH
 ########################################
-# Repo-relative build tree: Makefile passes REPO_BUILD_ROOT (matches stamp path in Docker).
-# Manual runs default to build_<TARGET_PLATFORM> (same as host Makefile when IN_DOCKER is unset).
-
-if [ -n "${REPO_BUILD_ROOT:-}" ]; then
-  BUILD_DIR_REL="$REPO_BUILD_ROOT"
-else
-  BUILD_DIR_REL="build_${TARGET_PLATFORM}"
-fi
-BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
 
 if is_yes "$CLEAN"; then
   log "Cleaning and reconfiguring build for $TARGET_PLATFORM..."
@@ -205,7 +209,7 @@ else
   log "Reusing existing build directory for $TARGET_PLATFORM..."
   mkdir -p "$BUILD_DIR"
   if is_yes "$USE_VCPKG"; then
-    invalidate_cmake_cache_if_vcpkg_root_mismatch "$BUILD_DIR"
+    invalidate_cmake_vcpkg "$BUILD_DIR"
   fi
   if [ -f "$BUILD_DIR/CMakeCache.txt" ]; then
     # Only reconfigure if cache was for a different repo path (e.g. make windows vs make windows-docker).
@@ -251,7 +255,7 @@ esac
 # 4. Create installer if requested
 ########################################
 
-if is_yes "${CREATE_INSTALLER:-no}"; then
+if is_yes "${CREATE_INSTALLER:-$DEFAULT_OPT_NO}"; then
   if [ "$TARGET_PLATFORM" = "windows" ]; then
     create_windows_nsis_installer
   else

@@ -1,49 +1,31 @@
+# Windows cross-build (Docker / devcontainer)
+
+Quick entry for `make windows-docker` and **Reopen in Container**. **Canonical detail:** [building-developer.md](../../docs/building-developer.md) (ensure, `SKIP_SYSTEM_PACKAGES`, unified `docker/Dockerfile`, `docker/windows/build/`). **Workflow overview:** [building.md](../../docs/building.md).
+
 ## Prerequisites
 
 - Docker
-- **jq** (on host: for `make windows-docker` / `make windows-docker-installer`; install with `apt install jq`, `brew install jq`, or run `make setup-windows` on Linux / `make setup-macos` on macOS)
-- VS Code with Dev Containers extension (ms-vscode-remote.remote-containers)
+- **jq** on the host for `make windows-docker` / `make windows-docker-installer` (`apt install jq`, `brew install jq`, or `make setup-windows` / `make setup-macos`)
+- VS Code Dev Containers (optional)
 
-## Build Instructions
+## Quick start
 
-Best practice is to use the VS Code Dev Containers feature: open the **repository root** (the `pokerth` checkout), then **Rebuild and Reopen in Container** and choose **`.devcontainer/windows/devcontainer.json`**. The workspace inside the container is the **repo root** (mounted at `/workspaces/pokerth`).
+- **Devcontainer:** Open the **repository root** → **Rebuild and Reopen in Container** (`.devcontainer/devcontainer.json`). Workspace `/workspaces/pokerth`. Run `make windows` or `make windows-installer` yourself — there is no `postCreateCommand`. First run may take a while while **ensure** / `setup.sh deps` installs **Qt** and **vcpkg** under `docker/windows/build/`.
+- **Host:** `make windows-docker` from the repo root (same JSON via `run_devcontainer.py`). On **macOS**, `make windows` already uses this Docker path.
 
-Inside the running container:
+**Outputs:** `docker/windows/build/deploy/` (and NSIS-related artifacts under `docker/windows/` for installer targets).
 
-```bash
-make windows
-```
+## Without VS Code
 
-Or **`make windows-installer`** to build and create the NSIS installer. Output is in **docker/windows/build/deploy/** (and the installer in **docker/windows/**). The container runs **`make windows`** automatically after create (postCreateCommand).
+From **repo root:** `make windows-docker`. Only Docker required. Image build may be skipped if the tag already exists — force rebuild: `DOCKER_FORCE_BUILD=1` or `docker rmi` (see **building-developer.md**).
 
-Use **`make windows`** or **`make windows-docker`**. Build logic: **build.sh** → **build_linux.sh** + **functions.sh**. Devcontainer / **`make windows-docker`**: **ensure_docker_deps.py windows** runs **`setup.sh deps`** when **vcpkg** or **Qt** (**`qt-cmake`**) readiness checks fail, then **make windows**. The image sets **SKIP_SYSTEM_PACKAGES=yes** (apt skipped); with **`IN_DOCKER=1`**, **functions.sh** sets **vcpkg** and **Qt** under **`docker/windows/build/{vcpkg,Qt}`** (not baked in **`docker build`**). Kind defaults and readiness triplets are defined in **ensure_docker_deps.py**. See **docs/building-developer.md**. Clean Docker tree: remove **docker/windows/build** on the host (or empty **vcpkg** / **Qt**), then **`make windows-docker`** again.
+## Devcontainer checklist
 
-## Testing from the command line (no VS Code/Cursor)
+1. Open the **repo root**, not only `docker/windows/`.
+2. **Dev Containers: Rebuild and Reopen in Container**.
+3. Run `make windows` (or `make windows-installer`).
+4. Confirm `pwd` is `/workspaces/pokerth` and `ls docker/windows/build/deploy` lists `pokerth_client.exe`, Qt DLLs, `data/`, `plugins/`, `qt.conf`.
 
-From the **repo root**, run:
+**Clean rebuild:** remove `docker/windows/build` on the host (or in the container), then `make windows` again.
 
-```bash
-make windows
-```
-
-On macOS **`make windows`** uses Docker (same as **`make windows-docker`**). On any host you can run:
-
-```bash
-make windows-docker
-```
-
-For the NSIS installer: on **Linux** you can use **`make windows-installer`** (host MinGW) or **`make windows-docker-installer`** (Docker). On **macOS**, **`make windows-installer`** uses Docker (no choice; same as **`make windows-docker-installer`**).
-
-The Makefile builds the devcontainer image (if needed), runs a container with the repo mounted at `/workspaces/pokerth`, and runs **`make windows`** (or **`make windows-installer`**) inside it. Output ends up in **docker/windows/build/deploy/** (build dir is under docker/windows). Requires only Docker.
-
-## Testing the devcontainer (VS Code/Cursor)
-
-1. Open the **repository root** in VS Code/Cursor (File → Open Folder → the `pokerth` checkout), not only `docker/windows`.
-2. Command Palette (**Ctrl+Shift+P** / **Cmd+Shift+P**) → **Dev Containers: Rebuild and Reopen in Container**.
-3. Wait for the container to start. **postCreateCommand** runs **`make windows`** automatically; watch the terminal for success or failure.
-4. In the container terminal, confirm workspace is repo root and deploy exists:
-   ```bash
-   pwd                    # should be /workspaces/pokerth
-   ls docker/windows/build/deploy # should list pokerth_client.exe, Qt DLLs, data/, plugins/, qt.conf
-   ```
-   If postCreateCommand failed or you want to rebuild: run **`make windows`**. For a clean build, remove **docker/windows/build** on the host (or inside the container), then run **`make windows`** again. Re-check **docker/windows/build/deploy/**.
+**Installer:** On Linux use `make windows-installer` (host MinGW) or `make windows-docker-installer`. On macOS, `make windows-installer` uses Docker.

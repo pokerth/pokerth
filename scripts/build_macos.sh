@@ -10,6 +10,8 @@ set -euo pipefail
 # Source shared build environment (sets REPO_ROOT when in scripts/)
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
+export TARGET_PLATFORM="${TARGET_PLATFORM:-macos}"
+
 build_macos_usage() {
   echo "Usage: make macos or ./scripts/build_macos.sh"
   echo "  No arguments. Set environment variables to change behavior."
@@ -33,10 +35,16 @@ exit_with_usage_if_args build_macos_usage "$@"
 init_build_defaults macos
 
 # Set to "yes" to create DMG installer after building the app bundle
-CREATE_INSTALLER="${CREATE_INSTALLER:-no}"
+CREATE_INSTALLER="${CREATE_INSTALLER:-$DEFAULT_OPT_NO}"
 
-QT_DIR="$QT_OUTPUT_DIR/$QT_VERSION/macos"
-MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-12.0}"
+BUILD_DIR_REL="${BUILD_DIR:-build_${TARGET_PLATFORM}}"
+BUILD_DIR="$REPO_ROOT/$BUILD_DIR_REL"
+_setup_manifest="${REPO_ROOT}/${BUILD_DIR_REL}/${MANIFEST_ENV}"
+if [ -f "$_setup_manifest" ]; then
+  # shellcheck source=/dev/null
+  . "$_setup_manifest"
+fi
+QT_DIR="${QT_DIR:-$QT_OUTPUT_DIR/$QT_VERSION/macos}"
 
 ########################################
 # Script-local functions (plan section 3)
@@ -252,7 +260,7 @@ print_build_summary_macos() {
   log "Build complete!"
   echo ""
   echo "✓ App Bundle: $APP_BUNDLE"
-  if is_yes "${CREATE_INSTALLER:-no}"; then
+  if is_yes "${CREATE_INSTALLER:-$DEFAULT_OPT_NO}"; then
     echo "✓ DMG Installer: $DMG_PATH"
     echo ""
     echo "To run: open $APP_BUNDLE"
@@ -292,8 +300,6 @@ log "✓ All dependencies found"
 # 2. Build PokerTH
 ########################################
 
-BUILD_DIR="$REPO_ROOT/build_macos"
-
 if is_yes "$CLEAN"; then
   log "Cleaning and reconfiguring build…"
   rm -rf "$BUILD_DIR"
@@ -331,7 +337,7 @@ create_macos_app_bundle
 # 4. Create DMG (optional)
 ########################################
 
-if is_yes "${CREATE_INSTALLER:-no}"; then
+if is_yes "${CREATE_INSTALLER:-$DEFAULT_OPT_NO}"; then
   create_macos_dmg
 fi
 

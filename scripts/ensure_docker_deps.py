@@ -4,11 +4,11 @@ Ensure vcpkg + Qt readiness inside a Linux container, then optionally run `make`
 
 Invocation (only Docker / devcontainer flows):
   `run_devcontainer.py` passes this as the container command for `make *-docker`;
-  devcontainer `postCreateCommand` may run it on first open (Windows).
+  Host `make *-docker` runs this inside the container before inner `make`.
 
 NOT used for native host setup:
-  Use `make setup-<platform>` or `scripts/setup.sh` directly — different BUILD_DIR, ROOT,
-  and no `ensure` orchestration.
+  Use `make setup-<platform>` or `scripts/setup.sh` directly — different BUILD_DIR,
+  `CACHE_ROOT` (host `~/.pokerth` vs container `/opt/pokerth` with bind-mount) and per-kind dirs, and no `ensure` orchestration.
 
 Docker build vs docker run (contract for supported kinds — see _KIND_DEFAULT_VCPKG_TRIPLET):
   - Toolchain (`setup.sh toolchain`) is expected to live in the **image** from `docker build`,
@@ -17,7 +17,7 @@ Docker build vs docker run (contract for supported kinds — see _KIND_DEFAULT_V
     when **`IN_DOCKER=1`**). `ensure` invokes **`setup.sh deps`** when `docker_deps_ready` is false
     (vcpkg and/or Qt) — not the same as a full host **`setup.sh all`**.
   - For kinds in _KIND_DEFAULT_VCPKG_TRIPLET, invoke setup with the **deps** stage only
-    (not full **all**); do not assume host Makefile stamp rules inside this entrypoint.
+    (not full **all**). This script does not satisfy Make's **`.manifest.env`** prerequisites by itself — inner **`make`** runs **`setup.sh`** when the manifest rule fires.
 
 Readiness (`docker_deps_ready`): **vcpkg** (triplet + extras) and **qt-cmake** under
 **`docker/<kind>/build/Qt`** (same tree as **`functions.sh`** when **`IN_DOCKER=1`**).

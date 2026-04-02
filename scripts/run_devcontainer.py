@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Build a Docker image from a devcontainer.json and run `./scripts/ensure_docker_deps.py`.
+Build a Docker image from `.devcontainer/devcontainer.json` (which references `docker/Dockerfile`) and run `./scripts/ensure_docker_deps.py`.
 
-The Docker build/run plan (dockerfile/build context, mounts, workdir) is derived
-from the matching devcontainer.json based on the target.
+The build/run plan (dockerfile, context, mounts, workdir, containerEnv) comes from that devcontainer
+(same image as VS Code/Cursor “Reopen in Container”).
 
 By default, skips `docker build` when the image tag already exists (fast local iteration).
 There is no Dockerfile freshness check — editing the Dockerfile does not by itself trigger a build.
@@ -56,7 +56,10 @@ def parse_kv_list(spec: str) -> dict[str, str]:
 
 
 def placeholder_substitute(val: str, local_workspace_folder: str) -> str:
-    return val.replace("${localWorkspaceFolder}", local_workspace_folder)
+    val = val.replace("${localWorkspaceFolder}", local_workspace_folder)
+    home = os.environ.get("HOME") or str(Path.home())
+    val = val.replace("${localEnv:HOME}", home)
+    return val
 
 
 def load_devcontainer_json(path: Path) -> dict[str, Any]:
@@ -269,7 +272,6 @@ def main(argv: list[str]) -> int:
         description="Build docker image + run ensure_docker_deps.py + make target inside container.",
     )
     parser.add_argument("image")
-    parser.add_argument("dockerfile")
     parser.add_argument("make_target")
     parser.add_argument("--target", dest="build_target_opt", default=None)
     parser.add_argument(
@@ -304,13 +306,10 @@ def main(argv: list[str]) -> int:
     script_dir = Path(__file__).resolve().parent
     repo_root = script_dir.parent.resolve()
 
-    # Derive "kind" from the first token of the target (before the first '-').
-    # Example: foo-bar -> kind foo
-    kind = make_target.split("-", 1)[0]
-
-    devcontainer_path = repo_root / ".devcontainer" / kind / "devcontainer.json"
+    # Single unified devcontainer (same image as editor "Reopen in Container").
+    devcontainer_path = repo_root / ".devcontainer" / "devcontainer.json"
     if not devcontainer_path.exists():
-        raise RuntimeError(f"Unsupported devcontainer target: {make_target}")
+        raise RuntimeError(f"Missing unified devcontainer: {devcontainer_path}")
     # Must match devcontainer.json: ${localWorkspaceFolder} is repo root.
     local_workspace_folder = repo_root.as_posix()
 

@@ -10,7 +10,8 @@ set -euo pipefail
 # Source shared build environment (sets REPO_ROOT when in scripts/)
 source "$(dirname "${BASH_SOURCE[0]}")/functions.sh"
 
-BUILD_DIR="${BUILD_DIR:-build_macos}"
+export TARGET_PLATFORM="${TARGET_PLATFORM:-macos}"
+BUILD_DIR="${BUILD_DIR:-build_${TARGET_PLATFORM}}"
 resolve_setup_platform_env macos
 
 setup_macos_usage() {
@@ -111,6 +112,8 @@ else
 
   log "Qt installed at: $QT_DIR"
 fi
+
+write_setup_manifest_macos
 
 ########################################
 # Summary
