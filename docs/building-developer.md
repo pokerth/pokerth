@@ -183,10 +183,11 @@ Stage = `setup.sh` `LAYER` (`toolchain` \| `deps` \| `all`). No `SKIP_QT_INSTALL
 ## Out of scope for now
 
 - **Docker Compose (experimental / future):** Canonical flows are `.devcontainer/devcontainer.json`, `make *-docker`, and `run_devcontainer.py` — not `docker compose` as a second official path. **`docker/windows/docker-compose.yml`** is a minimal Windows-only example (`target: final`, `IN_DOCKER=1`, workspace mount, no Docker socket). **Strategy to re-implement a universal compose file:** use the **same** `docker/Dockerfile` image as the devcontainer (`target: final` or `base` + manual setup — prefer `final`); bind-mount **repo root** → `/workspaces/pokerth` and **host `~/.pokerth`** → `/opt/pokerth`; set **`IN_DOCKER=1`**; one **service** (or [Compose profile](https://docs.docker.com/compose/how-tos/profiles/)) per target with `TARGET_PLATFORM=windows` \| `android` as needed; do **not** mount a legacy separate vcpkg path onto `/opt/pokerth-windows` — Qt/vcpkg belong under **`docker/<kind>/build/`** per `functions.sh`. Add **`/var/run/docker.sock`** only if you need Docker-in-Docker. **Historical:** older per-kind compose / vcpkg volume layouts were removed with the unified image; restore **behavior** to match `devcontainer.json`, not necessarily old YAML verbatim. **Not CI-tested** — validate `docker compose … run` / `exec` before relying on it.
+- **Qt 6.4: backwards compatibility:** revert or keep [QT6.4.patch](../scripts/patches/QT6.4.patch)?
+  - `settingsdialog.ui`, `settingsdialogimpl.cpp`: wire sound slider -> label in C++
 - **CI** (GHA + cache)
 - **Optional minimal Linux setup in the unified Docker image** — e.g. skip **linuxdeployqt** download or add a `LAYER`/`deps`-style split for Linux in-image — to shrink image size or build time without changing native `setup_linux.sh` behavior.
 - **Legacy docker/linux/Dockerfiles** - investigate if we can remove them or there is functionality we need to restore.
 - **Automatic `POKERTH_VERSION` from git describe**
-- **Qt 6.4** UI revert?
 - **vcpkg** cache per ABI
 - **Windows** long-lived vcpkg staleness.

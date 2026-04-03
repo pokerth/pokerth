@@ -1,0 +1,68 @@
+commit f32b984b1182c81d8d289435b99c8eddfda2da33
+Author: Nye Liu <nyet@nyet.org>
+Date:   Fri Mar 20 03:10:15 2026 -0700
+
+    Allow old Qt 6.4 which is the latest Qt availble as a system package in 24.04
+    
+    settingsdialog.ui, settingsdialogimpl.cpp: wire sound slider -> label in C++
+    
+    Qt 6.4 uic fails on QLabel::setNum overload; works on 22.04/24.04+
+    
+    Needed for native (not in docker) builds when using stock QT installation
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d94e8eb3..941be70a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,8 @@
+ cmake_minimum_required(VERSION 3.15)
+ 
+-set(QT_MIN_VERSION "6.7.0")
++# Minimum Qt version. Single source of truth: only defined here (scripts do not pass -DQT_MIN_VERSION).
++# Needed for building on Ubuntu 24.04 LTS with system Qt package version 6.4.2
++set(QT_MIN_VERSION "6.4.2" CACHE STRING "Minimum Qt version")
+ 
+ project(POKERTH)
+ 
+diff --git a/src/gui/qt/settingsdialog.ui b/src/gui/qt/settingsdialog.ui
+index 75afb382..2025c2c4 100644
+--- a/src/gui/qt/settingsdialog.ui
++++ b/src/gui/qt/settingsdialog.ui
+@@ -4151,22 +4151,7 @@ p, li { white-space: pre-wrap; }
+     </hint>
+    </hints>
+   </connection>
+-  <connection>
+-   <sender>horizontalSlider_soundVolume</sender>
+-   <signal>valueChanged(int)</signal>
+-   <receiver>label_soundVolume</receiver>
+-   <slot>setNum(int)</slot>
+-   <hints>
+-    <hint type="sourcelabel">
+-     <x>765</x>
+-     <y>92</y>
+-    </hint>
+-    <hint type="destinationlabel">
+-     <x>322</x>
+-     <y>92</y>
+-    </hint>
+-   </hints>
+-  </connection>
++  <!-- Sound volume slider->label: done in settingsdialogimpl.cpp (QLabel::setNum overload; Qt 6.4 uic failed to compile) -->
+   <connection>
+    <sender>radioButton_manualBlindsOrder</sender>
+    <signal>toggled(bool)</signal>
+diff --git a/src/gui/qt/settingsdialog/settingsdialogimpl.cpp b/src/gui/qt/settingsdialog/settingsdialogimpl.cpp
+index 2f7b540c..71debe68 100644
+--- a/src/gui/qt/settingsdialog/settingsdialogimpl.cpp
++++ b/src/gui/qt/settingsdialog/settingsdialogimpl.cpp
+@@ -55,6 +55,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
+ 	setupUi(this);
+ 	this->installEventFilter(this);
+ 	AppImageUtils::patchExternalLinks(this);
++	// Connect sound volume slider to label. Done here instead of in .ui: QLabel::setNum has overloads (int/double);
++	// Qt 6.4 uic-generated connection to setNum(int) failed to compile (overload resolution). Qt 6.7+ uic may be fixed.
++	connect(horizontalSlider_soundVolume, &QSlider::valueChanged, label_soundVolume, [this](int v) { label_soundVolume->setNum(v); });
+ 
+ #ifdef ANDROID
+     int styleSPageIndex = -1;
