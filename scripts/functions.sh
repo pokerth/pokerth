@@ -141,10 +141,10 @@ apt_packages_merged_lines() {
   grep -hv '^#' "$common" "$platform"
 }
 
-# True if var is "yes" or "true" (for USE_AQT, CLEAN, CREATE_INSTALLER, etc.)
+# True if var is "yes", "true", or "1" (for USE_AQT, CLEAN, CREATE_INSTALLER, FAT_APK, etc.)
 is_yes() {
   local v="${1:-}"
-  [ "$v" = "yes" ] || [ "$v" = "true" ]
+  [ "$v" = "yes" ] || [ "$v" = "true" ] || [ "$v" = "1" ]
 }
 
 ########################################

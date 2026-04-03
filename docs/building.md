@@ -91,7 +91,7 @@ Builders: `linux`, `windows`, `windows-docker`, `macos`, `android`, `android-doc
 
 Installers: `linux-installer`, `windows-installer`, `windows-docker-installer`, `macos-installer`, `installers`
 
-Options passed by environment: e.g. `CLEAN=yes make linux` (or `CLEAN=yes make <target>`).
+Options passed by environment: e.g. `CLEAN=yes make linux` (or `CLEAN=yes make <target>`), `FAT_APK=yes make android` (fat APK; see [Android § Fat APK](#fat-apk-arm64-v8a--armeabi-v7a)).
 
 **Windows vs Android:** `make windows` / `make android` follow the same idea: on Linux they use the host toolchain when you have it configured; on macOS there is no host Android/Windows cross toolchain, so `make android` and `make windows` run the Docker flow. Use `make android-docker` or `make windows-docker` to force Docker on any host.
 
@@ -176,6 +176,12 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 4. **APK packaging:** `build_android.sh` runs `androiddeployqt` with `--release` so Qt performs `buildAndroidProject()` and Gradle `assembleRelease` (canonical upstream flow). The launcher icon must resolve as `res/drawable/ic_launcher.png` under `QT_ANDROID_PACKAGE_SOURCE_DIR` (widget: `src/gui/qt/android/res/drawable/`; QML: `src/gui/qt6-qml/android/...`). Those paths are **symlinks** to the canonical `data/gfx/gui/misc/windowicon_transparent.png` (one PNG on disk, no duplicate binaries). `build_android.sh` copies package source into `android-build` with `cp -L` so symlinks become real files there. `CLEAN=yes make android-docker` removes `$(REPO_BUILD_ROOT)/android-build` before packaging when the Android/Gradle tree needs a full reset (same intent as a clean Gradle tree).
 5. **Other architectures:** `make android ANDROID_BUILD_ARGS="--arch x86_64"` or match `VCPKG_TRIPLET` to the ABI when using `setup-android`. See [README_android.md](../docker/android/README_android.md).
 
+### Fat APK (arm64-v8a + armeabi-v7a)
+
+- **Opt-in:** `FAT_APK=yes make android` or `FAT_APK=yes make android-docker` — **`build_android.sh`** runs the fat (multi-ABI) path inline and produces one APK with native libs for **both** ABIs (**`pokerth_client`** only; not QML).
+- **Outputs:** Per-ABI CMake under **`${REPO_BUILD_ROOT}/fat-cmake-<abi>/`**, merge + Gradle under **`…/fat-universal/`** (see [building-developer.md](building-developer.md)).
+- **Setup:** Two Qt for Android kits (**`android_arm64_v8a`** and **`android_armv7`**) and vcpkg triplets **`arm64-android`** + **`arm-neon-android`**; first-time fat builds may auto-run **`setup.sh deps`** for the armv7 Qt kit unless disabled. Full env, **`INSTALL_QT_ARMV7`**, and parity with Docker: **[building-developer.md — Android fat APK (reference)](building-developer.md#android-fat-apk-reference)**.
+
 ---
 
 ## Script roles
@@ -184,7 +190,7 @@ When building OpenSSL for the MinGW triplet, OpenSSL’s QUIC code uses the Wind
 - **Default goals:** On Linux, `make` = `make linux` and `make setup` = `make setup-linux`. On macOS, `make` = `make macos` and `make setup` = `make setup-macos`.
 - **Setup manifest:** See [Defaults, setup manifest, and clean](#defaults-setup-manifest-and-clean). `ensure_docker_deps.py` may run `setup.sh deps` when vcpkg/Qt are missing; it does **not** write `.manifest.env`. The inner `make` runs the Makefile manifest rules (`setup_*.sh` writes `$(REPO_BUILD_ROOT)/.manifest.env`) when required.
 - **Setup scripts:** `setup.sh` dispatches: `setup_linux.sh` (linux/windows host), `setup_android.sh`, `setup_macos.sh`.
-- **Build scripts:** `build.sh` dispatches: `build_linux.sh`, `build_android.sh`, `build_macos.sh`.
+- **Build scripts:** `build.sh` dispatches: `build_linux.sh`, `build_android.sh` (single-ABI or fat multi-ABI when **`FAT_APK`** is set), `build_macos.sh`.
 - **make clean:** Removes build dirs (including `/.manifest.env`).
 - **vcpkg:** Host default `~/vcpkg` (`VCPKG_DIR`). Docker **run**: `docker/windows/build/vcpkg`, `docker/android/build/vcpkg`. `ensure_docker_deps.py` runs before `make` in `*-docker` flows when **vcpkg** ports or **Qt** (`qt-cmake` under the mounted Qt tree) are not ready, then `setup.sh deps`. Details: **building-developer.md**.
 - **Devcontainers:** One definition: `.devcontainer/devcontainer.json` + `docker/Dockerfile` (canonical). `build.context` `..` is the **repo root**. `build.options` (e.g. `--platform=linux/amd64` for **Docker image** OS/arch, not PokerTH `platform`) is passed to `docker build`; `runArgs` to `docker run`. Images set `IN_DOCKER=1`; `containerEnv` sets `IN_DEVCONTAINER=1` so `make android` / `make windows` use `docker/<kind>/build/`; `functions.sh` sets `CACHE_ROOT=/opt/pokerth` in Docker (host `~/.pokerth` bind-mounted to `/opt/pokerth`); toolchains under `${CACHE_ROOT}/<kind>`; `make *-docker` is for the **host** only—the Makefile errors if you run it inside the Dev Container. `make X-docker` uses `scripts/run_devcontainer.py`, which reads `.devcontainer/devcontainer.json`. Full table: **building-developer.md**.

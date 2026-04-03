@@ -4,6 +4,7 @@
 #   libs + system Qt: same path as host — scripts/setup_linux.sh (USE_AQT=no) as vscode.
 # Final: Android + Windows toolchain RUNs.
 # Qt/vcpkg: workspace docker/<kind>/build on docker run (ensure -> setup.sh deps).
+# Android fat APK (arm64 + armeabi-v7a): same image — FAT_APK=yes make android.
 # Build:  docker build -f docker/Dockerfile -t pokerth-dev .
 # Context: repo root (same as devcontainer build.context ..).
 # =============================================================================

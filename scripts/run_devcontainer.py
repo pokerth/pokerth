@@ -339,7 +339,7 @@ def main(argv: list[str]) -> int:
     run_mounts = dedup_mounts_by_dest(plan.run_mounts + cli_mount_specs)
     print_docker_run_bind_debug(run_mounts, repo_root)
     forward: dict[str, str] = {}
-    for key in ("CLEAN", "BUILD_TARGET"):
+    for key in ("CLEAN", "BUILD_TARGET", "FAT_APK", "INSTALL_QT_ARMV7", "AUTO_INSTALL_QT_ARMV7"):
         val = os.environ.get(key)
         if val is not None and val != "":
             forward[key] = val

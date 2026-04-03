@@ -60,6 +60,7 @@ help:
 	@echo "  make macos           - Build for macOS"
 	@echo "  make android           - Android (Linux: host SDK/NDK/Qt; macOS: Docker)"
 	@echo "  make android-docker    - Android in Docker (run_devcontainer.py; or VS Code/Cursor devcontainer)"
+	@echo "                           Fat APK (arm64+armv7): FAT_APK=yes make android  (or android-docker)"
 	@echo "  make android-installer - Placeholder (no-op; future signed APK / store flow)"
 	@echo "  make linux-installer - Build + Linux AppImage"
 	@echo "  make windows-installer        - Build + Windows NSIS (Linux: host; macOS: Docker)"

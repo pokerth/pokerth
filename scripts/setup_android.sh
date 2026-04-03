@@ -8,7 +8,7 @@
 # CACHE / bind — mainly vcpkg tree under the repo cache / bind mount (protobuf overlay is part of vcpkg); SDK/NDK/Qt may live there too
 # depending on path env, but they are not "system packages" in the name above.
 # Args: optional first argument all|toolchain|deps (default is all).
-# Env: VCPKG_DIR / VCPKG_TRIPLET, BUILD_DIR, SKIP_SYSTEM_PACKAGES, optional QT_OUTPUT_DIR; CACHE_ROOT from functions.sh (~/.pokerth or /opt/pokerth when IN_DOCKER=1).
+# Env: VCPKG_DIR / VCPKG_TRIPLET, BUILD_DIR, SKIP_SYSTEM_PACKAGES, optional QT_OUTPUT_DIR; INSTALL_QT_ARMV7=yes pulls android_armv7 Qt (Fat APK); CACHE_ROOT from functions.sh (~/.pokerth or /opt/pokerth when IN_DOCKER=1).
 # Optional QT_OUTPUT_DIR; else ${CACHE_ROOT}/${TARGET_PLATFORM}/Qt. Manifest basename: MANIFEST_ENV from functions.sh.
 # Native host: leave SKIP_SYSTEM_PACKAGES unset so the apt block runs (Linux). macOS: no apt here — brew/manual or
 # SKIP_SYSTEM_PACKAGES=yes if already satisfied. Some Docker/ensure flows set SKIP when apt lists were already applied.
@@ -97,6 +97,19 @@ provision_qt_for_android() {
     (cd "$qt_base" && aqt install-qt all_os android "${QT_VERSION}" "android_${QT_ARCH}" --autodesktop --modules ${QT_MODULES})
     (cd "$qt_base" && aqt install-qt linux desktop "${QT_VERSION}" linux_gcc_64 --modules ${QT_MODULES})
   fi
+
+  # Zweites Android-Kit (armeabi-v7a) für Fat APK — optional, großer Download (INSTALL_QT_ARMV7=yes).
+  local qt_armv7="${qt_base}/${QT_VERSION}/android_armv7"
+  if is_yes "${INSTALL_QT_ARMV7:-}" && [ ! -f "${qt_armv7}/lib/cmake/Qt6/Qt6Config.cmake" ]; then
+    echo "Provisioning Qt ${QT_VERSION} android_armv7 (Fat APK / armeabi-v7a)..."
+    command -v aqt >/dev/null || {
+      python3 -m venv "${CACHE_ROOT}/${TARGET_PLATFORM}/venv" 2>/dev/null || true
+      "${CACHE_ROOT}/${TARGET_PLATFORM}/venv/bin/pip" install --upgrade pip aqtinstall 2>/dev/null || true
+      export PATH="${CACHE_ROOT}/${TARGET_PLATFORM}/venv/bin:$PATH"
+    }
+    mkdir -p "$qt_base"
+    (cd "$qt_base" && aqt install-qt all_os android "${QT_VERSION}" "android_armv7" --autodesktop --modules ${QT_MODULES})
+  fi
 }
 
 # Docker: force SDK paths from ${CACHE_ROOT}/${TARGET_PLATFORM} (same tree as native ~/.pokerth/android).
@@ -119,6 +132,8 @@ export ANDROID_NDK_HOME="${ANDROID_NDK_ROOT}"
 export JAVA_HOME="${JAVA_HOME:-}"
 export GRADLE_ROOT="${GRADLE_ROOT}"
 export QT_ANDROID_DIR="${QT_ANDROID_DIR:-}"
+export QT_ANDROID_DIR_ARM64="${QT_ANDROID_DIR_ARM64:-${QT_ANDROID_DIR:-}}"
+export QT_ANDROID_DIR_ARMV7="${QT_ANDROID_DIR_ARMV7:-}"
 export QT_HOST_PATH="${QT_HOST_PATH:-}"
 export VCPKG_ROOT="${VCPKG_ROOT}"
 export PATH="${GRADLE_ROOT}/gradle/gradle-${GRADLE_VERSION}/bin:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin${QT_HOST_PATH:+:${QT_HOST_PATH}/bin}:\$PATH"
@@ -133,12 +148,19 @@ _sync_manifest_to_root() {
   _write_android_manifest > "${CACHE_ROOT}/${TARGET_PLATFORM}/${MANIFEST_ENV}"
 }
 
-# vcpkg ports + protobuf overlay live in the deps layer (setup.sh deps / docker run).
-_setup_android_vcpkg_layer() {
-  ensure_vcpkg_clone_bootstrap_if_missing
+# vcpkg ports + protobuf overlay for one Android triplet (_setup_android_vcpkg_layer ruft das ggf. zweimal auf).
+# Fat APK (arm64 + armeabi-v7a): arm64-android + arm-neon-android (community arm-android: NEON=OFF → NDK r28+ bricht ab).
+_setup_android_vcpkg_for_triplet() {
+  local t="${1:?triplet}"
+  TRIPLET="$t"
 
   # vcpkg ${TRIPLET} ports need ANDROID_NDK_ROOT (and SDK cmake) — already provisioned above. Qt is not required for boost/openssl/protobuf.
-  # Host protobuf (x64-linux) uses the Linux compiler only.
+  # Host protobuf (x64-linux) only on first triplet pass (Linux host compiler).
+  local -a host_proto=()
+  if [ "${2:-0}" = "1" ]; then
+    host_proto=(protobuf:x64-linux)
+  fi
+
   vcpkg_install "${TRIPLET}" \
     boost-system:"${TRIPLET}" boost-filesystem:"${TRIPLET}" \
     boost-thread:"${TRIPLET}" boost-regex:"${TRIPLET}" boost-chrono:"${TRIPLET}" \
@@ -146,7 +168,7 @@ _setup_android_vcpkg_layer() {
     boost-interprocess:"${TRIPLET}" boost-iostreams:"${TRIPLET}" boost-program-options:"${TRIPLET}" \
     boost-lambda:"${TRIPLET}" boost-foreach:"${TRIPLET}" boost-uuid:"${TRIPLET}" \
     openssl:"${TRIPLET}" \
-    protobuf:x64-linux
+    "${host_proto[@]}"
 
   # Keep vcpkg overlay artifacts on the same tree as vcpkg itself
   # (VCPKG_DIR → docker/<kind>/build/vcpkg in repo; persistent via workspace bind in Docker/devcontainer).
@@ -195,6 +217,44 @@ _setup_android_vcpkg_layer() {
   fi
 
   echo "Android vcpkg setup complete (${TRIPLET})."
+}
+
+# vcpkg ports + protobuf overlay live in the deps layer (setup.sh deps / docker run).
+_setup_android_vcpkg_layer() {
+  ensure_vcpkg_clone_bootstrap_if_missing
+
+  # vcpkg scripts/toolchains/android.cmake requires ANDROID_NDK_HOME (same path as NDK root).
+  # Deps may have written it into ${MANIFEST_ENV} without re-sourcing this shell — export before any Android triplet build.
+  if [[ -z "${ANDROID_NDK_ROOT:-}" ]]; then
+    echo "setup_android: ANDROID_NDK_ROOT must be set before vcpkg (toolchain / manifest)." >&2
+    exit 1
+  fi
+  export ANDROID_NDK_HOME="${ANDROID_NDK_HOME:-$ANDROID_NDK_ROOT}"
+
+  local primary="${VCPKG_TRIPLET:-$VCPKG_DEFAULT_TRIPLET_ANDROID}"
+  local -a android_triplets=()
+  case "$primary" in
+    arm64-android)
+      android_triplets=(arm64-android arm-neon-android)
+      ;;
+    arm-android|arm-neon-android)
+      android_triplets=(arm-neon-android arm64-android)
+      ;;
+    *)
+      android_triplets=("$primary")
+      ;;
+  esac
+
+  local first=1
+  for t in "${android_triplets[@]}"; do
+    echo "=== vcpkg: Android triplet ${t} ==="
+    if [ "$first" = "1" ]; then
+      _setup_android_vcpkg_for_triplet "$t" 1
+      first=0
+    else
+      _setup_android_vcpkg_for_triplet "$t" 0
+    fi
+  done
 }
 
 ########################################
