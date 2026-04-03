@@ -86,6 +86,8 @@ Details also in `scripts/functions.sh`.
 
 `setup.sh` → `setup_linux.sh`, `setup_android.sh`, `setup_macos.sh`. **`build.sh`** → `build_linux.sh`, `build_android.sh`, `build_macos.sh`. **`setup_android.sh`:** toolchain → manifest; deps → aqt/vcpkg. Manifest paths: repo `$(REPO_BUILD_ROOT)/.manifest.env` and, when synced, `${CACHE_ROOT}/android/`.
 
+**`docker/linux/` deploy helpers** (after **`make linux`** / **`build_linux/`**): **`create_binary_deploy.sh`** and **`create_appimage_deploy.sh`** take binaries from the CMake build tree by preferring **`build_linux/`** when **`build_linux/bin/pokerth_client`** exists, else **`build/`** (standalone **`docker/linux/Dockerfile*`** clones use **`./build`**). Override: **`POKERTH_BUILD_DIR`** → absolute path to the CMake build directory. **`test_binary_deploy.sh`** runs a minimal **`Dockerfile.test`** smoke check against **`create_binary_deploy.sh`** output (**`pokerth-linux-binary/`**).
+
 ## Environment variables (selected)
 
 | Variable | Role |
@@ -94,7 +96,8 @@ Details also in `scripts/functions.sh`.
 | `LAYER` | `toolchain` \| `deps` \| `all` |
 | `SKIP_SYSTEM_PACKAGES` | Skip **apt** only; default **no** |
 | `VCPKG_DIR`, `VCPKG_ROOT` | Docker: set under `docker/<kind>/build/vcpkg` (`functions.sh`) |
-| `BUILD_DIR` | Must match **ensure** / manifest layout in Docker |
+| `BUILD_DIR` | Must match **ensure** / manifest layout in Docker (`functions.sh`; not the same as deploy override below) |
+| `POKERTH_BUILD_DIR` | Optional: **`docker/linux/create_binary_deploy.sh`**, **`create_appimage_deploy.sh`** — force CMake tree (defaults: **`build_linux/`** then **`build/`**) |
 | `CACHE_ROOT` | `~/.pokerth` native; `/opt/pokerth` in Docker |
 | `QT_OUTPUT_DIR` | `functions.sh`: Docker + android/windows → `docker/<kind>/build/Qt` |
 | `MANIFEST_ENV` | Must match **`MANIFEST_NAME`** in Makefile |
@@ -129,7 +132,7 @@ Details also in `scripts/functions.sh`.
 - **Incremental fat APK (future):**
   - **Not implemented** — **`FAT_APK=yes`** always configures + builds both ABIs under **`fat-cmake-<abi>/`**. [Android fat APK (reference)](#android-fat-apk-reference).
   - **Intent:** Skip CMake for an ABI when cache matches Qt/NDK/vcpkg/API; align with **`invalidate_cmake_*`** (**fat** does not call them on **`fat-cmake-*`** yet). Wipe stale **`fat-cmake-<abi>/`** on mismatch. Keep merge / **`androiddeployqt`** / Gradle until designed otherwise; add env toggles later.
-- **Legacy `docker/linux/Dockerfiles`:** audit for removal vs missing behavior.
+- **`docker/linux/`** (legacy / parallel to the unified **repo-root `docker/Dockerfile`** devcontainer + **`make linux`** / **`setup_linux.sh`**): audit Docker/snap/flatpak tooling vs **`build_linux/`** / CI and decide **deprecate**, **align**, or **keep** with justification. Itemized notes may live under **`docs/plans/`** locally and are **not** required to be in revision control. [Scripts](#scripts) covers **`create_*`** deploy helpers and **`POKERTH_BUILD_DIR`**.
 
 ---
 
@@ -144,3 +147,4 @@ Details also in `scripts/functions.sh`.
 - **Automatic `POKERTH_VERSION` from git describe**
 - **vcpkg** cache policy per ABI
 - **Windows** long-lived vcpkg staleness.
+- **Standalone `docker/linux/Dockerfile`**, **`Dockerfile.appimage`:** Self-contained images that **`git clone`** **`pokerth/pokerth`** **`stable`** and build **`/opt/pokerth/build`** — the compile **inside** the image tracks **upstream `stable`**, not an open branch. **Little or no productive work on those Dockerfiles** until the rework (or the sources you need) **is merged to `stable`**, or **`git clone`** / **`COPY`** is intentionally redesigned. **This checkout:** **[`docker/Dockerfile`](../docker/Dockerfile)** (bind-mounted workspace), **`make linux`** → **`build_linux/`**, **`docker/linux/create_*`**. [Scripts](#scripts).

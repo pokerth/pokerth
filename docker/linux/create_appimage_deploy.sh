@@ -13,7 +13,24 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-BUILD_DIR="${PROJECT_ROOT}/build"
+
+# CMake tree: build_linux/ (make linux, devcontainer) or build/ (legacy docker/linux images). Override: POKERTH_BUILD_DIR.
+if [ -n "${POKERTH_BUILD_DIR:-}" ]; then
+    if [ ! -d "${POKERTH_BUILD_DIR}" ]; then
+        echo "ERROR: POKERTH_BUILD_DIR is not a directory: ${POKERTH_BUILD_DIR}"
+        exit 1
+    fi
+    BUILD_DIR="$(cd "${POKERTH_BUILD_DIR}" && pwd)"
+elif [ -f "${PROJECT_ROOT}/build_linux/bin/pokerth_client" ]; then
+    BUILD_DIR="${PROJECT_ROOT}/build_linux"
+elif [ -f "${PROJECT_ROOT}/build/bin/pokerth_client" ]; then
+    BUILD_DIR="${PROJECT_ROOT}/build"
+else
+    echo "ERROR: pokerth_client not found under ${PROJECT_ROOT}/build_linux/bin/ or ${PROJECT_ROOT}/build/bin/."
+    echo "Run a Linux build first (e.g. make linux), or set POKERTH_BUILD_DIR to your CMake build directory."
+    exit 1
+fi
+
 ARCH="$(uname -m)"
 APPDIR="${SCRIPT_DIR}/PokerTH.AppDir"
 APPIMAGE_NAME="PokerTH-${ARCH}-$(date +%Y%m%d).AppImage"
@@ -24,19 +41,6 @@ echo "Build Dir:    $BUILD_DIR"
 echo "AppDir:       $APPDIR"
 echo "Output:       $APPIMAGE_NAME"
 echo ""
-
-# --- Voraussetzungen prüfen ---
-
-if [ ! -d "$BUILD_DIR" ]; then
-    echo "ERROR: Build-Verzeichnis nicht gefunden: $BUILD_DIR"
-    echo "Bitte führen Sie zuerst den Build-Prozess durch."
-    exit 1
-fi
-
-if [ ! -f "$BUILD_DIR/bin/pokerth_client" ]; then
-    echo "ERROR: pokerth_client Binary nicht gefunden!"
-    exit 1
-fi
 
 # appimagetool herunterladen falls nicht vorhanden
 # WICHTIG: Stabilen Release verwenden statt "continuous"! Die continuous-Builds können instabile/inkompatible AppImage-Runtimes enthalten.
