@@ -59,7 +59,17 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     mymessagebox/mymessagebox.cpp
     logfiledialog/logfiledialog.cpp
     mobileinputhelper.cpp
-    androidlineedit.cpp)
+    androidlineedit.cpp
+    # Server files needed for embedded local network game server
+    ../../net/serverexception.cpp
+    ../../net/serveracceptinterface.cpp
+    ../../net/serveracceptwebhelper.cpp
+    ../../net/servergame.cpp
+    ../../net/servergamestate.cpp
+    ../../net/serverlobbythread.cpp
+    ../../net/serverbanmanager.cpp
+    ../../net/servermanager.cpp
+    ../../net/servermanagerfactoryclient.cpp)
 
 if(ANDROID)
     list(APPEND POKERTH_CLIENT_SRC "resources/pokerth_android.qrc")

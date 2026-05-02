@@ -301,6 +301,7 @@ protected:
 	void SendQueuedPackets();
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
+	void RemoveCachedPlayerInfo(unsigned id);
 	void RequestPlayerInfo(unsigned id, bool requestAvatar = false);
 	void RequestPlayerInfo(const std::list<unsigned> &idList, bool requestAvatar = false);
 	void SetPlayerInfo(unsigned id, const PlayerInfo &info);

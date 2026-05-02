@@ -86,6 +86,17 @@ void createInternetGameDialogImpl::exec(bool guestMode, QString playerName)
 	QDialog::exec();
 }
 
+void createInternetGameDialogImpl::accept()
+{
+	if(lineEdit_gameName->text().simplified().isEmpty()) {
+		lineEdit_gameName->setFocus();
+		lineEdit_gameName->setStyleSheet("border: 1px solid red;");
+		return;
+	}
+	lineEdit_gameName->setStyleSheet("");
+	QDialog::accept();
+}
+
 void createInternetGameDialogImpl::createGame()
 {
 

@@ -730,6 +730,13 @@ ClientThread::SendQueuedPackets()
 	}
 }
 
+void
+ClientThread::RemoveCachedPlayerInfo(unsigned id)
+{
+	boost::mutex::scoped_lock lock(m_playerInfoMapMutex);
+	m_playerInfoMap.erase(id);
+}
+
 bool
 ClientThread::GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const
 {

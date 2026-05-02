@@ -34,6 +34,7 @@
 
 #include <net/asioreceivebuffer.h>
 #include <net/sessiondata.h>
+#include <playerdata.h>
 #include <core/loghelper.h>
 #include <core/pokerthexception.h>
 #include <QDebug>
@@ -143,7 +144,11 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
                     StartAsyncRead(session);
                 }
             } else {
-                LOG_ERROR("Session " << session->GetId() << " - Connection closed: " << error);
+                std::string playerInfo;
+                if (session->GetPlayerData()) {
+                    playerInfo = " player=\"" + session->GetPlayerData()->GetName() + "\"";
+                }
+                LOG_ERROR("Session " << session->GetId() << " (" << session->GetClientAddr() << playerInfo << ") - Connection closed: " << error);
                 session->Close();
             }
         } catch (const PokerTHException &) {

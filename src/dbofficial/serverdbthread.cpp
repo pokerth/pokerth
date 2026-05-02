@@ -661,7 +661,7 @@ retry_query:
 					if (*i == "NULL") {
 						paramQuery << "NULL";
 					} else {
-						paramQuery << "_utf8" << mysqlpp::quote << *i;
+						paramQuery << mysqlpp::quote << *i;
 					}
 					executeQuery << "@param" << counter;
 					++counter;
@@ -669,6 +669,8 @@ retry_query:
 				}
 				if (!paramQuery.exec()) {
 					string tmpError = paramQuery.error();
+					LOG_ERROR("DB param-set failed for " + nextQuery->GetPreparedName()
+						+ ": " + tmpError + " | SQL: " + paramQuery.str());
 					if (IsTransientDBError(tmpError)) {
 						if (IsConnectionLossError(tmpError) || !m_connData->conn.connected()) {
 							m_connData->conn.disconnect();
@@ -683,9 +685,9 @@ retry_query:
 							goto retry_query;
 						}
 					}
-					m_connData->conn.disconnect();
+					// Non-transient error (e.g. syntax): do NOT disconnect,
+					// just drop the broken query and continue.
 					boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::QueryError, &m_callback, tmpError));
-					queryFailed = true;
 					break;
 				}
 			}
@@ -695,6 +697,8 @@ retry_query:
 					nextQuery->HandleResult(executeQuery, m_dbIdManager, res, *m_ioService, m_callback);
 				} else {
 					string error = executeQuery.error();
+					LOG_ERROR("DB execute(store) failed for " + nextQuery->GetPreparedName()
+						+ ": " + error + " | SQL: " + executeQuery.str());
 					if (IsTransientDBError(error)) {
 						if (IsConnectionLossError(error) || !m_connData->conn.connected()) {
 							m_connData->conn.disconnect();
@@ -715,6 +719,8 @@ retry_query:
 					nextQuery->HandleNoResult(executeQuery, m_dbIdManager, *m_ioService, m_callback);
 				} else {
 					string error = executeQuery.error();
+					LOG_ERROR("DB execute(exec) failed for " + nextQuery->GetPreparedName()
+						+ ": " + error + " | SQL: " + executeQuery.str());
 					if (IsTransientDBError(error)) {
 						if (IsConnectionLossError(error) || !m_connData->conn.connected()) {
 							m_connData->conn.disconnect();

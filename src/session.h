@@ -140,9 +140,7 @@ private:
 	std::string myIrcNick;
 
 	boost::shared_ptr<ClientThread> myNetClient;
-#ifdef POKERTH_DEDICATED_SERVER	
 	boost::shared_ptr<ServerManager> myNetServer;
-#endif
 
 	boost::shared_ptr<AvatarManager> myAvatarManager;
 

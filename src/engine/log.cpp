@@ -658,16 +658,27 @@ Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list
 	PlayerListConstIterator it_c;
 	list<unsigned>::iterator it_int;
 
-	// log all winners - Server determines who wins and sends correct MoneyWon values
+	// Log side pot winners first (LOG_ACTION_WIN_SIDE_POT), then main pot winners
+	// (LOG_ACTION_WIN). This ensures the online logfile analysis identifies the correct
+	// eliminator: the last plain 'wins' entry before 'sits out' is the main pot winner.
+	// Main pot winner = player with the best hand (cardsValueInt == highestCardsValue).
+	// Side pot winner = player with a lower hand value who won an eligible sub-pot.
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
-		// Check if player is in winners list
 		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
 		if(isWinner && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getLastMoneyWon() > 0) {
-			logPlayerAction((*it_c)->getMyName(),LOG_ACTION_WIN,(*it_c)->getLastMoneyWon());
+			if (highestCardsValue > 0 && (*it_c)->getMyCardsValueInt() < highestCardsValue) {
+				logPlayerAction((*it_c)->getMyName(), LOG_ACTION_WIN_SIDE_POT, (*it_c)->getLastMoneyWon());
+			}
 		}
 	}
-
-	// Side pot logging removed - all winners logged above as main winners
+	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
+		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
+		if(isWinner && (*it_c)->getMyAction() != PLAYER_ACTION_FOLD && (*it_c)->getLastMoneyWon() > 0) {
+			if (highestCardsValue == 0 || (*it_c)->getMyCardsValueInt() >= highestCardsValue) {
+				logPlayerAction((*it_c)->getMyName(), LOG_ACTION_WIN, (*it_c)->getLastMoneyWon());
+			}
+		}
+	}
 
 }
 

@@ -4810,6 +4810,22 @@ Uistite sa, prosím, že ste pripojený priamo na internet.</translation>
         <translation>PokerTH - Uzatvoriť stôl?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Opustiť hru?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Poznámka: Zatvorením tohto okna opustíte aktuálnu hru a vrátite sa do lobby.
+Samotný PokerTH sa neukončí.
+
+Naozaj chcete opustiť hru?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3869"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3878"/>
         <source>Kick</source>

@@ -42,7 +42,7 @@ struct String {
 struct DateTime {
     explicit DateTime(time_t t = 0) { setTime(t); }
     void setTime(time_t t) { dt = QDateTime::fromSecsSinceEpoch((qint64)t); }
-    operator std::string() const { return dt.toString(Qt::ISODate).toStdString(); }
+    operator std::string() const { return dt.toString("yyyy-MM-dd hh:mm:ss").toStdString(); }
 private:
     QDateTime dt;
 };
@@ -97,6 +97,7 @@ public:
     bool exec();
     StoreQueryResult store();
     const char *error() const { return m_lastError.c_str(); }
+    std::string str() const { return m_ss.str(); }
     void reset() { m_ss.str(""); m_ss.clear(); m_lastError.clear(); m_quoteNext = false; }
 
 private:
@@ -112,7 +113,7 @@ private:
         std::string out;
         out.reserve(in.size()*2);
         for (char c : in) {
-            if (c == '\'') out.push_back('\\');
+            if (c == '\'' || c == '\\') out.push_back('\\');
             out.push_back(c);
         }
         return out;

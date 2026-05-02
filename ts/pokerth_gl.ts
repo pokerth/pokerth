@@ -3393,6 +3393,22 @@ Para convidar a outros xogadores, prema co botón secundario a súa entrada na l
         <translation>PokerTH — Pechar o taboleiro</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH — Deixar o xogo</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Nota: Ao pechar esta fiestra abandonarase o xogo actual e volverase ao vestíbulo.
+O propio PokerTH NON se pechará.
+
+Estás seguro de que queres abandonar o xogo?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH — Mensaxe dunha partida por internet</translation>

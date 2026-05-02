@@ -336,7 +336,6 @@ void Session::clientRejoinGame(unsigned gameId)
 
 void Session::startNetworkServer(bool dedicated)
 {
-#ifdef POKERTH_DEDICATED_SERVER	
 	if (myNetServer) {
 		assert(false);
 		return;
@@ -375,12 +374,10 @@ void Session::startNetworkServer(bool dedicated)
 	);
 
 	myNetServer->RunAll();
-#endif
 }
 
 void Session::terminateNetworkServer()
 {
-#ifdef POKERTH_DEDICATED_SERVER	
 	if (!myNetServer)
 		return; // already terminated
 	myNetServer->SignalTerminationAll();
@@ -388,12 +385,10 @@ void Session::terminateNetworkServer()
 	if (myNetServer->JoinAll(true))
 		myNetServer.reset();
 	// If termination fails, leave a memory leak to prevent a crash.
-#endif
 }
 
 bool Session::pollNetworkServerTerminated()
 {
-#ifdef POKERTH_DEDICATED_SERVER	
 	bool retVal = false;
 	if (!myNetServer)
 		retVal = true; // already terminated
@@ -402,9 +397,6 @@ bool Session::pollNetworkServerTerminated()
 			retVal = true;
 	}
 	return retVal;
-#else
-	return true;
-#endif
 }
 
 void Session::sendLeaveCurrentGame()
@@ -573,12 +565,8 @@ bool Session::isNetworkClientRunning() const
 
 bool Session::isNetworkServerRunning() const
 {
-#ifdef POKERTH_DEDICATED_SERVER	
 	// This, and every place which calls this, is a HACK.
 	return myNetServer.get() != NULL;
-#else
-	return false;
-#endif
 }
 
 ServerInfo Session::getClientServerInfo(unsigned serverId) const

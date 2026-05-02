@@ -3816,6 +3816,22 @@ Sinta-se à vontade para convidar outros jogadores através da lista dos &quot;n
         <translation>PokerTH - Fechar mesa?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Sair do jogo?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Nota: Fechar esta janela irá abandonar o jogo atual e regressar ao lobby.
+O PokerTH em si NÃO será fechado.
+
+Tem a certeza que quer sair do jogo?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>Poket TH - Mensagem do jogo em rede</translation>

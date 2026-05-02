@@ -1007,7 +1007,8 @@ ServerGameStateHand::TimerLoop(const boost::system::error_code &ec, boost::share
 		try {
 			EngineLoop(server);
 		} catch (const PokerTHException &e) {
-			LOG_ERROR("Game " << server->GetId() << " - Engine exception: " << e.what());
+			LOG_ERROR("Game " << server->GetId() << " - Engine exception in TimerLoop: " << e.what()
+				<< " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
@@ -1214,7 +1215,13 @@ ServerGameStateHand::EngineLoop(boost::shared_ptr<ServerGame> server)
 			playersWithCash.remove_if(boost::bind(&PlayerInterface::getMyCash, boost::placeholders::_1) < 1);
 
 			if (playersWithCash.empty()) {
-				// No more players left - restart.
+				// No more players left - end game properly and restart.
+				// InternalEndGame() stores rankings to DB and clears
+				// m_rankingMap.  Without this, stale ranking entries
+				// leak into the next game played on this ServerGame object,
+				// causing duplicate rows in game_has_player for players
+				// who participate in both games.
+				server->InternalEndGame();
 				server->SetState(SERVER_INITIAL_STATE::Instance());
 			} else if (playersWithCash.size() == 1) {
 				boost::shared_ptr<PlayerInterface> winnerPlayer = *(playersWithCash.begin());
@@ -1260,7 +1267,8 @@ ServerGameStateHand::TimerComputerAction(const boost::system::error_code &ec, bo
 			SendPlayerAction(*server, curPlayer);
 			EngineLoop(server);
 		} catch (const PokerTHException &e) {
-			LOG_ERROR("Game " << server->GetId() << " - Computer timer exception: " << e.what());
+			LOG_ERROR("Game " << server->GetId() << " - Computer timer exception: " << e.what()
+				<< " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}
@@ -1667,7 +1675,7 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 			PerformPlayerAction(*server, tmpPlayer, static_cast<PlayerAction>(netMyAction->myaction()), netMyAction->myrelativebet());
 			server->SetState(ServerGameStateHand::Instance());
 		} else {
-			LOG_ERROR("Player " << tmpPlayer->getMyName() << " action REJECTED with code " << code);
+			// LOG_ERROR("Player " << tmpPlayer->getMyName() << " action REJECTED with code " << code);
 			// Send reject message.
 			boost::shared_ptr<NetPacket> reject(new NetPacket);
 			reject->GetMsg()->set_messagetype(PokerTHMessage::Type_YourActionRejectedMessage);
@@ -1701,7 +1709,8 @@ ServerGameStateWaitPlayerAction::TimerTimeout(const boost::system::error_code &e
 
 			server->SetState(ServerGameStateHand::Instance());
 		} catch (const PokerTHException &e) {
-			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what());
+			LOG_ERROR("Game " << server->GetId() << " - Player timer exception: " << e.what()
+				<< " - players in game: " << server->GetSessionManager().GetSessionCountWithState(SessionData::Game));
 			server->RemoveAllSessions(); // Close this game on error.
 		}
 	}

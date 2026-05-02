@@ -36,6 +36,7 @@
 #include <core/loghelper.h>
 #include "localexception.h"
 #include "engine_msg.h"
+#include <sstream>
 
 LocalBoard::LocalBoard() : BoardInterface(), pot(0), sets(0), allInCondition(false), lastActionPlayerID(0)
 {
@@ -147,7 +148,44 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 			// determine the number of level winners
 			winnerCount = potLevel.size()-2;
 			if (!winnerCount) {
-				throw LocalException(__FILE__, __LINE__, ERR_NO_WINNER);
+				// No eligible winner at this pot level. This can happen when all
+				// players who bet enough for this side-pot have folded or become
+				// inactive (e.g. after a disconnect). Instead of crashing the
+				// entire game, carry the pot over to the next level. If this is
+				// the very last level, the pot will be given to any remaining
+				// active non-folded player below.
+				{
+					std::ostringstream oss;
+					oss << "distributePot WARNING: no winner at potLevel[0]=" << potLevel[0]
+						<< " potLevel[1]=" << potLevel[1]
+						<< " highestCardsValue=" << highestCardsValue
+						<< " seats=[";
+					size_t idx = 0;
+					for (it_c = seatsList->begin(); it_c != seatsList->end(); ++it_c, ++idx) {
+						if (idx > 0) oss << ", ";
+						oss << "{id=" << (*it_c)->getMyUniqueID()
+							<< " active=" << (*it_c)->getMyActiveStatus()
+							<< " action=" << (*it_c)->getMyAction()
+							<< " cardsVal=" << (*it_c)->getMyCardsValueInt()
+							<< " set=" << playerSets[idx] << "}";
+					}
+					oss << "]";
+					LOG_ERROR(oss.str());
+				}
+
+				// Treat as carry-over (same as the !finalPot path)
+				potCarryOver = potLevel[1];
+
+				// reevaluate the player sets
+				for(j=0; j<playerSets.size(); j++) {
+					if(playerSets[j]>0) {
+						playerSets[j] -= potLevel[0];
+					}
+				}
+				playerSetsSort = playerSets;
+				sort(playerSetsSort.begin(), playerSetsSort.end());
+				potLevel.clear();
+				continue;
 			}
 
 			// check if this is the final pot level for at least one winner
@@ -257,6 +295,37 @@ void LocalBoard::distributePot(unsigned dealerPosition)
 			// clear potLevel
 			potLevel.clear();
 
+		}
+	}
+
+	// If there is unclaimed pot carry-over (e.g. from a side-pot where all
+	// eligible players folded), award it to the first active non-folded player.
+	if (potCarryOver > 0) {
+		LOG_ERROR("distributePot: " << potCarryOver << " chips unclaimed after all levels, distributing to first eligible player.");
+		bool distributed = false;
+		for (it = seatsList->begin(); it != seatsList->end(); ++it) {
+			if ((*it)->getMyActiveStatus() && (*it)->getMyAction() != PLAYER_ACTION_FOLD) {
+				(*it)->setMyCash((*it)->getMyCash() + potCarryOver);
+				(*it)->setLastMoneyWon((*it)->getLastMoneyWon() + potCarryOver);
+				winners.push_back((*it)->getMyUniqueID());
+				pot -= potCarryOver;
+				potCarryOver = 0;
+				distributed = true;
+				break;
+			}
+		}
+		if (!distributed) {
+			// Last resort: give to any active player (even if folded)
+			for (it = seatsList->begin(); it != seatsList->end(); ++it) {
+				if ((*it)->getMyActiveStatus()) {
+					(*it)->setMyCash((*it)->getMyCash() + potCarryOver);
+					(*it)->setLastMoneyWon((*it)->getLastMoneyWon() + potCarryOver);
+					winners.push_back((*it)->getMyUniqueID());
+					pot -= potCarryOver;
+					potCarryOver = 0;
+					break;
+				}
+			}
 		}
 	}
 

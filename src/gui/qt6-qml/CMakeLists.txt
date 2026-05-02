@@ -4,6 +4,16 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     ../../session.cpp 
     ../../core/loghelper_client.cpp
     ../../net/net_helper_client.cpp
+    # Server files needed for embedded local network game server
+    ../../net/serverexception.cpp
+    ../../net/serveracceptinterface.cpp
+    ../../net/serveracceptwebhelper.cpp
+    ../../net/servergame.cpp
+    ../../net/servergamestate.cpp
+    ../../net/serverlobbythread.cpp
+    ../../net/serverbanmanager.cpp
+    ../../net/servermanager.cpp
+    ../../net/servermanagerfactoryclient.cpp
     ../../core/qttools/qthelper/qthelper.cpp
     ../../core/qttools/qttoolswrapper.cpp
     ../../core/qttoolsinterface.cpp
@@ -75,6 +85,11 @@ target_include_directories(pokerth_qml-client PUBLIC
     ../../core
     ../../core/qttools
     ../../core/qttools/qthelper
+    ../../
+    ../../engine
+    ../../engine/local_engine
+    ../../engine/network_engine
+    ../../net
     ../
     .
     cpp)

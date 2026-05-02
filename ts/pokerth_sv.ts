@@ -3805,6 +3805,22 @@ och återvända till lobbyn?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation type="unfinished">PokerTH - Lämna spelet?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation type="unfinished">Obs: Stänger du detta fönster lämnar du det aktuella spelet och återvänder till lobbyn.
+PokerTH stängs INTE.
+
+Vill du verkligen lämna spelet?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3869"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3878"/>
         <source>Kick</source>

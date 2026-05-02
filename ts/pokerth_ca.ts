@@ -3949,6 +3949,22 @@ p, li { white-space: pre-wrap; }
         <translation>PokerTH - Voleu tancar la taula?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Deixar la partida?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Nota: Tancar aquesta finestra abandonarà la partida actual i tornarà al vestíbul.
+El PokerTH en si NO es tancarà.
+
+Esteu segur que voleu abandonar la partida?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Missatge de partida d&apos;internet</translation>

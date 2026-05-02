@@ -4333,6 +4333,22 @@ Varmista, että olet yhdistetty suoraan internetiin.</translation>
         <translation>PokerTH - Sulje pöytä?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Poistu pelistä?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Huom: Tämän ikkunan sulkeminen poistuu nykyisestä pelistä ja palaa aulaan.
+PokerTH itsessään EI sulkeudu.
+
+Haluatko todella poistua pelistä?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3869"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3878"/>
         <source>Kick</source>

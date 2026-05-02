@@ -6003,6 +6003,22 @@ Asegúrese de que está conectado a Internet.</translation>
         <translation>PokerTH - ¿Cerrar mesa?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - ¿Abandonar partida?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Nota: Cerrar esta ventana abandonará la partida actual y le devolverá al lobby.
+PokerTH en sí NO se cerrará.
+
+¿Seguro que desea abandonar la partida?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3869"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3878"/>
         <source>Kick</source>

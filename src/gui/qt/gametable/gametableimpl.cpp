@@ -2823,11 +2823,10 @@ void gameTableImpl::postRiverRunAnimation3()
 
 	list<unsigned> winners = currentHand->getBoard()->getWinners();
 
-	// Determine if there was any all-in player and the smallest bet among winners.
+	// Determine if there was any all-in player and count actual winners.
 	// Side pot labeling: if there is an all-in AND multiple winners, then the winner(s)
-	// with the smallest bet amount are main pot; others are side pots.
+	// with the best hand (highest cardsValueInt) won the main pot; others won side pots.
 	bool hasAllInPlayer = false;
-	int minWinnerBet = INT_MAX;
 	int winnersWithMoney = 0;
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 		if((*it_c)->getMyAction() == PLAYER_ACTION_ALLIN) {
@@ -2836,13 +2835,6 @@ void gameTableImpl::postRiverRunAnimation3()
 		bool isW = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
 		bool actuallyWon = isW && (*it_c)->getLastMoneyWon() > 0;
 		if(actuallyWon) {
-			int betAmount = (*it_c)->getMyRoundStartCash() - (*it_c)->getMyCash() + (*it_c)->getLastMoneyWon();
-			if(betAmount < 0) {
-				betAmount = 0;
-			}
-			if(betAmount < minWinnerBet) {
-				minWinnerBet = betAmount;
-			}
 			winnersWithMoney++;
 		}
 	}
@@ -2853,17 +2845,13 @@ void gameTableImpl::postRiverRunAnimation3()
 		bool isWinner = std::find(winners.begin(), winners.end(), (*it_c)->getMyUniqueID()) != winners.end();
 		bool hasActuallyWon = isWinner && (*it_c)->getLastMoneyWon() > 0;
 		
-		// Calculate if this winner won the main pot (vs side pot)
-		// Main pot: if there was an all-in AND multiple winners, then the winner(s)
-		// with the smallest bet amount are main pot; others are side pots.
-		// Otherwise, always main pot.
+		// Calculate if this winner won the main pot (vs side pot).
+		// The player with the best hand (highest cardsValueInt) won the main pot.
+		// Other winners with lower hand values won side pots.
 		bool isMainPot = true;
 		if (hasAllInPlayer && winnersWithMoney > 1) {
-			int betAmount = (*it_c)->getMyRoundStartCash() - (*it_c)->getMyCash() + (*it_c)->getLastMoneyWon();
-			if(betAmount < 0) {
-				betAmount = 0;
-			}
-			if(betAmount > minWinnerBet) {
+			int highestWinnerCardsValue = currentHand->getCurrentBeRo()->getHighestCardsValue();
+			if ((*it_c)->getMyCardsValueInt() < highestWinnerCardsValue) {
 				isMainPot = false;
 			}
 		}
@@ -4199,8 +4187,8 @@ void gameTableImpl::closeGameTable()
 
 		bool close = true;
 
-		if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(CLOSE_GAMETABLE_QUESTION ) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
-			if (myUniversalMessageDialog->exec(CLOSE_GAMETABLE_QUESTION , tr("Really want to exit?"), tr("PokerTH - Close Table?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
+		if(myUniversalMessageDialog->checkIfMesssageWillBeDisplayed(CLOSE_GAMETABLE_WINDOW_QUESTION) && (myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_INTERNET || myStartWindow->getSession()->getGameType() == Session::GAME_TYPE_NETWORK ) && this->isVisible()) {
+			if (myUniversalMessageDialog->exec(CLOSE_GAMETABLE_WINDOW_QUESTION, tr("Note: Closing this window will leave the current game and return you to the lobby.\nPokerTH itself will NOT be closed.\n\nDo you really want to leave the game?"), tr("PokerTH - Leave Game?"), QPixmap(":/gfx/logoChip3D.png"), QDialogButtonBox::Yes|QDialogButtonBox::No, true) == QDialog::Rejected) {
 				close = false;
 			}
 		}

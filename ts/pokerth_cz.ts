@@ -3774,6 +3774,22 @@ Pokud chcete ve hře zůstat, ale potřebujete si odskočit, využijte funkci &q
         <translation>PokerTH - Opustit stůl?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Opustit hru?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Poznámka: Zavřením tohoto okna opustíte aktuální hru a vrátíte se do lobby.
+Samotný PokerTH nebude ukončen.
+
+Opravdu chcete opustit hru?</translation>
+    </message>
+    <message>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>

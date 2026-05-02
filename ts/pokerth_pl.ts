@@ -4327,6 +4327,22 @@ i powrócić do chatu?</translation>
         <translation>PokerTH - Zamknąć stół?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Opuścić grę?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Uwaga: Zamknięcie tego okna opuści bieżącą grę i powróci do lobby.
+Sam program PokerTH NIE zostanie zamknięty.
+
+Czy naprawdę chcesz opuścić grę?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3869"/>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3878"/>
         <source>Kick</source>

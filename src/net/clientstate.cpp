@@ -1363,10 +1363,12 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			std::cout << "[BBCBot DEBUG] Player joined lobby: " << client->GetPlayerName(netPlayerList.playerid()) 
 			          << " (ID: " << netPlayerList.playerid() << ")" << std::endl;
 		} else if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListLeft) {
-			client->GetCallback().SignalLobbyPlayerLeft(netPlayerList.playerid());
+			unsigned leftPlayerId = netPlayerList.playerid();
+			client->GetCallback().SignalLobbyPlayerLeft(leftPlayerId);
+			client->RemoveCachedPlayerInfo(leftPlayerId);
 			// BBCBot: Remove from idle players
-			client->botdb.removeidleplayer(netPlayerList.playerid());
-			std::cout << "[BBCBot DEBUG] Player left lobby (ID: " << netPlayerList.playerid() << ")" << std::endl;
+			client->botdb.removeidleplayer(leftPlayerId);
+			std::cout << "[BBCBot DEBUG] Player left lobby (ID: " << leftPlayerId << ")" << std::endl;
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListNewMessage) {
 		// A new game was created on the server.

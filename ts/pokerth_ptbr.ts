@@ -4829,6 +4829,22 @@ Se você está longe temporariamente, você pode usar o &quot;longe&quot; na cai
         <translation>PokerTH - Fechar Mesa?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Sair do jogo?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Nota: Fechar esta janela irá sair do jogo atual e retornar ao lobby.
+O próprio PokerTH NÃO será fechado.
+
+Você realmente deseja sair do jogo?</translation>
+    </message>
+    <message>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>
     </message>

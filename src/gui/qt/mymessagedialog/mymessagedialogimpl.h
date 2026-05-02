@@ -50,7 +50,8 @@ enum MESSAGE_CONTENT {
 	CD_VALUES_MISSING,              //9:
 	CD_PICS_MISSING,                //10:
 	CD_OUTDATED,                    //11:
-	UNIGNORE_PLAYER_QUESTION       //12: click unignore player: Question(Do you really want to remove this player from ignore List?)
+	UNIGNORE_PLAYER_QUESTION,      //12: click unignore player: Question(Do you really want to remove this player from ignore List?)
+	CLOSE_GAMETABLE_WINDOW_QUESTION //13: close gametable via window X button: note that only the game is left, not the whole PokerTH client
 };
 
 class ConfigFile;

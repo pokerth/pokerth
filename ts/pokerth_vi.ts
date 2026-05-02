@@ -3634,6 +3634,22 @@ Hãy mời những người chơi khác bằng cách chọn chuột phải vào 
         <translation>PokerTH - Đóng lại màn chơi này?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Rời khỏi trò chơi?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Lưu ý: Đóng cửa sổ này sẽ rời khỏi trò chơi hiện tại và trở về sảnh chờ.
+Bản thân PokerTH sẽ KHÔNG bị đóng.
+
+Bạn có thực sự muốn rời khỏi trò chơi không?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - Thông báo của màn chơi online</translation>

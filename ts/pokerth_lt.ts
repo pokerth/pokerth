@@ -3787,6 +3787,22 @@ Nesivaržykite pakviesti kitus žaidėjus spragtelėdami dešinį mygtuką ant j
         <translation>PokerTH - užverti lentelę?</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - Palikti žaidimą?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>Pastaba: Uždarius šį langą, paliksite dabartinį žaidimą ir grįšite į registratūrą.
+Pats PokerTH nebus uždarytas.
+
+Ar tikrai norite palikti žaidimą?</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - žaidimo internetu žinutė</translation>

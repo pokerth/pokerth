@@ -56,6 +56,7 @@ public:
 		return myChangeCompleteBlindsDialog;
 	}
 	bool eventFilter(QObject *obj, QEvent *event) override;
+	void accept() override;
 
 public slots:
 

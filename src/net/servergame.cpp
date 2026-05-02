@@ -32,6 +32,7 @@
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
 #include <algorithm>
+#include <sstream>
 
 #include <net/servergame.h>
 #include <net/servergamestate.h>
@@ -212,6 +213,18 @@ ServerGame::RemoveAllSessions()
 		{
 			// Kurzer Lock nur zum Kopieren der Session-Liste
 			sessionsToClose = GetSessionManager().GetAllSessions();
+		}
+		
+		// Log all affected players before disconnecting them
+		{
+			std::ostringstream oss;
+			oss << "Game " << GetId() << " - RemoveAllSessions: disconnecting " << sessionsToClose.size() << " players:";
+			for (auto& s : sessionsToClose) {
+				if (s && s->GetPlayerData()) {
+					oss << " [\"" << s->GetPlayerData()->GetName() << "\" session=" << s->GetId() << " ip=" << s->GetClientAddr() << "]";
+				}
+			}
+			LOG_ERROR(oss.str());
 		}
 		
 		// Jetzt Sessions schließen - ohne Lock auf dem SessionManager
@@ -398,6 +411,11 @@ ServerGame::InternalStartGame()
 void
 ServerGame::InitRankingMap(const PlayerDataList &playerDataList)
 {
+	// Clear any stale entries from a previous game to prevent duplicate
+	// DB rows if StoreAndResetRanking was not called (e.g. all players
+	// disconnected before the game ended normally).
+	m_rankingMap.clear();
+
 	PlayerDataList::const_iterator i = playerDataList.begin();
 	PlayerDataList::const_iterator end = playerDataList.end();
 	while (i != end) {

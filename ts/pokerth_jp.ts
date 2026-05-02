@@ -3468,6 +3468,22 @@ Feel free to invite other players by right-clicking on their nick in the availab
         <translation>PokerTH - テーブルを閉じますか？</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>PokerTH - Leave Game?</source>
+        <translation>PokerTH - ゲームを退出しますか？</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="4191"/>
+        <source>Note: Closing this window will leave the current game and return you to the lobby.
+PokerTH itself will NOT be closed.
+
+Do you really want to leave the game?</source>
+        <translation>注意：このウィンドウを閉じると、現在のゲームを退出してロビーに戻ります。
+PokerTH 自体は終了しません。
+
+本当にゲームを退出しますか？</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gametable/gametableimpl.cpp" line="3844"/>
         <source>PokerTH - Internet Game Message</source>
         <translation>PokerTH - インターネットゲームメッセージ</translation>

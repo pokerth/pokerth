@@ -60,6 +60,7 @@
 #include <boost/foreach.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
 #include <ctime>
 #include <string>  
 
@@ -440,7 +441,18 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetState() != SessionData::Closed) { // Make this call reentrant.
 		try {
-			LOG_VERBOSE("Closing session #" << session->GetId() << ".");
+			{
+				std::string playerName = "(unknown)";
+				std::string gameInfo;
+				if (session->GetPlayerData() && !session->GetPlayerData()->GetName().empty()) {
+					playerName = session->GetPlayerData()->GetName();
+				}
+				boost::shared_ptr<ServerGame> g = session->GetGame();
+				if (g) {
+					gameInfo = " game=" + boost::lexical_cast<std::string>(g->GetId());
+				}
+				LOG_MSG("Closing session #" << session->GetId() << " player=\"" << playerName << "\" ip=" << session->GetClientAddr() << gameInfo << ".");
+			}
 
 			// Save the session state FIRST before any other operation
 			SessionData::State oldState = session->GetState();
@@ -1060,7 +1072,9 @@ ServerLobbyThread::DispatchPacket(boost::shared_ptr<SessionData> session, boost:
 			try {
 				game->HandlePacket(session, packet);
 			} catch (const PokerTHException &e) {
-				LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what());
+				LOG_ERROR("Game " << game->GetId() << " - Read handler exception: " << e.what()
+					<< " (triggered by session #" << session->GetId() << " player=\""
+					<< (session->GetPlayerData() ? session->GetPlayerData()->GetName() : "?") << "\")");
 				game->RemoveAllSessions();
 			}
 		} else
@@ -1532,7 +1546,7 @@ ServerLobbyThread::HandleNetPacketJoinGame(boost::shared_ptr<SessionData> sessio
 				MoveSessionToGame(game, session, joinGame.autoleave(), true);
 			}
 		} else {
-			LOG_ERROR("JoinGame pre validation");
+			// LOG_ERROR("JoinGame pre validation");
 			// As guest, you are only allowed to join normal games.
 			if (session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST
 					&& tmpData.gameType != GAME_TYPE_NORMAL) {
@@ -1913,6 +1927,10 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 
 	// Session is now established.
 	session->SetState(SessionData::Established);
+
+	LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" (id:" << session->GetPlayerData()->GetUniqueId()
+		<< ", dbId:" << session->GetPlayerData()->GetDBId() << ") connected from " << session->GetClientAddr()
+		<< " - session #" << session->GetId() << ".");
 
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);
