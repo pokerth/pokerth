@@ -2201,16 +2201,17 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 			}
 		}
 		
-		// Periodic actions every 10 minutes (600 seconds)
-		if (bot.stdcount % 600 == 0) {
-			bot_every10min();
-		}
-		
-		// Re-schedule the timer for 1 second from now
+		// Re-schedule the timer for 1 second from now (before bot_every10min
+		// to ensure the timer keeps running even if the download blocks/throws)
 		m_bbcbotTimer.expires_after(seconds(1));
 		m_bbcbotTimer.async_wait(
 			boost::bind(
 				&ClientThread::bbcbotTimerCallback, shared_from_this(), boost::asio::placeholders::error));
+
+		// Periodic actions every 10 minutes (600 seconds)
+		if (bot.stdcount % 600 == 0) {
+			bot_every10min();
+		}
 	}
 }
 
