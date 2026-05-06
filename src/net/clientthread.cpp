@@ -1768,6 +1768,11 @@ ClientThread::bot_loadfiles()
 	bot.countdownleave = 0;
 	bot.countdowninvitetimeout = 0;
 	
+	// Clear all reloadable data to avoid accumulation on 10-minute reloads
+	botdb.clear();
+	bot.fixedcommands.clear();
+	bot.fixedreply.clear();
+
 	// Load fixed commands from file if available
 	// Format: lines with "command=reply"
 	QFile fixedFile("botfiles/fixedcommands.txt");
