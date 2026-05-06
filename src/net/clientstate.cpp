@@ -1874,6 +1874,13 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		// BBCBot: Auto-download and load bot files when session is established
 		if (!client->GetContext().GetPassword().empty()) {
 			std::cout << "[BBCBot] Session established, downloading and loading bot files..." << std::endl;
+			// One-time initialisation of game-flow state (only here, not in bot_loadfiles)
+			client->bot.stdcount = 0;
+			client->bot.creatorid = 0;
+			client->bot.creategamestate = GS_NORMAL;
+			client->bot.countdowninvite = 0;
+			client->bot.countdownleave = 0;
+			client->bot.countdowninvitetimeout = 0;
 			// First download latest files from server
 			client->bot_downloadfiles();
 			// Note: bot_loadfiles() will be called automatically after download completes

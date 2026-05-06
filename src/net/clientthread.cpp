@@ -1760,13 +1760,10 @@ ClientThread::bot_loadfiles()
 	// Keep idle players list to avoid losing lobby players on file reloads.
 	// Disable interactive info popups for bot runs
 	qputenv("POKERTH_BBCBOT_NOPOPUPS", QByteArray("1"));
-	bot.stdcount = 0;
-	// Initialize create-game state and counters to sane defaults
-	bot.creatorid = 0;
-	bot.creategamestate = GS_NORMAL;
-	bot.countdowninvite = 0;
-	bot.countdownleave = 0;
-	bot.countdowninvitetimeout = 0;
+	// Note: do NOT reset creategamestate/creatorid/countdowns here –
+	// bot_loadfiles() is also called during periodic 10-minute reloads,
+	// and resetting these would abort an in-progress game-creation flow.
+	// They are only initialised once at first startup (see bot_init below).
 	
 	// Clear all reloadable data to avoid accumulation on 10-minute reloads
 	botdb.clear();
