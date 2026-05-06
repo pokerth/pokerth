@@ -1338,7 +1338,8 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 						std::string response = bot_fixedcommandssearch(client, chattext);
 						if (response.substr(0, 6) != "ERROR:") {
 							bot_sendlongpm(client, playerId, response);
-						} else {
+						} else if (playerId != client->GetGuiPlayerId()) {
+							// Don't send error PM to self (avoids echo loop when bot replies to itself)
 							client->SendPrivateChatMessage(playerId, "ERROR: not found. try \"help\"");
 						}
 					}
