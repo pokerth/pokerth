@@ -1,6 +1,6 @@
 # Snap-Paket für PokerTH
 
-Dieses Verzeichnis enthält die `snapcraft.yaml` für das PokerTH Snap-Paket (v2.0.6).
+Dieses Verzeichnis enthält die `snapcraft.yaml` für das PokerTH Snap-Paket (v2.0.7).
 
 ## Übersicht
 
@@ -52,5 +52,5 @@ Push auf den `stable` Branch triggert Build + Upload in den Snap Store.
 ### Manueller Upload
 
 ```bash
-snapcraft upload --release=stable pokerth_2.0.6_amd64.snap
+snapcraft upload --release=stable pokerth_2.0.7_amd64.snap
 ```

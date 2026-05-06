@@ -1,6 +1,6 @@
 # Flatpak-Paket für PokerTH
 
-Dieses Verzeichnis enthält das Flatpak-Manifest für PokerTH (v2.0.6).
+Dieses Verzeichnis enthält das Flatpak-Manifest für PokerTH (v2.0.7).
 
 ## Übersicht
 

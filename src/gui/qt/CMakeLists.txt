@@ -131,7 +131,7 @@ target_link_libraries(pokerth_client PRIVATE Qt6::Core Qt6::Gui Qt6::Sql Qt6::Xm
 
 # Win32 PlaySound() API for WinMM audio backend
 if(WIN32)
-    target_link_libraries(pokerth_client PRIVATE winmm)
+    target_link_libraries(pokerth_client PRIVATE winmm mswsock)
 endif()
 
 target_link_libraries(pokerth_client PUBLIC pokerth_lib)
