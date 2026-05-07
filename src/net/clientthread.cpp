@@ -71,8 +71,6 @@
 #include <cassert>
 #include <typeinfo>
 #include <cctype>
-#include <ctime>
-#include <cstring>
 #include <openssl/ssl.h>
 
 #define TEMP_AVATAR_FILENAME	"avatar.tmp"
@@ -1753,43 +1751,9 @@ ClientThread::WriteSessionGuidToFile() const
 
 // bbcbot code - Bot implementation
 
-// Prepends [YYYY-MM-DD HH:MM:SS] to every line written to std::cout.
-// Installed once in bot_loadfiles(); covers all [BBCBot] log output.
-class BbcbotTimestampBuf : public std::streambuf {
-	std::streambuf* orig_;
-	bool fresh_line_;
-public:
-	explicit BbcbotTimestampBuf(std::streambuf* o) : orig_(o), fresh_line_(true) {}
-protected:
-	int overflow(int c) override {
-		if (c == EOF) return EOF;
-		if (fresh_line_) {
-			time_t now = time(NULL);
-			char ts[32];
-			strftime(ts, sizeof(ts), "[%Y-%m-%d %H:%M:%S] ", localtime(&now));
-			orig_->sputn(ts, static_cast<std::streamsize>(strlen(ts)));
-			fresh_line_ = false;
-		}
-		if (c == '\n') fresh_line_ = true;
-		return orig_->sputc(static_cast<char>(c));
-	}
-	std::streamsize xsputn(const char* s, std::streamsize n) override {
-		for (std::streamsize i = 0; i < n; ++i)
-			if (overflow(static_cast<unsigned char>(s[i])) == EOF) return i;
-		return n;
-	}
-	int sync() override { return orig_->pubsync(); }
-};
-
 void
 ClientThread::bot_loadfiles()
 {
-	// One-time setup: install timestamp-prefixing streambuf for all stdout output
-	static BbcbotTimestampBuf* s_tsBuf = nullptr;
-	if (!s_tsBuf) {
-		s_tsBuf = new BbcbotTimestampBuf(std::cout.rdbuf());
-		std::cout.rdbuf(s_tsBuf);
-	}
 	std::cout << "[BBCBot] bot_loadfiles() called" << std::endl;
 	std::cout << "[BBCBot] Loading bot files..." << std::endl;
 	
@@ -2243,9 +2207,20 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 			boost::bind(
 				&ClientThread::bbcbotTimerCallback, shared_from_this(), boost::asio::placeholders::error));
 
+		// Heartbeat: log uptime every 60 seconds for diagnostic purposes
+		if (bot.stdcount % 60 == 0) {
+			std::cout << "[BBCBot] Timer alive: uptime=" << bot.stdcount << "s" << std::endl;
+		}
+
 		// Periodic actions every 10 minutes (600 seconds)
 		if (bot.stdcount % 600 == 0) {
-			bot_every10min();
+			try {
+				bot_every10min();
+			} catch (const std::exception& e) {
+				std::cout << "[BBCBot] ERROR in bot_every10min: " << e.what() << std::endl;
+			} catch (...) {
+				std::cout << "[BBCBot] ERROR in bot_every10min: unknown exception" << std::endl;
+			}
 		}
 	}
 }
@@ -2291,13 +2266,6 @@ ClientThread::bot_every10min()
 void
 ClientThread::bot_downloadfiles()
 {
-	// Install timestamp buf here too – bot_downloadfiles() runs before the
-	// first bot_loadfiles() call, so we need the same static guard.
-	static BbcbotTimestampBuf* s_tsBuf = nullptr;
-	if (!s_tsBuf) {
-		s_tsBuf = new BbcbotTimestampBuf(std::cout.rdbuf());
-		std::cout.rdbuf(s_tsBuf);
-	}
 	std::cout << "[BBCBot] Downloading updated bot files from server..." << std::endl;
 	
 	// Create botfiles directory if it doesn't exist
