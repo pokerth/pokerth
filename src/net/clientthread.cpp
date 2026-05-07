@@ -2186,54 +2186,55 @@ ClientThread::bot_loadfiles()
 void
 ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 {
-	if (!ec && bot.enabled) {
-		// Increment uptime counter
-		bot.stdcount++;
-		
-		// Log game state periodically for debugging
-		if (bot.creategamestate != GS_NORMAL && bot.stdcount % 5 == 0) {
-			BBCLOG("[BBCBot] Timer tick: state=" << bot.creategamestate << " creatorid=" << bot.creatorid);
-		}
-		
-		// Handle game creation states
-		if (bot.creategamestate == GS_CREATED) {
-			bot.countdowninvite--;
-			if (bot.countdowninvite <= 0) {
-				bot_invite();
-			}
-		} else if (bot.creategamestate == GS_SENDINV) {
-			bot.countdowninvitetimeout--;
-			if (bot.countdowninvitetimeout <= 0) {
-				bot_invitetimeout();
-			}
-		} else if (bot.creategamestate == GS_ACCEPTED) {
-			bot.countdownleave--;
-			if (bot.countdownleave <= 0) {
-				bot_leave();
-			}
-		}
-		
-		// Re-schedule the timer for 1 second from now (before bot_every10min
-		// to ensure the timer keeps running even if the download blocks/throws)
-		m_bbcbotTimer.expires_after(seconds(1));
-		m_bbcbotTimer.async_wait(
-			boost::bind(
-				&ClientThread::bbcbotTimerCallback, shared_from_this(), boost::asio::placeholders::error));
+	if (ec) return; // timer cancelled
 
-		// Heartbeat: log uptime every 60 seconds for diagnostic purposes
-		if (bot.stdcount % 60 == 0) {
-			BBCLOG("[BBCBot] Timer alive: uptime=" << bot.stdcount << "s");
-		}
+	// Always reschedule first so the chain never breaks, even if bot is not yet enabled
+	m_bbcbotTimer.expires_after(seconds(1));
+	m_bbcbotTimer.async_wait(
+		boost::bind(
+			&ClientThread::bbcbotTimerCallback, shared_from_this(), boost::asio::placeholders::error));
 
-		// Periodic actions every 10 minutes (600 seconds)
-		if (bot.stdcount % 600 == 0) {
-			try {
-				bot_every10min();
-			} catch (const std::exception& e) {
-				BBCLOG("[BBCBot] ERROR in bot_every10min: " << e.what());
-			} catch (...) {
-				BBCLOG("[BBCBot] ERROR in bot_every10min: unknown exception");
-			}
+	if (!bot.enabled) return;
+
+	// Increment uptime counter
+	bot.stdcount++;
+
+	// Log game state periodically for debugging
+	if (bot.creategamestate != GS_NORMAL && bot.stdcount % 5 == 0) {
+		BBCLOG("[BBCBot] Timer tick: state=" << bot.creategamestate << " creatorid=" << bot.creatorid);
+	}
+
+	// Handle game creation states
+	if (bot.creategamestate == GS_CREATED) {
+		bot.countdowninvite--;
+		if (bot.countdowninvite <= 0) {
+			bot_invite();
+		}
+	} else if (bot.creategamestate == GS_SENDINV) {
+		bot.countdowninvitetimeout--;
+		if (bot.countdowninvitetimeout <= 0) {
+			bot_invitetimeout();
+		}
+	} else if (bot.creategamestate == GS_ACCEPTED) {
+		bot.countdownleave--;
+		if (bot.countdownleave <= 0) {
+			bot_leave();
+		}
+	}
+
+	// Heartbeat: log uptime every 60 seconds for diagnostic purposes
+	if (bot.stdcount % 60 == 0) {
+		BBCLOG("[BBCBot] Timer alive: uptime=" << bot.stdcount << "s");
+	}
+
+	// Periodic actions every 10 minutes (600 seconds)
+	if (bot.stdcount % 600 == 0) {
+		try {
+			bot_every10min();
+		} catch (const std::exception& e) {
+			BBCLOG("[BBCBot] ERROR in bot_every10min: " << e.what());
+		} catch (...) {
+			BBCLOG("[BBCBot] ERROR in bot_every10min: unknown exception");
 		}
 	}
 }
