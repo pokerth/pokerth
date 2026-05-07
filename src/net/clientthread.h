@@ -41,7 +41,19 @@
 #include <algorithm>
 #include <numeric>
 #include <set>
+#include <sstream>
+#include <ctime>
+#include <cstdio>
 #include <openssl/ssl.h>
+#include <QDebug>
+
+// Stream-compatible logging macro for BBCBot: BBCLOG("[BBCBot] foo: " << bar)
+// Uses qDebug() so the bbcbot_msg_handler (installed at bot startup) can add timestamps.
+#define BBCLOG(expr) do { \
+	std::ostringstream _bbcos; \
+	_bbcos << expr; \
+	qDebug().noquote() << _bbcos.str().c_str(); \
+} while(0)
 
 #include <core/thread.h>
 #include <net/sessiondatacallback.h>

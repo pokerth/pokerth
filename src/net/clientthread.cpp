@@ -93,13 +93,6 @@ static void bbcbot_msg_handler(QtMsgType, const QMessageLogContext&, const QStri
 	fflush(stdout);
 }
 
-// Stream-compatible logging macro: BBCLOG("[BBCBot] foo: " << bar)
-#define BBCLOG(expr) do { \
-	std::ostringstream _bbcos; \
-	_bbcos << expr; \
-	qDebug().noquote() << _bbcos.str().c_str(); \
-} while(0)
-
 using namespace std;
 using namespace boost::filesystem;
 using boost::asio::ip::tcp;
