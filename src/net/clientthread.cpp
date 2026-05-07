@@ -71,6 +71,8 @@
 #include <cassert>
 #include <typeinfo>
 #include <cctype>
+#include <ctime>
+#include <cstring>
 #include <openssl/ssl.h>
 
 #define TEMP_AVATAR_FILENAME	"avatar.tmp"
@@ -1753,6 +1755,13 @@ ClientThread::WriteSessionGuidToFile() const
 void
 ClientThread::bot_loadfiles()
 {
+	// One-time setup: install timestamp-prefixing streambuf for all stdout output
+	static BbcbotTimestampBuf* s_tsBuf = nullptr;
+	if (!s_tsBuf) {
+		s_tsBuf = new BbcbotTimestampBuf(std::cout.rdbuf());
+		std::cout.rdbuf(s_tsBuf);
+	}
+	std::cout << "[BBCBot] bot_loadfiles() called" << std::endl;
 	std::cout << "[BBCBot] Loading bot files..." << std::endl;
 	
 	// Initialize bot as enabled
@@ -2344,6 +2353,35 @@ ClientThread::bot_downloadfiles()
 
 // bbcbotplayerdb implementation
 namespace {
+
+// Prepends [YYYY-MM-DD HH:MM:SS] to every line written to std::cout.
+// Installed once in bot_loadfiles(); covers all [BBCBot] log output.
+class BbcbotTimestampBuf : public std::streambuf {
+	std::streambuf* orig_;
+	bool fresh_line_;
+public:
+	explicit BbcbotTimestampBuf(std::streambuf* o) : orig_(o), fresh_line_(true) {}
+protected:
+	int overflow(int c) override {
+		if (c == EOF) return EOF;
+		if (fresh_line_) {
+			time_t now = time(NULL);
+			char ts[32];
+			strftime(ts, sizeof(ts), "[%Y-%m-%d %H:%M:%S] ", localtime(&now));
+			orig_->sputn(ts, static_cast<std::streamsize>(strlen(ts)));
+			fresh_line_ = false;
+		}
+		if (c == '\n') fresh_line_ = true;
+		return orig_->sputc(static_cast<char>(c));
+	}
+	std::streamsize xsputn(const char* s, std::streamsize n) override {
+		for (std::streamsize i = 0; i < n; ++i)
+			if (overflow(static_cast<unsigned char>(s[i])) == EOF) return i;
+		return n;
+	}
+	int sync() override { return orig_->pubsync(); }
+};
+
 std::string trim_ascii(const std::string &input)
 {
 	size_t start = 0;
