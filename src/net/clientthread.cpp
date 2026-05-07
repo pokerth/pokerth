@@ -67,13 +67,12 @@
 #include <algorithm>
 #include <fstream>
 #include <filesystem>
+#include <sstream>
 #include <memory>
 #include <cassert>
 #include <typeinfo>
 #include <cctype>
 #include <ctime>
-#include <cstring>
-#include <unistd.h>
 #include <openssl/ssl.h>
 
 #define TEMP_AVATAR_FILENAME	"avatar.tmp"
@@ -81,6 +80,25 @@
 #define CLIENT_GUID_SIZE		16
 #define CLIENT_AVATAR_LOOP_MSEC	100
 #define CLIENT_SEND_LOOP_MSEC	50
+
+// Qt message handler: writes qDebug output to stdout with [YYYY-MM-DD HH:MM:SS] prefix.
+// Installed once at bot startup (in bot_downloadfiles). Works regardless of whether
+// stdout is a terminal or piped through an external logger.
+static void bbcbot_msg_handler(QtMsgType, const QMessageLogContext&, const QString& msg)
+{
+	time_t now = time(NULL);
+	char ts[32];
+	strftime(ts, sizeof(ts), "[%Y-%m-%d %H:%M:%S] ", localtime(&now));
+	fprintf(stdout, "%s%s\n", ts, msg.toLocal8Bit().constData());
+	fflush(stdout);
+}
+
+// Stream-compatible logging macro: BBCLOG("[BBCBot] foo: " << bar)
+#define BBCLOG(expr) do { \
+	std::ostringstream _bbcos; \
+	_bbcos << expr; \
+	qDebug().noquote() << _bbcos.str().c_str(); \
+} while(0)
 
 using namespace std;
 using namespace boost::filesystem;
@@ -1467,7 +1485,7 @@ ClientThread::AddGameInfo(unsigned gameId, const GameInfo &info)
 	if (bot.creategamestate == GS_GOTCOMMAND) {
 		unsigned myId = GetGuiPlayerId();
 		if (info.adminPlayerId == myId) {
-			std::cout << "[BBCBot] Detected created game id " << gameId << " by bot; scheduling invite." << std::endl;
+			BBCLOG("[BBCBot] Detected created game id " << gameId << " by bot; scheduling invite.");
 			bot.creategamestate = GS_CREATED;
 			bot.countdowninvite = 2; // small delay to allow client join to settle
 		}
@@ -1754,40 +1772,12 @@ ClientThread::WriteSessionGuidToFile() const
 
 // bbcbot code - Bot implementation
 
-// Prepends [YYYY-MM-DD HH:MM:SS] to every line written to std::cout.
-// Only installed when stdout is a terminal (isatty); when piped through an
-// external logger that already adds timestamps, it stays inactive.
-class BbcbotTimestampBuf : public std::streambuf {
-	std::streambuf* orig_;
-	bool fresh_line_;
-public:
-	explicit BbcbotTimestampBuf(std::streambuf* o) : orig_(o), fresh_line_(true) {}
-protected:
-	int overflow(int c) override {
-		if (c == EOF) return EOF;
-		if (fresh_line_) {
-			time_t now = time(NULL);
-			char ts[32];
-			strftime(ts, sizeof(ts), "[%Y-%m-%d %H:%M:%S] ", localtime(&now));
-			orig_->sputn(ts, static_cast<std::streamsize>(strlen(ts)));
-			fresh_line_ = false;
-		}
-		if (c == '\n') fresh_line_ = true;
-		return orig_->sputc(static_cast<char>(c));
-	}
-	std::streamsize xsputn(const char* s, std::streamsize n) override {
-		for (std::streamsize i = 0; i < n; ++i)
-			if (overflow(static_cast<unsigned char>(s[i])) == EOF) return i;
-		return n;
-	}
-	int sync() override { return orig_->pubsync(); }
-};
 
 void
 ClientThread::bot_loadfiles()
 {
-	std::cout << "[BBCBot] bot_loadfiles() called" << std::endl;
-	std::cout << "[BBCBot] Loading bot files..." << std::endl;
+	BBCLOG("[BBCBot] bot_loadfiles() called");
+	BBCLOG("[BBCBot] Loading bot files...");
 	
 	// Initialize bot as enabled
 	bot.enabled = true;
@@ -1822,9 +1812,9 @@ ClientThread::bot_loadfiles()
 			}
 		}
 		fixedFile.close();
-		std::cout << "[BBCBot] Loaded " << bot.fixedcommands.size() << " fixed commands" << std::endl;
+		BBCLOG("[BBCBot] Loaded " << bot.fixedcommands.size() << " fixed commands");
 	} else {
-		std::cout << "[BBCBot] No botfiles/fixedcommands.txt found, using defaults" << std::endl;
+		BBCLOG("[BBCBot] No botfiles/fixedcommands.txt found, using defaults");
 	}
 	
 	// Sort fixed commands for binary search
@@ -1881,7 +1871,7 @@ ClientThread::bot_loadfiles()
 	QFile gamesListFile(gamesListPath.isEmpty() ? QString("botfiles/gameslist.txt") : gamesListPath);
 	if (gamesListFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QTextStream in(&gamesListFile);
-		std::cout << "[BBCBot] Parsing gameslist.txt (legacy format)..." << std::endl;
+		BBCLOG("[BBCBot] Parsing gameslist.txt (legacy format)...");
 
 		// Load permissions first if present
 		QString permPath = resolveBotFile("permissions.txt");
@@ -1902,7 +1892,7 @@ ClientThread::bot_loadfiles()
 							currentPerm = &bot.permgroups.back();
 							currentPerm->name = groupname.toStdString();
 							currentPerm->isblacklist = false; // default to whitelist
-							std::cout << "[BBCBot] Found permission group: " << groupname.toStdString() << std::endl;
+							BBCLOG("[BBCBot] Found permission group: " << groupname.toStdString());
 						} else {
 							currentPerm = nullptr;
 						}
@@ -2027,22 +2017,22 @@ ClientThread::bot_loadfiles()
 							}
 						}
 						sfile.close();
-						std::cout << "[BBCBot] Loaded settings for: " << g.commandname << std::endl;
+						BBCLOG("[BBCBot] Loaded settings for: " << g.commandname);
 					}
 
-				std::cout << "[BBCBot] Found legacy game entry: " << g.commandname << " -> " << g.gamenameprefix << std::endl;
+				BBCLOG("[BBCBot] Found legacy game entry: " << g.commandname << " -> " << g.gamenameprefix);
 			}
 		}
 
 		gamesListFile.close();
-		std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game(s) and " << bot.permgroups.size() << " permission group(s) from legacy files" << std::endl;
+		BBCLOG("[BBCBot] Loaded " << bot.gdata.size() << " game(s) and " << bot.permgroups.size() << " permission group(s) from legacy files");
 	} else {
 		// Fallback: existing INI-style gametemplates.txt loader
 		QString gtPath = resolveBotFile("gametemplates.txt");
 		QFile gameFile(gtPath.isEmpty() ? QString("botfiles/gametemplates.txt") : gtPath);
 		if (gameFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 			QTextStream in(&gameFile);
-			std::cout << "[BBCBot] Parsing gametemplates.txt..." << std::endl;
+			BBCLOG("[BBCBot] Parsing gametemplates.txt...");
             
 			bbcbotgamedata* currentGame = nullptr;
 			bbcbotpermissiongroup* currentPerm = nullptr;
@@ -2062,26 +2052,26 @@ ClientThread::bot_loadfiles()
 					if (section.startsWith("game:")) {
 						QString cmdname = section.mid(5).trimmed();
 						if (cmdname.isEmpty()) {
-							std::cout << "[BBCBot] Warning: Empty game command name at line " << lineNum << std::endl;
+							BBCLOG("[BBCBot] Warning: Empty game command name at line " << lineNum);
 							continue;
 						}
 						bot.gdata.push_back(bbcbotgamedata());
 						currentGame = &bot.gdata.back();
 						currentGame->commandname = cmdname.toStdString();
 						currentPerm = nullptr;
-						std::cout << "[BBCBot] Found game template: " << cmdname.toStdString() << std::endl;
+						BBCLOG("[BBCBot] Found game template: " << cmdname.toStdString());
 					}
 					else if (section.startsWith("permissions:")) {
 						QString groupname = section.mid(12).trimmed();
 						if (groupname.isEmpty()) {
-							std::cout << "[BBCBot] Warning: Empty permission group name at line " << lineNum << std::endl;
+							BBCLOG("[BBCBot] Warning: Empty permission group name at line " << lineNum);
 							continue;
 						}
 						bot.permgroups.push_back(bbcbotpermissiongroup());
 						currentPerm = &bot.permgroups.back();
 						currentPerm->name = groupname.toStdString();
 						currentGame = nullptr;
-						std::cout << "[BBCBot] Found permission group: " << groupname.toStdString() << std::endl;
+						BBCLOG("[BBCBot] Found permission group: " << groupname.toStdString());
 					}
 					continue;
 				}
@@ -2173,10 +2163,9 @@ ClientThread::bot_loadfiles()
 			}
 
 			gameFile.close();
-			std::cout << "[BBCBot] Loaded " << bot.gdata.size() << " game template(s) and " 
-					  << bot.permgroups.size() << " permission group(s)" << std::endl;
+			BBCLOG("[BBCBot] Loaded " << bot.gdata.size() << " game template(s) and " << bot.permgroups.size() << " permission group(s)");
 		} else {
-			std::cout << "[BBCBot] No botfiles/gametemplates.txt found" << std::endl;
+			BBCLOG("[BBCBot] No botfiles/gametemplates.txt found");
 		}
 	}
 	
@@ -2184,21 +2173,21 @@ ClientThread::bot_loadfiles()
 	QString minidbPath = resolveBotFile("minidb.txt");
 	if (minidbPath.isEmpty()) minidbPath = QString("botfiles/minidb.txt");
 	if (botdb.loadfile(minidbPath.toStdString())) {
-		std::cout << "[BBCBot] Player database loaded successfully" << std::endl;
+		BBCLOG("[BBCBot] Player database loaded successfully");
 	} else {
-		std::cout << "[BBCBot] Warning: Could not load player database" << std::endl;
+		BBCLOG("[BBCBot] Warning: Could not load player database");
 	}
 	
 	// Load WEC player list
 	QString wecPath = resolveBotFile("weclist.txt");
 	if (wecPath.isEmpty()) wecPath = QString("botfiles/weclist.txt");
 	if (botdb.loadwecfile(wecPath.toStdString())) {
-		std::cout << "[BBCBot] WEC player list loaded" << std::endl;
+		BBCLOG("[BBCBot] WEC player list loaded");
 	} else {
-		std::cout << "[BBCBot] Warning: Could not load WEC list" << std::endl;
+		BBCLOG("[BBCBot] Warning: Could not load WEC list");
 	}
 	
-	std::cout << "[BBCBot] Bot initialization complete" << std::endl;
+	BBCLOG("[BBCBot] Bot initialization complete");
 }
 
 void
@@ -2210,8 +2199,7 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 		
 		// Log game state periodically for debugging
 		if (bot.creategamestate != GS_NORMAL && bot.stdcount % 5 == 0) {
-			std::cout << "[BBCBot] Timer tick: state=" << bot.creategamestate 
-			          << " creatorid=" << bot.creatorid << std::endl;
+			BBCLOG("[BBCBot] Timer tick: state=" << bot.creategamestate << " creatorid=" << bot.creatorid);
 		}
 		
 		// Handle game creation states
@@ -2241,7 +2229,7 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 
 		// Heartbeat: log uptime every 60 seconds for diagnostic purposes
 		if (bot.stdcount % 60 == 0) {
-			std::cout << "[BBCBot] Timer alive: uptime=" << bot.stdcount << "s" << std::endl;
+			BBCLOG("[BBCBot] Timer alive: uptime=" << bot.stdcount << "s");
 		}
 
 		// Periodic actions every 10 minutes (600 seconds)
@@ -2249,9 +2237,9 @@ ClientThread::bbcbotTimerCallback(const boost::system::error_code& ec)
 			try {
 				bot_every10min();
 			} catch (const std::exception& e) {
-				std::cout << "[BBCBot] ERROR in bot_every10min: " << e.what() << std::endl;
+				BBCLOG("[BBCBot] ERROR in bot_every10min: " << e.what());
 			} catch (...) {
-				std::cout << "[BBCBot] ERROR in bot_every10min: unknown exception" << std::endl;
+				BBCLOG("[BBCBot] ERROR in bot_every10min: unknown exception");
 			}
 		}
 	}
@@ -2261,7 +2249,7 @@ void
 ClientThread::bot_invite()
 {
 	if (bot.creatorid > 0) {
-		std::cout << "[BBCBot] Inviting player " << bot.creatorid << " to game" << std::endl;
+		BBCLOG("[BBCBot] Inviting player " << bot.creatorid << " to game");
 		SendInvitePlayerToCurrentGame(bot.creatorid);
 		bot.creategamestate = GS_SENDINV;
 		bot.countdowninvitetimeout = 30;
@@ -2271,7 +2259,7 @@ ClientThread::bot_invite()
 void
 ClientThread::bot_invitetimeout()
 {
-	std::cout << "[BBCBot] Invitation timeout - leaving game" << std::endl;
+	BBCLOG("[BBCBot] Invitation timeout - leaving game");
 	SendPrivateChatMessage(bot.creatorid, "ERROR: you didn't accept the game invitation in time");
 	SendLeaveCurrentGame();
 	bot.creategamestate = GS_NORMAL;
@@ -2281,7 +2269,7 @@ ClientThread::bot_invitetimeout()
 void
 ClientThread::bot_leave()
 {
-	std::cout << "[BBCBot] Leaving game after player joined" << std::endl;
+	BBCLOG("[BBCBot] Leaving game after player joined");
 	SendLeaveCurrentGame();
 	bot.creategamestate = GS_NORMAL;
 	bot.creatorid = 0;
@@ -2290,7 +2278,7 @@ ClientThread::bot_leave()
 void
 ClientThread::bot_every10min()
 {
-	std::cout << "[BBCBot] Running 10-minute maintenance tasks" << std::endl;
+	BBCLOG("[BBCBot] Running 10-minute maintenance tasks");
 	// Download updated bot files from server
 	bot_downloadfiles();
 }
@@ -2298,25 +2286,21 @@ ClientThread::bot_every10min()
 void
 ClientThread::bot_downloadfiles()
 {
-	// One-time setup: install timestamp-prefixing streambuf when stdout is a
-	// terminal (direct run). When piped through an external logger, the logger
-	// already adds timestamps – skip to avoid duplicates.
-	if (isatty(STDOUT_FILENO)) {
-		static BbcbotTimestampBuf* s_tsBuf = nullptr;
-		if (!s_tsBuf) {
-			s_tsBuf = new BbcbotTimestampBuf(std::cout.rdbuf());
-			std::cout.rdbuf(s_tsBuf);
-		}
+	// Install custom Qt message handler once at bot startup.
+	static bool s_handlerInstalled = false;
+	if (!s_handlerInstalled) {
+		s_handlerInstalled = true;
+		qInstallMessageHandler(bbcbot_msg_handler);
 	}
-	std::cout << "[BBCBot] Downloading updated bot files from server..." << std::endl;
+	BBCLOG("[BBCBot] Downloading updated bot files from server...");
 	
 	// Create botfiles directory if it doesn't exist
 	QDir botfilesDir("botfiles");
 	if (!botfilesDir.exists()) {
 		botfilesDir.mkpath(".");
-		std::cout << "[BBCBot] Created botfiles directory: " << botfilesDir.absolutePath().toStdString() << std::endl;
+		BBCLOG("[BBCBot] Created botfiles directory: " << botfilesDir.absolutePath().toStdString());
 	} else {
-		std::cout << "[BBCBot] Using existing botfiles directory: " << botfilesDir.absolutePath().toStdString() << std::endl;
+		BBCLOG("[BBCBot] Using existing botfiles directory: " << botfilesDir.absolutePath().toStdString());
 	}
 	
 	// List of all files to download
@@ -2331,7 +2315,7 @@ ClientThread::bot_downloadfiles()
 	      << "step4_settings.txt" << "wec_settings.txt" << "duckscup_settings.txt";
 	
 	const QString baseUrl = "https://bbc.pokerth.net/exp3/bbcbot/";
-	std::cout << "[BBCBot] Starting synchronous download of " << files.size() << " files from " << baseUrl.toStdString() << std::endl;
+	BBCLOG("[BBCBot] Starting synchronous download of " << files.size() << " files from " << baseUrl.toStdString());
 	
 	// Use QNetworkAccessManager for downloads (no parent since ClientThread is not a QObject)
 	QNetworkAccessManager *manager = new QNetworkAccessManager();
@@ -2359,7 +2343,7 @@ ClientThread::bot_downloadfiles()
 		QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
 		loop.exec(); // Wait for download to finish
 		
-		std::cout << "[BBCBot] Download finished for: " << filename.toStdString() << std::endl;
+		BBCLOG("[BBCBot] Download finished for: " << filename.toStdString());
 		
 		if (reply->error() == QNetworkReply::NoError) {
 			QByteArray data = reply->readAll();
@@ -2369,16 +2353,14 @@ ClientThread::bot_downloadfiles()
 			if (file.open(QIODevice::WriteOnly)) {
 				file.write(data);
 				file.close();
-				std::cout << "[BBCBot] Successfully saved: " << filename.toStdString() 
-				          << " (" << data.size() << " bytes)" << std::endl;
+				BBCLOG("[BBCBot] Successfully saved: " << filename.toStdString() << " (" << data.size() << " bytes)");
 				successCount++;
 			} else {
-				std::cout << "[BBCBot] Error: Could not save file: " << filename.toStdString() << std::endl;
+				BBCLOG("[BBCBot] Error: Could not save file: " << filename.toStdString());
 				errorCount++;
 			}
 		} else {
-			std::cout << "[BBCBot] Error downloading " << filename.toStdString() 
-			          << ": " << reply->errorString().toStdString() << std::endl;
+			BBCLOG("[BBCBot] Error downloading " << filename.toStdString() << ": " << reply->errorString().toStdString());
 			errorCount++;
 		}
 		
@@ -2387,12 +2369,11 @@ ClientThread::bot_downloadfiles()
 	
 	delete manager;
 	
-	std::cout << "[BBCBot] Download complete: " << successCount << " successful, " 
-	          << errorCount << " errors" << std::endl;
+	BBCLOG("[BBCBot] Download complete: " << successCount << " successful, " << errorCount << " errors");
 	
 	// Reload bot files after successful downloads
 	if (successCount > 0) {
-		std::cout << "[BBCBot] Reloading bot files..." << std::endl;
+		BBCLOG("[BBCBot] Reloading bot files...");
 		bot_loadfiles();
 	}
 }
@@ -2461,7 +2442,7 @@ bool bbcbotplayerdb::checkcontent()
 	for(size_t i=1;i<size;i++)
 	{
 		if(pname[i-1].compare(pname[i])<0) continue;
-		std::cout << "[BBCBot] ERROR: player database not sorted" << std::endl;
+		BBCLOG("[BBCBot] ERROR: player database not sorted");
 		issorted=false;
 		return true;
 	}
@@ -2503,15 +2484,15 @@ bool bbcbotplayerdb::loadline(std::string line)
 
 bool bbcbotplayerdb::loadfile(std::string filename)
 {
-	std::cout << "[BBCBot DEBUG] Attempting to load file: " << filename << std::endl;
+	BBCLOG("[BBCBot DEBUG] Attempting to load file: " << filename);
 	std::ifstream permissionfile(filename.c_str());
 	if (!permissionfile.is_open()) {
-		std::cout << "[BBCBot DEBUG] ERROR: Could not open file: " << filename << std::endl;
-		std::cout << "[BBCBot DEBUG] Current working directory might be: " << std::filesystem::current_path() << std::endl;
+		BBCLOG("[BBCBot DEBUG] ERROR: Could not open file: " << filename);
+		BBCLOG("[BBCBot DEBUG] Current working directory might be: " << std::filesystem::current_path());
 		return false;
 	}
 	
-	std::cout << "[BBCBot DEBUG] File opened successfully: " << filename << std::endl;
+	BBCLOG("[BBCBot DEBUG] File opened successfully: " << filename);
 	int lineCount = 0;
 	std::string line;
 	while(std::getline(permissionfile,line))
@@ -2519,23 +2500,23 @@ bool bbcbotplayerdb::loadfile(std::string filename)
 		loadline(line);
 		lineCount++;
 	}
-	std::cout << "[BBCBot DEBUG] Loaded " << lineCount << " lines from " << filename << std::endl;
+	BBCLOG("[BBCBot DEBUG] Loaded " << lineCount << " lines from " << filename);
 	bool checkResult = checkcontent();
-	std::cout << "[BBCBot DEBUG] Content check result: " << (checkResult ? "OK" : "FAILED") << std::endl;
+	BBCLOG("[BBCBot DEBUG] Content check result: " << (checkResult ? "OK" : "FAILED"));
 	return checkResult;
 }
 
 bool bbcbotplayerdb::loadwecfile(std::string filename)
 {
-	std::cout << "[BBCBot DEBUG] Attempting to load WEC file: " << filename << std::endl;
+	BBCLOG("[BBCBot DEBUG] Attempting to load WEC file: " << filename);
 	std::ifstream wecfile(filename.c_str());
 	if (!wecfile.is_open()) {
-		std::cout << "[BBCBot DEBUG] ERROR: Could not open WEC file: " << filename << std::endl;
-		std::cout << "[BBCBot DEBUG] Current working directory might be: " << std::filesystem::current_path() << std::endl;
+		BBCLOG("[BBCBot DEBUG] ERROR: Could not open WEC file: " << filename);
+		BBCLOG("[BBCBot DEBUG] Current working directory might be: " << std::filesystem::current_path());
 		return false;
 	}
 	
-	std::cout << "[BBCBot DEBUG] WEC file opened successfully: " << filename << std::endl;
+	BBCLOG("[BBCBot DEBUG] WEC file opened successfully: " << filename);
 	int lineCount = 0;
 	std::string line;
 	while(std::getline(wecfile,line))
@@ -2547,7 +2528,7 @@ bool bbcbotplayerdb::loadwecfile(std::string filename)
 		wecpeople.push_back(trimmed);
 		lineCount++;
 	}
-	std::cout << "[BBCBot DEBUG] Loaded " << lineCount << " WEC players from " << filename << std::endl;
+	BBCLOG("[BBCBot DEBUG] Loaded " << lineCount << " WEC players from " << filename);
 	return true;
 }
 
@@ -2613,12 +2594,12 @@ void bbcbotplayerdb::removeidleplayer(unsigned pid)
 
 void bbcbotplayerdb::printidledebug()
 {
-	std::cout << "[BBCBot] idle player count: " << idleplayers.size() << std::endl;
+	BBCLOG("[BBCBot] idle player count: " << idleplayers.size());
 	for(auto pid : idleplayers)
 	{
 		if(parent->GetGameIdOfPlayer(pid)) continue;
 		if(parent->GetPlayerName(pid).substr(0,5)=="Guest") continue;
-		std::cout << "[BBCBot] idle player: "<<parent->GetPlayerName(pid)<<" (ID: "<<pid<<")"<<std::endl;
+		BBCLOG("[BBCBot] idle player: "<<parent->GetPlayerName(pid)<<" (ID: "<<pid<<")");
 	}
 }
 
@@ -2678,7 +2659,7 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 	std::vector<int> sindex;
 	std::vector<int> sscore;
 
-	std::cout << "[BBCBot DEBUG] printsuggest() called for step " << step << std::endl;
+	BBCLOG("[BBCBot DEBUG] printsuggest() called for step " << step);
 	int idleCount = 0;
 	int validCount = 0;
 	int dbCount = 0;
@@ -2721,7 +2702,7 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 			sscore.push_back(tempscore);
 		}
 	}
-	std::cout << "[BBCBot DEBUG] Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount << std::endl;
+	BBCLOG("[BBCBot DEBUG] Idle players: " << idleCount << ", not in game: " << validCount << ", in DB: " << dbCount << ", with score: " << scoreCount);
 	if(sindex.size()==0) return "Sorry, no player found to suggest";
 	tempname="I suggest the following players for step "+int2string(step)+": ";
 	for(unsigned i=0;i<sindex.size() && i<limit; i++)
@@ -2734,8 +2715,8 @@ std::string bbcbotplayerdb::printsuggest(int step,unsigned limit)
 
 std::string bbcbotplayerdb::wecsuggest()
 {
-	std::cout << "[BBCBot DEBUG] wecsuggest() called" << std::endl;
-	std::cout << "[BBCBot DEBUG] wecpeople list has " << wecpeople.size() << " entries" << std::endl;
+	BBCLOG("[BBCBot DEBUG] wecsuggest() called");
+	BBCLOG("[BBCBot DEBUG] wecpeople list has " << wecpeople.size() << " entries");
 	
 	unsigned limit=10;
 	std::vector<int> sindex;
@@ -2762,7 +2743,7 @@ std::string bbcbotplayerdb::wecsuggest()
 			{
 				tempindex=i2;
 				wecMatchCount++;
-				std::cout << "[BBCBot DEBUG] Found WEC player in lobby: " << tempname << std::endl;
+				BBCLOG("[BBCBot DEBUG] Found WEC player in lobby: " << tempname);
 				break;
 			}
 		}
@@ -2790,9 +2771,9 @@ std::string bbcbotplayerdb::wecsuggest()
 		}
 	}
 	
-	std::cout << "[BBCBot DEBUG] Total idle players: " << idleCount << std::endl;
-	std::cout << "[BBCBot DEBUG] WEC players found in lobby: " << wecMatchCount << std::endl;
-	std::cout << "[BBCBot DEBUG] Suggested players: " << sindex.size() << std::endl;
+	BBCLOG("[BBCBot DEBUG] Total idle players: " << idleCount);
+	BBCLOG("[BBCBot DEBUG] WEC players found in lobby: " << wecMatchCount);
+	BBCLOG("[BBCBot DEBUG] Suggested players: " << sindex.size());
 	
 	if(sindex.size()==0) return "Sorry, no wec player found to suggest";
 	tempname="I suggest the following players for wec: ";

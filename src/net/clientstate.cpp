@@ -1084,7 +1084,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		client->GetCallback().SignalNetClientRemovedFromGame(removeReason);
 		// BBCBot: Reset game creation state when removed from game
 		if (client->bot.enabled && client->bot.creategamestate != GS_NORMAL) {
-			std::cout << "[BBCBot] Removed from game (reason=" << removeReason << "), resetting state from " << client->bot.creategamestate << std::endl;
+			BBCLOG("[BBCBot] Removed from game (reason=" << removeReason << "), resetting state from " << client->bot.creategamestate);
 			client->bot.creategamestate = GS_NORMAL;
 			client->bot.creatorid = 0;
 		}
@@ -1126,7 +1126,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		// BBCBot: If invited player joined (or joined before invite was sent), prepare to leave
 		if (client->bot.enabled && netPlayerJoined.playerid() == client->bot.creatorid
 			&& (client->bot.creategamestate == GS_SENDINV || client->bot.creategamestate == GS_CREATED)) {
-			std::cout << "[BBCBot] Invited player joined game (state=" << client->bot.creategamestate << "), scheduling leave" << std::endl;
+			BBCLOG("[BBCBot] Invited player joined game (state=" << client->bot.creategamestate << "), scheduling leave");
 			client->bot.creategamestate = GS_ACCEPTED;
 			client->bot.countdownleave = 3;
 		}
@@ -1189,7 +1189,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 				if (!client->GetContext().GetPassword().empty()) {
 					std::string chattext = netMessage.chattext();
 					std::string pname = info.playerName;
-					std::cout << "[BBCBot] PM from " << pname << ": " << chattext << std::endl;
+					BBCLOG("[BBCBot] PM from " << pname << ": " << chattext);
 					
 					// Command handling with proper if-else chain
 					if (chattext == "time") {
@@ -1206,11 +1206,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 						client->SendPrivateChatMessage(playerId, "Available commands: time, help, uptime, rating <player>, tickets <player>, games <player>, suggest, debug, update, create <type> <name>");
 					} else if (chattext.substr(0, 3) == "gn ") {
 						// "gn" (global notice) command is handled server-side for admin users
-						std::cout << "[BBCBot] gn command received, handled by server" << std::endl;
+						BBCLOG("[BBCBot] gn command received, handled by server");
 					} else if (ciscompare(chattext.substr(0, 7), "create ")) {
 						// create <gametype> <customname>
-						std::cout << "[BBCBot] create command received from " << pname << std::endl;
-						std::cout << "[BBCBot DEBUG] Number of game templates loaded: " << client->bot.gdata.size() << std::endl;
+						BBCLOG("[BBCBot] create command received from " << pname);
+						BBCLOG("[BBCBot DEBUG] Number of game templates loaded: " << client->bot.gdata.size());
 						
 						bool syntaxerror = false, notfounderror = false, nopermissionerror = false;
 						bool er1 = false, busyerror = false;
@@ -1227,7 +1227,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 							if (secondword.empty()) {
 								er1 = syntaxerror = true;
 							} else {
-								std::cout << "[BBCBot DEBUG] Looking for game type: " << secondword << ", no custom name provided" << std::endl;
+								BBCLOG("[BBCBot DEBUG] Looking for game type: " << secondword << ", no custom name provided");
 							}
 						} else {
 							if (secondspacepos < 8) {
@@ -1235,7 +1235,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 							} else {
 								secondword = chattext.substr(7, secondspacepos - 7);
 								customname = chattext.substr(secondspacepos + 1);
-								std::cout << "[BBCBot DEBUG] Looking for game type: " << secondword << ", custom name: " << customname << std::endl;
+								BBCLOG("[BBCBot DEBUG] Looking for game type: " << secondword << ", custom name: " << customname);
 							}
 						}
 						
@@ -1281,7 +1281,7 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 							client->bot.creatorid = playerId;
 							client->bot.creategamestate = GS_GOTCOMMAND;
 							client->SendCreateGame(gd2->gdata, gname, "", false);
-							std::cout << "[BBCBot] Creating game: " << gname << std::endl;
+							BBCLOG("[BBCBot] Creating game: " << gname);
 						} else {
 							std::string errorpm = "";
 							if (busyerror) errorpm = "ERROR: i cannot open a game for you right now";
@@ -1292,23 +1292,23 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 						}
 					} else if (chattext == "debug") {
 						// Debug command
-						std::cout << "[BBCBot] debug command received" << std::endl;
+						BBCLOG("[BBCBot] debug command received");
 						client->botdb.printidledebug();
 						client->SendPrivateChatMessage(playerId, "Debug info printed to console");
 					} else if (chattext.substr(0, 7) == "rating " && chattext.length() > 7) {
 						std::string playername = chattext.substr(7);
-						std::cout << "[BBCBot] rating command for player: " << playername << std::endl;
+						BBCLOG("[BBCBot] rating command for player: " << playername);
 						bot_sendlongpm(client, playerId, client->botdb.printrating(playername));
 					} else if (chattext.substr(0, 8) == "tickets " && chattext.length() > 8) {
 						std::string playername = chattext.substr(8);
-						std::cout << "[BBCBot] tickets command for player: " << playername << std::endl;
+						BBCLOG("[BBCBot] tickets command for player: " << playername);
 						bot_sendlongpm(client, playerId, client->botdb.printtickets(playername));
 					} else if (chattext.substr(0, 6) == "games " && chattext.length() > 6) {
 						std::string playername = chattext.substr(6);
-						std::cout << "[BBCBot] games command for player: " << playername << std::endl;
+						BBCLOG("[BBCBot] games command for player: " << playername);
 						bot_sendlongpm(client, playerId, client->botdb.printgamescount(playername));
 					} else if (chattext.substr(0, 7) == "suggest") {
-						std::cout << "[BBCBot] suggest command received" << std::endl;
+						BBCLOG("[BBCBot] suggest command received");
 						if (chattext == "suggest1" || chattext == "suggest step1" || chattext == "suggest s1") {
 							bot_sendlongpm(client, playerId, client->botdb.printsuggest(1));
 						} else if (chattext == "suggest2" || chattext == "suggest step2" || chattext == "suggest s2") {
@@ -1323,11 +1323,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 							client->SendPrivateChatMessage(playerId, "sorry, i didnt understand your suggest command, try \"suggest s1\"");
 						}
 					} else if (chattext == "uptime") {
-						std::cout << "[BBCBot] uptime command received" << std::endl;
+						BBCLOG("[BBCBot] uptime command received");
 						std::string uptimestr = "Uptime: " + int2string(client->bot.stdcount) + " seconds (no precise time measurement, sry)";
 						client->SendPrivateChatMessage(playerId, uptimestr);
 					} else if (chattext == "update") {
-						std::cout << "[BBCBot] update command received" << std::endl;
+						BBCLOG("[BBCBot] update command received");
 						client->bot_loadfiles();
 						client->SendPrivateChatMessage(playerId, "Bot files reloaded successfully");
 					} else if (chattext.substr(0, 6) == "ERROR:") {
@@ -1361,15 +1361,14 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			client->GetCallback().SignalLobbyPlayerJoined(netPlayerList.playerid(), client->GetPlayerName(netPlayerList.playerid()));
 			// BBCBot: Track idle players in lobby
 			client->botdb.addidleplayer(netPlayerList.playerid());
-			std::cout << "[BBCBot DEBUG] Player joined lobby: " << client->GetPlayerName(netPlayerList.playerid()) 
-			          << " (ID: " << netPlayerList.playerid() << ")" << std::endl;
+			BBCLOG("[BBCBot DEBUG] Player joined lobby: " << client->GetPlayerName(netPlayerList.playerid()) << " (ID: " << netPlayerList.playerid() << ")");
 		} else if (netPlayerList.playerlistnotification() == PlayerListMessage::playerListLeft) {
 			unsigned leftPlayerId = netPlayerList.playerid();
 			client->GetCallback().SignalLobbyPlayerLeft(leftPlayerId);
 			client->RemoveCachedPlayerInfo(leftPlayerId);
 			// BBCBot: Remove from idle players
 			client->botdb.removeidleplayer(leftPlayerId);
-			std::cout << "[BBCBot DEBUG] Player left lobby (ID: " << leftPlayerId << ")" << std::endl;
+			BBCLOG("[BBCBot DEBUG] Player left lobby (ID: " << leftPlayerId << ")");
 		}
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameListNewMessage) {
 		// A new game was created on the server.
@@ -1873,7 +1872,7 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		
 		// BBCBot: Auto-download and load bot files when session is established
 		if (!client->GetContext().GetPassword().empty()) {
-			std::cout << "[BBCBot] Session established, downloading and loading bot files..." << std::endl;
+			BBCLOG("[BBCBot] Session established, downloading and loading bot files...");
 			// One-time initialisation of game-flow state (only here, not in bot_loadfiles)
 			client->bot.stdcount = 0;
 			client->bot.creatorid = 0;
@@ -2012,7 +2011,7 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		client->GetCallback().SignalNetClientNotification(failureCode);
 		// BBCBot: Reset state on game creation failure
 		if (client->bot.enabled && client->bot.creategamestate != GS_NORMAL) {
-			std::cout << "[BBCBot] Game join/create failed, resetting state from " << client->bot.creategamestate << std::endl;
+			BBCLOG("[BBCBot] Game join/create failed, resetting state from " << client->bot.creategamestate);
 			if (client->bot.creatorid > 0) {
 				client->SendPrivateChatMessage(client->bot.creatorid, "ERROR: game creation failed");
 			}
@@ -2023,7 +2022,7 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		if (netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
 			if (client->bot.enabled) {
-				std::cout << "[BBCBot] Rejecting game invitation from " << netInvNotify.playeridbywhom() << std::endl;
+				BBCLOG("[BBCBot] Rejecting game invitation from " << netInvNotify.playeridbywhom());
 				client->SendRejectGameInvitation(netInvNotify.gameid(), DENY_GAME_INVITATION_BUSY);
 			} else {
 				client->GetCallback().SignalSelfGameInvitation(netInvNotify.gameid(), netInvNotify.playeridbywhom());
@@ -2073,7 +2072,7 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		if (client->bot.enabled && netInvNotify.playeridwho() == client->GetGuiPlayerId()) {
-			std::cout << "[BBCBot] Rejecting game invitation from " << netInvNotify.playeridbywhom() << std::endl;
+			BBCLOG("[BBCBot] Rejecting game invitation from " << netInvNotify.playeridbywhom());
 			client->SendRejectGameInvitation(netInvNotify.gameid(), DENY_GAME_INVITATION_BUSY);
 		} else {
 			client->GetCallback().SignalPlayerGameInvitation(
