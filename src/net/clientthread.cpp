@@ -2291,6 +2291,13 @@ ClientThread::bot_every10min()
 void
 ClientThread::bot_downloadfiles()
 {
+	// Install timestamp buf here too – bot_downloadfiles() runs before the
+	// first bot_loadfiles() call, so we need the same static guard.
+	static BbcbotTimestampBuf* s_tsBuf = nullptr;
+	if (!s_tsBuf) {
+		s_tsBuf = new BbcbotTimestampBuf(std::cout.rdbuf());
+		std::cout.rdbuf(s_tsBuf);
+	}
 	std::cout << "[BBCBot] Downloading updated bot files from server..." << std::endl;
 	
 	// Create botfiles directory if it doesn't exist
