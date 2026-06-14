@@ -640,17 +640,23 @@ Rectangle {
             }
         }
 
-        // Main content
-        RowLayout {
+        // Main content — desktop: drei resizable Spalten (Spielerliste |
+        // Spielliste/Chat | Game-Info/Chat) mit Min-/Max-Breiten, sodass immer
+        // alle drei Spalten sinnvoll sichtbar bleiben. Compact: nur die
+        // Mittelspalte ist sichtbar, die Seitenspalten entfallen.
+        SplitView {
+            id: lobbyContentSplit
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 10
+            orientation: Qt.Horizontal
+            handle: ResizeHandle { horizontal: true }
 
             // Wide: Player list (hidden in compact — uses slide panel instead)
             Rectangle {
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 200
-                Layout.fillHeight: true
+                SplitView.preferredWidth: 200
+                SplitView.minimumWidth: 160
+                SplitView.maximumWidth: 320
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
@@ -701,15 +707,23 @@ Rectangle {
 
             // Center: Game list + (compact: chat below)
             ColumnLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+                SplitView.fillWidth: true
+                SplitView.minimumWidth: 280
                 spacing: 5
+
+                // Compact: Spielliste und Chat sind vertikal resizable
+                // (Min-Höhe je 1/3). Wide: nur die Spielliste, füllt den Platz.
+                SplitView {
+                    id: lobbyCenterSplit
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    orientation: Qt.Vertical
+                    handle: ResizeHandle { horizontal: false }
 
                 // Game list: same height as chat in compact
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.verticalStretchFactor: 1
+                    SplitView.fillHeight: true
+                    SplitView.minimumHeight: Config.Responsive.compact ? lobbyCenterSplit.height / 3 : 0
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
@@ -878,12 +892,11 @@ Rectangle {
                     }
                 }
 
-                // Compact: Lobby Chat (1/3 of height)
+                // Compact: Lobby Chat — vertikal resizable, Min-Höhe 1/3
                 Rectangle {
                     visible: Config.Responsive.compact
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.verticalStretchFactor: 1
+                    SplitView.preferredHeight: lobbyCenterSplit.height / 2
+                    SplitView.minimumHeight: lobbyCenterSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
@@ -922,6 +935,7 @@ Rectangle {
                         }
                     }
                 }
+                } // lobbyCenterSplit
 
                 // Action buttons
                 RowLayout {
@@ -966,17 +980,22 @@ Rectangle {
                 }
             }
 
-            // Wide: right panel — Game Info + Chat
-            ColumnLayout {
+            // Wide: right panel — Game Info + Chat, vertikal resizable
+            // (Min-Höhe je 1/3), damit Game-Info verkleinert und der Chat
+            // vergrößert werden kann (und umgekehrt).
+            SplitView {
+                id: lobbyRightSplit
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 250
-                Layout.fillHeight: true
-                spacing: 10
+                SplitView.preferredWidth: 250
+                SplitView.minimumWidth: 200
+                SplitView.maximumWidth: 400
+                orientation: Qt.Vertical
+                handle: ResizeHandle { horizontal: false }
 
                 // Game Info
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 200
+                    SplitView.preferredHeight: 200
+                    SplitView.minimumHeight: lobbyRightSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
@@ -1120,8 +1139,8 @@ Rectangle {
 
                 // Lobby Chat
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    SplitView.fillHeight: true
+                    SplitView.minimumHeight: lobbyRightSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 

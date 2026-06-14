@@ -407,6 +407,9 @@ private:
 	void playReactionAnimation(int seatId, const QString &emoji);
 	// Reaktions-Button oben links auf dem Spieltisch positionieren (Android).
 	void repositionReactionButton();
+	// Reaktions-Bedienelemente (Picker-Auslöser) gemäß Einstellung
+	// "DisableEmojiReactions" ein-/ausblenden.
+	void updateReactionControlsVisibility();
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 	guiLog *myGuiLog;
@@ -416,6 +419,7 @@ private:
 	// Emoji-Reaktionen
 	class EmojiPicker *myReactionPicker;
 	class QToolButton *myReactionButton;   // Android: Reaktions-Button auf dem Tisch
+	class QAction *myReactionAction;       // Desktop: Reaktions-Auslöser in der Chat-Zeile
 	class ReactionFxOverlay *myReactionFx;
 	QString myLastOwnReactionEmoji;
 	qint64 myLastOwnReactionTime;

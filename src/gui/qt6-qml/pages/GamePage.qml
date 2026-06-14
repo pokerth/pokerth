@@ -78,6 +78,19 @@ Rectangle {
     property string _lastOwnReactionEmoji: ""
     property double _lastOwnReactionTime: 0
 
+    // Emoji-Reaktionen können in den Einstellungen deaktiviert werden
+    // (Config-Key "DisableEmojiReactions"). Da readConfigInt() nicht reaktiv
+    // ist, wird der Wert beim Erscheinen der Seite neu eingelesen – die
+    // Einstellungen liegen als eigene StackView-Seite darüber, beim Zurück-
+    // kehren wird activated() ausgelöst.
+    property bool emojiReactionsEnabled: true
+    function refreshEmojiReactionsEnabled() {
+        emojiReactionsEnabled = SettingsManager
+            ? SettingsManager.readConfigInt("DisableEmojiReactions") === 0 : true
+    }
+    Component.onCompleted: refreshEmojiReactionsEnabled()
+    StackView.onActivated: refreshEmojiReactionsEnabled()
+
     function sendReaction(emoji) {
         tableZone.showReactions = false
         _lastOwnReactionEmoji = emoji
@@ -119,6 +132,8 @@ Rectangle {
     Connections {
         target: GameTable
         function onReactionReceived(playerName, emoji) {
+            if (!gamePage.emojiReactionsEnabled)
+                return
             console.log("[REACT] received from", playerName, "->", emoji)
             var players = GameTable.players
             var idx = -1
@@ -1861,6 +1876,7 @@ Rectangle {
             Rectangle {
                 id: reactionToggle
                 z: 200
+                visible: gamePage.emojiReactionsEnabled
                 anchors.top: parent.top
                 anchors.left: chatToggle.visible ? chatToggle.right : parent.left
                 anchors.leftMargin: chatToggle.visible ? 6 : 8
@@ -1885,7 +1901,7 @@ Rectangle {
             // Reaction-Picker des Web-Clients, dort 30 Emojis).
             Rectangle {
                 id: reactionPanel
-                visible: tableZone.showReactions
+                visible: tableZone.showReactions && gamePage.emojiReactionsEnabled
                 z: 210
                 anchors.top: reactionToggle.bottom
                 anchors.topMargin: 6

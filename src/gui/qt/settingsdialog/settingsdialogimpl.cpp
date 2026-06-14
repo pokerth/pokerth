@@ -399,6 +399,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_disableSplashscreen->setChecked(myConfig->readConfigInt("DisableSplashScreenOnStartup"));
 	checkBox_enableAccidentallyCallBlocker->setChecked(myConfig->readConfigInt("AccidentallyCallBlocker"));
 	checkBox_dontHideAvatarsOfIgnored->setChecked(myConfig->readConfigInt("DontHideAvatarsOfIgnored"));
+	checkBox_disableEmojiReactions->setChecked(myConfig->readConfigInt("DisableEmojiReactions"));
 
 #ifdef ANDROID
 	spinBox_androidUiScale->setValue(myConfig->readConfigInt("AndroidUiScalePercent"));
@@ -896,6 +897,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("EnableBetInputFocusSwitch", checkBox_enableBetInputFocusSwitch->isChecked());
 	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("DontHideAvatarsOfIgnored", checkBox_dontHideAvatarsOfIgnored->isChecked());
+	myConfig->writeConfigInt("DisableEmojiReactions", checkBox_disableEmojiReactions->isChecked());
 
 #ifdef ANDROID
 	myConfig->writeConfigInt("AndroidUiScalePercent", spinBox_androidUiScale->value());

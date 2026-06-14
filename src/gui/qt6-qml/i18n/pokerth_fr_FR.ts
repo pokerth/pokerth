@@ -397,6 +397,11 @@
         <translation>Désactiver les émoticônes dans le chat</translation>
     </message>
     <message>
+        <location filename="../components/GuiSettings.qml" line="305"/>
+        <source>Emoji-Reaktionen deaktivieren</source>
+        <translation>Désactiver les réactions emoji</translation>
+    </message>
+    <message>
         <location filename="../components/GuiSettings.qml" line="261"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
         <translation>Empêcher un call accidentel après une grosse relance</translation>

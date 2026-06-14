@@ -439,17 +439,21 @@ Rectangle {
             color: Config.StaticData.palette.secondary.col500
         }
 
-        // ── Body: widescreen = sidebar + content; compact = content only ──
-        RowLayout {
+        // ── Body: widescreen = drei resizable Spalten (Spielerliste |
+        // Game-Info/Chat | Spielliste); compact = nur die Mittelspalte ──
+        SplitView {
+            id: waitBodySplit
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 10
+            orientation: Qt.Horizontal
+            handle: ResizeHandle { horizontal: true }
 
             // Wide: player sidebar (left)
             Rectangle {
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 200
-                Layout.fillHeight: true
+                SplitView.preferredWidth: 200
+                SplitView.minimumWidth: 160
+                SplitView.maximumWidth: 320
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
@@ -503,19 +507,24 @@ Rectangle {
 
             // Main content column
             ColumnLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.horizontalStretchFactor: 2
+                SplitView.fillWidth: true
+                SplitView.minimumWidth: 300
                 spacing: Config.Theme.spacing
 
-                // ── Game details card ──────────────────────────────────────
-                Rectangle {
+                // Game-Info/Spielerliste und Chat sind vertikal resizable
+                // (Min-Höhe je 1/3). Die Aktions-Buttons bleiben darunter fix.
+                SplitView {
+                    id: waitContentSplit
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    // Karte nimmt den gesamten Restplatz (Chat hat feste Höhe);
-                    // schrumpft, wenn der Emoji-Picker den Chat erweitert – so
-                    // rutscht der "Leave Game"-Button nicht aus dem Bild.
-                    Layout.minimumHeight: 0
+                    orientation: Qt.Vertical
+                    handle: ResizeHandle { horizontal: false }
+
+                // ── Game details card (Game-Info + Spielerliste) ───────────
+                // Kann zugunsten des Chats verkleinert werden; Min-Höhe 1/3.
+                Rectangle {
+                    SplitView.fillHeight: true
+                    SplitView.minimumHeight: waitContentSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 6
 
@@ -721,15 +730,12 @@ Rectangle {
                 }
 
                 // ── Game-Chat ──────────────────────────────────────────────
+                // Vertikal resizable (Min-Höhe 1/3); Startwert ~1/3. Der
+                // Emoji-Picker vergrößert nicht mehr die Box, sondern
+                // verkleinert die Nachrichtenliste innerhalb der gewählten Höhe.
                 Rectangle {
-                    Layout.fillWidth: true
-                    // Feste Höhe (kein fillHeight): ~5 sichtbare Chatzeilen +
-                    // Label + Eingabezeile. Beim Öffnen des Emoji-Pickers
-                    // wächst die Höhe um die Picker-Höhe (88) + Spacing – die
-                    // Game-Info-Karte darüber schrumpft entsprechend, die
-                    // Action-Buttons bleiben sichtbar.
-                    Layout.preferredHeight: waitChatBox.showEmojiPicker ? 230 : 140
-                    Layout.minimumHeight: Layout.preferredHeight
+                    SplitView.preferredHeight: waitContentSplit.height / 3
+                    SplitView.minimumHeight: waitContentSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
                     clip: true
@@ -772,6 +778,7 @@ Rectangle {
                         }
                     }
                 }
+                } // waitContentSplit
 
                 // ── Aktionen ──────────────────────────────────────────────
                 RowLayout {

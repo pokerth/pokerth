@@ -6237,6 +6237,12 @@ Bitte wählen Sie ein gültiges Avatar-Bild!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="352"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="386"/>
+        <source>Disable emoji reactions</source>
+        <translation>Emoji-Reaktionen deaktivieren</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="68"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="53"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="147"/>

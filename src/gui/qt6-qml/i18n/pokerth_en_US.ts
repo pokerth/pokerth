@@ -397,6 +397,11 @@
         <translation>Disable emoticons in chat</translation>
     </message>
     <message>
+        <location filename="../components/GuiSettings.qml" line="305"/>
+        <source>Emoji-Reaktionen deaktivieren</source>
+        <translation>Disable emoji reactions</translation>
+    </message>
+    <message>
         <location filename="../components/GuiSettings.qml" line="261"/>
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
         <translation>Prevent accidental call after a big raise</translation>

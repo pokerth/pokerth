@@ -13,6 +13,7 @@
         <file>components/GameReactionFx.qml</file>
         <file>components/EmojiPicker.qml</file>
         <file>components/ChatBox.qml</file>
+        <file>components/ResizeHandle.qml</file>
         <file>components/PlayerActionIcon.qml</file>
         <file>components/PlayerListItem.qml</file>
         <file>components/GameListItem.qml</file>

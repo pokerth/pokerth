@@ -299,6 +299,13 @@ Rectangle {
                         checked: SettingsManager ? SettingsManager.readConfigInt("DisableChatEmoticons") !== 0 : false
                         onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DisableChatEmoticons", checked ? 1 : 0) }
                     }
+
+                    CheckBox {
+                        objectName: "disableEmojiReactionsCheckbox"
+                        text: qsTr("Emoji-Reaktionen deaktivieren")
+                        checked: SettingsManager ? SettingsManager.readConfigInt("DisableEmojiReactions") !== 0 : false
+                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DisableEmojiReactions", checked ? 1 : 0) }
+                    }
                     } // ColumnLayout
                 }
             }
