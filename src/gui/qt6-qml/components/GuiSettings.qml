@@ -294,13 +294,6 @@ Rectangle {
                     }
 
                     CheckBox {
-                        objectName: "disableEmoticonsInChatCheckbox"
-                        text: qsTr("Emoticons im Chat deaktivieren")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("DisableChatEmoticons") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DisableChatEmoticons", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
                         objectName: "disableEmojiReactionsCheckbox"
                         text: qsTr("Emoji-Reaktionen deaktivieren")
                         checked: SettingsManager ? SettingsManager.readConfigInt("DisableEmojiReactions") !== 0 : false

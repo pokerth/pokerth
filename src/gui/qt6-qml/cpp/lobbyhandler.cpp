@@ -938,6 +938,41 @@ QVariantMap LobbyHandler::playerListEntry(int row) const
     return entry;
 }
 
+QStringList LobbyHandler::playerNickList() const
+{
+    QStringList nicks;
+
+    // Quell-Modell (ungefiltert) durchlaufen, NICHT den Proxy: der
+    // Spielerlisten-Filter (Modus 2) blendet Spieler in Spielen aus, die
+    // aber für die Chat-Vervollständigung erreichbar bleiben müssen.
+    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+    const int count = m_playerListModel.rowCount();
+    for (int row = 0; row < count; ++row) {
+        const QModelIndex index = m_playerListModel.index(row, 0);
+        if (!index.isValid())
+            continue;
+
+        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+
+        // Platzhalternamen (z. B. "#123") über die Session auflösen.
+        if (m_session && playerId != 0) {
+            const bool nameIsPlaceholder = playerName.isEmpty()
+                || numericPlaceholderPattern.match(playerName).hasMatch();
+            if (nameIsPlaceholder) {
+                const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+                if (!sessionName.isEmpty())
+                    playerName = sessionName;
+            }
+        }
+
+        if (!playerName.isEmpty() && !nicks.contains(playerName))
+            nicks << playerName;
+    }
+
+    return nicks;
+}
+
 QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
 {
     QVariantList players;
@@ -1209,9 +1244,8 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
                     + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
     }
 
-    // Emoji substitution (respects DisableChatEmoticons setting)
-    if (!m_config || !m_config->readConfigInt("DisableChatEmoticons"))
-        styledMsg = checkForEmotes(styledMsg);
+    // ASCII-Smileys zu Unicode-Emoji umsetzen (immer aktiv).
+    styledMsg = checkForEmotes(styledMsg);
 
     // Sound notification on mention (wie chattools.cpp im Widgets-Client)
     if (isMention && playerName != myNick) {
@@ -1246,8 +1280,7 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     const QString colorPM  = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
 
     QString escapedMsg  = message.toHtmlEscaped();
-    if (!m_config || !m_config->readConfigInt("DisableChatEmoticons"))
-        escapedMsg = checkForEmotes(escapedMsg);
+    escapedMsg = checkForEmotes(escapedMsg);
 
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
     const QString line = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
@@ -1360,6 +1393,15 @@ void LobbyHandler::onSelfJoinedGame()
 void LobbyHandler::onGameStarted()
 {
     emit gameStarted();
+}
+
+void LobbyHandler::onWaitGameDialog()
+{
+    // m_isInGame/m_currentGameId NICHT zurücksetzen: Bei deaktiviertem Auto-Leave
+    // bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
+    // das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
+    // (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
+    emit returnToWaitRoom();
 }
 
 void LobbyHandler::onRemovedFromGame(int reason)

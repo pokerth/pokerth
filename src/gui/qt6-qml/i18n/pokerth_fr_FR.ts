@@ -392,12 +392,7 @@
         <translation>Afficher le chat du lobby</translation>
     </message>
     <message>
-        <location filename="../components/GuiSettings.qml" line="282"/>
-        <source>Emoticons im Chat deaktivieren</source>
-        <translation>Désactiver les émoticônes dans le chat</translation>
-    </message>
-    <message>
-        <location filename="../components/GuiSettings.qml" line="305"/>
+        <location filename="../components/GuiSettings.qml" line="298"/>
         <source>Emoji-Reaktionen deaktivieren</source>
         <translation>Désactiver les réactions emoji</translation>
     </message>

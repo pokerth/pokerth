@@ -133,7 +133,7 @@ public:
     virtual void SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg) override;
     virtual void SignalNetClientMsgBox(const std::string &msg) override;
     virtual void SignalNetClientMsgBox(unsigned msgId) override;
-    virtual void SignalNetClientWaitDialog() override {}
+    virtual void SignalNetClientWaitDialog() override;
     
     virtual void SignalNetClientServerListAdd(unsigned serverId) override {}
     virtual void SignalNetClientServerListClear() override {}

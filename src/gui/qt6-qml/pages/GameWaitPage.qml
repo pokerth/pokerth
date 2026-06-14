@@ -79,6 +79,23 @@ Rectangle {
             console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
             mainStackView.push("GamePage.qml")
         }
+        function onReturnToWaitRoom() {
+            // Spielende (Server: WaitDialog): den Gametable schließen und zurück
+            // in den Warteraum dieses (ggf. wieder geöffneten) Spiels. Bis zu
+            // diesem GameWaitPage poppen – das deckt auch den Fall ab, dass über
+            // dem Gametable noch die SettingsPage liegt.
+            //
+            // OHNE Übergangsanimation (StackView.Immediate): Bei aktivem Auto-Leave
+            // sendet die Engine direkt nach dem WaitDialog noch RemovedFromGame →
+            // onRemovedFromGame würde sofort ein zweites Mal poppen. Liefe der
+            // erste Pop noch als Transition, verwürfe StackView den zweiten
+            // ("cannot pop while in transition") und man bliebe im Warteraum
+            // hängen statt in der Lobbyliste zu landen.
+            console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth before:", mainStackView.depth)
+            if (mainStackView.currentItem !== gameWaitPage)
+                mainStackView.pop(gameWaitPage, StackView.Immediate)
+            console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth after:", mainStackView.depth)
+        }
         function onGameListFilterModeChanged() {
             if (gameListFilterPanel.currentIndex !== Lobby.gameListFilterMode)
                 gameListFilterPanel.currentIndex = Lobby.gameListFilterMode
@@ -448,12 +465,11 @@ Rectangle {
             orientation: Qt.Horizontal
             handle: ResizeHandle { horizontal: true }
 
-            // Wide: player sidebar (left)
+            // Wide: player sidebar (left) – initial 1:2:1 ratio (1/4 width)
             Rectangle {
                 visible: !Config.Responsive.compact
-                SplitView.preferredWidth: 200
+                SplitView.preferredWidth: waitBodySplit.width / 4
                 SplitView.minimumWidth: 160
-                SplitView.maximumWidth: 320
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
@@ -758,12 +774,12 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            // Dieser Chat ist der Lobby-Chat → gegen die volle
+                            // (ungefilterte) Lobby-Spielerliste vervollständigen,
+                            // nicht nur gegen die am Tisch sitzenden Spieler.
                             nickList: {
-                                var nicks = []
-                                var plist = gameWaitPage.players
-                                for (var i = 0; i < plist.length; i++)
-                                    if (plist[i].playerName) nicks.push(plist[i].playerName)
-                                return nicks
+                                var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
+                                return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
                             }
                             inputEnabled: !(Lobby && Lobby.isMyPlayerGuest)
                             placeholder: (Lobby && Lobby.isMyPlayerGuest)
@@ -826,11 +842,11 @@ Rectangle {
                 }
             }
 
-            // Wide: game list (right column)
+            // Wide: game list (right column) – initial 1:2:1 ratio (1/4 width)
             Rectangle {
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 220
-                Layout.fillHeight: true
+                SplitView.preferredWidth: waitBodySplit.width / 4
+                SplitView.minimumWidth: 160
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 

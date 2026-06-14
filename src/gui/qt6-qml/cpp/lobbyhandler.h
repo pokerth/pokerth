@@ -239,7 +239,12 @@ public slots:
     // damit ein selbst angefordertes Verlassen (ON_REQUEST) anders navigiert
     // als z.B. ein geschlossenes/beendetes Spiel (GAME_CLOSED).
     void onRemovedFromGame(int reason);
-    
+    // Engine fordert das Verlassen des Gametables an (Spielende bzw. Entfernung):
+    // den Gametable schließen und in den Warteraum des (ggf. wieder geöffneten)
+    // Spiels zurückkehren. Bei Auto-Leave folgt onRemovedFromGame und poppt
+    // weiter bis in die Lobbyliste.
+    void onWaitGameDialog();
+
     // Player actions (QML-invokable)
     Q_INVOKABLE void createGame(const QString &name, const QString &password,
                                int gameType, bool allowSpectators, int maxPlayers,
@@ -253,6 +258,12 @@ public slots:
     Q_INVOKABLE void adminBanPlayer(unsigned playerId);
     Q_INVOKABLE void sendPrivateMessage(unsigned targetPlayerId, const QString &message);
     Q_INVOKABLE QVariantMap playerListEntry(int row) const;
+    // Alle verbundenen Spielernamen (UNgefiltert) für die Chat-Tab-
+    // Vervollständigung. Anders als playerListEntry() liest dies das
+    // Quell-Modell, damit auch Spieler vervollständigt werden können, die
+    // gerade in einem (offenen) Spiel sitzen und vom Spielerlisten-Filter
+    // (Modus 2) ausgeblendet werden – analog zum Qt-Widgets-Client.
+    Q_INVOKABLE QStringList playerNickList() const;
     Q_INVOKABLE QString playerCountryByName(const QString &name) const;
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
@@ -281,6 +292,8 @@ signals:
     void selfJoinedGame();
     void gameStarted();
     void removedFromGame(int reason);
+    // Gametable schließen und zurück in den Warteraum (siehe onWaitGameDialog).
+    void returnToWaitRoom();
     void errorOccurred(const QString &errorMessage);
     void myPlayerNameChanged();
     void myPlayerIdChanged();

@@ -305,8 +305,7 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     QString styledMsg = QStringLiteral("<span style=\"color:") + color
                         + (isMention ? QStringLiteral("; font-weight:bold") : QString())
                         + QStringLiteral(";\">") + escapedMsg + QStringLiteral("</span>");
-    if (!m_config || !m_config->readConfigInt("DisableChatEmoticons"))
-        styledMsg = chatCheckForEmotes(styledMsg);
+    styledMsg = chatCheckForEmotes(styledMsg);
 
     const QString ts = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss"));
     const QString name = playerName.toHtmlEscaped();

@@ -266,6 +266,19 @@ void QmlGuiInterface::SignalNetClientRemovedFromGame(int notificationId)
     }
 }
 
+void QmlGuiInterface::SignalNetClientWaitDialog()
+{
+    // Das Netzwerk-Spiel ist beendet (Type_EndOfGameMessage) bzw. wir wurden
+    // entfernt – die Engine fordert hier (wie showClientDialog() im Widgets-
+    // Client) das Schließen des Gametables und die Rückkehr in den Warteraum
+    // bzw. die Lobby an. Ohne dies blieb der Gametable nach Spielende offen.
+    // Bei aktivem Auto-Leave folgt unmittelbar SignalNetClientRemovedFromGame,
+    // das von dort aus bis in die Lobbyliste weiterpoppt.
+    if (m_lobbyHandler) {
+        QMetaObject::invokeMethod(m_lobbyHandler, "onWaitGameDialog", Qt::QueuedConnection);
+    }
+}
+
 void QmlGuiInterface::SignalNetClientPlayerLeft(unsigned playerId, const std::string & /*playerName*/, int /*removeReason*/)
 {
     // Sitz des Spielers in der Spielansicht leeren.

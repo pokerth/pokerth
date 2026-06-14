@@ -25,5 +25,4 @@ Settings {
     property bool preventAccidentalCallAfterBigRaiseCheckbox: true
     property bool doNotHideIgnoredPlayerAvatarsCheckbox: false
     property bool showLobbyChatCheckbox: true
-    property bool disableEmoticonsInChatCheckbox: false
 }

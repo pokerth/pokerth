@@ -652,11 +652,11 @@ Rectangle {
             handle: ResizeHandle { horizontal: true }
 
             // Wide: Player list (hidden in compact — uses slide panel instead)
+            // Initial 1:2:1 ratio (1/4 width)
             Rectangle {
                 visible: !Config.Responsive.compact
-                SplitView.preferredWidth: 200
+                SplitView.preferredWidth: lobbyContentSplit.width / 4
                 SplitView.minimumWidth: 160
-                SplitView.maximumWidth: 320
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
@@ -918,14 +918,13 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            // Vollständige (ungefilterte) Spielerliste für die
+                            // Tab-Vervollständigung – damit auch Spieler in
+                            // (offenen) Spielen vervollständigt werden, die der
+                            // Spielerlisten-Filter ausblenden kann.
                             nickList: {
-                                var nicks = []
-                                if (typeof Lobby !== "undefined" && Lobby)
-                                    for (var i = 0; i < Lobby.playerListModel.count; i++) {
-                                        var entry = Lobby.playerListEntry(i)
-                                        if (entry.playerName) nicks.push(entry.playerName)
-                                    }
-                                return nicks
+                                var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
+                                return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
                             }
                             pickerInlineHeight: 140
                             onSendRequested: (text) => {
@@ -986,9 +985,8 @@ Rectangle {
             SplitView {
                 id: lobbyRightSplit
                 visible: !Config.Responsive.compact
-                SplitView.preferredWidth: 250
+                SplitView.preferredWidth: lobbyContentSplit.width / 4
                 SplitView.minimumWidth: 200
-                SplitView.maximumWidth: 400
                 orientation: Qt.Vertical
                 handle: ResizeHandle { horizontal: false }
 
@@ -1162,14 +1160,13 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            // Vollständige (ungefilterte) Spielerliste für die
+                            // Tab-Vervollständigung – damit auch Spieler in
+                            // (offenen) Spielen vervollständigt werden, die der
+                            // Spielerlisten-Filter ausblenden kann.
                             nickList: {
-                                var nicks = []
-                                if (typeof Lobby !== "undefined" && Lobby)
-                                    for (var i = 0; i < Lobby.playerListModel.count; i++) {
-                                        var entry = Lobby.playerListEntry(i)
-                                        if (entry.playerName) nicks.push(entry.playerName)
-                                    }
-                                return nicks
+                                var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
+                                return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
                             }
                             pickerInlineHeight: 150
                             onSendRequested: (text) => {
