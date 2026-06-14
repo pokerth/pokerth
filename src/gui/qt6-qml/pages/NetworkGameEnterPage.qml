@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 
 import "../config" as Config
 import "../components"
@@ -95,11 +94,6 @@ Rectangle {
                         implicitWidth: 90
                         implicitHeight: 36
                         onClicked: mainStackView.pop()
-                    }
-                    VectorImage {
-                        Layout.preferredWidth: 28
-                        Layout.preferredHeight: 28
-                        source: "../resources/pokerth.svg"
                     }
                     Label {
                         Layout.fillWidth: true
@@ -388,12 +382,6 @@ Rectangle {
         spacing: 20
         visible: networkGameEnterPage.connecting
 
-        VectorImage {
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: 64
-            Layout.preferredHeight: 64
-            source: "../resources/pokerth.svg"
-        }
         BusyIndicator {
             running: networkGameEnterPage.connecting
             Layout.alignment: Qt.AlignHCenter

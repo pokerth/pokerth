@@ -766,6 +766,15 @@ void LobbyHandler::onGameListChanged(unsigned gameId)
     refreshGameInfo(gameId);
     ++m_gameListRevision;
     emit gameListRevisionChanged();
+    // Ein Spieler ist einem (offenen) Spiel beigetreten / hat es verlassen
+    // (SignalNetClientGameListPlayerJoined/Left mappen hierauf). Die Zugehörigkeit
+    // zu einem Spiel lebt in der Session (getGameIdOfPlayer), nicht im Quell-Modell –
+    // der Spielerlisten-Filter (Modus 2) wird daher nicht automatisch neu bewertet.
+    // Ohne expliziten refresh() verweilen beigetretene Spieler weiter in der
+    // "verfügbar"-Liste, bis ein anderes Event zufällig einen Refresh auslöst.
+    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    ++m_playerListRevision;
+    emit playerListRevisionChanged();
     emit gameContextChanged();
 }
 

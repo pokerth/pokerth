@@ -32,6 +32,23 @@ QtObject {
     readonly property real iconSize:      compact ? 28 : 24
     readonly property real smallIconSize: compact ? 22 : 18
 
+    // ── Branding-Box (Startseite & Login-Dialog teilen sich diese Werte, damit
+    //    Box-Höhe und PokerTH-Icon beim Navigieren 1:1 identisch wirken) ────────
+    readonly property real brandBoxWidth: 380
+    // Feste Zielhöhe; schrumpft nur, wenn das Fenster zu niedrig ist (kurze /
+    // Querformat-Fenster). Beide Seiten nutzen exakt diesen Wert. Der Abzug
+    // reserviert die Topbar (38px) plus Außenabstand, damit die Box samt Rand
+    // in den sichtbaren Bereich (StackView) passt und zentriert bleibt.
+    readonly property real brandBoxHeight: Math.max(380, Math.min(540, windowHeight - 96))
+    // Icon-Größe an die Box-Höhe gekoppelt, gedeckelt auf 126 (Desktop) bzw.
+    // 100 (schmale Phones), Boden 56 → läuft nie über.
+    readonly property real brandLogoSize:
+        Math.round(Math.max(56, Math.min(compact ? 100 : 126, 0.4 * brandBoxHeight - 76)))
+
+    // Kartensymbole (♠ ♥ ♦ ♣) auf der dunklen Branding-Box
+    readonly property color colorSuitRed:   "#c0392b"   // ♥ ♦
+    readonly property color colorSuitBlack: "#cdd3e0"   // ♠ ♣ (hell auf dunkler Box)
+
     // ── Border Radius ────────────────────────────────────────────────────────
     readonly property real radiusSmall:  4
     readonly property real radiusMedium: 8

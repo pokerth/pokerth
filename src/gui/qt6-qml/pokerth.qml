@@ -97,6 +97,21 @@ ApplicationWindow {
             return true
         }
 
+        // Laufendes Spiel: vor dem Verlassen IMMER nachfragen (egal ob per
+        // Esc, Android-Back oder Tür-Icon), damit ein versehentlicher
+        // Tastendruck das Spiel nicht ungewollt beendet. Das eigentliche
+        // Verlassen erledigt performLeaveGame() nach Bestätigung.
+        if (current && current.objectName === "gamePage") {
+            leaveGameConfirmPopup.open()
+            return true
+        }
+
+        mainStackView.pop()
+        return true
+    }
+
+    function performLeaveGame() {
+        var current = mainStackView.currentItem
         var isGamePage = current && current.objectName === "gamePage"
         var localGame = isGamePage
                         && (typeof GameTable !== "undefined")
@@ -109,7 +124,7 @@ ApplicationWindow {
         if (isGamePage && !localGame) {
             if (typeof Lobby !== "undefined" && Lobby)
                 Lobby.leaveGame()
-            return true
+            return
         }
 
         if (localGame)
@@ -118,7 +133,6 @@ ApplicationWindow {
         mainStackView.pop()
         if (localGame && mainStackView.depth > 1)
             mainStackView.pop()
-        return true
     }
     
     Rectangle {
@@ -436,6 +450,65 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 text: qsTr("Close")
                 onClicked: networkMessagePopup.close()
+            }
+        }
+    }
+
+    // ── Bestätigung beim Verlassen eines laufenden Spiels ─────────────────
+    // Erscheint bei Esc / Android-Back / Tür-Icon, solange man sich auf der
+    // GamePage befindet, damit ein versehentlicher Tastendruck nicht
+    // ungewollt das laufende Spiel beendet.
+    Popup {
+        id: leaveGameConfirmPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: Math.min(mainWindow.width * 0.85, 380)
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Leave Game")
+                color: Config.StaticData.palette.secondary.col100
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: 15
+                font.bold: true
+            }
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Attention! Do you really want to leave the current game\nand go back to the lobby?")
+                color: Config.StaticData.palette.secondary.col200
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 12
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Cancel")
+                    onClicked: leaveGameConfirmPopup.close()
+                }
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Leave Game")
+                    onClicked: {
+                        leaveGameConfirmPopup.close()
+                        mainWindow.performLeaveGame()
+                    }
+                }
             }
         }
     }
