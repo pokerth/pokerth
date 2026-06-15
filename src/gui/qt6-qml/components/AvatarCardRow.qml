@@ -85,7 +85,8 @@ Item {
             width: root.cardW
             height: root.cardH
             color: "transparent"
-            CardImage { anchors.fill: parent; cardIndex: root.card1 }
+            // flipDelay staffelt das Austeilen: zweite Karte dreht 80 ms später
+            CardImage { anchors.fill: parent; cardIndex: root.card1; flipDelay: 80 }
         }
     }
 }

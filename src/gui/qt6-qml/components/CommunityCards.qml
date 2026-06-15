@@ -16,9 +16,16 @@ Item {
     height: cardRow.height
     transformOrigin: Item.Center
 
-    // Inline-Komponente für einen einzelnen Board-Card-Slot
-    // Karten-Seitenverhältnis 120:168 (≈0,714) – Karte = Platzhalter (1:1)
+    // Inline-Komponente für einen einzelnen Board-Card-Slot.
+    // Karten-Seitenverhältnis 120:168 (≈0,714).
+    //
+    // Deal-Sequenz (wie Widget-Client):
+    //   1. Platzhalter-Rahmen sichtbar (Ausgangszustand)
+    //   2. isDealt → nach Stagger-Pause: _displayIndex = -1  (Rückseite erscheint)
+    //   3. Kurze Pause (wie dealCardsSpeed im Widget-Client)
+    //   4. _displayIndex = actualCardIndex  → CardImage.onIsBackChanged feuert den Flip
     component CommunitySlot: Item {
+        id: slot
         property int boardIndex: 0
         width: 46; height: 64
 
@@ -28,46 +35,52 @@ Item {
             return boardIndex < cnt
         }
 
-        // Platzhalter-Rahmen (immer sichtbar)
+        readonly property int actualCardIndex: {
+            var cards = (typeof GameTable !== "undefined" && GameTable)
+                        ? GameTable.boardCards : null
+            return (cards && boardIndex < cards.length) ? cards[boardIndex] : -1
+        }
+
+        // -2 = Platzhalter (noch nichts), -1 = Rückseite, 0-51 = Vorderseite
+        property int _displayIndex: -2
+
+        // Platzhalter-Rahmen: nur sichtbar solange noch keine Karte gezeigt wird
         Rectangle {
             anchors.fill: parent
+            visible: slot._displayIndex === -2
             radius: 4
             color: Qt.rgba(0, 0, 0, 0.30)
             border.width: 1
             border.color: Qt.rgba(1, 1, 1, 0.38)
         }
 
-        // Aufgedeckte Karte – mit Einblend-Animation
+        // Karte: Rückseite (cardIndex -1) oder Vorderseite (cardIndex 0-51)
         CardImage {
-            id: faceCard
             anchors.fill: parent
-            opacity: 0
-            cardIndex: {
-                var cards = (typeof GameTable !== "undefined" && GameTable)
-                            ? GameTable.boardCards : null
-                return (cards && boardIndex < cards.length) ? cards[boardIndex] : -1
-            }
+            visible: slot._displayIndex !== -2
+            cardIndex: slot._displayIndex >= 0 ? slot._displayIndex : -1
         }
 
         onIsDealtChanged: {
             if (isDealt) {
-                cardReveal.start()
+                dealAnim.restart()
             } else {
-                faceCard.opacity = 0
+                dealAnim.stop()
+                slot._displayIndex = -2
             }
         }
 
+        // Stagger → Rückseite zeigen → Flip auf Vorderseite (ScriptAction setzt
+        // _displayIndex, was CardImage.onIsBackChanged und damit den Flip auslöst).
         SequentialAnimation {
-            id: cardReveal
-            // Flop-Karten staffeln (0 ms, 120 ms, 240 ms); Turn/River sofort
-            PauseAnimation { duration: boardIndex < 3 ? boardIndex * 120 : 0 }
-            NumberAnimation {
-                target: faceCard
-                property: "opacity"
-                from: 0; to: 1
-                duration: 260
-                easing.type: Easing.OutQuad
-            }
+            id: dealAnim
+            // Flop gestaffelt (0 / 140 / 280 ms); Turn/River ohne Delay
+            PauseAnimation { duration: slot.boardIndex < 3 ? slot.boardIndex * 220 : 0 }
+            ScriptAction   { script: { slot._displayIndex = -1 } }
+            // Pause: Rückseite ist sichtbar (analog dealCardsSpeed im Widget-Client)
+            PauseAnimation { duration: 160 }
+            // Jetzt auf Vorderseite drehen → CardImage-Flip-Animation feuert
+            ScriptAction   { script: { slot._displayIndex = slot.actualCardIndex } }
         }
     }
 

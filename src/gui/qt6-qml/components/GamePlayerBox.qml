@@ -340,8 +340,12 @@ Item {
         Behavior on color { ColorAnimation { duration: 200 } }
         Behavior on border.color { ColorAnimation { duration: 200 } }
 
-        // Pop beim Erscheinen einer neuen Aktion (Mikroanimation).
+        // Pop beim Erscheinen oder Wechsel einer Aktion (Mikroanimation).
         onVisibleChanged: if (visible) badgePop.restart()
+        Connections {
+            target: root
+            function onActionChanged() { if (actionBadge.visible) badgePop.restart() }
+        }
         SequentialAnimation {
             id: badgePop
             NumberAnimation { target: actionBadge; property: "scale"; from: 0.6; to: 1.12; duration: 110; easing.type: Easing.OutQuad }

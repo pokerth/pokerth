@@ -16,8 +16,51 @@ Item {
     id: root
 
     property int cardIndex: -1
+    // Optionaler Startverzug der Flip-Animation in ms (z. B. für gestaffeltes
+    // Austeilen: zweite Hole-Card erhält flipDelay: 80).
+    property int flipDelay: 0
 
     readonly property bool isBack: !(Number.isInteger(cardIndex) && cardIndex >= 0 && cardIndex <= 51)
+
+    // ── Flip-Animation beim Aufdecken (Showdown / Deal) ───────────────────────
+    // Wird ausgelöst, wenn isBack von true → false wechselt (Karte wird
+    // aufgedeckt). Die horizontale Skalierung schmilzt auf 0 (Wendepunkt – in
+    // diesem Moment ist die Vorderseite bereits aktiv, da QML die Eigenschaft
+    // atomar wechselt), dann federt sie mit leichtem Überschwinger zurück.
+    property real _flipScale: 1.0
+    transform: Scale {
+        xScale: root._flipScale
+        origin.x: root.width / 2
+        origin.y: root.height / 2
+    }
+
+    onIsBackChanged: {
+        if (!isBack) {
+            flipAnim.restart()
+        }
+    }
+
+    SequentialAnimation {
+        id: flipAnim
+        PauseAnimation { duration: root.flipDelay }
+        // Phase 1: Rückseite → Nulllinie (wie Widget-Client: Karte „dreht" weg)
+        NumberAnimation {
+            target: root
+            property: "_flipScale"
+            from: 1.0; to: 0.0
+            duration: 170
+            easing.type: Easing.InQuad
+        }
+        // Phase 2: Vorderseite wächst zurück – kleiner Überschwinger für Lebendigkeit
+        NumberAnimation {
+            target: root
+            property: "_flipScale"
+            from: 0.0; to: 1.0
+            duration: 300
+            easing.type: Easing.OutBack
+            easing.overshoot: 1.15
+        }
+    }
 
     // Vorderseiten-Quelle in EINER Bindung berechnen (nur von cardIndex abhängig),
     // damit beim Wechsel keine ungültigen Zwischenpfade wie "-1s.svg" entstehen.
