@@ -44,6 +44,19 @@ Rectangle {
                                ? Config.StaticData.palette.secondary.col600
                                : "transparent"
 
+                        Behavior on color { ColorAnimation { duration: 130 } }
+
+                        // Gold-Akzent-Unterstrich beim aktiven Kategorie-Tab
+                        Rectangle {
+                            anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                            anchors.margins: 4
+                            height: 2
+                            radius: 1
+                            color: Config.Theme.colorAccent
+                            opacity: settingsPage.currentCategoryIndex === index ? 0.85 : 0
+                            Behavior on opacity { NumberAnimation { duration: 130 } }
+                        }
+
                         VectorImage {
                             anchors.centerIn: parent
                             width: Config.Theme.iconSize
@@ -103,6 +116,15 @@ Rectangle {
             radius: 5
             color: "transparent"
 
+            // Dezenter Schatten ragt nach außen; Innenfläche (1px innerhalb des
+            // Rahmens) bleibt in Seitenfarbe, damit die Box-Optik unverändert wirkt.
+            PanelShadow {
+                anchors.fill: parent
+                anchors.margins: 1
+                radius: 4
+                color: Config.StaticData.palette.secondary.col700
+            }
+
             ListView {
                 id: settingsMenuList
                 model: settingsMenuListItems
@@ -131,6 +153,18 @@ Rectangle {
                     color: isHighlighted ? Config.StaticData.palette.secondary.col600 : "transparent"
                     width: parent.width
                     height: 36
+
+                    Behavior on color { ColorAnimation { duration: 130 } }
+
+                    // Gold-Akzentbalken links beim aktiven Eintrag
+                    Rectangle {
+                        anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                        width: 3
+                        radius: width / 2
+                        color: Config.Theme.colorAccent
+                        opacity: settingsMenuListItem.isCurrent ? 0.85 : 0
+                        Behavior on opacity { NumberAnimation { duration: 130 } }
+                    }
 
                     RowLayout {
                         anchors.fill: parent
@@ -196,6 +230,15 @@ Rectangle {
             border.color: Config.StaticData.palette.secondary.col500
             radius: 5
             color: "transparent"
+
+            // Dezenter Schatten – im Compact-Mode (randlos) deaktiviert.
+            PanelShadow {
+                anchors.fill: parent
+                anchors.margins: 1
+                radius: 4
+                visible: !Config.Responsive.compact
+                color: Config.StaticData.palette.secondary.col700
+            }
 
             StackView {
                 id: settingsStackView

@@ -159,6 +159,16 @@ QtObject {
     // Text / icon on a colored (accent / chart) background — always light
     readonly property color colorOnAccent: "#ffffff"
 
+    // ── Elevation / Schatten ──────────────────────────────────────────────────
+    // Dezenter Schlagschatten für Panel-Karten (Lobby-Spalten, Settings-Boxen).
+    // Zentral, damit sich die Tiefe der ganzen App an einer Stelle feinjustieren
+    // lässt (siehe components/PanelShadow.qml). Im Light-Mode etwas kräftiger,
+    // weil ein dunkler Schatten dort mehr Kontrast braucht.
+    readonly property color colorShadow:         "#000000"
+    readonly property real  panelShadowOpacity:  isDark ? 0.36 : 0.22
+    readonly property real  panelShadowBlur:     0.55
+    readonly property real  panelShadowOffset:   2
+
     // ── Opacity helpers ──────────────────────────────────────────────────────
     readonly property real overlayOpacity: 0.80
     readonly property real dimmedOpacity:  0.40

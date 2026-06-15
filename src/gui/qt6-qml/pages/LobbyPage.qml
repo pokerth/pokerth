@@ -185,6 +185,11 @@ Rectangle {
                 background: Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
                     radius: 3
+                    border.width: 1
+                    border.color: playerSearchField.activeFocus
+                                  ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.75)
+                                  : "transparent"
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
                 }
                 placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
             }
@@ -615,6 +620,11 @@ Rectangle {
                 background: Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
                     radius: 3
+                    border.width: 1
+                    border.color: searchPlayerField.activeFocus
+                                  ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.75)
+                                  : "transparent"
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
                 }
                 placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
             }
@@ -660,6 +670,8 @@ Rectangle {
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
+                PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
+
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 5
@@ -673,6 +685,8 @@ Rectangle {
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                     }
+
+                    SectionDivider {}
 
                     ListView {
                         id: playerListView
@@ -727,6 +741,8 @@ Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
+
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 5
@@ -739,6 +755,8 @@ Rectangle {
                             color: Config.StaticData.palette.secondary.col200
                         }
 
+                        SectionDivider {}
+
                         // Game list
                         ListView {
                             id: gameListView
@@ -748,8 +766,11 @@ Rectangle {
                             model: Lobby ? Lobby.gameListProxyModel : null
 
                             delegate: ItemDelegate {
+                                id: gameRow
                                 width: gameListView.width
                                 height: 54
+
+                                readonly property bool selected: ListView.isCurrentItem
 
                                 ColumnLayout {
                                     anchors {
@@ -839,10 +860,23 @@ Rectangle {
                                 }
 
                                 background: Rectangle {
-                                    color: parent.hovered
-                                           ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.3)
-                                           : "transparent"
+                                    color: gameRow.selected
+                                           ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.13)
+                                           : gameRow.hovered
+                                             ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.3)
+                                             : "transparent"
                                     radius: 3
+                                    Behavior on color { ColorAnimation { duration: 130 } }
+
+                                    // Dezenter Gold-Akzentbalken links bei Auswahl
+                                    Rectangle {
+                                        anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                                        width: 3
+                                        radius: width / 2
+                                        color: Config.Theme.colorAccent
+                                        opacity: gameRow.selected ? 0.85 : 0
+                                        Behavior on opacity { NumberAnimation { duration: 130 } }
+                                    }
                                 }
 
                                 onClicked: {
@@ -900,6 +934,8 @@ Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
+
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 5
@@ -911,6 +947,8 @@ Rectangle {
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
+
+                        SectionDivider {}
 
                         ChatBox {
                             id: lobbyChatBoxCompact
@@ -997,6 +1035,8 @@ Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
+
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 10
@@ -1009,6 +1049,8 @@ Rectangle {
                             font.pixelSize: 14
                             color: Config.StaticData.palette.secondary.col200
                         }
+
+                        SectionDivider {}
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -1142,6 +1184,8 @@ Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
 
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
+
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 5
@@ -1153,6 +1197,8 @@ Rectangle {
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
+
+                        SectionDivider {}
 
                         ChatBox {
                             id: lobbyChatBoxWide
@@ -1359,9 +1405,10 @@ Rectangle {
                     radius: 6
                     color: Config.StaticData.palette.secondary.col600
                     border.color: joinPasswordField.activeFocus
-                        ? Config.StaticData.palette.secondary.col200
+                        ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.85)
                         : Config.StaticData.palette.secondary.col400
                     border.width: 1
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
                 }
                 placeholderTextColor: Config.StaticData.palette.secondary.col400
                 Keys.onReturnPressed: joinPasswordPopup.doJoin()
