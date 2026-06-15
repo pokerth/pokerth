@@ -464,6 +464,20 @@ Rectangle {
                 var oppCnt = _peakSeatCount - 1
                 var s
 
+                // Box-Skala-Obergrenze wächst mit der Spielerzahl: bei wenigen
+                // Spielern sollen die Boxen NICHT den ganzen leeren Tisch
+                // ausfüllen. Ohne diesen Deckel sprang die Skala bei z. B. nur
+                // zwei Spielern auf das Maximum (1.4 bzw. 1.7) – Self- und
+                // Gegnerbox wirkten viel zu groß und ihre Bet-Badges berührten
+                // die Gemeinschaftskarten. Ab 6 Gegnern (7+ Spielern) wird die
+                // volle Obergrenze erreicht, die dicht besetzten Tische bleiben
+                // daher unverändert. Der Deckel SENKT nur (nie erhöht) und kann
+                // somit keine neuen Überlappungen erzeugen.
+                function fillCap(maxScale) {
+                    return 1.05 + (maxScale - 1.05)
+                        * Math.max(0, Math.min(1, (oppCnt - 1) / 5))
+                }
+
                 // Strategie: Box-Skala = MAXIMUM, das alle geometrischen
                 // Constraints erfüllt. Dadurch füllen die Boxen den
                 // verfügbaren Tisch optimal aus – breite Fenster bekommen
@@ -578,12 +592,59 @@ Rectangle {
                         return true
                     }
 
+                    // Heads-up (1 Gegner): feasibleAt() hat kein Nachbar-Paar zu
+                    // prüfen. Stattdessen sicherstellen, dass die Bet-Badges der
+                    // oben-zentrierten Gegnerbox bzw. der unten-zentrierten Self-
+                    // Box die Gemeinschaftskarten nicht berühren – kritisch in
+                    // flachen Fenstern. Replikiert die Community-Mitte exakt wie
+                    // communityCenterY / landscapeEllipseCenterY.
+                    function feasibleHeadsUp(sTest) {
+                        if (sTest <= 0) return false
+                        var visualH = oppBaseHeight * sTest
+                        var selfVisualH = selfBaseHeight * sTest
+                        var selfGapY = Config.Responsive.landscapeCompact
+                            ? Math.max(8, selfBadgeGapBase * sTest * 0.5)
+                            : selfBadgeGapBase * sTest
+                        var topYband = (Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2
+                        var selfTop = height - 4 - selfVisualH
+                        var bottomYband = selfTop - selfGapY - visualH / 2
+                        if (bottomYband <= topYband) return false
+                        var oppBoxBottom = topYband + visualH / 2
+                        var commCenter = Config.Responsive.landscapeCompact
+                            ? (oppBoxBottom + selfTop) / 2
+                            : (topYband + bottomYband) / 2
+                        // Halbe Karten-Höhe (communityScale ≈ 0.95·boxScale,
+                        // Karte 64 px) + Pott-Badge (≈32 px) oberhalb der Reihe.
+                        var commHalf = 0.95 * sTest * 64 / 2
+                        var betBadge = sTest * 25      // Chip-Reihe unter/über der Box
+                        var pad = 10
+                        if (commCenter - commHalf - 32 < oppBoxBottom + betBadge + pad)
+                            return false
+                        if (commCenter + commHalf > selfTop - betBadge - pad)
+                            return false
+                        return true
+                    }
+
                     // Gemeinsames Limit für Gegnerboxen, Self-Box und Community-Badges:
                     // 1.4 verhindert zu große Schrift und Bet-Überlappungen bei
-                    // Vollbild/maximiert; compact bleibt bei 1.9 (breiter, flacher).
-                    var lo = 0.55, hi = Config.Responsive.landscapeCompact ? 1.7 : 1.4
+                    // Vollbild/maximiert; compact bleibt bei 1.7 (breiter, flacher).
+                    // fillCap() dämpft das Maximum bei wenigen Spielern zusätzlich.
+                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 1.7 : 1.4)
                     if (oppCnt < 2) {
-                        s = hi
+                        // Bis zum (gedeckelten) hi gehen, solange die Badges die
+                        // Community nicht berühren.
+                        if (!feasibleHeadsUp(lo)) {
+                            s = lo
+                        } else if (feasibleHeadsUp(hi)) {
+                            s = hi
+                        } else {
+                            for (var iterH = 0; iterH < 14; iterH++) {
+                                var midH = (lo + hi) / 2
+                                if (feasibleHeadsUp(midH)) lo = midH
+                                else hi = midH
+                            }
+                            s = lo
+                        }
                     } else if (!feasibleAt(lo)) {
                         s = lo
                     } else {
@@ -649,7 +710,7 @@ Rectangle {
                         return true
                     }
 
-                    var loP = 0.55, hiP = 1.85
+                    var loP = 0.55, hiP = fillCap(1.85)
                     if (!feasibleAtP(loP)) {
                         s = loP
                     } else {
