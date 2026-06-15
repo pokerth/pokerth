@@ -2392,8 +2392,16 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 		
 		// collectSets() and switchRounds() are always called when shouldUpdateSet is true
+		// [RACEDBG] These mutate the shared Hand (player-list iteration) on the
+		// NETWORK thread. GameHandler::fold()/doActionDone() mutate the same Hand
+		// on the GUI thread with no lock. If a "GameHandler::fold" line from a
+		// different thread id appears interleaved between BEGIN and END here in
+		// pokerth-debug.log, that overlap is the freeze.
+		qDebug() << "[RACEDBG] net: collectSets/switchRounds BEGIN handID="
+		         << curGame->getCurrentHandID();
 		curGame->getCurrentHand()->getBoard()->collectSets();
 		curGame->getCurrentHand()->switchRounds();
+		qDebug() << "[RACEDBG] net: collectSets/switchRounds END";
 
 		//log blinds sets after setting bigblind-button
 		if (isBigBlind) {

@@ -38,6 +38,14 @@
 
 void loghelper_init(const std::string &logDir, int logLevel);
 
+// Append a single line (timestamp + thread id are prepended automatically) to
+// the persistent client debug log file opened by loghelper_init(). Thread-safe.
+// On the server build this is a no-op. Used both by the LOG_* macros and by the
+// QML client's Qt message handler so that qDebug()/console.log() from QML and
+// the engine/net LOG_* messages all land interleaved in one file – which is
+// what makes the rare end-of-round freeze diagnosable after the fact.
+void loghelper_write_raw(const std::string &line);
+
 void internal_log_err(const std::string &msg);
 void internal_log_msg(const std::string &msg);
 void internal_log_level(const std::string &msg, int logLevel);

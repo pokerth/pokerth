@@ -2226,8 +2226,19 @@ Rectangle {
                     actionBar.syncRaiseAmount()
                 }
                 function onCanActChanged() {
-                    // Kann nicht mehr agieren (gefoldet/all-in) → Vorwahl löschen
-                    if (!GameTable.canAct)
+                    if (GameTable.canAct)
+                        return
+                    // canAct bündelt die Spielberechtigung (gefoldet/all-in/kein
+                    // Cash) mit der reinen Button-Freigabe (m_myTurn ||
+                    // prevPlayerId != 0). Eine vorgemerkte Aktion darf NUR
+                    // verfallen, wenn ich diese Hand wirklich nicht mehr handeln
+                    // kann – NICHT durch das transiente Gating kurz bevor ich am
+                    // Zug bin (prevPlayerId == 0, m_myTurn noch false), sonst
+                    // wird die Vorauswahl (typisch BB-Option) verschluckt und
+                    // beim eigenen Zug nicht ausgeführt. Der Widgets-Client
+                    // verwirft die gemerkte Aktion beim Gating ebenfalls nicht.
+                    var me = GameTable.players.length > 0 ? GameTable.players[0] : null
+                    if (me && (me["folded"] === true || me["stack"] === 0))
                         actionBar.preAction = ""
                 }
             }

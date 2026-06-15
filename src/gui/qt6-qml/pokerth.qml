@@ -112,6 +112,7 @@ ApplicationWindow {
 
     function performLeaveGame() {
         var current = mainStackView.currentItem
+        console.log("[NAV] performLeaveGame | currentItem:", current ? (current.objectName || current.toString()) : "null", "| depth:", mainStackView.depth)
         var isGamePage = current && current.objectName === "gamePage"
         var localGame = isGamePage
                         && (typeof GameTable !== "undefined")

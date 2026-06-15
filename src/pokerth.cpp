@@ -57,6 +57,33 @@
 #include "gui/qt6-qml/cpp/networkgamehandler.h"
 #include "gui/qt6-qml/cpp/qmlguiinterface.h"
 #include "gui/qt6-qml/cpp/screenhelper.h"
+#include <core/loghelper.h>
+#include <cstdio>
+
+// Routes every Qt/QML diagnostic message (qDebug, qWarning, and crucially the
+// QML console.log "[NAV]" navigation traces) into the persistent client debug
+// log file (~/.pokerth/pokerth-debug.log) opened by loghelper_init(), while
+// still echoing to stderr so a terminal run looks unchanged. Combined with the
+// engine/net LOG_* messages (which share the same file) this gives a single,
+// thread-id-tagged timeline – essential for the rare end-of-round freeze where
+// the GUI thread blocks inside the SQLite log flush.
+static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & /*ctx*/, const QString &msg)
+{
+    const char *tag = "[QML] ";
+    switch (type) {
+        case QtDebugMsg:    tag = "[QML-D] "; break;
+        case QtInfoMsg:     tag = "[QML-I] "; break;
+        case QtWarningMsg:  tag = "[QML-W] "; break;
+        case QtCriticalMsg: tag = "[QML-C] "; break;
+        case QtFatalMsg:    tag = "[QML-F] "; break;
+    }
+    const QByteArray local = msg.toLocal8Bit();
+    fprintf(stderr, "%s%s\n", tag, local.constData());
+    fflush(stderr);
+    loghelper_write_raw(std::string(tag) + msg.toStdString());
+    if (type == QtFatalMsg)
+        abort();
+}
 
 int main(int argc, char *argv[])
 {
@@ -93,6 +120,15 @@ int main(int argc, char *argv[])
 
     boost::shared_ptr<ConfigFile> myConfig;
     myConfig.reset(new ConfigFile(argv[0], false));
+
+    // Open the persistent client debug log (~/.pokerth/pokerth-debug.log) and
+    // funnel all Qt/QML diagnostics through it. Done as early as possible so the
+    // whole session – including the navigation traces around end-of-game – is
+    // captured for after-the-fact analysis of the rare leave-game freeze.
+    loghelper_init(myConfig->readConfigString("LogDir"), 1);
+    qInstallMessageHandler(pokerthQmlMessageHandler);
+    qInfo().noquote() << "[BOOT] PokerTH QML client starting; debug log in"
+                      << QString::fromStdString(myConfig->readConfigString("LogDir"));
 
     // make QSettings use the default PokerTH config.xml :
 	const QSettings::Format XmlFormat = QSettings::registerFormat("xml", &SettingsXmlHandler::readXmlFile, &SettingsXmlHandler::writeXmlFile);

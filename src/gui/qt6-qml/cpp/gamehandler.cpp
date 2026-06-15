@@ -1137,9 +1137,15 @@ void GameHandler::fold()
              << "myButton=" << humanPlayer->getMyButton()
              << "round=" << (int)hand->getCurrentRound();
 
+    // [RACEDBG] These mutate the shared Hand on the GUI thread. If a net-thread
+    // "[RACEDBG] net: ... BEGIN/END" line appears interleaved with this one in
+    // pokerth-debug.log (different thread id), the GUI- and network-thread are
+    // touching the same Hand concurrently -> the suspected auto-fold freeze.
+    qDebug() << "[RACEDBG] gui: fold() mutating Hand BEGIN";
     humanPlayer->setMyAction(PLAYER_ACTION_FOLD, true);
     humanPlayer->setMyTurn(false);
     hand->setPreviousPlayerID(0);
+    qDebug() << "[RACEDBG] gui: fold() mutating Hand END";
 
     doActionDone();
 }
