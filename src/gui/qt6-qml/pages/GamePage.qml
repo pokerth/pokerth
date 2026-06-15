@@ -380,12 +380,25 @@ Rectangle {
                     // mitwachsen lassen: ohne dies bleibt boxScale gedeckelt,
                     // während die Ellipse (Bruchteil der Breite) aufspreizt → im
                     // Vollbild winzige Boxen am Rand + leere Mitte. Wächst NUR
-                    // oberhalb der gewohnten Fenstergröße (~760px Tischzonenhöhe)
-                    // und nur bei wenigen Spielern (1-t); gedeckelt bei 2.2, damit
-                    // Boxen/Schrift nicht grotesk groß werden. Dichte Tische und
-                    // die Startauflösung bleiben unverändert.
-                    var grow = (1 - t) * Math.max(0, (height - 760) / 700)
-                    return Math.min(2.2, countCap * (1 + grow))
+                    // oberhalb der gewohnten Fenstergröße (√(w·h) ≈ 760 bei
+                    // 1024×521) und nur bei wenigen Spielern (1-t); gedeckelt
+                    // bei 2.2, damit Boxen/Schrift nicht grotesk groß werden.
+                    // √(width·height) statt nur height, weil das Problem im
+                    // Fullscreen-Querformat vor allem durch die BREITE entsteht:
+                    // bei 1920×960 ist √ ≈ 1358 statt 960 → grow dreimal stärker
+                    // → boxScale ~1.75 statt ~1.28 → Boxen füllen proportional
+                    // zum Bildschirm. Dichte Tische und die Startauflösung bleiben
+                    // unverändert.
+                    var grow = (1 - t) * Math.max(0, (Math.sqrt(width * height) - 760) / 700)
+                    // Voll besetzte Tische (t≈1) bei breiten Fenstern: die
+                    // Bottom-Seiten-Sitze (Player 1/N) bekommen durch den größer
+                    // werdenden radiusX mehr Abstand zu ihren oberen Nachbarn –
+                    // feasibleAt() erlaubt dadurch deutlich höhere boxScale als
+                    // bei Normalfenster. Bei hohen Einsatzbeträgen könnte das
+                    // Badge von Player 1/N in die Nachbarbox ragen. Linear ab
+                    // 1024 px, maximal –0.15 (Deckel ≥ 1.25 für 9+ Spieler).
+                    var denseShrink = t * Math.min(0.15, Math.max(0, (width - 1024) / 4000))
+                    return Math.min(2.2, countCap * (1 + grow) - denseShrink)
                 }
 
                 // Strategie: Box-Skala = MAXIMUM, das alle geometrischen
