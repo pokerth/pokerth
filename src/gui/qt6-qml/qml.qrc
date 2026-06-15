@@ -30,6 +30,13 @@
         <file>components/AvatarCardRow.qml</file>
         <file>components/BrandHeader.qml</file>
         <file>components/CardImage.qml</file>
+        <file>components/GameStatusBar.qml</file>
+        <file>components/CommunityCards.qml</file>
+        <file>components/WinningHandBadge.qml</file>
+        <file>components/GameSidePanel.qml</file>
+        <file>components/GameRoundIconButton.qml</file>
+        <file>components/ReactionPicker.qml</file>
+        <file>components/GameActionBar.qml</file>
         <file>config/qmldir</file>
         <file>config/Parameters.qml</file>
         <file>config/Responsive.qml</file>
