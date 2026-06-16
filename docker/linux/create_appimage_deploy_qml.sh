@@ -311,8 +311,7 @@ echo "=== Erstelle qt.conf ==="
 cat > "$APPDIR/usr/bin/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
-Imports = ../qml
-Qml2Imports = ../qml
+QmlImports = ../qml
 Libraries = ../lib
 EOF
 
@@ -320,8 +319,7 @@ EOF
 cat > "$APPDIR/usr/lib/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
-Imports = ../qml
-Qml2Imports = ../qml
+QmlImports = ../qml
 Libraries = .
 EOF
 

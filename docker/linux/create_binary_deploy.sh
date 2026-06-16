@@ -73,7 +73,7 @@ QT6_PLUGINS=$(find /usr/lib* -type d -name "plugins" -path "*/qt6/*" 2>/dev/null
 
 if [ -d "$QT6_PLUGINS" ]; then
     echo "Qt6 Plugins: $QT6_PLUGINS"
-    for cat in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia sqldrivers tls wayland-shell-integration wayland-decoration-client wayland-graphics-integration-client; do
+    for cat in platforms xcbglintegrations platforminputcontexts imageformats iconengines platformthemes multimedia sqldrivers tls wayland-shell-integration wayland-decoration-client wayland-graphics-integration-client; do
         if [ -d "$QT6_PLUGINS/$cat" ]; then
             mkdir -p "$DEPLOY_DIR/plugins/$cat"
             cp "$QT6_PLUGINS/$cat"/*.so "$DEPLOY_DIR/plugins/$cat/" 2>/dev/null && \
@@ -128,12 +128,17 @@ cat > "$DEPLOY_DIR/bin/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
 Libraries = ../lib
-Qml2Imports = ../qml
+QmlImports = ../qml
 EOF
 
 cat > "$DEPLOY_DIR/pokerth" << 'EOF'
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Originale LD_LIBRARY_PATH sichern BEVOR wir sie modifizieren, damit
+# AppImageUtils::cleanProcessEnvironment() sie für externe Prozesse
+# (xdg-open, paplay, …) wiederherstellen kann. Wir bündeln eigene Qt-Libs,
+# daher greift runningWithBundledLibs() auch im Tarball-Deploy.
+export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
@@ -162,6 +167,8 @@ unset QT_PLUGIN_PATH
 unset QT_QPA_PLATFORM_PLUGIN_PATH
 unset QML_IMPORT_PATH
 unset QML2_IMPORT_PATH
+# Originale LD_LIBRARY_PATH sichern (siehe cleanProcessEnvironment()).
+export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
 export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
