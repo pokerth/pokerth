@@ -19,6 +19,7 @@
 #include "settingsmanager.h"
 #include "configfile.h"
 #include <QFileDialog>
+#include <core/appimage_utils.h>
 
 SettingsManager::SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent)
     : QObject(parent), m_config(config)
@@ -185,6 +186,7 @@ QString SettingsManager::pickImageFile(const QString &title)
         nullptr,
         title,
         QString(),
-        tr("Images (*.png *.jpg *.jpeg *.gif *.bmp)")
+        tr("Images (*.png *.jpg *.jpeg *.gif *.bmp)"),
+        nullptr, AppImageUtils::fileDialogOptions()
     );
 }

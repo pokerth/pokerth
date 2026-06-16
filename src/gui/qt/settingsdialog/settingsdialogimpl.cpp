@@ -1022,7 +1022,8 @@ void settingsDialogImpl::setFlipsidePicFileName()
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your flipside picture"),
 					   flipSideDir.absolutePath(),
-					   tr("Images (*.png *.jpg *.gif)"));
+					   tr("Images (*.png *.jpg *.gif)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty())
 		lineEdit_OwnFlipsideFilename->setText(fileName);
@@ -1133,7 +1134,8 @@ void settingsDialogImpl::setLogDir()
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
 				  QDir::homePath(),
 				  QFileDialog::ShowDirsOnly
-				  | QFileDialog::DontResolveSymlinks);
+				  | QFileDialog::DontResolveSymlinks
+				  | AppImageUtils::fileDialogOptions());
 
 	if (!dir.isEmpty()) {
 
@@ -1364,7 +1366,8 @@ void settingsDialogImpl::addGameTableStyle()
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your game table style"),
 					   dirString,
-					   tr("PokerTH game table styles (*.xml)"));
+					   tr("PokerTH game table styles (*.xml)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty()) {
 
@@ -1489,7 +1492,8 @@ void settingsDialogImpl::addCardDeckStyle()
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your card deck style"),
 					   dirString,
-					   tr("PokerTH card deck styles (*.xml)"));
+					   tr("PokerTH card deck styles (*.xml)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty()) {
 

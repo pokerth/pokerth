@@ -43,6 +43,7 @@
 #include <QLabel>
 #include <QTextBrowser>
 #include <QWidget>
+#include <QFileDialog>
 #include <cstdlib>
 
 #ifdef Q_OS_LINUX
@@ -77,6 +78,31 @@ inline bool isAppImage()
 #else
     return false;
 #endif
+}
+
+/**
+ * Returns QFileDialog options suitable for the current environment.
+ *
+ * Inside an AppImage the bundled "platformthemes" plugin (libqgtk3) makes Qt
+ * route native file dialogs through GTK / xdg-desktop-portal. Combined with the
+ * AppImage's isolated glibc and LD_LIBRARY_PATH, opening such a native dialog
+ * loads/spawns code that crashes the whole process — the user sees PokerTH
+ * "close automatically" the moment a file dialog would appear (e.g. choosing a
+ * table style, card deck, avatar or log export path). Forcing Qt's own
+ * widget-based dialog (DontUseNativeDialog) avoids GTK/portal entirely.
+ *
+ * Pass the result as the QFileDialog::Options argument to the static
+ * getOpenFileName()/getSaveFileName()/getExistingDirectory() helpers, or OR it
+ * into options that are already being passed.
+ *
+ * On non-AppImage builds this returns default options (native dialog is used).
+ */
+inline QFileDialog::Options fileDialogOptions()
+{
+    if (isAppImage()) {
+        return QFileDialog::DontUseNativeDialog;
+    }
+    return QFileDialog::Options();
 }
 
 /**
