@@ -113,7 +113,8 @@ QString wrapEmojisLarger(const QString &msg, int pixelSize)
 					break;
 				i += l2;
 			}
-			out += QStringLiteral("<span style=\"font-size:%1px;\">").arg(pixelSize)
+			out += QStringLiteral("<span style=\"font-size:%1px; font-family:'%2';\">")
+			           .arg(pixelSize).arg(EmojiPicker::emojiFontFamily())
 			       + msg.mid(start, i - start) + QStringLiteral("</span>");
 		} else {
 			out += msg.mid(i, len);

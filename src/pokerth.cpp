@@ -447,6 +447,10 @@ int main( int argc, char **argv )
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/DejaVuSans-Bold.ttf");
+	// Gebündelter Farb-Emoji-Font (Noto Color Emoji, CBDT/CBLC-Bitmap-Variante),
+	// damit Emojis distributionsunabhängig erscheinen und nicht von der
+	// System-FreeType-Version (COLRv1 erst ab 2.13) abhängen.
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/NotoColorEmoji.ttf");
 
 #ifdef _WIN32
 	QString font1String("QApplication, QWidget, QDialog { font-size: 12px; }");

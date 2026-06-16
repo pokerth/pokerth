@@ -48,7 +48,10 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 width: Math.min(startContent.width - Config.Theme.margin * 2, Config.Theme.brandBoxWidth)
-                height: Config.Theme.brandBoxHeight
+                // Höhe folgt dem Inhalt (Logo + Buttons) inkl. oben/unten gleichem
+                // Innenabstand – so bleibt die Box bei beliebig vielen Buttons
+                // vertikal zentriert, statt unten herauszulaufen.
+                height: startBoxContent.implicitHeight + startPage.vPad * 2
                 color: "transparent"
 
                 // Dunkler Hintergrund – immer dunkel damit der Kontrast zum Feuer-
@@ -111,6 +114,13 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("NetworkGameEnterPage.qml")
+                        }
+
+                        CustomButton {
+                            text: qsTr("Community / Ranking")
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: Config.Theme.touchTarget
+                            onClicked: mainStackView.push("CommunityRankingPage.qml")
                         }
 
                         CustomButton {

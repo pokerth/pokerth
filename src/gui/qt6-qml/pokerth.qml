@@ -18,6 +18,13 @@ ApplicationWindow {
     Universal.theme: Config.StaticData.isDark ? Universal.Dark : Universal.Light
 
     // portraitMode is now provided by Config.Responsive.portrait
+    // Topbar-Icons im Splash/PreLoader ausblenden – sonst kann ein zu früher
+    // Klick eine Seite über den PreLoader pushen, die dann von dessen
+    // replaceCurrentItem(startPage) den Stack durcheinanderbringt.
+    readonly property bool topBarIconsVisible:
+        mainStackView.currentItem
+        && mainStackView.currentItem.objectName !== "preLoaderPage"
+
     property StartPage startPage: StartPage {}
     property SideMenu sideMenu: SideMenu {}
     // Start-Auflösung = Default-Größe des Qt-Widgets-Clients am Gametable
@@ -165,7 +172,7 @@ ApplicationWindow {
                     Layout.preferredHeight: 26
                     Layout.margins: 6
                     source: "resources/threeLines.svg"
-                    visible: true
+                    visible: mainWindow.topBarIconsVisible
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
@@ -195,13 +202,44 @@ ApplicationWindow {
                     Layout.horizontalStretchFactor: 2
                 }
 
+                // Community / Ranking – überall erreichbar (auch in Lobby & Spiel).
+                VectorImage {
+                    id: topBarRankingIcon
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    Layout.margins: 6
+                    source: "resources/globe.svg"
+                    visible: mainWindow.topBarIconsVisible
+                    layer.enabled: true
+                    layer.effect: MultiEffect {
+                        colorization: 1.0
+                        colorizationColor: rankingArea.containsMouse
+                            ? Config.StaticData.palette.secondary.col100
+                            : Config.StaticData.palette.secondary.col200
+                    }
+
+                    MouseArea {
+                        id: rankingArea
+                        anchors.fill: topBarRankingIcon
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: {
+                            if (!mainStackView.currentItem
+                                    || mainStackView.currentItem.objectName !== "communityRankingPage")
+                                mainStackView.push("pages/CommunityRankingPage.qml");
+                            sideMenu.visible = false;
+                        }
+                    }
+                }
+
                 VectorImage {
                     id: topBarSettingsIcon
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
                     Layout.margins: 6
                     source: "resources/settings.svg"
-                    visible: true
+                    visible: mainWindow.topBarIconsVisible
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
@@ -256,15 +294,15 @@ ApplicationWindow {
                 var isLobby = (currentItem && currentItem.objectName === "lobbyPage");
                 var isGame  = (currentItem && currentItem.objectName === "gamePage");
                 var isGameWait = (currentItem && currentItem.objectName === "gameWaitPage");
+                // Sichtbarkeit der Topbar-Icons folgt dem Binding
+                // topBarIconsVisible (im Splash aus) – hier nur das Quell-Icon
+                // des Menü-/Zurück-Buttons je nach Seite wählen.
                 if (depth <= 1) {
-                    topBarSettingsIcon.visible = true;
                     topBarMenuIcon.source = sideMenu.visible ? "resources/caretLeft.svg" : "resources/threeLines.svg";
                 } else if (isLobby || isGame || isGameWait) {
                     // Lobby, Spiel UND Warteraum: Tür-Icon zum Verlassen.
-                    topBarSettingsIcon.visible = true;
                     topBarMenuIcon.source = "resources/doorExit.svg";
                 } else {
-                    topBarSettingsIcon.visible = true;
                     topBarMenuIcon.source = "resources/caretLeft.svg";
                 }
                 // Bildschirm während Spiel und Warteraum wach halten (Android:
@@ -295,7 +333,8 @@ ApplicationWindow {
     Shortcut {
         sequence: "Alt+S"
         onActivated: {
-            if (mainStackView.depth === 1) {
+            // Nicht im Splash/PreLoader pushen (Stack-Reset, s. topBarIconsVisible).
+            if (mainStackView.depth === 1 && mainWindow.topBarIconsVisible) {
                 mainStackView.push("pages/SettingsPage.qml")
                 sideMenu.visible = false
             }

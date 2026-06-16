@@ -9,6 +9,7 @@ import "../config" as Config
 
 Rectangle {
     id: preLoaderPage
+    objectName: "preLoaderPage"
     visible: true
     width: mainWindow.width
     height: mainWindow.height

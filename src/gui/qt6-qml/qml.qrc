@@ -16,6 +16,7 @@
         <file>components/ResizeHandle.qml</file>
         <file>components/PanelShadow.qml</file>
         <file>components/SectionDivider.qml</file>
+        <file>components/CommunityRankingView.qml</file>
         <file>components/PlayerActionIcon.qml</file>
         <file>components/PlayerListItem.qml</file>
         <file>components/GameListItem.qml</file>
@@ -55,6 +56,10 @@
         <file>pages/NetworkGameCreatePage.qml</file>
         <file>pages/NetworkGameEnterPage.qml</file>
         <file>pages/PreLoader.qml</file>
+        <file>pages/RankingPage.qml</file>
+        <file>pages/CommunityRankingPage.qml</file>
+        <file>pages/BbcRankingPage.qml</file>
+        <file>pages/WecRankingPage.qml</file>
         <file>pages/SettingsPage.qml</file>
         <file>pages/StartPage.qml</file>
         <file>pages/ServerConnectionDialog.qml</file>
