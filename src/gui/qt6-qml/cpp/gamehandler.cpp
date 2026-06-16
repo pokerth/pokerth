@@ -563,6 +563,7 @@ void GameHandler::computeCallAndRaiseAmounts()
     int dbgMyAction = -1;   // [ACTDBG] zuletzt gelesene Engine-Aktion (für Log)
     int dbgPrevId   = -99;  // [ACTDBG] getPreviousPlayerID() (für Log)
     int dbgHandId   = -1;   // [ACTDBG] aktuelle Hand-ID (für Log)
+    bool dbgRoundClosed = false;  // [ACTDBG] Setzrunde abgeschlossen (für Log)
 
     if (m_game) {
         auto hand = m_game->getCurrentHand();
@@ -601,9 +602,35 @@ void GameHandler::computeCallAndRaiseAmounts()
                             && myAction != PLAYER_ACTION_ALLIN
                             && humanCash > 0
                             && humanPlayer->isSessionActive();
+
+                // Setzrunde abgeschlossen? Nach der ersten Setzrunden-Runde
+                // (!firstRound) und sobald alle noch laufenden Spieler den
+                // höchsten Einsatz erreicht haben (allHighestSet), ist die Runde
+                // entschieden – exakt das Kriterium aus LocalBeRo::run(). In
+                // diesem Zeitfenster (letzte Aktion erfolgt, nächste Runde/Hand
+                // noch nicht gestartet) darf KEINE Vorauswahl mit veralteten
+                // Werten aktiv bleiben → Buttons inaktiv. Nicht greifen, wenn ich
+                // selbst gerade am Zug bin (z.B. abschließender Check als letzter
+                // Spieler) – das erledigt der reguläre m_myTurn-Pfad.
+                bool roundClosed = false;
+                if (!m_myTurn && !bero->getFirstRound()) {
+                    auto running = hand->getRunningPlayerList();
+                    if (running && !running->empty()) {
+                        roundClosed = true;
+                        for (auto it = running->begin(); it != running->end(); ++it) {
+                            if ((*it)->getMySet() != highestSet) {
+                                roundClosed = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                dbgRoundClosed = roundClosed;
+
                 newCanAct = baseEligible
                             && (m_myTurn || prevPlayerId != 0)
-                            && !m_showdownActive;
+                            && !m_showdownActive
+                            && !roundClosed;
 
                 if (humanCash + humanSet <= highestSet) {
                     newCallAmount = humanCash;
@@ -663,7 +690,7 @@ void GameHandler::computeCallAndRaiseAmounts()
         qDebug() << "[ACTDBG] canAct=" << m_canAct << "prevPlayerId=" << dbgPrevId
                  << "myAction=" << dbgMyAction
                  << "(NONE=0,FOLD=1,CHK=2,CALL=3,BET=4,RAISE=5,ALLIN=6)"
-                 << "handId=" << dbgHandId
+                 << "handId=" << dbgHandId << "roundClosed=" << dbgRoundClosed
                  << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
         emit canActChanged();
     }

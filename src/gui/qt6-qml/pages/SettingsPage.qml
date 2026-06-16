@@ -10,6 +10,7 @@ import "../components"
 
 Rectangle {
     id: settingsPage
+    objectName: "settingsPage"
 
     Layout.fillWidth: true
     Layout.fillHeight: true

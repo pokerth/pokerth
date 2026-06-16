@@ -509,12 +509,17 @@ Item {
                 // freiwillig zeigen kann (temporär als Ersatz für All-In).
                 Rectangle {
                     id: allInBtn
-                    readonly property bool preChecked: actionBar.preAction === "allin"
                     readonly property bool isShowMode: typeof GameTable !== "undefined" && GameTable && GameTable.canShowCards
+                    // klickbar: echter Zug ODER zulässige Vorwahl (nicht in der
+                    // Runden-/Handübergangsphase, wenn canAct bereits false ist).
+                    readonly property bool armed: actionBar.canAct
+                                                  && (GameTable.myTurn || actionBar.preSelectEnabled)
+                    // Vorwahl-Markierung nur, solange der Button auch klickbar ist.
+                    readonly property bool preChecked: armed && actionBar.preAction === "allin"
                     Layout.preferredWidth: 52
                     Layout.preferredHeight: actionBar.raiseRowHeight
                     radius: 5
-                    opacity: (isShowMode || (actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled))) ? 1.0 : 0.4
+                    opacity: (isShowMode || allInBtn.armed) ? 1.0 : 0.4
                     color: allInArea.containsPress
                          ? Qt.lighter(isShowMode ? "#2d6e2d" : Config.Theme.colorAllInBottom, 1.35)
                          : allInArea.containsMouse
@@ -524,7 +529,7 @@ Item {
                                 : allInBtn.preChecked ? "#FFD700"
                                 : Config.Theme.colorAllInEdge
                     border.width: (isShowMode || allInBtn.preChecked) ? 2 : 1
-                    scale: (allInArea.pressed && ((actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled)) || isShowMode)) ? 0.95 : 1.0
+                    scale: (allInArea.pressed && (allInBtn.armed || isShowMode)) ? 0.95 : 1.0
                     Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
                     Text {
                         anchors.centerIn: parent
@@ -537,8 +542,8 @@ Item {
                     MouseArea {
                         id: allInArea
                         anchors.fill: parent
-                        enabled: (actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled)) || allInBtn.isShowMode
-                        cursorShape: ((actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled)) || allInBtn.isShowMode) ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        enabled: allInBtn.armed || allInBtn.isShowMode
+                        cursorShape: (allInBtn.armed || allInBtn.isShowMode) ? Qt.PointingHandCursor : Qt.ArrowCursor
                         hoverEnabled: true
                         onPressed: function(mouse) {
                             console.log("[ACTDBG] AllIn MouseArea press",
@@ -608,7 +613,11 @@ Item {
                 property bool armed: false   // klickbar: eigener Zug ODER Vorwahl möglich
                 property bool highlight: false   // primäre Aktion hervorheben (Raise)
                 readonly property bool myTurnNow: GameTable !== null && GameTable.myTurn
-                readonly property bool preChecked: ab.actionKey !== "" && actionBar.preAction === ab.actionKey
+                // Vorwahl-Markierung (goldener Rahmen/Punkt) nur, solange der
+                // Button auch klickbar ist. Sonst bliebe nach Runden-/Handende
+                // eine veraltete Vorauswahl sichtbar, obwohl die Buttons in der
+                // Übergangsphase inaktiv sind.
+                readonly property bool preChecked: ab.armed && ab.actionKey !== "" && actionBar.preAction === ab.actionKey
 
                 onArmedChanged: console.log("[ACTDBG] armed", ab.actionKey, "→", ab.armed,
                                             "(myTurn=", GameTable ? GameTable.myTurn : "n/a",

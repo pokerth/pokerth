@@ -25,6 +25,49 @@ ApplicationWindow {
         mainStackView.currentItem
         && mainStackView.currentItem.objectName !== "preLoaderPage"
 
+    // Overlay-Seiten der Topbar-Icons (Settings + Community/Ranking inkl. der
+    // Unterseiten). Alles, was NICHT hier steht, gilt als Basisseite
+    // (Gametable, Lobby, Startseite) – dorthin wird beim Schließen zurückgesetzt.
+    readonly property var settingsSectionPages: ["settingsPage"]
+    readonly property var rankingSectionPages:
+        ["communityRankingPage", "rankingPage", "bbcRankingPage", "wecRankingPage"]
+
+    // Aktiv = oberste Seite gehört zur jeweiligen Sektion → Icon hervorheben.
+    readonly property bool settingsSectionActive:
+        topBarSectionOpen(settingsSectionPages)
+    readonly property bool rankingSectionActive:
+        topBarSectionOpen(rankingSectionPages)
+
+    function topBarSectionOpen(sectionPages) {
+        var c = mainStackView.currentItem
+        return c && sectionPages.indexOf(c.objectName) !== -1
+    }
+
+    // Alle Settings-/Ranking-Overlay-Seiten vom Stack poppen, sodass die
+    // darunterliegende Basisseite (Gametable, Lobby oder Startseite) wieder
+    // erscheint. Hält NIE auf der Zwischen-Auswahlseite (CommunityRankingPage).
+    function closeTopBarOverlay() {
+        var overlay = settingsSectionPages.concat(rankingSectionPages)
+        for (var i = mainStackView.depth - 1; i >= 0; --i) {
+            var item = mainStackView.get(i)
+            if (!item || overlay.indexOf(item.objectName) === -1) {
+                mainStackView.pop(item)
+                return
+            }
+        }
+    }
+
+    // Topbar-Icon als Toggle: ist die Sektion bereits offen, wird sie (und jede
+    // andere offene Overlay-Sektion) bis zur Basisseite geschlossen; sonst wird
+    // ihre Einstiegsseite geöffnet – ggf. nach Kollaps einer anderen Sektion.
+    function toggleTopBarSection(entryUrl, sectionPages) {
+        var open = topBarSectionOpen(sectionPages)
+        closeTopBarOverlay()
+        if (!open)
+            mainStackView.push(entryUrl)
+        sideMenu.visible = false
+    }
+
     property StartPage startPage: StartPage {}
     property SideMenu sideMenu: SideMenu {}
     // Start-Auflösung = Default-Größe des Qt-Widgets-Clients am Gametable
@@ -213,9 +256,11 @@ ApplicationWindow {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
-                        colorizationColor: rankingArea.containsMouse
-                            ? Config.StaticData.palette.secondary.col100
-                            : Config.StaticData.palette.secondary.col200
+                        colorizationColor: mainWindow.rankingSectionActive
+                            ? Config.Theme.colorAccent
+                            : rankingArea.containsMouse
+                                ? Config.StaticData.palette.secondary.col100
+                                : Config.StaticData.palette.secondary.col200
                     }
 
                     MouseArea {
@@ -224,12 +269,9 @@ ApplicationWindow {
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
 
-                        onClicked: {
-                            if (!mainStackView.currentItem
-                                    || mainStackView.currentItem.objectName !== "communityRankingPage")
-                                mainStackView.push("pages/CommunityRankingPage.qml");
-                            sideMenu.visible = false;
-                        }
+                        onClicked: mainWindow.toggleTopBarSection(
+                            "pages/CommunityRankingPage.qml",
+                            mainWindow.rankingSectionPages)
                     }
                 }
 
@@ -243,9 +285,11 @@ ApplicationWindow {
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
-                        colorizationColor: settingsArea.containsMouse
-                            ? Config.StaticData.palette.secondary.col100
-                            : Config.StaticData.palette.secondary.col200
+                        colorizationColor: mainWindow.settingsSectionActive
+                            ? Config.Theme.colorAccent
+                            : settingsArea.containsMouse
+                                ? Config.StaticData.palette.secondary.col100
+                                : Config.StaticData.palette.secondary.col200
                     }
 
                     MouseArea {
@@ -254,11 +298,9 @@ ApplicationWindow {
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
 
-                        onClicked: {
-                            mainStackView.push("pages/SettingsPage.qml");
-                            sideMenu.visible = false;
-                        }
-
+                        onClicked: mainWindow.toggleTopBarSection(
+                            "pages/SettingsPage.qml",
+                            mainWindow.settingsSectionPages)
                     }
                 }
             }
@@ -333,11 +375,10 @@ ApplicationWindow {
     Shortcut {
         sequence: "Alt+S"
         onActivated: {
-            // Nicht im Splash/PreLoader pushen (Stack-Reset, s. topBarIconsVisible).
-            if (mainStackView.depth === 1 && mainWindow.topBarIconsVisible) {
-                mainStackView.push("pages/SettingsPage.qml")
-                sideMenu.visible = false
-            }
+            // Nicht im Splash/PreLoader öffnen (Stack-Reset, s. topBarIconsVisible).
+            if (mainWindow.topBarIconsVisible)
+                mainWindow.toggleTopBarSection(
+                    "pages/SettingsPage.qml", mainWindow.settingsSectionPages)
         }
     }
 
