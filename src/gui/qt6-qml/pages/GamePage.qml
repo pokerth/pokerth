@@ -684,6 +684,13 @@ Rectangle {
             readonly property real zoomFactor: 2.0
             property real  _zoomPanX: 0
             property real  _zoomPanY: 0
+            // Verzögertes Nachführen auf den aktiven Spieler (compact-Zoom):
+            // Wird ein Spieler am Zug, springt der Ausschnitt NICHT sofort zu ihm,
+            // sondern erst wenn er handelt (refreshActionTriggered) ODER 1/4 seiner
+            // Bedenkzeit verstrichen ist. So bleibt nach einer neuen Community-Karte
+            // der Tisch-/Community-Bereich länger sichtbar.
+            property int   _pendingFollowSeat: -1   // geplanter Schwenk-Sitz (Timer läuft)
+            property int   _followedSeat: -1        // bereits angeschwenkter aktiver Sitz
             // Schwenk-Animation beim Loslassen/Zurücksetzen; deaktiviert während
             // des aktiven Drags, damit der Finger ohne Verzögerung verfolgt wird.
             Behavior on _zoomPanX {
@@ -908,6 +915,36 @@ Rectangle {
                 var slot = slotForSeat(seatIdx)
                 if (!slot) return
                 _panToPoint(width * slot.x, height * slot.y + slot.nudge)
+            }
+
+            // Plant einen verzögerten Schwenk auf den gerade aktiven Sitz. Der
+            // Schwenk erfolgt erst, wenn der Spieler handelt oder 1/4 seiner
+            // Bedenkzeit (timeoutSec) abgelaufen ist – ausgelöst über followTimer
+            // bzw. refreshActionTriggered.
+            function _scheduleFollow(seatId, sec) {
+                if (!zoomActive || !GameTable || zoomPanner.active) return
+                if (seatId <= 0) return                      // 0 = ich (myTurn-Pfad), -1 = keiner
+                if (seatId === _followedSeat) return          // schon dort
+                if (seatId === _pendingFollowSeat && followTimer.running) return  // schon geplant
+                _pendingFollowSeat = seatId
+                followTimer.interval = Math.max(800, (sec > 0 ? sec : 8) * 250)
+                followTimer.restart()
+            }
+
+            // Führt den geplanten Schwenk sofort aus (Timer-Ablauf oder Aktion).
+            function _doFollow() {
+                followTimer.stop()
+                if (!zoomActive || !GameTable || zoomPanner.active) return
+                if (_pendingFollowSeat <= 0) return
+                _panToSeat(_pendingFollowSeat)
+                _followedSeat = _pendingFollowSeat
+                _pendingFollowSeat = -1
+            }
+
+            Timer {
+                id: followTimer
+                repeat: false
+                onTriggered: tableZone._doFollow()
             }
 
             function slotForSeat(seatIdx) {
@@ -1192,28 +1229,53 @@ Rectangle {
                     function onMyTurnChanged() {
                         if (!tableZone.zoomActive || !GameTable || !GameTable.myTurn)
                             return
+                        // Eigener Zug: geplanten Gegner-Schwenk abbrechen und sofort
+                        // auf die Self-Box-Zone schwenken.
+                        followTimer.stop()
+                        tableZone._pendingFollowSeat = -1
+                        tableZone._followedSeat = 0
                         tableZone._zoomPanY = -(tableZone.zoomFactor - 1) * zoomLayer.height / 2
                         tableZone._zoomPanX = 0
                     }
                     function onTimeoutChanged() {
-                        if (!tableZone.zoomActive || !GameTable || zoomPanner.active) return
-                        var seatId = GameTable.timeoutSeatId
-                        if (seatId <= 0) return
-                        tableZone._panToSeat(seatId)
+                        // Neuer aktiver Sitz → verzögertes Nachführen einplanen
+                        // (springt nicht sofort dorthin). seatId <= 0 (−1 = kurz
+                        // zwischen zwei Spielern, 0 = ich) wird ignoriert, damit
+                        // ein noch ausstehender Schwenk auf den handelnden Spieler
+                        // bestehen bleibt.
+                        tableZone._scheduleFollow(GameTable ? GameTable.timeoutSeatId : -1,
+                                                  GameTable ? GameTable.timeoutSec : 0)
+                    }
+                    function onRefreshActionTriggered() {
+                        // Der eingeplante Spieler hat gehandelt → sofort dorthin
+                        // schwenken (zeigt die Aktion), ohne das 1/4-Intervall
+                        // abzuwarten.
+                        tableZone._doFollow()
                     }
                     function onPlayersChanged() {
+                        // Sicherheitsnetz: aktiven Gegner ebenfalls verzögert
+                        // nachführen, falls timeoutChanged ausbleibt. _scheduleFollow
+                        // ist idempotent (kein Timer-Thrash bei Dauerfeuer).
                         if (!tableZone.zoomActive || !GameTable || zoomPanner.active) return
                         var players = GameTable.players
                         for (var i = 1; i < players.length; i++) {
                             if (players[i].name !== "" && players[i].myTurn) {
-                                tableZone._panToSeat(i)
+                                tableZone._scheduleFollow(i, GameTable.timeoutSec)
                                 return
                             }
                         }
                     }
                     function onBoardCardsChanged() {
-                        if (!tableZone.zoomActive || !GameTable || zoomPanner.active) return
+                        if (!tableZone.zoomActive || !GameTable) return
+                        // Neue Setzrunde / neue Hand: „bereits angeschwenkt"-Merkmal
+                        // zurücksetzen, damit der erste Spieler der Runde wieder
+                        // verzögert verfolgt wird.
+                        followTimer.stop()
+                        tableZone._pendingFollowSeat = -1
+                        tableZone._followedSeat = -1
+                        if (zoomPanner.active) return
                         if (GameTable.boardCardCount <= 0) return
+                        // Neue Karte(n): auf den Community-Bereich schwenken.
                         tableZone._panToPoint(tableZone.width / 2, tableZone.communityCenterY)
                     }
                     function onWinningHandTextChanged() {
