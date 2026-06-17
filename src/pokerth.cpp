@@ -57,6 +57,7 @@
 #include "gui/qt6-qml/cpp/networkgamehandler.h"
 #include "gui/qt6-qml/cpp/qmlguiinterface.h"
 #include "gui/qt6-qml/cpp/screenhelper.h"
+#include "gui/qt6-qml/cpp/webnetworkfactory.h"
 #include <core/loghelper.h>
 #include <cstdio>
 
@@ -198,7 +199,13 @@ int main(int argc, char *argv[])
         qWarning() << "Exception during session init:" << e.what();
     }
 
+    // Declared before the engine so it outlives it (the engine uses the factory
+    // during its own destruction). Injects the allowlisted PokerTH User-Agent on
+    // all QML network requests (rankings & player pages behind Cloudflare).
+    WebNetworkAccessManagerFactory webNamFactory;
+
     QQmlApplicationEngine engine;
+    engine.setNetworkAccessManagerFactory(&webNamFactory);
 
     SettingsManager settingsMgr(myConfig);
     LanguageManager langMgr(&engine);

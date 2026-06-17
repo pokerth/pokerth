@@ -19,6 +19,12 @@ Rectangle {
     property int currentSeason: 0
     property bool alltime: false
 
+    // Vom Globus-Toggle gesetzt → Filter (Saison/All-Time) wiederherstellen.
+    property var restoreState: null
+    function captureState() {
+        return { currentSeason: currentSeason, alltime: alltime }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: 16
@@ -77,6 +83,20 @@ Rectangle {
             Layout.fillHeight: true
 
             baseUrl: "https://bbc.pokerth.net"
+
+            onPlayerActivated: function(nick) {
+                if (nick === "")
+                    return
+                bbcPage.StackView.view.push("../components/CommunityPlayerView.qml", {
+                    baseUrl: "https://bbc.pokerth.net",
+                    nickname: nick,
+                    blocks: [
+                        { label: qsTr("This season"), key: "season" },
+                        { label: qsTr("All-time"),    key: "alltime" }
+                    ]
+                })
+            }
+
             // "Step1" nur sichtbar in Saison 9/10 (wie auf der Webseite).
             extraColumns: (!bbcPage.alltime
                            && (bbcPage.currentSeason === 9 || bbcPage.currentSeason === 10))
@@ -93,6 +113,16 @@ Rectangle {
                 for (var i = seasons.length - 1; i >= 0; --i)
                     m.push({ value: seasons[i], label: qsTr("Season %1").arg(seasons[i]) })
                 bbcPage.seasonModel = m
+                if (bbcPage.restoreState) {
+                    // Gemerkten Filter wiederherstellen und dessen Daten laden.
+                    sel = bbcPage.restoreState.currentSeason
+                    bbcPage.alltime = bbcPage.restoreState.alltime
+                    bbcPage.restoreState = null
+                    bbcPage.currentSeason = sel
+                    seasonCombo.currentIndex = Math.max(0, seasonCombo.indexOfValue(sel))
+                    applyFilter()
+                    return
+                }
                 bbcPage.currentSeason = sel
                 seasonCombo.currentIndex = Math.max(0, seasonCombo.indexOfValue(sel))
                 // Eingebettete Initialdaten der aktuellen Saison anzeigen.

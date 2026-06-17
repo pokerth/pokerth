@@ -33,7 +33,17 @@ Rectangle {
     property bool loading: false
     property string errorText: ""
 
+    // Beim Wiederherstellen über den Globus-Toggle gesetzt → Filter-Zustand
+    // (Saison, Suche, Seite) wiederherstellen statt Defaults laden.
+    property var restoreState: null
+    property bool restoring: false
+
     readonly property int pageCount: Math.max(1, Math.ceil(total / pageSize))
+
+    // Aktuellen Filter-Zustand für das spätere Wiederherstellen sichern.
+    function captureState() {
+        return { season: season, searchQuery: searchQuery, currentPage: currentPage }
+    }
 
     function loadData() {
         loading = true
@@ -77,7 +87,17 @@ Rectangle {
         xhr.send(JSON.stringify(payload))
     }
 
-    Component.onCompleted: loadData()
+    Component.onCompleted: {
+        if (restoreState) {
+            restoring = true
+            season = restoreState.season || "current"
+            searchQuery = restoreState.searchQuery || ""
+            currentPage = restoreState.currentPage || 1
+            searchField.text = searchQuery     // löst onTextChanged aus (Timer unterdrückt)
+            restoring = false
+        }
+        loadData()
+    }
 
     // Suchfeld-Eingabe entprellen, damit nicht bei jedem Tastendruck eine
     // Anfrage rausgeht.
@@ -156,7 +176,9 @@ Rectangle {
                 placeholderText: qsTr("Username")
                 onTextChanged: {
                     rankingPage.searchQuery = text.trim()
-                    searchTimer.restart()
+                    // Beim Wiederherstellen kein Timer/Seiten-Reset auslösen.
+                    if (!rankingPage.restoring)
+                        searchTimer.restart()
                 }
             }
         }
@@ -297,12 +319,24 @@ Rectangle {
                             }
 
                             Label {
+                                id: nickLabel
                                 text: rankDelegate.modelData.username
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
-                                color: Config.StaticData.palette.secondary.col100
+                                // Klickbar → Player-Page (per player_id, sonst username).
+                                color: nickHover.hovered ? Config.Theme.colorAccent
+                                                         : Config.StaticData.palette.secondary.col100
                                 font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: Config.Theme.fontSizeBody
+                                font.underline: nickHover.hovered
+
+                                HoverHandler { id: nickHover; cursorShape: Qt.PointingHandCursor }
+                                TapHandler {
+                                    onTapped: rankingPage.StackView.view.push("PokerthPlayerPage.qml", {
+                                        playerId: rankDelegate.modelData.player_id || 0,
+                                        username: rankDelegate.modelData.username || ""
+                                    })
+                                }
                             }
                         }
                         Label {

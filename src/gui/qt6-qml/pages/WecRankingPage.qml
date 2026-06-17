@@ -29,6 +29,13 @@ Rectangle {
     property bool allyear: false
     property bool alltime: false
 
+    // Vom Globus-Toggle gesetzt → Filter (Jahr/Monat/All-Year/All-Time) wiederherstellen.
+    property var restoreState: null
+    function captureState() {
+        return { currentYear: currentYear, currentMonth: currentMonth,
+                 allyear: allyear, alltime: alltime }
+    }
+
     Component.onCompleted: {
         // Jahres-Liste aufbauen: aktuelles Jahr … 2012 (wie auf der Webseite).
         var now = new Date().getFullYear()
@@ -130,6 +137,21 @@ Rectangle {
             Layout.fillHeight: true
 
             baseUrl: "https://wec.pokerth.net"
+
+            onPlayerActivated: function(nick) {
+                if (nick === "")
+                    return
+                wecPage.StackView.view.push("../components/CommunityPlayerView.qml", {
+                    baseUrl: "https://wec.pokerth.net",
+                    nickname: nick,
+                    blocks: [
+                        { label: qsTr("This month"), key: "month" },
+                        { label: qsTr("This year"),  key: "year" },
+                        { label: qsTr("All-time"),   key: "alltime" }
+                    ]
+                })
+            }
+
             makeBody: function() {
                 return {
                     year:  wecPage.alltime ? 0 : wecPage.currentYear,
@@ -138,6 +160,19 @@ Rectangle {
             }
 
             onInitialData: function(html) {
+                if (wecPage.restoreState) {
+                    // Gemerkten Filter wiederherstellen und dessen Daten laden.
+                    var r = wecPage.restoreState
+                    wecPage.restoreState = null
+                    wecPage.currentYear = r.currentYear
+                    wecPage.currentMonth = r.currentMonth
+                    wecPage.allyear = r.allyear
+                    wecPage.alltime = r.alltime
+                    yearCombo.currentIndex = Math.max(0, yearCombo.indexOfValue(wecPage.currentYear))
+                    monthCombo.currentIndex = Math.max(0, monthCombo.indexOfValue(wecPage.currentMonth))
+                    applyFilter()
+                    return
+                }
                 var y = parseInt(attr(html, "stats_year"))
                 var mo = parseInt(attr(html, "stats_month"))
                 if (!isNaN(y))

@@ -30,7 +30,13 @@ ApplicationWindow {
     // (Gametable, Lobby, Startseite) – dorthin wird beim Schließen zurückgesetzt.
     readonly property var settingsSectionPages: ["settingsPage"]
     readonly property var rankingSectionPages:
-        ["communityRankingPage", "rankingPage", "bbcRankingPage", "wecRankingPage"]
+        ["communityRankingPage", "rankingPage", "bbcRankingPage", "wecRankingPage",
+         "pokerthPlayerPage", "communityPlayerPage"]
+
+    // Gemerkter Ranking-Unterstapel beim Schließen über den Globus, damit ein
+    // erneutes Toggle wieder auf der letzten Ranking-Seite landet (statt auf der
+    // Auswahlseite). Liste von { url, props } in Stack-Reihenfolge.
+    property var savedRankingStack: []
 
     // Aktiv = oberste Seite gehört zur jeweiligen Sektion → Icon hervorheben.
     readonly property bool settingsSectionActive:
@@ -57,14 +63,74 @@ ApplicationWindow {
         }
     }
 
+    // objectName → Quell-URL (relativ zu pokerth.qml) für das Wiederherstellen
+    // eines gemerkten Overlay-Stacks.
+    function overlayUrlFor(objectName) {
+        switch (objectName) {
+        case "communityRankingPage": return "pages/CommunityRankingPage.qml"
+        case "rankingPage":          return "pages/RankingPage.qml"
+        case "bbcRankingPage":       return "pages/BbcRankingPage.qml"
+        case "wecRankingPage":       return "pages/WecRankingPage.qml"
+        case "pokerthPlayerPage":    return "pages/PokerthPlayerPage.qml"
+        case "communityPlayerPage":  return "components/CommunityPlayerView.qml"
+        case "settingsPage":         return "pages/SettingsPage.qml"
+        }
+        return ""
+    }
+
+    // Konstruktions-Properties, die eine Seite zum Wiederaufbau braucht.
+    function overlayPropsFor(item) {
+        if (item.objectName === "pokerthPlayerPage")
+            return { playerId: item.playerId, username: item.username }
+        if (item.objectName === "communityPlayerPage")
+            return { baseUrl: item.baseUrl, nickname: item.nickname, blocks: item.blocks }
+        // Ranking-Listen-Seiten merken ihren Filter-Zustand über captureState().
+        if (typeof item.captureState === "function")
+            return { restoreState: item.captureState() }
+        return {}
+    }
+
+    // Aktuellen Ranking-Overlay-Unterstapel (über der Basisseite) als Liste von
+    // { url, props } sichern, um ihn später 1:1 wiederherzustellen.
+    function saveOverlayStack() {
+        var overlay = settingsSectionPages.concat(rankingSectionPages)
+        var saved = []
+        for (var i = mainStackView.depth - 1; i >= 0; --i) {
+            var item = mainStackView.get(i)
+            if (!item || overlay.indexOf(item.objectName) === -1) {
+                for (var j = i + 1; j < mainStackView.depth; ++j) {
+                    var it = mainStackView.get(j)
+                    saved.push({ url: overlayUrlFor(it.objectName), props: overlayPropsFor(it) })
+                }
+                break
+            }
+        }
+        savedRankingStack = saved
+    }
+
+    function restoreOverlayStack(saved) {
+        for (var i = 0; i < saved.length; ++i) {
+            if (saved[i].url !== "")
+                mainStackView.push(saved[i].url, saved[i].props)
+        }
+    }
+
     // Topbar-Icon als Toggle: ist die Sektion bereits offen, wird sie (und jede
     // andere offene Overlay-Sektion) bis zur Basisseite geschlossen; sonst wird
     // ihre Einstiegsseite geöffnet – ggf. nach Kollaps einer anderen Sektion.
-    function toggleTopBarSection(entryUrl, sectionPages) {
+    // restore=true (Ranking) merkt sich beim Schließen den Unterstapel und stellt
+    // ihn beim erneuten Öffnen wieder her (statt nur die Einstiegsseite).
+    function toggleTopBarSection(entryUrl, sectionPages, restore) {
         var open = topBarSectionOpen(sectionPages)
+        if (open && restore)
+            saveOverlayStack()
         closeTopBarOverlay()
-        if (!open)
-            mainStackView.push(entryUrl)
+        if (!open) {
+            if (restore && savedRankingStack.length > 0)
+                restoreOverlayStack(savedRankingStack)
+            else
+                mainStackView.push(entryUrl)
+        }
         sideMenu.visible = false
     }
 
@@ -286,7 +352,7 @@ ApplicationWindow {
 
                         onClicked: mainWindow.toggleTopBarSection(
                             "pages/CommunityRankingPage.qml",
-                            mainWindow.rankingSectionPages)
+                            mainWindow.rankingSectionPages, true)
                     }
                 }
 

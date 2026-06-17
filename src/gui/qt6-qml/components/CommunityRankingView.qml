@@ -35,6 +35,8 @@ Rectangle {
     readonly property bool compact: Config.Responsive.compact
 
     signal initialData(string html)
+    // Klick auf einen Spielernamen – die Seite öffnet die Player-Page.
+    signal playerActivated(string nickname)
 
     color: Config.StaticData.palette.secondary.col600
     border.color: Config.StaticData.palette.secondary.col500
@@ -255,12 +257,21 @@ Rectangle {
                         font.bold: (rankDelegate.index + 1) <= 3
                     }
                     Label {
+                        id: nickLabel
                         text: rankDelegate.modelData.nickname || ""
                         Layout.fillWidth: true
                         elide: Text.ElideRight
-                        color: Config.StaticData.palette.secondary.col100
+                        // Klickbar → leicht hervorgehoben/unterstrichen beim Hover.
+                        color: nickHover.hovered ? Config.Theme.colorAccent
+                                                 : Config.StaticData.palette.secondary.col100
                         font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
+                        font.underline: nickHover.hovered
+
+                        HoverHandler { id: nickHover; cursorShape: Qt.PointingHandCursor }
+                        TapHandler {
+                            onTapped: view.playerActivated(rankDelegate.modelData.nickname || "")
+                        }
                     }
                     Label {
                         text: rankDelegate.modelData.games

@@ -1,0 +1,192 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Universal
+import QtQuick.Layouts
+
+import "../config" as Config
+
+// Spielerprofil für die Community-Cups (BBC/WEC). Die Player-Seite
+//   GET <baseUrl>/player/<nickname>
+// bettet Spieler- und Statistik-Blöcke als Vue-Props ins HTML ein – die werden
+// hier geparst (kein CSRF nötig). `blocks` legt fest, welche Stat-Blöcke (z.B.
+// season/alltime bei BBC, month/year/alltime bei WEC) in welcher Reihenfolge
+// und mit welcher Überschrift angezeigt werden.
+Rectangle {
+    id: playerView
+    objectName: "communityPlayerPage"
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+    color: Config.StaticData.palette.secondary.col700
+
+    property string baseUrl: ""
+    property string nickname: ""
+    // [{ label, key }] – key referenziert einen Block in stats.
+    property var blocks: []
+
+    readonly property bool compact: Config.Responsive.compact
+
+    property var player: null
+    property var stats: null
+    property bool loading: false
+    property string errorText: ""
+
+    function datePart(s) { return s ? String(s).substring(0, 10) : "" }
+
+    function attr(html, name) {
+        var m = html.match(new RegExp(":" + name + "=\"([^\"]*)\""))
+        if (!m)
+            return ""
+        return m[1].replace(/&quot;/g, "\"").replace(/&#39;/g, "'")
+                   .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
+    }
+    function jsonAttr(html, name) {
+        var s = attr(html, name)
+        if (s === "")
+            return null
+        try { return JSON.parse(s) } catch (e) { return null }
+    }
+
+    function load() {
+        loading = true
+        errorText = ""
+        var xhr = new XMLHttpRequest()
+        xhr.open("GET", baseUrl + "/player/" + encodeURIComponent(nickname))
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== XMLHttpRequest.DONE)
+                return
+            playerView.loading = false
+            if (xhr.status !== 200) {
+                playerView.errorText = xhr.status === 404
+                    ? qsTr("Player not found.")
+                    : qsTr("Could not load player (HTTP %1).").arg(xhr.status || 0)
+                return
+            }
+            playerView.player = playerView.jsonAttr(xhr.responseText, "player")
+            playerView.stats = playerView.jsonAttr(xhr.responseText, "stats")
+            if (!playerView.player)
+                playerView.errorText = qsTr("Could not parse server response.")
+        }
+        xhr.send()
+    }
+
+    Component.onCompleted: load()
+
+    Flickable {
+        anchors.fill: parent
+        anchors.margins: 16
+        contentWidth: width
+        contentHeight: content.implicitHeight
+        clip: true
+        boundsBehavior: Flickable.StopAtBounds
+        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+
+        ColumnLayout {
+            id: content
+            width: parent.width
+            spacing: 14
+
+            // ── Kopf ────────────────────────────────────────────────────────
+            Label {
+                text: playerView.player ? playerView.player.nickname : playerView.nickname
+                Layout.fillWidth: true
+                elide: Text.ElideRight
+                color: Config.StaticData.palette.secondary.col100
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pointSize: 16
+                font.bold: true
+            }
+            Label {
+                visible: playerView.player && playerView.player.created_at
+                text: qsTr("Member since %1").arg(playerView.datePart(playerView.player ? playerView.player.created_at : ""))
+                color: Config.StaticData.palette.secondary.col300
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: Config.Theme.fontSizeCaption
+            }
+
+            // ── Stat-Blöcke ─────────────────────────────────────────────────
+            Repeater {
+                model: playerView.blocks
+                ColumnLayout {
+                    id: blockItem
+                    required property var modelData
+                    readonly property var data:
+                        (playerView.stats && playerView.stats[modelData.key])
+                        ? playerView.stats[modelData.key] : null
+                    Layout.fillWidth: true
+                    spacing: 6
+
+                    Label {
+                        text: blockItem.modelData.label
+                        color: Config.StaticData.palette.secondary.col200
+                        font.family: Config.StaticData.loadedFont.font.family
+                        font.pixelSize: Config.Theme.fontSizeBody
+                        font.bold: true
+                    }
+
+                    GridLayout {
+                        Layout.fillWidth: true
+                        columns: playerView.compact ? 2 : 4
+                        columnSpacing: 8
+                        rowSpacing: 8
+
+                        Repeater {
+                            model: [
+                                { label: qsTr("Rank"),   value: (blockItem.data && blockItem.data.pos !== "" && blockItem.data.pos != null) ? ("#" + blockItem.data.pos) : "–" },
+                                { label: qsTr("Score"),  value: blockItem.data ? blockItem.data.score : "–" },
+                                { label: qsTr("Games"),  value: blockItem.data ? ("" + blockItem.data.games) : "–" },
+                                { label: qsTr("Points"), value: blockItem.data ? ("" + blockItem.data.points) : "–" }
+                            ]
+                            Rectangle {
+                                id: statCell
+                                required property var modelData
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 56
+                                radius: 6
+                                color: Config.StaticData.palette.secondary.col600
+                                ColumnLayout {
+                                    anchors.centerIn: parent
+                                    spacing: 2
+                                    Label {
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: statCell.modelData.value
+                                        color: Config.StaticData.palette.secondary.col100
+                                        font.family: Config.StaticData.loadedFont.font.family
+                                        font.pixelSize: Config.Theme.fontSizeTitle
+                                        font.bold: true
+                                    }
+                                    Label {
+                                        Layout.alignment: Qt.AlignHCenter
+                                        text: statCell.modelData.label
+                                        color: Config.StaticData.palette.secondary.col300
+                                        font.family: Config.StaticData.loadedFont.font.family
+                                        font.pixelSize: Config.Theme.fontSizeCaption
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    BusyIndicator {
+        anchors.centerIn: parent
+        running: playerView.loading
+        visible: running
+        implicitWidth: 48
+        implicitHeight: 48
+    }
+
+    Label {
+        anchors.centerIn: parent
+        width: parent.width - 32
+        visible: !playerView.loading && playerView.errorText !== ""
+        text: playerView.errorText
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
+        color: "#d05050"
+        font.family: Config.StaticData.loadedFont.font.family
+        font.pixelSize: Config.Theme.fontSizeBody
+    }
+}

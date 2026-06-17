@@ -120,7 +120,11 @@ Rectangle {
                             text: qsTr("Community / Ranking")
                             Layout.fillWidth: true
                             Layout.preferredHeight: Config.Theme.touchTarget
-                            onClicked: mainStackView.push("CommunityRankingPage.qml")
+                            // Über denselben Toggle wie der Globus → gemerkter
+                            // Ranking-Stand wird wiederhergestellt.
+                            onClicked: mainWindow.toggleTopBarSection(
+                                "pages/CommunityRankingPage.qml",
+                                mainWindow.rankingSectionPages, true)
                         }
 
                         CustomButton {
