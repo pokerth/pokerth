@@ -52,6 +52,10 @@ class GameHandler : public QObject
     Q_PROPERTY(bool hasHumanOpponents READ hasHumanOpponents NOTIFY hasHumanOpponentsChanged)
     // true im Post-River, wenn der Mensch-Spieler seine Karten freiwillig zeigen kann
     Q_PROPERTY(bool canShowCards READ canShowCards NOTIFY canShowCardsChanged)
+    // true während der Showdown-/Ergebnisanzeige (Post-River, bis zur nächsten Hand).
+    // QML deaktiviert in dieser Phase die Aktions-Buttons (Fold/Call/Raise), damit
+    // kein verfrühter Klick für die nächste Runde ins Leere läuft.
+    Q_PROPERTY(bool showdownActive READ showdownActive NOTIFY showdownActiveChanged)
 
 public:
     explicit GameHandler(QObject *parent = nullptr);
@@ -87,6 +91,7 @@ public:
     QStringList chatLog() const { return m_chatLog; }
     bool hasHumanOpponents() const { return m_hasHumanOpponents; }
     bool canShowCards() const { return m_canShowCards; }
+    bool showdownActive() const { return m_showdownActive; }
 
     // Zeilentyp für die Einfärbung des Spielverlaufs – Farben/Stil 1:1 wie der
     // Qt-Widgets-Client (Default-Tischstil).
@@ -175,6 +180,7 @@ signals:
     void chatLogChanged();
     void hasHumanOpponentsChanged();
     void canShowCardsChanged();
+    void showdownActiveChanged();
     // Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" des Web-Clients) –
     // wird nicht im Chat angezeigt, sondern als Animation am Sitz abgespielt.
     void reactionReceived(const QString &playerName, const QString &emoji);
@@ -204,6 +210,9 @@ private:
     // falls der Timer-Pfad mal nicht greift. Verhindert verworfene Aktionen.
     bool isMyTurnToAct() const { return m_myTurn || m_timeoutSeatId == 0; }
     void doActionDone();
+    // Showdown-Flag setzen und – nur bei echter Änderung – die QML-Seite
+    // benachrichtigen (showdownActive gatet u. a. die Aktions-Buttons).
+    void setShowdownActive(bool active);
 
     boost::shared_ptr<Session> m_session;
     boost::shared_ptr<Game> m_game;

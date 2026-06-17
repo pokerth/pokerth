@@ -216,7 +216,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     m_boardCards = QVariantList{-1, -1, -1, -1, -1};
     m_winnerSeatIds.clear();
     m_winningHandText.clear();
-    m_showdownActive = false;
+    setShowdownActive(false);
     m_gameLog.clear();
     emit gameLogChanged();
     m_chatLog.clear();
@@ -378,7 +378,7 @@ void GameHandler::refreshPlayerData()
             // wenn onNextRoundCleanGui im Netzwerkspiel nicht feuert) nicht die
             // Action-Badges der Folgehände ausblendet.
             if (hand->getCurrentRound() != GAME_STATE_POST_RIVER)
-                m_showdownActive = false;
+                setShowdownActive(false);
         }
     }
 
@@ -762,6 +762,14 @@ void GameHandler::doActionDone()
     }
 }
 
+void GameHandler::setShowdownActive(bool active)
+{
+    if (m_showdownActive == active)
+        return;
+    m_showdownActive = active;
+    emit showdownActiveChanged();
+}
+
 // ─── slots called from QmlGuiInterface ──────────────────────────────────────
 
 void GameHandler::onRefreshSet()
@@ -1105,7 +1113,7 @@ void GameHandler::onNextRoundCleanGui()
         emit winningHandTextChanged();
     }
     // Showdown beenden, bevor die Spielerdaten neu gebaut werden → Karten zu.
-    m_showdownActive = false;
+    setShowdownActive(false);
     m_allInRevealed = false;
     if (m_canShowCards) {
         m_canShowCards = false;
@@ -1477,7 +1485,15 @@ void GameHandler::onShowdown()
 
     // Showdown ist jetzt aktiv → Gegnerkarten dürfen aufgedeckt werden
     // (determinePlayerNeedToShowCards() wurde in postRiverRun() bereits aufgerufen).
-    m_showdownActive = true;
+    setShowdownActive(true);
+    // Während des Showdowns ist niemand am Zug. Ein eventuell noch gesetztes
+    // m_myTurn (z. B. wenn der Zug über den Action-Timer aktiv war) würde sonst
+    // die Aktions-Buttons in der QML-ActionBar weiter „armed" halten
+    // (armed = myTurn || …) – die Buttons blieben im Showdown klickbar.
+    if (m_myTurn) {
+        m_myTurn = false;
+        emit myTurnChanged();
+    }
     refreshPlayerData();
     computeCallAndRaiseAmounts(); // Buttons sofort deaktivieren
 

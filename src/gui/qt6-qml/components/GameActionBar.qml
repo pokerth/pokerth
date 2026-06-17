@@ -100,10 +100,9 @@ Item {
         }
         function onPhaseTextChanged() {
             if (!GameTable) return
-            if (GameTable.phaseText === "Showdown") {
-                actionBar.preAction = ""
-                console.log("[ACTDBG] preAction Reset: Showdown")
-            } else if (GameTable.phaseText !== "Preflop") {
+            // phaseText ist immer Preflop/Flop/Turn/River (nie "Showdown" – das
+            // signalisiert showdownActive, s. onShowdownActiveChanged).
+            if (GameTable.phaseText !== "Preflop") {
                 // Flop/Turn/River: Vorauswahl zurücksetzen; Freischalten erfolgt
                 // in onRoundValuesReady (nach computeCallAndRaiseAmounts) –
                 // analog zum Widget-Client (updateMyButtonsState nach dealXCards2).
@@ -113,12 +112,27 @@ Item {
                 actionBar.preSelectEnabled = true   // Preflop = neue Hand
             }
         }
+        function onShowdownActiveChanged() {
+            // Showdown beginnt → eine evtl. vorgemerkte Aktion verwerfen, damit
+            // keine veraltete Markierung in die Ergebnisanzeige/nächste Hand
+            // hineinragt.
+            if (GameTable && GameTable.showdownActive) {
+                actionBar.preAction = ""
+                console.log("[ACTDBG] preAction Reset: Showdown")
+            }
+        }
     }
     property int preCallAmount: -1        // callAmount zum Zeitpunkt der Vorwahl
     // Spielmodus: 0 = manuell, 1 = Auto Check/Call, 2 = Auto Check/Fold.
     property int playingMode: 0
 
     readonly property bool canAct: GameTable !== null && GameTable.canAct
+
+    // Showdown-/Ergebnisanzeige (Post-River bis zur nächsten Hand): die
+    // Aktions-Buttons müssen IMMER deaktiviert sein, sonst klickt man verfrüht
+    // für die nächste Runde. Eigenes Gate, weil `armed` über myTurnNow auch an
+    // canAct vorbei aktiv werden könnte (stale m_myTurn).
+    readonly property bool inShowdown: GameTable !== null && GameTable.showdownActive
 
     // Kompakte Action-Bar nur auf echten Mobilgeräten mit knappem
     // vertikalem Platz (Phone-Landscape). Auf dem Desktop bleiben die
@@ -512,7 +526,10 @@ Item {
                     readonly property bool isShowMode: typeof GameTable !== "undefined" && GameTable && GameTable.canShowCards
                     // klickbar: echter Zug ODER zulässige Vorwahl (nicht in der
                     // Runden-/Handübergangsphase, wenn canAct bereits false ist).
-                    readonly property bool armed: actionBar.canAct
+                    // Im Showdown nie als All-In armed – der „Show"-Modus
+                    // (isShowMode) bleibt davon unberührt.
+                    readonly property bool armed: !actionBar.inShowdown
+                                                  && actionBar.canAct
                                                   && (GameTable.myTurn || actionBar.preSelectEnabled)
                     // Vorwahl-Markierung nur, solange der Button auch klickbar ist.
                     readonly property bool preChecked: armed && actionBar.preAction === "allin"
@@ -706,8 +723,10 @@ Item {
                     bottomColor: Config.Theme.colorFoldBottom
                     edgeColor: Config.Theme.colorFoldEdge
                     // myTurnNow gatet nie den echten Zug; preSelectEnabled sperrt
-                    // die Vorauswahl nach eigenem Zug/Rundenwechsel.
-                    armed: myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled)
+                    // die Vorauswahl nach eigenem Zug/Rundenwechsel. Im Showdown
+                    // immer aus.
+                    armed: !actionBar.inShowdown
+                           && (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled))
                 }
 
                 ActionButton {
@@ -718,7 +737,8 @@ Item {
                     topColor: Config.Theme.colorCallTop
                     bottomColor: Config.Theme.colorCallBottom
                     edgeColor: Config.Theme.colorCallEdge
-                    armed: myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled)
+                    armed: !actionBar.inShowdown
+                           && (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled))
                 }
 
                 ActionButton {
@@ -730,7 +750,9 @@ Item {
                     bottomColor: Config.Theme.colorRaiseBottom
                     edgeColor: Config.Theme.colorRaiseEdge
                     highlight: true     // primäre Aktion betonen
-                    armed: (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled)) && actionBar.raiseAvailable
+                    armed: !actionBar.inShowdown
+                           && (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled))
+                           && actionBar.raiseAvailable
                 }
             }
         }

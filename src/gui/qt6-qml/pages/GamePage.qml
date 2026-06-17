@@ -805,7 +805,21 @@ Rectangle {
                     var vFactor = sinV
                                 + ((!gravityUpperOnly || sinV <= 0) ? sideGravity * Math.abs(cosV) : 0)
                                 + (sinV > 0 ? lowerGravity * sinV : 0)
+                    // Desktop-Landscape: die seitlichen Außen-Paare (|cos|→1)
+                    // vertikal dezent entzerren – die obere Box nach oben, die
+                    // untere nach unten (Richtung über sinOrig). Damit ragt das
+                    // WINNER-Badge der unteren Box nicht mehr in die obere
+                    // Nachbarbox. |cos|-gewichtet, sodass die Top-Mitte (cos≈0)
+                    // unberührt bleibt. BEWUSST nur hier, NICHT in feasibleAt():
+                    // sonst würde die Bisection den größeren Paarabstand sofort
+                    // wieder mit größeren Boxen auffüllen statt echten Abstand zu
+                    // schaffen. Die Caps unten halten die Boxen in der Bahn.
+                    if (!Config.Responsive.landscapeCompact && cosV !== 0) {
+                        var pairSpread = 0.02 * Math.abs(cosV)
+                        vFactor += (sinOrig < 0 ? -pairSpread : pairSpread)
+                    }
                     if (vFactor > 1.0) vFactor = 1.0   // nie unter bottomY (Self-Box)
+                    if (vFactor < -1.0) vFactor = -1.0 // nie über die obere Bahn-Kante
                     // Graduell Richtung vMaxLower absenken, gewichtet mit dem
                     // ORIGINAL-sin: die untersten Sitze (BL/BR, sin≈0.88) sinken
                     // fast voll ab, die darüber (sin≈0.40) nur teilweise – ein
@@ -1022,7 +1036,13 @@ Rectangle {
                 delegate: Item {
                     id: seatSlot
                     required property int index
-                    z: 1
+                    // Gewinner-Sitz nach vorne holen, damit sein WINNER-Badge
+                    // (und der goldene Rahmen) bei Überlappung IMMER über den
+                    // benachbarten Gegnerboxen liegt – ein höheres z im Badge
+                    // selbst greift nur innerhalb der eigenen Box, nicht
+                    // zwischen den gleichrangigen (z:1) Geschwister-Slots.
+                    z: (typeof GameTable !== "undefined" && GameTable
+                        && GameTable.winnerSeatIds.indexOf(index) !== -1) ? 5 : 1
 
                     readonly property var pdata: (typeof GameTable !== "undefined" && GameTable && GameTable.players.length > index)
                         ? GameTable.players[index] : null

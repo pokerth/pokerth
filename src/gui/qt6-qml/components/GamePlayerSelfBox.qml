@@ -246,128 +246,137 @@ Rectangle {
         }
     }
 
-    // Action-Badge: zentriert über den Hole-Cards (identisch zu GamePlayerBox).
-    Rectangle {
-        id: actionBadge
-        visible: root.actionText !== "" && !root.isWinner
-        readonly property real cardsCenterX: cardsArea.x + cardRow.x + cardRow.cardsCenterX
-        readonly property real cardsCenterY: cardsArea.y + cardsArea.height / 2
-        x: cardsCenterX - width / 2
-        y: cardsCenterY - height / 2
-        width: actionLabel.width + 16
-        height: 18
-        radius: 9
-        z: 26
-        // Farbe je Aktion (gleiche Logik wie die Action-Buttons, nur dunkler).
-        color: Config.Theme.actionBadgeColor(root.action)
-        border.color: Config.Theme.actionBadgeBorder(root.action)
-        border.width: 1
-        transformOrigin: Item.Center
-        Behavior on color { ColorAnimation { duration: 200 } }
-        Behavior on border.color { ColorAnimation { duration: 200 } }
-
-        // Pop beim Erscheinen oder Wechsel einer Aktion (Mikroanimation).
-        onVisibleChanged: if (visible) selfBadgePop.restart()
-        Connections {
-            target: root
-            function onActionChanged() { if (actionBadge.visible) selfBadgePop.restart() }
-        }
-        SequentialAnimation {
-            id: selfBadgePop
-            NumberAnimation { target: actionBadge; property: "scale"; from: 0.6; to: 1.12; duration: 110; easing.type: Easing.OutQuad }
-            NumberAnimation { target: actionBadge; property: "scale"; to: 1.0; duration: 120; easing.type: Easing.OutBack }
-        }
-
-        Text {
-            id: actionLabel
-            anchors.centerIn: parent
-            text: root.actionText
-            color: "#eaf1ff"
-            font.family: Config.StaticData.loadedFont.font.family
-            font.pixelSize: 12
-            font.bold: true
-        }
-    }
-
-    // Action-Timeout: Fortschrittsbalken, ebenfalls zentriert über den Hole-Cards.
+    // ── Strip OBERHALB der Box: Action-Indikator (Badge bzw. Timeout-Balken)
+    //    rechtsbündig, Einsatz links davon. So werden die eigenen Hole-Cards
+    //    nicht mehr verdeckt (waren zuvor mittig über den Karten platziert).
     Item {
-        id: timeoutBar
-        readonly property bool active: (typeof GameTable !== "undefined" && GameTable)
-                                       && GameTable.timeoutSeatId === 0
-        property real progress: 1.0
-        visible: active && !root.isWinner && root.actionText === ""
-        x: actionBadge.cardsCenterX - width / 2
-        y: actionBadge.cardsCenterY - height / 2
-        width: 56
-        height: 7
+        id: topStrip
         z: 26
-
-        // Track (statisch): Kontur + Dropshadow.
-        Rectangle {
-            anchors.fill: parent
-            radius: height / 2
-            color: Config.Theme.colorTimeoutTrack
-            border.color: Qt.rgba(1, 1, 1, 0.55)
-            border.width: 1
-            layer.enabled: timeoutBar.visible
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowColor: "#000000"
-                shadowOpacity: 0.6
-                shadowBlur: 0.7
-                shadowVerticalOffset: 1
-                shadowHorizontalOffset: 0
-            }
-        }
-
-        // Füllung (animiert) ÜBER dem Track – NICHT im Layer, damit die Breiten-
-        // Animation zuverlässig läuft. Gleiches Blau wie bei den Gegnern, heller.
-        Rectangle {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 1
-            height: parent.height - 2
-            radius: height / 2
-            color: Config.Theme.colorTimeoutSelf
-            width: (parent.width - 2) * timeoutBar.progress
-        }
-
-        onActiveChanged: {
-            if (active) {
-                progress = 1.0
-                timeoutAnim.restart()
-            } else {
-                timeoutAnim.stop()
-            }
-        }
-        NumberAnimation {
-            id: timeoutAnim
-            target: timeoutBar
-            property: "progress"
-            from: 1.0; to: 0.0
-            duration: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.timeoutSec : 0) * 1000
-            easing.type: Easing.Linear
-        }
-    }
-
-    // Einsatz (Chip + Betrag) + Dealer/Small-/Big-Blind-Button oberhalb der Box.
-    // Einsatz zentriert, Button rechtsbündig mit Außenabstand.
-    Item {
-        id: betGroup
-        visible: root.bet > 0 || root.button > 0
-        z: 25
         width: root.width
-        height: Math.max(root.bet > 0 ? betRow.height : 0,
-                         root.button > 0 ? buttonImg.height : 0)
+        height: 18
         x: 0
         y: -height - 6
 
+        // Rechter Abstand des Einsatzes zum Boxrand, damit er links neben dem
+        // sichtbaren Indikator sitzt: am rechtsbündigen Action-Badge bzw. – beim
+        // BB/SB (Timeout läuft) – links neben dem horizontal zentrierten Balken.
+        readonly property real betRightMargin:
+              actionBadge.visible ? actionBadge.width + 8
+            : timeoutBar.visible  ? (width / 2 + timeoutBar.width / 2 + 8)
+            : 0
+
+        // Action-Badge: rechtsbündig über der Box.
+        Rectangle {
+            id: actionBadge
+            visible: root.actionText !== "" && !root.isWinner
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            width: actionLabel.width + 16
+            height: 18
+            radius: 9
+            z: 2
+            // Farbe je Aktion (gleiche Logik wie die Action-Buttons, nur dunkler).
+            color: Config.Theme.actionBadgeColor(root.action)
+            border.color: Config.Theme.actionBadgeBorder(root.action)
+            border.width: 1
+            transformOrigin: Item.Center
+            Behavior on color { ColorAnimation { duration: 200 } }
+            Behavior on border.color { ColorAnimation { duration: 200 } }
+
+            // Pop beim Erscheinen oder Wechsel einer Aktion (Mikroanimation).
+            onVisibleChanged: if (visible) selfBadgePop.restart()
+            Connections {
+                target: root
+                function onActionChanged() { if (actionBadge.visible) selfBadgePop.restart() }
+            }
+            SequentialAnimation {
+                id: selfBadgePop
+                NumberAnimation { target: actionBadge; property: "scale"; from: 0.6; to: 1.12; duration: 110; easing.type: Easing.OutQuad }
+                NumberAnimation { target: actionBadge; property: "scale"; to: 1.0; duration: 120; easing.type: Easing.OutBack }
+            }
+
+            Text {
+                id: actionLabel
+                anchors.centerIn: parent
+                text: root.actionText
+                color: "#eaf1ff"
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: 12
+                font.bold: true
+            }
+        }
+
+        // Action-Timeout: Fortschrittsbalken horizontal zentriert über der Box,
+        // exklusiv zum Badge.
+        Item {
+            id: timeoutBar
+            readonly property bool active: (typeof GameTable !== "undefined" && GameTable)
+                                           && GameTable.timeoutSeatId === 0
+            property real progress: 1.0
+            visible: active && !root.isWinner && root.actionText === ""
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            width: 56
+            height: 7
+            z: 2
+
+            // Track (statisch): Kontur + Dropshadow.
+            Rectangle {
+                anchors.fill: parent
+                radius: height / 2
+                color: Config.Theme.colorTimeoutTrack
+                border.color: Qt.rgba(1, 1, 1, 0.55)
+                border.width: 1
+                layer.enabled: timeoutBar.visible
+                layer.effect: MultiEffect {
+                    shadowEnabled: true
+                    shadowColor: "#000000"
+                    shadowOpacity: 0.6
+                    shadowBlur: 0.7
+                    shadowVerticalOffset: 1
+                    shadowHorizontalOffset: 0
+                }
+            }
+
+            // Füllung (animiert) ÜBER dem Track – NICHT im Layer, damit die Breiten-
+            // Animation zuverlässig läuft. Gleiches Blau wie bei den Gegnern, heller.
+            Rectangle {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 1
+                height: parent.height - 2
+                radius: height / 2
+                color: Config.Theme.colorTimeoutSelf
+                width: (parent.width - 2) * timeoutBar.progress
+            }
+
+            onActiveChanged: {
+                if (active) {
+                    progress = 1.0
+                    timeoutAnim.restart()
+                } else {
+                    timeoutAnim.stop()
+                }
+            }
+            NumberAnimation {
+                id: timeoutAnim
+                target: timeoutBar
+                property: "progress"
+                from: 1.0; to: 0.0
+                duration: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.timeoutSec : 0) * 1000
+                easing.type: Easing.Linear
+            }
+        }
+
+        // Einsatz (Chip + Betrag): links neben dem Action-Indikator. Ist keiner
+        // sichtbar, rückt der Einsatz rechtsbündig an den Boxrand.
         Row {
             id: betRow
             visible: root.bet > 0
             spacing: 2
-            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: topStrip.betRightMargin
             transformOrigin: Item.Center
             onVisibleChanged: if (visible) betPopSelf.restart()
             SequentialAnimation {
@@ -390,20 +399,22 @@ Rectangle {
                 text: "$" + root.bet
             }
         }
+    }
 
-        Image {
-            id: buttonImg
-            visible: root.button > 0
-            width: 24; height: 24
-            anchors.right: parent.right
-            anchors.rightMargin: 6
-            anchors.verticalCenter: parent.verticalCenter
-            fillMode: Image.PreserveAspectFit
-            source: root.button === 1 ? "../resources/tableDealerPuck.svg"
-                  : root.button === 2 ? "../resources/tableSmallBlind.svg"
-                  : root.button === 3 ? "../resources/tableBigBlind.svg"
-                  : ""
-        }
+    // Dealer/Small-/Big-Blind-Button: rechts oben NEBEN der Box (außerhalb).
+    Image {
+        id: buttonImg
+        visible: root.button > 0
+        width: 24; height: 24
+        anchors.left: parent.right
+        anchors.leftMargin: 6
+        anchors.top: parent.top
+        z: 25
+        fillMode: Image.PreserveAspectFit
+        source: root.button === 1 ? "../resources/tableDealerPuck.svg"
+              : root.button === 2 ? "../resources/tableSmallBlind.svg"
+              : root.button === 3 ? "../resources/tableBigBlind.svg"
+              : ""
     }
 
     // Winner-Hervorhebung: goldener Rahmen + Badge

@@ -303,7 +303,7 @@ Item {
         // Vertikal über bzw. unter der Box per explizitem y – ein bedingter
         // anchors-Wechsel mit `undefined` ist fragil (Anchor fällt weg → Badge
         // landet mittig in der Box). Unterhalb (winnerBelow) bzw. oberhalb.
-        y: root.winnerBelow ? (parent.height + 4) : (-height - 4)
+        y: root.winnerBelow ? (parent.height + 6) : (-height - 6)
         width: winnerLabel.width + 12
         height: 16
         radius: 8
