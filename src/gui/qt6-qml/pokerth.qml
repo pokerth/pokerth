@@ -156,8 +156,23 @@ ApplicationWindow {
             return true
         }
 
+        // Lobby: vor dem Zurückkehren zur Startseite IMMER nachfragen und die
+        // Server-Verbindung trennen (sonst bleibt man im Hintergrund verbunden
+        // und erhält weiter Lobby-Chat/Mentions). Das eigentliche Verlassen
+        // erledigt performLeaveLobby() nach Bestätigung.
+        if (current && current.objectName === "lobbyPage") {
+            leaveLobbyConfirmPopup.open()
+            return true
+        }
+
         mainStackView.pop()
         return true
+    }
+
+    function performLeaveLobby() {
+        if (typeof Lobby !== "undefined" && Lobby)
+            Lobby.leaveServer()
+        mainStackView.pop()
     }
 
     function performLeaveGame() {
@@ -588,6 +603,64 @@ ApplicationWindow {
                     onClicked: {
                         leaveGameConfirmPopup.close()
                         mainWindow.performLeaveGame()
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Bestätigung beim Verlassen der Lobby (zurück zur Startseite) ───────
+    // Erscheint bei Esc / Android-Back / Tür-Icon, solange man sich in der
+    // Lobby befindet. Bei Bestätigung wird die Server-Verbindung getrennt.
+    Popup {
+        id: leaveLobbyConfirmPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: Math.min(mainWindow.width * 0.85, 380)
+
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Leave Lobby")
+                color: Config.StaticData.palette.secondary.col100
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: 15
+                font.bold: true
+            }
+            Label {
+                Layout.fillWidth: true
+                text: qsTr("Attention! Do you really want to leave the lobby\nand disconnect from the server?")
+                color: Config.StaticData.palette.secondary.col200
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 12
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Cancel")
+                    onClicked: leaveLobbyConfirmPopup.close()
+                }
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Leave Lobby")
+                    onClicked: {
+                        leaveLobbyConfirmPopup.close()
+                        mainWindow.performLeaveLobby()
                     }
                 }
             }

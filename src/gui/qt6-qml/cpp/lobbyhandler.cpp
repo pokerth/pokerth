@@ -1388,6 +1388,21 @@ void LobbyHandler::leaveGame()
     m_session->sendLeaveCurrentGame();
 }
 
+void LobbyHandler::leaveServer()
+{
+    if (!m_session)
+        return;
+    // Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
+    // Lobby) und den lokalen Lobby-Zustand zurücksetzen.
+    m_session->terminateNetworkClient();
+    if (m_isInGame) {
+        m_isInGame = false;
+        m_currentGameId = 0;
+        emit isInGameChanged();
+        emit currentGameIdChanged();
+    }
+}
+
 void LobbyHandler::onSelfJoinedGame()
 {
     m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;

@@ -225,6 +225,10 @@ public slots:
     // Actions from QML
     Q_INVOKABLE void joinGame(unsigned gameId, const QString &password);
     Q_INVOKABLE void leaveGame();
+    // Verlässt die Lobby/den Server vollständig (Verbindung trennen). Wird
+    // beim Zurückkehren zur Startseite aufgerufen, damit der Client nicht
+    // weiterhin im Hintergrund verbunden bleibt (Lobby-Chat, Pings etc.).
+    Q_INVOKABLE void leaveServer();
     void onSelfJoinedGame();
     // Ein Spieler ist meinem aktuellen Spiel beigetreten → Benachrichtigungs-
     // Sound (playerconnected bzw. onlinegameready, wenn das Spiel voll ist).
