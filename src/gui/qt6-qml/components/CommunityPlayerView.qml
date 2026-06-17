@@ -125,6 +125,7 @@ Rectangle {
                 Rectangle {
                     Layout.preferredWidth: 72
                     Layout.preferredHeight: 72
+                    Layout.alignment: Qt.AlignTop
                     radius: 6
                     color: Config.StaticData.palette.secondary.col600
                     clip: true
@@ -159,17 +160,33 @@ Rectangle {
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
+            }
 
-                // ── Awards (BBC) – responsiv, horizontaler Scroll wenn zu viele ──
+            // ── Awards (BBC) – eigene Zeile über die volle Breite, damit der
+            // Kopf im Portrait nicht überläuft. Der dünne Scroll-Indikator sitzt
+            // UNTER den Awards (überlappt sie nicht).
+            ColumnLayout {
+                Layout.fillWidth: true
+                visible: playerView.awards.length > 0
+                spacing: 4
+
+                Label {
+                    text: qsTr("Awards")
+                    color: Config.StaticData.palette.secondary.col200
+                    font.family: Config.StaticData.loadedFont.font.family
+                    font.pixelSize: Config.Theme.fontSizeBody
+                    font.bold: true
+                }
+
                 Flickable {
-                    visible: playerView.awards.length > 0
-                    Layout.alignment: Qt.AlignTop
-                    Layout.preferredWidth: Math.min(awardsRow.implicitWidth,
-                                                    3 * (playerView.awardSize + 8) - 8)
-                    Layout.preferredHeight: playerView.awardSize
+                    id: awardsFlick
+                    Layout.fillWidth: true
+                    // +10 px reservierte Höhe für den dünnen Scroll-Indikator darunter.
+                    Layout.preferredHeight: playerView.awardSize + 10
                     contentWidth: awardsRow.implicitWidth
                     contentHeight: playerView.awardSize
                     flickableDirection: Flickable.HorizontalFlick
+                    boundsBehavior: Flickable.StopAtBounds
                     clip: true
 
                     Row {
@@ -189,7 +206,7 @@ Rectangle {
                                 asynchronous: true
                                 smooth: true
 
-                                ToolTip.visible: modelData.title && awardHover.containsMouse
+                                ToolTip.visible: modelData.title && awardHover.hovered
                                 ToolTip.text: modelData.title || ""
                                 ToolTip.delay: 600
 
@@ -205,9 +222,18 @@ Rectangle {
                         }
                     }
 
+                    // Schlanker Indikator (5 px) am unteren Rand – nur wenn scrollbar.
                     ScrollBar.horizontal: ScrollBar {
-                        policy: awardsRow.implicitWidth > parent.width
+                        id: awardsScroll
+                        height: 5
+                        policy: awardsRow.implicitWidth > awardsFlick.width
                                 ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                        contentItem: Rectangle {
+                            implicitHeight: 5
+                            radius: 2.5
+                            color: Config.StaticData.palette.secondary.col400
+                            opacity: awardsScroll.pressed ? 0.9 : 0.55
+                        }
                     }
                 }
             }
