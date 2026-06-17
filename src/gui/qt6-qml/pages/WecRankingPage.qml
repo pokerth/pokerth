@@ -15,6 +15,8 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
+    readonly property bool compact: Config.Responsive.compact
+
     property var yearModel: []        // [{ value, label }]
     property var monthModel: [
         { value: 1,  label: qsTr("January") },   { value: 2,  label: qsTr("February") },
@@ -58,15 +60,20 @@ Rectangle {
             font.bold: true
         }
 
-        // Filterleiste – Jahr + Monat + All-Year + All-Time + Suche
-        RowLayout {
+        // Filterleiste – Jahr + Monat + All-Year + All-Time + Suche. Im Compact-
+        // Modus (Portrait) bricht das Grid auf zwei Spalten um (Jahr|Monat,
+        // All-Year|All-Time, Suche), damit nichts abgeschnitten wird.
+        GridLayout {
             Layout.fillWidth: true
-            spacing: 16
+            columns: wecPage.compact ? 2 : 6
+            columnSpacing: 16
+            rowSpacing: 8
 
-            Row {
+            RowLayout {
+                Layout.fillWidth: wecPage.compact
                 spacing: 8
                 Label {
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Year:")
                     color: Config.StaticData.palette.secondary.col200
                     font.family: Config.StaticData.loadedFont.font.family
@@ -74,7 +81,8 @@ Rectangle {
                 }
                 ComboBox {
                     id: yearCombo
-                    width: 110
+                    Layout.fillWidth: wecPage.compact
+                    Layout.preferredWidth: 110
                     enabled: !wecPage.alltime && wecPage.yearModel.length > 0
                     model: wecPage.yearModel
                     textRole: "label"
@@ -86,10 +94,11 @@ Rectangle {
                 }
             }
 
-            Row {
+            RowLayout {
+                Layout.fillWidth: wecPage.compact
                 spacing: 8
                 Label {
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Month:")
                     color: Config.StaticData.palette.secondary.col200
                     font.family: Config.StaticData.loadedFont.font.family
@@ -97,7 +106,8 @@ Rectangle {
                 }
                 ComboBox {
                     id: monthCombo
-                    width: 140
+                    Layout.fillWidth: wecPage.compact
+                    Layout.preferredWidth: 140
                     enabled: !wecPage.alltime && !wecPage.allyear
                     model: wecPage.monthModel
                     textRole: "label"
@@ -130,10 +140,13 @@ Rectangle {
                 }
             }
 
-            Item { Layout.fillWidth: true }
+            // Abstandshalter nur im Desktop-Layout (drückt die Suche nach rechts).
+            Item { Layout.fillWidth: true; visible: !wecPage.compact }
 
             TextField {
+                Layout.fillWidth: wecPage.compact
                 Layout.preferredWidth: 180
+                Layout.columnSpan: wecPage.compact ? 2 : 1
                 placeholderText: qsTr("Search nickname")
                 onTextChanged: view.searchText = text.trim()
             }

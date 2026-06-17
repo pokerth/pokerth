@@ -15,6 +15,8 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
+    readonly property bool compact: Config.Responsive.compact
+
     property var seasonModel: []      // [{ value, label }]
     property int currentSeason: 0
     property bool alltime: false
@@ -38,15 +40,19 @@ Rectangle {
             font.bold: true
         }
 
-        // Filterleiste – Saison + All-Time + Suche
-        RowLayout {
+        // Filterleiste – Saison + All-Time + Suche. Im Compact-Modus (Portrait)
+        // bricht das Grid auf zwei Spalten um, damit nichts abgeschnitten wird.
+        GridLayout {
             Layout.fillWidth: true
-            spacing: 16
+            columns: bbcPage.compact ? 2 : 4
+            columnSpacing: 16
+            rowSpacing: 8
 
-            Row {
+            RowLayout {
+                Layout.fillWidth: bbcPage.compact
                 spacing: 8
                 Label {
-                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Season:")
                     color: Config.StaticData.palette.secondary.col200
                     font.family: Config.StaticData.loadedFont.font.family
@@ -54,7 +60,8 @@ Rectangle {
                 }
                 ComboBox {
                     id: seasonCombo
-                    width: 160
+                    Layout.fillWidth: bbcPage.compact
+                    Layout.preferredWidth: 160
                     enabled: !bbcPage.alltime && bbcPage.seasonModel.length > 0
                     model: bbcPage.seasonModel
                     textRole: "label"
@@ -76,10 +83,13 @@ Rectangle {
                 }
             }
 
-            Item { Layout.fillWidth: true }
+            // Abstandshalter nur im Desktop-Layout (drückt die Suche nach rechts).
+            Item { Layout.fillWidth: true; visible: !bbcPage.compact }
 
             TextField {
+                Layout.fillWidth: bbcPage.compact
                 Layout.preferredWidth: 180
+                Layout.columnSpan: bbcPage.compact ? 2 : 1
                 placeholderText: qsTr("Search nickname")
                 onTextChanged: view.searchText = text.trim()
             }
