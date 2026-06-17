@@ -165,7 +165,7 @@ Rectangle {
                     visible: playerView.awards.length > 0
                     Layout.alignment: Qt.AlignTop
                     Layout.preferredWidth: Math.min(awardsRow.implicitWidth,
-                                                    3 * (playerView.awardSize + 4) - 4)
+                                                    3 * (playerView.awardSize + 8) - 8)
                     Layout.preferredHeight: playerView.awardSize
                     contentWidth: awardsRow.implicitWidth
                     contentHeight: playerView.awardSize
@@ -174,7 +174,7 @@ Rectangle {
 
                     Row {
                         id: awardsRow
-                        spacing: 4
+                        spacing: 8
                         height: playerView.awardSize
 
                         Repeater {
@@ -342,7 +342,13 @@ Rectangle {
     Popup {
         id: awardPopup
         parent: Overlay.overlay
-        anchors.centerIn: parent
+        // Explizites x/y – zuverlässige Zentrierung auf jeder Auflösung.
+        readonly property int sz: parent
+            ? Math.min(parent.width - 48, parent.height - 96, 480) : 360
+        x: parent ? Math.round((parent.width  - width)  / 2) : 0
+        y: parent ? Math.round((parent.height - height) / 2) : 0
+        width:  sz
+        height: sz
         modal: true
         dim: true
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
@@ -351,13 +357,7 @@ Rectangle {
 
         property string imageUrl: ""
 
-        Rectangle {
-            readonly property int sz: Math.min(
-                Overlay.overlay ? Overlay.overlay.width  - 48 : 360,
-                Overlay.overlay ? Overlay.overlay.height - 96 : 360,
-                480)
-            width: sz
-            height: sz
+        contentItem: Rectangle {
             radius: 10
             color: Config.StaticData.palette.secondary.col700
             clip: true
