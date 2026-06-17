@@ -120,6 +120,7 @@ Rectangle {
                             text: qsTr("Community / Ranking")
                             Layout.fillWidth: true
                             Layout.preferredHeight: Config.Theme.touchTarget
+                            visible: Config.Parameters.showCommunityContent
                             // Über denselben Toggle wie der Globus → gemerkter
                             // Ranking-Stand wird wiederhergestellt.
                             onClicked: mainWindow.toggleTopBarSection(

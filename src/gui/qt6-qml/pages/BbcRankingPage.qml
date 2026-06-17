@@ -38,8 +38,8 @@ Rectangle {
             font.bold: true
         }
 
-        // Filterleiste – Saison + All-Time
-        Flow {
+        // Filterleiste – Saison + All-Time + Suche
+        RowLayout {
             Layout.fillWidth: true
             spacing: 16
 
@@ -75,6 +75,14 @@ Rectangle {
                     view.applyFilter()
                 }
             }
+
+            Item { Layout.fillWidth: true }
+
+            TextField {
+                Layout.preferredWidth: 180
+                placeholderText: qsTr("Search nickname")
+                onTextChanged: view.searchText = text.trim()
+            }
         }
 
         CommunityRankingView {
@@ -87,7 +95,7 @@ Rectangle {
             onPlayerActivated: function(nick) {
                 if (nick === "")
                     return
-                bbcPage.StackView.view.push("../components/CommunityPlayerView.qml", {
+                bbcPage.StackView.view.push("qrc:/components/CommunityPlayerView.qml", {
                     baseUrl: "https://bbc.pokerth.net",
                     nickname: nick,
                     blocks: [

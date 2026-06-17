@@ -24,6 +24,19 @@ Rectangle {
     property var extraColumns: []
     // Rohdaten-Zeilen (Array von Objekten mit nickname/score/games/…).
     property var rows: []
+    property string searchText: ""
+    // Clientseitig gefiltertes Subset – Basis für die ListView.
+    readonly property var filteredRows: {
+        if (searchText === "")
+            return rows
+        var q = searchText.toLowerCase()
+        var result = []
+        for (var i = 0; i < rows.length; i++) {
+            if ((rows[i].nickname || "").toLowerCase().indexOf(q) !== -1)
+                result.push(rows[i])
+        }
+        return result
+    }
     property bool loading: false
     property string errorText: ""
     property string csrfToken: ""
@@ -219,7 +232,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: view.rows
+            model: view.filteredRows
             boundsBehavior: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {
                 policy: rankList.contentHeight > rankList.height + 4
@@ -322,8 +335,10 @@ Rectangle {
     Label {
         anchors.centerIn: parent
         width: parent.width - 32
-        visible: !view.loading && (view.errorText !== "" || view.rows.length === 0)
-        text: view.errorText !== "" ? view.errorText : qsTr("No entries.")
+        visible: !view.loading && (view.errorText !== "" || view.filteredRows.length === 0)
+        text: view.errorText !== "" ? view.errorText
+                                    : (view.rows.length === 0 ? qsTr("No entries.")
+                                                              : qsTr("No matches."))
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         color: view.errorText !== "" ? "#d05050"

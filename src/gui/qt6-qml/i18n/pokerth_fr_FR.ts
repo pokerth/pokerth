@@ -372,6 +372,11 @@
         <translation>Activer le zoom de table (balayage &amp; zoom, mode mobile uniquement)</translation>
     </message>
     <message>
+        <location filename="../components/GuiSettings.qml" line="235"/>
+        <source>Community-Inhalte anzeigen</source>
+        <translation>Afficher le contenu communautaire</translation>
+    </message>
+    <message>
         <location filename="../components/GuiSettings.qml" line="254"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Mettre le focus sur le champ de mise quand c&apos;est votre tour</translation>

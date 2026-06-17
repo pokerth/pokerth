@@ -372,6 +372,11 @@
         <translation>Enable table zoom (swipe &amp; zoom, mobile mode only)</translation>
     </message>
     <message>
+        <location filename="../components/GuiSettings.qml" line="235"/>
+        <source>Community-Inhalte anzeigen</source>
+        <translation>Show community content</translation>
+    </message>
+    <message>
         <location filename="../components/GuiSettings.qml" line="254"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Set focus to bet input when it&apos;s your turn</translation>

@@ -58,8 +58,8 @@ Rectangle {
             font.bold: true
         }
 
-        // Filterleiste – Jahr + Monat + All-Year + All-Time
-        Flow {
+        // Filterleiste – Jahr + Monat + All-Year + All-Time + Suche
+        RowLayout {
             Layout.fillWidth: true
             spacing: 16
 
@@ -129,6 +129,14 @@ Rectangle {
                     view.applyFilter()
                 }
             }
+
+            Item { Layout.fillWidth: true }
+
+            TextField {
+                Layout.preferredWidth: 180
+                placeholderText: qsTr("Search nickname")
+                onTextChanged: view.searchText = text.trim()
+            }
         }
 
         CommunityRankingView {
@@ -141,7 +149,7 @@ Rectangle {
             onPlayerActivated: function(nick) {
                 if (nick === "")
                     return
-                wecPage.StackView.view.push("../components/CommunityPlayerView.qml", {
+                wecPage.StackView.view.push("qrc:/components/CommunityPlayerView.qml", {
                     baseUrl: "https://wec.pokerth.net",
                     nickname: nick,
                     blocks: [

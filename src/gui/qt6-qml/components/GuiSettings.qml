@@ -239,6 +239,14 @@ Rectangle {
                             color: parent.palette.windowText
                         }
                     }
+
+                    CheckBox {
+                        objectName: "showCommunityContentCheckbox"
+                        Layout.fillWidth: true
+                        text: qsTr("Community-Inhalte anzeigen")
+                        checked: Config.Parameters.showCommunityContent
+                        onCheckedChanged: Config.Parameters.showCommunityContent = checked
+                    }
                     } // ColumnLayout
                 }
 

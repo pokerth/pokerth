@@ -372,6 +372,11 @@
         <translation>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</translation>
     </message>
     <message>
+        <location filename="../components/GuiSettings.qml" line="235"/>
+        <source>Community-Inhalte anzeigen</source>
+        <translation>Community-Inhalte anzeigen</translation>
+    </message>
+    <message>
         <location filename="../components/GuiSettings.qml" line="254"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</translation>

@@ -24,11 +24,16 @@ Rectangle {
     property var blocks: []
 
     readonly property bool compact: Config.Responsive.compact
+    // Awards: responsive – auf Desktop groß genug zum Lesen, auf Mobilgeräten kompakter.
+    readonly property int awardSize: compact ? 80 : 120
 
     property var player: null
     property var stats: null
+    property var awards: []
     property bool loading: false
     property string errorText: ""
+    // Avatar-URL aus PokerTH – wird nach dem Laden des Players nachgeladen.
+    property string avatarUrl: ""
 
     function datePart(s) { return s ? String(s).substring(0, 10) : "" }
 
@@ -46,9 +51,31 @@ Rectangle {
         try { return JSON.parse(s) } catch (e) { return null }
     }
 
+    // Avatar von PokerTH nachladen (BBC/WEC haben kein eigenes Avatar-System).
+    function loadAvatar(nick) {
+        var xhr = new XMLHttpRequest()
+        xhr.open("GET", "https://www.pokerth.net/pthranking/player/show?username="
+                        + encodeURIComponent(nick))
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== XMLHttpRequest.DONE)
+                return
+            if (xhr.status !== 200)
+                return
+            try {
+                var res = JSON.parse(xhr.responseText)
+                var p = res && res.player
+                if (p && p.avatar_hash)
+                    playerView.avatarUrl = "https://www.pokerth.net/images/avatars/game/"
+                                          + p.avatar_hash + "." + p.avatar_mime
+            } catch (e) {}
+        }
+        xhr.send()
+    }
+
     function load() {
         loading = true
         errorText = ""
+        avatarUrl = ""
         var xhr = new XMLHttpRequest()
         xhr.open("GET", baseUrl + "/player/" + encodeURIComponent(nickname))
         xhr.onreadystatechange = function() {
@@ -63,8 +90,13 @@ Rectangle {
             }
             playerView.player = playerView.jsonAttr(xhr.responseText, "player")
             playerView.stats = playerView.jsonAttr(xhr.responseText, "stats")
-            if (!playerView.player)
+            playerView.awards = playerView.jsonAttr(xhr.responseText, "awards") || []
+            if (!playerView.player) {
                 playerView.errorText = qsTr("Could not parse server response.")
+                return
+            }
+            // Avatar asynchron von PokerTH nachladen.
+            playerView.loadAvatar(playerView.player.nickname || playerView.nickname)
         }
         xhr.send()
     }
@@ -85,22 +117,158 @@ Rectangle {
             width: parent.width
             spacing: 14
 
-            // ── Kopf ────────────────────────────────────────────────────────
-            Label {
-                text: playerView.player ? playerView.player.nickname : playerView.nickname
+            // ── Kopf: Avatar + Name + Eckdaten ──────────────────────────────
+            RowLayout {
                 Layout.fillWidth: true
-                elide: Text.ElideRight
-                color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pointSize: 16
-                font.bold: true
+                spacing: 14
+
+                Rectangle {
+                    Layout.preferredWidth: 72
+                    Layout.preferredHeight: 72
+                    radius: 6
+                    color: Config.StaticData.palette.secondary.col600
+                    clip: true
+                    visible: playerView.avatarUrl !== ""
+
+                    Image {
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectCrop
+                        asynchronous: true
+                        source: playerView.avatarUrl
+                    }
+                }
+
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    spacing: 4
+
+                    Label {
+                        text: playerView.player ? playerView.player.nickname : playerView.nickname
+                        Layout.fillWidth: true
+                        elide: Text.ElideRight
+                        color: Config.StaticData.palette.secondary.col100
+                        font.family: Config.StaticData.loadedFont.font.family
+                        font.pointSize: 16
+                        font.bold: true
+                    }
+                    Label {
+                        visible: playerView.player && playerView.player.created_at
+                        text: qsTr("Member since %1").arg(playerView.datePart(playerView.player ? playerView.player.created_at : ""))
+                        color: Config.StaticData.palette.secondary.col300
+                        font.family: Config.StaticData.loadedFont.font.family
+                        font.pixelSize: Config.Theme.fontSizeCaption
+                    }
+                }
+
+                // ── Awards (BBC) – responsiv, horizontaler Scroll wenn zu viele ──
+                Flickable {
+                    visible: playerView.awards.length > 0
+                    Layout.alignment: Qt.AlignTop
+                    Layout.preferredWidth: Math.min(awardsRow.implicitWidth,
+                                                    3 * (playerView.awardSize + 4) - 4)
+                    Layout.preferredHeight: playerView.awardSize
+                    contentWidth: awardsRow.implicitWidth
+                    contentHeight: playerView.awardSize
+                    flickableDirection: Flickable.HorizontalFlick
+                    clip: true
+
+                    Row {
+                        id: awardsRow
+                        spacing: 4
+                        height: playerView.awardSize
+
+                        Repeater {
+                            model: playerView.awards
+                            Image {
+                                required property var modelData
+                                width: playerView.awardSize
+                                height: playerView.awardSize
+                                source: modelData.filename
+                                        ? playerView.baseUrl + modelData.filename : ""
+                                fillMode: Image.PreserveAspectFit
+                                asynchronous: true
+                                smooth: true
+
+                                ToolTip.visible: modelData.title && awardHover.containsMouse
+                                ToolTip.text: modelData.title || ""
+                                ToolTip.delay: 600
+
+                                HoverHandler { id: awardHover; cursorShape: Qt.PointingHandCursor }
+                                TapHandler {
+                                    onTapped: {
+                                        awardPopup.imageUrl = modelData.filename
+                                            ? playerView.baseUrl + modelData.filename : ""
+                                        awardPopup.open()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    ScrollBar.horizontal: ScrollBar {
+                        policy: awardsRow.implicitWidth > parent.width
+                                ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                    }
+                }
             }
-            Label {
-                visible: playerView.player && playerView.player.created_at
-                text: qsTr("Member since %1").arg(playerView.datePart(playerView.player ? playerView.player.created_at : ""))
-                color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: Config.Theme.fontSizeCaption
+
+            // ── Tickets (BBC) ────────────────────────────────────────────────
+            // s2/s3/s4_tickets sind nur im BBC-Player-Objekt vorhanden.
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: 6
+                visible: playerView.player !== null &&
+                         playerView.player.s2_tickets !== undefined
+
+                Label {
+                    text: qsTr("Tickets")
+                    color: Config.StaticData.palette.secondary.col200
+                    font.family: Config.StaticData.loadedFont.font.family
+                    font.pixelSize: Config.Theme.fontSizeBody
+                    font.bold: true
+                }
+
+                GridLayout {
+                    Layout.fillWidth: true
+                    columns: 3
+                    columnSpacing: 8
+                    rowSpacing: 8
+
+                    Repeater {
+                        model: [
+                            { label: qsTr("Step 2"), value: playerView.player ? ("" + (playerView.player.s2_tickets || 0)) : "–" },
+                            { label: qsTr("Step 3"), value: playerView.player ? ("" + (playerView.player.s3_tickets || 0)) : "–" },
+                            { label: qsTr("Step 4"), value: playerView.player ? ("" + (playerView.player.s4_tickets || 0)) : "–" }
+                        ]
+                        Rectangle {
+                            id: ticketCell
+                            required property var modelData
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 56
+                            radius: 6
+                            color: Config.StaticData.palette.secondary.col600
+                            ColumnLayout {
+                                anchors.centerIn: parent
+                                spacing: 2
+                                Label {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    text: ticketCell.modelData.value
+                                    color: Config.StaticData.palette.secondary.col100
+                                    font.family: Config.StaticData.loadedFont.font.family
+                                    font.pixelSize: Config.Theme.fontSizeTitle
+                                    font.bold: true
+                                }
+                                Label {
+                                    Layout.alignment: Qt.AlignHCenter
+                                    text: ticketCell.modelData.label
+                                    color: Config.StaticData.palette.secondary.col300
+                                    font.family: Config.StaticData.loadedFont.font.family
+                                    font.pixelSize: Config.Theme.fontSizeCaption
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             // ── Stat-Blöcke ─────────────────────────────────────────────────
@@ -109,7 +277,7 @@ Rectangle {
                 ColumnLayout {
                     id: blockItem
                     required property var modelData
-                    readonly property var data:
+                    readonly property var statData:
                         (playerView.stats && playerView.stats[modelData.key])
                         ? playerView.stats[modelData.key] : null
                     Layout.fillWidth: true
@@ -131,10 +299,10 @@ Rectangle {
 
                         Repeater {
                             model: [
-                                { label: qsTr("Rank"),   value: (blockItem.data && blockItem.data.pos !== "" && blockItem.data.pos != null) ? ("#" + blockItem.data.pos) : "–" },
-                                { label: qsTr("Score"),  value: blockItem.data ? blockItem.data.score : "–" },
-                                { label: qsTr("Games"),  value: blockItem.data ? ("" + blockItem.data.games) : "–" },
-                                { label: qsTr("Points"), value: blockItem.data ? ("" + blockItem.data.points) : "–" }
+                                { label: qsTr("Rank"),   value: (blockItem.statData && blockItem.statData.pos !== "" && blockItem.statData.pos != null) ? ("#" + blockItem.statData.pos) : "–" },
+                                { label: qsTr("Score"),  value: blockItem.statData ? blockItem.statData.score : "–" },
+                                { label: qsTr("Games"),  value: blockItem.statData ? ("" + blockItem.statData.games) : "–" },
+                                { label: qsTr("Points"), value: blockItem.statData ? ("" + blockItem.statData.points) : "–" }
                             ]
                             Rectangle {
                                 id: statCell
@@ -167,6 +335,43 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
+
+    // ── Award-Vollbild-Popup ──────────────────────────────────────────────
+    Popup {
+        id: awardPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        dim: true
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        padding: 0
+        background: null
+
+        property string imageUrl: ""
+
+        Rectangle {
+            readonly property int sz: Math.min(
+                Overlay.overlay ? Overlay.overlay.width  - 48 : 360,
+                Overlay.overlay ? Overlay.overlay.height - 96 : 360,
+                480)
+            width: sz
+            height: sz
+            radius: 10
+            color: Config.StaticData.palette.secondary.col700
+            clip: true
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 16
+                source: awardPopup.imageUrl
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+                asynchronous: true
+            }
+
+            TapHandler { onTapped: awardPopup.close() }
         }
     }
 

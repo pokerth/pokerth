@@ -333,7 +333,7 @@ ApplicationWindow {
                     Layout.preferredHeight: 24
                     Layout.margins: 6
                     source: "resources/globe.svg"
-                    visible: mainWindow.topBarIconsVisible
+                    visible: mainWindow.topBarIconsVisible && Config.Parameters.showCommunityContent
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0

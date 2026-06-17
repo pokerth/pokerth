@@ -18,6 +18,8 @@ Settings {
 
     property bool tableZoomEnabled: true
 
+    property bool showCommunityContent: true
+
     // From the networkTab ColumnLayout
     property bool showCountryFlagOnAvatarCheckbox: true
     property bool showNetworkStatusColorOnAvatarCheckbox: true
