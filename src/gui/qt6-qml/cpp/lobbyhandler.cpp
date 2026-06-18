@@ -5,6 +5,7 @@
 
 #include "lobbyhandler.h"
 #include "chatemotes.h"
+#include "gui/chat_emote_shortcuts.h"
 #include "session.h"
 #include "configfile.h"
 #include "soundevents.h"
@@ -18,59 +19,6 @@
 #include <QUrl>
 #include <QStringList>
 #include <QDateTime>
-
-// ---------------------------------------------------------------------------
-// Emoji substitution helper (Twemoji SVG, used by onLobbyChatMessage)
-// Input must already be HTML-escaped (< → &lt;, > → &gt;).
-// ASCII smileys: longer/more-specific patterns first.
-// Unicode emojis: variation-selector (U+FE0F) variant before plain codepoint.
-// ---------------------------------------------------------------------------
-static QString checkForEmotes(const QString &input)
-{
-    QString result = input;
-
-    // Convert ASCII smileys to their Unicode emoji equivalents.
-    // QML TextArea (RichText) renders Unicode emoji via the system font,
-    // which is simpler and more reliable than <img> tags.
-    // Note: input is HTML-escaped, so '>' appears as "&gt;".
-    auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
-
-    result.replace(QLatin1String("0:-)"),    emo(0x1F607)); // 😇 angel
-    result.replace(QLatin1String("X-("),     emo(0x1F620)); // 😠 angry
-    result.replace(QLatin1String("B-)"),     emo(0x1F60E)); // 😎 cool
-    result.replace(QLatin1String("8-)"),     emo(0x1F60E)); // 😎 cool
-    result.replace(QLatin1String(":'("),     emo(0x1F622)); // 😢 crying
-    result.replace(QLatin1String("&gt;:-)"), emo(0x1F608)); // 😈 devilish (HTML-escaped >)
-    result.replace(QLatin1String(":-["),     emo(0x1F633)); // 😳 embarrassed
-    result.replace(QLatin1String(":-*"),     emo(0x1F617)); // 😗 kiss
-    result.replace(QLatin1String(":-))" ),   emo(0x1F602)); // 😂 laugh
-    result.replace(QLatin1String(":))" ),    emo(0x1F602)); // 😂 laugh
-    result.replace(QLatin1String(":-|"),     emo(0x1F610)); // 😐 neutral
-    result.replace(QLatin1String(":-P"),     emo(0x1F61B)); // 😛 tongue
-    result.replace(QLatin1String(":-p"),     emo(0x1F61B)); // 😛 tongue
-    result.replace(QLatin1String(":-("),     emo(0x1F61E)); // 😞 sad
-    result.replace(QLatin1String(":("),      emo(0x1F61E)); // 😞 sad
-    result.replace(QLatin1String(":-&"),     emo(0x1F912)); // 🤒 sick
-    result.replace(QLatin1String(":-D"),     emo(0x1F603)); // 😃 big smile
-    result.replace(QLatin1String(":D"),      emo(0x1F603)); // 😃 big smile
-    result.replace(QLatin1String(":-!"),     emo(0x1F60F)); // 😏 smirk
-    result.replace(QLatin1String(":-0"),     emo(0x1F62E)); // 😮 surprise
-    result.replace(QLatin1String(":-O"),     emo(0x1F62E)); // 😮 surprise
-    result.replace(QLatin1String(":-o"),     emo(0x1F62E)); // 😮 surprise
-    result.replace(QLatin1String(":-/"),     emo(0x1F615)); // 😕 uncertain
-    // ":/" only when no URL present
-    if (!result.contains(QLatin1String("http://")) && !result.contains(QLatin1String("https://")))
-        result.replace(QLatin1String(":/"), emo(0x1F615));  // 😕
-    result.replace(QLatin1String(";-)"),     emo(0x1F609)); // 😉 wink
-    result.replace(QLatin1String(";)"),      emo(0x1F609)); // 😉 wink
-    result.replace(QLatin1String(":-S"),     emo(0x1F61F)); // 😟 worried
-    result.replace(QLatin1String(":-s"),     emo(0x1F61F)); // 😟 worried
-    result.replace(QLatin1String(":-)"),     emo(0x1F60A)); // 😊 smile
-    result.replace(QLatin1String(":)"),      emo(0x1F60A)); // 😊 smile
-
-    // Unicode emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
-    return enlargeEmojis(result);
-}
 
 
 class PlayerNickListSortFilterProxyModel : public QSortFilterProxyModel
@@ -1229,6 +1177,9 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
     // HTML-escape user-supplied content (prevents tag injection)
     QString escapedMsg = rawDisplay.toHtmlEscaped();
+    // ASCII-Kürzel auf dem rohen Text umsetzen, bevor Link-/Style-Markup
+    // hinzukommt (verhindert Kollisionen mit "color:#..." o. Ä.).
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
 
     // URL linkification
     static const QRegularExpression urlRe(QLatin1String("(https?://\\S+)"));
@@ -1253,8 +1204,8 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
                     + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
     }
 
-    // ASCII-Smileys zu Unicode-Emoji umsetzen (immer aktiv).
-    styledMsg = checkForEmotes(styledMsg);
+    // Unicode-Emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
+    styledMsg = enlargeEmojis(styledMsg);
 
     // Sound notification on mention (wie chattools.cpp im Widgets-Client)
     if (isMention && playerName != myNick) {
@@ -1289,7 +1240,8 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     const QString colorPM  = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
 
     QString escapedMsg  = message.toHtmlEscaped();
-    escapedMsg = checkForEmotes(escapedMsg);
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+    escapedMsg = enlargeEmojis(escapedMsg);
 
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
     const QString line = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")

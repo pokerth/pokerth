@@ -5,6 +5,7 @@
 
 #include "gamehandler.h"
 #include "chatemotes.h"
+#include "gui/chat_emote_shortcuts.h"
 #include <session.h>
 #include <game.h>
 #include <handinterface.h>
@@ -76,47 +77,6 @@ QString resolveAvatarSource(const std::string &raw)
     if (!QFileInfo::exists(path))
         return QString();
     return QUrl::fromLocalFile(path).toString();
-}
-
-// ASCII-Smileys → Unicode-Emoji (identisch zum Lobby-Chat). Eingabe ist bereits
-// HTML-escaped ('>' = "&gt;"); RichText rendert die Emoji über die Systemschrift.
-QString chatCheckForEmotes(const QString &input)
-{
-    QString result = input;
-    auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
-
-    result.replace(QLatin1String("0:-)"),    emo(0x1F607)); // 😇
-    result.replace(QLatin1String("X-("),     emo(0x1F620)); // 😠
-    result.replace(QLatin1String("B-)"),     emo(0x1F60E)); // 😎
-    result.replace(QLatin1String("8-)"),     emo(0x1F60E)); // 😎
-    result.replace(QLatin1String(":'("),     emo(0x1F622)); // 😢
-    result.replace(QLatin1String("&gt;:-)"), emo(0x1F608)); // 😈
-    result.replace(QLatin1String(":-["),     emo(0x1F633)); // 😳
-    result.replace(QLatin1String(":-*"),     emo(0x1F617)); // 😗
-    result.replace(QLatin1String(":-))" ),   emo(0x1F602)); // 😂
-    result.replace(QLatin1String(":))" ),    emo(0x1F602)); // 😂
-    result.replace(QLatin1String(":-|"),     emo(0x1F610)); // 😐
-    result.replace(QLatin1String(":-P"),     emo(0x1F61B)); // 😛
-    result.replace(QLatin1String(":-p"),     emo(0x1F61B)); // 😛
-    result.replace(QLatin1String(":-("),     emo(0x1F61E)); // 😞
-    result.replace(QLatin1String(":("),      emo(0x1F61E)); // 😞
-    result.replace(QLatin1String(":-&"),     emo(0x1F912)); // 🤒
-    result.replace(QLatin1String(":-D"),     emo(0x1F603)); // 😃
-    result.replace(QLatin1String(":D"),      emo(0x1F603)); // 😃
-    result.replace(QLatin1String(":-!"),     emo(0x1F60F)); // 😏
-    result.replace(QLatin1String(":-0"),     emo(0x1F62E)); // 😮
-    result.replace(QLatin1String(":-O"),     emo(0x1F62E)); // 😮
-    result.replace(QLatin1String(":-o"),     emo(0x1F62E)); // 😮
-    result.replace(QLatin1String(":-/"),     emo(0x1F615)); // 😕
-    if (!result.contains(QLatin1String("http://")) && !result.contains(QLatin1String("https://")))
-        result.replace(QLatin1String(":/"), emo(0x1F615));  // 😕
-    result.replace(QLatin1String(";-)"),     emo(0x1F609)); // 😉
-    result.replace(QLatin1String(";)"),      emo(0x1F609)); // 😉
-    result.replace(QLatin1String(":-S"),     emo(0x1F61F)); // 😟
-    result.replace(QLatin1String(":-s"),     emo(0x1F61F)); // 😟
-    result.replace(QLatin1String(":-)"),     emo(0x1F60A)); // 😊
-    result.replace(QLatin1String(":)"),      emo(0x1F60A)); // 😊
-    return enlargeEmojis(result);
 }
 } // namespace
 
@@ -280,14 +240,24 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     // als im Web-Client (22 statt 18), damit auch ZWJ-/Variation-Selector-
     // Sequenzen durchgehen – normale Nachrichten matchen trotzdem nicht.
     const QString trimmedMsg = message.trimmed();
+    bool isReactionMsg = false;
     QString reactionEmoji;
-    if (trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22)
+    if (trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22) {
+        isReactionMsg = true;
         reactionEmoji = trimmedMsg.mid(7).trimmed();
-    else if (trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14)
+    } else if (trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14) {
+        isReactionMsg = true;
         reactionEmoji = trimmedMsg.mid(3).trimmed();
-    if (!reactionEmoji.isEmpty()) {
-        qDebug() << "[REACT] incoming reaction from" << playerName << ":" << reactionEmoji;
-        emit reactionReceived(playerName, reactionEmoji);
+    }
+    if (isReactionMsg) {
+        // Reaktions-Nachrichten erscheinen nie im Chat-Verlauf. Nur echte
+        // Emojis abspielen – als Reaktion getarnter Text wird verworfen.
+        if (isEmojiOnlyReaction(reactionEmoji)) {
+            qDebug() << "[REACT] incoming reaction from" << playerName << ":" << reactionEmoji;
+            emit reactionReceived(playerName, reactionEmoji);
+        } else {
+            qDebug() << "[REACT] discarding non-emoji reaction from" << playerName << ":" << reactionEmoji;
+        }
         return;
     }
 
@@ -297,6 +267,10 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     const QString rawDisplay = isAction ? message.mid(4) : message;
 
     QString escapedMsg = rawDisplay.toHtmlEscaped();
+    // ASCII-Kürzel (":-)", "8-)", "<3", …) auf dem rohen Text umsetzen, bevor
+    // Link-/Style-Markup hinzukommt – so kollidieren kurze Kürzel nie mit
+    // unserem eigenen HTML (z. B. "color:#...").
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     static const QRegularExpression urlRe(QStringLiteral("(https?://\\S+)"));
     escapedMsg.replace(urlRe, QStringLiteral("<a href=\"\\1\">\\1</a>"));
 
@@ -305,7 +279,7 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     QString styledMsg = QStringLiteral("<span style=\"color:") + color
                         + (isMention ? QStringLiteral("; font-weight:bold") : QString())
                         + QStringLiteral(";\">") + escapedMsg + QStringLiteral("</span>");
-    styledMsg = chatCheckForEmotes(styledMsg);
+    styledMsg = enlargeEmojis(styledMsg);
 
     const QString ts = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss"));
     const QString name = playerName.toHtmlEscaped();

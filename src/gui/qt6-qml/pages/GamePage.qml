@@ -62,10 +62,16 @@ Rectangle {
     // ist, wird der Wert beim Erscheinen der Seite neu eingelesen – die
     // Einstellungen liegen als eigene StackView-Seite darüber, beim Zurück-
     // kehren wird activated() ausgelöst.
+    // Zusätzlich sind Reaktionen nur in Netzwerkspielen sinnvoll, in denen
+    // menschliche Gegner mitspielen – in einem Localgame (nur Computer-Gegner)
+    // wird der Toggle daher ausgeblendet.
     property bool emojiReactionsEnabled: true
     function refreshEmojiReactionsEnabled() {
-        emojiReactionsEnabled = SettingsManager
+        var enabledInSettings = SettingsManager
             ? SettingsManager.readConfigInt("DisableEmojiReactions") === 0 : true
+        var isLocalGame = (typeof GameTable !== "undefined" && GameTable
+            && GameTable.isLocalGameRunning())
+        emojiReactionsEnabled = enabledInSettings && !isLocalGame
     }
     Component.onCompleted: refreshEmojiReactionsEnabled()
     StackView.onActivated: refreshEmojiReactionsEnabled()
