@@ -66,7 +66,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 106;
+	configRev = 107;
 
 	// standard defaults
 	logOnOffDefault = "1";
@@ -196,6 +196,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	// Widget-Client (Current*Style speichert volle XML-Pfade) unberührt bleibt.
 	configList.push_back(ConfigInfo("QmlGameTableStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("QmlCardDeckStyle", CONFIG_TYPE_STRING, "default"));
+	configList.push_back(ConfigInfo("QmlCardBackStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));

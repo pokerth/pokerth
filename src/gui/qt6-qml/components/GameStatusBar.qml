@@ -16,6 +16,7 @@ Rectangle {
         // Links: Pot-Info (1:1 wie Widget-Client links neben den Community-Cards)
         // "Total" = aufgelaufener Pot (getPot), "Bets" = laufende Einsätze dieser Runde (getSets)
         Column {
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
             spacing: 0
             Row {
                 spacing: 4
@@ -57,6 +58,7 @@ Rectangle {
 
         // Rechts: Phase + Game-ID + Hand-Nummer (1:1 wie Widget-Client rechts neben den Community-Cards)
         Column {
+            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             spacing: 0
             Text {
                 anchors.horizontalCenter: parent.horizontalCenter

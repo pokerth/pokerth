@@ -4,9 +4,12 @@ PokerTH QML-Client - Theme-Preview Generator
 
 Schlanke Ableitung von record_pokerth_qml_localgame.py: startet den QML-Client
 headless (Xvfb), navigiert ins lokale Spiel und erstellt ZWEI saubere Tisch-
-Screenshots als Theme-Vorschauen fuer das QML-Spieltisch- und Karten-Theme:
+Screenshots als Theme-Vorschauen fuer das QML-SPIELTISCH-Theme:
   * preview.png          - Querformat/Desktop (Vollbild via F11)
   * preview_portrait.png - Portrait/Mobile (auf die Fenster-Region zugeschnitten)
+
+Die Kartenstapel- und Kartenrueckseiten-Vorschauen werden NICHT hier erzeugt,
+sondern direkt aus den SVGs gebaut: preview/build_card_previews.sh
 
 Im Gegensatz zum vollen Localgame-Recorder wird KEIN Video/Audio aufgenommen und
 es werden keine mehreren Haende durchgespielt - nur die beiden Tischvorschauen.
@@ -58,17 +61,19 @@ class ThemePreviewRecorder:
         self.app: subprocess.Popen | None = None
         self.win_id: str | None = None
 
-        # Ziele fuer die Vorschauen (preview/ + beide Theme-Ordner).
-        # Querformat -> preview.png, Portrait/Mobile -> preview_portrait.png
+        # Ziele fuer die Vorschauen (preview/ + Spieltisch-Theme-Ordner).
+        # Querformat -> preview.png, Portrait/Mobile -> preview_portrait.png.
+        # NUR der Spieltisch-Stil bekommt seine Vorschau aus diesem Screenshot.
+        # Kartenstapel- und Kartenrueckseiten-Vorschauen werden NICHT aus einem
+        # Tisch-Screenshot, sondern direkt aus den SVGs gebaut:
+        #   preview/build_card_previews.sh
         self.targets_landscape = [
             self.script_dir / "theme_preview.png",
             REPO_ROOT / "data/gfx/qml/table/default/preview.png",
-            REPO_ROOT / "data/gfx/qml/cards/default/preview.png",
         ]
         self.targets_portrait = [
             self.script_dir / "theme_preview_portrait.png",
             REPO_ROOT / "data/gfx/qml/table/default/preview_portrait.png",
-            REPO_ROOT / "data/gfx/qml/cards/default/preview_portrait.png",
         ]
 
     # ── Hilfen ────────────────────────────────────────────────────────────────

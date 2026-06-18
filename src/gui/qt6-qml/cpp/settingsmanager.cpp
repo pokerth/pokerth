@@ -207,6 +207,11 @@ QVariantList SettingsManager::availableCardDeckStyles() const
     return scanStyleDir("cards", "deckstyle.xml");
 }
 
+QVariantList SettingsManager::availableCardBackStyles() const
+{
+    return scanStyleDir("backside", "backsidestyle.xml");
+}
+
 QVariantList SettingsManager::scanStyleDir(const QString &category, const QString &xmlSuffix) const
 {
     QVariantList result;

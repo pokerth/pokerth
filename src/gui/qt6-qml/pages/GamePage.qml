@@ -273,16 +273,76 @@ Rectangle {
             // auch im breiten Querformat sichtbar bleibt (im Hochformat ohnehin).
             // Querformat: reicht hinter der geschrumpften Action-Box bis zum
             // unteren Bildschirmrand, damit dort kein dunkler Streifen bleibt.
-            Image {
-                anchors.top: parent.top
+            // Clip-Container für das Tisch-Hintergrundbild.
+            //   • OBEN bei der tableZone-Kante clippen → das (im center-Modus) zum
+            //     Cover hochskalierte Bild kann NICHT über die obere Kante hinaus
+            //     die Status-/Navigationsleiste überdecken.
+            //   • UNTEN bis zum Fensterrand ziehen: die Action-Box ist das dritte
+            //     ColumnLayout-Element und nimmt unten Platz weg, sodass tableZone
+            //     an ihrer Oberkante endet. Der Container reicht daher um die
+            //     Action-Box-Höhe weiter nach unten (tableZone clippt selbst nicht),
+            //     damit die Tischgrafik HINTER der Action-Box bis zum unteren
+            //     Fensterrand sichtbar bleibt (kein dunkler Streifen).
+            // Spieler-Boxen/Badges bleiben direkte tableZone-Kinder und dürfen
+            // weiterhin über den Rand hinausragen.
+            Item {
+                id: tableBgClip
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: parent.height + (tableZone.wide ? actionBar.height : 0)
-                source: (typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.tableBackground !== "")
-                        ? StyleProvider.tableBackground : "../resources/tableGreen.png"
-                fillMode: Image.PreserveAspectCrop
-                verticalAlignment: Image.AlignBottom
-                smooth: true
+                anchors.top: parent.top
+                height: tableZone.height + (tableZone.wide ? actionBar.height : 0)
+                clip: true
+
+                Image {
+                    id: tableBackgroundImage
+                    // Wir verwenden die Bild-Quelle als implizite Größe (implicitWidth/Height)
+                    source: (typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.tableBackground !== "")
+                            ? StyleProvider.tableBackground : "../resources/tableGreen.png"
+                    fillMode: Image.PreserveAspectCrop
+                    smooth: true
+
+                    // ── center-Modus (z. B. danuxi) ───────────────────────────────
+                    // Das Bild füllt den GESAMTEN Gametable randlos (bis zum unteren
+                    // Fensterrand hinter der Action-Box) und der Tisch sitzt im
+                    // Zentrum der Player-Box-Ellipse (communityCenterY). Damit das
+                    // Bild auch bei außermittiger Ellipse die komplette Zone deckt,
+                    // wird so weit hochskaliert, dass es – zentriert auf (Zonenmitte,
+                    // Ellipsenmittelpunkt) – ALLE vier Kanten überdeckt (stärkeres,
+                    // symmetrisches Beschneiden des äußeren Randes = "mehr crop").
+                    // Ohne center-Stil: klassisches Cover.
+                    // Bezugsgröße ist bewusst tableZone (NICHT parent/tableBgClip –
+                    // dessen Höhe ist um die Action-Box-Höhe größer).
+                    readonly property bool centerMode:
+                        typeof StyleProvider !== "undefined" && StyleProvider
+                        && StyleProvider.tableBackgroundAlignment === "center"
+                    readonly property real srcW: Math.max(1, implicitWidth  || tableZone.width)
+                    readonly property real srcH: Math.max(1, implicitHeight || tableZone.height)
+                    readonly property real coverExtra: tableZone.wide ? actionBar.height : 0
+                    // Vertikaler Mittelpunkt der Player-Box-Ellipse (Zonen-Koords).
+                    readonly property real ellipseCenterY: tableZone.communityCenterY
+                    // Crop-/Zoom-Faktor aus dem Stil (>= 1.0, default 1.0): größer =
+                    // Tisch größer / mehr Beschnitt des äußeren Randes. Per Daten
+                    // (XML <TableBackgroundZoom>) justierbar – kein Neubau nötig.
+                    readonly property real centerZoom:
+                        centerMode && StyleProvider.tableBackgroundZoom > 0
+                        ? Math.max(1.0, StyleProvider.tableBackgroundZoom) : 1.0
+                    // Skalierung, die – zentriert auf (Zonenmitte, ellipseCenterY) –
+                    // die ganze Zone (inkl. Bereich hinter der Action-Box) deckt,
+                    // multipliziert mit dem Zoom-/Crop-Faktor.
+                    readonly property real fillScale: {
+                        var reqH = 2 * Math.max(ellipseCenterY,
+                                                tableZone.height + coverExtra - ellipseCenterY)
+                        return Math.max(tableZone.width / srcW, reqH / srcH) * centerZoom
+                    }
+
+                    width:  centerMode ? Math.round(srcW * fillScale) : tableZone.width
+                    height: centerMode ? Math.round(srcH * fillScale)
+                                       : tableZone.height + coverExtra
+                    // Horizontal auf Zonenmitte, vertikal auf den Ellipsenmittelpunkt
+                    // zentrieren → der Tisch liegt in der Bildmitte = Ellipsenmitte.
+                    x: centerMode ? Math.round(tableZone.width / 2 - width / 2) : 0
+                    y: centerMode ? Math.round(ellipseCenterY - height / 2) : 0
+                }
             }
 
             // Anzahl der besetzten Sitze

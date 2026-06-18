@@ -17,17 +17,21 @@ Rectangle {
     // maintainer, dir, xml, preview, previewPortrait }.
     property var tableStyles: []
     property var cardStyles: []
+    property var cardBackStyles: []
     // Aktuell ausgewählter Stil – initialisiert aus den Config-Keys, beim Klick
     // über den StyleProvider persistiert und sofort auf den Tisch angewendet.
     property string selectedTableStyle: ""
     property string selectedCardStyle: ""
+    property string selectedCardBackStyle: ""
 
     Component.onCompleted: {
         if (typeof SettingsManager !== "undefined" && SettingsManager) {
             tableStyles = SettingsManager.availableTableStyles()
             cardStyles = SettingsManager.availableCardDeckStyles()
+            cardBackStyles = SettingsManager.availableCardBackStyles()
             selectedTableStyle = SettingsManager.readConfigString("QmlGameTableStyle")
             selectedCardStyle = SettingsManager.readConfigString("QmlCardDeckStyle")
+            selectedCardBackStyle = SettingsManager.readConfigString("QmlCardBackStyle")
         }
     }
 
@@ -154,6 +158,7 @@ Rectangle {
                             delegate: Component {
                                 StyleCard {
                                     styleEntry: modelData
+                                    forceLandscape: true
                                     selected: modelData.name === styleSettings.selectedCardStyle
                                     onClicked: {
                                         styleSettings.selectedCardStyle = modelData.name
@@ -191,71 +196,47 @@ Rectangle {
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     ColumnLayout {
-                        width: parent.width
+                        width: cardsBackgroundTab.availableWidth
+                        spacing: 8
 
                         Label {
                             Layout.fillWidth: true
-                            text: qsTr("Kartenrückseite wählen:")
+                            text: qsTr("Verfügbare Kartenrückseiten:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        ButtonGroup {
-                            id: flipsideGroup
-                        }
-
-                        RadioButton {
-                            id: flipsideTux
-                            text: qsTr("Standard (Tux)")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("FlipsideTux") !== 0 : true
-                            ButtonGroup.group: flipsideGroup
-                            onCheckedChanged: {
-                                if (SettingsManager && checked) {
-                                    SettingsManager.writeConfigInt("FlipsideTux", 1)
-                                    SettingsManager.writeConfigInt("FlipsideOwn", 0)
-                                }
-                            }
-                        }
-
-                        RadioButton {
-                            id: flipsideOwn
-                            text: qsTr("Eigene Kartenrückseite")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("FlipsideOwn") !== 0 : false
-                            ButtonGroup.group: flipsideGroup
-                            onCheckedChanged: {
-                                if (SettingsManager && checked) {
-                                    SettingsManager.writeConfigInt("FlipsideTux", 0)
-                                    SettingsManager.writeConfigInt("FlipsideOwn", 1)
-                                }
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            Layout.leftMargin: 30
-
-                            TextField {
-                                id: ownFlipsideFilename
-                                Layout.fillWidth: true
-                                text: SettingsManager ? SettingsManager.readConfigString("FlipsideOwnFile") : ""
-                                enabled: flipsideOwn.checked
-                                readOnly: true
-                            }
-
-                            Button {
-                                text: qsTr("Durchsuchen...")
-                                enabled: flipsideOwn.checked
-                                onClicked: {
-                                    // TODO: Datei-Auswahl-Dialog für Kartenrückseite
+                        Repeater {
+                            model: styleSettings.cardBackStyles
+                            delegate: Component {
+                                StyleCard {
+                                    styleEntry: modelData
+                                    forceLandscape: true
+                                    selected: modelData.name === styleSettings.selectedCardBackStyle
+                                    onClicked: {
+                                        styleSettings.selectedCardBackStyle = modelData.name
+                                        if (typeof StyleProvider !== "undefined" && StyleProvider)
+                                            StyleProvider.setCardBackStyle(modelData.name)
+                                    }
                                 }
                             }
                         }
 
                         Label {
-                            Layout.topMargin: 8
-                            text: qsTr("Unterstützte Formate: PNG, JPG, GIF")
+                            Layout.fillWidth: true
+                            visible: styleSettings.cardBackStyles.length === 0
+                            text: qsTr("Keine Kartenrückseiten gefunden.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
+                            wrapMode: Text.WordWrap
+                        }
+
+                        Button {
+                            Layout.topMargin: 4
+                            text: qsTr("Stil hinzufügen...")
+                            onClicked: {
+                                // TODO: Datei-Auswahl-Dialog für Kartenrückseite
+                            }
                         }
                     }
                 }

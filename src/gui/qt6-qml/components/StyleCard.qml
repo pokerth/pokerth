@@ -13,11 +13,14 @@ Rectangle {
     // preview, previewPortrait, dir, xml }.
     property var styleEntry: ({})
     property bool selected: false
+    // Wenn true, IMMER das Querformat-Vorschaubild verwenden (z. B. Kartenstapel
+    // und Kartenrückseite – dort gibt es bewusst kein Portrait-Preview).
+    property bool forceLandscape: false
     signal clicked()
 
     // Auf echten Mobilgeräten das Portrait-Vorschaubild, auf dem Desktop das
     // Querformat. Fehlt die jeweilige Orientierung, die andere als Ersatz nutzen.
-    readonly property bool usePortrait: Config.Responsive.isMobile
+    readonly property bool usePortrait: !forceLandscape && Config.Responsive.isMobile
     readonly property string previewSource:
         usePortrait ? (styleEntry.previewPortrait || styleEntry.preview || "")
                     : (styleEntry.preview || styleEntry.previewPortrait || "")

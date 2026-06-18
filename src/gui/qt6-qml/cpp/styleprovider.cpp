@@ -42,6 +42,8 @@ QString StyleProvider::styleDirPath(const QString &category, const QString &name
 void StyleProvider::loadTableStyle()
 {
     m_tableBackground.clear();
+    m_tableBackgroundAlignment.clear();
+    m_tableBackgroundZoom = 1.0;
     m_dealerPuck.clear();
     m_smallBlindPuck.clear();
     m_bigBlindPuck.clear();
@@ -74,6 +76,17 @@ void StyleProvider::loadTableStyle()
         const QString value = xml.attributes().value("value").toString();
         if (tag == "Table")
             m_tableBackground = urlIfExists(value);
+        else if (tag == "TableBackgroundAlign")
+            m_tableBackgroundAlignment = value.toLower().trimmed();
+        else if (tag == "TableBackgroundZoom") {
+            // Optionaler Crop-/Zoom-Faktor (>= 1.0) für den center-Modus: skaliert
+            // das Tischbild über die Minimal-Deckung hinaus → mehr Beschnitt des
+            // äußeren Randes, Tisch wirkt größer. Per Daten justierbar (kein Build).
+            bool ok = false;
+            const double z = value.toDouble(&ok);
+            if (ok && z > 0.0)
+                m_tableBackgroundZoom = z;
+        }
         else if (tag == "DealerPuck")
             m_dealerPuck = urlIfExists(value);
         else if (tag == "SmallBlindPuck")
@@ -86,7 +99,6 @@ void StyleProvider::loadTableStyle()
 void StyleProvider::loadCardDeckStyle()
 {
     m_cardDeckDir.clear();
-    m_cardBack.clear();
 
     QDir dir(styleDirPath("cards", m_cardDeckName));
     if (!dir.exists())
@@ -101,10 +113,36 @@ void StyleProvider::loadCardDeckStyle()
     // Stil als nutzbar und QML baut die Pfade aus cardDeckDir.
     if (QFileInfo::exists(dir.absoluteFilePath("0.svg")))
         m_cardDeckDir = QUrl::fromLocalFile(dir.absolutePath()).toString();
+}
 
-    const QString flip = dir.absoluteFilePath("flipside.svg");
-    if (QFileInfo::exists(flip))
-        m_cardBack = QUrl::fromLocalFile(flip).toString();
+void StyleProvider::loadCardBackStyle()
+{
+    m_cardBack.clear();
+
+    QDir dir(styleDirPath("backside", m_cardBackName));
+    if (!dir.exists())
+        return;
+    const QStringList xmlFiles =
+        dir.entryList(QStringList() << "*backsidestyle.xml", QDir::Files, QDir::Name);
+    if (xmlFiles.isEmpty())
+        return;
+
+    // Genau eine Rückseiten-Grafik je Stil, referenziert über <Backside value=...>.
+    QFile f(dir.absoluteFilePath(xmlFiles.first()));
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QXmlStreamReader xml(&f);
+    while (!xml.atEnd()) {
+        if (xml.readNext() != QXmlStreamReader::StartElement)
+            continue;
+        if (xml.name().toString() == "Backside") {
+            const QString rel = xml.attributes().value("value").toString();
+            const QString abs = dir.absoluteFilePath(rel);
+            if (!rel.isEmpty() && QFileInfo::exists(abs))
+                m_cardBack = QUrl::fromLocalFile(abs).toString();
+            break;
+        }
+    }
 }
 
 void StyleProvider::reload()
@@ -112,9 +150,11 @@ void StyleProvider::reload()
     if (m_config) {
         m_tableStyleName = QString::fromStdString(m_config->readConfigString("QmlGameTableStyle"));
         m_cardDeckName = QString::fromStdString(m_config->readConfigString("QmlCardDeckStyle"));
+        m_cardBackName = QString::fromStdString(m_config->readConfigString("QmlCardBackStyle"));
     }
     loadTableStyle();
     loadCardDeckStyle();
+    loadCardBackStyle();
     emit changed();
 }
 
@@ -141,5 +181,18 @@ void StyleProvider::setCardDeckStyle(const QString &name)
         m_config->writeBuffer();
     }
     loadCardDeckStyle();
+    emit changed();
+}
+
+void StyleProvider::setCardBackStyle(const QString &name)
+{
+    if (name == m_cardBackName)
+        return;
+    m_cardBackName = name;
+    if (m_config) {
+        m_config->writeConfigString("QmlCardBackStyle", name.toStdString());
+        m_config->writeBuffer();
+    }
+    loadCardBackStyle();
     emit changed();
 }

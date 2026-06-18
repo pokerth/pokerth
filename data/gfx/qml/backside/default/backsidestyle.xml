@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style (Kartenrückseite).
+
+   Eigene Stil-Kategorie des QML-Clients (im Widget-Client ist die Rückseite Teil
+   des Kartenstapels bzw. der Flipside-Option). Ein Stil besteht aus genau einer
+   Rückseiten-Grafik (SVG) plus Vorschaubild.
+
+   Dateinamen sind relativ zu diesem XML zu verstehen.
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="PokerTH default QML card back" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="18.06.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+
+     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>

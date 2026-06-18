@@ -5,8 +5,9 @@
    Orientiert sich am Widget-Client-Kartenstil
    (data/gfx/cards/<name>/<name>deckstyle.xml, Root <CardDeck>) und übernimmt
    dessen Namens-Konvention: Die 52 Kartenbilder heißen 0..51 nach dem
-   Engine-Index, die Rückseite heißt "flipside". Einziger Unterschied: hier sind
-   alle Karten SVG (0.svg .. 51.svg, flipside.svg) statt PNG.
+   Engine-Index. Einziger Unterschied: hier sind alle Karten SVG (0.svg .. 51.svg)
+   statt PNG. Die Kartenrückseite ist eine EIGENE Stil-Kategorie des QML-Clients
+   (data/gfx/qml/backside/<name>/) und NICHT Teil des Kartenstapels.
 
    Engine-Index -> Karte (siehe CardImage.qml):
      Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
@@ -19,8 +20,7 @@
      <StyleMaintainerEMail value="webmaster@pokerth.net" />
      <StyleCreateDate value="18.06.2026" />
      <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
-     <Preview value="preview.png" /><!-- Vorschaubild (Querformat/Desktop) für die Stil-Auswahl -->
-     <PreviewPortrait value="preview_portrait.png" /><!-- QML-Erweiterung: Vorschaubild im Portrait-/Mobile-Modus -->
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
      <BigIndexesActionBottom value="0" /><!-- Action-Labels nicht zwingend unten -->
   </CardDeck>
 </PokerTH>

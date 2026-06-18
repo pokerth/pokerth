@@ -26,6 +26,7 @@
 
      <!-- Tisch-Hintergrund: einzige Rastergrafik des Stils -->
      <Table value="table.png" /> <!-- 1980x1200 px -->
+     <TableBackgroundAlign value="bottom" />
 
      <!-- Dealer- / Blind-Pucks (SVG) -->
      <DealerPuck value="dealerPuck.svg" />

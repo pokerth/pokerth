@@ -75,6 +75,7 @@ public:
     //   preview, previewPortrait  (preview* sind file://-URLs, leer wenn fehlend).
     Q_INVOKABLE QVariantList availableTableStyles() const;
     Q_INVOKABLE QVariantList availableCardDeckStyles() const;
+    Q_INVOKABLE QVariantList availableCardBackStyles() const;
 
 signals:
     void languageChanged();

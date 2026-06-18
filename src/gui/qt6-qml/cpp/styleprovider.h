@@ -37,12 +37,16 @@ class StyleProvider : public QObject
     // Tisch-Stil
     Q_PROPERTY(QString tableStyleName READ tableStyleName NOTIFY changed)
     Q_PROPERTY(QString tableBackground READ tableBackground NOTIFY changed)
+    Q_PROPERTY(QString tableBackgroundAlignment READ tableBackgroundAlignment NOTIFY changed)
+    Q_PROPERTY(qreal tableBackgroundZoom READ tableBackgroundZoom NOTIFY changed)
     Q_PROPERTY(QString dealerPuck READ dealerPuck NOTIFY changed)
     Q_PROPERTY(QString smallBlindPuck READ smallBlindPuck NOTIFY changed)
     Q_PROPERTY(QString bigBlindPuck READ bigBlindPuck NOTIFY changed)
-    // Kartenstapel-Stil
+    // Kartenstapel-Stil (52 Vorderseiten)
     Q_PROPERTY(QString cardDeckName READ cardDeckName NOTIFY changed)
     Q_PROPERTY(QString cardDeckDir READ cardDeckDir NOTIFY changed)
+    // Kartenrückseite – eigene Stil-Kategorie (gfx/qml/backside/<name>/)
+    Q_PROPERTY(QString cardBackName READ cardBackName NOTIFY changed)
     Q_PROPERTY(QString cardBack READ cardBack NOTIFY changed)
 
 public:
@@ -50,16 +54,20 @@ public:
 
     QString tableStyleName() const { return m_tableStyleName; }
     QString tableBackground() const { return m_tableBackground; }
+    QString tableBackgroundAlignment() const { return m_tableBackgroundAlignment; }
+    qreal tableBackgroundZoom() const { return m_tableBackgroundZoom; }
     QString dealerPuck() const { return m_dealerPuck; }
     QString smallBlindPuck() const { return m_smallBlindPuck; }
     QString bigBlindPuck() const { return m_bigBlindPuck; }
     QString cardDeckName() const { return m_cardDeckName; }
     QString cardDeckDir() const { return m_cardDeckDir; }
+    QString cardBackName() const { return m_cardBackName; }
     QString cardBack() const { return m_cardBack; }
 
     // Stil setzen: schreibt den Config-Key, lädt die Assets neu und meldet changed().
     Q_INVOKABLE void setTableStyle(const QString &name);
     Q_INVOKABLE void setCardDeckStyle(const QString &name);
+    Q_INVOKABLE void setCardBackStyle(const QString &name);
     // Config-Keys erneut einlesen (z. B. nach resetToDefaults).
     Q_INVOKABLE void reload();
 
@@ -69,18 +77,23 @@ signals:
 private:
     void loadTableStyle();
     void loadCardDeckStyle();
+    void loadCardBackStyle();
     QString styleDirPath(const QString &category, const QString &name) const;
 
     boost::shared_ptr<ConfigFile> m_config;
 
     QString m_tableStyleName;
     QString m_tableBackground;
+    QString m_tableBackgroundAlignment;
+    qreal m_tableBackgroundZoom = 1.0;
     QString m_dealerPuck;
     QString m_smallBlindPuck;
     QString m_bigBlindPuck;
 
     QString m_cardDeckName;
     QString m_cardDeckDir;
+
+    QString m_cardBackName;
     QString m_cardBack;
 };
 
