@@ -31,6 +31,7 @@
         <file>components/SideMenu.qml</file>
         <file>components/SoundSettings.qml</file>
         <file>components/StyleSettings.qml</file>
+        <file>components/StyleCard.qml</file>
         <file>components/AvatarCardRow.qml</file>
         <file>components/BrandHeader.qml</file>
         <file>components/CardImage.qml</file>

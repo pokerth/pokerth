@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QVariantList>
 #include <boost/shared_ptr.hpp>
 
 class ConfigFile;
@@ -68,6 +69,13 @@ public:
     Q_INVOKABLE void resetToDefaults();
     Q_INVOKABLE QString pickImageFile(const QString &title);
 
+    // Liste der verfügbaren QML-Stile unter <AppDataDir>/gfx/qml/<table|cards>/*.
+    // Jeder Eintrag ist eine Map mit den Schlüsseln:
+    //   name, description, maintainer, dir, xml,
+    //   preview, previewPortrait  (preview* sind file://-URLs, leer wenn fehlend).
+    Q_INVOKABLE QVariantList availableTableStyles() const;
+    Q_INVOKABLE QVariantList availableCardDeckStyles() const;
+
 signals:
     void languageChanged();
     void styleChanged();
@@ -77,6 +85,10 @@ signals:
     void myAvatarChanged();
 
 private:
+    // Scannt <AppDataDir>/gfx/qml/<category>/* nach Unterordnern, die eine
+    // "*<xmlSuffix>"-Datei enthalten, und liefert je Stil eine Beschreibungs-Map.
+    QVariantList scanStyleDir(const QString &category, const QString &xmlSuffix) const;
+
     boost::shared_ptr<ConfigFile> m_config;
 };
 

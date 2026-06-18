@@ -278,7 +278,8 @@ Rectangle {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: parent.height + (tableZone.wide ? actionBar.height : 0)
-                source: "../resources/tableGreen.png"
+                source: (typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.tableBackground !== "")
+                        ? StyleProvider.tableBackground : "../resources/tableGreen.png"
                 fillMode: Image.PreserveAspectCrop
                 verticalAlignment: Image.AlignBottom
                 smooth: true

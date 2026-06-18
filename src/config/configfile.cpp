@@ -66,7 +66,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 105;
+	configRev = 106;
 
 	// standard defaults
 	logOnOffDefault = "1";
@@ -191,6 +191,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("CurrentCardDeckStyle", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastGameTableStyleDir", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastCardDeckStyleDir", CONFIG_TYPE_STRING, ""));
+	// QML-Client: Name des ausgewählten Stil-Unterordners in
+	// <AppDataDir>/gfx/qml/<table|cards>/<name>. Eigene Keys, damit der
+	// Widget-Client (Current*Style speichert volle XML-Pfade) unberührt bleibt.
+	configList.push_back(ConfigInfo("QmlGameTableStyle", CONFIG_TYPE_STRING, "default"));
+	configList.push_back(ConfigInfo("QmlCardDeckStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));

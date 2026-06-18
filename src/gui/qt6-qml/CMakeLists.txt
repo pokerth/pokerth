@@ -20,6 +20,7 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     cpp/retranslate.cpp
     cpp/settingsxmlhandler.cpp
     cpp/settingsmanager.cpp
+    cpp/styleprovider.cpp
     cpp/serverconnectionhandler.cpp
     cpp/lobbyhandler.cpp
     cpp/gamehandler.cpp
@@ -57,6 +58,7 @@ set(QML_FILES
     components/SoundSettings.qml
     components/CustomButton.qml
     components/StyleSettings.qml
+    components/StyleCard.qml
     pages/AboutPage.qml
     pages/GamePage.qml
     pages/InternetGamePage.qml

@@ -508,9 +508,9 @@ Item {
             y: (betGroup.horizontal || betGroup.split)
                ? (betGroup.height - height) / 2
                : (betGroup.height * 5 / 6 - height / 2)
-            source: root.button === 1 ? "../resources/tableDealerPuck.svg"
-                  : root.button === 2 ? "../resources/tableSmallBlind.svg"
-                  : root.button === 3 ? "../resources/tableBigBlind.svg"
+            source: root.button === 1 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.dealerPuck !== "") ? StyleProvider.dealerPuck : "../resources/tableDealerPuck.svg")
+                  : root.button === 2 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.smallBlindPuck !== "") ? StyleProvider.smallBlindPuck : "../resources/tableSmallBlind.svg")
+                  : root.button === 3 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.bigBlindPuck !== "") ? StyleProvider.bigBlindPuck : "../resources/tableBigBlind.svg")
                   : ""
         }
     }

@@ -62,15 +62,38 @@ Item {
         }
     }
 
+    // Stil-Kartenstapel aktiv? StyleProvider.cardDeckDir ist nur gesetzt, wenn der
+    // gewählte Stil tatsächlich Karten-SVGs (0.svg..51.svg) enthält. Schlägt das
+    // Laden einer Stil-Karte fehl, fällt _styledFrontFailed auf das gebündelte
+    // 'cards-simple'-Set zurück.
+    readonly property bool _styledDeck:
+        (typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.cardDeckDir !== "")
+    property bool _styledFrontFailed: false
+
+    // Stilwechsel zur Laufzeit: das per-Karte-Fallback-Flag zurücksetzen, damit
+    // ein neuer (funktionierender) Stapel nicht fälschlich beim Default bleibt.
+    Connections {
+        target: (typeof StyleProvider !== "undefined") ? StyleProvider : null
+        function onChanged() { root._styledFrontFailed = false }
+    }
+
     // Vorderseiten-Quelle in EINER Bindung berechnen (nur von cardIndex abhängig),
     // damit beim Wechsel keine ungültigen Zwischenpfade wie "-1s.svg" entstehen.
     readonly property string frontSource: {
         if (isBack)
             return ""
+        // Stil-Stapel: Karten heißen nach dem Engine-Index 0.svg..51.svg.
+        if (_styledDeck && !_styledFrontFailed)
+            return StyleProvider.cardDeckDir + "/" + cardIndex + ".svg"
         var suits = ["d", "h", "s", "c"]
         var ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 1]
         return "qrc:resources/cards-simple/" + ranks[cardIndex % 13] + suits[Math.floor(cardIndex / 13)] + ".svg"
     }
+
+    // Rückseiten-Quelle: Stil-Flipside, sonst gebündelte Rückseite.
+    readonly property string backSource:
+        (typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.cardBack !== "")
+            ? StyleProvider.cardBack : "qrc:resources/cardBackground.svg"
 
     // ── Kartenrückseite ────────────────────────────────────────────────────────
     Image {
@@ -80,10 +103,10 @@ Item {
         smooth: true
         sourceSize.width: 100
         sourceSize.height: 140
-        source: root.isBack ? "qrc:resources/cardBackground.svg" : ""
+        source: root.isBack ? root.backSource : ""
     }
 
-    // ── Vorderseite (cards-simple SVG, via Image-Rasterizer) ────────────────────
+    // ── Vorderseite (Stil-SVG oder gebündeltes cards-simple, via Image-Rasterizer) ─
     Image {
         visible: !root.isBack
         anchors.fill: parent
@@ -92,5 +115,10 @@ Item {
         sourceSize.width: 120
         sourceSize.height: 168
         source: root.frontSource
+        onStatusChanged: {
+            // Fehlt eine einzelne Stil-Karte, auf das gebündelte Set zurückfallen.
+            if (status === Image.Error && root._styledDeck && !root._styledFrontFailed)
+                root._styledFrontFailed = true
+        }
     }
 }

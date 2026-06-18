@@ -50,6 +50,7 @@
 #include <retranslate.h>
 #include <settingsxmlhandler.h>
 #include <settingsmanager.h>
+#include "gui/qt6-qml/cpp/styleprovider.h"
 #include "gui/qt6-qml/cpp/serverconnectionhandler.h"
 #include "gui/qt6-qml/cpp/lobbyhandler.h"
 #include "gui/qt6-qml/cpp/gamehandler.h"
@@ -208,9 +209,11 @@ int main(int argc, char *argv[])
     engine.setNetworkAccessManagerFactory(&webNamFactory);
 
     SettingsManager settingsMgr(myConfig);
+    StyleProvider styleProvider(myConfig);
     LanguageManager langMgr(&engine);
     ScreenHelper screenHelper;
     engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
+    engine.rootContext()->setContextProperty("StyleProvider", &styleProvider);
     engine.rootContext()->setContextProperty("LanguageManager", &langMgr);
     engine.rootContext()->setContextProperty("ScreenHelper", &screenHelper);
     engine.rootContext()->setContextProperty("ServerConnection", connectionHandler);

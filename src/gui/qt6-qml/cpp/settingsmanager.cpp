@@ -19,6 +19,12 @@
 #include "settingsmanager.h"
 #include "configfile.h"
 #include <QFileDialog>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QUrl>
+#include <QVariantMap>
+#include <QXmlStreamReader>
 #include <core/appimage_utils.h>
 
 SettingsManager::SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent)
@@ -189,4 +195,89 @@ QString SettingsManager::pickImageFile(const QString &title)
         tr("Images (*.png *.jpg *.jpeg *.gif *.bmp)"),
         nullptr, AppImageUtils::fileDialogOptions()
     );
+}
+
+QVariantList SettingsManager::availableTableStyles() const
+{
+    return scanStyleDir("table", "tablestyle.xml");
+}
+
+QVariantList SettingsManager::availableCardDeckStyles() const
+{
+    return scanStyleDir("cards", "deckstyle.xml");
+}
+
+QVariantList SettingsManager::scanStyleDir(const QString &category, const QString &xmlSuffix) const
+{
+    QVariantList result;
+    if (!m_config)
+        return result;
+
+    // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+    const QString base = QString::fromStdString(m_config->readConfigString("AppDataDir"))
+                         + "gfx/qml/" + category;
+    QDir baseDir(base);
+    if (!baseDir.exists())
+        return result;
+
+    const QFileInfoList styleDirs =
+        baseDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    for (const QFileInfo &dirInfo : styleDirs) {
+        QDir styleDir(dirInfo.absoluteFilePath());
+        const QStringList xmlFiles =
+            styleDir.entryList(QStringList() << ("*" + xmlSuffix), QDir::Files, QDir::Name);
+        if (xmlFiles.isEmpty())
+            continue;
+
+        const QString xmlPath = styleDir.absoluteFilePath(xmlFiles.first());
+
+        QVariantMap entry;
+        entry["name"] = dirInfo.fileName();
+        entry["dir"] = dirInfo.absoluteFilePath();
+        entry["xml"] = xmlPath;
+        entry["description"] = dirInfo.fileName(); // Fallback bis XML geparst
+        entry["maintainer"] = QString();
+
+        QString previewRel, previewPortraitRel;
+        QFile xmlFile(xmlPath);
+        if (xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QXmlStreamReader xml(&xmlFile);
+            while (!xml.atEnd()) {
+                if (xml.readNext() != QXmlStreamReader::StartElement)
+                    continue;
+                const QString tag = xml.name().toString();
+                const QString value = xml.attributes().value("value").toString();
+                if (tag == "StyleDescription" && !value.isEmpty())
+                    entry["description"] = value;
+                else if (tag == "StyleMaintainerName")
+                    entry["maintainer"] = value;
+                else if (tag == "Preview")
+                    previewRel = value;
+                else if (tag == "PreviewPortrait")
+                    previewPortraitRel = value;
+            }
+        }
+
+        auto toUrl = [&styleDir](const QString &rel) -> QString {
+            if (rel.isEmpty())
+                return QString();
+            const QString abs = styleDir.absoluteFilePath(rel);
+            if (!QFileInfo::exists(abs))
+                return QString();
+            return QUrl::fromLocalFile(abs).toString();
+        };
+
+        QString preview = toUrl(previewRel);
+        QString previewPortrait = toUrl(previewPortraitRel);
+        // Fehlt eine Orientierung, die jeweils andere als Ersatz verwenden.
+        if (preview.isEmpty())
+            preview = previewPortrait;
+        if (previewPortrait.isEmpty())
+            previewPortrait = preview;
+        entry["preview"] = preview;
+        entry["previewPortrait"] = previewPortrait;
+
+        result.append(entry);
+    }
+    return result;
 }

@@ -12,6 +12,25 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     color: "transparent"
 
+    // Im data-Verzeichnis (<AppDataDir>/gfx/qml/...) gefundene Stile, vom
+    // SettingsManager (C++) eingelesen. Jeder Eintrag: { name, description,
+    // maintainer, dir, xml, preview, previewPortrait }.
+    property var tableStyles: []
+    property var cardStyles: []
+    // Aktuell ausgewählter Stil – initialisiert aus den Config-Keys, beim Klick
+    // über den StyleProvider persistiert und sofort auf den Tisch angewendet.
+    property string selectedTableStyle: ""
+    property string selectedCardStyle: ""
+
+    Component.onCompleted: {
+        if (typeof SettingsManager !== "undefined" && SettingsManager) {
+            tableStyles = SettingsManager.availableTableStyles()
+            cardStyles = SettingsManager.availableCardDeckStyles()
+            selectedTableStyle = SettingsManager.readConfigString("QmlGameTableStyle")
+            selectedCardStyle = SettingsManager.readConfigString("QmlCardDeckStyle")
+        }
+    }
+
     ColumnLayout {
         id: styleSettingsContent
         anchors.fill: parent
@@ -68,7 +87,8 @@ Rectangle {
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     ColumnLayout {
-                        width: parent.width
+                        width: gameTableTab.availableWidth
+                        spacing: 8
 
                         Label {
                             Layout.fillWidth: true
@@ -77,26 +97,36 @@ Rectangle {
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        Button {
-                            text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Spieltisch-Stil
-                            }
-                        }
-
-                        Button {
-                            text: qsTr("Stil entfernen")
-                            onClicked: {
-                                // TODO: Ausgewählten Stil entfernen
+                        Repeater {
+                            model: styleSettings.tableStyles
+                            delegate: Component {
+                                StyleCard {
+                                    styleEntry: modelData
+                                    selected: modelData.name === styleSettings.selectedTableStyle
+                                    onClicked: {
+                                        styleSettings.selectedTableStyle = modelData.name
+                                        if (typeof StyleProvider !== "undefined" && StyleProvider)
+                                            StyleProvider.setTableStyle(modelData.name)
+                                    }
+                                }
                             }
                         }
 
                         Label {
-                            Layout.topMargin: 8
-                            text: qsTr("Hinweis: Die Stil-Auswahl mit Vorschau wird später implementiert")
+                            Layout.fillWidth: true
+                            visible: styleSettings.tableStyles.length === 0
+                            text: qsTr("Keine Spieltisch-Stile gefunden.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
+                        }
+
+                        Button {
+                            Layout.topMargin: 4
+                            text: qsTr("Stil hinzufügen...")
+                            onClicked: {
+                                // TODO: Datei-Auswahl-Dialog für Spieltisch-Stil
+                            }
                         }
                     }
                 }
@@ -109,7 +139,8 @@ Rectangle {
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     ColumnLayout {
-                        width: parent.width
+                        width: cardsDeckTab.availableWidth
+                        spacing: 8
 
                         Label {
                             Layout.fillWidth: true
@@ -118,26 +149,36 @@ Rectangle {
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        Button {
-                            text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Kartenstapel-Stil
-                            }
-                        }
-
-                        Button {
-                            text: qsTr("Stil entfernen")
-                            onClicked: {
-                                // TODO: Ausgewählten Stil entfernen
+                        Repeater {
+                            model: styleSettings.cardStyles
+                            delegate: Component {
+                                StyleCard {
+                                    styleEntry: modelData
+                                    selected: modelData.name === styleSettings.selectedCardStyle
+                                    onClicked: {
+                                        styleSettings.selectedCardStyle = modelData.name
+                                        if (typeof StyleProvider !== "undefined" && StyleProvider)
+                                            StyleProvider.setCardDeckStyle(modelData.name)
+                                    }
+                                }
                             }
                         }
 
                         Label {
-                            Layout.topMargin: 8
-                            text: qsTr("Hinweis: Die Stil-Auswahl mit Vorschau wird später implementiert")
+                            Layout.fillWidth: true
+                            visible: styleSettings.cardStyles.length === 0
+                            text: qsTr("Keine Kartenstapel-Stile gefunden.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
+                        }
+
+                        Button {
+                            Layout.topMargin: 4
+                            text: qsTr("Stil hinzufügen...")
+                            onClicked: {
+                                // TODO: Datei-Auswahl-Dialog für Kartenstapel-Stil
+                            }
                         }
                     }
                 }

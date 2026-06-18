@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML game table style.
+
+   Dieses Format orientiert sich bewusst eng am Widget-Client-Tischstil
+   (data/gfx/gui/table/<name>/<name>tablestyle.xml, Root <TableStyle>), damit
+   beide Clients dieselben Konventionen teilen. Unterschiede zum Widget-Stil:
+
+     * Alle Tisch-Elemente sind SVG (beliebig skalierbar) – nur der Tisch-
+       Hintergrund ist eine Rastergrafik (PNG).
+     * Der QML-Client rendert die Action-Buttons mit eigenem Text/Layout; die
+       hier referenzierten Action-SVGs sind die reinen Symbolgrafiken (ohne
+       Hover/Checked-Zustände, die im Widget-Client als separate PNGs vorliegen).
+
+   Dateinamen sind relativ zu diesem XML zu verstehen.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="PokerTH default QML table style" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="18.06.2026" />
+     <PokerTHStyleFileVersion value="3" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
+     <Preview value="preview.png" /><!-- Vorschaubild (Querformat/Desktop) für die Stil-Auswahl -->
+     <PreviewPortrait value="preview_portrait.png" /><!-- QML-Erweiterung: Vorschaubild im Portrait-/Mobile-Modus -->
+
+     <!-- Tisch-Hintergrund: einzige Rastergrafik des Stils -->
+     <Table value="table.png" /> <!-- 1980x1200 px -->
+
+     <!-- Dealer- / Blind-Pucks (SVG) -->
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <!-- Action-Symbole (SVG) – ein Vektor je Aktion -->
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+  </TableStyle>
+</PokerTH>
