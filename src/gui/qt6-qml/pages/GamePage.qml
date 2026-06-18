@@ -751,6 +751,10 @@ Rectangle {
             readonly property real zoomFactor: 2.0
             property real  _zoomPanX: 0
             property real  _zoomPanY: 0
+            // Merkt sich, ob der Zoom vor dem Showdown aktiv war. Im Showdown wird
+            // zur Tisch-Übersicht herausgezoomt; zur nächsten Hand wird ein zuvor
+            // aktiver Zoom automatisch wieder eingeschaltet.
+            property bool  _zoomSuspendedByShowdown: false
             // Verzögertes Nachführen auf den aktiven Spieler (compact-Zoom):
             // Wird ein Spieler am Zug, springt der Ausschnitt NICHT sofort zu ihm,
             // sondern erst wenn er handelt (refreshActionTriggered) ODER 1/4 seiner
@@ -1354,6 +1358,27 @@ Rectangle {
                                      + tableZone.selfBaseHeight * tableZone.boxScale / 2
                         var cy = (tableZone.communityCenterY + selfCY) / 2
                         tableZone._panToPoint(tableZone.width / 2, cy)
+                    }
+                    function onShowdownActiveChanged() {
+                        if (!GameTable) return
+                        if (GameTable.showdownActive) {
+                            // Showdown beginnt: automatisch herauszoomen, damit der
+                            // gesamte Tisch mit allen Spielern (und ihren aufgedeckten
+                            // Karten) wieder sichtbar ist. Vorherigen Zoom-Zustand
+                            // merken und geplanten Spieler-Schwenk abbrechen.
+                            tableZone._zoomSuspendedByShowdown = tableZone.zoomActive
+                            followTimer.stop()
+                            tableZone._pendingFollowSeat = -1
+                            tableZone._followedSeat = -1
+                            tableZone.zoomActive = false
+                            tableZone._zoomPanX = 0
+                            tableZone._zoomPanY = 0
+                        } else if (tableZone._zoomSuspendedByShowdown) {
+                            // Nächste Hand: einen vor dem Showdown aktiven Zoom wieder
+                            // einschalten.
+                            tableZone._zoomSuspendedByShowdown = false
+                            tableZone.zoomActive = true
+                        }
                     }
                 }
             } // zoomLayer
