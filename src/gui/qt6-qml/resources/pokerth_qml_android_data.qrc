@@ -1,0 +1,98 @@
+<!--
+   Android-Daten-Bundle für den QML-Client.
+
+   Auf Android ist AppDataDir = :/android/android-data/ (configfile.cpp).
+   Das datei-basierte QML-Stil-System (StyleProvider/SettingsManager) scannt
+   <AppDataDir>gfx/qml/{table,cards,backside}/ – diese Dateien müssen daher als
+   Qt-Resource gebündelt werden. Dateipfade sind relativ zu diesem Verzeichnis
+   und zeigen über den Symlink "android-data" -> ../../../../data auf data/gfx/qml.
+
+   Nur für ANDROID eingebunden (siehe CMakeLists.txt). Neue Stil-Dateien hier
+   ergänzen, sonst fehlen sie in der APK.
+-->
+<RCC>
+    <qresource prefix="/android">
+        <file>android-data/gfx/qml/backside/danuxi/backside.svg</file>
+        <file>android-data/gfx/qml/backside/danuxi/danuxibacksidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/danuxi/preview.png</file>
+        <file>android-data/gfx/qml/backside/default/backside.svg</file>
+        <file>android-data/gfx/qml/backside/default/backsidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/default/preview.png</file>
+        <file>android-data/gfx/qml/cards/default/0.svg</file>
+        <file>android-data/gfx/qml/cards/default/1.svg</file>
+        <file>android-data/gfx/qml/cards/default/10.svg</file>
+        <file>android-data/gfx/qml/cards/default/11.svg</file>
+        <file>android-data/gfx/qml/cards/default/12.svg</file>
+        <file>android-data/gfx/qml/cards/default/13.svg</file>
+        <file>android-data/gfx/qml/cards/default/14.svg</file>
+        <file>android-data/gfx/qml/cards/default/15.svg</file>
+        <file>android-data/gfx/qml/cards/default/16.svg</file>
+        <file>android-data/gfx/qml/cards/default/17.svg</file>
+        <file>android-data/gfx/qml/cards/default/18.svg</file>
+        <file>android-data/gfx/qml/cards/default/19.svg</file>
+        <file>android-data/gfx/qml/cards/default/2.svg</file>
+        <file>android-data/gfx/qml/cards/default/20.svg</file>
+        <file>android-data/gfx/qml/cards/default/21.svg</file>
+        <file>android-data/gfx/qml/cards/default/22.svg</file>
+        <file>android-data/gfx/qml/cards/default/23.svg</file>
+        <file>android-data/gfx/qml/cards/default/24.svg</file>
+        <file>android-data/gfx/qml/cards/default/25.svg</file>
+        <file>android-data/gfx/qml/cards/default/26.svg</file>
+        <file>android-data/gfx/qml/cards/default/27.svg</file>
+        <file>android-data/gfx/qml/cards/default/28.svg</file>
+        <file>android-data/gfx/qml/cards/default/29.svg</file>
+        <file>android-data/gfx/qml/cards/default/3.svg</file>
+        <file>android-data/gfx/qml/cards/default/30.svg</file>
+        <file>android-data/gfx/qml/cards/default/31.svg</file>
+        <file>android-data/gfx/qml/cards/default/32.svg</file>
+        <file>android-data/gfx/qml/cards/default/33.svg</file>
+        <file>android-data/gfx/qml/cards/default/34.svg</file>
+        <file>android-data/gfx/qml/cards/default/35.svg</file>
+        <file>android-data/gfx/qml/cards/default/36.svg</file>
+        <file>android-data/gfx/qml/cards/default/37.svg</file>
+        <file>android-data/gfx/qml/cards/default/38.svg</file>
+        <file>android-data/gfx/qml/cards/default/39.svg</file>
+        <file>android-data/gfx/qml/cards/default/4.svg</file>
+        <file>android-data/gfx/qml/cards/default/40.svg</file>
+        <file>android-data/gfx/qml/cards/default/41.svg</file>
+        <file>android-data/gfx/qml/cards/default/42.svg</file>
+        <file>android-data/gfx/qml/cards/default/43.svg</file>
+        <file>android-data/gfx/qml/cards/default/44.svg</file>
+        <file>android-data/gfx/qml/cards/default/45.svg</file>
+        <file>android-data/gfx/qml/cards/default/46.svg</file>
+        <file>android-data/gfx/qml/cards/default/47.svg</file>
+        <file>android-data/gfx/qml/cards/default/48.svg</file>
+        <file>android-data/gfx/qml/cards/default/49.svg</file>
+        <file>android-data/gfx/qml/cards/default/5.svg</file>
+        <file>android-data/gfx/qml/cards/default/50.svg</file>
+        <file>android-data/gfx/qml/cards/default/51.svg</file>
+        <file>android-data/gfx/qml/cards/default/6.svg</file>
+        <file>android-data/gfx/qml/cards/default/7.svg</file>
+        <file>android-data/gfx/qml/cards/default/8.svg</file>
+        <file>android-data/gfx/qml/cards/default/9.svg</file>
+        <file>android-data/gfx/qml/cards/default/defaultdeckstyle.xml</file>
+        <file>android-data/gfx/qml/cards/default/preview.png</file>
+        <file>android-data/gfx/qml/table/danuxi/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/danuxitablestyle.xml</file>
+        <file>android-data/gfx/qml/table/danuxi/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/preview.png</file>
+        <file>android-data/gfx/qml/table/danuxi/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/danuxi/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/danuxi/table.png</file>
+        <file>android-data/gfx/qml/table/default/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/default/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/default/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/default/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/default/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/default/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/default/defaulttablestyle.xml</file>
+        <file>android-data/gfx/qml/table/default/preview.png</file>
+        <file>android-data/gfx/qml/table/default/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/default/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/default/table.png</file>
+    </qresource>
+</RCC>

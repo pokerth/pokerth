@@ -36,6 +36,15 @@ qt_add_resources(POKERTH_QML_CLIENT_SRC qml.qrc)
 qt_add_resources(POKERTH_QML_CLIENT_SRC cflags.qrc)
 qt_add_resources(POKERTH_QML_CLIENT_SRC emotes.qrc)
 
+# Android: Das datei-basierte QML-Stil-System (StyleProvider/SettingsManager)
+# scannt <AppDataDir>gfx/qml/..., und AppDataDir ist auf Android das Qt-Resource
+# :/android/android-data/ (configfile.cpp). Ohne dieses Bundle gibt es auf Android
+# kein echtes Dateisystem-data/ → keine Tisch-/Karten-/Rückseiten-Stile.
+# Auf Desktop werden die Stile aus dem installierten data/ gelesen (install() unten).
+if(ANDROID)
+    qt_add_resources(POKERTH_QML_CLIENT_SRC resources/pokerth_qml_android_data.qrc)
+endif()
+
 set(QML_FILES
     pokerth.qml
     components/CustomCheckBox.qml
