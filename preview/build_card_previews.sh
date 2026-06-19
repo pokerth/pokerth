@@ -22,6 +22,15 @@ if [ -z "$MAGICK" ]; then
     exit 1
 fi
 
+# Weicher Schlagschatten hinter einer (transparenten) Karten-Grafik. Hebt die
+# Karten vom hellen Hintergrund ab und trennt überlappende Karten voneinander
+# (die vordere wirft Schatten auf die hintere). $1=Eingabe-PNG, $2=Ausgabe-PNG.
+SHADOW="55x8+3+8"   # Deckkraft x Weichzeichnung + Versatz(x,y)
+drop_shadow() {
+    "$MAGICK" "$1" \( +clone -background black -shadow "$SHADOW" \) \
+        +swap -background none -layers merge +repage "$2"
+}
+
 # Kartenstapel: zwei Karten in der Hand – "Ace-King". K♥ (Engine-Index 24) hinten,
 # A♠ (38) vorne – eine rote und eine schwarze Karte.
 build_deck() {
@@ -31,9 +40,11 @@ build_deck() {
         echo "  übersprungen (Karten fehlen): $dir"; return
     fi
     local tmp; tmp="$(mktemp -d)"
-    "$MAGICK" -background none "$back"  -resize 300x420 -rotate -13 +repage "$tmp/b.png"
-    "$MAGICK" -background none "$front" -resize 300x420 -rotate  13 +repage "$tmp/f.png"
-    "$MAGICK" -size 760x500 xc:none \
+    "$MAGICK" -background none "$back"  -resize 300x420 -rotate -13 +repage "$tmp/b0.png"
+    "$MAGICK" -background none "$front" -resize 300x420 -rotate  13 +repage "$tmp/f0.png"
+    drop_shadow "$tmp/b0.png" "$tmp/b.png"
+    drop_shadow "$tmp/f0.png" "$tmp/f.png"
+    "$MAGICK" -size 820x560 xc:none \
         "$tmp/b.png" -gravity NorthWest -geometry +70+25 -composite \
         "$tmp/f.png" -gravity NorthWest -geometry +330+15 -composite \
         -trim +repage -bordercolor none -border 24 "$dir/preview.png"
@@ -41,15 +52,18 @@ build_deck() {
     echo "  -> $dir/preview.png"
 }
 
-# Kartenrückseite: nur die SVG, sauber zugeschnitten mit etwas Rand.
+# Kartenrückseite: SVG sauber zugeschnitten, mit Schlagschatten und etwas Rand.
 build_back() {
     local dir="$1"
     local svg="$dir/backside.svg"
     if [ ! -f "$svg" ]; then
         echo "  übersprungen (backside.svg fehlt): $dir"; return
     fi
-    "$MAGICK" -background none "$svg" -resize 360x504 -trim +repage \
-        -bordercolor none -border 16 "$dir/preview.png"
+    local tmp; tmp="$(mktemp -d)"
+    "$MAGICK" -background none "$svg" -resize 360x504 -trim +repage "$tmp/bk.png"
+    drop_shadow "$tmp/bk.png" "$tmp/bks.png"
+    "$MAGICK" "$tmp/bks.png" -bordercolor none -border 16 "$dir/preview.png"
+    rm -rf "$tmp"
     echo "  -> $dir/preview.png"
 }
 
