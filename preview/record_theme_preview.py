@@ -29,6 +29,7 @@ Beispiel:
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import subprocess
 import sys
@@ -67,13 +68,14 @@ class ThemePreviewRecorder:
         # Kartenstapel- und Kartenrueckseiten-Vorschauen werden NICHT aus einem
         # Tisch-Screenshot, sondern direkt aus den SVGs gebaut:
         #   preview/build_card_previews.sh
+        style_dir = REPO_ROOT / "data/gfx/qml/table" / args.style
         self.targets_landscape = [
             self.script_dir / "theme_preview.png",
-            REPO_ROOT / "data/gfx/qml/table/default/preview.png",
+            style_dir / "preview.png",
         ]
         self.targets_portrait = [
             self.script_dir / "theme_preview_portrait.png",
-            REPO_ROOT / "data/gfx/qml/table/default/preview_portrait.png",
+            style_dir / "preview_portrait.png",
         ]
 
     # ── Hilfen ────────────────────────────────────────────────────────────────
@@ -195,8 +197,31 @@ class ThemePreviewRecorder:
                 except subprocess.TimeoutExpired:
                     proc.kill()
 
+    def _set_table_style_in_config(self) -> None:
+        # Setzt QmlGameTableStyle in der Client-Config (config.xml). Der Key muss
+        # bereits existieren (Config-Revision aktuell) – ein erster Lauf mit dem
+        # Default-Stil upgradet eine alte Config und legt den Key an.
+        cfg = Path(self.args.config).expanduser()
+        if not cfg.exists():
+            print(f"      [WARN] Config nicht gefunden: {cfg} – Stil nicht gesetzt")
+            return
+        text = cfg.read_text(encoding="utf-8")
+        new, n = re.subn(
+            r'(<QmlGameTableStyle value=")[^"]*(")',
+            lambda m: m.group(1) + self.args.style + m.group(2),
+            text,
+        )
+        if n == 0:
+            print("      [WARN] QmlGameTableStyle-Key fehlt (alte Config?) – "
+                  "erst einen Default-Lauf zum Upgrade ausführen.")
+            return
+        cfg.write_text(new, encoding="utf-8")
+        print(f"      Config: QmlGameTableStyle = {self.args.style}")
+
     def run(self) -> int:
         try:
+            if self.args.set_table_style:
+                self._set_table_style_in_config()
             self._start_services()
             self._wait_for_window()
             self._navigate_to_table()
@@ -225,6 +250,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--preloader-sec", type=float, default=9.0)
     p.add_argument("--table-sec", type=float, default=7.0)
     p.add_argument("--binary", default=str(REPO_ROOT / "build/bin/pokerth_qml-client"))
+    # Welcher Spieltisch-Stil: bestimmt das Ziel-Verzeichnis
+    # (data/gfx/qml/table/<style>/preview*.png).
+    p.add_argument("--style", default="default")
+    # QmlGameTableStyle vor dem Start in die Client-Config schreiben.
+    p.add_argument("--set-table-style", action="store_true")
+    p.add_argument("--config", default=str(Path("~/.pokerth/config.xml").expanduser()))
     return p
 
 
