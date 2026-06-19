@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   TripSixes QML table style (portiert aus dem Widget-Client-Stil
+   data/gfx/gui/table/tripsixes_table, https://www.pokerth.net).
+
+   Wie bei allen QML-Stilen sind alle UI-Elemente saubere SVGs; nur der Tisch-
+   Hintergrund bleibt eine PNG. Das table.png wurde so aufbereitet, dass der
+   Tisch (Filz-Oval) vertikal UND horizontal exakt zentriert auf dunklem Grund
+   sitzt (Damast-Muster/Tischbeine vorerst entfernt) → center-Modus.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="TripSixes QML table style" />
+     <StyleMaintainerName value="TripSixes" />
+     <StyleMaintainerEMail value="trip@tripsixes.com" />
+     <StyleCreateDate value="19.06.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
+     <TableBackgroundZoom value="1.0" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+  </TableStyle>
+</PokerTH>

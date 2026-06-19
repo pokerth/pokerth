@@ -330,14 +330,9 @@ SessionData::CloseSocketHandle()
 void
 SessionData::CloseWebSocketHandle()
 {
-	if (m_webData) {
-#if defined(__GXX_EXPERIMENTAL_CXX0X__) || (__cplusplus >= 201103L) // c++11 
-		std::error_code std_ec;
-		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", std_ec);
-#else
-		boost::system::error_code ec;
-		m_webData->webSocketServer->close(m_webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
-#endif
+	if (m_webData && m_webData->endpoint) {
+		websocketpp::lib::error_code ec;
+		m_webData->endpoint->Close(m_webData->webHandle, "PokerTH server closed the connection.", ec);
 	}
 }
 
@@ -446,13 +441,9 @@ SessionData::GetRemoteIPAddressFromSocket() const
         }
     }
 
-    if (m_webData && m_webData->webSocketServer) {
-        try {
-            auto con = m_webData->webSocketServer->get_con_from_hdl(m_webData->webHandle);
-            auto ep = con->get_raw_socket().remote_endpoint(ec);
-            if (!ec) return ep.address().to_string();
-        } catch (...) {
-        }
+    if (m_webData && m_webData->endpoint) {
+        std::string addr = m_webData->endpoint->RemoteAddress(m_webData->webHandle);
+        if (!addr.empty()) return addr;
     }
 
     return std::string();

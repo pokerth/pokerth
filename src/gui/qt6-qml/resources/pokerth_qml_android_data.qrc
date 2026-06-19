@@ -7,11 +7,9 @@
    Qt-Resource gebündelt werden. Dateipfade sind relativ zu diesem Verzeichnis
    und zeigen über den Symlink "android-data" -> ../../../../data auf data/gfx/qml.
 
-   Nur für ANDROID eingebunden (siehe CMakeLists.txt). Diese Liste ist statisch
-   (qrc kann keine Globs) – nach dem Hinzufügen neuer Stil-Dateien neu generieren,
-   indem alle Pfade unter data/gfx/qml sortiert als android-data/...-Eintraege in
-   den qresource-Block geschrieben werden (siehe Notiz qml-theme-system: find +
-   sed mit Praefix-Ersetzung data/ -> android-data/).
+   Nur für ANDROID eingebunden (siehe CMakeLists.txt). Neue Stil-Dateien hier
+   ergänzen (regenerieren), sonst fehlen sie in der APK:
+     find data/gfx/qml -type f | sort | sed -E 's#^data/#        <file>android-data/#; s#$#</file>#'
 -->
 <RCC>
     <qresource prefix="/android">
@@ -154,5 +152,16 @@
         <file>android-data/gfx/qml/table/default/preview_portrait.png</file>
         <file>android-data/gfx/qml/table/default/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/default/table.png</file>
+        <file>android-data/gfx/qml/table/tripsixes/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/preview.png</file>
+        <file>android-data/gfx/qml/table/tripsixes/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/tripsixes/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/tripsixes/table.png</file>
+        <file>android-data/gfx/qml/table/tripsixes/tripsixestablestyle.xml</file>
     </qresource>
 </RCC>

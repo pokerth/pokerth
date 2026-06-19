@@ -43,6 +43,16 @@ public:
 	virtual void StartAsyncRead(boost::shared_ptr<SessionData> session);
 	virtual void HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead);
 	virtual void HandleMessage(boost::shared_ptr<SessionData> session, const std::string &msg);
+
+private:
+	// Parse exactly one packet from [data, data+size) and dispatch it.
+	void ProcessPacket(boost::shared_ptr<SessionData> session, const char *data, size_t size);
+	// Length-prefixed mode: append bytes and extract all complete packets.
+	void ScanPrefixedPackets(boost::shared_ptr<SessionData> session);
+
+	// Accumulation buffer, only used in length-prefixed mode (packets may be
+	// split across or coalesced within websocket messages).
+	std::string m_recvBuffer;
 };
 
 #endif

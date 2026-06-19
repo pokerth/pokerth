@@ -58,33 +58,38 @@ WebSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 {
 	if (closeAfterSend) {
 		boost::shared_ptr<WebSocketData> webData = session->GetWebData();
-#if defined(__GXX_EXPERIMENTAL_CXX0X__) || (__cplusplus >= 201103L)
-		std::error_code std_ec;
-		webData->webSocketServer->close(webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", std_ec);
-#else
-		boost::system::error_code ec;
-		webData->webSocketServer->close(webData->webHandle, websocketpp::close::status::normal, "PokerTH server closed the connection.", ec);
-#endif
+		if (webData && webData->endpoint) {
+			websocketpp::lib::error_code ec;
+			webData->endpoint->Close(webData->webHandle, "PokerTH server closed the connection.", ec);
+		}
 	}
 }
 
 void
 WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
-	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize];
-	packet->GetMsg()->SerializeWithCachedSizesToArray(buf);
-
 	boost::shared_ptr<WebSocketData> webData = session->GetWebData();
-#if defined(__GXX_EXPERIMENTAL_CXX0X__) || (__cplusplus >= 201103L)
-	std::error_code std_ec;
-	webData->webSocketServer->send(webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY, std_ec);
-	if (std_ec) {
-#else
-	boost::system::error_code ec;
-	webData->webSocketServer->send(webData->webHandle, string((const char *)buf, packetSize), websocketpp::frame::opcode::BINARY, ec);
-	if (ec) {
-#endif
+	const bool prefixed = webData && webData->lengthPrefixed;
+
+	uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
+	const size_t headerSize = prefixed ? NET_HEADER_SIZE : 0;
+	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + headerSize];
+	if (prefixed) {
+		// 4-byte big-endian length prefix, identical to the native TCP framing.
+		buf[0] = static_cast<google::protobuf::uint8>((packetSize >> 24) & 0xFF);
+		buf[1] = static_cast<google::protobuf::uint8>((packetSize >> 16) & 0xFF);
+		buf[2] = static_cast<google::protobuf::uint8>((packetSize >> 8) & 0xFF);
+		buf[3] = static_cast<google::protobuf::uint8>(packetSize & 0xFF);
+	}
+	packet->GetMsg()->SerializeWithCachedSizesToArray(buf + headerSize);
+
+	if (webData && webData->endpoint) {
+		websocketpp::lib::error_code ec;
+		webData->endpoint->Send(webData->webHandle, string((const char *)buf, packetSize + headerSize), ec);
+		if (ec) {
+			SetCloseAfterSend();
+		}
+	} else {
 		SetCloseAfterSend();
 	}
 

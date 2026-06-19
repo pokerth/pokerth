@@ -31,6 +31,7 @@
 
 #include <net/sessiondata.h>
 #include <net/webreceivebuffer.h>
+#include <net/websocketdata.h>
 #include <core/loghelper.h>
 
 using namespace std;
@@ -55,11 +56,55 @@ WebReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> /*session*/, const b
 void
 WebReceiveBuffer::HandleMessage(boost::shared_ptr<SessionData> session, const string &msg)
 {
+	boost::shared_ptr<WebSocketData> webData = session->GetWebData();
+	if (webData && webData->lengthPrefixed) {
+		// Length-prefixed framing: do not rely on websocket message boundaries.
+		// Accumulate and scan out every complete 4-byte-prefixed packet.
+		m_recvBuffer.append(msg);
+		ScanPrefixedPackets(session);
+	} else {
+		// Legacy framing: exactly one packet per websocket message.
+		ProcessPacket(session, msg.c_str(), msg.size());
+	}
+}
+
+void
+WebReceiveBuffer::ScanPrefixedPackets(boost::shared_ptr<SessionData> session)
+{
+	// Same framing as the native TCP path (see AsioReceiveBuffer::ScanPackets):
+	// 4-byte big-endian length, followed by that many protobuf payload bytes.
+	while (m_recvBuffer.size() >= NET_HEADER_SIZE) {
+		const unsigned char *p = reinterpret_cast<const unsigned char *>(m_recvBuffer.data());
+		size_t packetSize =
+			(static_cast<size_t>(p[0]) << 24) |
+			(static_cast<size_t>(p[1]) << 16) |
+			(static_cast<size_t>(p[2]) << 8) |
+			static_cast<size_t>(p[3]);
+
+		if (packetSize == 0 || packetSize > MAX_PACKET_SIZE) {
+			LOG_ERROR("Session " << session->GetId() << " - Invalid websocket packet size: " << packetSize
+					  << " (max: " << MAX_PACKET_SIZE << ") - closing connection");
+			m_recvBuffer.clear();
+			session->Close();
+			return;
+		}
+		if (m_recvBuffer.size() < packetSize + NET_HEADER_SIZE) {
+			break; // Wait for the rest of the packet.
+		}
+		ProcessPacket(session, m_recvBuffer.data() + NET_HEADER_SIZE, packetSize);
+		m_recvBuffer.erase(0, packetSize + NET_HEADER_SIZE);
+	}
+}
+
+void
+WebReceiveBuffer::ProcessPacket(boost::shared_ptr<SessionData> session, const char *data, size_t size)
+{
 	boost::shared_ptr<NetPacket> tmpPacket;
 	try {
-		tmpPacket = NetPacket::Create(msg.c_str(), msg.size());
-		if (!validator.IsValidPacket(*tmpPacket)) {
-			LOG_ERROR("Session " << session->GetId() << " - Invalid packet: " << tmpPacket->GetMsg()->messagetype());
+		tmpPacket = NetPacket::Create(data, size);
+		if (!tmpPacket || !validator.IsValidPacket(*tmpPacket)) {
+			LOG_ERROR("Session " << session->GetId() << " - Invalid packet"
+					  << (tmpPacket ? string(": ") + std::to_string(tmpPacket->GetMsg()->messagetype()) : ""));
 			tmpPacket.reset();
 		}
 	} catch (const exception &e) {
