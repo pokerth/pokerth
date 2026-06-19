@@ -7,17 +7,77 @@
    Qt-Resource gebündelt werden. Dateipfade sind relativ zu diesem Verzeichnis
    und zeigen über den Symlink "android-data" -> ../../../../data auf data/gfx/qml.
 
-   Nur für ANDROID eingebunden (siehe CMakeLists.txt). Neue Stil-Dateien hier
-   ergänzen, sonst fehlen sie in der APK.
+   Nur für ANDROID eingebunden (siehe CMakeLists.txt). Diese Liste ist statisch
+   (qrc kann keine Globs) – nach dem Hinzufügen neuer Stil-Dateien neu generieren,
+   indem alle Pfade unter data/gfx/qml sortiert als android-data/...-Eintraege in
+   den qresource-Block geschrieben werden (siehe Notiz qml-theme-system: find +
+   sed mit Praefix-Ersetzung data/ -> android-data/).
 -->
 <RCC>
     <qresource prefix="/android">
+        <file>android-data/gfx/qml/backside/bella_union_4c/backside.svg</file>
+        <file>android-data/gfx/qml/backside/bella_union_4c/backsidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/bella_union_4c/preview.png</file>
         <file>android-data/gfx/qml/backside/danuxi/backside.svg</file>
         <file>android-data/gfx/qml/backside/danuxi/danuxibacksidestyle.xml</file>
         <file>android-data/gfx/qml/backside/danuxi/preview.png</file>
         <file>android-data/gfx/qml/backside/default/backside.svg</file>
         <file>android-data/gfx/qml/backside/default/backsidestyle.xml</file>
         <file>android-data/gfx/qml/backside/default/preview.png</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/0.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/1.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/10.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/11.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/12.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/13.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/14.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/15.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/16.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/17.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/18.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/19.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/2.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/20.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/21.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/22.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/23.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/24.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/25.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/26.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/27.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/28.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/29.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/3.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/30.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/31.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/32.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/33.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/34.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/35.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/36.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/37.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/38.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/39.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/4.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/40.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/41.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/42.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/43.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/44.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/45.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/46.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/47.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/48.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/49.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/5.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/50.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/51.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/6.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/7.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/8.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/9.svg</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/bellaunion4cdeckstyle.xml</file>
+        <file>android-data/gfx/qml/cards/bella_union_4c/preview.png</file>
         <file>android-data/gfx/qml/cards/default/0.svg</file>
         <file>android-data/gfx/qml/cards/default/1.svg</file>
         <file>android-data/gfx/qml/cards/default/10.svg</file>

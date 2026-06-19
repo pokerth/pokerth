@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style (Kartenrückseite) "Bella Union 4 colours".
+
+   Eigene Stil-Kategorie des QML-Clients. Nachgebaut aus der Original-flipside.png
+   des Widget-Client-Stils von Julio Gomez als beliebig skalierbares Vektor-SVG
+   (rotes Karo-/Schachbrettmuster mit weißem Rand). Dateinamen sind relativ zu
+   diesem XML zu verstehen.
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Bella Union 4 colours (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="Julio Gomez" />
+     <StyleMaintainerEMail value="julio.go83@gmail.com" />
+     <StyleCreateDate value="19.06.2026" /><!-- QML-Portierung; Original: 20.07.2009 -->
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+
+     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>
