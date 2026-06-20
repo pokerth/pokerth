@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -174,7 +173,7 @@ ItemDelegate {
             }
 
             // Portrait: Expander-Caret (Wide-Screen blendet ihn aus).
-            VectorImage {
+            SvgIcon {
                 id: expanderCaret
                 source: "qrc:/resources/caretLeft.svg"
                 rotation: expanded ? -180 : -90
@@ -182,7 +181,6 @@ ItemDelegate {
                 Layout.preferredWidth: 16
                 Layout.preferredHeight: 16
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                fillMode: VectorImage.PreserveAspectFit
                 visible: !playerItem.wideLayout && hasActions
 
                 MultiEffect {

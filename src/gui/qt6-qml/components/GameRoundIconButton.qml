@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Effects
-import QtQuick.VectorImage
 
 import "../config" as Config
 
@@ -18,7 +17,7 @@ Rectangle {
     width: 34; height: 34; radius: 17
     color: active ? Config.Theme.colorAccent : Qt.rgba(0, 0, 0, 0.45)
 
-    VectorImage {
+    SvgIcon {
         anchors.centerIn: parent
         width: 20
         height: 20

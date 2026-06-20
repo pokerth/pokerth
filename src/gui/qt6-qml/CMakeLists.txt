@@ -36,6 +36,22 @@ qt_add_resources(POKERTH_QML_CLIENT_SRC qml.qrc)
 qt_add_resources(POKERTH_QML_CLIENT_SRC cflags.qrc)
 qt_add_resources(POKERTH_QML_CLIENT_SRC emotes.qrc)
 
+# SvgIcon: versionsabhängiger SVG-Wrapper. Qt >= 6.8 nutzt das echte
+# QtQuick.VectorImage (vektoriell, scharf); ältere Qt (z.B. 6.7 für den
+# Android-8-Build) haben das Modul nicht -> Image-basierter Raster-Fallback.
+# Die passende .qml-Datei wird unter dem festen Alias components/SvgIcon.qml
+# ins Resource eingebunden, sodass die Aufrufstellen unverändert "SvgIcon { }"
+# verwenden. (Ein einzelnes SvgIcon.qml ginge nicht: "import QtQuick.VectorImage"
+# scheitert auf 6.7 schon beim Laden, daher zwei getrennte Dateien.)
+if(Qt6_VERSION VERSION_GREATER_EQUAL 6.8.0)
+    set(SVGICON_VARIANT "${CMAKE_CURRENT_SOURCE_DIR}/components/SvgIconVector.qml")
+else()
+    set(SVGICON_VARIANT "${CMAKE_CURRENT_SOURCE_DIR}/components/SvgIconImage.qml")
+endif()
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/svgicon.qrc.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/svgicon.qrc" @ONLY)
+qt_add_resources(POKERTH_QML_CLIENT_SRC "${CMAKE_CURRENT_BINARY_DIR}/svgicon.qrc")
+
 # Android: Das datei-basierte QML-Stil-System (StyleProvider/SettingsManager)
 # scannt <AppDataDir>gfx/qml/..., und AppDataDir ist auf Android das Qt-Resource
 # :/android/android-data/ (configfile.cpp). Ohne dieses Bundle gibt es auf Android

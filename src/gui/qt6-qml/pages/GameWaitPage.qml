@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -710,7 +709,7 @@ Rectangle {
                                             smooth: true
                                         }
 
-                                        VectorImage {
+                                        SvgIcon {
                                             visible: !((modelData.avatarUrl || "").length > 0)
                                             anchors.fill: parent
                                             source: "../resources/pokerth.svg"

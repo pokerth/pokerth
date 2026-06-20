@@ -20,6 +20,14 @@ ARCH=${ANDROID_ARCH:-x64}
 # fi
 BUILD_TYPE=Release
 API_LEVEL=${ANDROID_API_LEVEL:-35}
+# minSdkVersion (Geräte-Mindeststufe). Default 28 = Android 9.0.
+# Überschreibbar via ANDROID_MIN_SDK (z.B. 26 für Android 8.0 / HUAWEI RNE-L21).
+MIN_SDK=${ANDROID_MIN_SDK:-28}
+# Nativer Compile-Level (ANDROID_NATIVE_API_LEVEL / ANDROID_PLATFORM). Default =
+# API_LEVEL. Entkoppelt von compileSdk/targetSdk, weil ältere NDKs ein niedrigeres
+# Maximum haben (NDK r26b: max android-34) bzw. man die nativen Libs gezielt für
+# eine ältere Geräte-API bauen will (z.B. 26 für Android 8.0).
+NATIVE_API_LEVEL=${ANDROID_NATIVE_API_LEVEL:-$API_LEVEL}
 TARGET=${TARGET:-pokerth_qml-client}
 BUILD_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
@@ -34,7 +42,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo "=== PokerTH Android build helper ==="
-echo "arch=$ARCH build=$BUILD_TYPE api-level=$API_LEVEL"
+echo "arch=$ARCH build=$BUILD_TYPE api-level=$API_LEVEL native-api-level=$NATIVE_API_LEVEL min-sdk=$MIN_SDK"
 
 # Validiere erlaubte ABIs
 case "$ARCH" in
@@ -117,7 +125,7 @@ qt-cmake -S . -B "$BUILD_DIR" -G Ninja \
   -DCMAKE_TOOLCHAIN_FILE="$TOOLCHAIN_FILE" \
   "${VCPKG_CMAKE_ARGS[@]}" \
   -DANDROID_ABI="$ARCH" \
-  -DANDROID_NATIVE_API_LEVEL="$API_LEVEL" \
+  -DANDROID_NATIVE_API_LEVEL="$NATIVE_API_LEVEL" \
   -DCMAKE_PREFIX_PATH="${QT_ANDROID_DIR}/lib/cmake" \
   -DCMAKE_FIND_ROOT_PATH=${QT_ANDROID_DIR} \
   -DQt6_DIR="${QT_ANDROID_DIR}/lib/cmake/Qt6" \
@@ -172,16 +180,20 @@ if command -v jq >/dev/null 2>&1; then
   # Patche ALLE relevanten Felder UND setze application-binary auf den tatsächlichen Target-Namen
   jq --arg bt "$BUILD_TOOLS_VERSION" \
      --arg al "$API_LEVEL" \
+     --arg min "$MIN_SDK" \
      --arg arch "$ARCH" \
      --arg target "$TARGET" \
      --arg android_src "$ANDROID_SOURCE_DIR" \
-    '.["android-build-tools-revision"] = $bt | 
+     --arg sdkroot "$ANDROID_SDK_ROOT" \
+    '.["android-build-tools-revision"] = $bt |
      .["android-sdk-build-tools-revision"] = $bt |
      .["android-target-sdk-version"] = $al |
-     .["android-min-sdk-version"] = "28" |
+     .["android-min-sdk-version"] = $min |
      .["target-architecture"] = $arch |
      .["application-binary"] = $target |
-     .["android-package-source-directory"] = $android_src' \
+     .["android-package-source-directory"] = $android_src |
+     .sdk = $sdkroot |
+     .sdkBuildToolsRevision = $bt' \
     "$DEPLOY_JSON" > "$TMP_JSON"
   mv "$TMP_JSON" "$DEPLOY_JSON"
   
@@ -226,10 +238,10 @@ if [[ ! -f "$MANIFEST_TEMPLATE" ]]; then
   echo "ERROR: Manifest-Template nicht gefunden: $MANIFEST_TEMPLATE"
   exit 1
 fi
-export PACKAGE_NAME VERSION_NAME VERSION_CODE API_LEVEL TARGET SCREEN_ORIENTATION
-envsubst '${PACKAGE_NAME} ${VERSION_NAME} ${VERSION_CODE} ${API_LEVEL} ${TARGET} ${SCREEN_ORIENTATION}' \
+export PACKAGE_NAME VERSION_NAME VERSION_CODE API_LEVEL MIN_SDK TARGET SCREEN_ORIENTATION
+envsubst '${PACKAGE_NAME} ${VERSION_NAME} ${VERSION_CODE} ${API_LEVEL} ${MIN_SDK} ${TARGET} ${SCREEN_ORIENTATION}' \
   < "$MANIFEST_TEMPLATE" > "$ANDROID_SOURCE_DIR/AndroidManifest.xml"
-echo "AndroidManifest.xml generiert: package=$PACKAGE_NAME version=$VERSION_NAME/$VERSION_CODE lib=$TARGET"
+echo "AndroidManifest.xml generiert: package=$PACKAGE_NAME version=$VERSION_NAME/$VERSION_CODE lib=$TARGET minSdk=$MIN_SDK"
 
 # Wenn das Package im Gradle-Cache noch unter einem anderen Namen gespeichert ist
 # (z.B. nach einem QML-Build), bricht AAPT mit "resource mipmap/ic_launcher not found"

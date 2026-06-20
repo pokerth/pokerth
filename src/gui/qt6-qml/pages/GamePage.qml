@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
-import QtQuick.VectorImage
 import QtQuick.Window
 
 import "../components"
@@ -1762,7 +1761,7 @@ Rectangle {
             }
         }
 
-        VectorImage {
+        SvgIcon {
             anchors.centerIn: parent
             width: 22; height: 22
             source: tableZone.zoomActive ? "../resources/zoomOut.svg" : "../resources/zoomIn.svg"

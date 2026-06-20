@@ -1,30 +1,44 @@
 #!/bin/bash
 set -e
 
-# Baut die PokerTH-QML-APK (universal: arm64-v8a + armeabi-v7a) in einem
-# Docker-Container.
+# Baut die PokerTH-QML-APK (arm64-v8a) mit Qt 6.7.3 und minSdkVersion 26
+# (Android 8.0) in einem Docker-Container.
 #
-# Das devcontainer-Dockerfile wird als Build-Umgebung verwendet – Qt, NDK
-# und vcpkg sind bereits im Image enthalten. Die lokalen Quellen werden per
-# Volume eingebunden, sodass kein Einsteigen in den Container nötig ist.
+# Zielgerät:  HUAWEI RNE-L21 (Mate 10 Lite), Android 8.0.0, Kirin 659 (arm64-v8a).
+#
+# Warum Qt 6.7 für den QML-Client?
+#   Qt 6.8+ unterstützt kein Android < 9 mehr. Der QML-Client nutzte als einzige
+#   6.8-Abhängigkeit QtQuick.VectorImage; das ist durch den Image-basierten
+#   components/SvgIcon.qml ersetzt, sodass der Client auf Qt 6.7 baut.
+#   Der QML-Client umgeht zudem die Qt-6.7-Android-Backend-Bugs des Widget-
+#   Clients (doppelte Touch-Events, unsichtbare modale Dialoge), weil QML in
+#   EINEM Fenster rendert und keine modalen QDialog-Fenster nutzt.
+#
+#   Es wird dasselbe Image wie der Widget-6.7-Build verwendet (Dockerfile.qt67),
+#   nur mit eigenem Tag und TARGET=pokerth_qml-client.
 #
 # Aufruf:
 #   cd <projekt-root>
-#   bash docker/android/build_android_universal_qml_docker.sh
+#   bash docker/android/build_android_qml_arm64_qt67_docker.sh
 #   # oder ohne Image-Cache:
-#   bash docker/android/build_android_universal_qml_docker.sh --no-cache
+#   bash docker/android/build_android_qml_arm64_qt67_docker.sh --no-cache
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 DEVCONTAINER_DIR="$SCRIPT_DIR/.devcontainer"
-IMAGE_NAME="pokerth-android-builder:universal"
-ARCH="universal"
+DOCKERFILE="$DEVCONTAINER_DIR/Dockerfile.qt67"
+IMAGE_NAME="pokerth-android-builder:qt67-qml"
+ARCH="arm64-v8a"
+MIN_SDK="26"
 NO_CACHE="${1:-}"
 BUILD_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-echo "=== PokerTH Android APK – Docker-Build QML (universal) ==="
+echo "=== PokerTH Android QML-APK – Docker-Build (Qt 6.7.3, arm64-v8a, minSdk $MIN_SDK / Android 8.0) ==="
+echo "Zielgerät:     HUAWEI RNE-L21 (Android 8.0.0)"
+echo "Build-Target:  pokerth_qml-client (QML-Client)"
 echo "Projekt-Root:  $PROJECT_ROOT"
 echo "Docker-Image:  $IMAGE_NAME"
+echo "Dockerfile:    $DOCKERFILE"
 echo ""
 
 # Branch-Prüfung
@@ -48,35 +62,41 @@ fi
 STOPPED=$(docker ps -aq --filter "ancestor=$IMAGE_NAME" 2>/dev/null)
 [ -n "$STOPPED" ] && docker rm $STOPPED 2>/dev/null || true
 
-# Docker-Image bauen
-echo "=== Baue Docker-Image ==="
-echo "    Erster Aufruf: Qt, NDK und vcpkg werden installiert – ca. 1 Stunde."
-echo "    Folgeaufrufe starten dank Cache in Sekunden."
+# Docker-Image bauen (Qt 6.7.3). Gleicher Dockerfile-Inhalt wie der Widget-6.7-
+# Build -> Docker-Layer-Cache greift, das Tag wird i.d.R. in Sekunden erstellt.
+echo "=== Baue Docker-Image (Qt 6.7.3) ==="
+echo "    Bei vorhandenem Cache (vom Widget-6.7-Build) nur Sekunden."
 echo ""
 docker build \
     ${NO_CACHE:+--no-cache} \
-    -f "$DEVCONTAINER_DIR/Dockerfile.universal" \
+    -f "$DOCKERFILE" \
     -t "$IMAGE_NAME" \
     "$DEVCONTAINER_DIR"
 
 # PokerTH QML-Client im Container bauen – lokale Quellen via Volume eingebunden
 echo ""
-echo "=== Starte PokerTH Android QML Universal-Build ==="
+echo "=== Starte PokerTH Android QML Build (Qt 6.7.3, minSdk $MIN_SDK) ==="
 echo "    Lokale Quellen: $PROJECT_ROOT"
 echo "    Container-Pfad: /opt/pokerth-android/pokerth"
 echo "    Build-Target:   pokerth_qml-client"
 echo ""
+# ANDROID_API_LEVEL=34: compileSdk/targetSdk = 34 (androidx.core:1.13.1 verlangt
+#   >= 34; das Image hebt AGP auf 8.2.2, dessen aapt2 android-34 lesen kann).
+# ANDROID_NATIVE_API_LEVEL=26: native Libs gezielt für Android 8.0 (RNE-L21).
 docker run --rm \
     -e TARGET=pokerth_qml-client \
+    -e ANDROID_MIN_SDK="$MIN_SDK" \
+    -e ANDROID_API_LEVEL=34 \
+    -e ANDROID_NATIVE_API_LEVEL=26 \
     -v "$PROJECT_ROOT:/opt/pokerth-android/pokerth" \
     -w /opt/pokerth-android/pokerth \
     "$IMAGE_NAME" \
-    bash docker/android/build_android_universal.sh --target pokerth_qml-client
+    bash docker/android/build_android.sh
 
 # APK in docker/android/ kopieren
 echo ""
 echo "=== Suche und kopiere APK ==="
-APK_SEARCH_DIR="$PROJECT_ROOT/build-android-universal/android-build/build/outputs/apk"
+APK_SEARCH_DIR="$PROJECT_ROOT/build-android-${ARCH}/android-build/build/outputs/apk"
 APK_FILE=$(find "$APK_SEARCH_DIR" -type f -name "*.apk" ! -name "*unaligned*" 2>/dev/null | head -1)
 
 if [ -z "$APK_FILE" ]; then
@@ -88,7 +108,7 @@ if [ -z "$APK_FILE" ]; then
     exit 1
 fi
 
-DEST_APK="$SCRIPT_DIR/pokerth-qml_${ARCH}_${BUILD_TIMESTAMP}.apk"
+DEST_APK="$SCRIPT_DIR/pokerth-qml_qt67_${ARCH}_api${MIN_SDK}_${BUILD_TIMESTAMP}.apk"
 cp -v "$APK_FILE" "$DEST_APK"
 
 echo ""

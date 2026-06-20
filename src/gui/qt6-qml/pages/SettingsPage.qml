@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -58,7 +57,7 @@ Rectangle {
                             Behavior on opacity { NumberAnimation { duration: 130 } }
                         }
 
-                        VectorImage {
+                        SvgIcon {
                             anchors.centerIn: parent
                             width: Config.Theme.iconSize
                             height: Config.Theme.iconSize
@@ -171,7 +170,7 @@ Rectangle {
                         anchors.fill: parent
                         spacing: 6
 
-                        VectorImage {
+                        SvgIcon {
                             id: iconImage
                             Layout.leftMargin: 16
                             Layout.topMargin: 4

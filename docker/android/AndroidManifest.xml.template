@@ -6,7 +6,7 @@
           android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="28"
+        android:minSdkVersion="${MIN_SDK}"
         android:targetSdkVersion="${API_LEVEL}"/>
 
     <supports-screens

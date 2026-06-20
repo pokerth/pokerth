@@ -1,4 +1,5 @@
 import QtQuick 6.5
+import QtQuick.Window
 
 import "../config" as Config
 
@@ -101,8 +102,10 @@ Item {
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true
-        sourceSize.width: 100
-        sourceSize.height: 140
+        // SVG scharf auf die tatsächliche Anzeigegröße × devicePixelRatio rastern
+        // (statt fix 100×140), sonst auf High-DPI unscharf hochskaliert.
+        sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio) : 100
+        sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio) : 140
         source: root.isBack ? root.backSource : ""
     }
 
@@ -112,8 +115,9 @@ Item {
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true
-        sourceSize.width: 120
-        sourceSize.height: 168
+        // SVG scharf auf Anzeigegröße × devicePixelRatio rastern (statt fix 120×168).
+        sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio) : 120
+        sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio) : 168
         source: root.frontSource
         onStatusChanged: {
             // Fehlt eine einzelne Stil-Karte, auf das gebündelte Set zurückfallen.

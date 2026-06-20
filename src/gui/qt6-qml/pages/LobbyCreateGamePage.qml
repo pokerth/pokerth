@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -30,7 +29,7 @@ Rectangle {
         contentItem: RowLayout {
             spacing: 6
 
-            VectorImage {
+            SvgIcon {
                 visible: combo.iconSources.length > combo.currentIndex
                 source: combo.iconSources.length > combo.currentIndex ? combo.iconSources[combo.currentIndex] : ""
                 Layout.preferredWidth: 16
@@ -69,7 +68,7 @@ Rectangle {
             leftPadding: 8
             contentItem: RowLayout {
                 spacing: 6
-                VectorImage {
+                SvgIcon {
                     visible: combo.iconSources.length > index
                     source: combo.iconSources.length > index ? combo.iconSources[index] : ""
                     Layout.preferredWidth: 16

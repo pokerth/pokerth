@@ -1,11 +1,11 @@
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Effects
 import QtQuick.Layouts
 
 import "../config" as Config
+import "../components"
 
 Rectangle {
     id: preLoaderPage
@@ -47,7 +47,7 @@ Rectangle {
                 id: preLoaderProgressRows
                 anchors.fill: parent
 
-                VectorImage {
+                SvgIcon {
                     id: preLoaderProgressIconPokerTH
                     Layout.alignment: Qt.AlignCenter
                     Layout.preferredWidth: 96
@@ -71,7 +71,7 @@ Rectangle {
                     Layout.margins: 8
                     spacing: 8
 
-                    VectorImage {
+                    SvgIcon {
                         id: preLoaderProgressInfoIconConsole
                         Layout.preferredWidth: 20
                         Layout.preferredHeight: 20

@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
-import QtQuick.VectorImage
 
 import "../config" as Config
 
@@ -87,7 +86,7 @@ Item {
                     color: closeArea.containsMouse
                            ? Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.7)
                            : "transparent"
-                    VectorImage {
+                    SvgIcon {
                         anchors.centerIn: parent
                         width: 14; height: 14
                         source: "../resources/close.svg"

@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -22,7 +21,7 @@ Drawer {
     ColumnLayout {
         anchors.fill: parent
 
-        VectorImage {
+        SvgIcon {
             source: "../resources/pokerth.svg"
             Layout.preferredWidth: 96
             Layout.preferredHeight: 96
@@ -69,7 +68,7 @@ Drawer {
                     anchors.fill: parent
                     spacing: 6
 
-                    VectorImage {
+                    SvgIcon {
                         id: iconImage
                         Layout.leftMargin: 16
                         Layout.topMargin: 4

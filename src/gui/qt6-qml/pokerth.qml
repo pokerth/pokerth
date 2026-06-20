@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtCore
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
@@ -290,7 +289,7 @@ ApplicationWindow {
                 anchors.fill: parent
                 spacing: 8
 
-                VectorImage {
+                SvgIcon {
                     id: topBarMenuIcon
                     Layout.preferredWidth: 26
                     Layout.preferredHeight: 26
@@ -327,7 +326,7 @@ ApplicationWindow {
                 }
 
                 // Community / Ranking – überall erreichbar (auch in Lobby & Spiel).
-                VectorImage {
+                SvgIcon {
                     id: topBarRankingIcon
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
@@ -356,7 +355,7 @@ ApplicationWindow {
                     }
                 }
 
-                VectorImage {
+                SvgIcon {
                     id: topBarSettingsIcon
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24

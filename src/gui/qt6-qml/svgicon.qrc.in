@@ -1,0 +1,11 @@
+<!--
+  Generiert von CMake (configure_file): bindet die versionsabhängige SvgIcon-
+  Variante unter dem festen Alias components/SvgIcon.qml ein.
+  Qt >= 6.8 -> SvgIconVector.qml (VectorImage, vektoriell)
+  Qt <  6.8 -> SvgIconImage.qml  (Image, rasterisierter Fallback)
+-->
+<RCC>
+    <qresource prefix="/">
+        <file alias="components/SvgIcon.qml">@SVGICON_VARIANT@</file>
+    </qresource>
+</RCC>

@@ -8,8 +8,12 @@
    und zeigen über den Symlink "android-data" -> ../../../../data auf data/gfx/qml.
 
    Nur für ANDROID eingebunden (siehe CMakeLists.txt). Neue Stil-Dateien hier
-   ergänzen (regenerieren), sonst fehlen sie in der APK:
-     find data/gfx/qml -type f | sort | sed -E 's#^data/#        <file>android-data/#; s#$#</file>#'
+   ergänzen (regenerieren), sonst fehlen sie in der APK. Zum Regenerieren die
+   Ausgabe von  "find data/gfx/qml -type f | sort"  nehmen und jede Zeile als
+   file-Element eintragen (Pfad-Präfix data/ durch android-data/ ersetzen).
+   WICHTIG: in diesem Kommentar KEINE literalen file-Tags verwenden – CMakes
+   qrc-Abhängigkeits-Scanner ignoriert XML-Kommentare nicht und würde sie sonst
+   als (nicht existente) Resource-Dateien interpretieren.
 -->
 <RCC>
     <qresource prefix="/android">

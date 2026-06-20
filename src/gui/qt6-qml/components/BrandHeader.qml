@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.VectorImage
 
 import "../config" as Config
 
@@ -14,7 +13,7 @@ Column {
 
     spacing: Math.max(6, Math.round(logoSize * 0.07))
 
-    VectorImage {
+    SvgIcon {
         anchors.horizontalCenter: parent.horizontalCenter
         width:  root.logoSize
         height: root.logoSize

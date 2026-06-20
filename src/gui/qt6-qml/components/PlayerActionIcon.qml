@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -18,13 +17,12 @@ Item {
     implicitWidth: visible ? iconSize + 6 : 0
     implicitHeight: iconSize + 6
 
-    VectorImage {
+    SvgIcon {
         id: img
         anchors.centerIn: parent
         width: root.iconSize
         height: root.iconSize
         source: root.source
-        fillMode: VectorImage.PreserveAspectFit
         smooth: true
 
         layer.enabled: true

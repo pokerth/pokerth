@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -63,7 +62,7 @@ SpinBox {
 
         Behavior on color { ColorAnimation { duration: 120 } }
 
-        VectorImage {
+        SvgIcon {
             anchors.centerIn: parent
             width: 14
             height: 14
@@ -100,7 +99,7 @@ SpinBox {
 
         Behavior on color { ColorAnimation { duration: 120 } }
 
-        VectorImage {
+        SvgIcon {
             anchors.centerIn: parent
             width: 14
             height: 14
