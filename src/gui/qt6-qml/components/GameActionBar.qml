@@ -533,11 +533,16 @@ Item {
                                                   && (GameTable.myTurn || actionBar.preSelectEnabled)
                     // Vorwahl-Markierung nur, solange der Button auch klickbar ist.
                     readonly property bool preChecked: armed && actionBar.preAction === "allin"
+                    // Theme-Grafik nur im normalen All-In-Modus (nicht im
+                    // "Show"-Modus, der seine eigene grüne Optik behält).
+                    readonly property bool useTheme: !allInBtn.isShowMode
+                                                     && StyleProvider && StyleProvider.allInButton !== ""
                     Layout.preferredWidth: 52
                     Layout.preferredHeight: actionBar.raiseRowHeight
                     radius: 5
                     opacity: (isShowMode || allInBtn.armed) ? 1.0 : 0.4
-                    color: allInArea.containsPress
+                    color: allInBtn.useTheme ? "transparent"
+                         : allInArea.containsPress
                          ? Qt.lighter(isShowMode ? "#2d6e2d" : Config.Theme.colorAllInBottom, 1.35)
                          : allInArea.containsMouse
                          ? (isShowMode ? "#3a8f3a" : Config.Theme.colorAllInTop)
@@ -545,13 +550,40 @@ Item {
                     border.color: isShowMode ? "#80FF90"
                                 : allInBtn.preChecked ? "#FFD700"
                                 : Config.Theme.colorAllInEdge
-                    border.width: (isShowMode || allInBtn.preChecked) ? 2 : 1
+                    // Mit Theme-SVG entfällt der eigene Rahmen (SVG bringt seinen
+                    // mit); nur Show-/Vorwahl-Zustand zeichnet weiterhin einen.
+                    border.width: (isShowMode || allInBtn.preChecked) ? 2 : (allInBtn.useTheme ? 0 : 1)
                     scale: (allInArea.pressed && (allInBtn.armed || isShowMode)) ? 0.95 : 1.0
                     Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
+
+                    // Theme-SVG-Hintergrund (ohne Text). Inset um border.width,
+                    // damit ein evtl. Zustands-Rahmen (gold) sichtbar bleibt.
+                    Image {
+                        anchors.fill: parent
+                        anchors.margins: allInBtn.border.width
+                        visible: allInBtn.useTheme
+                        source: allInBtn.useTheme ? StyleProvider.allInButton : ""
+                        sourceSize.width: Math.max(1, Math.round(allInBtn.width))
+                        sourceSize.height: Math.max(1, Math.round(allInBtn.height))
+                        fillMode: Image.Stretch
+                        smooth: true
+                    }
+                    // Hover-/Press-Feedback über dem Theme-SVG.
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: allInBtn.border.width
+                        visible: allInBtn.useTheme
+                        radius: 5
+                        color: "#FFFFFF"
+                        opacity: allInArea.containsPress ? 0.18
+                               : allInArea.containsMouse ? 0.08 : 0.0
+                    }
+
                     Text {
                         anchors.centerIn: parent
                         text: allInBtn.isShowMode ? qsTr("Show") : qsTr("All-In")
-                        color: "#FFFFFF"
+                        color: (allInBtn.useTheme && StyleProvider.allInButtonTextColor !== "")
+                               ? StyleProvider.allInButtonTextColor : "#FFFFFF"
                         font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         font.bold: true
@@ -620,13 +652,22 @@ Item {
 
             // Wiederverwendbarer Aktions-Button mit Verlauf, dynamischem Text und
             // Vorwahl-Zustand (goldener Rahmen = vorgemerkt).
-            component ActionButton: Rectangle {
+            component ActionButton: Item {
                 id: ab
                 property string actionKey: ""
                 property string label: ""
                 property color topColor: "#4080d8"
                 property color bottomColor: "#1a3d8b"
                 property color edgeColor: "#6aa0e8"
+                // Schriftfarbe: vom Theme vorgegeben bzw. automatisch
+                // kontrastiert (s. StyleProvider). Default für den
+                // Fallback-Gradient-Button.
+                property color textColor: "#F0F0F0"
+                // Aktions-Button-Grafik des aktuellen Tisch-Stils (nur Optik/
+                // Rahmen, ohne Text). Leer → Fallback auf den hartcodierten
+                // Gradient-Button.
+                property url themeSource: ""
+                readonly property bool hasTheme: ab.themeSource != ""
                 property bool armed: false   // klickbar: eigener Zug ODER Vorwahl möglich
                 property bool highlight: false   // primäre Aktion hervorheben (Raise)
                 readonly property bool myTurnNow: GameTable !== null && GameTable.myTurn
@@ -641,13 +682,42 @@ Item {
                                             "canAct=", actionBar.canAct,
                                             "preSel=", actionBar.preSelectEnabled, ")")
 
-                radius: 9
-                border.width: (ab.preChecked || (ab.highlight && ab.armed)) ? 2 : 1
-                border.color: ab.preChecked ? "#FFD700" : (ab.armed ? edgeColor : "#3a3a3a")
                 opacity: !ab.armed ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: ab.armed ? ab.topColor : "#2b2b2b" }
-                    GradientStop { position: 1.0; color: ab.armed ? ab.bottomColor : "#1c1c1c" }
+
+                // Theme-SVG-Hintergrund (nur Optik, ohne eingebackenen Text)
+                Image {
+                    anchors.fill: parent
+                    visible: ab.hasTheme
+                    source: ab.themeSource
+                    sourceSize.width: Math.max(1, Math.round(ab.width))
+                    sourceSize.height: Math.max(1, Math.round(ab.height))
+                    fillMode: Image.Stretch
+                    smooth: true
+                }
+
+                // Fallback-Gradient-Button (kein Theme-SVG vorhanden)
+                Rectangle {
+                    anchors.fill: parent
+                    visible: !ab.hasTheme
+                    radius: 9
+                    border.width: (ab.preChecked || (ab.highlight && ab.armed)) ? 2 : 1
+                    border.color: ab.preChecked ? "#FFD700" : (ab.armed ? ab.edgeColor : "#3a3a3a")
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: ab.armed ? ab.topColor : "#2b2b2b" }
+                        GradientStop { position: 1.0; color: ab.armed ? ab.bottomColor : "#1c1c1c" }
+                    }
+                }
+
+                // Zustands-Rahmen ÜBER dem Theme-SVG: Vorwahl (gold) bzw.
+                // primäre Aktion (Raise) hervorheben. Beim Fallback erledigt
+                // das der border des Gradient-Rechtecks oben.
+                Rectangle {
+                    anchors.fill: parent
+                    visible: ab.hasTheme && (ab.preChecked || (ab.highlight && ab.armed))
+                    radius: 9
+                    color: "transparent"
+                    border.width: 2
+                    border.color: ab.preChecked ? "#FFD700" : ab.edgeColor
                 }
 
                 // Press-Feedback: kurzes Einsinken beim Tippen.
@@ -669,7 +739,7 @@ Item {
                     anchors.centerIn: parent
                     horizontalAlignment: Text.AlignHCenter
                     text: ab.label
-                    color: "#F0F0F0"
+                    color: ab.textColor
                     font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: actionBar.compactActions ? 12 : 15
                     font.bold: true
@@ -719,6 +789,9 @@ Item {
                     Layout.fillHeight: true
                     actionKey: "fold"
                     label: actionBar.foldText
+                    themeSource: StyleProvider ? StyleProvider.foldButton : ""
+                    textColor: (StyleProvider && StyleProvider.foldButtonTextColor !== "")
+                               ? StyleProvider.foldButtonTextColor : "#F0F0F0"
                     topColor: Config.Theme.colorFoldTop
                     bottomColor: Config.Theme.colorFoldBottom
                     edgeColor: Config.Theme.colorFoldEdge
@@ -734,6 +807,9 @@ Item {
                     Layout.fillHeight: true
                     actionKey: "call"
                     label: actionBar.checkCallText
+                    themeSource: StyleProvider ? StyleProvider.checkCallButton : ""
+                    textColor: (StyleProvider && StyleProvider.checkCallButtonTextColor !== "")
+                               ? StyleProvider.checkCallButtonTextColor : "#F0F0F0"
                     topColor: Config.Theme.colorCallTop
                     bottomColor: Config.Theme.colorCallBottom
                     edgeColor: Config.Theme.colorCallEdge
@@ -746,6 +822,9 @@ Item {
                     Layout.fillHeight: true
                     actionKey: "raise"
                     label: actionBar.betRaiseText
+                    themeSource: StyleProvider ? StyleProvider.betRaiseButton : ""
+                    textColor: (StyleProvider && StyleProvider.betRaiseButtonTextColor !== "")
+                               ? StyleProvider.betRaiseButtonTextColor : "#F0F0F0"
                     topColor: Config.Theme.colorRaiseTop
                     bottomColor: Config.Theme.colorRaiseBottom
                     edgeColor: Config.Theme.colorRaiseEdge

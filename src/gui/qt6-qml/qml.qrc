@@ -131,10 +131,6 @@
         <file>resources/tableDealerPuck.svg</file>
         <file>resources/tableSmallBlind.svg</file>
         <file>resources/tableBigBlind.svg</file>
-        <file>resources/tableActionFold.svg</file>
-        <file>resources/tableActionCall.svg</file>
-        <file>resources/tableActionRaise.svg</file>
-        <file>resources/tableActionAllIn.svg</file>
         <file>resources/terminal.svg</file>
         <file>resources/terminalWindow.svg</file>
         <file>resources/threeLines.svg</file>

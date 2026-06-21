@@ -18,9 +18,11 @@
 
 #include "styleprovider.h"
 #include "configfile.h"
+#include <QColor>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QRegularExpression>
 #include <QUrl>
 #include <QXmlStreamReader>
 
@@ -47,6 +49,14 @@ void StyleProvider::loadTableStyle()
     m_dealerPuck.clear();
     m_smallBlindPuck.clear();
     m_bigBlindPuck.clear();
+    m_foldButton.clear();
+    m_checkCallButton.clear();
+    m_betRaiseButton.clear();
+    m_allInButton.clear();
+    m_foldButtonTextColor.clear();
+    m_checkCallButtonTextColor.clear();
+    m_betRaiseButtonTextColor.clear();
+    m_allInButtonTextColor.clear();
 
     QDir dir(styleDirPath("table", m_tableStyleName));
     if (!dir.exists())
@@ -64,6 +74,12 @@ void StyleProvider::loadTableStyle()
             return QString();
         return QUrl::fromLocalFile(abs).toString();
     };
+
+    // Relative SVG-Pfade + evtl. explizite Schriftfarben sammeln; die effektive
+    // Textfarbe wird nach dem Parsen bestimmt (Override > style-weit > aus SVG).
+    QString foldRel, callRel, raiseRel, allInRel;
+    QString styleWideTextColor;
+    QString foldTextColor, callTextColor, raiseTextColor, allInTextColor;
 
     QFile f(dir.absoluteFilePath(xmlFiles.first()));
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -93,7 +109,91 @@ void StyleProvider::loadTableStyle()
             m_smallBlindPuck = urlIfExists(value);
         else if (tag == "BigBlindPuck")
             m_bigBlindPuck = urlIfExists(value);
+        else if (tag == "FoldButton") {
+            foldRel = value;
+            m_foldButton = urlIfExists(value);
+        }
+        else if (tag == "CheckCallButton") {
+            callRel = value;
+            m_checkCallButton = urlIfExists(value);
+        }
+        else if (tag == "BetRaiseButton") {
+            raiseRel = value;
+            m_betRaiseButton = urlIfExists(value);
+        }
+        else if (tag == "AllInButton") {
+            allInRel = value;
+            m_allInButton = urlIfExists(value);
+        }
+        else if (tag == "ActionButtonTextColor")
+            styleWideTextColor = value.trimmed();
+        else if (tag == "FoldButtonTextColor")
+            foldTextColor = value.trimmed();
+        else if (tag == "CheckCallButtonTextColor")
+            callTextColor = value.trimmed();
+        else if (tag == "BetRaiseButtonTextColor")
+            raiseTextColor = value.trimmed();
+        else if (tag == "AllInButtonTextColor")
+            allInTextColor = value.trimmed();
     }
+
+    // Effektive Schriftfarbe je Button bestimmen: explizite Theme-Angabe
+    // (per Button oder style-weit) hat Vorrang, sonst automatisch aus der
+    // Button-Helligkeit – so steht die Schrift immer im Kontrast zum Button.
+    auto effectiveTextColor = [&](const QString &override, const QString &rel) -> QString {
+        if (!override.isEmpty())
+            return override;
+        if (!styleWideTextColor.isEmpty())
+            return styleWideTextColor;
+        if (rel.isEmpty())
+            return QString();
+        const QString abs = dir.absoluteFilePath(rel);
+        if (!QFileInfo::exists(abs))
+            return QString();
+        return contrastTextColor(abs);
+    };
+    m_foldButtonTextColor = effectiveTextColor(foldTextColor, foldRel);
+    m_checkCallButtonTextColor = effectiveTextColor(callTextColor, callRel);
+    m_betRaiseButtonTextColor = effectiveTextColor(raiseTextColor, raiseRel);
+    m_allInButtonTextColor = effectiveTextColor(allInTextColor, allInRel);
+}
+
+QString StyleProvider::contrastTextColor(const QString &svgAbsPath) const
+{
+    QFile f(svgAbsPath);
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QStringLiteral("#FFFFFF");
+    const QString svg = QString::fromUtf8(f.readAll());
+
+    // Repräsentative Hintergrundfarbe aus den Gradient-Stops mitteln. Der helle
+    // Gloss-Streifen (rgba(255,255,255,…)) und der stroke bleiben außen vor.
+    static const QRegularExpression reStop(
+        QStringLiteral("stop-color\\s*=\\s*\"(#[0-9a-fA-F]{3,8})\""));
+    int r = 0, g = 0, b = 0, n = 0;
+    auto it = reStop.globalMatch(svg);
+    while (it.hasNext()) {
+        const QColor c(it.next().captured(1));
+        if (c.isValid()) { r += c.red(); g += c.green(); b += c.blue(); ++n; }
+    }
+    if (n == 0) {
+        // Kein Gradient → erstes solides fill="#…" als Notnagel.
+        static const QRegularExpression reFill(
+            QStringLiteral("fill\\s*=\\s*\"(#[0-9a-fA-F]{3,8})\""));
+        const auto m = reFill.match(svg);
+        if (m.hasMatch()) {
+            const QColor c(m.captured(1));
+            if (c.isValid()) { r = c.red(); g = c.green(); b = c.blue(); n = 1; }
+        }
+    }
+    if (n == 0)
+        return QStringLiteral("#FFFFFF");
+
+    // Wahrgenommene Helligkeit (sRGB-gewichtet, 0..1). Hell → dunkle Schrift.
+    const double rr = r / (255.0 * n);
+    const double gg = g / (255.0 * n);
+    const double bb = b / (255.0 * n);
+    const double luminance = 0.2126 * rr + 0.7152 * gg + 0.0722 * bb;
+    return luminance > 0.6 ? QStringLiteral("#1A1A1A") : QStringLiteral("#FFFFFF");
 }
 
 void StyleProvider::loadCardDeckStyle()

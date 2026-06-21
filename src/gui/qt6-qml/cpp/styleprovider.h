@@ -42,6 +42,21 @@ class StyleProvider : public QObject
     Q_PROPERTY(QString dealerPuck READ dealerPuck NOTIFY changed)
     Q_PROPERTY(QString smallBlindPuck READ smallBlindPuck NOTIFY changed)
     Q_PROPERTY(QString bigBlindPuck READ bigBlindPuck NOTIFY changed)
+    // Aktions-Button-Grafiken (nur Optik/Rahmen – der dynamische Text mit
+    // Beträgen wird im QML darüber gelegt). Leer = Fallback auf den
+    // hartcodierten Gradient-Button in GameActionBar.qml.
+    Q_PROPERTY(QString foldButton READ foldButton NOTIFY changed)
+    Q_PROPERTY(QString checkCallButton READ checkCallButton NOTIFY changed)
+    Q_PROPERTY(QString betRaiseButton READ betRaiseButton NOTIFY changed)
+    Q_PROPERTY(QString allInButton READ allInButton NOTIFY changed)
+    // Schriftfarbe der Aktions-Buttons: explizit per Theme-XML
+    // (<FoldButtonTextColor> … bzw. style-weit <ActionButtonTextColor>) oder
+    // sonst automatisch aus der Button-Helligkeit abgeleitet (heller Hintergrund
+    // → dunkle Schrift). Leer = kein Theme-Button → QML nimmt seinen Default.
+    Q_PROPERTY(QString foldButtonTextColor READ foldButtonTextColor NOTIFY changed)
+    Q_PROPERTY(QString checkCallButtonTextColor READ checkCallButtonTextColor NOTIFY changed)
+    Q_PROPERTY(QString betRaiseButtonTextColor READ betRaiseButtonTextColor NOTIFY changed)
+    Q_PROPERTY(QString allInButtonTextColor READ allInButtonTextColor NOTIFY changed)
     // Kartenstapel-Stil (52 Vorderseiten)
     Q_PROPERTY(QString cardDeckName READ cardDeckName NOTIFY changed)
     Q_PROPERTY(QString cardDeckDir READ cardDeckDir NOTIFY changed)
@@ -59,6 +74,14 @@ public:
     QString dealerPuck() const { return m_dealerPuck; }
     QString smallBlindPuck() const { return m_smallBlindPuck; }
     QString bigBlindPuck() const { return m_bigBlindPuck; }
+    QString foldButton() const { return m_foldButton; }
+    QString checkCallButton() const { return m_checkCallButton; }
+    QString betRaiseButton() const { return m_betRaiseButton; }
+    QString allInButton() const { return m_allInButton; }
+    QString foldButtonTextColor() const { return m_foldButtonTextColor; }
+    QString checkCallButtonTextColor() const { return m_checkCallButtonTextColor; }
+    QString betRaiseButtonTextColor() const { return m_betRaiseButtonTextColor; }
+    QString allInButtonTextColor() const { return m_allInButtonTextColor; }
     QString cardDeckName() const { return m_cardDeckName; }
     QString cardDeckDir() const { return m_cardDeckDir; }
     QString cardBackName() const { return m_cardBackName; }
@@ -79,6 +102,9 @@ private:
     void loadCardDeckStyle();
     void loadCardBackStyle();
     QString styleDirPath(const QString &category, const QString &name) const;
+    // Liefert eine gut lesbare Schriftfarbe (#1A1A1A oder #FFFFFF) anhand der
+    // gemittelten Helligkeit der Gradient-Farben einer Action-Button-SVG.
+    QString contrastTextColor(const QString &svgAbsPath) const;
 
     boost::shared_ptr<ConfigFile> m_config;
 
@@ -89,6 +115,14 @@ private:
     QString m_dealerPuck;
     QString m_smallBlindPuck;
     QString m_bigBlindPuck;
+    QString m_foldButton;
+    QString m_checkCallButton;
+    QString m_betRaiseButton;
+    QString m_allInButton;
+    QString m_foldButtonTextColor;
+    QString m_checkCallButtonTextColor;
+    QString m_betRaiseButtonTextColor;
+    QString m_allInButtonTextColor;
 
     QString m_cardDeckName;
     QString m_cardDeckDir;
