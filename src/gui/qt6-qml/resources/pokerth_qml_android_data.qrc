@@ -1,6 +1,6 @@
 <!--
    Android-Daten-Bundle für den QML-Client (siehe CMakeLists.txt, nur ANDROID).
-   AppDataDir = :/android/android-data/ ; Stile werden aus gfx/qml/{table,cards,backside} gescannt.
+   AppDataDir = :/android/android-data/ ; Stile aus gfx/qml/{table,cards,backside}.
    Neu generieren: find data/gfx/qml -type f | sort | sed -E 's#^data/#        <file>android-data/#; s#$#</file>#'
 -->
 <RCC>
@@ -177,5 +177,16 @@
         <file>android-data/gfx/qml/table/tripsixes/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/tripsixes/table.png</file>
         <file>android-data/gfx/qml/table/tripsixes/tripsixestablestyle.xml</file>
+        <file>android-data/gfx/qml/table/xanax/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/xanax/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/xanax/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/xanax/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/xanax/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/xanax/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/xanax/preview.png</file>
+        <file>android-data/gfx/qml/table/xanax/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/xanax/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/xanax/table.png</file>
+        <file>android-data/gfx/qml/table/xanax/xanaxtablestyle.xml</file>
     </qresource>
 </RCC>

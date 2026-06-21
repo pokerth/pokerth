@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Xanax 03 QML table style (portiert aus dem Widget-Client-Stil
+   data/gfx/gui/table/xanax_table_03, https://www.pokerth.net).
+
+   Alle UI-Elemente sind saubere SVGs; nur der Tisch-Hintergrund bleibt eine PNG.
+   Das table.png wurde so aufbereitet, dass das Filz-Oval vertikal UND horizontal
+   exakt zentriert sitzt; der perspektivische Rauten-Boden wurde nach oben hin
+   passend (mit Fluchtperspektive verjüngend) fortgesetzt → center-Modus.
+
+   Pucks (weiß/blau/gold) und Action-Farben (Fold rot / Call blau / Raise grün /
+   All-In orange) entsprechen dem Original.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Xanax 03 QML table style" />
+     <StyleMaintainerName value="Sebastien Kerguen" />
+     <StyleMaintainerEMail value="sebastienkerguen@free.fr" />
+     <StyleCreateDate value="19.06.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
+     <TableBackgroundZoom value="1.0" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+  </TableStyle>
+</PokerTH>
