@@ -1,7 +1,10 @@
 <!--
    Android-Daten-Bundle für den QML-Client (nur ANDROID, siehe CMakeLists.txt).
    AppDataDir = :/android/android-data/ ; Stile aus gfx/qml/{table,cards,backside}.
-   Neu generieren: find data/gfx/qml -type f | sort | sed -E 's#^data/#        <file>android-data/#; s#$#</file>#'
+   Neu generieren (Tag-Namen hier mit [] umschrieben, damit der qrc-Dependency-
+   Scanner sie nicht als Datei-Eintraege missversteht):
+   find data/gfx/qml -type f | sort | sed -E 's@^data/@        [file]android-data/@; s@$@[/file]@'
+   und anschliessend [file]/[/file] durch die echten XML-Tags ersetzen.
 -->
 <RCC>
     <qresource prefix="/android">
