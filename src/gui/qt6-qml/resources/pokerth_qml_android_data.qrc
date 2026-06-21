@@ -155,6 +155,17 @@
         <file>android-data/gfx/qml/table/mute/preview_portrait.png</file>
         <file>android-data/gfx/qml/table/mute/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/mute/table.png</file>
+        <file>android-data/gfx/qml/table/mute2/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/mute2/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/mute2/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/mute2/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/mute2/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/mute2/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/mute2/mute2tablestyle.xml</file>
+        <file>android-data/gfx/qml/table/mute2/preview.png</file>
+        <file>android-data/gfx/qml/table/mute2/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/mute2/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/mute2/table.png</file>
         <file>android-data/gfx/qml/table/tripsixes/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/tripsixes/actionCall.svg</file>
         <file>android-data/gfx/qml/table/tripsixes/actionFold.svg</file>
