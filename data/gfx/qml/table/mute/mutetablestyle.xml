@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Mute QML table style (portiert aus dem Widget-Client-Stil
+   data/gfx/gui/table/mute_table_01, https://www.pokerth.net).
+
+   Alle UI-Elemente sind saubere SVGs; nur der Tisch-Hintergrund bleibt eine PNG.
+   Das table.png wurde so aufbereitet, dass das Filz-Oval vertikal UND horizontal
+   exakt zentriert sitzt (dunkelblauer Grund nach oben fortgesetzt; die im Bild
+   eingebackene Vignette/Lampe wandert mit dem Tisch mit) → center-Modus.
+
+   Action-Buttons: Fold/Call/Raise grau, All-In rot – Farben aus dem Original.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Mute QML table style" />
+     <StyleMaintainerName value="mute design" />
+     <StyleMaintainerEMail value="demainlespoulpes@gmail.com" />
+     <StyleCreateDate value="19.06.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
+     <TableBackgroundZoom value="1.0" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+  </TableStyle>
+</PokerTH>

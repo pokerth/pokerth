@@ -1,19 +1,7 @@
 <!--
-   Android-Daten-Bundle für den QML-Client.
-
-   Auf Android ist AppDataDir = :/android/android-data/ (configfile.cpp).
-   Das datei-basierte QML-Stil-System (StyleProvider/SettingsManager) scannt
-   <AppDataDir>gfx/qml/{table,cards,backside}/ – diese Dateien müssen daher als
-   Qt-Resource gebündelt werden. Dateipfade sind relativ zu diesem Verzeichnis
-   und zeigen über den Symlink "android-data" -> ../../../../data auf data/gfx/qml.
-
-   Nur für ANDROID eingebunden (siehe CMakeLists.txt). Neue Stil-Dateien hier
-   ergänzen (regenerieren), sonst fehlen sie in der APK. Zum Regenerieren die
-   Ausgabe von  "find data/gfx/qml -type f | sort"  nehmen und jede Zeile als
-   file-Element eintragen (Pfad-Präfix data/ durch android-data/ ersetzen).
-   WICHTIG: in diesem Kommentar KEINE literalen file-Tags verwenden – CMakes
-   qrc-Abhängigkeits-Scanner ignoriert XML-Kommentare nicht und würde sie sonst
-   als (nicht existente) Resource-Dateien interpretieren.
+   Android-Daten-Bundle für den QML-Client (siehe CMakeLists.txt, nur ANDROID).
+   AppDataDir = :/android/android-data/ ; Stile werden aus gfx/qml/{table,cards,backside} gescannt.
+   Neu generieren: find data/gfx/qml -type f | sort | sed -E 's#^data/#        <file>android-data/#; s#$#</file>#'
 -->
 <RCC>
     <qresource prefix="/android">
@@ -156,6 +144,17 @@
         <file>android-data/gfx/qml/table/default/preview_portrait.png</file>
         <file>android-data/gfx/qml/table/default/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/default/table.png</file>
+        <file>android-data/gfx/qml/table/mute/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/mute/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/mute/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/mute/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/mute/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/mute/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/mute/mutetablestyle.xml</file>
+        <file>android-data/gfx/qml/table/mute/preview.png</file>
+        <file>android-data/gfx/qml/table/mute/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/mute/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/mute/table.png</file>
         <file>android-data/gfx/qml/table/tripsixes/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/tripsixes/actionCall.svg</file>
         <file>android-data/gfx/qml/table/tripsixes/actionFold.svg</file>
