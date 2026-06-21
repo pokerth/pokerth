@@ -280,7 +280,9 @@ ApplicationWindow {
         Rectangle {
             id: topBar
             Layout.preferredWidth: parent.width
-            Layout.preferredHeight: 38
+            // Kompakter App-Header auf kurzen Landscape-Phones (spart vertikalen
+            // Platz für den Tisch -> weniger Gegnerbox-Überlappung).
+            Layout.preferredHeight: Config.Responsive.landscapeCompact ? 30 : 38
             Layout.alignment: Qt.AlignTop
             color: Config.StaticData.palette.secondary.col700
 
@@ -293,7 +295,7 @@ ApplicationWindow {
                     id: topBarMenuIcon
                     Layout.preferredWidth: 26
                     Layout.preferredHeight: 26
-                    Layout.margins: 6
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/threeLines.svg"
                     visible: mainWindow.topBarIconsVisible
                     layer.enabled: true
@@ -330,7 +332,7 @@ ApplicationWindow {
                     id: topBarRankingIcon
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
-                    Layout.margins: 6
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/globe.svg"
                     visible: mainWindow.topBarIconsVisible && Config.Parameters.showCommunityContent
                     layer.enabled: true
@@ -359,7 +361,7 @@ ApplicationWindow {
                     id: topBarSettingsIcon
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
-                    Layout.margins: 6
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/settings.svg"
                     visible: mainWindow.topBarIconsVisible
                     layer.enabled: true

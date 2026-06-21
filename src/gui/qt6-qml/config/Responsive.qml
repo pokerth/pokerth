@@ -44,18 +44,22 @@ QtObject {
     readonly property bool tablet:         windowWidth >= 900  && windowWidth < 1400
     readonly property bool desktop:        windowWidth >= 1400
 
-    // Phone im Landscape-Modus (sehr breites Aspect-Ratio, wenig vertikaler
-    // Platz): die Action-Bar mit ihren drei Standard-Reihen würde 25–35 % der
-    // Höhe fressen → boxScale-Cap lässt die Boxen so groß werden, dass die
-    // Topreihe an den oberen Rand stößt. Aspect > 1.85 catched Phones zuverlässig
-    // (2.0–2.4 typisch) und schließt klassische 16:9-Monitore (1.78) aus;
-    // Ultrawide-Desktops (3440×1440 = 2.39) sind seltene Edge-Cases und durch
-    // die zusätzliche Bedingung windowHeight < 1100 ausgeschlossen.
+    // Landscape mit wenig vertikalem Platz: die Action-Bar + Status-Leiste würden
+    // sonst 25–35 % der Höhe fressen → Boxen werden so groß, dass die Topreihe an
+    // den oberen Rand stößt / Gegnerboxen überlappen.
+    //   Mobile (Android/iOS): an der HÖHE festmachen (jedes Phone im Landscape),
+    //   NICHT am Aspect. Sonst fallen 16:9-Phones wie das Galaxy A5 2017
+    //   (1920×1080 → ~640×360 logisch, Ratio 1.78 < 1.85) durch und bekommen die
+    //   Kompakt-Behandlung nicht.
+    //   Desktop: an der Aspect-Heuristik (Ultrawide/HiDPI). Klassische
+    //   16:9-Monitore (1.78) bleiben bewusst ausgeschlossen; windowHeight < 1300
+    //   schließt große Ultrawide-Fenster aus.
     readonly property bool landscapeCompact:
         landscape
         && windowHeight > 0
-        && (windowWidth / windowHeight) > 1.85
-        && windowHeight < 1300
+        && (isMobile
+            ? windowHeight < 600
+            : ((windowWidth / windowHeight) > 1.85 && windowHeight < 1300))
 
     // Convenience: number of columns for a simple grid
     readonly property int columns: compact ? 1 : tablet ? 2 : 3
