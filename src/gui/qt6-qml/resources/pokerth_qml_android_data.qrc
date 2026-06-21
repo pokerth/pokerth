@@ -1,5 +1,5 @@
 <!--
-   Android-Daten-Bundle für den QML-Client (siehe CMakeLists.txt, nur ANDROID).
+   Android-Daten-Bundle für den QML-Client (nur ANDROID, siehe CMakeLists.txt).
    AppDataDir = :/android/android-data/ ; Stile aus gfx/qml/{table,cards,backside}.
    Neu generieren: find data/gfx/qml -type f | sort | sed -E 's#^data/#        <file>android-data/#; s#$#</file>#'
 -->
@@ -177,6 +177,17 @@
         <file>android-data/gfx/qml/table/tripsixes/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/tripsixes/table.png</file>
         <file>android-data/gfx/qml/table/tripsixes/tripsixestablestyle.xml</file>
+        <file>android-data/gfx/qml/table/wanted/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/wanted/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/wanted/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/wanted/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/wanted/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/wanted/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/wanted/preview.png</file>
+        <file>android-data/gfx/qml/table/wanted/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/wanted/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/wanted/table.png</file>
+        <file>android-data/gfx/qml/table/wanted/wantedtablestyle.xml</file>
         <file>android-data/gfx/qml/table/xanax/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/xanax/actionCall.svg</file>
         <file>android-data/gfx/qml/table/xanax/actionFold.svg</file>
