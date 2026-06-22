@@ -123,7 +123,7 @@ Item {
 
     // Pot prominent in der Tischmitte (über den Karten): Chip-Icon +
     // Betrag mit goldenem Glow. Poppt bei Pot-Erhöhung (Mikroanimation).
-    Rectangle {
+    Item {
         id: potBadge
         anchors.horizontalCenter: cardRow.horizontalCenter
         anchors.bottom: cardRow.top
@@ -134,24 +134,34 @@ Item {
         visible: (typeof GameTable !== "undefined" && GameTable) ? GameTable.totalPot > 0 : false
         width: potRow.width + 16
         height: 24
-        radius: 12
-        color: Qt.rgba(0, 0, 0, 0.62)
-        border.color: Config.Theme.colorAccent
-        border.width: 1
         transformOrigin: Item.Center
 
-        layer.enabled: true
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowColor: Config.Theme.colorAccent
-            shadowOpacity: 0.45
-            shadowBlur: 0.9
-            shadowVerticalOffset: 0
+        // Hintergrund mit goldenem Glow. Eigener Layer, damit der MultiEffect
+        // nur die Pille (nicht Chip/Text) rendert – sonst werden Schrift und
+        // Puck vom Glow überlagert und beim Hochskalieren (oppScale) unscharf.
+        Rectangle {
+            anchors.fill: parent
+            radius: 12
+            color: Qt.rgba(0, 0, 0, 0.62)
+            border.color: Config.Theme.colorAccent
+            border.width: 1
+
+            layer.enabled: true
+            layer.effect: MultiEffect {
+                shadowEnabled: true
+                shadowColor: Config.Theme.colorAccent
+                shadowOpacity: 0.45
+                shadowBlur: 0.9
+                shadowVerticalOffset: 0
+            }
         }
 
+        // Chip + Betrag liegen über dem Glow und werden direkt (vektoriell,
+        // ohne Layer-Textur) gerendert → bleiben gestochen scharf.
         Row {
             id: potRow
             anchors.centerIn: parent
+            z: 1
             spacing: 4
             Image {
                 anchors.verticalCenter: parent.verticalCenter
