@@ -22,20 +22,67 @@ Rectangle {
             actionBar.applyPlayingMode(index)
     }
 
-    function toggleLogOverlay() {
-        if (!tableZone)
+    // ── Info-Panel (Verlauf/Chancen/Blatt) ────────────────────────────────────
+    // Desktop: permanent unten RECHTS angedockt (gespiegelt zum Chat unten links),
+    // ÜBER dem Tisch schwebend (reserviert keinen Platz). Reicht die Breite nicht
+    // (bzw. Mobil), bleibt es beim schwebenden Overlay mit Toggle. Der Toggle
+    // klappt das angedockte Panel ein/aus (dockedInfoCollapsed).
+    readonly property bool infoDocked: tableZone ? tableZone.dockedInfoFits : false
+    // Sichtbarkeit/Aktiv-Zustand des Toggles je nach Modus.
+    readonly property bool infoPanelOpen:
+        infoDocked ? !tableZone.dockedInfoCollapsed
+                   : (tableZone ? tableZone.showInfo : false)
+
+    // Panel öffnen bzw. Tab wählen (Shortcuts).
+    function showInfoTab(idx) {
+        if (gamePage.infoDocked) {
+            tableZone.dockedInfoCollapsed = false
+            infoPanelDock.currentIndex = idx
+        } else {
+            tableZone.showInfo = true
+            infoPanelOverlay.currentIndex = idx
+            if (!tableZone.wide)
+                tableZone.showChat = false
+        }
+    }
+
+    // Combined-Toggle: Panel ein-/ausblenden (angedockt: einklappen).
+    function toggleInfoOverlay() {
+        if (gamePage.infoDocked) {
+            tableZone.dockedInfoCollapsed = !tableZone.dockedInfoCollapsed
             return
-        tableZone.showLog = !tableZone.showLog
-        if (tableZone.showLog && !tableZone.wide)
+        }
+        tableZone.showInfo = !tableZone.showInfo
+        if (tableZone.showInfo && !tableZone.wide)
             tableZone.showChat = false
     }
+
+    // Alt+L (Verlauf-Tab) – Name aus Kompatibilität zur bisherigen Belegung.
+    function toggleLogOverlay() {
+        if (!gamePage.infoDocked && tableZone.showInfo
+                && infoPanelOverlay.currentIndex === 0)
+            tableZone.showInfo = false
+        else
+            showInfoTab(0)
+    }
+
+    // Chat analog zum Info-Panel: Desktop → permanent unten links angedockt
+    // (chatDocked), per Toggle einklappbar; sonst schwebendes Overlay.
+    readonly property bool chatDocked: tableZone ? tableZone.dockedChatFits : false
+    readonly property bool chatPanelOpen:
+        chatDocked ? !tableZone.dockedChatCollapsed
+                   : (tableZone ? tableZone.showChat : false)
 
     function toggleChatOverlay() {
         if (!tableZone)
             return
+        if (gamePage.chatDocked) {
+            tableZone.dockedChatCollapsed = !tableZone.dockedChatCollapsed
+            return
+        }
         tableZone.showChat = !tableZone.showChat
         if (tableZone.showChat && !tableZone.wide)
-            tableZone.showLog = false
+            tableZone.showInfo = false
     }
 
     function toggleFullscreenMode() {
@@ -164,6 +211,12 @@ Rectangle {
         context: Qt.ApplicationShortcut
         enabled: gamePage.visible
         onActivated: gamePage.toggleChatOverlay()
+    }
+    Shortcut {
+        sequence: "Alt+I"
+        context: Qt.ApplicationShortcut
+        enabled: gamePage.visible
+        onActivated: gamePage.toggleInfoOverlay()
     }
     Shortcut {
         sequence: "Alt+F"
@@ -1383,8 +1436,10 @@ Rectangle {
             } // zoomLayer
 
             // ── Spielverlauf (Log) + Chat – Umschalt-Icons + Overlays ──────────
-            property bool showLog: false
             property bool showChat: false
+            // Info-Panel-Overlay (Verlauf/Chancen/Blatt) – nur im NICHT angedockten
+            // Modus (Hochformat/Mobil). Im Desktop-Querformat ist es angedockt.
+            property bool showInfo: false
             // Emoji-Reaktions-Picker (Panel unter dem Toggle neben dem Chat-Icon)
             property bool showReactions: false
 
@@ -1436,6 +1491,50 @@ Rectangle {
             }
             // Vom Benutzer per Drag-Handle eingestellte Höhe; -1 = Standard.
             property real dockedChatUserH: -1
+            // Eingeklappt (per Toggle ausgeblendet)? Default: sichtbar.
+            property bool dockedChatCollapsed: false
+
+            // ── Permanentes Info-Panel unten RECHTS – Spiegelbild des Docked-Chat ──
+            // Gleiches Layout wie der Chat (unten links): schwebt ÜBER dem Tisch,
+            // nach oben aufziehbar, reserviert keinen Platz. Nur Desktop mit genug
+            // freier Breite; sonst Overlay + Toggle.
+            readonly property real dockedInfoW: {
+                if (Config.Responsive.isMobile) return 0
+                return Math.min(280, (width - actionBar.panelWidth) / 2 - 24)
+            }
+            readonly property bool dockedInfoFits: dockedInfoW >= 170
+            // Wird das Panel gedockt, ist das Overlay überflüssig.
+            onDockedInfoFitsChanged: if (dockedInfoFits) showInfo = false
+            // Eingeklappt (per Toggle ausgeblendet)?
+            property bool dockedInfoCollapsed: false
+
+            readonly property real dockedInfoMinH: actionBar.height - 8
+            // Maximale Höhe: bis zur Unterkante der untersten Gegnerbox, die
+            // horizontal mit dem Panel (rechter Rand) überlappt – wie beim Chat.
+            readonly property real dockedInfoMaxH: {
+                if (!wide || !dockedInfoFits) return dockedInfoMinH
+                var s = oppScale
+                var visualW = oppBaseWidth  * s
+                var visualH = oppBaseHeight * s
+                var infoRight = width - 8
+                var infoLeft  = width - 8 - dockedInfoW
+                var slots = slotPosLandscape
+                var maxH = height + actionBar.height - 8
+                for (var name in slots) {
+                    var pos   = slots[name]
+                    var boxCX = width  * pos[0]
+                    var boxCY = height * pos[1]
+                    var boxL  = boxCX - visualW / 2
+                    var boxR  = boxCX + visualW / 2
+                    if (boxR <= infoLeft || boxL >= infoRight) continue
+                    var boxBottom = boxCY + visualH / 2 + 8
+                    var limit = height - boxBottom + actionBar.height - 8
+                    if (limit < maxH) maxH = limit
+                }
+                return Math.max(dockedInfoMinH, maxH)
+            }
+            // Vom Benutzer per Drag-Handle eingestellte Höhe; -1 = Standard.
+            property real dockedInfoUserH: -1
 
             // Ungelesene Chat-Nachrichten: alles oberhalb von chatReadCount gilt als
             // ungelesen. Als gelesen markiert wird, sobald der Chat 2 s offen war
@@ -1469,78 +1568,39 @@ Rectangle {
                 }
             }
 
+            // ── Info-Panel-Overlay (Verlauf/Chancen/Blatt) ────────────────────
+            // Nur im NICHT angedockten Modus (Hochformat/Mobil). Im Desktop-
+            // Querformat liegt das Panel permanent angedockt rechts (infoDock,
+            // direktes Kind von gamePage).
             GameSidePanel {
-                id: logOverlay
+                id: infoOverlay
                 z: 150
                 edge: Qt.RightEdge
                 wide: tableZone.wide
-                title: qsTr("Spielverlauf")
-                visible: tableZone.showLog
-                onCloseRequested: gamePage.toggleLogOverlay()
+                title: qsTr("Verlauf · Chancen · Blatt")
+                visible: tableZone.showInfo && !gamePage.infoDocked
+                onCloseRequested: gamePage.toggleInfoOverlay()
 
-                ListView {
-                    id: logList
+                GameInfoPanel {
+                    id: infoPanelOverlay
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    clip: true
-                    model: (typeof GameTable !== "undefined" && GameTable) ? GameTable.gameLog : []
-                    boundsBehavior: Flickable.StopAtBounds
-                    ScrollBar.vertical: ScrollBar {
-                        policy: logList.contentHeight > logList.height + 4
-                                ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
-                    }
-                    // Auto-Scroll folgt neuen Einträgen, solange der Nutzer unten
-                    // ist. Scrollt er hoch, pausiert das Folgen und die Position
-                    // bleibt erhalten – auch wenn neue Zeilen ankommen (das Model
-                    // ist eine QVariantList, die bei jeder Änderung komplett ersetzt
-                    // wird → die View würde sonst auf contentY=0 zurückspringen).
-                    // Nach Ablauf des Timers springt es wieder ans Ende.
-                    property bool autoScroll: true
-                    property real savedContentY: 0
-                    Timer {
-                        id: logAutoScrollTimer
-                        interval: 15000
-                        onTriggered: { logList.autoScroll = true; logList.positionViewAtEnd() }
-                    }
-                    function restoreScroll() {
-                        contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
-                    }
-                    // Nur benutzergetriebene Bewegungen (moving = Drag/Flick/Wheel)
-                    // auswerten; programmatische Resets/Sprünge ignorieren.
-                    onContentYChanged: {
-                        if (!moving) return
-                        savedContentY = contentY
-                        if (atYEnd) { autoScroll = true; logAutoScrollTimer.stop() }
-                        else        { autoScroll = false; logAutoScrollTimer.restart() }
-                    }
-                    onCountChanged: {
-                        if (autoScroll) positionViewAtEnd()
-                        else Qt.callLater(restoreScroll)
-                    }
-                    delegate: Text {
-                        required property var modelData
-                        width: ListView.view.width
-                        text: modelData
-                        // Farben kommen aus dem HTML (Widgets-Log-Style).
-                        textFormat: Text.RichText
-                        wrapMode: Text.WordWrap
-                        font.family: Config.StaticData.loadedFont.font.family
-                        font.pixelSize: 12
-                        lineHeight: 1.15
-                        bottomPadding: 4
-                    }
                 }
             }
 
+            // Combined-Toggle (Verlauf/Chancen/Blatt). Als Kind der tableZone
+            // sitzt er automatisch an deren rechter Kante: angedockt links neben
+            // dem Panel, sonst am rechten Bildschirmrand. Im Desktop-Querformat
+            // klappt er das angedockte Panel ein/aus, sonst das Overlay.
             GameRoundIconButton {
-                id: logToggle
+                id: infoToggle
                 z: 200
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: 8
                 iconSource: "../resources/gameLog.svg"
-                active: tableZone.showLog
-                onClicked: gamePage.toggleLogOverlay()
+                active: gamePage.infoPanelOpen
+                onClicked: gamePage.toggleInfoOverlay()
             }
 
             // ── Chat-Overlay (nur bei menschlichen Mitspielern) ────────────────
@@ -1571,14 +1631,14 @@ Rectangle {
             GameRoundIconButton {
                 id: chatToggle
                 z: 200
-                // Ausgeblendet, wenn der Chat permanent unten links gedockt ist.
+                // Immer sichtbar (sofern menschliche Mitspieler) – auch wenn der
+                // Chat permanent angedockt ist, damit er sich ausblenden lässt.
                 visible: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.hasHumanOpponents : false)
-                         && !tableZone.dockedChatFits
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: 8
                 iconSource: "../resources/gameChat.svg"
-                active: tableZone.showChat
+                active: gamePage.chatPanelOpen
                 unread: tableZone.chatUnread
                 onClicked: gamePage.toggleChatOverlay()
             }
@@ -1637,7 +1697,7 @@ Rectangle {
     // über die Action-Bar hinaus aufgezogen werden kann.
     Rectangle {
         id: dockedChat
-        visible: tableZone.dockedChatFits
+        visible: tableZone.dockedChatFits && !tableZone.dockedChatCollapsed
         z: 20
         anchors.left: parent.left
         anchors.leftMargin: 8
@@ -1730,6 +1790,81 @@ Rectangle {
             onSendRequested: (text) => {
                 if (typeof GameTable !== "undefined" && GameTable)
                     GameTable.sendChat(text)
+            }
+        }
+    }
+
+    // ── Permanentes Info-Panel: unten rechts (Spiegelbild des Docked-Chat) ──────
+    // Direktes Kind von gamePage (über dem ColumnLayout), damit es nach oben über
+    // die Action-Bar hinaus aufgezogen werden kann. Schwebt ÜBER dem Tisch.
+    Rectangle {
+        id: infoDock
+        visible: tableZone.dockedInfoFits && !tableZone.dockedInfoCollapsed
+        z: 20
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 8
+        width: tableZone.dockedInfoW
+        height: {
+            // Standardhöhe stabil (springt nicht mit dem dynamischen maxH);
+            // per Handle anpassbar. Immer auf den verfügbaren Platz geklemmt.
+            var h = tableZone.dockedInfoUserH >= 0 ? tableZone.dockedInfoUserH : 320
+            return Math.max(tableZone.dockedInfoMinH,
+                            Math.min(tableZone.dockedInfoMaxH, h))
+        }
+        radius: 10
+        // Bewusst transparenter (wie der Docked-Chat) – der Tisch bleibt sichtbar.
+        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.7)
+        border.color: Config.StaticData.palette.secondary.col500
+        border.width: 1
+
+        GameInfoPanel {
+            id: infoPanelDock
+            anchors.fill: parent
+            anchors.margins: 8
+            anchors.topMargin: 12   // Platz für den Resize-Handle
+        }
+
+        // ── Größenänderungs-Handle (Ziehen nach oben) – wie beim Chat ─────────
+        Item {
+            id: infoResizeHandle
+            anchors.top: parent.top
+            width: parent.width
+            height: 10
+            z: 10
+
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                width: 32
+                height: 3
+                radius: 2
+                color: infoResizeDrag.containsMouse || infoResizeDrag.pressed
+                       ? Config.Theme.colorAccent
+                       : Qt.rgba(1, 1, 1, 0.22)
+                Behavior on color { ColorAnimation { duration: 120 } }
+            }
+
+            MouseArea {
+                id: infoResizeDrag
+                anchors.fill: parent
+                cursorShape: Qt.SizeVerCursor
+                hoverEnabled: true
+                property real pressGlobalY: 0
+                property real pressH: 0
+                onPressed: (mouse) => {
+                    pressGlobalY = mapToItem(gamePage, mouse.x, mouse.y).y
+                    pressH = infoDock.height
+                }
+                onPositionChanged: (mouse) => {
+                    if (!pressed) return
+                    var curY = mapToItem(gamePage, mouse.x, mouse.y).y
+                    var delta = pressGlobalY - curY   // nach oben = positiv
+                    tableZone.dockedInfoUserH = Math.max(
+                        tableZone.dockedInfoMinH,
+                        Math.min(tableZone.dockedInfoMaxH, pressH + delta))
+                }
             }
         }
     }

@@ -693,7 +693,8 @@ Rectangle {
                                 RowLayout {
                                     anchors.fill: parent
                                     anchors.leftMargin: 6
-                                    anchors.rightMargin: 6
+                                    // Platz für die Scrollbar, wenn sie sichtbar ist.
+                                    anchors.rightMargin: playerList.contentHeight > playerList.height + 4 ? 14 : 6
                                     spacing: 6
 
                                     Rectangle {

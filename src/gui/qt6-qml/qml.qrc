@@ -40,6 +40,7 @@
         <file>components/CommunityCards.qml</file>
         <file>components/WinningHandBadge.qml</file>
         <file>components/GameSidePanel.qml</file>
+        <file>components/GameInfoPanel.qml</file>
         <file>components/GameRoundIconButton.qml</file>
         <file>components/ReactionPicker.qml</file>
         <file>components/GameActionBar.qml</file>
@@ -246,5 +247,15 @@
         <file>resources/cards-simple/9d.svg</file>
         <file>resources/cards-simple/9h.svg</file>
         <file>resources/cards-simple/9s.svg</file>
+        <file>resources/hands/royalflush.svg</file>
+        <file>resources/hands/straightflush.svg</file>
+        <file>resources/hands/fourofakind.svg</file>
+        <file>resources/hands/fullhouse.svg</file>
+        <file>resources/hands/flush.svg</file>
+        <file>resources/hands/straight.svg</file>
+        <file>resources/hands/threeofakind.svg</file>
+        <file>resources/hands/twopair.svg</file>
+        <file>resources/hands/onepair.svg</file>
+        <file>resources/hands/highcard.svg</file>
     </qresource>
 </RCC>

@@ -177,8 +177,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     m_winnerSeatIds.clear();
     m_winningHandText.clear();
     setShowdownActive(false);
-    m_gameLog.clear();
-    emit gameLogChanged();
+    m_gameLogModel.clear();
     m_chatLog.clear();
     emit chatLogChanged();
     for (int i = 0; i < 10; ++i) {
@@ -221,12 +220,9 @@ void GameHandler::playYourTurnTimeoutSound()
 void GameHandler::appendGameLog(const QString &message, int type)
 {
     if (message.isEmpty()) return;
-    m_gameLog.append(formatLogLine(message, type));
-    // Begrenzen, damit der Verlauf nicht unbegrenzt wächst.
+    // Inkrementelles Anhängen + Begrenzung im Modell (kein Full-Reset der View).
     const int kMaxLines = 400;
-    if (m_gameLog.size() > kMaxLines)
-        m_gameLog.erase(m_gameLog.begin(), m_gameLog.begin() + (m_gameLog.size() - kMaxLines));
-    emit gameLogChanged();
+    m_gameLogModel.append(formatLogLine(message, type), kMaxLines);
 }
 
 void GameHandler::appendChat(const QString &playerName, const QString &message)
@@ -502,6 +498,9 @@ void GameHandler::refreshPlayerData()
 
     m_players = newPlayers;
     emit playersChanged();
+
+    // Chancen + aktuelles Blatt nachführen (Fold-/Aktiv-Wechsel, neue Hole-Cards).
+    refreshChanceAndHand();
 
     // Lokales Spiel: Spieler mit 0 Coins nach 10 Sekunden ausblenden.
     checkBustedLocalPlayers();
@@ -1059,6 +1058,76 @@ void GameHandler::refreshBoardCards()
     if (newCards != m_boardCards) {
         m_boardCards = newCards;
         emit boardCardsChanged();
+    }
+    refreshChanceAndHand();
+}
+
+void GameHandler::refreshChanceAndHand()
+{
+    // Eigenen Spieler (Sitz 0) suchen.
+    boost::shared_ptr<PlayerInterface> human;
+    if (m_game) {
+        PlayerList seats = m_game->getSeatsList();
+        if (seats) {
+            for (auto it = seats->begin(); it != seats->end(); ++it) {
+                if ((*it)->getMyID() == 0) { human = *it; break; }
+            }
+        }
+    }
+
+    int holeCards[2] = {-1, -1};
+    int boardCards[5] = {-1, -1, -1, -1, -1};
+    bool folded = false;
+    bool haveCards = false;
+
+    if (human && human->getMyActiveStatus()) {
+        human->getMyCards(holeCards);
+        haveCards = (holeCards[0] >= 0 && holeCards[1] >= 0);
+        if (haveCards) {
+            auto hand = m_game ? m_game->getCurrentHand() : nullptr;
+            if (hand && hand->getBoard())
+                hand->getBoard()->getMyCards(boardCards);
+            folded = (human->getMyAction() == PLAYER_ACTION_FOLD);
+        }
+    }
+
+    // Eingangssignatur: nur neu rechnen, wenn sich Karten/Board/Fold geändert haben.
+    std::vector<int> inputs;
+    inputs.reserve(9);
+    inputs.push_back(haveCards ? holeCards[0] : -1);
+    inputs.push_back(haveCards ? holeCards[1] : -1);
+    inputs.push_back(m_boardCardCount);
+    for (int i = 0; i < 5; ++i)
+        inputs.push_back(haveCards ? boardCards[i] : -1);
+    inputs.push_back(folded ? 1 : 0);
+    if (inputs == m_lastChanceInputs)
+        return;
+    m_lastChanceInputs = inputs;
+
+    QVariantList newChance;
+
+    if (haveCards) {
+        GameState gs = GAME_STATE_PREFLOP;
+        if (m_boardCardCount >= 5)      gs = GAME_STATE_RIVER;
+        else if (m_boardCardCount == 4) gs = GAME_STATE_TURN;
+        else if (m_boardCardCount == 3) gs = GAME_STATE_FLOP;
+
+        std::vector<std::vector<int>> chance =
+            CardsValue::calcCardsChance(gs, holeCards, boardCards);
+        if (chance.size() >= 2 && chance[0].size() >= 10 && chance[1].size() >= 10) {
+            for (int cat = 0; cat < 10; ++cat) {
+                QVariantMap m;
+                m["prob"]     = chance[0][cat];
+                m["possible"] = (chance[1][cat] != 0) && !folded;
+                newChance.append(m);
+            }
+        }
+    }
+
+    if (newChance != m_cardsChance || folded != m_cardsChanceFolded) {
+        m_cardsChance = newChance;
+        m_cardsChanceFolded = folded;
+        emit cardsChanceChanged();
     }
 }
 

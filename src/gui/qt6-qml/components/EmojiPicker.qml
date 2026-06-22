@@ -112,6 +112,9 @@ Rectangle {
         id: grid
         anchors.fill: parent
         anchors.margins: 6
+        // Rechts Platz für die vertikale Scrollbar, damit sie die letzte
+        // Emoji-Spalte nicht überlappt (nur wenn sie sichtbar ist).
+        anchors.rightMargin: (ScrollBar.vertical && ScrollBar.vertical.visible) ? 16 : 6
         clip: true
         cellWidth: 38
         cellHeight: 38

@@ -140,7 +140,10 @@ Item {
                         anchors {
                             left: parent.left; right: parent.right; top: parent.top
                             leftMargin: root.showBubbles ? 6 : 0
-                            rightMargin: root.showBubbles ? 6 : 0
+                            // Rechts zusätzlich Platz für die Scrollbar lassen, damit
+                            // sie den Text nicht überlappt (nur wenn sie sichtbar ist).
+                            rightMargin: (root.showBubbles ? 6 : 0)
+                                         + (msgList.contentHeight > msgList.height + 4 ? 12 : 0)
                             topMargin: root.showBubbles ? 2 : 1
                         }
                         text: modelData
