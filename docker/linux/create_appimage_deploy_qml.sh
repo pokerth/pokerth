@@ -112,7 +112,13 @@ is_excluded_lib() {
         libxcb-image.so*|libxcb-keysyms.so*|libxcb-randr.so*) return 0 ;;
         libxcb-render*.so*|libxcb-shape.so*|libxcb-shm.so*)   return 0 ;;
         libxcb-sync.so*|libxcb-xfixes.so*|libxcb-xinerama.so*) return 0 ;;
-        libxcb-xkb.so*|libxcb-cursor.so*|libxcb-dri*.so*)     return 0 ;;
+        libxcb-xkb.so*|libxcb-dri*.so*)                       return 0 ;;
+        # libxcb-cursor.so* wird BEWUSST NICHT ausgeschlossen (= mitgebündelt):
+        # Ab Qt 6.5 ist sie Pflichtabhängigkeit des xcb-Plattform-Plugins
+        # (libqxcb.so), aber auf vielen Zielsystemen nicht vorinstalliert.
+        # Fehlt sie, scheitert der Start mit:
+        #   "xcb-cursor0 or libxcb-cursor0 is needed to load the Qt xcb platform plugin"
+        # Ihre eigenen Abhängigkeiten (libxcb, libxcb-render, …) bleiben Host-Libs.
         libxkbcommon.so*|libxkbcommon-x11.so*)                 return 0 ;;
 
         # --- GLib / GObject / GIO / DBus ---
@@ -194,6 +200,29 @@ for forced_audio_lib in libpxbackend-1.0.so libpipewire-0.3.so.0 libspa-0.2.so; 
         collect_all_dependencies "$forced_path" "$APPDIR/usr/lib"
     fi
 done
+
+# Qt-6.5+-Pflicht: libxcb-cursor.so.0 explizit mitbündeln.
+# Das xcb-Plattform-Plugin (libqxcb.so) linkt diese Lib direkt, sie ist aber
+# auf vielen Zielsystemen nicht vorinstalliert. Ohne sie startet das AppImage
+# nicht ("xcb-cursor0 ... is needed to load the Qt xcb platform plugin").
+# Direkt kopieren (nicht über collect_all_dependencies, das nur die Deps der
+# übergebenen Lib bündelt, nicht die Lib selbst).
+xcb_cursor_path=$(ldconfig -p 2>/dev/null | grep "libxcb-cursor.so.0" | head -1 | awk '{print $NF}')
+[ -z "$xcb_cursor_path" ] && for cand in \
+    "/usr/lib/${ARCH}-linux-gnu/libxcb-cursor.so.0" \
+    "/lib/${ARCH}-linux-gnu/libxcb-cursor.so.0"; do
+    [ -f "$cand" ] && { xcb_cursor_path="$cand"; break; }
+done
+if [ -n "$xcb_cursor_path" ] && [ -f "$xcb_cursor_path" ]; then
+    if [ ! -f "$APPDIR/usr/lib/libxcb-cursor.so.0" ]; then
+        cp -L "$xcb_cursor_path" "$APPDIR/usr/lib/" \
+            && chmod +x "$APPDIR/usr/lib/libxcb-cursor.so.0" \
+            && echo "Erzwinge Bundle: libxcb-cursor.so.0 (Qt-6.5-xcb-Plugin)"
+    fi
+else
+    echo "WARNUNG: libxcb-cursor.so.0 nicht gefunden — xcb-Plugin startet evtl. nicht!"
+    echo "         apt install libxcb-cursor0 im Build-Container nötig."
+fi
 
 # --- Sicherstellung glibc-Bundle ---
 

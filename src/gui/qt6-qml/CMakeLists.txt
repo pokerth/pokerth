@@ -84,6 +84,7 @@ set(QML_FILES
     components/CustomButton.qml
     components/StyleSettings.qml
     components/StyleCard.qml
+    components/LobbyStatsBar.qml
     pages/AboutPage.qml
     pages/GamePage.qml
     pages/InternetGamePage.qml

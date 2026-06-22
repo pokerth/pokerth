@@ -14,11 +14,6 @@ Rectangle {
     clip: true
     color: Config.StaticData.palette.secondary.col700
 
-    // Mock data for development
-    property int connectedPlayers: Lobby ? Lobby.playerListModel.count : 0
-    property int runningGames: Lobby ? Lobby.gameListModel.runningCount : 0
-    property int openGames: Lobby ? Lobby.gameListModel.openCount : 0
-
     // Portrait-mode overlay state
     property bool showingPlayerList: false
     property bool showingGameInfo: false
@@ -1284,82 +1279,6 @@ Rectangle {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        // Status bar
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 6
-
-            // Compact: eine Zeile mit Kurzform + elide
-            Label {
-                visible: Config.Responsive.compact
-                Layout.fillWidth: true
-                text: qsTr("%1 players · %2 running · %3 open")
-                      .arg(connectedPlayers).arg(runningGames).arg(openGames)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-                elide: Text.ElideRight
-            }
-
-            // Wide: einzelne Labels
-            Label {
-                visible: !Config.Responsive.compact
-                text: qsTr("connected players: %1").arg(connectedPlayers)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-            }
-            Label {
-                visible: !Config.Responsive.compact
-                text: " | " + qsTr("running games: %1").arg(runningGames)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-            }
-            Label {
-                visible: !Config.Responsive.compact
-                text: " | " + qsTr("open games: %1").arg(openGames)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-            }
-
-            Item { Layout.fillWidth: true }
-
-            Text {
-                text: qsTr("PokerTH.net")
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: (Config.StaticData.palette.primary && Config.StaticData.palette.primary.col400)
-                       ? Config.StaticData.palette.primary.col400
-                       : Config.StaticData.palette.secondary.col300
-                font.underline: true
-
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        var url = "https://www.pokerth.net"
-                        var opened = false
-                        if (Lobby) {
-                            opened = Lobby.openExternalUrl(url)
-                        } else {
-                            opened = Qt.openUrlExternally(url)
-                        }
-
-                        if (!opened) {
-                            console.warn("Failed to open footer URL:", url)
-                        }
-                    }
-                }
-
-                HoverHandler {
-                    cursorShape: Qt.PointingHandCursor
                 }
             }
         }

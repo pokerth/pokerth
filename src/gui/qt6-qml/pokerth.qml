@@ -24,6 +24,16 @@ ApplicationWindow {
         mainStackView.currentItem
         && mainStackView.currentItem.objectName !== "preLoaderPage"
 
+    // True, sobald die Lobby betreten wurde (Lobby-Seite liegt im Stack) – steuert
+    // die globale Statusleiste. Re-Eval bei jeder Navigation (depth/currentItem).
+    readonly property bool inLobbySession: {
+        var _d = mainStackView.depth
+        var _c = mainStackView.currentItem
+        return mainStackView.find(function(it) {
+            return it && it.objectName === "lobbyPage"
+        }) !== null
+    }
+
     // Overlay-Seiten der Topbar-Icons (Settings + Community/Ranking inkl. der
     // Unterseiten). Alles, was NICHT hier steht, gilt als Basisseite
     // (Gametable, Lobby, Startseite) – dorthin wird beim Schließen zurückgesetzt.
@@ -433,6 +443,21 @@ ApplicationWindow {
                 // FLAG_KEEP_SCREEN_ON via JNI). Beim Verlassen freigeben.
                 ScreenHelper.setKeepScreenOn(isGame || isGameWait);
             }
+        }
+
+        // Globale Statusleiste (verbundene Spieler / laufende & offene Spiele):
+        // erscheint unten auf allen Seiten, sobald die Lobby betreten wurde –
+        // ausgenommen der Spieltisch (GamePage hat eine eigene Statusleiste und
+        // braucht den vertikalen Platz).
+        LobbyStatsBar {
+            Layout.fillWidth: true
+            Layout.leftMargin: Config.Theme.margin
+            Layout.rightMargin: Config.Theme.margin
+            Layout.bottomMargin: Config.Responsive.compact ? 6 : 8
+            Layout.topMargin: 4
+            visible: mainWindow.inLobbySession
+                     && !(mainStackView.currentItem
+                          && mainStackView.currentItem.objectName === "gamePage")
         }
     }
 

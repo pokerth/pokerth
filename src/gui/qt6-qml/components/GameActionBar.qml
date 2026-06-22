@@ -73,10 +73,14 @@ Item {
     readonly property bool canCheck: GameTable !== null && GameTable.callAmount === 0
     readonly property bool isPreflop: GameTable !== null && GameTable.phaseText === "Preflop"
     readonly property string _amountSep: "\n"
-    readonly property string checkCallText: GameTable === null ? qsTr("Call")
+    // Im Showdown KEINE Beträge anzeigen: die Buttons sind inaktiv und die
+    // letzten Call-/Raise-Werte der abgeschlossenen Runde sind nicht mehr
+    // gültig. Erst zu Rundenbeginn (neue Werte aus computeCallAndRaiseAmounts)
+    // erscheinen wieder Beträge.
+    readonly property string checkCallText: (GameTable === null || inShowdown) ? qsTr("Call")
         : (canCheck ? qsTr("Check") : qsTr("Call") + _amountSep + "$" + GameTable.callAmount)
     readonly property string betRaiseText: {
-        if (GameTable === null) return qsTr("Raise")
+        if (GameTable === null || inShowdown) return qsTr("Raise")
         var word = (!isPreflop && canCheck) ? qsTr("Bet") : qsTr("Raise")
         return raiseAvailable ? (word + _amountSep + "$" + raiseAmount) : word
     }
@@ -113,12 +117,18 @@ Item {
             }
         }
         function onShowdownActiveChanged() {
-            // Showdown beginnt → eine evtl. vorgemerkte Aktion verwerfen, damit
-            // keine veraltete Markierung in die Ergebnisanzeige/nächste Hand
-            // hineinragt.
+            // Showdown beginnt → alles zurücksetzen, damit keine veralteten
+            // Werte/Markierungen in die Ergebnisanzeige hineinragen:
+            //  • vorgemerkte Aktion verwerfen,
+            //  • Vorauswahl sperren (Buttons bleiben so auch dann inaktiv, falls
+            //    inShowdown kurz wackelt – armed = … && preSelectEnabled),
+            //  • vorbereiteten Raise-Betrag löschen. Zu Rundenbeginn füllt
+            //    syncRaiseAmount() ihn aus den neuen min/max-Werten neu.
             if (GameTable && GameTable.showdownActive) {
                 actionBar.preAction = ""
-                console.log("[ACTDBG] preAction Reset: Showdown")
+                actionBar.preSelectEnabled = false
+                actionBar.raiseAmount = 0
+                console.log("[ACTDBG] Reset (preAction/preSelect/raiseAmount): Showdown")
             }
         }
     }
@@ -147,7 +157,7 @@ Item {
     // Während der Vorwahl zeigt der Fold-Button bei freiem Check "Check / Fold"
     // Vorwahl bei gratis Check: zweizeilig, damit auch längere Übersetzungen
     // (z. B. "Check / Se coucher") auf den Button passen.
-    readonly property string foldText: (GameTable !== null && !GameTable.myTurn && canCheck)
+    readonly property string foldText: (GameTable !== null && !inShowdown && !GameTable.myTurn && canCheck)
         ? (qsTr("Check") + " /\n" + qsTr("Fold")) : qsTr("Fold")
 
     function fireAction(which) {

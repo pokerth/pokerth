@@ -43,6 +43,7 @@
         <file>components/GameRoundIconButton.qml</file>
         <file>components/ReactionPicker.qml</file>
         <file>components/GameActionBar.qml</file>
+        <file>components/LobbyStatsBar.qml</file>
         <file>config/qmldir</file>
         <file>config/Parameters.qml</file>
         <file>config/Responsive.qml</file>
