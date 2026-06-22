@@ -39,6 +39,14 @@ Item {
         return (Lobby && itemGameId) ? (Lobby.gamePlayersInGame(itemGameId) || []) : []
     }
 
+    // ── Kontextaktionen (wie im Qt-Widgets-Client) ────────────────────────
+    readonly property bool canReportGame:   Lobby && itemGameId > 0
+    readonly property bool canAdminCloseGame: Lobby && Lobby.isCurrentPlayerAdmin && itemGameId > 0
+    readonly property bool hasGameActions:  canReportGame || canAdminCloseGame
+
+    readonly property color reportColor: Config.StaticData.chartColor(6, true)
+    readonly property color closeColor:  Config.StaticData.chartColor(5, true)
+
     // ── Filter ────────────────────────────────────────────────────────────
     readonly property bool matchesFilter: {
         var f = searchFilter.toLowerCase()
@@ -202,5 +210,51 @@ Item {
                 }
             }
         }
+
+        // ── Kontextaktionen (Icons, wie bei der Spielerliste) ──────────────
+        Item {
+            visible: gameItem.hasGameActions
+            width: playersCol.width - playersCol.leftPadding - 8
+            height: visible ? 26 : 0
+
+            Row {
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 2
+
+                PlayerActionIcon {
+                    visible: gameItem.canReportGame
+                    source: "qrc:/resources/flag.svg"
+                    baseColor: gameItem.reportColor
+                    tooltipText: qsTr("Report inappropriate game name")
+                    onTriggered: reportGamePopup.openWith(
+                        qsTr("Report game name"),
+                        qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
+                            .arg(gameItem.itemGameName),
+                        qsTr("Report"))
+                }
+                PlayerActionIcon {
+                    visible: gameItem.canAdminCloseGame
+                    source: "qrc:/resources/gavel.svg"
+                    baseColor: gameItem.closeColor
+                    tooltipText: qsTr("Close game (admin)")
+                    onTriggered: closeGamePopup.openWith(
+                        qsTr("Close game"),
+                        qsTr("Are you sure you want to close the game:\n\"%1\"?")
+                            .arg(gameItem.itemGameName),
+                        qsTr("Close game"))
+                }
+            }
+        }
+    }
+
+    ConfirmPopup {
+        id: reportGamePopup
+        onConfirmed: { if (Lobby) Lobby.reportGameName(gameItem.itemGameId) }
+    }
+
+    ConfirmPopup {
+        id: closeGamePopup
+        onConfirmed: { if (Lobby) Lobby.adminCloseGame(gameItem.itemGameId) }
     }
 }

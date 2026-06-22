@@ -50,6 +50,25 @@ Rectangle {
         return count < maxPlayers ? Config.Theme.colorStatusOpen : Config.Theme.colorStatusFull
     }
 
+    // Kontextaktionen für das ausgewählte Spiel (Bestätigung wie im Widget-Client)
+    function requestReportGame() {
+        if (!selectedGame) return
+        reportGamePopup.openWith(
+            qsTr("Report game name"),
+            qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
+                .arg(selectedGame.gameName || ("Game #" + selectedGame.gameId)),
+            qsTr("Report"))
+    }
+
+    function requestCloseGame() {
+        if (!selectedGame) return
+        closeGamePopup.openWith(
+            qsTr("Close game"),
+            qsTr("Are you sure you want to close the game:\n\"%1\"?")
+                .arg(selectedGame.gameName || ("Game #" + selectedGame.gameId)),
+            qsTr("Close game"))
+    }
+
     function resetPlayerListDelegates() {
         playerListCollapseResetCounter += 1
         playerPanelList.currentIndex = -1
@@ -292,6 +311,29 @@ Rectangle {
                     font.pixelSize: 16
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
+                }
+
+                // Kontextaktionen für das ausgewählte Spiel
+                Row {
+                    visible: lobbyPage.selectedGame !== null
+                    spacing: 2
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+
+                    PlayerActionIcon {
+                        iconSize: 22
+                        source: "qrc:/resources/flag.svg"
+                        baseColor: Config.StaticData.chartColor(6, true)
+                        tooltipText: qsTr("Report inappropriate game name")
+                        onTriggered: lobbyPage.requestReportGame()
+                    }
+                    PlayerActionIcon {
+                        visible: Lobby && Lobby.isCurrentPlayerAdmin
+                        iconSize: 22
+                        source: "qrc:/resources/gavel.svg"
+                        baseColor: Config.StaticData.chartColor(5, true)
+                        tooltipText: qsTr("Close game (admin)")
+                        onTriggered: lobbyPage.requestCloseGame()
+                    }
                 }
             }
 
@@ -904,12 +946,12 @@ Rectangle {
                                     }
                                 }
 
-                                // Compact-Lobby: Doppelklick auf eine Spielzeile
+                                // Desktop-Lobby: Doppelklick auf eine Spielzeile
                                 // tritt dem Spiel direkt bei (wie der "Join Game"-
                                 // Button). selectedGame ist durch onClicked oben
                                 // bereits auf die geklickte Zeile gesetzt.
                                 onDoubleClicked: {
-                                    if (!Config.Responsive.compact) return
+                                    if (Config.Responsive.compact) return
                                     if (!Lobby || Lobby.isInGame) return
                                     if (!lobbyPage.selectedGame || !lobbyPage.selectedGameJoinable) return
                                     if (lobbyPage.selectedGame.isPrivate) {
@@ -1041,12 +1083,34 @@ Rectangle {
                         anchors.margins: 10
                         spacing: 5
 
-                        Label {
-                            text: qsTr("Game Info")
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.bold: true
-                            font.pixelSize: 14
-                            color: Config.StaticData.palette.secondary.col200
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 4
+
+                            Label {
+                                text: qsTr("Game Info")
+                                font.family: Config.StaticData.loadedFont.font.family
+                                font.bold: true
+                                font.pixelSize: 14
+                                color: Config.StaticData.palette.secondary.col200
+                                Layout.fillWidth: true
+                            }
+
+                            // Kontextaktionen für das ausgewählte Spiel
+                            PlayerActionIcon {
+                                visible: lobbyPage.selectedGame !== null
+                                source: "qrc:/resources/flag.svg"
+                                baseColor: Config.StaticData.chartColor(6, true)
+                                tooltipText: qsTr("Report inappropriate game name")
+                                onTriggered: lobbyPage.requestReportGame()
+                            }
+                            PlayerActionIcon {
+                                visible: lobbyPage.selectedGame !== null && Lobby && Lobby.isCurrentPlayerAdmin
+                                source: "qrc:/resources/gavel.svg"
+                                baseColor: Config.StaticData.chartColor(5, true)
+                                tooltipText: qsTr("Close game (admin)")
+                                onTriggered: lobbyPage.requestCloseGame()
+                            }
                         }
 
                         SectionDivider {}
@@ -1353,6 +1417,23 @@ Rectangle {
 
         // 6. CUT — zurück zur vorherigen Seite
         ScriptAction { script: StackView.view.pop() }
+    }
+
+    // ── Bestätigungs-Popups für Spiel-Kontextaktionen ────────────────────────
+    ConfirmPopup {
+        id: reportGamePopup
+        onConfirmed: {
+            if (Lobby && lobbyPage.selectedGame)
+                Lobby.reportGameName(lobbyPage.selectedGame.gameId)
+        }
+    }
+
+    ConfirmPopup {
+        id: closeGamePopup
+        onConfirmed: {
+            if (Lobby && lobbyPage.selectedGame)
+                Lobby.adminCloseGame(lobbyPage.selectedGame.gameId)
+        }
     }
 
     // ── Passwort-Popup für private Spiele ────────────────────────────────────

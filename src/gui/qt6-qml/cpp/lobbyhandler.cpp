@@ -1542,6 +1542,28 @@ void LobbyHandler::adminBanPlayer(unsigned playerId)
     m_session->adminActionBanPlayer(playerId);
 }
 
+void LobbyHandler::reportGameName(unsigned gameId)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    if (gameId == 0)
+        return;
+    m_session->reportBadGameName(gameId);
+}
+
+void LobbyHandler::adminCloseGame(unsigned gameId)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    if (gameId == 0)
+        return;
+    m_session->adminActionCloseGame(gameId);
+}
+
 void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &message)
 {
     if (!m_session) {
