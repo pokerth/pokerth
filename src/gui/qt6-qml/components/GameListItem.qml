@@ -42,7 +42,6 @@ Item {
     // ── Kontextaktionen (wie im Qt-Widgets-Client) ────────────────────────
     readonly property bool canReportGame:   Lobby && itemGameId > 0
     readonly property bool canAdminCloseGame: Lobby && Lobby.isCurrentPlayerAdmin && itemGameId > 0
-    readonly property bool hasGameActions:  canReportGame || canAdminCloseGame
 
     readonly property color reportColor: Config.StaticData.chartColor(6, true)
     readonly property color closeColor:  Config.StaticData.chartColor(5, true)
@@ -79,6 +78,10 @@ Item {
         radius: 3
 
         RowLayout {
+            // Über headerMouse, damit die Action-Icons Klicks erhalten;
+            // Klicks neben den Icons fallen durch (kein MouseArea) auf
+            // headerMouse zurück und klappen die Zeile auf/zu.
+            z: 1
             anchors { fill: parent; leftMargin: 8; rightMargin: 8 }
             spacing: 5
 
@@ -135,6 +138,32 @@ Item {
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
+            }
+
+            // Kontextaktionen (rechtsbündig neben dem Tischnamen)
+            PlayerActionIcon {
+                visible: gameItem.canReportGame
+                iconSize: 16
+                source: "qrc:/resources/flag.svg"
+                baseColor: gameItem.reportColor
+                tooltipText: qsTr("Report inappropriate game name")
+                onTriggered: reportGamePopup.openWith(
+                    qsTr("Report game name"),
+                    qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
+                        .arg(gameItem.itemGameName),
+                    qsTr("Report"))
+            }
+            PlayerActionIcon {
+                visible: gameItem.canAdminCloseGame
+                iconSize: 16
+                source: "qrc:/resources/gavel.svg"
+                baseColor: gameItem.closeColor
+                tooltipText: qsTr("Close game (admin)")
+                onTriggered: closeGamePopup.openWith(
+                    qsTr("Close game"),
+                    qsTr("Are you sure you want to close the game:\n\"%1\"?")
+                        .arg(gameItem.itemGameName),
+                    qsTr("Close game"))
             }
 
             // Expand / collapse chevron
@@ -207,42 +236,6 @@ Item {
                     font.pixelSize: 11
                     color: Config.StaticData.palette.secondary.col300
                     elide: Text.ElideRight
-                }
-            }
-        }
-
-        // ── Kontextaktionen (Icons, wie bei der Spielerliste) ──────────────
-        Item {
-            visible: gameItem.hasGameActions
-            width: playersCol.width - playersCol.leftPadding - 8
-            height: visible ? 26 : 0
-
-            Row {
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 2
-
-                PlayerActionIcon {
-                    visible: gameItem.canReportGame
-                    source: "qrc:/resources/flag.svg"
-                    baseColor: gameItem.reportColor
-                    tooltipText: qsTr("Report inappropriate game name")
-                    onTriggered: reportGamePopup.openWith(
-                        qsTr("Report game name"),
-                        qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
-                            .arg(gameItem.itemGameName),
-                        qsTr("Report"))
-                }
-                PlayerActionIcon {
-                    visible: gameItem.canAdminCloseGame
-                    source: "qrc:/resources/gavel.svg"
-                    baseColor: gameItem.closeColor
-                    tooltipText: qsTr("Close game (admin)")
-                    onTriggered: closeGamePopup.openWith(
-                        qsTr("Close game"),
-                        qsTr("Are you sure you want to close the game:\n\"%1\"?")
-                            .arg(gameItem.itemGameName),
-                        qsTr("Close game"))
                 }
             }
         }

@@ -151,7 +151,11 @@ class LobbyHandler : public QObject
     Q_PROPERTY(QString myPlayerName READ myPlayerName NOTIFY myPlayerNameChanged)
     Q_PROPERTY(unsigned myPlayerId READ myPlayerId NOTIFY myPlayerIdChanged)
     Q_PROPERTY(bool isMyPlayerGuest READ isMyPlayerGuest NOTIFY gameContextChanged)
+    // Server-Admin (darf kickban / Spiele schließen) – authoritativ aus der
+    // PlayerInfo der Session. Strikt getrennt vom Spiel-Admin (Host).
     Q_PROPERTY(bool isCurrentPlayerAdmin READ isCurrentPlayerAdmin NOTIFY isCurrentPlayerAdminChanged)
+    // Spiel-Admin (Host/Ersteller des aktuellen Tisches) – darf das Spiel starten.
+    Q_PROPERTY(bool isCurrentGameAdmin READ isCurrentGameAdmin NOTIFY isCurrentGameAdminChanged)
     Q_PROPERTY(bool canInviteFromCurrentGame READ canInviteFromCurrentGame NOTIFY gameContextChanged)
     Q_PROPERTY(int playerListFilterMode READ playerListFilterMode WRITE setPlayerListFilterMode NOTIFY playerListFilterModeChanged)
     Q_PROPERTY(int gameListFilterMode READ gameListFilterMode WRITE setGameListFilterMode NOTIFY gameListFilterModeChanged)
@@ -181,6 +185,7 @@ public:
     QStringList chatLog() const { return m_chatLog; }
     bool isMyPlayerGuest() const;
     bool isCurrentPlayerAdmin() const { return m_isCurrentPlayerAdmin; }
+    bool isCurrentGameAdmin() const { return m_isCurrentGameAdmin; }
     bool canInviteFromCurrentGame() const;
     bool isInGame() const { return m_isInGame; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
@@ -195,7 +200,8 @@ public:
     
     void setMyPlayerInfo(unsigned playerId, const QString &playerName);
     // Set the current player's game-admin status (e.g. on self-join as host).
-    void setCurrentPlayerAdmin(bool isAdmin);
+    // Betrifft NUR den Spiel-Admin (Host), nicht den Server-Admin.
+    void setCurrentGameAdmin(bool isGameAdmin);
 
 public slots:
     // Player management
@@ -304,6 +310,7 @@ signals:
     void myPlayerNameChanged();
     void myPlayerIdChanged();
     void isCurrentPlayerAdminChanged();
+    void isCurrentGameAdminChanged();
     void gameContextChanged();
     void playerListFilterModeChanged();
     void gameListFilterModeChanged();
@@ -334,7 +341,8 @@ private:
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;
-    bool m_isCurrentPlayerAdmin;
+    bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
+    bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;
     unsigned m_currentGameId = 0;
     int m_playerListFilterMode;

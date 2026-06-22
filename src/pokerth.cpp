@@ -268,7 +268,18 @@ int main(int argc, char *argv[])
     // references guiInterface) before guiInterface is deleted below.
     networkGameHandler->shutdown();
     delete guiInterface; // releases guiInterface's session ref too
-    session.reset(); // refcount now 0 → ~Session() → ~Log() SQL cleanup runs here safely
+    // Commit any still-buffered SQLite log statements now, while the Session
+    // (and thus the Log) is guaranteed alive and we are on the GUI thread.
+    // flushLog() takes the Log's mutex, so if the network thread was leaked by
+    // terminateNetworkClient() (Join timeout) and is mid-flush, we block until
+    // it finishes rather than racing it. This matters because the Wayland path
+    // below ends the process with std::_Exit(), which skips ~Log() entirely.
+    if (session && session->getMyLog()) {
+        session->getMyLog()->flushLog();
+    }
+    session.reset(); // ~Session() runs here; ~Log() (SQLite close) follows once
+                     // the last shared_ptr<Log> ref drops (a leaked network
+                     // thread may briefly hold one – the Log stays valid for it)
 
     // Wayland-Workaround gegen den reproduzierbaren Shutdown-Crash: der
     // QQmlApplicationEngine-Destruktor (Stack-Unwind am main-Ende) baut die

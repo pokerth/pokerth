@@ -650,30 +650,38 @@ void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 
 void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName, bool isAdmin)
 {
-    // Fetch country code from session player info
+    // Den durchgereichten isAdmin-Parameter NICHT für den Admin-Status nutzen:
+    // er trägt je nach Aufrufer unterschiedliche Bedeutung (Server-Admin aus
+    // SignalNetClientPlayerChanged vs. Spiel-Admin aus SignalNetClientPlayerJoined).
+    // Maßgeblich für kickban / Spiel-schließen ist allein der Server-Admin aus
+    // der PlayerInfo der Session. Diese ist nach Eintreffen des PlayerInfoReply
+    // authoritativ – dadurch heilt sich der Status selbst und wird nicht mehr
+    // von einem Spiel-Beitritt überschrieben.
     QString countryCode;
     bool isGuest = false;
+    bool serverAdmin = isAdmin;
     if (m_session) {
         PlayerInfo info = m_session->getClientPlayerInfo(playerId);
         countryCode = QString::fromStdString(info.countryCode).toLower();
         isGuest = info.isGuest;
+        serverAdmin = info.isAdmin;
     }
     // Update in player list model
-    m_playerListModel.updatePlayerInfo(playerId, playerName, isAdmin, countryCode, isGuest);
+    m_playerListModel.updatePlayerInfo(playerId, playerName, serverAdmin, countryCode, isGuest);
     static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
     ++m_gameListRevision;
     emit gameListRevisionChanged();
-    
+
     // Check if this is our own player by comparing with session's unique player ID
     if (m_session) {
         unsigned myId = m_session->getClientUniquePlayerId();
         if (playerId == myId) {
             setMyPlayerInfo(playerId, playerName);
-            // Update admin status
-            if (m_isCurrentPlayerAdmin != isAdmin) {
-                m_isCurrentPlayerAdmin = isAdmin;
+            // Server-Admin-Status aktualisieren (selbstheilend aus der Session).
+            if (m_isCurrentPlayerAdmin != serverAdmin) {
+                m_isCurrentPlayerAdmin = serverAdmin;
                 emit isCurrentPlayerAdminChanged();
             }
         }
@@ -726,11 +734,13 @@ void LobbyHandler::onGameListChanged(unsigned gameId)
     emit gameContextChanged();
 }
 
-void LobbyHandler::setCurrentPlayerAdmin(bool isAdmin)
+void LobbyHandler::setCurrentGameAdmin(bool isGameAdmin)
 {
-    if (m_isCurrentPlayerAdmin != isAdmin) {
-        m_isCurrentPlayerAdmin = isAdmin;
-        emit isCurrentPlayerAdminChanged();
+    // Betrifft ausschließlich den Spiel-Admin (Host) – der Server-Admin-Status
+    // (kickban / Spiel schließen) bleibt davon unberührt.
+    if (m_isCurrentGameAdmin != isGameAdmin) {
+        m_isCurrentGameAdmin = isGameAdmin;
+        emit isCurrentGameAdminChanged();
     }
 }
 
@@ -1384,6 +1394,9 @@ void LobbyHandler::onRemovedFromGame(int reason)
 {
     m_isInGame = false;
     m_currentGameId = 0;
+    // Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
+    // Server-Admin-Status bleibt davon unberührt.
+    setCurrentGameAdmin(false);
     emit isInGameChanged();
     emit currentGameIdChanged();
     emit removedFromGame(reason);

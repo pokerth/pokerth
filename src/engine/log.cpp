@@ -93,6 +93,10 @@ Log::getDatabase() const
     // Connection doesn't exist yet for this thread, create a new one
     // Don't touch the original connection from another thread!
     threadDb = QSqlDatabase::addDatabase("QSQLITE", threadConnName);
+    // Wait (instead of failing immediately with SQLITE_BUSY) if another
+    // connection to the same .pdb holds the write lock. Must be set before
+    // open(). Harmless hardening against transient lock contention.
+    threadDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
     threadDb.setDatabaseName(myDatabaseFileName);
     if (threadDb.open()) {
         return threadDb;
@@ -137,6 +141,9 @@ Log::init()
                 myConnectionName = QString("pokerth_log_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
                 myDatabaseFileName = QString::fromStdString(mySqliteLogFileName.string());
                 QSqlDatabase mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
+                // See getDatabase(): wait on lock contention instead of failing
+                // immediately with SQLITE_BUSY. Must be set before open().
+                mySqliteLogDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
                 mySqliteLogDb.setDatabaseName(QString::fromStdString(mySqliteLogFileName.string()));
 
                 if (mySqliteLogDb.open()) {

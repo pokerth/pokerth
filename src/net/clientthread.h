@@ -105,7 +105,7 @@ private:
 class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>, public SessionDataCallback
 {
 public:
-	ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog);
+	ClientThread(GuiInterface &gui, AvatarManager &avatarManager, boost::shared_ptr<Log> myLog);
 	virtual ~ClientThread();
 
 	// Set the parameters. Does not do any error checking.

@@ -25,10 +25,12 @@ Rectangle {
         var _g = gameRev
         return Lobby ? Lobby.currentGameInfo() : ({})
     }
-    // Admin = entweder vom Server gemeldeter Admin-Status oder ich bin der
-    // Spiel-Admin (Ersteller) laut Spiel-Info → Host kann starten.
+    // Admin = entweder vom Server gemeldeter Server-Admin oder ich bin der
+    // Spiel-Admin (Host/Ersteller) → darf starten. isCurrentGameAdmin kommt vom
+    // Selbst-Beitritt, adminPlayerId aus der Spiel-Info (Fallback/Bestätigung).
     readonly property bool isAdmin: Lobby
         && (Lobby.isCurrentPlayerAdmin
+            || Lobby.isCurrentGameAdmin
             || (info.adminPlayerId !== undefined && info.adminPlayerId === Lobby.myPlayerId))
     readonly property bool isRanking: (info.gameType || 1) === 4
     readonly property bool canStart: isAdmin && !isRanking && players.length >= 2

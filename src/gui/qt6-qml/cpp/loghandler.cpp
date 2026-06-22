@@ -51,6 +51,11 @@ int sqlite3_open(const char *filename, sqlite3 **ppDb)
         .arg((qulonglong)QDateTime::currentMSecsSinceEpoch())
         .arg((qulonglong)(quintptr)p);
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", p->connName);
+    // Wait on lock contention instead of failing immediately with SQLITE_BUSY:
+    // this read connection may open the .pdb that the engine is still writing
+    // (live log). Mirrors the writer connections in engine/log.cpp. Must be set
+    // before open().
+    db.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
     db.setDatabaseName(QString::fromUtf8(filename));
     if (!db.open()) {
         QSqlDatabase::removeDatabase(p->connName);

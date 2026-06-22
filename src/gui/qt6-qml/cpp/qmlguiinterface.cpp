@@ -246,7 +246,8 @@ void QmlGuiInterface::SignalNetClientSelfJoined(unsigned playerId, const std::st
             m_lobbyHandler->setMyPlayerInfo(playerId, qPlayerName);
             // Beim Selbst-Beitritt (z. B. als Host des eigenen Spiels) den
             // Spiel-Admin-Status übernehmen → Start-Button im Warteraum sichtbar.
-            m_lobbyHandler->setCurrentPlayerAdmin(isGameAdmin);
+            // Strikt getrennt vom Server-Admin (kickban / Spiel schließen).
+            m_lobbyHandler->setCurrentGameAdmin(isGameAdmin);
             m_lobbyHandler->onSelfJoinedGame();
         }, Qt::QueuedConnection);
     }
