@@ -576,22 +576,32 @@ void GameHandler::computeCallAndRaiseAmounts()
                             && humanCash > 0
                             && humanPlayer->isSessionActive();
 
-                // Setzrunde abgeschlossen? Nach der ersten Setzrunden-Runde
-                // (!firstRound) und sobald alle noch laufenden Spieler den
-                // höchsten Einsatz erreicht haben (allHighestSet), ist die Runde
-                // entschieden – exakt das Kriterium aus LocalBeRo::run(). In
-                // diesem Zeitfenster (letzte Aktion erfolgt, nächste Runde/Hand
-                // noch nicht gestartet) darf KEINE Vorauswahl mit veralteten
-                // Werten aktiv bleiben → Buttons inaktiv. Nicht greifen, wenn ich
-                // selbst gerade am Zug bin (z.B. abschließender Check als letzter
-                // Spieler) – das erledigt der reguläre m_myTurn-Pfad.
+                // Setzrunde abgeschlossen? Sobald JEDER noch laufende Spieler in
+                // dieser Runde gehandelt hat (Action != NONE) UND alle den
+                // höchsten Einsatz halten, ist die Runde entschieden. In diesem
+                // Zeitfenster (letzte Aktion erfolgt, nächste Runde/Hand noch nicht
+                // gestartet) darf KEINE Vorauswahl mit veralteten Werten aktiv
+                // bleiben → Buttons sofort inaktiv. Nicht greifen, wenn ich selbst
+                // gerade am Zug bin (z.B. abschließender Check als letzter Spieler)
+                // – das erledigt der reguläre m_myTurn-Pfad.
+                //
+                // Frühere Variante prüfte nur `!bero->getFirstRound()` + gleiche
+                // Sets. Das verpasste den Fall, dass eine Runde bereits in der
+                // ERSTEN Umlaufrunde schließt (alle checken bzw. limpen bis zur
+                // BB): dort blieb firstRound==true, roundClosed==false → die
+                // Aktions-Buttons blieben nach der letzten Spieleraktion fälschlich
+                // aktiv (mit den Werten der gerade beendeten Runde). Die
+                // Action-!=-NONE-Prüfung schließt das, ohne während eines laufenden
+                // Umlaufs (noch nicht gehandelte Spieler == NONE) verfrüht zu
+                // schließen – dann darf die Vorauswahl ja offen bleiben.
                 bool roundClosed = false;
-                if (!m_myTurn && !bero->getFirstRound()) {
+                if (!m_myTurn) {
                     auto running = hand->getRunningPlayerList();
                     if (running && !running->empty()) {
                         roundClosed = true;
                         for (auto it = running->begin(); it != running->end(); ++it) {
-                            if ((*it)->getMySet() != highestSet) {
+                            if ((*it)->getMyAction() == PLAYER_ACTION_NONE
+                                || (*it)->getMySet() != highestSet) {
                                 roundClosed = false;
                                 break;
                             }

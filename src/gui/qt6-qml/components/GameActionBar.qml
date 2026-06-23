@@ -73,14 +73,15 @@ Item {
     readonly property bool canCheck: GameTable !== null && GameTable.callAmount === 0
     readonly property bool isPreflop: GameTable !== null && GameTable.phaseText === "Preflop"
     readonly property string _amountSep: "\n"
-    // Im Showdown KEINE Beträge anzeigen: die Buttons sind inaktiv und die
-    // letzten Call-/Raise-Werte der abgeschlossenen Runde sind nicht mehr
-    // gültig. Erst zu Rundenbeginn (neue Werte aus computeCallAndRaiseAmounts)
-    // erscheinen wieder Beträge.
-    readonly property string checkCallText: (GameTable === null || inShowdown) ? qsTr("Call")
+    // Beträge nur zeigen, solange die Buttons aktiv sind (eigener Zug oder
+    // zulässige Vorauswahl). Im Showdown UND am Rundenende (nach der letzten
+    // Spieleraktion) sind die Buttons inaktiv und die letzten Call-/Raise-Werte
+    // nicht mehr gültig → neutrale Labels ohne Betrag. Erst zu Rundenbeginn
+    // (neue Werte aus computeCallAndRaiseAmounts) erscheinen wieder Beträge.
+    readonly property string checkCallText: (GameTable === null || !actionsArmed) ? qsTr("Call")
         : (canCheck ? qsTr("Check") : qsTr("Call") + _amountSep + "$" + GameTable.callAmount)
     readonly property string betRaiseText: {
-        if (GameTable === null || inShowdown) return qsTr("Raise")
+        if (GameTable === null || !actionsArmed) return qsTr("Raise")
         var word = (!isPreflop && canCheck) ? qsTr("Bet") : qsTr("Raise")
         return raiseAvailable ? (word + _amountSep + "$" + raiseAmount) : word
     }
@@ -144,6 +145,16 @@ Item {
     // canAct vorbei aktiv werden könnte (stale m_myTurn).
     readonly property bool inShowdown: GameTable !== null && GameTable.showdownActive
 
+    // Zentraler „Buttons aktiv"-Zustand für Fold/Check-Call. Wahr, wenn ich am
+    // Zug bin ODER eine Vorauswahl zulässig ist (canAct + Freigabe) – und nie im
+    // Showdown. canAct fällt am Rundenende (alle haben gehandelt + Höchsteinsatz
+    // erreicht, s. computeCallAndRaiseAmounts) sofort auf false → Buttons aus.
+    // Die Button-Beschriftungen hängen daran: nur solange aktiv werden Beträge
+    // gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
+    readonly property bool actionsArmed: !inShowdown
+        && ((GameTable !== null && GameTable.myTurn)
+            || (canAct && preSelectEnabled))
+
     // Kompakte Action-Bar nur auf echten Mobilgeräten mit knappem
     // vertikalem Platz (Phone-Landscape). Auf dem Desktop bleiben die
     // Buttons groß – auch bei breitem Aspect-Ratio (Ultrawide/HiDPI),
@@ -157,7 +168,7 @@ Item {
     // Während der Vorwahl zeigt der Fold-Button bei freiem Check "Check / Fold"
     // Vorwahl bei gratis Check: zweizeilig, damit auch längere Übersetzungen
     // (z. B. "Check / Se coucher") auf den Button passen.
-    readonly property string foldText: (GameTable !== null && !inShowdown && !GameTable.myTurn && canCheck)
+    readonly property string foldText: (GameTable !== null && actionsArmed && !GameTable.myTurn && canCheck)
         ? (qsTr("Check") + " /\n" + qsTr("Fold")) : qsTr("Fold")
 
     function fireAction(which) {
@@ -807,9 +818,8 @@ Item {
                     edgeColor: Config.Theme.colorFoldEdge
                     // myTurnNow gatet nie den echten Zug; preSelectEnabled sperrt
                     // die Vorauswahl nach eigenem Zug/Rundenwechsel. Im Showdown
-                    // immer aus.
-                    armed: !actionBar.inShowdown
-                           && (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled))
+                    // und am Rundenende (canAct=false) immer aus.
+                    armed: actionBar.actionsArmed
                 }
 
                 ActionButton {
@@ -823,8 +833,7 @@ Item {
                     topColor: Config.Theme.colorCallTop
                     bottomColor: Config.Theme.colorCallBottom
                     edgeColor: Config.Theme.colorCallEdge
-                    armed: !actionBar.inShowdown
-                           && (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled))
+                    armed: actionBar.actionsArmed
                 }
 
                 ActionButton {
@@ -839,9 +848,7 @@ Item {
                     bottomColor: Config.Theme.colorRaiseBottom
                     edgeColor: Config.Theme.colorRaiseEdge
                     highlight: true     // primäre Aktion betonen
-                    armed: !actionBar.inShowdown
-                           && (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled))
-                           && actionBar.raiseAvailable
+                    armed: actionBar.actionsArmed && actionBar.raiseAvailable
                 }
             }
         }
