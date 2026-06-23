@@ -63,6 +63,44 @@ Item {
         }
     }
 
+    // ── „Show"-Flip (manuelle Bestätigung) ───────────────────────────────────
+    // Anders als die Deal-Flip oben sind die eigenen Karten hier bereits offen
+    // (isBack == false). Wir blenden in Phase 1 kurz die Rückseite ein und
+    // drehen sie dann zur Vorderseite – exakt wie der Widget-Client beim Klick
+    // auf „Karten zeigen" (gameTableImpl::showHoleCards → startFlipCards).
+    property bool _showFlipBack: false
+
+    function playShowFlip() {
+        if (isBack)
+            return
+        showFlipAnim.restart()
+    }
+
+    SequentialAnimation {
+        id: showFlipAnim
+        PauseAnimation { duration: root.flipDelay }
+        // Phase 1: Rückseite zeigen und auf Nulllinie schrumpfen
+        PropertyAction { target: root; property: "_showFlipBack"; value: true }
+        NumberAnimation {
+            target: root
+            property: "_flipScale"
+            from: 1.0; to: 0.0
+            duration: 170
+            easing.type: Easing.InQuad
+        }
+        // Wendepunkt: zurück auf die Vorderseite umschalten
+        PropertyAction { target: root; property: "_showFlipBack"; value: false }
+        // Phase 2: Vorderseite wächst mit leichtem Überschwinger zurück
+        NumberAnimation {
+            target: root
+            property: "_flipScale"
+            from: 0.0; to: 1.0
+            duration: 300
+            easing.type: Easing.OutBack
+            easing.overshoot: 1.15
+        }
+    }
+
     // Stil-Kartenstapel aktiv? StyleProvider.cardDeckDir ist nur gesetzt, wenn der
     // gewählte Stil tatsächlich Karten-SVGs (0.svg..51.svg) enthält. Schlägt das
     // Laden einer Stil-Karte fehl, fällt _styledFrontFailed auf das gebündelte
@@ -98,7 +136,7 @@ Item {
 
     // ── Kartenrückseite ────────────────────────────────────────────────────────
     Image {
-        visible: root.isBack
+        visible: root.isBack || root._showFlipBack
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true
@@ -106,12 +144,12 @@ Item {
         // (statt fix 100×140), sonst auf High-DPI unscharf hochskaliert.
         sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio) : 100
         sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio) : 140
-        source: root.isBack ? root.backSource : ""
+        source: (root.isBack || root._showFlipBack) ? root.backSource : ""
     }
 
     // ── Vorderseite (Stil-SVG oder gebündeltes cards-simple, via Image-Rasterizer) ─
     Image {
-        visible: !root.isBack
+        visible: !root.isBack && !root._showFlipBack
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true

@@ -165,6 +165,13 @@ Rectangle {
         }
     }
 
+    // Klick auf „Karten zeigen" → eigene Hole-Cards umdrehen als Bestätigung,
+    // dass man wirklich zeigt (analog Widget-Client: showHoleCards → Flip).
+    Connections {
+        target: (typeof GameTable !== "undefined") ? GameTable : null
+        function onMyCardsShown() { cardRow.playShowFlip() }
+    }
+
     // ── Name + Stack – unterer Info-Bereich ─────────────────────────────────────
     // Portrait: 1-zeilig (Name links, Stack rechts), Landscape: 2-zeilig wie
     // Gegnerbox (Name oben, Stack rechts unten). Höhe 18 → 32 im Landscape.

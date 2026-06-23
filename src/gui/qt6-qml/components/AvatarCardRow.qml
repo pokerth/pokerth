@@ -27,6 +27,13 @@ Item {
     // Used by parent components for badge / timeout-bar positioning.
     readonly property real cardsCenterX: avatarSize + 4 + (cardW * 2 + 4) / 2
 
+    // „Show"-Bestätigung: beide eigenen Hole-Cards umdrehen (Self-Box, beim Klick
+    // auf „Karten zeigen"). Die zweite Karte erbt über flipDelay den Versatz.
+    function playShowFlip() {
+        card0Img.playShowFlip()
+        card1Img.playShowFlip()
+    }
+
     implicitWidth: avatarSize + 4 + cardW * 2 + 4
 
     // ── Avatar ──────────────────────────────────────────────────────────────────
@@ -77,7 +84,7 @@ Item {
             width: root.cardW
             height: root.cardH
             color: "transparent"
-            CardImage { anchors.fill: parent; cardIndex: root.card0 }
+            CardImage { id: card0Img; anchors.fill: parent; cardIndex: root.card0 }
         }
 
         Rectangle {
@@ -86,7 +93,7 @@ Item {
             height: root.cardH
             color: "transparent"
             // flipDelay staffelt das Austeilen: zweite Karte dreht 80 ms später
-            CardImage { anchors.fill: parent; cardIndex: root.card1; flipDelay: 80 }
+            CardImage { id: card1Img; anchors.fill: parent; cardIndex: root.card1; flipDelay: 80 }
         }
     }
 }

@@ -255,6 +255,10 @@ signals:
     // Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" des Web-Clients) –
     // wird nicht im Chat angezeigt, sondern als Animation am Sitz abgespielt.
     void reactionReceived(const QString &playerName, const QString &emoji);
+    // Eigene Karten wurden (auf Klick) aufgedeckt → Self-Box spielt eine Flip-
+    // Bestätigung wie der Widget-Client (showHoleCards), obwohl die eigenen
+    // Karten bereits offen liegen.
+    void myCardsShown();
 
 protected:
     // App-weiter Filter: echte Nutzeraktivität (Maus/Tastatur) → ResetTimeout

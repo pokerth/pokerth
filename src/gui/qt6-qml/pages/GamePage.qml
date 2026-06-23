@@ -14,6 +14,23 @@ Rectangle {
     height: parent ? parent.height : 0
     color: "transparent"
 
+    // ── Tisch-Theme-Farben für Chat-/Log-Box ──────────────────────────────────
+    // Fest (dunkel), unabhängig vom Hell/Dunkel-Modus der übrigen App. Quelle ist
+    // das Tisch-Theme (StyleProvider.chatLog*, per XML überschreibbar); der
+    // Fallback greift nur, falls die Context-Property mal nicht gesetzt ist.
+    readonly property color tblChatBackground:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
+    readonly property color tblChatSurface:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogSurface : "#394150"
+    readonly property color tblChatBorder:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
+    readonly property color tblChatText:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogText : "#eff1f5"
+    readonly property color tblChatTextSecondary:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextSecondary : "#cdd3e0"
+    readonly property color tblChatTextMuted:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextMuted : "#7787a3"
+
     // Spielmodus umschalten – die eigentliche Logik (inkl. verzögerter
     // Auto-Aktion) lebt in der GameActionBar; hier nur als Weiterleitung für
     // die Tastatur-Shortcuts.
@@ -1619,6 +1636,13 @@ Rectangle {
                     id: overlayChat
                     Layout.fillWidth: true
                     Layout.fillHeight: true
+                    // Feste Tisch-Theme-Farben (dunkel, modus-unabhängig).
+                    colText: gamePage.tblChatText
+                    colTextSecondary: gamePage.tblChatTextSecondary
+                    colTextMuted: gamePage.tblChatTextMuted
+                    colBorder: gamePage.tblChatBorder
+                    colSurface: gamePage.tblChatSurface
+                    colBackground: gamePage.tblChatBackground
                     chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
                     nickList: gamePage.gameNickList()
                     onSendRequested: (text) => {
@@ -1713,8 +1737,8 @@ Rectangle {
         radius: 10
         // Bewusst transparenter als das Chat-Overlay – der Tisch bleibt
         // hinter dem permanenten Chat sichtbar.
-        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.7)
-        border.color: Config.StaticData.palette.secondary.col500
+        color: Config.Theme.withAlpha(gamePage.tblChatBackground, 0.7)
+        border.color: gamePage.tblChatBorder
         border.width: 1
 
         onVisibleChanged: {
@@ -1781,6 +1805,13 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: 6
             anchors.topMargin: 12   // Platz für den Resize-Handle
+            // Feste Tisch-Theme-Farben (dunkel, modus-unabhängig).
+            colText: gamePage.tblChatText
+            colTextSecondary: gamePage.tblChatTextSecondary
+            colTextMuted: gamePage.tblChatTextMuted
+            colBorder: gamePage.tblChatBorder
+            colSurface: gamePage.tblChatSurface
+            colBackground: gamePage.tblChatBackground
             chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
             nickList: gamePage.gameNickList()
             messageFontSize: 11
@@ -1816,8 +1847,8 @@ Rectangle {
         }
         radius: 10
         // Bewusst transparenter (wie der Docked-Chat) – der Tisch bleibt sichtbar.
-        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.7)
-        border.color: Config.StaticData.palette.secondary.col500
+        color: Config.Theme.withAlpha(gamePage.tblChatBackground, 0.7)
+        border.color: gamePage.tblChatBorder
         border.width: 1
 
         GameInfoPanel {

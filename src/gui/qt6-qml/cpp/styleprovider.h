@@ -57,6 +57,17 @@ class StyleProvider : public QObject
     Q_PROPERTY(QString checkCallButtonTextColor READ checkCallButtonTextColor NOTIFY changed)
     Q_PROPERTY(QString betRaiseButtonTextColor READ betRaiseButtonTextColor NOTIFY changed)
     Q_PROPERTY(QString allInButtonTextColor READ allInButtonTextColor NOTIFY changed)
+    // Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch). Bewusst
+    // unabhängig vom Hell/Dunkel-Modus der übrigen App: der Tisch behält immer
+    // dieses (dunkle) Aussehen. Per Tisch-Theme-XML überschreibbar, sonst gelten
+    // die hier gebündelten Dunkel-Defaults. Solide Hex-Farben – die Transluzenz
+    // (withAlpha) macht der QML-Client.
+    Q_PROPERTY(QString chatLogBackground READ chatLogBackground NOTIFY changed)
+    Q_PROPERTY(QString chatLogSurface READ chatLogSurface NOTIFY changed)
+    Q_PROPERTY(QString chatLogBorder READ chatLogBorder NOTIFY changed)
+    Q_PROPERTY(QString chatLogText READ chatLogText NOTIFY changed)
+    Q_PROPERTY(QString chatLogTextSecondary READ chatLogTextSecondary NOTIFY changed)
+    Q_PROPERTY(QString chatLogTextMuted READ chatLogTextMuted NOTIFY changed)
     // Kartenstapel-Stil (52 Vorderseiten)
     Q_PROPERTY(QString cardDeckName READ cardDeckName NOTIFY changed)
     Q_PROPERTY(QString cardDeckDir READ cardDeckDir NOTIFY changed)
@@ -82,6 +93,12 @@ public:
     QString checkCallButtonTextColor() const { return m_checkCallButtonTextColor; }
     QString betRaiseButtonTextColor() const { return m_betRaiseButtonTextColor; }
     QString allInButtonTextColor() const { return m_allInButtonTextColor; }
+    QString chatLogBackground() const { return m_chatLogBackground; }
+    QString chatLogSurface() const { return m_chatLogSurface; }
+    QString chatLogBorder() const { return m_chatLogBorder; }
+    QString chatLogText() const { return m_chatLogText; }
+    QString chatLogTextSecondary() const { return m_chatLogTextSecondary; }
+    QString chatLogTextMuted() const { return m_chatLogTextMuted; }
     QString cardDeckName() const { return m_cardDeckName; }
     QString cardDeckDir() const { return m_cardDeckDir; }
     QString cardBackName() const { return m_cardBackName; }
@@ -123,6 +140,14 @@ private:
     QString m_checkCallButtonTextColor;
     QString m_betRaiseButtonTextColor;
     QString m_allInButtonTextColor;
+
+    // Chat-/Log-Box-Farben (Dunkel-Defaults; per Tisch-XML überschreibbar).
+    QString m_chatLogBackground;
+    QString m_chatLogSurface;
+    QString m_chatLogBorder;
+    QString m_chatLogText;
+    QString m_chatLogTextSecondary;
+    QString m_chatLogTextMuted;
 
     QString m_cardDeckName;
     QString m_cardDeckDir;

@@ -1394,6 +1394,9 @@ void GameHandler::showMyCards()
     if (m_session) m_session->showMyCards();
     m_canShowCards = false;
     emit canShowCardsChanged();
+    // Visuelle Bestätigung in der Self-Box: eigene Karten „umdrehen" (wie der
+    // Widget-Client via showHoleCards), damit man sieht, dass man wirklich zeigt.
+    emit myCardsShown();
 }
 
 // ─── Local game startup ──────────────────────────────────────────────────────

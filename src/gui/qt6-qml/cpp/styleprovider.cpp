@@ -58,6 +58,16 @@ void StyleProvider::loadTableStyle()
     m_betRaiseButtonTextColor.clear();
     m_allInButtonTextColor.clear();
 
+    // Chat-/Log-Box-Farben: gebündelte Dunkel-Defaults (entsprechen der
+    // bisherigen Dunkel-Palette des Clients). Ein Tisch-Theme darf sie via
+    // <ChatLog*>-Tags überschreiben; fehlt ein Tag, bleibt der Default.
+    m_chatLogBackground    = QStringLiteral("#1d222b");
+    m_chatLogSurface       = QStringLiteral("#394150");
+    m_chatLogBorder        = QStringLiteral("#576378");
+    m_chatLogText          = QStringLiteral("#eff1f5");
+    m_chatLogTextSecondary = QStringLiteral("#cdd3e0");
+    m_chatLogTextMuted     = QStringLiteral("#7787a3");
+
     QDir dir(styleDirPath("table", m_tableStyleName));
     if (!dir.exists())
         return;
@@ -135,6 +145,32 @@ void StyleProvider::loadTableStyle()
             raiseTextColor = value.trimmed();
         else if (tag == "AllInButtonTextColor")
             allInTextColor = value.trimmed();
+        // Chat-/Log-Box-Farben (optional je Stil): nur gültige, nicht-leere
+        // Werte übernehmen, sonst bleibt der Dunkel-Default erhalten.
+        else if (tag == "ChatLogBackground") {
+            const QString v = value.trimmed();
+            if (!v.isEmpty()) m_chatLogBackground = v;
+        }
+        else if (tag == "ChatLogSurface") {
+            const QString v = value.trimmed();
+            if (!v.isEmpty()) m_chatLogSurface = v;
+        }
+        else if (tag == "ChatLogBorder") {
+            const QString v = value.trimmed();
+            if (!v.isEmpty()) m_chatLogBorder = v;
+        }
+        else if (tag == "ChatLogText") {
+            const QString v = value.trimmed();
+            if (!v.isEmpty()) m_chatLogText = v;
+        }
+        else if (tag == "ChatLogTextSecondary") {
+            const QString v = value.trimmed();
+            if (!v.isEmpty()) m_chatLogTextSecondary = v;
+        }
+        else if (tag == "ChatLogTextMuted") {
+            const QString v = value.trimmed();
+            if (!v.isEmpty()) m_chatLogTextMuted = v;
+        }
     }
 
     // Effektive Schriftfarbe je Button bestimmen: explizite Theme-Angabe

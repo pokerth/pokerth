@@ -33,6 +33,19 @@ Item {
     property int pickerInlineHeight: 150
     property int inputHeight: 36
     property bool showEmojiPicker: false
+
+    // ── Farb-Tokens (überschreibbar) ────────────────────────────────────────
+    // Default = globale Palette, damit Lobby/GameWait weiter dem Hell/Dunkel-
+    // Modus folgen. Am Tisch werden diese mit den (festen, dunklen) Farben des
+    // Tisch-Themes (StyleProvider.chatLog*) überschrieben.
+    property color colText:          Config.StaticData.palette.secondary.col100
+    property color colTextSecondary: Config.StaticData.palette.secondary.col200
+    property color colTextMuted:     Config.StaticData.palette.secondary.col400
+    property color colBorder:        Config.StaticData.palette.secondary.col500
+    property color colSurface:       Config.StaticData.palette.secondary.col600
+    property color colBackground:    Config.StaticData.palette.secondary.col700
+    property color colAccent:        Config.Theme.colorAccent
+
     signal sendRequested(string text)
 
     function closeEmojiPicker() { showEmojiPicker = false }
@@ -130,7 +143,7 @@ Item {
                     height: msgText.implicitHeight + (root.showBubbles ? 4 : 2)
                     radius: root.showBubbles ? 6 : 0
                     color: root.showBubbles
-                           ? Config.Theme.withAlpha(Config.StaticData.palette.secondary.col600, 0.55)
+                           ? Config.Theme.withAlpha(root.colSurface, 0.55)
                            : "transparent"
 
                     // TextEdit statt Text: macht die Nachricht per Maus
@@ -151,8 +164,8 @@ Item {
                         wrapMode: TextEdit.Wrap
                         readOnly: true
                         selectByMouse: true
-                        color: Config.StaticData.palette.secondary.col100
-                        selectionColor: Config.Theme.colorAccent
+                        color: root.colText
+                        selectionColor: root.colAccent
                         selectedTextColor: "#101010"
                         font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: root.messageFontSize
@@ -194,7 +207,7 @@ Item {
                 background: Rectangle {
                     radius: 6
                     color: root.showEmojiPicker
-                           ? Config.StaticData.palette.secondary.col500 : "transparent"
+                           ? root.colBorder : "transparent"
                 }
                 HoverHandler { cursorShape: Qt.PointingHandCursor }
                 contentItem: Text {
@@ -215,14 +228,14 @@ Item {
                 placeholderText: root.placeholder
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.messageFontSize + 1
-                color: Config.StaticData.palette.secondary.col100
-                placeholderTextColor: Config.StaticData.palette.secondary.col400
+                color: root.colText
+                placeholderTextColor: root.colTextMuted
                 background: Rectangle {
                     radius: 6
-                    color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col600, 0.6)
+                    color: Config.Theme.withAlpha(root.colSurface, 0.6)
                     border.color: inputField.activeFocus
-                        ? Config.StaticData.palette.secondary.col200
-                        : Config.Theme.withAlpha(Config.StaticData.palette.secondary.col400, 0.6)
+                        ? root.colTextSecondary
+                        : Config.Theme.withAlpha(root.colTextMuted, 0.6)
                     border.width: 1
                 }
                 onAccepted: root._send()
@@ -289,8 +302,8 @@ Item {
         height: 156
         radius: 10
         z: 50
-        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.7)
-        border.color: Config.StaticData.palette.secondary.col500
+        color: Config.Theme.withAlpha(root.colBackground, 0.7)
+        border.color: root.colBorder
         border.width: 1
 
         EmojiPicker {

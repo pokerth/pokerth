@@ -68,17 +68,27 @@ Rectangle {
 
     // ── Inhalt ──────────────────────────────────────────────────────────────
     Flickable {
+        id: contentFlick
         anchors.fill: parent
-        anchors.margins: 16
+        anchors.topMargin: 16
+        anchors.bottomMargin: 16
+        anchors.leftMargin: 16
+        // Scrollbar näher an den Fensterrand rücken, statt rechts Platz zu
+        // verschwenden – der gewonnene Raum dient als Abstand zum Inhalt.
+        anchors.rightMargin: 6
         contentWidth: width
         contentHeight: content.implicitHeight
         clip: true
         boundsBehavior: Flickable.StopAtBounds
+
+        // Inhalt schmaler halten, solange die Scrollbar sichtbar ist, damit sie
+        // den Text (v. a. die Datums-Spalte) rechts nicht überlappt.
+        readonly property bool scrolling: contentHeight > height
         ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
 
         ColumnLayout {
             id: content
-            width: parent.width
+            width: contentFlick.width - (contentFlick.scrolling ? 16 : 0)
             spacing: 14
 
             // ── Kopf: Avatar + Name + Land + Eckdaten ───────────────────────

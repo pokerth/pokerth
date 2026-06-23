@@ -16,6 +16,16 @@ ColumnLayout {
     id: root
     spacing: 8
 
+    // Tisch-Theme-Farben (fest/dunkel, unabhängig vom Hell/Dunkel-Modus der App).
+    // Der Spielverlauf-Text selbst ist serverseitig bereits hell eingefärbt
+    // (GameHandler::formatLogLine) – hier nur die Chancen-Balken/-Texte.
+    readonly property color colText:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogText : "#eff1f5"
+    readonly property color colTextMuted:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextMuted : "#7787a3"
+    readonly property color colBorder:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
+
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
 
@@ -147,8 +157,7 @@ ColumnLayout {
                             anchors.verticalCenter: parent.verticalCenter
                             height: parent.height - 6
                             radius: 6
-                            color: Config.Theme.withAlpha(
-                                       Config.StaticData.palette.secondary.col500, 0.18)
+                            color: Config.Theme.withAlpha(root.colBorder, 0.18)
                             Rectangle {
                                 anchors.left: parent.left
                                 anchors.top: parent.top
@@ -157,8 +166,7 @@ ColumnLayout {
                                 width: parent.width * Math.max(0, Math.min(100, prob)) / 100
                                 color: possible
                                        ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.30)
-                                       : Config.Theme.withAlpha(
-                                             Config.StaticData.palette.secondary.col500, 0.22)
+                                       : Config.Theme.withAlpha(root.colBorder, 0.22)
                             }
                         }
 
@@ -190,8 +198,7 @@ ColumnLayout {
                                 elide: Text.ElideRight
                                 font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 15
-                                color: possible ? Config.StaticData.palette.secondary.col100
-                                                : Config.StaticData.palette.secondary.col400
+                                color: possible ? root.colText : root.colTextMuted
                             }
 
                             Text {
@@ -202,8 +209,7 @@ ColumnLayout {
                                 font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 15
                                 font.bold: possible && prob >= 50
-                                color: possible ? Config.StaticData.palette.secondary.col100
-                                                : Config.StaticData.palette.secondary.col400
+                                color: possible ? root.colText : root.colTextMuted
                             }
                         }
                     }

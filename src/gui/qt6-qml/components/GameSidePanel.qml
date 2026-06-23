@@ -19,6 +19,16 @@ Item {
     property bool wide: false
     signal closeRequested()
 
+    // Tisch-Theme-Farben (fest/dunkel, unabhängig vom Hell/Dunkel-Modus der App).
+    // StyleProvider liefert immer gültige Werte; der Fallback deckt nur den Fall
+    // ab, dass die Context-Property mal nicht gesetzt ist (z. B. Vorschau).
+    readonly property color colBackground:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
+    readonly property color colBorder:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
+    readonly property color colTextSecondary:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextSecondary : "#cdd3e0"
+
     // Default-Inhalt landet unter Header + Trennlinie im Body-Layout.
     default property alias content: bodyLayout.data
 
@@ -42,8 +52,8 @@ Item {
             anchors.leftMargin: root.wide ? 10 : 8
             anchors.rightMargin: root.wide ? 10 : 8
             radius: 16
-            color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.95)
-            border.color: Config.StaticData.palette.secondary.col500
+            color: Config.Theme.withAlpha(root.colBackground, 0.95)
+            border.color: root.colBorder
             border.width: 1
 
             layer.enabled: true
@@ -84,7 +94,7 @@ Item {
                     Layout.preferredHeight: 26
                     radius: 13
                     color: closeArea.containsMouse
-                           ? Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.7)
+                           ? Config.Theme.withAlpha(root.colBorder, 0.7)
                            : "transparent"
                     SvgIcon {
                         anchors.centerIn: parent
@@ -93,7 +103,7 @@ Item {
                         layer.enabled: true
                         layer.effect: MultiEffect {
                             colorization: 1.0
-                            colorizationColor: Config.StaticData.palette.secondary.col200
+                            colorizationColor: root.colTextSecondary
                         }
                     }
                     MouseArea {
@@ -110,7 +120,7 @@ Item {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
-                color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.5)
+                color: Config.Theme.withAlpha(root.colBorder, 0.5)
             }
         }
     ]
