@@ -561,10 +561,8 @@ Rectangle {
                                     text: modelData.playerName || ""
                                     font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 12
-                                    color: (modelData.isAdmin === true)
-                                        ? Config.StaticData.chartColor(3, true)
-                                        : Config.StaticData.palette.secondary.col200
-                                    font.bold: modelData.isAdmin === true
+                                    color: Config.StaticData.palette.secondary.col200
+                                    font.bold: false
                                     Layout.fillWidth: true
                                     elide: Text.ElideRight
                                 }
@@ -1222,10 +1220,8 @@ Rectangle {
                                         text: modelData.playerName || ""
                                         font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: 11
-                                        color: (modelData.isAdmin === true)
-                                            ? Config.StaticData.chartColor(3, true)
-                                            : Config.StaticData.palette.secondary.col200
-                                        font.bold: modelData.isAdmin === true
+                                        color: Config.StaticData.palette.secondary.col200
+                                        font.bold: false
                                         Layout.fillWidth: true
                                         elide: Text.ElideRight
                                     }

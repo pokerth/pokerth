@@ -120,8 +120,8 @@ ItemDelegate {
                 text: displayName
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: listView.height > 100 ? 12 : 11
-                color: adminPlayer ? Config.StaticData.chartColor(3, true) : Config.StaticData.palette.secondary.col200
-                font.bold: adminPlayer
+                color: Config.StaticData.palette.secondary.col200
+                font.bold: false
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter

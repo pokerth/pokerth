@@ -53,6 +53,8 @@ ColumnLayout {
     CustomTabBar {
         id: tabs
         Layout.fillWidth: true
+        tabHeight: 18
+        tabFontPointSize: 8
         model: [qsTr("Verlauf"), qsTr("Chancen")]
     }
 

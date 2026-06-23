@@ -1807,9 +1807,10 @@ Rectangle {
         anchors.bottomMargin: 8
         width: tableZone.dockedInfoW
         height: {
-            // Standardhöhe stabil (springt nicht mit dem dynamischen maxH);
-            // per Handle anpassbar. Immer auf den verfügbaren Platz geklemmt.
-            var h = tableZone.dockedInfoUserH >= 0 ? tableZone.dockedInfoUserH : 320
+            // Initial = Höhe der Action-Button-Box (wie der Docked-Chat),
+            // per Handle aufziehbar. Immer auf den verfügbaren Platz geklemmt.
+            var h = tableZone.dockedInfoUserH >= 0
+                    ? tableZone.dockedInfoUserH : tableZone.dockedInfoMinH
             return Math.max(tableZone.dockedInfoMinH,
                             Math.min(tableZone.dockedInfoMaxH, h))
         }
