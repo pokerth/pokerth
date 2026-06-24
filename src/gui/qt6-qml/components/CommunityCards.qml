@@ -12,6 +12,13 @@ Item {
     // Querformat? Steuert den Abstand des Pott-Badges zur Kartenreihe.
     property bool wide: false
 
+    // True, solange irgendein Board-Slot gerade neue Karten aufdeckt
+    // (Stagger/Rückseite/Flip). Die Action-Bar sperrt darauf die Buttons –
+    // während Aufdeck-Animationen ist keine Aktion möglich.
+    readonly property bool dealing: slot0.revealing || slot1.revealing
+                                    || slot2.revealing || slot3.revealing
+                                    || slot4.revealing
+
     width: cardRow.width
     height: cardRow.height
     transformOrigin: Item.Center
@@ -28,6 +35,27 @@ Item {
         id: slot
         property int boardIndex: 0
         width: 46; height: 64
+
+        // Showdown-Spotlight: gehört diese Board-Karte nicht zum Siegerblatt,
+        // wird sie auf 25 % Deckkraft abgeblendet (Einstellung „Ausblend-
+        // Animation für Verliererkarten", Config-Key ShowFadeOutCardsAnimation).
+        // Daten: GameHandler.boardCardFade (5 Bools je Board-Karte).
+        readonly property bool fadeLosingCards:
+            (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+                ? SettingsManager.readConfigInt("ShowFadeOutCardsAnimation") !== 0 : true
+        readonly property bool faded: {
+            if (!fadeLosingCards)
+                return false
+            var f = (typeof GameTable !== "undefined" && GameTable) ? GameTable.boardCardFade : null
+            return (f && boardIndex < f.length) ? f[boardIndex] === true : false
+        }
+        opacity: faded ? 0.25 : 1.0
+        Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad } }
+
+        // Deckt dieser Slot gerade auf? (Stagger + Rückseite + Flip). Solange
+        // true, sperrt die Action-Bar die Buttons. dealAnim deckt mit der
+        // abschließenden Pause auch die ~470 ms CardImage-Flip-Animation ab.
+        readonly property bool revealing: dealAnim.running
 
         readonly property bool isDealt: {
             var cnt = (typeof GameTable !== "undefined" && GameTable)
@@ -81,6 +109,9 @@ Item {
             PauseAnimation { duration: 160 }
             // Jetzt auf Vorderseite drehen → CardImage-Flip-Animation feuert
             ScriptAction   { script: { slot._displayIndex = slot.actualCardIndex } }
+            // Flip-Dauer abwarten (CardImage: 170 + 300 ms), damit `revealing`
+            // bis zum Ende der Aufdeck-Animation true bleibt.
+            PauseAnimation { duration: 480 }
         }
     }
 
@@ -108,17 +139,17 @@ Item {
         anchors.centerIn: parent
         spacing: 3
 
-        CommunitySlot { boardIndex: 0 }
-        CommunitySlot { boardIndex: 1 }
-        CommunitySlot { boardIndex: 2 }
+        CommunitySlot { id: slot0; boardIndex: 0 }
+        CommunitySlot { id: slot1; boardIndex: 1 }
+        CommunitySlot { id: slot2; boardIndex: 2 }
 
         Item { width: 8; height: 1 }
 
-        CommunitySlot { boardIndex: 3 }
+        CommunitySlot { id: slot3; boardIndex: 3 }
 
         Item { width: 8; height: 1 }
 
-        CommunitySlot { boardIndex: 4 }
+        CommunitySlot { id: slot4; boardIndex: 4 }
     }
 
     // Pot prominent in der Tischmitte (über den Karten): Chip-Icon +

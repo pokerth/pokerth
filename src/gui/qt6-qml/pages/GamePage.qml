@@ -209,7 +209,7 @@ Rectangle {
     //   alternate: F1 All-In · F2 Bet/Raise · F3 Call/Check · F4 Fold
     // F5 deckt die eigenen Karten auf, F6/F7/F8 schalten den Spielmodus.
     readonly property bool fKeysAlternate:
-        (typeof SettingsManager !== "undefined" && SettingsManager)
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
         ? SettingsManager.readConfigInt("AlternateFKeysUserActionMode") !== 0 : false
 
     function fKeyAction(which) {
@@ -1713,6 +1713,8 @@ Rectangle {
             Layout.preferredHeight: implicitHeight
             wide: tableZone.wide
             communityVisualWidth: communityArea.width * communityArea.scale
+            // Während neue Gemeinschaftskarten aufgedeckt werden, keine Aktion.
+            boardDealing: communityArea.dealing
         }
     }
 

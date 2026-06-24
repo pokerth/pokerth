@@ -23,6 +23,13 @@ Item {
 
     readonly property bool isBack: !(Number.isInteger(cardIndex) && cardIndex >= 0 && cardIndex <= 51)
 
+    // Aufdeck-Animation per Einstellung „Animierte Karten" (Config-Key
+    // ShowFlipCardsAnimation) abschaltbar – wie im Qt-Widgets-Client. Ist sie aus,
+    // erscheinen die Karten ohne Flip direkt in ihrer Endgröße (_flipScale = 1).
+    readonly property bool flipAnimationEnabled:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("ShowFlipCardsAnimation") !== 0 : true
+
     // ── Flip-Animation beim Aufdecken (Showdown / Deal) ───────────────────────
     // Wird ausgelöst, wenn isBack von true → false wechselt (Karte wird
     // aufgedeckt). Die horizontale Skalierung schmilzt auf 0 (Wendepunkt – in
@@ -36,7 +43,7 @@ Item {
     }
 
     onIsBackChanged: {
-        if (!isBack) {
+        if (!isBack && flipAnimationEnabled) {
             flipAnim.restart()
         }
     }
@@ -71,7 +78,7 @@ Item {
     property bool _showFlipBack: false
 
     function playShowFlip() {
-        if (isBack)
+        if (isBack || !flipAnimationEnabled)
             return
         showFlipAnim.restart()
     }

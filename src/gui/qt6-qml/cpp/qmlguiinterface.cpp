@@ -164,6 +164,17 @@ void QmlGuiInterface::SignalNetClientGameChatMsg(const std::string &playerName, 
     }
 }
 
+void QmlGuiInterface::SignalNetClientPingUpdate(unsigned /*minPing*/, unsigned avgPing, unsigned /*maxPing*/)
+{
+    // Eigener Client-Ping → GameHandler, der daraus den Netzwerkstatus (Ampel)
+    // für die eigene Avatar-Ecke ableitet (Einstellung ShowPingStateInAvatar).
+    // Aufruf kommt aus dem Netzwerk-Thread → QueuedConnection.
+    if (m_gameHandler) {
+        QMetaObject::invokeMethod(m_gameHandler, "onPingUpdate", Qt::QueuedConnection,
+                                  Q_ARG(int, static_cast<int>(avgPing)));
+    }
+}
+
 void QmlGuiInterface::SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg)
 {
     if (m_lobbyHandler) {

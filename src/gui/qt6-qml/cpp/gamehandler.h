@@ -102,6 +102,13 @@ class GameHandler : public QObject
     // Hauptpot gewonnen hat – Side-Pot-Gewinner bekommen KEIN Badge.
     Q_PROPERTY(QVariantList winnerSeatIds READ winnerSeatIds NOTIFY winnerSeatIdsChanged)
     Q_PROPERTY(QString winningHandText READ winningHandText NOTIFY winningHandTextChanged)
+    // Showdown-Spotlight: 5 Bool-Werte (je Board-Karte). true = diese Board-Karte
+    // gehört NICHT zum besten Blatt des Gewinners und wird beim Showdown
+    // abgeblendet (Einstellung "Ausblend-Animation für Verliererkarten",
+    // Config-Key ShowFadeOutCardsAnimation – wie der Widgets-Client, der die
+    // nicht zum Siegerblatt zählenden Karten auf 25 % Deckkraft fadet). Die
+    // entsprechenden Hole-Cards der Gewinner kommen über p["fade0"]/p["fade1"].
+    Q_PROPERTY(QVariantList boardCardFade READ boardCardFade NOTIFY boardCardFadeChanged)
     // Aktiver Action-Timeout: Sitz, der gerade am Zug ist (−1 = keiner) und die
     // Timeout-Dauer in Sekunden. Die Player-Box zeigt dafür anstelle des
     // Action-Badges einen kleinen Fortschrittsbalken.
@@ -125,6 +132,11 @@ class GameHandler : public QObject
     Q_PROPERTY(QVariantList cardsChance READ cardsChance NOTIFY cardsChanceChanged)
     // true, wenn der eigene Spieler gefoldet hat (Chancen werden abgeblendet).
     Q_PROPERTY(bool cardsChanceFolded READ cardsChanceFolded NOTIFY cardsChanceChanged)
+    // Netzwerkstatus-Ampel des eigenen Clients aus dem Durchschnitts-Ping
+    // (Einstellung ShowPingStateInAvatar): 0 = unbekannt/keine Daten,
+    // 1 = grün (≤1000 ms), 2 = gelb (≤2000 ms), 3 = rot (>2000 ms). Wie der
+    // Qt-Widgets-Client (MyAvatarLabel::refreshPing), nur am eigenen Avatar.
+    Q_PROPERTY(int pingState READ pingState NOTIFY pingStateChanged)
 
 public:
     explicit GameHandler(QObject *parent = nullptr);
@@ -154,6 +166,7 @@ public:
     QVariantList boardCards() const { return m_boardCards; }
     QVariantList winnerSeatIds() const { return m_winnerSeatIds; }
     QString winningHandText() const { return m_winningHandText; }
+    QVariantList boardCardFade() const { return m_boardCardFade; }
     int timeoutSeatId() const { return m_timeoutSeatId; }
     int timeoutSec() const { return m_timeoutSec; }
     GameLogModel* gameLog() { return &m_gameLogModel; }
@@ -163,6 +176,7 @@ public:
     bool showdownActive() const { return m_showdownActive; }
     QVariantList cardsChance() const { return m_cardsChance; }
     bool cardsChanceFolded() const { return m_cardsChanceFolded; }
+    int pingState() const { return m_pingState; }
 
     // Zeilentyp für die Einfärbung des Spielverlaufs – Farben/Stil 1:1 wie der
     // Qt-Widgets-Client (Default-Tischstil).
@@ -200,6 +214,8 @@ public:
     Q_INVOKABLE void onNetworkGameEnded();
     // Netzwerk: Spieler hat das Spiel verlassen → Sitz leeren
     Q_INVOKABLE void onNetClientPlayerLeft(unsigned uniquePlayerId);
+    // Netzwerk: eigener Client-Ping aktualisiert → Netzwerkstatus-Ampel ableiten.
+    Q_INVOKABLE void onPingUpdate(int avgPing);
     Q_INVOKABLE void onBlindsSet(int smallBlind);
     Q_INVOKABLE void onNextRoundCleanGui();
     Q_INVOKABLE void onDealFlopCards();
@@ -246,12 +262,14 @@ signals:
     void boardCardsChanged();
     void winnerSeatIdsChanged();
     void winningHandTextChanged();
+    void boardCardFadeChanged();
     void timeoutChanged();
     void chatLogChanged();
     void hasHumanOpponentsChanged();
     void canShowCardsChanged();
     void showdownActiveChanged();
     void cardsChanceChanged();
+    void pingStateChanged();
     // Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" des Web-Clients) –
     // wird nicht im Chat angezeigt, sondern als Animation am Sitz abgespielt.
     void reactionReceived(const QString &playerName, const QString &emoji);
@@ -317,6 +335,12 @@ private:
     QVariantList m_boardCards;  // 5 slots: card index (0-51) or -1 if not dealt
     QVariantList m_winnerSeatIds;
     QString m_winningHandText;  // Name der Gewinner-Hand (nur während des Showdowns)
+    // Showdown-Spotlight (siehe boardCardFade-Property). m_boardCardFade hat 5
+    // Bool-Einträge; m_holeFade0/1 enthalten die Sitze, deren Hole-Card 0/1
+    // abgeblendet wird. Werden zu Beginn jeder Hand zurückgesetzt.
+    QVariantList m_boardCardFade = {false, false, false, false, false};
+    QSet<int> m_holeFade0;
+    QSet<int> m_holeFade1;
     int m_timeoutSeatId = -1;   // Sitz mit laufendem Action-Timeout (−1 = keiner)
     int m_timeoutSec = 0;       // Dauer des Action-Timeouts in Sekunden
     GameLogModel m_gameLogModel; // Live-Aktions-Log (Spielverlauf) für das Overlay
@@ -331,6 +355,7 @@ private:
     // des eigenen Spielers. Werden in refreshChanceAndHand() aktualisiert.
     QVariantList m_cardsChance;
     bool m_cardsChanceFolded = false;
+    int m_pingState = 0;  // Netzwerkstatus-Ampel (0 unbekannt,1 grün,2 gelb,3 rot)
     // Eingangssignatur der letzten Chancen-Berechnung (Hole-Cards, Board, Fold-
     // Zustand). Bleibt sie gleich, wird die teure calcCardsChance-Schleife
     // übersprungen – refreshChanceAndHand() läuft sonst bei jedem Mikro-Refresh.

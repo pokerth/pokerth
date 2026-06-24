@@ -36,6 +36,11 @@ class SettingsManager : public QObject
     Q_PROPERTY(bool disableSplashScreen READ disableSplashScreen WRITE setDisableSplashScreen NOTIFY disableSplashScreenChanged)
     Q_PROPERTY(QString myName READ myName WRITE setMyName NOTIFY myNameChanged)
     Q_PROPERTY(QString myAvatar READ myAvatar WRITE setMyAvatar NOTIFY myAvatarChanged)
+    // Wird bei jedem Schreiben eines Config-Werts erhöht. QML-Bindungen, die
+    // generische Werte über readConfigInt()/readConfigString() lesen, referenzieren
+    // diese Property, um bei Änderungen sofort (ohne Client-Neustart) neu
+    // auszuwerten – analog zum Revisions-Zähler des LobbyHandlers.
+    Q_PROPERTY(int configRevision READ configRevision NOTIFY configRevisionChanged)
 
 public:
     explicit SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent = nullptr);
@@ -47,6 +52,7 @@ public:
     bool disableSplashScreen() const;
     QString myName() const;
     QString myAvatar() const;
+    int configRevision() const { return m_configRevision; }
 
     // Property setters
     void setLanguage(const QString &lang);
@@ -84,6 +90,7 @@ signals:
     void disableSplashScreenChanged();
     void myNameChanged();
     void myAvatarChanged();
+    void configRevisionChanged();
 
 private:
     // Scannt <AppDataDir>/gfx/qml/<category>/* nach Unterordnern, die eine
@@ -91,6 +98,10 @@ private:
     QVariantList scanStyleDir(const QString &category, const QString &xmlSuffix) const;
 
     boost::shared_ptr<ConfigFile> m_config;
+    int m_configRevision = 0;  // hochgezählt bei jedem Schreiben (Live-Reaktivität)
+
+    // Erhöht m_configRevision und meldet die Änderung → reaktive QML-Bindungen.
+    void bumpConfigRevision();
 };
 
 #endif // SETTINGSMANAGER_H

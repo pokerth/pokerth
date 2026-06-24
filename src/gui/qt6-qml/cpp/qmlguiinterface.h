@@ -107,7 +107,7 @@ public:
     virtual void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) override;
     virtual void SignalNetClientNotification(int notificationId) override {}
     virtual void SignalNetClientStatsUpdate(const ServerStats &stats) override {}
-    virtual void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing) override {}
+    virtual void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing) override;
     virtual void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) override;
     virtual void SignalNetClientRemovedFromGame(int notificationId) override;
     

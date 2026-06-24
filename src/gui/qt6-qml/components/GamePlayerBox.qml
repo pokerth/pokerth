@@ -34,6 +34,10 @@ Item {
 
     readonly property int card0: seatData && seatData.card0 !== undefined ? seatData.card0 : -1
     readonly property int card1: seatData && seatData.card1 !== undefined ? seatData.card1 : -1
+    // Showdown-Spotlight: einzelne Hole-Card des Gewinners abblenden, wenn sie
+    // nicht zum Siegerblatt zählt (vom GameHandler gesetzt).
+    readonly property bool fade0: seatData && seatData.fade0 !== undefined ? seatData.fade0 : false
+    readonly property bool fade1: seatData && seatData.fade1 !== undefined ? seatData.fade1 : false
     readonly property bool isMyTurn: seatData ? seatData.myTurn : false
     // Aktiver Spieler (am Zug): lokal über seatData.myTurn (Engine setzt
     // getMyTurn()), im Netzwerk-Spiel über den Action-Timeout (timeoutSeatId) –
@@ -45,6 +49,14 @@ Item {
     readonly property bool isWinner: typeof GameTable !== "undefined" && GameTable && GameTable.winnerSeatIds.indexOf(root.seatIndex) !== -1
     readonly property int button: seatData && seatData.button !== undefined ? seatData.button : 0
     readonly property int bet: seatData && seatData.bet !== undefined ? seatData.bet : 0
+    // Einstellung „Symbole für Small/Big Blind anzeigen" (Config-Key
+    // ShowBlindButtons). Wie im Qt-Widgets-Client wird der Dealer-Button (1)
+    // immer gezeigt, nur Small-Blind (2) und Big-Blind (3) sind abschaltbar.
+    readonly property bool showBlindButtons:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("ShowBlindButtons") !== 0 : true
+    readonly property bool buttonVisible:
+        button === 1 || ((button === 2 || button === 3) && showBlindButtons)
     // Spieler hat gefoldet → Karten durchscheinend (wie im Qt-Widgets-Client)
     readonly property bool folded: seatData && seatData.folded !== undefined ? seatData.folded : false
     // Gesetzter Avatar (file://-URL) bzw. "" → Platzhalter
@@ -52,14 +64,20 @@ Item {
 
     // Letzte Aktion dieses Spielers (0=keine,1=Fold,2=Check,3=Call,4=Bet,5=Raise,6=All-In)
     readonly property int action: seatData && seatData.action !== undefined ? seatData.action : 0
+    // Einstellung „Internationale Pokerausdrücke nicht übersetzen" (Config-Key
+    // DontTranslateInternationalPokerStringsFromStyle): Aktions-Begriffe fest auf
+    // Englisch statt lokalisiert. qsTr()-Literale bleiben für die Extraktion.
+    readonly property bool dontTranslatePokerTerms:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
     readonly property string actionText: {
         switch (root.action) {
-        case 1: return qsTr("Fold")
-        case 2: return qsTr("Check")
-        case 3: return qsTr("Call")
-        case 4: return qsTr("Bet")
-        case 5: return qsTr("Raise")
-        case 6: return qsTr("All-In")
+        case 1: return dontTranslatePokerTerms ? "Fold"   : qsTr("Fold")
+        case 2: return dontTranslatePokerTerms ? "Check"  : qsTr("Check")
+        case 3: return dontTranslatePokerTerms ? "Call"   : qsTr("Call")
+        case 4: return dontTranslatePokerTerms ? "Bet"    : qsTr("Bet")
+        case 5: return dontTranslatePokerTerms ? "Raise"  : qsTr("Raise")
+        case 6: return dontTranslatePokerTerms ? "All-In" : qsTr("All-In")
         default: return ""
         }
     }
@@ -188,6 +206,8 @@ Item {
 
             card0: root.card0
             card1: root.card1
+            fade0: root.fade0
+            fade1: root.fade1
             avatarSource: root.avatarSource
             folded: root.folded
             playerActive: root.isActive
@@ -436,15 +456,15 @@ Item {
     // Seiten (betSide left/right): Button unter dem Einsatz, beides vertikal zentriert.
     Item {
         id: betGroup
-        visible: root.bet > 0 || root.button > 0
+        visible: root.bet > 0 || root.buttonVisible
         z: 25
 
         readonly property bool split: root.betSplit
         readonly property bool horizontal: !split && (root.betSide === "bottom" || root.betSide === "top")
         readonly property real betW: root.bet > 0 ? betRow.width : 0
         readonly property real betH: root.bet > 0 ? betRow.height : 0
-        readonly property real btnW: root.button > 0 ? buttonImg.width : 0
-        readonly property real btnH: root.button > 0 ? buttonImg.height : 0
+        readonly property real btnW: root.buttonVisible ? buttonImg.width : 0
+        readonly property real btnH: root.buttonVisible ? buttonImg.height : 0
 
         width: (horizontal || split) ? playerBox.width : Math.max(betW, btnW)
         height: horizontal ? Math.max(betH, btnH) : playerBox.height
@@ -496,7 +516,7 @@ Item {
         // rechtsbündig 6px vom Boxrand; Seiten: unterer Slot.
         Image {
             id: buttonImg
-            visible: root.button > 0
+            visible: root.buttonVisible
             width: 24
             height: 24
             fillMode: Image.PreserveAspectFit

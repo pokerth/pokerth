@@ -17,6 +17,28 @@ Rectangle {
 
     readonly property int card0: selfData && selfData.card0 !== undefined ? selfData.card0 : -1
     readonly property int card1: selfData && selfData.card1 !== undefined ? selfData.card1 : -1
+    // Showdown-Spotlight: eigene Hole-Card abblenden, wenn sie nicht zum
+    // Siegerblatt zählt (vom GameHandler gesetzt).
+    readonly property bool fade0: selfData && selfData.fade0 !== undefined ? selfData.fade0 : false
+    readonly property bool fade1: selfData && selfData.fade1 !== undefined ? selfData.fade1 : false
+    // Anti-Peek (Config-Key AntiPeekMode): eigene Hole-Cards verdeckt halten,
+    // nur per Hover/Drücken kurz aufdecken. readConfigInt ist nicht reaktiv –
+    // greift ab der nächsten Instanziierung der Self-Box (Spielstart).
+    readonly property bool antiPeek:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("AntiPeekMode") !== 0 : false
+
+    // Netzwerkstatus-Ampel (Config-Key ShowPingStateInAvatar): nur am eigenen
+    // Avatar und nur, sobald echte Ping-Daten vorliegen (pingState > 0).
+    readonly property bool showPingState:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("ShowPingStateInAvatar") !== 0 : false
+    readonly property int pingState:
+        (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingState : 0
+    readonly property color pingColor: pingState === 1 ? "#43a047"   // grün
+                                     : pingState === 2 ? "#fbc02d"   // gelb
+                                     : pingState === 3 ? "#e53935"   // rot
+                                     : "transparent"
     readonly property bool isMyTurn: selfData ? selfData.myTurn : false
     // Am Zug: lokal über myTurn, im Netzwerk-Spiel über den Action-Timeout
     // (timeoutSeatId === 0). Beides, damit der Highlight in BEIDEN Modi erscheint.
@@ -25,17 +47,31 @@ Rectangle {
     readonly property bool isWinner: typeof GameTable !== "undefined" && GameTable && GameTable.winnerSeatIds.indexOf(0) !== -1
     readonly property int button: selfData && selfData.button !== undefined ? selfData.button : 0
     readonly property int bet: selfData && selfData.bet !== undefined ? selfData.bet : 0
+    // Einstellung „Symbole für Small/Big Blind anzeigen" (Config-Key
+    // ShowBlindButtons). Dealer-Button (1) immer; Small-(2)/Big-Blind (3)
+    // abschaltbar – wie im Qt-Widgets-Client.
+    readonly property bool showBlindButtons:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("ShowBlindButtons") !== 0 : true
+    readonly property bool buttonVisible:
+        button === 1 || ((button === 2 || button === 3) && showBlindButtons)
 
     // Letzte Aktion (0=keine,1=Fold,2=Check,3=Call,4=Bet,5=Raise,6=All-In)
     readonly property int action: selfData && selfData.action !== undefined ? selfData.action : 0
+    // Einstellung „Internationale Pokerausdrücke nicht übersetzen" (Config-Key
+    // DontTranslateInternationalPokerStringsFromStyle): Aktions-Begriffe fest auf
+    // Englisch statt lokalisiert. qsTr()-Literale bleiben für die Extraktion.
+    readonly property bool dontTranslatePokerTerms:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
     readonly property string actionText: {
         switch (root.action) {
-        case 1: return qsTr("Fold")
-        case 2: return qsTr("Check")
-        case 3: return qsTr("Call")
-        case 4: return qsTr("Bet")
-        case 5: return qsTr("Raise")
-        case 6: return qsTr("All-In")
+        case 1: return dontTranslatePokerTerms ? "Fold"   : qsTr("Fold")
+        case 2: return dontTranslatePokerTerms ? "Check"  : qsTr("Check")
+        case 3: return dontTranslatePokerTerms ? "Call"   : qsTr("Call")
+        case 4: return dontTranslatePokerTerms ? "Bet"    : qsTr("Bet")
+        case 5: return dontTranslatePokerTerms ? "Raise"  : qsTr("Raise")
+        case 6: return dontTranslatePokerTerms ? "All-In" : qsTr("All-In")
         default: return ""
         }
     }
@@ -159,6 +195,11 @@ Rectangle {
             maxAvatarSize: root.maxAvatarSize
             card0: root.card0
             card1: root.card1
+            fade0: root.fade0
+            fade1: root.fade1
+            antiPeek: root.antiPeek
+            showNetworkStatus: root.showPingState && root.pingState > 0
+            networkStatusColor: root.pingColor
             avatarSource: root.avatarSource
             folded: root.folded
             playerActive: root.playerActive
@@ -411,7 +452,7 @@ Rectangle {
     // Dealer/Small-/Big-Blind-Button: rechts oben NEBEN der Box (außerhalb).
     Image {
         id: buttonImg
-        visible: root.button > 0
+        visible: root.buttonVisible
         width: 24; height: 24
         anchors.left: parent.right
         anchors.leftMargin: 6

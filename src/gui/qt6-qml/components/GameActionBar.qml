@@ -73,24 +73,75 @@ Item {
     readonly property bool canCheck: GameTable !== null && GameTable.callAmount === 0
     readonly property bool isPreflop: GameTable !== null && GameTable.phaseText === "Preflop"
     readonly property string _amountSep: "\n"
+
+    // Einstellung „Internationale Pokerausdrücke nicht übersetzen" (Config-Key
+    // DontTranslateInternationalPokerStringsFromStyle). Ist sie an, werden die
+    // Aktions-Begriffe fest auf Englisch gezeigt statt über qsTr() lokalisiert –
+    // wie der Qt-Widgets-Client, der dann die internationalen Style-Strings
+    // umgeht. Die qsTr()-Literale bleiben für die Übersetzungsextraktion erhalten.
+    readonly property bool dontTranslatePokerTerms:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
+    // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (EnableBetInputFocusSwitch).
+    readonly property bool focusBetInputOnTurn:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("EnableBetInputFocusSwitch") !== 0 : false
+    // Einstellung „Versehentliches Call nach großem Raise verhindern"
+    // (AccidentallyCallBlocker). Wie der Qt-Widgets-Client: ändert sich die Call-/
+    // Check-Beschriftung (z. B. weil ein Gegner erhöht hat), wird der Call-Button
+    // kurz gesperrt, damit ein bereits gezielter Klick nicht den neuen (höheren)
+    // Betrag callt. callBlocked wird per Timer nach 1 s wieder freigegeben.
+    readonly property bool accidentalCallBlockerEnabled:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("AccidentallyCallBlocker") !== 0 : true
+    property bool callBlocked: false
+    onCheckCallTextChanged: {
+        if (accidentalCallBlockerEnabled && actionsArmed) {
+            callBlocked = true
+            callBlockTimer.restart()
+        }
+    }
+    Timer {
+        id: callBlockTimer
+        interval: 1000
+        onTriggered: actionBar.callBlocked = false
+    }
+
+    readonly property string callWord:  dontTranslatePokerTerms ? "Call"   : qsTr("Call")
+    readonly property string checkWord: dontTranslatePokerTerms ? "Check"  : qsTr("Check")
+    readonly property string betWord:   dontTranslatePokerTerms ? "Bet"    : qsTr("Bet")
+    readonly property string raiseWord: dontTranslatePokerTerms ? "Raise"  : qsTr("Raise")
+    readonly property string foldWord:  dontTranslatePokerTerms ? "Fold"   : qsTr("Fold")
+    readonly property string allInWord: dontTranslatePokerTerms ? "All-In" : qsTr("All-In")
     // Beträge nur zeigen, solange die Buttons aktiv sind (eigener Zug oder
     // zulässige Vorauswahl). Im Showdown UND am Rundenende (nach der letzten
     // Spieleraktion) sind die Buttons inaktiv und die letzten Call-/Raise-Werte
     // nicht mehr gültig → neutrale Labels ohne Betrag. Erst zu Rundenbeginn
     // (neue Werte aus computeCallAndRaiseAmounts) erscheinen wieder Beträge.
-    readonly property string checkCallText: (GameTable === null || !actionsArmed) ? qsTr("Call")
-        : (canCheck ? qsTr("Check") : qsTr("Call") + _amountSep + "$" + GameTable.callAmount)
+    readonly property string checkCallText: (GameTable === null || !actionsArmed) ? callWord
+        : (canCheck ? checkWord : callWord + _amountSep + "$" + GameTable.callAmount)
     readonly property string betRaiseText: {
-        if (GameTable === null || !actionsArmed) return qsTr("Raise")
-        var word = (!isPreflop && canCheck) ? qsTr("Bet") : qsTr("Raise")
+        if (GameTable === null || !actionsArmed) return raiseWord
+        var word = (!isPreflop && canCheck) ? betWord : raiseWord
         return raiseAvailable ? (word + _amountSep + "$" + raiseAmount) : word
     }
 
     // ── Vorwahl (pre-selection): vor dem eigenen Zug eine Aktion vormerken ──
     property string preAction: ""        // "", "fold", "call", "raise", "allin"
-    // Vorauswahl-Freigabe: false nach eigenem Zug,
-    // true bei Rundenwechsel (onRoundValuesReady) oder Gegner-Aktion.
+    // Vorauswahl-Freigabe: false nach eigenem Zug / am Rundenende (postflop:
+    // gesperrt bis die Aufdeck-Animation durch ist, s. onBoardDealingChanged),
+    // true bei Rundenstart, eigenem Zug oder Gegner-Aktion.
     property bool preSelectEnabled: true
+    // Werden gerade neue Gemeinschaftskarten aufgedeckt? Wird von GamePage aus
+    // CommunityCards.dealing gespeist. Solange true, ist KEINE Aktion möglich
+    // (actionsArmed gatet darauf) – exakt die Vorgabe: während Aufdeck-
+    // Animationen sind die Buttons gesperrt. Sobald die Animation durch ist,
+    // schaltet onBoardDealingChanged die Vorauswahl frei (= Rundenstart).
+    property bool boardDealing: false
+    onBoardDealingChanged: {
+        if (!actionBar.boardDealing)
+            actionBar.preSelectEnabled = true   // Aufdecken fertig → Runde läuft → Vorauswahl frei
+    }
     // Reset bei Handwechsel oder Showdown
     property int lastHandNumber: -1
     Connections {
@@ -99,23 +150,27 @@ Item {
             if (GameTable && GameTable.handNumber !== actionBar.lastHandNumber) {
                 actionBar.preAction = ""
                 actionBar.preSelectEnabled = true   // neue Hand → Vorauswahl freischalten
+                actionBar.raiseAmount = 0
                 actionBar.lastHandNumber = GameTable.handNumber
-                console.log("[ACTDBG] preAction Reset: Neue Hand " + actionBar.lastHandNumber)
+                console.log("[ACTDBG] Reset: Neue Hand " + actionBar.lastHandNumber)
             }
         }
         function onPhaseTextChanged() {
             if (!GameTable) return
             // phaseText ist immer Preflop/Flop/Turn/River (nie "Showdown" – das
-            // signalisiert showdownActive, s. onShowdownActiveChanged).
-            if (GameTable.phaseText !== "Preflop") {
-                // Flop/Turn/River: Vorauswahl zurücksetzen; Freischalten erfolgt
-                // in onRoundValuesReady (nach computeCallAndRaiseAmounts) –
-                // analog zum Widget-Client (updateMyButtonsState nach dealXCards2).
-                actionBar.preAction = ""
-                console.log("[ACTDBG] preAction Reset: Rundenwechsel →", GameTable.phaseText)
+            // signalisiert showdownActive, s. onShowdownActiveChanged). Jeder
+            // Phasenwechsel = Rundengrenze: Vorwahl/Werte zurücksetzen.
+            actionBar.preAction = ""
+            actionBar.raiseAmount = 0
+            if (GameTable.phaseText === "Preflop") {
+                // Preflop hat keine Board-Aufdeck-Animation → Vorauswahl sofort frei.
+                actionBar.preSelectEnabled = true
             } else {
-                actionBar.preSelectEnabled = true   // Preflop = neue Hand
+                // Flop/Turn/River: bis die Karten-Aufdeck-Animation durch ist
+                // gesperrt; onBoardDealingChanged schaltet danach frei.
+                actionBar.preSelectEnabled = false
             }
+            console.log("[ACTDBG] Rundenwechsel →", GameTable.phaseText)
         }
         function onShowdownActiveChanged() {
             // Showdown beginnt → alles zurücksetzen, damit keine veralteten
@@ -147,11 +202,10 @@ Item {
 
     // Zentraler „Buttons aktiv"-Zustand für Fold/Check-Call. Wahr, wenn ich am
     // Zug bin ODER eine Vorauswahl zulässig ist (canAct + Freigabe) – und nie im
-    // Showdown. canAct fällt am Rundenende (alle haben gehandelt + Höchsteinsatz
-    // erreicht, s. computeCallAndRaiseAmounts) sofort auf false → Buttons aus.
-    // Die Button-Beschriftungen hängen daran: nur solange aktiv werden Beträge
-    // gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
-    readonly property bool actionsArmed: !inShowdown
+    // Showdown oder während neue Gemeinschaftskarten aufgedeckt werden
+    // (boardDealing). Die Button-Beschriftungen hängen daran: nur solange aktiv
+    // werden Beträge gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
+    readonly property bool actionsArmed: !inShowdown && !boardDealing
         && ((GameTable !== null && GameTable.myTurn)
             || (canAct && preSelectEnabled))
 
@@ -169,7 +223,7 @@ Item {
     // Vorwahl bei gratis Check: zweizeilig, damit auch längere Übersetzungen
     // (z. B. "Check / Se coucher") auf den Button passen.
     readonly property string foldText: (GameTable !== null && actionsArmed && !GameTable.myTurn && canCheck)
-        ? (qsTr("Check") + " /\n" + qsTr("Fold")) : qsTr("Fold")
+        ? (checkWord + " /\n" + foldWord) : foldWord
 
     function fireAction(which) {
         if (GameTable === null) return
@@ -264,8 +318,14 @@ Item {
         function onMyTurnChanged() {
             // Eigener Zug beginnt → Vorauswahl immer freischalten.
             // Ausführung der vorgemerkten/automatischen Aktion in onMeInActionTriggered.
-            if (GameTable.myTurn)
+            if (GameTable.myTurn) {
                 actionBar.preSelectEnabled = true
+                // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (Config-Key
+                // EnableBetInputFocusSwitch): Eingabefeld fokussieren, sofern ein
+                // Raise/Bet überhaupt möglich ist.
+                if (actionBar.focusBetInputOnTurn && actionBar.raiseAvailable)
+                    raiseAmountInput.forceActiveFocus()
+            }
             actionBar.syncRaiseAmount()
         }
         function onMeInActionTriggered() {
@@ -300,9 +360,12 @@ Item {
         }
         function onRoundValuesReady() {
             // Werte nach Rundenwechsel sind jetzt korrekt (nach computeCallAndRaiseAmounts()).
-            // Analog zum Widget-Client (updateMyButtonsState nach dealFlopCards2 etc.):
-            // Vorauswahl sofort freischalten – nicht erst auf die erste Spieler-Aktion warten.
-            actionBar.preSelectEnabled = true
+            // Preflop hat keine Board-Aufdeck-Animation → Vorauswahl sofort frei.
+            // Postflop bleibt gesperrt, bis die Aufdeck-Animation durch ist
+            // (onBoardDealingChanged), damit während des Aufdeckens keine Aktion
+            // möglich ist.
+            if (GameTable && GameTable.phaseText === "Preflop")
+                actionBar.preSelectEnabled = true
         }
         function onRefreshActionTriggered() {
             if (GameTable.callAmount > 0 && !GameTable.myTurn) {
@@ -602,7 +665,7 @@ Item {
 
                     Text {
                         anchors.centerIn: parent
-                        text: allInBtn.isShowMode ? qsTr("Show") : qsTr("All-In")
+                        text: allInBtn.isShowMode ? qsTr("Show") : actionBar.allInWord
                         color: (allInBtn.useTheme && StyleProvider.allInButtonTextColor !== "")
                                ? StyleProvider.allInButtonTextColor : "#FFFFFF"
                         font.family: Config.StaticData.loadedFont.font.family
@@ -691,6 +754,9 @@ Item {
                 readonly property bool hasTheme: ab.themeSource != ""
                 property bool armed: false   // klickbar: eigener Zug ODER Vorwahl möglich
                 property bool highlight: false   // primäre Aktion hervorheben (Raise)
+                // Call-Blocker: nur der Call-Button wird nach einer Betrags-/
+                // Beschriftungsänderung kurz gesperrt (s. actionBar.callBlocked).
+                readonly property bool blocked: ab.actionKey === "call" && actionBar.callBlocked
                 readonly property bool myTurnNow: GameTable !== null && GameTable.myTurn
                 // Vorwahl-Markierung (goldener Rahmen/Punkt) nur, solange der
                 // Button auch klickbar ist. Sonst bliebe nach Runden-/Handende
@@ -703,7 +769,7 @@ Item {
                                             "canAct=", actionBar.canAct,
                                             "preSel=", actionBar.preSelectEnabled, ")")
 
-                opacity: !ab.armed ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
+                opacity: (!ab.armed || ab.blocked) ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
 
                 // Theme-SVG-Hintergrund (nur Optik, ohne eingebackenen Text)
                 Image {
@@ -780,8 +846,8 @@ Item {
                     id: abMouse
                     anchors.fill: parent
                     hoverEnabled: true
-                    enabled: ab.armed
-                    cursorShape: ab.armed ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    enabled: ab.armed && !ab.blocked
+                    cursorShape: (ab.armed && !ab.blocked) ? Qt.PointingHandCursor : Qt.ArrowCursor
                     onPressed: function(mouse) {
                         console.log("[ACTDBG] MouseArea press", ab.actionKey,
                                     "armed=", ab.armed,

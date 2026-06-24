@@ -96,6 +96,8 @@ GameHandler::GameHandler(QObject *parent)
         p["action"]  = 0;
         p["card0"]   = -1;
         p["card1"]   = -1;
+        p["fade0"]   = false;
+        p["fade1"]   = false;
         m_players.append(p);
     }
     // Initialize empty board cards (5 slots, -1 = not dealt)
@@ -176,6 +178,9 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     m_boardCards = QVariantList{-1, -1, -1, -1, -1};
     m_winnerSeatIds.clear();
     m_winningHandText.clear();
+    m_holeFade0.clear();
+    m_holeFade1.clear();
+    m_boardCardFade = QVariantList{false, false, false, false, false};
     setShowdownActive(false);
     m_gameLogModel.clear();
     m_chatLog.clear();
@@ -200,6 +205,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     emit boardCardsChanged();
     emit winnerSeatIdsChanged();
     emit winningHandTextChanged();
+    emit boardCardFadeChanged();
 }
 
 // ─── private helpers ────────────────────────────────────────────────────────
@@ -326,6 +332,8 @@ void GameHandler::refreshPlayerData()
         p["action"] = 0;
         p["card0"]  = -1;
         p["card1"]  = -1;
+        p["fade0"]  = false;
+        p["fade1"]  = false;
         newPlayers.append(p);
     }
 
@@ -480,6 +488,11 @@ void GameHandler::refreshPlayerData()
                 p["avatar"] = resolveAvatarSource(avatarRaw);
                 p["card0"]  = faceUp ? cards[0] : -1;
                 p["card1"]  = faceUp ? cards[1] : -1;
+                // Showdown-Spotlight: Hole-Card des Gewinners abblenden, wenn sie
+                // nicht zu seinem besten Blatt zählt (Mengen werden im Showdown
+                // gefüllt, sonst leer → fade0/fade1 false).
+                p["fade0"]  = m_holeFade0.contains(id);
+                p["fade1"]  = m_holeFade1.contains(id);
                 if (id == 0) {
                     // qDebug() << "[DBG] seat0 cards:" << cards[0] << cards[1]
                     //          << "faceUp:" << faceUp;
@@ -576,32 +589,22 @@ void GameHandler::computeCallAndRaiseAmounts()
                             && humanCash > 0
                             && humanPlayer->isSessionActive();
 
-                // Setzrunde abgeschlossen? Sobald JEDER noch laufende Spieler in
-                // dieser Runde gehandelt hat (Action != NONE) UND alle den
-                // höchsten Einsatz halten, ist die Runde entschieden. In diesem
-                // Zeitfenster (letzte Aktion erfolgt, nächste Runde/Hand noch nicht
-                // gestartet) darf KEINE Vorauswahl mit veralteten Werten aktiv
-                // bleiben → Buttons sofort inaktiv. Nicht greifen, wenn ich selbst
-                // gerade am Zug bin (z.B. abschließender Check als letzter Spieler)
-                // – das erledigt der reguläre m_myTurn-Pfad.
-                //
-                // Frühere Variante prüfte nur `!bero->getFirstRound()` + gleiche
-                // Sets. Das verpasste den Fall, dass eine Runde bereits in der
-                // ERSTEN Umlaufrunde schließt (alle checken bzw. limpen bis zur
-                // BB): dort blieb firstRound==true, roundClosed==false → die
-                // Aktions-Buttons blieben nach der letzten Spieleraktion fälschlich
-                // aktiv (mit den Werten der gerade beendeten Runde). Die
-                // Action-!=-NONE-Prüfung schließt das, ohne während eines laufenden
-                // Umlaufs (noch nicht gehandelte Spieler == NONE) verfrüht zu
-                // schließen – dann darf die Vorauswahl ja offen bleiben.
+                // Setzrunde abgeschlossen? Nach der ersten Setzrunden-Runde
+                // (!firstRound) und sobald alle noch laufenden Spieler den
+                // höchsten Einsatz erreicht haben (allHighestSet), ist die Runde
+                // entschieden – exakt das Kriterium aus LocalBeRo::run(). In
+                // diesem Zeitfenster (letzte Aktion erfolgt, nächste Runde/Hand
+                // noch nicht gestartet) darf KEINE Vorauswahl mit veralteten
+                // Werten aktiv bleiben → Buttons inaktiv. Nicht greifen, wenn ich
+                // selbst gerade am Zug bin (z.B. abschließender Check als letzter
+                // Spieler) – das erledigt der reguläre m_myTurn-Pfad.
                 bool roundClosed = false;
-                if (!m_myTurn) {
+                if (!m_myTurn && !bero->getFirstRound()) {
                     auto running = hand->getRunningPlayerList();
                     if (running && !running->empty()) {
                         roundClosed = true;
                         for (auto it = running->begin(); it != running->end(); ++it) {
-                            if ((*it)->getMyAction() == PLAYER_ACTION_NONE
-                                || (*it)->getMySet() != highestSet) {
+                            if ((*it)->getMySet() != highestSet) {
                                 roundClosed = false;
                                 break;
                             }
@@ -993,6 +996,25 @@ void GameHandler::onNetworkGameEnded()
         emit timeoutChanged();
     }
     m_timeoutBeepTimer->stop();
+    if (m_pingState != 0) {
+        m_pingState = 0;  // keine Netzwerkverbindung mehr → Ampel zurücksetzen
+        emit pingStateChanged();
+    }
+}
+
+void GameHandler::onPingUpdate(int avgPing)
+{
+    // Ampel-Schwellen wie der Qt-Widgets-Client (MyAvatarLabel::refreshPing):
+    // ≤1000 ms grün, ≤2000 ms gelb, >2000 ms rot; negative Werte = keine Daten.
+    int state;
+    if (avgPing < 0)            state = 0;
+    else if (avgPing <= 1000)   state = 1;
+    else if (avgPing <= 2000)   state = 2;
+    else                        state = 3;
+    if (state != m_pingState) {
+        m_pingState = state;
+        emit pingStateChanged();
+    }
 }
 
 void GameHandler::onNetClientPlayerLeft(unsigned uniquePlayerId)
@@ -1164,6 +1186,14 @@ void GameHandler::onNextRoundCleanGui()
     if (!m_winningHandText.isEmpty()) {
         m_winningHandText.clear();
         emit winningHandTextChanged();
+    }
+    // Showdown-Spotlight für die neue Hand zurücksetzen (Hole- und Board-Fade).
+    m_holeFade0.clear();
+    m_holeFade1.clear();
+    const QVariantList noBoardFade = {false, false, false, false, false};
+    if (m_boardCardFade != noBoardFade) {
+        m_boardCardFade = noBoardFade;
+        emit boardCardFadeChanged();
     }
     // Showdown beenden, bevor die Spielerdaten neu gebaut werden → Karten zu.
     setShowdownActive(false);
@@ -1615,6 +1645,51 @@ void GameHandler::onShowdown()
     if (newHandText != m_winningHandText) {
         m_winningHandText = newHandText;
         emit winningHandTextChanged();
+    }
+
+    // ── Showdown-Spotlight: Karten abseits des Siegerblatts abblenden ──────────
+    // Wie der Widgets-Client (gameTableImpl::postRiverRunAnimation3): für jeden
+    // Hauptpot-Gewinner liefert getMyBestHandPosition die 5 Positionen seines
+    // besten Blatts – 0/1 sind seine Hole-Cards, 2..6 die Board-Karten 0..4.
+    // Alle übrigen Karten werden beim Showdown auf 25 % Deckkraft abgeblendet
+    // (das eigentliche Faden macht QML, abhängig von ShowFadeOutCardsAnimation).
+    // Eine Board-Karte bleibt hell, sobald sie zu IRGENDEINEM Siegerblatt zählt
+    // (bei Split-Pots sauberer als das per-Gewinner-Faden des Widgets-Clients).
+    QSet<int> newHoleFade0, newHoleFade1;
+    QVariantList newBoardFade = {false, false, false, false, false};
+    if (nonFold > 1) {
+        bool boardUsed[5] = {false, false, false, false, false};
+        bool anyWinner = false;
+        for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+            if (!isMainPotWinner(*it))
+                continue;
+            anyWinner = true;
+            int pos[5];
+            (*it)->getMyBestHandPosition(pos);
+            bool useHole0 = false, useHole1 = false;
+            for (int j = 0; j < 5; ++j) {
+                const int p = pos[j];
+                if (p == 0)               useHole0 = true;
+                else if (p == 1)          useHole1 = true;
+                else if (p >= 2 && p <= 6) boardUsed[p - 2] = true;
+            }
+            const int id = (*it)->getMyID();
+            if (!useHole0) newHoleFade0.insert(id);
+            if (!useHole1) newHoleFade1.insert(id);
+        }
+        if (anyWinner) {
+            for (int i = 0; i < 5; ++i)
+                newBoardFade[i] = !boardUsed[i];
+        }
+    }
+    if (newHoleFade0 != m_holeFade0 || newHoleFade1 != m_holeFade1) {
+        m_holeFade0 = newHoleFade0;
+        m_holeFade1 = newHoleFade1;
+        refreshPlayerData(); // schiebt fade0/fade1 in die Seat-Daten
+    }
+    if (newBoardFade != m_boardCardFade) {
+        m_boardCardFade = newBoardFade;
+        emit boardCardFadeChanged();
     }
 
     // ── Showdown im Spielverlauf protokollieren (Logik 1:1 aus dem Widgets-Client) ──

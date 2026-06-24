@@ -126,16 +126,24 @@ int SettingsManager::readConfigInt(const QString &key) const
     return m_config->readConfigInt(key.toStdString());
 }
 
+void SettingsManager::bumpConfigRevision()
+{
+    ++m_configRevision;
+    emit configRevisionChanged();
+}
+
 void SettingsManager::writeConfigString(const QString &key, const QString &value)
 {
     m_config->writeConfigString(key.toStdString(), value.toStdString());
     m_config->writeBuffer();
+    bumpConfigRevision();
 }
 
 void SettingsManager::writeConfigInt(const QString &key, int value)
 {
     m_config->writeConfigInt(key.toStdString(), value);
     m_config->writeBuffer();
+    bumpConfigRevision();
 }
 
 QStringList SettingsManager::readConfigStringList(const QString &key) const
@@ -153,6 +161,7 @@ void SettingsManager::writeConfigStringList(const QString &key, const QStringLis
         stdList.push_back(s.toStdString());
     m_config->writeConfigStringList(key.toStdString(), stdList);
     m_config->writeBuffer();
+    bumpConfigRevision();
 }
 
 QList<int> SettingsManager::readConfigIntList(const QString &key) const
@@ -168,6 +177,7 @@ void SettingsManager::writeConfigIntList(const QString &key, const QList<int> &l
     std::list<int> stdList(list.begin(), list.end());
     m_config->writeConfigIntList(key.toStdString(), stdList);
     m_config->writeBuffer();
+    bumpConfigRevision();
 }
 
 void SettingsManager::saveConfig()
@@ -184,6 +194,7 @@ void SettingsManager::resetToDefaults()
     emit disableSplashScreenChanged();
     emit myNameChanged();
     emit myAvatarChanged();
+    bumpConfigRevision();
 }
 
 QString SettingsManager::pickImageFile(const QString &title)

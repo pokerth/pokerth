@@ -140,20 +140,6 @@ Rectangle {
                     }
 
                     CheckBox {
-                        objectName: "displayRightToolboxCheckbox"
-                        text: qsTr("Rechte Toolbox anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowRightToolBox") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowRightToolBox", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
-                        objectName: "displayLeftToolboxCheckbox"
-                        text: qsTr("Linke Toolbox anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowLeftToolBox") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowLeftToolBox", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
                         objectName: "fadeOutLosingCardsAnimationCheckbox"
                         text: qsTr("Ausblend-Animation für Verliererkarten")
                         checked: SettingsManager ? SettingsManager.readConfigInt("ShowFadeOutCardsAnimation") !== 0 : true
@@ -260,13 +246,6 @@ Rectangle {
                         width: parent.width
 
                     CheckBox {
-                        objectName: "showCountryFlagOnAvatarCheckbox"
-                        text: qsTr("Landesflagge in der Ecke des Avatars anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowCountryFlagInAvatar") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowCountryFlagInAvatar", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
                         objectName: "showNetworkStatusColorOnAvatarCheckbox"
                         text: qsTr("Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen")
                         checked: SettingsManager ? SettingsManager.readConfigInt("ShowPingStateInAvatar") !== 0 : false
@@ -285,20 +264,6 @@ Rectangle {
                         text: qsTr("Versehentliches Call nach einem großen Raise verhindern")
                         checked: SettingsManager ? SettingsManager.readConfigInt("AccidentallyCallBlocker") !== 0 : true
                         onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("AccidentallyCallBlocker", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
-                        objectName: "doNotHideIgnoredPlayerAvatarsCheckbox"
-                        text: qsTr("Avatare von ignorierten Spielern nicht verbergen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("DontHideAvatarsOfIgnored") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DontHideAvatarsOfIgnored", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
-                        objectName: "showLobbyChatCheckbox"
-                        text: qsTr("Lobby-Chat anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowGameChatOnly") === 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowGameChatOnly", checked ? 0 : 1) }
                     }
 
                     CheckBox {
