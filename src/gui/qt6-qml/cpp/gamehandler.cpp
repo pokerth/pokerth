@@ -671,6 +671,19 @@ void GameHandler::computeCallAndRaiseAmounts()
                  << "(FOLD=1,ALLIN=6) handId=" << dbgHandId
                  << "prevId=" << dbgPrevId << "newCanAct=" << newCanAct;
     }
+    // Flanke „Setzrunde gerade entschieden": exakt jetzt (letzte Aktion erfolgt,
+    // nächste Runde/Hand startet erst noch) müssen die Aktions-Buttons sofort
+    // inaktiv werden und veraltete Vorwahl/Beträge verworfen werden. roundClosed
+    // ist nur in genau diesem Recompute true; danach (neue BeRo, firstRound wieder
+    // true) fällt es zurück, daher Flankenerkennung über m_roundClosed.
+    if (dbgRoundClosed && !m_roundClosed) {
+        m_roundClosed = true;
+        qDebug() << "[ACTDBG] bettingRoundEnded (roundClosed rising)"
+                 << "handId=" << dbgHandId << "prevPlayerId=" << dbgPrevId;
+        emit bettingRoundEnded();
+    } else if (!dbgRoundClosed) {
+        m_roundClosed = false;
+    }
     if (newCanAct != m_canAct) {
         m_canAct = newCanAct;
         qDebug() << "[ACTDBG] canAct=" << m_canAct << "prevPlayerId=" << dbgPrevId

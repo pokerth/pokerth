@@ -132,6 +132,14 @@ Item {
     // gesperrt bis die Aufdeck-Animation durch ist, s. onBoardDealingChanged),
     // true bei Rundenstart, eigenem Zug oder Gegner-Aktion.
     property bool preSelectEnabled: true
+    // Runden-Übergangssperre: true ab der letzten Aktion einer Setzrunde
+    // (Signal bettingRoundEnded aus dem GameHandler) bis die nächste Runde mit
+    // frischen Werten startet (roundValuesReady), es wieder mein Zug ist oder
+    // eine neue Hand beginnt. Solange true sind die Aktions-Buttons inaktiv und
+    // tragen keine veralteten Call-/Raise-Beträge mehr (s. actionsArmed). Genau
+    // das verlangte Verhalten: letzter Spieler handelt → Buttons sofort
+    // zurückgesetzt + deaktiviert → nächste Runde → wieder aktiv mit neuen Werten.
+    property bool roundEnded: false
     // Werden gerade neue Gemeinschaftskarten aufgedeckt? Wird von GamePage aus
     // CommunityCards.dealing gespeist. Solange true, ist KEINE Aktion möglich
     // (actionsArmed gatet darauf) – exakt die Vorgabe: während Aufdeck-
@@ -150,10 +158,22 @@ Item {
             if (GameTable && GameTable.handNumber !== actionBar.lastHandNumber) {
                 actionBar.preAction = ""
                 actionBar.preSelectEnabled = true   // neue Hand → Vorauswahl freischalten
+                actionBar.roundEnded = false        // neue Hand → Rundensperre lösen
                 actionBar.raiseAmount = 0
                 actionBar.lastHandNumber = GameTable.handNumber
                 console.log("[ACTDBG] Reset: Neue Hand " + actionBar.lastHandNumber)
             }
+        }
+        function onBettingRoundEnded() {
+            // Letzte Aktion der Setzrunde ist erfolgt → Buttons SOFORT zurücksetzen
+            // und sperren: Vorwahl verwerfen, vorbereiteten Raise löschen und die
+            // Übergangssperre setzen. Erst die nächste Runde (roundValuesReady),
+            // der nächste eigene Zug oder eine neue Hand hebt sie wieder auf.
+            actionBar.preAction = ""
+            actionBar.preSelectEnabled = false
+            actionBar.raiseAmount = 0
+            actionBar.roundEnded = true
+            console.log("[ACTDBG] Reset (Rundenende): Buttons gesperrt bis nächste Runde")
         }
         function onPhaseTextChanged() {
             if (!GameTable) return
@@ -205,7 +225,7 @@ Item {
     // Showdown oder während neue Gemeinschaftskarten aufgedeckt werden
     // (boardDealing). Die Button-Beschriftungen hängen daran: nur solange aktiv
     // werden Beträge gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
-    readonly property bool actionsArmed: !inShowdown && !boardDealing
+    readonly property bool actionsArmed: !inShowdown && !boardDealing && !roundEnded
         && ((GameTable !== null && GameTable.myTurn)
             || (canAct && preSelectEnabled))
 
@@ -320,6 +340,7 @@ Item {
             // Ausführung der vorgemerkten/automatischen Aktion in onMeInActionTriggered.
             if (GameTable.myTurn) {
                 actionBar.preSelectEnabled = true
+                actionBar.roundEnded = false   // mein Zug → Rundensperre lösen
                 // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (Config-Key
                 // EnableBetInputFocusSwitch): Eingabefeld fokussieren, sofern ein
                 // Raise/Bet überhaupt möglich ist.
@@ -329,6 +350,8 @@ Item {
             actionBar.syncRaiseAmount()
         }
         function onMeInActionTriggered() {
+            // Mein Zug steht fest → eine evtl. noch aktive Rundensperre lösen.
+            actionBar.roundEnded = false
             // Wie meInAction() im Widgets-Client: GENAU HIER die gemerkte
             // bzw. automatische Aktion ausführen. Dieser Callback kommt bei
             // jedem eigenen Zug verlässlich (auch wenn m_myTurn schon true
@@ -364,6 +387,8 @@ Item {
             // Postflop bleibt gesperrt, bis die Aufdeck-Animation durch ist
             // (onBoardDealingChanged), damit während des Aufdeckens keine Aktion
             // möglich ist.
+            // Frische Werte der neuen Runde liegen vor → Rundensperre lösen.
+            actionBar.roundEnded = false
             if (GameTable && GameTable.phaseText === "Preflop")
                 actionBar.preSelectEnabled = true
         }
@@ -372,7 +397,9 @@ Item {
                 // Gegner hat gesetzt/erhöht → Vorauswahl freischalten.
                 // callAmountChanged allein taugt nicht: feuert auch nach
                 // eigener Aktion (onRefreshSet/Pot/Cash) mit veralteten Werten.
+                // Echter Einsatz in der laufenden Runde → Rundensperre lösen.
                 actionBar.preSelectEnabled = true
+                actionBar.roundEnded = false
             }
             // Sicherheit: vorgemerkter Call verfällt nur bei einer ECHTEN
             // Gegner-Aktion (FOLD/CHECK/CALL/BET/RAISE/ALLIN), die den Call-

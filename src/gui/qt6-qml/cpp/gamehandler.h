@@ -253,6 +253,11 @@ signals:
     void meInActionTriggered();
     void refreshActionTriggered();   // echte Spieler-Aktion (kein globaler Refresh)
     void roundValuesReady();          // nach Rundenwechsel: frische Werte verfügbar
+    // Setzrunde gerade entschieden (letzte Aktion der Runde ist erfolgt, nächste
+    // Runde/Hand noch nicht gestartet). QML sperrt darauf hin die Aktions-Buttons
+    // sofort und verwirft veraltete Vorwahl/Beträge, bis roundValuesReady() bzw.
+    // der nächste eigene Zug wieder frische Werte liefert.
+    void bettingRoundEnded();
     void canActChanged();
     void callAmountChanged();
     void minRaiseAmountChanged();
@@ -327,6 +332,10 @@ private:
     int m_handNumber = 0;
     bool m_myTurn = false;
     bool m_canAct = false;
+    // Flankenerkennung für bettingRoundEnded(): true, solange computeCallAndRaise-
+    // Amounts() die Setzrunde als abgeschlossen erkennt (roundClosed). Das Signal
+    // feuert nur auf der steigenden Flanke (Runde gerade entschieden).
+    bool m_roundClosed = false;
     int m_callAmount = 0;
     int m_minRaiseAmount = 0;
     int m_maxRaiseAmount = 0;
