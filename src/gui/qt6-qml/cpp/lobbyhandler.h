@@ -244,6 +244,10 @@ public slots:
     // Server-Meldung (Klartext bzw. msgId aus socket_msg.h) → QML-Info-Popup.
     void onNetworkMessage(const QString &message);
     void onNetworkMessageId(unsigned msgId);
+    // Server-Benachrichtigung (notificationId = NTF_NET_* aus socket_msg.h),
+    // u. a. wenn das Beitreten/Erstellen eines Spiels fehlschlägt (z. B. der
+    // Spielname ist bereits vergeben) → QML-Info-Popup.
+    void onNetworkNotification(int notificationId);
     void onGameStarted();
     // reason = NTF_NET_REMOVED_* (socket_msg.h); wird an QML weitergereicht,
     // damit ein selbst angefordertes Verlassen (ON_REQUEST) anders navigiert

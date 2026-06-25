@@ -226,6 +226,14 @@ void QmlGuiInterface::SignalNetClientMsgBox(unsigned msgId)
     }
 }
 
+void QmlGuiInterface::SignalNetClientNotification(int notificationId)
+{
+    if (m_lobbyHandler) {
+        QMetaObject::invokeMethod(m_lobbyHandler, "onNetworkNotification", Qt::QueuedConnection,
+                                  Q_ARG(int, notificationId));
+    }
+}
+
 void QmlGuiInterface::SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin)
 {
     if (m_lobbyHandler) {

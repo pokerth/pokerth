@@ -1152,6 +1152,44 @@ void LobbyHandler::onNetworkMessageId(unsigned msgId)
     emit networkMessageReceived(msgText);
 }
 
+void LobbyHandler::onNetworkNotification(int notificationId)
+{
+    // Texte 1:1 wie startWindowImpl::networkNotification(int). Ohne diese
+    // Behandlung blieb beim Erstellen/Beitreten eines Spiels jede Server-
+    // Ablehnung (z. B. bereits vergebener Spielname) unbemerkt.
+    QString msgText;
+    switch (notificationId) {
+    case NTF_NET_JOIN_IP_BLOCKED:
+        msgText = tr("You cannot join this game, because another player in that game has your network address."); break;
+    case NTF_NET_REMOVED_GAME_FULL:
+    case NTF_NET_JOIN_GAME_FULL:
+        msgText = tr("Sorry, this game is already full."); break;
+    case NTF_NET_REMOVED_ALREADY_RUNNING:
+    case NTF_NET_JOIN_ALREADY_RUNNING:
+        msgText = tr("Unable to join - the server has already started the game."); break;
+    case NTF_NET_JOIN_NOT_INVITED:
+        msgText = tr("This game is of type invite-only. You cannot join this game without being invited."); break;
+    case NTF_NET_JOIN_GAME_NAME_IN_USE:
+        msgText = tr("This game name is already in use. Please choose a different name."); break;
+    case NTF_NET_JOIN_GAME_BAD_NAME:
+        msgText = tr("The game name is invalid. Please choose a different name."); break;
+    case NTF_NET_JOIN_INVALID_PASSWORD:
+        msgText = tr("Invalid password when joining the game.\nPlease reenter the password and try again."); break;
+    case NTF_NET_JOIN_GUEST_FORBIDDEN:
+        msgText = tr("You cannot join this type of game as guest."); break;
+    case NTF_NET_JOIN_INVALID_SETTINGS:
+        msgText = tr("The settings are invalid for this type of game."); break;
+    case NTF_NET_JOIN_NO_SPECTATORS:
+        msgText = tr("This game does not allow spectators."); break;
+    case NTF_NET_JOIN_GAME_INVALID:
+    case NTF_NET_JOIN_REJOIN_FAILED:
+        msgText = tr("Could not join the game."); break;
+    default:
+        return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
+    }
+    emit networkMessageReceived(msgText);
+}
+
 void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &message)
 {
     // Reload ignore list fresh on every message (matches chattools.cpp refreshIgnoreList pattern)
