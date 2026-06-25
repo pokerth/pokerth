@@ -29,13 +29,6 @@ ColumnLayout {
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
 
-    // Einstellung „Kartenchancenmonitor anzeigen" (Config-Key
-    // ShowCardsChanceMonitor) – wie im Qt-Widgets-Client abschaltbar. Ist sie aus,
-    // entfällt der „Chancen"-Tab und nur der Spielverlauf wird angezeigt.
-    readonly property bool chanceMonitorEnabled:
-        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
-            ? SettingsManager.readConfigInt("ShowCardsChanceMonitor") !== 0 : false
-
     // ── Datenanbindung ────────────────────────────────────────────────────────
     readonly property var chance:
         (typeof GameTable !== "undefined" && GameTable) ? GameTable.cardsChance : []
@@ -69,15 +62,14 @@ ColumnLayout {
     // ── Tab-Leiste ────────────────────────────────────────────────────────────
     CustomTabBar {
         id: tabs
-        // Tab-Leiste nur sinnvoll, wenn es einen zweiten Tab gibt. Ohne
-        // Chancenmonitor reduziert sich das Panel auf den Spielverlauf.
-        visible: root.chanceMonitorEnabled
+        // „Verlauf" und „Chancen" sind immer beide erreichbar – der
+        // Kartenchancenmonitor wird nicht mehr separat in den Einstellungen
+        // abgeschaltet, sondern über den Info-Panel-Toggle ein-/ausgeblendet.
         Layout.fillWidth: true
-        Layout.preferredHeight: visible ? implicitHeight : 0
+        Layout.preferredHeight: implicitHeight
         tabHeight: 18
         tabFontPointSize: 8
-        model: root.chanceMonitorEnabled ? [qsTr("Verlauf"), qsTr("Chancen")]
-                                         : [qsTr("Verlauf")]
+        model: [qsTr("Verlauf"), qsTr("Chancen")]
     }
 
     StackLayout {

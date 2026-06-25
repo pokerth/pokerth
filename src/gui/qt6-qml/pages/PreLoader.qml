@@ -15,6 +15,25 @@ Rectangle {
     height: mainWindow.height
     color: "transparent"
 
+    // Einstellung „Splash beim Start deaktivieren" (Config-Key
+    // DisableSplashScreenOnStartup). Ist sie an, wird der PreLoader gar nicht erst
+    // angezeigt, sondern sofort durch die StartPage ersetzt.
+    readonly property bool splashDisabled:
+        (typeof SettingsManager !== "undefined" && SettingsManager)
+            ? SettingsManager.disableSplashScreen : false
+
+    Component.onCompleted: {
+        if (preLoaderPage.splashDisabled) {
+            preLoaderProgressInfoTextTimer.running = false
+            preLoaderDoneTimer.running = false
+            // Stack erst nach Abschluss der Konstruktion umbauen (nicht synchron
+            // im onCompleted des initialItem).
+            Qt.callLater(function() {
+                mainStackView.replaceCurrentItem(mainWindow.startPage)
+            })
+        }
+    }
+
     Image {
         id: preLoaderBackground
         anchors.fill: parent
@@ -95,6 +114,7 @@ Rectangle {
                         }
 
                         Timer {
+                            id: preLoaderDoneTimer
                             interval: 5000 // @FIXME: increase in productive mode
                             running: true
                             repeat: false

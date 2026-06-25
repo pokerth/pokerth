@@ -11,7 +11,6 @@ Settings {
     property bool animatedCardsCheckbox: true
     property bool reverseFKeysOrderCheckbox: false
     property bool showBlindButtonsCheckbox: true
-    property bool showHandChanceMonitorCheckbox: true
     property bool showOwnCardsOnMouseClickCheckbox: false
     property bool disableSplashScreenOnStartupCheckbox: false
     property bool doNotTranslatePokerTermsCheckbox: true

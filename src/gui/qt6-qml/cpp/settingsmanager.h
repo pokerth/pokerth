@@ -83,6 +83,16 @@ public:
     Q_INVOKABLE QVariantList availableCardDeckStyles() const;
     Q_INVOKABLE QVariantList availableCardBackStyles() const;
 
+    // Liste der mitgelieferten Beispiel-Avatare unter
+    // <AppDataDir>/gfx/avatars/default/<people|misc>/*. Diese haben für die
+    // Community einen historischen Wert (wie im Widget-Client). Jeder Eintrag
+    // ist eine Map mit den Schlüsseln:
+    //   name      (Anzeigename, z. B. "No. 1"),
+    //   category  ("people" | "misc"),
+    //   path      (absoluter Dateipfad, wird so in MyAvatar gespeichert),
+    //   url       (file://-URL für die Bildvorschau).
+    Q_INVOKABLE QVariantList availableExampleAvatars() const;
+
 signals:
     void languageChanged();
     void styleChanged();

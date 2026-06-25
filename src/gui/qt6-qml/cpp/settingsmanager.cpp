@@ -223,6 +223,40 @@ QVariantList SettingsManager::availableCardBackStyles() const
     return scanStyleDir("backside", "backsidestyle.xml");
 }
 
+QVariantList SettingsManager::availableExampleAvatars() const
+{
+    QVariantList result;
+    if (!m_config)
+        return result;
+
+    // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+    const QString base = QString::fromStdString(m_config->readConfigString("AppDataDir"))
+                         + "gfx/avatars/default/";
+
+    // Reihenfolge der Kategorien wie im Widget-Client (selectAvatarDialog).
+    const QStringList categories = { QStringLiteral("people"), QStringLiteral("misc") };
+    for (const QString &category : categories) {
+        QDir dir(base + category);
+        if (!dir.exists())
+            continue;
+
+        const QStringList files =
+            dir.entryList(QStringList() << "*.png", QDir::Files, QDir::Name);
+        int i = 0;
+        for (const QString &file : files) {
+            const QString abs = dir.absoluteFilePath(file);
+
+            QVariantMap entry;
+            entry["name"] = QStringLiteral("No. %1").arg(++i);
+            entry["category"] = category;
+            entry["path"] = abs;
+            entry["url"] = QUrl::fromLocalFile(abs).toString();
+            result.append(entry);
+        }
+    }
+    return result;
+}
+
 QVariantList SettingsManager::scanStyleDir(const QString &category, const QString &xmlSuffix) const
 {
     QVariantList result;

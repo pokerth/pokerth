@@ -37,6 +37,7 @@
         <file>components/CardImage.qml</file>
         <file>components/GameStatusBar.qml</file>
         <file>components/ConfirmPopup.qml</file>
+        <file>components/ExampleAvatarPicker.qml</file>
         <file>components/CommunityCards.qml</file>
         <file>components/WinningHandBadge.qml</file>
         <file>components/GameSidePanel.qml</file>

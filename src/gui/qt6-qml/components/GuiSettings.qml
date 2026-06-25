@@ -175,13 +175,6 @@ Rectangle {
                     }
 
                     CheckBox {
-                        objectName: "showHandChanceMonitorCheckbox"
-                        text: qsTr("Kartenchancenmonitor anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowCardsChanceMonitor") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowCardsChanceMonitor", checked ? 1 : 0) }
-                    }
-
-                    CheckBox {
                         objectName: "showOwnCardsOnMouseClickCheckbox"
                         text: qsTr("Anti-Peek: Eigene Karten erst bei Klick anzeigen")
                         checked: SettingsManager ? SettingsManager.readConfigInt("AntiPeekMode") !== 0 : false
