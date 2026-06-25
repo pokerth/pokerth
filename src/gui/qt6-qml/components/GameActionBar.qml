@@ -94,6 +94,11 @@ Item {
     readonly property bool accidentalCallBlockerEnabled:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("AccidentallyCallBlocker") !== 0 : true
+    // Einstellung „Pot-Prozent-Buttons anzeigen" (ShowPotPercentButtons).
+    // configRevision-Referenz nötig, damit das Umschalten ingame sofort wirkt.
+    readonly property bool showPotPercentButtons:
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+            ? SettingsManager.readConfigInt("ShowPotPercentButtons") !== 0 : true
     property bool callBlocked: false
     onCheckCallTextChanged: {
         if (accidentalCallBlockerEnabled && actionsArmed) {
@@ -595,9 +600,7 @@ Item {
                     ]
                     delegate: Rectangle {
                         required property var modelData
-                        visible: SettingsManager
-                                 ? SettingsManager.readConfigInt("ShowPotPercentButtons") !== 0
-                                 : true
+                        visible: actionBar.showPotPercentButtons
                         Layout.preferredWidth: visible ? 38 : 0
                         Layout.preferredHeight: actionBar.raiseRowHeight
                         radius: 5

@@ -508,6 +508,7 @@ ApplicationWindow {
         anchors.centerIn: parent
         modal: true
         padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
         closePolicy: Popup.CloseOnEscape
 
         property int reason: 0          // NetTimeoutReason
@@ -542,7 +543,7 @@ ApplicationWindow {
 
         ColumnLayout {
             spacing: 12
-            width: Math.min(mainWindow.width * 0.85, 380)
+            width: timeoutWarningPopup.availableWidth
 
             Label {
                 Layout.fillWidth: true
@@ -602,6 +603,7 @@ ApplicationWindow {
         anchors.centerIn: parent
         modal: true
         padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         property string message: ""
@@ -615,7 +617,7 @@ ApplicationWindow {
 
         ColumnLayout {
             spacing: 12
-            width: Math.min(mainWindow.width * 0.85, 380)
+            width: networkMessagePopup.availableWidth
 
             Label {
                 Layout.fillWidth: true
@@ -652,6 +654,7 @@ ApplicationWindow {
         anchors.centerIn: parent
         modal: true
         padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         background: Rectangle {
@@ -663,7 +666,7 @@ ApplicationWindow {
 
         ColumnLayout {
             spacing: 12
-            width: Math.min(mainWindow.width * 0.85, 380)
+            width: leaveGameConfirmPopup.availableWidth
 
             Label {
                 Layout.fillWidth: true
@@ -710,6 +713,7 @@ ApplicationWindow {
         anchors.centerIn: parent
         modal: true
         padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         background: Rectangle {
@@ -721,7 +725,7 @@ ApplicationWindow {
 
         ColumnLayout {
             spacing: 12
-            width: Math.min(mainWindow.width * 0.85, 380)
+            width: leaveLobbyConfirmPopup.availableWidth
 
             Label {
                 Layout.fillWidth: true

@@ -17,6 +17,7 @@ Popup {
     anchors.centerIn: parent
     modal: true
     padding: 20
+    width: Math.min((parent ? parent.width : 360) * 0.85, 340)
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
     property string title: ""
@@ -41,7 +42,7 @@ Popup {
 
     ColumnLayout {
         spacing: 12
-        width: Math.min((root.parent ? root.parent.width : 360) * 0.85, 340)
+        width: root.availableWidth
 
         Label {
             Layout.fillWidth: true

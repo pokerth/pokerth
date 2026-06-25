@@ -1378,6 +1378,20 @@ void LobbyHandler::onSelfJoinedGame()
 
 void LobbyHandler::onGameStarted()
 {
+    // Spielstart bedeutet, dass die Engine die Lobby-Nachrichten abbestellt
+    // (UnsubscribeLobbyMsg). Während des Spiels treffen daher keine
+    // playerListLeft-Events mehr ein – Spieler, die in dieser Zeit die Verbindung
+    // trennen, blieben sonst als veraltete "idle"-Einträge in der Liste stehen.
+    // Beim Rückkehren in den Warteraum/die Lobby sendet der Server via
+    // ResubscribeLobbyMsg die vollständige Spielerliste erneut (playerListNew),
+    // sodass die Liste hier gefahrlos geleert und anschließend frisch aufgebaut
+    // wird. Spiegelt das Verhalten des Widget-Clients (Nickliste leeren bei
+    // MSG_NET_GAME_CLIENT_START).
+    m_playerListModel.clear();
+    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    ++m_playerListRevision;
+    emit playerListRevisionChanged();
+
     emit gameStarted();
 }
 

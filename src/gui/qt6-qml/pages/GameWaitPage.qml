@@ -480,7 +480,7 @@ Rectangle {
                     spacing: 5
 
                     Label {
-                        text: qsTr("Available Players")
+                        text: qsTr("Connected Players")
                         font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
