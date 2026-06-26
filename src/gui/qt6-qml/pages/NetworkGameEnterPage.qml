@@ -236,6 +236,12 @@ Rectangle {
                         font.family: Config.StaticData.loadedFont.font.family
                         color: Config.StaticData.palette.secondary.col100
                         placeholderTextColor: Config.StaticData.palette.secondary.col400
+                        // Profilname = XML-Tag-Name in serverprofiles.xml: muss mit
+                        // einem Buchstaben beginnen, danach Buchstaben/Ziffern (wie im
+                        // Qt-Widgets-Client), damit beide Clients dieselbe Datei teilen.
+                        validator: RegularExpressionValidator {
+                            regularExpression: /[A-Za-z][A-Za-z0-9]*/
+                        }
                         background: Rectangle {
                             radius: 6
                             color: Config.StaticData.palette.secondary.col600
