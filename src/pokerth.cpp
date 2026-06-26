@@ -134,7 +134,10 @@ int main(int argc, char *argv[])
 
     // make QSettings use the default PokerTH config.xml :
 	const QSettings::Format XmlFormat = QSettings::registerFormat("xml", &SettingsXmlHandler::readXmlFile, &SettingsXmlHandler::writeXmlFile);
-    QFileInfo fi(QString::fromStdString(myConfig->configFileName));
+    // configFileName is stored in the platform's local 8-bit encoding (see
+    // ConfigFile); decode with fromLocal8Bit so non-ASCII user profile paths
+    // (e.g. a Hungarian "AppData" path) are not corrupted into a wrong path.
+    QFileInfo fi(QString::fromLocal8Bit(myConfig->configFileName.c_str()));
     QSettings::setPath(XmlFormat, QSettings::UserScope, fi.absolutePath().remove("/.pokerth"));
     QSettings settings(XmlFormat, QSettings::UserScope, ".pokerth", "config");
 

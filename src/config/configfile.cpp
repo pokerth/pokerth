@@ -50,11 +50,28 @@
 #include <fstream>
 #include <set>
 #include <algorithm>
+#include <cerrno>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 
 using namespace std;
+
+namespace
+{
+// Decode a filesystem path that is stored in the platform's local 8-bit
+// encoding into a QString. On Windows getenv("AppData") / _getcwd() /
+// GetTempPath() return the path in the active ANSI code page (e.g. CP1250 for a
+// Hungarian Windows), so it MUST be decoded with fromLocal8Bit – NOT with
+// fromUtf8 (which is what QString::fromStdString does). Using fromUtf8 here
+// corrupts any non-ASCII character in the user profile path (e.g. "ő"/"ű"),
+// after which the config file path no longer matches the real directory and
+// config.xml can neither be read nor written.
+QString pathToQString(const std::string &path)
+{
+	return QString::fromLocal8Bit(path.c_str());
+}
+}
 
 ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 {
@@ -73,6 +90,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
+	const int MaxPathSize = 1024;
 	const char *appDataPath = getenv("AppData");
 	if (appDataPath && appDataPath[0] != 0)
 	{
@@ -80,30 +98,40 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	}
 	else
 	{
-		const int MaxPathSize = 1024;
+		// %AppData% not set -> fall back to the current working directory.
 		char curDir[MaxPathSize + 1];
 		curDir[0] = 0;
 		_getcwd(curDir, MaxPathSize);
 		curDir[MaxPathSize] = 0;
 		configFileName = curDir;
-		// Testen ob das Verzeichnis beschreibbar ist
+	}
+
+	// Verify the chosen base directory is actually writable. This must be done
+	// for %AppData% too, not only for the current-working-directory fallback:
+	// a roaming/redirected (Group Policy) AppData on an unreachable network
+	// share, restrictive ACLs or a full disk would otherwise leave us writing
+	// into a directory that silently rejects every write. Fall back to %TEMP%
+	// in that case so the client at least stays usable for the session.
+	{
 		ofstream tmpFile;
-		const char *tmpFileName = "pokerth_test.tmp";
-		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
+		const string tmpFilePath = configFileName + "\\pokerth_test.tmp";
+		tmpFile.open(tmpFilePath.c_str());
 		if (tmpFile)
 		{
-			// Erfolgreich, Verzeichnis beschreibbar.
-			// Datei wieder loeschen.
+			// Erfolgreich, Verzeichnis beschreibbar. Datei wieder loeschen.
 			tmpFile.close();
-			remove((configFileName + "\\" + tmpFileName).c_str());
+			remove(tmpFilePath.c_str());
 		}
 		else
 		{
 			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
-			curDir[0] = 0;
-			GetTempPathA(MaxPathSize, curDir);
-			curDir[MaxPathSize] = 0;
-			configFileName = curDir;
+			char tmpDir[MaxPathSize + 1];
+			tmpDir[0] = 0;
+			GetTempPathA(MaxPathSize, tmpDir);
+			tmpDir[MaxPathSize] = 0;
+			LOG_ERROR("Config directory '" << configFileName
+				<< "' is not writable, falling back to temp directory '" << tmpDir << "'");
+			configFileName = tmpDir;
 		}
 	}
 	// define app-dir
@@ -118,8 +146,12 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	cacheDir = configFileName;
 	cacheDir += "cache\\";
 
-	// create directories on first start of app
-	_mkdir(configFileName.c_str());
+	// create directories on first start of app. _mkdir() returns -1 with
+	// errno==EEXIST if the directory already exists, which is fine; any other
+	// failure means we will not be able to store the config and is worth
+	// surfacing in the log instead of failing silently.
+	if (_mkdir(configFileName.c_str()) != 0 && errno != EEXIST)
+		LOG_ERROR("Could not create config directory '" << configFileName << "' (errno " << errno << ")");
 	_mkdir(logDir.c_str());
 	_mkdir(dataDir.c_str());
 	_mkdir(cacheDir.c_str());
@@ -352,7 +384,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 		QDomDocument xmlDoc;
 
-		QString qPath = QString::fromLocal8Bit(configFileName.c_str());
+		QString qPath = pathToQString(configFileName);
 		QFile file(qPath);
 		if (!file.open(QIODevice::ReadOnly) || !xmlDoc.setContent(&file))
 		{
@@ -392,17 +424,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				{
 					confAppDataPath.setAttribute("value", QString::fromStdString(myQtToolsInterface->getDataPathStdString(myArgv0)));
 #endif
-					QFile file(QString::fromStdString(configFileName));
-					if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-					{
-						// qDebug("Failed to open file for writing.");
-					}
-					else
-					{
-						QTextStream stream(&file);
-						stream << xmlDoc.toString();
-					}
-					file.close();
+					writeConfigDocument(xmlDoc.toString());
 				}
 			}
 			if (tempRevision < configRev)
@@ -423,13 +445,28 @@ ConfigFile::~ConfigFile()
 	myQtToolsInterface = 0;
 }
 
+bool ConfigFile::writeConfigDocument(const QString &xmlContent) const
+{
+	QFile file(pathToQString(configFileName));
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	{
+		LOG_ERROR("Could not open config file for writing: '" << configFileName
+			<< "' (" << file.errorString().toStdString() << ")");
+		return false;
+	}
+	QTextStream stream(&file);
+	stream << xmlContent;
+	file.close();
+	return true;
+}
+
 void ConfigFile::fillBuffer()
 {
 
     boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
     QDomDocument xmlDoc;
-    QFile file(QString::fromStdString(configFileName));
+    QFile file(pathToQString(configFileName));
     if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
 	{
 		file.close();
@@ -551,17 +588,7 @@ void ConfigFile::writeBuffer() const
 			}
 		}
 
-		QFile file(QString::fromStdString(configFileName));
-		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
-			// qDebug("Failed to open file for writing.");
-		}
-		else
-		{
-			QTextStream stream(&file);
-			stream << xmlDoc.toString();
-		}
-		file.close();
+		writeConfigDocument(xmlDoc.toString());
 	}
 }
 
@@ -606,16 +633,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 				}
 			}
 		}
-		QFile file(QString::fromStdString(configFileName));
-		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
-		}
-		else
-		{
-			QTextStream stream(&file);
-			stream << xmlDoc.toString();
-		}
-		file.close();
+		writeConfigDocument(xmlDoc.toString());
 	}
 
 	if (myConfigState == OLD)
@@ -623,7 +641,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 
 		// load the old one
 		QDomDocument oldDoc;
-		QFile file(QString::fromStdString(configFileName));
+		QFile file(pathToQString(configFileName));
 		if (file.open(QIODevice::ReadOnly) && oldDoc.setContent(&file))
 		{
 			file.close();
@@ -755,16 +773,7 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 					}
 				}
 			}
-			QFile file(QString::fromStdString(configFileName));
-			if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-			{
-			}
-			else
-			{
-				QTextStream stream(&file);
-				stream << newDoc.toString();
-			}
-			file.close();
+			writeConfigDocument(newDoc.toString());
 		}
 		else
 		{
