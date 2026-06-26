@@ -55,6 +55,7 @@ struct ConfigInfo {
 #endif /* _CISTRUCT_H */
 
 class QtToolsInterface;
+class QString;
 
 class ConfigFile
 {
