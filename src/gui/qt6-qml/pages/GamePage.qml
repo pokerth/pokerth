@@ -1487,6 +1487,14 @@ Rectangle {
                 // (Chat ist links mit 8 px Abstand verankert, Breite = dockedChatW).
                 var chatLeft  = 8
                 var chatRight = 8 + dockedChatW
+                // Bet-/Puck-Badge-Ausmaße (Basis-Pixel, skalieren mit s) – siehe
+                // GamePlayerBox.betGroup. Die Rand-Sitze tragen Einsatz + Dealer-/
+                // Blind-Button SEITLICH zur Bildschirmkante hin (= in den Chat-
+                // Bereich hinein), die mittigen Sitze unterhalb der Box. Damit der
+                // Einsatz eines Gegners nie vom Chat verdeckt wird, zählt die volle
+                // Box-Breite PLUS Einsatz-Breite zur Horizontal-Überlappung.
+                var betSideExt   = (8 + 52) * s
+                var betBottomExt = 39 * s
                 // Alle Landscape-Slots durchsuchen: welche Boxen überlappen horizontal?
                 var slots = slotPosLandscape
                 var maxH = height + actionBar.height - 8   // kein Limit → voll
@@ -1496,10 +1504,25 @@ Rectangle {
                     var boxCY   = height * pos[1]
                     var boxL    = boxCX - visualW / 2
                     var boxR    = boxCX + visualW / 2
-                    // Überlapp nur prüfen, wenn Box im Chat-Bereich liegt.
+                    var boxBot  = boxCY + visualH / 2
+                    // Einsatz-/Puck-Bereich je nach betSide einrechnen (vgl. Repeater-
+                    // Delegate): linke Sitze nach links, rechte nach rechts, mittige
+                    // nach unten; im landscapeCompact zeigt die mittige Box gesplittet
+                    // nach beiden Seiten.
+                    if (Config.Responsive.landscapeCompact && pos[0] >= 0.45 && pos[0] <= 0.55) {
+                        boxL -= betSideExt
+                        boxR += betSideExt
+                    } else if (pos[0] < 0.45) {
+                        boxL -= betSideExt
+                    } else if (pos[0] > 0.55) {
+                        boxR += betSideExt
+                    } else {
+                        boxBot += betBottomExt
+                    }
+                    // Überlapp nur prüfen, wenn Box (inkl. Einsatz) im Chat-Bereich liegt.
                     if (boxR <= chatLeft || boxL >= chatRight) continue
-                    // Unterkante der Box + 8 px Sicherheitsabstand:
-                    var boxBottom = boxCY + visualH / 2 + 8
+                    // Unterkante der Box/des Einsatzes + 8 px Sicherheitsabstand:
+                    var boxBottom = boxBot + 8
                     // Chat darf höchstens bis zur Unterkante dieser Box reichen.
                     var limit = height - boxBottom + actionBar.height - 8
                     if (limit < maxH) maxH = limit
@@ -1508,8 +1531,8 @@ Rectangle {
             }
             // Vom Benutzer per Drag-Handle eingestellte Höhe; -1 = Standard.
             property real dockedChatUserH: -1
-            // Eingeklappt (per Toggle ausgeblendet)? Default: sichtbar.
-            property bool dockedChatCollapsed: false
+            // Eingeklappt (per Toggle ausgeblendet)? Default: eingeklappt (Toggle aus).
+            property bool dockedChatCollapsed: true
 
             // ── Permanentes Info-Panel unten RECHTS – Spiegelbild des Docked-Chat ──
             // Gleiches Layout wie der Chat (unten links): schwebt ÜBER dem Tisch,
@@ -1522,8 +1545,8 @@ Rectangle {
             readonly property bool dockedInfoFits: dockedInfoW >= 170
             // Wird das Panel gedockt, ist das Overlay überflüssig.
             onDockedInfoFitsChanged: if (dockedInfoFits) showInfo = false
-            // Eingeklappt (per Toggle ausgeblendet)?
-            property bool dockedInfoCollapsed: false
+            // Eingeklappt (per Toggle ausgeblendet)? Default: eingeklappt (Toggle aus).
+            property bool dockedInfoCollapsed: true
 
             readonly property real dockedInfoMinH: actionBar.height - 8
             // Maximale Höhe: bis zur Unterkante der untersten Gegnerbox, die
@@ -1535,6 +1558,11 @@ Rectangle {
                 var visualH = oppBaseHeight * s
                 var infoRight = width - 8
                 var infoLeft  = width - 8 - dockedInfoW
+                // Bet-/Puck-Badge-Ausmaße wie beim Chat (s. dockedChatMaxH): die
+                // rechten Rand-Sitze tragen den Einsatz seitlich nach rechts (in den
+                // Info-Bereich hinein) – volle Box- PLUS Einsatz-Breite zählen.
+                var betSideExt   = (8 + 52) * s
+                var betBottomExt = 39 * s
                 var slots = slotPosLandscape
                 var maxH = height + actionBar.height - 8
                 for (var name in slots) {
@@ -1543,8 +1571,19 @@ Rectangle {
                     var boxCY = height * pos[1]
                     var boxL  = boxCX - visualW / 2
                     var boxR  = boxCX + visualW / 2
+                    var boxBot = boxCY + visualH / 2
+                    if (Config.Responsive.landscapeCompact && pos[0] >= 0.45 && pos[0] <= 0.55) {
+                        boxL -= betSideExt
+                        boxR += betSideExt
+                    } else if (pos[0] < 0.45) {
+                        boxL -= betSideExt
+                    } else if (pos[0] > 0.55) {
+                        boxR += betSideExt
+                    } else {
+                        boxBot += betBottomExt
+                    }
                     if (boxR <= infoLeft || boxL >= infoRight) continue
-                    var boxBottom = boxCY + visualH / 2 + 8
+                    var boxBottom = boxBot + 8
                     var limit = height - boxBottom + actionBar.height - 8
                     if (limit < maxH) maxH = limit
                 }
@@ -1858,6 +1897,8 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: 8
             anchors.topMargin: 12   // Platz für den Resize-Handle
+            // Gleiche Schriftgröße wie der gedockte Chat.
+            messageFontSize: 11
         }
 
         // ── Größenänderungs-Handle (Ziehen nach oben) – wie beim Chat ─────────

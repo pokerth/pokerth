@@ -29,6 +29,11 @@ ColumnLayout {
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
 
+    // Schriftgröße für Verlauf-/Chancen-Texte – analog zur ChatBox
+    // (messageFontSize), damit Log/Chancen so groß wie der Chat sind.
+    // Overlay: 12 (Default), gedockt: 11 (vom Aufrufer gesetzt).
+    property int messageFontSize: 12
+
     // ── Datenanbindung ────────────────────────────────────────────────────────
     readonly property var chance:
         (typeof GameTable !== "undefined" && GameTable) ? GameTable.cardsChance : []
@@ -115,7 +120,7 @@ ColumnLayout {
                 textFormat: Text.RichText
                 wrapMode: Text.WordWrap
                 font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 13
+                font.pixelSize: root.messageFontSize
                 lineHeight: 1.15
                 bottomPadding: 4
             }
@@ -201,7 +206,7 @@ ColumnLayout {
                                 maximumLineCount: 2
                                 elide: Text.ElideRight
                                 font.family: Config.StaticData.loadedFont.font.family
-                                font.pixelSize: 15
+                                font.pixelSize: root.messageFontSize
                                 color: possible ? root.colText : root.colTextMuted
                             }
 
@@ -211,7 +216,7 @@ ColumnLayout {
                                 horizontalAlignment: Text.AlignRight
                                 text: prob + "%"
                                 font.family: Config.StaticData.loadedFont.font.family
-                                font.pixelSize: 15
+                                font.pixelSize: root.messageFontSize
                                 font.bold: possible && prob >= 50
                                 color: possible ? root.colText : root.colTextMuted
                             }
