@@ -429,11 +429,32 @@ Item {
             actionBar.syncRaiseAmount()
         }
         function onMinRaiseAmountChanged() {
-            if (actionBar.preAction === "raise" && !actionBar.raiseAvailable)
+            // Widget-Parität (provideMyActions): War ein Bet/Raise vorgemerkt und
+            // liegt der vorbereitete Betrag jetzt UNTER dem neuen Minimum – etwa
+            // weil ein Gegner (re-)erhöht hat – wird die Vorauswahl VERWORFEN,
+            // nicht stillschweigend auf das neue (höhere) Minimum angehoben und
+            // trotzdem ausgeführt. Im Qt-Widgets-Client:
+            //   int lastBetValue = <alter Button-Betrag>;
+            //   if (lastBetValue < slider->minimum() && betRaise->isChecked())
+            //       uncheckMyButtons();  // Vorwahl löschen
+            // raiseAmount entspricht dem zuletzt vorbereiteten Button-Betrag und
+            // wird erst danach per syncRaiseAmount() neu gesetzt – die Prüfung
+            // sieht hier also noch den ALTEN Wert (= lastBetValue).
+            if (actionBar.preAction === "raise"
+                && (!actionBar.raiseAvailable
+                    || actionBar.raiseAmount < GameTable.minRaiseAmount)) {
+                console.log("[ACTDBG] Raise-Vorwahl verworfen: vorbereitet",
+                            actionBar.raiseAmount, "< neues Minimum",
+                            GameTable.minRaiseAmount, "(Gegner hat (re-)erhöht)")
                 actionBar.preAction = ""
+            }
             actionBar.syncRaiseAmount()
         }
         function onMaxRaiseAmountChanged() {
+            // Wie der Widgets-Client: ändert sich nur das Maximum (z. B. mein Cash
+            // nach Sets-Einsammeln), wird die Vorwahl NICHT verworfen – der Betrag
+            // wird lediglich auf das gültige Maximum begrenzt (syncRaiseAmount).
+            // Verworfen wird nur, wenn gar kein Raise mehr möglich ist.
             if (actionBar.preAction === "raise" && !actionBar.raiseAvailable)
                 actionBar.preAction = ""
             actionBar.syncRaiseAmount()
