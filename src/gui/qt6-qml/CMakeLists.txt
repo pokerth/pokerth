@@ -180,6 +180,12 @@ endif()
 
 target_compile_definitions(pokerth_qml-client PUBLIC QML_CLIENT)
 
+# qDebug()-Aufrufe der Client-eigenen Quellen (z. B. die per-Aktion-
+# Instrumentierung [ACTDBG] im GameHandler aus der gelösten Freeze-Untersuchung)
+# zu Compile-Zeit zu No-ops machen → keine String-Formatierung/I/O pro Aktion
+# im Spiel. qInfo/qWarning/qCritical/qFatal bleiben erhalten.
+target_compile_definitions(pokerth_qml-client PRIVATE QT_NO_DEBUG_OUTPUT)
+
 # Android: Konfiguriere und finalisiere Target
 if(ANDROID)
     # Setze Properties VOR qt_finalize_target

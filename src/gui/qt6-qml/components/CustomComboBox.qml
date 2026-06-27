@@ -35,7 +35,7 @@ ComboBox {
     onActivated: function (index) {
         const code = model[index].code;
         Config.Parameters.language = code;
-        console.log("Language setting updated to code:", code);
+        // console.log("Language setting updated to code:", code);
 
         // trigger dynamic translation
         LanguageManager.switchLanguage(code);

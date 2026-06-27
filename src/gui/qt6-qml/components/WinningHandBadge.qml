@@ -38,7 +38,7 @@ Rectangle {
 
     // Gleicher weicher Schein wie das Pot-Badge – hier in Gold passend
     // zum Rahmen, damit die Gewinner-Hand ebenso hervorgehoben wird.
-    layer.enabled: true
+    layer.enabled: Config.Theme.effectsEnabled
     layer.effect: MultiEffect {
         shadowEnabled: true
         shadowColor: "#FFD700"

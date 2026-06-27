@@ -136,7 +136,7 @@ Item {
             border.color: Qt.rgba(1, 1, 1, 0.06)
             border.width: 1
 
-            layer.enabled: true
+            layer.enabled: Config.Theme.effectsEnabled
             layer.effect: MultiEffect {
                 shadowEnabled: true
                 shadowColor: "#000000"
@@ -160,12 +160,15 @@ Item {
             z: 10
             visible: root.isAtTurn
 
+            // Puls nur bei aktivierten Effekten – sonst läuft sonst eine Endlos-
+            // Animation, die die GESAMTE Szene mit 60 fps neu zeichnen lässt.
             SequentialAnimation on opacity {
-                running: root.isAtTurn
+                running: Config.Theme.effectsEnabled && root.isAtTurn
                 loops: Animation.Infinite
                 NumberAnimation { from: 0.65; to: 1.0; duration: 750; easing.type: Easing.InOutSine }
                 NumberAnimation { from: 1.0; to: 0.65; duration: 750; easing.type: Easing.InOutSine }
             }
+            // Ohne Puls bleibt der Rahmen über die Default-Opacity (1.0) sichtbar.
 
             // Weicher Außen-Glow (gelayert) – reine Eye-Candy, optional.
             Rectangle {
@@ -174,7 +177,7 @@ Item {
                 radius: 6
                 border.color: "#FFD54A"
                 border.width: 1
-                layer.enabled: root.isAtTurn
+                layer.enabled: Config.Theme.effectsEnabled && root.isAtTurn
                 layer.effect: MultiEffect {
                     shadowEnabled: true
                     shadowColor: "#FFD700"
@@ -302,7 +305,7 @@ Item {
             border.width: 3
             z: 19
 
-            layer.enabled: root.isWinner
+            layer.enabled: Config.Theme.effectsEnabled && root.isWinner
             layer.effect: MultiEffect {
                 shadowEnabled: true
                 shadowColor: "#FFD700"
@@ -409,7 +412,7 @@ Item {
             color: Config.Theme.colorTimeoutTrack
             border.color: Qt.rgba(1, 1, 1, 0.55)
             border.width: 1
-            layer.enabled: timeoutBar.visible
+            layer.enabled: Config.Theme.effectsEnabled && timeoutBar.visible
             layer.effect: MultiEffect {
                 shadowEnabled: true
                 shadowColor: "#000000"

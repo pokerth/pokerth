@@ -56,7 +56,7 @@ Item {
             border.color: root.colBorder
             border.width: 1
 
-            layer.enabled: true
+            layer.enabled: Config.Theme.effectsEnabled
             layer.effect: MultiEffect {
                 shadowEnabled: true
                 shadowColor: "#000000"

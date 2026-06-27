@@ -292,19 +292,18 @@ void QtAudioPlayer::initAudio()
         // come first to avoid falling into the Linux branch.
         backend = AudioBackend::SoftwareMixerBackend;
 #elif defined(Q_OS_LINUX)
-        // AppImage: QAudioSink may not work because the bundled glibc/libs
-        // conflict with the host audio stack.  Use paplay via
-        // startDetachedSafe() which restores the original LD_LIBRARY_PATH.
-        if (AppImageUtils::isAppImage() && detectPaPlay()) {
-            backend = AudioBackend::PaPlayBackend;
-        } else {
-            // Native builds: use the software mixer — a single persistent
-            // QAudioSink stream that mixes all sounds in-process.  This
-            // avoids spawning a new paplay/pw-play process per sound effect,
-            // which floods PulseAudio/PipeWire with concurrent streams and
-            // causes stuttering in other audio consumers (e.g. video players).
-            backend = AudioBackend::SoftwareMixerBackend;
-        }
+        // Always prefer the software mixer: a single persistent QAudioSink
+        // stream that mixes ALL sounds in-process.  Spawning a paplay/pw-play
+        // process per sound effect (the former AppImage path) floods
+        // PulseAudio/PipeWire with concurrent short-lived streams — the audio
+        // graph is reconfigured on every sound, which stutters ALL audio
+        // consumers (e.g. video players) and gets progressively worse over a
+        // session.  If the QAudioSink fails to start (e.g. a broken AppImage
+        // audio environment where the bundled glibc/libs conflict with the host
+        // stack), the init code below auto-falls back to paplay/pw-play (see the
+        // `if (!mixerSink)` branch), so the mixer-first choice is safe even in
+        // an AppImage.
+        backend = AudioBackend::SoftwareMixerBackend;
 #elif defined(Q_OS_WIN)
         // Windows: WinMM streaming mixer — single persistent waveOut handle
         // with double-buffering on a dedicated audio thread.  Avoids both

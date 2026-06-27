@@ -71,6 +71,14 @@
 // the GUI thread blocks inside the SQLite log flush.
 static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & /*ctx*/, const QString &msg)
 {
+    // Debug-Meldungen werden NICHT mehr verarbeitet: die per-Aktion-
+    // Instrumentierung (z. B. [ACTDBG] im GameHandler) stammt aus der damaligen
+    // Freeze-Untersuchung (gelöst) und schrieb pro Aktion synchron nach stderr
+    // UND auf Platte (fflush je Zeile) → unnötige I/O im Spiel. Nur noch
+    // Info/Warning/Critical/Fatal (selten, echte Diagnose) werden geloggt.
+    if (type == QtDebugMsg)
+        return;
+
     const char *tag = "[QML] ";
     switch (type) {
         case QtDebugMsg:    tag = "[QML-D] "; break;

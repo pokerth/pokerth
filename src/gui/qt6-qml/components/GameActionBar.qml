@@ -166,7 +166,7 @@ Item {
                 actionBar.roundEnded = false        // neue Hand → Rundensperre lösen
                 actionBar.raiseAmount = 0
                 actionBar.lastHandNumber = GameTable.handNumber
-                console.log("[ACTDBG] Reset: Neue Hand " + actionBar.lastHandNumber)
+                // console.log("[ACTDBG] Reset: Neue Hand " + actionBar.lastHandNumber)
             }
         }
         function onBettingRoundEnded() {
@@ -178,7 +178,7 @@ Item {
             actionBar.preSelectEnabled = false
             actionBar.raiseAmount = 0
             actionBar.roundEnded = true
-            console.log("[ACTDBG] Reset (Rundenende): Buttons gesperrt bis nächste Runde")
+            // console.log("[ACTDBG] Reset (Rundenende): Buttons gesperrt bis nächste Runde")
         }
         function onPhaseTextChanged() {
             if (!GameTable) return
@@ -195,7 +195,7 @@ Item {
                 // gesperrt; onBoardDealingChanged schaltet danach frei.
                 actionBar.preSelectEnabled = false
             }
-            console.log("[ACTDBG] Rundenwechsel →", GameTable.phaseText)
+            // console.log("[ACTDBG] Rundenwechsel →", GameTable.phaseText)
         }
         function onShowdownActiveChanged() {
             // Showdown beginnt → alles zurücksetzen, damit keine veralteten
@@ -209,7 +209,7 @@ Item {
                 actionBar.preAction = ""
                 actionBar.preSelectEnabled = false
                 actionBar.raiseAmount = 0
-                console.log("[ACTDBG] Reset (preAction/preSelect/raiseAmount): Showdown")
+                // console.log("[ACTDBG] Reset (preAction/preSelect/raiseAmount): Showdown")
             }
         }
     }
@@ -277,17 +277,17 @@ Item {
         // gesetzt sein sollte. Dann SOFORT ausführen, sonst nur vormerken.
         var myTurnNow = GameTable.myTurn || GameTable.timeoutSeatId === 0
         var p0btnDbg = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
-        console.log("[ACTDBG] click", which,
-                    "myTurn=", GameTable.myTurn,
-                    "tSeat=", GameTable.timeoutSeatId,
-                    "canAct=", GameTable.canAct,
-                    "callAmt=", GameTable.callAmount,
-                    "preSel=", preSelectEnabled,
-                    "p0btn=", p0btnDbg,
-                    "(1=D,2=SB,3=BB)",
-                    "phase=", GameTable.phaseText,
-                    "pre=", preAction,
-                    "→ myTurnNow=", myTurnNow)
+        // console.log("[ACTDBG] click", which,
+                    // "myTurn=", GameTable.myTurn,
+                    // "tSeat=", GameTable.timeoutSeatId,
+                    // "canAct=", GameTable.canAct,
+                    // "callAmt=", GameTable.callAmount,
+                    // "preSel=", preSelectEnabled,
+                    // "p0btn=", p0btnDbg,
+                    // "(1=D,2=SB,3=BB)",
+                    // "phase=", GameTable.phaseText,
+                    // "pre=", preAction,
+                    // "→ myTurnNow=", myTurnNow)
         if (myTurnNow) {
             preAction = ""
             fireAction(which)
@@ -362,18 +362,18 @@ Item {
             // jedem eigenen Zug verlässlich (auch wenn m_myTurn schon true
             // war) → keine verschluckten Aktionen mehr.
             var p0btnDbg2 = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
-            console.log("[ACTDBG] meInActionTriggered",
-                        "pre=", actionBar.preAction,
-                        "preCallAmt=", actionBar.preCallAmount,
-                        "mode=", actionBar.playingMode,
-                        "myTurn=", GameTable.myTurn,
-                        "tSeat=", GameTable.timeoutSeatId,
-                        "callAmt=", GameTable.callAmount,
-                        "p0btn=", p0btnDbg2,
-                        "(1=D,2=SB,3=BB)",
-                        "phase=", GameTable.phaseText,
-                        "canAct=", GameTable.canAct,
-                        "preSel=", actionBar.preSelectEnabled)
+            // console.log("[ACTDBG] meInActionTriggered",
+                        // "pre=", actionBar.preAction,
+                        // "preCallAmt=", actionBar.preCallAmount,
+                        // "mode=", actionBar.playingMode,
+                        // "myTurn=", GameTable.myTurn,
+                        // "tSeat=", GameTable.timeoutSeatId,
+                        // "callAmt=", GameTable.callAmount,
+                        // "p0btn=", p0btnDbg2,
+                        // "(1=D,2=SB,3=BB)",
+                        // "phase=", GameTable.phaseText,
+                        // "canAct=", GameTable.canAct,
+                        // "preSel=", actionBar.preSelectEnabled)
             actionBar.syncRaiseAmount()
 
             if (actionBar.playingMode === 2 || actionBar.playingMode === 1) {
@@ -443,9 +443,9 @@ Item {
             if (actionBar.preAction === "raise"
                 && (!actionBar.raiseAvailable
                     || actionBar.raiseAmount < GameTable.minRaiseAmount)) {
-                console.log("[ACTDBG] Raise-Vorwahl verworfen: vorbereitet",
-                            actionBar.raiseAmount, "< neues Minimum",
-                            GameTable.minRaiseAmount, "(Gegner hat (re-)erhöht)")
+                // console.log("[ACTDBG] Raise-Vorwahl verworfen: vorbereitet",
+                            // actionBar.raiseAmount, "< neues Minimum",
+                            // GameTable.minRaiseAmount, "(Gegner hat (re-)erhöht)")
                 actionBar.preAction = ""
             }
             actionBar.syncRaiseAmount()
@@ -730,12 +730,12 @@ Item {
                         cursorShape: (allInBtn.armed || allInBtn.isShowMode) ? Qt.PointingHandCursor : Qt.ArrowCursor
                         hoverEnabled: true
                         onPressed: function(mouse) {
-                            console.log("[ACTDBG] AllIn MouseArea press",
-                                        "enabled=", allInArea.enabled,
-                                        "myTurn=", GameTable ? GameTable.myTurn : "n/a")
+                            // console.log("[ACTDBG] AllIn MouseArea press",
+                                        // "enabled=", allInArea.enabled,
+                                        // "myTurn=", GameTable ? GameTable.myTurn : "n/a")
                         }
                         onClicked: {
-                            console.log("[ACTDBG] AllIn MouseArea click isShow=", allInBtn.isShowMode)
+                            // console.log("[ACTDBG] AllIn MouseArea click isShow=", allInBtn.isShowMode)
                             if (allInBtn.isShowMode)
                                 GameTable.showMyCards()
                             else
@@ -815,10 +815,10 @@ Item {
                 // Übergangsphase inaktiv sind.
                 readonly property bool preChecked: ab.armed && ab.actionKey !== "" && actionBar.preAction === ab.actionKey
 
-                onArmedChanged: console.log("[ACTDBG] armed", ab.actionKey, "→", ab.armed,
-                                            "(myTurn=", GameTable ? GameTable.myTurn : "n/a",
-                                            "canAct=", actionBar.canAct,
-                                            "preSel=", actionBar.preSelectEnabled, ")")
+                // onArmedChanged: console.log("[ACTDBG] armed", ab.actionKey, "→", ab.armed,
+                                            // "(myTurn=", GameTable ? GameTable.myTurn : "n/a",
+                                            // "canAct=", actionBar.canAct,
+                                            // "preSel=", actionBar.preSelectEnabled, ")")
 
                 opacity: (!ab.armed || ab.blocked) ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
 
@@ -863,7 +863,7 @@ Item {
                 Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
 
                 // Raise als primäre Aktion mit weichem Glow hervorheben.
-                layer.enabled: ab.highlight && ab.armed
+                layer.enabled: Config.Theme.effectsEnabled && ab.highlight && ab.armed
                 layer.effect: MultiEffect {
                     shadowEnabled: true
                     shadowColor: ab.edgeColor
@@ -900,15 +900,15 @@ Item {
                     enabled: ab.armed && !ab.blocked
                     cursorShape: (ab.armed && !ab.blocked) ? Qt.PointingHandCursor : Qt.ArrowCursor
                     onPressed: function(mouse) {
-                        console.log("[ACTDBG] MouseArea press", ab.actionKey,
-                                    "armed=", ab.armed,
-                                    "myTurn=", GameTable ? GameTable.myTurn : "n/a",
-                                    "canAct=", GameTable ? GameTable.canAct : "n/a",
-                                    "preSel=", actionBar.preSelectEnabled,
-                                    "btn=", mouse.button)
+                        // console.log("[ACTDBG] MouseArea press", ab.actionKey,
+                                    // "armed=", ab.armed,
+                                    // "myTurn=", GameTable ? GameTable.myTurn : "n/a",
+                                    // "canAct=", GameTable ? GameTable.canAct : "n/a",
+                                    // "preSel=", actionBar.preSelectEnabled,
+                                    // "btn=", mouse.button)
                     }
                     onClicked: {
-                        console.log("[ACTDBG] MouseArea click", ab.actionKey)
+                        // console.log("[ACTDBG] MouseArea click", ab.actionKey)
                         actionBar.clickAction(ab.actionKey)
                     }
                 }

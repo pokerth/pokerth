@@ -154,6 +154,16 @@ Rectangle {
                     }
 
                     CheckBox {
+                        objectName: "reduceEffectsCheckbox"
+                        text: qsTr("Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme")
+                        checked: SettingsManager ? SettingsManager.readConfigInt("QmlReduceEffects") !== 0 : false
+                        onCheckedChanged: {
+                            if (SettingsManager) SettingsManager.writeConfigInt("QmlReduceEffects", checked ? 1 : 0)
+                            Config.Theme.effectsEnabled = !checked
+                        }
+                    }
+
+                    CheckBox {
                         objectName: "reverseFKeysOrderCheckbox"
                         text: qsTr("Alternative F-Tasten-Belegung (F1-F4)")
                         checked: SettingsManager ? SettingsManager.readConfigInt("AlternateFKeysUserActionMode") !== 0 : false

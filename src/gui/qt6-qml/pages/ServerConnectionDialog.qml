@@ -41,18 +41,18 @@ Rectangle {
         }
 
         function onConnectionSucceeded() {
-            console.log("Connection succeeded!")
+            // console.log("Connection succeeded!")
         }
 
         function onConnectionFailed(errorMessage) {
-            console.log("Connection failed:", errorMessage)
+            // console.log("Connection failed:", errorMessage)
             statusText.text = errorMessage
             statusText.color = Config.Theme.colorError
             errorResetTimer.restart()
         }
 
         function onShowLobby() {
-            console.log("[NAV] onShowLobby → replace currentItem with LobbyPage.qml | depth before:", mainStackView.depth)
+            // console.log("[NAV] onShowLobby → replace currentItem with LobbyPage.qml | depth before:", mainStackView.depth)
             mainStackView.replace(mainStackView.currentItem, "LobbyPage.qml")
         }
     }
@@ -233,7 +233,7 @@ Rectangle {
                             text: qsTr("Login")
                             Layout.fillWidth: true
                             onClicked: {
-                                console.log("Login clicked. Username:", usernameInput.text, "Remember me:", rememberMeCheckbox.checked)
+                                // console.log("Login clicked. Username:", usernameInput.text, "Remember me:", rememberMeCheckbox.checked)
                                 usernameLabel.text = usernameInput.text
                                 connectionProgress.value = 0
                                 mainStack.currentIndex = 2

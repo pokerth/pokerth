@@ -102,10 +102,10 @@ Rectangle {
         }
 
         function onSelfJoinedGame() {
-            console.log("[NAV] onSelfJoinedGame | depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
+            // console.log("[NAV] onSelfJoinedGame | depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
             // pop(lobbyPage) entfernt alles ÜBER lobbyPage; ist lobbyPage schon oben, passiert nichts
             mainStackView.pop(lobbyPage, StackView.Immediate)
-            console.log("[NAV]   pushing GameWaitPage | depth now:", mainStackView.depth)
+            // console.log("[NAV]   pushing GameWaitPage | depth now:", mainStackView.depth)
             mainStackView.push("GameWaitPage.qml")
         }
     }
@@ -1499,7 +1499,7 @@ Rectangle {
         }
 
         function respond(accepted) {
-            console.log("[INVITE QML] respond: accepted=" + accepted + " gameId=" + inviteGameId)
+            // console.log("[INVITE QML] respond: accepted=" + accepted + " gameId=" + inviteGameId)
             answered = true
             if (accepted)
                 Lobby.acceptGameInvitation(inviteGameId)
@@ -1508,10 +1508,10 @@ Rectangle {
             close()
         }
         onOpened: {
-            console.log("[INVITE QML] popup opened: gameId=" + inviteGameId + " game=" + inviteGameName + " from=" + inviteFromName)
+            // console.log("[INVITE QML] popup opened: gameId=" + inviteGameId + " game=" + inviteGameName + " from=" + inviteFromName)
         }
         onClosed: {
-            console.log("[INVITE QML] popup closed: answered=" + answered + " gameId=" + inviteGameId)
+            // console.log("[INVITE QML] popup closed: answered=" + answered + " gameId=" + inviteGameId)
             // Ohne Auswahl geschlossen (Escape) → ablehnen, damit Server- und
             // Pending-State sauber zurückgesetzt werden.
             if (!answered)
@@ -1522,7 +1522,7 @@ Rectangle {
     Connections {
         target: Lobby
         function onGameInvitationReceived(gameId, gameName, fromName) {
-            console.log("[INVITE QML] onGameInvitationReceived: gameId=" + gameId + " game=" + gameName + " from=" + fromName)
+            // console.log("[INVITE QML] onGameInvitationReceived: gameId=" + gameId + " game=" + gameName + " from=" + fromName)
             // Slide-in-Panels einklappen, damit das Popup im Compact-Mode
             // nicht verdeckt wird und korrekt bedienbar ist.
             lobbyPage.showingPlayerList = false
@@ -1536,10 +1536,10 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        console.log("LobbyPage loaded")
-        console.log("My player name:", Lobby.myPlayerName)
-        console.log("Player model count:", Lobby.playerListModel.rowCount())
-        console.log("Game model count:", Lobby.gameListModel.rowCount())
+        // console.log("LobbyPage loaded")
+        // console.log("My player name:", Lobby.myPlayerName)
+        // console.log("Player model count:", Lobby.playerListModel.rowCount())
+        // console.log("Game model count:", Lobby.gameListModel.rowCount())
         // Bereits vorhandenen Chat-Verlauf wiederherstellen (z.B. nach Rückkehr
         // aus einem Spiel).
     }

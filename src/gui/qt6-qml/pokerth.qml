@@ -205,6 +205,9 @@ ApplicationWindow {
         var dm = SettingsManager ? SettingsManager.readConfigInt("DarkMode") : 1
         Config.StaticData.darkMode = dm
         Config.Theme.darkMode = dm
+        // Dekorative Effekte (Schatten/Glow/Blur) aus persistenter Einstellung.
+        Config.Theme.effectsEnabled = SettingsManager
+            ? SettingsManager.readConfigInt("QmlReduceEffects") === 0 : true
     }
 
     function navigateBackFromTopBar() {
@@ -252,7 +255,7 @@ ApplicationWindow {
 
     function performLeaveGame() {
         var current = mainStackView.currentItem
-        console.log("[NAV] performLeaveGame | currentItem:", current ? (current.objectName || current.toString()) : "null", "| depth:", mainStackView.depth)
+        // console.log("[NAV] performLeaveGame | currentItem:", current ? (current.objectName || current.toString()) : "null", "| depth:", mainStackView.depth)
         var isGamePage = current && current.objectName === "gamePage"
         var localGame = isGamePage
                         && (typeof GameTable !== "undefined")

@@ -182,7 +182,7 @@ Rectangle {
         function onReactionReceived(playerName, emoji) {
             if (!gamePage.emojiReactionsEnabled)
                 return
-            console.log("[REACT] received from", playerName, "->", emoji)
+            // console.log("[REACT] received from", playerName, "->", emoji)
             var players = GameTable.players
             var idx = -1
             for (var i = 0; i < players.length; i++)

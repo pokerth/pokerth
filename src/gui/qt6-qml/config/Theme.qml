@@ -17,6 +17,17 @@ QtObject {
 
     readonly property bool isDark: darkMode !== 0  // 0=Hell → false, alles andere (1=Dunkel, 2=Auto) → true
 
+    // Dekorative Effekte (Schlagschatten, Glow, Blur) global an/aus. Auf
+    // schwachen / passiv gekühlten Systemen (oder bei Software-Rendering ohne
+    // GPU) erzwingen die vielen gelayerten MultiEffect-Blur-Pässe pro Frame hohe
+    // CPU-Last und Ruckeln. Ist dieser Schalter aus, werden alle dekorativen
+    // `layer.enabled`-Effekte übersprungen (funktionale Layer wie Icon-
+    // Kolorierung / Folded-Graustufen bleiben unberührt). Wird – wie darkMode –
+    // extern von der ApplicationWindow (Init) und GuiSettings (Live-Toggle)
+    // gesetzt, da ein Singleton die SettingsManager-Context-Property nicht direkt
+    // lesen kann. Persistenter Config-Key: "QmlReduceEffects" (0 = Effekte an).
+    property bool effectsEnabled: true
+
     readonly property bool compact: windowWidth < 600
     readonly property bool tablet:  windowWidth >= 900 && windowWidth < 1400
 

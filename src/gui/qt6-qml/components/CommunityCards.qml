@@ -124,7 +124,7 @@ Item {
         radius: height / 2
         color: Qt.rgba(1.0, 0.93, 0.72, 0.12)
         z: -1
-        layer.enabled: true
+        layer.enabled: Config.Theme.effectsEnabled
         layer.effect: MultiEffect {
             blurEnabled: true
             blur: 1.0
@@ -177,7 +177,7 @@ Item {
             border.color: Config.Theme.colorAccent
             border.width: 1
 
-            layer.enabled: true
+            layer.enabled: Config.Theme.effectsEnabled
             layer.effect: MultiEffect {
                 shadowEnabled: true
                 shadowColor: Config.Theme.colorAccent

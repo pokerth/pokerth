@@ -83,7 +83,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 107;
+	configRev = 108;
 
 	// standard defaults
 	logOnOffDefault = "1";
@@ -229,6 +229,10 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("QmlGameTableStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("QmlCardDeckStyle", CONFIG_TYPE_STRING, "default"));
 	configList.push_back(ConfigInfo("QmlCardBackStyle", CONFIG_TYPE_STRING, "default"));
+	// QML-Client: dekorative Render-Effekte (Schlagschatten/Glow/Blur) global
+	// abschaltbar für schwache/passiv gekühlte Systeme bzw. Software-Rendering.
+	// 0 = Effekte an (Default), 1 = reduziert. Siehe config/Theme.qml.
+	configList.push_back(ConfigInfo("QmlReduceEffects", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));

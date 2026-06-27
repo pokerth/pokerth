@@ -24,7 +24,7 @@ Rectangle {
     property real shadowBlur:    Config.Theme.panelShadowBlur
     property real shadowOffset:  Config.Theme.panelShadowOffset
 
-    layer.enabled: true
+    layer.enabled: Config.Theme.effectsEnabled
     layer.effect: MultiEffect {
         autoPaddingEnabled: true
         shadowEnabled: true

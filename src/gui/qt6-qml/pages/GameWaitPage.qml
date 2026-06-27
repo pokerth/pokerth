@@ -62,7 +62,7 @@ Rectangle {
     Connections {
         target: Lobby
         function onRemovedFromGame(reason) {
-            console.log("[NAV] GameWaitPage.onRemovedFromGame | reason:", reason, "| depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
+            // console.log("[NAV] GameWaitPage.onRemovedFromGame | reason:", reason, "| depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
             if (reason === gameWaitPage.removedOnRequest) {
                 var lobby = mainStackView.find(function(item) {
                     return item && item.objectName === "lobbyPage"
@@ -74,10 +74,10 @@ Rectangle {
             } else {
                 mainStackView.pop()
             }
-            console.log("[NAV] GameWaitPage.onRemovedFromGame | depth after:", mainStackView.depth)
+            // console.log("[NAV] GameWaitPage.onRemovedFromGame | depth after:", mainStackView.depth)
         }
         function onGameStarted() {
-            console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
+            // console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
             mainStackView.push("GamePage.qml")
         }
         function onReturnToWaitRoom() {
@@ -92,10 +92,10 @@ Rectangle {
             // erste Pop noch als Transition, verwürfe StackView den zweiten
             // ("cannot pop while in transition") und man bliebe im Warteraum
             // hängen statt in der Lobbyliste zu landen.
-            console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth before:", mainStackView.depth)
+            // console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth before:", mainStackView.depth)
             if (mainStackView.currentItem !== gameWaitPage)
                 mainStackView.pop(gameWaitPage, StackView.Immediate)
-            console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth after:", mainStackView.depth)
+            // console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth after:", mainStackView.depth)
         }
         function onGameListFilterModeChanged() {
             if (gameListFilterPanel.currentIndex !== Lobby.gameListFilterMode)
