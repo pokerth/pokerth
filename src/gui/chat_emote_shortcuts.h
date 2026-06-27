@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QLatin1String>
+#include <QStringList>
+#include <QRegularExpression>
 
 // Wandelt ASCII-Emoticon-Kürzel (":-)", "8-)", "<3", ">_<", …) in die
 // entsprechenden Unicode-Emojis um. Gemeinsam genutzt vom Qt-Widgets-Client
@@ -24,6 +26,33 @@
 inline QString applyChatEmoteShortcuts(QString text)
 {
     auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
+
+    // ── URLs schützen (Vorrang vor Emote-Kürzeln) ───────────────────────────
+    // Zeichenfolgen in Links (z. B. "?v=Dxyz" → "=D", "…xD…", "…:P…") dürfen
+    // NICHT zu Emojis werden. http/https-URLs werden daher vor der Ersetzung
+    // aus dem Text geschnitten, durch einen kollisionsfreien Platzhalter
+    // (Steuerzeichen \x01<index>\x02) ersetzt und am Ende unverändert wieder
+    // eingesetzt. Der Text ist bereits HTML-escaped; "\S+" matcht deshalb auch
+    // "&amp;" in Query-Strings.
+    static const QRegularExpression urlRe(QStringLiteral("https?://\\S+"));
+    QStringList savedUrls;
+    {
+        QRegularExpressionMatchIterator it = urlRe.globalMatch(text);
+        if (it.hasNext()) {
+            QString out;
+            out.reserve(text.size());
+            int last = 0;
+            while (it.hasNext()) {
+                const QRegularExpressionMatch m = it.next();
+                out += text.mid(last, m.capturedStart() - last);
+                out += QChar(0x0001) + QString::number(savedUrls.size()) + QChar(0x0002);
+                savedUrls << m.captured();
+                last = m.capturedEnd();
+            }
+            out += text.mid(last);
+            text = out;
+        }
+    }
 
     // ── Engel / Teufel (enthalten ":-)" bzw. ":)") ──
     text.replace(QLatin1String("0:-)"),     emo(0x1F607)); // 😇 angel
@@ -97,9 +126,8 @@ inline QString applyChatEmoteShortcuts(QString text)
     text.replace(QLatin1String(":|"),       emo(0x1F610)); // 😐
     text.replace(QLatin1String(":-/"),      emo(0x1F615)); // 😕 skeptical
     text.replace(QLatin1String(":-\\"),     emo(0x1F615)); // 😕
-    // ":/" nur außerhalb von URLs (sonst zerlegt es "http://").
-    if (!text.contains(QLatin1String("http://")) && !text.contains(QLatin1String("https://")))
-        text.replace(QLatin1String(":/"),   emo(0x1F615)); // 😕
+    // ":/" ist jetzt unbedenklich – "http(s)://"-URLs wurden oben geschützt.
+    text.replace(QLatin1String(":/"),       emo(0x1F615)); // 😕
 
     // ── Besorgt / krank / überrascht ──
     text.replace(QLatin1String(":-S"),      emo(0x1F61F)); // 😟 worried
@@ -142,6 +170,10 @@ inline QString applyChatEmoteShortcuts(QString text)
     // ── Herz (escaped; "</3" vor "<3") ──
     text.replace(QLatin1String("&lt;/3"),    emo(0x1F494)); // 💔 broken heart
     text.replace(QLatin1String("&lt;3"),     emo(0x2764));  // ❤  heart
+
+    // ── Geschützte URLs unverändert wieder einsetzen ──
+    for (int i = 0; i < savedUrls.size(); ++i)
+        text.replace(QChar(0x0001) + QString::number(i) + QChar(0x0002), savedUrls.at(i));
 
     return text;
 }
