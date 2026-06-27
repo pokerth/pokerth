@@ -187,13 +187,12 @@ Rectangle {
                             }
                         }
 
-                        Text {
+                        AppText {
                             id: label
                             Layout.alignment: Qt.AlignLeft
                             Layout.fillWidth: true
                             Layout.topMargin: 4
                             Layout.bottomMargin: 4
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pointSize: 12
                             color: settingsMenuListItem.isHighlighted
                                 ? Config.StaticData.palette.secondary.col100

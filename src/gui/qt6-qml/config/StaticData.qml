@@ -35,6 +35,24 @@ QtObject {
         return closestMatch;
     }
 
+    // Poker-Aktion (0=keine,1=Fold,2=Check,3=Call,4=Bet,5=Raise,6=All-In) → das
+    // anzuzeigende Wort. dontTranslate=true (Config-Key
+    // DontTranslateInternationalPokerStringsFromStyle) hält die Begriffe fest auf
+    // Englisch, sonst lokalisiert. Zentral hier, damit GamePlayerBox,
+    // GamePlayerSelfBox und GameActionBar denselben Switch nicht mehr duplizieren.
+    // qsTr()-Literale bleiben für die lupdate-Extraktion erhalten.
+    function pokerActionWord(action, dontTranslate) {
+        switch (action) {
+        case 1: return dontTranslate ? "Fold"   : qsTr("Fold")
+        case 2: return dontTranslate ? "Check"  : qsTr("Check")
+        case 3: return dontTranslate ? "Call"   : qsTr("Call")
+        case 4: return dontTranslate ? "Bet"    : qsTr("Bet")
+        case 5: return dontTranslate ? "Raise"  : qsTr("Raise")
+        case 6: return dontTranslate ? "All-In" : qsTr("All-In")
+        default: return ""
+        }
+    }
+
     // col100=primary text … col700=background — inverted between dark and light.
     // Using plain JS objects + property var so that changing `palette` triggers
     // re-evaluation of all `palette.secondary.colXXX` bindings reliably.

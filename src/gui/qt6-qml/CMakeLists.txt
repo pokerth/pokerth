@@ -63,6 +63,18 @@ endif()
 
 set(QML_FILES
     pokerth.qml
+    components/AppText.qml
+    components/AppLabel.qml
+    components/BetChip.qml
+    components/BlindButtonImage.qml
+    components/PlayerActionBadge.qml
+    components/PlayerTimeoutBar.qml
+    components/PlayerBoxBackground.qml
+    components/PlayerTurnGlow.qml
+    components/PlayerWinnerOverlay.qml
+    components/SettingsHeader.qml
+    components/ConfigCheckBox.qml
+    components/RankingFilterField.qml
     components/CustomCheckBox.qml
     components/CustomComboBox.qml
     components/CustomTabBar.qml

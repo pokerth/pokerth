@@ -116,9 +116,8 @@ ItemDelegate {
             }
             
             // Player name
-            Text {
+            AppText {
                 text: displayName
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: listView.height > 100 ? 12 : 11
                 color: Config.StaticData.palette.secondary.col200
                 font.bold: false
@@ -232,10 +231,9 @@ ItemDelegate {
                     border.color: Qt.darker(playerItem.inviteColor, 1.55)
                 }
                 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -269,10 +267,9 @@ ItemDelegate {
                       border.color: Qt.darker(playerItem.ignoreColor, 1.55)
                 }
 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -306,10 +303,9 @@ ItemDelegate {
                       border.color: Qt.darker(playerItem.ignoreColor, 1.55)
                 }
 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -343,10 +339,9 @@ ItemDelegate {
                       border.color: Qt.darker(playerItem.statsColor, 1.55)
                 }
 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -380,10 +375,9 @@ ItemDelegate {
                     border.color: Qt.darker(playerItem.banColor, 1.55)
                 }
                 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter

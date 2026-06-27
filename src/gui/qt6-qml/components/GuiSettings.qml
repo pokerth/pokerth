@@ -17,31 +17,7 @@ Rectangle {
         id: guiSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 8
-            Layout.bottomMargin: 0
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.fillHeight: false
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Benutzeroberfläche")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Benutzeroberfläche") }
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -139,18 +115,16 @@ Rectangle {
                         }
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "fadeOutLosingCardsAnimationCheckbox"
                         text: qsTr("Ausblend-Animation für Verliererkarten")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowFadeOutCardsAnimation") !== 0 : true
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowFadeOutCardsAnimation", checked ? 1 : 0) }
+                        configKey: "ShowFadeOutCardsAnimation"
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "animatedCardsCheckbox"
                         text: qsTr("Animierte Karten (Aufdeck-Animation)")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowFlipCardsAnimation") !== 0 : true
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowFlipCardsAnimation", checked ? 1 : 0) }
+                        configKey: "ShowFlipCardsAnimation"
                     }
 
                     CheckBox {
@@ -163,32 +137,30 @@ Rectangle {
                         }
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "reverseFKeysOrderCheckbox"
                         text: qsTr("Alternative F-Tasten-Belegung (F1-F4)")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("AlternateFKeysUserActionMode") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("AlternateFKeysUserActionMode", checked ? 1 : 0) }
+                        configKey: "AlternateFKeysUserActionMode"
+                        defaultChecked: false
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "showBlindButtonsCheckbox"
                         text: qsTr("Symbole für Small Blind und Big Blind anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowBlindButtons") !== 0 : true
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowBlindButtons", checked ? 1 : 0) }
+                        configKey: "ShowBlindButtons"
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "showPotPercentButtonsCheckbox"
                         text: qsTr("Pot-Prozent-Schaltflächen anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowPotPercentButtons") !== 0 : true
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowPotPercentButtons", checked ? 1 : 0) }
+                        configKey: "ShowPotPercentButtons"
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "showOwnCardsOnMouseClickCheckbox"
                         text: qsTr("Anti-Peek: Eigene Karten erst bei Klick anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("AntiPeekMode") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("AntiPeekMode", checked ? 1 : 0) }
+                        configKey: "AntiPeekMode"
+                        defaultChecked: false
                     }
 
                     CheckBox {
@@ -248,32 +220,31 @@ Rectangle {
                     ColumnLayout {
                         width: parent.width
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "showNetworkStatusColorOnAvatarCheckbox"
                         text: qsTr("Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("ShowPingStateInAvatar") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("ShowPingStateInAvatar", checked ? 1 : 0) }
+                        configKey: "ShowPingStateInAvatar"
+                        defaultChecked: false
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "focusBetInputOnTurnCheckbox"
                         text: qsTr("Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("EnableBetInputFocusSwitch") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("EnableBetInputFocusSwitch", checked ? 1 : 0) }
+                        configKey: "EnableBetInputFocusSwitch"
+                        defaultChecked: false
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "preventAccidentalCallAfterBigRaiseCheckbox"
                         text: qsTr("Versehentliches Call nach einem großen Raise verhindern")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("AccidentallyCallBlocker") !== 0 : true
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("AccidentallyCallBlocker", checked ? 1 : 0) }
+                        configKey: "AccidentallyCallBlocker"
                     }
 
-                    CheckBox {
+                    ConfigCheckBox {
                         objectName: "disableEmojiReactionsCheckbox"
                         text: qsTr("Emoji-Reaktionen deaktivieren")
-                        checked: SettingsManager ? SettingsManager.readConfigInt("DisableEmojiReactions") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DisableEmojiReactions", checked ? 1 : 0) }
+                        configKey: "DisableEmojiReactions"
+                        defaultChecked: false
                     }
                     } // ColumnLayout
                 }

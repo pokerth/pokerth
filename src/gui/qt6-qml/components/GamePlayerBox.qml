@@ -1,7 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Effects
-import QtQuick.Layouts
 
 import "../config" as Config
 
@@ -70,17 +67,7 @@ Item {
     readonly property bool dontTranslatePokerTerms:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
-    readonly property string actionText: {
-        switch (root.action) {
-        case 1: return dontTranslatePokerTerms ? "Fold"   : qsTr("Fold")
-        case 2: return dontTranslatePokerTerms ? "Check"  : qsTr("Check")
-        case 3: return dontTranslatePokerTerms ? "Call"   : qsTr("Call")
-        case 4: return dontTranslatePokerTerms ? "Bet"    : qsTr("Bet")
-        case 5: return dontTranslatePokerTerms ? "Raise"  : qsTr("Raise")
-        case 6: return dontTranslatePokerTerms ? "All-In" : qsTr("All-In")
-        default: return ""
-        }
-    }
+    readonly property string actionText: Config.StaticData.pokerActionWord(root.action, dontTranslatePokerTerms)
 
     // Länderflagge: Lookup über gamePlayersInGame – identisch zu GameWaitPage,
     // wo es zuverlässig funktioniert. playerListRevision erzwingt Reaktivität.
@@ -125,78 +112,10 @@ Item {
 
         // Karten-Hintergrund mit dezentem Verlauf + weichem Schlagschatten → die
         // Box wirkt als angehobene Karte statt als flache Fläche.
-        Rectangle {
-            anchors.fill: parent
-            radius: 6
-            opacity: 0.9
-            gradient: Gradient {
-                GradientStop { position: 0.0; color: Qt.lighter("#394150", 1.18) }
-                GradientStop { position: 1.0; color: "#1d222b" }
-            }
-            border.color: Qt.rgba(1, 1, 1, 0.06)
-            border.width: 1
+        PlayerBoxBackground {}
 
-            layer.enabled: Config.Theme.effectsEnabled
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowColor: "#000000"
-                shadowOpacity: 0.42
-                shadowBlur: 0.9
-                shadowVerticalOffset: 3
-                shadowHorizontalOffset: 0
-            }
-        }
-
-        // Highlight: aktiver Spieler bekommt einen gold Rahmen + weichen Glow,
-        // mit ruhigem Puls. WICHTIG: der Rahmen liegt als eigene Ebene OHNE Layer
-        // vor, der weiche Glow als separate gelayerte Ebene dahinter. So bleibt
-        // der Rahmen sichtbar, selbst wenn der MultiEffect-Glow auf einem System
-        // nicht rendert (war zuvor in EINEM gelayerten Rechteck → bei Layer-
-        // Problemen verschwand der Rahmen mit).
-        Item {
-            id: turnGlow
-            anchors.fill: parent
-            anchors.margins: -2
-            z: 10
-            visible: root.isAtTurn
-
-            // Puls nur bei aktivierten Effekten – sonst läuft sonst eine Endlos-
-            // Animation, die die GESAMTE Szene mit 60 fps neu zeichnen lässt.
-            SequentialAnimation on opacity {
-                running: Config.Theme.effectsEnabled && root.isAtTurn
-                loops: Animation.Infinite
-                NumberAnimation { from: 0.65; to: 1.0; duration: 750; easing.type: Easing.InOutSine }
-                NumberAnimation { from: 1.0; to: 0.65; duration: 750; easing.type: Easing.InOutSine }
-            }
-            // Ohne Puls bleibt der Rahmen über die Default-Opacity (1.0) sichtbar.
-
-            // Weicher Außen-Glow (gelayert) – reine Eye-Candy, optional.
-            Rectangle {
-                anchors.fill: parent
-                color: "transparent"
-                radius: 6
-                border.color: "#FFD54A"
-                border.width: 1
-                layer.enabled: Config.Theme.effectsEnabled && root.isAtTurn
-                layer.effect: MultiEffect {
-                    shadowEnabled: true
-                    shadowColor: "#FFD700"
-                    shadowOpacity: 0.9
-                    shadowBlur: 1.0
-                    shadowVerticalOffset: 0
-                    shadowHorizontalOffset: 0
-                }
-            }
-
-            // Gold-Rahmen (immer sichtbar, KEIN Layer).
-            Rectangle {
-                anchors.fill: parent
-                color: "transparent"
-                radius: 6
-                border.color: "#CCFFD54A"
-                border.width: 1
-            }
-        }
+        // Highlight: aktiver Spieler bekommt einen gold Rahmen + weichen Glow.
+        PlayerTurnGlow { active: root.isAtTurn }
 
         // Avatar + Karten: AvatarCardRow garantiert cardH == topRowH (keine
         // Rundungsdifferenz). Abstände: 4 px links, 4 px Avatar↔Karten,
@@ -224,11 +143,10 @@ Item {
             x: playerBox.hMargin
             y: parent.height - height - 4
 
-            Text {
+            AppText {
                 width: parent.width / 2
                 horizontalAlignment: Text.AlignLeft
                 color: "#eff1f5"
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
                 font.weight: Font.DemiBold
                 font.letterSpacing: 0.3
@@ -236,11 +154,10 @@ Item {
                 text: root.seatData && root.seatData.name !== "" ? root.seatData.name : "---"
             }
 
-            Text {
+            AppText {
                 width: parent.width / 2
                 horizontalAlignment: Text.AlignRight
                 color: Config.Theme.colorAccent
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
                 font.bold: true
                 text: root.seatData && root.seatData.name !== "" ? "$" + root.seatData.stack : ""
@@ -256,14 +173,13 @@ Item {
             x: playerBox.hMargin
             y: parent.height - height - 4
 
-            Text {
+            AppText {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.rightMargin: 2
                 horizontalAlignment: Text.AlignLeft
                 color: "#eff1f5"
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.weight: Font.DemiBold
                 font.letterSpacing: 0.3
@@ -283,174 +199,55 @@ Item {
                 smooth: true
             }
 
-            Text {
+            AppText {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 horizontalAlignment: Text.AlignRight
                 color: Config.Theme.colorAccent
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
                 text: root.seatData && root.seatData.name !== "" ? "$" + root.seatData.stack : ""
             }
         }
 
-        // Winner-Hervorhebung: goldener Rahmen – verdeckt die Karten NICHT
-        Rectangle {
-            anchors.fill: parent
-            visible: root.isWinner
-            color: "transparent"
-            radius: 6
-            border.color: "#FFD700"
-            border.width: 3
-            z: 19
-
-            layer.enabled: Config.Theme.effectsEnabled && root.isWinner
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowColor: "#FFD700"
-                shadowOpacity: 1.0
-                shadowBlur: 1.0
-                shadowVerticalOffset: 0
-                shadowHorizontalOffset: 0
-            }
-        }
     }
 
-    // WINNER-Badge: standardmäßig über der Box; nur die oberste Box (Player 5)
-    // zeigt es unterhalb (oben würde es am Bildschirmrand anstoßen). Etwas mehr
-    // vertikaler Abstand zur Box.
-    Rectangle {
-        visible: root.isWinner
-        anchors.horizontalCenter: parent.horizontalCenter
-        // Vertikal über bzw. unter der Box per explizitem y – ein bedingter
-        // anchors-Wechsel mit `undefined` ist fragil (Anchor fällt weg → Badge
-        // landet mittig in der Box). Unterhalb (winnerBelow) bzw. oberhalb.
-        y: root.winnerBelow ? (parent.height + 6) : (-height - 6)
-        width: winnerLabel.width + 12
-        height: 16
-        radius: 8
-        color: "#0d3d0d"
-        border.color: "#FFD700"
-        border.width: 1
-        z: 30
-
-        Text {
-            id: winnerLabel
-            anchors.centerIn: parent
-            text: qsTr("WINNER")
-            color: "#FFD700"
-            font.family: Config.StaticData.loadedFont.font.family
-            font.pixelSize: 9
-            font.bold: true
-        }
+    // Winner-Hervorhebung: goldener Rahmen (verdeckt die Karten NICHT) +
+    // „WINNER"-Badge. Badge standardmäßig über der Box; nur die oberste Box
+    // (winnerBelow) zeigt es unterhalb, sonst stieße es am Bildschirmrand an.
+    PlayerWinnerOverlay {
+        active: root.isWinner
+        below: root.winnerBelow
     }
 
     // Aktions-Anzeige (Fold/Check/Call/Bet/Raise/All-In) – zentriert über den
     // Hole-Cards in den normalen Player-Boxen.
-    Rectangle {
+    PlayerActionBadge {
         id: actionBadge
         visible: root.actionText !== "" && !root.isWinner
-        width: actionLabel.width + 14
-        height: 18
-        radius: 9
-        // Farbe je Aktion (gleiche Logik wie die Action-Buttons, nur dunkler).
-        color: Config.Theme.actionBadgeColor(root.action)
-        border.color: Config.Theme.actionBadgeBorder(root.action)
-        border.width: 1
+        action: root.action
+        label: root.actionText
         z: 18
-        transformOrigin: Item.Center
-        Behavior on color { ColorAnimation { duration: 200 } }
-        Behavior on border.color { ColorAnimation { duration: 200 } }
-
-        // Pop beim Erscheinen oder Wechsel einer Aktion (Mikroanimation).
-        onVisibleChanged: if (visible) badgePop.restart()
-        Connections {
-            target: root
-            function onActionChanged() { if (actionBadge.visible) badgePop.restart() }
-        }
-        SequentialAnimation {
-            id: badgePop
-            NumberAnimation { target: actionBadge; property: "scale"; from: 0.6; to: 1.12; duration: 110; easing.type: Easing.OutQuad }
-            NumberAnimation { target: actionBadge; property: "scale"; to: 1.0; duration: 120; easing.type: Easing.OutBack }
-        }
 
         readonly property real cardsCenterX: playerBox.hMargin + cardRow.cardsCenterX
         readonly property real cardsCenterY: cardRow.y + cardRow.height / 2
         x: cardsCenterX - width / 2
         y: cardsCenterY - height / 2
-
-        Text {
-            id: actionLabel
-            anchors.centerIn: parent
-            text: root.actionText
-            color: "#eaf1ff"
-            font.family: Config.StaticData.loadedFont.font.family
-            font.pixelSize: 12
-            font.bold: true
-        }
     }
 
     // Action-Timeout: schlanker Fortschrittsbalken an der Stelle des Action-
     // Badges, solange dieser Sitz am Zug ist (zählt über die Timeout-Dauer runter).
-    Item {
+    PlayerTimeoutBar {
         id: timeoutBar
-        readonly property bool active: (typeof GameTable !== "undefined" && GameTable)
+        readonly property bool atTurn: (typeof GameTable !== "undefined" && GameTable)
                                        && GameTable.timeoutSeatId === root.seatIndex
-        property real progress: 1.0
-        visible: active && !root.isWinner && root.actionText === ""
+        active: atTurn
+        visible: atTurn && !root.isWinner && root.actionText === ""
         width: 44
         height: 9
         z: 18
         x: actionBadge.cardsCenterX - width / 2
         y: actionBadge.cardsCenterY - height / 2
-
-        // Track (statisch): Kontur + Dropshadow.
-        Rectangle {
-            anchors.fill: parent
-            radius: height / 2
-            color: Config.Theme.colorTimeoutTrack
-            border.color: Qt.rgba(1, 1, 1, 0.55)
-            border.width: 1
-            layer.enabled: Config.Theme.effectsEnabled && timeoutBar.visible
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowColor: "#000000"
-                shadowOpacity: 0.6
-                shadowBlur: 0.7
-                shadowVerticalOffset: 1
-                shadowHorizontalOffset: 0
-            }
-        }
-
-        // Füllung (animiert) ÜBER dem Track – bewusst NICHT im Layer, damit die
-        // Breiten-Animation zuverlässig läuft.
-        Rectangle {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 1
-            height: parent.height - 2
-            radius: height / 2
-            color: Config.Theme.colorTimeout
-            width: (parent.width - 2) * timeoutBar.progress
-        }
-
-        onActiveChanged: {
-            if (active) {
-                progress = 1.0
-                timeoutAnim.restart()
-            } else {
-                timeoutAnim.stop()
-            }
-        }
-        NumberAnimation {
-            id: timeoutAnim
-            target: timeoutBar
-            property: "progress"
-            from: 1.0; to: 0.0
-            duration: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.timeoutSec : 0) * 1000
-            easing.type: Easing.Linear
-        }
     }
 
     // Einsatz (Chip + Betrag) + Dealer/Small-/Big-Blind-Button – gruppiert.
@@ -481,48 +278,22 @@ Item {
          : root.betSide === "top"    ? -height - 7
          : (playerBox.height - height) / 2
 
-        Row {
+        BetChip {
             id: betRow
             visible: root.bet > 0
-            spacing: 2
+            amount: root.bet
+            textColor: "#f0f0f0"
             // split: Einsatz rechts NEBEN der Box; sonst innerhalb zentriert.
             x: betGroup.split ? betGroup.width + 8 : (betGroup.width - width) / 2
             y: (betGroup.height - height) / 2
-            transformOrigin: Item.Center
-            // Chip „poppt" beim Setzen rein (Mikroanimation).
-            onVisibleChanged: if (visible) betPop.restart()
-            SequentialAnimation {
-                id: betPop
-                NumberAnimation { target: betRow; property: "scale"; from: 0.5; to: 1.15; duration: 110; easing.type: Easing.OutQuad }
-                NumberAnimation { target: betRow; property: "scale"; to: 1.0; duration: 130; easing.type: Easing.OutBack }
-            }
-
-            Image {
-                width: 16
-                height: 16
-                anchors.verticalCenter: parent.verticalCenter
-                source: "qrc:resources/chipStack.svg"
-                fillMode: Image.PreserveAspectFit
-            }
-
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                color: "#f0f0f0"
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 11
-                font.bold: true
-                text: "$" + root.bet
-            }
         }
 
         // Dealer/Blind-Button – split: links NEBEN der Box; horizontal:
         // rechtsbündig 6px vom Boxrand; Seiten: unterer Slot.
-        Image {
+        BlindButtonImage {
             id: buttonImg
             visible: root.buttonVisible
-            width: 24
-            height: 24
-            fillMode: Image.PreserveAspectFit
+            button: root.button
             x: betGroup.split
                ? -width - 8
                : betGroup.horizontal
@@ -531,10 +302,6 @@ Item {
             y: (betGroup.horizontal || betGroup.split)
                ? (betGroup.height - height) / 2
                : (betGroup.height * 5 / 6 - height / 2)
-            source: root.button === 1 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.dealerPuck !== "") ? StyleProvider.dealerPuck : "../resources/tableDealerPuck.svg")
-                  : root.button === 2 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.smallBlindPuck !== "") ? StyleProvider.smallBlindPuck : "../resources/tableSmallBlind.svg")
-                  : root.button === 3 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.bigBlindPuck !== "") ? StyleProvider.bigBlindPuck : "../resources/tableBigBlind.svg")
-                  : ""
         }
     }
 }

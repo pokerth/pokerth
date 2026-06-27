@@ -113,13 +113,12 @@ ColumnLayout {
                 if (autoScroll) positionViewAtEnd()
                 else Qt.callLater(restoreScroll)
             }
-            delegate: Text {
+            delegate: AppText {
                 required property string line
                 width: ListView.view.width - root.scrollGutter
                 text: line
                 textFormat: Text.RichText
                 wrapMode: Text.WordWrap
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.messageFontSize
                 lineHeight: 1.15
                 bottomPadding: 4
@@ -197,7 +196,7 @@ ColumnLayout {
                                 sourceSize.height: Math.ceil(34 * Screen.devicePixelRatio)
                             }
 
-                            Text {
+                            AppText {
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignVCenter
                                 text: root.handDefs[cat].name
@@ -205,17 +204,15 @@ ColumnLayout {
                                 wrapMode: Text.WordWrap
                                 maximumLineCount: 2
                                 elide: Text.ElideRight
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: root.messageFontSize
                                 color: possible ? root.colText : root.colTextMuted
                             }
 
-                            Text {
+                            AppText {
                                 Layout.preferredWidth: 40
                                 Layout.alignment: Qt.AlignVCenter
                                 horizontalAlignment: Text.AlignRight
                                 text: prob + "%"
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: root.messageFontSize
                                 font.bold: possible && prob >= 50
                                 color: possible ? root.colText : root.colTextMuted

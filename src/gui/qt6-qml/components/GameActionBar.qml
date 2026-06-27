@@ -112,12 +112,14 @@ Item {
         onTriggered: actionBar.callBlocked = false
     }
 
-    readonly property string callWord:  dontTranslatePokerTerms ? "Call"   : qsTr("Call")
-    readonly property string checkWord: dontTranslatePokerTerms ? "Check"  : qsTr("Check")
-    readonly property string betWord:   dontTranslatePokerTerms ? "Bet"    : qsTr("Bet")
-    readonly property string raiseWord: dontTranslatePokerTerms ? "Raise"  : qsTr("Raise")
-    readonly property string foldWord:  dontTranslatePokerTerms ? "Fold"   : qsTr("Fold")
-    readonly property string allInWord: dontTranslatePokerTerms ? "All-In" : qsTr("All-In")
+    // Aktions-Begriffe zentral über StaticData.pokerActionWord (1=Fold … 6=All-In),
+    // damit die Boxen und die Action-Bar denselben Switch nicht mehrfach pflegen.
+    readonly property string foldWord:  Config.StaticData.pokerActionWord(1, dontTranslatePokerTerms)
+    readonly property string checkWord: Config.StaticData.pokerActionWord(2, dontTranslatePokerTerms)
+    readonly property string callWord:  Config.StaticData.pokerActionWord(3, dontTranslatePokerTerms)
+    readonly property string betWord:   Config.StaticData.pokerActionWord(4, dontTranslatePokerTerms)
+    readonly property string raiseWord: Config.StaticData.pokerActionWord(5, dontTranslatePokerTerms)
+    readonly property string allInWord: Config.StaticData.pokerActionWord(6, dontTranslatePokerTerms)
     // Beträge nur zeigen, solange die Buttons aktiv sind (eigener Zug oder
     // zulässige Vorauswahl). Im Showdown UND am Rundenende (nach der letzten
     // Spieleraktion) sind die Buttons inaktiv und die letzten Call-/Raise-Werte
@@ -629,11 +631,10 @@ Item {
                         color: !enabled ? "#202020" : potBtnArea.containsPress ? "#2e7d32" : potBtnArea.containsMouse ? "#388e3c" : "#1b5e20"
                         border.color: enabled ? "#4CAF50" : "#3a3a3a"
                         border.width: 1
-                        Text {
+                        AppText {
                             anchors.centerIn: parent
                             text: modelData.label
                             color: parent.enabled ? "#FFFFFF" : "#8a8a8a"
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 11
                             font.bold: true
                         }
@@ -714,12 +715,11 @@ Item {
                                : allInArea.containsMouse ? 0.08 : 0.0
                     }
 
-                    Text {
+                    AppText {
                         anchors.centerIn: parent
                         text: allInBtn.isShowMode ? qsTr("Show") : actionBar.allInWord
                         color: (allInBtn.useTheme && StyleProvider.allInButtonTextColor !== "")
                                ? StyleProvider.allInButtonTextColor : "#FFFFFF"
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         font.bold: true
                     }
@@ -873,12 +873,11 @@ Item {
                     shadowHorizontalOffset: 0
                 }
 
-                Text {
+                AppText {
                     anchors.centerIn: parent
                     horizontalAlignment: Text.AlignHCenter
                     text: ab.label
                     color: ab.textColor
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: actionBar.compactActions ? 12 : 15
                     font.bold: true
                     font.letterSpacing: 0.5

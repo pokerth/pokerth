@@ -47,13 +47,12 @@ Rectangle {
         shadowVerticalOffset: 0
     }
 
-    Text {
+    AppText {
         id: winHandLabel
         anchors.centerIn: parent
         text: (typeof GameTable !== "undefined" && GameTable)
               ? GameTable.winningHandText : ""
         color: "#FFD700"
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: Math.max(10, Math.round(14 * winHandBadge.communityScale))
         font.bold: true
     }

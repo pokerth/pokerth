@@ -1,7 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Effects
-import QtQuick.Layouts
 
 import "../config" as Config
 
@@ -64,17 +61,7 @@ Rectangle {
     readonly property bool dontTranslatePokerTerms:
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
-    readonly property string actionText: {
-        switch (root.action) {
-        case 1: return dontTranslatePokerTerms ? "Fold"   : qsTr("Fold")
-        case 2: return dontTranslatePokerTerms ? "Check"  : qsTr("Check")
-        case 3: return dontTranslatePokerTerms ? "Call"   : qsTr("Call")
-        case 4: return dontTranslatePokerTerms ? "Bet"    : qsTr("Bet")
-        case 5: return dontTranslatePokerTerms ? "Raise"  : qsTr("Raise")
-        case 6: return dontTranslatePokerTerms ? "All-In" : qsTr("All-In")
-        default: return ""
-        }
-    }
+    readonly property string actionText: Config.StaticData.pokerActionWord(root.action, dontTranslatePokerTerms)
 
     // Ich habe gefoldet → eigene Karten durchscheinend (wie im Qt-Widgets-Client)
     readonly property bool folded: selfData && selfData.folded !== undefined ? selfData.folded : false
@@ -100,74 +87,13 @@ Rectangle {
     Behavior on scale { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
 
     // Hintergrund mit dezentem Verlauf + weichem Schlagschatten → angehobene Karte.
-    Rectangle {
-        anchors.fill: parent
-        radius: 6
-        opacity: 0.9
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.lighter("#394150", 1.18) }
-            GradientStop { position: 1.0; color: "#1d222b" }
-        }
-        border.color: Qt.rgba(1, 1, 1, 0.06)
-        border.width: 1
+    PlayerBoxBackground {}
 
-        layer.enabled: Config.Theme.effectsEnabled
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowColor: "#000000"
-            shadowOpacity: 0.42
-            shadowBlur: 0.9
-            shadowVerticalOffset: 3
-            shadowHorizontalOffset: 0
-        }
-    }
-
-    // Highlight: gold Rahmen + weicher Glow wenn ich am Zug bin, mit Puls.
-    // Rahmen als eigene Ebene OHNE Layer (immer sichtbar), Glow als separate
-    // gelayerte Ebene – so bleibt der Rahmen sichtbar, auch wenn der MultiEffect
-    // auf einem System nicht rendert.
-    Item {
-        id: turnGlow
-        anchors.fill: parent
-        anchors.margins: -2
-        z: 10
-        visible: root.isAtTurn
-
-        // Puls nur bei aktivierten Effekten – sonst läuft eine Endlos-Animation,
-        // die die GESAMTE Szene mit 60 fps neu zeichnen lässt.
-        SequentialAnimation on opacity {
-            running: Config.Theme.effectsEnabled && root.isAtTurn
-            loops: Animation.Infinite
-            NumberAnimation { from: 0.65; to: 1.0; duration: 750; easing.type: Easing.InOutSine }
-            NumberAnimation { from: 1.0; to: 0.65; duration: 750; easing.type: Easing.InOutSine }
-        }
-
-        // Weicher Außen-Glow (gelayert) – optional.
-        Rectangle {
-            anchors.fill: parent
-            color: "transparent"
-            radius: 6
-            border.color: "#FFD54A"
-            border.width: 2
-            layer.enabled: Config.Theme.effectsEnabled && root.isAtTurn
-            layer.effect: MultiEffect {
-                shadowEnabled: true
-                shadowColor: "#FFD700"
-                shadowOpacity: 0.9
-                shadowBlur: 1.0
-                shadowVerticalOffset: 0
-                shadowHorizontalOffset: 0
-            }
-        }
-
-        // Gold-Rahmen (immer sichtbar, KEIN Layer).
-        Rectangle {
-            anchors.fill: parent
-            color: "transparent"
-            radius: 6
-            border.color: "#CCFFD54A"
-            border.width: 2
-        }
+    // Highlight: gold Rahmen + weicher Glow wenn ich am Zug bin (Rahmen etwas
+    // kräftiger als bei den Gegnerboxen).
+    PlayerTurnGlow {
+        active: root.isAtTurn
+        borderWidth: 2
     }
 
     // ── Karten – zentriert über der Infozeile ────────────────────────────────
@@ -235,12 +161,11 @@ Rectangle {
             height: parent.height
             spacing: 5
 
-            Text {
+            AppText {
                 width: (parent.width - parent.spacing) / 2
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignLeft
                 color: "#eff1f5"
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.weight: Font.DemiBold
                 font.letterSpacing: 0.3
@@ -248,12 +173,11 @@ Rectangle {
                 text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
             }
 
-            Text {
+            AppText {
                 width: (parent.width - parent.spacing) / 2
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: Text.AlignRight
                 color: Config.Theme.colorAccent
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
                 text: root.selfData ? "$" + root.selfData.stack : "$0"
@@ -266,7 +190,7 @@ Rectangle {
             width: parent.width
             height: parent.height
 
-            Text {
+            AppText {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.right: parent.right
@@ -275,7 +199,6 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 color: "#eff1f5"
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.weight: Font.DemiBold
                 font.letterSpacing: 0.3
@@ -283,12 +206,11 @@ Rectangle {
                 text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
             }
 
-            Text {
+            AppText {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 horizontalAlignment: Text.AlignRight
                 color: Config.Theme.colorAccent
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
                 text: root.selfData ? "$" + root.selfData.stack : "$0"
@@ -316,199 +238,62 @@ Rectangle {
             : 0
 
         // Action-Badge: rechtsbündig über der Box.
-        Rectangle {
+        PlayerActionBadge {
             id: actionBadge
             visible: root.actionText !== "" && !root.isWinner
+            action: root.action
+            label: root.actionText
+            hPadding: 16
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            width: actionLabel.width + 16
-            height: 18
-            radius: 9
             z: 2
-            // Farbe je Aktion (gleiche Logik wie die Action-Buttons, nur dunkler).
-            color: Config.Theme.actionBadgeColor(root.action)
-            border.color: Config.Theme.actionBadgeBorder(root.action)
-            border.width: 1
-            transformOrigin: Item.Center
-            Behavior on color { ColorAnimation { duration: 200 } }
-            Behavior on border.color { ColorAnimation { duration: 200 } }
-
-            // Pop beim Erscheinen oder Wechsel einer Aktion (Mikroanimation).
-            onVisibleChanged: if (visible) selfBadgePop.restart()
-            Connections {
-                target: root
-                function onActionChanged() { if (actionBadge.visible) selfBadgePop.restart() }
-            }
-            SequentialAnimation {
-                id: selfBadgePop
-                NumberAnimation { target: actionBadge; property: "scale"; from: 0.6; to: 1.12; duration: 110; easing.type: Easing.OutQuad }
-                NumberAnimation { target: actionBadge; property: "scale"; to: 1.0; duration: 120; easing.type: Easing.OutBack }
-            }
-
-            Text {
-                id: actionLabel
-                anchors.centerIn: parent
-                text: root.actionText
-                color: "#eaf1ff"
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                font.bold: true
-            }
         }
 
         // Action-Timeout: Fortschrittsbalken horizontal zentriert über der Box,
-        // exklusiv zum Badge.
-        Item {
+        // exklusiv zum Badge. Gleiches Blau wie bei den Gegnern, heller.
+        PlayerTimeoutBar {
             id: timeoutBar
-            readonly property bool active: (typeof GameTable !== "undefined" && GameTable)
+            readonly property bool atTurn: (typeof GameTable !== "undefined" && GameTable)
                                            && GameTable.timeoutSeatId === 0
-            property real progress: 1.0
-            visible: active && !root.isWinner && root.actionText === ""
+            active: atTurn
+            visible: atTurn && !root.isWinner && root.actionText === ""
+            fillColor: Config.Theme.colorTimeoutSelf
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             width: 56
             height: 7
             z: 2
-
-            // Track (statisch): Kontur + Dropshadow.
-            Rectangle {
-                anchors.fill: parent
-                radius: height / 2
-                color: Config.Theme.colorTimeoutTrack
-                border.color: Qt.rgba(1, 1, 1, 0.55)
-                border.width: 1
-                layer.enabled: Config.Theme.effectsEnabled && timeoutBar.visible
-                layer.effect: MultiEffect {
-                    shadowEnabled: true
-                    shadowColor: "#000000"
-                    shadowOpacity: 0.6
-                    shadowBlur: 0.7
-                    shadowVerticalOffset: 1
-                    shadowHorizontalOffset: 0
-                }
-            }
-
-            // Füllung (animiert) ÜBER dem Track – NICHT im Layer, damit die Breiten-
-            // Animation zuverlässig läuft. Gleiches Blau wie bei den Gegnern, heller.
-            Rectangle {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 1
-                height: parent.height - 2
-                radius: height / 2
-                color: Config.Theme.colorTimeoutSelf
-                width: (parent.width - 2) * timeoutBar.progress
-            }
-
-            onActiveChanged: {
-                if (active) {
-                    progress = 1.0
-                    timeoutAnim.restart()
-                } else {
-                    timeoutAnim.stop()
-                }
-            }
-            NumberAnimation {
-                id: timeoutAnim
-                target: timeoutBar
-                property: "progress"
-                from: 1.0; to: 0.0
-                duration: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.timeoutSec : 0) * 1000
-                easing.type: Easing.Linear
-            }
         }
 
         // Einsatz (Chip + Betrag): links neben dem Action-Indikator. Ist keiner
         // sichtbar, rückt der Einsatz rechtsbündig an den Boxrand.
-        Row {
+        BetChip {
             id: betRow
             visible: root.bet > 0
-            spacing: 2
+            amount: root.bet
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: topStrip.betRightMargin
-            transformOrigin: Item.Center
-            onVisibleChanged: if (visible) betPopSelf.restart()
-            SequentialAnimation {
-                id: betPopSelf
-                NumberAnimation { target: betRow; property: "scale"; from: 0.5; to: 1.15; duration: 110; easing.type: Easing.OutQuad }
-                NumberAnimation { target: betRow; property: "scale"; to: 1.0; duration: 130; easing.type: Easing.OutBack }
-            }
-            Image {
-                width: 16; height: 16
-                anchors.verticalCenter: parent.verticalCenter
-                source: "qrc:resources/chipStack.svg"
-                fillMode: Image.PreserveAspectFit
-            }
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                color: "#eff1f5"
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 11
-                font.bold: true
-                text: "$" + root.bet
-            }
         }
     }
 
     // Dealer/Small-/Big-Blind-Button: rechts oben NEBEN der Box (außerhalb).
-    Image {
+    BlindButtonImage {
         id: buttonImg
         visible: root.buttonVisible
-        width: 24; height: 24
+        button: root.button
         anchors.left: parent.right
         anchors.leftMargin: 6
         anchors.top: parent.top
         z: 25
-        fillMode: Image.PreserveAspectFit
-        source: root.button === 1 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.dealerPuck !== "") ? StyleProvider.dealerPuck : "../resources/tableDealerPuck.svg")
-              : root.button === 2 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.smallBlindPuck !== "") ? StyleProvider.smallBlindPuck : "../resources/tableSmallBlind.svg")
-              : root.button === 3 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.bigBlindPuck !== "") ? StyleProvider.bigBlindPuck : "../resources/tableBigBlind.svg")
-              : ""
     }
 
-    // Winner-Hervorhebung: goldener Rahmen + Badge
-    Rectangle {
-        anchors.fill: parent
-        visible: root.isWinner
-        color: "transparent"
-        radius: 6
-        border.color: "#FFD700"
-        border.width: 3
-        z: 19
-
-        layer.enabled: Config.Theme.effectsEnabled && root.isWinner
-        layer.effect: MultiEffect {
-            shadowEnabled: true
-            shadowColor: "#FFD700"
-            shadowOpacity: 1.0
-            shadowBlur: 1.0
-            shadowVerticalOffset: 0
-            shadowHorizontalOffset: 0
-        }
-    }
-
-    Rectangle {
-        visible: root.isWinner
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.top
-        anchors.bottomMargin: 3
-        width: winnerLabel.width + 14
-        height: 18
-        radius: 9
-        color: "#0d3d0d"
-        border.color: "#FFD700"
-        border.width: 1
-        z: 30
-
-        Text {
-            id: winnerLabel
-            anchors.centerIn: parent
-            text: qsTr("WINNER")
-            color: "#FFD700"
-            font.family: Config.StaticData.loadedFont.font.family
-            font.pixelSize: 10
-            font.bold: true
-        }
+    // Winner-Hervorhebung: goldener Rahmen + „WINNER"-Badge über der Box.
+    PlayerWinnerOverlay {
+        active: root.isWinner
+        gap: 3
+        badgeHeight: 18
+        badgeFontSize: 10
+        hPadding: 14
     }
 }

@@ -174,52 +174,47 @@ Rectangle {
                 anchors.rightMargin: 10
                 spacing: 8
 
-                Label {
+                AppLabel {
                     text: qsTr("#")
                     Layout.preferredWidth: view.compact ? 32 : 40
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Nickname")
                     Layout.fillWidth: true
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Games")
                     visible: !view.compact
                     Layout.preferredWidth: 70
                     horizontalAlignment: Text.AlignRight
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
                 Repeater {
                     model: view.extraColumns
-                    Label {
+                    AppLabel {
                         required property var modelData
                         visible: !view.compact
                         text: modelData.label
                         Layout.preferredWidth: modelData.width || 70
                         horizontalAlignment: Text.AlignRight
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeCaption
                         font.bold: true
                     }
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Score")
                     Layout.preferredWidth: view.compact ? 56 : 80
                     horizontalAlignment: Text.AlignRight
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
@@ -260,17 +255,16 @@ Rectangle {
                     anchors.rightMargin: rankList.contentHeight > rankList.height + 4 ? 16 : 10
                     spacing: 8
 
-                    Label {
+                    AppLabel {
                         text: rankDelegate.index + 1
                         Layout.preferredWidth: view.compact ? 32 : 40
                         color: (rankDelegate.index + 1) <= 3
                                ? Config.Theme.colorAccent
                                : Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                         font.bold: (rankDelegate.index + 1) <= 3
                     }
-                    Label {
+                    AppLabel {
                         id: nickLabel
                         text: rankDelegate.modelData.nickname || ""
                         Layout.fillWidth: true
@@ -278,7 +272,6 @@ Rectangle {
                         // Klickbar → leicht hervorgehoben/unterstrichen beim Hover.
                         color: nickHover.hovered ? Config.Theme.colorAccent
                                                  : Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                         font.underline: nickHover.hovered
 
@@ -287,18 +280,17 @@ Rectangle {
                             onTapped: view.playerActivated(rankDelegate.modelData.nickname || "")
                         }
                     }
-                    Label {
+                    AppLabel {
                         text: rankDelegate.modelData.games
                         visible: !view.compact
                         Layout.preferredWidth: 70
                         horizontalAlignment: Text.AlignRight
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                     }
                     Repeater {
                         model: view.extraColumns
-                        Label {
+                        AppLabel {
                             required property var modelData
                             visible: !view.compact
                             // Wert per Feldname aus der Zeile holen.
@@ -307,16 +299,14 @@ Rectangle {
                             Layout.preferredWidth: modelData.width || 70
                             horizontalAlignment: Text.AlignRight
                             color: Config.StaticData.palette.secondary.col200
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                         }
                     }
-                    Label {
+                    AppLabel {
                         text: rankDelegate.modelData.score
                         Layout.preferredWidth: view.compact ? 56 : 80
                         horizontalAlignment: Text.AlignRight
                         color: Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                         font.bold: true
                     }
@@ -333,7 +323,7 @@ Rectangle {
         implicitHeight: 48
     }
 
-    Label {
+    AppLabel {
         anchors.centerIn: parent
         width: parent.width - 32
         visible: !view.loading && (view.errorText !== "" || view.filteredRows.length === 0)
@@ -344,7 +334,6 @@ Rectangle {
         wrapMode: Text.WordWrap
         color: view.errorText !== "" ? "#d05050"
                                      : Config.StaticData.palette.secondary.col300
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: Config.Theme.fontSizeBody
     }
 }

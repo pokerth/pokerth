@@ -3358,4 +3358,38 @@ and disconnect from the server?</source>
 et vous déconnecter du serveur ?</translation>
     </message>
 </context>
+<context>
+    <name>StaticData</name>
+    <message>
+        <source>Fold</source>
+        <translation>Se coucher</translation>
+    </message>
+    <message>
+        <source>Check</source>
+        <translation>Check</translation>
+    </message>
+    <message>
+        <source>Call</source>
+        <translation>Suivre</translation>
+    </message>
+    <message>
+        <source>Bet</source>
+        <translation>Miser</translation>
+    </message>
+    <message>
+        <source>Raise</source>
+        <translation>Relancer</translation>
+    </message>
+    <message>
+        <source>All-In</source>
+        <translation>Tapis</translation>
+    </message>
+</context>
+<context>
+    <name>PlayerWinnerOverlay</name>
+    <message>
+        <source>WINNER</source>
+        <translation>GAGNANT</translation>
+    </message>
+</context>
 </TS>

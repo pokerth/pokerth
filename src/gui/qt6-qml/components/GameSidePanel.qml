@@ -80,11 +80,10 @@ Item {
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 6
-                Text {
+                AppText {
                     Layout.fillWidth: true
                     text: root.title
                     color: Config.Theme.colorAccent
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 15
                     font.bold: true
                     font.letterSpacing: 0.4

@@ -16,30 +16,7 @@ Rectangle {
         id: nicknameAvatarSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Nicknamen/Avatare")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Nicknamen/Avatare"); topGap: 4 }
 
         ScrollView {
             id: nickScrollView
@@ -117,13 +94,12 @@ Rectangle {
                                     color: Config.StaticData.palette.secondary.col200
                                 }
 
-                                Text {
+                                AppText {
                                     Layout.fillWidth: true
                                     text: myAvatarField.text.length > 0
                                           ? myAvatarField.text.split("/").pop()
                                           : qsTr("Kein Avatar gewählt")
                                     font.pointSize: 10
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     color: Config.StaticData.palette.secondary.col400
                                     elide: Text.ElideLeft
                                 }
@@ -231,13 +207,12 @@ Rectangle {
                                         color: Config.StaticData.palette.secondary.col200
                                     }
 
-                                    Text {
+                                    AppText {
                                         Layout.fillWidth: true
                                         text: opponentAvatarField.text.length > 0
                                               ? opponentAvatarField.text.split("/").pop()
                                               : qsTr("Kein Avatar gewählt")
                                         font.pointSize: 10
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         color: Config.StaticData.palette.secondary.col400
                                         elide: Text.ElideLeft
                                     }

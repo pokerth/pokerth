@@ -98,11 +98,10 @@ Rectangle {
                         //color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Text {
+                    AppText {
                         id: preLoaderProgressInfoText
                         text: qsTr(Config.StaticData.progressMessages[Math.floor(Math.random() * Config.StaticData.progressMessages.length)])
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pointSize: 12
 
                         Timer {
@@ -139,11 +138,10 @@ Rectangle {
                 Layout.preferredHeight: 16
                 Layout.bottomMargin: 12
 
-                Text {
+                AppText {
                     id: preLoaderFooterText
                     text: qsTr("PokerTH - v2.1.0preview")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pointSize: 12
                     style: Text.Outline
                     styleColor: Config.StaticData.palette.secondary.col600

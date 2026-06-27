@@ -32,10 +32,9 @@ Rectangle {
         anchors.margins: 16
         spacing: 10
 
-        Label {
+        AppLabel {
             text: qsTr("BBC Ranking")
             color: Config.StaticData.palette.secondary.col200
-            font.family: Config.StaticData.loadedFont.font.family
             font.pointSize: 14
             font.bold: true
         }
@@ -48,28 +47,16 @@ Rectangle {
             columnSpacing: 16
             rowSpacing: 8
 
-            RowLayout {
-                Layout.fillWidth: bbcPage.compact
-                spacing: 8
-                Label {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Season:")
-                    color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: Config.Theme.fontSizeBody
-                }
-                ComboBox {
-                    id: seasonCombo
-                    Layout.fillWidth: bbcPage.compact
-                    Layout.preferredWidth: 160
-                    enabled: !bbcPage.alltime && bbcPage.seasonModel.length > 0
-                    model: bbcPage.seasonModel
-                    textRole: "label"
-                    valueRole: "value"
-                    onActivated: {
-                        bbcPage.currentSeason = currentValue
-                        view.applyFilter()
-                    }
+            RankingFilterField {
+                id: seasonField
+                label: qsTr("Season:")
+                model: bbcPage.seasonModel
+                comboEnabled: !bbcPage.alltime && bbcPage.seasonModel.length > 0
+                comboWidth: 160
+                compact: bbcPage.compact
+                onActivated: function(value) {
+                    bbcPage.currentSeason = value
+                    view.applyFilter()
                 }
             }
 
@@ -137,12 +124,12 @@ Rectangle {
                     bbcPage.alltime = bbcPage.restoreState.alltime
                     bbcPage.restoreState = null
                     bbcPage.currentSeason = sel
-                    seasonCombo.currentIndex = Math.max(0, seasonCombo.indexOfValue(sel))
+                    seasonField.currentIndex = Math.max(0, seasonField.indexOfValue(sel))
                     applyFilter()
                     return
                 }
                 bbcPage.currentSeason = sel
-                seasonCombo.currentIndex = Math.max(0, seasonCombo.indexOfValue(sel))
+                seasonField.currentIndex = Math.max(0, seasonField.indexOfValue(sel))
                 // Eingebettete Initialdaten der aktuellen Saison anzeigen.
                 rows = jsonAttr(html, "results") || []
             }

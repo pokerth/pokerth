@@ -110,9 +110,8 @@ Item {
                 Layout.fillWidth: true
                 spacing: 2
 
-                Text {
+                AppText {
                     text: gameItem.itemGameName || ("Game #" + gameItem.itemGameId)
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 12
                     color: Config.StaticData.palette.secondary.col200
@@ -120,13 +119,12 @@ Item {
                     elide: Text.ElideRight
                 }
 
-                Text {
+                AppText {
                     text: gameItem.itemPlayerCount + "/" + gameItem.itemMaxPlayers
                           + "  ·  "
                           + (Lobby ? Lobby.gameStatusText(gameItem.itemGameMode,
                                                           gameItem.itemPlayerCount,
                                                           gameItem.itemMaxPlayers) : "")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 11
                     color: {
                         if (gameItem.itemGameMode === 2) return Config.Theme.colorStatusRunning
@@ -226,13 +224,12 @@ Item {
                     smooth: true
                 }
 
-                Text {
+                AppText {
                     anchors.left: playerFlag.visible ? playerFlag.right : parent.left
                     anchors.leftMargin: playerFlag.visible ? 6 : 0
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     text: parent.modelData.playerName || parent.modelData.name || ""
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 11
                     color: Config.StaticData.palette.secondary.col300
                     elide: Text.ElideRight

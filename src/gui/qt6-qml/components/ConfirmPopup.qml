@@ -44,21 +44,19 @@ Popup {
         spacing: 12
         width: root.availableWidth
 
-        Label {
+        AppLabel {
             Layout.fillWidth: true
             text: root.title
             color: Config.StaticData.palette.secondary.col100
-            font.family: Config.StaticData.loadedFont.font.family
             font.pixelSize: 15
             font.bold: true
             wrapMode: Text.WordWrap
         }
 
-        Label {
+        AppLabel {
             Layout.fillWidth: true
             text: root.message
             color: Config.StaticData.palette.secondary.col300
-            font.family: Config.StaticData.loadedFont.font.family
             font.pixelSize: 12
             wrapMode: Text.WordWrap
         }

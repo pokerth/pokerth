@@ -97,6 +97,20 @@ static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & 
 
 int main(int argc, char *argv[])
 {
+    // QT_QUICK_CONTROLS_STYLE wird beim frühen Style-Resolve ausgewertet.
+    // Unter KDE/Plasma ist oft bereits ein nativer Style im Environment
+    // gesetzt ("Desktop" / "org.kde.desktop"), der im Deploy das fehlende
+    // Modul verlangt. Daher problematische Werte früh auf Universal
+    // normalisieren, noch vor Q(Gui)Application und vor dem ersten
+    // QtQuick-Controls-Zugriff.
+    const QByteArray quickControlsStyle = qgetenv("QT_QUICK_CONTROLS_STYLE");
+    const QByteArray quickControlsStyleLower = quickControlsStyle.toLower();
+    if (quickControlsStyle.isEmpty()
+        || quickControlsStyleLower == "desktop"
+        || quickControlsStyleLower.startsWith("org.kde")) {
+        qputenv("QT_QUICK_CONTROLS_STYLE", "Universal");
+    }
+
     // Qt6 nutzt auf Wayland standardmäßig den THREADED Scene-Graph-Render-Loop.
     // Dessen Teardown beim Programmende kann mit der GUI-Thread-Zerstörung der
     // QML-Items kollidieren → Absturz in QQuickWindowPrivate::cleanup(QSGNode*).
@@ -149,8 +163,24 @@ int main(int argc, char *argv[])
     QSettings::setPath(XmlFormat, QSettings::UserScope, fi.absolutePath().remove("/.pokerth"));
     QSettings settings(XmlFormat, QSettings::UserScope, ".pokerth", "config");
 
-    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE"))
-        QQuickStyle::setStyle(settings.value("style").toString());
+    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
+        // QtQuick-Controls-Style festlegen. Ein leerer ODER ein plattform-nativer
+        // Style ("Desktop" / "org.kde.desktop") führt unter KDE/Plasma (z.B.
+        // CachyOS, Steam Deck) dazu, dass QtQuick.Controls das Modul
+        // org.kde.desktop (qqc2-desktop-style) zu laden versucht. Im portablen
+        // Deploy ist das nicht enthalten → die QML-Wurzel lädt nicht. Daher auf
+        // den mitgelieferten Universal-Style ausweichen (worauf die gesamte UI
+        // ohnehin ausgelegt ist) – auch einen bereits in config.xml GESPEICHERTEN
+        // nativen Style heilen (ein altes Binary persistierte ihn via QSettings).
+        // Ein bewusst anderer Style bleibt über QT_QUICK_CONTROLS_STYLE möglich.
+        QString style = settings.value("style").toString();
+        if (style.isEmpty()
+            || style.compare(QLatin1String("Desktop"), Qt::CaseInsensitive) == 0
+            || style.startsWith(QLatin1String("org.kde"), Qt::CaseInsensitive))
+            style = QStringLiteral("Universal");
+        QQuickStyle::setStyle(style);
+        settings.setValue(QLatin1String("style"), style);
+    }
     const QString styleInSettings = settings.value("style").toString();
     if (styleInSettings.isEmpty())
         settings.setValue(QLatin1String("style"), QQuickStyle::name());

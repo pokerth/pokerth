@@ -116,10 +116,9 @@ Rectangle {
         anchors.margins: 16
         spacing: 10
 
-        Label {
+        AppLabel {
             text: qsTr("Ranking")
             color: Config.StaticData.palette.secondary.col200
-            font.family: Config.StaticData.loadedFont.font.family
             font.pointSize: 14
             font.bold: true
         }
@@ -135,10 +134,9 @@ Rectangle {
 
             RowLayout {
                 spacing: 8
-                Label {
+                AppLabel {
                     text: qsTr("Season:")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeBody
                 }
                 ComboBox {
@@ -196,48 +194,43 @@ Rectangle {
                 anchors.rightMargin: 10
                 spacing: 8
 
-                Label {
+                AppLabel {
                     text: qsTr("#")
                     Layout.preferredWidth: rankingPage.compact ? 32 : 40
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Player")
                     Layout.fillWidth: true
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Games")
                     visible: !rankingPage.compact
                     Layout.preferredWidth: 70
                     horizontalAlignment: Text.AlignRight
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Avg")
                     visible: !rankingPage.compact
                     Layout.preferredWidth: 60
                     horizontalAlignment: Text.AlignRight
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Score")
                     Layout.preferredWidth: rankingPage.compact ? 56 : 80
                     horizontalAlignment: Text.AlignRight
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
@@ -286,14 +279,13 @@ Rectangle {
                         anchors.rightMargin: rankList.contentHeight > rankList.height + 4 ? 16 : 10
                         spacing: 8
 
-                        Label {
+                        AppLabel {
                             text: rankDelegate.modelData.rank_pos
                             Layout.preferredWidth: rankingPage.compact ? 32 : 40
                             // Top-3 hervorheben.
                             color: rankDelegate.modelData.rank_pos <= 3
                                    ? Config.Theme.colorAccent
                                    : Config.StaticData.palette.secondary.col100
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                             font.bold: rankDelegate.modelData.rank_pos <= 3
                         }
@@ -319,7 +311,7 @@ Rectangle {
                                 smooth: true
                             }
 
-                            Label {
+                            AppLabel {
                                 id: nickLabel
                                 text: rankDelegate.modelData.username
                                 Layout.fillWidth: true
@@ -327,7 +319,6 @@ Rectangle {
                                 // Klickbar → Player-Page (per player_id, sonst username).
                                 color: nickHover.hovered ? Config.Theme.colorAccent
                                                          : Config.StaticData.palette.secondary.col100
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: Config.Theme.fontSizeBody
                                 font.underline: nickHover.hovered
 
@@ -340,30 +331,27 @@ Rectangle {
                                 }
                             }
                         }
-                        Label {
+                        AppLabel {
                             text: rankDelegate.modelData.season_games
                             visible: !rankingPage.compact
                             Layout.preferredWidth: 70
                             horizontalAlignment: Text.AlignRight
                             color: Config.StaticData.palette.secondary.col200
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                         }
-                        Label {
+                        AppLabel {
                             text: rankDelegate.modelData.average_score
                             visible: !rankingPage.compact
                             Layout.preferredWidth: 60
                             horizontalAlignment: Text.AlignRight
                             color: Config.StaticData.palette.secondary.col200
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                         }
-                        Label {
+                        AppLabel {
                             text: rankDelegate.modelData.final_score
                             Layout.preferredWidth: rankingPage.compact ? 56 : 80
                             horizontalAlignment: Text.AlignRight
                             color: Config.StaticData.palette.secondary.col100
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                             font.bold: true
                         }
@@ -381,7 +369,7 @@ Rectangle {
             }
 
             // Leer- / Fehlerhinweis
-            Label {
+            AppLabel {
                 anchors.centerIn: parent
                 width: parent.width - 32
                 visible: !rankingPage.loading
@@ -393,7 +381,6 @@ Rectangle {
                 wrapMode: Text.WordWrap
                 color: rankingPage.errorText !== ""
                        ? "#d05050" : Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Theme.fontSizeBody
             }
         }
@@ -415,7 +402,7 @@ Rectangle {
 
             Item { Layout.fillWidth: true }
 
-            Label {
+            AppLabel {
                 // Auf Mobil knapp ("1 / 13"), auf Desktop mit Spielerzahl.
                 text: rankingPage.compact
                       ? qsTr("%1 / %2").arg(rankingPage.currentPage).arg(rankingPage.pageCount)
@@ -426,7 +413,6 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 elide: Text.ElideRight
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Theme.fontSizeCaption
             }
 

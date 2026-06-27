@@ -200,11 +200,10 @@ Item {
                 source: "../resources/chipStack.svg"
                 fillMode: Image.PreserveAspectFit
             }
-            Text {
+            AppText {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "$" + (GameTable ? GameTable.totalPot : 0)
                 color: Config.Theme.colorAccent
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 font.bold: true
                 font.letterSpacing: 0.3

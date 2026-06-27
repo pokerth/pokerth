@@ -36,12 +36,11 @@ Rectangle {
                 width: Math.min(content.width - Config.Theme.margin * 2, 420)
                 spacing: Config.Theme.spacing
 
-                Label {
+                AppLabel {
                     text: qsTr("Community / Ranking")
                     Layout.alignment: Qt.AlignHCenter
                     Layout.bottomMargin: Config.Theme.spacing
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pointSize: 16
                     font.bold: true
                 }

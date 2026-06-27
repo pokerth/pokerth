@@ -52,10 +52,9 @@ Rectangle {
         anchors.margins: 16
         spacing: 10
 
-        Label {
+        AppLabel {
             text: qsTr("WEC Ranking")
             color: Config.StaticData.palette.secondary.col200
-            font.family: Config.StaticData.loadedFont.font.family
             font.pointSize: 14
             font.bold: true
         }
@@ -69,53 +68,29 @@ Rectangle {
             columnSpacing: 16
             rowSpacing: 8
 
-            RowLayout {
-                Layout.fillWidth: wecPage.compact
-                spacing: 8
-                Label {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Year:")
-                    color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: Config.Theme.fontSizeBody
-                }
-                ComboBox {
-                    id: yearCombo
-                    Layout.fillWidth: wecPage.compact
-                    Layout.preferredWidth: 110
-                    enabled: !wecPage.alltime && wecPage.yearModel.length > 0
-                    model: wecPage.yearModel
-                    textRole: "label"
-                    valueRole: "value"
-                    onActivated: {
-                        wecPage.currentYear = currentValue
-                        view.applyFilter()
-                    }
+            RankingFilterField {
+                id: yearField
+                label: qsTr("Year:")
+                model: wecPage.yearModel
+                comboEnabled: !wecPage.alltime && wecPage.yearModel.length > 0
+                comboWidth: 110
+                compact: wecPage.compact
+                onActivated: function(value) {
+                    wecPage.currentYear = value
+                    view.applyFilter()
                 }
             }
 
-            RowLayout {
-                Layout.fillWidth: wecPage.compact
-                spacing: 8
-                Label {
-                    Layout.alignment: Qt.AlignVCenter
-                    text: qsTr("Month:")
-                    color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: Config.Theme.fontSizeBody
-                }
-                ComboBox {
-                    id: monthCombo
-                    Layout.fillWidth: wecPage.compact
-                    Layout.preferredWidth: 140
-                    enabled: !wecPage.alltime && !wecPage.allyear
-                    model: wecPage.monthModel
-                    textRole: "label"
-                    valueRole: "value"
-                    onActivated: {
-                        wecPage.currentMonth = currentValue
-                        view.applyFilter()
-                    }
+            RankingFilterField {
+                id: monthField
+                label: qsTr("Month:")
+                model: wecPage.monthModel
+                comboEnabled: !wecPage.alltime && !wecPage.allyear
+                comboWidth: 140
+                compact: wecPage.compact
+                onActivated: function(value) {
+                    wecPage.currentMonth = value
+                    view.applyFilter()
                 }
             }
 
@@ -189,8 +164,8 @@ Rectangle {
                     wecPage.currentMonth = r.currentMonth
                     wecPage.allyear = r.allyear
                     wecPage.alltime = r.alltime
-                    yearCombo.currentIndex = Math.max(0, yearCombo.indexOfValue(wecPage.currentYear))
-                    monthCombo.currentIndex = Math.max(0, monthCombo.indexOfValue(wecPage.currentMonth))
+                    yearField.currentIndex = Math.max(0, yearField.indexOfValue(wecPage.currentYear))
+                    monthField.currentIndex = Math.max(0, monthField.indexOfValue(wecPage.currentMonth))
                     applyFilter()
                     return
                 }
@@ -204,8 +179,8 @@ Rectangle {
                 } else {
                     wecPage.allyear = true        // Jahr ohne Monat → ganzes Jahr
                 }
-                yearCombo.currentIndex = Math.max(0, yearCombo.indexOfValue(wecPage.currentYear))
-                monthCombo.currentIndex = Math.max(0, monthCombo.indexOfValue(wecPage.currentMonth))
+                yearField.currentIndex = Math.max(0, yearField.indexOfValue(wecPage.currentYear))
+                monthField.currentIndex = Math.max(0, monthField.indexOfValue(wecPage.currentMonth))
                 // Eingebettete Initialdaten anzeigen.
                 rows = jsonAttr(html, "stats") || []
             }

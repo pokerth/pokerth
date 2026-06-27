@@ -44,8 +44,10 @@ cp -v "$BUILD_DIR/bin/pokerth_client" "$DEPLOY_DIR/bin/"
 [ -d "$BUILD_DIR/bin/botfiles" ] && cp -r "$BUILD_DIR/bin/botfiles" "$DEPLOY_DIR/bin/"
 
 # System-Libs die nicht mitgeliefert werden (regex auf basename)
-# PulseAudio/ALSA werden ausgeschlossen: müssen zum System-Audiodaemon passen
-SKIP_PATTERN='^(libc[.-]|libm[.-]|libdl[.-]|libpthread[.-]|librt[.-]|libresolv[.-]|libutil[.-]|libnsl[.-]|ld-linux|ld-[0-9]|libpulse[.-]|libpulse-simple[.-]|libpulsecommon-|libasound[.-])'
+# PulseAudio/ALSA werden ausgeschlossen: müssen zum System-Audiodaemon passen.
+# Fontconfig/Expat bleiben auf dem Host, damit die dortige Font-Config-Syntax
+# (z. B. neuere guessfamily-Regeln auf SteamOS/CachyOS) sicher verstanden wird.
+SKIP_PATTERN='^(libc[.-]|libm[.-]|libdl[.-]|libpthread[.-]|librt[.-]|libresolv[.-]|libutil[.-]|libnsl[.-]|ld-linux|ld-[0-9]|libpulse[.-]|libpulse-simple[.-]|libpulsecommon-|libasound[.-]|libfontconfig[.-]|libexpat[.-])'
 
 # ldd löst bereits ALLE transitiven Abhängigkeiten auf – keine Rekursion nötig.
 # Nimmt Dateiliste per stdin (via pipe aus find), verarbeitet alles in einem ldd-Aufruf.

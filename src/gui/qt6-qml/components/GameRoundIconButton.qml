@@ -49,12 +49,11 @@ Rectangle {
         border.color: "#1d222b"
         border.width: 1.5
 
-        Text {
+        AppText {
             id: unreadLabel
             anchors.centerIn: parent
             text: root.unread > 99 ? "99+" : root.unread
             color: "#FFFFFF"
-            font.family: Config.StaticData.loadedFont.font.family
             font.pixelSize: 10
             font.bold: true
         }

@@ -17,45 +17,40 @@ RowLayout {
     readonly property int openGames: Lobby ? Lobby.gameListModel.openCount : 0
 
     // Compact: eine Zeile mit Kurzform + elide
-    Label {
+    AppLabel {
         visible: Config.Responsive.compact
         Layout.fillWidth: true
         text: qsTr("%1 players · %2 running · %3 open")
               .arg(statsBar.connectedPlayers).arg(statsBar.runningGames).arg(statsBar.openGames)
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: 12
         color: Config.StaticData.palette.secondary.col300
         elide: Text.ElideRight
     }
 
     // Wide: einzelne Labels
-    Label {
+    AppLabel {
         visible: !Config.Responsive.compact
         text: qsTr("connected players: %1").arg(statsBar.connectedPlayers)
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: 12
         color: Config.StaticData.palette.secondary.col300
     }
-    Label {
+    AppLabel {
         visible: !Config.Responsive.compact
         text: " | " + qsTr("running games: %1").arg(statsBar.runningGames)
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: 12
         color: Config.StaticData.palette.secondary.col300
     }
-    Label {
+    AppLabel {
         visible: !Config.Responsive.compact
         text: " | " + qsTr("open games: %1").arg(statsBar.openGames)
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: 12
         color: Config.StaticData.palette.secondary.col300
     }
 
     Item { Layout.fillWidth: true }
 
-    Text {
+    AppText {
         text: qsTr("PokerTH.net")
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: 12
         color: (Config.StaticData.palette.primary && Config.StaticData.palette.primary.col400)
                ? Config.StaticData.palette.primary.col400

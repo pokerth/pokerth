@@ -82,10 +82,9 @@ Rectangle {
         anchors.margins: 16
         spacing: 10
 
-        Label {
+        AppLabel {
             text: qsTr("Logs")
             color: Config.StaticData.palette.secondary.col200
-            font.family: Config.StaticData.loadedFont.font.family
             font.pointSize: 14
             font.bold: true
         }
@@ -93,10 +92,9 @@ Rectangle {
         // Game-Auswahl
         RowLayout {
             spacing: 8
-            Label {
+            AppLabel {
                 text: qsTr("Game:")
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Theme.fontSizeBody
             }
             ComboBox {
@@ -159,14 +157,13 @@ Rectangle {
                                          ? Config.StaticData.palette.secondary.col700
                                          : Config.StaticData.palette.secondary.col600))
                         }
-                        contentItem: Text {
+                        contentItem: AppText {
                             text: fileDelegate.modelData.name
                             elide: Text.ElideRight
                             verticalAlignment: Text.AlignVCenter
                             color: fileDelegate.modelData.current ? "#FFFFFF"
                                  : (logsPage.selectedIndex === fileDelegate.index ? "#101010"
                                     : Config.StaticData.palette.secondary.col100)
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                         }
                         onClicked: logsPage.selectedIndex = index
@@ -180,10 +177,9 @@ Rectangle {
                 Layout.fillHeight: true
                 spacing: 4
 
-                Label {
+                AppLabel {
                     text: qsTr("Preview:")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeBody
                 }
 
@@ -280,10 +276,9 @@ Rectangle {
         modal: true
         title: qsTr("PokerTH - Delete log files")
         standardButtons: Dialog.Yes | Dialog.No
-        Label {
+        AppLabel {
             text: qsTr("Do you really want to delete the selected log files?")
             color: Config.StaticData.palette.secondary.col100
-            font.family: Config.StaticData.loadedFont.font.family
         }
         onAccepted: {
             if (typeof LogStore !== "undefined" && LogStore && logsPage.selectedPath !== "")
@@ -297,12 +292,11 @@ Rectangle {
         modal: true
         title: qsTr("Uploading log file")
         standardButtons: Dialog.Close
-        Label {
+        AppLabel {
             id: messageLabel
             wrapMode: Text.WordWrap
             width: 360
             color: Config.StaticData.palette.secondary.col100
-            font.family: Config.StaticData.loadedFont.font.family
         }
     }
 }

@@ -65,9 +65,8 @@ Rectangle {
         anchors.margins: Config.Theme.margin
         spacing: Config.Theme.spacing
 
-        Label {
+        AppLabel {
             text: qsTr("Lokales Spiel")
-            font.family: Config.StaticData.loadedFont.font.family
             font.bold: true
             font.pixelSize: 16
             color: Config.StaticData.palette.secondary.col200

@@ -16,30 +16,7 @@ Rectangle {
         id: logsettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Log-Nachrichten")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Log-Nachrichten"); topGap: 4 }
 
         ScrollView {
             id: logsScrollView
@@ -62,13 +39,11 @@ Rectangle {
                         anchors.fill: parent
                         spacing: 8
 
-                        CheckBox {
+                        ConfigCheckBox {
                             id: logOnOff
                             text: qsTr("Logging aktivieren")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("LogOnOff") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("LogOnOff", checked ? 1 : 0)
-                            }
+                            configKey: "LogOnOff"
+                            defaultChecked: false
                         }
 
                         RowLayout {

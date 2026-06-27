@@ -153,20 +153,18 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 4
 
-                    Label {
+                    AppLabel {
                         text: playerView.player ? playerView.player.nickname : playerView.nickname
                         Layout.fillWidth: true
                         elide: Text.ElideRight
                         color: Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pointSize: 16
                         font.bold: true
                     }
-                    Label {
+                    AppLabel {
                         visible: playerView.player && playerView.player.created_at
                         text: qsTr("Member since %1").arg(playerView.datePart(playerView.player ? playerView.player.created_at : ""))
                         color: Config.StaticData.palette.secondary.col300
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
@@ -180,10 +178,9 @@ Rectangle {
                 visible: playerView.awards.length > 0
                 spacing: 4
 
-                Label {
+                AppLabel {
                     text: qsTr("Awards")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeBody
                     font.bold: true
                 }
@@ -256,10 +253,9 @@ Rectangle {
                 visible: playerView.player !== null &&
                          playerView.player.s2_tickets !== undefined
 
-                Label {
+                AppLabel {
                     text: qsTr("Tickets")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeBody
                     font.bold: true
                 }
@@ -286,19 +282,17 @@ Rectangle {
                             ColumnLayout {
                                 anchors.centerIn: parent
                                 spacing: 2
-                                Label {
+                                AppLabel {
                                     Layout.alignment: Qt.AlignHCenter
                                     text: ticketCell.modelData.value
                                     color: Config.StaticData.palette.secondary.col100
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: Config.Theme.fontSizeTitle
                                     font.bold: true
                                 }
-                                Label {
+                                AppLabel {
                                     Layout.alignment: Qt.AlignHCenter
                                     text: ticketCell.modelData.label
                                     color: Config.StaticData.palette.secondary.col300
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: Config.Theme.fontSizeCaption
                                 }
                             }
@@ -319,10 +313,9 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 6
 
-                    Label {
+                    AppLabel {
                         text: blockItem.modelData.label
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                         font.bold: true
                     }
@@ -350,19 +343,17 @@ Rectangle {
                                 ColumnLayout {
                                     anchors.centerIn: parent
                                     spacing: 2
-                                    Label {
+                                    AppLabel {
                                         Layout.alignment: Qt.AlignHCenter
                                         text: statCell.modelData.value
                                         color: Config.StaticData.palette.secondary.col100
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: Config.Theme.fontSizeTitle
                                         font.bold: true
                                     }
-                                    Label {
+                                    AppLabel {
                                         Layout.alignment: Qt.AlignHCenter
                                         text: statCell.modelData.label
                                         color: Config.StaticData.palette.secondary.col300
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: Config.Theme.fontSizeCaption
                                     }
                                 }
@@ -419,7 +410,7 @@ Rectangle {
         implicitHeight: 48
     }
 
-    Label {
+    AppLabel {
         anchors.centerIn: parent
         width: parent.width - 32
         visible: !playerView.loading && playerView.errorText !== ""
@@ -427,7 +418,6 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         color: "#d05050"
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: Config.Theme.fontSizeBody
     }
 }

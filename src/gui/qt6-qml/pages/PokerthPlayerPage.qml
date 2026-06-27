@@ -133,38 +133,34 @@ Rectangle {
                             fillMode: Image.PreserveAspectFit
                             smooth: true
                         }
-                        Label {
+                        AppLabel {
                             text: playerPage.player ? playerPage.player.username : ""
                             Layout.fillWidth: true
                             elide: Text.ElideRight
                             color: Config.StaticData.palette.secondary.col100
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pointSize: 16
                             font.bold: true
                         }
                     }
-                    Label {
+                    AppLabel {
                         visible: playerPage.player && playerPage.player.created
                         text: qsTr("Member since %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.created : ""))
                         color: Config.StaticData.palette.secondary.col300
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
-                    Label {
+                    AppLabel {
                         visible: playerPage.player && playerPage.player.last_login
                         text: qsTr("Last login %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.last_login : ""))
                         color: Config.StaticData.palette.secondary.col300
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
             }
 
             // ── Aktuelle-Saison-Kennzahlen ──────────────────────────────────
-            Label {
+            AppLabel {
                 text: qsTr("Current season")
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Theme.fontSizeBody
                 font.bold: true
             }
@@ -196,19 +192,17 @@ Rectangle {
                         ColumnLayout {
                             anchors.centerIn: parent
                             spacing: 2
-                            Label {
+                            AppLabel {
                                 Layout.alignment: Qt.AlignHCenter
                                 text: statCell.modelData.value
                                 color: Config.StaticData.palette.secondary.col100
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: Config.Theme.fontSizeTitle
                                 font.bold: true
                             }
-                            Label {
+                            AppLabel {
                                 Layout.alignment: Qt.AlignHCenter
                                 text: statCell.modelData.label
                                 color: Config.StaticData.palette.secondary.col300
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: Config.Theme.fontSizeCaption
                             }
                         }
@@ -221,10 +215,9 @@ Rectangle {
                 Layout.fillWidth: true
                 visible: playerPage.last5.length > 0
                 spacing: 8
-                Label {
+                AppLabel {
                     text: qsTr("Last 5:")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Theme.fontSizeBody
                 }
                 Repeater {
@@ -236,11 +229,10 @@ Rectangle {
                         radius: 14
                         color: modelData === 1 ? Config.Theme.colorAccent
                                                : Config.StaticData.palette.secondary.col600
-                        Label {
+                        AppLabel {
                             anchors.centerIn: parent
                             text: modelData
                             color: modelData === 1 ? "#101010" : Config.StaticData.palette.secondary.col100
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                             font.bold: true
                         }
@@ -250,11 +242,10 @@ Rectangle {
             }
 
             // ── Letzte Spiele ───────────────────────────────────────────────
-            Label {
+            AppLabel {
                 text: qsTr("Recent games")
                 visible: playerPage.games.length > 0
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Theme.fontSizeBody
                 font.bold: true
             }
@@ -293,29 +284,26 @@ Rectangle {
                                 anchors.leftMargin: 10
                                 anchors.rightMargin: 10
                                 spacing: 8
-                                Label {
+                                AppLabel {
                                     text: qsTr("#%1").arg(gameRow.modelData.place)
                                     Layout.preferredWidth: 40
                                     color: gameRow.modelData.place === 1
                                            ? Config.Theme.colorAccent
                                            : Config.StaticData.palette.secondary.col100
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: Config.Theme.fontSizeBody
                                     font.bold: gameRow.modelData.place === 1
                                 }
-                                Label {
+                                AppLabel {
                                     text: (gameRow.modelData.game && gameRow.modelData.game.name) ? gameRow.modelData.game.name : ""
                                     Layout.fillWidth: true
                                     elide: Text.ElideRight
                                     color: Config.StaticData.palette.secondary.col100
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: Config.Theme.fontSizeBody
                                 }
-                                Label {
+                                AppLabel {
                                     text: playerPage.datePart(gameRow.modelData.start_time)
                                     visible: !playerPage.compact
                                     color: Config.StaticData.palette.secondary.col300
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: Config.Theme.fontSizeCaption
                                 }
                             }
@@ -334,7 +322,7 @@ Rectangle {
         implicitHeight: 48
     }
 
-    Label {
+    AppLabel {
         anchors.centerIn: parent
         width: parent.width - 32
         visible: !playerPage.loading && playerPage.errorText !== ""
@@ -342,7 +330,6 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
         color: "#d05050"
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: Config.Theme.fontSizeBody
     }
 }

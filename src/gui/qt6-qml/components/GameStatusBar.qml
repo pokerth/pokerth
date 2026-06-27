@@ -20,34 +20,30 @@ Rectangle {
             spacing: 0
             Row {
                 spacing: 4
-                Text {
+                AppText {
                     text: qsTr("Total:")
                     color: "#9e9e9e"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
                     font.weight: Font.Medium
                 }
-                Text {
+                AppText {
                     text: "$%1".arg(GameTable ? GameTable.pot : 0)
                     color: "#99D500"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
                     font.bold: true
                 }
             }
             Row {
                 spacing: 4
-                Text {
+                AppText {
                     text: qsTr("Bets:")
                     color: "#9e9e9e"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Responsive.landscapeCompact ? 10 : 11
                     font.weight: Font.Medium
                 }
-                Text {
+                AppText {
                     text: "$%1".arg(GameTable ? (GameTable.totalPot - GameTable.pot) : 0)
                     color: "#7aa800"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Responsive.landscapeCompact ? 10 : 11
                     font.weight: Font.Medium
                 }
@@ -60,11 +56,10 @@ Rectangle {
         Column {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             spacing: 0
-            Text {
+            AppText {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: GameTable ? GameTable.phaseText : qsTr("Preflop")
                 color: "#FFFFFF"
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
                 font.weight: Font.DemiBold
                 font.letterSpacing: 0.5
@@ -72,17 +67,15 @@ Rectangle {
             Row {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 8
-                Text {
+                AppText {
                     text: qsTr("Game: %1").arg(GameTable ? GameTable.gameId : 0)
                     color: "#9e9e9e"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Responsive.landscapeCompact ? 9 : 11
                     font.weight: Font.Medium
                 }
-                Text {
+                AppText {
                     text: qsTr("Hand: %1").arg(GameTable ? GameTable.handNumber : 1)
                     color: "#9e9e9e"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: Config.Responsive.landscapeCompact ? 9 : 11
                     font.weight: Font.Medium
                 }

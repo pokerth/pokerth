@@ -27,12 +27,11 @@ AbstractButton {
         Behavior on color { ColorAnimation { duration: 100 } }
     }
 
-    contentItem: Text {
+    contentItem: AppText {
         text: customButton.text
         color: customButton.hovered || customButton.pressed
                ? Config.Theme.colorTextPrimary
                : Config.Theme.colorTextSecondary
-        font.family: Config.StaticData.loadedFont.font.family
         font.pixelSize: Config.Theme.fontSizeBody
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment:   Text.AlignVCenter

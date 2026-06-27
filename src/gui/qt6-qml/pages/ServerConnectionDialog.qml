@@ -165,10 +165,9 @@ Rectangle {
 
                     Item { Layout.fillHeight: true }
 
-                    Label {
+                    AppLabel {
                         text: qsTr("User Login")
                         Layout.alignment: Qt.AlignHCenter
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: Config.Theme.fontSizeTitle
                         color: Config.StaticData.palette.secondary.col200
@@ -252,18 +251,16 @@ Rectangle {
 
                     Item { Layout.fillHeight: true }
 
-                    Text {
+                    AppText {
                         text: qsTr("Connecting as...")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                         color: Config.StaticData.palette.secondary.col300
                         Layout.alignment: Qt.AlignHCenter
                     }
 
-                    Text {
+                    AppText {
                         id: usernameLabel
                         text: qsTr("Username/Guest")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeTitle
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
@@ -304,10 +301,9 @@ Rectangle {
                             }
                         }
 
-                        Text {
+                        AppText {
                             id: statusText
                             text: qsTr("Initializing connection...")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                             color: Config.StaticData.palette.secondary.col300
                             Layout.alignment: Qt.AlignHCenter

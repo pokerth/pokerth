@@ -548,15 +548,14 @@ ApplicationWindow {
             spacing: 12
             width: timeoutWarningPopup.availableWidth
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Timeout Warning")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 // Texte 1:1 wie timeoutMsgBoxImpl::timerRefresh.
                 text: {
@@ -574,16 +573,14 @@ ApplicationWindow {
                            .arg(timeoutWarningPopup.remainingSec)
                 }
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 visible: !timeoutWarningPopup.expired
                 text: qsTr("Please click \"OK\" to stop the countdown!")
                 color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
                 wrapMode: Text.WordWrap
             }
@@ -622,20 +619,18 @@ ApplicationWindow {
             spacing: 12
             width: networkMessagePopup.availableWidth
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Server Message")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: networkMessagePopup.message
                 textFormat: Text.RichText
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
@@ -671,19 +666,17 @@ ApplicationWindow {
             spacing: 12
             width: leaveGameConfirmPopup.availableWidth
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Leave Game")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Attention! Do you really want to leave the current game\nand go back to the lobby?")
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
@@ -730,19 +723,17 @@ ApplicationWindow {
             spacing: 12
             width: leaveLobbyConfirmPopup.availableWidth
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Leave Lobby")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Attention! Do you really want to leave the lobby\nand disconnect from the server?")
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }

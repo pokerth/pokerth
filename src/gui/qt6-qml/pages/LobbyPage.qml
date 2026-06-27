@@ -141,9 +141,8 @@ Rectangle {
             RowLayout {
                 Layout.fillWidth: true
 
-                Label {
+                AppLabel {
                     text: qsTr("Players")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 15
                     color: Config.StaticData.palette.secondary.col200
@@ -299,9 +298,8 @@ Rectangle {
                     }
                 }
 
-                Label {
+                AppLabel {
                     text: qsTr("Game Info")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 16
                     color: Config.StaticData.palette.secondary.col200
@@ -350,11 +348,10 @@ Rectangle {
                     anchors.margins: 14
                     spacing: 10
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? (lobbyPage.selectedGame.gameName || ("Game #" + lobbyPage.selectedGame.gameId))
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: 15
                         color: Config.StaticData.palette.secondary.col100
@@ -362,18 +359,17 @@ Rectangle {
                         Layout.fillWidth: true
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Players: %1 / %2")
                                 .arg(lobbyPage.selectedGame.playerCount || 0)
                                 .arg(lobbyPage.selectedGame.maxPlayers || 10)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Label {
+                    AppLabel {
                         text: {
                             if (!lobbyPage.selectedGame) return ""
                             var mode = lobbyPage.selectedGame.gameMode || 1
@@ -381,7 +377,6 @@ Rectangle {
                             var max = lobbyPage.selectedGame.maxPlayers || 10
                             return qsTr("Status: %1").arg(Lobby ? Lobby.gameStatusText(mode, cnt, max) : "")
                         }
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: {
                             if (!lobbyPage.selectedGame) return Config.StaticData.palette.secondary.col300
@@ -411,11 +406,10 @@ Rectangle {
                             }
                         }
 
-                        Label {
+                        AppLabel {
                             text: lobbyPage.selectedGame
                                   ? qsTr("Type: %1").arg(Lobby ? Lobby.gameTypeText(lobbyPage.selectedGame.gameType || 1) : "")
                                   : ""
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 13
                             color: Config.StaticData.palette.secondary.col200
                             Layout.fillWidth: true
@@ -423,25 +417,23 @@ Rectangle {
                         }
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Small blind: %1").arg(lobbyPage.selectedGame.firstSmallBlind || 10)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Start cash: %1").arg(lobbyPage.selectedGame.startMoney || 0)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Label {
+                    AppLabel {
                         text: {
                             if (!lobbyPage.selectedGame) return ""
                             var mode = lobbyPage.selectedGame.raiseIntervalMode || 1
@@ -450,54 +442,49 @@ Rectangle {
                             }
                             return qsTr("Blinds raise interval: %1 minutes").arg(lobbyPage.selectedGame.raiseEveryMinutes || 0)
                         }
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Blinds raise mode: %1").arg((lobbyPage.selectedGame.raiseMode || 1) === 1
                                   ? qsTr("double blinds") : qsTr("manual blinds order"))
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                     }
 
-                    Label {
+                    AppLabel {
                         visible: lobbyPage.selectedGame && (lobbyPage.selectedGame.raiseMode || 1) !== 1 &&
                                  (lobbyPage.selectedGame.manualBlindsText || "").length > 0
                         text: lobbyPage.selectedGame
                               ? qsTr("Blinds list: %1").arg(lobbyPage.selectedGame.manualBlindsText || "")
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Game timing: %1 sec (action)\n%2 sec (hand delay)")
                                 .arg(lobbyPage.selectedGame.playerActionTimeoutSec || 0)
                                 .arg(lobbyPage.selectedGame.delayBetweenHandsSec || 0)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    AppLabel {
                         visible: lobbyPage.selectedGame !== null
                         text: qsTr("Players in game (%1)").arg(lobbyPage.selectedGamePlayers.length)
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col100
@@ -557,9 +544,8 @@ Rectangle {
                                     smooth: true
                                 }
 
-                                Text {
+                                AppText {
                                     text: modelData.playerName || ""
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 12
                                     color: Config.StaticData.palette.secondary.col200
                                     font.bold: false
@@ -711,9 +697,8 @@ Rectangle {
                     anchors.margins: 5
                     spacing: 5
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Connected Players")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
@@ -782,9 +767,8 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 5
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Game List")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -814,9 +798,8 @@ Rectangle {
                                     }
                                     spacing: 3
 
-                                    Text {
+                                    AppText {
                                         text: model.gameName || ("Game #" + model.gameId)
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.bold: true
                                         font.pixelSize: 13
                                         color: Config.StaticData.palette.secondary.col200
@@ -828,9 +811,8 @@ Rectangle {
                                         Layout.fillWidth: true
                                         spacing: 5
 
-                                        Text {
+                                        AppText {
                                             text: (model.playerCount || 0) + "/" + (model.maxPlayers || 10)
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                         }
@@ -839,12 +821,11 @@ Rectangle {
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col500
                                         }
-                                        Text {
+                                        AppText {
                                             readonly property int gm: (model.gameMode || 1)
                                             readonly property int cnt: (model.playerCount || 0)
                                             readonly property int max: (model.maxPlayers || 10)
                                             text: Lobby ? Lobby.gameStatusText(gm, cnt, max) : ""
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: {
                                                 if (gm === 2) return Config.Theme.colorStatusRunning
@@ -857,11 +838,10 @@ Rectangle {
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col500
                                         }
-                                        Text {
+                                        AppText {
                                             readonly property int actionSec: model.playerActionTimeoutSec > 0 ? model.playerActionTimeoutSec : 0
                                             readonly property int handDelaySec: model.delayBetweenHandsSec > 0 ? model.delayBetweenHandsSec : 0
                                             text: qsTr("Time: %1s/%2s").arg(actionSec).arg(handDelaySec)
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                         }
@@ -870,9 +850,8 @@ Rectangle {
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col500
                                         }
-                                        Text {
+                                        AppText {
                                             text: model.isPrivate ? qsTr("Private") : qsTr("Public")
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                         }
@@ -882,9 +861,8 @@ Rectangle {
                                             color: Config.StaticData.palette.secondary.col500
                                             visible: model.gameType === 4
                                         }
-                                        Text {
+                                        AppText {
                                             text: qsTr("Ranking")
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                             visible: model.gameType === 4
@@ -975,9 +953,8 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 4
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Lobby Chat")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -1013,10 +990,9 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 10
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Player: %1").arg(
                             Lobby && Lobby.myPlayerName !== "" ? Lobby.myPlayerName : "Guest")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: 14
                         color: Config.StaticData.palette.secondary.col100
@@ -1080,9 +1056,8 @@ Rectangle {
                             Layout.fillWidth: true
                             spacing: 4
 
-                            Label {
+                            AppLabel {
                                 text: qsTr("Game Info")
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.bold: true
                                 font.pixelSize: 14
                                 color: Config.StaticData.palette.secondary.col200
@@ -1127,11 +1102,10 @@ Rectangle {
                                 }
                             }
 
-                            Label {
+                            AppLabel {
                                 text: lobbyPage.selectedGame
                                       ? qsTr("Type: %1").arg(Lobby ? Lobby.gameTypeText(lobbyPage.selectedGame.gameType || 1) : "")
                                       : qsTr("Select a game to see details")
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 12
                                 color: Config.StaticData.palette.secondary.col300
                                 wrapMode: Text.WordWrap
@@ -1139,24 +1113,22 @@ Rectangle {
                             }
                         }
 
-                        Label {
+                        AppLabel {
                             visible: lobbyPage.selectedGame !== null
                             text: lobbyPage.selectedGame
                                   ? qsTr("SB: %1 | Start cash: %2")
                                     .arg(lobbyPage.selectedGame.firstSmallBlind || 10)
                                     .arg(lobbyPage.selectedGame.startMoney || 0)
                                   : ""
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                             color: Config.StaticData.palette.secondary.col300
                             wrapMode: Text.WordWrap
                             Layout.fillWidth: true
                         }
 
-                        Label {
+                        AppLabel {
                             visible: lobbyPage.selectedGame !== null
                             text: qsTr("Players in game (%1)").arg(lobbyPage.selectedGamePlayers.length)
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             font.pixelSize: 12
                             color: Config.StaticData.palette.secondary.col200
@@ -1216,9 +1188,8 @@ Rectangle {
                                         smooth: true
                                     }
 
-                                    Text {
+                                    AppText {
                                         text: modelData.playerName || ""
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: 11
                                         color: Config.StaticData.palette.secondary.col200
                                         font.bold: false
@@ -1245,9 +1216,8 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 5
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Lobby Chat")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -1372,19 +1342,17 @@ Rectangle {
             spacing: 12
             width: Math.min(lobbyPage.width * 0.85, 360)
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Privates Spiel")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Bitte das Passwort eingeben, um beizutreten.")
                 color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
                 wrapMode: Text.WordWrap
             }
@@ -1462,22 +1430,20 @@ Rectangle {
             spacing: 12
             width: Math.min(lobbyPage.width * 0.85, 360)
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Game invitation")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?")
                       .arg(inviteGamePopup.inviteGameName)
                       .arg(inviteGamePopup.inviteFromName)
                 textFormat: Text.RichText
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }

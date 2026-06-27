@@ -95,11 +95,10 @@ Rectangle {
                         implicitHeight: 36
                         onClicked: mainStackView.pop()
                     }
-                    Label {
+                    AppLabel {
                         Layout.fillWidth: true
                         text: qsTr("Netzwerkspiel beitreten")
                         color: Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 18
                         font.bold: true
                     }
@@ -120,10 +119,9 @@ Rectangle {
                 spacing: 12
 
                 // ── Server-Verbindung ────────────────────────────────────────
-                Label {
+                AppLabel {
                     text: qsTr("Server-Verbindung")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -131,10 +129,9 @@ Rectangle {
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 4
-                    Label {
+                    AppLabel {
                         text: qsTr("Server-Adresse")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                     }
                     TextField {
@@ -158,10 +155,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Port")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -177,10 +173,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("IPv6 verwenden")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -191,10 +186,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("SCTP verwenden")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -210,10 +204,9 @@ Rectangle {
                     Layout.topMargin: 4
                     Layout.bottomMargin: 4
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Server-Profile")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -221,10 +214,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Profilname")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -319,22 +311,20 @@ Rectangle {
                             }
                             contentItem: RowLayout {
                                 spacing: 8
-                                Text {
+                                AppText {
                                     Layout.fillWidth: true
                                     text: profileDelegate.modelData.name
                                     elide: Text.ElideRight
                                     color: networkGameEnterPage.selectedProfile === profileDelegate.modelData.name
                                            ? "#101010" : Config.StaticData.palette.secondary.col100
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 12
                                     font.bold: true
                                     verticalAlignment: Text.AlignVCenter
                                 }
-                                Text {
+                                AppText {
                                     text: (profileDelegate.modelData.address || "") + ":" + (profileDelegate.modelData.port || "")
                                     color: networkGameEnterPage.selectedProfile === profileDelegate.modelData.name
                                            ? "#202020" : Config.StaticData.palette.secondary.col300
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 11
                                     verticalAlignment: Text.AlignVCenter
                                 }
@@ -344,13 +334,12 @@ Rectangle {
                     }
                 }
 
-                Label {
+                AppLabel {
                     visible: networkGameEnterPage.statusMessage !== ""
                     text: networkGameEnterPage.statusMessage
                     color: "#ef4444"
                     wrapMode: Text.WordWrap
                     Layout.fillWidth: true
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 12
                 }
 
@@ -394,11 +383,10 @@ Rectangle {
             implicitWidth: 48
             implicitHeight: 48
         }
-        Label {
+        AppLabel {
             text: qsTr("Verbinde mit Server …")
             Layout.alignment: Qt.AlignHCenter
             color: Config.StaticData.palette.secondary.col200
-            font.family: Config.StaticData.loadedFont.font.family
             font.pixelSize: Config.Theme.fontSizeTitle
             font.bold: true
         }

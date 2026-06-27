@@ -141,9 +141,8 @@ Rectangle {
             RowLayout {
                 Layout.fillWidth: true
 
-                Label {
+                AppLabel {
                     text: qsTr("Players")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 15
                     color: Config.StaticData.palette.secondary.col200
@@ -267,9 +266,8 @@ Rectangle {
             RowLayout {
                 Layout.fillWidth: true
 
-                Label {
+                AppLabel {
                     text: qsTr("Game List")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 15
                     color: Config.StaticData.palette.secondary.col200
@@ -398,19 +396,17 @@ Rectangle {
                 }
             }
 
-            Label {
+            AppLabel {
                 text: qsTr("Game Info")
-                font.family: Config.StaticData.loadedFont.font.family
                 font.bold: true
                 font.pixelSize: 16
                 color: Config.StaticData.palette.secondary.col200
                 Layout.fillWidth: true
             }
 
-            Label {
+            AppLabel {
                 text: qsTr("Waiting for players …")
                 color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
             }
 
@@ -479,9 +475,8 @@ Rectangle {
                     anchors.margins: 5
                     spacing: 5
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Connected Players")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
@@ -551,9 +546,8 @@ Rectangle {
                         spacing: 10
 
                         // Name
-                        Label {
+                        AppLabel {
                             text: info.name || ""
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             font.pixelSize: 15
                             color: Config.StaticData.palette.secondary.col100
@@ -569,10 +563,9 @@ Rectangle {
                             Layout.fillWidth: true
 
                             // Players | Type
-                            Label {
+                            AppLabel {
                                 text: qsTr("Players: %1 / %2")
                                       .arg(players.length).arg(info.maxPlayers || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
@@ -593,9 +586,8 @@ Rectangle {
                                         colorizationColor: Config.StaticData.palette.secondary.col300
                                     }
                                 }
-                                Label {
+                                AppLabel {
                                     text: qsTr("Type: %1").arg(Lobby ? Lobby.gameTypeText(info.gameType || 1) : "")
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 13
                                     color: Config.StaticData.palette.secondary.col200
                                     Layout.fillWidth: true
@@ -604,39 +596,35 @@ Rectangle {
                             }
 
                             // Small blind | Start cash
-                            Label {
+                            AppLabel {
                                 text: qsTr("Small blind: %1").arg(info.firstSmallBlind || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
-                            Label {
+                            AppLabel {
                                 text: qsTr("Start cash: %1").arg(info.startMoney || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
 
                             // Blinds interval | Blinds raise mode
-                            Label {
+                            AppLabel {
                                 text: {
                                     var mode = info.raiseIntervalMode || 1
                                     if (mode === 1)
                                         return qsTr("Blinds raise interval: %1 hands").arg(info.raiseEveryHands || 0)
                                     return qsTr("Blinds raise interval: %1 minutes").arg(info.raiseEveryMinutes || 0)
                                 }
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
                             }
-                            Label {
+                            AppLabel {
                                 text: qsTr("Blinds raise mode: %1").arg((info.raiseMode || 1) === 1
                                       ? qsTr("double blinds") : qsTr("manual blinds order"))
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
@@ -644,16 +632,14 @@ Rectangle {
                             }
 
                             // Action timeout | Hand delay
-                            Label {
+                            AppLabel {
                                 text: qsTr("Action time: %1 sec").arg(info.playerActionTimeoutSec || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
-                            Label {
+                            AppLabel {
                                 text: qsTr("Hand delay: %1 sec").arg(info.delayBetweenHandsSec || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
@@ -661,9 +647,8 @@ Rectangle {
                         }
 
                         // ── Spielerliste ─────────────────────────────────
-                        Label {
+                        AppLabel {
                             text: qsTr("Players in game (%1)").arg(players.length)
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             font.pixelSize: 13
                             color: Config.StaticData.palette.secondary.col100
@@ -730,9 +715,8 @@ Rectangle {
                                         smooth: true
                                     }
 
-                                    Text {
+                                    AppText {
                                         text: modelData.playerName || ""
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: 12
                                         color: Config.StaticData.palette.secondary.col200
                                         font.bold: false
@@ -761,9 +745,8 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 5
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Lobby Chat")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -855,9 +838,8 @@ Rectangle {
                     anchors.margins: 5
                     spacing: 5
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Game List")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true

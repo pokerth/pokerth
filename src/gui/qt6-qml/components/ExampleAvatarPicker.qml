@@ -63,11 +63,10 @@ Popup {
             Layout.rightMargin: 12
             spacing: 8
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Beispiel-Avatar wählen")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: Config.Theme.fontSizeBody
                 font.bold: true
                 elide: Text.ElideRight
