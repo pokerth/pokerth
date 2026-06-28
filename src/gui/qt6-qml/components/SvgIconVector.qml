@@ -8,4 +8,10 @@ import QtQuick.VectorImage
 // quellkompatibel zur Image-Fallback-Variante.
 VectorImage {
     fillMode: VectorImage.PreserveAspectFit
+    // CurveRenderer rastert die SVG-Kurven analytisch auf der GPU mit
+    // eingebautem, auflösungsunabhängigem Antialiasing. Der Default
+    // (GeometryRenderer, trianguliert) braucht für glatte Kanten MSAA, das die
+    // Szene nicht aktiviert -> Rundungen (z.B. Pokerchip-Logo) wirken sonst
+    // „verpixelt"/treppig (sichtbar u.a. auf dem Steam Deck, natives 1280×800).
+    preferredRendererType: VectorImage.CurveRenderer
 }
