@@ -6,9 +6,14 @@ FROM ubuntu:25.10
 # ANDROID_ARCH: armeabi-v7a, arm64-v8a, x86, x86_64
 # VCPKG_ARCH: arm, arm64, x86, x64
 # QT_ARCH: armv7, arm64_v8a, x86, x86_64
-ENV ANDROID_ARCH=arm64-v8a
-ENV VCPKG_ARCH=arm64
-ENV QT_ARCH=arm64_v8a
+# Defaults bauen arm64-v8a; per --build-arg überschreibbar für x86_64-Builds:
+#   docker build --build-arg ANDROID_ARCH=x86_64 --build-arg VCPKG_ARCH=x64 --build-arg QT_ARCH=x86_64 ...
+ARG ANDROID_ARCH=arm64-v8a
+ARG VCPKG_ARCH=arm64
+ARG QT_ARCH=arm64_v8a
+ENV ANDROID_ARCH=${ANDROID_ARCH}
+ENV VCPKG_ARCH=${VCPKG_ARCH}
+ENV QT_ARCH=${QT_ARCH}
 # set target (pokerth_client or pokerth_qml-client)
 ENV TARGET=pokerth_qml-client
 
