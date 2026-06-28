@@ -660,13 +660,18 @@ Item {
                 Rectangle {
                     id: allInBtn
                     readonly property bool isShowMode: typeof GameTable !== "undefined" && GameTable && GameTable.canShowCards
-                    // klickbar: echter Zug ODER zulässige Vorwahl (nicht in der
-                    // Runden-/Handübergangsphase, wenn canAct bereits false ist).
-                    // Im Showdown nie als All-In armed – der „Show"-Modus
-                    // (isShowMode) bleibt davon unberührt.
-                    readonly property bool armed: !actionBar.inShowdown
-                                                  && actionBar.canAct
-                                                  && (GameTable.myTurn || actionBar.preSelectEnabled)
+                    // klickbar: exakt dieselbe Bedingung wie Fold/Check-Call
+                    // (actionsArmed). All-In ist immer zulässig, sobald ich
+                    // handeln darf – es gibt keinen separaten „All-In-verfügbar"-
+                    // Betrag wie beim Raise. Wichtig: actionsArmed lässt den
+                    // eigenen Zug (myTurn) allein gelten und verlangt NICHT
+                    // zusätzlich canAct. Sonst blieb der All-In-Button in dem
+                    // Zeitfenster gesperrt, in dem der Zug nur über den
+                    // Action-Timer signalisiert wird (startTimeout setzt myTurn,
+                    // canAct ist dann noch stale=false) – während Fold/Call/Raise
+                    // bereits klickbar waren. Der „Show"-Modus (isShowMode)
+                    // bleibt davon unberührt.
+                    readonly property bool armed: actionBar.actionsArmed
                     // Vorwahl-Markierung nur, solange der Button auch klickbar ist.
                     readonly property bool preChecked: armed && actionBar.preAction === "allin"
                     // Theme-Grafik nur im normalen All-In-Modus (nicht im

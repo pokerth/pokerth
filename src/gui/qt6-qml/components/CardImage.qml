@@ -21,6 +21,17 @@ Item {
     // Austeilen: zweite Hole-Card erhält flipDelay: 80).
     property int flipDelay: 0
 
+    // Effektiver Skalierungsfaktor, mit dem ein ELTERN-Transform diese Karte auf
+    // dem Tisch hochskaliert (boxScale/oppScale/communityScale × Zoom). Da die
+    // SVGs via Image-Rasterizer auf ihre LOGISCHE Größe gerastert werden, würde
+    // ein scale>1 die fertige Textur GPU-seitig hochziehen → unscharf. Indem wir
+    // sourceSize zusätzlich mit renderScale multiplizieren, rastern wir gleich in
+    // der tatsächlichen Bildschirm-Pixelgröße → scharf. Bewusst an die DISKRETEN
+    // Layout-/Zoom-Faktoren koppeln (nicht den animierten scale-Wert), damit
+    // nicht pro Animationsframe neu gerastert wird.
+    property real renderScale: 1.0
+    readonly property real _rs: Math.max(1.0, renderScale)
+
     readonly property bool isBack: !(Number.isInteger(cardIndex) && cardIndex >= 0 && cardIndex <= 51)
 
     // Aufdeck-Animation per Einstellung „Animierte Karten" (Config-Key
@@ -147,10 +158,10 @@ Item {
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true
-        // SVG scharf auf die tatsächliche Anzeigegröße × devicePixelRatio rastern
-        // (statt fix 100×140), sonst auf High-DPI unscharf hochskaliert.
-        sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio) : 100
-        sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio) : 140
+        // SVG scharf auf die tatsächliche Anzeigegröße × devicePixelRatio ×
+        // Tisch-Skalierung rastern (statt fix 100×140), sonst unscharf hochskaliert.
+        sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio * root._rs) : 100
+        sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio * root._rs) : 140
         source: (root.isBack || root._showFlipBack) ? root.backSource : ""
     }
 
@@ -160,9 +171,10 @@ Item {
         anchors.fill: parent
         fillMode: Image.Stretch
         smooth: true
-        // SVG scharf auf Anzeigegröße × devicePixelRatio rastern (statt fix 120×168).
-        sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio) : 120
-        sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio) : 168
+        // SVG scharf auf Anzeigegröße × devicePixelRatio × Tisch-Skalierung rastern
+        // (statt fix 120×168).
+        sourceSize.width: width > 0 ? Math.ceil(width * Screen.devicePixelRatio * root._rs) : 120
+        sourceSize.height: height > 0 ? Math.ceil(height * Screen.devicePixelRatio * root._rs) : 168
         source: root.frontSource
         onStatusChanged: {
             // Fehlt eine einzelne Stil-Karte, auf das gebündelte Set zurückfallen.

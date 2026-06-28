@@ -12,6 +12,11 @@ Item {
     // Querformat? Steuert den Abstand des Pott-Badges zur Kartenreihe.
     property bool wide: false
 
+    // Effektive Tisch-Skalierung dieser Kartenreihe (communityScale × Zoom), an
+    // die Karten weitergereicht, damit ihr SVG-Raster die echte Bildschirmgröße
+    // trifft (s. CardImage.renderScale).
+    property real cardRenderScale: 1.0
+
     // True, solange irgendein Board-Slot gerade neue Karten aufdeckt
     // (Stagger/Rückseite/Flip). Die Action-Bar sperrt darauf die Buttons –
     // während Aufdeck-Animationen ist keine Aktion möglich.
@@ -87,6 +92,7 @@ Item {
             anchors.fill: parent
             visible: slot._displayIndex !== -2
             cardIndex: slot._displayIndex >= 0 ? slot._displayIndex : -1
+            renderScale: root.cardRenderScale
         }
 
         onIsDealtChanged: {

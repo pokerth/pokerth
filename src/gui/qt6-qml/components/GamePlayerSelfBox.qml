@@ -8,6 +8,10 @@ Rectangle {
     property bool up: false
     property int maxAvatarSize: 60
 
+    // Effektive Tisch-Skalierung dieser Box (boxScale × Zoom), an die Karten
+    // weitergereicht, damit ihr SVG-Raster die echte Bildschirmgröße trifft.
+    property real cardRenderScale: 1.0
+
     // Eigene Spielerdaten aus GameTable (Sitz 0 = Human Player)
     readonly property var selfData: (typeof GameTable !== "undefined" && GameTable && GameTable.players.length > 0)
         ? GameTable.players[0] : null
@@ -121,6 +125,7 @@ Rectangle {
             anchors.centerIn: parent
             height: parent.height
             maxAvatarSize: root.maxAvatarSize
+            cardRenderScale: root.cardRenderScale
             card0: root.card0
             card1: root.card1
             fade0: root.fade0

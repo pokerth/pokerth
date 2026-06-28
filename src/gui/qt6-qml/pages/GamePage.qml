@@ -818,6 +818,10 @@ Rectangle {
             // ── Lupe: Zoom + Pan der Gegnerzone (compact-only) ──────────────────
             property bool  zoomActive: false
             readonly property real zoomFactor: 2.0
+            // Diskreter Zoom-Faktor (Ziel, NICHT der animierte scale-Wert) für die
+            // Karten-Rasterung: so wird beim Zoom-Toggle einmalig in der größeren
+            // Auflösung gerastert statt pro Animationsframe (s. CardImage.renderScale).
+            readonly property real zoomRenderMul: zoomActive ? zoomFactor : 1.0
             property real  _zoomPanX: 0
             property real  _zoomPanY: 0
             // Merkt sich, ob der Zoom vor dem Showdown aktiv war. Im Showdown wird
@@ -1194,6 +1198,8 @@ Rectangle {
                 wide: tableZone.wide
                 // Skaliert dezenter als die Gegner-Boxen; Skalierung um die Mitte.
                 scale: tableZone.communityScale
+                // Karten in der echten Bildschirmgröße rastern (scale × Zoom).
+                cardRenderScale: tableZone.communityScale * tableZone.zoomRenderMul
             }
 
             // Gewinner-Hand (z.B. "Full House") – nur während des Showdowns.
@@ -1278,6 +1284,8 @@ Rectangle {
                     GamePlayerBox {
                         anchors.fill: parent
                         seatIndex: seatSlot.index
+                        // Karten in der echten Bildschirmgröße rastern (oppScale × Zoom).
+                        cardRenderScale: tableZone.oppScale * tableZone.zoomRenderMul
                         // Nur die oberste Box (Player 5, TC-Slot) zeigt das
                         // Winner-Badge im Hochformat unterhalb – sonst überall oben.
                         winnerBelow: !tableZone.wide && seatSlot.slotName === "TC"
@@ -1317,6 +1325,8 @@ Rectangle {
                 transformOrigin: Item.Center
                 scale: tableZone.boxScale
                 maxAvatarSize: tableZone.wide ? 60 : 54
+                // Karten in der echten Bildschirmgröße rastern (boxScale × Zoom).
+                cardRenderScale: tableZone.boxScale * tableZone.zoomRenderMul
             }
 
             // Emoji-Reaktions-Animationen – im Zoom-Layer, damit sie bei

@@ -19,6 +19,10 @@ Item {
     // kollidiert. Übersteuert betSide.
     property bool betSplit: false
 
+    // Effektive Tisch-Skalierung dieser Box (oppScale × Zoom), an die Karten
+    // weitergereicht, damit ihr SVG-Raster die echte Bildschirmgröße trifft.
+    property real cardRenderScale: 1.0
+
     // Dynamische Breite: 2×hMargin(4) + AvatarCardRow.implicitWidth(avatarH+4+2·cardW+4)
     readonly property int _topRowH: height - (wideLayout ? 44 : 28)
     readonly property int _cardW:   Math.round(_topRowH * 120 / 168)
@@ -126,6 +130,7 @@ Item {
             y: 4
             height: root.wideLayout ? (parent.height - 44) : (parent.height - 28)
 
+            cardRenderScale: root.cardRenderScale
             card0: root.card0
             card1: root.card1
             fade0: root.fade0

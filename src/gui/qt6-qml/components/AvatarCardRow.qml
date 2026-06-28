@@ -41,6 +41,11 @@ Item {
     // Self-box passes 60 to stay within the cardsArea.
     property int maxAvatarSize: 9999
 
+    // Effektive Tisch-Skalierung der umgebenden Box (boxScale/oppScale × Zoom),
+    // an die Karten durchgereicht, damit ihr SVG-Raster die echte
+    // Bildschirm-Pixelgröße trifft (s. CardImage.renderScale).
+    property real cardRenderScale: 1.0
+
     // Avatar and card dimensions — all derived from the item height.
     readonly property int cardH: height
     readonly property int cardW: height > 0 ? Math.round(height * 120 / 168) : 0
@@ -124,11 +129,12 @@ Item {
             // Showdown: nicht zum Siegerblatt zählende Karte auf 25 % abblenden.
             opacity: (root.fade0 && root.fadeLosingCards) ? 0.25 : 1.0
             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad } }
-            CardImage { id: card0Img; anchors.fill: parent; cardIndex: root.card0 }
+            CardImage { id: card0Img; anchors.fill: parent; cardIndex: root.card0; renderScale: root.cardRenderScale }
             // Anti-Peek-Abdeckung (Kartenrücken) über der echten Vorderseite.
             CardImage {
                 anchors.fill: parent
                 cardIndex: -1
+                renderScale: root.cardRenderScale
                 readonly property bool covering: root.antiPeek && root.card0 >= 0 && !root._peeking
                 visible: opacity > 0
                 opacity: covering ? 1.0 : 0.0
@@ -144,10 +150,11 @@ Item {
             opacity: (root.fade1 && root.fadeLosingCards) ? 0.25 : 1.0
             Behavior on opacity { NumberAnimation { duration: 400; easing.type: Easing.InOutQuad } }
             // flipDelay staffelt das Austeilen: zweite Karte dreht 80 ms später
-            CardImage { id: card1Img; anchors.fill: parent; cardIndex: root.card1; flipDelay: 80 }
+            CardImage { id: card1Img; anchors.fill: parent; cardIndex: root.card1; flipDelay: 80; renderScale: root.cardRenderScale }
             CardImage {
                 anchors.fill: parent
                 cardIndex: -1
+                renderScale: root.cardRenderScale
                 readonly property bool covering: root.antiPeek && root.card1 >= 0 && !root._peeking
                 visible: opacity > 0
                 opacity: covering ? 1.0 : 0.0
