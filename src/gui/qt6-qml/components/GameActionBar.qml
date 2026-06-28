@@ -42,9 +42,11 @@ Item {
         if (!GameTable || !GameTable.myTurn)
             return
         if (actionBar.playingMode === 2) {            // Auto Check/Fold
+            actionBar.actedThisRound = true           // eigener (Auto-)Zug erledigt
             if (actionBar.canCheck) GameTable.call()
             else GameTable.fold()
         } else if (actionBar.playingMode === 1) {     // Auto Check/Call
+            actionBar.actedThisRound = true
             GameTable.call()
         }
     }
@@ -147,6 +149,23 @@ Item {
     // das verlangte Verhalten: letzter Spieler handelt → Buttons sofort
     // zurückgesetzt + deaktiviert → nächste Runde → wieder aktiv mit neuen Werten.
     property bool roundEnded: false
+    // „Ich habe in DIESER Setzrunde bereits gehandelt." Wird gesetzt, sobald ich
+    // selbst eine Aktion ausführe (fireAction/runPreAction/runAutoAction). Solange
+    // true wird die Vorauswahl (pre-selection) NICHT erneut freigeschaltet – genau
+    // die Anforderung: nachdem ich meinen Zug gemacht habe, bleiben die Buttons
+    // zurückgesetzt + deaktiviert (keine aktualisierten Call-/Raise-Werte mehr).
+    // Gelöscht wird der Latch:
+    //   • zum Rundenbeginn (neue Hand / Phasenwechsel / roundValuesReady), und
+    //   • bei einer ECHTEN erneuten Erhöhung eines Gegners über meinen bereits
+    //     gematchten Betrag hinaus (onRefreshActionTriggered, callAmount > 0) –
+    //     dann muss ich neu entscheiden und darf wieder vorwählen.
+    // Reine Calls/Checks der Gegner (callAmount bleibt 0) heben ihn NICHT auf.
+    // Ein echter, vom Server zugeteilter Zug (GameTable.myTurn) aktiviert die
+    // Buttons ohnehin unabhängig vom Latch.
+    // Das deckt beide Trigger ab: eigener Zug erledigt UND letzter Spieler der
+    // Runde erledigt (da ich dann ohnehin schon gehandelt habe oder selbst der
+    // letzte war).
+    property bool actedThisRound: false
     // Werden gerade neue Gemeinschaftskarten aufgedeckt? Wird von GamePage aus
     // CommunityCards.dealing gespeist. Solange true, ist KEINE Aktion möglich
     // (actionsArmed gatet darauf) – exakt die Vorgabe: während Aufdeck-
@@ -166,6 +185,7 @@ Item {
                 actionBar.preAction = ""
                 actionBar.preSelectEnabled = true   // neue Hand → Vorauswahl freischalten
                 actionBar.roundEnded = false        // neue Hand → Rundensperre lösen
+                actionBar.actedThisRound = false    // neue Hand → eigener Zug noch offen
                 actionBar.raiseAmount = 0
                 actionBar.lastHandNumber = GameTable.handNumber
                 // console.log("[ACTDBG] Reset: Neue Hand " + actionBar.lastHandNumber)
@@ -189,6 +209,7 @@ Item {
             // Phasenwechsel = Rundengrenze: Vorwahl/Werte zurücksetzen.
             actionBar.preAction = ""
             actionBar.raiseAmount = 0
+            actionBar.actedThisRound = false   // neue Runde → eigener Zug wieder offen
             if (GameTable.phaseText === "Preflop") {
                 // Preflop hat keine Board-Aufdeck-Animation → Vorauswahl sofort frei.
                 actionBar.preSelectEnabled = true
@@ -234,7 +255,7 @@ Item {
     // werden Beträge gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
     readonly property bool actionsArmed: !inShowdown && !boardDealing && !roundEnded
         && ((GameTable !== null && GameTable.myTurn)
-            || (canAct && preSelectEnabled))
+            || (canAct && preSelectEnabled && !actedThisRound))
 
     // Kompakte Action-Bar nur auf echten Mobilgeräten mit knappem
     // vertikalem Platz (Phone-Landscape). Auf dem Desktop bleiben die
@@ -254,6 +275,9 @@ Item {
 
     function fireAction(which) {
         if (GameTable === null) return
+        // Eigener Zug ausgeführt → Buttons bis zur nächsten Runde gesperrt halten
+        // (keine Vorauswahl-Reaktivierung mehr, s. actedThisRound/actionsArmed).
+        actionBar.actedThisRound = true
         if (which === "fold")       GameTable.fold()
         else if (which === "call")  GameTable.call()
         else if (which === "raise") GameTable.raise(raiseAmount)
@@ -263,8 +287,12 @@ Item {
     // Vorgemerkte Aktion beim eigenen Zug ausführen.
     // Vorgemerktes "Fold" wird zu "Check", falls ein Check gratis möglich ist.
     function runPreAction(which) {
-        if (which === "fold" && canCheck) GameTable.call()
-        else fireAction(which)
+        if (which === "fold" && canCheck) {
+            actionBar.actedThisRound = true   // wie fireAction: eigener Zug erledigt
+            GameTable.call()
+        } else {
+            fireAction(which)
+        }
     }
 
     function clickAction(which) {
@@ -396,6 +424,7 @@ Item {
             // möglich ist.
             // Frische Werte der neuen Runde liegen vor → Rundensperre lösen.
             actionBar.roundEnded = false
+            actionBar.actedThisRound = false   // neue Runde → eigener Zug wieder offen
             if (GameTable && GameTable.phaseText === "Preflop")
                 actionBar.preSelectEnabled = true
         }
@@ -407,6 +436,13 @@ Item {
                 // Echter Einsatz in der laufenden Runde → Rundensperre lösen.
                 actionBar.preSelectEnabled = true
                 actionBar.roundEnded = false
+                // Erneute Erhöhung über meinen bereits gematchten Betrag hinaus
+                // (callAmount > 0) ⇒ ich muss erneut entscheiden → Vorauswahl
+                // wieder erlauben, auch wenn ich diese Runde schon gehandelt habe.
+                // Reine Calls/Checks der Gegner lassen callAmount bei 0 und heben
+                // den Latch NICHT auf – die Buttons bleiben nach meinem Zug also
+                // gesperrt, bis wirklich (re-)erhöht wird oder die Runde startet.
+                actionBar.actedThisRound = false
             }
             // Sicherheit: vorgemerkter Call verfällt nur bei einer ECHTEN
             // Gegner-Aktion (FOLD/CHECK/CALL/BET/RAISE/ALLIN), die den Call-
