@@ -89,6 +89,7 @@ ColumnLayout {
             model: (typeof GameTable !== "undefined" && GameTable) ? GameTable.gameLog : []
             boundsBehavior: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {
+                id: logScrollBar
                 policy: logList.contentHeight > logList.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
             }
@@ -103,15 +104,31 @@ ColumnLayout {
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
+            // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
+            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren oder
+            // den Sprung beim Model-Ersetzen (dort ist moving==false).
             onContentYChanged: {
-                if (!moving) return
+                if (!moving && !logScrollBar.pressed) return
                 savedContentY = contentY
-                if (atYEnd) { autoScroll = true; logAutoScrollTimer.stop() }
-                else        { autoScroll = false; logAutoScrollTimer.restart() }
+                // Mit Toleranz prüfen statt exaktem atYEnd: knapp am Ende reicht
+                // (Subpixel/async wachsende RichText-Zeilen), damit der
+                // Auto-Scroll am unteren Rand zuverlässig wieder anspringt.
+                if (contentY >= contentHeight - height - 4) {
+                    autoScroll = true; logAutoScrollTimer.stop()
+                } else {
+                    autoScroll = false; logAutoScrollTimer.restart()
+                }
             }
             onCountChanged: {
                 if (autoScroll) positionViewAtEnd()
                 else Qt.callLater(restoreScroll)
+            }
+            // Spieleranzahl ändert sich → Boxen werden resized. Ohne dies bliebe
+            // contentY stehen und die View „hinge" über der letzten Zeile bzw.
+            // die gemerkte Position liefe aus dem Rahmen.
+            onHeightChanged: {
+                if (autoScroll) Qt.callLater(positionViewAtEnd)
+                else            Qt.callLater(restoreScroll)
             }
             delegate: AppText {
                 required property string line
