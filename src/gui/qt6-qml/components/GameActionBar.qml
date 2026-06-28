@@ -69,6 +69,19 @@ Item {
     readonly property int raiseMinAmount: raiseAvailable ? GameTable.minRaiseAmount : 0
     readonly property int raiseMaxAmount: raiseAvailable ? GameTable.maxRaiseAmount : 0
 
+    // Selbstheilung der Raise-Vorbelegung: ein auf 0 (oder unter das Minimum)
+    // zurückgesetzter Betrag wird sofort auf das gültige Minimum gehoben, sobald
+    // ein Raise möglich ist. Nötig, weil die Rundenende-/Phasen-Resets raiseAmount
+    // auf 0 setzen können, NACHDEM min/max bereits final stehen – dann liefert kein
+    // min/maxRaiseAmountChanged mehr ein syncRaiseAmount(), und der Bet/Raise-Button
+    // bliebe bei „$0" hängen, bis irgendein späteres Compute feuert. Dieser Handler
+    // ist reihenfolge-unabhängig und schließt das Fenster. Re-Entry ist unkritisch:
+    // nach dem Setzen auf raiseMinAmount ist die Bedingung sofort false.
+    onRaiseAmountChanged: {
+        if (raiseAvailable && raiseAmount < raiseMinAmount)
+            raiseAmount = raiseMinAmount
+    }
+
     // Dynamische Button-Beschriftungen – analog zum Qt-Widgets-Client:
     //  • nichts zu callen  → "Check"      sonst → "Call $X"
     //  • Preflop oder schon gesetzt → "Raise $X"; postflop ohne Einsatz → "Bet $X"
@@ -102,8 +115,30 @@ Item {
         (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
             ? SettingsManager.readConfigInt("ShowPotPercentButtons") !== 0 : true
     property bool callBlocked: false
+    // Kurz nach dem Aktivieren der Buttons (Rundenbeginn / eigener Zug) settlen die
+    // Call-/Raise-Werte noch (neutraler Zustand → tatsächlicher Betrag, ggf. in
+    // mehreren Schritten, s. raiseAmount-Selbstheilung). In diesem Einschwing-
+    // Fenster darf der AccidentallyCallBlocker NICHT anspringen – sonst wirkt der
+    // Call-Button am Rundenbeginn verzögert, während Fold/Raise schon aktiv sind.
+    // Erst wenn die Buttons „scharf" sind (_callBlockerHot, nach kurzer Wartezeit),
+    // gilt eine Änderung der Call-/Check-Beschriftung als echte Gegner-(Re-)Erhöhung
+    // und sperrt den Call-Button kurz gegen versehentliche Klicks.
+    property bool _callBlockerHot: false
+    onActionsArmedChanged: {
+        callBlocked = false
+        _callBlockerHot = false
+        if (actionsArmed)
+            callBlockerArmTimer.restart()
+        else
+            callBlockerArmTimer.stop()
+    }
+    Timer {
+        id: callBlockerArmTimer
+        interval: 500
+        onTriggered: actionBar._callBlockerHot = true
+    }
     onCheckCallTextChanged: {
-        if (accidentalCallBlockerEnabled && actionsArmed) {
+        if (accidentalCallBlockerEnabled && actionsArmed && _callBlockerHot) {
             callBlocked = true
             callBlockTimer.restart()
         }
@@ -350,7 +385,12 @@ Item {
         if (raiseAmount <= 0)
             raiseAmount = raiseMinAmount
         else
-            raiseAmount = clampRaiseAmount(roundedRaiseAmount(raiseAmount))
+            // NUR auf den gültigen Bereich [min,max] klemmen – NICHT erneut aufs
+            // Slider-Raster runden. Sonst würde ein bewusst gesetzter Betrag (z. B.
+            // exakt 3200 über den Pot-Button) beim Übernehmen (eigener Zug →
+            // syncRaiseAmount) auf das Raster abgerundet (z. B. 3000) und „springt
+            // zurück". Das Raster-Runden bleibt dem Slider-Ziehen vorbehalten (onMoved).
+            raiseAmount = clampRaiseAmount(raiseAmount)
     }
 
     // Raise-Wert vorbereiten, Vorwahl ausführen bzw. bei Änderungen verwerfen
