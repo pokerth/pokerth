@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Effects
 
 import "../config" as Config
@@ -31,6 +32,11 @@ Item {
     // ShowPingStateInAvatar). Leer/transparent → kein Punkt.
     property bool showNetworkStatus: false
     property color networkStatusColor: "transparent"
+    // Roh-Werte der letzten Server-Antwortzeiten (ms) für das Mouseover-Overlay
+    // am Netzwerkstatus-Punkt (−1 = keine Daten). Nur Desktop.
+    property int networkPingAvg: -1
+    property int networkPingMin: -1
+    property int networkPingMax: -1
 
     // Einstellung „Ausblend-Animation für Verliererkarten" (Config-Key
     // ShowFadeOutCardsAnimation). Ist sie aus, bleiben alle Karten voll sichtbar.
@@ -93,8 +99,11 @@ Item {
             layer.effect: MultiEffect { saturation: -1.0 }
         }
 
-        // Netzwerkstatus-Punkt (Ampel) unten rechts in der Avatar-Ecke.
+        // Netzwerkstatus-Punkt (Ampel) unten rechts in der Avatar-Ecke. Auf dem
+        // Desktop blendet ein Mouseover ein Overlay mit den Server-Antwortzeiten
+        // (avg/min/max ms) ein – analog zum Tooltip des Qt-Widgets-Clients.
         Rectangle {
+            id: netDot
             visible: root.showNetworkStatus
             width: Math.max(6, Math.round(root.avatarSize * 0.22))
             height: width
@@ -105,6 +114,24 @@ Item {
             color: root.networkStatusColor
             border.width: 1
             border.color: Qt.darker(root.networkStatusColor, 2.0)
+
+            // Großzügigerer Hover-Bereich als der kleine Punkt selbst.
+            MouseArea {
+                id: netHover
+                anchors.fill: parent
+                anchors.margins: -4
+                hoverEnabled: !Config.Responsive.isMobile
+                acceptedButtons: Qt.NoButton
+            }
+
+            ToolTip.visible: netHover.containsMouse
+                             && !Config.Responsive.isMobile
+                             && root.networkPingAvg >= 0
+            ToolTip.delay: 300
+            ToolTip.text: qsTr("Server response times")
+                          + "\n" + qsTr("Average: %1 ms").arg(root.networkPingAvg)
+                          + "\n" + qsTr("Minimum: %1 ms").arg(root.networkPingMin)
+                          + "\n" + qsTr("Maximum: %1 ms").arg(root.networkPingMax)
         }
     }
 

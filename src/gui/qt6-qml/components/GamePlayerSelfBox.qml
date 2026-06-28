@@ -133,6 +133,9 @@ Rectangle {
             antiPeek: root.antiPeek
             showNetworkStatus: root.showPingState && root.pingState > 0
             networkStatusColor: root.pingColor
+            networkPingAvg: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingAvg : -1
+            networkPingMin: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingMin : -1
+            networkPingMax: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingMax : -1
             avatarSource: root.avatarSource
             folded: root.folded
             playerActive: root.playerActive

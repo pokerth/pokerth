@@ -164,14 +164,17 @@ void QmlGuiInterface::SignalNetClientGameChatMsg(const std::string &playerName, 
     }
 }
 
-void QmlGuiInterface::SignalNetClientPingUpdate(unsigned /*minPing*/, unsigned avgPing, unsigned /*maxPing*/)
+void QmlGuiInterface::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
 {
     // Eigener Client-Ping → GameHandler, der daraus den Netzwerkstatus (Ampel)
-    // für die eigene Avatar-Ecke ableitet (Einstellung ShowPingStateInAvatar).
+    // für die eigene Avatar-Ecke ableitet (Einstellung ShowPingStateInAvatar) und
+    // die Roh-Werte (min/avg/max ms) für das Mouseover-Overlay bereitstellt.
     // Aufruf kommt aus dem Netzwerk-Thread → QueuedConnection.
     if (m_gameHandler) {
         QMetaObject::invokeMethod(m_gameHandler, "onPingUpdate", Qt::QueuedConnection,
-                                  Q_ARG(int, static_cast<int>(avgPing)));
+                                  Q_ARG(int, static_cast<int>(minPing)),
+                                  Q_ARG(int, static_cast<int>(avgPing)),
+                                  Q_ARG(int, static_cast<int>(maxPing)));
     }
 }
 

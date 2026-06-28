@@ -137,6 +137,12 @@ class GameHandler : public QObject
     // 1 = grün (≤1000 ms), 2 = gelb (≤2000 ms), 3 = rot (>2000 ms). Wie der
     // Qt-Widgets-Client (MyAvatarLabel::refreshPing), nur am eigenen Avatar.
     Q_PROPERTY(int pingState READ pingState NOTIFY pingStateChanged)
+    // Roh-Werte der letzten Server-Antwortzeiten (ms): Durchschnitt/Min/Max.
+    // −1 = noch keine Daten. Speisen das Overlay am Netzwerkstatus-Punkt
+    // (Mouseover) – wie der Tooltip des Qt-Widgets-Clients (refreshPing).
+    Q_PROPERTY(int pingAvg READ pingAvg NOTIFY pingStateChanged)
+    Q_PROPERTY(int pingMin READ pingMin NOTIFY pingStateChanged)
+    Q_PROPERTY(int pingMax READ pingMax NOTIFY pingStateChanged)
 
 public:
     explicit GameHandler(QObject *parent = nullptr);
@@ -177,6 +183,9 @@ public:
     QVariantList cardsChance() const { return m_cardsChance; }
     bool cardsChanceFolded() const { return m_cardsChanceFolded; }
     int pingState() const { return m_pingState; }
+    int pingAvg() const { return m_pingAvg; }
+    int pingMin() const { return m_pingMin; }
+    int pingMax() const { return m_pingMax; }
 
     // Zeilentyp für die Einfärbung des Spielverlaufs – Farben/Stil 1:1 wie der
     // Qt-Widgets-Client (Default-Tischstil).
@@ -215,7 +224,7 @@ public:
     // Netzwerk: Spieler hat das Spiel verlassen → Sitz leeren
     Q_INVOKABLE void onNetClientPlayerLeft(unsigned uniquePlayerId);
     // Netzwerk: eigener Client-Ping aktualisiert → Netzwerkstatus-Ampel ableiten.
-    Q_INVOKABLE void onPingUpdate(int avgPing);
+    Q_INVOKABLE void onPingUpdate(int minPing, int avgPing, int maxPing);
     Q_INVOKABLE void onBlindsSet(int smallBlind);
     Q_INVOKABLE void onNextRoundCleanGui();
     Q_INVOKABLE void onDealFlopCards();
@@ -365,6 +374,9 @@ private:
     QVariantList m_cardsChance;
     bool m_cardsChanceFolded = false;
     int m_pingState = 0;  // Netzwerkstatus-Ampel (0 unbekannt,1 grün,2 gelb,3 rot)
+    int m_pingAvg = -1;   // letzte Server-Antwortzeiten in ms (−1 = keine Daten)
+    int m_pingMin = -1;
+    int m_pingMax = -1;
     // Eingangssignatur der letzten Chancen-Berechnung (Hole-Cards, Board, Fold-
     // Zustand). Bleibt sie gleich, wird die teure calcCardsChance-Schleife
     // übersprungen – refreshChanceAndHand() läuft sonst bei jedem Mikro-Refresh.

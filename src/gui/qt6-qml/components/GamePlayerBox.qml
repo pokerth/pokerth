@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 
 import "../config" as Config
 
@@ -73,19 +74,48 @@ Item {
             ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
     readonly property string actionText: Config.StaticData.pokerActionWord(root.action, dontTranslatePokerTerms)
 
-    // Länderflagge: Lookup über gamePlayersInGame – identisch zu GameWaitPage,
-    // wo es zuverlässig funktioniert. playerListRevision erzwingt Reaktivität.
-    readonly property string countryCode: {
-        if (typeof Lobby === "undefined" || !Lobby || !root.seatData) return ""
+    // Länderflagge: aus dem gemeinsamen lobbyEntry-Lookup (gamePlayersInGame),
+    // identisch zu GameWaitPage. playerListRevision erzwingt Reaktivität.
+    readonly property string countryCode: lobbyEntry ? (lobbyEntry.countryCode || "") : ""
+
+    // ── Kontextaktionen (nur Desktop) ────────────────────────────────────────
+    // Rechtsklick auf eine Gegnerbox öffnet ein Kontextmenü mit „Ignore Player",
+    // „Unignore Player" und „Show player stats" – wie der Qt-Widgets-Client
+    // (MyAvatarLabel) bzw. die Lobby-Spielerliste (PlayerListItem). Die Aktionen
+    // greifen nur im Netzwerkspiel: dort liefert gamePlayersInGame zu jedem
+    // menschlichen Mitspieler eine playerId (für lokale Spiele/CPU-Gegner leer →
+    // kein Menü). Touch-Geräte bleiben vorerst außen vor.
+    readonly property bool desktopMode:
+        typeof Config.Responsive !== "undefined" && !Config.Responsive.isMobile
+    readonly property var lobbyEntry: {
+        if (typeof Lobby === "undefined" || !Lobby || !root.seatData) return null
         var _p = Lobby.playerListRevision
         var _g = Lobby.gameListRevision
         var pname = root.seatData.name
-        if (!pname) return ""
+        if (!pname) return null
         var gp = Lobby.gamePlayersInGame(Lobby.currentGameId)
         for (var i = 0; i < gp.length; i++)
-            if (gp[i].playerName === pname) return gp[i].countryCode || ""
-        return ""
+            if (gp[i].playerName === pname) return gp[i]
+        return null
     }
+    readonly property bool targetIsComputer:
+        seatData && seatData.isComputer !== undefined ? seatData.isComputer : false
+    readonly property int targetPlayerId: lobbyEntry ? (lobbyEntry.playerId || 0) : 0
+    readonly property bool targetIsGuest: lobbyEntry ? !!lobbyEntry.isGuest : false
+    readonly property bool targetIsSelf:
+        targetPlayerId !== 0 && typeof Lobby !== "undefined" && Lobby && targetPlayerId === Lobby.myPlayerId
+    readonly property bool playerIgnored: {
+        var _rev = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerIgnoreListRevision : 0
+        return (typeof Lobby !== "undefined" && Lobby && targetPlayerId !== 0)
+            ? Lobby.isPlayerIgnored(targetPlayerId) : false
+    }
+    readonly property bool canIgnore: !targetIsGuest && !targetIsSelf && !playerIgnored
+    readonly property bool canUnignore: !targetIsGuest && !targetIsSelf && playerIgnored
+    readonly property bool canShowStats: !targetIsGuest
+    readonly property bool hasContextActions:
+        desktopMode && targetPlayerId !== 0 && !targetIsComputer
+        && (canIgnore || canUnignore || canShowStats)
+
     // Widescreen-Layout: Box ist groß genug für 2-zeilige Info (Name + Flagge/Cash).
     // Nutzt height >= 76 als Proxy für tableZone.wide (oppBaseHeight = wide ? 84 : 71).
     // Bewusst NICHT Config.Responsive.landscape – die Tablezone kann breiter als
@@ -307,6 +337,64 @@ Item {
             y: (betGroup.horizontal || betGroup.split)
                ? (betGroup.height - height) / 2
                : (betGroup.height * 5 / 6 - height / 2)
+        }
+    }
+
+    // ── Rechtsklick-Kontextmenü (nur Desktop) ────────────────────────────────
+    // Fängt nur die rechte Maustaste ab; linke Klicks/Hover fallen an die
+    // darunterliegenden Elemente durch. Erscheint nur, wenn der Sitz einen
+    // echten Online-Mitspieler trägt (hasContextActions).
+    MouseArea {
+        anchors.fill: parent
+        z: 30
+        enabled: root.hasContextActions
+        acceptedButtons: Qt.RightButton
+        onClicked: (mouse) => contextMenu.popup(mouse.x, mouse.y)
+    }
+
+    // Einheitlich gestylter Menüeintrag (dunkles Theme, kollabiert wenn unsichtbar).
+    component CtxItem: MenuItem {
+        height: visible ? implicitHeight : 0
+        contentItem: AppText {
+            text: parent.text
+            color: parent.enabled
+                   ? (parent.highlighted ? Config.Theme.colorAccent : Config.Theme.colorTextPrimary)
+                   : Config.Theme.colorTextMuted
+            font.pixelSize: 13
+            verticalAlignment: Text.AlignVCenter
+            leftPadding: 8
+        }
+        background: Rectangle {
+            color: parent.highlighted ? Config.StaticData.palette.secondary.col600 : "transparent"
+        }
+    }
+
+    Menu {
+        id: contextMenu
+
+        // Dunkles Theme passend zur Tischoberfläche.
+        background: Rectangle {
+            implicitWidth: 180
+            color: Config.StaticData.palette.secondary.col700
+            border.width: 1
+            border.color: Config.StaticData.palette.secondary.col500
+            radius: Config.Theme.radiusSmall
+        }
+
+        CtxItem {
+            text: qsTr("Ignore player")
+            visible: root.canIgnore
+            onTriggered: { if (typeof Lobby !== "undefined" && Lobby) Lobby.ignorePlayer(root.targetPlayerId) }
+        }
+        CtxItem {
+            text: qsTr("Unignore player")
+            visible: root.canUnignore
+            onTriggered: { if (typeof Lobby !== "undefined" && Lobby) Lobby.unignorePlayer(root.targetPlayerId) }
+        }
+        CtxItem {
+            text: qsTr("Show player stats")
+            visible: root.canShowStats
+            onTriggered: { if (typeof Lobby !== "undefined" && Lobby) Lobby.showPlayerStats(root.targetPlayerId) }
         }
     }
 }

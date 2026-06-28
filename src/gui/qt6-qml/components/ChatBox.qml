@@ -122,6 +122,21 @@ Item {
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
+            // Hält die View am Ende (Auto-Scroll) bzw. an der gemerkten Position.
+            // Per Qt.callLater entkoppelt, damit es NACH dem Layout läuft (finale
+            // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
+            function followBottom() {
+                if (autoScroll) positionViewAtEnd()
+                else            restoreScroll()
+            }
+            // An contentHeight hängen, NICHT an count: feuert bei JEDER
+            // Höhenänderung – neue Zeile, async umbrechende RichText-Zeilen und
+            // komplettes Ersetzen des QVariant-Models. onCountChanged feuerte nur
+            // einmal und oft zu früh (vor finaler Höhe) bzw. gar nicht, wenn das
+            // ersetzte Model dieselbe Länge hatte → Auto-Scroll blieb hängen.
+            onContentHeightChanged: Qt.callLater(followBottom)
+            // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
+            onHeightChanged: Qt.callLater(followBottom)
             // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
             // Scrollbar-Ziehen) – NICHT das programmatische Positionieren oder
             // den Sprung beim Model-Ersetzen (dort ist moving==false).
@@ -136,17 +151,6 @@ Item {
                 } else {
                     autoScroll = false; autoScrollTimer.restart()
                 }
-            }
-            onCountChanged: {
-                if (autoScroll) positionViewAtEnd()
-                else Qt.callLater(restoreScroll)
-            }
-            // Spieleranzahl ändert sich → Boxen werden resized. Ohne dies bliebe
-            // contentY stehen und die View „hinge" über der letzten Zeile bzw.
-            // die gemerkte Position liefe aus dem Rahmen.
-            onHeightChanged: {
-                if (autoScroll) Qt.callLater(positionViewAtEnd)
-                else            Qt.callLater(restoreScroll)
             }
 
             delegate: Item {

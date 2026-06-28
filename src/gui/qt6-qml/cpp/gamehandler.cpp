@@ -481,6 +481,9 @@ void GameHandler::refreshPlayerData()
                 // Gefoldete Spieler bleiben die ganze Hand über gefoldet → Karten
                 // durchscheinend darstellen (wie im Qt-Widgets-Client).
                 p["folded"] = ((*it)->getMyAction() == PLAYER_ACTION_FOLD);
+                // Computer-Gegner: für sie gibt es keine Kontextaktionen
+                // (Ignore/Stats) – wie im Qt-Widgets-Client (MyAvatarLabel).
+                p["isComputer"] = ((*it)->getMyType() == PLAYER_TYPE_COMPUTER);
                 // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der Config.
                 std::string avatarRaw = (*it)->getMyAvatar();
                 if (avatarRaw.empty() && id == 0 && m_config)
@@ -1009,13 +1012,14 @@ void GameHandler::onNetworkGameEnded()
         emit timeoutChanged();
     }
     m_timeoutBeepTimer->stop();
-    if (m_pingState != 0) {
+    if (m_pingState != 0 || m_pingAvg != -1) {
         m_pingState = 0;  // keine Netzwerkverbindung mehr → Ampel zurücksetzen
+        m_pingAvg = m_pingMin = m_pingMax = -1;
         emit pingStateChanged();
     }
 }
 
-void GameHandler::onPingUpdate(int avgPing)
+void GameHandler::onPingUpdate(int minPing, int avgPing, int maxPing)
 {
     // Ampel-Schwellen wie der Qt-Widgets-Client (MyAvatarLabel::refreshPing):
     // ≤1000 ms grün, ≤2000 ms gelb, >2000 ms rot; negative Werte = keine Daten.
@@ -1024,10 +1028,13 @@ void GameHandler::onPingUpdate(int avgPing)
     else if (avgPing <= 1000)   state = 1;
     else if (avgPing <= 2000)   state = 2;
     else                        state = 3;
-    if (state != m_pingState) {
-        m_pingState = state;
+    bool changed = false;
+    if (state != m_pingState)   { m_pingState = state;  changed = true; }
+    if (avgPing != m_pingAvg)   { m_pingAvg   = avgPing; changed = true; }
+    if (minPing != m_pingMin)   { m_pingMin   = minPing; changed = true; }
+    if (maxPing != m_pingMax)   { m_pingMax   = maxPing; changed = true; }
+    if (changed)
         emit pingStateChanged();
-    }
 }
 
 void GameHandler::onNetClientPlayerLeft(unsigned uniquePlayerId)
