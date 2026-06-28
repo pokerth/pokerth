@@ -1643,7 +1643,9 @@ Rectangle {
                 z: 150
                 edge: Qt.RightEdge
                 wide: tableZone.wide
-                title: qsTr("Verlauf · Chancen · Blatt")
+                // Keine Überschrift – die Tab-Leiste (Verlauf/Chancen) reicht;
+                // geschlossen wird über den Umschalt-Button oben rechts.
+                showHeader: false
                 visible: tableZone.showInfo && !gamePage.infoDocked
                 onCloseRequested: gamePage.toggleInfoOverlay()
 
@@ -1675,7 +1677,8 @@ Rectangle {
                 z: 150
                 edge: Qt.LeftEdge
                 wide: tableZone.wide
-                title: qsTr("Chat")
+                // Keine Überschrift – geschlossen wird über den Umschalt-Button oben.
+                showHeader: false
                 visible: tableZone.showChat
                 onCloseRequested: gamePage.toggleChatOverlay()
                 // Chat geschlossen → Emoji-Picker mitschließen.

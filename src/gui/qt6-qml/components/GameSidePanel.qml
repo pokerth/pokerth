@@ -15,6 +15,10 @@ Item {
     id: root
 
     property string title: ""
+    // Kopfzeile (Titel + Schließen + Trennlinie) ein-/ausblenden. Das Info-Panel
+    // braucht keine Überschrift – dort genügt die Tab-Leiste, und geschlossen wird
+    // über den Umschalt-Button oben. Der Chat nutzt weiterhin die Kopfzeile.
+    property bool showHeader: true
     property int edge: Qt.LeftEdge          // Qt.LeftEdge | Qt.RightEdge
     property bool wide: false
     signal closeRequested()
@@ -80,6 +84,7 @@ Item {
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 6
+                visible: root.showHeader
                 AppText {
                     Layout.fillWidth: true
                     text: root.title
@@ -120,6 +125,7 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 1
                 color: Config.Theme.withAlpha(root.colBorder, 0.5)
+                visible: root.showHeader
             }
         }
     ]
