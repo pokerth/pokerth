@@ -25,8 +25,6 @@ Item {
     property var nickList: []
     property bool inputEnabled: true
     property string placeholder: qsTr("Nachricht …")
-    // Nachrichten-Hintergrund (Bubbles); Default: nur Text auf Box-Hintergrund.
-    property bool showBubbles: false
     property int messageFontSize: 12
     // Emoji-Picker als Popup ÜBER der Box statt inline über der Eingabezeile.
     property bool emojiPickerAsPopup: false
@@ -49,7 +47,7 @@ Item {
     signal sendRequested(string text)
 
     function closeEmojiPicker() { showEmojiPicker = false }
-    function scrollToEnd() { msgList.positionViewAtEnd() }
+    function scrollToEnd() { msgFlick.scrollToBottom() }
 
     implicitWidth: 200
     implicitHeight: 160
@@ -58,7 +56,7 @@ Item {
     // scrollen, damit die letzten Nachrichten sichtbar bleiben.
     onShowEmojiPickerChanged: {
         if (showEmojiPicker && !emojiPickerAsPopup)
-            Qt.callLater(msgList.positionViewAtEnd)
+            Qt.callLater(msgFlick.scrollToBottom)
     }
 
     // ── History + Tab-Vervollständigung ──────────────────────────────────
@@ -69,8 +67,6 @@ Item {
     property var historyStore: []
     property int _historyIndex: 0
     property var _nickState: ({ counter: 0, base: "", matches: [] })
-    // Aktuelle Nachricht (TextEdit) für das geteilte Rechtsklick-Kontextmenü.
-    property var _ctxTarget: null
 
     function _showHistory(idx) {
         if (idx > 0 && idx <= historyStore.length)
@@ -96,31 +92,38 @@ Item {
         anchors.fill: parent
         spacing: 4
 
-        // ── Nachrichtenliste ──
-        ListView {
-            id: msgList
+        // ── Nachrichtenverlauf: EIN zusammenhängendes RichText-Dokument ──
+        // Wie das QTextBrowser des Widgets-Clients (chattools.cpp) – statt einer
+        // ListView mit einem TextEdit pro Zeile. Vorteile: durchgehende Maus-
+        // Selektion über ALLE Nachrichten (statt isolierter Markierung je Zeile)
+        // und natives, zuverlässiges Link-Handling über onLinkActivated.
+        Flickable {
+            id: msgFlick
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            spacing: root.showBubbles ? 3 : 1
-            model: root.chatModel
+            contentWidth: width
+            contentHeight: msgText.implicitHeight
             boundsBehavior: Flickable.StopAtBounds
+            flickableDirection: Flickable.VerticalFlick
+
             ScrollBar.vertical: ScrollBar {
                 id: msgScrollBar
-                policy: msgList.contentHeight > msgList.height + 4
+                policy: msgFlick.contentHeight > msgFlick.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
             }
-            // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei
-            // neuen Zeilen erhalten (das Model wird als QVariantList komplett
-            // ersetzt → die View würde sonst nach oben springen), nach 15 s
-            // Inaktivität wieder ans Ende.
+
+            // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei neuen
+            // Zeilen erhalten (der Text wird komplett ersetzt → die View würde
+            // sonst springen), nach 15 s Inaktivität wieder ans Ende.
             property bool autoScroll: true
             property real savedContentY: 0
             Timer {
                 id: autoScrollTimer
                 interval: 15000
-                onTriggered: { msgList.autoScroll = true; msgList.positionViewAtEnd() }
+                onTriggered: { msgFlick.autoScroll = true; msgFlick.scrollToBottom() }
             }
+            function scrollToBottom() { contentY = Math.max(0, contentHeight - height) }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
@@ -128,25 +131,18 @@ Item {
             // Per Qt.callLater entkoppelt, damit es NACH dem Layout läuft (finale
             // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
             function followBottom() {
-                if (autoScroll) positionViewAtEnd()
+                if (autoScroll) scrollToBottom()
                 // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
-                // selbst scrollt – sonst klemmt das laufende (durch Delegate-
-                // Vermessung getriggerte) restoreScroll die Bewegung fest.
-                // Übrig bleibt der eigentliche Zweck: der Sprung nach oben beim
-                // kompletten Ersetzen des Models (dort moving==false).
+                // selbst scrollt – sonst klemmt das restoreScroll die Bewegung fest.
                 else if (!moving && !msgScrollBar.pressed) restoreScroll()
             }
-            // An contentHeight hängen, NICHT an count: feuert bei JEDER
-            // Höhenänderung – neue Zeile, async umbrechende RichText-Zeilen und
-            // komplettes Ersetzen des QVariant-Models. onCountChanged feuerte nur
-            // einmal und oft zu früh (vor finaler Höhe) bzw. gar nicht, wenn das
-            // ersetzte Model dieselbe Länge hatte → Auto-Scroll blieb hängen.
+            // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
+            // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
             onContentHeightChanged: Qt.callLater(followBottom)
             // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
             onHeightChanged: Qt.callLater(followBottom)
             // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
-            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren oder
-            // den Sprung beim Model-Ersetzen (dort ist moving==false).
+            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
             onContentYChanged: {
                 if (!moving && !msgScrollBar.pressed) return
                 savedContentY = contentY
@@ -160,77 +156,41 @@ Item {
                 }
             }
 
-            delegate: Item {
-                required property var modelData
-                width: ListView.view.width
-                implicitHeight: bubbleRect.height
+            // Read-only TextEdit hält den gesamten Verlauf als EIN HTML-Dokument.
+            // Die einzelnen chatModel-Einträge sind bereits fertiges RichText und
+            // werden mit <br> aneinandergereiht.
+            TextEdit {
+                id: msgText
+                // Platz für die Scrollbar lassen, wenn sie sichtbar ist.
+                width: msgFlick.width
+                       - (msgFlick.contentHeight > msgFlick.height + 4 ? 12 : 0)
+                text: root.chatModel.join("<br>")
+                textFormat: TextEdit.RichText
+                wrapMode: TextEdit.Wrap
+                readOnly: true
+                selectByMouse: true
+                persistentSelection: true
+                color: root.colText
+                selectionColor: root.colAccent
+                selectedTextColor: "#101010"
+                font.family: Config.StaticData.loadedFont.font.family
+                font.pixelSize: root.messageFontSize
+                // Klick auf einen Link öffnet extern – nativ, exakt wie der
+                // Footer-Button (LobbyStatsBar) und das QTextBrowser des Widgets.
+                onLinkActivated: (link) => Qt.openUrlExternally(link)
 
-                Rectangle {
-                    id: bubbleRect
-                    width: parent.width
-                    height: msgText.implicitHeight + (root.showBubbles ? 4 : 2)
-                    radius: root.showBubbles ? 6 : 0
-                    color: root.showBubbles
-                           ? Config.Theme.withAlpha(root.colSurface, 0.55)
-                           : "transparent"
-
-                    // TextEdit statt Text: macht die Nachricht per Maus
-                    // selektier-/kopierbar (Ctrl+C; Selektion je Nachricht).
-                    TextEdit {
-                        id: msgText
-                        anchors {
-                            left: parent.left; right: parent.right; top: parent.top
-                            leftMargin: root.showBubbles ? 6 : 0
-                            // Rechts zusätzlich Platz für die Scrollbar lassen, damit
-                            // sie den Text nicht überlappt (nur wenn sie sichtbar ist).
-                            rightMargin: (root.showBubbles ? 6 : 0)
-                                         + (msgList.contentHeight > msgList.height + 4 ? 12 : 0)
-                            topMargin: root.showBubbles ? 2 : 1
-                        }
-                        text: modelData
-                        textFormat: TextEdit.RichText
-                        wrapMode: TextEdit.Wrap
-                        readOnly: true
-                        selectByMouse: true
-                        color: root.colText
-                        selectionColor: root.colAccent
-                        selectedTextColor: "#101010"
-                        font.family: Config.StaticData.loadedFont.font.family
-                        font.pixelSize: root.messageFontSize
-
-                        // Link-Handling + Cursor + Kontextmenü in EINER MouseArea:
-                        // TextEdit.onLinkActivated feuert unter selectByMouse mit
-                        // darüberliegender MouseArea nicht zuverlässig. Daher selbst
-                        // über linkAt() prüfen:
-                        //   • Hover über Link → Zeiger-Cursor, sonst Text-Auswahl-Balken.
-                        //   • Linksklick auf Link → extern öffnen.
-                        //   • Linke Taste abseits von Links → an das TextEdit
-                        //     durchreichen, damit die Maus-Selektion (Ctrl+C) bleibt.
-                        //   • Rechtsklick → geteiltes Kontextmenü (Kopieren / Alles
-                        //     auswählen) für diese Nachricht.
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            cursorShape: msgText.linkAt(mouseX, mouseY) !== ""
-                                         ? Qt.PointingHandCursor : Qt.IBeamCursor
-                            onPressed: (mouse) => {
-                                if (mouse.button === Qt.LeftButton
-                                    && msgText.linkAt(mouse.x, mouse.y) === "")
-                                    mouse.accepted = false
-                            }
-                            onClicked: (mouse) => {
-                                if (mouse.button === Qt.RightButton) {
-                                    root._ctxTarget = msgText
-                                    ctxMenu.popup()
-                                    return
-                                }
-                                const link = msgText.linkAt(mouse.x, mouse.y)
-                                if (link !== "")
-                                    Qt.openUrlExternally(link)
-                            }
-                        }
-                    }
+                // MouseArea NUR für Cursor (per linkAt – hoveredLink wird unter
+                // einer überlagernden MouseArea nicht aktualisiert) und Rechtsklick-
+                // Menü. Die LINKE Taste ist bewusst NICHT akzeptiert → Press/Release
+                // fallen ans TextEdit, damit Selektion und onLinkActivated nativ
+                // erhalten bleiben.
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    acceptedButtons: Qt.RightButton
+                    cursorShape: msgText.linkAt(mouseX, mouseY) !== ""
+                                 ? Qt.PointingHandCursor : Qt.IBeamCursor
+                    onClicked: (mouse) => ctxMenu.popup()
                 }
             }
         }
@@ -372,9 +332,8 @@ Item {
         }
     }
 
-    // ── Geteiltes Rechtsklick-Kontextmenü für Nachrichten ──
-    // Eine Instanz für die ganze Liste (statt eine pro Delegate); arbeitet auf
-    // root._ctxTarget, dem zuletzt rechtsgeklickten Nachrichten-TextEdit.
+    // ── Rechtsklick-Kontextmenü für den Nachrichtenverlauf ──
+    // Arbeitet direkt auf dem einen msgText-Dokument (Kopieren / Alles auswählen).
     // Einheitlich gestylter Eintrag (folgt den Farb-Tokens der Box).
     component CtxItem: MenuItem {
         height: visible ? implicitHeight : 0
@@ -405,18 +364,12 @@ Item {
 
         CtxItem {
             text: qsTr("Kopieren")
-            onTriggered: {
-                if (!root._ctxTarget)
-                    return
-                // Auswahl kopieren; ohne Auswahl die ganze Nachricht.
-                if (root._ctxTarget.selectedText.length === 0)
-                    root._ctxTarget.selectAll()
-                root._ctxTarget.copy()
-            }
+            enabled: msgText.selectedText.length > 0
+            onTriggered: msgText.copy()
         }
         CtxItem {
             text: qsTr("Alles auswählen")
-            onTriggered: { if (root._ctxTarget) root._ctxTarget.selectAll() }
+            onTriggered: msgText.selectAll()
         }
     }
 }
