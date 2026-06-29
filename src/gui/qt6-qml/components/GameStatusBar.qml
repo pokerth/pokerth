@@ -9,6 +9,29 @@ import "../config" as Config
 Rectangle {
     color: Qt.rgba(0, 0, 0, 0.78)
 
+    // Horizontal zentriert oben: Tischname (nur Netzwerkspiele). Bei Local-
+    // Games ist Lobby.currentGameId == 0 → currentGameName() leer, die Anzeige
+    // verschwindet automatisch. Die Bindung referenziert currentGameId, damit
+    // sie beim Spielwechsel/Beitritt reaktiv neu ausgewertet wird.
+    readonly property string tableName:
+        (typeof Lobby !== "undefined" && Lobby && Lobby.currentGameId > 0)
+            ? Lobby.currentGameName() : ""
+
+    AppText {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        // Nicht in die Pot-/Phasen-Spalten an den Rändern hineinragen.
+        width: Math.min(implicitWidth, parent.width * 0.5)
+        elide: Text.ElideRight
+        horizontalAlignment: Text.AlignHCenter
+        visible: text !== ""
+        text: tableName
+        color: "#FFFFFF"
+        font.pixelSize: Config.Responsive.landscapeCompact ? 12 : 14
+        font.weight: Font.DemiBold
+        font.letterSpacing: 0.5
+    }
+
     RowLayout {
         anchors { fill: parent; leftMargin: 16; rightMargin: 16 }
         spacing: 0
