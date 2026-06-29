@@ -69,6 +69,8 @@ Item {
     property var historyStore: []
     property int _historyIndex: 0
     property var _nickState: ({ counter: 0, base: "", matches: [] })
+    // Aktuelle Nachricht (TextEdit) für das geteilte Rechtsklick-Kontextmenü.
+    property var _ctxTarget: null
 
     function _showHistory(idx) {
         if (idx > 0 && idx <= historyStore.length)
@@ -127,7 +129,12 @@ Item {
             // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
             function followBottom() {
                 if (autoScroll) positionViewAtEnd()
-                else            restoreScroll()
+                // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
+                // selbst scrollt – sonst klemmt das laufende (durch Delegate-
+                // Vermessung getriggerte) restoreScroll die Bewegung fest.
+                // Übrig bleibt der eigentliche Zweck: der Sprung nach oben beim
+                // kompletten Ersetzen des Models (dort moving==false).
+                else if (!moving && !msgScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen, NICHT an count: feuert bei JEDER
             // Höhenänderung – neue Zeile, async umbrechende RichText-Zeilen und
@@ -190,14 +197,38 @@ Item {
                         selectedTextColor: "#101010"
                         font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: root.messageFontSize
-                        onLinkActivated: (link) => Qt.openUrlExternally(link)
 
-                        // Cursor: Zeiger über Links, sonst Text-Auswahl-Balken.
+                        // Link-Handling + Cursor + Kontextmenü in EINER MouseArea:
+                        // TextEdit.onLinkActivated feuert unter selectByMouse mit
+                        // darüberliegender MouseArea nicht zuverlässig. Daher selbst
+                        // über linkAt() prüfen:
+                        //   • Hover über Link → Zeiger-Cursor, sonst Text-Auswahl-Balken.
+                        //   • Linksklick auf Link → extern öffnen.
+                        //   • Linke Taste abseits von Links → an das TextEdit
+                        //     durchreichen, damit die Maus-Selektion (Ctrl+C) bleibt.
+                        //   • Rechtsklick → geteiltes Kontextmenü (Kopieren / Alles
+                        //     auswählen) für diese Nachricht.
                         MouseArea {
                             anchors.fill: parent
-                            acceptedButtons: Qt.NoButton
-                            cursorShape: msgText.hoveredLink !== ""
+                            hoverEnabled: true
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            cursorShape: msgText.linkAt(mouseX, mouseY) !== ""
                                          ? Qt.PointingHandCursor : Qt.IBeamCursor
+                            onPressed: (mouse) => {
+                                if (mouse.button === Qt.LeftButton
+                                    && msgText.linkAt(mouse.x, mouse.y) === "")
+                                    mouse.accepted = false
+                            }
+                            onClicked: (mouse) => {
+                                if (mouse.button === Qt.RightButton) {
+                                    root._ctxTarget = msgText
+                                    ctxMenu.popup()
+                                    return
+                                }
+                                const link = msgText.linkAt(mouse.x, mouse.y)
+                                if (link !== "")
+                                    Qt.openUrlExternally(link)
+                            }
                         }
                     }
                 }
@@ -338,6 +369,54 @@ Item {
                 inputField.forceActiveFocus()
                 root.showEmojiPicker = false
             }
+        }
+    }
+
+    // ── Geteiltes Rechtsklick-Kontextmenü für Nachrichten ──
+    // Eine Instanz für die ganze Liste (statt eine pro Delegate); arbeitet auf
+    // root._ctxTarget, dem zuletzt rechtsgeklickten Nachrichten-TextEdit.
+    // Einheitlich gestylter Eintrag (folgt den Farb-Tokens der Box).
+    component CtxItem: MenuItem {
+        height: visible ? implicitHeight : 0
+        contentItem: Text {
+            text: parent.text
+            color: parent.enabled
+                   ? (parent.highlighted ? root.colAccent : root.colText)
+                   : root.colTextMuted
+            font.family: Config.StaticData.loadedFont.font.family
+            font.pixelSize: 13
+            verticalAlignment: Text.AlignVCenter
+            leftPadding: 8
+        }
+        background: Rectangle {
+            color: parent.highlighted ? root.colSurface : "transparent"
+        }
+    }
+
+    Menu {
+        id: ctxMenu
+        background: Rectangle {
+            implicitWidth: 160
+            color: root.colBackground
+            border.width: 1
+            border.color: root.colBorder
+            radius: 6
+        }
+
+        CtxItem {
+            text: qsTr("Kopieren")
+            onTriggered: {
+                if (!root._ctxTarget)
+                    return
+                // Auswahl kopieren; ohne Auswahl die ganze Nachricht.
+                if (root._ctxTarget.selectedText.length === 0)
+                    root._ctxTarget.selectAll()
+                root._ctxTarget.copy()
+            }
+        }
+        CtxItem {
+            text: qsTr("Alles auswählen")
+            onTriggered: { if (root._ctxTarget) root._ctxTarget.selectAll() }
         }
     }
 }

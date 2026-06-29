@@ -109,7 +109,12 @@ ColumnLayout {
             // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
             function followBottom() {
                 if (autoScroll) positionViewAtEnd()
-                else            restoreScroll()
+                // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
+                // selbst scrollt – sonst klemmt das laufende (durch Delegate-
+                // Vermessung getriggerte) restoreScroll die Bewegung fest.
+                // Übrig bleibt der eigentliche Zweck: der Sprung nach oben beim
+                // kompletten Ersetzen des Models (dort moving==false).
+                else if (!moving && !logScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen, NICHT an count: feuert bei JEDER
             // Höhenänderung – neue Zeile, async umbrechende RichText-Zeilen und
