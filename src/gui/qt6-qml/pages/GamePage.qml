@@ -558,7 +558,10 @@ Rectangle {
                     // bei 9–10 Spielern und sehr breitem Fenster überlappten
                     // die Boxen, obwohl die alte Cap-Formel noch grünes
                     // Licht gab.
-                    var gap = 12
+                    // Reiner Sicherheits-Abstand zwischen benachbarten Box-Paaren
+                    // in der Bisektions-Probe. Kleiner = Boxen dürfen enger packen
+                    // = höheres feasibles boxScale (größere Boxen/Karten/Schrift).
+                    var gap = 6
                     // Muss mit buildLandscapeSlots().selfWeight übereinstimmen.
                     var selfWeightCap = Config.Responsive.landscapeCompact ? 0.5 : 0.3
                     var stepDeg = oppCnt >= 1 ? 360 / (oppCnt + selfWeightCap) : 360
@@ -588,7 +591,10 @@ Rectangle {
                         // Diesen Bereich aus dem verfügbaren Ellipsen-Radius herausrechnen,
                         // damit Community Cards nie durch eine Spielerbox verdeckt werden.
                         var topBadgeExt = Config.Responsive.landscapeCompact ? 39 : 0
-                        var topYpix = (Config.Responsive.landscapeCompact ? 0 : 4)
+                        // Desktop-Top-Pad 8 (statt 4): die oberste Gegnerbox bekommt
+                        // mehr Abstand zur Status-/Info-Leiste. Muss mit `topY` in
+                        // buildLandscapeSlots() identisch sein.
+                        var topYpix = (Config.Responsive.landscapeCompact ? 0 : 12)
                                       + visualH / 2 + topBadgeExt * sTest
                         var bottomYpix = height - 4 - selfVisualH - selfGapY - visualH / 2
                         // Wie buildLandscapeSlots(): radiusY = nur (bottomY-topY)/2.
@@ -631,6 +637,12 @@ Rectangle {
                                 && Math.abs(radiusXpix * cosV) > selfClearXpix
                                 && vMaxLowerP > vFactor)
                                 vFactor = vFactor + (vMaxLowerP - vFactor) * sinOrig
+                            // Desktop: oberen Bogen abflachen – obere Sitze (vFactor<0)
+                            // 10 % Richtung Mitte ziehen. Flacherer Top-Bogen + mehr
+                            // Abstand der Top-Box zur Info-Leiste. Muss mit point() in
+                            // buildLandscapeSlots() identisch sein.
+                            if (!Config.Responsive.landscapeCompact && vFactor < 0)
+                                vFactor *= 0.82
                             return [cosV, vFactor]
                         }
                         // Community-Karten werden mittig in die Lücke zwischen der
@@ -655,7 +667,7 @@ Rectangle {
                             // Winner-Badge 20) · communityScale + Pad.
                             if (topOppBottom > -1e9
                                 && (height - 12 - selfVisualH) - topOppBottom
-                                   < 0.95 * sTest * 124 + 28)
+                                   < 1.1 * sTest * 124 + 28)
                                 return false
                         }
 
@@ -691,14 +703,14 @@ Rectangle {
                         var topYband = (Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2
                         var topOppBottom = topYband + visualH / 2 + sTest * 25
                         return (height - 12 - selfVisualH) - topOppBottom
-                               >= 0.95 * sTest * 124 + 28
+                               >= 1.1 * sTest * 124 + 28
                     }
 
                     // Gemeinsames Limit für Gegnerboxen, Self-Box und Community-Badges:
                     // 1.4 verhindert zu große Schrift und Bet-Überlappungen bei
                     // Vollbild/maximiert; compact bleibt bei 1.7 (breiter, flacher).
                     // fillCap() dämpft das Maximum bei wenigen Spielern zusätzlich.
-                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 1.7 : 1.4)
+                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 1.7 : 1.7)
                     if (oppCnt < 2) {
                         // Bis zum (gedeckelten) hi gehen, solange die Badges die
                         // Community nicht berühren.
@@ -798,15 +810,20 @@ Rectangle {
             }
             readonly property real oppScale: boxScale
             // Community-Karten-Skala:
-            //   – Wide-Screen: 0.95·boxScale (gibt Sicherheits-Padding zu den
-            //     Box-Badges).
+            //   – Wide-Screen: 1.1·boxScale – Community-Cards bewusst größer als die
+            //     Boxen (Lesbarkeit). Die Bisektion reserviert dieselbe Stack-Höhe.
             //   – Portrait: LANGSAMERES Wachstum als die opp-Boxen (Faktor 0.7)
             //     plus Floor 0.7 — die Community-Reihe ist bei kleinem Portrait
             //     also relativ größer und wächst bei breiteren Fenstern nur
             //     gedämpft mit. Adaptiver Cap stellt sicher, dass die Karten
             //     die Seitenspalten nicht horizontal berühren.
             readonly property real communityScale: {
-                if (wide) return boxScale * 0.95
+                // Desktop-Querformat: Community-Cards so groß wie möglich. Faktor 1.1
+                // (> boxScale) – die Karten sind also etwas größer als die Boxen. Muss
+                // mit den Community-Reserven in feasibleAt()/feasibleHeadsUp()
+                // (1.1 * sTest * 124) übereinstimmen, damit die Bisektion den Stack
+                // garantiert unterbringt (sonst boxScale herunter).
+                if (wide) return boxScale * 1.1
                 var target = Math.max(0.7, boxScale * 0.7)
                 var sideColRightEdge = 0.15 * width + oppBaseWidth * boxScale / 2
                 var maxCommunityHalfW = width / 2 - sideColRightEdge - 4
@@ -898,7 +915,9 @@ Rectangle {
                 // bekommen.
                 // Compact: oberste Box bündig an die Tisch-Oberkante (0 statt 4) –
                 // schafft Luft zwischen ihrem Bet-Badge und dem Pot-Badge.
-                var topY = ((Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2) / Math.max(height, 1)
+                // Desktop-Top-Pad 8 (statt 4): mehr Abstand der obersten Box zur
+                // Status-/Info-Leiste. Muss mit `topYpix` in feasibleAt() identisch sein.
+                var topY = ((Config.Responsive.landscapeCompact ? 0 : 12) + visualH / 2) / Math.max(height, 1)
                 var selfTop = height - 4 - selfVisualH
                 var bottomY = (selfTop - selfGapY - visualH / 2) / Math.max(height, 1)
                 var centerY = (topY + bottomY) / 2
@@ -971,6 +990,12 @@ Rectangle {
                     }
                     if (vFactor > 1.0) vFactor = 1.0   // nie unter bottomY (Self-Box)
                     if (vFactor < -1.0) vFactor = -1.0 // nie über die obere Bahn-Kante
+                    // Desktop: oberen Bogen abflachen – obere Sitze (vFactor<0) 10 %
+                    // Richtung Mitte ziehen → flacherer Top-Bogen + mehr Abstand der
+                    // Top-Box zur Info-Leiste. Muss mit slotVec() in feasibleAt()
+                    // identisch sein.
+                    if (!Config.Responsive.landscapeCompact && vFactor < 0)
+                        vFactor *= 0.82
                     // Graduell Richtung vMaxLower absenken, gewichtet mit dem
                     // ORIGINAL-sin: die untersten Sitze (BL/BR, sin≈0.88) sinken
                     // fast voll ab, die darüber (sin≈0.40) nur teilweise – ein

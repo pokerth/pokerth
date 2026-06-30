@@ -51,15 +51,17 @@ QtObject {
     //   NICHT am Aspect. Sonst fallen 16:9-Phones wie das Galaxy A5 2017
     //   (1920×1080 → ~640×360 logisch, Ratio 1.78 < 1.85) durch und bekommen die
     //   Kompakt-Behandlung nicht.
-    //   Desktop: an der Aspect-Heuristik (Ultrawide/HiDPI). Klassische
-    //   16:9-Monitore (1.78) bleiben bewusst ausgeschlossen; windowHeight < 1300
-    //   schließt große Ultrawide-Fenster aus.
+    //   Desktop: an der Aspect-Heuristik (NUR echtes Ultrawide). Schwelle 2.1,
+    //   damit ein MAXIMIERTES 16:9-Fenster (1920×1006 mit Taskleiste → Ratio
+    //   ~1.91) das volle Desktop-Layout bekommt statt des Phone-Compact-Layouts
+    //   (oberste Box bündig oben). Echtes 21:9 (≈2.33) bleibt compact;
+    //   windowHeight < 1300 schließt große Ultrawide-Fenster aus.
     readonly property bool landscapeCompact:
         landscape
         && windowHeight > 0
         && (isMobile
             ? windowHeight < 600
-            : ((windowWidth / windowHeight) > 1.85 && windowHeight < 1300))
+            : ((windowWidth / windowHeight) > 2.1 && windowHeight < 1300))
 
     // Convenience: number of columns for a simple grid
     readonly property int columns: compact ? 1 : tablet ? 2 : 3
