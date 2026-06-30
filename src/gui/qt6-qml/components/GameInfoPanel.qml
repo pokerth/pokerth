@@ -25,6 +25,11 @@ ColumnLayout {
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextMuted : "#7787a3"
     readonly property color colBorder:
         (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
+    readonly property color colSurface:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogSurface : "#394150"
+    readonly property color colBackground:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
+    readonly property color colAccent: Config.Theme.colorAccent
 
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
@@ -83,24 +88,35 @@ ColumnLayout {
         currentIndex: tabs.currentIndex
 
         // ── Tab „Verlauf" (Spielverlauf / Log) ────────────────────────────────
-        ListView {
-            id: logList
+        // EIN zusammenhängendes RichText-Dokument (wie die ChatBox), KEINE
+        // ListView: deren contentHeight ist bei variabel hohen RichText-
+        // Delegates nur geschätzt und fluktuiert beim Scrollen (Delegate-
+        // Recycling) – das ließ den Auto-Scroll ständig neu feuern und unten
+        // festklemmen. Mit einer Flickable über deterministischer contentHeight
+        // (= TextEdit.implicitHeight) ist das stabil; zusätzlich gibt es so die
+        // durchgehende Maus-Selektion + Kopieren/Alles-auswählen.
+        Flickable {
+            id: logFlick
             clip: true
-            model: (typeof GameTable !== "undefined" && GameTable) ? GameTable.gameLog : []
+            contentWidth: width
+            contentHeight: logText.implicitHeight
             boundsBehavior: Flickable.StopAtBounds
+            flickableDirection: Flickable.VerticalFlick
             ScrollBar.vertical: ScrollBar {
                 id: logScrollBar
-                policy: logList.contentHeight > logList.height + 4
+                policy: logFlick.contentHeight > logFlick.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
             }
-            // Auto-Scroll folgt neuen Einträgen, solange der Nutzer unten ist.
+            // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei neuen
+            // Zeilen erhalten, nach 15 s Inaktivität wieder ans Ende.
             property bool autoScroll: true
             property real savedContentY: 0
             Timer {
                 id: logAutoScrollTimer
                 interval: 15000
-                onTriggered: { logList.autoScroll = true; logList.positionViewAtEnd() }
+                onTriggered: { logFlick.autoScroll = true; logFlick.scrollToBottom() }
             }
+            function scrollToBottom() { contentY = Math.max(0, contentHeight - height) }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
@@ -108,25 +124,18 @@ ColumnLayout {
             // Per Qt.callLater entkoppelt, damit es NACH dem Layout läuft (finale
             // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
             function followBottom() {
-                if (autoScroll) positionViewAtEnd()
+                if (autoScroll) scrollToBottom()
                 // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
-                // selbst scrollt – sonst klemmt das laufende (durch Delegate-
-                // Vermessung getriggerte) restoreScroll die Bewegung fest.
-                // Übrig bleibt der eigentliche Zweck: der Sprung nach oben beim
-                // kompletten Ersetzen des Models (dort moving==false).
+                // selbst scrollt – sonst klemmt das restoreScroll die Bewegung fest.
                 else if (!moving && !logScrollBar.pressed) restoreScroll()
             }
-            // An contentHeight hängen, NICHT an count: feuert bei JEDER
-            // Höhenänderung – neue Zeile, async umbrechende RichText-Zeilen und
-            // komplettes Ersetzen des QVariant-Models. onCountChanged feuerte nur
-            // einmal und oft zu früh (vor finaler Höhe) bzw. gar nicht, wenn das
-            // ersetzte Model dieselbe Länge hatte → Auto-Scroll blieb hängen.
+            // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
+            // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
             onContentHeightChanged: Qt.callLater(followBottom)
             // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
             onHeightChanged: Qt.callLater(followBottom)
             // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
-            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren oder
-            // den Sprung beim Model-Ersetzen (dort ist moving==false).
+            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
             onContentYChanged: {
                 if (!moving && !logScrollBar.pressed) return
                 savedContentY = contentY
@@ -139,15 +148,29 @@ ColumnLayout {
                     autoScroll = false; logAutoScrollTimer.restart()
                 }
             }
-            delegate: AppText {
-                required property string line
-                width: ListView.view.width - root.scrollGutter
-                text: line
-                textFormat: Text.RichText
-                wrapMode: Text.WordWrap
+
+            // Read-only TextEdit hält den gesamten Verlauf als EIN HTML-Dokument
+            // (GameLogModel.html – Zeilen mit <br> verkettet). Die Zeilen sind
+            // serverseitig bereits hell eingefärbt (GameHandler::formatLogLine).
+            TextEdit {
+                id: logText
+                width: logFlick.width - root.scrollGutter
+                text: (typeof GameTable !== "undefined" && GameTable)
+                      ? GameTable.gameLog.html : ""
+                textFormat: TextEdit.RichText
+                wrapMode: TextEdit.Wrap
+                readOnly: true
+                selectByMouse: true
+                persistentSelection: true
+                color: root.colText
+                selectionColor: root.colAccent
+                selectedTextColor: "#101010"
+                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.messageFontSize
-                lineHeight: 1.15
-                bottomPadding: 4
+                TapHandler {
+                    acceptedButtons: Qt.RightButton
+                    onTapped: logCtxMenu.popup()
+                }
             }
         }
 
@@ -247,6 +270,46 @@ ColumnLayout {
                     }
                 }
             }
+        }
+    }
+
+    // ── Rechtsklick-Kontextmenü für den Verlauf (Kopieren / Alles auswählen) ──
+    // Einheitlich gestylt, folgt den Tisch-Theme-Farben (wie die ChatBox).
+    component CtxItem: MenuItem {
+        height: visible ? implicitHeight : 0
+        contentItem: Text {
+            text: parent.text
+            color: parent.enabled
+                   ? (parent.highlighted ? root.colAccent : root.colText)
+                   : root.colTextMuted
+            font.family: Config.StaticData.loadedFont.font.family
+            font.pixelSize: 13
+            verticalAlignment: Text.AlignVCenter
+            leftPadding: 8
+        }
+        background: Rectangle {
+            color: parent.highlighted ? root.colSurface : "transparent"
+        }
+    }
+
+    Menu {
+        id: logCtxMenu
+        background: Rectangle {
+            implicitWidth: 160
+            color: root.colBackground
+            border.width: 1
+            border.color: root.colBorder
+            radius: 6
+        }
+
+        CtxItem {
+            text: qsTr("Kopieren")
+            enabled: logText.selectedText.length > 0
+            onTriggered: logText.copy()
+        }
+        CtxItem {
+            text: qsTr("Alles auswählen")
+            onTriggered: logText.selectAll()
         }
     }
 }

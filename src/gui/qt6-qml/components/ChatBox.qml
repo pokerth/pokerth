@@ -175,18 +175,26 @@ Item {
                 selectedTextColor: "#101010"
                 font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: root.messageFontSize
-                // Klick auf einen Link öffnet extern – nativ, exakt wie der
-                // Footer-Button (LobbyStatsBar) und das QTextBrowser des Widgets.
-                onLinkActivated: (link) => Qt.openUrlExternally(link)
-
-                // PASSIVE PointerHandler statt einer überlagernden MouseArea:
-                // Eine MouseArea verschluckt Press/Hover, sodass weder
-                // onLinkActivated feuert noch hoveredLink aktualisiert wird. Die
-                // Handler lassen Klicks/Hover beim TextEdit → Links öffnen nativ,
-                // Maus-Selektion bleibt erhalten.
+                // WICHTIG: Links NICHT über onLinkActivated öffnen. Das TextEdit
+                // liegt in einer Flickable, deren childMouseEventFilter den Press
+                // abfängt (Flick-Erkennung) – dadurch feuert onLinkActivated nie
+                // (genauso wenig wie ein MouseArea.onClicked). Ein TapHandler nimmt
+                // dagegen am Grab-Wettbewerb teil und erkennt den Klick zuverlässig,
+                // während ein Drag (Text-Selektion) ihn an das TextEdit zurückgibt.
+                //
+                // Hover/Cursor funktioniert weiter nativ (Flickable filtert nur
+                // Maustasten, keine Hover-Events) → hoveredLink ist gesetzt und wird
+                // beim Tap direkt zum Öffnen genutzt (kein Koordinaten-Mapping).
                 HoverHandler {
                     cursorShape: msgText.hoveredLink !== ""
                                  ? Qt.PointingHandCursor : Qt.IBeamCursor
+                }
+                TapHandler {
+                    acceptedButtons: Qt.LeftButton
+                    onTapped: {
+                        if (msgText.hoveredLink !== "")
+                            Qt.openUrlExternally(msgText.hoveredLink)
+                    }
                 }
                 TapHandler {
                     acceptedButtons: Qt.RightButton

@@ -32,10 +32,17 @@ class GameLogModel : public QAbstractListModel
 {
     Q_OBJECT
 
+    // Gesamter Verlauf als EIN RichText-Dokument (Zeilen mit <br> verkettet) –
+    // für die TextEdit-basierte Anzeige (durchgehende Selektion + Kopieren,
+    // analog zur ChatBox). Ändert sich bei jedem append()/clear().
+    Q_PROPERTY(QString html READ html NOTIFY htmlChanged)
+
 public:
     enum Roles { LineRole = Qt::UserRole + 1 };
 
     explicit GameLogModel(QObject *parent = nullptr) : QAbstractListModel(parent) {}
+
+    QString html() const { return m_lines.join(QStringLiteral("<br>")); }
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override
     {
@@ -66,6 +73,7 @@ public:
             m_lines.erase(m_lines.begin(), m_lines.begin() + n);
             endRemoveRows();
         }
+        emit htmlChanged();
     }
     void clear()
     {
@@ -74,7 +82,11 @@ public:
         beginResetModel();
         m_lines.clear();
         endResetModel();
+        emit htmlChanged();
     }
+
+signals:
+    void htmlChanged();
 
 private:
     QStringList m_lines;
