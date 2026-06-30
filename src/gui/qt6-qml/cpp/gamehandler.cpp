@@ -601,15 +601,40 @@ void GameHandler::computeCallAndRaiseAmounts()
                 // Werten aktiv bleiben → Buttons inaktiv. Nicht greifen, wenn ich
                 // selbst gerade am Zug bin (z.B. abschließender Check als letzter
                 // Spieler) – das erledigt der reguläre m_myTurn-Pfad.
+                //
+                // „Erste Setzrunden-Runde vorbei?" liefert lokal die Engine über
+                // getFirstRound(). Im NETZWERK-Client wird firstRound jedoch NIE
+                // auf false gesetzt (clientstate.cpp ruft setFirstRound(false)
+                // nirgends auf) → roundClosed wäre online immer false, canAct bliebe
+                // nach dem letzten Zug true und bettingRoundEnded feuerte nie. Das
+                // ist genau das 1–2-Sekunden-Fenster (letzte Aktion → nächste Runde),
+                // in dem online weiterhin (mit veralteten Werten) vorgewählt werden
+                // konnte. Netzwerktauglicher Ersatz: die Runde ist erst „vorbei",
+                // wenn ALLE noch laufenden Spieler in dieser Setzrunde bereits
+                // gehandelt haben (getMyAction() != NONE; zu Rundenbeginn setzt
+                // ResetPlayerActions() alle auf NONE, lokal LocalBeRo::run()). Beide
+                // Kriterien werden am selben Punkt wahr (letzter Spieler handelt),
+                // schließen aber den Fehlalarm am Rundenbeginn aus (alle Sets ==
+                // highestSet, BEVOR jemand gehandelt hat). Das OR lässt das lokale
+                // Verhalten unverändert: !firstRound wird dort sogar früher wahr.
                 bool roundClosed = false;
-                if (!m_myTurn && !bero->getFirstRound()) {
+                if (!m_myTurn) {
                     auto running = hand->getRunningPlayerList();
                     if (running && !running->empty()) {
-                        roundClosed = true;
+                        bool allRunningActed = true;
                         for (auto it = running->begin(); it != running->end(); ++it) {
-                            if ((*it)->getMySet() != highestSet) {
-                                roundClosed = false;
+                            if ((*it)->getMyAction() == PLAYER_ACTION_NONE) {
+                                allRunningActed = false;
                                 break;
+                            }
+                        }
+                        if (!bero->getFirstRound() || allRunningActed) {
+                            roundClosed = true;
+                            for (auto it = running->begin(); it != running->end(); ++it) {
+                                if ((*it)->getMySet() != highestSet) {
+                                    roundClosed = false;
+                                    break;
+                                }
                             }
                         }
                     }
