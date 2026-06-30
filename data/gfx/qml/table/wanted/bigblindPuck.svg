@@ -1,9 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 42">
   <defs>
     <radialGradient id="face" cx="35%" cy="28%" r="70%">
-      <stop offset="0" stop-color="#fbfbfb"/>
-      <stop offset="0.5" stop-color="#b9bcbe"/>
-      <stop offset="1" stop-color="#6a6e72"/>
+      <stop offset="0" stop-color="#eceef0"/>
+      <stop offset="1" stop-color="#c3c7cb"/>
     </radialGradient>
     <linearGradient id="rim" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#e6e8ea"/>
