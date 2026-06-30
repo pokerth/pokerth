@@ -454,7 +454,15 @@ Item {
                 actionBar.preSelectEnabled = true
         }
         function onRefreshActionTriggered() {
-            if (GameTable.callAmount > 0 && !GameTable.myTurn) {
+            // Vorauswahl nur dann wieder freischalten, wenn ich auch WIRKLICH noch
+            // handeln darf (GameTable.canAct). Sonst reaktivierte eine Gegner-Aktion
+            // die Buttons mit veralteten Werten, obwohl ich raus bin:
+            //   • nach eigenem All-In (canAct=false: kein Cash/Action=ALLIN),
+            //   • im Rundenende-Fenster (canAct=false: roundClosed, s. C++-Fix),
+            //   • nach Fold.
+            // Bei einer echten (Re-)Erhöhung, auf die ich reagieren können soll, ist
+            // canAct dagegen true (prevPlayerId != 0, Runde offen) → Vorauswahl frei.
+            if (GameTable.callAmount > 0 && !GameTable.myTurn && GameTable.canAct) {
                 // Gegner hat gesetzt/erhöht → Vorauswahl freischalten.
                 // callAmountChanged allein taugt nicht: feuert auch nach
                 // eigener Aktion (onRefreshSet/Pot/Cash) mit veralteten Werten.

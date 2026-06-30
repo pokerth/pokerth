@@ -629,13 +629,30 @@ void GameHandler::computeCallAndRaiseAmounts()
                             }
                         }
                         if (!bero->getFirstRound() || allRunningActed) {
-                            roundClosed = true;
+                            // Abgeschlossen, wenn alle laufenden Spieler den höchsten
+                            // Einsatz erreicht haben. Im Übergang zur nächsten Runde
+                            // sammelt der Client die Sets aber bereits in den Pot ein
+                            // (alle mySet == 0), während highestSet noch kurz auf dem
+                            // alten Wert steht – dann lieferte der reine Vergleich mit
+                            // highestSet fälschlich „nicht abgeschlossen": canAct
+                            // flackerte zurück auf true und zeigte für 1–2 s veraltete
+                            // Call-/Raise-Werte mit (re-)aktivierten Buttons. Daher
+                            // gilt der eingesammelte Zustand (alle Sets == 0) ebenfalls
+                            // als abgeschlossen. Beide Fälle sind durch
+                            // allRunningActed/!firstRound abgesichert, sodass der
+                            // Rundenbeginn (Sets == 0, aber Aktionen frisch auf NONE)
+                            // NICHT fälschlich als abgeschlossen gilt. Der heikle
+                            // Heads-up-All-In-über-Bet-Fall bleibt korrekt: dort ist
+                            // mein Set != 0 und != highestSet → weder allMatched noch
+                            // allCollected, also nicht abgeschlossen (und es ist eh
+                            // mein Zug → m_myTurn-Wächter greift).
+                            bool allMatched = true;
+                            bool allCollected = true;
                             for (auto it = running->begin(); it != running->end(); ++it) {
-                                if ((*it)->getMySet() != highestSet) {
-                                    roundClosed = false;
-                                    break;
-                                }
+                                if ((*it)->getMySet() != highestSet) allMatched = false;
+                                if ((*it)->getMySet() != 0)          allCollected = false;
                             }
+                            roundClosed = allMatched || allCollected;
                         }
                     }
                 }
