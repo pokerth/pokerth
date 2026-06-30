@@ -179,18 +179,18 @@ Item {
                 // Footer-Button (LobbyStatsBar) und das QTextBrowser des Widgets.
                 onLinkActivated: (link) => Qt.openUrlExternally(link)
 
-                // MouseArea NUR für Cursor (per linkAt – hoveredLink wird unter
-                // einer überlagernden MouseArea nicht aktualisiert) und Rechtsklick-
-                // Menü. Die LINKE Taste ist bewusst NICHT akzeptiert → Press/Release
-                // fallen ans TextEdit, damit Selektion und onLinkActivated nativ
-                // erhalten bleiben.
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    acceptedButtons: Qt.RightButton
-                    cursorShape: msgText.linkAt(mouseX, mouseY) !== ""
+                // PASSIVE PointerHandler statt einer überlagernden MouseArea:
+                // Eine MouseArea verschluckt Press/Hover, sodass weder
+                // onLinkActivated feuert noch hoveredLink aktualisiert wird. Die
+                // Handler lassen Klicks/Hover beim TextEdit → Links öffnen nativ,
+                // Maus-Selektion bleibt erhalten.
+                HoverHandler {
+                    cursorShape: msgText.hoveredLink !== ""
                                  ? Qt.PointingHandCursor : Qt.IBeamCursor
-                    onClicked: (mouse) => ctxMenu.popup()
+                }
+                TapHandler {
+                    acceptedButtons: Qt.RightButton
+                    onTapped: ctxMenu.popup()
                 }
             }
         }
@@ -278,6 +278,13 @@ Item {
                             root._historyIndex--
                         root._showHistory(root._historyIndex)
                     }
+                }
+                // Rechtsklick → Bearbeiten-Menü (Ausschneiden/Kopieren/Einfügen/
+                // Alles auswählen). Qt-Quick-Controls-TextFields haben kein
+                // eigenes Kontextmenü; passiver TapHandler stört die Eingabe nicht.
+                TapHandler {
+                    acceptedButtons: Qt.RightButton
+                    onTapped: editMenu.popup()
                 }
             }
 
@@ -370,6 +377,39 @@ Item {
         CtxItem {
             text: qsTr("Alles auswählen")
             onTriggered: msgText.selectAll()
+        }
+    }
+
+    // ── Bearbeiten-Menü für das Eingabefeld (Rechtsklick) ──
+    Menu {
+        id: editMenu
+        background: Rectangle {
+            implicitWidth: 160
+            color: root.colBackground
+            border.width: 1
+            border.color: root.colBorder
+            radius: 6
+        }
+
+        CtxItem {
+            text: qsTr("Ausschneiden")
+            enabled: !inputField.readOnly && inputField.selectedText.length > 0
+            onTriggered: inputField.cut()
+        }
+        CtxItem {
+            text: qsTr("Kopieren")
+            enabled: inputField.selectedText.length > 0
+            onTriggered: inputField.copy()
+        }
+        CtxItem {
+            text: qsTr("Einfügen")
+            enabled: !inputField.readOnly && inputField.canPaste
+            onTriggered: inputField.paste()
+        }
+        CtxItem {
+            text: qsTr("Alles auswählen")
+            enabled: inputField.length > 0
+            onTriggered: inputField.selectAll()
         }
     }
 }
