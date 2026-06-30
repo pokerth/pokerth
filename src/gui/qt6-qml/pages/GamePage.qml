@@ -1636,8 +1636,26 @@ Rectangle {
                 var maxH = height + actionBar.height - 8   // kein Limit → voll
                 for (var name in slots) {
                     var pos     = slots[name]
-                    var boxCX   = width  * pos[0]
-                    var boxCY   = height * pos[1]
+                    // seatNudge/seatNudgeX aus dem Repeater-Delegate spiegeln: die
+                    // beiden die Self-Box flankierenden Bottom-Sitze (opp1/oppN)
+                    // werden tiefer UND weiter nach außen (zum Bildschirmrand = in
+                    // den Chat-Bereich) gerückt als ihre rohe Slot-Position. Ohne
+                    // diese Korrektur unterschätzt die Prüfung, wie tief/weit außen
+                    // sie reichen → maxH zu groß → Überlappung mit dem Chat.
+                    var nudgeY  = 0, nudgeX = 0
+                    if (!Config.Responsive.landscapeCompact
+                            && (name === "opp1" || name === "opp" + (seatCount - 1))
+                            && pos[1] > 0.5) {
+                        nudgeY = oppBaseHeight * boxScale * 0.6
+                        var dir = pos[0] < 0.5 ? -1 : 1
+                        var wantCX = width / 2 + dir *
+                            (selfBaseWidth * boxScale / 2 + 40 * boxScale
+                             + oppBaseWidth * oppScale / 2 + 18)
+                        var dCX = wantCX - width * pos[0]
+                        nudgeX = dir < 0 ? Math.min(0, dCX) : Math.max(0, dCX)
+                    }
+                    var boxCX   = width  * pos[0] + nudgeX
+                    var boxCY   = height * pos[1] + nudgeY
                     var boxL    = boxCX - visualW / 2
                     var boxR    = boxCX + visualW / 2
                     var boxBot  = boxCY + visualH / 2
@@ -1703,8 +1721,24 @@ Rectangle {
                 var maxH = height + actionBar.height - 8
                 for (var name in slots) {
                     var pos   = slots[name]
-                    var boxCX = width  * pos[0]
-                    var boxCY = height * pos[1]
+                    // seatNudge/seatNudgeX aus dem Repeater-Delegate spiegeln (vgl.
+                    // dockedChatMaxH): die Self-Box flankierenden Bottom-Sitze
+                    // (opp1/oppN) sitzen tiefer und weiter außen (hier: rechter
+                    // Sitz in den Info-Bereich) als ihre rohe Slot-Position.
+                    var nudgeY = 0, nudgeX = 0
+                    if (!Config.Responsive.landscapeCompact
+                            && (name === "opp1" || name === "opp" + (seatCount - 1))
+                            && pos[1] > 0.5) {
+                        nudgeY = oppBaseHeight * boxScale * 0.6
+                        var dir = pos[0] < 0.5 ? -1 : 1
+                        var wantCX = width / 2 + dir *
+                            (selfBaseWidth * boxScale / 2 + 40 * boxScale
+                             + oppBaseWidth * oppScale / 2 + 18)
+                        var dCX = wantCX - width * pos[0]
+                        nudgeX = dir < 0 ? Math.min(0, dCX) : Math.max(0, dCX)
+                    }
+                    var boxCX = width  * pos[0] + nudgeX
+                    var boxCY = height * pos[1] + nudgeY
                     var boxL  = boxCX - visualW / 2
                     var boxR  = boxCX + visualW / 2
                     var boxBot = boxCY + visualH / 2
