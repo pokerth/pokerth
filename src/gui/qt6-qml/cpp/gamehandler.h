@@ -155,6 +155,11 @@ class GameHandler : public QObject
     Q_PROPERTY(int pingAvg READ pingAvg NOTIFY pingStateChanged)
     Q_PROPERTY(int pingMin READ pingMin NOTIFY pingStateChanged)
     Q_PROPERTY(int pingMax READ pingMax NOTIFY pingStateChanged)
+    // Zuschauer des laufenden Spiels (spectatorsDuringGame) – wie der
+    // Qt-Widgets-Client (gameTableImpl::refreshSpectatorsDisplay): Anzahl für
+    // ein Auge-Icon mit Badge, Namen für den Tooltip.
+    Q_PROPERTY(int spectatorCount READ spectatorCount NOTIFY spectatorsChanged)
+    Q_PROPERTY(QStringList spectatorNames READ spectatorNames NOTIFY spectatorsChanged)
 
 public:
     explicit GameHandler(QObject *parent = nullptr);
@@ -198,6 +203,8 @@ public:
     int pingAvg() const { return m_pingAvg; }
     int pingMin() const { return m_pingMin; }
     int pingMax() const { return m_pingMax; }
+    int spectatorCount() const { return static_cast<int>(m_spectatorNames.size()); }
+    QStringList spectatorNames() const { return m_spectatorNames; }
 
     // Zeilentyp für die Einfärbung des Spielverlaufs – Farben/Stil 1:1 wie der
     // Qt-Widgets-Client (Default-Tischstil).
@@ -233,8 +240,14 @@ public:
     // zurücksetzen, damit kein stale m_myTurn/m_game zurückbleibt (sonst kann
     // eine späte Aktion ins tote Spiel laufen → siehe ClientThread::SendPlayerAction).
     Q_INVOKABLE void onNetworkGameEnded();
-    // Netzwerk: Spieler hat das Spiel verlassen → Sitz leeren
-    Q_INVOKABLE void onNetClientPlayerLeft(unsigned uniquePlayerId);
+    // Netzwerk: Spieler hat das Spiel verlassen → Sitz leeren und im Log
+    // vermerken (verlassen / gekickt / getrennt – removeReason aus socket_msg.h).
+    Q_INVOKABLE void onNetClientPlayerLeft(unsigned uniquePlayerId,
+                                           const QString &playerName = QString(),
+                                           int removeReason = 0);
+    // Netzwerk: Zuschauerliste des laufenden Spiels aus der Session neu einlesen
+    // (bei Spectator-Join/-Left/-Umbenennung aufgerufen).
+    Q_INVOKABLE void refreshSpectators();
     // Netzwerk: eigener Client-Ping aktualisiert → Netzwerkstatus-Ampel ableiten.
     Q_INVOKABLE void onPingUpdate(int minPing, int avgPing, int maxPing);
     Q_INVOKABLE void onBlindsSet(int smallBlind);
@@ -296,6 +309,7 @@ signals:
     void showdownActiveChanged();
     void cardsChanceChanged();
     void pingStateChanged();
+    void spectatorsChanged();
     // Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" des Web-Clients) –
     // wird nicht im Chat angezeigt, sondern als Animation am Sitz abgespielt.
     void reactionReceived(const QString &playerName, const QString &emoji);
@@ -389,6 +403,7 @@ private:
     int m_pingAvg = -1;   // letzte Server-Antwortzeiten in ms (−1 = keine Daten)
     int m_pingMin = -1;
     int m_pingMax = -1;
+    QStringList m_spectatorNames;  // Namen der Zuschauer des laufenden Spiels
     // Eingangssignatur der letzten Chancen-Berechnung (Hole-Cards, Board, Fold-
     // Zustand). Bleibt sie gleich, wird die teure calcCardsChance-Schleife
     // übersprungen – refreshChanceAndHand() läuft sonst bei jedem Mikro-Refresh.

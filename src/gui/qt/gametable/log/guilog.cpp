@@ -36,6 +36,7 @@
 #include <game.h>
 #include <cardsvalue.h>
 #include <game_defs.h>
+#include <net/socket_msg.h>
 #include "gametablestylereader.h"
 
 using namespace std;
@@ -603,12 +604,15 @@ void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int c
 
 }
 
-void guiLog::logPlayerLeftMsg(QString playerName, int wasKicked)
+void guiLog::logPlayerLeftMsg(QString playerName, int removeReason)
 {
 
 	QString action;
-	if(wasKicked) action = "was kicked from";
-	else action = "has left";
+	switch(removeReason) {
+	case NTF_NET_REMOVED_KICKED: action = "was kicked from"; break;
+	case NTF_NET_INTERNAL:       action = "was disconnected from"; break;
+	default:                     action = "has left"; break; // NTF_NET_REMOVED_ON_REQUEST
+	}
 
 #ifdef GUI_800x480
 	myW->tabs.textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" "+action+" the game!</i></span>");

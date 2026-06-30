@@ -1023,6 +1023,11 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		case GamePlayerLeftMessage::leftKicked :
 			removeReason = NTF_NET_REMOVED_KICKED;
 			break;
+		case GamePlayerLeftMessage::leftError :
+			// Connection lost / error (server default reason) – keep it distinct
+			// from a voluntary leave so the GUI can report "was disconnected".
+			removeReason = NTF_NET_INTERNAL;
+			break;
 		default :
 			removeReason = NTF_NET_REMOVED_ON_REQUEST;
 			break;

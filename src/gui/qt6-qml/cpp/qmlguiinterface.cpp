@@ -258,6 +258,22 @@ void QmlGuiInterface::SignalNetClientPlayerChanged(unsigned playerId, const std:
         QMetaObject::invokeMethod(m_lobbyHandler, "updatePlayerName", Qt::QueuedConnection,
                                   Q_ARG(unsigned, playerId), Q_ARG(QString, qPlayerName), Q_ARG(bool, isAdmin));
     }
+    // Zuschauer-Anzeige nachführen (ein umbenannter Spieler kann ein Zuschauer
+    // sein – wie der Widgets-Client, der hier refreshSpectatorsDisplay anstößt).
+    if (m_gameHandler)
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
+}
+
+void QmlGuiInterface::SignalNetClientSpectatorJoined(unsigned /*playerId*/, const std::string & /*playerName*/)
+{
+    if (m_gameHandler)
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
+}
+
+void QmlGuiInterface::SignalNetClientSpectatorLeft(unsigned /*playerId*/, const std::string & /*playerName*/, int /*removeReason*/)
+{
+    if (m_gameHandler)
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
 }
 
 void QmlGuiInterface::SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin)
@@ -302,12 +318,15 @@ void QmlGuiInterface::SignalNetClientWaitDialog()
     }
 }
 
-void QmlGuiInterface::SignalNetClientPlayerLeft(unsigned playerId, const std::string & /*playerName*/, int /*removeReason*/)
+void QmlGuiInterface::SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason)
 {
-    // Sitz des Spielers in der Spielansicht leeren.
+    // Sitz des Spielers in der Spielansicht leeren und im Log vermerken
+    // (verlassen / gekickt / getrennt – removeReason).
     if (m_gameHandler) {
         QMetaObject::invokeMethod(m_gameHandler, "onNetClientPlayerLeft", Qt::QueuedConnection,
-                                  Q_ARG(unsigned, playerId));
+                                  Q_ARG(unsigned, playerId),
+                                  Q_ARG(QString, QString::fromStdString(playerName)),
+                                  Q_ARG(int, removeReason));
     }
 }
 
@@ -352,6 +371,8 @@ void QmlGuiInterface::SignalNetClientGameStart(boost::shared_ptr<Game> game)
         QMetaObject::invokeMethod(m_gameHandler, [this, game]() {
             m_gameHandler->setGame(game);
         }, Qt::QueuedConnection);
+        // Bereits zuschauende Spieler initial in die Auge-Anzeige übernehmen.
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
     }
 }
 

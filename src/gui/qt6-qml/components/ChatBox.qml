@@ -49,6 +49,23 @@ Item {
     function closeEmojiPicker() { showEmojiPicker = false }
     function scrollToEnd() { msgFlick.scrollToBottom() }
 
+    // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
+    // Im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH/
+    // LD_PRELOAD → xdg-open crasht und nichts öffnet. LobbyHandler.openExternalUrl
+    // startet die Host-Tools (xdg-open/gio/kde-open) mit bereinigter Umgebung –
+    // exakt wie der Footer (LobbyStatsBar). Qt.openUrlExternally nur als Fallback.
+    function _openLink(link) {
+        if (!link || link === "")
+            return
+        var opened = false
+        if (typeof Lobby !== "undefined" && Lobby)
+            opened = Lobby.openExternalUrl(link)
+        if (!opened)
+            opened = Qt.openUrlExternally(link)
+        if (!opened)
+            console.warn("ChatBox: konnte URL nicht öffnen:", link)
+    }
+
     implicitWidth: 200
     implicitHeight: 160
 
@@ -67,6 +84,8 @@ Item {
     property var historyStore: []
     property int _historyIndex: 0
     property var _nickState: ({ counter: 0, base: "", matches: [] })
+    // Link unter dem zuletzt rechtsgeklickten Punkt (für das Kontextmenü).
+    property string _menuLink: ""
 
     function _showHistory(idx) {
         if (idx > 0 && idx <= historyStore.length)
@@ -189,16 +208,30 @@ Item {
                     cursorShape: msgText.hoveredLink !== ""
                                  ? Qt.PointingHandCursor : Qt.IBeamCursor
                 }
+                // Linksklick: Link über die TAP-POSITION ermitteln (linkAt), NICHT
+                // über hoveredLink – letzteres wird beim Drücken (Press-/Selektions-
+                // Grab) geleert und wäre im onTapped bereits "". Der TapHandler
+                // selbst feuert zuverlässig (das Rechtsklick-Menü beweist es).
                 TapHandler {
+                    id: linkTap
                     acceptedButtons: Qt.LeftButton
                     onTapped: {
-                        if (msgText.hoveredLink !== "")
-                            Qt.openUrlExternally(msgText.hoveredLink)
+                        const link = msgText.linkAt(linkTap.point.position.x,
+                                                    linkTap.point.position.y)
+                        if (link !== "")
+                            root._openLink(link)
                     }
                 }
+                // Rechtsklick: Menü öffnen und Link unter dem Cursor merken
+                // (für „Link öffnen" / „Link kopieren").
                 TapHandler {
+                    id: ctxTap
                     acceptedButtons: Qt.RightButton
-                    onTapped: ctxMenu.popup()
+                    onTapped: {
+                        root._menuLink = msgText.linkAt(ctxTap.point.position.x,
+                                                        ctxTap.point.position.y)
+                        ctxMenu.popup()
+                    }
                 }
             }
         }
@@ -378,6 +411,16 @@ Item {
         }
 
         CtxItem {
+            text: qsTr("Link öffnen")
+            visible: root._menuLink !== ""
+            onTriggered: root._openLink(root._menuLink)
+        }
+        CtxItem {
+            text: qsTr("Link kopieren")
+            visible: root._menuLink !== ""
+            onTriggered: root._copyToClipboard(root._menuLink)
+        }
+        CtxItem {
             text: qsTr("Kopieren")
             enabled: msgText.selectedText.length > 0
             onTriggered: msgText.copy()
@@ -387,6 +430,17 @@ Item {
             onTriggered: msgText.selectAll()
         }
     }
+
+    // Kopiert beliebigen Text in die Zwischenablage. QML hat keine direkte
+    // Clipboard-API – ein unsichtbares TextEdit (selectAll + copy) ist der
+    // übliche Weg.
+    function _copyToClipboard(text) {
+        clipHelper.text = text
+        clipHelper.selectAll()
+        clipHelper.copy()
+        clipHelper.text = ""
+    }
+    TextEdit { id: clipHelper; visible: false }
 
     // ── Bearbeiten-Menü für das Eingabefeld (Rechtsklick) ──
     Menu {

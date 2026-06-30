@@ -124,8 +124,8 @@ public:
     virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) override;
     virtual void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) override;
     virtual void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason) override;
-    virtual void SignalNetClientSpectatorJoined(unsigned playerId, const std::string &playerName) override {}
-    virtual void SignalNetClientSpectatorLeft(unsigned playerId, const std::string &playerName, int removeReason) override {}
+    virtual void SignalNetClientSpectatorJoined(unsigned playerId, const std::string &playerName) override;
+    virtual void SignalNetClientSpectatorLeft(unsigned playerId, const std::string &playerName, int removeReason) override;
     virtual void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName) override {}
     
     virtual void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg) override;

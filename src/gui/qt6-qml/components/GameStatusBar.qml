@@ -1,5 +1,7 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Effects
 
 import "../config" as Config
 
@@ -74,6 +76,41 @@ Rectangle {
         }
 
         Item { Layout.fillWidth: true }
+
+        // Zuschauer-Anzeige (Auge + Anzahl) links neben der rechtsbündigen
+        // Phasen-/Game-Info. Nur sichtbar, wenn das laufende Spiel mindestens
+        // einen Zuschauer hat – analog zum Qt-Widgets-Client. Namen im Tooltip.
+        Row {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.rightMargin: 12
+            spacing: 4
+            visible: GameTable ? GameTable.spectatorCount > 0 : false
+
+            SvgIcon {
+                anchors.verticalCenter: parent.verticalCenter
+                width: Config.Responsive.landscapeCompact ? 14 : 16
+                height: width
+                source: "../resources/eye.svg"
+                layer.enabled: true
+                layer.effect: MultiEffect {
+                    colorization: 1.0
+                    colorizationColor: "#FFFFFF"
+                }
+            }
+            AppText {
+                anchors.verticalCenter: parent.verticalCenter
+                text: GameTable ? GameTable.spectatorCount : 0
+                color: "#FFFFFF"
+                font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
+                font.bold: true
+            }
+
+            HoverHandler { id: spectatorHover }
+            ToolTip {
+                visible: spectatorHover.hovered && text.length > 0
+                text: GameTable ? GameTable.spectatorNames.join("\n") : ""
+            }
+        }
 
         // Rechts: Phase + Game-ID + Hand-Nummer (1:1 wie Widget-Client rechts neben den Community-Cards)
         Column {

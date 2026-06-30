@@ -18,6 +18,7 @@
 #include <gamedata.h>
 #include <configfile.h>
 #include <soundevents.h>
+#include <net/socket_msg.h>
 #include <QString>
 #include <QTimer>
 #include <QDebug>
@@ -1079,11 +1080,50 @@ void GameHandler::onPingUpdate(int minPing, int avgPing, int maxPing)
         emit pingStateChanged();
 }
 
-void GameHandler::onNetClientPlayerLeft(unsigned uniquePlayerId)
+void GameHandler::onNetClientPlayerLeft(unsigned uniquePlayerId, const QString &playerName, int removeReason)
 {
+    // Im Spielverlauf vermerken, ob der Spieler freiwillig gegangen, gekickt
+    // oder die Verbindung verloren hat (removeReason aus clientstate.cpp).
+    if (!playerName.isEmpty()) {
+        QString line;
+        switch (removeReason) {
+        case NTF_NET_REMOVED_KICKED:
+            line = playerName + QStringLiteral(" was kicked from the game");
+            break;
+        case NTF_NET_INTERNAL:
+            line = playerName + QStringLiteral(" was disconnected");
+            break;
+        default: // NTF_NET_REMOVED_ON_REQUEST
+            line = playerName + QStringLiteral(" has left the game");
+            break;
+        }
+        appendGameLog(line, LogSitOut);
+    }
+
     m_leftPlayers.insert(uniquePlayerId);
     refreshPlayerData();
     emit playersChanged();
+}
+
+void GameHandler::refreshSpectators()
+{
+    // Zuschauerliste des laufenden Spiels aus der Session lesen – analog zum
+    // Qt-Widgets-Client (gameTableImpl::refreshSpectatorsDisplay).
+    QStringList names;
+    if (m_session && m_session->isNetworkClientRunning()) {
+        const unsigned gameId = m_session->getClientCurrentGameId();
+        if (gameId != 0) {
+            const GameInfo info = m_session->getClientGameInfo(gameId);
+            for (unsigned id : info.spectatorsDuringGame) {
+                const PlayerInfo pi = m_session->getClientPlayerInfo(id);
+                names << QString::fromUtf8(pi.playerName.c_str());
+            }
+        }
+    }
+    if (names != m_spectatorNames) {
+        m_spectatorNames = names;
+        emit spectatorsChanged();
+    }
 }
 
 void GameHandler::checkBustedLocalPlayers()
