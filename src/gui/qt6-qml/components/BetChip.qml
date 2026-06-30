@@ -17,7 +17,7 @@ Row {
     }
 
     Image {
-        width: 16; height: 16
+        width: 20; height: 20
         anchors.verticalCenter: parent.verticalCenter
         source: "qrc:resources/chipStack.svg"
         fillMode: Image.PreserveAspectFit
@@ -25,7 +25,7 @@ Row {
     AppText {
         anchors.verticalCenter: parent.verticalCenter
         color: betChip.textColor
-        font.pixelSize: 11
+        font.pixelSize: 14
         font.bold: true
         text: "$" + betChip.amount
     }

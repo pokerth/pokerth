@@ -6,8 +6,8 @@ import QtQuick
 // Positionierung/Sichtbarkeit setzt der Aufrufer.
 Image {
     property int button: 0
-    width: 24
-    height: 24
+    width: 32
+    height: 32
     fillMode: Image.PreserveAspectFit
     source: button === 1 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.dealerPuck !== "") ? StyleProvider.dealerPuck : "../resources/tableDealerPuck.svg")
           : button === 2 ? ((typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.smallBlindPuck !== "") ? StyleProvider.smallBlindPuck : "../resources/tableSmallBlind.svg")

@@ -28,8 +28,8 @@ Rectangle {
          + (community.height * community.scale) / 2
          + (wide ? 8 : 6) * community.scale
        : 0
-    width: winHandLabel.implicitWidth + 22
-    height: Math.max(20, Math.round(26 * communityScale))
+    width: winHandLabel.implicitWidth + 18
+    height: Math.max(17, Math.round(22 * communityScale))
     radius: height / 2
     color: Qt.rgba(0.05, 0.24, 0.05, 0.92)
     border.color: "#FFD700"
@@ -53,7 +53,7 @@ Rectangle {
         text: (typeof GameTable !== "undefined" && GameTable)
               ? GameTable.winningHandText : ""
         color: "#FFD700"
-        font.pixelSize: Math.max(10, Math.round(14 * winHandBadge.communityScale))
+        font.pixelSize: Math.max(9, Math.round(12 * winHandBadge.communityScale))
         font.bold: true
     }
 

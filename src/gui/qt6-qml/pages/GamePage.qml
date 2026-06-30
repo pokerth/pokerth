@@ -157,7 +157,7 @@ Rectangle {
         } else {
             var slot = tableZone.slotForSeat(seatIdx)
             if (!slot) return
-            px = tableZone.width * slot.x
+            px = tableZone.width * slot.x + (slot.nudgeX || 0)
             py = tableZone.height * slot.y + slot.nudge
                  - (tableZone.oppBaseHeight * tableZone.boxScale) / 2 - 6
         }
@@ -467,11 +467,14 @@ Rectangle {
                 var cw   = Math.round(rowH * 120 / 168)
                 return 2 * 4 + rowH + 4 + 2 * cw + 4
             }
-            // selfBaseHeight im Wide auf 84 (= oppBaseHeight): die Self-Box muss
-            // IMMER mindestens so groß sein wie die Gegnerboxen (beide skalieren
-            // mit demselben boxScale → base gleich halten).
-            // cardsArea.height = 84−12−32 = 40, selfBaseWidth = 114 = oppBaseWidth 114.
-            readonly property int selfBaseHeight: wide ? 84 : 71
+            // Self-Box bewusst GRÖSSER als die Gegnerboxen (eigene Box prominent):
+            // Desktop-Wide 96 (vs. oppBaseHeight 84). Die Bisektion leitet
+            // selfVisualH/bottomY/selfClearX/selfVisualTopY aus selfBaseHeight ab →
+            // reserviert automatisch mehr Platz (Gegner-Bottom-Sitze rücken hoch,
+            // Community schrumpft minimal), daher überlappungsfrei.
+            // Ultrawide (landscapeCompact) behält 84 (eigenes, enges Layout), Portrait 71.
+            readonly property int selfBaseHeight:
+                !wide ? 71 : (Config.Responsive.landscapeCompact ? 84 : 96)
             // Self-Box-Breite dynamisch: identische Abstände wie Gegnerboxen.
             //   Compact  : cardsH=46, cardW=33, avW=46 → 2×4 + 46 + 4 + 2×33 + 4 = 128
             //   Landscape: cardsH=40, cardW=29, avW=40 → 2×4 + 40 + 4 + 2×29 + 4 = 114
@@ -561,7 +564,7 @@ Rectangle {
                     // Reiner Sicherheits-Abstand zwischen benachbarten Box-Paaren
                     // in der Bisektions-Probe. Kleiner = Boxen dürfen enger packen
                     // = höheres feasibles boxScale (größere Boxen/Karten/Schrift).
-                    var gap = 6
+                    var gap = 4
                     // Muss mit buildLandscapeSlots().selfWeight übereinstimmen.
                     var selfWeightCap = Config.Responsive.landscapeCompact ? 0.5 : 0.3
                     var stepDeg = oppCnt >= 1 ? 360 / (oppCnt + selfWeightCap) : 360
@@ -584,8 +587,13 @@ Rectangle {
                         var selfGapY = Config.Responsive.landscapeCompact
                             ? Math.max(8, selfBadgeGapBase * sTest * 0.5)
                             : selfBadgeGapBase * sTest
-                        var radiusXpix = Math.max(0.22 * width,
-                                                   0.5 * width - sideMargin - visualW / 2)
+                        // radiusX nach oben auf 0.36 deckeln: an großen/breiten
+                        // Fenstern sollen die Seiten-Sitze nicht ganz an den Rand
+                        // rücken, sondern näher am Zentrum bleiben. Muss mit
+                        // buildLandscapeSlots().radiusX identisch sein.
+                        var radiusXpix = Math.min(0.36 * width,
+                                                  Math.max(0.22 * width,
+                                                           0.5 * width - sideMargin - visualW / 2))
                         // Im Compact-Landscape ragt die Bet-Badge von Player 5
                         // (betSide="bottom") 39 Basis-Pixel unterhalb seiner Box heraus.
                         // Diesen Bereich aus dem verfügbaren Ellipsen-Radius herausrechnen,
@@ -643,6 +651,18 @@ Rectangle {
                             // buildLandscapeSlots() identisch sein.
                             if (!Config.Responsive.landscapeCompact && vFactor < 0)
                                 vFactor *= 0.82
+                            // Fast quadratischer Tisch: obere SEITEN-Sitze (Player 3/7
+                            // auf Community-Höhe) nach oben liften, sodass sie ÜBER der
+                            // Community liegen (sonst Overlap mit der breiten Karten-
+                            // reihe). |cos|-gewichtet (reine Seiten am stärksten), nur
+                            // bei Aspect → 1 (breite Fenster bleiben unverändert).
+                            // Muss mit point() in buildLandscapeSlots() identisch sein.
+                            var sqLiftP = Math.max(0, Math.min(1,
+                                (1.6 - width / Math.max(height, 1)) / 0.6))
+                            if (!Config.Responsive.landscapeCompact && sinV < 0 && sqLiftP > 0) {
+                                vFactor -= 0.3 * sqLiftP * Math.abs(cosV)
+                                if (vFactor < -1.0) vFactor = -1.0
+                            }
                             return [cosV, vFactor]
                         }
                         // Community-Karten werden mittig in die Lücke zwischen der
@@ -667,7 +687,7 @@ Rectangle {
                             // Winner-Badge 20) · communityScale + Pad.
                             if (topOppBottom > -1e9
                                 && (height - 12 - selfVisualH) - topOppBottom
-                                   < 1.1 * sTest * 124 + 28)
+                                   < 0.72 * sTest * 124 + 28)
                                 return false
                         }
 
@@ -703,14 +723,14 @@ Rectangle {
                         var topYband = (Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2
                         var topOppBottom = topYband + visualH / 2 + sTest * 25
                         return (height - 12 - selfVisualH) - topOppBottom
-                               >= 1.1 * sTest * 124 + 28
+                               >= 0.72 * sTest * 124 + 28
                     }
 
                     // Gemeinsames Limit für Gegnerboxen, Self-Box und Community-Badges:
                     // 1.4 verhindert zu große Schrift und Bet-Überlappungen bei
                     // Vollbild/maximiert; compact bleibt bei 1.7 (breiter, flacher).
                     // fillCap() dämpft das Maximum bei wenigen Spielern zusätzlich.
-                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 1.7 : 1.7)
+                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 1.7 : 1.9)
                     if (oppCnt < 2) {
                         // Bis zum (gedeckelten) hi gehen, solange die Badges die
                         // Community nicht berühren.
@@ -810,20 +830,45 @@ Rectangle {
             }
             readonly property real oppScale: boxScale
             // Community-Karten-Skala:
-            //   – Wide-Screen: 1.1·boxScale – Community-Cards bewusst größer als die
-            //     Boxen (Lesbarkeit). Die Bisektion reserviert dieselbe Stack-Höhe.
+            //   – Desktop-Wide: füllen die freie Tischmitte (Lücken-basiert, s. u.).
+            //     Boden = boxScale·0.82 (Bisektions-Reserve), nach oben gedeckelt.
+            //   – Ultrawide (landscapeCompact): boxScale·1.1 (eigenes Layout).
             //   – Portrait: LANGSAMERES Wachstum als die opp-Boxen (Faktor 0.7)
             //     plus Floor 0.7 — die Community-Reihe ist bei kleinem Portrait
             //     also relativ größer und wächst bei breiteren Fenstern nur
             //     gedämpft mit. Adaptiver Cap stellt sicher, dass die Karten
             //     die Seitenspalten nicht horizontal berühren.
             readonly property real communityScale: {
-                // Desktop-Querformat: Community-Cards so groß wie möglich. Faktor 1.1
-                // (> boxScale) – die Karten sind also etwas größer als die Boxen. Muss
-                // mit den Community-Reserven in feasibleAt()/feasibleHeadsUp()
-                // (1.1 * sTest * 124) übereinstimmen, damit die Bisektion den Stack
-                // garantiert unterbringt (sonst boxScale herunter).
-                if (wide) return boxScale * 1.1
+                // landscapeCompact (echtes Ultrawide): eigenes, separat abgestimmtes
+                // Layout – Community fest an boxScale gekoppelt.
+                if (wide && Config.Responsive.landscapeCompact)
+                    return boxScale * 1.1
+                if (wide) {
+                    // Desktop-Wide: Community-Cards FÜLLEN die freie Tischmitte, statt
+                    // nur mit boxScale mitzuwachsen. Bei großen Fenstern schiebt die
+                    // Ellipse die Boxen an den Rand → die Mitte ist groß und leer.
+                    // Wir messen die vertikale Lücke um den (zentrierten) Ablagepunkt
+                    // communityCenterY und skalieren die Karten daran. Teiler 84
+                    // (statt der reinen Halbhöhe 64) lässt bewusst viel Luft → Karten
+                    // deutlich kleiner, damit die Mitte nicht zu mächtig wirkt.
+                    //   – topB: Unterkante der obersten Box + nach unten zeigende
+                    //     Bet-Badge der zentralen Top-Box (26 · oppScale).
+                    //   – selfTop: Oberkante der (skalierten) Self-Box.
+                    // Die Formel hängt NUR von boxScale ab (nicht von communityScale)
+                    // → keine Zirkularität. Boden boxScale·0.82 = Bisektions-Reserve
+                    // (0.82 · s · 124, garantierte Mindestlücke) → die Boxen dürfen
+                    // dadurch nochmals mehr wachsen.
+                    var topB      = topOpponentBottomY + 26 * oppScale
+                    var halfAbove = communityCenterY - topB - 6
+                    var halfBelow = selfVisualTopY - communityCenterY - 6
+                    var avail     = Math.min(halfAbove, halfBelow)
+                    var gapFill   = avail > 0 ? avail / 84 : 0
+                    // Horizontale Sicherheit: Kartenreihe (~264 Basisbreite) bleibt
+                    // innerhalb 70 % der Fensterbreite (Mitte zwischen den Seitenboxen).
+                    var capW      = (0.70 * width) / 264
+                    var cap       = Math.min(1.8, boxScale * 2.0, capW)
+                    return Math.max(0.55, Math.min(cap, Math.max(boxScale * 0.72, gapFill)))
+                }
                 var target = Math.max(0.7, boxScale * 0.7)
                 var sideColRightEdge = 0.15 * width + oppBaseWidth * boxScale / 2
                 var maxCommunityHalfW = width / 2 - sideColRightEdge - 4
@@ -908,7 +953,10 @@ Rectangle {
                 // Top-Trio passt durch den boxScale-Cap (siehe boxScale oben)
                 // automatisch in dieses Bogenstück, ohne dass wir radiusX hier
                 // weiter aufblasen müssen (sonst rutschen Seiten-Sitze raus).
-                var radiusX = Math.max(0.22, 0.5 - sideX)
+                // radiusX nach oben auf 0.36 deckeln → Seiten-Sitze bleiben an
+                // breiten Fenstern näher am Zentrum (statt ganz an den Rand zu
+                // rücken). Muss mit radiusXpix in feasibleAt() identisch sein.
+                var radiusX = Math.min(0.36, Math.max(0.22, 0.5 - sideX))
                 // Top- und Bottom-Rand bewusst klein – die offene Ellipse
                 // soll möglichst viel vertikalen Platz beanspruchen, damit
                 // bei mittlerer Skalierung Player 2↔3 (L↔TLo) genug Luft
@@ -1005,6 +1053,18 @@ Rectangle {
                         && Math.abs(radiusX * cosV) > selfClearX
                         && vMaxLower > vFactor)
                         vFactor = vFactor + (vMaxLower - vFactor) * sinOrig
+                    // Fast quadratischer Tisch: obere SEITEN-Sitze (Player 3/7 auf
+                    // Community-Höhe) nach oben liften, sodass sie ÜBER der Community
+                    // liegen (sonst Overlap mit der breiten Kartenreihe). |cos|-
+                    // gewichtet (reine Seiten am stärksten), nur bei Aspect → 1
+                    // (breite Fenster bleiben unverändert). Muss mit slotVec() in
+                    // feasibleAt() identisch sein.
+                    var sqLift = Math.max(0, Math.min(1,
+                        (1.6 - width / Math.max(height, 1)) / 0.6))
+                    if (!Config.Responsive.landscapeCompact && sinV < 0 && sqLift > 0) {
+                        vFactor -= 0.3 * sqLift * Math.abs(cosV)
+                        if (vFactor < -1.0) vFactor = -1.0
+                    }
                     return [0.5 + radiusX * cosV, centerY + radiusY * vFactor]
                 }
 
@@ -1083,7 +1143,7 @@ Rectangle {
             function _panToSeat(seatIdx) {
                 var slot = slotForSeat(seatIdx)
                 if (!slot) return
-                _panToPoint(width * slot.x, height * slot.y + slot.nudge)
+                _panToPoint(width * slot.x + (slot.nudgeX || 0), height * slot.y + slot.nudge)
             }
 
             // Plant einen verzögerten Schwenk auf den gerade aktiven Sitz. Der
@@ -1131,13 +1191,30 @@ Rectangle {
                 var name = seq[oppOrder - 1]
                 var pos = slotPos[name]
                 if (!pos) return null
-                var nudge = wide ? 0
-                    : (name === "L_lower" || name === "L_bottom"
-                       || name === "R_lower" || name === "R_bottom") ? 14
-                    : (name === "L_upper" || name === "TL"
-                       || name === "R_upper" || name === "TR") ? -4
-                    : 0
-                return { x: pos[0], y: pos[1], nudge: nudge }
+                var nudge
+                var nudgeX = 0
+                // Spiegelt seatNudge/seatNudgeX im Repeater-Delegate.
+                var flankWide = wide && !Config.Responsive.landscapeCompact
+                                && (name === "opp1" || name === "opp" + (seatCount - 1))
+                                && pos[1] > 0.5
+                if (flankWide) {
+                    nudge = oppBaseHeight * boxScale * 0.6
+                    var dir = pos[0] < 0.5 ? -1 : 1
+                    var wantCenter = width / 2 + dir *
+                        (selfBaseWidth * boxScale / 2 + 40 * boxScale
+                         + oppBaseWidth * oppScale / 2 + 18)
+                    var d = wantCenter - width * pos[0]
+                    nudgeX = dir < 0 ? Math.min(0, d) : Math.max(0, d)
+                } else if (wide) {
+                    nudge = 0
+                } else {
+                    nudge = (name === "L_lower" || name === "L_bottom"
+                             || name === "R_lower" || name === "R_bottom") ? 14
+                          : (name === "L_upper" || name === "TL"
+                             || name === "R_upper" || name === "TR") ? -4
+                          : 0
+                }
+                return { x: pos[0], y: pos[1], nudge: nudge, nudgeX: nudgeX }
             }
 
             readonly property real topOpponentBottomY: {
@@ -1295,15 +1372,38 @@ Rectangle {
                     // um der Tischmitte mehr Luft zu geben. Untere (Player 1/2/8/9 →
                     // L_lower/L_bottom/R_lower/R_bottom) 14px nach unten, obere
                     // (L_upper/TL/R_upper/TR) 4px nach oben. TC (oben Mitte) bleibt.
+                    // Self-flankierende Bottom-Sitze (opp1 / oppN = Player 1 & 9) im
+                    // Desktop-Wide: tiefer + horizontal nach AUSSEN, damit sie die
+                    // (große) Self-Box nicht berühren / einengen. Ultrawide
+                    // (landscapeCompact) hat dafür sein eigenes Corner-Sink-Layout.
+                    readonly property bool flankWide:
+                        tableZone.wide && !Config.Responsive.landscapeCompact
+                        && (slotName === "opp1" || slotName === "opp" + oppCount)
+                        && slot[1] > 0.5
+                    // Horizontaler Auswärts-Versatz: Box-Mitte mindestens
+                    // (Self-Halbbreite + Opp-Halbbreite + 18) von der Tischmitte weg.
+                    // Nur nach außen schieben (nie nach innen ziehen).
+                    readonly property real seatNudgeX: {
+                        if (!flankWide) return 0
+                        var dir = slot[0] < 0.5 ? -1 : 1
+                        var wantCenter = tableZone.width / 2 + dir *
+                            (tableZone.selfBaseWidth * tableZone.boxScale / 2
+                             + 40 * tableZone.boxScale   // Dealer/Blind-Puck rechts neben der Self-Box (6 + 32 + Luft)
+                             + tableZone.oppBaseWidth * tableZone.oppScale / 2 + 18)
+                        var d = wantCenter - tableZone.width * slot[0]
+                        return dir < 0 ? Math.min(0, d) : Math.max(0, d)
+                    }
                     readonly property real seatNudge: {
-                        if (tableZone.wide) return 0
+                        if (tableZone.wide)
+                            return flankWide
+                                ? tableZone.oppBaseHeight * tableZone.boxScale * 0.6 : 0
                         if (slotName === "L_lower" || slotName === "L_bottom"
                             || slotName === "R_lower" || slotName === "R_bottom") return 14
                         if (slotName === "L_upper" || slotName === "TL"
                             || slotName === "R_upper" || slotName === "TR") return -4
                         return 0
                     }
-                    x: tableZone.width * slot[0] - width / 2
+                    x: tableZone.width * slot[0] - width / 2 + seatNudgeX
                     y: tableZone.height * slot[1] - height / 2 + seatNudge
 
                     GamePlayerBox {
@@ -1327,10 +1427,11 @@ Rectangle {
                                : seatSlot.slot[0] < 0.45 ? "right"
                                : seatSlot.slot[0] > 0.55 ? "left"
                                : "bottom"
-                        // landscapeCompact: bei der obersten Mitte-Box (Player 5)
-                        // würde das Badge unterhalb mit dem Pot-Badge kollidieren →
-                        // Button links, Einsatz rechts neben der Box anzeigen.
-                        betSplit: tableZone.wide && Config.Responsive.landscapeCompact
+                        // Oberste Mitte-Box (Player 5): das Badge unterhalb würde mit
+                        // dem Pot-Badge kollidieren → Button LINKS, Einsatz RECHTS
+                        // neben der Box. Gilt im gesamten Querformat (Desktop-Wide
+                        // wie Ultrawide), nicht nur im landscapeCompact.
+                        betSplit: tableZone.wide
                                   && seatSlot.slot[0] >= 0.45 && seatSlot.slot[0] <= 0.55
                     }
                 }

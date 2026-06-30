@@ -169,8 +169,8 @@ Item {
         // mit oppScale, da innerhalb communityArea.
         anchors.bottomMargin: root.wide ? 8 : 6
         visible: (typeof GameTable !== "undefined" && GameTable) ? GameTable.totalPot > 0 : false
-        width: potRow.width + 16
-        height: 24
+        width: potRow.width + 12
+        height: 20
         transformOrigin: Item.Center
 
         // Hintergrund mit goldenem Glow. Eigener Layer, damit der MultiEffect
@@ -202,7 +202,7 @@ Item {
             spacing: 4
             Image {
                 anchors.verticalCenter: parent.verticalCenter
-                width: 16; height: 16
+                width: 14; height: 14
                 source: "../resources/chipStack.svg"
                 fillMode: Image.PreserveAspectFit
             }
@@ -210,7 +210,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "$" + (GameTable ? GameTable.totalPot : 0)
                 color: Config.Theme.colorAccent
-                font.pixelSize: 13
+                font.pixelSize: 11
                 font.bold: true
                 font.letterSpacing: 0.3
             }
