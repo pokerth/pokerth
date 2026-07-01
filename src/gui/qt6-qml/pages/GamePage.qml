@@ -467,14 +467,13 @@ Rectangle {
                 var cw   = Math.round(rowH * 120 / 168)
                 return 2 * 4 + rowH + 4 + 2 * cw + 4
             }
-            // Self-Box bewusst GRÖSSER als die Gegnerboxen (eigene Box prominent):
-            // Desktop-Wide 96 (vs. oppBaseHeight 84). Die Bisektion leitet
-            // selfVisualH/bottomY/selfClearX/selfVisualTopY aus selfBaseHeight ab →
-            // reserviert automatisch mehr Platz (Gegner-Bottom-Sitze rücken hoch,
-            // Community schrumpft minimal), daher überlappungsfrei.
-            // Ultrawide (landscapeCompact) behält 84 (eigenes, enges Layout), Portrait 71.
+            // Self-Box bewusst GRÖSSER als die Gegnerboxen (eigene Box prominent) —
+            // in JEDEM Modus: Desktop-Wide 96, Kompakt-Landscape 94, Portrait 82
+            // (Gegnerboxen: 84 bzw. 71). Die Bisektion leitet selfVisualH/bottomY/
+            // selfClearX/selfVisualTopY aus selfBaseHeight ab → reserviert automatisch
+            // mehr Platz (Gegner-Bottom-Sitze rücken hoch), daher überlappungsfrei.
             readonly property int selfBaseHeight:
-                !wide ? 71 : (Config.Responsive.landscapeCompact ? 84 : 96)
+                !wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96)
             // Self-Box-Breite dynamisch: identische Abstände wie Gegnerboxen.
             //   Compact  : cardsH=46, cardW=33, avW=46 → 2×4 + 46 + 4 + 2×33 + 4 = 128
             //   Landscape: cardsH=40, cardW=29, avW=40 → 2×4 + 40 + 4 + 2×29 + 4 = 114
@@ -625,7 +624,7 @@ Rectangle {
                         // buildLandscapeSlots().point() – sonst unterschätzt die
                         // Bisection den vertikalen Paarabstand und cappt zu früh.
                         var centerYpix    = (topYpix + bottomYpix) / 2
-                        var maxBottomYpix = (height - 4 - selfVisualH) + selfVisualH * 0.35 - visualH / 2
+                        var maxBottomYpix = (height - 4 - selfVisualH) + selfVisualH * 0.55 - visualH / 2
                         var vMaxLowerP    = radiusYpix > 0 ? (maxBottomYpix - centerYpix) / radiusYpix : 1.0
                         var selfClearXpix = selfBaseWidth * sTest / 2 + visualW / 2 + 12
                         function slotVec(deg) {
@@ -730,7 +729,7 @@ Rectangle {
                     // 1.4 verhindert zu große Schrift und Bet-Überlappungen bei
                     // Vollbild/maximiert; compact bleibt bei 1.7 (breiter, flacher).
                     // fillCap() dämpft das Maximum bei wenigen Spielern zusätzlich.
-                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 1.7 : 1.9)
+                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 2.3 : 1.9)
                     if (oppCnt < 2) {
                         // Bis zum (gedeckelten) hi gehen, solange die Badges die
                         // Community nicht berühren.
@@ -830,51 +829,48 @@ Rectangle {
             }
             readonly property real oppScale: boxScale
             // Community-Karten-Skala:
-            //   – Desktop-Wide: füllen die freie Tischmitte (Lücken-basiert, s. u.).
-            //     Boden = boxScale·0.82 (Bisektions-Reserve), nach oben gedeckelt.
-            //   – Ultrawide (landscapeCompact): boxScale·1.1 (eigenes Layout).
-            //   – Portrait: LANGSAMERES Wachstum als die opp-Boxen (Faktor 0.7)
-            //     plus Floor 0.7 — die Community-Reihe ist bei kleinem Portrait
-            //     also relativ größer und wächst bei breiteren Fenstern nur
-            //     gedämpft mit. Adaptiver Cap stellt sicher, dass die Karten
-            //     die Seitenspalten nicht horizontal berühren.
+            //   – Querformat (Desktop + Android-Kompakt): füllen die freie
+            //     Tischmitte (lücken-basiert, s. u.), Boden = Bisektions-Reserve.
+            //   – Portrait: füllt das reservierte Mittelband, begrenzt durch
+            //     Seitenspalten (horizontal) und Top-/Bottom-Reihe (vertikal).
             readonly property real communityScale: {
-                // landscapeCompact (echtes Ultrawide): eigenes, separat abgestimmtes
-                // Layout – Community fest an boxScale gekoppelt.
-                if (wide && Config.Responsive.landscapeCompact)
-                    return boxScale * 1.1
                 if (wide) {
-                    // Desktop-Wide: Community-Cards FÜLLEN die freie Tischmitte, statt
-                    // nur mit boxScale mitzuwachsen. Bei großen Fenstern schiebt die
-                    // Ellipse die Boxen an den Rand → die Mitte ist groß und leer.
-                    // Wir messen die vertikale Lücke um den (zentrierten) Ablagepunkt
-                    // communityCenterY und skalieren die Karten daran. Teiler 84
-                    // (statt der reinen Halbhöhe 64) lässt bewusst viel Luft → Karten
-                    // deutlich kleiner, damit die Mitte nicht zu mächtig wirkt.
-                    //   – topB: Unterkante der obersten Box + nach unten zeigende
-                    //     Bet-Badge der zentralen Top-Box (26 · oppScale).
+                    // Querformat (Desktop UND Android-Kompakt): Community-Cards
+                    // FÜLLEN die freie Tischmitte statt nur mit boxScale mitzu-
+                    // wachsen. Wir messen die vertikale Lücke um den Ablagepunkt
+                    // communityCenterY und skalieren daran. Teiler 84 (> reine
+                    // Halbhöhe 64) lässt Luft.
+                    //   – topB: Unterkante der obersten Box + deren nach unten
+                    //     zeigende Bet-Badge (Kompakt 39, sonst 26 · oppScale).
                     //   – selfTop: Oberkante der (skalierten) Self-Box.
-                    // Die Formel hängt NUR von boxScale ab (nicht von communityScale)
-                    // → keine Zirkularität. Boden boxScale·0.82 = Bisektions-Reserve
-                    // (0.82 · s · 124, garantierte Mindestlücke) → die Boxen dürfen
-                    // dadurch nochmals mehr wachsen.
-                    var topB      = topOpponentBottomY + 26 * oppScale
+                    // Hängt NUR von boxScale ab → keine Zirkularität. Boden =
+                    // Bisektions-Reserve (Kompakt 1.1, sonst 0.72 · boxScale) →
+                    // garantierte Mindestlücke, kein Regressionsrisiko.
+                    var isCmp     = Config.Responsive.landscapeCompact
+                    var topB      = topOpponentBottomY + (isCmp ? 39 : 26) * oppScale
                     var halfAbove = communityCenterY - topB - 6
                     var halfBelow = selfVisualTopY - communityCenterY - 6
                     var avail     = Math.min(halfAbove, halfBelow)
-                    var gapFill   = avail > 0 ? avail / 84 : 0
+                    // Kompakt dichter füllen (72) als Desktop (84, bewusst luftig).
+                    var gapFill   = avail > 0 ? avail / (isCmp ? 66 : 84) : 0
                     // Horizontale Sicherheit: Kartenreihe (~264 Basisbreite) bleibt
                     // innerhalb 70 % der Fensterbreite (Mitte zwischen den Seitenboxen).
                     var capW      = (0.70 * width) / 264
-                    var cap       = Math.min(1.8, boxScale * 2.0, capW)
-                    return Math.max(0.55, Math.min(cap, Math.max(boxScale * 0.72, gapFill)))
+                    var cap       = Math.min(isCmp ? 2.6 : 1.8, boxScale * 2.0, capW)
+                    var floor     = boxScale * (isCmp ? 1.1 : 0.72)
+                    return Math.max(0.55, Math.min(cap, Math.max(floor, gapFill)))
                 }
-                var target = Math.max(0.7, boxScale * 0.7)
-                var sideColRightEdge = 0.15 * width + oppBaseWidth * boxScale / 2
-                var maxCommunityHalfW = width / 2 - sideColRightEdge - 4
-                var maxCommunityW = Math.max(0, maxCommunityHalfW * 2)
-                var maxScale = maxCommunityW / 250
-                return Math.max(0.55, Math.min(target, maxScale))
+                // Portrait: die Community sitzt vertikal ZWISCHEN oberer (~0.345)
+                // und unterer (~0.65) Reihe – auf ihrer Höhe (Tischmitte) liegen
+                // KEINE Seitenboxen. Sie darf daher horizontal breit werden; die
+                // einzige Overlap-Grenze ist der vertikale Abstand zur nächsten
+                // Reihe (~0.15·Höhe minus Box-Halbhöhe). Horizontal nur durch die
+                // Bildschirmbreite begrenzt. → deutlich größer als der frühere
+                // Seitenspalten-Cap (der fälschlich Boxen auf Community-Höhe annahm).
+                var vHalf = 0.15 * height - oppBaseHeight * boxScale / 2 - 6
+                var maxScaleV = vHalf > 0 ? vHalf / 62 : 0.55
+                var maxScaleScreen = Math.max(0, width - 16) / 264
+                return Math.max(0.55, Math.min(1.8, maxScaleV, maxScaleScreen))
             }
 
             // ── Lupe: Zoom + Pan der Gegnerzone (compact-only) ──────────────────
@@ -1005,10 +1001,10 @@ Rectangle {
                 // Untere Seiten-Sitze, die horizontal an der Self-Box vorbeigehen,
                 // dürfen deshalb etwas unter bottomY absinken – das entzerrt die
                 // Seiten-Paare (z. B. Player 2↔3 / 7↔8) vertikal. Maximal bis die
-                // Box-Unterkante 35 % in die Self-Box-Höhe hineinragt: tiefer
-                // (bis zur Self-Unterkante) zerstört die Ellipsen-Optik, weil die
-                // Gegner dann auf/unter Self-Niveau liegen.
-                var maxBottomY = (selfTop + selfVisualH * 0.35 - visualH / 2) / Math.max(height, 1)
+                // Box-Unterkante 55 % in die Self-Box-Höhe hineinragt (tiefer =
+                // Player 1/9 rücken weiter runter, mehr Luft in der Mitte für
+                // Community + größere Boxen). Muss mit maxBottomYpix in feasibleAt().
+                var maxBottomY = (selfTop + selfVisualH * 0.55 - visualH / 2) / Math.max(height, 1)
                 var vMaxLower  = radiusY > 0 ? (maxBottomY - centerY) / radiusY : 1.0
                 var selfClearX = (selfBaseWidth * s / 2 + visualW / 2 + 12) / Math.max(width, 1)
                 function point(degrees) {
