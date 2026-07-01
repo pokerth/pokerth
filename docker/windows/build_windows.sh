@@ -236,6 +236,13 @@ else
 fi
 echo ""
 
+# Skip NSIS when the caller assembles the installer itself (e.g. the combined
+# widget+QML build in Dockerfile.windows-combined, which uses installer_combined.nsi).
+if [ "${SKIP_NSIS:-0}" = "1" ]; then
+    echo "SKIP_NSIS=1 → NSIS-Installer-Erstellung übersprungen (wird extern erledigt)."
+    exit 0
+fi
+
 # Create Windows Installer with NSIS
 echo "======================================"
 echo "Creating Windows Installer with NSIS"
