@@ -4,7 +4,14 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QStandardPaths>
+#include <QLoggingCategory>
 #include <cmath>
+
+// Diagnostic logging for the audio subsystem.  Warnings/criticals are always
+// visible; the verbose device/backend diagnostics use qCInfo and are enabled
+// on demand via QT_LOGGING_RULES="pokerth.audio.info=true"
+// (the launcher's --debug-audio flag sets this).
+Q_LOGGING_CATEGORY(lcAudio, "pokerth.audio")
 
 #ifdef Q_OS_WIN
 #pragma comment(lib, "winmm.lib")
@@ -257,15 +264,24 @@ void QtAudioPlayer::initAudio()
     // Check for forced backend via environment variable
     QString forcedBackend = qEnvironmentVariable("POKERTH_AUDIO_BACKEND");
     if (!forcedBackend.isEmpty()) {
+        qCInfo(lcAudio) << "Forced backend via POKERTH_AUDIO_BACKEND:" << forcedBackend;
     }
-    
+
     // === Audio subsystem diagnostics ===
     {
-        auto outputs = QMediaDevices::audioOutputs();
+        const auto outputs = QMediaDevices::audioOutputs();
+        const QAudioDevice def = QMediaDevices::defaultAudioOutput();
+        qCInfo(lcAudio) << "Available audio outputs:" << outputs.size()
+                        << "| default:" << (def.isNull() ? QStringLiteral("<none>") : def.description());
         for (const auto& dev : outputs) {
+            qCInfo(lcAudio) << "  -" << dev.description()
+                            << (dev.isDefault() ? "(default)" : "")
+                            << "| id:" << dev.id();
         }
+        if (outputs.isEmpty())
+            qCWarning(lcAudio) << "No audio output devices reported by QMediaDevices!";
     }
-    
+
     // Determine which backend to use
     if (forcedBackend.toLower() == "paplay") {
         backend = AudioBackend::PaPlayBackend;
@@ -318,11 +334,18 @@ void QtAudioPlayer::initAudio()
     
     // Initialize selected backend
     float vol = myConfig->readConfigInt("SoundVolume") / 10.0f;
-    
-    QAudioDevice deviceToUse = selectedDevice.isNull() 
-        ? QMediaDevices::defaultAudioOutput() 
+
+    QAudioDevice deviceToUse = selectedDevice.isNull()
+        ? QMediaDevices::defaultAudioOutput()
         : selectedDevice;
-    
+
+    static const char* backendNames[] = {
+        "QSoundEffect", "PaPlay", "SoftwareMixer", "WinMM"
+    };
+    qCInfo(lcAudio) << "Selected backend:" << backendNames[static_cast<int>(backend)]
+                    << "| device:" << (deviceToUse.isNull() ? QStringLiteral("<default/none>") : deviceToUse.description())
+                    << "| volume:" << vol;
+
     if (backend == AudioBackend::SoftwareMixerBackend) {
         initSoftwareMixerBackend(deviceToUse, vol);
         // If the QAudioSink failed to start (broken PulseAudio/PipeWire/
@@ -555,6 +578,10 @@ void QtAudioPlayer::initSoftwareMixerBackend(const QAudioDevice& device, float v
         qWarning() << "[Audio] Failed to start mixer sink:" << mixerSink->error();
         delete mixerSink;
         mixerSink = nullptr;
+    } else {
+        qCInfo(lcAudio) << "SoftwareMixer sink started on"
+                        << sinkDevice.description() << "| state:" << mixerSink->state()
+                        << "| bufferSize:" << mixerSink->bufferSize();
     }
 
     // NOTE: The mixer sink streams continuously (silence when no sounds

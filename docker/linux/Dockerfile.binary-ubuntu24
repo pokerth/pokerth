@@ -1,0 +1,107 @@
+FROM ubuntu:24.04
+# Build-Umgebung für das PokerTH ZIP-Binary-Deploy (Ubuntu 24.04 LTS).
+#
+# Warum Ubuntu 24.04 – und nicht 26.04 wie beim AppImage?
+#   Der ZIP-Tarball bündelt KEIN glibc/ld-linux (SKIP_PATTERN in
+#   create_binary_deploy.sh schließt libc/ld-linux aus). Damit ist die
+#   glibc-Version des BUILD-Containers die minimale Anforderung an den Host.
+#   → Ein auf 25.10/26.04 gebauter Tarball verlangt glibc 2.42/2.43 und läuft
+#     auf Ubuntu 24.04 / Linux Mint 22.x (glibc 2.39) nur zufällig oder gar nicht.
+#   Ubuntu 24.04 (glibc 2.39) ist der älteste sinnvoll unterstützte LTS-Floor
+#   und deckt 24.04 sowie alles Neuere ab (inkl. Mint 22.x = Noble-Basis).
+#
+#   Dasselbe Prinzip erklärt, warum die audio-relevanten Codec-Libs
+#   (libFLAC/libsndfile/libvorbis/libopus) hier korrekt sind: der Launcher
+#   stellt das Bundle-lib/ per LD_LIBRARY_PATH VOR die Host-Libs, wodurch der
+#   Host-PulseAudio-Client (libpulse/libpulsecommon werden NICHT gebündelt)
+#   seine Codec-Abhängigkeiten aus unserem Bundle zieht. Auf 24.04 gebaut
+#   passen diese Sonames (z. B. libFLAC.so.12) zum Zielsystem — auf 25.10
+#   gebaut wären es libFLAC.so.14 & Co., die den Host-Pulse-Client brechen
+#   (Symptom: QAudioSink startet ohne Fehler, bleibt aber stumm).
+#
+# Warum aqtinstall statt System-Qt?
+#   Das Projekt verlangt Qt >= 6.7.0 (QT_MIN_VERSION), Ubuntu 24.04 liefert per
+#   apt nur 6.4.2. aqtinstall liefert offizielle Qt-Binaries, die gegen ein
+#   sehr altes glibc gebaut sind → sie heben den glibc-Floor NICHT an; dieser
+#   bleibt bei 24.04 (2.39). Auf 24.04/normalem Kernel laufen die aqt-Prebuilds
+#   stabil (der bekannte SIGABRT-Crash betrifft nur Ubuntu 26.04 / Kernel 7+).
+
+ARG QT_VERSION=6.8.1
+ENV TZ=Europe/Berlin
+ENV DEBIAN_FRONTEND=noninteractive
+ENV QT6_ROOT=/opt/Qt/${QT_VERSION}/gcc_64
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
+        build-essential cmake ninja-build \
+        git wget curl ca-certificates file zip \
+        python3 python3-pip python3-venv \
+        libssl-dev libwebsocketpp-dev \
+        libgl-dev libx11-dev libxkbcommon-dev \
+        libxcb-cursor0 libxcb-cursor-dev \
+        libglib2.0-dev libfontconfig-dev libfreetype-dev \
+        libegl-dev libpulse-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Qt via aqtinstall (offizielle Prebuilds, glibc-kompatibel zu 24.04) ---
+RUN python3 -m venv /opt/aqtvenv \
+    && /opt/aqtvenv/bin/pip install --no-cache-dir -U pip aqtinstall \
+    && /opt/aqtvenv/bin/aqt install-qt --outputdir /opt/Qt \
+        linux desktop ${QT_VERSION} linux_gcc_64 \
+        -m qtmultimedia qtwebsockets qtshadertools qt5compat qtimageformats \
+    && test -d "${QT6_ROOT}/lib" \
+    && echo "Qt installiert nach ${QT6_ROOT}"
+ENV PATH="${QT6_ROOT}/bin:${PATH}"
+
+# --- Boost 1.88 aus dem Quellcode (24.04 liefert nur 1.83) ---
+RUN wget -q https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz \
+    && tar xzf boost_1_88_0.tar.gz \
+    && cd boost_1_88_0 \
+    && ./bootstrap.sh --prefix=/usr/local \
+    && ./b2 -j$(nproc) install \
+        --with-iostreams --with-random --with-thread \
+        --with-filesystem --with-program_options \
+        --with-system --with-date_time \
+    && ldconfig \
+    && cd / && rm -rf boost_1_88_0 boost_1_88_0.tar.gz
+
+# --- Protobuf 3.21.12 aus dem Quellcode (liefert libprotobuf.so.32) ---
+RUN wget -q https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz \
+    && mkdir protobuf-src \
+    && tar xzf protobuf-all-21.12.tar.gz -C protobuf-src --strip-components=1 \
+    && cmake -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr/local \
+        -Dprotobuf_BUILD_TESTS=OFF \
+        -Dprotobuf_BUILD_SHARED_LIBS=ON \
+        -S protobuf-src -B protobuf-build \
+    && cmake --build protobuf-build -j$(nproc) \
+    && cmake --install protobuf-build \
+    && ldconfig \
+    && rm -rf protobuf-src protobuf-all-21.12.tar.gz protobuf-build
+
+WORKDIR /opt/pokerth
+
+# Build-Kontext muss das Projekt-Root sein (docker build -f ... <projekt-root>)
+COPY . .
+
+# --- PokerTH bauen (Qt aus aqtinstall via CMAKE_PREFIX_PATH) ---
+RUN rm -f cmake/FindBoost.cmake \
+    && rm -rf ./build \
+    && cmake -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_PREFIX_PATH="${QT6_ROOT}" \
+        -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+        -S . -B ./build \
+    && cmake --build ./build \
+        --target pokerth_client pokerth_qml-client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
+        -j$(nproc)
+
+# --- ZIP-Binary-Deploy erstellen (QT6_ROOT lenkt Plugin-/QML-Sammlung) ---
+RUN chmod +x docker/linux/create_binary_deploy.sh \
+    && QT6_ROOT="${QT6_ROOT}" docker/linux/create_binary_deploy.sh
+
+RUN mkdir -p /output \
+    && cp docker/linux/pokerth-linux-*.zip /output/
+
+ENTRYPOINT ["/bin/bash"]

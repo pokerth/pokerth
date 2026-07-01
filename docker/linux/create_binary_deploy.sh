@@ -70,8 +70,14 @@ find "$DEPLOY_DIR/bin" -maxdepth 1 -type f | copy_deps
 
 echo ""
 echo "=== Sammle Qt-Plugins ==="
-QT6_PLUGINS=$(find /usr/lib* -type d -name "plugins" -path "*/qt6/*" 2>/dev/null | head -1)
-[ -z "$QT6_PLUGINS" ] && QT6_PLUGINS="/usr/lib/x86_64-linux-gnu/qt6/plugins"
+# QT6_ROOT erlaubt ein nicht-System-Qt (z. B. aqtinstall unter /opt/Qt/<ver>/gcc_64),
+# nötig wenn das System-Qt zu alt ist (Ubuntu 24.04 = 6.4 < benötigte 6.7).
+if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/plugins" ]; then
+    QT6_PLUGINS="$QT6_ROOT/plugins"
+else
+    QT6_PLUGINS=$(find /usr/lib* -type d -name "plugins" -path "*/qt6/*" 2>/dev/null | head -1)
+    [ -z "$QT6_PLUGINS" ] && QT6_PLUGINS="/usr/lib/x86_64-linux-gnu/qt6/plugins"
+fi
 
 if [ -d "$QT6_PLUGINS" ]; then
     echo "Qt6 Plugins: $QT6_PLUGINS"
@@ -91,8 +97,12 @@ fi
 
 echo ""
 echo "=== Sammle Qt-QML-Module ==="
-QT6_QML=$(find /usr/lib* -type d -name "qml" -path "*/qt6/*" 2>/dev/null | head -1)
-[ -z "$QT6_QML" ] && QT6_QML="/usr/lib/x86_64-linux-gnu/qt6/qml"
+if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/qml" ]; then
+    QT6_QML="$QT6_ROOT/qml"
+else
+    QT6_QML=$(find /usr/lib* -type d -name "qml" -path "*/qt6/*" 2>/dev/null | head -1)
+    [ -z "$QT6_QML" ] && QT6_QML="/usr/lib/x86_64-linux-gnu/qt6/qml"
+fi
 
 if [ -d "$QT6_QML" ]; then
     echo "Qt6 QML: $QT6_QML"
@@ -149,7 +159,7 @@ export QT_MEDIA_BACKEND=ffmpeg
 if [[ "$1" == "--debug-audio" ]]; then
     shift
     export QT_DEBUG_PLUGINS=1
-    export QT_LOGGING_RULES="qt.multimedia.*=true"
+    export QT_LOGGING_RULES="pokerth.audio.info=true;qt.multimedia.*=true"
     echo "[DEBUG] LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
     echo "[DEBUG] QT_PLUGIN_PATH=$QT_PLUGIN_PATH"
     echo "[DEBUG] Multimedia plugins:"; ls -la "$SCRIPT_DIR/plugins/multimedia/" 2>/dev/null || echo "  (keine gefunden!)"
@@ -177,6 +187,17 @@ export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
 export QML2_IMPORT_PATH="$SCRIPT_DIR/qml"
 export QML_DISABLE_DISK_CACHE=1
 export QT_MEDIA_BACKEND=ffmpeg
+
+if [[ "$1" == "--debug-audio" ]]; then
+    shift
+    export QT_LOGGING_RULES="pokerth.audio.info=true;qt.multimedia.*=true"
+    echo "[DEBUG] LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+    echo "[DEBUG] Multimedia-Plugins:"; ls -la "$SCRIPT_DIR/plugins/multimedia/" 2>/dev/null || echo "  (keine gefunden!)"
+    echo "[DEBUG] Gebündelte Audio-Codec-Libs:"; ls "$SCRIPT_DIR/lib/" | grep -iE "flac|sndfile|vorbis|opus|pulse" || echo "  (keine)"
+    echo "[DEBUG] Host-libpulse:"; ldd "$SCRIPT_DIR/bin/pokerth_qml-client" 2>/dev/null | grep -iE "pulse|sndfile|flac" || echo "  (keine)"
+    echo "[DEBUG] Tipp: Wenn kein Ton — 'POKERTH_AUDIO_BACKEND=paplay ./pokerth-qml' testen (nutzt reine Host-Libs)."
+fi
+
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
 EOF
