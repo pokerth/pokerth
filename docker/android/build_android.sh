@@ -220,11 +220,11 @@ mkdir -p "$ANDROID_BUILD_DIR/res/values"
 VERSION_CODE="20"
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   PACKAGE_NAME="org.pokerth.qml"
-  VERSION_NAME="2.1.0preview"
+  VERSION_NAME="2.1.0"
   SCREEN_ORIENTATION="fullUser"
 else
   PACKAGE_NAME="org.pokerth.widget"
-  VERSION_NAME="2.0.8"
+  VERSION_NAME="2.1.0"
   SCREEN_ORIENTATION="landscape"
 fi
 

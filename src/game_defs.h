@@ -42,14 +42,14 @@
 #define HTML_LOG			0
 
 #define POKERTH_VERSION_MAJOR	2
-#define POKERTH_VERSION_MINOR	0
+#define POKERTH_VERSION_MINOR	1
 #define POKERTH_VERSION			((POKERTH_VERSION_MAJOR << 8) | POKERTH_VERSION_MINOR)
 
-#define POKERTH_BETA_REVISION	8
-#define POKERTH_BETA_RELEASE_STRING	 "2.0.8"
+#define POKERTH_BETA_REVISION	0
+#define POKERTH_BETA_RELEASE_STRING	 "2.1.0"
 
 // --- Client type identifiers (encoded in high byte of buildId) ---
-#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.0.8)
+#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.0)
 #define CLIENT_TYPE_QML			0x02	// QML client (starting at 2.1.0)
 
 // --- Build ID encoding: (clientType << 24) | (major << 16) | (minor << 8) | revision ---
@@ -76,8 +76,8 @@
 
 // --- Minimum supported build IDs (server rejects anything below) ---
 // Policy: current and previous release are allowed for each client type.
-// Qt Widget: min 2.0.6, current 2.0.8 (both allowed)
-#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 0, 6)
+// Qt Widget: min 2.0.8, current 2.1.0 (both allowed)
+#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 0, 8)
 // QML: update min to previous release with each new release (e.g. min=2.1.0 when releasing 2.1.1)
 #define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
 
