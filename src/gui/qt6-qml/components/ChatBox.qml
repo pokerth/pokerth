@@ -95,6 +95,46 @@ Item {
         inputField.cursorPosition = inputField.text.length
     }
 
+    // Der Server prüft VALIDATE_STRING_SIZE(chattext, 1, MAX_CHAT_TEXT_SIZE=128)
+    // und trennt bei Überlänge die Verbindung. Wie der Widgets-Client
+    // (ChatTools::checkInputLength) begrenzen wir die Eingabe daher auf 128
+    // UTF-8-Bytes – NICHT auf eine feste Zeichenzahl, da Umlaute (2 Bytes) und
+    // Emojis (4 Bytes) mehr als ein Byte belegen. So lässt sich nur so viel
+    // eingeben, wie auch wirklich gesendet werden darf.
+    readonly property int maxChatBytes: 128
+
+    // UTF-8-Bytelänge eines Strings (JS-Strings sind UTF-16). Surrogatpaare
+    // (Emojis) zählen als 4 Bytes und werden über i++ als Einheit übersprungen.
+    function _utf8ByteLen(str) {
+        var n = 0
+        for (var i = 0; i < str.length; ++i) {
+            var c = str.charCodeAt(i)
+            if (c < 0x80) n += 1
+            else if (c < 0x800) n += 2
+            else if (c >= 0xD800 && c <= 0xDBFF) { n += 4; ++i }
+            else n += 3
+        }
+        return n
+    }
+
+    // Kürzt die Eingabe zeichenweise, bis sie ins Server-Byte-Limit passt.
+    // Läuft bei JEDER Textänderung (auch Einfügen/Emoji), damit übergroßer
+    // Text gar nicht erst stehen bleibt. Surrogatpaare werden als Ganzes
+    // entfernt, damit kein halbes Emoji zurückbleibt.
+    function _clampChatInput() {
+        var s = inputField.text
+        if (_utf8ByteLen(s) <= maxChatBytes)
+            return
+        while (s.length > 0 && _utf8ByteLen(s) > maxChatBytes) {
+            var last = s.charCodeAt(s.length - 1)
+            var drop = (last >= 0xDC00 && last <= 0xDFFF) ? 2 : 1
+            s = s.slice(0, s.length - drop)
+        }
+        var pos = s.length
+        inputField.text = s
+        inputField.cursorPosition = pos
+    }
+
     function _send() {
         var t = inputField.text.trim()
         if (t === "")
@@ -292,6 +332,9 @@ Item {
                     border.width: 1
                 }
                 onAccepted: root._send()
+                // Begrenzung auf das Server-Byte-Limit – feuert auch bei
+                // Einfügen und Emoji-Insert (nicht nur bei Tastatureingabe).
+                onTextChanged: root._clampChatInput()
                 // Tippt der Nutzer: History-Navigation + Tab-Iteration zurücksetzen.
                 onTextEdited: {
                     root._historyIndex = 0
