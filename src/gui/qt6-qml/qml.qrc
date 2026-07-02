@@ -66,6 +66,10 @@
         <file>i18n/pokerth_de_DE.ts</file>
         <file>i18n/pokerth_en_US.ts</file>
         <file>i18n/pokerth_fr_FR.ts</file>
+        <file>i18n/pokerth_it_IT.ts</file>
+        <file>i18n/pokerth_es_ES.ts</file>
+        <file>i18n/pokerth_pt_PT.ts</file>
+        <file>i18n/pokerth_pt_BR.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>
         <file>pages/InternetGamePage.qml</file>

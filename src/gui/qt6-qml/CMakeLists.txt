@@ -116,6 +116,10 @@ set(TS_FILES
     i18n/pokerth_de_DE.ts
     i18n/pokerth_fr_FR.ts
     i18n/pokerth_en_US.ts
+    i18n/pokerth_it_IT.ts
+    i18n/pokerth_es_ES.ts
+    i18n/pokerth_pt_PT.ts
+    i18n/pokerth_pt_BR.ts
 )
 
 qt_add_translations(pokerth_qml-client

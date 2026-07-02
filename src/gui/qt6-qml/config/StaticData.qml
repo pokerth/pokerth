@@ -16,7 +16,11 @@ QtObject {
     readonly property var languages: [
             { langName: "Deutsch (Deutsch)", code: "de_DE"},
             { langName: "English (English)", code: "en_US"},
-            { langName: "French (Français)", code: "fr_FR"}
+            { langName: "French (Français)", code: "fr_FR"},
+            { langName: "Italian (Italiano)", code: "it_IT"},
+            { langName: "Spanish (Español)", code: "es_ES"},
+            { langName: "Portuguese (Português)", code: "pt_PT"},
+            { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"}
         ]
 
     function findSupportedLocale(systemName) {
