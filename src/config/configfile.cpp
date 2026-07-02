@@ -556,30 +556,53 @@ void ConfigFile::writeBuffer() const
 	// write buffer to disc if enabled
 	if (!noWriteAccess)
 	{
-
+		// Merge the buffer into the existing document instead of rebuilding it
+		// from scratch: elements this binary does not know (written by another
+		// client flavour or a newer version) must survive every write.
 		QDomDocument xmlDoc;
-		QDomProcessingInstruction xmlVers = xmlDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
-		xmlDoc.appendChild(xmlVers);
+		QDomElement config;
 
-		QDomElement root = xmlDoc.createElement("PokerTH");
-		xmlDoc.appendChild(root);
+		QFile file(pathToQString(configFileName));
+		if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
+		{
+			config = xmlDoc.documentElement().firstChildElement("Configuration");
+		}
+		file.close();
 
-		QDomElement config = xmlDoc.createElement("Configuration");
-		root.appendChild(config);
+		if (config.isNull())
+		{
+			// no usable config on disc --> create a fresh document
+			xmlDoc = QDomDocument();
+			QDomProcessingInstruction xmlVers = xmlDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
+			xmlDoc.appendChild(xmlVers);
+
+			QDomElement root = xmlDoc.createElement("PokerTH");
+			xmlDoc.appendChild(root);
+
+			config = xmlDoc.createElement("Configuration");
+			root.appendChild(config);
+		}
 
 		size_t i;
 
 		for (i = 0; i < configBufferList.size(); i++)
 		{
 
-			QDomElement tmpElement = xmlDoc.createElement(QString::fromStdString(configBufferList[i].name));
-			config.appendChild(tmpElement);
+			QDomElement tmpElement = config.firstChildElement(QString::fromStdString(configBufferList[i].name));
+			if (tmpElement.isNull())
+			{
+				tmpElement = xmlDoc.createElement(QString::fromStdString(configBufferList[i].name));
+				config.appendChild(tmpElement);
+			}
 			tmpElement.setAttribute("value", QString::fromStdString(configBufferList[i].defaultValue));
 
 			if (configBufferList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST)
 			{
 
 				tmpElement.setAttribute("type", "list");
+				while (!tmpElement.firstChild().isNull())
+					tmpElement.removeChild(tmpElement.firstChild());
+
 				list<string> tempList = configBufferList[i].defaultListValue;
 				list<string>::iterator it;
 				for (it = tempList.begin(); it != tempList.end(); ++it)
@@ -605,179 +628,88 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 
 	if (myConfigState == NONEXISTING)
 	{
-
-		QDomDocument xmlDoc;
-		QDomProcessingInstruction xmlVers = xmlDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
-		xmlDoc.appendChild(xmlVers);
-
-		QDomElement root = xmlDoc.createElement("PokerTH");
-		xmlDoc.appendChild(root);
-
-		QDomElement config = xmlDoc.createElement("Configuration");
-		root.appendChild(config);
-
-		for (i = 0; i < configList.size(); i++)
-		{
-			QDomElement tmpElement = xmlDoc.createElement(QString::fromStdString(configList[i].name));
-			config.appendChild(tmpElement);
-			tmpElement.setAttribute("value", QString::fromStdString(configList[i].defaultValue));
-
-			if (configList[i].type == CONFIG_TYPE_INT_LIST || configList[i].type == CONFIG_TYPE_STRING_LIST)
-			{
-
-				tmpElement.setAttribute("type", "list");
-				list<string> tempList = configList[i].defaultListValue;
-				list<string>::iterator it;
-				for (it = tempList.begin(); it != tempList.end(); ++it)
-				{
-
-					QDomElement tmpSubElement = xmlDoc.createElement(QString::fromStdString(configBufferList[i].defaultValue));
-					tmpElement.appendChild(tmpSubElement);
-					tmpSubElement.setAttribute("value", QString::fromStdString(*it));
-				}
-			}
-		}
-		writeConfigDocument(xmlDoc.toString());
+		// configBufferList still holds the defaults at this point, so
+		// writeBuffer() creates a fresh document with all default values.
+		writeBuffer();
 	}
 
 	if (myConfigState == OLD)
 	{
 
-		// load the old one
-		QDomDocument oldDoc;
+		// Update the existing document in place: bump the revision, refresh
+		// AppDataDir, apply version hacks and append newly introduced options
+		// with their defaults. Everything else - including elements unknown to
+		// this binary (other client flavour / newer version) - is left
+		// untouched for maximum compatibility.
+		QDomDocument xmlDoc;
 		QFile file(pathToQString(configFileName));
-		if (file.open(QIODevice::ReadOnly) && oldDoc.setContent(&file))
+		if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
 		{
 			file.close();
 
-			string tempString1("");
-			string tempString2("");
+			QDomElement config = xmlDoc.documentElement().firstChildElement("Configuration");
+			if (config.isNull())
+			{
+				LOG_ERROR("Cannot update config file: no Configuration element found.");
+				return;
+			}
 
-			QDomDocument newDoc;
-
-			QDomProcessingInstruction xmlVers = newDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
-			newDoc.appendChild(xmlVers);
-
-			QDomElement root = newDoc.createElement("PokerTH");
-			newDoc.appendChild(root);
-
-			QDomElement config = newDoc.createElement("Configuration");
-			root.appendChild(config);
+			// set the value of an element, creating the element if missing
+			auto setElementValue = [&xmlDoc, &config](const QString &name, const QString &value) {
+				QDomElement el = config.firstChildElement(name);
+				if (el.isNull())
+				{
+					el = xmlDoc.createElement(name);
+					config.appendChild(el);
+				}
+				el.setAttribute("value", value);
+			};
 
 			// change configRev and AppDataPath
-			std::list<std::string> noUpdateElemtsList;
-
-			QDomElement confElement0 = newDoc.createElement("ConfigRevision");
-			config.appendChild(confElement0);
-			confElement0.setAttribute("value", configRev);
-
-			noUpdateElemtsList.push_back("ConfigRevision");
-
-			QDomElement confElement1 = newDoc.createElement("AppDataDir");
-			config.appendChild(confElement1);
-			confElement1.setAttribute("value", QString::fromStdString(myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0))));
-			noUpdateElemtsList.push_back("AppDataDir");
+			setElementValue("ConfigRevision", QString::number(configRev));
+			setElementValue("AppDataDir", QString::fromStdString(myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0))));
 
 			///////// VERSION HACK SECTION ///////////////////////
 			// this is the right place for special version depending config hacks:
 			// 0.9.1 - log interval needs to be set to 1 instead of 0
 			if (configRev >= 95 && configRev <= 98)
 			{ // this means 0.9.1 or 0.9.2 or 1.0
-				QDomElement confElement2 = newDoc.createElement("LogInterval");
-				config.appendChild(confElement2);
-				confElement2.setAttribute("value", 1);
-				noUpdateElemtsList.push_back("LogInterval");
+				setElementValue("LogInterval", "1");
 			}
 
 			if (configRev == 98)
 			{ // this means 1.0
-				QDomElement confElement3 = newDoc.createElement("CurrentCardDeckStyle");
-				config.appendChild(confElement3);
-				confElement3.setAttribute("value", "");
-				noUpdateElemtsList.push_back("CurrentCardDeckStyle");
+				setElementValue("CurrentCardDeckStyle", "");
 			}
 			///////// VERSION HACK SECTION ///////////////////////
 
 			for (i = 0; i < configList.size(); i++)
 			{
 
-				QDomElement oldConf = oldDoc.documentElement().firstChildElement("Configuration").firstChildElement(QString::fromStdString(configList[i].name));
+				// if element is already there --> keep the saved values (and list content) as they are
+				if (!config.firstChildElement(QString::fromStdString(configList[i].name)).isNull())
+					continue;
 
-				if (!oldConf.isNull())
-				{ // if element is already there --> take over the saved values
+				QDomElement tmpElement = xmlDoc.createElement(QString::fromStdString(configList[i].name));
+				config.appendChild(tmpElement);
+				tmpElement.setAttribute("value", QString::fromStdString(configList[i].defaultValue));
 
-					// dont update ConfigRevision and AppDataDir AND possible hacked Config-Elements becaus it was already set ^^
-					if (count(noUpdateElemtsList.begin(), noUpdateElemtsList.end(), configList[i].name) == 0)
-					{
-
-						QDomElement tmpElement = newDoc.createElement(QString::fromStdString(configList[i].name));
-						config.appendChild(tmpElement);
-
-						QByteArray ba = oldConf.attribute("value").toLocal8Bit();
-						const char *tmpStr1 = ba.data();
-
-						if (tmpStr1)
-							tempString1 = tmpStr1;
-						tmpElement.setAttribute("value", QString::fromStdString(tempString1));
-
-						// for lists copy elements
-						QByteArray ba2 = oldConf.attribute("type").toLocal8Bit();
-						const char *tmpStr2 = ba2.data();
-
-						if (tmpStr2)
-						{
-							tempString2 = tmpStr2;
-							if (tempString2 == "list")
-							{
-
-								list<string> tempStringList2;
-
-								QDomElement oldConfList = oldDoc.documentElement().firstChildElement("Configuration").firstChildElement(QString::fromStdString(configList[i].name));
-
-								for (QDomElement n = oldConfList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement())
-								{
-									tempStringList2.push_back(n.attribute("value").toStdString());
-								}
-
-								tmpElement.setAttribute("type", "list");
-								list<string> tempList = tempStringList2;
-								list<string>::iterator it;
-								for (it = tempList.begin(); it != tempList.end(); ++it)
-								{
-
-									QDomElement tmpSubElement = newDoc.createElement(QString::fromStdString(tempString1));
-									tmpElement.appendChild(tmpSubElement);
-									tmpSubElement.setAttribute("value", QString::fromStdString(*it));
-								}
-							}
-						}
-					}
-				}
-				else
+				if (configList[i].type == CONFIG_TYPE_INT_LIST || configList[i].type == CONFIG_TYPE_STRING_LIST)
 				{
-					QDomElement tmpElement = newDoc.createElement(QString::fromStdString(configList[i].name));
-					config.appendChild(tmpElement);
-					tmpElement.setAttribute("value", QString::fromStdString(configList[i].defaultValue));
 
-					if (configList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST)
+					tmpElement.setAttribute("type", "list");
+					list<string> tempList = configList[i].defaultListValue;
+					list<string>::iterator it;
+					for (it = tempList.begin(); it != tempList.end(); ++it)
 					{
 
-						tmpElement.setAttribute("type", "list");
-						list<string> tempList = configList[i].defaultListValue;
-						list<string>::iterator it;
-						// for(it = tempList.begin(); it != tempList.end(); ++it) {
-
-						for (it = tempList.begin(); it != tempList.end(); ++it)
-						{
-
-							QDomElement tmpSubElement = newDoc.createElement(QString::fromStdString(configList[i].defaultValue));
-							tmpElement.appendChild(tmpSubElement);
-							tmpSubElement.setAttribute("value", QString::fromStdString(*it));
-						}
+						QDomElement tmpSubElement = xmlDoc.createElement(QString::fromStdString(configList[i].defaultValue));
+						tmpElement.appendChild(tmpSubElement);
+						tmpSubElement.setAttribute("value", QString::fromStdString(*it));
 					}
 				}
 			}
-			writeConfigDocument(newDoc.toString());
+			writeConfigDocument(xmlDoc.toString());
 		}
 		else
 		{

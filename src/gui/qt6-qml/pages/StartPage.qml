@@ -26,6 +26,24 @@ Rectangle {
     readonly property real vPad: Config.Theme.margin
     readonly property real innerSpacing: Config.Theme.spacing
 
+    // ── Zweispaltiger Button-Modus ────────────────────────────────────────
+    // Passt die Box mit einspaltigen Buttons (inkl. Außenabstand) nicht in den
+    // sichtbaren Bereich (Android-Querformat, flache Desktop-Fenster), werden
+    // die Buttons zweispaltig angeordnet, statt vertikal zu scrollen –
+    // vorausgesetzt, die breitere Box passt horizontal. Die Vergleichshöhe
+    // wird aus den Design-Tokens berechnet statt aus der gemessenen Box-Höhe,
+    // sonst entstünde eine Binding-Schleife (zweispaltig → Box passt →
+    // wieder einspaltig → …).
+    readonly property int buttonCount: Config.Parameters.showCommunityContent ? 6 : 5
+    readonly property real singleColumnBoxHeight:
+        vPad * 2 + brandHeader.implicitHeight + startBoxContent.spacing
+        + buttonCount * Config.Theme.touchTarget
+        + (buttonCount - 1) * innerSpacing
+    readonly property real twoColumnBoxWidth: 620
+    readonly property bool twoColumns:
+        singleColumnBoxHeight + Config.Theme.margin * 2 > height
+        && width >= twoColumnBoxWidth + Config.Theme.margin * 2
+
     Flickable {
         id: startScroll
         anchors.fill: parent
@@ -47,7 +65,9 @@ Rectangle {
                 id: startPageMainButtonsBox
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                width: Math.min(startContent.width - Config.Theme.margin * 2, Config.Theme.brandBoxWidth)
+                width: Math.min(startContent.width - Config.Theme.margin * 2,
+                                startPage.twoColumns ? startPage.twoColumnBoxWidth
+                                                     : Config.Theme.brandBoxWidth)
                 // Höhe folgt dem Inhalt (Logo + Buttons) inkl. oben/unten gleichem
                 // Innenabstand – so bleibt die Box bei beliebig vielen Buttons
                 // vertikal zentriert, statt unten herauszulaufen.
@@ -78,19 +98,25 @@ Rectangle {
 
                     // ── PokerTH-Logo + Kartensymbole ─────────────────────────
                     BrandHeader {
+                        id: brandHeader
                         anchors.horizontalCenter: parent.horizontalCenter
                         logoSize: Config.Theme.brandLogoSize
                     }
 
                     // ── Navigations-Buttons ───────────────────────────────────
-                    ColumnLayout {
+                    // Gleiche preferredWidth auf allen Buttons → im zweispaltigen
+                    // Modus bekommen beide Spalten exakt dieselbe Breite.
+                    GridLayout {
                         id: startPageMainButtons
                         width: parent.width
-                        spacing: startPage.innerSpacing
+                        columns: startPage.twoColumns ? 2 : 1
+                        columnSpacing: startPage.innerSpacing
+                        rowSpacing: startPage.innerSpacing
 
                         CustomButton {
                             text: qsTr("Internetspiel")
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("ServerConnectionDialog.qml")
                         }
@@ -98,6 +124,7 @@ Rectangle {
                         CustomButton {
                             text: qsTr("Lokales Spiel starten")
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("LocalGamePage.qml")
                         }
@@ -105,6 +132,7 @@ Rectangle {
                         CustomButton {
                             text: qsTr("Netzwerkspiel erstellen")
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("NetworkGameCreatePage.qml")
                         }
@@ -112,6 +140,7 @@ Rectangle {
                         CustomButton {
                             text: qsTr("Netzwerkspiel beitreten")
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("NetworkGameEnterPage.qml")
                         }
@@ -119,6 +148,7 @@ Rectangle {
                         CustomButton {
                             text: qsTr("Community / Ranking")
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: Config.Theme.touchTarget
                             visible: Config.Parameters.showCommunityContent
                             // Über denselben Toggle wie der Globus → gemerkter
@@ -131,6 +161,7 @@ Rectangle {
                         CustomButton {
                             text: qsTr("Logs")
                             Layout.fillWidth: true
+                            Layout.preferredWidth: 100
                             Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("LogsPage.qml")
                         }

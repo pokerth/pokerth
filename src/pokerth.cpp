@@ -37,7 +37,6 @@
 #include <QtQml>
 #include <QApplication>
 #include <QSettings>
-#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QIcon>
 #include <boost/shared_ptr.hpp>
@@ -48,7 +47,6 @@
 #include <QQmlContext>
 #include <QDebug>
 #include <retranslate.h>
-#include <settingsxmlhandler.h>
 #include <settingsmanager.h>
 #include "gui/qt6-qml/cpp/styleprovider.h"
 #include "gui/qt6-qml/cpp/serverconnectionhandler.h"
@@ -175,36 +173,13 @@ int main(int argc, char *argv[])
     qInfo().noquote() << "[BOOT] PokerTH QML client starting; debug log in"
                       << QString::fromStdString(myConfig->readConfigString("LogDir"));
 
-    // make QSettings use the default PokerTH config.xml :
-	const QSettings::Format XmlFormat = QSettings::registerFormat("xml", &SettingsXmlHandler::readXmlFile, &SettingsXmlHandler::writeXmlFile);
-    // configFileName is stored in the platform's local 8-bit encoding (see
-    // ConfigFile); decode with fromLocal8Bit so non-ASCII user profile paths
-    // (e.g. a Hungarian "AppData" path) are not corrupted into a wrong path.
-    QFileInfo fi(QString::fromLocal8Bit(myConfig->configFileName.c_str()));
-    QSettings::setPath(XmlFormat, QSettings::UserScope, fi.absolutePath().remove("/.pokerth"));
-    QSettings settings(XmlFormat, QSettings::UserScope, ".pokerth", "config");
-
-    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE")) {
-        // QtQuick-Controls-Style festlegen. Ein leerer ODER ein plattform-nativer
-        // Style ("Desktop" / "org.kde.desktop") führt unter KDE/Plasma (z.B.
-        // CachyOS, Steam Deck) dazu, dass QtQuick.Controls das Modul
-        // org.kde.desktop (qqc2-desktop-style) zu laden versucht. Im portablen
-        // Deploy ist das nicht enthalten → die QML-Wurzel lädt nicht. Daher auf
-        // den mitgelieferten Universal-Style ausweichen (worauf die gesamte UI
-        // ohnehin ausgelegt ist) – auch einen bereits in config.xml GESPEICHERTEN
-        // nativen Style heilen (ein altes Binary persistierte ihn via QSettings).
-        // Ein bewusst anderer Style bleibt über QT_QUICK_CONTROLS_STYLE möglich.
-        QString style = settings.value("style").toString();
-        if (style.isEmpty()
-            || style.compare(QLatin1String("Desktop"), Qt::CaseInsensitive) == 0
-            || style.startsWith(QLatin1String("org.kde"), Qt::CaseInsensitive))
-            style = QStringLiteral("Universal");
-        QQuickStyle::setStyle(style);
-        settings.setValue(QLatin1String("style"), style);
-    }
-    const QString styleInSettings = settings.value("style").toString();
-    if (styleInSettings.isEmpty())
-        settings.setValue(QLatin1String("style"), QQuickStyle::name());
+    // Der QtQuick-Controls-Style ist durch die QT_QUICK_CONTROLS_STYLE-
+    // Normalisierung oben (vor QApplication) bereits vollständig bestimmt;
+    // QtQuick liest die Env-Variable selbst. KEIN QSettings auf config.xml
+    // mehr: der frühere XML-Handler (settingsxmlhandler) las nur die value-
+    // Attribute und verwarf beim Zurückschreiben sämtliche Listen-Einträge
+    // (PlayerTooltips = Spieler-Notizen/-Bewertungen, PlayerIgnoreList,
+    // ManualBlindsList, ...). An config.xml schreibt ausschließlich ConfigFile.
 
 	const QLocale locale;
 	const QString baseName = "pokerth";

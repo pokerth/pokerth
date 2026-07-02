@@ -334,4 +334,7 @@ void ServerConnectionHandler::saveCredentials(const QString &username, const QSt
         m_savedPassword = "";
         emit savedPasswordChanged();
     }
+
+    // Persist to disk; writeConfigString() only updates the in-memory buffer.
+    m_config->writeBuffer();
 }

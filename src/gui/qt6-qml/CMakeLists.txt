@@ -18,7 +18,6 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     ../../core/qttools/qttoolswrapper.cpp
     ../../core/qttoolsinterface.cpp
     cpp/retranslate.cpp
-    cpp/settingsxmlhandler.cpp
     cpp/settingsmanager.cpp
     cpp/styleprovider.cpp
     cpp/serverconnectionhandler.cpp
