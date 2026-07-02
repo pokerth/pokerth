@@ -47,7 +47,16 @@ cp -v "$BUILD_DIR/bin/pokerth_client" "$DEPLOY_DIR/bin/"
 # PulseAudio/ALSA werden ausgeschlossen: müssen zum System-Audiodaemon passen.
 # Fontconfig/Expat bleiben auf dem Host, damit die dortige Font-Config-Syntax
 # (z. B. neuere guessfamily-Regeln auf SteamOS/CachyOS) sicher verstanden wird.
-SKIP_PATTERN='^(libc[.-]|libm[.-]|libdl[.-]|libpthread[.-]|librt[.-]|libresolv[.-]|libutil[.-]|libnsl[.-]|ld-linux|ld-[0-9]|libpulse[.-]|libpulse-simple[.-]|libpulsecommon-|libasound[.-]|libfontconfig[.-]|libexpat[.-])'
+# GL/EGL/GBM/DRM (Mesa-Stack) MÜSSEN vom Host kommen: libGL/libEGL laden den
+# GPU-spezifischen DRI-Treiber (z. B. radeonsi_dri.so) des Hosts und brauchen
+# dazu passende libglapi/libdrm. Ein gebündelter Mesa-Stack überschattet den
+# Host-Treiber -> "EGL not available" / "Failed to create context" / RHI-Abbruch.
+# (Entspricht der linuxdeployqt-Excludelist für Grafik.)
+# libwayland-* ebenso: sie sprechen direkt mit dem Host-Compositor und der
+# Host-libEGL_mesa. Auf einer Wayland-Sitzung läuft GL NUR über EGL; eine
+# gebündelte libwayland-client/-egl bricht den EGL-Wayland-Handshake -> exakt
+# dasselbe "EGL not available". Daher Host-seitig lassen.
+SKIP_PATTERN='^(libc[.-]|libm[.-]|libdl[.-]|libpthread[.-]|librt[.-]|libresolv[.-]|libutil[.-]|libnsl[.-]|ld-linux|ld-[0-9]|libpulse[.-]|libpulse-simple[.-]|libpulsecommon-|libasound[.-]|libfontconfig[.-]|libexpat[.-]|libGL[.-]|libGLX[.-]|libGLdispatch[.-]|libGLESv2[.-]|libEGL[.-]|libOpenGL[.-]|libglapi[.-]|libgbm[.-]|libdrm[.-]|libwayland-client[.-]|libwayland-cursor[.-]|libwayland-egl[.-]|libwayland-server[.-])'
 
 # ldd löst bereits ALLE transitiven Abhängigkeiten auf – keine Rekursion nötig.
 # Nimmt Dateiliste per stdin (via pipe aus find), verarbeitet alles in einem ldd-Aufruf.
@@ -63,6 +72,14 @@ copy_deps() {
             fi
         done
 }
+
+# Bei nicht-System-Qt (aqtinstall) liegen die Qt-Libs NICHT in einem Standard-
+# Suchpfad. Ohne diesen Export findet das ldd in copy_deps die Qt-Libs der
+# Plugins/QML-Module nicht ("not found") und lässt sie still weg -> das Deploy
+# startet nicht. Mit dem Distro-Qt (in /usr/lib) trat das nicht auf.
+if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/lib" ]; then
+    export LD_LIBRARY_PATH="$QT6_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+fi
 
 echo ""
 echo "=== Sammle Abhängigkeiten (Binaries) ==="
@@ -84,9 +101,18 @@ if [ -d "$QT6_PLUGINS" ]; then
     for cat in platforms xcbglintegrations platforminputcontexts imageformats iconengines platformthemes multimedia sqldrivers tls wayland-shell-integration wayland-decoration-client wayland-graphics-integration-client; do
         if [ -d "$QT6_PLUGINS/$cat" ]; then
             mkdir -p "$DEPLOY_DIR/plugins/$cat"
-            cp "$QT6_PLUGINS/$cat"/*.so "$DEPLOY_DIR/plugins/$cat/" 2>/dev/null && \
-                chmod +x "$DEPLOY_DIR/plugins/$cat"/*.so 2>/dev/null && \
-                echo "  $cat" || true
+            if [ "$cat" = "sqldrivers" ]; then
+                # Nur SQLite – die Client nutzt kein MySQL/PostgreSQL/ODBC/Mimer.
+                # Deren Treiber-Plugins bräuchten libmysqlclient/libpq/… die weder
+                # gebündelt noch zwingend auf dem Host sind.
+                cp "$QT6_PLUGINS/$cat"/libqsqlite.so "$DEPLOY_DIR/plugins/$cat/" 2>/dev/null && \
+                    chmod +x "$DEPLOY_DIR/plugins/$cat"/*.so 2>/dev/null && \
+                    echo "  $cat (nur sqlite)" || true
+            else
+                cp "$QT6_PLUGINS/$cat"/*.so "$DEPLOY_DIR/plugins/$cat/" 2>/dev/null && \
+                    chmod +x "$DEPLOY_DIR/plugins/$cat"/*.so 2>/dev/null && \
+                    echo "  $cat" || true
+            fi
         fi
     done
     # Alle Plugin-Abhängigkeiten in einem einzigen ldd-Aufruf
@@ -202,6 +228,37 @@ cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
 EOF
     chmod +x "$DEPLOY_DIR/pokerth-qml"
+fi
+
+echo ""
+echo "=== Verifiziere Abhängigkeiten ==="
+# copy_deps sammelt nur, was ldd auflöst. Fehlt eine Lib im BUILD-Container
+# (z. B. libxcb-cursor0), meldet ldd "not found" und die Lib wird STILL
+# übersprungen -> das Deploy startet auf dem Zielsystem nicht (Platform-Plugin
+# lädt nicht). Hier prüfen wir mit dem Deploy-eigenen lib/ + Build-Host, ob
+# noch etwas ungelöst ist, und brechen bei essentiellen Komponenten hart ab.
+UNRESOLVED=$( { find "$DEPLOY_DIR/bin" -maxdepth 1 -type f;
+                find "$DEPLOY_DIR/plugins" "$DEPLOY_DIR/lib" "$DEPLOY_DIR/qml" -name "*.so*" 2>/dev/null; } \
+    | while read -r f; do
+        LD_LIBRARY_PATH="$DEPLOY_DIR/lib" ldd "$f" 2>/dev/null \
+            | awk -v F="$f" '/not found/ {print F"\t"$1}'
+      done | sort -u )
+
+if [ -n "$UNRESOLVED" ]; then
+    echo "Hinweis: Ungelöste Abhängigkeiten im Build-Container:"
+    echo "$UNRESOLVED" | sed 's/^/  /'
+    echo "  (Optionale/host-seitige Plugins wie libqgtk3 [GTK-Theme], eglfs oder"
+    echo "   der ffmpeg-Media-Plugin sind unkritisch – deren Libs liefert der"
+    echo "   Desktop-Host bzw. sie werden nicht benötigt.)"
+    # Nur das X11-Platform-Plugin ist zwingend: ohne libqxcb.so startet die App
+    # auf einem X11-Desktop nicht. Alles andere ist optional -> nur hier hart abbrechen.
+    if echo "$UNRESOLVED" | grep -q "/plugins/platforms/libqxcb.so"; then
+        echo "FEHLER: X11-Platform-Plugin (libqxcb.so) hat ungelöste Abhängigkeiten -> Abbruch."
+        echo "        Fehlende Libs im Build-Container installieren und neu bauen."
+        exit 1
+    fi
+else
+    echo "OK: keine ungelösten Abhängigkeiten."
 fi
 
 echo ""

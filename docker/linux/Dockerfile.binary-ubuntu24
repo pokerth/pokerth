@@ -38,9 +38,14 @@ RUN apt-get update && apt-get upgrade -y && \
         python3 python3-pip python3-venv \
         libssl-dev libwebsocketpp-dev \
         libgl-dev libx11-dev libxkbcommon-dev \
-        libxcb-cursor0 libxcb-cursor-dev \
         libglib2.0-dev libfontconfig-dev libfreetype-dev \
         libegl-dev libpulse-dev \
+        libx11-xcb1 libxkbcommon-x11-0 \
+        libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+        libxcb-randr0 libxcb-render0 libxcb-render-util0 libxcb-shape0 \
+        libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb-xkb1 libxcb-xinput0 \
+        libxcb-glx0 libxcb-util1 \
+        libwayland-client0 libwayland-cursor0 libwayland-egl1 \
     && rm -rf /var/lib/apt/lists/*
 
 # --- Qt via aqtinstall (offizielle Prebuilds, glibc-kompatibel zu 24.04) ---
