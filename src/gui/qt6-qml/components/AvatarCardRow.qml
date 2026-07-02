@@ -126,6 +126,7 @@ Item {
 
             ToolTip.visible: netHover.containsMouse
                              && !Config.Responsive.isMobile
+                             && Config.Parameters.showTooltips
                              && root.networkPingAvg >= 0
             ToolTip.delay: 300
             ToolTip.text: qsTr("Server response times")

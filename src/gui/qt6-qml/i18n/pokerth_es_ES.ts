@@ -12,7 +12,7 @@
 <context>
     <name>AvatarCardRow</name>
     <message>
-        <location filename="../components/AvatarCardRow.qml" line="+131"/>
+        <location filename="../components/AvatarCardRow.qml" line="+132"/>
         <source>Server response times</source>
         <translation>Tiempos de respuesta del servidor</translation>
     </message>
@@ -143,7 +143,7 @@
         <translation>Premios</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+76"/>
         <source>Tickets</source>
         <translation>Tickets</translation>
     </message>
@@ -473,6 +473,24 @@
     </message>
 </context>
 <context>
+    <name>GamePage</name>
+    <message>
+        <location filename="../pages/GamePage.qml" line="+1832"/>
+        <source>Verlauf &amp; Chancen</source>
+        <translation>Historial y probabilidades</translation>
+    </message>
+    <message>
+        <location line="+49"/>
+        <source>Chat</source>
+        <translation>Chat</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Emoji-Reaktionen</source>
+        <translation>Reacciones con emojis</translation>
+    </message>
+</context>
+<context>
     <name>GamePlayerBox</name>
     <message>
         <location filename="../components/GamePlayerBox.qml" line="+385"/>
@@ -502,7 +520,12 @@
 <context>
     <name>GameStatusBar</name>
     <message>
-        <location filename="../components/GameStatusBar.qml" line="+80"/>
+        <location filename="../components/GameStatusBar.qml" line="+78"/>
+        <source>Open link</source>
+        <translation>Abrir enlace</translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Total:</source>
         <translation>Total:</translation>
     </message>
@@ -512,7 +535,7 @@
         <translation>Apuestas:</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+58"/>
         <source>Preflop</source>
         <translation>Preflop</translation>
     </message>
@@ -793,7 +816,12 @@
         <translation>No traducir los términos internacionales de póquer (Check, Call, Raise)</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
+        <source>Tooltips anzeigen</source>
+        <translation>Mostrar descripciones emergentes</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Activar zoom de mesa (deslizar y ampliar, solo en modo móvil)</translation>
     </message>
@@ -1119,7 +1147,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1046"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1044"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
@@ -1134,7 +1162,7 @@
         <translation>No se pudo enviar el mensaje de chat</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+58"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>El informe sobre el avatar ha sido aceptado por el servidor. Gracias.</translation>
     </message>
@@ -1255,7 +1283,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
     <message>
         <location line="+166"/>
         <location line="+26"/>
-        <location line="+120"/>
+        <location line="+128"/>
         <location line="+9"/>
         <location line="+97"/>
         <location line="+9"/>
@@ -1275,7 +1303,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>%1 ha rechazado la invitación a %2.</translation>
     </message>
     <message>
-        <location line="+174"/>
+        <location line="+134"/>
         <source>Registered players only</source>
         <translation>Sólo registrados</translation>
     </message>
@@ -1315,7 +1343,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Completa</translation>
     </message>
     <message>
-        <location line="-186"/>
+        <location line="-146"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 no puede unirse a %2 porque está ocupado.</translation>
     </message>
@@ -3058,7 +3086,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+46"/>
+        <location filename="../config/StaticData.qml" line="+50"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
@@ -3284,7 +3312,27 @@ vista previa</translation>
         <translation>PokerTH - v2.1.0</translation>
     </message>
     <message>
-        <location line="+393"/>
+        <location line="+167"/>
+        <source>Back</source>
+        <translation>Atrás</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Menu</source>
+        <translation>Menú</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Community / Ranking</source>
+        <translation>Comunidad / Clasificación</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>Settings</source>
+        <translation>Ajustes</translation>
+    </message>
+    <message>
+        <location line="+174"/>
         <source>Timeout Warning</source>
         <translation>Tiempo de espera superado</translation>
     </message>
@@ -3334,7 +3382,8 @@ vista previa</translation>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="-339"/>
+        <location line="+371"/>
         <location line="+22"/>
         <source>Leave Game</source>
         <translation>Abandonar partida</translation>
@@ -3353,7 +3402,8 @@ y volver a la sala?</translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-17"/>
+        <location line="-445"/>
+        <location line="+428"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
         <translation>Salir del lobby</translation>

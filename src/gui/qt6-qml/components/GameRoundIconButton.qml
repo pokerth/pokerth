@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Effects
 
 import "../config" as Config
@@ -12,10 +13,16 @@ Rectangle {
     property url iconSource: ""
     property bool active: false
     property int unread: 0           // 0 = kein Badge
+    property string tooltipText: ""  // leer = kein Tooltip
     signal clicked()
 
     width: 34; height: 34; radius: 17
     color: active ? Config.Theme.colorAccent : Qt.rgba(0, 0, 0, 0.45)
+
+    ToolTip.visible: mouseArea.containsMouse && root.tooltipText !== ""
+                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+    ToolTip.delay: 600
+    ToolTip.text: root.tooltipText
 
     SvgIcon {
         anchors.centerIn: parent
@@ -30,8 +37,10 @@ Rectangle {
     }
 
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
+        hoverEnabled: true
         onClicked: root.clicked()
     }
 

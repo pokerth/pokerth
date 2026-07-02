@@ -155,6 +155,7 @@ Rectangle {
             HoverHandler { id: spectatorHover }
             ToolTip {
                 visible: spectatorHover.hovered && text.length > 0
+                         && Config.Parameters.showTooltips
                 text: GameTable ? GameTable.spectatorNames.join("\n") : ""
             }
         }

@@ -89,6 +89,7 @@
         <file>pages/LobbyCreateGamePage.qml</file>
         <file>pages/GameWaitPage.qml</file>
         <file>pages/LobbyPage.qml</file>
+        <file>resources/addReaction.svg</file>
         <file>resources/arrowUpLeft.svg</file>
         <file>resources/barChart.svg</file>
         <file>resources/block.svg</file>

@@ -45,5 +45,6 @@ Item {
 
     ToolTip.text: root.tooltipText
     ToolTip.visible: ma.containsMouse && root.tooltipText !== ""
+                     && Config.Parameters.showTooltips
     ToolTip.delay: 400
 }

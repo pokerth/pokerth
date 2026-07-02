@@ -214,6 +214,7 @@ Rectangle {
                                 smooth: true
 
                                 ToolTip.visible: modelData.title && awardHover.hovered
+                                                 && Config.Parameters.showTooltips
                                 ToolTip.text: modelData.title || ""
                                 ToolTip.delay: 600
 

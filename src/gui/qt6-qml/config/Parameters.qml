@@ -19,6 +19,9 @@ Settings {
 
     property bool showCommunityContent: true
 
+    // Tooltips auf Icon-Buttons (nur Desktop – auf Touch gibt es kein Hover).
+    property bool showTooltips: true
+
     // From the networkTab ColumnLayout
     property bool showCountryFlagOnAvatarCheckbox: true
     property bool showNetworkStatusColorOnAvatarCheckbox: true

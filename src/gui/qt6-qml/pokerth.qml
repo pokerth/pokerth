@@ -311,6 +311,22 @@ ApplicationWindow {
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/threeLines.svg"
                     visible: mainWindow.topBarIconsVisible
+                    // Tooltip folgt der Funktion des Buttons: Tür-Icon = Lobby/Spiel
+                    // verlassen (je nach Seite), Caret = Zurück, sonst Menü.
+                    ToolTip.visible: menuArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: {
+                        var src = String(source)
+                        if (src.indexOf("doorExit") !== -1) {
+                            return (mainStackView.currentItem
+                                    && mainStackView.currentItem.objectName === "lobbyPage")
+                                ? qsTr("Leave Lobby") : qsTr("Leave Game")
+                        }
+                        if (src.indexOf("caretLeft") !== -1)
+                            return qsTr("Back")
+                        return qsTr("Menu")
+                    }
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
@@ -348,6 +364,10 @@ ApplicationWindow {
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/globe.svg"
                     visible: mainWindow.topBarIconsVisible && Config.Parameters.showCommunityContent
+                    ToolTip.visible: rankingArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: qsTr("Community / Ranking")
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
@@ -377,6 +397,10 @@ ApplicationWindow {
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/settings.svg"
                     visible: mainWindow.topBarIconsVisible
+                    ToolTip.visible: settingsArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: qsTr("Settings")
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0

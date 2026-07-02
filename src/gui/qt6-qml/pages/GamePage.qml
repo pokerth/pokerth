@@ -1829,6 +1829,7 @@ Rectangle {
                 anchors.margins: 8
                 iconSource: "../resources/gameLog.svg"
                 active: gamePage.infoPanelOpen
+                tooltipText: qsTr("Verlauf & Chancen")
                 onClicked: gamePage.toggleInfoOverlay()
             }
 
@@ -1877,11 +1878,12 @@ Rectangle {
                 iconSource: "../resources/gameChat.svg"
                 active: gamePage.chatPanelOpen
                 unread: tableZone.chatUnread
+                tooltipText: qsTr("Chat")
                 onClicked: gamePage.toggleChatOverlay()
             }
 
             // ── Emoji-Reaktions-Picker: Toggle rechts neben dem Chat-Icon ──────
-            Rectangle {
+            GameRoundIconButton {
                 id: reactionToggle
                 z: 200
                 visible: gamePage.emojiReactionsEnabled
@@ -1889,20 +1891,10 @@ Rectangle {
                 anchors.left: chatToggle.visible ? chatToggle.right : parent.left
                 anchors.leftMargin: chatToggle.visible ? 6 : 8
                 anchors.topMargin: 8
-                width: 34; height: 34; radius: 17
-                color: tableZone.showReactions ? Config.Theme.colorAccent : Qt.rgba(0, 0, 0, 0.45)
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "🎉"
-                    font.family: Config.StaticData.emojiFamily
-                    font.pixelSize: 17
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: tableZone.showReactions = !tableZone.showReactions
-                }
+                iconSource: "../resources/addReaction.svg"
+                active: tableZone.showReactions
+                tooltipText: qsTr("Emoji-Reaktionen")
+                onClicked: tableZone.showReactions = !tableZone.showReactions
             }
 
             // Panel mit den Reaktions-Emojis (Grid, 6 Spalten – wie der

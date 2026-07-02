@@ -186,6 +186,16 @@ Rectangle {
                     }
 
                     CheckBox {
+                        objectName: "showTooltipsCheckbox"
+                        visible: !Config.Responsive.isMobile
+                        height: visible ? implicitHeight : 0
+                        Layout.fillWidth: true
+                        text: qsTr("Tooltips anzeigen")
+                        checked: Config.Parameters.showTooltips
+                        onCheckedChanged: Config.Parameters.showTooltips = checked
+                    }
+
+                    CheckBox {
                         visible: Config.Responsive.compact
                         height: visible ? implicitHeight : 0
                         Layout.fillWidth: true
