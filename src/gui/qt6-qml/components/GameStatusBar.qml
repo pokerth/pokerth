@@ -57,12 +57,10 @@ Rectangle {
             enabled: tableNameLabel.clickable
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                // AppImage-sicher über den LobbyHandler öffnen (nicht
-                // Qt.openUrlExternally, siehe ChatBox/LobbyStatsBar).
-                var opened = Lobby ? Lobby.openExternalUrl(tableStatsUrl)
-                                   : Qt.openUrlExternally(tableStatsUrl)
-                if (!opened)
-                    console.warn("Failed to open table stats URL:", tableStatsUrl)
+                // Exakt derselbe Weg wie das Kontextmenü "Show Player Stats":
+                // URL-Bau + AppImage-sicheres Öffnen passieren in C++.
+                if (typeof Lobby !== "undefined" && Lobby)
+                    Lobby.showTableStats()
             }
         }
     }

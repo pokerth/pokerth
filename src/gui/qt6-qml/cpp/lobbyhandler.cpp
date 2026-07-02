@@ -1757,6 +1757,13 @@ QString LobbyHandler::currentTableStatsUrl() const
         + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
 }
 
+void LobbyHandler::showTableStats()
+{
+    const QString url = currentTableStatsUrl();
+    if (url.isEmpty()) return;
+    openExternalUrl(url);
+}
+
 // ── Domain text helpers ────────────────────────────────────────────────────
 
 QString LobbyHandler::gameTypeText(int gameType) const

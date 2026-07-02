@@ -292,6 +292,9 @@ public slots:
     // Ranglistenspiels – wie im Qt-Widgets-Client (MyNameLabel, tableview=1).
     // Leer, wenn kein Ranglistenspiel läuft (dann keine Übersicht verfügbar).
     Q_INVOKABLE QString currentTableStatsUrl() const;
+    // Öffnet die Tisch-Statistikübersicht im Browser – exakt derselbe Weg wie
+    // showPlayerStats() (URL-Bau + openExternalUrl in C++).
+    Q_INVOKABLE void showTableStats();
     Q_INVOKABLE QString gameTypeText(int gameType) const;
     Q_INVOKABLE QString gameStatusText(int gameMode, int playerCount, int maxPlayers) const;
     Q_INVOKABLE void startGame(bool fillWithCpu = false);
