@@ -326,7 +326,12 @@ Rectangle {
         // 1. Status-Leiste: Spielphase | Pott | Hand-Nummer
         // Im landscapeCompact knapper (28 statt 40) — schafft ~12 px mehr
         // tableZone-Höhe für die Halsketten-Ellipse.
+        // z über der tableZone (nächstes ColumnLayout-Element, das sonst darüber
+        // gezeichnet wird): die obere-Mitte-Spielerbox (TC-Slot) ragt in den
+        // Streifen der Leiste hinein und würde sonst mit ihrer MouseArea den
+        // Klick auf den (anklickbaren) Tischnamen abfangen.
         GameStatusBar {
+            z: 1
             Layout.fillWidth: true
             Layout.preferredHeight: Config.Responsive.landscapeCompact ? 28 : 40
         }

@@ -173,6 +173,10 @@ public:
     Q_INVOKABLE void startLocalGame();
     Q_INVOKABLE void endLocalGame();
     Q_INVOKABLE bool isLocalGameRunning() const;
+    // URL zur Tisch-Statistikübersicht (tableview=1 + Nicks der aktiven Spieler
+    // am Tisch) – 1:1 wie der Qt-Widgets-Client (MyNameLabel). Baut aus den
+    // Live-Seats des laufenden Spiels; leer, wenn kein Spiel läuft.
+    Q_INVOKABLE QString tableStatsUrl() const;
     QVariantList players() const { return m_players; }
     int pot() const { return m_pot; }
     int gameId() const { return m_gameId; }

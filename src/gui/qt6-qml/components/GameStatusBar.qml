@@ -19,16 +19,23 @@ Rectangle {
         (typeof Lobby !== "undefined" && Lobby && Lobby.currentGameId > 0)
             ? Lobby.currentGameName() : ""
 
-    // URL der Tisch-Statistikübersicht (nur Ranglistenspiele; sonst leer). An
-    // currentGameId und die Spielerliste gebunden, damit sie bei Beitritt/
-    // Verlassen neu ausgewertet wird – analog zum Qt-Widgets-Client.
+    // URL der Tisch-Statistikübersicht des laufenden Netzwerktisches, gebaut aus
+    // den Live-Seats des GameHandlers (1:1 wie der Widgets-Client). An
+    // GameTable.players gebunden, damit sie bei Beitritt/Verlassen/Ausscheiden
+    // reaktiv neu ausgewertet wird. Bei Local-Games liefert sie leer.
     readonly property string tableStatsUrl:
-        (typeof Lobby !== "undefined" && Lobby && Lobby.currentGameId > 0
-            && (GameTable ? GameTable.players : true))
-            ? Lobby.currentTableStatsUrl() : ""
+        (GameTable && GameTable.players) ? GameTable.tableStatsUrl() : ""
+
+    // Öffnet die Tisch-Statistikübersicht über denselben AppImage-sicheren
+    // Opener wie "Show Player Stats" (Lobby.openExternalUrl).
+    function openTableStats() {
+        if (tableStatsUrl !== "" && typeof Lobby !== "undefined" && Lobby)
+            Lobby.openExternalUrl(tableStatsUrl)
+    }
 
     AppText {
         id: tableNameLabel
+        z: 1
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         // Nicht in die Pot-/Phasen-Spalten an den Rändern hineinragen.
@@ -41,26 +48,35 @@ Rectangle {
         font.pixelSize: Config.Responsive.landscapeCompact ? 12 : 14
         font.weight: Font.DemiBold
         font.letterSpacing: 0.5
-        // Nur bei vorhandener Statistik-URL (Ranglistenspiel) als Link
-        // darstellen und anklickbar machen.
         readonly property bool clickable: tableStatsUrl !== ""
-        font.underline: clickable && tableNameHover.hovered
+        font.underline: clickable && nameMouse.containsMouse
+    }
 
-        HoverHandler {
-            id: tableNameHover
-            enabled: tableNameLabel.clickable
-            cursorShape: Qt.PointingHandCursor
+    // Klickfläche als GESCHWISTER des Labels (nicht als Kind des Text) und mit
+    // höherem z – so hängt sie nicht an Eigenheiten der Text-Größe und liegt
+    // sicher über der RowLayout. Nur bei vorhandener URL aktiv/anklickbar.
+    MouseArea {
+        id: nameMouse
+        z: 2
+        anchors.fill: tableNameLabel
+        visible: tableNameLabel.visible
+        enabled: tableNameLabel.visible && tableStatsUrl !== ""
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        // Linksklick öffnet direkt; Rechtsklick bietet zusätzlich das Menü.
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: (mouse) => {
+            if (mouse.button === Qt.RightButton)
+                tableNameMenu.popup()
+            else
+                openTableStats()
         }
 
-        MouseArea {
-            anchors.fill: parent
-            enabled: tableNameLabel.clickable
-            cursorShape: Qt.PointingHandCursor
-            onClicked: {
-                // Exakt derselbe Weg wie das Kontextmenü "Show Player Stats":
-                // URL-Bau + AppImage-sicheres Öffnen passieren in C++.
-                if (typeof Lobby !== "undefined" && Lobby)
-                    Lobby.showTableStats()
+        Menu {
+            id: tableNameMenu
+            MenuItem {
+                text: qsTr("Open link")
+                onTriggered: openTableStats()
             }
         }
     }

@@ -7,8 +7,6 @@
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
-#include "game.h"
-#include "playerinterface.h"
 #include "configfile.h"
 #include "soundevents.h"
 #include "net/socket_msg.h"
@@ -1082,6 +1080,11 @@ void LobbyHandler::onGamePlayerJoined()
     // startnetworkgamedialogimpl): solange das Spiel nicht voll ist
     // "playerconnected", beim letzten Spieler "onlinegameready" (das Spiel
     // startet gleich darauf).
+    // Nur im Warteraum, nicht im laufenden Spiel: dort bedeutet PlayerJoined
+    // einen Rejoin nach Disconnect, und "onlinegameready" (Spiel wieder voll)
+    // klänge wie ein Spielstart mitten in der Hand.
+    if (m_gameRunning)
+        return;
     if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
         return;
     if (!m_session || m_currentGameId == 0)
@@ -1397,6 +1400,7 @@ void LobbyHandler::leaveServer()
     // Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
     // Lobby) und den lokalen Lobby-Zustand zurücksetzen.
     m_session->terminateNetworkClient();
+    m_gameRunning = false;
     if (m_isInGame) {
         m_isInGame = false;
         m_currentGameId = 0;
@@ -1407,6 +1411,9 @@ void LobbyHandler::leaveServer()
 
 void LobbyHandler::onSelfJoinedGame()
 {
+    // Frischer Beitritt → Warteraum (bei Rejoin in ein laufendes Spiel folgt
+    // unmittelbar wieder onGameStarted).
+    m_gameRunning = false;
     m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
     if (!m_isInGame) {
         m_isInGame = true;
@@ -1432,6 +1439,8 @@ void LobbyHandler::onGameStarted()
     ++m_playerListRevision;
     emit playerListRevisionChanged();
 
+    m_gameRunning = true;
+
     emit gameStarted();
 }
 
@@ -1441,12 +1450,14 @@ void LobbyHandler::onWaitGameDialog()
     // bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
     // das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
     // (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
+    m_gameRunning = false;
     emit returnToWaitRoom();
 }
 
 void LobbyHandler::onRemovedFromGame(int reason)
 {
     m_isInGame = false;
+    m_gameRunning = false;
     m_currentGameId = 0;
     // Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
     // Server-Admin-Status bleibt davon unberührt.
@@ -1721,46 +1732,6 @@ void LobbyHandler::showPlayerStats(unsigned playerId)
 
     const QString url = QString("https://www.pokerth.net/redirect_user_profile.php?nick=%1")
         .arg(QString::fromUtf8(QUrl::toPercentEncoding(playerName)));
-    openExternalUrl(url);
-}
-
-QString LobbyHandler::currentTableStatsUrl() const
-{
-    if (!m_session || m_currentGameId == 0)
-        return QString();
-
-    const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
-    // Nur Ranglistenspiele haben eine Tisch-Statistikübersicht (wie im
-    // Qt-Widgets-Client, MyNameLabel): tableview=1 + Liste der aktiven Nicks.
-    if (info.data.gameType != GAME_TYPE_RANKING)
-        return QString();
-
-    auto currentGame = m_session->getCurrentGame();
-    if (!currentGame)
-        return QString();
-
-    QString nickList;
-    int playerCounter = 0;
-    PlayerList seatsList = currentGame->getSeatsList();
-    for (PlayerListConstIterator it_c = seatsList->begin(); it_c != seatsList->end(); ++it_c) {
-        if ((*it_c)->getMyActiveStatus()) {
-            ++playerCounter;
-            nickList += QString("&nick%1=").arg(playerCounter);
-            nickList += QString::fromUtf8(QUrl::toPercentEncoding(
-                QString::fromUtf8((*it_c)->getMyName().c_str())));
-        }
-    }
-
-    return QStringLiteral("https://www.pokerth.net/redirect_user_profile.php?tableview=1")
-        + nickList
-        + QStringLiteral("&table=")
-        + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
-}
-
-void LobbyHandler::showTableStats()
-{
-    const QString url = currentTableStatsUrl();
-    if (url.isEmpty()) return;
     openExternalUrl(url);
 }
 

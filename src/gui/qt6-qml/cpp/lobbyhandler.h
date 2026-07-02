@@ -288,13 +288,6 @@ public slots:
     Q_INVOKABLE void ignorePlayer(unsigned playerId);
     Q_INVOKABLE void unignorePlayer(unsigned playerId);
     Q_INVOKABLE void showPlayerStats(unsigned playerId);
-    // URL zur Tisch-Statistikübersicht (alle aktiven Spieler) des laufenden
-    // Ranglistenspiels – wie im Qt-Widgets-Client (MyNameLabel, tableview=1).
-    // Leer, wenn kein Ranglistenspiel läuft (dann keine Übersicht verfügbar).
-    Q_INVOKABLE QString currentTableStatsUrl() const;
-    // Öffnet die Tisch-Statistikübersicht im Browser – exakt derselbe Weg wie
-    // showPlayerStats() (URL-Bau + openExternalUrl in C++).
-    Q_INVOKABLE void showTableStats();
     Q_INVOKABLE QString gameTypeText(int gameType) const;
     Q_INVOKABLE QString gameStatusText(int gameMode, int playerCount, int maxPlayers) const;
     Q_INVOKABLE void startGame(bool fillWithCpu = false);
@@ -355,6 +348,11 @@ private:
     bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
     bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;
+    // true zwischen Spielstart und Rückkehr in den Warteraum/die Lobby. Die
+    // Join-Sounds (playerconnected/onlinegameready) gehören nur in den
+    // Warteraum; ein PlayerJoined im laufenden Spiel ist ein Rejoin nach
+    // Disconnect (Widgets-Client: isVisible()-Guard im GameLobbyDialog).
+    bool m_gameRunning = false;
     unsigned m_currentGameId = 0;
     int m_playerListFilterMode;
     int m_gameListFilterMode;

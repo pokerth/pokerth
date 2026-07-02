@@ -209,6 +209,42 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     emit boardCardFadeChanged();
 }
 
+QString GameHandler::tableStatsUrl() const
+{
+    if (!m_game || !m_session)
+        return QString();
+
+    // Tischname aus der Server-Spielinfo (wie refreshSpectators): der GameHandler
+    // hält den Namen nicht selbst, wohl aber die aktuelle Game-ID der Session.
+    const unsigned gameId = m_session->getClientCurrentGameId();
+    if (gameId == 0)
+        return QString();
+    const GameInfo info = m_session->getClientGameInfo(gameId);
+
+    // Nick-Liste 1:1 wie der Qt-Widgets-Client (MyNameLabel): nur aktive Spieler.
+    // Zusätzlich – wie beim Aufbau von m_players – bereits ausgestiegene Spieler
+    // (m_leftPlayers) überspringen, damit die URL exakt den sichtbaren
+    // Spielerboxen entspricht und sich beim Verlassen mitzieht.
+    QString nickList;
+    int playerCounter = 0;
+    PlayerList seats = m_game->getSeatsList();
+    for (auto it = seats->begin(); it != seats->end(); ++it) {
+        if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+            continue;
+        if (!(*it)->getMyActiveStatus())
+            continue;
+        ++playerCounter;
+        nickList += QString("&nick%1=").arg(playerCounter);
+        nickList += QString::fromUtf8(QUrl::toPercentEncoding(
+            QString::fromStdString((*it)->getMyName())));
+    }
+
+    return QStringLiteral("https://www.pokerth.net/redirect_user_profile.php?tableview=1")
+        + nickList
+        + QStringLiteral("&table=")
+        + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
+}
+
 // ─── private helpers ────────────────────────────────────────────────────────
 
 void GameHandler::ensureSoundEventHandler()
