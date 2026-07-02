@@ -130,8 +130,13 @@ if(ANDROID)
     target_include_directories(pokerth_qml-client PRIVATE "${Protobuf_INCLUDE_DIR}")
     target_link_libraries(pokerth_qml-client PUBLIC protobuf::libprotobuf)
 elseif(WIN32)
-    # Windows GUI app ohne Konsolenfenster
-    add_executable(pokerth_qml-client WIN32 ${POKERTH_QML_CLIENT_SRC})
+    # Windows GUI app ohne Konsolenfenster. pokerth.rc bettet pokerth.ico als
+    # App-Icon in die .exe ein (Explorer, Taskbar, Titelleiste). windres findet
+    # die in der .rc relativ referenzierte .ico über den Include-Pfad auf den
+    # Repo-Root; der Pfad zur .rc selbst ist absolut (CWD-unabhängig).
+    set_source_files_properties("${CMAKE_SOURCE_DIR}/pokerth.rc" PROPERTIES
+        COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}")
+    add_executable(pokerth_qml-client WIN32 ${POKERTH_QML_CLIENT_SRC} "${CMAKE_SOURCE_DIR}/pokerth.rc")
 else()
     add_executable(pokerth_qml-client ${POKERTH_QML_CLIENT_SRC})
 endif()

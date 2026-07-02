@@ -144,7 +144,19 @@ int main(int argc, char *argv[])
     // Set the application/window icon explicitly. On X11 (and on Wayland with
     // Qt >= 6.9 via the xdg-toplevel-icon protocol) this makes the window
     // manager / task-bar show the PokerTH logo instead of the generic "W".
-    QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/resources/pokerth.svg")));
+    // IMPORTANT: build the icon from concrete rasterized pixmaps, NOT directly
+    // from the scalable SVG. A QIcon backed only by an SVG reports no
+    // availableSizes(); Qt's Wayland xdg-toplevel-icon path (Qt >= 6.9, used by
+    // the AppImage) sends the icon as sized buffers, so with no sizes it sends
+    // nothing and the compositor keeps its generic fallback. The widget client
+    // works because it uses a raster PNG; here we render the SVG to fixed sizes.
+    {
+        const QIcon svgIcon(QStringLiteral(":/resources/pokerth.svg"));
+        QIcon appIcon;
+        for (int sz : {16, 24, 32, 48, 64, 128, 256})
+            appIcon.addPixmap(svgIcon.pixmap(sz, sz));
+        QGuiApplication::setWindowIcon(appIcon);
+    }
     // On Wayland with the Qt 6.8 deploy the compositor (e.g. KWin) can NOT get
     // the icon from setWindowIcon; it resolves it from the matching .desktop
     // file via the surface app_id. Pin the app_id to the installed desktop-file

@@ -4,6 +4,14 @@ set(QT_MIN_VERSION "6.7.0")
 
 project(POKERTH)
 
+# Windows: RC-Sprache aktivieren, damit pokerth.rc (App-Icon pokerth.ico) in die
+# Client-.exe eingebettet werden kann. project() aktiviert nur C/CXX; ohne dies
+# würde CMake die .rc nicht kompilieren. CMAKE_RC_COMPILER (windres) kommt beim
+# MinGW-Cross-Build per -D aus build_windows.sh.
+if(WIN32)
+    enable_language(RC)
+endif()
+
 # Disable vcpkg applocal deployment for cross-compilation
 if(CMAKE_CROSSCOMPILING)
     set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)

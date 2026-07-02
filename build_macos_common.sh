@@ -198,21 +198,76 @@ fi
 # Shared bundle/DMG helpers
 ########################################
 
-# build_bundle <BUILD_DIR> <BUILD_TARGET> <BINARY_NAME> <USE_QML 0|1>
-# Creates the .app bundle, code-signs it, and produces a DMG.
-build_bundle_and_dmg() {
+# _make_icns <SCRIPT_DIR> <BUILD_DIR> <OUT_ICNS>
+# Generates an .icns from pokerth.png (preferred) or pokerth.svg.
+# No-op (returns 0) when no source image is available.
+_make_icns() {
+  local SCRIPT_DIR="$1"
+  local BUILD_DIR="$2"
+  local OUT_ICNS="$3"
+
+  local ICON_SOURCE=""
+  if [ -f "$SCRIPT_DIR/pokerth.png" ]; then
+      ICON_SOURCE="$SCRIPT_DIR/pokerth.png"
+      log "Converting PNG to .icns…"
+  elif [ -f "$SCRIPT_DIR/pokerth.svg" ]; then
+      ICON_SOURCE="$SCRIPT_DIR/pokerth.svg"
+      log "Converting SVG to .icns…"
+  else
+      return 0
+  fi
+
+  local ICONSET_DIR="$BUILD_DIR/pokerth.iconset"
+  mkdir -p "$ICONSET_DIR"
+
+  local BASE_PNG="$ICON_SOURCE"
+  if [[ "$ICON_SOURCE" == *.svg ]]; then
+      if [ -f "$SCRIPT_DIR/pokerth.png" ]; then
+          BASE_PNG="$SCRIPT_DIR/pokerth.png"
+          log "Using PNG source for better transparency support"
+      else
+          qlmanage -t -s 1024 -o "$BUILD_DIR" "$ICON_SOURCE" >/dev/null 2>&1
+          BASE_PNG="$BUILD_DIR/$(basename "$ICON_SOURCE").png"
+      fi
+  fi
+
+  sips -z 16 16     "$BASE_PNG" --out "$ICONSET_DIR/icon_16x16.png"    >/dev/null 2>&1
+  sips -z 32 32     "$BASE_PNG" --out "$ICONSET_DIR/icon_16x16@2x.png" >/dev/null 2>&1
+  sips -z 32 32     "$BASE_PNG" --out "$ICONSET_DIR/icon_32x32.png"    >/dev/null 2>&1
+  sips -z 64 64     "$BASE_PNG" --out "$ICONSET_DIR/icon_32x32@2x.png" >/dev/null 2>&1
+  sips -z 128 128   "$BASE_PNG" --out "$ICONSET_DIR/icon_128x128.png"  >/dev/null 2>&1
+  sips -z 256 256   "$BASE_PNG" --out "$ICONSET_DIR/icon_128x128@2x.png" >/dev/null 2>&1
+  sips -z 256 256   "$BASE_PNG" --out "$ICONSET_DIR/icon_256x256.png"  >/dev/null 2>&1
+  sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_256x256@2x.png" >/dev/null 2>&1
+  sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512.png"  >/dev/null 2>&1
+  sips -z 1024 1024 "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512@2x.png" >/dev/null 2>&1
+
+  if [[ "$BASE_PNG" == *"qlmanage"* ]] || [[ "$BASE_PNG" == *".svg.png" ]]; then
+      rm -f "$BASE_PNG"
+  fi
+
+  iconutil -c icns "$ICONSET_DIR" -o "$OUT_ICNS"
+  rm -rf "$ICONSET_DIR"
+}
+
+# build_app_bundle <BUILD_DIR> <BUILD_TARGET> <USE_QML 0|1> <SCRIPT_DIR> <APP_NAME> <BUNDLE_ID>
+# Creates "$BUILD_DIR/$APP_NAME.app", deploys Qt frameworks and code-signs it.
+# Multiple bundles can be created side by side in the same BUILD_DIR.
+build_app_bundle() {
   local BUILD_DIR="$1"
   local BUILD_TARGET="$2"
   local USE_QML="$3"      # 1 = QML client, 0 = widget client
   local SCRIPT_DIR="$4"
+  local APP_NAME="${5:-PokerTH}"
+  local BUNDLE_ID="${6:-net.pokerth.PokerTH}"
 
-  local APP_NAME="PokerTH"
   local APP_BUNDLE="$BUILD_DIR/${APP_NAME}.app"
   local APP_CONTENTS="$APP_BUNDLE/Contents"
   local APP_MACOS="$APP_CONTENTS/MacOS"
   local APP_RESOURCES="$APP_CONTENTS/Resources"
 
-  log "Creating app bundle structure…"
+  log "Creating app bundle structure ($APP_NAME.app)…"
+  rm -rf "$APP_BUNDLE"
   mkdir -p "$APP_MACOS"
   mkdir -p "$APP_RESOURCES"
 
@@ -225,50 +280,7 @@ build_bundle_and_dmg() {
   cp "$BUILD_DIR/bin/$BINARY_NAME" "$APP_MACOS/$APP_NAME"
   cp -r "$SCRIPT_DIR/data" "$APP_RESOURCES/"
 
-  # Create app icon from PNG (preferred for transparency) or SVG
-  local ICON_SOURCE=""
-  if [ -f "$SCRIPT_DIR/pokerth.png" ]; then
-      ICON_SOURCE="$SCRIPT_DIR/pokerth.png"
-      log "Converting PNG to .icns…"
-  elif [ -f "$SCRIPT_DIR/pokerth.svg" ]; then
-      ICON_SOURCE="$SCRIPT_DIR/pokerth.svg"
-      log "Converting SVG to .icns…"
-  fi
-
-  if [ -n "$ICON_SOURCE" ]; then
-      local ICONSET_DIR="$BUILD_DIR/pokerth.iconset"
-      mkdir -p "$ICONSET_DIR"
-
-      local BASE_PNG="$ICON_SOURCE"
-
-      if [[ "$ICON_SOURCE" == *.svg ]]; then
-          if [ -f "$SCRIPT_DIR/pokerth.png" ]; then
-              BASE_PNG="$SCRIPT_DIR/pokerth.png"
-              log "Using PNG source for better transparency support"
-          else
-              qlmanage -t -s 1024 -o "$BUILD_DIR" "$ICON_SOURCE" >/dev/null 2>&1
-              BASE_PNG="$BUILD_DIR/$(basename "$ICON_SOURCE").png"
-          fi
-      fi
-
-      sips -z 16 16     "$BASE_PNG" --out "$ICONSET_DIR/icon_16x16.png"    >/dev/null 2>&1
-      sips -z 32 32     "$BASE_PNG" --out "$ICONSET_DIR/icon_16x16@2x.png" >/dev/null 2>&1
-      sips -z 32 32     "$BASE_PNG" --out "$ICONSET_DIR/icon_32x32.png"    >/dev/null 2>&1
-      sips -z 64 64     "$BASE_PNG" --out "$ICONSET_DIR/icon_32x32@2x.png" >/dev/null 2>&1
-      sips -z 128 128   "$BASE_PNG" --out "$ICONSET_DIR/icon_128x128.png"  >/dev/null 2>&1
-      sips -z 256 256   "$BASE_PNG" --out "$ICONSET_DIR/icon_128x128@2x.png" >/dev/null 2>&1
-      sips -z 256 256   "$BASE_PNG" --out "$ICONSET_DIR/icon_256x256.png"  >/dev/null 2>&1
-      sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_256x256@2x.png" >/dev/null 2>&1
-      sips -z 512 512   "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512.png"  >/dev/null 2>&1
-      sips -z 1024 1024 "$BASE_PNG" --out "$ICONSET_DIR/icon_512x512@2x.png" >/dev/null 2>&1
-
-      if [[ "$BASE_PNG" == *"qlmanage"* ]] || [[ "$BASE_PNG" == *".svg.png" ]]; then
-          rm -f "$BASE_PNG"
-      fi
-
-      iconutil -c icns "$ICONSET_DIR" -o "$APP_RESOURCES/pokerth.icns"
-      rm -rf "$ICONSET_DIR"
-  fi
+  _make_icns "$SCRIPT_DIR" "$BUILD_DIR" "$APP_RESOURCES/pokerth.icns"
 
   log "Creating Info.plist…"
   cat > "$APP_CONTENTS/Info.plist" <<EOF
@@ -279,7 +291,7 @@ build_bundle_and_dmg() {
     <key>CFBundleExecutable</key>
     <string>$APP_NAME</string>
     <key>CFBundleIdentifier</key>
-    <string>net.pokerth.PokerTH</string>
+    <string>$BUNDLE_ID</string>
     <key>CFBundleName</key>
     <string>$APP_NAME</string>
     <key>CFBundleDisplayName</key>
@@ -317,7 +329,7 @@ EOF
       find "$APP_BUNDLE/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "Qt*" \) \
           -exec codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime {} \;
       codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime \
-          "$APP_BUNDLE/Contents/MacOS/PokerTH"
+          "$APP_MACOS/$APP_NAME"
       codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime \
           --entitlements /dev/null "$APP_BUNDLE"
       codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
@@ -330,13 +342,18 @@ EOF
       log "Ad-hoc signing complete."
       echo "  To enable Developer ID signing, set: export CODESIGN_IDENTITY=\"Developer ID Application: Your Name (TEAM_ID)\""
   fi
+}
 
-  ########################################
-  # DMG with visual layout
-  ########################################
+# create_dmg <BUILD_DIR> <VOLUME_NAME> <DMG_PATH> <APP_BUNDLE>...
+# Assembles a DMG containing one or more .app bundles plus an /Applications
+# symlink, with a visual drag-to-install layout.
+create_dmg() {
+  local BUILD_DIR="$1"
+  local VOLUME_NAME="$2"
+  local DMG_PATH="$3"
+  shift 3
+  local APP_BUNDLES=("$@")
 
-  local DMG_NAME="${APP_NAME}.dmg"
-  local DMG_PATH="$BUILD_DIR/$DMG_NAME"
   local DMG_TEMP_DIR="$BUILD_DIR/dmg_temp"
   local DMG_BACKGROUND_DIR="$DMG_TEMP_DIR/.background"
 
@@ -346,8 +363,33 @@ EOF
   mkdir -p "$DMG_TEMP_DIR"
   mkdir -p "$DMG_BACKGROUND_DIR"
 
-  cp -R "$APP_BUNDLE" "$DMG_TEMP_DIR/"
+  local APP_BUNDLE
+  for APP_BUNDLE in "${APP_BUNDLES[@]}"; do
+      cp -R "$APP_BUNDLE" "$DMG_TEMP_DIR/"
+  done
   ln -s /Applications "$DMG_TEMP_DIR/Applications"
+
+  # ── Layout geometry ──────────────────────────────────────────────────────
+  # Apps stacked vertically on the left, Applications centred on the right.
+  local n=${#APP_BUNDLES[@]}
+  local APP_X=130 APPS_X=390
+  local FIRST_Y=140 ROW_STEP=150
+  local APPS_Y=$(( FIRST_Y + (n - 1) * ROW_STEP / 2 ))
+  local WIN_LEFT=100 WIN_TOP=100
+  local WIN_RIGHT=$(( WIN_LEFT + 500 ))
+  local WIN_BOTTOM=$(( WIN_TOP + FIRST_Y + (n - 1) * ROW_STEP + 160 ))
+
+  # Build the per-item "set position" statements for the AppleScript.
+  local POS_STATEMENTS=""
+  local i=0
+  for APP_BUNDLE in "${APP_BUNDLES[@]}"; do
+      local APP_BASENAME
+      APP_BASENAME="$(basename "$APP_BUNDLE")"
+      local Y=$(( FIRST_Y + i * ROW_STEP ))
+      POS_STATEMENTS+="           set position of item \"$APP_BASENAME\" of container window to {$APP_X, $Y}"$'\n'
+      i=$(( i + 1 ))
+  done
+  POS_STATEMENTS+="           set position of item \"Applications\" of container window to {$APPS_X, $APPS_Y}"
 
   log "Creating DMG background image…"
   local ARROW_SVG="$BUILD_DIR/dmg_background.svg"
@@ -378,9 +420,17 @@ ARROW_EOF
   }
   rm -f "$ARROW_SVG"
 
+  # Size the read/write image from the payload plus a safety margin so that
+  # multiple (large) Qt bundles always fit.
+  local PAYLOAD_MB
+  PAYLOAD_MB=$(du -sm "$DMG_TEMP_DIR" | awk '{print $1}')
+  local DMG_SIZE_MB=$(( PAYLOAD_MB + 150 ))
+  [ "$DMG_SIZE_MB" -lt 500 ] && DMG_SIZE_MB=500
+
   local TMP_DMG="$BUILD_DIR/temp.dmg"
-  hdiutil create -srcfolder "$DMG_TEMP_DIR" -volname "$APP_NAME" -fs HFS+ \
-        -fsargs "-c c=64,a=16,e=16" -format UDRW -size 500m "$TMP_DMG"
+  rm -f "$TMP_DMG"
+  hdiutil create -srcfolder "$DMG_TEMP_DIR" -volname "$VOLUME_NAME" -fs HFS+ \
+        -fsargs "-c c=64,a=16,e=16" -format UDRW -size "${DMG_SIZE_MB}m" "$TMP_DMG"
 
   local DEVICE
   DEVICE=$(hdiutil attach -readwrite -noverify -noautoopen "$TMP_DMG" | \
@@ -390,19 +440,18 @@ ARROW_EOF
 
   osascript <<DMG_SCRIPT
    tell application "Finder"
-     tell disk "$APP_NAME"
+     tell disk "$VOLUME_NAME"
            open
            set current view of container window to icon view
            set toolbar visible of container window to false
            set statusbar visible of container window to false
-           set the bounds of container window to {100, 100, 600, 450}
+           set the bounds of container window to {$WIN_LEFT, $WIN_TOP, $WIN_RIGHT, $WIN_BOTTOM}
            set viewOptions to the icon view options of container window
            set arrangement of viewOptions to not arranged
            set icon size of viewOptions to 128
            set background picture of viewOptions to file ".background:background.png"
            delay 1
-           set position of item "$APP_NAME.app" of container window to {120, 150}
-           set position of item "Applications" of container window to {380, 150}
+$POS_STATEMENTS
            close
            open
            update without registering applications
@@ -418,6 +467,23 @@ DMG_SCRIPT
   hdiutil convert "$TMP_DMG" -format UDZO -imagekey zlib-level=9 -o "$DMG_PATH"
   rm -f "$TMP_DMG"
   rm -rf "$DMG_TEMP_DIR"
+}
+
+# build_bundle_and_dmg <BUILD_DIR> <BUILD_TARGET> <USE_QML 0|1> <SCRIPT_DIR>
+# Backwards-compatible single-client wrapper: one PokerTH.app in one PokerTH.dmg.
+build_bundle_and_dmg() {
+  local BUILD_DIR="$1"
+  local BUILD_TARGET="$2"
+  local USE_QML="$3"
+  local SCRIPT_DIR="$4"
+
+  local APP_NAME="PokerTH"
+  local APP_BUNDLE="$BUILD_DIR/${APP_NAME}.app"
+  local DMG_PATH="$BUILD_DIR/${APP_NAME}.dmg"
+
+  build_app_bundle "$BUILD_DIR" "$BUILD_TARGET" "$USE_QML" "$SCRIPT_DIR" \
+      "$APP_NAME" "net.pokerth.PokerTH"
+  create_dmg "$BUILD_DIR" "$APP_NAME" "$DMG_PATH" "$APP_BUNDLE"
 
   log "Build complete!"
   echo ""
@@ -425,5 +491,36 @@ DMG_SCRIPT
   echo "✓ DMG Installer: $DMG_PATH"
   echo ""
   echo "To run: open $APP_BUNDLE"
+  echo "To install: open $DMG_PATH"
+}
+
+# build_combined_bundles_and_dmg <BUILD_DIR> <SCRIPT_DIR>
+# Builds BOTH clients into two app bundles and packs them into a single DMG,
+# mirroring the Windows combined installer (Widget + QML in one package).
+#   PokerTH.app          → QML client   (net.pokerth.PokerTH)
+#   PokerTH Classic.app  → widget client (net.pokerth.PokerTH.Classic)
+build_combined_bundles_and_dmg() {
+  local BUILD_DIR="$1"
+  local SCRIPT_DIR="$2"
+
+  local QML_APP="$BUILD_DIR/PokerTH.app"
+  local WIDGET_APP="$BUILD_DIR/PokerTH Classic.app"
+  local DMG_PATH="$BUILD_DIR/PokerTH-Combined.dmg"
+
+  # QML = modern/primary client, Widget = classic client.
+  build_app_bundle "$BUILD_DIR" "pokerth_qml-client" "1" "$SCRIPT_DIR" \
+      "PokerTH" "net.pokerth.PokerTH"
+  build_app_bundle "$BUILD_DIR" "pokerth_client" "0" "$SCRIPT_DIR" \
+      "PokerTH Classic" "net.pokerth.PokerTH.Classic"
+
+  create_dmg "$BUILD_DIR" "PokerTH" "$DMG_PATH" "$QML_APP" "$WIDGET_APP"
+
+  log "Build complete!"
+  echo ""
+  echo "✓ QML App Bundle:    $QML_APP"
+  echo "✓ Widget App Bundle: $WIDGET_APP"
+  echo "✓ Combined DMG:      $DMG_PATH"
+  echo ""
+  echo "The DMG contains BOTH clients — drag either (or both) to Applications."
   echo "To install: open $DMG_PATH"
 }

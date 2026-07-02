@@ -355,7 +355,10 @@ EOF
 # --- Desktop-Datei + Icon (AppImage-Pflicht) ---
 
 echo "=== Erstelle Desktop-Datei und Icon ==="
-cat > "$APPDIR/pokerth-qml.desktop" << 'EOF'
+# Dateiname = pokerth_qml (Unterstrich): muss zur app_id passen, die der Client
+# via QGuiApplication::setDesktopFileName("pokerth_qml") setzt. So ordnet ein
+# Compositor ohne xdg-toplevel-icon (Fallback-Pfad) Fenster und Icon korrekt zu.
+cat > "$APPDIR/pokerth_qml.desktop" << 'EOF'
 [Desktop Entry]
 Name=PokerTH
 GenericName=Poker Card Game
@@ -366,6 +369,7 @@ Exec=pokerth_qml-client
 Icon=pokerth
 Terminal=false
 Type=Application
+StartupWMClass=pokerth_qml-client
 Categories=Qt;Game;CardGame;
 EOF
 
@@ -378,6 +382,12 @@ else
     echo "WARNUNG: pokerth.png nicht gefunden, erstelle Platzhalter"
     printf '\x89PNG\r\n\x1a\n' > "$APPDIR/pokerth.png"
 fi
+
+# .DirIcon bestimmt das Icon der AppImage-DATEI im Dateimanager. appimagetool
+# würde sonst nur einen Symlink .DirIcon -> pokerth.png anlegen, den manche
+# Thumbnailer nicht auflösen. Als echte Datei (kein Symlink) ist es überall
+# zuverlässig sichtbar.
+cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
 
 # --- Lizenz & Docs ---
 

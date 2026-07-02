@@ -245,6 +245,11 @@ else
     printf '\x89PNG\r\n\x1a\n' > "$APPDIR/pokerth.png"
 fi
 
+# .DirIcon bestimmt das Icon der AppImage-DATEI im Dateimanager. Als echte Datei
+# (statt des von appimagetool erzeugten Symlinks) ist es überall zuverlässig
+# sichtbar.
+cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
+
 # --- Lizenz & Docs ---
 
 [ -f "$PROJECT_ROOT/COPYING" ]   && cp "$PROJECT_ROOT/COPYING"   "$APPDIR/"
