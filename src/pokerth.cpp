@@ -141,9 +141,15 @@ int main(int argc, char *argv[])
 
 
     QIcon::setThemeName("pokerth");
-    // Set the application/window icon explicitly so the window manager, task-bar
-    // and status-bar show the PokerTH logo instead of Qt's generic default icon.
+    // Set the application/window icon explicitly. On X11 (and on Wayland with
+    // Qt >= 6.9 via the xdg-toplevel-icon protocol) this makes the window
+    // manager / task-bar show the PokerTH logo instead of the generic "W".
     QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/resources/pokerth.svg")));
+    // On Wayland with the Qt 6.8 deploy the compositor (e.g. KWin) can NOT get
+    // the icon from setWindowIcon; it resolves it from the matching .desktop
+    // file via the surface app_id. Pin the app_id to the installed desktop-file
+    // basename so the portable launcher's ~/.local/share entry is matched.
+    QGuiApplication::setDesktopFileName(QStringLiteral("pokerth_qml"));
 
     boost::shared_ptr<ConfigFile> myConfig;
     myConfig.reset(new ConfigFile(argv[0], false));
@@ -515,6 +521,11 @@ int main( int argc, char **argv )
 	// per-window StartWindowImpl::setWindowIcon, but that does not cover the
 	// application-level icon.
 	QApplication::setWindowIcon(QIcon(myAppDataPath + "gfx/gui/misc/windowicon.png"));
+	// On Wayland (Qt 6.8 deploy) setWindowIcon does not reach the compositor;
+	// the icon is resolved from the matching .desktop file via the surface
+	// app_id. Pin the app_id to the installed desktop-file basename so the
+	// portable launcher's ~/.local/share entry is matched by KWin.
+	QApplication::setDesktopFileName(QStringLiteral("pokerth"));
 
 	//set QApplication default font
 

@@ -153,6 +153,11 @@ echo "=== Kopiere Daten und Ressourcen ==="
 [ -f "$PROJECT_ROOT/pokerth.desktop" ]     && cp "$PROJECT_ROOT/pokerth.desktop"     "$DEPLOY_DIR/share/"
 [ -f "$PROJECT_ROOT/pokerth_qml.desktop" ] && cp "$PROJECT_ROOT/pokerth_qml.desktop" "$DEPLOY_DIR/share/"
 [ -f "$PROJECT_ROOT/pokerth.lua" ]         && cp "$PROJECT_ROOT/pokerth.lua"         "$DEPLOY_DIR/share/"
+# Skalierbares App-Icon fürs Deploy: die Launcher registrieren damit eine
+# .desktop-Datei in ~/.local/share, damit der Wayland-Compositor (KWin) das
+# Fenster-/Taskbar-Icon über die app_id auflösen kann (Qt 6.8 kann es dort
+# nicht via setWindowIcon setzen).
+[ -f "$PROJECT_ROOT/pokerth.svg" ]         && cp "$PROJECT_ROOT/pokerth.svg"         "$DEPLOY_DIR/share/"
 
 # Share-Symlink für PokerTH's Datei-Such-Logik (bin/../share/pokerth/data/)
 mkdir -p "$DEPLOY_DIR/share/pokerth"
@@ -192,6 +197,36 @@ if [[ "$1" == "--debug-audio" ]]; then
     echo "[DEBUG] PulseAudio libs:";    ls "$SCRIPT_DIR/lib/" | grep -i pulse || echo "  (keine gefunden!)"
 fi
 
+# --- Desktop-Integration (idempotent) -------------------------------------
+# Wayland-Compositoren (z. B. KWin) lesen das Fenster-/Taskbar-Icon NICHT aus
+# setWindowIcon (Qt 6.8 kann es dort nicht setzen), sondern aus der zur app_id
+# passenden .desktop-Datei. Für das portable Deploy registrieren wir sie hier
+# in ~/.local/share mit absoluten Exec-/Icon-Pfaden. app_id "pokerth" wird im
+# Code via setDesktopFileName() gesetzt und matcht den Basenamen unten.
+integrate_desktop_entry() {
+    apps_dir="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+    desktop_file="$apps_dir/pokerth.desktop"
+    icon="$SCRIPT_DIR/share/pokerth.svg"
+    [ -f "$icon" ] || icon="$SCRIPT_DIR/data/gfx/gui/misc/windowicon.png"
+    if [ ! -f "$desktop_file" ] || ! grep -qxF "Exec=$SCRIPT_DIR/pokerth" "$desktop_file"; then
+        mkdir -p "$apps_dir"
+        cat > "$desktop_file" <<DESKTOP
+[Desktop Entry]
+Type=Application
+Name=PokerTH
+GenericName=Poker Card Game
+Comment=Texas hold'em game
+Exec=$SCRIPT_DIR/pokerth
+Icon=$icon
+Terminal=false
+StartupWMClass=pokerth_client
+Categories=Qt;Game;CardGame;
+DESKTOP
+        command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$apps_dir" >/dev/null 2>&1 || true
+    fi
+}
+integrate_desktop_entry
+
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_client" "$@"
 EOF
@@ -223,6 +258,37 @@ if [[ "$1" == "--debug-audio" ]]; then
     echo "[DEBUG] Host-libpulse:"; ldd "$SCRIPT_DIR/bin/pokerth_qml-client" 2>/dev/null | grep -iE "pulse|sndfile|flac" || echo "  (keine)"
     echo "[DEBUG] Tipp: Wenn kein Ton — 'POKERTH_AUDIO_BACKEND=paplay ./pokerth-qml' testen (nutzt reine Host-Libs)."
 fi
+
+# --- Desktop-Integration (idempotent) -------------------------------------
+# Wayland-Compositoren (z. B. KWin auf dem Steam Deck) lesen das Fenster-/
+# Taskbar-Icon NICHT aus setWindowIcon (Qt 6.8 kann es dort nicht setzen),
+# sondern aus der zur app_id passenden .desktop-Datei. Für das portable Deploy
+# registrieren wir sie hier in ~/.local/share mit absoluten Exec-/Icon-Pfaden.
+# app_id "pokerth_qml" wird im Code via setDesktopFileName() gesetzt und matcht
+# den Basenamen unten.
+integrate_desktop_entry() {
+    apps_dir="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+    desktop_file="$apps_dir/pokerth_qml.desktop"
+    icon="$SCRIPT_DIR/share/pokerth.svg"
+    [ -f "$icon" ] || icon="$SCRIPT_DIR/data/gfx/gui/misc/windowicon.png"
+    if [ ! -f "$desktop_file" ] || ! grep -qxF "Exec=$SCRIPT_DIR/pokerth-qml" "$desktop_file"; then
+        mkdir -p "$apps_dir"
+        cat > "$desktop_file" <<DESKTOP
+[Desktop Entry]
+Type=Application
+Name=PokerTH
+GenericName=Poker Card Game
+Comment=Texas hold'em game
+Exec=$SCRIPT_DIR/pokerth-qml
+Icon=$icon
+Terminal=false
+StartupWMClass=pokerth_qml-client
+Categories=Qt;Game;CardGame;
+DESKTOP
+        command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$apps_dir" >/dev/null 2>&1 || true
+    fi
+}
+integrate_desktop_entry
 
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
