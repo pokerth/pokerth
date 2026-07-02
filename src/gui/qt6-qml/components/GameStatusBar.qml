@@ -19,7 +19,16 @@ Rectangle {
         (typeof Lobby !== "undefined" && Lobby && Lobby.currentGameId > 0)
             ? Lobby.currentGameName() : ""
 
+    // URL der Tisch-Statistikübersicht (nur Ranglistenspiele; sonst leer). An
+    // currentGameId und die Spielerliste gebunden, damit sie bei Beitritt/
+    // Verlassen neu ausgewertet wird – analog zum Qt-Widgets-Client.
+    readonly property string tableStatsUrl:
+        (typeof Lobby !== "undefined" && Lobby && Lobby.currentGameId > 0
+            && (GameTable ? GameTable.players : true))
+            ? Lobby.currentTableStatsUrl() : ""
+
     AppText {
+        id: tableNameLabel
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         // Nicht in die Pot-/Phasen-Spalten an den Rändern hineinragen.
@@ -32,6 +41,30 @@ Rectangle {
         font.pixelSize: Config.Responsive.landscapeCompact ? 12 : 14
         font.weight: Font.DemiBold
         font.letterSpacing: 0.5
+        // Nur bei vorhandener Statistik-URL (Ranglistenspiel) als Link
+        // darstellen und anklickbar machen.
+        readonly property bool clickable: tableStatsUrl !== ""
+        font.underline: clickable && tableNameHover.hovered
+
+        HoverHandler {
+            id: tableNameHover
+            enabled: tableNameLabel.clickable
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: tableNameLabel.clickable
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                // AppImage-sicher über den LobbyHandler öffnen (nicht
+                // Qt.openUrlExternally, siehe ChatBox/LobbyStatsBar).
+                var opened = Lobby ? Lobby.openExternalUrl(tableStatsUrl)
+                                   : Qt.openUrlExternally(tableStatsUrl)
+                if (!opened)
+                    console.warn("Failed to open table stats URL:", tableStatsUrl)
+            }
+        }
     }
 
     RowLayout {

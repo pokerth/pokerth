@@ -141,6 +141,9 @@ int main(int argc, char *argv[])
 
 
     QIcon::setThemeName("pokerth");
+    // Set the application/window icon explicitly so the window manager, task-bar
+    // and status-bar show the PokerTH logo instead of Qt's generic default icon.
+    QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/resources/pokerth.svg")));
 
     boost::shared_ptr<ConfigFile> myConfig;
     myConfig.reset(new ConfigFile(argv[0], false));
@@ -505,6 +508,14 @@ int main( int argc, char **argv )
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 
 	QString	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+
+	// Set the application-wide window icon so surfaces that use the *application*
+	// icon (e.g. the desktop shell's status/indicator area) show the PokerTH logo
+	// instead of the generic default. The taskbar already gets the icon from the
+	// per-window StartWindowImpl::setWindowIcon, but that does not cover the
+	// application-level icon.
+	QApplication::setWindowIcon(QIcon(myAppDataPath + "gfx/gui/misc/windowicon.png"));
+
 	//set QApplication default font
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");

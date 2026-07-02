@@ -7,6 +7,8 @@
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
+#include "game.h"
+#include "playerinterface.h"
 #include "configfile.h"
 #include "soundevents.h"
 #include "net/socket_msg.h"
@@ -1720,6 +1722,39 @@ void LobbyHandler::showPlayerStats(unsigned playerId)
     const QString url = QString("https://www.pokerth.net/redirect_user_profile.php?nick=%1")
         .arg(QString::fromUtf8(QUrl::toPercentEncoding(playerName)));
     openExternalUrl(url);
+}
+
+QString LobbyHandler::currentTableStatsUrl() const
+{
+    if (!m_session || m_currentGameId == 0)
+        return QString();
+
+    const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
+    // Nur Ranglistenspiele haben eine Tisch-Statistikübersicht (wie im
+    // Qt-Widgets-Client, MyNameLabel): tableview=1 + Liste der aktiven Nicks.
+    if (info.data.gameType != GAME_TYPE_RANKING)
+        return QString();
+
+    auto currentGame = m_session->getCurrentGame();
+    if (!currentGame)
+        return QString();
+
+    QString nickList;
+    int playerCounter = 0;
+    PlayerList seatsList = currentGame->getSeatsList();
+    for (PlayerListConstIterator it_c = seatsList->begin(); it_c != seatsList->end(); ++it_c) {
+        if ((*it_c)->getMyActiveStatus()) {
+            ++playerCounter;
+            nickList += QString("&nick%1=").arg(playerCounter);
+            nickList += QString::fromUtf8(QUrl::toPercentEncoding(
+                QString::fromUtf8((*it_c)->getMyName().c_str())));
+        }
+    }
+
+    return QStringLiteral("https://www.pokerth.net/redirect_user_profile.php?tableview=1")
+        + nickList
+        + QStringLiteral("&table=")
+        + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
 }
 
 // ── Domain text helpers ────────────────────────────────────────────────────

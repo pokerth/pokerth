@@ -288,6 +288,10 @@ public slots:
     Q_INVOKABLE void ignorePlayer(unsigned playerId);
     Q_INVOKABLE void unignorePlayer(unsigned playerId);
     Q_INVOKABLE void showPlayerStats(unsigned playerId);
+    // URL zur Tisch-Statistikübersicht (alle aktiven Spieler) des laufenden
+    // Ranglistenspiels – wie im Qt-Widgets-Client (MyNameLabel, tableview=1).
+    // Leer, wenn kein Ranglistenspiel läuft (dann keine Übersicht verfügbar).
+    Q_INVOKABLE QString currentTableStatsUrl() const;
     Q_INVOKABLE QString gameTypeText(int gameType) const;
     Q_INVOKABLE QString gameStatusText(int gameMode, int playerCount, int maxPlayers) const;
     Q_INVOKABLE void startGame(bool fillWithCpu = false);
