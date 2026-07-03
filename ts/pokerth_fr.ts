@@ -2751,6 +2751,11 @@ p, li { white-space: pre-wrap; }
         <source>initial gui graphics design</source>
         <translation>- design initial du graphisme de l&apos;interface graphique</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="135"/>
+        <source>code modernization, QML layout</source>
+        <translation>modernisation du code, mise en page QML</translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialog</name>

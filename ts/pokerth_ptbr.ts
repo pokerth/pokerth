@@ -2206,6 +2206,10 @@ p, li { white-space: pre-wrap; }
         <translation>Design inicial de guia graficos</translation>
     </message>
     <message>
+        <source>code modernization, QML layout</source>
+        <translation>modernização do código, layout QML</translation>
+    </message>
+    <message>
         <source>PokerTH %1 for Android (API%2)</source>
         <translation>PokerTH %1 para Android (API%2)</translation>
     </message>

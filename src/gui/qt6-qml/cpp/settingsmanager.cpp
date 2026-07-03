@@ -18,7 +18,9 @@
 
 #include "settingsmanager.h"
 #include "configfile.h"
+#include "game_defs.h"
 #include <QFileDialog>
+#include <QTextStream>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -208,6 +210,31 @@ QString SettingsManager::pickImageFile(const QString &title)
         tr("Images (*.png *.jpg *.jpeg *.gif *.bmp)"),
         nullptr, AppImageUtils::fileDialogOptions()
     );
+}
+
+QString SettingsManager::appVersion() const
+{
+    return QStringLiteral(POKERTH_BETA_RELEASE_STRING);
+}
+
+QString SettingsManager::licenseHtml() const
+{
+    return readMiscFile(QStringLiteral("agpl.html"));
+}
+
+QString SettingsManager::thirdPartyLibsText() const
+{
+    return readMiscFile(QStringLiteral("third_party_libs.txt"));
+}
+
+QString SettingsManager::readMiscFile(const QString &fileName) const
+{
+    // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+    QFile file(QString::fromStdString(m_config->readConfigString("AppDataDir"))
+               + "misc/" + fileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QString();
+    return QTextStream(&file).readAll();
 }
 
 QVariantList SettingsManager::availableTableStyles() const

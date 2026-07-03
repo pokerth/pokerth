@@ -1569,6 +1569,10 @@ p, li { white-space: pre-wrap; }
         <translation>počáteční grafický návrh</translation>
     </message>
     <message>
+        <source>code modernization, QML layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>PokerTH %1 for Android (API%2)</source>
         <translation>PokerTH %1 pro Android (API%2)</translation>
     </message>

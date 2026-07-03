@@ -62,53 +62,86 @@ endif()
 
 set(QML_FILES
     pokerth.qml
-    components/AppText.qml
     components/AppLabel.qml
+    components/AppText.qml
+    components/AvatarCardRow.qml
     components/BetChip.qml
     components/BlindButtonImage.qml
-    components/PlayerActionBadge.qml
-    components/PlayerTimeoutBar.qml
-    components/PlayerBoxBackground.qml
-    components/PlayerTurnGlow.qml
-    components/PlayerWinnerOverlay.qml
-    components/SettingsHeader.qml
+    components/BrandHeader.qml
+    components/CardImage.qml
+    components/ChatBox.qml
+    components/CommunityCards.qml
+    components/CommunityPlayerView.qml
+    components/CommunityRankingView.qml
     components/ConfigCheckBox.qml
-    components/RankingFilterField.qml
+    components/ConfirmPopup.qml
+    components/CustomButton.qml
     components/CustomCheckBox.qml
     components/CustomComboBox.qml
+    components/CustomSpinBox.qml
     components/CustomTabBar.qml
     components/CustomToggle.qml
-    components/CustomSpinBox.qml
-    components/AvatarCardRow.qml
+    components/EmojiPicker.qml
+    components/ExampleAvatarPicker.qml
+    components/GameActionBar.qml
+    components/GameInfoPanel.qml
+    components/GameListItem.qml
     components/GamePlayerBox.qml
     components/GamePlayerSelfBox.qml
-    components/EmojiPicker.qml
+    components/GameReactionFx.qml
+    components/GameRoundIconButton.qml
+    components/GameSidePanel.qml
+    components/GameStatusBar.qml
     components/GuiSettings.qml
     components/InternetGameSettings.qml
+    components/LobbyStatsBar.qml
     components/LocalGameSettings.qml
     components/LogsSettings.qml
     components/NetworkGameSettings.qml
     components/NicknameAvatarSettings.qml
+    components/PanelShadow.qml
+    components/PlayerActionBadge.qml
+    components/PlayerActionIcon.qml
+    components/PlayerBoxBackground.qml
+    components/PlayerListItem.qml
+    components/PlayerTimeoutBar.qml
+    components/PlayerTurnGlow.qml
+    components/PlayerWinnerOverlay.qml
+    components/RankingFilterField.qml
+    components/ReactionPicker.qml
     components/ResetSettings.qml
+    components/ResizeHandle.qml
+    components/SectionDivider.qml
+    components/SettingsHeader.qml
     components/SideMenu.qml
     components/SoundSettings.qml
-    components/CustomButton.qml
-    components/StyleSettings.qml
     components/StyleCard.qml
-    components/LobbyStatsBar.qml
+    components/StyleSettings.qml
+    components/SvgIconImage.qml
+    components/SvgIconVector.qml
+    components/WinningHandBadge.qml
     pages/AboutPage.qml
+    pages/BbcRankingPage.qml
+    pages/CommunityRankingPage.qml
     pages/GamePage.qml
+    pages/GameWaitPage.qml
     pages/InternetGamePage.qml
+    pages/LobbyCreateGamePage.qml
+    pages/LobbyPage.qml
     pages/LocalGamePage.qml
     pages/LogsPage.qml
     pages/NetworkGameCreatePage.qml
     pages/NetworkGameEnterPage.qml
+    pages/PokerthPlayerPage.qml
     pages/PreLoader.qml
+    pages/RankingPage.qml
+    pages/ServerConnectionDialog.qml
     pages/SettingsPage.qml
     pages/StartPage.qml
-    config/StaticData.qml
+    pages/WecRankingPage.qml
     config/Parameters.qml
     config/Responsive.qml
+    config/StaticData.qml
     config/Theme.qml)
 
 set(TS_FILES

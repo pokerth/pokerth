@@ -4,9 +4,154 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+30"/>
-        <source>Über PokerTH</source>
+        <location filename="../pages/AboutPage.qml" line="+99"/>
+        <source>About PokerTH</source>
         <translation>À propos de PokerTH</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>About</source>
+        <translation>A propos de</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Project</source>
+        <translation>Projet</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Thanks to</source>
+        <translation>Remerciements à</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>License</source>
+        <translation>Licence</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Third party libs</source>
+        <translation>Bibliothèques tierces</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>PokerTH %1</source>
+        <translation>PokerTH %1</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>- Poker engine for the popular Texas Hold&apos;em Poker</source>
+        <translation>- Le jeu de Poker Texas Holdem par excellence</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- Singleplayer games with up to 9 computer-opponents</source>
+        <translation>- Partie solo avec possibilité de jouer jusqu&apos;à 9 des adversaires contrôlés par l&apos;ordinateur</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- Multiplayer network games</source>
+        <translation>- Parties en réseau local</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- Internet online games</source>
+        <translation>- Parties sur Internet</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- Changeable gui with online style gallery</source>
+        <translation>- Possibilité de changer l&apos;aspect du jeu avec une gallerie en ligne contenant des styles de cartes et de tables</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- Online ranking website with result tables</source>
+        <translation>- Certaines parties sont enregistrées et vous pouvez consulter le classement des meilleurs joueurs en ligne</translation>
+    </message>
+    <message>
+        <location line="+38"/>
+        <source>Project page:</source>
+        <translation>Site officiel : </translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Authors:</source>
+        <translation>Auteurs : </translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>initial idea, basic architecture, gui implementation, gui graphics editing, linux package</source>
+        <translation>- idée initiale, architecture de base, implémentation de l&apos;interface graphique, édition des graphismes de l&apos;interface graphique, paquets Linux</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>initial idea, basic architecture, engine development</source>
+        <translation>- idée initiale, architecture de base, développement du moteur</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>basic architecture, network development, windows package, MacOS package</source>
+        <translation>- architecture de base, développement réseau, paquet Windows, paquet MacOS</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>initial gui graphics design</source>
+        <translation>- design initial du graphisme de l&apos;interface graphique</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>code modernization, QML layout</source>
+        <translation>modernisation du code, mise en page QML</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>- Wikimedia Commons: for different popular avatar picture resources</source>
+        <translation>- Wikimedia Commons : pour leurs différents avatars populaires</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro: for people avatar pictures</source>
+        <translation>- Benedikt, Erhard, Felix, Florian, Linus, Lothar, Steffi, Caro : pour les avatars/visages de joueurs</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- ZeiZei: for misc avatar pictures</source>
+        <translation>- ZeiZei : pour divers avatars</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- kde-look.org: for different gpl licensed sounds</source>
+        <translation>- http://kde-look.org : pour les différents sons sous licence gpl</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- doc_dos: for self recorded chip sounds</source>
+        <translation>- doc_dos : pour les sons qu&apos;il a enregistrés lui-même</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- thiger, dunkanx, BerndA, coldz, drull: for different patches</source>
+        <translation>- thiger, dunkanx, BerndA, coldz : pour leurs différents patches </translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- kraut: for internet-game-server hosting and administration</source>
+        <translation>- kraut : pour l&apos;hébergement du serveur de parties internet et l&apos;administration</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- danuxi: for startwindow background gfx and danuxi1 table background</source>
+        <translation>- danuxi : pour le fond de l&apos;écran de démarrage gfx et le fond de la table danuxi1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- heyn: for moderating forum and organise bugtracker and feature requests</source>
+        <translation>- heyn : pour la modération sur le forum et l&apos;organisation du système de suivi des bogues et des fonctionnalités</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>- texas_outlaw: for new table sounds</source>
+        <translation>- texas_outlaw: pour les nouveaux effets sonores</translation>
     </message>
 </context>
 <context>
@@ -267,39 +412,6 @@
         <location line="+48"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
-    </message>
-</context>
-<context>
-    <name>CreateLocalGameViewImpl</name>
-    <message>
-        <location filename="../cpp/createlocalgameviewimpl.cpp" line="+17"/>
-        <source>Number of players</source>
-        <translation>Nombre de joueurs</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Start cash</source>
-        <translation>Capital de départ</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>First small blind</source>
-        <translation>Première petite blinde</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Blinds raise interval</source>
-        <translation>Intervalle d&apos;augmentation des blindes</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Blinds raise mode</source>
-        <translation>Mode d&apos;augmentation des blindes</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Game speed</source>
-        <translation>Vitesse de jeu</translation>
     </message>
 </context>
 <context>
@@ -2497,7 +2609,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+142"/>
+        <location filename="../components/PlayerListItem.qml" line="+147"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 joue actuellement dans la partie &quot;%2&quot;.</translation>
     </message>
@@ -2941,12 +3053,12 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+208"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+210"/>
         <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
         <translation>Images (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+100"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Sélectionner un style de table de jeu</translation>
     </message>

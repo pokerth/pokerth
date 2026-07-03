@@ -75,6 +75,12 @@ public:
     Q_INVOKABLE void resetToDefaults();
     Q_INVOKABLE QString pickImageFile(const QString &title);
 
+    // Für die Über-Seite: Versionsstring (POKERTH_BETA_RELEASE_STRING) sowie
+    // die mitgelieferten Texte aus <AppDataDir>/misc/ (leer, wenn nicht gefunden).
+    Q_INVOKABLE QString appVersion() const;
+    Q_INVOKABLE QString licenseHtml() const;
+    Q_INVOKABLE QString thirdPartyLibsText() const;
+
     // Liste der verfügbaren QML-Stile unter <AppDataDir>/gfx/qml/<table|cards>/*
     // sowie – für importierte Stile – <UserDataDir>/gfx/qml/<...>/*.
     // Jeder Eintrag ist eine Map mit den Schlüsseln:
@@ -132,6 +138,9 @@ private:
     // Wurzel-Verzeichnis einer Stil-Kategorie (user=true → Benutzer-Verzeichnis
     // für importierte Stile, sonst mitgelieferte Daten). Ohne Trennzeichen am Ende.
     QString stylesRootPath(bool user, const QString &category) const;
+
+    // Liest eine Textdatei aus <AppDataDir>/misc/ (leer, wenn nicht vorhanden).
+    QString readMiscFile(const QString &fileName) const;
 
     // Gemeinsame Implementierung der drei import*Style()-Methoden.
     QVariantMap importStyle(const QString &category, const QString &sectionTag,
