@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -29,7 +28,7 @@ Rectangle {
         width: parent.width
         anchors.verticalCenter: parent.verticalCenter
 
-        VectorImage {
+        SvgIcon {
             id: customCheck
             source: checkBox.isChecked ? "../resources/checkSquare.svg" : "../resources/square.svg"
             Layout.preferredWidth: 24

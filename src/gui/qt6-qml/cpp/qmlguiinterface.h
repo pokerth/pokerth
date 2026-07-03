@@ -105,9 +105,9 @@ public:
     virtual void SignalNetClientLoginShow() override;
     
     virtual void SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) override;
-    virtual void SignalNetClientNotification(int notificationId) override {}
+    virtual void SignalNetClientNotification(int notificationId) override;
     virtual void SignalNetClientStatsUpdate(const ServerStats &stats) override {}
-    virtual void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing) override {}
+    virtual void SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing) override;
     virtual void SignalNetClientShowTimeoutDialog(NetTimeoutReason reason, unsigned remainingSec) override;
     virtual void SignalNetClientRemovedFromGame(int notificationId) override;
     
@@ -124,8 +124,8 @@ public:
     virtual void SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin) override;
     virtual void SignalNetClientPlayerChanged(unsigned playerId, const std::string &newPlayerName) override;
     virtual void SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason) override;
-    virtual void SignalNetClientSpectatorJoined(unsigned playerId, const std::string &playerName) override {}
-    virtual void SignalNetClientSpectatorLeft(unsigned playerId, const std::string &playerName, int removeReason) override {}
+    virtual void SignalNetClientSpectatorJoined(unsigned playerId, const std::string &playerName) override;
+    virtual void SignalNetClientSpectatorLeft(unsigned playerId, const std::string &playerName, int removeReason) override;
     virtual void SignalNetClientNewGameAdmin(unsigned playerId, const std::string &playerName) override {}
     
     virtual void SignalNetClientGameChatMsg(const std::string &playerName, const std::string &msg) override;
@@ -133,7 +133,7 @@ public:
     virtual void SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg) override;
     virtual void SignalNetClientMsgBox(const std::string &msg) override;
     virtual void SignalNetClientMsgBox(unsigned msgId) override;
-    virtual void SignalNetClientWaitDialog() override {}
+    virtual void SignalNetClientWaitDialog() override;
     
     virtual void SignalNetClientServerListAdd(unsigned serverId) override {}
     virtual void SignalNetClientServerListClear() override {}

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 
 import "../config" as Config
 import "../components"
@@ -9,8 +8,10 @@ import "../components"
 
 Rectangle {
     id: serverConnectionPage
-    width: mainWindow.width
-    height: mainWindow.height
+    // An den sichtbaren Bereich (StackView unterhalb der Topbar) binden, nicht
+    // an das ganze Fenster – sonst ist die Box vertikal nicht zentriert.
+    width: mainStackView.width
+    height: mainStackView.height
     color: "transparent"
 
     Image {
@@ -40,18 +41,18 @@ Rectangle {
         }
 
         function onConnectionSucceeded() {
-            console.log("Connection succeeded!")
+            // console.log("Connection succeeded!")
         }
 
         function onConnectionFailed(errorMessage) {
-            console.log("Connection failed:", errorMessage)
+            // console.log("Connection failed:", errorMessage)
             statusText.text = errorMessage
             statusText.color = Config.Theme.colorError
             errorResetTimer.restart()
         }
 
         function onShowLobby() {
-            console.log("[NAV] onShowLobby → replace currentItem with LobbyPage.qml | depth before:", mainStackView.depth)
+            // console.log("[NAV] onShowLobby → replace currentItem with LobbyPage.qml | depth before:", mainStackView.depth)
             mainStackView.replace(mainStackView.currentItem, "LobbyPage.qml")
         }
     }
@@ -75,25 +76,28 @@ Rectangle {
         clip: true
 
         ScrollBar.vertical: ScrollBar {
-            policy: serverConnScroller.contentHeight > serverConnScroller.height
-                    ? ScrollBar.AlwaysOn : ScrollBar.AsNeeded
+            // AlwaysOff statt AsNeeded: AsNeeded blendet die Bar bei jeder
+            // contentHeight-Änderung transient ein (mehrsekündiges Fade) –
+            // sichtbar als kurz aufblitzende Scrollbar beim Seitenaufbau,
+            // obwohl nichts zu scrollen ist.
+            policy: serverConnScroller.contentHeight > serverConnScroller.height + 1
+                    ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
         }
 
         Item {
             id: serverConnScrollContent
             width: serverConnScroller.width
-            height: Math.max(serverConnScroller.height, 360)
+            // Mindesthöhe = Viewport → Box bleibt vertikal zum Fensterrand
+            // zentriert; bei zu niedrigem Fenster kann gescrollt werden.
+            height: Math.max(serverConnScroller.height,
+                             Config.Theme.brandBoxHeight + Config.Theme.margin * 2)
 
-    ColumnLayout {
-        anchors.fill: parent
-
-        // Card – wie auf der StartPage
+        // Card – wie auf der StartPage (vertikal zentriert)
         Rectangle {
             id: loginCard
-            Layout.alignment: Qt.AlignCenter
-            Layout.preferredWidth: Math.min(parent.width * 0.9, 360)
-            Layout.preferredHeight: Math.min(parent.height * 0.88, 560)
-            Layout.minimumHeight: 400
+            anchors.centerIn: parent
+            width: Math.min(parent.width - Config.Theme.margin * 2, Config.Theme.brandBoxWidth)
+            height: Config.Theme.brandBoxHeight
             color: "transparent"
 
             Rectangle {
@@ -103,22 +107,21 @@ Rectangle {
                 radius: 5
             }
 
-            // PokerTH-Logo oben in der Card – wie auf der StartPage.
-            VectorImage {
+            // PokerTH-Logo + Kartensymbole oben in der Card, fix positioniert –
+            // exakt wie auf der StartPage (Config.Theme.margin vom oberen Rand).
+            BrandHeader {
                 id: loginLogo
                 anchors.top: parent.top
-                anchors.topMargin: 20
+                anchors.topMargin: Config.Theme.margin
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: 80
-                height: 80
-                source: "../resources/pokerth.svg"
+                logoSize: Config.Theme.brandLogoSize
             }
 
             StackLayout {
                 id: mainStack
                 anchors.fill: parent
                 anchors.margins: 28
-                anchors.topMargin: 20 + 80 + 12   // Logo + Abstand
+                anchors.topMargin: loginLogo.y + loginLogo.height + 12   // Logo + Abstand
                 currentIndex: 0
 
                 // View 0: Auswahl
@@ -162,10 +165,9 @@ Rectangle {
 
                     Item { Layout.fillHeight: true }
 
-                    Label {
+                    AppLabel {
                         text: qsTr("User Login")
                         Layout.alignment: Qt.AlignHCenter
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: Config.Theme.fontSizeTitle
                         color: Config.StaticData.palette.secondary.col200
@@ -230,7 +232,7 @@ Rectangle {
                             text: qsTr("Login")
                             Layout.fillWidth: true
                             onClicked: {
-                                console.log("Login clicked. Username:", usernameInput.text, "Remember me:", rememberMeCheckbox.checked)
+                                // console.log("Login clicked. Username:", usernameInput.text, "Remember me:", rememberMeCheckbox.checked)
                                 usernameLabel.text = usernameInput.text
                                 connectionProgress.value = 0
                                 mainStack.currentIndex = 2
@@ -249,18 +251,16 @@ Rectangle {
 
                     Item { Layout.fillHeight: true }
 
-                    Text {
+                    AppText {
                         text: qsTr("Connecting as...")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeBody
                         color: Config.StaticData.palette.secondary.col300
                         Layout.alignment: Qt.AlignHCenter
                     }
 
-                    Text {
+                    AppText {
                         id: usernameLabel
                         text: qsTr("Username/Guest")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: Config.Theme.fontSizeTitle
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
@@ -301,10 +301,9 @@ Rectangle {
                             }
                         }
 
-                        Text {
+                        AppText {
                             id: statusText
                             text: qsTr("Initializing connection...")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: Config.Theme.fontSizeBody
                             color: Config.StaticData.palette.secondary.col300
                             Layout.alignment: Qt.AlignHCenter
@@ -327,7 +326,6 @@ Rectangle {
                 }
             }
         }
-    }
         }
     }
 }

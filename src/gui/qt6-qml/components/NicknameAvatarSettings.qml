@@ -16,30 +16,7 @@ Rectangle {
         id: nicknameAvatarSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Nicknamen/Avatare")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Nicknamen/Avatare"); topGap: 4 }
 
         ScrollView {
             id: nickScrollView
@@ -117,13 +94,12 @@ Rectangle {
                                     color: Config.StaticData.palette.secondary.col200
                                 }
 
-                                Text {
+                                AppText {
                                     Layout.fillWidth: true
                                     text: myAvatarField.text.length > 0
                                           ? myAvatarField.text.split("/").pop()
                                           : qsTr("Kein Avatar gewählt")
                                     font.pointSize: 10
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     color: Config.StaticData.palette.secondary.col400
                                     elide: Text.ElideLeft
                                 }
@@ -135,14 +111,31 @@ Rectangle {
                                 text: SettingsManager ? SettingsManager.readConfigString("MyAvatar") : ""
                             }
 
-                            Button {
-                                text: qsTr("Auswählen...")
-                                onClicked: {
-                                    if (!SettingsManager) return
-                                    let path = SettingsManager.pickImageFile(qsTr("Avatar auswählen"))
-                                    if (path) {
-                                        myAvatarField.text = path
-                                        SettingsManager.writeConfigString("MyAvatar", path)
+                            ColumnLayout {
+                                spacing: 4
+
+                                Button {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Auswählen...")
+                                    onClicked: {
+                                        if (!SettingsManager) return
+                                        let path = SettingsManager.pickImageFile(qsTr("Avatar auswählen"))
+                                        if (path) {
+                                            myAvatarField.text = path
+                                            SettingsManager.writeConfigString("MyAvatar", path)
+                                        }
+                                    }
+                                }
+
+                                Button {
+                                    Layout.fillWidth: true
+                                    text: qsTr("Beispiele...")
+                                    onClicked: {
+                                        avatarPicker.onPicked = function(path) {
+                                            myAvatarField.text = path
+                                            if (SettingsManager) SettingsManager.writeConfigString("MyAvatar", path)
+                                        }
+                                        avatarPicker.openPicker()
                                     }
                                 }
                             }
@@ -214,13 +207,12 @@ Rectangle {
                                         color: Config.StaticData.palette.secondary.col200
                                     }
 
-                                    Text {
+                                    AppText {
                                         Layout.fillWidth: true
                                         text: opponentAvatarField.text.length > 0
                                               ? opponentAvatarField.text.split("/").pop()
                                               : qsTr("Kein Avatar gewählt")
                                         font.pointSize: 10
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         color: Config.StaticData.palette.secondary.col400
                                         elide: Text.ElideLeft
                                     }
@@ -232,14 +224,31 @@ Rectangle {
                                     text: SettingsManager ? SettingsManager.readConfigString("Opponent" + (index + 1) + "Avatar") : ""
                                 }
 
-                                Button {
-                                    text: qsTr("Auswählen...")
-                                    onClicked: {
-                                        if (!SettingsManager) return
-                                        let path = SettingsManager.pickImageFile(qsTr("Avatar auswählen"))
-                                        if (path) {
-                                            opponentAvatarField.text = path
-                                            SettingsManager.writeConfigString("Opponent" + (index + 1) + "Avatar", path)
+                                ColumnLayout {
+                                    spacing: 4
+
+                                    Button {
+                                        Layout.fillWidth: true
+                                        text: qsTr("Auswählen...")
+                                        onClicked: {
+                                            if (!SettingsManager) return
+                                            let path = SettingsManager.pickImageFile(qsTr("Avatar auswählen"))
+                                            if (path) {
+                                                opponentAvatarField.text = path
+                                                SettingsManager.writeConfigString("Opponent" + (index + 1) + "Avatar", path)
+                                            }
+                                        }
+                                    }
+
+                                    Button {
+                                        Layout.fillWidth: true
+                                        text: qsTr("Beispiele...")
+                                        onClicked: {
+                                            avatarPicker.onPicked = function(path) {
+                                                opponentAvatarField.text = path
+                                                if (SettingsManager) SettingsManager.writeConfigString("Opponent" + (index + 1) + "Avatar", path)
+                                            }
+                                            avatarPicker.openPicker()
                                         }
                                     }
                                 }
@@ -252,6 +261,19 @@ Rectangle {
                     Layout.fillHeight: true
                 }
             }
+        }
+    }
+
+    // Galerie der mitgelieferten Beispiel-Avatare. Ein gemeinsamer Picker für
+    // alle Spielerfelder; das jeweils anzusprechende Feld wird vor dem Öffnen
+    // über onPicked gesetzt.
+    ExampleAvatarPicker {
+        id: avatarPicker
+
+        property var onPicked: null
+
+        onSelected: function(path) {
+            if (onPicked) onPicked(path)
         }
     }
 }

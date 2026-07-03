@@ -55,6 +55,7 @@ struct ConfigInfo {
 #endif /* _CISTRUCT_H */
 
 class QtToolsInterface;
+class QString;
 
 class ConfigFile
 {
@@ -86,6 +87,11 @@ protected:
 	void checkAndCorrectPlayerNames();
 
 private:
+	// Write the given XML to config.xml, decoding the (local 8-bit encoded)
+	// configFileName correctly and logging a clear error on failure instead of
+	// silently dropping the user's settings. Returns true on success.
+	bool writeConfigDocument(const QString &xmlContent) const;
+
 
 	mutable boost::recursive_mutex m_configMutex;
 

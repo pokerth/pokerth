@@ -7,6 +7,7 @@
 
 #include <string>
 #include <set>
+#include <mutex>
 #include <boost/filesystem.hpp>
 
 #include "engine_defs.h"
@@ -67,6 +68,16 @@ private:
     GameState currentRound;
     std::string sql;
     std::set<std::string> loggedSitsOut;  // Track players already logged as "sits out"
+
+    // Serializes every access to sql and every exec_transaction(). The log is
+    // normally written from the network thread, but flushLog() is also called
+    // synchronously from the GUI thread (ClientThread::SendLeaveCurrentGame on
+    // leave/end of game). Without this lock the two threads race on the sql
+    // buffer (UB) and can start concurrent SQLite transactions on the same .pdb
+    // file, blocking the GUI thread on the file lock -> frozen GUI at round end.
+    // Recursive because the public log* methods call exec_transaction() while
+    // already holding the lock.
+    std::recursive_mutex sqlMutex;
 };
 
 #endif // LOG_H

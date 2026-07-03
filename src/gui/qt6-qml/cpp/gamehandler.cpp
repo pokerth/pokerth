@@ -5,6 +5,7 @@
 
 #include "gamehandler.h"
 #include "chatemotes.h"
+#include "gui/chat_emote_shortcuts.h"
 #include <session.h>
 #include <game.h>
 #include <handinterface.h>
@@ -17,6 +18,7 @@
 #include <gamedata.h>
 #include <configfile.h>
 #include <soundevents.h>
+#include <net/socket_msg.h>
 #include <QString>
 #include <QTimer>
 #include <QDebug>
@@ -77,47 +79,6 @@ QString resolveAvatarSource(const std::string &raw)
         return QString();
     return QUrl::fromLocalFile(path).toString();
 }
-
-// ASCII-Smileys → Unicode-Emoji (identisch zum Lobby-Chat). Eingabe ist bereits
-// HTML-escaped ('>' = "&gt;"); RichText rendert die Emoji über die Systemschrift.
-QString chatCheckForEmotes(const QString &input)
-{
-    QString result = input;
-    auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
-
-    result.replace(QLatin1String("0:-)"),    emo(0x1F607)); // 😇
-    result.replace(QLatin1String("X-("),     emo(0x1F620)); // 😠
-    result.replace(QLatin1String("B-)"),     emo(0x1F60E)); // 😎
-    result.replace(QLatin1String("8-)"),     emo(0x1F60E)); // 😎
-    result.replace(QLatin1String(":'("),     emo(0x1F622)); // 😢
-    result.replace(QLatin1String("&gt;:-)"), emo(0x1F608)); // 😈
-    result.replace(QLatin1String(":-["),     emo(0x1F633)); // 😳
-    result.replace(QLatin1String(":-*"),     emo(0x1F617)); // 😗
-    result.replace(QLatin1String(":-))" ),   emo(0x1F602)); // 😂
-    result.replace(QLatin1String(":))" ),    emo(0x1F602)); // 😂
-    result.replace(QLatin1String(":-|"),     emo(0x1F610)); // 😐
-    result.replace(QLatin1String(":-P"),     emo(0x1F61B)); // 😛
-    result.replace(QLatin1String(":-p"),     emo(0x1F61B)); // 😛
-    result.replace(QLatin1String(":-("),     emo(0x1F61E)); // 😞
-    result.replace(QLatin1String(":("),      emo(0x1F61E)); // 😞
-    result.replace(QLatin1String(":-&"),     emo(0x1F912)); // 🤒
-    result.replace(QLatin1String(":-D"),     emo(0x1F603)); // 😃
-    result.replace(QLatin1String(":D"),      emo(0x1F603)); // 😃
-    result.replace(QLatin1String(":-!"),     emo(0x1F60F)); // 😏
-    result.replace(QLatin1String(":-0"),     emo(0x1F62E)); // 😮
-    result.replace(QLatin1String(":-O"),     emo(0x1F62E)); // 😮
-    result.replace(QLatin1String(":-o"),     emo(0x1F62E)); // 😮
-    result.replace(QLatin1String(":-/"),     emo(0x1F615)); // 😕
-    if (!result.contains(QLatin1String("http://")) && !result.contains(QLatin1String("https://")))
-        result.replace(QLatin1String(":/"), emo(0x1F615));  // 😕
-    result.replace(QLatin1String(";-)"),     emo(0x1F609)); // 😉
-    result.replace(QLatin1String(";)"),      emo(0x1F609)); // 😉
-    result.replace(QLatin1String(":-S"),     emo(0x1F61F)); // 😟
-    result.replace(QLatin1String(":-s"),     emo(0x1F61F)); // 😟
-    result.replace(QLatin1String(":-)"),     emo(0x1F60A)); // 😊
-    result.replace(QLatin1String(":)"),      emo(0x1F60A)); // 😊
-    return enlargeEmojis(result);
-}
 } // namespace
 
 GameHandler::GameHandler(QObject *parent)
@@ -136,6 +97,8 @@ GameHandler::GameHandler(QObject *parent)
         p["action"]  = 0;
         p["card0"]   = -1;
         p["card1"]   = -1;
+        p["fade0"]   = false;
+        p["fade1"]   = false;
         m_players.append(p);
     }
     // Initialize empty board cards (5 slots, -1 = not dealt)
@@ -216,9 +179,11 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     m_boardCards = QVariantList{-1, -1, -1, -1, -1};
     m_winnerSeatIds.clear();
     m_winningHandText.clear();
-    m_showdownActive = false;
-    m_gameLog.clear();
-    emit gameLogChanged();
+    m_holeFade0.clear();
+    m_holeFade1.clear();
+    m_boardCardFade = QVariantList{false, false, false, false, false};
+    setShowdownActive(false);
+    m_gameLogModel.clear();
     m_chatLog.clear();
     emit chatLogChanged();
     for (int i = 0; i < 10; ++i) {
@@ -241,6 +206,43 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     emit boardCardsChanged();
     emit winnerSeatIdsChanged();
     emit winningHandTextChanged();
+    emit boardCardFadeChanged();
+}
+
+QString GameHandler::tableStatsUrl() const
+{
+    if (!m_game || !m_session)
+        return QString();
+
+    // Tischname aus der Server-Spielinfo (wie refreshSpectators): der GameHandler
+    // hält den Namen nicht selbst, wohl aber die aktuelle Game-ID der Session.
+    const unsigned gameId = m_session->getClientCurrentGameId();
+    if (gameId == 0)
+        return QString();
+    const GameInfo info = m_session->getClientGameInfo(gameId);
+
+    // Nick-Liste 1:1 wie der Qt-Widgets-Client (MyNameLabel): nur aktive Spieler.
+    // Zusätzlich – wie beim Aufbau von m_players – bereits ausgestiegene Spieler
+    // (m_leftPlayers) überspringen, damit die URL exakt den sichtbaren
+    // Spielerboxen entspricht und sich beim Verlassen mitzieht.
+    QString nickList;
+    int playerCounter = 0;
+    PlayerList seats = m_game->getSeatsList();
+    for (auto it = seats->begin(); it != seats->end(); ++it) {
+        if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+            continue;
+        if (!(*it)->getMyActiveStatus())
+            continue;
+        ++playerCounter;
+        nickList += QString("&nick%1=").arg(playerCounter);
+        nickList += QString::fromUtf8(QUrl::toPercentEncoding(
+            QString::fromStdString((*it)->getMyName())));
+    }
+
+    return QStringLiteral("https://www.pokerth.net/redirect_user_profile.php?tableview=1")
+        + nickList
+        + QStringLiteral("&table=")
+        + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
 }
 
 // ─── private helpers ────────────────────────────────────────────────────────
@@ -261,12 +263,9 @@ void GameHandler::playYourTurnTimeoutSound()
 void GameHandler::appendGameLog(const QString &message, int type)
 {
     if (message.isEmpty()) return;
-    m_gameLog.append(formatLogLine(message, type));
-    // Begrenzen, damit der Verlauf nicht unbegrenzt wächst.
+    // Inkrementelles Anhängen + Begrenzung im Modell (kein Full-Reset der View).
     const int kMaxLines = 400;
-    if (m_gameLog.size() > kMaxLines)
-        m_gameLog.erase(m_gameLog.begin(), m_gameLog.begin() + (m_gameLog.size() - kMaxLines));
-    emit gameLogChanged();
+    m_gameLogModel.append(formatLogLine(message, type), kMaxLines);
 }
 
 void GameHandler::appendChat(const QString &playerName, const QString &message)
@@ -280,14 +279,24 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     // als im Web-Client (22 statt 18), damit auch ZWJ-/Variation-Selector-
     // Sequenzen durchgehen – normale Nachrichten matchen trotzdem nicht.
     const QString trimmedMsg = message.trimmed();
+    bool isReactionMsg = false;
     QString reactionEmoji;
-    if (trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22)
+    if (trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22) {
+        isReactionMsg = true;
         reactionEmoji = trimmedMsg.mid(7).trimmed();
-    else if (trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14)
+    } else if (trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14) {
+        isReactionMsg = true;
         reactionEmoji = trimmedMsg.mid(3).trimmed();
-    if (!reactionEmoji.isEmpty()) {
-        qDebug() << "[REACT] incoming reaction from" << playerName << ":" << reactionEmoji;
-        emit reactionReceived(playerName, reactionEmoji);
+    }
+    if (isReactionMsg) {
+        // Reaktions-Nachrichten erscheinen nie im Chat-Verlauf. Nur echte
+        // Emojis abspielen – als Reaktion getarnter Text wird verworfen.
+        if (isEmojiOnlyReaction(reactionEmoji)) {
+            qDebug() << "[REACT] incoming reaction from" << playerName << ":" << reactionEmoji;
+            emit reactionReceived(playerName, reactionEmoji);
+        } else {
+            qDebug() << "[REACT] discarding non-emoji reaction from" << playerName << ":" << reactionEmoji;
+        }
         return;
     }
 
@@ -297,6 +306,10 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     const QString rawDisplay = isAction ? message.mid(4) : message;
 
     QString escapedMsg = rawDisplay.toHtmlEscaped();
+    // ASCII-Kürzel (":-)", "8-)", "<3", …) auf dem rohen Text umsetzen, bevor
+    // Link-/Style-Markup hinzukommt – so kollidieren kurze Kürzel nie mit
+    // unserem eigenen HTML (z. B. "color:#...").
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     static const QRegularExpression urlRe(QStringLiteral("(https?://\\S+)"));
     escapedMsg.replace(urlRe, QStringLiteral("<a href=\"\\1\">\\1</a>"));
 
@@ -305,8 +318,7 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     QString styledMsg = QStringLiteral("<span style=\"color:") + color
                         + (isMention ? QStringLiteral("; font-weight:bold") : QString())
                         + QStringLiteral(";\">") + escapedMsg + QStringLiteral("</span>");
-    if (!m_config || !m_config->readConfigInt("DisableChatEmoticons"))
-        styledMsg = chatCheckForEmotes(styledMsg);
+    styledMsg = enlargeEmojis(styledMsg);
 
     const QString ts = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss"));
     const QString name = playerName.toHtmlEscaped();
@@ -357,6 +369,8 @@ void GameHandler::refreshPlayerData()
         p["action"] = 0;
         p["card0"]  = -1;
         p["card1"]  = -1;
+        p["fade0"]  = false;
+        p["fade1"]  = false;
         newPlayers.append(p);
     }
 
@@ -379,7 +393,7 @@ void GameHandler::refreshPlayerData()
             // wenn onNextRoundCleanGui im Netzwerkspiel nicht feuert) nicht die
             // Action-Badges der Folgehände ausblendet.
             if (hand->getCurrentRound() != GAME_STATE_POST_RIVER)
-                m_showdownActive = false;
+                setShowdownActive(false);
         }
     }
 
@@ -504,6 +518,9 @@ void GameHandler::refreshPlayerData()
                 // Gefoldete Spieler bleiben die ganze Hand über gefoldet → Karten
                 // durchscheinend darstellen (wie im Qt-Widgets-Client).
                 p["folded"] = ((*it)->getMyAction() == PLAYER_ACTION_FOLD);
+                // Computer-Gegner: für sie gibt es keine Kontextaktionen
+                // (Ignore/Stats) – wie im Qt-Widgets-Client (MyAvatarLabel).
+                p["isComputer"] = ((*it)->getMyType() == PLAYER_TYPE_COMPUTER);
                 // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der Config.
                 std::string avatarRaw = (*it)->getMyAvatar();
                 if (avatarRaw.empty() && id == 0 && m_config)
@@ -511,6 +528,11 @@ void GameHandler::refreshPlayerData()
                 p["avatar"] = resolveAvatarSource(avatarRaw);
                 p["card0"]  = faceUp ? cards[0] : -1;
                 p["card1"]  = faceUp ? cards[1] : -1;
+                // Showdown-Spotlight: Hole-Card des Gewinners abblenden, wenn sie
+                // nicht zu seinem besten Blatt zählt (Mengen werden im Showdown
+                // gefüllt, sonst leer → fade0/fade1 false).
+                p["fade0"]  = m_holeFade0.contains(id);
+                p["fade1"]  = m_holeFade1.contains(id);
                 if (id == 0) {
                     // qDebug() << "[DBG] seat0 cards:" << cards[0] << cards[1]
                     //          << "faceUp:" << faceUp;
@@ -529,6 +551,9 @@ void GameHandler::refreshPlayerData()
 
     m_players = newPlayers;
     emit playersChanged();
+
+    // Chancen + aktuelles Blatt nachführen (Fold-/Aktiv-Wechsel, neue Hole-Cards).
+    refreshChanceAndHand();
 
     // Lokales Spiel: Spieler mit 0 Coins nach 10 Sekunden ausblenden.
     checkBustedLocalPlayers();
@@ -564,6 +589,7 @@ void GameHandler::computeCallAndRaiseAmounts()
     int dbgMyAction = -1;   // [ACTDBG] zuletzt gelesene Engine-Aktion (für Log)
     int dbgPrevId   = -99;  // [ACTDBG] getPreviousPlayerID() (für Log)
     int dbgHandId   = -1;   // [ACTDBG] aktuelle Hand-ID (für Log)
+    bool dbgRoundClosed = false;  // [ACTDBG] Setzrunde abgeschlossen (für Log)
 
     if (m_game) {
         auto hand = m_game->getCurrentHand();
@@ -602,9 +628,77 @@ void GameHandler::computeCallAndRaiseAmounts()
                             && myAction != PLAYER_ACTION_ALLIN
                             && humanCash > 0
                             && humanPlayer->isSessionActive();
+
+                // Setzrunde abgeschlossen? Nach der ersten Setzrunden-Runde
+                // (!firstRound) und sobald alle noch laufenden Spieler den
+                // höchsten Einsatz erreicht haben (allHighestSet), ist die Runde
+                // entschieden – exakt das Kriterium aus LocalBeRo::run(). In
+                // diesem Zeitfenster (letzte Aktion erfolgt, nächste Runde/Hand
+                // noch nicht gestartet) darf KEINE Vorauswahl mit veralteten
+                // Werten aktiv bleiben → Buttons inaktiv. Nicht greifen, wenn ich
+                // selbst gerade am Zug bin (z.B. abschließender Check als letzter
+                // Spieler) – das erledigt der reguläre m_myTurn-Pfad.
+                //
+                // „Erste Setzrunden-Runde vorbei?" liefert lokal die Engine über
+                // getFirstRound(). Im NETZWERK-Client wird firstRound jedoch NIE
+                // auf false gesetzt (clientstate.cpp ruft setFirstRound(false)
+                // nirgends auf) → roundClosed wäre online immer false, canAct bliebe
+                // nach dem letzten Zug true und bettingRoundEnded feuerte nie. Das
+                // ist genau das 1–2-Sekunden-Fenster (letzte Aktion → nächste Runde),
+                // in dem online weiterhin (mit veralteten Werten) vorgewählt werden
+                // konnte. Netzwerktauglicher Ersatz: die Runde ist erst „vorbei",
+                // wenn ALLE noch laufenden Spieler in dieser Setzrunde bereits
+                // gehandelt haben (getMyAction() != NONE; zu Rundenbeginn setzt
+                // ResetPlayerActions() alle auf NONE, lokal LocalBeRo::run()). Beide
+                // Kriterien werden am selben Punkt wahr (letzter Spieler handelt),
+                // schließen aber den Fehlalarm am Rundenbeginn aus (alle Sets ==
+                // highestSet, BEVOR jemand gehandelt hat). Das OR lässt das lokale
+                // Verhalten unverändert: !firstRound wird dort sogar früher wahr.
+                bool roundClosed = false;
+                if (!m_myTurn) {
+                    auto running = hand->getRunningPlayerList();
+                    if (running && !running->empty()) {
+                        bool allRunningActed = true;
+                        for (auto it = running->begin(); it != running->end(); ++it) {
+                            if ((*it)->getMyAction() == PLAYER_ACTION_NONE) {
+                                allRunningActed = false;
+                                break;
+                            }
+                        }
+                        if (!bero->getFirstRound() || allRunningActed) {
+                            // Abgeschlossen, wenn alle laufenden Spieler den höchsten
+                            // Einsatz erreicht haben. Im Übergang zur nächsten Runde
+                            // sammelt der Client die Sets aber bereits in den Pot ein
+                            // (alle mySet == 0), während highestSet noch kurz auf dem
+                            // alten Wert steht – dann lieferte der reine Vergleich mit
+                            // highestSet fälschlich „nicht abgeschlossen": canAct
+                            // flackerte zurück auf true und zeigte für 1–2 s veraltete
+                            // Call-/Raise-Werte mit (re-)aktivierten Buttons. Daher
+                            // gilt der eingesammelte Zustand (alle Sets == 0) ebenfalls
+                            // als abgeschlossen. Beide Fälle sind durch
+                            // allRunningActed/!firstRound abgesichert, sodass der
+                            // Rundenbeginn (Sets == 0, aber Aktionen frisch auf NONE)
+                            // NICHT fälschlich als abgeschlossen gilt. Der heikle
+                            // Heads-up-All-In-über-Bet-Fall bleibt korrekt: dort ist
+                            // mein Set != 0 und != highestSet → weder allMatched noch
+                            // allCollected, also nicht abgeschlossen (und es ist eh
+                            // mein Zug → m_myTurn-Wächter greift).
+                            bool allMatched = true;
+                            bool allCollected = true;
+                            for (auto it = running->begin(); it != running->end(); ++it) {
+                                if ((*it)->getMySet() != highestSet) allMatched = false;
+                                if ((*it)->getMySet() != 0)          allCollected = false;
+                            }
+                            roundClosed = allMatched || allCollected;
+                        }
+                    }
+                }
+                dbgRoundClosed = roundClosed;
+
                 newCanAct = baseEligible
                             && (m_myTurn || prevPlayerId != 0)
-                            && !m_showdownActive;
+                            && !m_showdownActive
+                            && !roundClosed;
 
                 if (humanCash + humanSet <= highestSet) {
                     newCallAmount = humanCash;
@@ -659,12 +753,25 @@ void GameHandler::computeCallAndRaiseAmounts()
                  << "(FOLD=1,ALLIN=6) handId=" << dbgHandId
                  << "prevId=" << dbgPrevId << "newCanAct=" << newCanAct;
     }
+    // Flanke „Setzrunde gerade entschieden": exakt jetzt (letzte Aktion erfolgt,
+    // nächste Runde/Hand startet erst noch) müssen die Aktions-Buttons sofort
+    // inaktiv werden und veraltete Vorwahl/Beträge verworfen werden. roundClosed
+    // ist nur in genau diesem Recompute true; danach (neue BeRo, firstRound wieder
+    // true) fällt es zurück, daher Flankenerkennung über m_roundClosed.
+    if (dbgRoundClosed && !m_roundClosed) {
+        m_roundClosed = true;
+        qDebug() << "[ACTDBG] bettingRoundEnded (roundClosed rising)"
+                 << "handId=" << dbgHandId << "prevPlayerId=" << dbgPrevId;
+        emit bettingRoundEnded();
+    } else if (!dbgRoundClosed) {
+        m_roundClosed = false;
+    }
     if (newCanAct != m_canAct) {
         m_canAct = newCanAct;
         qDebug() << "[ACTDBG] canAct=" << m_canAct << "prevPlayerId=" << dbgPrevId
                  << "myAction=" << dbgMyAction
                  << "(NONE=0,FOLD=1,CHK=2,CALL=3,BET=4,RAISE=5,ALLIN=6)"
-                 << "handId=" << dbgHandId
+                 << "handId=" << dbgHandId << "roundClosed=" << dbgRoundClosed
                  << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
         emit canActChanged();
     }
@@ -734,6 +841,14 @@ void GameHandler::doActionDone()
                 game->getCurrentHand()->switchRounds();
         });
     }
+}
+
+void GameHandler::setShowdownActive(bool active)
+{
+    if (m_showdownActive == active)
+        return;
+    m_showdownActive = active;
+    emit showdownActiveChanged();
 }
 
 // ─── slots called from QmlGuiInterface ──────────────────────────────────────
@@ -976,13 +1091,75 @@ void GameHandler::onNetworkGameEnded()
         emit timeoutChanged();
     }
     m_timeoutBeepTimer->stop();
+    if (m_pingState != 0 || m_pingAvg != -1) {
+        m_pingState = 0;  // keine Netzwerkverbindung mehr → Ampel zurücksetzen
+        m_pingAvg = m_pingMin = m_pingMax = -1;
+        emit pingStateChanged();
+    }
 }
 
-void GameHandler::onNetClientPlayerLeft(unsigned uniquePlayerId)
+void GameHandler::onPingUpdate(int minPing, int avgPing, int maxPing)
 {
+    // Ampel-Schwellen wie der Qt-Widgets-Client (MyAvatarLabel::refreshPing):
+    // ≤1000 ms grün, ≤2000 ms gelb, >2000 ms rot; negative Werte = keine Daten.
+    int state;
+    if (avgPing < 0)            state = 0;
+    else if (avgPing <= 1000)   state = 1;
+    else if (avgPing <= 2000)   state = 2;
+    else                        state = 3;
+    bool changed = false;
+    if (state != m_pingState)   { m_pingState = state;  changed = true; }
+    if (avgPing != m_pingAvg)   { m_pingAvg   = avgPing; changed = true; }
+    if (minPing != m_pingMin)   { m_pingMin   = minPing; changed = true; }
+    if (maxPing != m_pingMax)   { m_pingMax   = maxPing; changed = true; }
+    if (changed)
+        emit pingStateChanged();
+}
+
+void GameHandler::onNetClientPlayerLeft(unsigned uniquePlayerId, const QString &playerName, int removeReason)
+{
+    // Im Spielverlauf vermerken, ob der Spieler freiwillig gegangen, gekickt
+    // oder die Verbindung verloren hat (removeReason aus clientstate.cpp).
+    if (!playerName.isEmpty()) {
+        QString line;
+        switch (removeReason) {
+        case NTF_NET_REMOVED_KICKED:
+            line = playerName + QStringLiteral(" was kicked from the game");
+            break;
+        case NTF_NET_INTERNAL:
+            line = playerName + QStringLiteral(" was disconnected");
+            break;
+        default: // NTF_NET_REMOVED_ON_REQUEST
+            line = playerName + QStringLiteral(" has left the game");
+            break;
+        }
+        appendGameLog(line, LogSitOut);
+    }
+
     m_leftPlayers.insert(uniquePlayerId);
     refreshPlayerData();
     emit playersChanged();
+}
+
+void GameHandler::refreshSpectators()
+{
+    // Zuschauerliste des laufenden Spiels aus der Session lesen – analog zum
+    // Qt-Widgets-Client (gameTableImpl::refreshSpectatorsDisplay).
+    QStringList names;
+    if (m_session && m_session->isNetworkClientRunning()) {
+        const unsigned gameId = m_session->getClientCurrentGameId();
+        if (gameId != 0) {
+            const GameInfo info = m_session->getClientGameInfo(gameId);
+            for (unsigned id : info.spectatorsDuringGame) {
+                const PlayerInfo pi = m_session->getClientPlayerInfo(id);
+                names << QString::fromUtf8(pi.playerName.c_str());
+            }
+        }
+    }
+    if (names != m_spectatorNames) {
+        m_spectatorNames = names;
+        emit spectatorsChanged();
+    }
 }
 
 void GameHandler::checkBustedLocalPlayers()
@@ -1052,6 +1229,76 @@ void GameHandler::refreshBoardCards()
         m_boardCards = newCards;
         emit boardCardsChanged();
     }
+    refreshChanceAndHand();
+}
+
+void GameHandler::refreshChanceAndHand()
+{
+    // Eigenen Spieler (Sitz 0) suchen.
+    boost::shared_ptr<PlayerInterface> human;
+    if (m_game) {
+        PlayerList seats = m_game->getSeatsList();
+        if (seats) {
+            for (auto it = seats->begin(); it != seats->end(); ++it) {
+                if ((*it)->getMyID() == 0) { human = *it; break; }
+            }
+        }
+    }
+
+    int holeCards[2] = {-1, -1};
+    int boardCards[5] = {-1, -1, -1, -1, -1};
+    bool folded = false;
+    bool haveCards = false;
+
+    if (human && human->getMyActiveStatus()) {
+        human->getMyCards(holeCards);
+        haveCards = (holeCards[0] >= 0 && holeCards[1] >= 0);
+        if (haveCards) {
+            auto hand = m_game ? m_game->getCurrentHand() : nullptr;
+            if (hand && hand->getBoard())
+                hand->getBoard()->getMyCards(boardCards);
+            folded = (human->getMyAction() == PLAYER_ACTION_FOLD);
+        }
+    }
+
+    // Eingangssignatur: nur neu rechnen, wenn sich Karten/Board/Fold geändert haben.
+    std::vector<int> inputs;
+    inputs.reserve(9);
+    inputs.push_back(haveCards ? holeCards[0] : -1);
+    inputs.push_back(haveCards ? holeCards[1] : -1);
+    inputs.push_back(m_boardCardCount);
+    for (int i = 0; i < 5; ++i)
+        inputs.push_back(haveCards ? boardCards[i] : -1);
+    inputs.push_back(folded ? 1 : 0);
+    if (inputs == m_lastChanceInputs)
+        return;
+    m_lastChanceInputs = inputs;
+
+    QVariantList newChance;
+
+    if (haveCards) {
+        GameState gs = GAME_STATE_PREFLOP;
+        if (m_boardCardCount >= 5)      gs = GAME_STATE_RIVER;
+        else if (m_boardCardCount == 4) gs = GAME_STATE_TURN;
+        else if (m_boardCardCount == 3) gs = GAME_STATE_FLOP;
+
+        std::vector<std::vector<int>> chance =
+            CardsValue::calcCardsChance(gs, holeCards, boardCards);
+        if (chance.size() >= 2 && chance[0].size() >= 10 && chance[1].size() >= 10) {
+            for (int cat = 0; cat < 10; ++cat) {
+                QVariantMap m;
+                m["prob"]     = chance[0][cat];
+                m["possible"] = (chance[1][cat] != 0) && !folded;
+                newChance.append(m);
+            }
+        }
+    }
+
+    if (newChance != m_cardsChance || folded != m_cardsChanceFolded) {
+        m_cardsChance = newChance;
+        m_cardsChanceFolded = folded;
+        emit cardsChanceChanged();
+    }
 }
 
 void GameHandler::onNextRoundCleanGui()
@@ -1078,8 +1325,16 @@ void GameHandler::onNextRoundCleanGui()
         m_winningHandText.clear();
         emit winningHandTextChanged();
     }
+    // Showdown-Spotlight für die neue Hand zurücksetzen (Hole- und Board-Fade).
+    m_holeFade0.clear();
+    m_holeFade1.clear();
+    const QVariantList noBoardFade = {false, false, false, false, false};
+    if (m_boardCardFade != noBoardFade) {
+        m_boardCardFade = noBoardFade;
+        emit boardCardFadeChanged();
+    }
     // Showdown beenden, bevor die Spielerdaten neu gebaut werden → Karten zu.
-    m_showdownActive = false;
+    setShowdownActive(false);
     m_allInRevealed = false;
     if (m_canShowCards) {
         m_canShowCards = false;
@@ -1138,9 +1393,15 @@ void GameHandler::fold()
              << "myButton=" << humanPlayer->getMyButton()
              << "round=" << (int)hand->getCurrentRound();
 
+    // [RACEDBG] These mutate the shared Hand on the GUI thread. If a net-thread
+    // "[RACEDBG] net: ... BEGIN/END" line appears interleaved with this one in
+    // pokerth-debug.log (different thread id), the GUI- and network-thread are
+    // touching the same Hand concurrently -> the suspected auto-fold freeze.
+    qDebug() << "[RACEDBG] gui: fold() mutating Hand BEGIN";
     humanPlayer->setMyAction(PLAYER_ACTION_FOLD, true);
     humanPlayer->setMyTurn(false);
     hand->setPreviousPlayerID(0);
+    qDebug() << "[RACEDBG] gui: fold() mutating Hand END";
 
     doActionDone();
 }
@@ -1311,6 +1572,9 @@ void GameHandler::showMyCards()
     if (m_session) m_session->showMyCards();
     m_canShowCards = false;
     emit canShowCardsChanged();
+    // Visuelle Bestätigung in der Self-Box: eigene Karten „umdrehen" (wie der
+    // Widget-Client via showHoleCards), damit man sieht, dass man wirklich zeigt.
+    emit myCardsShown();
 }
 
 // ─── Local game startup ──────────────────────────────────────────────────────
@@ -1445,7 +1709,15 @@ void GameHandler::onShowdown()
 
     // Showdown ist jetzt aktiv → Gegnerkarten dürfen aufgedeckt werden
     // (determinePlayerNeedToShowCards() wurde in postRiverRun() bereits aufgerufen).
-    m_showdownActive = true;
+    setShowdownActive(true);
+    // Während des Showdowns ist niemand am Zug. Ein eventuell noch gesetztes
+    // m_myTurn (z. B. wenn der Zug über den Action-Timer aktiv war) würde sonst
+    // die Aktions-Buttons in der QML-ActionBar weiter „armed" halten
+    // (armed = myTurn || …) – die Buttons blieben im Showdown klickbar.
+    if (m_myTurn) {
+        m_myTurn = false;
+        emit myTurnChanged();
+    }
     refreshPlayerData();
     computeCallAndRaiseAmounts(); // Buttons sofort deaktivieren
 
@@ -1511,6 +1783,51 @@ void GameHandler::onShowdown()
     if (newHandText != m_winningHandText) {
         m_winningHandText = newHandText;
         emit winningHandTextChanged();
+    }
+
+    // ── Showdown-Spotlight: Karten abseits des Siegerblatts abblenden ──────────
+    // Wie der Widgets-Client (gameTableImpl::postRiverRunAnimation3): für jeden
+    // Hauptpot-Gewinner liefert getMyBestHandPosition die 5 Positionen seines
+    // besten Blatts – 0/1 sind seine Hole-Cards, 2..6 die Board-Karten 0..4.
+    // Alle übrigen Karten werden beim Showdown auf 25 % Deckkraft abgeblendet
+    // (das eigentliche Faden macht QML, abhängig von ShowFadeOutCardsAnimation).
+    // Eine Board-Karte bleibt hell, sobald sie zu IRGENDEINEM Siegerblatt zählt
+    // (bei Split-Pots sauberer als das per-Gewinner-Faden des Widgets-Clients).
+    QSet<int> newHoleFade0, newHoleFade1;
+    QVariantList newBoardFade = {false, false, false, false, false};
+    if (nonFold > 1) {
+        bool boardUsed[5] = {false, false, false, false, false};
+        bool anyWinner = false;
+        for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+            if (!isMainPotWinner(*it))
+                continue;
+            anyWinner = true;
+            int pos[5];
+            (*it)->getMyBestHandPosition(pos);
+            bool useHole0 = false, useHole1 = false;
+            for (int j = 0; j < 5; ++j) {
+                const int p = pos[j];
+                if (p == 0)               useHole0 = true;
+                else if (p == 1)          useHole1 = true;
+                else if (p >= 2 && p <= 6) boardUsed[p - 2] = true;
+            }
+            const int id = (*it)->getMyID();
+            if (!useHole0) newHoleFade0.insert(id);
+            if (!useHole1) newHoleFade1.insert(id);
+        }
+        if (anyWinner) {
+            for (int i = 0; i < 5; ++i)
+                newBoardFade[i] = !boardUsed[i];
+        }
+    }
+    if (newHoleFade0 != m_holeFade0 || newHoleFade1 != m_holeFade1) {
+        m_holeFade0 = newHoleFade0;
+        m_holeFade1 = newHoleFade1;
+        refreshPlayerData(); // schiebt fade0/fade1 in die Seat-Daten
+    }
+    if (newBoardFade != m_boardCardFade) {
+        m_boardCardFade = newBoardFade;
+        emit boardCardFadeChanged();
     }
 
     // ── Showdown im Spielverlauf protokollieren (Logik 1:1 aus dem Widgets-Client) ──

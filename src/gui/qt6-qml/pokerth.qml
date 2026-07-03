@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtCore
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
@@ -18,6 +17,132 @@ ApplicationWindow {
     Universal.theme: Config.StaticData.isDark ? Universal.Dark : Universal.Light
 
     // portraitMode is now provided by Config.Responsive.portrait
+    // Topbar-Icons im Splash/PreLoader ausblenden – sonst kann ein zu früher
+    // Klick eine Seite über den PreLoader pushen, die dann von dessen
+    // replaceCurrentItem(startPage) den Stack durcheinanderbringt.
+    readonly property bool topBarIconsVisible:
+        mainStackView.currentItem
+        && mainStackView.currentItem.objectName !== "preLoaderPage"
+
+    // True, sobald die Lobby betreten wurde (Lobby-Seite liegt im Stack) – steuert
+    // die globale Statusleiste. Re-Eval bei jeder Navigation (depth/currentItem).
+    readonly property bool inLobbySession: {
+        var _d = mainStackView.depth
+        var _c = mainStackView.currentItem
+        return mainStackView.find(function(it) {
+            return it && it.objectName === "lobbyPage"
+        }) !== null
+    }
+
+    // Overlay-Seiten der Topbar-Icons (Settings + Community/Ranking inkl. der
+    // Unterseiten). Alles, was NICHT hier steht, gilt als Basisseite
+    // (Gametable, Lobby, Startseite) – dorthin wird beim Schließen zurückgesetzt.
+    readonly property var settingsSectionPages: ["settingsPage"]
+    readonly property var rankingSectionPages:
+        ["communityRankingPage", "rankingPage", "bbcRankingPage", "wecRankingPage",
+         "pokerthPlayerPage", "communityPlayerPage"]
+
+    // Gemerkter Ranking-Unterstapel beim Schließen über den Globus, damit ein
+    // erneutes Toggle wieder auf der letzten Ranking-Seite landet (statt auf der
+    // Auswahlseite). Liste von { url, props } in Stack-Reihenfolge.
+    property var savedRankingStack: []
+
+    // Aktiv = oberste Seite gehört zur jeweiligen Sektion → Icon hervorheben.
+    readonly property bool settingsSectionActive:
+        topBarSectionOpen(settingsSectionPages)
+    readonly property bool rankingSectionActive:
+        topBarSectionOpen(rankingSectionPages)
+
+    function topBarSectionOpen(sectionPages) {
+        var c = mainStackView.currentItem
+        return c && sectionPages.indexOf(c.objectName) !== -1
+    }
+
+    // Alle Settings-/Ranking-Overlay-Seiten vom Stack poppen, sodass die
+    // darunterliegende Basisseite (Gametable, Lobby oder Startseite) wieder
+    // erscheint. Hält NIE auf der Zwischen-Auswahlseite (CommunityRankingPage).
+    function closeTopBarOverlay() {
+        var overlay = settingsSectionPages.concat(rankingSectionPages)
+        for (var i = mainStackView.depth - 1; i >= 0; --i) {
+            var item = mainStackView.get(i)
+            if (!item || overlay.indexOf(item.objectName) === -1) {
+                mainStackView.pop(item)
+                return
+            }
+        }
+    }
+
+    // objectName → Quell-URL (relativ zu pokerth.qml) für das Wiederherstellen
+    // eines gemerkten Overlay-Stacks.
+    function overlayUrlFor(objectName) {
+        switch (objectName) {
+        case "communityRankingPage": return "pages/CommunityRankingPage.qml"
+        case "rankingPage":          return "pages/RankingPage.qml"
+        case "bbcRankingPage":       return "pages/BbcRankingPage.qml"
+        case "wecRankingPage":       return "pages/WecRankingPage.qml"
+        case "pokerthPlayerPage":    return "pages/PokerthPlayerPage.qml"
+        case "communityPlayerPage":  return "components/CommunityPlayerView.qml"
+        case "settingsPage":         return "pages/SettingsPage.qml"
+        }
+        return ""
+    }
+
+    // Konstruktions-Properties, die eine Seite zum Wiederaufbau braucht.
+    function overlayPropsFor(item) {
+        if (item.objectName === "pokerthPlayerPage")
+            return { playerId: item.playerId, username: item.username }
+        if (item.objectName === "communityPlayerPage")
+            return { baseUrl: item.baseUrl, nickname: item.nickname, blocks: item.blocks }
+        // Ranking-Listen-Seiten merken ihren Filter-Zustand über captureState().
+        if (typeof item.captureState === "function")
+            return { restoreState: item.captureState() }
+        return {}
+    }
+
+    // Aktuellen Ranking-Overlay-Unterstapel (über der Basisseite) als Liste von
+    // { url, props } sichern, um ihn später 1:1 wiederherzustellen.
+    function saveOverlayStack() {
+        var overlay = settingsSectionPages.concat(rankingSectionPages)
+        var saved = []
+        for (var i = mainStackView.depth - 1; i >= 0; --i) {
+            var item = mainStackView.get(i)
+            if (!item || overlay.indexOf(item.objectName) === -1) {
+                for (var j = i + 1; j < mainStackView.depth; ++j) {
+                    var it = mainStackView.get(j)
+                    saved.push({ url: overlayUrlFor(it.objectName), props: overlayPropsFor(it) })
+                }
+                break
+            }
+        }
+        savedRankingStack = saved
+    }
+
+    function restoreOverlayStack(saved) {
+        for (var i = 0; i < saved.length; ++i) {
+            if (saved[i].url !== "")
+                mainStackView.push(saved[i].url, saved[i].props)
+        }
+    }
+
+    // Topbar-Icon als Toggle: ist die Sektion bereits offen, wird sie (und jede
+    // andere offene Overlay-Sektion) bis zur Basisseite geschlossen; sonst wird
+    // ihre Einstiegsseite geöffnet – ggf. nach Kollaps einer anderen Sektion.
+    // restore=true (Ranking) merkt sich beim Schließen den Unterstapel und stellt
+    // ihn beim erneuten Öffnen wieder her (statt nur die Einstiegsseite).
+    function toggleTopBarSection(entryUrl, sectionPages, restore) {
+        var open = topBarSectionOpen(sectionPages)
+        if (open && restore)
+            saveOverlayStack()
+        closeTopBarOverlay()
+        if (!open) {
+            if (restore && savedRankingStack.length > 0)
+                restoreOverlayStack(savedRankingStack)
+            else
+                mainStackView.push(entryUrl)
+        }
+        sideMenu.visible = false
+    }
+
     property StartPage startPage: StartPage {}
     property SideMenu sideMenu: SideMenu {}
     // Start-Auflösung = Default-Größe des Qt-Widgets-Clients am Gametable
@@ -32,7 +157,7 @@ ApplicationWindow {
     minimumHeight: 600
     // TRY to center the window, doesn't work on my Ubuntu but should work on other platforms.
     visible: true
-    title: qsTr("PokerTH - v2.1.0preview")
+    title: qsTr("PokerTH - v2.1.0")
 
     // Android hardware back button: intercept close and navigate back instead
     // of destroying the QML scene while background threads are still running.
@@ -80,6 +205,9 @@ ApplicationWindow {
         var dm = SettingsManager ? SettingsManager.readConfigInt("DarkMode") : 1
         Config.StaticData.darkMode = dm
         Config.Theme.darkMode = dm
+        // Dekorative Effekte (Schatten/Glow/Blur) aus persistenter Einstellung.
+        Config.Theme.effectsEnabled = SettingsManager
+            ? SettingsManager.readConfigInt("QmlReduceEffects") === 0 : true
     }
 
     function navigateBackFromTopBar() {
@@ -97,6 +225,37 @@ ApplicationWindow {
             return true
         }
 
+        // Laufendes Spiel: vor dem Verlassen IMMER nachfragen (egal ob per
+        // Esc, Android-Back oder Tür-Icon), damit ein versehentlicher
+        // Tastendruck das Spiel nicht ungewollt beendet. Das eigentliche
+        // Verlassen erledigt performLeaveGame() nach Bestätigung.
+        if (current && current.objectName === "gamePage") {
+            leaveGameConfirmPopup.open()
+            return true
+        }
+
+        // Lobby: vor dem Zurückkehren zur Startseite IMMER nachfragen und die
+        // Server-Verbindung trennen (sonst bleibt man im Hintergrund verbunden
+        // und erhält weiter Lobby-Chat/Mentions). Das eigentliche Verlassen
+        // erledigt performLeaveLobby() nach Bestätigung.
+        if (current && current.objectName === "lobbyPage") {
+            leaveLobbyConfirmPopup.open()
+            return true
+        }
+
+        mainStackView.pop()
+        return true
+    }
+
+    function performLeaveLobby() {
+        if (typeof Lobby !== "undefined" && Lobby)
+            Lobby.leaveServer()
+        mainStackView.pop()
+    }
+
+    function performLeaveGame() {
+        var current = mainStackView.currentItem
+        // console.log("[NAV] performLeaveGame | currentItem:", current ? (current.objectName || current.toString()) : "null", "| depth:", mainStackView.depth)
         var isGamePage = current && current.objectName === "gamePage"
         var localGame = isGamePage
                         && (typeof GameTable !== "undefined")
@@ -109,7 +268,7 @@ ApplicationWindow {
         if (isGamePage && !localGame) {
             if (typeof Lobby !== "undefined" && Lobby)
                 Lobby.leaveGame()
-            return true
+            return
         }
 
         if (localGame)
@@ -118,7 +277,6 @@ ApplicationWindow {
         mainStackView.pop()
         if (localGame && mainStackView.depth > 1)
             mainStackView.pop()
-        return true
     }
     
     Rectangle {
@@ -135,7 +293,9 @@ ApplicationWindow {
         Rectangle {
             id: topBar
             Layout.preferredWidth: parent.width
-            Layout.preferredHeight: 38
+            // Kompakter App-Header auf kurzen Landscape-Phones (spart vertikalen
+            // Platz für den Tisch -> weniger Gegnerbox-Überlappung).
+            Layout.preferredHeight: Config.Responsive.landscapeCompact ? 30 : 38
             Layout.alignment: Qt.AlignTop
             color: Config.StaticData.palette.secondary.col700
 
@@ -144,13 +304,29 @@ ApplicationWindow {
                 anchors.fill: parent
                 spacing: 8
 
-                VectorImage {
+                SvgIcon {
                     id: topBarMenuIcon
                     Layout.preferredWidth: 26
                     Layout.preferredHeight: 26
-                    Layout.margins: 6
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
                     source: "resources/threeLines.svg"
-                    visible: true
+                    visible: mainWindow.topBarIconsVisible
+                    // Tooltip folgt der Funktion des Buttons: Tür-Icon = Lobby/Spiel
+                    // verlassen (je nach Seite), Caret = Zurück, sonst Menü.
+                    ToolTip.visible: menuArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: {
+                        var src = String(source)
+                        if (src.indexOf("doorExit") !== -1) {
+                            return (mainStackView.currentItem
+                                    && mainStackView.currentItem.objectName === "lobbyPage")
+                                ? qsTr("Leave Lobby") : qsTr("Leave Game")
+                        }
+                        if (src.indexOf("caretLeft") !== -1)
+                            return qsTr("Back")
+                        return qsTr("Menu")
+                    }
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
@@ -180,19 +356,59 @@ ApplicationWindow {
                     Layout.horizontalStretchFactor: 2
                 }
 
-                VectorImage {
-                    id: topBarSettingsIcon
+                // Community / Ranking – überall erreichbar (auch in Lobby & Spiel).
+                SvgIcon {
+                    id: topBarRankingIcon
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
-                    Layout.margins: 6
-                    source: "resources/settings.svg"
-                    visible: true
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
+                    source: "resources/globe.svg"
+                    visible: mainWindow.topBarIconsVisible && Config.Parameters.showCommunityContent
+                    ToolTip.visible: rankingArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: qsTr("Community / Ranking")
                     layer.enabled: true
                     layer.effect: MultiEffect {
                         colorization: 1.0
-                        colorizationColor: settingsArea.containsMouse
-                            ? Config.StaticData.palette.secondary.col100
-                            : Config.StaticData.palette.secondary.col200
+                        colorizationColor: mainWindow.rankingSectionActive
+                            ? Config.Theme.colorAccent
+                            : rankingArea.containsMouse
+                                ? Config.StaticData.palette.secondary.col100
+                                : Config.StaticData.palette.secondary.col200
+                    }
+
+                    MouseArea {
+                        id: rankingArea
+                        anchors.fill: topBarRankingIcon
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: mainWindow.toggleTopBarSection(
+                            "pages/CommunityRankingPage.qml",
+                            mainWindow.rankingSectionPages, true)
+                    }
+                }
+
+                SvgIcon {
+                    id: topBarSettingsIcon
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
+                    source: "resources/settings.svg"
+                    visible: mainWindow.topBarIconsVisible
+                    ToolTip.visible: settingsArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: qsTr("Settings")
+                    layer.enabled: true
+                    layer.effect: MultiEffect {
+                        colorization: 1.0
+                        colorizationColor: mainWindow.settingsSectionActive
+                            ? Config.Theme.colorAccent
+                            : settingsArea.containsMouse
+                                ? Config.StaticData.palette.secondary.col100
+                                : Config.StaticData.palette.secondary.col200
                     }
 
                     MouseArea {
@@ -201,11 +417,9 @@ ApplicationWindow {
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
 
-                        onClicked: {
-                            mainStackView.push("pages/SettingsPage.qml");
-                            sideMenu.visible = false;
-                        }
-
+                        onClicked: mainWindow.toggleTopBarSection(
+                            "pages/SettingsPage.qml",
+                            mainWindow.settingsSectionPages)
                     }
                 }
             }
@@ -241,21 +455,36 @@ ApplicationWindow {
                 var isLobby = (currentItem && currentItem.objectName === "lobbyPage");
                 var isGame  = (currentItem && currentItem.objectName === "gamePage");
                 var isGameWait = (currentItem && currentItem.objectName === "gameWaitPage");
+                // Sichtbarkeit der Topbar-Icons folgt dem Binding
+                // topBarIconsVisible (im Splash aus) – hier nur das Quell-Icon
+                // des Menü-/Zurück-Buttons je nach Seite wählen.
                 if (depth <= 1) {
-                    topBarSettingsIcon.visible = true;
                     topBarMenuIcon.source = sideMenu.visible ? "resources/caretLeft.svg" : "resources/threeLines.svg";
                 } else if (isLobby || isGame || isGameWait) {
                     // Lobby, Spiel UND Warteraum: Tür-Icon zum Verlassen.
-                    topBarSettingsIcon.visible = true;
                     topBarMenuIcon.source = "resources/doorExit.svg";
                 } else {
-                    topBarSettingsIcon.visible = true;
                     topBarMenuIcon.source = "resources/caretLeft.svg";
                 }
                 // Bildschirm während Spiel und Warteraum wach halten (Android:
                 // FLAG_KEEP_SCREEN_ON via JNI). Beim Verlassen freigeben.
                 ScreenHelper.setKeepScreenOn(isGame || isGameWait);
             }
+        }
+
+        // Globale Statusleiste (verbundene Spieler / laufende & offene Spiele):
+        // erscheint unten auf allen Seiten, sobald die Lobby betreten wurde –
+        // ausgenommen der Spieltisch (GamePage hat eine eigene Statusleiste und
+        // braucht den vertikalen Platz).
+        LobbyStatsBar {
+            Layout.fillWidth: true
+            Layout.leftMargin: Config.Theme.margin
+            Layout.rightMargin: Config.Theme.margin
+            Layout.bottomMargin: Config.Responsive.compact ? 6 : 8
+            Layout.topMargin: 4
+            visible: mainWindow.inLobbySession
+                     && !(mainStackView.currentItem
+                          && mainStackView.currentItem.objectName === "gamePage")
         }
     }
 
@@ -280,10 +509,10 @@ ApplicationWindow {
     Shortcut {
         sequence: "Alt+S"
         onActivated: {
-            if (mainStackView.depth === 1) {
-                mainStackView.push("pages/SettingsPage.qml")
-                sideMenu.visible = false
-            }
+            // Nicht im Splash/PreLoader öffnen (Stack-Reset, s. topBarIconsVisible).
+            if (mainWindow.topBarIconsVisible)
+                mainWindow.toggleTopBarSection(
+                    "pages/SettingsPage.qml", mainWindow.settingsSectionPages)
         }
     }
 
@@ -306,6 +535,7 @@ ApplicationWindow {
         anchors.centerIn: parent
         modal: true
         padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
         closePolicy: Popup.CloseOnEscape
 
         property int reason: 0          // NetTimeoutReason
@@ -340,17 +570,16 @@ ApplicationWindow {
 
         ColumnLayout {
             spacing: 12
-            width: Math.min(mainWindow.width * 0.85, 380)
+            width: timeoutWarningPopup.availableWidth
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Timeout Warning")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 // Texte 1:1 wie timeoutMsgBoxImpl::timerRefresh.
                 text: {
@@ -368,16 +597,14 @@ ApplicationWindow {
                            .arg(timeoutWarningPopup.remainingSec)
                 }
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 visible: !timeoutWarningPopup.expired
                 text: qsTr("Please click \"OK\" to stop the countdown!")
                 color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
                 wrapMode: Text.WordWrap
             }
@@ -400,6 +627,7 @@ ApplicationWindow {
         anchors.centerIn: parent
         modal: true
         padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         property string message: ""
@@ -413,22 +641,20 @@ ApplicationWindow {
 
         ColumnLayout {
             spacing: 12
-            width: Math.min(mainWindow.width * 0.85, 380)
+            width: networkMessagePopup.availableWidth
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Server Message")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: networkMessagePopup.message
                 textFormat: Text.RichText
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
@@ -436,6 +662,121 @@ ApplicationWindow {
                 Layout.fillWidth: true
                 text: qsTr("Close")
                 onClicked: networkMessagePopup.close()
+            }
+        }
+    }
+
+    // ── Bestätigung beim Verlassen eines laufenden Spiels ─────────────────
+    // Erscheint bei Esc / Android-Back / Tür-Icon, solange man sich auf der
+    // GamePage befindet, damit ein versehentlicher Tastendruck nicht
+    // ungewollt das laufende Spiel beendet.
+    Popup {
+        id: leaveGameConfirmPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: leaveGameConfirmPopup.availableWidth
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Leave Game")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Attention! Do you really want to leave the current game\nand go back to the lobby?")
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 12
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Cancel")
+                    onClicked: leaveGameConfirmPopup.close()
+                }
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Leave Game")
+                    onClicked: {
+                        leaveGameConfirmPopup.close()
+                        mainWindow.performLeaveGame()
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Bestätigung beim Verlassen der Lobby (zurück zur Startseite) ───────
+    // Erscheint bei Esc / Android-Back / Tür-Icon, solange man sich in der
+    // Lobby befindet. Bei Bestätigung wird die Server-Verbindung getrennt.
+    Popup {
+        id: leaveLobbyConfirmPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: leaveLobbyConfirmPopup.availableWidth
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Leave Lobby")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Attention! Do you really want to leave the lobby\nand disconnect from the server?")
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 12
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Cancel")
+                    onClicked: leaveLobbyConfirmPopup.close()
+                }
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Leave Lobby")
+                    onClicked: {
+                        leaveLobbyConfirmPopup.close()
+                        mainWindow.performLeaveLobby()
+                    }
+                }
             }
         }
     }

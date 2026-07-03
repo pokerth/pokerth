@@ -52,30 +52,7 @@ Rectangle {
         id: localGameSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Lokales Spiel")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Lokales Spiel"); topGap: 4 }
 
         ScrollView {
             id: localScrollView
@@ -459,22 +436,17 @@ Rectangle {
                             }
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             Layout.columnSpan: 2
                             text: qsTr("Pause zwischen den Händen")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("PauseBetweenHands") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("PauseBetweenHands", checked ? 1 : 0)
-                            }
+                            configKey: "PauseBetweenHands"
+                            defaultChecked: false
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             Layout.columnSpan: 2
                             text: qsTr("Spiel-Einstellungsdialog bei neuem Spiel anzeigen")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("ShowGameSettingsDialogOnNewGame") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("ShowGameSettingsDialogOnNewGame", checked ? 1 : 0)
-                            }
+                            configKey: "ShowGameSettingsDialogOnNewGame"
                         }
                     }
                 }

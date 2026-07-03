@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -32,6 +31,11 @@ ItemDelegate {
     height: visible
             ? ((!wideLayout && expanded && hasActions) ? expandedHeight : rowHeight)
             : 0
+
+    // Default-Padding des ItemDelegate (Basic-Style: 12px) schiebt den Inhalt
+    // bei fester Zeilenhöhe 30 nach unten → Name vertikal zentrieren.
+    topPadding: 0
+    bottomPadding: 0
 
     property bool expanded: false
     readonly property bool playerIgnored: {
@@ -117,16 +121,34 @@ ItemDelegate {
             }
             
             // Player name
-            Text {
+            AppText {
                 text: displayName
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: listView.height > 100 ? 12 : 11
-                color: adminPlayer ? Config.StaticData.chartColor(3, true) : Config.StaticData.palette.secondary.col200
-                font.bold: adminPlayer
+                color: Config.StaticData.palette.secondary.col200
+                font.bold: false
                 verticalAlignment: Text.AlignVCenter
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
                 elide: Text.ElideRight
+
+                // Desktop-Hover-Tooltip: "spielt in ..." / "spielt derzeit nicht"
+                // (Widget-Client zeigt dieselbe Info im Nickliste-Kontextmenü).
+                // Nur bei Hover abfragen; gameListRevision als reaktive
+                // Abhängigkeit, falls der Spieler währenddessen (bei)tritt.
+                readonly property string inGameName: {
+                    var _rev = Lobby ? Lobby.gameListRevision : 0
+                    return (Lobby && nameHover.hovered)
+                        ? Lobby.playerInGameName(playerItem.targetPlayerId) : ""
+                }
+
+                HoverHandler { id: nameHover }
+
+                ToolTip.text: inGameName !== ""
+                              ? qsTr("%1 is playing in \"%2\".").arg(displayName).arg(inGameName)
+                              : qsTr("%1 is not playing at the moment.").arg(displayName)
+                ToolTip.visible: nameHover.hovered && !Config.Responsive.isMobile
+                                 && Config.Parameters.showTooltips
+                ToolTip.delay: 400
             }
 
             // Wide-Screen: Action-Icons inline, rechtsbündig.
@@ -174,7 +196,7 @@ ItemDelegate {
             }
 
             // Portrait: Expander-Caret (Wide-Screen blendet ihn aus).
-            VectorImage {
+            SvgIcon {
                 id: expanderCaret
                 source: "qrc:/resources/caretLeft.svg"
                 rotation: expanded ? -180 : -90
@@ -182,7 +204,6 @@ ItemDelegate {
                 Layout.preferredWidth: 16
                 Layout.preferredHeight: 16
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                fillMode: VectorImage.PreserveAspectFit
                 visible: !playerItem.wideLayout && hasActions
 
                 MultiEffect {
@@ -234,10 +255,9 @@ ItemDelegate {
                     border.color: Qt.darker(playerItem.inviteColor, 1.55)
                 }
                 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -271,10 +291,9 @@ ItemDelegate {
                       border.color: Qt.darker(playerItem.ignoreColor, 1.55)
                 }
 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -308,10 +327,9 @@ ItemDelegate {
                       border.color: Qt.darker(playerItem.ignoreColor, 1.55)
                 }
 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -345,10 +363,9 @@ ItemDelegate {
                       border.color: Qt.darker(playerItem.statsColor, 1.55)
                 }
 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -382,10 +399,9 @@ ItemDelegate {
                     border.color: Qt.darker(playerItem.banColor, 1.55)
                 }
                 
-                contentItem: Text {
+                contentItem: AppText {
                     text: parent.text
                     color: "white"
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: parent.font.pixelSize
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -405,5 +421,6 @@ ItemDelegate {
                ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.2)
                : "transparent"
         radius: 3
+        Behavior on color { ColorAnimation { duration: 130 } }
     }
 }

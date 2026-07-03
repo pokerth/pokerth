@@ -75,7 +75,7 @@ public:
 	GuiInterface *getGui();
 	Log* getMyLog()
 	{
-		return myLog;
+		return myLog.get();
 	}
 	GameType getGameType();
 
@@ -147,7 +147,14 @@ private:
 	boost::shared_ptr<Game> currentGame;
 	GuiInterface *myGui;
 	ConfigFile *myConfig;
-	Log *myLog;
+	// Shared ownership: the network ClientThread holds a copy of this shared_ptr
+	// (m_clientLog). On shutdown the client thread may be leaked (Join timeout in
+	// terminateNetworkClient), so the Log must outlive Session as long as that
+	// thread can still write to it. Single control block prevents the previous
+	// raw-pointer double-ownership (Session delete + ClientThread shared_ptr),
+	// which caused a use-after-free / interrupted SQLite write -> corrupt .pdb
+	// when the user quit quickly while a log flush was still in flight.
+	boost::shared_ptr<Log> myLog;
 	GameType myGameType;
 	QtToolsInterface *myQtToolsInterface;
 };

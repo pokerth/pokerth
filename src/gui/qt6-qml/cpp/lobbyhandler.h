@@ -151,7 +151,11 @@ class LobbyHandler : public QObject
     Q_PROPERTY(QString myPlayerName READ myPlayerName NOTIFY myPlayerNameChanged)
     Q_PROPERTY(unsigned myPlayerId READ myPlayerId NOTIFY myPlayerIdChanged)
     Q_PROPERTY(bool isMyPlayerGuest READ isMyPlayerGuest NOTIFY gameContextChanged)
+    // Server-Admin (darf kickban / Spiele schließen) – authoritativ aus der
+    // PlayerInfo der Session. Strikt getrennt vom Spiel-Admin (Host).
     Q_PROPERTY(bool isCurrentPlayerAdmin READ isCurrentPlayerAdmin NOTIFY isCurrentPlayerAdminChanged)
+    // Spiel-Admin (Host/Ersteller des aktuellen Tisches) – darf das Spiel starten.
+    Q_PROPERTY(bool isCurrentGameAdmin READ isCurrentGameAdmin NOTIFY isCurrentGameAdminChanged)
     Q_PROPERTY(bool canInviteFromCurrentGame READ canInviteFromCurrentGame NOTIFY gameContextChanged)
     Q_PROPERTY(int playerListFilterMode READ playerListFilterMode WRITE setPlayerListFilterMode NOTIFY playerListFilterModeChanged)
     Q_PROPERTY(int gameListFilterMode READ gameListFilterMode WRITE setGameListFilterMode NOTIFY gameListFilterModeChanged)
@@ -181,6 +185,7 @@ public:
     QStringList chatLog() const { return m_chatLog; }
     bool isMyPlayerGuest() const;
     bool isCurrentPlayerAdmin() const { return m_isCurrentPlayerAdmin; }
+    bool isCurrentGameAdmin() const { return m_isCurrentGameAdmin; }
     bool canInviteFromCurrentGame() const;
     bool isInGame() const { return m_isInGame; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
@@ -195,7 +200,8 @@ public:
     
     void setMyPlayerInfo(unsigned playerId, const QString &playerName);
     // Set the current player's game-admin status (e.g. on self-join as host).
-    void setCurrentPlayerAdmin(bool isAdmin);
+    // Betrifft NUR den Spiel-Admin (Host), nicht den Server-Admin.
+    void setCurrentGameAdmin(bool isGameAdmin);
 
 public slots:
     // Player management
@@ -225,6 +231,10 @@ public slots:
     // Actions from QML
     Q_INVOKABLE void joinGame(unsigned gameId, const QString &password);
     Q_INVOKABLE void leaveGame();
+    // Verlässt die Lobby/den Server vollständig (Verbindung trennen). Wird
+    // beim Zurückkehren zur Startseite aufgerufen, damit der Client nicht
+    // weiterhin im Hintergrund verbunden bleibt (Lobby-Chat, Pings etc.).
+    Q_INVOKABLE void leaveServer();
     void onSelfJoinedGame();
     // Ein Spieler ist meinem aktuellen Spiel beigetreten → Benachrichtigungs-
     // Sound (playerconnected bzw. onlinegameready, wenn das Spiel voll ist).
@@ -234,12 +244,21 @@ public slots:
     // Server-Meldung (Klartext bzw. msgId aus socket_msg.h) → QML-Info-Popup.
     void onNetworkMessage(const QString &message);
     void onNetworkMessageId(unsigned msgId);
+    // Server-Benachrichtigung (notificationId = NTF_NET_* aus socket_msg.h),
+    // u. a. wenn das Beitreten/Erstellen eines Spiels fehlschlägt (z. B. der
+    // Spielname ist bereits vergeben) → QML-Info-Popup.
+    void onNetworkNotification(int notificationId);
     void onGameStarted();
     // reason = NTF_NET_REMOVED_* (socket_msg.h); wird an QML weitergereicht,
     // damit ein selbst angefordertes Verlassen (ON_REQUEST) anders navigiert
     // als z.B. ein geschlossenes/beendetes Spiel (GAME_CLOSED).
     void onRemovedFromGame(int reason);
-    
+    // Engine fordert das Verlassen des Gametables an (Spielende bzw. Entfernung):
+    // den Gametable schließen und in den Warteraum des (ggf. wieder geöffneten)
+    // Spiels zurückkehren. Bei Auto-Leave folgt onRemovedFromGame und poppt
+    // weiter bis in die Lobbyliste.
+    void onWaitGameDialog();
+
     // Player actions (QML-invokable)
     Q_INVOKABLE void createGame(const QString &name, const QString &password,
                                int gameType, bool allowSpectators, int maxPlayers,
@@ -250,9 +269,18 @@ public slots:
     Q_INVOKABLE void kickPlayer(unsigned playerId);
     Q_INVOKABLE void invitePlayer(unsigned playerId);
     Q_INVOKABLE bool isPlayerInAnyGame(unsigned playerId) const;
+    Q_INVOKABLE QString playerInGameName(unsigned playerId) const;
     Q_INVOKABLE void adminBanPlayer(unsigned playerId);
+    Q_INVOKABLE void reportGameName(unsigned gameId);
+    Q_INVOKABLE void adminCloseGame(unsigned gameId);
     Q_INVOKABLE void sendPrivateMessage(unsigned targetPlayerId, const QString &message);
     Q_INVOKABLE QVariantMap playerListEntry(int row) const;
+    // Alle verbundenen Spielernamen (UNgefiltert) für die Chat-Tab-
+    // Vervollständigung. Anders als playerListEntry() liest dies das
+    // Quell-Modell, damit auch Spieler vervollständigt werden können, die
+    // gerade in einem (offenen) Spiel sitzen und vom Spielerlisten-Filter
+    // (Modus 2) ausgeblendet werden – analog zum Qt-Widgets-Client.
+    Q_INVOKABLE QStringList playerNickList() const;
     Q_INVOKABLE QString playerCountryByName(const QString &name) const;
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
@@ -281,10 +309,13 @@ signals:
     void selfJoinedGame();
     void gameStarted();
     void removedFromGame(int reason);
+    // Gametable schließen und zurück in den Warteraum (siehe onWaitGameDialog).
+    void returnToWaitRoom();
     void errorOccurred(const QString &errorMessage);
     void myPlayerNameChanged();
     void myPlayerIdChanged();
     void isCurrentPlayerAdminChanged();
+    void isCurrentGameAdminChanged();
     void gameContextChanged();
     void playerListFilterModeChanged();
     void gameListFilterModeChanged();
@@ -315,8 +346,14 @@ private:
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;
-    bool m_isCurrentPlayerAdmin;
+    bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
+    bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;
+    // true zwischen Spielstart und Rückkehr in den Warteraum/die Lobby. Die
+    // Join-Sounds (playerconnected/onlinegameready) gehören nur in den
+    // Warteraum; ein PlayerJoined im laufenden Spiel ist ein Rejoin nach
+    // Disconnect (Widgets-Client: isVisible()-Guard im GameLobbyDialog).
+    bool m_gameRunning = false;
     unsigned m_currentGameId = 0;
     int m_playerListFilterMode;
     int m_gameListFilterMode;

@@ -105,7 +105,7 @@ private:
 class ClientThread : public Thread, public boost::enable_shared_from_this<ClientThread>, public SessionDataCallback
 {
 public:
-	ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog);
+	ClientThread(GuiInterface &gui, AvatarManager &avatarManager, boost::shared_ptr<Log> myLog);
 	virtual ~ClientThread();
 
 	// Set the parameters. Does not do any error checking.
@@ -207,6 +207,11 @@ protected:
 
 	void SendSessionPacket(boost::shared_ptr<NetPacket> packet);
 	void SendQueuedPackets();
+	// Runs on the io_service thread: builds and sends the local player's action.
+	// SendPlayerAction() (GUI thread) only posts to this, so the engine Hand is
+	// read on the same thread that mutates it (no cross-thread race -> the action
+	// is never silently dropped due to a transient null currentHand).
+	void DoSendPlayerAction();
 
 	bool GetCachedPlayerInfo(unsigned id, PlayerInfo &info) const;
 	void RemoveCachedPlayerInfo(unsigned id);

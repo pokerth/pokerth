@@ -5,6 +5,7 @@
 
 #include "lobbyhandler.h"
 #include "chatemotes.h"
+#include "gui/chat_emote_shortcuts.h"
 #include "session.h"
 #include "configfile.h"
 #include "soundevents.h"
@@ -18,59 +19,6 @@
 #include <QUrl>
 #include <QStringList>
 #include <QDateTime>
-
-// ---------------------------------------------------------------------------
-// Emoji substitution helper (Twemoji SVG, used by onLobbyChatMessage)
-// Input must already be HTML-escaped (< → &lt;, > → &gt;).
-// ASCII smileys: longer/more-specific patterns first.
-// Unicode emojis: variation-selector (U+FE0F) variant before plain codepoint.
-// ---------------------------------------------------------------------------
-static QString checkForEmotes(const QString &input)
-{
-    QString result = input;
-
-    // Convert ASCII smileys to their Unicode emoji equivalents.
-    // QML TextArea (RichText) renders Unicode emoji via the system font,
-    // which is simpler and more reliable than <img> tags.
-    // Note: input is HTML-escaped, so '>' appears as "&gt;".
-    auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
-
-    result.replace(QLatin1String("0:-)"),    emo(0x1F607)); // 😇 angel
-    result.replace(QLatin1String("X-("),     emo(0x1F620)); // 😠 angry
-    result.replace(QLatin1String("B-)"),     emo(0x1F60E)); // 😎 cool
-    result.replace(QLatin1String("8-)"),     emo(0x1F60E)); // 😎 cool
-    result.replace(QLatin1String(":'("),     emo(0x1F622)); // 😢 crying
-    result.replace(QLatin1String("&gt;:-)"), emo(0x1F608)); // 😈 devilish (HTML-escaped >)
-    result.replace(QLatin1String(":-["),     emo(0x1F633)); // 😳 embarrassed
-    result.replace(QLatin1String(":-*"),     emo(0x1F617)); // 😗 kiss
-    result.replace(QLatin1String(":-))" ),   emo(0x1F602)); // 😂 laugh
-    result.replace(QLatin1String(":))" ),    emo(0x1F602)); // 😂 laugh
-    result.replace(QLatin1String(":-|"),     emo(0x1F610)); // 😐 neutral
-    result.replace(QLatin1String(":-P"),     emo(0x1F61B)); // 😛 tongue
-    result.replace(QLatin1String(":-p"),     emo(0x1F61B)); // 😛 tongue
-    result.replace(QLatin1String(":-("),     emo(0x1F61E)); // 😞 sad
-    result.replace(QLatin1String(":("),      emo(0x1F61E)); // 😞 sad
-    result.replace(QLatin1String(":-&"),     emo(0x1F912)); // 🤒 sick
-    result.replace(QLatin1String(":-D"),     emo(0x1F603)); // 😃 big smile
-    result.replace(QLatin1String(":D"),      emo(0x1F603)); // 😃 big smile
-    result.replace(QLatin1String(":-!"),     emo(0x1F60F)); // 😏 smirk
-    result.replace(QLatin1String(":-0"),     emo(0x1F62E)); // 😮 surprise
-    result.replace(QLatin1String(":-O"),     emo(0x1F62E)); // 😮 surprise
-    result.replace(QLatin1String(":-o"),     emo(0x1F62E)); // 😮 surprise
-    result.replace(QLatin1String(":-/"),     emo(0x1F615)); // 😕 uncertain
-    // ":/" only when no URL present
-    if (!result.contains(QLatin1String("http://")) && !result.contains(QLatin1String("https://")))
-        result.replace(QLatin1String(":/"), emo(0x1F615));  // 😕
-    result.replace(QLatin1String(";-)"),     emo(0x1F609)); // 😉 wink
-    result.replace(QLatin1String(";)"),      emo(0x1F609)); // 😉 wink
-    result.replace(QLatin1String(":-S"),     emo(0x1F61F)); // 😟 worried
-    result.replace(QLatin1String(":-s"),     emo(0x1F61F)); // 😟 worried
-    result.replace(QLatin1String(":-)"),     emo(0x1F60A)); // 😊 smile
-    result.replace(QLatin1String(":)"),      emo(0x1F60A)); // 😊 smile
-
-    // Unicode emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
-    return enlargeEmojis(result);
-}
 
 
 class PlayerNickListSortFilterProxyModel : public QSortFilterProxyModel
@@ -702,30 +650,38 @@ void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 
 void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName, bool isAdmin)
 {
-    // Fetch country code from session player info
+    // Den durchgereichten isAdmin-Parameter NICHT für den Admin-Status nutzen:
+    // er trägt je nach Aufrufer unterschiedliche Bedeutung (Server-Admin aus
+    // SignalNetClientPlayerChanged vs. Spiel-Admin aus SignalNetClientPlayerJoined).
+    // Maßgeblich für kickban / Spiel-schließen ist allein der Server-Admin aus
+    // der PlayerInfo der Session. Diese ist nach Eintreffen des PlayerInfoReply
+    // authoritativ – dadurch heilt sich der Status selbst und wird nicht mehr
+    // von einem Spiel-Beitritt überschrieben.
     QString countryCode;
     bool isGuest = false;
+    bool serverAdmin = isAdmin;
     if (m_session) {
         PlayerInfo info = m_session->getClientPlayerInfo(playerId);
         countryCode = QString::fromStdString(info.countryCode).toLower();
         isGuest = info.isGuest;
+        serverAdmin = info.isAdmin;
     }
     // Update in player list model
-    m_playerListModel.updatePlayerInfo(playerId, playerName, isAdmin, countryCode, isGuest);
+    m_playerListModel.updatePlayerInfo(playerId, playerName, serverAdmin, countryCode, isGuest);
     static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
     ++m_gameListRevision;
     emit gameListRevisionChanged();
-    
+
     // Check if this is our own player by comparing with session's unique player ID
     if (m_session) {
         unsigned myId = m_session->getClientUniquePlayerId();
         if (playerId == myId) {
             setMyPlayerInfo(playerId, playerName);
-            // Update admin status
-            if (m_isCurrentPlayerAdmin != isAdmin) {
-                m_isCurrentPlayerAdmin = isAdmin;
+            // Server-Admin-Status aktualisieren (selbstheilend aus der Session).
+            if (m_isCurrentPlayerAdmin != serverAdmin) {
+                m_isCurrentPlayerAdmin = serverAdmin;
                 emit isCurrentPlayerAdminChanged();
             }
         }
@@ -766,14 +722,25 @@ void LobbyHandler::onGameListChanged(unsigned gameId)
     refreshGameInfo(gameId);
     ++m_gameListRevision;
     emit gameListRevisionChanged();
+    // Ein Spieler ist einem (offenen) Spiel beigetreten / hat es verlassen
+    // (SignalNetClientGameListPlayerJoined/Left mappen hierauf). Die Zugehörigkeit
+    // zu einem Spiel lebt in der Session (getGameIdOfPlayer), nicht im Quell-Modell –
+    // der Spielerlisten-Filter (Modus 2) wird daher nicht automatisch neu bewertet.
+    // Ohne expliziten refresh() verweilen beigetretene Spieler weiter in der
+    // "verfügbar"-Liste, bis ein anderes Event zufällig einen Refresh auslöst.
+    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    ++m_playerListRevision;
+    emit playerListRevisionChanged();
     emit gameContextChanged();
 }
 
-void LobbyHandler::setCurrentPlayerAdmin(bool isAdmin)
+void LobbyHandler::setCurrentGameAdmin(bool isGameAdmin)
 {
-    if (m_isCurrentPlayerAdmin != isAdmin) {
-        m_isCurrentPlayerAdmin = isAdmin;
-        emit isCurrentPlayerAdminChanged();
+    // Betrifft ausschließlich den Spiel-Admin (Host) – der Server-Admin-Status
+    // (kickban / Spiel schließen) bleibt davon unberührt.
+    if (m_isCurrentGameAdmin != isGameAdmin) {
+        m_isCurrentGameAdmin = isGameAdmin;
+        emit isCurrentGameAdminChanged();
     }
 }
 
@@ -938,6 +905,41 @@ QVariantMap LobbyHandler::playerListEntry(int row) const
     return entry;
 }
 
+QStringList LobbyHandler::playerNickList() const
+{
+    QStringList nicks;
+
+    // Quell-Modell (ungefiltert) durchlaufen, NICHT den Proxy: der
+    // Spielerlisten-Filter (Modus 2) blendet Spieler in Spielen aus, die
+    // aber für die Chat-Vervollständigung erreichbar bleiben müssen.
+    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+    const int count = m_playerListModel.rowCount();
+    for (int row = 0; row < count; ++row) {
+        const QModelIndex index = m_playerListModel.index(row, 0);
+        if (!index.isValid())
+            continue;
+
+        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+
+        // Platzhalternamen (z. B. "#123") über die Session auflösen.
+        if (m_session && playerId != 0) {
+            const bool nameIsPlaceholder = playerName.isEmpty()
+                || numericPlaceholderPattern.match(playerName).hasMatch();
+            if (nameIsPlaceholder) {
+                const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+                if (!sessionName.isEmpty())
+                    playerName = sessionName;
+            }
+        }
+
+        if (!playerName.isEmpty() && !nicks.contains(playerName))
+            nicks << playerName;
+    }
+
+    return nicks;
+}
+
 QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
 {
     QVariantList players;
@@ -1078,6 +1080,11 @@ void LobbyHandler::onGamePlayerJoined()
     // startnetworkgamedialogimpl): solange das Spiel nicht voll ist
     // "playerconnected", beim letzten Spieler "onlinegameready" (das Spiel
     // startet gleich darauf).
+    // Nur im Warteraum, nicht im laufenden Spiel: dort bedeutet PlayerJoined
+    // einen Rejoin nach Disconnect, und "onlinegameready" (Spiel wieder voll)
+    // klänge wie ein Spielstart mitten in der Hand.
+    if (m_gameRunning)
+        return;
     if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
         return;
     if (!m_session || m_currentGameId == 0)
@@ -1150,6 +1157,44 @@ void LobbyHandler::onNetworkMessageId(unsigned msgId)
     emit networkMessageReceived(msgText);
 }
 
+void LobbyHandler::onNetworkNotification(int notificationId)
+{
+    // Texte 1:1 wie startWindowImpl::networkNotification(int). Ohne diese
+    // Behandlung blieb beim Erstellen/Beitreten eines Spiels jede Server-
+    // Ablehnung (z. B. bereits vergebener Spielname) unbemerkt.
+    QString msgText;
+    switch (notificationId) {
+    case NTF_NET_JOIN_IP_BLOCKED:
+        msgText = tr("You cannot join this game, because another player in that game has your network address."); break;
+    case NTF_NET_REMOVED_GAME_FULL:
+    case NTF_NET_JOIN_GAME_FULL:
+        msgText = tr("Sorry, this game is already full."); break;
+    case NTF_NET_REMOVED_ALREADY_RUNNING:
+    case NTF_NET_JOIN_ALREADY_RUNNING:
+        msgText = tr("Unable to join - the server has already started the game."); break;
+    case NTF_NET_JOIN_NOT_INVITED:
+        msgText = tr("This game is of type invite-only. You cannot join this game without being invited."); break;
+    case NTF_NET_JOIN_GAME_NAME_IN_USE:
+        msgText = tr("This game name is already in use. Please choose a different name."); break;
+    case NTF_NET_JOIN_GAME_BAD_NAME:
+        msgText = tr("The game name is invalid. Please choose a different name."); break;
+    case NTF_NET_JOIN_INVALID_PASSWORD:
+        msgText = tr("Invalid password when joining the game.\nPlease reenter the password and try again."); break;
+    case NTF_NET_JOIN_GUEST_FORBIDDEN:
+        msgText = tr("You cannot join this type of game as guest."); break;
+    case NTF_NET_JOIN_INVALID_SETTINGS:
+        msgText = tr("The settings are invalid for this type of game."); break;
+    case NTF_NET_JOIN_NO_SPECTATORS:
+        msgText = tr("This game does not allow spectators."); break;
+    case NTF_NET_JOIN_GAME_INVALID:
+    case NTF_NET_JOIN_REJOIN_FAILED:
+        msgText = tr("Could not join the game."); break;
+    default:
+        return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
+    }
+    emit networkMessageReceived(msgText);
+}
+
 void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &message)
 {
     // Reload ignore list fresh on every message (matches chattools.cpp refreshIgnoreList pattern)
@@ -1185,6 +1230,9 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
     // HTML-escape user-supplied content (prevents tag injection)
     QString escapedMsg = rawDisplay.toHtmlEscaped();
+    // ASCII-Kürzel auf dem rohen Text umsetzen, bevor Link-/Style-Markup
+    // hinzukommt (verhindert Kollisionen mit "color:#..." o. Ä.).
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
 
     // URL linkification
     static const QRegularExpression urlRe(QLatin1String("(https?://\\S+)"));
@@ -1209,9 +1257,8 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
                     + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
     }
 
-    // Emoji substitution (respects DisableChatEmoticons setting)
-    if (!m_config || !m_config->readConfigInt("DisableChatEmoticons"))
-        styledMsg = checkForEmotes(styledMsg);
+    // Unicode-Emoji in der Anzeige vergrößern (wie im Game-Chat, ~22px).
+    styledMsg = enlargeEmojis(styledMsg);
 
     // Sound notification on mention (wie chattools.cpp im Widgets-Client)
     if (isMention && playerName != myNick) {
@@ -1246,8 +1293,8 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     const QString colorPM  = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
 
     QString escapedMsg  = message.toHtmlEscaped();
-    if (!m_config || !m_config->readConfigInt("DisableChatEmoticons"))
-        escapedMsg = checkForEmotes(escapedMsg);
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+    escapedMsg = enlargeEmojis(escapedMsg);
 
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
     const QString line = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
@@ -1346,8 +1393,27 @@ void LobbyHandler::leaveGame()
     m_session->sendLeaveCurrentGame();
 }
 
+void LobbyHandler::leaveServer()
+{
+    if (!m_session)
+        return;
+    // Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
+    // Lobby) und den lokalen Lobby-Zustand zurücksetzen.
+    m_session->terminateNetworkClient();
+    m_gameRunning = false;
+    if (m_isInGame) {
+        m_isInGame = false;
+        m_currentGameId = 0;
+        emit isInGameChanged();
+        emit currentGameIdChanged();
+    }
+}
+
 void LobbyHandler::onSelfJoinedGame()
 {
+    // Frischer Beitritt → Warteraum (bei Rejoin in ein laufendes Spiel folgt
+    // unmittelbar wieder onGameStarted).
+    m_gameRunning = false;
     m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
     if (!m_isInGame) {
         m_isInGame = true;
@@ -1359,13 +1425,43 @@ void LobbyHandler::onSelfJoinedGame()
 
 void LobbyHandler::onGameStarted()
 {
+    // Spielstart bedeutet, dass die Engine die Lobby-Nachrichten abbestellt
+    // (UnsubscribeLobbyMsg). Während des Spiels treffen daher keine
+    // playerListLeft-Events mehr ein – Spieler, die in dieser Zeit die Verbindung
+    // trennen, blieben sonst als veraltete "idle"-Einträge in der Liste stehen.
+    // Beim Rückkehren in den Warteraum/die Lobby sendet der Server via
+    // ResubscribeLobbyMsg die vollständige Spielerliste erneut (playerListNew),
+    // sodass die Liste hier gefahrlos geleert und anschließend frisch aufgebaut
+    // wird. Spiegelt das Verhalten des Widget-Clients (Nickliste leeren bei
+    // MSG_NET_GAME_CLIENT_START).
+    m_playerListModel.clear();
+    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    ++m_playerListRevision;
+    emit playerListRevisionChanged();
+
+    m_gameRunning = true;
+
     emit gameStarted();
+}
+
+void LobbyHandler::onWaitGameDialog()
+{
+    // m_isInGame/m_currentGameId NICHT zurücksetzen: Bei deaktiviertem Auto-Leave
+    // bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
+    // das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
+    // (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
+    m_gameRunning = false;
+    emit returnToWaitRoom();
 }
 
 void LobbyHandler::onRemovedFromGame(int reason)
 {
     m_isInGame = false;
+    m_gameRunning = false;
     m_currentGameId = 0;
+    // Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
+    // Server-Admin-Status bleibt davon unberührt.
+    setCurrentGameAdmin(false);
     emit isInGameChanged();
     emit currentGameIdChanged();
     emit removedFromGame(reason);
@@ -1442,6 +1538,16 @@ bool LobbyHandler::isPlayerInAnyGame(unsigned playerId) const
         }
     }
     return false;
+}
+
+QString LobbyHandler::playerInGameName(unsigned playerId) const
+{
+    if (!m_session || playerId == 0)
+        return QString();
+    const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+    if (gameId == 0)
+        return QString();
+    return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
 }
 
 // ── Eingehende Spiel-Einladungen (Invite-Only-Spiele) ──────────────────────
@@ -1522,6 +1628,28 @@ void LobbyHandler::adminBanPlayer(unsigned playerId)
         return;
     }
     m_session->adminActionBanPlayer(playerId);
+}
+
+void LobbyHandler::reportGameName(unsigned gameId)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    if (gameId == 0)
+        return;
+    m_session->reportBadGameName(gameId);
+}
+
+void LobbyHandler::adminCloseGame(unsigned gameId)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    if (gameId == 0)
+        return;
+    m_session->adminActionCloseGame(gameId);
 }
 
 void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &message)

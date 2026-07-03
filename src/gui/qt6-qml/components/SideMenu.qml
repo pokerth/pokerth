@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -22,7 +21,7 @@ Drawer {
     ColumnLayout {
         anchors.fill: parent
 
-        VectorImage {
+        SvgIcon {
             source: "../resources/pokerth.svg"
             Layout.preferredWidth: 96
             Layout.preferredHeight: 96
@@ -30,11 +29,10 @@ Drawer {
             Layout.alignment: Qt.AlignCenter
         }
 
-        Label {
+        AppLabel {
             id: sideMenuLabel
             color: Config.StaticData.palette.secondary.col200
-            text: qsTr("PokerTH - v2.1.0preview")
-            font.family: Config.StaticData.loadedFont.font.family
+            text: qsTr("PokerTH - v2.1.0")
             Layout.alignment: Qt.AlignCenter
             Layout.bottomMargin: 24
             font.pointSize: 16
@@ -69,7 +67,7 @@ Drawer {
                     anchors.fill: parent
                     spacing: 6
 
-                    VectorImage {
+                    SvgIcon {
                         id: iconImage
                         Layout.leftMargin: 16
                         Layout.topMargin: 4
@@ -87,14 +85,13 @@ Drawer {
                         }
                     }
 
-                    Text {
+                    AppText {
                         id: label
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
                         Layout.topMargin: 4
                         Layout.bottomMargin: 4
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pointSize: 12
                         text: "StartSideMenuItem"
                     }

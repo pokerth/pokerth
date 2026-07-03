@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
-import QtQuick.VectorImage
 import QtQuick.Window
 
 import "../components"
@@ -15,49 +14,92 @@ Rectangle {
     height: parent ? parent.height : 0
     color: "transparent"
 
+    // ── Tisch-Theme-Farben für Chat-/Log-Box ──────────────────────────────────
+    // Fest (dunkel), unabhängig vom Hell/Dunkel-Modus der übrigen App. Quelle ist
+    // das Tisch-Theme (StyleProvider.chatLog*, per XML überschreibbar); der
+    // Fallback greift nur, falls die Context-Property mal nicht gesetzt ist.
+    readonly property color tblChatBackground:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBackground : "#1d222b"
+    readonly property color tblChatSurface:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogSurface : "#394150"
+    readonly property color tblChatBorder:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogBorder : "#576378"
+    readonly property color tblChatText:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogText : "#eff1f5"
+    readonly property color tblChatTextSecondary:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextSecondary : "#cdd3e0"
+    readonly property color tblChatTextMuted:
+        (typeof StyleProvider !== "undefined" && StyleProvider) ? StyleProvider.chatLogTextMuted : "#7787a3"
+
+    // Spielmodus umschalten – die eigentliche Logik (inkl. verzögerter
+    // Auto-Aktion) lebt in der GameActionBar; hier nur als Weiterleitung für
+    // die Tastatur-Shortcuts.
     function applyPlayingMode(index) {
-        if (!actionBar)
-            return
-        actionBar.playingMode = index
-        // Falls bereits mein Zug: gewählten Auto-Modus ausführen – aber
-        // VERZÖGERT (Qt.callLater), niemals synchron. Diese Funktion läuft u.a.
-        // aus dem activated-Handler der Modus-ComboBox bzw. aus einem Shortcut.
-        // fold()/call() verändert sofort den Spielzustand und löst ein erneutes
-        // myTurnChanged + Re-Layout der ActionBar (inkl. dieser ComboBox) aus;
-        // synchron mitten im Klick-/Signal-Handler führte das zu Re-Entrancy
-        // (lokales Spiel fror ein, Netzwerk-Spiel stürzte ab).
-        if (GameTable && GameTable.myTurn)
-            Qt.callLater(gamePage.runAutoAction)
+        if (actionBar)
+            actionBar.applyPlayingMode(index)
     }
 
-    // Auto-Modus-Aktion im nächsten Event-Loop-Durchlauf ausführen. Der Zustand
-    // wird erneut geprüft, da er sich seit der Planung geändert haben kann
-    // (z.B. Zug bereits vorbei). Qt.callLater dedupliziert Mehrfachaufrufe.
-    function runAutoAction() {
-        if (!actionBar || !GameTable || !GameTable.myTurn)
-            return
-        if (actionBar.playingMode === 2) {            // Auto Check/Fold
-            if (actionBar.canCheck) GameTable.call()
-            else GameTable.fold()
-        } else if (actionBar.playingMode === 1) {     // Auto Check/Call
-            GameTable.call()
+    // ── Info-Panel (Verlauf/Chancen/Blatt) ────────────────────────────────────
+    // Desktop: permanent unten RECHTS angedockt (gespiegelt zum Chat unten links),
+    // ÜBER dem Tisch schwebend (reserviert keinen Platz). Reicht die Breite nicht
+    // (bzw. Mobil), bleibt es beim schwebenden Overlay mit Toggle. Der Toggle
+    // klappt das angedockte Panel ein/aus (dockedInfoCollapsed).
+    readonly property bool infoDocked: tableZone ? tableZone.dockedInfoFits : false
+    // Sichtbarkeit/Aktiv-Zustand des Toggles je nach Modus.
+    readonly property bool infoPanelOpen:
+        infoDocked ? !tableZone.dockedInfoCollapsed
+                   : (tableZone ? tableZone.showInfo : false)
+
+    // Panel öffnen bzw. Tab wählen (Shortcuts).
+    function showInfoTab(idx) {
+        if (gamePage.infoDocked) {
+            tableZone.dockedInfoCollapsed = false
+            infoPanelDock.currentIndex = idx
+        } else {
+            tableZone.showInfo = true
+            infoPanelOverlay.currentIndex = idx
+            if (!tableZone.wide)
+                tableZone.showChat = false
         }
     }
 
-    function toggleLogOverlay() {
-        if (!tableZone)
+    // Combined-Toggle: Panel ein-/ausblenden (angedockt: einklappen).
+    function toggleInfoOverlay() {
+        if (gamePage.infoDocked) {
+            tableZone.dockedInfoCollapsed = !tableZone.dockedInfoCollapsed
             return
-        tableZone.showLog = !tableZone.showLog
-        if (tableZone.showLog && !tableZone.wide)
+        }
+        tableZone.showInfo = !tableZone.showInfo
+        if (tableZone.showInfo && !tableZone.wide)
             tableZone.showChat = false
     }
+
+    // Alt+L (Verlauf-Tab) – Name aus Kompatibilität zur bisherigen Belegung.
+    function toggleLogOverlay() {
+        if (!gamePage.infoDocked && tableZone.showInfo
+                && infoPanelOverlay.currentIndex === 0)
+            tableZone.showInfo = false
+        else
+            showInfoTab(0)
+    }
+
+    // Chat analog zum Info-Panel: Desktop → permanent unten links angedockt
+    // (chatDocked), per Toggle einklappbar; sonst schwebendes Overlay.
+    readonly property bool chatDocked: tableZone ? tableZone.dockedChatFits : false
+    readonly property bool chatPanelOpen:
+        chatDocked ? !tableZone.dockedChatCollapsed
+                   : (tableZone ? tableZone.showChat : false)
 
     function toggleChatOverlay() {
         if (!tableZone)
             return
+        if (gamePage.chatDocked) {
+            tableZone.dockedChatCollapsed = !tableZone.dockedChatCollapsed
+            return
+        }
         tableZone.showChat = !tableZone.showChat
         if (tableZone.showChat && !tableZone.wide)
-            tableZone.showLog = false
+            tableZone.showInfo = false
     }
 
     function toggleFullscreenMode() {
@@ -78,6 +120,25 @@ Rectangle {
     property string _lastOwnReactionEmoji: ""
     property double _lastOwnReactionTime: 0
 
+    // Emoji-Reaktionen können in den Einstellungen deaktiviert werden
+    // (Config-Key "DisableEmojiReactions"). Da readConfigInt() nicht reaktiv
+    // ist, wird der Wert beim Erscheinen der Seite neu eingelesen – die
+    // Einstellungen liegen als eigene StackView-Seite darüber, beim Zurück-
+    // kehren wird activated() ausgelöst.
+    // Zusätzlich sind Reaktionen nur in Netzwerkspielen sinnvoll, in denen
+    // menschliche Gegner mitspielen – in einem Localgame (nur Computer-Gegner)
+    // wird der Toggle daher ausgeblendet.
+    property bool emojiReactionsEnabled: true
+    function refreshEmojiReactionsEnabled() {
+        var enabledInSettings = SettingsManager
+            ? SettingsManager.readConfigInt("DisableEmojiReactions") === 0 : true
+        var isLocalGame = (typeof GameTable !== "undefined" && GameTable
+            && GameTable.isLocalGameRunning())
+        emojiReactionsEnabled = enabledInSettings && !isLocalGame
+    }
+    Component.onCompleted: refreshEmojiReactionsEnabled()
+    StackView.onActivated: refreshEmojiReactionsEnabled()
+
     function sendReaction(emoji) {
         tableZone.showReactions = false
         _lastOwnReactionEmoji = emoji
@@ -96,7 +157,7 @@ Rectangle {
         } else {
             var slot = tableZone.slotForSeat(seatIdx)
             if (!slot) return
-            px = tableZone.width * slot.x
+            px = tableZone.width * slot.x + (slot.nudgeX || 0)
             py = tableZone.height * slot.y + slot.nudge
                  - (tableZone.oppBaseHeight * tableZone.boxScale) / 2 - 6
         }
@@ -119,7 +180,9 @@ Rectangle {
     Connections {
         target: GameTable
         function onReactionReceived(playerName, emoji) {
-            console.log("[REACT] received from", playerName, "->", emoji)
+            if (!gamePage.emojiReactionsEnabled)
+                return
+            // console.log("[REACT] received from", playerName, "->", emoji)
             var players = GameTable.players
             var idx = -1
             for (var i = 0; i < players.length; i++)
@@ -146,7 +209,7 @@ Rectangle {
     //   alternate: F1 All-In · F2 Bet/Raise · F3 Call/Check · F4 Fold
     // F5 deckt die eigenen Karten auf, F6/F7/F8 schalten den Spielmodus.
     readonly property bool fKeysAlternate:
-        (typeof SettingsManager !== "undefined" && SettingsManager)
+        (typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
         ? SettingsManager.readConfigInt("AlternateFKeysUserActionMode") !== 0 : false
 
     function fKeyAction(which) {
@@ -165,6 +228,12 @@ Rectangle {
         context: Qt.ApplicationShortcut
         enabled: gamePage.visible
         onActivated: gamePage.toggleChatOverlay()
+    }
+    Shortcut {
+        sequence: "Alt+I"
+        context: Qt.ApplicationShortcut
+        enabled: gamePage.visible
+        onActivated: gamePage.toggleInfoOverlay()
     }
     Shortcut {
         sequence: "Alt+F"
@@ -255,91 +324,16 @@ Rectangle {
         spacing: 0
 
         // 1. Status-Leiste: Spielphase | Pott | Hand-Nummer
-        Rectangle {
+        // Im landscapeCompact knapper (28 statt 40) — schafft ~12 px mehr
+        // tableZone-Höhe für die Halsketten-Ellipse.
+        // z über der tableZone (nächstes ColumnLayout-Element, das sonst darüber
+        // gezeichnet wird): die obere-Mitte-Spielerbox (TC-Slot) ragt in den
+        // Streifen der Leiste hinein und würde sonst mit ihrer MouseArea den
+        // Klick auf den (anklickbaren) Tischnamen abfangen.
+        GameStatusBar {
+            z: 1
             Layout.fillWidth: true
-            // Im landscapeCompact knapper (28 statt 40) — schafft ~12 px mehr
-            // tableZone-Höhe für die Halsketten-Ellipse.
             Layout.preferredHeight: Config.Responsive.landscapeCompact ? 28 : 40
-            color: Qt.rgba(0, 0, 0, 0.78)
-
-            RowLayout {
-                anchors { fill: parent; leftMargin: 16; rightMargin: 16 }
-                spacing: 0
-
-                // Links: Pot-Info (1:1 wie Widget-Client links neben den Community-Cards)
-                // "Total" = aufgelaufener Pot (getPot), "Bets" = laufende Einsätze dieser Runde (getSets)
-                Column {
-                    spacing: 0
-                    Row {
-                        spacing: 4
-                        Text {
-                            text: qsTr("Total:")
-                            color: "#9e9e9e"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
-                            font.weight: Font.Medium
-                        }
-                        Text {
-                            text: "$%1".arg(GameTable ? GameTable.pot : 0)
-                            color: "#99D500"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
-                            font.bold: true
-                        }
-                    }
-                    Row {
-                        spacing: 4
-                        Text {
-                            text: qsTr("Bets:")
-                            color: "#9e9e9e"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: Config.Responsive.landscapeCompact ? 10 : 11
-                            font.weight: Font.Medium
-                        }
-                        Text {
-                            text: "$%1".arg(GameTable ? (GameTable.totalPot - GameTable.pot) : 0)
-                            color: "#7aa800"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: Config.Responsive.landscapeCompact ? 10 : 11
-                            font.weight: Font.Medium
-                        }
-                    }
-                }
-
-                Item { Layout.fillWidth: true }
-
-                // Rechts: Phase + Game-ID + Hand-Nummer (1:1 wie Widget-Client rechts neben den Community-Cards)
-                Column {
-                    spacing: 0
-                    Text {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: GameTable ? GameTable.phaseText : qsTr("Preflop")
-                        color: "#FFFFFF"
-                        font.family: Config.StaticData.loadedFont.font.family
-                        font.pixelSize: Config.Responsive.landscapeCompact ? 11 : 13
-                        font.weight: Font.DemiBold
-                        font.letterSpacing: 0.5
-                    }
-                    Row {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        spacing: 8
-                        Text {
-                            text: qsTr("Game: %1").arg(GameTable ? GameTable.gameId : 0)
-                            color: "#9e9e9e"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: Config.Responsive.landscapeCompact ? 9 : 11
-                            font.weight: Font.Medium
-                        }
-                        Text {
-                            text: qsTr("Hand: %1").arg(GameTable ? GameTable.handNumber : 1)
-                            color: "#9e9e9e"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: Config.Responsive.landscapeCompact ? 9 : 11
-                            font.weight: Font.Medium
-                        }
-                    }
-                }
-            }
         }
 
         // 2. Tischzone: grüne Tischgrafik füllt gesamten Platz, alle Spieler überlagert
@@ -353,15 +347,76 @@ Rectangle {
             // auch im breiten Querformat sichtbar bleibt (im Hochformat ohnehin).
             // Querformat: reicht hinter der geschrumpften Action-Box bis zum
             // unteren Bildschirmrand, damit dort kein dunkler Streifen bleibt.
-            Image {
-                anchors.top: parent.top
+            // Clip-Container für das Tisch-Hintergrundbild.
+            //   • OBEN bei der tableZone-Kante clippen → das (im center-Modus) zum
+            //     Cover hochskalierte Bild kann NICHT über die obere Kante hinaus
+            //     die Status-/Navigationsleiste überdecken.
+            //   • UNTEN bis zum Fensterrand ziehen: die Action-Box ist das dritte
+            //     ColumnLayout-Element und nimmt unten Platz weg, sodass tableZone
+            //     an ihrer Oberkante endet. Der Container reicht daher um die
+            //     Action-Box-Höhe weiter nach unten (tableZone clippt selbst nicht),
+            //     damit die Tischgrafik HINTER der Action-Box bis zum unteren
+            //     Fensterrand sichtbar bleibt (kein dunkler Streifen).
+            // Spieler-Boxen/Badges bleiben direkte tableZone-Kinder und dürfen
+            // weiterhin über den Rand hinausragen.
+            Item {
+                id: tableBgClip
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: parent.height + (tableZone.wide ? actionBar.height : 0)
-                source: "../resources/tableGreen.png"
-                fillMode: Image.PreserveAspectCrop
-                verticalAlignment: Image.AlignBottom
-                smooth: true
+                anchors.top: parent.top
+                height: tableZone.height + (tableZone.wide ? actionBar.height : 0)
+                clip: true
+
+                Image {
+                    id: tableBackgroundImage
+                    // Wir verwenden die Bild-Quelle als implizite Größe (implicitWidth/Height)
+                    source: (typeof StyleProvider !== "undefined" && StyleProvider && StyleProvider.tableBackground !== "")
+                            ? StyleProvider.tableBackground : "../resources/tableGreen.png"
+                    fillMode: Image.PreserveAspectCrop
+                    smooth: true
+
+                    // ── center-Modus (z. B. danuxi) ───────────────────────────────
+                    // Das Bild füllt den GESAMTEN Gametable randlos (bis zum unteren
+                    // Fensterrand hinter der Action-Box) und der Tisch sitzt im
+                    // Zentrum der Player-Box-Ellipse (communityCenterY). Damit das
+                    // Bild auch bei außermittiger Ellipse die komplette Zone deckt,
+                    // wird so weit hochskaliert, dass es – zentriert auf (Zonenmitte,
+                    // Ellipsenmittelpunkt) – ALLE vier Kanten überdeckt (stärkeres,
+                    // symmetrisches Beschneiden des äußeren Randes = "mehr crop").
+                    // Ohne center-Stil: klassisches Cover.
+                    // Bezugsgröße ist bewusst tableZone (NICHT parent/tableBgClip –
+                    // dessen Höhe ist um die Action-Box-Höhe größer).
+                    readonly property bool centerMode:
+                        typeof StyleProvider !== "undefined" && StyleProvider
+                        && StyleProvider.tableBackgroundAlignment === "center"
+                    readonly property real srcW: Math.max(1, implicitWidth  || tableZone.width)
+                    readonly property real srcH: Math.max(1, implicitHeight || tableZone.height)
+                    readonly property real coverExtra: tableZone.wide ? actionBar.height : 0
+                    // Vertikaler Mittelpunkt der Player-Box-Ellipse (Zonen-Koords).
+                    readonly property real ellipseCenterY: tableZone.communityCenterY
+                    // Crop-/Zoom-Faktor aus dem Stil (>= 1.0, default 1.0): größer =
+                    // Tisch größer / mehr Beschnitt des äußeren Randes. Per Daten
+                    // (XML <TableBackgroundZoom>) justierbar – kein Neubau nötig.
+                    readonly property real centerZoom:
+                        centerMode && StyleProvider.tableBackgroundZoom > 0
+                        ? Math.max(1.0, StyleProvider.tableBackgroundZoom) : 1.0
+                    // Skalierung, die – zentriert auf (Zonenmitte, ellipseCenterY) –
+                    // die ganze Zone (inkl. Bereich hinter der Action-Box) deckt,
+                    // multipliziert mit dem Zoom-/Crop-Faktor.
+                    readonly property real fillScale: {
+                        var reqH = 2 * Math.max(ellipseCenterY,
+                                                tableZone.height + coverExtra - ellipseCenterY)
+                        return Math.max(tableZone.width / srcW, reqH / srcH) * centerZoom
+                    }
+
+                    width:  centerMode ? Math.round(srcW * fillScale) : tableZone.width
+                    height: centerMode ? Math.round(srcH * fillScale)
+                                       : tableZone.height + coverExtra
+                    // Horizontal auf Zonenmitte, vertikal auf den Ellipsenmittelpunkt
+                    // zentrieren → der Tisch liegt in der Bildmitte = Ellipsenmitte.
+                    x: centerMode ? Math.round(tableZone.width / 2 - width / 2) : 0
+                    y: centerMode ? Math.round(ellipseCenterY - height / 2) : 0
+                }
             }
 
             // Anzahl der besetzten Sitze
@@ -417,11 +472,13 @@ Rectangle {
                 var cw   = Math.round(rowH * 120 / 168)
                 return 2 * 4 + rowH + 4 + 2 * cw + 4
             }
-            // selfBaseHeight im Wide auf 84 (= oppBaseHeight): die Self-Box muss
-            // IMMER mindestens so groß sein wie die Gegnerboxen (beide skalieren
-            // mit demselben boxScale → base gleich halten).
-            // cardsArea.height = 84−12−32 = 40, selfBaseWidth = 114 = oppBaseWidth 114.
-            readonly property int selfBaseHeight: wide ? 84 : 71
+            // Self-Box bewusst GRÖSSER als die Gegnerboxen (eigene Box prominent) —
+            // in JEDEM Modus: Desktop-Wide 96, Kompakt-Landscape 94, Portrait 82
+            // (Gegnerboxen: 84 bzw. 71). Die Bisektion leitet selfVisualH/bottomY/
+            // selfClearX/selfVisualTopY aus selfBaseHeight ab → reserviert automatisch
+            // mehr Platz (Gegner-Bottom-Sitze rücken hoch), daher überlappungsfrei.
+            readonly property int selfBaseHeight:
+                !wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96)
             // Self-Box-Breite dynamisch: identische Abstände wie Gegnerboxen.
             //   Compact  : cardsH=46, cardW=33, avW=46 → 2×4 + 46 + 4 + 2×33 + 4 = 128
             //   Landscape: cardsH=40, cardW=29, avW=40 → 2×4 + 40 + 4 + 2×29 + 4 = 114
@@ -449,6 +506,44 @@ Rectangle {
                 var oppCnt = _peakSeatCount - 1
                 var s
 
+                // Box-Skala-Obergrenze wächst mit der Spielerzahl: bei wenigen
+                // Spielern sollen die Boxen NICHT den ganzen leeren Tisch
+                // ausfüllen. Ohne diesen Deckel sprang die Skala bei z. B. nur
+                // zwei Spielern auf das Maximum (1.4 bzw. 1.7) – Self- und
+                // Gegnerbox wirkten viel zu groß und ihre Bet-Badges berührten
+                // die Gemeinschaftskarten. Ab 6 Gegnern (7+ Spielern) wird die
+                // volle Obergrenze erreicht, die dicht besetzten Tische bleiben
+                // daher unverändert. Der Deckel SENKT nur (nie erhöht) und kann
+                // somit keine neuen Überlappungen erzeugen.
+                function fillCap(maxScale) {
+                    var base = 0.95
+                    var t = Math.max(0, Math.min(1, (oppCnt - 1) / 5))
+                    var countCap = base + (maxScale - base) * t
+                    // Wenige Spieler bei großen (maximierten/Vollbild-) Fenstern
+                    // mitwachsen lassen: ohne dies bleibt boxScale gedeckelt,
+                    // während die Ellipse (Bruchteil der Breite) aufspreizt → im
+                    // Vollbild winzige Boxen am Rand + leere Mitte. Wächst NUR
+                    // oberhalb der gewohnten Fenstergröße (√(w·h) ≈ 760 bei
+                    // 1024×521) und nur bei wenigen Spielern (1-t); gedeckelt
+                    // bei 2.2, damit Boxen/Schrift nicht grotesk groß werden.
+                    // √(width·height) statt nur height, weil das Problem im
+                    // Fullscreen-Querformat vor allem durch die BREITE entsteht:
+                    // bei 1920×960 ist √ ≈ 1358 statt 960 → grow dreimal stärker
+                    // → boxScale ~1.75 statt ~1.28 → Boxen füllen proportional
+                    // zum Bildschirm. Dichte Tische und die Startauflösung bleiben
+                    // unverändert.
+                    var grow = (1 - t) * Math.max(0, (Math.sqrt(width * height) - 760) / 700)
+                    // Voll besetzte Tische (t≈1) bei breiten Fenstern: die
+                    // Bottom-Seiten-Sitze (Player 1/N) bekommen durch den größer
+                    // werdenden radiusX mehr Abstand zu ihren oberen Nachbarn –
+                    // feasibleAt() erlaubt dadurch deutlich höhere boxScale als
+                    // bei Normalfenster. Bei hohen Einsatzbeträgen könnte das
+                    // Badge von Player 1/N in die Nachbarbox ragen. Linear ab
+                    // 1024 px, maximal –0.15 (Deckel ≥ 1.25 für 9+ Spieler).
+                    var denseShrink = t * Math.min(0.15, Math.max(0, (width - 1024) / 4000))
+                    return Math.min(2.2, countCap * (1 + grow) - denseShrink)
+                }
+
                 // Strategie: Box-Skala = MAXIMUM, das alle geometrischen
                 // Constraints erfüllt. Dadurch füllen die Boxen den
                 // verfügbaren Tisch optimal aus – breite Fenster bekommen
@@ -470,8 +565,12 @@ Rectangle {
                     // bei 9–10 Spielern und sehr breitem Fenster überlappten
                     // die Boxen, obwohl die alte Cap-Formel noch grünes
                     // Licht gab.
-                    var gap = 12
-                    var selfWeightCap = 0.5
+                    // Reiner Sicherheits-Abstand zwischen benachbarten Box-Paaren
+                    // in der Bisektions-Probe. Kleiner = Boxen dürfen enger packen
+                    // = höheres feasibles boxScale (größere Boxen/Karten/Schrift).
+                    var gap = 4
+                    // Muss mit buildLandscapeSlots().selfWeight übereinstimmen.
+                    var selfWeightCap = Config.Responsive.landscapeCompact ? 0.5 : 0.3
                     var stepDeg = oppCnt >= 1 ? 360 / (oppCnt + selfWeightCap) : 360
                     var firstAngle = 90 + (selfWeightCap * stepDeg + stepDeg) / 2
 
@@ -492,14 +591,22 @@ Rectangle {
                         var selfGapY = Config.Responsive.landscapeCompact
                             ? Math.max(8, selfBadgeGapBase * sTest * 0.5)
                             : selfBadgeGapBase * sTest
-                        var radiusXpix = Math.max(0.22 * width,
-                                                   0.5 * width - sideMargin - visualW / 2)
+                        // radiusX nach oben auf 0.36 deckeln: an großen/breiten
+                        // Fenstern sollen die Seiten-Sitze nicht ganz an den Rand
+                        // rücken, sondern näher am Zentrum bleiben. Muss mit
+                        // buildLandscapeSlots().radiusX identisch sein.
+                        var radiusXpix = Math.min(0.36 * width,
+                                                  Math.max(0.22 * width,
+                                                           0.5 * width - sideMargin - visualW / 2))
                         // Im Compact-Landscape ragt die Bet-Badge von Player 5
                         // (betSide="bottom") 39 Basis-Pixel unterhalb seiner Box heraus.
                         // Diesen Bereich aus dem verfügbaren Ellipsen-Radius herausrechnen,
                         // damit Community Cards nie durch eine Spielerbox verdeckt werden.
                         var topBadgeExt = Config.Responsive.landscapeCompact ? 39 : 0
-                        var topYpix = (Config.Responsive.landscapeCompact ? 0 : 4)
+                        // Desktop-Top-Pad 8 (statt 4): die oberste Gegnerbox bekommt
+                        // mehr Abstand zur Status-/Info-Leiste. Muss mit `topY` in
+                        // buildLandscapeSlots() identisch sein.
+                        var topYpix = (Config.Responsive.landscapeCompact ? 0 : 12)
                                       + visualH / 2 + topBadgeExt * sTest
                         var bottomYpix = height - 4 - selfVisualH - selfGapY - visualH / 2
                         // Wie buildLandscapeSlots(): radiusY = nur (bottomY-topY)/2.
@@ -522,7 +629,7 @@ Rectangle {
                         // buildLandscapeSlots().point() – sonst unterschätzt die
                         // Bisection den vertikalen Paarabstand und cappt zu früh.
                         var centerYpix    = (topYpix + bottomYpix) / 2
-                        var maxBottomYpix = (height - 4 - selfVisualH) + selfVisualH * 0.35 - visualH / 2
+                        var maxBottomYpix = (height - 4 - selfVisualH) + selfVisualH * 0.55 - visualH / 2
                         var vMaxLowerP    = radiusYpix > 0 ? (maxBottomYpix - centerYpix) / radiusYpix : 1.0
                         var selfClearXpix = selfBaseWidth * sTest / 2 + visualW / 2 + 12
                         function slotVec(deg) {
@@ -542,8 +649,52 @@ Rectangle {
                                 && Math.abs(radiusXpix * cosV) > selfClearXpix
                                 && vMaxLowerP > vFactor)
                                 vFactor = vFactor + (vMaxLowerP - vFactor) * sinOrig
+                            // Desktop: oberen Bogen abflachen – obere Sitze (vFactor<0)
+                            // 10 % Richtung Mitte ziehen. Flacherer Top-Bogen + mehr
+                            // Abstand der Top-Box zur Info-Leiste. Muss mit point() in
+                            // buildLandscapeSlots() identisch sein.
+                            if (!Config.Responsive.landscapeCompact && vFactor < 0)
+                                vFactor *= 0.82
+                            // Fast quadratischer Tisch: obere SEITEN-Sitze (Player 3/7
+                            // auf Community-Höhe) nach oben liften, sodass sie ÜBER der
+                            // Community liegen (sonst Overlap mit der breiten Karten-
+                            // reihe). |cos|-gewichtet (reine Seiten am stärksten), nur
+                            // bei Aspect → 1 (breite Fenster bleiben unverändert).
+                            // Muss mit point() in buildLandscapeSlots() identisch sein.
+                            var sqLiftP = Math.max(0, Math.min(1,
+                                (1.6 - width / Math.max(height, 1)) / 0.6))
+                            if (!Config.Responsive.landscapeCompact && sinV < 0 && sqLiftP > 0) {
+                                vFactor -= 0.3 * sqLiftP * Math.abs(cosV)
+                                if (vFactor < -1.0) vFactor = -1.0
+                            }
                             return [cosV, vFactor]
                         }
+                        // Community-Karten werden mittig in die Lücke zwischen der
+                        // Unterkante der obersten Gegnerbox und der Oberkante der
+                        // Self-Box gelegt (siehe communityCenterY). Diese Lücke muss
+                        // groß genug sein, damit Kartenreihe + Pott-Badge hinein-
+                        // passen – sonst boxScale verkleinern. Nur reguläres Wide;
+                        // im landscapeCompact sitzt die Community per eigener Formel.
+                        if (!Config.Responsive.landscapeCompact) {
+                            // Tiefste Unterkante der oberen Sitze – die zentrale
+                            // Top-Box zählt zusätzlich ihre nach unten zeigende
+                            // Bet-Badge mit (sonst ragt sie in die Kartenreihe).
+                            var topOppBottom = -1e9
+                            for (var iC = 0; iC < oppCnt; iC++) {
+                                var vC = slotVec(firstAngle + iC * stepDeg)
+                                if (vC[1] >= 0) continue          // nur obere Sitze
+                                var b = centerYpix + radiusYpix * vC[1] + visualH / 2
+                                      + (Math.abs(vC[0]) < 0.25 ? sTest * 25 : 0)
+                                if (b > topOppBottom) topOppBottom = b
+                            }
+                            // Community-Gesamthöhe (Kartenreihe 64 + Pott-Badge 40 +
+                            // Winner-Badge 20) · communityScale + Pad.
+                            if (topOppBottom > -1e9
+                                && (height - 12 - selfVisualH) - topOppBottom
+                                   < 0.72 * sTest * 124 + 28)
+                                return false
+                        }
+
                         // Bet-Badges auf beiden Seiten einrechnen (chip+text+Abstand).
                         // Ohne diesen Aufschlag erlaubt die Bisection zu große scales
                         // und die Einsatz-Anzeige reicht in die Nachbarbox hinein.
@@ -563,12 +714,42 @@ Rectangle {
                         return true
                     }
 
+                    // Heads-up (1 Gegner): feasibleAt() hat kein Nachbar-Paar zu
+                    // prüfen. Stattdessen sicherstellen, dass die mittig in die
+                    // Lücke zwischen oben-zentrierter Gegnerbox (inkl. nach unten
+                    // zeigender Bet-Badge) und Self-Box gelegte Community-Reihe
+                    // hineinpasst – kritisch in flachen Fenstern. Gleiche Logik
+                    // wie die Community-Prüfung in feasibleAt().
+                    function feasibleHeadsUp(sTest) {
+                        if (sTest <= 0) return false
+                        var visualH = oppBaseHeight * sTest
+                        var selfVisualH = selfBaseHeight * sTest
+                        var topYband = (Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2
+                        var topOppBottom = topYband + visualH / 2 + sTest * 25
+                        return (height - 12 - selfVisualH) - topOppBottom
+                               >= 0.72 * sTest * 124 + 28
+                    }
+
                     // Gemeinsames Limit für Gegnerboxen, Self-Box und Community-Badges:
                     // 1.4 verhindert zu große Schrift und Bet-Überlappungen bei
-                    // Vollbild/maximiert; compact bleibt bei 1.9 (breiter, flacher).
-                    var lo = 0.55, hi = Config.Responsive.landscapeCompact ? 1.7 : 1.4
+                    // Vollbild/maximiert; compact bleibt bei 1.7 (breiter, flacher).
+                    // fillCap() dämpft das Maximum bei wenigen Spielern zusätzlich.
+                    var lo = 0.55, hi = fillCap(Config.Responsive.landscapeCompact ? 2.3 : 1.9)
                     if (oppCnt < 2) {
-                        s = hi
+                        // Bis zum (gedeckelten) hi gehen, solange die Badges die
+                        // Community nicht berühren.
+                        if (!feasibleHeadsUp(lo)) {
+                            s = lo
+                        } else if (feasibleHeadsUp(hi)) {
+                            s = hi
+                        } else {
+                            for (var iterH = 0; iterH < 14; iterH++) {
+                                var midH = (lo + hi) / 2
+                                if (feasibleHeadsUp(midH)) lo = midH
+                                else hi = midH
+                            }
+                            s = lo
+                        }
                     } else if (!feasibleAt(lo)) {
                         s = lo
                     } else {
@@ -634,7 +815,7 @@ Rectangle {
                         return true
                     }
 
-                    var loP = 0.55, hiP = 1.85
+                    var loP = 0.55, hiP = fillCap(1.85)
                     if (!feasibleAtP(loP)) {
                         s = loP
                     } else {
@@ -653,28 +834,70 @@ Rectangle {
             }
             readonly property real oppScale: boxScale
             // Community-Karten-Skala:
-            //   – Wide-Screen: 0.95·boxScale (gibt Sicherheits-Padding zu den
-            //     Box-Badges).
-            //   – Portrait: LANGSAMERES Wachstum als die opp-Boxen (Faktor 0.7)
-            //     plus Floor 0.7 — die Community-Reihe ist bei kleinem Portrait
-            //     also relativ größer und wächst bei breiteren Fenstern nur
-            //     gedämpft mit. Adaptiver Cap stellt sicher, dass die Karten
-            //     die Seitenspalten nicht horizontal berühren.
+            //   – Querformat (Desktop + Android-Kompakt): füllen die freie
+            //     Tischmitte (lücken-basiert, s. u.), Boden = Bisektions-Reserve.
+            //   – Portrait: füllt das reservierte Mittelband, begrenzt durch
+            //     Seitenspalten (horizontal) und Top-/Bottom-Reihe (vertikal).
             readonly property real communityScale: {
-                if (wide) return boxScale * 0.95
-                var target = Math.max(0.7, boxScale * 0.7)
-                var sideColRightEdge = 0.15 * width + oppBaseWidth * boxScale / 2
-                var maxCommunityHalfW = width / 2 - sideColRightEdge - 4
-                var maxCommunityW = Math.max(0, maxCommunityHalfW * 2)
-                var maxScale = maxCommunityW / 250
-                return Math.max(0.55, Math.min(target, maxScale))
+                if (wide) {
+                    // Querformat (Desktop UND Android-Kompakt): Community-Cards
+                    // FÜLLEN die freie Tischmitte statt nur mit boxScale mitzu-
+                    // wachsen. Wir messen die vertikale Lücke um den Ablagepunkt
+                    // communityCenterY und skalieren daran. Teiler 84 (> reine
+                    // Halbhöhe 64) lässt Luft.
+                    //   – topB: Unterkante der obersten Box + deren nach unten
+                    //     zeigende Bet-Badge (Kompakt 39, sonst 26 · oppScale).
+                    //   – selfTop: Oberkante der (skalierten) Self-Box.
+                    // Hängt NUR von boxScale ab → keine Zirkularität. Boden =
+                    // Bisektions-Reserve (Kompakt 1.1, sonst 0.72 · boxScale) →
+                    // garantierte Mindestlücke, kein Regressionsrisiko.
+                    var isCmp     = Config.Responsive.landscapeCompact
+                    var topB      = topOpponentBottomY + (isCmp ? 39 : 26) * oppScale
+                    var halfAbove = communityCenterY - topB - 6
+                    var halfBelow = selfVisualTopY - communityCenterY - 6
+                    var avail     = Math.min(halfAbove, halfBelow)
+                    // Kompakt dichter füllen (72) als Desktop (84, bewusst luftig).
+                    var gapFill   = avail > 0 ? avail / (isCmp ? 66 : 84) : 0
+                    // Horizontale Sicherheit: Kartenreihe (~264 Basisbreite) bleibt
+                    // innerhalb 70 % der Fensterbreite (Mitte zwischen den Seitenboxen).
+                    var capW      = (0.70 * width) / 264
+                    var cap       = Math.min(isCmp ? 2.6 : 1.8, boxScale * 2.0, capW)
+                    var floor     = boxScale * (isCmp ? 1.1 : 0.72)
+                    return Math.max(0.55, Math.min(cap, Math.max(floor, gapFill)))
+                }
+                // Portrait: die Community sitzt vertikal ZWISCHEN oberer (~0.345)
+                // und unterer (~0.65) Reihe – auf ihrer Höhe (Tischmitte) liegen
+                // KEINE Seitenboxen. Sie darf daher horizontal breit werden; die
+                // einzige Overlap-Grenze ist der vertikale Abstand zur nächsten
+                // Reihe (~0.15·Höhe minus Box-Halbhöhe). Horizontal nur durch die
+                // Bildschirmbreite begrenzt. → deutlich größer als der frühere
+                // Seitenspalten-Cap (der fälschlich Boxen auf Community-Höhe annahm).
+                var vHalf = 0.15 * height - oppBaseHeight * boxScale / 2 - 6
+                var maxScaleV = vHalf > 0 ? vHalf / 62 : 0.55
+                var maxScaleScreen = Math.max(0, width - 16) / 264
+                return Math.max(0.55, Math.min(1.8, maxScaleV, maxScaleScreen))
             }
 
             // ── Lupe: Zoom + Pan der Gegnerzone (compact-only) ──────────────────
             property bool  zoomActive: false
             readonly property real zoomFactor: 2.0
+            // Diskreter Zoom-Faktor (Ziel, NICHT der animierte scale-Wert) für die
+            // Karten-Rasterung: so wird beim Zoom-Toggle einmalig in der größeren
+            // Auflösung gerastert statt pro Animationsframe (s. CardImage.renderScale).
+            readonly property real zoomRenderMul: zoomActive ? zoomFactor : 1.0
             property real  _zoomPanX: 0
             property real  _zoomPanY: 0
+            // Merkt sich, ob der Zoom vor dem Showdown aktiv war. Im Showdown wird
+            // zur Tisch-Übersicht herausgezoomt; zur nächsten Hand wird ein zuvor
+            // aktiver Zoom automatisch wieder eingeschaltet.
+            property bool  _zoomSuspendedByShowdown: false
+            // Verzögertes Nachführen auf den aktiven Spieler (compact-Zoom):
+            // Wird ein Spieler am Zug, springt der Ausschnitt NICHT sofort zu ihm,
+            // sondern erst wenn er handelt (refreshActionTriggered) ODER 1/4 seiner
+            // Bedenkzeit verstrichen ist. So bleibt nach einer neuen Community-Karte
+            // der Tisch-/Community-Bereich länger sichtbar.
+            property int   _pendingFollowSeat: -1   // geplanter Schwenk-Sitz (Timer läuft)
+            property int   _followedSeat: -1        // bereits angeschwenkter aktiver Sitz
             // Schwenk-Animation beim Loslassen/Zurücksetzen; deaktiviert während
             // des aktiven Drags, damit der Finger ohne Verzögerung verfolgt wird.
             Behavior on _zoomPanX {
@@ -731,14 +954,19 @@ Rectangle {
                 // Top-Trio passt durch den boxScale-Cap (siehe boxScale oben)
                 // automatisch in dieses Bogenstück, ohne dass wir radiusX hier
                 // weiter aufblasen müssen (sonst rutschen Seiten-Sitze raus).
-                var radiusX = Math.max(0.22, 0.5 - sideX)
+                // radiusX nach oben auf 0.36 deckeln → Seiten-Sitze bleiben an
+                // breiten Fenstern näher am Zentrum (statt ganz an den Rand zu
+                // rücken). Muss mit radiusXpix in feasibleAt() identisch sein.
+                var radiusX = Math.min(0.36, Math.max(0.22, 0.5 - sideX))
                 // Top- und Bottom-Rand bewusst klein – die offene Ellipse
                 // soll möglichst viel vertikalen Platz beanspruchen, damit
                 // bei mittlerer Skalierung Player 2↔3 (L↔TLo) genug Luft
                 // bekommen.
                 // Compact: oberste Box bündig an die Tisch-Oberkante (0 statt 4) –
                 // schafft Luft zwischen ihrem Bet-Badge und dem Pot-Badge.
-                var topY = ((Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2) / Math.max(height, 1)
+                // Desktop-Top-Pad 8 (statt 4): mehr Abstand der obersten Box zur
+                // Status-/Info-Leiste. Muss mit `topYpix` in feasibleAt() identisch sein.
+                var topY = ((Config.Responsive.landscapeCompact ? 0 : 12) + visualH / 2) / Math.max(height, 1)
                 var selfTop = height - 4 - selfVisualH
                 var bottomY = (selfTop - selfGapY - visualH / 2) / Math.max(height, 1)
                 var centerY = (topY + bottomY) / 2
@@ -778,10 +1006,10 @@ Rectangle {
                 // Untere Seiten-Sitze, die horizontal an der Self-Box vorbeigehen,
                 // dürfen deshalb etwas unter bottomY absinken – das entzerrt die
                 // Seiten-Paare (z. B. Player 2↔3 / 7↔8) vertikal. Maximal bis die
-                // Box-Unterkante 35 % in die Self-Box-Höhe hineinragt: tiefer
-                // (bis zur Self-Unterkante) zerstört die Ellipsen-Optik, weil die
-                // Gegner dann auf/unter Self-Niveau liegen.
-                var maxBottomY = (selfTop + selfVisualH * 0.35 - visualH / 2) / Math.max(height, 1)
+                // Box-Unterkante 55 % in die Self-Box-Höhe hineinragt (tiefer =
+                // Player 1/9 rücken weiter runter, mehr Luft in der Mitte für
+                // Community + größere Boxen). Muss mit maxBottomYpix in feasibleAt().
+                var maxBottomY = (selfTop + selfVisualH * 0.55 - visualH / 2) / Math.max(height, 1)
                 var vMaxLower  = radiusY > 0 ? (maxBottomY - centerY) / radiusY : 1.0
                 var selfClearX = (selfBaseWidth * s / 2 + visualW / 2 + 12) / Math.max(width, 1)
                 function point(degrees) {
@@ -796,7 +1024,27 @@ Rectangle {
                     var vFactor = sinV
                                 + ((!gravityUpperOnly || sinV <= 0) ? sideGravity * Math.abs(cosV) : 0)
                                 + (sinV > 0 ? lowerGravity * sinV : 0)
+                    // Desktop-Landscape: die seitlichen Außen-Paare (|cos|→1)
+                    // vertikal dezent entzerren – die obere Box nach oben, die
+                    // untere nach unten (Richtung über sinOrig). Damit ragt das
+                    // WINNER-Badge der unteren Box nicht mehr in die obere
+                    // Nachbarbox. |cos|-gewichtet, sodass die Top-Mitte (cos≈0)
+                    // unberührt bleibt. BEWUSST nur hier, NICHT in feasibleAt():
+                    // sonst würde die Bisection den größeren Paarabstand sofort
+                    // wieder mit größeren Boxen auffüllen statt echten Abstand zu
+                    // schaffen. Die Caps unten halten die Boxen in der Bahn.
+                    if (!Config.Responsive.landscapeCompact && cosV !== 0) {
+                        var pairSpread = 0.02 * Math.abs(cosV)
+                        vFactor += (sinOrig < 0 ? -pairSpread : pairSpread)
+                    }
                     if (vFactor > 1.0) vFactor = 1.0   // nie unter bottomY (Self-Box)
+                    if (vFactor < -1.0) vFactor = -1.0 // nie über die obere Bahn-Kante
+                    // Desktop: oberen Bogen abflachen – obere Sitze (vFactor<0) 10 %
+                    // Richtung Mitte ziehen → flacherer Top-Bogen + mehr Abstand der
+                    // Top-Box zur Info-Leiste. Muss mit slotVec() in feasibleAt()
+                    // identisch sein.
+                    if (!Config.Responsive.landscapeCompact && vFactor < 0)
+                        vFactor *= 0.82
                     // Graduell Richtung vMaxLower absenken, gewichtet mit dem
                     // ORIGINAL-sin: die untersten Sitze (BL/BR, sin≈0.88) sinken
                     // fast voll ab, die darüber (sin≈0.40) nur teilweise – ein
@@ -806,6 +1054,18 @@ Rectangle {
                         && Math.abs(radiusX * cosV) > selfClearX
                         && vMaxLower > vFactor)
                         vFactor = vFactor + (vMaxLower - vFactor) * sinOrig
+                    // Fast quadratischer Tisch: obere SEITEN-Sitze (Player 3/7 auf
+                    // Community-Höhe) nach oben liften, sodass sie ÜBER der Community
+                    // liegen (sonst Overlap mit der breiten Kartenreihe). |cos|-
+                    // gewichtet (reine Seiten am stärksten), nur bei Aspect → 1
+                    // (breite Fenster bleiben unverändert). Muss mit slotVec() in
+                    // feasibleAt() identisch sein.
+                    var sqLift = Math.max(0, Math.min(1,
+                        (1.6 - width / Math.max(height, 1)) / 0.6))
+                    if (!Config.Responsive.landscapeCompact && sinV < 0 && sqLift > 0) {
+                        vFactor -= 0.3 * sqLift * Math.abs(cosV)
+                        if (vFactor < -1.0) vFactor = -1.0
+                    }
                     return [0.5 + radiusX * cosV, centerY + radiusY * vFactor]
                 }
 
@@ -823,15 +1083,17 @@ Rectangle {
                 // sich GLEICHMÄSSIG auf den restlichen Bogen.
                 //
                 // selfWeight steuert, wie viel angulare Bogenlänge die Self
-                // beansprucht. Kleiner = Gegner rücken näher an die Self.
-                // 0.5 = halbe Bogenlänge einer Gegnerbox – damit die
-                // Halskette „eng" sitzt, ohne dass die BL/BR-Boxen den
-                // Self-Box-Rand horizontal berühren.
+                // beansprucht. Kleiner = Gegner rücken näher an die Self / weiter
+                // zur Boden-Mitte und damit tiefer (mehr sin) → der Ring schließt
+                // sich enger um die Self-Box, sie hebt sich nur noch minimal ab
+                // (User-Wunsch). Reguläres Wide: 0.3; im landscapeCompact bleibt
+                // 0.5 erhalten (eigenes, separat abgestimmtes Layout). Muss mit
+                // `selfWeightCap` in der feasibleAt-Probe identisch sein.
                 //
                 // Disconnectet ein Spieler, ändert sich N → automatische,
                 // saubere Re-Verteilung über die unten generierten Winkel.
                 var opps = Math.max(1, seatCount - 1)
-                var selfWeight = 0.5
+                var selfWeight = Config.Responsive.landscapeCompact ? 0.5 : 0.3
                 var dOpp = 360 / (opps + selfWeight)
                 var dSelf = selfWeight * dOpp
                 var firstOppAngle = 90 + (dSelf + dOpp) / 2
@@ -882,7 +1144,37 @@ Rectangle {
             function _panToSeat(seatIdx) {
                 var slot = slotForSeat(seatIdx)
                 if (!slot) return
-                _panToPoint(width * slot.x, height * slot.y + slot.nudge)
+                _panToPoint(width * slot.x + (slot.nudgeX || 0), height * slot.y + slot.nudge)
+            }
+
+            // Plant einen verzögerten Schwenk auf den gerade aktiven Sitz. Der
+            // Schwenk erfolgt erst, wenn der Spieler handelt oder 1/4 seiner
+            // Bedenkzeit (timeoutSec) abgelaufen ist – ausgelöst über followTimer
+            // bzw. refreshActionTriggered.
+            function _scheduleFollow(seatId, sec) {
+                if (!zoomActive || !GameTable || zoomPanner.active) return
+                if (seatId <= 0) return                      // 0 = ich (myTurn-Pfad), -1 = keiner
+                if (seatId === _followedSeat) return          // schon dort
+                if (seatId === _pendingFollowSeat && followTimer.running) return  // schon geplant
+                _pendingFollowSeat = seatId
+                followTimer.interval = Math.max(800, (sec > 0 ? sec : 8) * 250)
+                followTimer.restart()
+            }
+
+            // Führt den geplanten Schwenk sofort aus (Timer-Ablauf oder Aktion).
+            function _doFollow() {
+                followTimer.stop()
+                if (!zoomActive || !GameTable || zoomPanner.active) return
+                if (_pendingFollowSeat <= 0) return
+                _panToSeat(_pendingFollowSeat)
+                _followedSeat = _pendingFollowSeat
+                _pendingFollowSeat = -1
+            }
+
+            Timer {
+                id: followTimer
+                repeat: false
+                onTriggered: tableZone._doFollow()
             }
 
             function slotForSeat(seatIdx) {
@@ -900,33 +1192,32 @@ Rectangle {
                 var name = seq[oppOrder - 1]
                 var pos = slotPos[name]
                 if (!pos) return null
-                var nudge = wide ? 0
-                    : (name === "L_lower" || name === "L_bottom"
-                       || name === "R_lower" || name === "R_bottom") ? 14
-                    : (name === "L_upper" || name === "TL"
-                       || name === "R_upper" || name === "TR") ? -4
-                    : 0
-                return { x: pos[0], y: pos[1], nudge: nudge }
+                var nudge
+                var nudgeX = 0
+                // Spiegelt seatNudge/seatNudgeX im Repeater-Delegate.
+                var flankWide = wide && !Config.Responsive.landscapeCompact
+                                && (name === "opp1" || name === "opp" + (seatCount - 1))
+                                && pos[1] > 0.5
+                if (flankWide) {
+                    nudge = oppBaseHeight * boxScale * 0.6
+                    var dir = pos[0] < 0.5 ? -1 : 1
+                    var wantCenter = width / 2 + dir *
+                        (selfBaseWidth * boxScale / 2 + 40 * boxScale
+                         + oppBaseWidth * oppScale / 2 + 18)
+                    var d = wantCenter - width * pos[0]
+                    nudgeX = dir < 0 ? Math.min(0, d) : Math.max(0, d)
+                } else if (wide) {
+                    nudge = 0
+                } else {
+                    nudge = (name === "L_lower" || name === "L_bottom"
+                             || name === "R_lower" || name === "R_bottom") ? 14
+                          : (name === "L_upper" || name === "TL"
+                             || name === "R_upper" || name === "TR") ? -4
+                          : 0
+                }
+                return { x: pos[0], y: pos[1], nudge: nudge, nudgeX: nudgeX }
             }
 
-            readonly property real landscapeEllipseCenterY: {
-                // GEOMETRISCHE Mitte der Ellipse in Pixeln – exakt dieselbe
-                // Berechnung wie in buildLandscapeSlots() (topY/bottomY,
-                // centerY = (topY+bottomY)/2). Hier ist der visuelle Tisch-
-                // mittelpunkt und damit der natürliche Ort für die Community-
-                // Karten der Halsketten-Anordnung.
-                var s = boxScale
-                var visualH = oppBaseHeight * s
-                var selfVisualH = selfBaseHeight * s
-                var gapY = Math.max(8, opponentGapBase * s)
-                var selfGapY = Config.Responsive.landscapeCompact
-                    ? Math.max(8, selfBadgeGapBase * s * 0.5)
-                    : selfBadgeGapBase * s
-                var topY = 4 + visualH / 2
-                var selfTop = height - 4 - selfVisualH
-                var bottomY = selfTop - selfGapY - visualH / 2
-                return (topY + bottomY) / 2
-            }
             readonly property real topOpponentBottomY: {
                 var oppCount = seatCount - 1
                 var seq = slotSeq[oppCount] || []
@@ -939,28 +1230,28 @@ Rectangle {
             }
             readonly property real selfVisualTopY:
                 selfBox.y + selfBox.height / 2 - selfBox.height * boxScale / 2
-            // Community-Karten-Position:
-            //   – Wide-Screen: GEOMETRISCHES Zentrum der Halsketten-Ellipse
-            //     (landscapeEllipseCenterY). Die Karten sitzen exakt in der
-            //     Mitte des ovalen Tisches, umringt von den Gegner-„Perlen".
-            //   – Portrait: weiterhin Mittelpunkt zwischen oberster Gegner-
-            //     Box-Unterkante und Self-Box-Oberkante – passt zur statischen
-            //     3-Säulen-Anordnung.
-            // Community-Karten Y-Achse:
-            //   – Wide regulär:        geometrische Ellipsen-Mitte.
-            //   – landscapeCompact:    zwischen Unterkante der obersten Gegner-
-            //                           Boxen und Oberkante der Self-Box; die
-            //                           untere Ellipsen-Hälfte wurde näher an
-            //                           die Self-Box gezogen, ihr Schwerpunkt
-            //                           liegt entsprechend weiter unten — die
-            //                           Karten würden sonst mitwandern. Mit
-            //                           dieser Formel sitzen sie wieder optisch
-            //                           in der Tisch-Mitte.
-            //   – Portrait:            ebenfalls (topOpponentBottomY + selfVisualTopY)/2.
-            readonly property real communityCenterY:
-                wide && !Config.Responsive.landscapeCompact
-                    ? landscapeEllipseCenterY
-                    : (topOpponentBottomY + selfVisualTopY) / 2
+            // Community-Karten Y-Position:
+            //   – Reguläres Wide: vertikaler SCHWERPUNKT aller Boxen (Gegner +
+            //     Self). Die früher genutzte Mitte (topOpp+self)/2 ist spieler-
+            //     zahl-unabhängig (~Tischmitte) und ließ die Karten bei wenigen
+            //     Spielern ÜBER den tief sitzenden Seitenboxen schweben (z. B. bei
+            //     4 Spielern: ein einsamer Top-Spieler oben, zwei Seitenspieler
+            //     weiter unten). Der Schwerpunkt zählt diese tieferen Boxen mit →
+            //     die Karten rücken in den Pulk und wirken mittig.
+            //   – landscapeCompact / Portrait: weiterhin (topOpp+self)/2
+            //     (eigenes, separat abgestimmtes Layout).
+            readonly property real communityCenterY: {
+                if (!wide || Config.Responsive.landscapeCompact)
+                    return (topOpponentBottomY + selfVisualTopY) / 2
+                var sumY = height - 12 - selfBaseHeight * boxScale / 2   // Self-Box-Mitte
+                var n = 1
+                var seq = slotSeq[seatCount - 1] || []
+                for (var i = 0; i < seq.length; ++i) {
+                    var p = slotPos[seq[i]]
+                    if (p) { sumY += p[1] * height; n++ }
+                }
+                return sumY / n
+            }
 
             // ── Zoom-Layer: Gegner + Community – skalierbar + schwenkbar ─────────
             // actionBar und gameBackground liegen AUSSERHALB und bleiben fix.
@@ -996,249 +1287,31 @@ Rectangle {
                     }
 
             // ── Gemeinschaftskarten + Pot – im oberen Tischbereich ───────────────
-            Item {
+            // Position: Portrait mittig zwischen den oberen/unteren Seiten-Boxen,
+            // Widescreen im Mittelpunkt der Halsketten-Ellipse. Größe = nur die
+            // Kartenreihe, damit das Winning-Hand-Badge die Zentrierung nicht stört.
+            CommunityCards {
                 id: communityArea
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                // Portrait: mittig zwischen oberen (0.345·H = L_upper/R_upper)
-                // und unteren Seiten-Boxen (0.65·H = L_lower/R_lower); die
-                // per seatNudge gespreizten unteren Boxen verschieben den
-                // Mittelpunkt um (14−4)/2 = 5px nach unten:
-                //   midpoint = (0.345+0.65)/2 = 0.4975 → offset = -0.0025·H + 5
-                // Widescreen: im Mittelpunkt der Halsketten-Ellipse, auf der
-                // die Gegnerboxen um die Community herum liegen.
                 anchors.verticalCenterOffset: tableZone.wide
                     ? tableZone.communityCenterY - tableZone.height / 2
                     : -tableZone.height * 0.0025 + 5
-                // Größe = nur die Kartenreihe; das Winning-Hand-Badge liegt als
-                // Overlay darunter und zählt NICHT zur Größe → die Karten bleiben
-                // zentriert und rutschen nicht nach oben, wenn das Badge erscheint.
-                width: cardRow.width
-                height: cardRow.height
                 z: 0
-                // Skaliert dezenter als die Gegner-Boxen (Faktor 0.85), damit
-                // bei großen Fenstern Box-Badges nicht in den Karten-Bereich
-                // hineinragen.  Skalierung um die Mitte, damit die Position
-                // erhalten bleibt.
-                transformOrigin: Item.Center
+                wide: tableZone.wide
+                // Skaliert dezenter als die Gegner-Boxen; Skalierung um die Mitte.
                 scale: tableZone.communityScale
-
-                // Inline-Komponente für einen einzelnen Board-Card-Slot
-                // Karten-Seitenverhältnis 120:168 (≈0,714) – Karte = Platzhalter (1:1)
-                component CommunitySlot: Item {
-                    property int boardIndex: 0
-                    width: 46; height: 64
-
-                    readonly property bool isDealt: {
-                        var cnt = (typeof GameTable !== "undefined" && GameTable)
-                                  ? GameTable.boardCardCount : 0
-                        return boardIndex < cnt
-                    }
-
-                    // Platzhalter-Rahmen (immer sichtbar)
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: 4
-                        color: Qt.rgba(0, 0, 0, 0.30)
-                        border.width: 1
-                        border.color: Qt.rgba(1, 1, 1, 0.38)
-                    }
-
-                    // Aufgedeckte Karte – mit Einblend-Animation
-                    CardImage {
-                        id: faceCard
-                        anchors.fill: parent
-                        opacity: 0
-                        cardIndex: {
-                            var cards = (typeof GameTable !== "undefined" && GameTable)
-                                        ? GameTable.boardCards : null
-                            return (cards && boardIndex < cards.length) ? cards[boardIndex] : -1
-                        }
-                    }
-
-                    onIsDealtChanged: {
-                        if (isDealt) {
-                            cardReveal.start()
-                        } else {
-                            faceCard.opacity = 0
-                        }
-                    }
-
-                    SequentialAnimation {
-                        id: cardReveal
-                        // Flop-Karten staffeln (0 ms, 120 ms, 240 ms); Turn/River sofort
-                        PauseAnimation { duration: boardIndex < 3 ? boardIndex * 120 : 0 }
-                        NumberAnimation {
-                            target: faceCard
-                            property: "opacity"
-                            from: 0; to: 1
-                            duration: 260
-                            easing.type: Easing.OutQuad
-                        }
-                    }
-                }
-
-                // Weicher Lichtschein hinter den Gemeinschaftskarten → Fokus auf die
-                // Tischmitte (dezent, warm).
-                Rectangle {
-                    anchors.centerIn: cardRow
-                    width: cardRow.width + 80
-                    height: cardRow.height + 54
-                    radius: height / 2
-                    color: Qt.rgba(1.0, 0.93, 0.72, 0.12)
-                    z: -1
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        blurEnabled: true
-                        blur: 1.0
-                        blurMax: 48
-                        autoPaddingEnabled: true
-                    }
-                }
-
-                // 5 Slots: Flop (0-2) | Turn (3) | River (4)
-                Row {
-                    id: cardRow
-                    anchors.centerIn: parent
-                    spacing: 3
-
-                    CommunitySlot { boardIndex: 0 }
-                    CommunitySlot { boardIndex: 1 }
-                    CommunitySlot { boardIndex: 2 }
-
-                    Item { width: 8; height: 1 }
-
-                    CommunitySlot { boardIndex: 3 }
-
-                    Item { width: 8; height: 1 }
-
-                    CommunitySlot { boardIndex: 4 }
-                }
-
-                // Pot prominent in der Tischmitte (über den Karten): Chip-Icon +
-                // Betrag mit goldenem Glow. Poppt bei Pot-Erhöhung (Mikroanimation).
-                Rectangle {
-                    id: potBadge
-                    anchors.horizontalCenter: cardRow.horizontalCenter
-                    anchors.bottom: cardRow.top
-                    // Gleicher Abstand zur Kartenreihe wie das Winning-Hand-Badge
-                    // darunter; Portrait kompakter (6) als Querformat (8). Skaliert
-                    // mit oppScale, da innerhalb communityArea.
-                    anchors.bottomMargin: tableZone.wide ? 8 : 6
-                    visible: (typeof GameTable !== "undefined" && GameTable) ? GameTable.totalPot > 0 : false
-                    width: potRow.width + 16
-                    height: 24
-                    radius: 12
-                    color: Qt.rgba(0, 0, 0, 0.62)
-                    border.color: Config.Theme.colorAccent
-                    border.width: 1
-                    transformOrigin: Item.Center
-
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        shadowEnabled: true
-                        shadowColor: Config.Theme.colorAccent
-                        shadowOpacity: 0.45
-                        shadowBlur: 0.9
-                        shadowVerticalOffset: 0
-                    }
-
-                    Row {
-                        id: potRow
-                        anchors.centerIn: parent
-                        spacing: 4
-                        Image {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 16; height: 16
-                            source: "../resources/chipStack.svg"
-                            fillMode: Image.PreserveAspectFit
-                        }
-                        Text {
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: "$" + (GameTable ? GameTable.totalPot : 0)
-                            color: Config.Theme.colorAccent
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: 13
-                            font.bold: true
-                            font.letterSpacing: 0.3
-                        }
-                    }
-
-                    SequentialAnimation {
-                        id: potPop
-                        NumberAnimation { target: potBadge; property: "scale"; from: 1.0; to: 1.18; duration: 110; easing.type: Easing.OutQuad }
-                        NumberAnimation { target: potBadge; property: "scale"; to: 1.0; duration: 170; easing.type: Easing.OutBack }
-                    }
-                    Connections {
-                        target: (typeof GameTable !== "undefined") ? GameTable : null
-                        function onTotalPotChanged() {
-                            if (GameTable && GameTable.totalPot > 0) potPop.restart()
-                        }
-                    }
-                }
-
+                // Karten in der echten Bildschirmgröße rastern (scale × Zoom).
+                cardRenderScale: tableZone.communityScale * tableZone.zoomRenderMul
             }
 
             // Gewinner-Hand (z.B. "Full House") – nur während des Showdowns.
-            // Als eigenes Top-Level-Element (NICHT in communityArea), damit es
-            // unabhängig von deren z/Scale immer ÜBER den Spielerboxen liegt –
-            // in Hoch- UND Querformat. Positioniert knapp unter den (skalierten)
-            // Community Cards.
-            Rectangle {
-                id: winHandBadge
-                z: 50   // über Boxen (z:1), unter den Overlays (z:150)
-                visible: (typeof GameTable !== "undefined" && GameTable)
-                         ? GameTable.winningHandText !== "" : false
-                anchors.horizontalCenter: parent.horizontalCenter
-                // Abstand zur Kartenreihe identisch zum Pot-Badge oben
-                // (Portrait 6, Querformat 8 – jeweils · oppScale). Setzt direkt am
-                // (skalierten) Mittelpunkt der communityArea an, folgt damit deren
-                // Zentrierung in Hoch- UND Querformat.
-                y: communityArea.y + communityArea.height / 2
-                   + (communityArea.height * communityArea.scale) / 2
-                   + (tableZone.wide ? 8 : 6) * communityArea.scale
-                width: winHandLabel.implicitWidth + 22
-                height: Math.max(20, Math.round(26 * tableZone.communityScale))
-                radius: height / 2
-                color: Qt.rgba(0.05, 0.24, 0.05, 0.92)
-                border.color: "#FFD700"
-                border.width: 1
-                transformOrigin: Item.Center
-
-                // Gleicher weicher Schein wie das Pot-Badge – hier in Gold passend
-                // zum Rahmen, damit die Gewinner-Hand ebenso hervorgehoben wird.
-                layer.enabled: true
-                layer.effect: MultiEffect {
-                    shadowEnabled: true
-                    shadowColor: "#FFD700"
-                    shadowOpacity: 0.45
-                    shadowBlur: 0.9
-                    shadowVerticalOffset: 0
-                }
-
-                Text {
-                    id: winHandLabel
-                    anchors.centerIn: parent
-                    text: (typeof GameTable !== "undefined" && GameTable)
-                          ? GameTable.winningHandText : ""
-                    color: "#FFD700"
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: Math.max(10, Math.round(14 * tableZone.communityScale))
-                    font.bold: true
-                }
-
-                // Poppt beim Erscheinen der Gewinner-Hand – analog potPop.
-                SequentialAnimation {
-                    id: winHandPop
-                    NumberAnimation { target: winHandBadge; property: "scale"; from: 1.0; to: 1.18; duration: 110; easing.type: Easing.OutQuad }
-                    NumberAnimation { target: winHandBadge; property: "scale"; to: 1.0; duration: 170; easing.type: Easing.OutBack }
-                }
-                Connections {
-                    target: (typeof GameTable !== "undefined") ? GameTable : null
-                    function onWinningHandTextChanged() {
-                        if (GameTable && GameTable.winningHandText !== "") winHandPop.restart()
-                    }
-                }
+            // Bewusst eigenständig (NICHT in den Community-Cards), damit es
+            // unabhängig von deren z/Scale immer ÜBER den Spielerboxen liegt.
+            WinningHandBadge {
+                community: communityArea
+                wide: tableZone.wide
+                communityScale: tableZone.communityScale
             }
 
             // ── Gegner-Boxen: auf symmetrische Slots verteilt ────────────────────
@@ -1249,7 +1322,13 @@ Rectangle {
                 delegate: Item {
                     id: seatSlot
                     required property int index
-                    z: 1
+                    // Gewinner-Sitz nach vorne holen, damit sein WINNER-Badge
+                    // (und der goldene Rahmen) bei Überlappung IMMER über den
+                    // benachbarten Gegnerboxen liegt – ein höheres z im Badge
+                    // selbst greift nur innerhalb der eigenen Box, nicht
+                    // zwischen den gleichrangigen (z:1) Geschwister-Slots.
+                    z: (typeof GameTable !== "undefined" && GameTable
+                        && GameTable.winnerSeatIds.indexOf(index) !== -1) ? 5 : 1
 
                     readonly property var pdata: (typeof GameTable !== "undefined" && GameTable && GameTable.players.length > index)
                         ? GameTable.players[index] : null
@@ -1294,20 +1373,45 @@ Rectangle {
                     // um der Tischmitte mehr Luft zu geben. Untere (Player 1/2/8/9 →
                     // L_lower/L_bottom/R_lower/R_bottom) 14px nach unten, obere
                     // (L_upper/TL/R_upper/TR) 4px nach oben. TC (oben Mitte) bleibt.
+                    // Self-flankierende Bottom-Sitze (opp1 / oppN = Player 1 & 9) im
+                    // Desktop-Wide: tiefer + horizontal nach AUSSEN, damit sie die
+                    // (große) Self-Box nicht berühren / einengen. Ultrawide
+                    // (landscapeCompact) hat dafür sein eigenes Corner-Sink-Layout.
+                    readonly property bool flankWide:
+                        tableZone.wide && !Config.Responsive.landscapeCompact
+                        && (slotName === "opp1" || slotName === "opp" + oppCount)
+                        && slot[1] > 0.5
+                    // Horizontaler Auswärts-Versatz: Box-Mitte mindestens
+                    // (Self-Halbbreite + Opp-Halbbreite + 18) von der Tischmitte weg.
+                    // Nur nach außen schieben (nie nach innen ziehen).
+                    readonly property real seatNudgeX: {
+                        if (!flankWide) return 0
+                        var dir = slot[0] < 0.5 ? -1 : 1
+                        var wantCenter = tableZone.width / 2 + dir *
+                            (tableZone.selfBaseWidth * tableZone.boxScale / 2
+                             + 40 * tableZone.boxScale   // Dealer/Blind-Puck rechts neben der Self-Box (6 + 32 + Luft)
+                             + tableZone.oppBaseWidth * tableZone.oppScale / 2 + 18)
+                        var d = wantCenter - tableZone.width * slot[0]
+                        return dir < 0 ? Math.min(0, d) : Math.max(0, d)
+                    }
                     readonly property real seatNudge: {
-                        if (tableZone.wide) return 0
+                        if (tableZone.wide)
+                            return flankWide
+                                ? tableZone.oppBaseHeight * tableZone.boxScale * 0.6 : 0
                         if (slotName === "L_lower" || slotName === "L_bottom"
                             || slotName === "R_lower" || slotName === "R_bottom") return 14
                         if (slotName === "L_upper" || slotName === "TL"
                             || slotName === "R_upper" || slotName === "TR") return -4
                         return 0
                     }
-                    x: tableZone.width * slot[0] - width / 2
+                    x: tableZone.width * slot[0] - width / 2 + seatNudgeX
                     y: tableZone.height * slot[1] - height / 2 + seatNudge
 
                     GamePlayerBox {
                         anchors.fill: parent
                         seatIndex: seatSlot.index
+                        // Karten in der echten Bildschirmgröße rastern (oppScale × Zoom).
+                        cardRenderScale: tableZone.oppScale * tableZone.zoomRenderMul
                         // Nur die oberste Box (Player 5, TC-Slot) zeigt das
                         // Winner-Badge im Hochformat unterhalb – sonst überall oben.
                         winnerBelow: !tableZone.wide && seatSlot.slotName === "TC"
@@ -1324,10 +1428,11 @@ Rectangle {
                                : seatSlot.slot[0] < 0.45 ? "right"
                                : seatSlot.slot[0] > 0.55 ? "left"
                                : "bottom"
-                        // landscapeCompact: bei der obersten Mitte-Box (Player 5)
-                        // würde das Badge unterhalb mit dem Pot-Badge kollidieren →
-                        // Button links, Einsatz rechts neben der Box anzeigen.
-                        betSplit: tableZone.wide && Config.Responsive.landscapeCompact
+                        // Oberste Mitte-Box (Player 5): das Badge unterhalb würde mit
+                        // dem Pot-Badge kollidieren → Button LINKS, Einsatz RECHTS
+                        // neben der Box. Gilt im gesamten Querformat (Desktop-Wide
+                        // wie Ultrawide), nicht nur im landscapeCompact.
+                        betSplit: tableZone.wide
                                   && seatSlot.slot[0] >= 0.45 && seatSlot.slot[0] <= 0.55
                     }
                 }
@@ -1347,6 +1452,8 @@ Rectangle {
                 transformOrigin: Item.Center
                 scale: tableZone.boxScale
                 maxAvatarSize: tableZone.wide ? 60 : 54
+                // Karten in der echten Bildschirmgröße rastern (boxScale × Zoom).
+                cardRenderScale: tableZone.boxScale * tableZone.zoomRenderMul
             }
 
             // Emoji-Reaktions-Animationen – im Zoom-Layer, damit sie bei
@@ -1399,28 +1506,53 @@ Rectangle {
                     function onMyTurnChanged() {
                         if (!tableZone.zoomActive || !GameTable || !GameTable.myTurn)
                             return
+                        // Eigener Zug: geplanten Gegner-Schwenk abbrechen und sofort
+                        // auf die Self-Box-Zone schwenken.
+                        followTimer.stop()
+                        tableZone._pendingFollowSeat = -1
+                        tableZone._followedSeat = 0
                         tableZone._zoomPanY = -(tableZone.zoomFactor - 1) * zoomLayer.height / 2
                         tableZone._zoomPanX = 0
                     }
                     function onTimeoutChanged() {
-                        if (!tableZone.zoomActive || !GameTable || zoomPanner.active) return
-                        var seatId = GameTable.timeoutSeatId
-                        if (seatId <= 0) return
-                        tableZone._panToSeat(seatId)
+                        // Neuer aktiver Sitz → verzögertes Nachführen einplanen
+                        // (springt nicht sofort dorthin). seatId <= 0 (−1 = kurz
+                        // zwischen zwei Spielern, 0 = ich) wird ignoriert, damit
+                        // ein noch ausstehender Schwenk auf den handelnden Spieler
+                        // bestehen bleibt.
+                        tableZone._scheduleFollow(GameTable ? GameTable.timeoutSeatId : -1,
+                                                  GameTable ? GameTable.timeoutSec : 0)
+                    }
+                    function onRefreshActionTriggered() {
+                        // Der eingeplante Spieler hat gehandelt → sofort dorthin
+                        // schwenken (zeigt die Aktion), ohne das 1/4-Intervall
+                        // abzuwarten.
+                        tableZone._doFollow()
                     }
                     function onPlayersChanged() {
+                        // Sicherheitsnetz: aktiven Gegner ebenfalls verzögert
+                        // nachführen, falls timeoutChanged ausbleibt. _scheduleFollow
+                        // ist idempotent (kein Timer-Thrash bei Dauerfeuer).
                         if (!tableZone.zoomActive || !GameTable || zoomPanner.active) return
                         var players = GameTable.players
                         for (var i = 1; i < players.length; i++) {
                             if (players[i].name !== "" && players[i].myTurn) {
-                                tableZone._panToSeat(i)
+                                tableZone._scheduleFollow(i, GameTable.timeoutSec)
                                 return
                             }
                         }
                     }
                     function onBoardCardsChanged() {
-                        if (!tableZone.zoomActive || !GameTable || zoomPanner.active) return
+                        if (!tableZone.zoomActive || !GameTable) return
+                        // Neue Setzrunde / neue Hand: „bereits angeschwenkt"-Merkmal
+                        // zurücksetzen, damit der erste Spieler der Runde wieder
+                        // verzögert verfolgt wird.
+                        followTimer.stop()
+                        tableZone._pendingFollowSeat = -1
+                        tableZone._followedSeat = -1
+                        if (zoomPanner.active) return
                         if (GameTable.boardCardCount <= 0) return
+                        // Neue Karte(n): auf den Community-Bereich schwenken.
                         tableZone._panToPoint(tableZone.width / 2, tableZone.communityCenterY)
                     }
                     function onWinningHandTextChanged() {
@@ -1433,12 +1565,35 @@ Rectangle {
                         var cy = (tableZone.communityCenterY + selfCY) / 2
                         tableZone._panToPoint(tableZone.width / 2, cy)
                     }
+                    function onShowdownActiveChanged() {
+                        if (!GameTable) return
+                        if (GameTable.showdownActive) {
+                            // Showdown beginnt: automatisch herauszoomen, damit der
+                            // gesamte Tisch mit allen Spielern (und ihren aufgedeckten
+                            // Karten) wieder sichtbar ist. Vorherigen Zoom-Zustand
+                            // merken und geplanten Spieler-Schwenk abbrechen.
+                            tableZone._zoomSuspendedByShowdown = tableZone.zoomActive
+                            followTimer.stop()
+                            tableZone._pendingFollowSeat = -1
+                            tableZone._followedSeat = -1
+                            tableZone.zoomActive = false
+                            tableZone._zoomPanX = 0
+                            tableZone._zoomPanY = 0
+                        } else if (tableZone._zoomSuspendedByShowdown) {
+                            // Nächste Hand: einen vor dem Showdown aktiven Zoom wieder
+                            // einschalten.
+                            tableZone._zoomSuspendedByShowdown = false
+                            tableZone.zoomActive = true
+                        }
+                    }
                 }
             } // zoomLayer
 
             // ── Spielverlauf (Log) + Chat – Umschalt-Icons + Overlays ──────────
-            property bool showLog: false
             property bool showChat: false
+            // Info-Panel-Overlay (Verlauf/Chancen/Blatt) – nur im NICHT angedockten
+            // Modus (Hochformat/Mobil). Im Desktop-Querformat ist es angedockt.
+            property bool showInfo: false
             // Emoji-Reaktions-Picker (Panel unter dem Toggle neben dem Chat-Icon)
             property bool showReactions: false
 
@@ -1469,19 +1624,60 @@ Rectangle {
                 // (Chat ist links mit 8 px Abstand verankert, Breite = dockedChatW).
                 var chatLeft  = 8
                 var chatRight = 8 + dockedChatW
+                // Bet-/Puck-Badge-Ausmaße (Basis-Pixel, skalieren mit s) – siehe
+                // GamePlayerBox.betGroup. Die Rand-Sitze tragen Einsatz + Dealer-/
+                // Blind-Button SEITLICH zur Bildschirmkante hin (= in den Chat-
+                // Bereich hinein), die mittigen Sitze unterhalb der Box. Damit der
+                // Einsatz eines Gegners nie vom Chat verdeckt wird, zählt die volle
+                // Box-Breite PLUS Einsatz-Breite zur Horizontal-Überlappung.
+                var betSideExt   = (8 + 52) * s
+                var betBottomExt = 39 * s
                 // Alle Landscape-Slots durchsuchen: welche Boxen überlappen horizontal?
                 var slots = slotPosLandscape
                 var maxH = height + actionBar.height - 8   // kein Limit → voll
                 for (var name in slots) {
                     var pos     = slots[name]
-                    var boxCX   = width  * pos[0]
-                    var boxCY   = height * pos[1]
+                    // seatNudge/seatNudgeX aus dem Repeater-Delegate spiegeln: die
+                    // beiden die Self-Box flankierenden Bottom-Sitze (opp1/oppN)
+                    // werden tiefer UND weiter nach außen (zum Bildschirmrand = in
+                    // den Chat-Bereich) gerückt als ihre rohe Slot-Position. Ohne
+                    // diese Korrektur unterschätzt die Prüfung, wie tief/weit außen
+                    // sie reichen → maxH zu groß → Überlappung mit dem Chat.
+                    var nudgeY  = 0, nudgeX = 0
+                    if (!Config.Responsive.landscapeCompact
+                            && (name === "opp1" || name === "opp" + (seatCount - 1))
+                            && pos[1] > 0.5) {
+                        nudgeY = oppBaseHeight * boxScale * 0.6
+                        var dir = pos[0] < 0.5 ? -1 : 1
+                        var wantCX = width / 2 + dir *
+                            (selfBaseWidth * boxScale / 2 + 40 * boxScale
+                             + oppBaseWidth * oppScale / 2 + 18)
+                        var dCX = wantCX - width * pos[0]
+                        nudgeX = dir < 0 ? Math.min(0, dCX) : Math.max(0, dCX)
+                    }
+                    var boxCX   = width  * pos[0] + nudgeX
+                    var boxCY   = height * pos[1] + nudgeY
                     var boxL    = boxCX - visualW / 2
                     var boxR    = boxCX + visualW / 2
-                    // Überlapp nur prüfen, wenn Box im Chat-Bereich liegt.
+                    var boxBot  = boxCY + visualH / 2
+                    // Einsatz-/Puck-Bereich je nach betSide einrechnen (vgl. Repeater-
+                    // Delegate): linke Sitze nach links, rechte nach rechts, mittige
+                    // nach unten; im landscapeCompact zeigt die mittige Box gesplittet
+                    // nach beiden Seiten.
+                    if (Config.Responsive.landscapeCompact && pos[0] >= 0.45 && pos[0] <= 0.55) {
+                        boxL -= betSideExt
+                        boxR += betSideExt
+                    } else if (pos[0] < 0.45) {
+                        boxL -= betSideExt
+                    } else if (pos[0] > 0.55) {
+                        boxR += betSideExt
+                    } else {
+                        boxBot += betBottomExt
+                    }
+                    // Überlapp nur prüfen, wenn Box (inkl. Einsatz) im Chat-Bereich liegt.
                     if (boxR <= chatLeft || boxL >= chatRight) continue
-                    // Unterkante der Box + 8 px Sicherheitsabstand:
-                    var boxBottom = boxCY + visualH / 2 + 8
+                    // Unterkante der Box/des Einsatzes + 8 px Sicherheitsabstand:
+                    var boxBottom = boxBot + 8
                     // Chat darf höchstens bis zur Unterkante dieser Box reichen.
                     var limit = height - boxBottom + actionBar.height - 8
                     if (limit < maxH) maxH = limit
@@ -1490,6 +1686,82 @@ Rectangle {
             }
             // Vom Benutzer per Drag-Handle eingestellte Höhe; -1 = Standard.
             property real dockedChatUserH: -1
+            // Eingeklappt (per Toggle ausgeblendet)? Default: eingeklappt (Toggle aus).
+            property bool dockedChatCollapsed: true
+
+            // ── Permanentes Info-Panel unten RECHTS – Spiegelbild des Docked-Chat ──
+            // Gleiches Layout wie der Chat (unten links): schwebt ÜBER dem Tisch,
+            // nach oben aufziehbar, reserviert keinen Platz. Nur Desktop mit genug
+            // freier Breite; sonst Overlay + Toggle.
+            readonly property real dockedInfoW: {
+                if (Config.Responsive.isMobile) return 0
+                return Math.min(280, (width - actionBar.panelWidth) / 2 - 24)
+            }
+            readonly property bool dockedInfoFits: dockedInfoW >= 170
+            // Wird das Panel gedockt, ist das Overlay überflüssig.
+            onDockedInfoFitsChanged: if (dockedInfoFits) showInfo = false
+            // Eingeklappt (per Toggle ausgeblendet)? Default: eingeklappt (Toggle aus).
+            property bool dockedInfoCollapsed: true
+
+            readonly property real dockedInfoMinH: actionBar.height - 8
+            // Maximale Höhe: bis zur Unterkante der untersten Gegnerbox, die
+            // horizontal mit dem Panel (rechter Rand) überlappt – wie beim Chat.
+            readonly property real dockedInfoMaxH: {
+                if (!wide || !dockedInfoFits) return dockedInfoMinH
+                var s = oppScale
+                var visualW = oppBaseWidth  * s
+                var visualH = oppBaseHeight * s
+                var infoRight = width - 8
+                var infoLeft  = width - 8 - dockedInfoW
+                // Bet-/Puck-Badge-Ausmaße wie beim Chat (s. dockedChatMaxH): die
+                // rechten Rand-Sitze tragen den Einsatz seitlich nach rechts (in den
+                // Info-Bereich hinein) – volle Box- PLUS Einsatz-Breite zählen.
+                var betSideExt   = (8 + 52) * s
+                var betBottomExt = 39 * s
+                var slots = slotPosLandscape
+                var maxH = height + actionBar.height - 8
+                for (var name in slots) {
+                    var pos   = slots[name]
+                    // seatNudge/seatNudgeX aus dem Repeater-Delegate spiegeln (vgl.
+                    // dockedChatMaxH): die Self-Box flankierenden Bottom-Sitze
+                    // (opp1/oppN) sitzen tiefer und weiter außen (hier: rechter
+                    // Sitz in den Info-Bereich) als ihre rohe Slot-Position.
+                    var nudgeY = 0, nudgeX = 0
+                    if (!Config.Responsive.landscapeCompact
+                            && (name === "opp1" || name === "opp" + (seatCount - 1))
+                            && pos[1] > 0.5) {
+                        nudgeY = oppBaseHeight * boxScale * 0.6
+                        var dir = pos[0] < 0.5 ? -1 : 1
+                        var wantCX = width / 2 + dir *
+                            (selfBaseWidth * boxScale / 2 + 40 * boxScale
+                             + oppBaseWidth * oppScale / 2 + 18)
+                        var dCX = wantCX - width * pos[0]
+                        nudgeX = dir < 0 ? Math.min(0, dCX) : Math.max(0, dCX)
+                    }
+                    var boxCX = width  * pos[0] + nudgeX
+                    var boxCY = height * pos[1] + nudgeY
+                    var boxL  = boxCX - visualW / 2
+                    var boxR  = boxCX + visualW / 2
+                    var boxBot = boxCY + visualH / 2
+                    if (Config.Responsive.landscapeCompact && pos[0] >= 0.45 && pos[0] <= 0.55) {
+                        boxL -= betSideExt
+                        boxR += betSideExt
+                    } else if (pos[0] < 0.45) {
+                        boxL -= betSideExt
+                    } else if (pos[0] > 0.55) {
+                        boxR += betSideExt
+                    } else {
+                        boxBot += betBottomExt
+                    }
+                    if (boxR <= infoLeft || boxL >= infoRight) continue
+                    var boxBottom = boxBot + 8
+                    var limit = height - boxBottom + actionBar.height - 8
+                    if (limit < maxH) maxH = limit
+                }
+                return Math.max(dockedInfoMinH, maxH)
+            }
+            // Vom Benutzer per Drag-Handle eingestellte Höhe; -1 = Standard.
+            property real dockedInfoUserH: -1
 
             // Ungelesene Chat-Nachrichten: alles oberhalb von chatReadCount gilt als
             // ungelesen. Als gelesen markiert wird, sobald der Chat 2 s offen war
@@ -1523,1099 +1795,131 @@ Rectangle {
                 }
             }
 
-            Item {
-                id: logOverlay
+            // ── Info-Panel-Overlay (Verlauf/Chancen/Blatt) ────────────────────
+            // Nur im NICHT angedockten Modus (Hochformat/Mobil). Im Desktop-
+            // Querformat liegt das Panel permanent angedockt rechts (infoDock,
+            // direktes Kind von gamePage).
+            GameSidePanel {
+                id: infoOverlay
                 z: 150
-                // Querformat/Vollbild: Sidebar (~1/3 Breite) von rechts.
-                // Hochformat: volles Overlay über den Tisch.
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                width: tableZone.wide ? Math.max(parent.width / 3, 300) : parent.width
-                visible: tableZone.showLog
+                edge: Qt.RightEdge
+                wide: tableZone.wide
+                // Keine Überschrift – die Tab-Leiste (Verlauf/Chancen) reicht;
+                // geschlossen wird über den Umschalt-Button oben rechts.
+                showHeader: false
+                visible: tableZone.showInfo && !gamePage.infoDocked
+                onCloseRequested: gamePage.toggleInfoOverlay()
 
-                // Schwebendes Sheet: eingerückt, abgerundet, mit Elevation.
-                Rectangle {
-                    id: logPanel
-                    anchors.fill: parent
-                    anchors.topMargin: 50   // Abstand zum Umschalt-Icon oben rechts
-                    anchors.bottomMargin: 10
-                    anchors.leftMargin: tableZone.wide ? 10 : 8
-                    anchors.rightMargin: tableZone.wide ? 10 : 8
-                    radius: 16
-                    color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.95)
-                    border.color: Config.StaticData.palette.secondary.col500
-                    border.width: 1
-
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        shadowEnabled: true
-                        shadowColor: "#000000"
-                        shadowOpacity: 0.55
-                        shadowBlur: 0.9
-                        shadowVerticalOffset: 3
-                        shadowHorizontalOffset: 0
-                    }
-                }
-
-                // Klicks innerhalb des Sheets abfangen (Tisch daneben bleibt nutzbar)
-                MouseArea { anchors.fill: logPanel }
-
-                ColumnLayout {
-                    anchors.fill: logPanel
-                    anchors.margins: 12
-                    spacing: 8
-
-                    // Header: Titel + Schließen
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 6
-                        Text {
-                            Layout.fillWidth: true
-                            text: qsTr("Spielverlauf")
-                            color: Config.Theme.colorAccent
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: 15
-                            font.bold: true
-                            font.letterSpacing: 0.4
-                        }
-                        Rectangle {
-                            Layout.preferredWidth: 26
-                            Layout.preferredHeight: 26
-                            radius: 13
-                            color: logCloseArea.containsMouse
-                                   ? Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.7)
-                                   : "transparent"
-                            VectorImage {
-                                anchors.centerIn: parent
-                                width: 14; height: 14
-                                source: "../resources/close.svg"
-                                layer.enabled: true
-                                layer.effect: MultiEffect {
-                                    colorization: 1.0
-                                    colorizationColor: Config.StaticData.palette.secondary.col200
-                                }
-                            }
-                            MouseArea {
-                                id: logCloseArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: gamePage.toggleLogOverlay()
-                            }
-                        }
-                    }
-
-                    // Trennlinie
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 1
-                        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.5)
-                    }
-
-                    ListView {
-                        id: logList
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        clip: true
-                        model: (typeof GameTable !== "undefined" && GameTable) ? GameTable.gameLog : []
-                        boundsBehavior: Flickable.StopAtBounds
-                        ScrollBar.vertical: ScrollBar {
-                            policy: logList.contentHeight > logList.height + 4
-                                    ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
-                        }
-                        // Auto-Scroll folgt neuen Einträgen, solange der Nutzer unten
-                        // ist. Scrollt er hoch, pausiert das Folgen und die Position
-                        // bleibt erhalten – auch wenn neue Zeilen ankommen (das Model
-                        // ist eine QVariantList, die bei jeder Änderung komplett ersetzt
-                        // wird → die View würde sonst auf contentY=0 zurückspringen).
-                        // Nach 3 s ohne Scroll-Bewegung (Timeout ggf. tunen) springt es
-                        // wieder ans Ende.
-                        property bool autoScroll: true
-                        property real savedContentY: 0
-                        Timer {
-                            id: logAutoScrollTimer
-                            interval: 15000
-                            onTriggered: { logList.autoScroll = true; logList.positionViewAtEnd() }
-                        }
-                        function restoreScroll() {
-                            contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
-                        }
-                        // Nur benutzergetriebene Bewegungen (moving = Drag/Flick/Wheel)
-                        // auswerten; programmatische Resets/Sprünge ignorieren.
-                        onContentYChanged: {
-                            if (!moving) return
-                            savedContentY = contentY
-                            if (atYEnd) { autoScroll = true; logAutoScrollTimer.stop() }
-                            else        { autoScroll = false; logAutoScrollTimer.restart() }
-                        }
-                        onCountChanged: {
-                            if (autoScroll) positionViewAtEnd()
-                            else Qt.callLater(restoreScroll)
-                        }
-                        delegate: Text {
-                            required property var modelData
-                            width: ListView.view.width
-                            text: modelData
-                            // Farben kommen aus dem HTML (Widgets-Log-Style).
-                            textFormat: Text.RichText
-                            wrapMode: Text.WordWrap
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: 12
-                            lineHeight: 1.15
-                            bottomPadding: 4
-                        }
-                    }
+                GameInfoPanel {
+                    id: infoPanelOverlay
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                 }
             }
 
-            Rectangle {
-                id: logToggle
+            // Combined-Toggle (Verlauf/Chancen/Blatt). Als Kind der tableZone
+            // sitzt er automatisch an deren rechter Kante: angedockt links neben
+            // dem Panel, sonst am rechten Bildschirmrand. Im Desktop-Querformat
+            // klappt er das angedockte Panel ein/aus, sonst das Overlay.
+            GameRoundIconButton {
+                id: infoToggle
                 z: 200
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: 8
-                width: 34; height: 34; radius: 17
-                color: tableZone.showLog ? Config.Theme.colorAccent : Qt.rgba(0, 0, 0, 0.45)
-
-                VectorImage {
-                    anchors.centerIn: parent
-                    width: 20
-                    height: 20
-                    source: "../resources/gameLog.svg"
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        colorization: 1.0
-                        colorizationColor: tableZone.showLog ? "#101010" : "#FFFFFF"
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: gamePage.toggleLogOverlay()
-                }
+                iconSource: "../resources/gameLog.svg"
+                active: gamePage.infoPanelOpen
+                tooltipText: qsTr("Verlauf & Chancen")
+                onClicked: gamePage.toggleInfoOverlay()
             }
 
             // ── Chat-Overlay (nur bei menschlichen Mitspielern) ────────────────
-            Item {
+            GameSidePanel {
                 id: chatOverlay
                 z: 150
-                // Querformat/Vollbild: Sidebar (~1/3 Breite) von links.
-                // Hochformat: volles Overlay über den Tisch.
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                width: tableZone.wide ? Math.max(parent.width / 3, 300) : parent.width
+                edge: Qt.LeftEdge
+                wide: tableZone.wide
+                // Keine Überschrift – geschlossen wird über den Umschalt-Button oben.
+                showHeader: false
                 visible: tableZone.showChat
+                onCloseRequested: gamePage.toggleChatOverlay()
                 // Chat geschlossen → Emoji-Picker mitschließen.
                 onVisibleChanged: if (!visible) overlayChat.closeEmojiPicker()
 
-                // Schwebendes Sheet (von links): eingerückt, abgerundet, mit Elevation.
-                Rectangle {
-                    id: chatPanel
-                    anchors.fill: parent
-                    anchors.topMargin: 50   // Abstand zum Chat-Icon oben links
-                    anchors.bottomMargin: 10
-                    anchors.leftMargin: tableZone.wide ? 10 : 8
-                    anchors.rightMargin: tableZone.wide ? 10 : 8
-                    radius: 16
-                    color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.95)
-                    border.color: Config.StaticData.palette.secondary.col500
-                    border.width: 1
-
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        shadowEnabled: true
-                        shadowColor: "#000000"
-                        shadowOpacity: 0.55
-                        shadowBlur: 0.9
-                        shadowVerticalOffset: 3
-                        shadowHorizontalOffset: 0
-                    }
-                }
-
-                MouseArea { anchors.fill: chatPanel }   // Klicks abfangen
-
-                ColumnLayout {
-                    anchors.fill: chatPanel
-                    anchors.margins: 12
-                    spacing: 8
-
-                    // Header: Titel + Schließen
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 6
-                        Text {
-                            Layout.fillWidth: true
-                            text: qsTr("Chat")
-                            color: Config.Theme.colorAccent
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: 15
-                            font.bold: true
-                            font.letterSpacing: 0.4
-                        }
-                        Rectangle {
-                            Layout.preferredWidth: 26
-                            Layout.preferredHeight: 26
-                            radius: 13
-                            color: chatCloseArea.containsMouse
-                                   ? Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.7)
-                                   : "transparent"
-                            VectorImage {
-                                anchors.centerIn: parent
-                                width: 14; height: 14
-                                source: "../resources/close.svg"
-                                layer.enabled: true
-                                layer.effect: MultiEffect {
-                                    colorization: 1.0
-                                    colorizationColor: Config.StaticData.palette.secondary.col200
-                                }
-                            }
-                            MouseArea {
-                                id: chatCloseArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: gamePage.toggleChatOverlay()
-                            }
-                        }
-                    }
-
-                    // Trennlinie
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 1
-                        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col500, 0.5)
-                    }
-
-                    ChatBox {
-                        id: overlayChat
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
-                        nickList: gamePage.gameNickList()
-                        onSendRequested: (text) => {
-                            if (typeof GameTable !== "undefined" && GameTable)
-                                GameTable.sendChat(text)
-                        }
+                ChatBox {
+                    id: overlayChat
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    // Feste Tisch-Theme-Farben (dunkel, modus-unabhängig).
+                    colText: gamePage.tblChatText
+                    colTextSecondary: gamePage.tblChatTextSecondary
+                    colTextMuted: gamePage.tblChatTextMuted
+                    colBorder: gamePage.tblChatBorder
+                    colSurface: gamePage.tblChatSurface
+                    colBackground: gamePage.tblChatBackground
+                    chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
+                    nickList: gamePage.gameNickList()
+                    onSendRequested: (text) => {
+                        if (typeof GameTable !== "undefined" && GameTable)
+                            GameTable.sendChat(text)
                     }
                 }
             }
 
-            Rectangle {
+            GameRoundIconButton {
                 id: chatToggle
                 z: 200
-                // Ausgeblendet, wenn der Chat permanent unten links gedockt ist.
+                // Immer sichtbar (sofern menschliche Mitspieler) – auch wenn der
+                // Chat permanent angedockt ist, damit er sich ausblenden lässt.
                 visible: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.hasHumanOpponents : false)
-                         && !tableZone.dockedChatFits
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: 8
-                width: 34; height: 34; radius: 17
-                color: tableZone.showChat ? Config.Theme.colorAccent : Qt.rgba(0, 0, 0, 0.45)
-
-                VectorImage {
-                    anchors.centerIn: parent
-                    width: 20
-                    height: 20
-                    source: "../resources/gameChat.svg"
-                    layer.enabled: true
-                    layer.effect: MultiEffect {
-                        colorization: 1.0
-                        colorizationColor: tableZone.showChat ? "#101010" : "#FFFFFF"
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: gamePage.toggleChatOverlay()
-                }
-
-                // Badge mit Anzahl ungelesener Chat-Nachrichten.
-                Rectangle {
-                    visible: tableZone.chatUnread > 0
-                    anchors.top: parent.top
-                    anchors.right: parent.right
-                    anchors.topMargin: -3
-                    anchors.rightMargin: -3
-                    width: Math.max(17, unreadLabel.implicitWidth + 8)
-                    height: 17
-                    radius: 8.5
-                    color: Config.Theme.colorDanger
-                    border.color: "#1d222b"
-                    border.width: 1.5
-
-                    Text {
-                        id: unreadLabel
-                        anchors.centerIn: parent
-                        text: tableZone.chatUnread > 99 ? "99+" : tableZone.chatUnread
-                        color: "#FFFFFF"
-                        font.family: Config.StaticData.loadedFont.font.family
-                        font.pixelSize: 10
-                        font.bold: true
-                    }
-                }
+                iconSource: "../resources/gameChat.svg"
+                active: gamePage.chatPanelOpen
+                unread: tableZone.chatUnread
+                tooltipText: qsTr("Chat")
+                onClicked: gamePage.toggleChatOverlay()
             }
 
             // ── Emoji-Reaktions-Picker: Toggle rechts neben dem Chat-Icon ──────
-            Rectangle {
+            GameRoundIconButton {
                 id: reactionToggle
                 z: 200
+                visible: gamePage.emojiReactionsEnabled
                 anchors.top: parent.top
                 anchors.left: chatToggle.visible ? chatToggle.right : parent.left
                 anchors.leftMargin: chatToggle.visible ? 6 : 8
                 anchors.topMargin: 8
-                width: 34; height: 34; radius: 17
-                color: tableZone.showReactions ? Config.Theme.colorAccent : Qt.rgba(0, 0, 0, 0.45)
-
-                Text {
-                    anchors.centerIn: parent
-                    text: "🎉"
-                    font.family: Config.StaticData.emojiFamily
-                    font.pixelSize: 17
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: tableZone.showReactions = !tableZone.showReactions
-                }
+                iconSource: "../resources/addReaction.svg"
+                active: tableZone.showReactions
+                tooltipText: qsTr("Emoji-Reaktionen")
+                onClicked: tableZone.showReactions = !tableZone.showReactions
             }
 
             // Panel mit den Reaktions-Emojis (Grid, 6 Spalten – wie der
             // Reaction-Picker des Web-Clients, dort 30 Emojis).
-            Rectangle {
-                id: reactionPanel
-                visible: tableZone.showReactions
+            ReactionPicker {
+                visible: tableZone.showReactions && gamePage.emojiReactionsEnabled
                 z: 210
                 anchors.top: reactionToggle.bottom
                 anchors.topMargin: 6
                 anchors.left: parent.left
                 anchors.leftMargin: 8
-                width: reactionGrid.width + 16
-                height: reactionGrid.height + 16
-                radius: 8
-                color: Qt.rgba(0, 0, 0, 0.88)
-                border.color: Qt.rgba(1, 1, 1, 0.12)
-                border.width: 1
-
-                Grid {
-                    id: reactionGrid
-                    anchors.centerIn: parent
-                    columns: 6
-                    spacing: 3
-
-                    Repeater {
-                        model: ["🎉", "🥳", "👏", "🙌", "💪", "🤣",
-                                "😂", "😬", "🤦", "😴", "👍", "😎",
-                                "🤩", "👀", "🤔", "😱", "😡", "😤",
-                                "🔥", "😮", "💰", "💎", "🎰", "🍀",
-                                "🃏", "💀", "🤑", "🫵", "🫡", "🤫"]
-                        delegate: Rectangle {
-                            required property string modelData
-                            width: 36; height: 36; radius: 6
-                            color: reactArea.containsPress ? Qt.rgba(1, 1, 1, 0.25)
-                                 : reactArea.containsMouse ? Qt.rgba(1, 1, 1, 0.12)
-                                 : "transparent"
-                            scale: reactArea.containsMouse && !reactArea.containsPress ? 1.15 : 1.0
-                            Behavior on scale { NumberAnimation { duration: 100 } }
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: parent.modelData
-                                font.family: Config.StaticData.emojiFamily
-                                font.pixelSize: 19
-                            }
-                            MouseArea {
-                                id: reactArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: gamePage.sendReaction(parent.modelData)
-                            }
-                        }
-                    }
-                }
+                onPicked: (emoji) => gamePage.sendReaction(emoji)
             }
 
         }
 
         // 3. Action-Leiste: Raise-Controls + Fold / Call / Raise
-        Item {
+        GameActionBar {
             id: actionBar
             Layout.fillWidth: true
-            // Höhe wächst dynamisch mit dem Inhalt (Desktop-Querformat: +8 px,
-            // damit das Panel mit 8 px Abstand über dem unteren Bildschirmrand
-            // schwebt). Auf dem Phone (compactActions) sitzt das Panel bündig
-            // am unteren Bildschirmrand.
-            Layout.preferredHeight: actionBarCol.implicitHeight
-                                    + (tableZone.wide && !actionBar.compactActions ? 8 : 0)
-
-            // Querformat: Inhalt auf die (skalierte) Breite des Community-Cards-
-            // Bereichs begrenzen und zentrieren – sonst wird u. a. der Slider viel
-            // zu breit. Eine Untergrenze stellt sicher, dass die Steuerelemente
-            // (Pot-Buttons + All-In + Spielmodus) nicht zu eng werden. Hochformat:
-            // volle Breite.
-            readonly property real panelWidth: tableZone.wide
-                ? Math.min(width, Math.max(communityArea.width * communityArea.scale, 380))
-                : width
-
-            // Aktuell vorbereiteter Raise-Betrag; kann auch vor dem eigenen Zug gesetzt werden
-            property int raiseAmount: 0
-
-            readonly property bool raiseAvailable: GameTable !== null
-                                                   && GameTable.maxRaiseAmount > 0
-                                                   && GameTable.minRaiseAmount > 0
-            readonly property int raiseMinAmount: raiseAvailable ? GameTable.minRaiseAmount : 0
-            readonly property int raiseMaxAmount: raiseAvailable ? GameTable.maxRaiseAmount : 0
-
-            // Dynamische Button-Beschriftungen – analog zum Qt-Widgets-Client:
-            //  • nichts zu callen  → "Check"      sonst → "Call $X"
-            //  • Preflop oder schon gesetzt → "Raise $X"; postflop ohne Einsatz → "Bet $X"
-            readonly property bool canCheck: GameTable !== null && GameTable.callAmount === 0
-            readonly property bool isPreflop: GameTable !== null && GameTable.phaseText === "Preflop"
-            readonly property string _amountSep: "\n"
-            readonly property string checkCallText: GameTable === null ? qsTr("Call")
-                : (canCheck ? qsTr("Check") : qsTr("Call") + _amountSep + "$" + GameTable.callAmount)
-            readonly property string betRaiseText: {
-                if (GameTable === null) return qsTr("Raise")
-                var word = (!isPreflop && canCheck) ? qsTr("Bet") : qsTr("Raise")
-                return raiseAvailable ? (word + _amountSep + "$" + raiseAmount) : word
-            }
-
-            // ── Vorwahl (pre-selection): vor dem eigenen Zug eine Aktion vormerken ──
-            property string preAction: ""        // "", "fold", "call", "raise", "allin"
-            // Vorauswahl-Freigabe: false nach eigenem Zug,
-            // true bei Rundenwechsel (onRoundValuesReady) oder Gegner-Aktion.
-            property bool preSelectEnabled: true
-            // Reset bei Handwechsel oder Showdown
-            property int lastHandNumber: -1
-            Connections {
-                target: GameTable
-                function onHandNumberChanged() {
-                    if (GameTable && GameTable.handNumber !== actionBar.lastHandNumber) {
-                        actionBar.preAction = ""
-                        actionBar.preSelectEnabled = true   // neue Hand → Vorauswahl freischalten
-                        actionBar.lastHandNumber = GameTable.handNumber
-                        console.log("[ACTDBG] preAction Reset: Neue Hand " + actionBar.lastHandNumber)
-                    }
-                }
-                function onPhaseTextChanged() {
-                    if (!GameTable) return
-                    if (GameTable.phaseText === "Showdown") {
-                        actionBar.preAction = ""
-                        console.log("[ACTDBG] preAction Reset: Showdown")
-                    } else if (GameTable.phaseText !== "Preflop") {
-                        // Flop/Turn/River: Vorauswahl zurücksetzen; Freischalten erfolgt
-                        // in onRoundValuesReady (nach computeCallAndRaiseAmounts) –
-                        // analog zum Widget-Client (updateMyButtonsState nach dealXCards2).
-                        actionBar.preAction = ""
-                        console.log("[ACTDBG] preAction Reset: Rundenwechsel →", GameTable.phaseText)
-                    } else {
-                        actionBar.preSelectEnabled = true   // Preflop = neue Hand
-                    }
-                }
-            }
-            property int preCallAmount: -1        // callAmount zum Zeitpunkt der Vorwahl
-            // Spielmodus: 0 = manuell, 1 = Auto Check/Call, 2 = Auto Check/Fold.
-            property int playingMode: 0
-
-            readonly property bool canAct: GameTable !== null && GameTable.canAct
-
-            // Kompakte Action-Bar nur auf echten Mobilgeräten mit knappem
-            // vertikalem Platz (Phone-Landscape). Auf dem Desktop bleiben die
-            // Buttons groß – auch bei breitem Aspect-Ratio (Ultrawide/HiDPI),
-            // wo landscapeCompact geometrisch ebenfalls greift.
-            readonly property bool compactActions:
-                Config.Responsive.landscapeCompact && Config.Responsive.isMobile
-            // Höhen der drei Action-Bar-Reihen.
-            readonly property int actionRowHeight: compactActions ? 40 : (Config.Theme.compact ? 56 : 54)
-            readonly property int raiseRowHeight:  compactActions ? 22 : 26
-
-            // Während der Vorwahl zeigt der Fold-Button bei freiem Check "Check / Fold"
-            // Vorwahl bei gratis Check: zweizeilig, damit auch längere Übersetzungen
-            // (z. B. "Check / Se coucher") auf den Button passen.
-            readonly property string foldText: (GameTable !== null && !GameTable.myTurn && canCheck)
-                ? (qsTr("Check") + " /\n" + qsTr("Fold")) : qsTr("Fold")
-
-            function fireAction(which) {
-                if (GameTable === null) return
-                if (which === "fold")       GameTable.fold()
-                else if (which === "call")  GameTable.call()
-                else if (which === "raise") GameTable.raise(raiseAmount)
-                else if (which === "allin") GameTable.allIn()
-            }
-
-            // Vorgemerkte Aktion beim eigenen Zug ausführen.
-            // Vorgemerktes "Fold" wird zu "Check", falls ein Check gratis möglich ist.
-            function runPreAction(which) {
-                if (which === "fold" && canCheck) GameTable.call()
-                else fireAction(which)
-            }
-
-            function clickAction(which) {
-                if (GameTable === null) return
-                // Eigener Klick auf einen Action-Button hat Vorrang vor dem
-                // Auto-Modus → zurück auf "manuell", dann die Aktion ausführen
-                // bzw. vormerken (wie im Qt-Widgets-Client).
-                if (playingMode !== 0)
-                    playingMode = 0
-                // Es ist mein Zug, sobald der Server meinen Aktions-Timer zählt
-                // (timeoutSeatId === 0) – auch wenn das myTurn-Flag noch nicht
-                // gesetzt sein sollte. Dann SOFORT ausführen, sonst nur vormerken.
-                var myTurnNow = GameTable.myTurn || GameTable.timeoutSeatId === 0
-                var p0btnDbg = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
-                console.log("[ACTDBG] click", which,
-                            "myTurn=", GameTable.myTurn,
-                            "tSeat=", GameTable.timeoutSeatId,
-                            "canAct=", GameTable.canAct,
-                            "callAmt=", GameTable.callAmount,
-                            "preSel=", preSelectEnabled,
-                            "p0btn=", p0btnDbg,
-                            "(1=D,2=SB,3=BB)",
-                            "phase=", GameTable.phaseText,
-                            "pre=", preAction,
-                            "→ myTurnNow=", myTurnNow)
-                if (myTurnNow) {
-                    preAction = ""
-                    fireAction(which)
-                } else if (canAct) {
-                    if (preAction === which) {
-                        preAction = ""
-                    } else {
-                        preAction = which
-                        preCallAmount = (which === "call") ? GameTable.callAmount : -1
-                    }
-                }
-            }
-
-            function raiseStepFor(maximum) {
-                if (maximum <= 1000)
-                    return 10
-                if (maximum <= 10000)
-                    return 50
-                if (maximum <= 100000)
-                    return 500
-                return 5000
-            }
-
-            function roundedRaiseAmount(amount) {
-                if (!raiseAvailable)
-                    return 0
-                if (amount >= raiseMaxAmount)
-                    return raiseMaxAmount
-                var step = raiseStepFor(raiseMaxAmount)
-                return Math.floor(amount / step) * step
-            }
-
-            function clampRaiseAmount(amount) {
-                if (!raiseAvailable)
-                    return 0
-                return Math.max(raiseMinAmount, Math.min(raiseMaxAmount, amount))
-            }
-
-            function syncRaiseAmount() {
-                if (!raiseAvailable) {
-                    raiseAmount = 0
-                    return
-                }
-                if (raiseAmount <= 0)
-                    raiseAmount = raiseMinAmount
-                else
-                    raiseAmount = clampRaiseAmount(roundedRaiseAmount(raiseAmount))
-            }
-
-            // Raise-Wert vorbereiten, Vorwahl ausführen bzw. bei Änderungen verwerfen
-            Connections {
-                target: GameTable
-                function onMyTurnChanged() {
-                    // Eigener Zug beginnt → Vorauswahl immer freischalten.
-                    // Ausführung der vorgemerkten/automatischen Aktion in onMeInActionTriggered.
-                    if (GameTable.myTurn)
-                        actionBar.preSelectEnabled = true
-                    actionBar.syncRaiseAmount()
-                }
-                function onMeInActionTriggered() {
-                    // Wie meInAction() im Widgets-Client: GENAU HIER die gemerkte
-                    // bzw. automatische Aktion ausführen. Dieser Callback kommt bei
-                    // jedem eigenen Zug verlässlich (auch wenn m_myTurn schon true
-                    // war) → keine verschluckten Aktionen mehr.
-                    var p0btnDbg2 = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
-                    console.log("[ACTDBG] meInActionTriggered",
-                                "pre=", actionBar.preAction,
-                                "preCallAmt=", actionBar.preCallAmount,
-                                "mode=", actionBar.playingMode,
-                                "myTurn=", GameTable.myTurn,
-                                "tSeat=", GameTable.timeoutSeatId,
-                                "callAmt=", GameTable.callAmount,
-                                "p0btn=", p0btnDbg2,
-                                "(1=D,2=SB,3=BB)",
-                                "phase=", GameTable.phaseText,
-                                "canAct=", GameTable.canAct,
-                                "preSel=", actionBar.preSelectEnabled)
-                    actionBar.syncRaiseAmount()
-
-                    if (actionBar.playingMode === 2 || actionBar.playingMode === 1) {
-                        gamePage.runAutoAction()
-                    } else if (actionBar.preAction !== "") {       // Manuell: Vorwahl ausführen
-                        var a = actionBar.preAction
-                        actionBar.preAction = ""
-                        actionBar.runPreAction(a)
-                    }
-                    // Nach eigenem Zug: Vorauswahl sperren bis Gegner-Aktion oder Rundenwechsel
-                    actionBar.preSelectEnabled = false
-                }
-                function onRoundValuesReady() {
-                    // Werte nach Rundenwechsel sind jetzt korrekt (nach computeCallAndRaiseAmounts()).
-                    // Analog zum Widget-Client (updateMyButtonsState nach dealFlopCards2 etc.):
-                    // Vorauswahl sofort freischalten – nicht erst auf die erste Spieler-Aktion warten.
-                    actionBar.preSelectEnabled = true
-                }
-                function onRefreshActionTriggered() {
-                    if (GameTable.callAmount > 0 && !GameTable.myTurn) {
-                        // Gegner hat gesetzt/erhöht → Vorauswahl freischalten.
-                        // callAmountChanged allein taugt nicht: feuert auch nach
-                        // eigener Aktion (onRefreshSet/Pot/Cash) mit veralteten Werten.
-                        actionBar.preSelectEnabled = true
-                    }
-                    // Sicherheit: vorgemerkter Call verfällt nur bei einer ECHTEN
-                    // Gegner-Aktion (FOLD/CHECK/CALL/BET/RAISE/ALLIN), die den Call-
-                    // Betrag verändert hat. refreshActionTriggered feuert
-                    // ausschließlich für solche Aktionen — Blind-Posts (preflop
-                    // SB→BB) lösen dieses Signal NICHT aus, sodass eine
-                    // Vorauswahl während des Blindings nicht mehr stillschweigend
-                    // gelöscht wird (war Auslöser für „UTG-preflop ohne Reaktion,
-                    // Timeout mit Default-Action").
-                    if (actionBar.preAction === "call"
-                        && GameTable.callAmount !== actionBar.preCallAmount)
-                        actionBar.preAction = ""
-                }
-                function onCallAmountChanged() {
-                    // KEIN preSelectEnabled=true hier: callAmountChanged feuert bei
-                    // jedem computeCallAndRaiseAmounts()-Aufruf (onRefreshSet/Pot/Cash)
-                    // auch mit veralteten Werten → Freischalten nur in onRefreshActionTriggered.
-                    // Den Pre-Action-Sicherheits-Check führen wir bewusst NICHT
-                    // mehr hier aus, sondern in onRefreshActionTriggered (s.o.) —
-                    // sonst löschten Blind-Posts (callAmount 0→SB→BB) jede
-                    // UTG-Pre-Action.
-                    actionBar.syncRaiseAmount()
-                }
-                function onMinRaiseAmountChanged() {
-                    if (actionBar.preAction === "raise" && !actionBar.raiseAvailable)
-                        actionBar.preAction = ""
-                    actionBar.syncRaiseAmount()
-                }
-                function onMaxRaiseAmountChanged() {
-                    if (actionBar.preAction === "raise" && !actionBar.raiseAvailable)
-                        actionBar.preAction = ""
-                    actionBar.syncRaiseAmount()
-                }
-                function onCanActChanged() {
-                    // Kann nicht mehr agieren (gefoldet/all-in) → Vorwahl löschen
-                    if (!GameTable.canAct)
-                        actionBar.preAction = ""
-                }
-            }
-
-            Rectangle {
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                // Desktop-Querformat: kleiner Abstand zum unteren Bildschirmrand
-                // (Tisch zeigt sich darunter durch). Phone (compactActions):
-                // Panel bündig am unteren Bildschirmrand.
-                anchors.bottomMargin: tableZone.wide && !actionBar.compactActions ? 8 : 0
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: actionBar.panelWidth
-                color: Qt.rgba(0, 0, 0, 0.82)
-                // Geschrumpft (Querformat) als leicht abgerundetes Panel.
-                radius: tableZone.wide ? 10 : 0
-            }
-
-            Column {
-                id: actionBarCol
-                width: actionBar.panelWidth
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: 0
-
-                // ── Raise-Bereich: dauerhaft vorbereitbar, Aktion erst beim eigenen Zug ──
-                Column {
-                    id: raiseSection
-                    width: parent.width
-                    spacing: 3
-                    topPadding: 4
-                    bottomPadding: 2
-                    leftPadding: 8
-                    rightPadding: 8
-                    visible: GameTable !== null
-                    height: visible ? implicitHeight : 0
-                    clip: true
-
-                    // Zeile 1: Betrag-Eingabe (links) + Slider
-                    RowLayout {
-                        width: parent.width - 16
-                        spacing: 6
-
-                        // Betrag-Eingabe – links neben dem Slider
-                        Rectangle {
-                            Layout.preferredWidth: 78
-                            Layout.preferredHeight: actionBar.raiseRowHeight
-                            Layout.alignment: Qt.AlignVCenter
-                            radius: 5
-                            color: actionBar.raiseAvailable ? "#1a2a1a" : "#171717"
-                            border.color: actionBar.raiseAvailable ? "#4CAF50" : "#3a3a3a"
-                            border.width: 1
-                            TextInput {
-                                id: raiseAmountInput
-                                anchors { fill: parent; leftMargin: 6; rightMargin: 6 }
-                                enabled: actionBar.raiseAvailable
-                                text: actionBar.raiseAmount.toString()
-                                color: enabled ? "#FFFFFF" : "#8a8a8a"
-                                font.family: Config.StaticData.loadedFont.font.family
-                                font.pixelSize: 13
-                                font.bold: true
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                                inputMethodHints: Qt.ImhDigitsOnly
-                                validator: IntValidator { bottom: 0; top: 9999999 }
-                                // Live-Aktualisierung des Bet/Raise-Buttons während der Eingabe –
-                                // analog zu spinBoxBetValueChanged() im Qt-Widgets-Client.
-                                onTextChanged: {
-                                    var v = parseInt(text)
-                                    if (!isNaN(v) && actionBar.raiseAvailable)
-                                        actionBar.raiseAmount = actionBar.clampRaiseAmount(v)
-                                }
-                                onAccepted: {
-                                    var v = parseInt(text)
-                                    if (!isNaN(v) && GameTable) {
-                                        actionBar.raiseAmount = actionBar.clampRaiseAmount(v)
-                                    }
-                                    // Enter im Raise-Feld löst Bet/Raise aus (wie der
-                                    // Qt-Widgets-Client: Enter bei fokussiertem Betrag).
-                                    actionBar.clickAction("raise")
-                                }
-                                // Text bleibt synchron mit raiseAmount (von Slider/%-Buttons)
-                                onActiveFocusChanged: {
-                                    if (!activeFocus) {
-                                        text = actionBar.raiseAmount.toString()
-                                    }
-                                }
-                                Connections {
-                                    target: actionBar
-                                    function onRaiseAmountChanged() {
-                                        if (!raiseAmountInput.activeFocus)
-                                            raiseAmountInput.text = actionBar.raiseAmount.toString()
-                                    }
-                                }
-                            }
-                        }
-
-                        Slider {
-                            id: raiseSlider
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: actionBar.raiseRowHeight
-                            Layout.alignment: Qt.AlignVCenter
-                            enabled: actionBar.raiseAvailable
-                            opacity: enabled ? 1.0 : 0.45
-                            from: actionBar.raiseMinAmount
-                            to: actionBar.raiseAvailable ? Math.max(actionBar.raiseMinAmount, actionBar.raiseMaxAmount) : 1
-                            stepSize: actionBar.raiseStepFor(actionBar.raiseMaxAmount)
-                            value: actionBar.raiseAmount
-                            onMoved: actionBar.raiseAmount = actionBar.clampRaiseAmount(actionBar.roundedRaiseAmount(value))
-
-                            background: Rectangle {
-                                x: raiseSlider.leftPadding
-                                y: raiseSlider.topPadding + raiseSlider.availableHeight / 2 - height / 2
-                                width: raiseSlider.availableWidth
-                                height: 4
-                                radius: 2
-                                color: "#333333"
-                                Rectangle {
-                                    width: raiseSlider.visualPosition * parent.width
-                                    height: parent.height
-                                    radius: 2
-                                    color: "#4CAF50"
-                                }
-                            }
-                            handle: Rectangle {
-                                x: raiseSlider.leftPadding + raiseSlider.visualPosition * (raiseSlider.availableWidth - width)
-                                y: raiseSlider.topPadding + raiseSlider.availableHeight / 2 - height / 2
-                                width: 18; height: 18; radius: 9
-                                color: raiseSlider.pressed ? "#80FF80" : "#4CAF50"
-                                border.color: "#2a7a2a"
-                                border.width: 1
-                            }
-                        }
-                    }
-
-                    // Zeile 2: Pot-%-Buttons + All-In (bündig) + Spielmodus-Dropdown (rechts)
-                    RowLayout {
-                        width: parent.width - 16
-                        spacing: 4
-
-                        // Pot-Prozent-Buttons: 1/3 · 1/2 · Pot
-                        Repeater {
-                            model: [
-                                { label: "1/3", frac: 1.0 / 3.0 },
-                                { label: "1/2", frac: 0.5 },
-                                { label: "Pot", frac: 1.0 }
-                            ]
-                            delegate: Rectangle {
-                                required property var modelData
-                                visible: SettingsManager
-                                         ? SettingsManager.readConfigInt("ShowPotPercentButtons") !== 0
-                                         : true
-                                Layout.preferredWidth: visible ? 38 : 0
-                                Layout.preferredHeight: actionBar.raiseRowHeight
-                                radius: 5
-                                enabled: actionBar.raiseAvailable
-                                color: !enabled ? "#202020" : potBtnArea.containsPress ? "#2e7d32" : potBtnArea.containsMouse ? "#388e3c" : "#1b5e20"
-                                border.color: enabled ? "#4CAF50" : "#3a3a3a"
-                                border.width: 1
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: modelData.label
-                                    color: parent.enabled ? "#FFFFFF" : "#8a8a8a"
-                                    font.family: Config.StaticData.loadedFont.font.family
-                                    font.pixelSize: 11
-                                    font.bold: true
-                                }
-                                MouseArea {
-                                    id: potBtnArea
-                                    anchors.fill: parent
-                                    cursorShape: parent.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-                                    hoverEnabled: parent.enabled
-                                    enabled: parent.enabled
-                                    onClicked: {
-                                        if (!GameTable || !actionBar.raiseAvailable) return
-                                        var tp = GameTable.totalPot
-                                        var tgt = Math.round(tp * modelData.frac)
-                                        actionBar.raiseAmount = actionBar.clampRaiseAmount(tgt)
-                                    }
-                                }
-                            }
-                        }
-
-                        // All-In / Show – bündig an die Pot-Buttons
-                        // Im Post-River: zeigt "Show"-Button wenn der Spieler seine Karten
-                        // freiwillig zeigen kann (temporär als Ersatz für All-In).
-                        Rectangle {
-                            id: allInBtn
-                            readonly property bool preChecked: actionBar.preAction === "allin"
-                            readonly property bool isShowMode: typeof GameTable !== "undefined" && GameTable && GameTable.canShowCards
-                            Layout.preferredWidth: 52
-                            Layout.preferredHeight: actionBar.raiseRowHeight
-                            radius: 5
-                            opacity: (isShowMode || (actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled))) ? 1.0 : 0.4
-                            color: allInArea.containsPress
-                                 ? Qt.lighter(isShowMode ? "#2d6e2d" : Config.Theme.colorAllInBottom, 1.35)
-                                 : allInArea.containsMouse
-                                 ? (isShowMode ? "#3a8f3a" : Config.Theme.colorAllInTop)
-                                 : (isShowMode ? "#2d6e2d" : Config.Theme.colorAllInBottom)
-                            border.color: isShowMode ? "#80FF90"
-                                        : allInBtn.preChecked ? "#FFD700"
-                                        : Config.Theme.colorAllInEdge
-                            border.width: (isShowMode || allInBtn.preChecked) ? 2 : 1
-                            scale: (allInArea.pressed && ((actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled)) || isShowMode)) ? 0.95 : 1.0
-                            Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
-                            Text {
-                                anchors.centerIn: parent
-                                text: allInBtn.isShowMode ? qsTr("Show") : qsTr("All-In")
-                                color: "#FFFFFF"
-                                font.family: Config.StaticData.loadedFont.font.family
-                                font.pixelSize: 12
-                                font.bold: true
-                            }
-                            MouseArea {
-                                id: allInArea
-                                anchors.fill: parent
-                                enabled: (actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled)) || allInBtn.isShowMode
-                                cursorShape: ((actionBar.canAct && (GameTable.myTurn || actionBar.preSelectEnabled)) || allInBtn.isShowMode) ? Qt.PointingHandCursor : Qt.ArrowCursor
-                                hoverEnabled: true
-                                onPressed: function(mouse) {
-                                    console.log("[ACTDBG] AllIn MouseArea press",
-                                                "enabled=", allInArea.enabled,
-                                                "myTurn=", GameTable ? GameTable.myTurn : "n/a")
-                                }
-                                onClicked: {
-                                    console.log("[ACTDBG] AllIn MouseArea click isShow=", allInBtn.isShowMode)
-                                    if (allInBtn.isShowMode)
-                                        GameTable.showMyCards()
-                                    else
-                                        actionBar.clickAction("allin")
-                                }
-                            }
-                        }
-
-                        Item { Layout.fillWidth: true }
-
-                        // Spielmodus-Dropdown (rechts): Manuell / Auto Check/Call / Auto Check/Fold
-                        ComboBox {
-                            id: playingModeCombo
-                            Layout.preferredWidth: 132
-                            Layout.preferredHeight: actionBar.raiseRowHeight
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: 11
-                            model: [ qsTr("Manuell"), qsTr("Auto Check/Call"), qsTr("Auto Check/Fold") ]
-                            currentIndex: actionBar.playingMode
-                            onActivated: (index) => gamePage.applyPlayingMode(index)
-                            // Popup nach oben öffnen – verhindert, dass er hinter
-                            // der Android-Navigationsleiste verschwindet.
-                            popup.y: -popup.implicitHeight
-
-                            contentItem: Text {
-                                leftPadding: 8
-                                rightPadding: playingModeCombo.indicator.width + 4
-                                text: playingModeCombo.displayText
-                                font: playingModeCombo.font
-                                color: "#FFFFFF"
-                                verticalAlignment: Text.AlignVCenter
-                                elide: Text.ElideRight
-                            }
-                            background: Rectangle {
-                                radius: 5
-                                color: actionBar.playingMode === 0 ? "#222222" : "#3a2e10"
-                                border.color: actionBar.playingMode === 0 ? "#3a3a3a" : Config.Theme.colorAccent
-                                border.width: 1
-                            }
-                        }
-                    }
-                }
-
-                // ── Aktions-Buttons: Fold / Check-Call / Bet-Raise ────────────────
-                // Dynamische Beschriftung + Aktivierung wie im Qt-Widgets-Client.
-                Item {
-                    width: parent.width
-                    height: actionBar.actionRowHeight
-
-                    // Wiederverwendbarer Aktions-Button mit Verlauf, dynamischem Text und
-                    // Vorwahl-Zustand (goldener Rahmen = vorgemerkt).
-                    component ActionButton: Rectangle {
-                        id: ab
-                        property string actionKey: ""
-                        property string label: ""
-                        property color topColor: "#4080d8"
-                        property color bottomColor: "#1a3d8b"
-                        property color edgeColor: "#6aa0e8"
-                        property bool armed: false   // klickbar: eigener Zug ODER Vorwahl möglich
-                        property bool highlight: false   // primäre Aktion hervorheben (Raise)
-                        readonly property bool myTurnNow: GameTable !== null && GameTable.myTurn
-                        readonly property bool preChecked: ab.actionKey !== "" && actionBar.preAction === ab.actionKey
-
-                        onArmedChanged: console.log("[ACTDBG] armed", ab.actionKey, "→", ab.armed,
-                                                    "(myTurn=", GameTable ? GameTable.myTurn : "n/a",
-                                                    "canAct=", actionBar.canAct,
-                                                    "preSel=", actionBar.preSelectEnabled, ")")
-
-                        radius: 9
-                        border.width: (ab.preChecked || (ab.highlight && ab.armed)) ? 2 : 1
-                        border.color: ab.preChecked ? "#FFD700" : (ab.armed ? edgeColor : "#3a3a3a")
-                        opacity: !ab.armed ? 0.4 : ((ab.myTurnNow || ab.preChecked) ? 1.0 : 0.72)
-                        gradient: Gradient {
-                            GradientStop { position: 0.0; color: ab.armed ? ab.topColor : "#2b2b2b" }
-                            GradientStop { position: 1.0; color: ab.armed ? ab.bottomColor : "#1c1c1c" }
-                        }
-
-                        // Press-Feedback: kurzes Einsinken beim Tippen.
-                        scale: (abMouse.pressed && ab.armed) ? 0.96 : 1.0
-                        Behavior on scale { NumberAnimation { duration: 90; easing.type: Easing.OutQuad } }
-
-                        // Raise als primäre Aktion mit weichem Glow hervorheben.
-                        layer.enabled: ab.highlight && ab.armed
-                        layer.effect: MultiEffect {
-                            shadowEnabled: true
-                            shadowColor: ab.edgeColor
-                            shadowOpacity: 0.55
-                            shadowBlur: 0.8
-                            shadowVerticalOffset: 0
-                            shadowHorizontalOffset: 0
-                        }
-
-                        Text {
-                            anchors.centerIn: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            text: ab.label
-                            color: "#F0F0F0"
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.pixelSize: actionBar.compactActions ? 12 : 15
-                            font.bold: true
-                            font.letterSpacing: 0.5
-                            lineHeight: 0.95
-                        }
-
-                        // kleiner "vorgemerkt"-Punkt oben rechts
-                        Rectangle {
-                            visible: ab.preChecked
-                            anchors { top: parent.top; right: parent.right; margins: 4 }
-                            width: 8; height: 8; radius: 4
-                            color: "#FFD700"
-                        }
-
-                        MouseArea {
-                            id: abMouse
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            enabled: ab.armed
-                            cursorShape: ab.armed ? Qt.PointingHandCursor : Qt.ArrowCursor
-                            onPressed: function(mouse) {
-                                console.log("[ACTDBG] MouseArea press", ab.actionKey,
-                                            "armed=", ab.armed,
-                                            "myTurn=", GameTable ? GameTable.myTurn : "n/a",
-                                            "canAct=", GameTable ? GameTable.canAct : "n/a",
-                                            "preSel=", actionBar.preSelectEnabled,
-                                            "btn=", mouse.button)
-                            }
-                            onClicked: {
-                                console.log("[ACTDBG] MouseArea click", ab.actionKey)
-                                actionBar.clickAction(ab.actionKey)
-                            }
-                        }
-                    }
-
-                    RowLayout {
-                        anchors {
-                            fill: parent; leftMargin: 8; rightMargin: 8
-                            topMargin: 5
-                            bottomMargin: Config.Theme.compact ? 6 : 5
-                        }
-                        spacing: 8
-
-                        ActionButton {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            actionKey: "fold"
-                            label: actionBar.foldText
-                            topColor: Config.Theme.colorFoldTop
-                            bottomColor: Config.Theme.colorFoldBottom
-                            edgeColor: Config.Theme.colorFoldEdge
-                            // myTurnNow gatet nie den echten Zug; preSelectEnabled sperrt
-                            // die Vorauswahl nach eigenem Zug/Rundenwechsel.
-                            armed: myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled)
-                        }
-
-                        ActionButton {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            actionKey: "call"
-                            label: actionBar.checkCallText
-                            topColor: Config.Theme.colorCallTop
-                            bottomColor: Config.Theme.colorCallBottom
-                            edgeColor: Config.Theme.colorCallEdge
-                            armed: myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled)
-                        }
-
-                        ActionButton {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            actionKey: "raise"
-                            label: actionBar.betRaiseText
-                            topColor: Config.Theme.colorRaiseTop
-                            bottomColor: Config.Theme.colorRaiseBottom
-                            edgeColor: Config.Theme.colorRaiseEdge
-                            highlight: true     // primäre Aktion betonen
-                            armed: (myTurnNow || (actionBar.canAct && actionBar.preSelectEnabled)) && actionBar.raiseAvailable
-                        }
-                    }
-                }
-            }
+            Layout.preferredHeight: implicitHeight
+            wide: tableZone.wide
+            communityVisualWidth: communityArea.width * communityArea.scale
+            // Während neue Gemeinschaftskarten aufgedeckt werden, keine Aktion.
+            boardDealing: communityArea.dealing
         }
     }
 
@@ -2624,7 +1928,7 @@ Rectangle {
     // über die Action-Bar hinaus aufgezogen werden kann.
     Rectangle {
         id: dockedChat
-        visible: tableZone.dockedChatFits
+        visible: tableZone.dockedChatFits && !tableZone.dockedChatCollapsed
         z: 20
         anchors.left: parent.left
         anchors.leftMargin: 8
@@ -2640,8 +1944,8 @@ Rectangle {
         radius: 10
         // Bewusst transparenter als das Chat-Overlay – der Tisch bleibt
         // hinter dem permanenten Chat sichtbar.
-        color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.7)
-        border.color: Config.StaticData.palette.secondary.col500
+        color: Config.Theme.withAlpha(gamePage.tblChatBackground, 0.7)
+        border.color: gamePage.tblChatBorder
         border.width: 1
 
         onVisibleChanged: {
@@ -2708,6 +2012,13 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: 6
             anchors.topMargin: 12   // Platz für den Resize-Handle
+            // Feste Tisch-Theme-Farben (dunkel, modus-unabhängig).
+            colText: gamePage.tblChatText
+            colTextSecondary: gamePage.tblChatTextSecondary
+            colTextMuted: gamePage.tblChatTextMuted
+            colBorder: gamePage.tblChatBorder
+            colSurface: gamePage.tblChatSurface
+            colBackground: gamePage.tblChatBackground
             chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
             nickList: gamePage.gameNickList()
             messageFontSize: 11
@@ -2717,6 +2028,84 @@ Rectangle {
             onSendRequested: (text) => {
                 if (typeof GameTable !== "undefined" && GameTable)
                     GameTable.sendChat(text)
+            }
+        }
+    }
+
+    // ── Permanentes Info-Panel: unten rechts (Spiegelbild des Docked-Chat) ──────
+    // Direktes Kind von gamePage (über dem ColumnLayout), damit es nach oben über
+    // die Action-Bar hinaus aufgezogen werden kann. Schwebt ÜBER dem Tisch.
+    Rectangle {
+        id: infoDock
+        visible: tableZone.dockedInfoFits && !tableZone.dockedInfoCollapsed
+        z: 20
+        anchors.right: parent.right
+        anchors.rightMargin: 8
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 8
+        width: tableZone.dockedInfoW
+        height: {
+            // Initial = Höhe der Action-Button-Box (wie der Docked-Chat),
+            // per Handle aufziehbar. Immer auf den verfügbaren Platz geklemmt.
+            var h = tableZone.dockedInfoUserH >= 0
+                    ? tableZone.dockedInfoUserH : tableZone.dockedInfoMinH
+            return Math.max(tableZone.dockedInfoMinH,
+                            Math.min(tableZone.dockedInfoMaxH, h))
+        }
+        radius: 10
+        // Bewusst transparenter (wie der Docked-Chat) – der Tisch bleibt sichtbar.
+        color: Config.Theme.withAlpha(gamePage.tblChatBackground, 0.7)
+        border.color: gamePage.tblChatBorder
+        border.width: 1
+
+        GameInfoPanel {
+            id: infoPanelDock
+            anchors.fill: parent
+            anchors.margins: 8
+            anchors.topMargin: 12   // Platz für den Resize-Handle
+            // Gleiche Schriftgröße wie der gedockte Chat.
+            messageFontSize: 11
+        }
+
+        // ── Größenänderungs-Handle (Ziehen nach oben) – wie beim Chat ─────────
+        Item {
+            id: infoResizeHandle
+            anchors.top: parent.top
+            width: parent.width
+            height: 10
+            z: 10
+
+            Rectangle {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                width: 32
+                height: 3
+                radius: 2
+                color: infoResizeDrag.containsMouse || infoResizeDrag.pressed
+                       ? Config.Theme.colorAccent
+                       : Qt.rgba(1, 1, 1, 0.22)
+                Behavior on color { ColorAnimation { duration: 120 } }
+            }
+
+            MouseArea {
+                id: infoResizeDrag
+                anchors.fill: parent
+                cursorShape: Qt.SizeVerCursor
+                hoverEnabled: true
+                property real pressGlobalY: 0
+                property real pressH: 0
+                onPressed: (mouse) => {
+                    pressGlobalY = mapToItem(gamePage, mouse.x, mouse.y).y
+                    pressH = infoDock.height
+                }
+                onPositionChanged: (mouse) => {
+                    if (!pressed) return
+                    var curY = mapToItem(gamePage, mouse.x, mouse.y).y
+                    var delta = pressGlobalY - curY   // nach oben = positiv
+                    tableZone.dockedInfoUserH = Math.max(
+                        tableZone.dockedInfoMinH,
+                        Math.min(tableZone.dockedInfoMaxH, pressH + delta))
+                }
             }
         }
     }
@@ -2748,7 +2137,7 @@ Rectangle {
             }
         }
 
-        VectorImage {
+        SvgIcon {
             anchors.centerIn: parent
             width: 22; height: 22
             source: tableZone.zoomActive ? "../resources/zoomOut.svg" : "../resources/zoomIn.svg"

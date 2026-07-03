@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -30,7 +29,7 @@ Rectangle {
         contentItem: RowLayout {
             spacing: 6
 
-            VectorImage {
+            SvgIcon {
                 visible: combo.iconSources.length > combo.currentIndex
                 source: combo.iconSources.length > combo.currentIndex ? combo.iconSources[combo.currentIndex] : ""
                 Layout.preferredWidth: 16
@@ -69,7 +68,7 @@ Rectangle {
             leftPadding: 8
             contentItem: RowLayout {
                 spacing: 6
-                VectorImage {
+                SvgIcon {
                     visible: combo.iconSources.length > index
                     source: combo.iconSources.length > index ? combo.iconSources[index] : ""
                     Layout.preferredWidth: 16
@@ -81,11 +80,10 @@ Rectangle {
                         colorizationColor: Config.StaticData.palette.secondary.col100
                     }
                 }
-                Text {
+                AppText {
                     Layout.fillWidth: true
                     text: modelData
                     color: Config.StaticData.palette.secondary.col100
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 12
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -161,11 +159,10 @@ Rectangle {
                         onClicked: mainStackView.pop()
                     }
 
-                    Label {
+                    AppLabel {
                         Layout.fillWidth: true
                         text: qsTr("Spiel erstellen")
                         color: Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 18
                         font.bold: true
                     }
@@ -192,10 +189,9 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 4
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Spielname")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                     }
                     StyledField {
@@ -219,11 +215,10 @@ Rectangle {
                                 lobbyCreateGamePage.nameError = ""
                         }
                     }
-                    Label {
+                    AppLabel {
                         visible: lobbyCreateGamePage.nameError !== ""
                         text: lobbyCreateGamePage.nameError
                         color: "#ef4444"
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 11
                     }
                 }
@@ -232,10 +227,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Spieltyp")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -263,12 +257,11 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Passwort")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -293,12 +286,11 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Zuschauer erlaubt")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -315,12 +307,11 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Max. Spieler")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -339,12 +330,11 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Startgeld")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -371,10 +361,9 @@ Rectangle {
                     Layout.bottomMargin: 4
                 }
 
-                Label {
+                AppLabel {
                     text: qsTr("Blind-Einstellungen")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -383,12 +372,11 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Erster Small Blind")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -410,12 +398,11 @@ Rectangle {
                     Layout.fillWidth: true
                     spacing: 6
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Blind-Erhöhungsintervall")
                         color: lobbyCreateGamePage.isRanking
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                     }
 
@@ -436,12 +423,11 @@ Rectangle {
                             enabled: !lobbyCreateGamePage.isRanking && raiseByHandsRadio.checked
                             implicitWidth: 110
                         }
-                        Label {
+                        AppLabel {
                             text: qsTr("Hände")
                             color: (raiseByHandsRadio.checked && !lobbyCreateGamePage.isRanking)
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                             verticalAlignment: Text.AlignVCenter
                             Layout.alignment: Qt.AlignVCenter
@@ -465,12 +451,11 @@ Rectangle {
                             enabled: !lobbyCreateGamePage.isRanking && raiseByMinutesRadio.checked
                             implicitWidth: 110
                         }
-                        Label {
+                        AppLabel {
                             text: qsTr("Minuten")
                             color: (raiseByMinutesRadio.checked && !lobbyCreateGamePage.isRanking)
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                             verticalAlignment: Text.AlignVCenter
                             Layout.alignment: Qt.AlignVCenter
@@ -487,10 +472,9 @@ Rectangle {
                     Layout.bottomMargin: 4
                 }
 
-                Label {
+                AppLabel {
                     text: qsTr("Zeitlimits")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -499,10 +483,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Zeitlimit Spieleraktion")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -522,10 +505,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Pause zwischen Händen")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter

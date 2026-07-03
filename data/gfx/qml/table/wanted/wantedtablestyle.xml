@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Wanted QML table style (portiert aus dem Widget-Client-Stil "wanted",
+   https://www.pokerth.net).
+
+   Alle UI-Elemente sind saubere SVGs; nur der Tisch-Hintergrund bleibt eine PNG
+   (das „Wanted: Billy The Kid"-Poster auf Holz, HD 1980x1200). Das Poster wurde
+   exakt zentriert (Holz-Hintergrund oben ergänzt, unten beschnitten) → center-Modus.
+
+   Western-Look: Pucks = Sheriff-Stern (Dealer, Gold) bzw. Bronze-/Silber-Badge
+   (Small/Big Blind); Action-Buttons = dunkle „Wanted"-Holzschilder (einheitlich,
+   wie im Original; der Text kommt vom Client).
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Wanted QML table style" />
+     <StyleMaintainerName value="Etienne Graphic Designer" />
+     <StyleMaintainerEMail value="etienne@etiennegenot.com" />
+     <StyleCreateDate value="19.06.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
+     <TableBackgroundZoom value="1.0" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
+          Bewusst unabhängig vom Hell/Dunkel-Modus der App: der Tisch behält
+          immer dieses Aussehen. Hier lassen sich die Panel-Farben künftig je
+          Stil ändern. Alles solide Hex-Farben – die Transluzenz macht der
+          Client. Fehlt ein Tag, gilt der gebündelte Dunkel-Default. -->
+     <ChatLogBackground value="#1d222b" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#394150" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#576378" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#eff1f5" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#cdd3e0" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#7787a3" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

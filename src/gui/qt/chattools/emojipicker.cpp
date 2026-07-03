@@ -134,10 +134,19 @@ QIcon EmojiPicker::emojiIcon(const QString &emoji, int size)
 	return QIcon(emojiPixmap(emoji, size));
 }
 
+QString EmojiPicker::emojiFontFamily()
+{
+	return QStringLiteral("Noto Color Emoji");
+}
+
 QPixmap EmojiPicker::emojiPixmap(const QString &emoji, int targetPx)
 {
 	// Auf großzügiger Leinwand rendern …
 	QFont f;
+	// Explizit den gebündelten Farb-Emoji-Font verwenden, damit Emojis nicht
+	// vom (auf manchen Distributionen fehlenden/zu alten) System-Emoji-Font
+	// abhängen und als weiße Rechtecke erscheinen.
+	f.setFamily(emojiFontFamily());
 	f.setPixelSize(targetPx);
 	const int canvas = qMax(targetPx * 3, 64);
 	QImage img(canvas, canvas, QImage::Format_ARGB32_Premultiplied);

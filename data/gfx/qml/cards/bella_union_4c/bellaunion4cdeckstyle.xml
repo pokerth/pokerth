@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style (SVG).
+
+   Inspiriert vom klassischen Widget-Client-Kartenstil "Bella Union 4 colours"
+   von Julio Gomez (data/gfx/cards/<name>/...). Für den QML-Client wurden die
+   Karten als ECHTE, beliebig skalierbare Vektoren (0.svg..51.svg, viewBox
+   120x168) neu aufgebaut: vier Farben (Karo=Blau, Herz=Rot, Pik=Schwarz,
+   Kreuz=Grün), Eck-Index (Rang + Suit, oben-links und 180° unten-rechts),
+   Standard-Pip-Anordnung für die Zahlenkarten, großes zentrales Symbol für das
+   Ass und farbiges Feld mit weißem Piktogramm (Bube=Eichel, Dame=Krone,
+   König=Krone) für die Bildkarten. Rang-Glyphen und Suit-Symbole sind
+   font-unabhängige Vektorpfade (wiederverwendet aus dem gebündelten
+   cards-simple-Set). Die Kartenrückseite (flipside) ist im QML-Client eine
+   EIGENE Stil-Kategorie (data/gfx/qml/backside/<name>/) und NICHT Teil des
+   Kartenstapels.
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Bella Union 4 colours (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="Julio Gomez" />
+     <StyleMaintainerEMail value="julio.go83@gmail.com" />
+     <StyleCreateDate value="19.06.2026" /><!-- QML-Portierung; Original: 20.07.2009 -->
+     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <BigIndexesActionBottom value="0" /><!-- Action-Labels nicht zwingend unten -->
+  </CardDeck>
+</PokerTH>

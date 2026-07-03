@@ -24,11 +24,10 @@ Rectangle {
             Layout.margins: 16
             color: Config.StaticData.palette.secondary.col700
 
-            Label {
+            AppLabel {
                 id: aboutPagePageLabel
                 color: Config.StaticData.palette.secondary.col200
                 text: qsTr("Über PokerTH")
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pointSize: 14
                 font.bold: true
             }

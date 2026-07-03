@@ -174,9 +174,12 @@ void NetworkGameHandler::refreshProfiles()
         if (file.open(QIODevice::ReadOnly)) {
             QDomDocument doc;
             if (doc.setContent(&file)) {
+                // Iterate over every child element regardless of its tag name:
+                // the legacy (Qt-Widgets) format uses the profile name as the
+                // element tag, so we must not filter on a fixed "Profile" tag.
                 QDomElement profiles = doc.documentElement().firstChildElement("ServerProfiles");
-                for (QDomElement e = profiles.firstChildElement("Profile"); !e.isNull();
-                     e = e.nextSiblingElement("Profile")) {
+                for (QDomElement e = profiles.firstChildElement(); !e.isNull();
+                     e = e.nextSiblingElement()) {
                     QVariantMap m;
                     m["name"]    = e.attribute("Name");
                     m["address"] = e.attribute("Address");
@@ -217,15 +220,22 @@ void NetworkGameHandler::saveProfile(const QString &name, const QString &address
         profiles = doc.createElement("ServerProfiles");
         root.appendChild(profiles);
     }
-    // Replace an existing profile with the same name.
-    QDomElement e = profiles.firstChildElement("Profile");
+    // Replace an existing profile with the same name. Match by the Name
+    // attribute independent of the element tag, so profiles written by the
+    // Qt-Widgets client (and legacy files) are recognized too.
+    QDomElement e = profiles.firstChildElement();
     while (!e.isNull()) {
-        QDomElement next = e.nextSiblingElement("Profile");
+        QDomElement next = e.nextSiblingElement();
         if (e.attribute("Name") == trimmedName)
             profiles.removeChild(e);
         e = next;
     }
-    QDomElement p = doc.createElement("Profile");
+    // Element tag = profile name, matching the legacy serverprofiles.xml format
+    // shared with the Qt-Widgets client. The UI validator keeps the name a
+    // valid XML element name; bail out defensively if it is not.
+    QDomElement p = doc.createElement(trimmedName);
+    if (p.isNull())
+        return;
     p.setAttribute("Name", trimmedName);
     p.setAttribute("Address", address.trimmed());
     p.setAttribute("Port", QString::number(port));
@@ -257,9 +267,9 @@ void NetworkGameHandler::deleteProfile(const QString &name)
         return;
 
     QDomElement profiles = doc.documentElement().firstChildElement("ServerProfiles");
-    QDomElement e = profiles.firstChildElement("Profile");
+    QDomElement e = profiles.firstChildElement();
     while (!e.isNull()) {
-        QDomElement next = e.nextSiblingElement("Profile");
+        QDomElement next = e.nextSiblingElement();
         if (e.attribute("Name") == name)
             profiles.removeChild(e);
         e = next;

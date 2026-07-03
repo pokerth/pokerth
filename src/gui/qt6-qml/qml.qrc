@@ -2,6 +2,18 @@
     <qresource prefix="/">
         <file>pokerth.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>components/AppText.qml</file>
+        <file>components/AppLabel.qml</file>
+        <file>components/BetChip.qml</file>
+        <file>components/BlindButtonImage.qml</file>
+        <file>components/PlayerActionBadge.qml</file>
+        <file>components/PlayerTimeoutBar.qml</file>
+        <file>components/PlayerBoxBackground.qml</file>
+        <file>components/PlayerTurnGlow.qml</file>
+        <file>components/PlayerWinnerOverlay.qml</file>
+        <file>components/SettingsHeader.qml</file>
+        <file>components/ConfigCheckBox.qml</file>
+        <file>components/RankingFilterField.qml</file>
         <file>components/CustomButton.qml</file>
         <file>components/CustomCheckBox.qml</file>
         <file>components/CustomSpinBox.qml</file>
@@ -13,6 +25,11 @@
         <file>components/GameReactionFx.qml</file>
         <file>components/EmojiPicker.qml</file>
         <file>components/ChatBox.qml</file>
+        <file>components/ResizeHandle.qml</file>
+        <file>components/PanelShadow.qml</file>
+        <file>components/SectionDivider.qml</file>
+        <file>components/CommunityRankingView.qml</file>
+        <file>components/CommunityPlayerView.qml</file>
         <file>components/PlayerActionIcon.qml</file>
         <file>components/PlayerListItem.qml</file>
         <file>components/GameListItem.qml</file>
@@ -26,8 +43,21 @@
         <file>components/SideMenu.qml</file>
         <file>components/SoundSettings.qml</file>
         <file>components/StyleSettings.qml</file>
+        <file>components/StyleCard.qml</file>
         <file>components/AvatarCardRow.qml</file>
+        <file>components/BrandHeader.qml</file>
         <file>components/CardImage.qml</file>
+        <file>components/GameStatusBar.qml</file>
+        <file>components/ConfirmPopup.qml</file>
+        <file>components/ExampleAvatarPicker.qml</file>
+        <file>components/CommunityCards.qml</file>
+        <file>components/WinningHandBadge.qml</file>
+        <file>components/GameSidePanel.qml</file>
+        <file>components/GameInfoPanel.qml</file>
+        <file>components/GameRoundIconButton.qml</file>
+        <file>components/ReactionPicker.qml</file>
+        <file>components/GameActionBar.qml</file>
+        <file>components/LobbyStatsBar.qml</file>
         <file>config/qmldir</file>
         <file>config/Parameters.qml</file>
         <file>config/Responsive.qml</file>
@@ -36,6 +66,10 @@
         <file>i18n/pokerth_de_DE.ts</file>
         <file>i18n/pokerth_en_US.ts</file>
         <file>i18n/pokerth_fr_FR.ts</file>
+        <file>i18n/pokerth_it_IT.ts</file>
+        <file>i18n/pokerth_es_ES.ts</file>
+        <file>i18n/pokerth_pt_PT.ts</file>
+        <file>i18n/pokerth_pt_BR.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>
         <file>pages/InternetGamePage.qml</file>
@@ -44,12 +78,18 @@
         <file>pages/NetworkGameCreatePage.qml</file>
         <file>pages/NetworkGameEnterPage.qml</file>
         <file>pages/PreLoader.qml</file>
+        <file>pages/RankingPage.qml</file>
+        <file>pages/CommunityRankingPage.qml</file>
+        <file>pages/BbcRankingPage.qml</file>
+        <file>pages/WecRankingPage.qml</file>
+        <file>pages/PokerthPlayerPage.qml</file>
         <file>pages/SettingsPage.qml</file>
         <file>pages/StartPage.qml</file>
         <file>pages/ServerConnectionDialog.qml</file>
         <file>pages/LobbyCreateGamePage.qml</file>
         <file>pages/GameWaitPage.qml</file>
         <file>pages/LobbyPage.qml</file>
+        <file>resources/addReaction.svg</file>
         <file>resources/arrowUpLeft.svg</file>
         <file>resources/barChart.svg</file>
         <file>resources/block.svg</file>
@@ -61,6 +101,8 @@
         <file>resources/chipStack.svg</file>
         <file>resources/close.svg</file>
         <file>resources/doorExit.svg</file>
+        <file>resources/eye.svg</file>
+        <file>resources/flag.svg</file>
         <file>resources/gameChat.svg</file>
         <file>resources/gameLog.svg</file>
         <file>resources/dotsThree.svg</file>
@@ -112,10 +154,6 @@
         <file>resources/tableDealerPuck.svg</file>
         <file>resources/tableSmallBlind.svg</file>
         <file>resources/tableBigBlind.svg</file>
-        <file>resources/tableActionFold.svg</file>
-        <file>resources/tableActionCall.svg</file>
-        <file>resources/tableActionRaise.svg</file>
-        <file>resources/tableActionAllIn.svg</file>
         <file>resources/terminal.svg</file>
         <file>resources/terminalWindow.svg</file>
         <file>resources/threeLines.svg</file>
@@ -228,5 +266,15 @@
         <file>resources/cards-simple/9d.svg</file>
         <file>resources/cards-simple/9h.svg</file>
         <file>resources/cards-simple/9s.svg</file>
+        <file>resources/hands/royalflush.svg</file>
+        <file>resources/hands/straightflush.svg</file>
+        <file>resources/hands/fourofakind.svg</file>
+        <file>resources/hands/fullhouse.svg</file>
+        <file>resources/hands/flush.svg</file>
+        <file>resources/hands/straight.svg</file>
+        <file>resources/hands/threeofakind.svg</file>
+        <file>resources/hands/twopair.svg</file>
+        <file>resources/hands/onepair.svg</file>
+        <file>resources/hands/highcard.svg</file>
     </qresource>
 </RCC>

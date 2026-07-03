@@ -101,26 +101,63 @@ ServerAcceptWebHelper::Close()
 {
 }
 
+namespace
+{
+// Validate resource/origin and negotiate the length-prefix subprotocol.
+// Templated so it works for both the TLS and non-TLS connection types.
+template<typename ConPtr>
+bool
+ValidateAndNegotiate(ConPtr con, const std::string &resource, const std::string &origin)
+{
+	if (!con) {
+		return false;
+	}
+	bool ok = (resource.empty() || con->get_resource() == resource)
+			  && (origin.empty() ||
+				  (con->get_origin() != "null" &&
+				   (con->get_origin() == "http://" + origin || con->get_origin() == "http://www." + origin)));
+	if (ok) {
+		// If the client offered the length-prefix subprotocol, select it so it
+		// is echoed back in the handshake. Both sides then frame every packet
+		// with a 4-byte big-endian length prefix. Legacy clients offer no
+		// subprotocol and keep the one-message-per-packet framing.
+		const std::vector<std::string> &requested = con->get_requested_subprotocols();
+		for (std::vector<std::string>::const_iterator it = requested.begin(); it != requested.end(); ++it) {
+			if (*it == POKERTH_WS_SUBPROTOCOL_LEN) {
+				con->select_subprotocol(POKERTH_WS_SUBPROTOCOL_LEN);
+				break;
+			}
+		}
+	}
+	return ok;
+}
+}
+
 bool
 ServerAcceptWebHelper::validate(websocketpp::connection_hdl hdl)
 {
-	bool retVal = false;
-	server::connection_ptr con = m_webSocketServer->get_con_from_hdl(hdl);
-	if ((m_webSocketResource.empty() || con->get_resource() == m_webSocketResource)
-			&& (m_webSocketOrigin.empty() ||
-				(con->get_origin() != "null" &&
-				 (con->get_origin() == "http://" + m_webSocketOrigin || con->get_origin() == "http://www." + m_webSocketOrigin)))) {
-		retVal = true;
+	if (m_tls) {
+		return ValidateAndNegotiate(m_webSocketTlsServer->get_con_from_hdl(hdl), m_webSocketResource, m_webSocketOrigin);
 	}
-	return retVal;
+	return ValidateAndNegotiate(m_webSocketServer->get_con_from_hdl(hdl), m_webSocketResource, m_webSocketOrigin);
 }
 
 void
 ServerAcceptWebHelper::on_open(websocketpp::connection_hdl hdl)
 {
 	boost::shared_ptr<WebSocketData> webData(new WebSocketData);
-	webData->webSocketServer = m_webSocketServer;
 	webData->webHandle = hdl;
+	// Use the matching endpoint type and pick up the framing negotiated in
+	// validate() (see ValidateAndNegotiate).
+	if (m_tls) {
+		webData->endpoint = boost::make_shared<WebSocketEndpointImpl<tls_server> >(m_webSocketTlsServer);
+		tls_server::connection_ptr con = m_webSocketTlsServer->get_con_from_hdl(hdl);
+		webData->lengthPrefixed = con && con->get_subprotocol() == POKERTH_WS_SUBPROTOCOL_LEN;
+	} else {
+		webData->endpoint = boost::make_shared<WebSocketEndpointImpl<server> >(m_webSocketServer);
+		server::connection_ptr con = m_webSocketServer->get_con_from_hdl(hdl);
+		webData->lengthPrefixed = con && con->get_subprotocol() == POKERTH_WS_SUBPROTOCOL_LEN;
+	}
 	boost::shared_ptr<SessionData> sessionData(new SessionData(webData, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
 	m_sessionMap.insert(make_pair(hdl, sessionData));
 	m_lobbyThread->AddConnection(sessionData);

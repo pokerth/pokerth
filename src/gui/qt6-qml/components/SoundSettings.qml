@@ -16,31 +16,7 @@ Rectangle {
         id: soundSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 8
-            Layout.bottomMargin: 0
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.fillHeight: false
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Sound")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Sound") }
 
         ScrollView {
             id: soundScrollView
@@ -118,36 +94,24 @@ Rectangle {
                         anchors.fill: parent
                         spacing: 4
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("Spielaktionen (Check, Call, Raise ...)")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("PlayGameActions") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("PlayGameActions", checked ? 1 : 0)
-                            }
+                            configKey: "PlayGameActions"
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("Lobby-Chat-Benachrichtigungen")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("PlayLobbyChatNotification") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("PlayLobbyChatNotification", checked ? 1 : 0)
-                            }
+                            configKey: "PlayLobbyChatNotification"
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("Netzwerkspiel-Benachrichtigungen")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("PlayNetworkGameNotification") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("PlayNetworkGameNotification", checked ? 1 : 0)
-                            }
+                            configKey: "PlayNetworkGameNotification"
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("Blind-Erhöhungs-Benachrichtigung")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("PlayBlindRaiseNotification") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("PlayBlindRaiseNotification", checked ? 1 : 0)
-                            }
+                            configKey: "PlayBlindRaiseNotification"
                         }
                     }
                 }

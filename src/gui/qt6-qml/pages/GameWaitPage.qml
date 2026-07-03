@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -26,10 +25,12 @@ Rectangle {
         var _g = gameRev
         return Lobby ? Lobby.currentGameInfo() : ({})
     }
-    // Admin = entweder vom Server gemeldeter Admin-Status oder ich bin der
-    // Spiel-Admin (Ersteller) laut Spiel-Info → Host kann starten.
+    // Admin = entweder vom Server gemeldeter Server-Admin oder ich bin der
+    // Spiel-Admin (Host/Ersteller) → darf starten. isCurrentGameAdmin kommt vom
+    // Selbst-Beitritt, adminPlayerId aus der Spiel-Info (Fallback/Bestätigung).
     readonly property bool isAdmin: Lobby
         && (Lobby.isCurrentPlayerAdmin
+            || Lobby.isCurrentGameAdmin
             || (info.adminPlayerId !== undefined && info.adminPlayerId === Lobby.myPlayerId))
     readonly property bool isRanking: (info.gameType || 1) === 4
     readonly property bool canStart: isAdmin && !isRanking && players.length >= 2
@@ -61,7 +62,7 @@ Rectangle {
     Connections {
         target: Lobby
         function onRemovedFromGame(reason) {
-            console.log("[NAV] GameWaitPage.onRemovedFromGame | reason:", reason, "| depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
+            // console.log("[NAV] GameWaitPage.onRemovedFromGame | reason:", reason, "| depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
             if (reason === gameWaitPage.removedOnRequest) {
                 var lobby = mainStackView.find(function(item) {
                     return item && item.objectName === "lobbyPage"
@@ -73,11 +74,28 @@ Rectangle {
             } else {
                 mainStackView.pop()
             }
-            console.log("[NAV] GameWaitPage.onRemovedFromGame | depth after:", mainStackView.depth)
+            // console.log("[NAV] GameWaitPage.onRemovedFromGame | depth after:", mainStackView.depth)
         }
         function onGameStarted() {
-            console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
+            // console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
             mainStackView.push("GamePage.qml")
+        }
+        function onReturnToWaitRoom() {
+            // Spielende (Server: WaitDialog): den Gametable schließen und zurück
+            // in den Warteraum dieses (ggf. wieder geöffneten) Spiels. Bis zu
+            // diesem GameWaitPage poppen – das deckt auch den Fall ab, dass über
+            // dem Gametable noch die SettingsPage liegt.
+            //
+            // OHNE Übergangsanimation (StackView.Immediate): Bei aktivem Auto-Leave
+            // sendet die Engine direkt nach dem WaitDialog noch RemovedFromGame →
+            // onRemovedFromGame würde sofort ein zweites Mal poppen. Liefe der
+            // erste Pop noch als Transition, verwürfe StackView den zweiten
+            // ("cannot pop while in transition") und man bliebe im Warteraum
+            // hängen statt in der Lobbyliste zu landen.
+            // console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth before:", mainStackView.depth)
+            if (mainStackView.currentItem !== gameWaitPage)
+                mainStackView.pop(gameWaitPage, StackView.Immediate)
+            // console.log("[NAV] GameWaitPage.onReturnToWaitRoom | depth after:", mainStackView.depth)
         }
         function onGameListFilterModeChanged() {
             if (gameListFilterPanel.currentIndex !== Lobby.gameListFilterMode)
@@ -123,9 +141,8 @@ Rectangle {
             RowLayout {
                 Layout.fillWidth: true
 
-                Label {
+                AppLabel {
                     text: qsTr("Players")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 15
                     color: Config.StaticData.palette.secondary.col200
@@ -249,9 +266,8 @@ Rectangle {
             RowLayout {
                 Layout.fillWidth: true
 
-                Label {
+                AppLabel {
                     text: qsTr("Game List")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 15
                     color: Config.StaticData.palette.secondary.col200
@@ -380,19 +396,17 @@ Rectangle {
                 }
             }
 
-            Label {
+            AppLabel {
                 text: qsTr("Game Info")
-                font.family: Config.StaticData.loadedFont.font.family
                 font.bold: true
                 font.pixelSize: 16
                 color: Config.StaticData.palette.secondary.col200
                 Layout.fillWidth: true
             }
 
-            Label {
+            AppLabel {
                 text: qsTr("Waiting for players …")
                 color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
             }
 
@@ -439,17 +453,20 @@ Rectangle {
             color: Config.StaticData.palette.secondary.col500
         }
 
-        // ── Body: widescreen = sidebar + content; compact = content only ──
-        RowLayout {
+        // ── Body: widescreen = drei resizable Spalten (Spielerliste |
+        // Game-Info/Chat | Spielliste); compact = nur die Mittelspalte ──
+        SplitView {
+            id: waitBodySplit
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 10
+            orientation: Qt.Horizontal
+            handle: ResizeHandle { horizontal: true }
 
-            // Wide: player sidebar (left)
+            // Wide: player sidebar (left) – initial 1:2:1 ratio (1/4 width)
             Rectangle {
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 200
-                Layout.fillHeight: true
+                SplitView.preferredWidth: waitBodySplit.width / 4
+                SplitView.minimumWidth: 160
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
@@ -458,9 +475,8 @@ Rectangle {
                     anchors.margins: 5
                     spacing: 5
 
-                    Label {
-                        text: qsTr("Available Players")
-                        font.family: Config.StaticData.loadedFont.font.family
+                    AppLabel {
+                        text: qsTr("Connected Players")
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
@@ -503,19 +519,24 @@ Rectangle {
 
             // Main content column
             ColumnLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.horizontalStretchFactor: 2
+                SplitView.fillWidth: true
+                SplitView.minimumWidth: 300
                 spacing: Config.Theme.spacing
 
-                // ── Game details card ──────────────────────────────────────
-                Rectangle {
+                // Game-Info/Spielerliste und Chat sind vertikal resizable
+                // (Min-Höhe je 1/3). Die Aktions-Buttons bleiben darunter fix.
+                SplitView {
+                    id: waitContentSplit
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    // Karte nimmt den gesamten Restplatz (Chat hat feste Höhe);
-                    // schrumpft, wenn der Emoji-Picker den Chat erweitert – so
-                    // rutscht der "Leave Game"-Button nicht aus dem Bild.
-                    Layout.minimumHeight: 0
+                    orientation: Qt.Vertical
+                    handle: ResizeHandle { horizontal: false }
+
+                // ── Game details card (Game-Info + Spielerliste) ───────────
+                // Kann zugunsten des Chats verkleinert werden; Min-Höhe 1/3.
+                Rectangle {
+                    SplitView.fillHeight: true
+                    SplitView.minimumHeight: waitContentSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 6
 
@@ -525,9 +546,8 @@ Rectangle {
                         spacing: 10
 
                         // Name
-                        Label {
+                        AppLabel {
                             text: info.name || ""
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             font.pixelSize: 15
                             color: Config.StaticData.palette.secondary.col100
@@ -543,10 +563,9 @@ Rectangle {
                             Layout.fillWidth: true
 
                             // Players | Type
-                            Label {
+                            AppLabel {
                                 text: qsTr("Players: %1 / %2")
                                       .arg(players.length).arg(info.maxPlayers || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
@@ -567,9 +586,8 @@ Rectangle {
                                         colorizationColor: Config.StaticData.palette.secondary.col300
                                     }
                                 }
-                                Label {
+                                AppLabel {
                                     text: qsTr("Type: %1").arg(Lobby ? Lobby.gameTypeText(info.gameType || 1) : "")
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 13
                                     color: Config.StaticData.palette.secondary.col200
                                     Layout.fillWidth: true
@@ -578,39 +596,35 @@ Rectangle {
                             }
 
                             // Small blind | Start cash
-                            Label {
+                            AppLabel {
                                 text: qsTr("Small blind: %1").arg(info.firstSmallBlind || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
-                            Label {
+                            AppLabel {
                                 text: qsTr("Start cash: %1").arg(info.startMoney || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
 
                             // Blinds interval | Blinds raise mode
-                            Label {
+                            AppLabel {
                                 text: {
                                     var mode = info.raiseIntervalMode || 1
                                     if (mode === 1)
                                         return qsTr("Blinds raise interval: %1 hands").arg(info.raiseEveryHands || 0)
                                     return qsTr("Blinds raise interval: %1 minutes").arg(info.raiseEveryMinutes || 0)
                                 }
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                                 wrapMode: Text.WordWrap
                             }
-                            Label {
+                            AppLabel {
                                 text: qsTr("Blinds raise mode: %1").arg((info.raiseMode || 1) === 1
                                       ? qsTr("double blinds") : qsTr("manual blinds order"))
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
@@ -618,16 +632,14 @@ Rectangle {
                             }
 
                             // Action timeout | Hand delay
-                            Label {
+                            AppLabel {
                                 text: qsTr("Action time: %1 sec").arg(info.playerActionTimeoutSec || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
                             }
-                            Label {
+                            AppLabel {
                                 text: qsTr("Hand delay: %1 sec").arg(info.delayBetweenHandsSec || 0)
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 13
                                 color: Config.StaticData.palette.secondary.col200
                                 Layout.fillWidth: true
@@ -635,9 +647,8 @@ Rectangle {
                         }
 
                         // ── Spielerliste ─────────────────────────────────
-                        Label {
+                        AppLabel {
                             text: qsTr("Players in game (%1)").arg(players.length)
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             font.pixelSize: 13
                             color: Config.StaticData.palette.secondary.col100
@@ -667,7 +678,8 @@ Rectangle {
                                 RowLayout {
                                     anchors.fill: parent
                                     anchors.leftMargin: 6
-                                    anchors.rightMargin: 6
+                                    // Platz für die Scrollbar, wenn sie sichtbar ist.
+                                    anchors.rightMargin: playerList.contentHeight > playerList.height + 4 ? 14 : 6
                                     spacing: 6
 
                                     Rectangle {
@@ -685,7 +697,7 @@ Rectangle {
                                             smooth: true
                                         }
 
-                                        VectorImage {
+                                        SvgIcon {
                                             visible: !((modelData.avatarUrl || "").length > 0)
                                             anchors.fill: parent
                                             source: "../resources/pokerth.svg"
@@ -703,14 +715,11 @@ Rectangle {
                                         smooth: true
                                     }
 
-                                    Text {
+                                    AppText {
                                         text: modelData.playerName || ""
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: 12
-                                        color: (modelData.isAdmin === true)
-                                            ? Config.StaticData.chartColor(3, true)
-                                            : Config.StaticData.palette.secondary.col200
-                                        font.bold: modelData.isAdmin === true
+                                        color: Config.StaticData.palette.secondary.col200
+                                        font.bold: false
                                         Layout.fillWidth: true
                                         elide: Text.ElideRight
                                     }
@@ -721,15 +730,12 @@ Rectangle {
                 }
 
                 // ── Game-Chat ──────────────────────────────────────────────
+                // Vertikal resizable (Min-Höhe 1/3); Startwert ~1/3. Der
+                // Emoji-Picker vergrößert nicht mehr die Box, sondern
+                // verkleinert die Nachrichtenliste innerhalb der gewählten Höhe.
                 Rectangle {
-                    Layout.fillWidth: true
-                    // Feste Höhe (kein fillHeight): ~5 sichtbare Chatzeilen +
-                    // Label + Eingabezeile. Beim Öffnen des Emoji-Pickers
-                    // wächst die Höhe um die Picker-Höhe (88) + Spacing – die
-                    // Game-Info-Karte darüber schrumpft entsprechend, die
-                    // Action-Buttons bleiben sichtbar.
-                    Layout.preferredHeight: waitChatBox.showEmojiPicker ? 230 : 140
-                    Layout.minimumHeight: Layout.preferredHeight
+                    SplitView.preferredHeight: waitContentSplit.height / 3
+                    SplitView.minimumHeight: waitContentSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
                     clip: true
@@ -739,9 +745,8 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 5
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Lobby Chat")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -752,12 +757,12 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            // Dieser Chat ist der Lobby-Chat → gegen die volle
+                            // (ungefilterte) Lobby-Spielerliste vervollständigen,
+                            // nicht nur gegen die am Tisch sitzenden Spieler.
                             nickList: {
-                                var nicks = []
-                                var plist = gameWaitPage.players
-                                for (var i = 0; i < plist.length; i++)
-                                    if (plist[i].playerName) nicks.push(plist[i].playerName)
-                                return nicks
+                                var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
+                                return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
                             }
                             inputEnabled: !(Lobby && Lobby.isMyPlayerGuest)
                             placeholder: (Lobby && Lobby.isMyPlayerGuest)
@@ -772,6 +777,7 @@ Rectangle {
                         }
                     }
                 }
+                } // waitContentSplit
 
                 // ── Aktionen ──────────────────────────────────────────────
                 RowLayout {
@@ -819,11 +825,11 @@ Rectangle {
                 }
             }
 
-            // Wide: game list (right column)
+            // Wide: game list (right column) – initial 1:2:1 ratio (1/4 width)
             Rectangle {
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 220
-                Layout.fillHeight: true
+                SplitView.preferredWidth: waitBodySplit.width / 4
+                SplitView.minimumWidth: 160
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
 
@@ -832,9 +838,8 @@ Rectangle {
                     anchors.margins: 5
                     spacing: 5
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Game List")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true

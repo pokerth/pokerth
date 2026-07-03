@@ -7,6 +7,7 @@
 #include "configfile.h"
 #include "playerinterface.h"
 #include "cardsvalue.h"
+#include <core/loghelper.h>
 
 #include <algorithm>
 
@@ -30,6 +31,7 @@ Log::Log(ConfigFile *c) : myConnectionName(), mySqliteLogFileName(""), myConfig(
 
 Log::~Log()
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
     // Flush any pending SQL statements before destruction
     // This is critical when LogInterval > 0 (batch logging)
     if (!sql.empty()) {
@@ -91,6 +93,10 @@ Log::getDatabase() const
     // Connection doesn't exist yet for this thread, create a new one
     // Don't touch the original connection from another thread!
     threadDb = QSqlDatabase::addDatabase("QSQLITE", threadConnName);
+    // Wait (instead of failing immediately with SQLITE_BUSY) if another
+    // connection to the same .pdb holds the write lock. Must be set before
+    // open(). Harmless hardening against transient lock contention.
+    threadDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
     threadDb.setDatabaseName(myDatabaseFileName);
     if (threadDb.open()) {
         return threadDb;
@@ -102,6 +108,7 @@ Log::getDatabase() const
 void
 Log::init()
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
     // SQLITE_LOG wird weiterhin als Konfig-Flag benutzt
     if(SQLITE_LOG) {
@@ -134,6 +141,9 @@ Log::init()
                 myConnectionName = QString("pokerth_log_%1").arg((qulonglong)QDateTime::currentMSecsSinceEpoch());
                 myDatabaseFileName = QString::fromStdString(mySqliteLogFileName.string());
                 QSqlDatabase mySqliteLogDb = QSqlDatabase::addDatabase("QSQLITE", myConnectionName);
+                // See getDatabase(): wait on lock contention instead of failing
+                // immediately with SQLITE_BUSY. Must be set before open().
+                mySqliteLogDb.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
                 mySqliteLogDb.setDatabaseName(QString::fromStdString(mySqliteLogFileName.string()));
 
                 if (mySqliteLogDb.open()) {
@@ -258,6 +268,7 @@ Log::init()
 void
 Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	uniqueGameID++;
 	loggedSitsOut.clear();  // Reset sits out tracking for new game
 
@@ -312,6 +323,7 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 void
 Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	currentRound = GAME_STATE_PREFLOP;
 	currentHandID = handID;
@@ -404,6 +416,7 @@ Log::logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned
 void
 Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
     if(SQLITE_LOG) {
 
@@ -437,6 +450,7 @@ Log::logPlayerAction(string playerName, PlayerActionLog action, int amount)
 void
 Log::logPlayerAction(int seat, PlayerActionLog action, int amount)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
     if(SQLITE_LOG) {
 
@@ -570,6 +584,7 @@ Log::transformPlayerActionLog(PlayerAction action)
 void
 Log::logBoardCards(int boardCards[5])
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
     if(SQLITE_LOG) {
 
         if(myConfig->readConfigInt("LogOnOff")) {
@@ -615,6 +630,7 @@ Log::logBoardCards(int boardCards[5])
 void
 Log::logHoleCardsHandName(PlayerList activePlayerList)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	PlayerListConstIterator it_c;
 
 	for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
@@ -630,6 +646,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList)
 void
 Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerInterface> player, bool forceExecLog)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	if(SQLITE_LOG) {
 
@@ -678,6 +695,7 @@ Log::logHoleCardsHandName(PlayerList activePlayerList, boost::shared_ptr<PlayerI
 void
 Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list<unsigned> winners)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 
 	PlayerListConstIterator it_c;
@@ -710,6 +728,7 @@ Log::logHandWinner(PlayerList activePlayerList, int highestCardsValue, std::list
 void
 Log::logGameWinner(PlayerList activePlayerList)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	int playersPositiveCashCounter = 0;
 	PlayerListConstIterator it_c;
@@ -730,6 +749,7 @@ Log::logGameWinner(PlayerList activePlayerList)
 void
 Log::logPlayerSitsOut(PlayerList activePlayerList)
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 
 	PlayerListConstIterator it_c;
 
@@ -749,6 +769,7 @@ Log::logPlayerSitsOut(PlayerList activePlayerList)
 void
 Log::logAfterHand()
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	if(myConfig->readConfigInt("LogInterval") == 1) {
 		exec_transaction();
 	}
@@ -757,6 +778,7 @@ Log::logAfterHand()
 void
 Log::logAfterGame()
 {
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	if(myConfig->readConfigInt("LogInterval") == 2) {
 		exec_transaction();
 	}
@@ -765,16 +787,24 @@ Log::logAfterGame()
 void
 Log::flushLog()
 {
+	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	// Force flush pending SQL statements regardless of LogInterval
 	// Used when leaving game early to ensure all data is written
 	if (!sql.empty()) {
+		LOG_MSG("Log::flushLog: " << sql.size() << " bytes pending, thread="
+		        << (qulonglong)QThread::currentThreadId());
 		exec_transaction();
+		LOG_MSG("Log::flushLog: done, thread="
+		        << (qulonglong)QThread::currentThreadId());
 	}
 }
 
 void
 Log::exec_transaction()
 {
+    // Callers already hold sqlMutex (recursive), but lock here too so the
+    // private method is safe if ever called directly.
+    std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
     // Execute accumulated SQL statements using QSqlQuery inside a Qt transaction.
     // Check if connection exists before accessing the database
     if (!myConnectionName.isEmpty()) {
@@ -785,9 +815,12 @@ Log::exec_transaction()
         }
         
         QSqlError err;
+        LOG_MSG("Log::exec_transaction: begin transaction, thread="
+                << (qulonglong)QThread::currentThreadId());
         if(!db.transaction()) {
             err = db.lastError();
             cout << "Failed to begin transaction: " << err.text().toStdString() << endl;
+            LOG_ERROR("Log::exec_transaction: BEGIN failed: " << err.text().toStdString());
             // Try to execute without transaction fallback
         }
 
@@ -824,9 +857,14 @@ Log::exec_transaction()
     if(hasError) {
         db.rollback();
         cout << "Transaction rolled back due to errors." << endl;
-    } else if(!db.commit()) {
-        err = db.lastError();
-        cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
+    } else {
+        LOG_MSG("Log::exec_transaction: committing, thread="
+                << (qulonglong)QThread::currentThreadId());
+        if(!db.commit()) {
+            err = db.lastError();
+            cout << "Failed to commit transaction: " << err.text().toStdString() << endl;
+            LOG_ERROR("Log::exec_transaction: COMMIT failed: " << err.text().toStdString());
+        }
     }
     } else {
         sql.clear();

@@ -11,12 +11,16 @@ Settings {
     property bool animatedCardsCheckbox: true
     property bool reverseFKeysOrderCheckbox: false
     property bool showBlindButtonsCheckbox: true
-    property bool showHandChanceMonitorCheckbox: true
     property bool showOwnCardsOnMouseClickCheckbox: false
     property bool disableSplashScreenOnStartupCheckbox: false
     property bool doNotTranslatePokerTermsCheckbox: true
 
     property bool tableZoomEnabled: true
+
+    property bool showCommunityContent: true
+
+    // Tooltips auf Icon-Buttons (nur Desktop – auf Touch gibt es kein Hover).
+    property bool showTooltips: true
 
     // From the networkTab ColumnLayout
     property bool showCountryFlagOnAvatarCheckbox: true
@@ -25,5 +29,4 @@ Settings {
     property bool preventAccidentalCallAfterBigRaiseCheckbox: true
     property bool doNotHideIgnoredPlayerAvatarsCheckbox: false
     property bool showLobbyChatCheckbox: true
-    property bool disableEmoticonsInChatCheckbox: false
 }

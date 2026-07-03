@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -10,6 +9,7 @@ import "../components"
 
 Rectangle {
     id: settingsPage
+    objectName: "settingsPage"
 
     Layout.fillWidth: true
     Layout.fillHeight: true
@@ -44,7 +44,20 @@ Rectangle {
                                ? Config.StaticData.palette.secondary.col600
                                : "transparent"
 
-                        VectorImage {
+                        Behavior on color { ColorAnimation { duration: 130 } }
+
+                        // Gold-Akzent-Unterstrich beim aktiven Kategorie-Tab
+                        Rectangle {
+                            anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+                            anchors.margins: 4
+                            height: 2
+                            radius: 1
+                            color: Config.Theme.colorAccent
+                            opacity: settingsPage.currentCategoryIndex === index ? 0.85 : 0
+                            Behavior on opacity { NumberAnimation { duration: 130 } }
+                        }
+
+                        SvgIcon {
                             anchors.centerIn: parent
                             width: Config.Theme.iconSize
                             height: Config.Theme.iconSize
@@ -103,6 +116,15 @@ Rectangle {
             radius: 5
             color: "transparent"
 
+            // Dezenter Schatten ragt nach außen; Innenfläche (1px innerhalb des
+            // Rahmens) bleibt in Seitenfarbe, damit die Box-Optik unverändert wirkt.
+            PanelShadow {
+                anchors.fill: parent
+                anchors.margins: 1
+                radius: 4
+                color: Config.StaticData.palette.secondary.col700
+            }
+
             ListView {
                 id: settingsMenuList
                 model: settingsMenuListItems
@@ -132,11 +154,23 @@ Rectangle {
                     width: parent.width
                     height: 36
 
+                    Behavior on color { ColorAnimation { duration: 130 } }
+
+                    // Gold-Akzentbalken links beim aktiven Eintrag
+                    Rectangle {
+                        anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                        width: 3
+                        radius: width / 2
+                        color: Config.Theme.colorAccent
+                        opacity: settingsMenuListItem.isCurrent ? 0.85 : 0
+                        Behavior on opacity { NumberAnimation { duration: 130 } }
+                    }
+
                     RowLayout {
                         anchors.fill: parent
                         spacing: 6
 
-                        VectorImage {
+                        SvgIcon {
                             id: iconImage
                             Layout.leftMargin: 16
                             Layout.topMargin: 4
@@ -153,13 +187,12 @@ Rectangle {
                             }
                         }
 
-                        Text {
+                        AppText {
                             id: label
                             Layout.alignment: Qt.AlignLeft
                             Layout.fillWidth: true
                             Layout.topMargin: 4
                             Layout.bottomMargin: 4
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pointSize: 12
                             color: settingsMenuListItem.isHighlighted
                                 ? Config.StaticData.palette.secondary.col100
@@ -196,6 +229,15 @@ Rectangle {
             border.color: Config.StaticData.palette.secondary.col500
             radius: 5
             color: "transparent"
+
+            // Dezenter Schatten – im Compact-Mode (randlos) deaktiviert.
+            PanelShadow {
+                anchors.fill: parent
+                anchors.margins: 1
+                radius: 4
+                visible: !Config.Responsive.compact
+                color: Config.StaticData.palette.secondary.col700
+            }
 
             StackView {
                 id: settingsStackView

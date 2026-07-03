@@ -2,15 +2,16 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 
 import "../config" as Config
 import "../components"
 
 Rectangle {
     id: startPage
-    width: mainWindow.width
-    height: mainWindow.height
+    // An den sichtbaren Bereich (StackView unterhalb der Topbar) binden, nicht
+    // an das ganze Fenster – sonst ist die Box vertikal nicht zentriert.
+    width: mainStackView.width
+    height: mainStackView.height
     color: "transparent"
 
     Image {
@@ -20,43 +21,28 @@ Rectangle {
         fillMode: Image.PreserveAspectCrop
     }
 
-    readonly property bool isLandscape: width > height
-    // denseLayout nur für echte Mobilgeräte (logische Höhe < 500px = Phone-Landscape).
-    // HiDPI-Desktops haben dort höhere logische Höhen trotz kleiner physischer Pixelzahl.
-    readonly property bool denseLayout: Config.Responsive.landscapeCompact && height < 500
+    // Innenabstände der Box – identisch zum Login-Dialog (Config.Theme.margin).
+    readonly property real hPad: Config.Theme.margin
+    readonly property real vPad: Config.Theme.margin
+    readonly property real innerSpacing: Config.Theme.spacing
 
-    // Horizontal padding inside box (fixed — keeps buttons wide enough for text)
-    readonly property real hPad: denseLayout ? 4 : 20
-    // Vertical padding inside box (scales with window height)
-    readonly property real vPad: {
-        if (denseLayout)   return 4
-        if (isLandscape)   return Math.max(14, Math.min(40, height * 0.034))
-        return Config.Theme.margin
-    }
-    readonly property real buttonHeight: {
-        if (denseLayout)   return 30
-        if (isLandscape)   return Math.max(42, Math.min(84, height * 0.075))
-        return Config.Theme.touchTarget
-    }
-    readonly property real innerSpacing: {
-        if (denseLayout)   return 4
-        if (isLandscape)   return Math.max(8, Math.min(26, height * 0.024))
-        return Config.Theme.spacing
-    }
-
-    // Logo-Größe passt sich dem verfügbaren vertikalen Platz an, damit
-    // Landscape-Modus nie vertikal scrollt.
-    readonly property real logoSize: {
-        if (denseLayout)                 return 50   // Phone-Landscape (landscapeCompact)
-        if (isLandscape)                 return Math.max(60, Math.min(130, height * 0.13))
-        if (Config.Responsive.compact)   return 110  // Portrait-Phone
-        return 140                                   // Portrait Desktop/Tablet
-    }
-    readonly property real logoSpacing: {
-        if (denseLayout)   return 6
-        if (isLandscape)   return Math.max(10, Math.min(32, height * 0.028))
-        return 20
-    }
+    // ── Zweispaltiger Button-Modus ────────────────────────────────────────
+    // Passt die Box mit einspaltigen Buttons (inkl. Außenabstand) nicht in den
+    // sichtbaren Bereich (Android-Querformat, flache Desktop-Fenster), werden
+    // die Buttons zweispaltig angeordnet, statt vertikal zu scrollen –
+    // vorausgesetzt, die breitere Box passt horizontal. Die Vergleichshöhe
+    // wird aus den Design-Tokens berechnet statt aus der gemessenen Box-Höhe,
+    // sonst entstünde eine Binding-Schleife (zweispaltig → Box passt →
+    // wieder einspaltig → …).
+    readonly property int buttonCount: Config.Parameters.showCommunityContent ? 6 : 5
+    readonly property real singleColumnBoxHeight:
+        vPad * 2 + brandHeader.implicitHeight + startBoxContent.spacing
+        + buttonCount * Config.Theme.touchTarget
+        + (buttonCount - 1) * innerSpacing
+    readonly property real twoColumnBoxWidth: 620
+    readonly property bool twoColumns:
+        singleColumnBoxHeight + Config.Theme.margin * 2 > height
+        && width >= twoColumnBoxWidth + Config.Theme.margin * 2
 
     Flickable {
         id: startScroll
@@ -69,18 +55,22 @@ Rectangle {
         Item {
             id: startContent
             width: startScroll.width
-            // Mindesthöhe = Viewport → Inhalt bleibt vertikal zentriert,
-            // solange er passt. Landscape-Logos sind klein genug, dass
-            // implicitHeight immer ≤ startScroll.height bleibt.
+            // Mindesthöhe = Viewport → Box bleibt vertikal zentriert, solange sie
+            // passt; sonst kann gescrollt werden.
             implicitHeight: Math.max(startScroll.height,
-                                     startPageMainButtonsBox.height + startPage.vPad * 2)
+                                     startPageMainButtonsBox.height + Config.Theme.margin * 2)
 
             // ── Overlay-Box: enthält Logo + Navigations-Buttons ──────────────
             Rectangle {
                 id: startPageMainButtonsBox
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                width: Math.min(startContent.width - startPage.hPad * 2, 380)
+                width: Math.min(startContent.width - Config.Theme.margin * 2,
+                                startPage.twoColumns ? startPage.twoColumnBoxWidth
+                                                     : Config.Theme.brandBoxWidth)
+                // Höhe folgt dem Inhalt (Logo + Buttons) inkl. oben/unten gleichem
+                // Innenabstand – so bleibt die Box bei beliebig vielen Buttons
+                // vertikal zentriert, statt unten herauszulaufen.
                 height: startBoxContent.implicitHeight + startPage.vPad * 2
                 color: "transparent"
 
@@ -95,60 +85,84 @@ Rectangle {
 
                 Column {
                     id: startBoxContent
+                    // Icon fix am oberen Rand der Box positioniert (Config.Theme.margin)
+                    // – identisch zum Login-Dialog. Die Box selbst ist im Fenster
+                    // vertikal zentriert.
                     anchors {
                         left: parent.left; right: parent.right; top: parent.top
                         leftMargin: startPage.hPad
                         rightMargin: startPage.hPad
                         topMargin: startPage.vPad
                     }
-                    spacing: startPage.logoSpacing
+                    spacing: 20
 
-                    // ── PokerTH-Logo ─────────────────────────────────────────
-                    VectorImage {
+                    // ── PokerTH-Logo + Kartensymbole ─────────────────────────
+                    BrandHeader {
+                        id: brandHeader
                         anchors.horizontalCenter: parent.horizontalCenter
-                        width:  startPage.logoSize
-                        height: startPage.logoSize
-                        source: "../resources/pokerth.svg"
+                        logoSize: Config.Theme.brandLogoSize
                     }
 
                     // ── Navigations-Buttons ───────────────────────────────────
-                    ColumnLayout {
+                    // Gleiche preferredWidth auf allen Buttons → im zweispaltigen
+                    // Modus bekommen beide Spalten exakt dieselbe Breite.
+                    GridLayout {
                         id: startPageMainButtons
                         width: parent.width
-                        spacing: startPage.innerSpacing
+                        columns: startPage.twoColumns ? 2 : 1
+                        columnSpacing: startPage.innerSpacing
+                        rowSpacing: startPage.innerSpacing
 
                         CustomButton {
                             text: qsTr("Internetspiel")
                             Layout.fillWidth: true
-                            Layout.preferredHeight: startPage.buttonHeight
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("ServerConnectionDialog.qml")
                         }
 
                         CustomButton {
                             text: qsTr("Lokales Spiel starten")
                             Layout.fillWidth: true
-                            Layout.preferredHeight: startPage.buttonHeight
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("LocalGamePage.qml")
                         }
 
                         CustomButton {
                             text: qsTr("Netzwerkspiel erstellen")
                             Layout.fillWidth: true
-                            Layout.preferredHeight: startPage.buttonHeight
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("NetworkGameCreatePage.qml")
                         }
 
                         CustomButton {
                             text: qsTr("Netzwerkspiel beitreten")
                             Layout.fillWidth: true
-                            Layout.preferredHeight: startPage.buttonHeight
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("NetworkGameEnterPage.qml")
+                        }
+
+                        CustomButton {
+                            text: qsTr("Community / Ranking")
+                            Layout.fillWidth: true
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: Config.Theme.touchTarget
+                            visible: Config.Parameters.showCommunityContent
+                            // Über denselben Toggle wie der Globus → gemerkter
+                            // Ranking-Stand wird wiederhergestellt.
+                            onClicked: mainWindow.toggleTopBarSection(
+                                "pages/CommunityRankingPage.qml",
+                                mainWindow.rankingSectionPages, true)
                         }
 
                         CustomButton {
                             text: qsTr("Logs")
                             Layout.fillWidth: true
-                            Layout.preferredHeight: startPage.buttonHeight
+                            Layout.preferredWidth: 100
+                            Layout.preferredHeight: Config.Theme.touchTarget
                             onClicked: mainStackView.push("LogsPage.qml")
                         }
                     }

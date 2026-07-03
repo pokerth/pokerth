@@ -30,6 +30,7 @@
  *****************************************************************************/
 #include "chattools.h"
 #include "emojipicker.h"
+#include "gui/chat_emote_shortcuts.h"
 #include <QProxyStyle>
 #include "session.h"
 #include "configfile.h"
@@ -70,6 +71,37 @@ bool isEmojiCodepoint(uint cp)
 	       || (cp >= 0x2B00 && cp <= 0x2BFF)  // ⭐ u. a.
 	       || cp == 0x2764 || cp == 0x203C || cp == 0x2049
 	       || (cp >= 0x1F1E6 && cp <= 0x1F1FF); // Flaggen
+}
+
+// Prüft, ob ein Reaktions-Payload ("/emoji <x>") ausschließlich aus echten
+// Emoji-Zeichen besteht (inkl. Variation-Selektoren, ZWJ und Hautton-Modifiern)
+// und mindestens ein Emoji enthält. So werden als Reaktion getarnte
+// Textnachrichten ("/emoji haha") verworfen, beliebige echte Emojis aber
+// zugelassen.
+bool isEmojiOnlyReaction(const QString &text)
+{
+	if (text.isEmpty())
+		return false;
+	bool hasEmoji = false;
+	int i = 0;
+	while (i < text.size()) {
+		const QChar ch = text.at(i);
+		uint cp = ch.unicode();
+		int len = 1;
+		if (ch.isHighSurrogate() && i + 1 < text.size()) {
+			cp = QChar::surrogateToUcs4(ch, text.at(i + 1));
+			len = 2;
+		}
+		const bool joiner = cp == 0x200D || cp == 0x20E3
+		                    || (cp >= 0xFE00 && cp <= 0xFE0F)
+		                    || (cp >= 0x1F3FB && cp <= 0x1F3FF);
+		if (isEmojiCodepoint(cp))
+			hasEmoji = true;
+		else if (!joiner)
+			return false;   // Buchstabe/Ziffer/Satzzeichen → keine Reaktion
+		i += len;
+	}
+	return hasEmoji;
 }
 
 // Unicode-Emojis im (HTML-)Chat-Text vergrößern: jeder Emoji-Lauf (inkl.
@@ -113,7 +145,8 @@ QString wrapEmojisLarger(const QString &msg, int pixelSize)
 					break;
 				i += l2;
 			}
-			out += QStringLiteral("<span style=\"font-size:%1px;\">").arg(pixelSize)
+			out += QStringLiteral("<span style=\"font-size:%1px; font-family:'%2';\">")
+			           .arg(pixelSize).arg(EmojiPicker::emojiFontFamily())
 			       + msg.mid(start, i - start) + QStringLiteral("</span>");
 		} else {
 			out += msg.mid(i, len);
@@ -217,13 +250,20 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 	// Reaktions-Animation am Sitz des Absenders abspielen (gametableimpl).
 	if(myChatType == INGAME_CHAT) {
 		const QString trimmedMsg = message.trimmed();
+		bool isReactionMsg = false;
 		QString reactionEmoji;
-		if(trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22)
+		if(trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22) {
+			isReactionMsg = true;
 			reactionEmoji = trimmedMsg.mid(7).trimmed();
-		else if(trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14)
+		} else if(trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14) {
+			isReactionMsg = true;
 			reactionEmoji = trimmedMsg.mid(3).trimmed();
-		if(!reactionEmoji.isEmpty()) {
-			emit reactionReceived(playerName, reactionEmoji);
+		}
+		if(isReactionMsg) {
+			// Reaktions-Nachrichten erscheinen nie im Chat-Verlauf. Nur echte
+			// Emojis abspielen – als Reaktion getarnter Text wird verworfen.
+			if(isEmojiOnlyReaction(reactionEmoji))
+				emit reactionReceived(playerName, reactionEmoji);
 			return;
 		}
 	}
@@ -232,6 +272,10 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 		message = message.replace("<","&lt;");
 		message = message.replace(">","&gt;");
+		// ASCII-Kürzel (":-)", "8-)", "<3", …) auf dem escapten Text umsetzen,
+		// bevor Link-/Style-Markup hinzukommt – so kollidieren kurze Kürzel nie
+		// mit eigenem HTML wie "color:#...".
+		message = applyChatEmoteShortcuts(message);
 		//doing the links
 		message = message.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
 

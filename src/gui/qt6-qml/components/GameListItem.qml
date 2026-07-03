@@ -39,6 +39,13 @@ Item {
         return (Lobby && itemGameId) ? (Lobby.gamePlayersInGame(itemGameId) || []) : []
     }
 
+    // ── Kontextaktionen (wie im Qt-Widgets-Client) ────────────────────────
+    readonly property bool canReportGame:   Lobby && itemGameId > 0
+    readonly property bool canAdminCloseGame: Lobby && Lobby.isCurrentPlayerAdmin && itemGameId > 0
+
+    readonly property color reportColor: Config.StaticData.chartColor(6, true)
+    readonly property color closeColor:  Config.StaticData.chartColor(5, true)
+
     // ── Filter ────────────────────────────────────────────────────────────
     readonly property bool matchesFilter: {
         var f = searchFilter.toLowerCase()
@@ -71,6 +78,10 @@ Item {
         radius: 3
 
         RowLayout {
+            // Über headerMouse, damit die Action-Icons Klicks erhalten;
+            // Klicks neben den Icons fallen durch (kein MouseArea) auf
+            // headerMouse zurück und klappen die Zeile auf/zu.
+            z: 1
             anchors { fill: parent; leftMargin: 8; rightMargin: 8 }
             spacing: 5
 
@@ -99,9 +110,8 @@ Item {
                 Layout.fillWidth: true
                 spacing: 2
 
-                Text {
+                AppText {
                     text: gameItem.itemGameName || ("Game #" + gameItem.itemGameId)
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 12
                     color: Config.StaticData.palette.secondary.col200
@@ -109,13 +119,12 @@ Item {
                     elide: Text.ElideRight
                 }
 
-                Text {
+                AppText {
                     text: gameItem.itemPlayerCount + "/" + gameItem.itemMaxPlayers
                           + "  ·  "
                           + (Lobby ? Lobby.gameStatusText(gameItem.itemGameMode,
                                                           gameItem.itemPlayerCount,
                                                           gameItem.itemMaxPlayers) : "")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 11
                     color: {
                         if (gameItem.itemGameMode === 2) return Config.Theme.colorStatusRunning
@@ -127,6 +136,32 @@ Item {
                     Layout.fillWidth: true
                     elide: Text.ElideRight
                 }
+            }
+
+            // Kontextaktionen (rechtsbündig neben dem Tischnamen)
+            PlayerActionIcon {
+                visible: gameItem.canReportGame
+                iconSize: 16
+                source: "qrc:/resources/flag.svg"
+                baseColor: gameItem.reportColor
+                tooltipText: qsTr("Report inappropriate game name")
+                onTriggered: reportGamePopup.openWith(
+                    qsTr("Report game name"),
+                    qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
+                        .arg(gameItem.itemGameName),
+                    qsTr("Report"))
+            }
+            PlayerActionIcon {
+                visible: gameItem.canAdminCloseGame
+                iconSize: 16
+                source: "qrc:/resources/gavel.svg"
+                baseColor: gameItem.closeColor
+                tooltipText: qsTr("Close game (admin)")
+                onTriggered: closeGamePopup.openWith(
+                    qsTr("Close game"),
+                    qsTr("Are you sure you want to close the game:\n\"%1\"?")
+                        .arg(gameItem.itemGameName),
+                    qsTr("Close game"))
             }
 
             // Expand / collapse chevron
@@ -189,18 +224,27 @@ Item {
                     smooth: true
                 }
 
-                Text {
+                AppText {
                     anchors.left: playerFlag.visible ? playerFlag.right : parent.left
                     anchors.leftMargin: playerFlag.visible ? 6 : 0
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     text: parent.modelData.playerName || parent.modelData.name || ""
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 11
                     color: Config.StaticData.palette.secondary.col300
                     elide: Text.ElideRight
                 }
             }
         }
+    }
+
+    ConfirmPopup {
+        id: reportGamePopup
+        onConfirmed: { if (Lobby) Lobby.reportGameName(gameItem.itemGameId) }
+    }
+
+    ConfirmPopup {
+        id: closeGamePopup
+        onConfirmed: { if (Lobby) Lobby.adminCloseGame(gameItem.itemGameId) }
     }
 }

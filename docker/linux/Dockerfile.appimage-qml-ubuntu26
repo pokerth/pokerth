@@ -27,6 +27,7 @@ RUN apt-get update && apt-get upgrade -y && \
         git wget ca-certificates file \
         libssl-dev libwebsocketpp-dev \
         libgl-dev libx11-dev libxkbcommon-dev \
+        libxcb-cursor0 \
         libglib2.0-dev libfontconfig-dev libfreetype-dev \
         libegl-dev libpulse-dev libfuse2 desktop-file-utils \
         qt6-base-dev qt6-declarative-dev \

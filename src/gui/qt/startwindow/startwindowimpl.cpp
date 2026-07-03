@@ -64,6 +64,8 @@
 #include <QScreen>
 #include <QWindow>
 #include <QGuiApplication>
+#include <QStyle>
+#include <QStyleFactory>
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
@@ -249,6 +251,23 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l)
 	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
 	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
 	pushButton_Logs->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
+
+	// On Windows 10 the native "windowsvista" style keeps drawing the push
+	// buttons with the native theme and ignores the stylesheet
+	// background-color/color set above, so the buttons appear white/native
+	// (Windows 11 uses the newer "windows11" style, where it works).  Force
+	// the Fusion style on just these buttons so the stylesheet colors are
+	// honored identically on Win10 and Win11.
+	if (QStyle *fusionStyle = QStyleFactory::create("Fusion")) {
+		fusionStyle->setParent(this);
+		const QList<QPushButton*> startWindowButtons = {
+			pushButtonStart_Local_Game, pushButtonInternet_Game,
+			pushButton_Create_Network_Game, pushButton_Join_Network_Game,
+			pushButton_Logs };
+		for (QPushButton *btn : startWindowButtons) {
+			btn->setStyle(fusionStyle);
+		}
+	}
 
 	connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialogFromStartwindow() ) );

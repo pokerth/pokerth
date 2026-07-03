@@ -30,6 +30,10 @@ public:
 	static QStringList defaultEmojis();
 	// Emoji als Icon rendern (für QLineEdit-Actions/Buttons).
 	static QIcon emojiIcon(const QString &emoji, int size = 18);
+	// Family-Name des gebündelten Farb-Emoji-Fonts (Noto Color Emoji,
+	// CBDT/CBLC-Bitmap-Variante – rendert auch auf älterer FreeType, anders
+	// als COLRv1). Registriert wird der Font in src/pokerth.cpp aus data/fonts/.
+	static QString emojiFontFamily();
 	// Emoji in GARANTIERTER Zielgröße rendern. Farb-Emoji-Fonts sind
 	// Bitmap-Fonts, deren Glyphen Qt beim Text-Rendering nicht hochskaliert –
 	// hier wird gerendert, der tatsächlich gezeichnete Bereich gemessen und

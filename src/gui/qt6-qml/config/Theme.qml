@@ -17,6 +17,17 @@ QtObject {
 
     readonly property bool isDark: darkMode !== 0  // 0=Hell → false, alles andere (1=Dunkel, 2=Auto) → true
 
+    // Dekorative Effekte (Schlagschatten, Glow, Blur) global an/aus. Auf
+    // schwachen / passiv gekühlten Systemen (oder bei Software-Rendering ohne
+    // GPU) erzwingen die vielen gelayerten MultiEffect-Blur-Pässe pro Frame hohe
+    // CPU-Last und Ruckeln. Ist dieser Schalter aus, werden alle dekorativen
+    // `layer.enabled`-Effekte übersprungen (funktionale Layer wie Icon-
+    // Kolorierung / Folded-Graustufen bleiben unberührt). Wird – wie darkMode –
+    // extern von der ApplicationWindow (Init) und GuiSettings (Live-Toggle)
+    // gesetzt, da ein Singleton die SettingsManager-Context-Property nicht direkt
+    // lesen kann. Persistenter Config-Key: "QmlReduceEffects" (0 = Effekte an).
+    property bool effectsEnabled: true
+
     readonly property bool compact: windowWidth < 600
     readonly property bool tablet:  windowWidth >= 900 && windowWidth < 1400
 
@@ -31,6 +42,23 @@ QtObject {
     readonly property real buttonWidth:   compact ? -1 : 180   // -1 = fillWidth
     readonly property real iconSize:      compact ? 28 : 24
     readonly property real smallIconSize: compact ? 22 : 18
+
+    // ── Branding-Box (Startseite & Login-Dialog teilen sich diese Werte, damit
+    //    Box-Höhe und PokerTH-Icon beim Navigieren 1:1 identisch wirken) ────────
+    readonly property real brandBoxWidth: 380
+    // Feste Zielhöhe; schrumpft nur, wenn das Fenster zu niedrig ist (kurze /
+    // Querformat-Fenster). Beide Seiten nutzen exakt diesen Wert. Der Abzug
+    // reserviert die Topbar (38px) plus Außenabstand, damit die Box samt Rand
+    // in den sichtbaren Bereich (StackView) passt und zentriert bleibt.
+    readonly property real brandBoxHeight: Math.max(380, Math.min(540, windowHeight - 96))
+    // Icon-Größe an die Box-Höhe gekoppelt, gedeckelt auf 126 (Desktop) bzw.
+    // 100 (schmale Phones), Boden 56 → läuft nie über.
+    readonly property real brandLogoSize:
+        Math.round(Math.max(56, Math.min(compact ? 100 : 126, 0.4 * brandBoxHeight - 76)))
+
+    // Kartensymbole (♠ ♥ ♦ ♣) auf der dunklen Branding-Box
+    readonly property color colorSuitRed:   "#c0392b"   // ♥ ♦
+    readonly property color colorSuitBlack: "#cdd3e0"   // ♠ ♣ (hell auf dunkler Box)
 
     // ── Border Radius ────────────────────────────────────────────────────────
     readonly property real radiusSmall:  4
@@ -141,6 +169,16 @@ QtObject {
 
     // Text / icon on a colored (accent / chart) background — always light
     readonly property color colorOnAccent: "#ffffff"
+
+    // ── Elevation / Schatten ──────────────────────────────────────────────────
+    // Dezenter Schlagschatten für Panel-Karten (Lobby-Spalten, Settings-Boxen).
+    // Zentral, damit sich die Tiefe der ganzen App an einer Stelle feinjustieren
+    // lässt (siehe components/PanelShadow.qml). Im Light-Mode etwas kräftiger,
+    // weil ein dunkler Schatten dort mehr Kontrast braucht.
+    readonly property color colorShadow:         "#000000"
+    readonly property real  panelShadowOpacity:  isDark ? 0.36 : 0.22
+    readonly property real  panelShadowBlur:     0.55
+    readonly property real  panelShadowOffset:   2
 
     // ── Opacity helpers ──────────────────────────────────────────────────────
     readonly property real overlayOpacity: 0.80

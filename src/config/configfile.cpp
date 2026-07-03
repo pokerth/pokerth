@@ -50,11 +50,28 @@
 #include <fstream>
 #include <set>
 #include <algorithm>
+#include <cerrno>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 
 using namespace std;
+
+namespace
+{
+// Decode a filesystem path that is stored in the platform's local 8-bit
+// encoding into a QString. On Windows getenv("AppData") / _getcwd() /
+// GetTempPath() return the path in the active ANSI code page (e.g. CP1250 for a
+// Hungarian Windows), so it MUST be decoded with fromLocal8Bit – NOT with
+// fromUtf8 (which is what QString::fromStdString does). Using fromUtf8 here
+// corrupts any non-ASCII character in the user profile path (e.g. "ő"/"ű"),
+// after which the config file path no longer matches the real directory and
+// config.xml can neither be read nor written.
+QString pathToQString(const std::string &path)
+{
+	return QString::fromLocal8Bit(path.c_str());
+}
+}
 
 ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 {
@@ -66,13 +83,14 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 105;
+	configRev = 108;
 
 	// standard defaults
 	logOnOffDefault = "1";
 
 	// Pfad und Dateinamen setzen
 #ifdef _WIN32
+	const int MaxPathSize = 1024;
 	const char *appDataPath = getenv("AppData");
 	if (appDataPath && appDataPath[0] != 0)
 	{
@@ -80,30 +98,40 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	}
 	else
 	{
-		const int MaxPathSize = 1024;
+		// %AppData% not set -> fall back to the current working directory.
 		char curDir[MaxPathSize + 1];
 		curDir[0] = 0;
 		_getcwd(curDir, MaxPathSize);
 		curDir[MaxPathSize] = 0;
 		configFileName = curDir;
-		// Testen ob das Verzeichnis beschreibbar ist
+	}
+
+	// Verify the chosen base directory is actually writable. This must be done
+	// for %AppData% too, not only for the current-working-directory fallback:
+	// a roaming/redirected (Group Policy) AppData on an unreachable network
+	// share, restrictive ACLs or a full disk would otherwise leave us writing
+	// into a directory that silently rejects every write. Fall back to %TEMP%
+	// in that case so the client at least stays usable for the session.
+	{
 		ofstream tmpFile;
-		const char *tmpFileName = "pokerth_test.tmp";
-		tmpFile.open((configFileName + "\\" + tmpFileName).c_str());
+		const string tmpFilePath = configFileName + "\\pokerth_test.tmp";
+		tmpFile.open(tmpFilePath.c_str());
 		if (tmpFile)
 		{
-			// Erfolgreich, Verzeichnis beschreibbar.
-			// Datei wieder loeschen.
+			// Erfolgreich, Verzeichnis beschreibbar. Datei wieder loeschen.
 			tmpFile.close();
-			remove((configFileName + "\\" + tmpFileName).c_str());
+			remove(tmpFilePath.c_str());
 		}
 		else
 		{
 			// Fehlgeschlagen, Verzeichnis nicht beschreibbar
-			curDir[0] = 0;
-			GetTempPathA(MaxPathSize, curDir);
-			curDir[MaxPathSize] = 0;
-			configFileName = curDir;
+			char tmpDir[MaxPathSize + 1];
+			tmpDir[0] = 0;
+			GetTempPathA(MaxPathSize, tmpDir);
+			tmpDir[MaxPathSize] = 0;
+			LOG_ERROR("Config directory '" << configFileName
+				<< "' is not writable, falling back to temp directory '" << tmpDir << "'");
+			configFileName = tmpDir;
 		}
 	}
 	// define app-dir
@@ -118,8 +146,12 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	cacheDir = configFileName;
 	cacheDir += "cache\\";
 
-	// create directories on first start of app
-	_mkdir(configFileName.c_str());
+	// create directories on first start of app. _mkdir() returns -1 with
+	// errno==EEXIST if the directory already exists, which is fine; any other
+	// failure means we will not be able to store the config and is worth
+	// surfacing in the log instead of failing silently.
+	if (_mkdir(configFileName.c_str()) != 0 && errno != EEXIST)
+		LOG_ERROR("Could not create config directory '" << configFileName << "' (errno " << errno << ")");
 	_mkdir(logDir.c_str());
 	_mkdir(dataDir.c_str());
 	_mkdir(cacheDir.c_str());
@@ -176,7 +208,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("DisableSplashScreenOnStartup", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontHideAvatarsOfIgnored", CONFIG_TYPE_INT, "0"));
-	configList.push_back(ConfigInfo("DisableChatEmoticons", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("DisableEmojiReactions", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
@@ -191,6 +223,18 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("CurrentCardDeckStyle", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastGameTableStyleDir", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastCardDeckStyleDir", CONFIG_TYPE_STRING, ""));
+	// QML-Client: Kartenrückseiten sind dort eine eigene Stil-Kategorie.
+	configList.push_back(ConfigInfo("LastCardBackStyleDir", CONFIG_TYPE_STRING, ""));
+	// QML-Client: Name des ausgewählten Stil-Unterordners in
+	// <AppDataDir>/gfx/qml/<table|cards>/<name>. Eigene Keys, damit der
+	// Widget-Client (Current*Style speichert volle XML-Pfade) unberührt bleibt.
+	configList.push_back(ConfigInfo("QmlGameTableStyle", CONFIG_TYPE_STRING, "default"));
+	configList.push_back(ConfigInfo("QmlCardDeckStyle", CONFIG_TYPE_STRING, "default"));
+	configList.push_back(ConfigInfo("QmlCardBackStyle", CONFIG_TYPE_STRING, "default"));
+	// QML-Client: dekorative Render-Effekte (Schlagschatten/Glow/Blur) global
+	// abschaltbar für schwache/passiv gekühlte Systeme bzw. Software-Rendering.
+	// 0 = Effekte an (Default), 1 = reduziert. Siehe config/Theme.qml.
+	configList.push_back(ConfigInfo("QmlReduceEffects", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("PlaySoundEffects", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("SoundVolume", CONFIG_TYPE_INT, "8"));
 	configList.push_back(ConfigInfo("PlayGameActions", CONFIG_TYPE_INT, "1"));
@@ -346,7 +390,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 		QDomDocument xmlDoc;
 
-		QString qPath = QString::fromLocal8Bit(configFileName.c_str());
+		QString qPath = pathToQString(configFileName);
 		QFile file(qPath);
 		if (!file.open(QIODevice::ReadOnly) || !xmlDoc.setContent(&file))
 		{
@@ -386,17 +430,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 				{
 					confAppDataPath.setAttribute("value", QString::fromStdString(myQtToolsInterface->getDataPathStdString(myArgv0)));
 #endif
-					QFile file(QString::fromStdString(configFileName));
-					if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-					{
-						// qDebug("Failed to open file for writing.");
-					}
-					else
-					{
-						QTextStream stream(&file);
-						stream << xmlDoc.toString();
-					}
-					file.close();
+					writeConfigDocument(xmlDoc.toString());
 				}
 			}
 			if (tempRevision < configRev)
@@ -417,13 +451,28 @@ ConfigFile::~ConfigFile()
 	myQtToolsInterface = 0;
 }
 
+bool ConfigFile::writeConfigDocument(const QString &xmlContent) const
+{
+	QFile file(pathToQString(configFileName));
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	{
+		LOG_ERROR("Could not open config file for writing: '" << configFileName
+			<< "' (" << file.errorString().toStdString() << ")");
+		return false;
+	}
+	QTextStream stream(&file);
+	stream << xmlContent;
+	file.close();
+	return true;
+}
+
 void ConfigFile::fillBuffer()
 {
 
     boost::recursive_mutex::scoped_lock lock(m_configMutex);
 
     QDomDocument xmlDoc;
-    QFile file(QString::fromStdString(configFileName));
+    QFile file(pathToQString(configFileName));
     if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
 	{
 		file.close();
@@ -509,30 +558,53 @@ void ConfigFile::writeBuffer() const
 	// write buffer to disc if enabled
 	if (!noWriteAccess)
 	{
-
+		// Merge the buffer into the existing document instead of rebuilding it
+		// from scratch: elements this binary does not know (written by another
+		// client flavour or a newer version) must survive every write.
 		QDomDocument xmlDoc;
-		QDomProcessingInstruction xmlVers = xmlDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
-		xmlDoc.appendChild(xmlVers);
+		QDomElement config;
 
-		QDomElement root = xmlDoc.createElement("PokerTH");
-		xmlDoc.appendChild(root);
+		QFile file(pathToQString(configFileName));
+		if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
+		{
+			config = xmlDoc.documentElement().firstChildElement("Configuration");
+		}
+		file.close();
 
-		QDomElement config = xmlDoc.createElement("Configuration");
-		root.appendChild(config);
+		if (config.isNull())
+		{
+			// no usable config on disc --> create a fresh document
+			xmlDoc = QDomDocument();
+			QDomProcessingInstruction xmlVers = xmlDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
+			xmlDoc.appendChild(xmlVers);
+
+			QDomElement root = xmlDoc.createElement("PokerTH");
+			xmlDoc.appendChild(root);
+
+			config = xmlDoc.createElement("Configuration");
+			root.appendChild(config);
+		}
 
 		size_t i;
 
 		for (i = 0; i < configBufferList.size(); i++)
 		{
 
-			QDomElement tmpElement = xmlDoc.createElement(QString::fromStdString(configBufferList[i].name));
-			config.appendChild(tmpElement);
+			QDomElement tmpElement = config.firstChildElement(QString::fromStdString(configBufferList[i].name));
+			if (tmpElement.isNull())
+			{
+				tmpElement = xmlDoc.createElement(QString::fromStdString(configBufferList[i].name));
+				config.appendChild(tmpElement);
+			}
 			tmpElement.setAttribute("value", QString::fromStdString(configBufferList[i].defaultValue));
 
 			if (configBufferList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST)
 			{
 
 				tmpElement.setAttribute("type", "list");
+				while (!tmpElement.firstChild().isNull())
+					tmpElement.removeChild(tmpElement.firstChild());
+
 				list<string> tempList = configBufferList[i].defaultListValue;
 				list<string>::iterator it;
 				for (it = tempList.begin(); it != tempList.end(); ++it)
@@ -545,17 +617,7 @@ void ConfigFile::writeBuffer() const
 			}
 		}
 
-		QFile file(QString::fromStdString(configFileName));
-		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
-			// qDebug("Failed to open file for writing.");
-		}
-		else
-		{
-			QTextStream stream(&file);
-			stream << xmlDoc.toString();
-		}
-		file.close();
+		writeConfigDocument(xmlDoc.toString());
 	}
 }
 
@@ -568,197 +630,88 @@ void ConfigFile::updateConfig(ConfigState myConfigState)
 
 	if (myConfigState == NONEXISTING)
 	{
-
-		QDomDocument xmlDoc;
-		QDomProcessingInstruction xmlVers = xmlDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
-		xmlDoc.appendChild(xmlVers);
-
-		QDomElement root = xmlDoc.createElement("PokerTH");
-		xmlDoc.appendChild(root);
-
-		QDomElement config = xmlDoc.createElement("Configuration");
-		root.appendChild(config);
-
-		for (i = 0; i < configList.size(); i++)
-		{
-			QDomElement tmpElement = xmlDoc.createElement(QString::fromStdString(configList[i].name));
-			config.appendChild(tmpElement);
-			tmpElement.setAttribute("value", QString::fromStdString(configList[i].defaultValue));
-
-			if (configList[i].type == CONFIG_TYPE_INT_LIST || configList[i].type == CONFIG_TYPE_STRING_LIST)
-			{
-
-				tmpElement.setAttribute("type", "list");
-				list<string> tempList = configList[i].defaultListValue;
-				list<string>::iterator it;
-				for (it = tempList.begin(); it != tempList.end(); ++it)
-				{
-
-					QDomElement tmpSubElement = xmlDoc.createElement(QString::fromStdString(configBufferList[i].defaultValue));
-					tmpElement.appendChild(tmpSubElement);
-					tmpSubElement.setAttribute("value", QString::fromStdString(*it));
-				}
-			}
-		}
-		QFile file(QString::fromStdString(configFileName));
-		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-		{
-		}
-		else
-		{
-			QTextStream stream(&file);
-			stream << xmlDoc.toString();
-		}
-		file.close();
+		// configBufferList still holds the defaults at this point, so
+		// writeBuffer() creates a fresh document with all default values.
+		writeBuffer();
 	}
 
 	if (myConfigState == OLD)
 	{
 
-		// load the old one
-		QDomDocument oldDoc;
-		QFile file(QString::fromStdString(configFileName));
-		if (file.open(QIODevice::ReadOnly) && oldDoc.setContent(&file))
+		// Update the existing document in place: bump the revision, refresh
+		// AppDataDir, apply version hacks and append newly introduced options
+		// with their defaults. Everything else - including elements unknown to
+		// this binary (other client flavour / newer version) - is left
+		// untouched for maximum compatibility.
+		QDomDocument xmlDoc;
+		QFile file(pathToQString(configFileName));
+		if (file.open(QIODevice::ReadOnly) && xmlDoc.setContent(&file))
 		{
 			file.close();
 
-			string tempString1("");
-			string tempString2("");
+			QDomElement config = xmlDoc.documentElement().firstChildElement("Configuration");
+			if (config.isNull())
+			{
+				LOG_ERROR("Cannot update config file: no Configuration element found.");
+				return;
+			}
 
-			QDomDocument newDoc;
-
-			QDomProcessingInstruction xmlVers = newDoc.createProcessingInstruction("xml", "version=\"1.0\" encoding='utf-8'");
-			newDoc.appendChild(xmlVers);
-
-			QDomElement root = newDoc.createElement("PokerTH");
-			newDoc.appendChild(root);
-
-			QDomElement config = newDoc.createElement("Configuration");
-			root.appendChild(config);
+			// set the value of an element, creating the element if missing
+			auto setElementValue = [&xmlDoc, &config](const QString &name, const QString &value) {
+				QDomElement el = config.firstChildElement(name);
+				if (el.isNull())
+				{
+					el = xmlDoc.createElement(name);
+					config.appendChild(el);
+				}
+				el.setAttribute("value", value);
+			};
 
 			// change configRev and AppDataPath
-			std::list<std::string> noUpdateElemtsList;
-
-			QDomElement confElement0 = newDoc.createElement("ConfigRevision");
-			config.appendChild(confElement0);
-			confElement0.setAttribute("value", configRev);
-
-			noUpdateElemtsList.push_back("ConfigRevision");
-
-			QDomElement confElement1 = newDoc.createElement("AppDataDir");
-			config.appendChild(confElement1);
-			confElement1.setAttribute("value", QString::fromStdString(myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0))));
-			noUpdateElemtsList.push_back("AppDataDir");
+			setElementValue("ConfigRevision", QString::number(configRev));
+			setElementValue("AppDataDir", QString::fromStdString(myQtToolsInterface->stringToUtf8(myQtToolsInterface->getDataPathStdString(myArgv0))));
 
 			///////// VERSION HACK SECTION ///////////////////////
 			// this is the right place for special version depending config hacks:
 			// 0.9.1 - log interval needs to be set to 1 instead of 0
 			if (configRev >= 95 && configRev <= 98)
 			{ // this means 0.9.1 or 0.9.2 or 1.0
-				QDomElement confElement2 = newDoc.createElement("LogInterval");
-				config.appendChild(confElement2);
-				confElement2.setAttribute("value", 1);
-				noUpdateElemtsList.push_back("LogInterval");
+				setElementValue("LogInterval", "1");
 			}
 
 			if (configRev == 98)
 			{ // this means 1.0
-				QDomElement confElement3 = newDoc.createElement("CurrentCardDeckStyle");
-				config.appendChild(confElement3);
-				confElement3.setAttribute("value", "");
-				noUpdateElemtsList.push_back("CurrentCardDeckStyle");
+				setElementValue("CurrentCardDeckStyle", "");
 			}
 			///////// VERSION HACK SECTION ///////////////////////
 
 			for (i = 0; i < configList.size(); i++)
 			{
 
-				QDomElement oldConf = oldDoc.documentElement().firstChildElement("Configuration").firstChildElement(QString::fromStdString(configList[i].name));
+				// if element is already there --> keep the saved values (and list content) as they are
+				if (!config.firstChildElement(QString::fromStdString(configList[i].name)).isNull())
+					continue;
 
-				if (!oldConf.isNull())
-				{ // if element is already there --> take over the saved values
+				QDomElement tmpElement = xmlDoc.createElement(QString::fromStdString(configList[i].name));
+				config.appendChild(tmpElement);
+				tmpElement.setAttribute("value", QString::fromStdString(configList[i].defaultValue));
 
-					// dont update ConfigRevision and AppDataDir AND possible hacked Config-Elements becaus it was already set ^^
-					if (count(noUpdateElemtsList.begin(), noUpdateElemtsList.end(), configList[i].name) == 0)
-					{
-
-						QDomElement tmpElement = newDoc.createElement(QString::fromStdString(configList[i].name));
-						config.appendChild(tmpElement);
-
-						QByteArray ba = oldConf.attribute("value").toLocal8Bit();
-						const char *tmpStr1 = ba.data();
-
-						if (tmpStr1)
-							tempString1 = tmpStr1;
-						tmpElement.setAttribute("value", QString::fromStdString(tempString1));
-
-						// for lists copy elements
-						QByteArray ba2 = oldConf.attribute("type").toLocal8Bit();
-						const char *tmpStr2 = ba2.data();
-
-						if (tmpStr2)
-						{
-							tempString2 = tmpStr2;
-							if (tempString2 == "list")
-							{
-
-								list<string> tempStringList2;
-
-								QDomElement oldConfList = oldDoc.documentElement().firstChildElement("Configuration").firstChildElement(QString::fromStdString(configList[i].name));
-
-								for (QDomElement n = oldConfList.firstChildElement(); !n.isNull(); n = n.nextSiblingElement())
-								{
-									tempStringList2.push_back(n.attribute("value").toStdString());
-								}
-
-								tmpElement.setAttribute("type", "list");
-								list<string> tempList = tempStringList2;
-								list<string>::iterator it;
-								for (it = tempList.begin(); it != tempList.end(); ++it)
-								{
-
-									QDomElement tmpSubElement = newDoc.createElement(QString::fromStdString(tempString1));
-									tmpElement.appendChild(tmpSubElement);
-									tmpSubElement.setAttribute("value", QString::fromStdString(*it));
-								}
-							}
-						}
-					}
-				}
-				else
+				if (configList[i].type == CONFIG_TYPE_INT_LIST || configList[i].type == CONFIG_TYPE_STRING_LIST)
 				{
-					QDomElement tmpElement = newDoc.createElement(QString::fromStdString(configList[i].name));
-					config.appendChild(tmpElement);
-					tmpElement.setAttribute("value", QString::fromStdString(configList[i].defaultValue));
 
-					if (configList[i].type == CONFIG_TYPE_INT_LIST || configBufferList[i].type == CONFIG_TYPE_STRING_LIST)
+					tmpElement.setAttribute("type", "list");
+					list<string> tempList = configList[i].defaultListValue;
+					list<string>::iterator it;
+					for (it = tempList.begin(); it != tempList.end(); ++it)
 					{
 
-						tmpElement.setAttribute("type", "list");
-						list<string> tempList = configList[i].defaultListValue;
-						list<string>::iterator it;
-						// for(it = tempList.begin(); it != tempList.end(); ++it) {
-
-						for (it = tempList.begin(); it != tempList.end(); ++it)
-						{
-
-							QDomElement tmpSubElement = newDoc.createElement(QString::fromStdString(configList[i].defaultValue));
-							tmpElement.appendChild(tmpSubElement);
-							tmpSubElement.setAttribute("value", QString::fromStdString(*it));
-						}
+						QDomElement tmpSubElement = xmlDoc.createElement(QString::fromStdString(configList[i].defaultValue));
+						tmpElement.appendChild(tmpSubElement);
+						tmpSubElement.setAttribute("value", QString::fromStdString(*it));
 					}
 				}
 			}
-			QFile file(QString::fromStdString(configFileName));
-			if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-			{
-			}
-			else
-			{
-				QTextStream stream(&file);
-				stream << newDoc.toString();
-			}
-			file.close();
+			writeConfigDocument(xmlDoc.toString());
 		}
 		else
 		{

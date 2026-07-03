@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Danuxi Blue QML card back" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="18.06.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" />
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>

@@ -89,7 +89,7 @@
 using namespace std;
 
 gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
-	: QMainWindow(parent), myChat(NULL), myConfig(c), myReactionPicker(nullptr), myReactionButton(nullptr), myReactionFx(nullptr), myLastOwnReactionTime(0), myStartWindow(nullptr), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(false), pushButtonCallCheckIsChecked(false), pushButtonFoldIsChecked(false), pushButtonAllInIsChecked(false), myButtonsAreCheckable(false), breakAfterCurrentHand(false), currentGameOver(false), betSliderChangedByInput(false), guestMode(false), myLastPreActionBetValue(0), playingMode(0)
+	: QMainWindow(parent), myChat(NULL), myConfig(c), myReactionPicker(nullptr), myReactionButton(nullptr), myReactionAction(nullptr), myReactionFx(nullptr), myLastOwnReactionTime(0), myStartWindow(nullptr), gameSpeed(0), myActionIsBet(0), myActionIsRaise(0), pushButtonBetRaiseIsChecked(false), pushButtonCallCheckIsChecked(false), pushButtonFoldIsChecked(false), pushButtonAllInIsChecked(false), myButtonsAreCheckable(false), breakAfterCurrentHand(false), currentGameOver(false), betSliderChangedByInput(false), guestMode(false), myLastPreActionBetValue(0), playingMode(0)
 {
 	int i;
 
@@ -597,10 +597,10 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
   #endif
 	// Größe passend zum vergrößerten Auslöser-Icon-Maß der Chat-Zeile (siehe
 	// ChatTools::setupEmojiPickerAction, BiggerActionIconStyle auf Desktop = 22).
-	QAction *reactionAction = reactionLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🎉"), 22),
-	                                                      QLineEdit::TrailingPosition);
-	reactionAction->setToolTip(tr("Send reaction"));
-	connect(reactionAction, &QAction::triggered, this, [this, reactionLineEdit]() {
+	myReactionAction = reactionLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🎉"), 22),
+	                                               QLineEdit::TrailingPosition);
+	myReactionAction->setToolTip(tr("Send reaction"));
+	connect(myReactionAction, &QAction::triggered, this, [this, reactionLineEdit]() {
 		if (!myReactionPicker) {
 			myReactionPicker = new EmojiPicker(reactionLineEdit, EmojiPicker::reactionEmojis(), 6);
 			connect(myReactionPicker, &EmojiPicker::picked, this, &gameTableImpl::sendEmojiReaction);
@@ -608,6 +608,9 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 		myReactionPicker->showAt(reactionLineEdit);
 	});
 #endif
+
+	// Reaktions-Auslöser gemäß Einstellung "DisableEmojiReactions" ein-/ausblenden.
+	updateReactionControlsVisibility();
 
 	this->installEventFilter(this);
 
@@ -1047,6 +1050,9 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 		refreshGroupbox();
 		provideMyActions();
 	}
+
+	//emoji reactions: show/hide the picker trigger according to the setting
+	updateReactionControlsVisibility();
 
 	mySoundEventHandler->reInitSoundEngine();
 }
@@ -5093,6 +5099,17 @@ void gameTableImpl::repositionReactionButton()
 	}
 }
 
+void gameTableImpl::updateReactionControlsVisibility()
+{
+	// Sind Emoji-Reaktionen deaktiviert, wird der Picker-Auslöser ausgeblendet
+	// (Desktop: Aktion in der Chat-Zeile, Android: Button auf dem Tisch).
+	const bool reactionsEnabled = !myConfig->readConfigInt("DisableEmojiReactions");
+	if (myReactionButton)
+		myReactionButton->setVisible(reactionsEnabled);
+	if (myReactionAction)
+		myReactionAction->setVisible(reactionsEnabled);
+}
+
 void gameTableImpl::refreshSpectatorsDisplay()
 {
 	if (!myStartWindow || !myStartWindow->getSession()) {
@@ -5172,6 +5189,10 @@ void gameTableImpl::sendEmojiReaction(const QString &emoji)
 
 void gameTableImpl::showEmojiReaction(QString playerName, QString emoji)
 {
+	// Reaktionen deaktiviert: weder eigene noch fremde Reaktionen anzeigen.
+	if (myConfig->readConfigInt("DisableEmojiReactions"))
+		return;
+
 	const QString myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	if (playerName == myNick) {
 		// Echo der eigenen, bereits lokal abgespielten Reaktion unterdrücken.

@@ -164,6 +164,20 @@ void QmlGuiInterface::SignalNetClientGameChatMsg(const std::string &playerName, 
     }
 }
 
+void QmlGuiInterface::SignalNetClientPingUpdate(unsigned minPing, unsigned avgPing, unsigned maxPing)
+{
+    // Eigener Client-Ping → GameHandler, der daraus den Netzwerkstatus (Ampel)
+    // für die eigene Avatar-Ecke ableitet (Einstellung ShowPingStateInAvatar) und
+    // die Roh-Werte (min/avg/max ms) für das Mouseover-Overlay bereitstellt.
+    // Aufruf kommt aus dem Netzwerk-Thread → QueuedConnection.
+    if (m_gameHandler) {
+        QMetaObject::invokeMethod(m_gameHandler, "onPingUpdate", Qt::QueuedConnection,
+                                  Q_ARG(int, static_cast<int>(minPing)),
+                                  Q_ARG(int, static_cast<int>(avgPing)),
+                                  Q_ARG(int, static_cast<int>(maxPing)));
+    }
+}
+
 void QmlGuiInterface::SignalNetClientPrivateChatMsg(const std::string &playerName, const std::string &msg)
 {
     if (m_lobbyHandler) {
@@ -215,6 +229,14 @@ void QmlGuiInterface::SignalNetClientMsgBox(unsigned msgId)
     }
 }
 
+void QmlGuiInterface::SignalNetClientNotification(int notificationId)
+{
+    if (m_lobbyHandler) {
+        QMetaObject::invokeMethod(m_lobbyHandler, "onNetworkNotification", Qt::QueuedConnection,
+                                  Q_ARG(int, notificationId));
+    }
+}
+
 void QmlGuiInterface::SignalNetClientPlayerJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin)
 {
     if (m_lobbyHandler) {
@@ -236,6 +258,22 @@ void QmlGuiInterface::SignalNetClientPlayerChanged(unsigned playerId, const std:
         QMetaObject::invokeMethod(m_lobbyHandler, "updatePlayerName", Qt::QueuedConnection,
                                   Q_ARG(unsigned, playerId), Q_ARG(QString, qPlayerName), Q_ARG(bool, isAdmin));
     }
+    // Zuschauer-Anzeige nachführen (ein umbenannter Spieler kann ein Zuschauer
+    // sein – wie der Widgets-Client, der hier refreshSpectatorsDisplay anstößt).
+    if (m_gameHandler)
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
+}
+
+void QmlGuiInterface::SignalNetClientSpectatorJoined(unsigned /*playerId*/, const std::string & /*playerName*/)
+{
+    if (m_gameHandler)
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
+}
+
+void QmlGuiInterface::SignalNetClientSpectatorLeft(unsigned /*playerId*/, const std::string & /*playerName*/, int /*removeReason*/)
+{
+    if (m_gameHandler)
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
 }
 
 void QmlGuiInterface::SignalNetClientSelfJoined(unsigned playerId, const std::string &playerName, bool isGameAdmin)
@@ -246,7 +284,8 @@ void QmlGuiInterface::SignalNetClientSelfJoined(unsigned playerId, const std::st
             m_lobbyHandler->setMyPlayerInfo(playerId, qPlayerName);
             // Beim Selbst-Beitritt (z. B. als Host des eigenen Spiels) den
             // Spiel-Admin-Status übernehmen → Start-Button im Warteraum sichtbar.
-            m_lobbyHandler->setCurrentPlayerAdmin(isGameAdmin);
+            // Strikt getrennt vom Server-Admin (kickban / Spiel schließen).
+            m_lobbyHandler->setCurrentGameAdmin(isGameAdmin);
             m_lobbyHandler->onSelfJoinedGame();
         }, Qt::QueuedConnection);
     }
@@ -266,12 +305,28 @@ void QmlGuiInterface::SignalNetClientRemovedFromGame(int notificationId)
     }
 }
 
-void QmlGuiInterface::SignalNetClientPlayerLeft(unsigned playerId, const std::string & /*playerName*/, int /*removeReason*/)
+void QmlGuiInterface::SignalNetClientWaitDialog()
 {
-    // Sitz des Spielers in der Spielansicht leeren.
+    // Das Netzwerk-Spiel ist beendet (Type_EndOfGameMessage) bzw. wir wurden
+    // entfernt – die Engine fordert hier (wie showClientDialog() im Widgets-
+    // Client) das Schließen des Gametables und die Rückkehr in den Warteraum
+    // bzw. die Lobby an. Ohne dies blieb der Gametable nach Spielende offen.
+    // Bei aktivem Auto-Leave folgt unmittelbar SignalNetClientRemovedFromGame,
+    // das von dort aus bis in die Lobbyliste weiterpoppt.
+    if (m_lobbyHandler) {
+        QMetaObject::invokeMethod(m_lobbyHandler, "onWaitGameDialog", Qt::QueuedConnection);
+    }
+}
+
+void QmlGuiInterface::SignalNetClientPlayerLeft(unsigned playerId, const std::string &playerName, int removeReason)
+{
+    // Sitz des Spielers in der Spielansicht leeren und im Log vermerken
+    // (verlassen / gekickt / getrennt – removeReason).
     if (m_gameHandler) {
         QMetaObject::invokeMethod(m_gameHandler, "onNetClientPlayerLeft", Qt::QueuedConnection,
-                                  Q_ARG(unsigned, playerId));
+                                  Q_ARG(unsigned, playerId),
+                                  Q_ARG(QString, QString::fromStdString(playerName)),
+                                  Q_ARG(int, removeReason));
     }
 }
 
@@ -316,6 +371,8 @@ void QmlGuiInterface::SignalNetClientGameStart(boost::shared_ptr<Game> game)
         QMetaObject::invokeMethod(m_gameHandler, [this, game]() {
             m_gameHandler->setGame(game);
         }, Qt::QueuedConnection);
+        // Bereits zuschauende Spieler initial in die Auge-Anzeige übernehmen.
+        QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
     }
 }
 

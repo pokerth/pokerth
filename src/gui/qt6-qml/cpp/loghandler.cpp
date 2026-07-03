@@ -51,6 +51,11 @@ int sqlite3_open(const char *filename, sqlite3 **ppDb)
         .arg((qulonglong)QDateTime::currentMSecsSinceEpoch())
         .arg((qulonglong)(quintptr)p);
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", p->connName);
+    // Wait on lock contention instead of failing immediately with SQLITE_BUSY:
+    // this read connection may open the .pdb that the engine is still writing
+    // (live log). Mirrors the writer connections in engine/log.cpp. Must be set
+    // before open().
+    db.setConnectOptions("QSQLITE_BUSY_TIMEOUT=5000");
     db.setDatabaseName(QString::fromUtf8(filename));
     if (!db.open()) {
         QSqlDatabase::removeDatabase(p->connName);
@@ -354,7 +359,8 @@ void LogHandler::exportHtmlDialog(const QString &path)
     const QString suggested = QDir::homePath() + "/" + baseName(path) + ".html";
     const QString dest = QFileDialog::getSaveFileName(
         nullptr, tr("Export PokerTH log file to HTML"), suggested,
-        tr("PokerTH HTML log (*.html)"));
+        tr("PokerTH HTML log (*.html)"),
+        nullptr, AppImageUtils::fileDialogOptions());
     if (!dest.isEmpty())
         exportHtml(path, dest);
 }
@@ -365,7 +371,8 @@ void LogHandler::exportTxtDialog(const QString &path)
     const QString suggested = QDir::homePath() + "/" + baseName(path) + ".txt";
     const QString dest = QFileDialog::getSaveFileName(
         nullptr, tr("Export PokerTH log file to plain text"), suggested,
-        tr("PokerTH plain text log (*.txt)"));
+        tr("PokerTH plain text log (*.txt)"),
+        nullptr, AppImageUtils::fileDialogOptions());
     if (!dest.isEmpty())
         exportTxt(path, dest);
 }
@@ -376,7 +383,8 @@ void LogHandler::saveAsDialog(const QString &path)
     const QString suggested = QDir::homePath() + "/" + baseName(path) + ".pdb";
     const QString dest = QFileDialog::getSaveFileName(
         nullptr, tr("Save PokerTH log file"), suggested,
-        tr("PokerTH SQL log (*.pdb)"));
+        tr("PokerTH SQL log (*.pdb)"),
+        nullptr, AppImageUtils::fileDialogOptions());
     if (!dest.isEmpty())
         saveAs(path, dest);
 }

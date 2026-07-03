@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 800">
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cdd6e9"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0027a8"/>
+      <stop offset="0.52" stop-color="#00072b"/>
+      <stop offset="1" stop-color="#001eb5"/>
+    </linearGradient>
+    <pattern id="diamonds" width="58" height="58" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="58" height="58" fill="none"/>
+      <path d="M29 6 52 29 29 52 6 29Z" fill="none" stroke="#a1b4ff" stroke-opacity="0.35" stroke-width="3"/>
+    </pattern>
+  </defs>
+  <rect x="9" y="9" width="562" height="782" rx="42" fill="url(#card)" stroke="#5e6980" stroke-width="18"/>
+  <rect x="52" y="52" width="476" height="696" rx="28" fill="url(#blue)" stroke="#a1b4ff" stroke-width="12"/>
+  <rect x="74" y="74" width="432" height="652" rx="18" fill="url(#diamonds)" opacity="0.9"/>
+  <path d="M108 400c62-116 117-174 182-174s120 58 182 174c-62 116-117 174-182 174S170 516 108 400Z" fill="#00072b" stroke="#a1b4ff" stroke-width="12"/>
+  <path d="M290 282c34 44 61 83 61 126 0 51-39 86-61 108-22-22-61-57-61-108 0-43 27-82 61-126Z" fill="#d7e0ff"/>
+  <circle cx="290" cy="400" r="54" fill="#001eb5" stroke="#ffffff" stroke-width="10"/>
+  <text x="290" y="421" text-anchor="middle" font-family="DejaVu Sans, Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff">TH</text>
+</svg>

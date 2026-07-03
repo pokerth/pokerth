@@ -18,8 +18,8 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     ../../core/qttools/qttoolswrapper.cpp
     ../../core/qttoolsinterface.cpp
     cpp/retranslate.cpp
-    cpp/settingsxmlhandler.cpp
     cpp/settingsmanager.cpp
+    cpp/styleprovider.cpp
     cpp/serverconnectionhandler.cpp
     cpp/lobbyhandler.cpp
     cpp/gamehandler.cpp
@@ -27,6 +27,7 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     cpp/networkgamehandler.cpp
     cpp/qmlguiinterface.cpp
     cpp/screenhelper.cpp
+    cpp/webnetworkfactory.cpp
     ../qt/sound/soundevents.cpp
     ../qt/sound/qtaudioplayer.cpp)
 
@@ -34,8 +35,45 @@ qt_add_resources(POKERTH_QML_CLIENT_SRC qml.qrc)
 qt_add_resources(POKERTH_QML_CLIENT_SRC cflags.qrc)
 qt_add_resources(POKERTH_QML_CLIENT_SRC emotes.qrc)
 
+# SvgIcon: versionsabhängiger SVG-Wrapper. Qt >= 6.8 nutzt das echte
+# QtQuick.VectorImage (vektoriell, scharf); ältere Qt (z.B. 6.7 für den
+# Android-8-Build) haben das Modul nicht -> Image-basierter Raster-Fallback.
+# Die passende .qml-Datei wird unter dem festen Alias components/SvgIcon.qml
+# ins Resource eingebunden, sodass die Aufrufstellen unverändert "SvgIcon { }"
+# verwenden. (Ein einzelnes SvgIcon.qml ginge nicht: "import QtQuick.VectorImage"
+# scheitert auf 6.7 schon beim Laden, daher zwei getrennte Dateien.)
+if(Qt6_VERSION VERSION_GREATER_EQUAL 6.8.0)
+    set(SVGICON_VARIANT "${CMAKE_CURRENT_SOURCE_DIR}/components/SvgIconVector.qml")
+else()
+    set(SVGICON_VARIANT "${CMAKE_CURRENT_SOURCE_DIR}/components/SvgIconImage.qml")
+endif()
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/svgicon.qrc.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/svgicon.qrc" @ONLY)
+qt_add_resources(POKERTH_QML_CLIENT_SRC "${CMAKE_CURRENT_BINARY_DIR}/svgicon.qrc")
+
+# Android: Das datei-basierte QML-Stil-System (StyleProvider/SettingsManager)
+# scannt <AppDataDir>gfx/qml/..., und AppDataDir ist auf Android das Qt-Resource
+# :/android/android-data/ (configfile.cpp). Ohne dieses Bundle gibt es auf Android
+# kein echtes Dateisystem-data/ → keine Tisch-/Karten-/Rückseiten-Stile.
+# Auf Desktop werden die Stile aus dem installierten data/ gelesen (install() unten).
+if(ANDROID)
+    qt_add_resources(POKERTH_QML_CLIENT_SRC resources/pokerth_qml_android_data.qrc)
+endif()
+
 set(QML_FILES
     pokerth.qml
+    components/AppText.qml
+    components/AppLabel.qml
+    components/BetChip.qml
+    components/BlindButtonImage.qml
+    components/PlayerActionBadge.qml
+    components/PlayerTimeoutBar.qml
+    components/PlayerBoxBackground.qml
+    components/PlayerTurnGlow.qml
+    components/PlayerWinnerOverlay.qml
+    components/SettingsHeader.qml
+    components/ConfigCheckBox.qml
+    components/RankingFilterField.qml
     components/CustomCheckBox.qml
     components/CustomComboBox.qml
     components/CustomTabBar.qml
@@ -56,6 +94,8 @@ set(QML_FILES
     components/SoundSettings.qml
     components/CustomButton.qml
     components/StyleSettings.qml
+    components/StyleCard.qml
+    components/LobbyStatsBar.qml
     pages/AboutPage.qml
     pages/GamePage.qml
     pages/InternetGamePage.qml
@@ -75,6 +115,10 @@ set(TS_FILES
     i18n/pokerth_de_DE.ts
     i18n/pokerth_fr_FR.ts
     i18n/pokerth_en_US.ts
+    i18n/pokerth_it_IT.ts
+    i18n/pokerth_es_ES.ts
+    i18n/pokerth_pt_PT.ts
+    i18n/pokerth_pt_BR.ts
 )
 
 qt_add_translations(pokerth_qml-client
@@ -88,6 +132,14 @@ if(ANDROID)
     qt_add_executable(pokerth_qml-client MANUAL_FINALIZATION ${POKERTH_QML_CLIENT_SRC})
     target_include_directories(pokerth_qml-client PRIVATE "${Protobuf_INCLUDE_DIR}")
     target_link_libraries(pokerth_qml-client PUBLIC protobuf::libprotobuf)
+elseif(WIN32)
+    # Windows GUI app ohne Konsolenfenster. pokerth.rc bettet pokerth.ico als
+    # App-Icon in die .exe ein (Explorer, Taskbar, Titelleiste). windres findet
+    # die in der .rc relativ referenzierte .ico über den Include-Pfad auf den
+    # Repo-Root; der Pfad zur .rc selbst ist absolut (CWD-unabhängig).
+    set_source_files_properties("${CMAKE_SOURCE_DIR}/pokerth.rc" PROPERTIES
+        COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}")
+    add_executable(pokerth_qml-client WIN32 ${POKERTH_QML_CLIENT_SRC} "${CMAKE_SOURCE_DIR}/pokerth.rc")
 else()
     add_executable(pokerth_qml-client ${POKERTH_QML_CLIENT_SRC})
 endif()
@@ -150,6 +202,12 @@ if(WIN32)
 endif()
 
 target_compile_definitions(pokerth_qml-client PUBLIC QML_CLIENT)
+
+# qDebug()-Aufrufe der Client-eigenen Quellen (z. B. die per-Aktion-
+# Instrumentierung [ACTDBG] im GameHandler aus der gelösten Freeze-Untersuchung)
+# zu Compile-Zeit zu No-ops machen → keine String-Formatierung/I/O pro Aktion
+# im Spiel. qInfo/qWarning/qCritical/qFatal bleiben erhalten.
+target_compile_definitions(pokerth_qml-client PRIVATE QT_NO_DEBUG_OUTPUT)
 
 # Android: Konfiguriere und finalisiere Target
 if(ANDROID)

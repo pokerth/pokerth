@@ -37,7 +37,6 @@
 #include <QtQml>
 #include <QApplication>
 #include <QSettings>
-#include <QQuickStyle>
 #include <QQuickWindow>
 #include <QIcon>
 #include <boost/shared_ptr.hpp>
@@ -48,8 +47,8 @@
 #include <QQmlContext>
 #include <QDebug>
 #include <retranslate.h>
-#include <settingsxmlhandler.h>
 #include <settingsmanager.h>
+#include "gui/qt6-qml/cpp/styleprovider.h"
 #include "gui/qt6-qml/cpp/serverconnectionhandler.h"
 #include "gui/qt6-qml/cpp/lobbyhandler.h"
 #include "gui/qt6-qml/cpp/gamehandler.h"
@@ -57,9 +56,59 @@
 #include "gui/qt6-qml/cpp/networkgamehandler.h"
 #include "gui/qt6-qml/cpp/qmlguiinterface.h"
 #include "gui/qt6-qml/cpp/screenhelper.h"
+#include "gui/qt6-qml/cpp/webnetworkfactory.h"
+#include <core/loghelper.h>
+#include <cstdio>
+
+// Routes every Qt/QML diagnostic message (qDebug, qWarning, and crucially the
+// QML console.log "[NAV]" navigation traces) into the persistent client debug
+// log file (~/.pokerth/pokerth-debug.log) opened by loghelper_init(), while
+// still echoing to stderr so a terminal run looks unchanged. Combined with the
+// engine/net LOG_* messages (which share the same file) this gives a single,
+// thread-id-tagged timeline – essential for the rare end-of-round freeze where
+// the GUI thread blocks inside the SQLite log flush.
+static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & /*ctx*/, const QString &msg)
+{
+    // Debug-Meldungen werden NICHT mehr verarbeitet: die per-Aktion-
+    // Instrumentierung (z. B. [ACTDBG] im GameHandler) stammt aus der damaligen
+    // Freeze-Untersuchung (gelöst) und schrieb pro Aktion synchron nach stderr
+    // UND auf Platte (fflush je Zeile) → unnötige I/O im Spiel. Nur noch
+    // Info/Warning/Critical/Fatal (selten, echte Diagnose) werden geloggt.
+    if (type == QtDebugMsg)
+        return;
+
+    const char *tag = "[QML] ";
+    switch (type) {
+        case QtDebugMsg:    tag = "[QML-D] "; break;
+        case QtInfoMsg:     tag = "[QML-I] "; break;
+        case QtWarningMsg:  tag = "[QML-W] "; break;
+        case QtCriticalMsg: tag = "[QML-C] "; break;
+        case QtFatalMsg:    tag = "[QML-F] "; break;
+    }
+    const QByteArray local = msg.toLocal8Bit();
+    fprintf(stderr, "%s%s\n", tag, local.constData());
+    fflush(stderr);
+    loghelper_write_raw(std::string(tag) + msg.toStdString());
+    if (type == QtFatalMsg)
+        abort();
+}
 
 int main(int argc, char *argv[])
 {
+    // QT_QUICK_CONTROLS_STYLE wird beim frühen Style-Resolve ausgewertet.
+    // Unter KDE/Plasma ist oft bereits ein nativer Style im Environment
+    // gesetzt ("Desktop" / "org.kde.desktop"), der im Deploy das fehlende
+    // Modul verlangt. Daher problematische Werte früh auf Universal
+    // normalisieren, noch vor Q(Gui)Application und vor dem ersten
+    // QtQuick-Controls-Zugriff.
+    const QByteArray quickControlsStyle = qgetenv("QT_QUICK_CONTROLS_STYLE");
+    const QByteArray quickControlsStyleLower = quickControlsStyle.toLower();
+    if (quickControlsStyle.isEmpty()
+        || quickControlsStyleLower == "desktop"
+        || quickControlsStyleLower.startsWith("org.kde")) {
+        qputenv("QT_QUICK_CONTROLS_STYLE", "Universal");
+    }
+
     // Qt6 nutzt auf Wayland standardmäßig den THREADED Scene-Graph-Render-Loop.
     // Dessen Teardown beim Programmende kann mit der GUI-Thread-Zerstörung der
     // QML-Items kollidieren → Absturz in QQuickWindowPrivate::cleanup(QSGNode*).
@@ -90,21 +139,47 @@ int main(int argc, char *argv[])
 
 
     QIcon::setThemeName("pokerth");
+    // Set the application/window icon explicitly. On X11 (and on Wayland with
+    // Qt >= 6.9 via the xdg-toplevel-icon protocol) this makes the window
+    // manager / task-bar show the PokerTH logo instead of the generic "W".
+    // IMPORTANT: build the icon from concrete rasterized pixmaps, NOT directly
+    // from the scalable SVG. A QIcon backed only by an SVG reports no
+    // availableSizes(); Qt's Wayland xdg-toplevel-icon path (Qt >= 6.9, used by
+    // the AppImage) sends the icon as sized buffers, so with no sizes it sends
+    // nothing and the compositor keeps its generic fallback. The widget client
+    // works because it uses a raster PNG; here we render the SVG to fixed sizes.
+    {
+        const QIcon svgIcon(QStringLiteral(":/resources/pokerth.svg"));
+        QIcon appIcon;
+        for (int sz : {16, 24, 32, 48, 64, 128, 256})
+            appIcon.addPixmap(svgIcon.pixmap(sz, sz));
+        QGuiApplication::setWindowIcon(appIcon);
+    }
+    // On Wayland with the Qt 6.8 deploy the compositor (e.g. KWin) can NOT get
+    // the icon from setWindowIcon; it resolves it from the matching .desktop
+    // file via the surface app_id. Pin the app_id to the installed desktop-file
+    // basename so the portable launcher's ~/.local/share entry is matched.
+    QGuiApplication::setDesktopFileName(QStringLiteral("pokerth_qml"));
 
     boost::shared_ptr<ConfigFile> myConfig;
     myConfig.reset(new ConfigFile(argv[0], false));
 
-    // make QSettings use the default PokerTH config.xml :
-	const QSettings::Format XmlFormat = QSettings::registerFormat("xml", &SettingsXmlHandler::readXmlFile, &SettingsXmlHandler::writeXmlFile);
-    QFileInfo fi(QString::fromStdString(myConfig->configFileName));
-    QSettings::setPath(XmlFormat, QSettings::UserScope, fi.absolutePath().remove("/.pokerth"));
-    QSettings settings(XmlFormat, QSettings::UserScope, ".pokerth", "config");
+    // Open the persistent client debug log (~/.pokerth/pokerth-debug.log) and
+    // funnel all Qt/QML diagnostics through it. Done as early as possible so the
+    // whole session – including the navigation traces around end-of-game – is
+    // captured for after-the-fact analysis of the rare leave-game freeze.
+    loghelper_init(myConfig->readConfigString("LogDir"), 1);
+    qInstallMessageHandler(pokerthQmlMessageHandler);
+    qInfo().noquote() << "[BOOT] PokerTH QML client starting; debug log in"
+                      << QString::fromStdString(myConfig->readConfigString("LogDir"));
 
-    if (qEnvironmentVariableIsEmpty("QT_QUICK_CONTROLS_STYLE"))
-        QQuickStyle::setStyle(settings.value("style").toString());
-    const QString styleInSettings = settings.value("style").toString();
-    if (styleInSettings.isEmpty())
-        settings.setValue(QLatin1String("style"), QQuickStyle::name());
+    // Der QtQuick-Controls-Style ist durch die QT_QUICK_CONTROLS_STYLE-
+    // Normalisierung oben (vor QApplication) bereits vollständig bestimmt;
+    // QtQuick liest die Env-Variable selbst. KEIN QSettings auf config.xml
+    // mehr: der frühere XML-Handler (settingsxmlhandler) las nur die value-
+    // Attribute und verwarf beim Zurückschreiben sämtliche Listen-Einträge
+    // (PlayerTooltips = Spieler-Notizen/-Bewertungen, PlayerIgnoreList,
+    // ManualBlindsList, ...). An config.xml schreibt ausschließlich ConfigFile.
 
 	const QLocale locale;
 	const QString baseName = "pokerth";
@@ -162,12 +237,20 @@ int main(int argc, char *argv[])
         qWarning() << "Exception during session init:" << e.what();
     }
 
+    // Declared before the engine so it outlives it (the engine uses the factory
+    // during its own destruction). Injects the allowlisted PokerTH User-Agent on
+    // all QML network requests (rankings & player pages behind Cloudflare).
+    WebNetworkAccessManagerFactory webNamFactory;
+
     QQmlApplicationEngine engine;
+    engine.setNetworkAccessManagerFactory(&webNamFactory);
 
     SettingsManager settingsMgr(myConfig);
+    StyleProvider styleProvider(myConfig);
     LanguageManager langMgr(&engine);
     ScreenHelper screenHelper;
     engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
+    engine.rootContext()->setContextProperty("StyleProvider", &styleProvider);
     engine.rootContext()->setContextProperty("LanguageManager", &langMgr);
     engine.rootContext()->setContextProperty("ScreenHelper", &screenHelper);
     engine.rootContext()->setContextProperty("ServerConnection", connectionHandler);
@@ -222,7 +305,18 @@ int main(int argc, char *argv[])
     // references guiInterface) before guiInterface is deleted below.
     networkGameHandler->shutdown();
     delete guiInterface; // releases guiInterface's session ref too
-    session.reset(); // refcount now 0 → ~Session() → ~Log() SQL cleanup runs here safely
+    // Commit any still-buffered SQLite log statements now, while the Session
+    // (and thus the Log) is guaranteed alive and we are on the GUI thread.
+    // flushLog() takes the Log's mutex, so if the network thread was leaked by
+    // terminateNetworkClient() (Join timeout) and is mid-flush, we block until
+    // it finishes rather than racing it. This matters because the Wayland path
+    // below ends the process with std::_Exit(), which skips ~Log() entirely.
+    if (session && session->getMyLog()) {
+        session->getMyLog()->flushLog();
+    }
+    session.reset(); // ~Session() runs here; ~Log() (SQLite close) follows once
+                     // the last shared_ptr<Log> ref drops (a leaked network
+                     // thread may briefly hold one – the Log stays valid for it)
 
     // Wayland-Workaround gegen den reproduzierbaren Shutdown-Crash: der
     // QQmlApplicationEngine-Destruktor (Stack-Unwind am main-Ende) baut die
@@ -407,10 +501,27 @@ int main( int argc, char **argv )
 	// set PlastiqueStyle even for mac-version to prevent artefacts on styled widgets
 
 	QString	myAppDataPath = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str());
+
+	// Set the application-wide window icon so surfaces that use the *application*
+	// icon (e.g. the desktop shell's status/indicator area) show the PokerTH logo
+	// instead of the generic default. The taskbar already gets the icon from the
+	// per-window StartWindowImpl::setWindowIcon, but that does not cover the
+	// application-level icon.
+	QApplication::setWindowIcon(QIcon(myAppDataPath + "gfx/gui/misc/windowicon.png"));
+	// On Wayland (Qt 6.8 deploy) setWindowIcon does not reach the compositor;
+	// the icon is resolved from the matching .desktop file via the surface
+	// app_id. Pin the app_id to the installed desktop-file basename so the
+	// portable launcher's ~/.local/share entry is matched by KWin.
+	QApplication::setDesktopFileName(QStringLiteral("pokerth"));
+
 	//set QApplication default font
 
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/n019003l.pfb");
 	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/DejaVuSans-Bold.ttf");
+	// Gebündelter Farb-Emoji-Font (Noto Color Emoji, CBDT/CBLC-Bitmap-Variante),
+	// damit Emojis distributionsunabhängig erscheinen und nicht von der
+	// System-FreeType-Version (COLRv1 erst ab 2.13) abhängen.
+	QFontDatabase::addApplicationFont (myAppDataPath +"fonts/NotoColorEmoji.ttf");
 
 #ifdef _WIN32
 	QString font1String("QApplication, QWidget, QDialog { font-size: 12px; }");

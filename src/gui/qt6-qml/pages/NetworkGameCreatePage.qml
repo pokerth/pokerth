@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 
 import "../config" as Config
 import "../components"
@@ -112,16 +111,10 @@ Rectangle {
                         implicitHeight: 36
                         onClicked: mainStackView.pop()
                     }
-                    VectorImage {
-                        Layout.preferredWidth: 28
-                        Layout.preferredHeight: 28
-                        source: "../resources/pokerth.svg"
-                    }
-                    Label {
+                    AppLabel {
                         Layout.fillWidth: true
                         text: qsTr("Netzwerkspiel erstellen")
                         color: Config.StaticData.palette.secondary.col100
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 18
                         font.bold: true
                     }
@@ -142,10 +135,9 @@ Rectangle {
                 spacing: 12
 
                 // ── Spiel-Einstellungen ──────────────────────────────────────
-                Label {
+                AppLabel {
                     text: qsTr("Spiel-Einstellungen")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -153,10 +145,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Max. Spieler")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -172,10 +163,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Startgeld")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -199,10 +189,9 @@ Rectangle {
                     Layout.topMargin: 4
                     Layout.bottomMargin: 4
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Blind-Einstellungen")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -210,10 +199,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Erster Small Blind")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -231,10 +219,9 @@ Rectangle {
                 ColumnLayout {
                     Layout.fillWidth: true
                     spacing: 6
-                    Label {
+                    AppLabel {
                         text: qsTr("Blind-Erhöhungsintervall")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                     }
                     RowLayout {
@@ -253,12 +240,11 @@ Rectangle {
                             enabled: raiseByHandsRadio.checked
                             implicitWidth: 110
                         }
-                        Label {
+                        AppLabel {
                             text: qsTr("Hände")
                             color: raiseByHandsRadio.checked
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -279,12 +265,11 @@ Rectangle {
                             enabled: raiseByMinutesRadio.checked
                             implicitWidth: 110
                         }
-                        Label {
+                        AppLabel {
                             text: qsTr("Minuten")
                             color: raiseByMinutesRadio.checked
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -294,10 +279,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Blinds immer verdoppeln")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -316,10 +300,9 @@ Rectangle {
                     Layout.topMargin: 4
                     Layout.bottomMargin: 4
                 }
-                Label {
+                AppLabel {
                     text: qsTr("Zeitlimits")
                     color: Config.StaticData.palette.secondary.col300
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 13
                     font.bold: true
                 }
@@ -327,10 +310,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Zeitlimit Spieleraktion")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -348,10 +330,9 @@ Rectangle {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 8
-                    Label {
+                    AppLabel {
                         text: qsTr("Pause zwischen Händen")
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -366,13 +347,12 @@ Rectangle {
                     }
                 }
 
-                Label {
+                AppLabel {
                     visible: networkGameCreatePage.statusMessage !== ""
                     text: networkGameCreatePage.statusMessage
                     color: "#ef4444"
                     wrapMode: Text.WordWrap
                     Layout.fillWidth: true
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pixelSize: 12
                 }
 
@@ -409,23 +389,16 @@ Rectangle {
         spacing: 20
         visible: networkGameCreatePage.connecting
 
-        VectorImage {
-            Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: 64
-            Layout.preferredHeight: 64
-            source: "../resources/pokerth.svg"
-        }
         BusyIndicator {
             running: networkGameCreatePage.connecting
             Layout.alignment: Qt.AlignHCenter
             implicitWidth: 48
             implicitHeight: 48
         }
-        Label {
+        AppLabel {
             text: qsTr("Server wird gestartet …")
             Layout.alignment: Qt.AlignHCenter
             color: Config.StaticData.palette.secondary.col200
-            font.family: Config.StaticData.loadedFont.font.family
             font.pixelSize: Config.Theme.fontSizeTitle
             font.bold: true
         }

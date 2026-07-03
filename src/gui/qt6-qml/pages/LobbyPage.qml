@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -14,11 +13,6 @@ Rectangle {
     Layout.fillHeight: true
     clip: true
     color: Config.StaticData.palette.secondary.col700
-
-    // Mock data for development
-    property int connectedPlayers: Lobby ? Lobby.playerListModel.count : 0
-    property int runningGames: Lobby ? Lobby.gameListModel.runningCount : 0
-    property int openGames: Lobby ? Lobby.gameListModel.openCount : 0
 
     // Portrait-mode overlay state
     property bool showingPlayerList: false
@@ -49,6 +43,25 @@ Rectangle {
         if (mode === 2) return Config.Theme.colorStatusRunning
         if (mode === 3) return Config.Theme.colorStatusClosed
         return count < maxPlayers ? Config.Theme.colorStatusOpen : Config.Theme.colorStatusFull
+    }
+
+    // Kontextaktionen für das ausgewählte Spiel (Bestätigung wie im Widget-Client)
+    function requestReportGame() {
+        if (!selectedGame) return
+        reportGamePopup.openWith(
+            qsTr("Report game name"),
+            qsTr("Are you sure you want to report the game name:\n\"%1\" as inappropriate?")
+                .arg(selectedGame.gameName || ("Game #" + selectedGame.gameId)),
+            qsTr("Report"))
+    }
+
+    function requestCloseGame() {
+        if (!selectedGame) return
+        closeGamePopup.openWith(
+            qsTr("Close game"),
+            qsTr("Are you sure you want to close the game:\n\"%1\"?")
+                .arg(selectedGame.gameName || ("Game #" + selectedGame.gameId)),
+            qsTr("Close game"))
     }
 
     function resetPlayerListDelegates() {
@@ -89,10 +102,10 @@ Rectangle {
         }
 
         function onSelfJoinedGame() {
-            console.log("[NAV] onSelfJoinedGame | depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
+            // console.log("[NAV] onSelfJoinedGame | depth before:", mainStackView.depth, "| currentItem:", mainStackView.currentItem ? (mainStackView.currentItem.objectName || mainStackView.currentItem.toString()) : "null")
             // pop(lobbyPage) entfernt alles ÜBER lobbyPage; ist lobbyPage schon oben, passiert nichts
             mainStackView.pop(lobbyPage, StackView.Immediate)
-            console.log("[NAV]   pushing GameWaitPage | depth now:", mainStackView.depth)
+            // console.log("[NAV]   pushing GameWaitPage | depth now:", mainStackView.depth)
             mainStackView.push("GameWaitPage.qml")
         }
     }
@@ -128,9 +141,8 @@ Rectangle {
             RowLayout {
                 Layout.fillWidth: true
 
-                Label {
+                AppLabel {
                     text: qsTr("Players")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 15
                     color: Config.StaticData.palette.secondary.col200
@@ -185,6 +197,11 @@ Rectangle {
                 background: Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
                     radius: 3
+                    border.width: 1
+                    border.color: playerSearchField.activeFocus
+                                  ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.75)
+                                  : "transparent"
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
                 }
                 placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
             }
@@ -281,13 +298,35 @@ Rectangle {
                     }
                 }
 
-                Label {
+                AppLabel {
                     text: qsTr("Game Info")
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.bold: true
                     font.pixelSize: 16
                     color: Config.StaticData.palette.secondary.col200
                     Layout.fillWidth: true
+                }
+
+                // Kontextaktionen für das ausgewählte Spiel
+                Row {
+                    visible: lobbyPage.selectedGame !== null
+                    spacing: 2
+                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+
+                    PlayerActionIcon {
+                        iconSize: 22
+                        source: "qrc:/resources/flag.svg"
+                        baseColor: Config.StaticData.chartColor(6, true)
+                        tooltipText: qsTr("Report inappropriate game name")
+                        onTriggered: lobbyPage.requestReportGame()
+                    }
+                    PlayerActionIcon {
+                        visible: Lobby && Lobby.isCurrentPlayerAdmin
+                        iconSize: 22
+                        source: "qrc:/resources/gavel.svg"
+                        baseColor: Config.StaticData.chartColor(5, true)
+                        tooltipText: qsTr("Close game (admin)")
+                        onTriggered: lobbyPage.requestCloseGame()
+                    }
                 }
             }
 
@@ -309,11 +348,10 @@ Rectangle {
                     anchors.margins: 14
                     spacing: 10
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? (lobbyPage.selectedGame.gameName || ("Game #" + lobbyPage.selectedGame.gameId))
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: 15
                         color: Config.StaticData.palette.secondary.col100
@@ -321,18 +359,17 @@ Rectangle {
                         Layout.fillWidth: true
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Players: %1 / %2")
                                 .arg(lobbyPage.selectedGame.playerCount || 0)
                                 .arg(lobbyPage.selectedGame.maxPlayers || 10)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Label {
+                    AppLabel {
                         text: {
                             if (!lobbyPage.selectedGame) return ""
                             var mode = lobbyPage.selectedGame.gameMode || 1
@@ -340,7 +377,6 @@ Rectangle {
                             var max = lobbyPage.selectedGame.maxPlayers || 10
                             return qsTr("Status: %1").arg(Lobby ? Lobby.gameStatusText(mode, cnt, max) : "")
                         }
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: {
                             if (!lobbyPage.selectedGame) return Config.StaticData.palette.secondary.col300
@@ -370,11 +406,10 @@ Rectangle {
                             }
                         }
 
-                        Label {
+                        AppLabel {
                             text: lobbyPage.selectedGame
                                   ? qsTr("Type: %1").arg(Lobby ? Lobby.gameTypeText(lobbyPage.selectedGame.gameType || 1) : "")
                                   : ""
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 13
                             color: Config.StaticData.palette.secondary.col200
                             Layout.fillWidth: true
@@ -382,25 +417,23 @@ Rectangle {
                         }
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Small blind: %1").arg(lobbyPage.selectedGame.firstSmallBlind || 10)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Start cash: %1").arg(lobbyPage.selectedGame.startMoney || 0)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Label {
+                    AppLabel {
                         text: {
                             if (!lobbyPage.selectedGame) return ""
                             var mode = lobbyPage.selectedGame.raiseIntervalMode || 1
@@ -409,54 +442,49 @@ Rectangle {
                             }
                             return qsTr("Blinds raise interval: %1 minutes").arg(lobbyPage.selectedGame.raiseEveryMinutes || 0)
                         }
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Blinds raise mode: %1").arg((lobbyPage.selectedGame.raiseMode || 1) === 1
                                   ? qsTr("double blinds") : qsTr("manual blinds order"))
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                     }
 
-                    Label {
+                    AppLabel {
                         visible: lobbyPage.selectedGame && (lobbyPage.selectedGame.raiseMode || 1) !== 1 &&
                                  (lobbyPage.selectedGame.manualBlindsText || "").length > 0
                         text: lobbyPage.selectedGame
                               ? qsTr("Blinds list: %1").arg(lobbyPage.selectedGame.manualBlindsText || "")
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    AppLabel {
                         text: lobbyPage.selectedGame
                               ? qsTr("Game timing: %1 sec (action)\n%2 sec (hand delay)")
                                 .arg(lobbyPage.selectedGame.playerActionTimeoutSec || 0)
                                 .arg(lobbyPage.selectedGame.delayBetweenHandsSec || 0)
                               : ""
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
                     }
 
-                    Label {
+                    AppLabel {
                         visible: lobbyPage.selectedGame !== null
                         text: qsTr("Players in game (%1)").arg(lobbyPage.selectedGamePlayers.length)
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col100
@@ -498,7 +526,7 @@ Rectangle {
                                         smooth: true
                                     }
 
-                                    VectorImage {
+                                    SvgIcon {
                                         visible: !((modelData.avatarUrl || "").length > 0)
                                         anchors.fill: parent
                                         source: "../resources/pokerth.svg"
@@ -516,14 +544,11 @@ Rectangle {
                                     smooth: true
                                 }
 
-                                Text {
+                                AppText {
                                     text: modelData.playerName || ""
-                                    font.family: Config.StaticData.loadedFont.font.family
                                     font.pixelSize: 12
-                                    color: (modelData.isAdmin === true)
-                                        ? Config.StaticData.chartColor(3, true)
-                                        : Config.StaticData.palette.secondary.col200
-                                    font.bold: modelData.isAdmin === true
+                                    color: Config.StaticData.palette.secondary.col200
+                                    font.bold: false
                                     Layout.fillWidth: true
                                     elide: Text.ElideRight
                                 }
@@ -615,6 +640,11 @@ Rectangle {
                 background: Rectangle {
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
                     radius: 3
+                    border.width: 1
+                    border.color: searchPlayerField.activeFocus
+                                  ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.75)
+                                  : "transparent"
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
                 }
                 placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
             }
@@ -640,33 +670,42 @@ Rectangle {
             }
         }
 
-        // Main content
-        RowLayout {
+        // Main content — desktop: drei resizable Spalten (Spielerliste |
+        // Spielliste/Chat | Game-Info/Chat) mit Min-/Max-Breiten, sodass immer
+        // alle drei Spalten sinnvoll sichtbar bleiben. Compact: nur die
+        // Mittelspalte ist sichtbar, die Seitenspalten entfallen.
+        SplitView {
+            id: lobbyContentSplit
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 10
+            orientation: Qt.Horizontal
+            handle: ResizeHandle { horizontal: true }
 
             // Wide: Player list (hidden in compact — uses slide panel instead)
+            // Initial 1:2:1 ratio (1/4 width)
             Rectangle {
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 200
-                Layout.fillHeight: true
+                SplitView.preferredWidth: lobbyContentSplit.width / 4
+                SplitView.minimumWidth: 160
                 color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                 radius: 5
+
+                PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
 
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 5
                     spacing: 5
 
-                    Label {
-                        text: qsTr("Available Players")
-                        font.family: Config.StaticData.loadedFont.font.family
+                    AppLabel {
+                        text: qsTr("Connected Players")
                         font.bold: true
                         color: Config.StaticData.palette.secondary.col200
                         Layout.fillWidth: true
                         horizontalAlignment: Text.AlignHCenter
                     }
+
+                    SectionDivider {}
 
                     ListView {
                         id: playerListView
@@ -701,29 +740,40 @@ Rectangle {
 
             // Center: Game list + (compact: chat below)
             ColumnLayout {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
+                SplitView.fillWidth: true
+                SplitView.minimumWidth: 280
                 spacing: 5
+
+                // Compact: Spielliste und Chat sind vertikal resizable
+                // (Min-Höhe je 1/3). Wide: nur die Spielliste, füllt den Platz.
+                SplitView {
+                    id: lobbyCenterSplit
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    orientation: Qt.Vertical
+                    handle: ResizeHandle { horizontal: false }
 
                 // Game list: same height as chat in compact
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.verticalStretchFactor: 1
+                    SplitView.fillHeight: true
+                    SplitView.minimumHeight: Config.Responsive.compact ? lobbyCenterSplit.height / 3 : 0
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
+
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
 
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 5
                         spacing: 5
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Game List")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
+
+                        SectionDivider {}
 
                         // Game list
                         ListView {
@@ -734,8 +784,11 @@ Rectangle {
                             model: Lobby ? Lobby.gameListProxyModel : null
 
                             delegate: ItemDelegate {
+                                id: gameRow
                                 width: gameListView.width
                                 height: 54
+
+                                readonly property bool selected: ListView.isCurrentItem
 
                                 ColumnLayout {
                                     anchors {
@@ -745,9 +798,8 @@ Rectangle {
                                     }
                                     spacing: 3
 
-                                    Text {
+                                    AppText {
                                         text: model.gameName || ("Game #" + model.gameId)
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.bold: true
                                         font.pixelSize: 13
                                         color: Config.StaticData.palette.secondary.col200
@@ -759,9 +811,8 @@ Rectangle {
                                         Layout.fillWidth: true
                                         spacing: 5
 
-                                        Text {
+                                        AppText {
                                             text: (model.playerCount || 0) + "/" + (model.maxPlayers || 10)
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                         }
@@ -770,12 +821,11 @@ Rectangle {
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col500
                                         }
-                                        Text {
+                                        AppText {
                                             readonly property int gm: (model.gameMode || 1)
                                             readonly property int cnt: (model.playerCount || 0)
                                             readonly property int max: (model.maxPlayers || 10)
                                             text: Lobby ? Lobby.gameStatusText(gm, cnt, max) : ""
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: {
                                                 if (gm === 2) return Config.Theme.colorStatusRunning
@@ -788,11 +838,10 @@ Rectangle {
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col500
                                         }
-                                        Text {
+                                        AppText {
                                             readonly property int actionSec: model.playerActionTimeoutSec > 0 ? model.playerActionTimeoutSec : 0
                                             readonly property int handDelaySec: model.delayBetweenHandsSec > 0 ? model.delayBetweenHandsSec : 0
                                             text: qsTr("Time: %1s/%2s").arg(actionSec).arg(handDelaySec)
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                         }
@@ -801,9 +850,8 @@ Rectangle {
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col500
                                         }
-                                        Text {
+                                        AppText {
                                             text: model.isPrivate ? qsTr("Private") : qsTr("Public")
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                         }
@@ -813,9 +861,8 @@ Rectangle {
                                             color: Config.StaticData.palette.secondary.col500
                                             visible: model.gameType === 4
                                         }
-                                        Text {
+                                        AppText {
                                             text: qsTr("Ranking")
-                                            font.family: Config.StaticData.loadedFont.font.family
                                             font.pixelSize: 12
                                             color: Config.StaticData.palette.secondary.col300
                                             visible: model.gameType === 4
@@ -825,10 +872,23 @@ Rectangle {
                                 }
 
                                 background: Rectangle {
-                                    color: parent.hovered
-                                           ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.3)
-                                           : "transparent"
+                                    color: gameRow.selected
+                                           ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.13)
+                                           : gameRow.hovered
+                                             ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.3)
+                                             : "transparent"
                                     radius: 3
+                                    Behavior on color { ColorAnimation { duration: 130 } }
+
+                                    // Dezenter Gold-Akzentbalken links bei Auswahl
+                                    Rectangle {
+                                        anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                                        width: 3
+                                        radius: width / 2
+                                        color: Config.Theme.colorAccent
+                                        opacity: gameRow.selected ? 0.85 : 0
+                                        Behavior on opacity { NumberAnimation { duration: 130 } }
+                                    }
                                 }
 
                                 onClicked: {
@@ -857,12 +917,12 @@ Rectangle {
                                     }
                                 }
 
-                                // Compact-Lobby: Doppelklick auf eine Spielzeile
+                                // Desktop-Lobby: Doppelklick auf eine Spielzeile
                                 // tritt dem Spiel direkt bei (wie der "Join Game"-
                                 // Button). selectedGame ist durch onClicked oben
                                 // bereits auf die geklickte Zeile gesetzt.
                                 onDoubleClicked: {
-                                    if (!Config.Responsive.compact) return
+                                    if (Config.Responsive.compact) return
                                     if (!Lobby || Lobby.isInGame) return
                                     if (!lobbyPage.selectedGame || !lobbyPage.selectedGameJoinable) return
                                     if (lobbyPage.selectedGame.isPrivate) {
@@ -878,26 +938,28 @@ Rectangle {
                     }
                 }
 
-                // Compact: Lobby Chat (1/3 of height)
+                // Compact: Lobby Chat — vertikal resizable, Min-Höhe 1/3
                 Rectangle {
                     visible: Config.Responsive.compact
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    Layout.verticalStretchFactor: 1
+                    SplitView.preferredHeight: lobbyCenterSplit.height / 2
+                    SplitView.minimumHeight: lobbyCenterSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
+
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
 
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 5
                         spacing: 4
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Lobby Chat")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
+
+                        SectionDivider {}
 
                         ChatBox {
                             id: lobbyChatBoxCompact
@@ -905,14 +967,13 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            // Vollständige (ungefilterte) Spielerliste für die
+                            // Tab-Vervollständigung – damit auch Spieler in
+                            // (offenen) Spielen vervollständigt werden, die der
+                            // Spielerlisten-Filter ausblenden kann.
                             nickList: {
-                                var nicks = []
-                                if (typeof Lobby !== "undefined" && Lobby)
-                                    for (var i = 0; i < Lobby.playerListModel.count; i++) {
-                                        var entry = Lobby.playerListEntry(i)
-                                        if (entry.playerName) nicks.push(entry.playerName)
-                                    }
-                                return nicks
+                                var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
+                                return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
                             }
                             pickerInlineHeight: 140
                             onSendRequested: (text) => {
@@ -922,16 +983,16 @@ Rectangle {
                         }
                     }
                 }
+                } // lobbyCenterSplit
 
                 // Action buttons
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
 
-                    Label {
+                    AppLabel {
                         text: qsTr("Player: %1").arg(
                             Lobby && Lobby.myPlayerName !== "" ? Lobby.myPlayerName : "Guest")
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.bold: true
                         font.pixelSize: 14
                         color: Config.StaticData.palette.secondary.col100
@@ -966,32 +1027,61 @@ Rectangle {
                 }
             }
 
-            // Wide: right panel — Game Info + Chat
-            ColumnLayout {
+            // Wide: right panel — Game Info + Chat, vertikal resizable
+            // (Min-Höhe je 1/3), damit Game-Info verkleinert und der Chat
+            // vergrößert werden kann (und umgekehrt).
+            SplitView {
+                id: lobbyRightSplit
                 visible: !Config.Responsive.compact
-                Layout.preferredWidth: 250
-                Layout.fillHeight: true
-                spacing: 10
+                SplitView.preferredWidth: lobbyContentSplit.width / 4
+                SplitView.minimumWidth: 200
+                orientation: Qt.Vertical
+                handle: ResizeHandle { horizontal: false }
 
                 // Game Info
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 200
+                    SplitView.preferredHeight: 200
+                    SplitView.minimumHeight: lobbyRightSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
+
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
 
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 10
                         spacing: 5
 
-                        Label {
-                            text: qsTr("Game Info")
-                            font.family: Config.StaticData.loadedFont.font.family
-                            font.bold: true
-                            font.pixelSize: 14
-                            color: Config.StaticData.palette.secondary.col200
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 4
+
+                            AppLabel {
+                                text: qsTr("Game Info")
+                                font.bold: true
+                                font.pixelSize: 14
+                                color: Config.StaticData.palette.secondary.col200
+                                Layout.fillWidth: true
+                            }
+
+                            // Kontextaktionen für das ausgewählte Spiel
+                            PlayerActionIcon {
+                                visible: lobbyPage.selectedGame !== null
+                                source: "qrc:/resources/flag.svg"
+                                baseColor: Config.StaticData.chartColor(6, true)
+                                tooltipText: qsTr("Report inappropriate game name")
+                                onTriggered: lobbyPage.requestReportGame()
+                            }
+                            PlayerActionIcon {
+                                visible: lobbyPage.selectedGame !== null && Lobby && Lobby.isCurrentPlayerAdmin
+                                source: "qrc:/resources/gavel.svg"
+                                baseColor: Config.StaticData.chartColor(5, true)
+                                tooltipText: qsTr("Close game (admin)")
+                                onTriggered: lobbyPage.requestCloseGame()
+                            }
                         }
+
+                        SectionDivider {}
 
                         RowLayout {
                             Layout.fillWidth: true
@@ -1012,11 +1102,10 @@ Rectangle {
                                 }
                             }
 
-                            Label {
+                            AppLabel {
                                 text: lobbyPage.selectedGame
                                       ? qsTr("Type: %1").arg(Lobby ? Lobby.gameTypeText(lobbyPage.selectedGame.gameType || 1) : "")
                                       : qsTr("Select a game to see details")
-                                font.family: Config.StaticData.loadedFont.font.family
                                 font.pixelSize: 12
                                 color: Config.StaticData.palette.secondary.col300
                                 wrapMode: Text.WordWrap
@@ -1024,24 +1113,22 @@ Rectangle {
                             }
                         }
 
-                        Label {
+                        AppLabel {
                             visible: lobbyPage.selectedGame !== null
                             text: lobbyPage.selectedGame
                                   ? qsTr("SB: %1 | Start cash: %2")
                                     .arg(lobbyPage.selectedGame.firstSmallBlind || 10)
                                     .arg(lobbyPage.selectedGame.startMoney || 0)
                                   : ""
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.pixelSize: 12
                             color: Config.StaticData.palette.secondary.col300
                             wrapMode: Text.WordWrap
                             Layout.fillWidth: true
                         }
 
-                        Label {
+                        AppLabel {
                             visible: lobbyPage.selectedGame !== null
                             text: qsTr("Players in game (%1)").arg(lobbyPage.selectedGamePlayers.length)
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             font.pixelSize: 12
                             color: Config.StaticData.palette.secondary.col200
@@ -1083,7 +1170,7 @@ Rectangle {
                                             smooth: true
                                         }
 
-                                        VectorImage {
+                                        SvgIcon {
                                             visible: !((modelData.avatarUrl || "").length > 0)
                                             anchors.fill: parent
                                             source: "../resources/pokerth.svg"
@@ -1101,14 +1188,11 @@ Rectangle {
                                         smooth: true
                                     }
 
-                                    Text {
+                                    AppText {
                                         text: modelData.playerName || ""
-                                        font.family: Config.StaticData.loadedFont.font.family
                                         font.pixelSize: 11
-                                        color: (modelData.isAdmin === true)
-                                            ? Config.StaticData.chartColor(3, true)
-                                            : Config.StaticData.palette.secondary.col200
-                                        font.bold: modelData.isAdmin === true
+                                        color: Config.StaticData.palette.secondary.col200
+                                        font.bold: false
                                         Layout.fillWidth: true
                                         elide: Text.ElideRight
                                     }
@@ -1120,22 +1204,25 @@ Rectangle {
 
                 // Lobby Chat
                 Rectangle {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
+                    SplitView.fillHeight: true
+                    SplitView.minimumHeight: lobbyRightSplit.height / 3
                     color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
                     radius: 5
+
+                    PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
 
                     ColumnLayout {
                         anchors.fill: parent
                         anchors.margins: 5
                         spacing: 5
 
-                        Label {
+                        AppLabel {
                             text: qsTr("Lobby Chat")
-                            font.family: Config.StaticData.loadedFont.font.family
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
+
+                        SectionDivider {}
 
                         ChatBox {
                             id: lobbyChatBoxWide
@@ -1143,14 +1230,13 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            // Vollständige (ungefilterte) Spielerliste für die
+                            // Tab-Vervollständigung – damit auch Spieler in
+                            // (offenen) Spielen vervollständigt werden, die der
+                            // Spielerlisten-Filter ausblenden kann.
                             nickList: {
-                                var nicks = []
-                                if (typeof Lobby !== "undefined" && Lobby)
-                                    for (var i = 0; i < Lobby.playerListModel.count; i++) {
-                                        var entry = Lobby.playerListEntry(i)
-                                        if (entry.playerName) nicks.push(entry.playerName)
-                                    }
-                                return nicks
+                                var _r = (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerListRevision : 0
+                                return (typeof Lobby !== "undefined" && Lobby) ? Lobby.playerNickList() : []
                             }
                             pickerInlineHeight: 150
                             onSendRequested: (text) => {
@@ -1159,82 +1245,6 @@ Rectangle {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        // Status bar
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: 6
-
-            // Compact: eine Zeile mit Kurzform + elide
-            Label {
-                visible: Config.Responsive.compact
-                Layout.fillWidth: true
-                text: qsTr("%1 players · %2 running · %3 open")
-                      .arg(connectedPlayers).arg(runningGames).arg(openGames)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-                elide: Text.ElideRight
-            }
-
-            // Wide: einzelne Labels
-            Label {
-                visible: !Config.Responsive.compact
-                text: qsTr("connected players: %1").arg(connectedPlayers)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-            }
-            Label {
-                visible: !Config.Responsive.compact
-                text: " | " + qsTr("running games: %1").arg(runningGames)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-            }
-            Label {
-                visible: !Config.Responsive.compact
-                text: " | " + qsTr("open games: %1").arg(openGames)
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: Config.StaticData.palette.secondary.col300
-            }
-
-            Item { Layout.fillWidth: true }
-
-            Text {
-                text: qsTr("PokerTH.net")
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 12
-                color: (Config.StaticData.palette.primary && Config.StaticData.palette.primary.col400)
-                       ? Config.StaticData.palette.primary.col400
-                       : Config.StaticData.palette.secondary.col300
-                font.underline: true
-
-                MouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        var url = "https://www.pokerth.net"
-                        var opened = false
-                        if (Lobby) {
-                            opened = Lobby.openExternalUrl(url)
-                        } else {
-                            opened = Qt.openUrlExternally(url)
-                        }
-
-                        if (!opened) {
-                            console.warn("Failed to open footer URL:", url)
-                        }
-                    }
-                }
-
-                HoverHandler {
-                    cursorShape: Qt.PointingHandCursor
                 }
             }
         }
@@ -1294,6 +1304,23 @@ Rectangle {
         ScriptAction { script: StackView.view.pop() }
     }
 
+    // ── Bestätigungs-Popups für Spiel-Kontextaktionen ────────────────────────
+    ConfirmPopup {
+        id: reportGamePopup
+        onConfirmed: {
+            if (Lobby && lobbyPage.selectedGame)
+                Lobby.reportGameName(lobbyPage.selectedGame.gameId)
+        }
+    }
+
+    ConfirmPopup {
+        id: closeGamePopup
+        onConfirmed: {
+            if (Lobby && lobbyPage.selectedGame)
+                Lobby.adminCloseGame(lobbyPage.selectedGame.gameId)
+        }
+    }
+
     // ── Passwort-Popup für private Spiele ────────────────────────────────────
     Popup {
         id: joinPasswordPopup
@@ -1315,19 +1342,17 @@ Rectangle {
             spacing: 12
             width: Math.min(lobbyPage.width * 0.85, 360)
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Privates Spiel")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Bitte das Passwort eingeben, um beizutreten.")
                 color: Config.StaticData.palette.secondary.col300
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 12
                 wrapMode: Text.WordWrap
             }
@@ -1343,9 +1368,10 @@ Rectangle {
                     radius: 6
                     color: Config.StaticData.palette.secondary.col600
                     border.color: joinPasswordField.activeFocus
-                        ? Config.StaticData.palette.secondary.col200
+                        ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.85)
                         : Config.StaticData.palette.secondary.col400
                     border.width: 1
+                    Behavior on border.color { ColorAnimation { duration: 140 } }
                 }
                 placeholderTextColor: Config.StaticData.palette.secondary.col400
                 Keys.onReturnPressed: joinPasswordPopup.doJoin()
@@ -1404,22 +1430,20 @@ Rectangle {
             spacing: 12
             width: Math.min(lobbyPage.width * 0.85, 360)
 
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("Game invitation")
                 color: Config.StaticData.palette.secondary.col100
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 15
                 font.bold: true
             }
-            Label {
+            AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?")
                       .arg(inviteGamePopup.inviteGameName)
                       .arg(inviteGamePopup.inviteFromName)
                 textFormat: Text.RichText
                 color: Config.StaticData.palette.secondary.col200
-                font.family: Config.StaticData.loadedFont.font.family
                 font.pixelSize: 13
                 wrapMode: Text.WordWrap
             }
@@ -1441,7 +1465,7 @@ Rectangle {
         }
 
         function respond(accepted) {
-            console.log("[INVITE QML] respond: accepted=" + accepted + " gameId=" + inviteGameId)
+            // console.log("[INVITE QML] respond: accepted=" + accepted + " gameId=" + inviteGameId)
             answered = true
             if (accepted)
                 Lobby.acceptGameInvitation(inviteGameId)
@@ -1450,10 +1474,10 @@ Rectangle {
             close()
         }
         onOpened: {
-            console.log("[INVITE QML] popup opened: gameId=" + inviteGameId + " game=" + inviteGameName + " from=" + inviteFromName)
+            // console.log("[INVITE QML] popup opened: gameId=" + inviteGameId + " game=" + inviteGameName + " from=" + inviteFromName)
         }
         onClosed: {
-            console.log("[INVITE QML] popup closed: answered=" + answered + " gameId=" + inviteGameId)
+            // console.log("[INVITE QML] popup closed: answered=" + answered + " gameId=" + inviteGameId)
             // Ohne Auswahl geschlossen (Escape) → ablehnen, damit Server- und
             // Pending-State sauber zurückgesetzt werden.
             if (!answered)
@@ -1464,7 +1488,7 @@ Rectangle {
     Connections {
         target: Lobby
         function onGameInvitationReceived(gameId, gameName, fromName) {
-            console.log("[INVITE QML] onGameInvitationReceived: gameId=" + gameId + " game=" + gameName + " from=" + fromName)
+            // console.log("[INVITE QML] onGameInvitationReceived: gameId=" + gameId + " game=" + gameName + " from=" + fromName)
             // Slide-in-Panels einklappen, damit das Popup im Compact-Mode
             // nicht verdeckt wird und korrekt bedienbar ist.
             lobbyPage.showingPlayerList = false
@@ -1478,10 +1502,10 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        console.log("LobbyPage loaded")
-        console.log("My player name:", Lobby.myPlayerName)
-        console.log("Player model count:", Lobby.playerListModel.rowCount())
-        console.log("Game model count:", Lobby.gameListModel.rowCount())
+        // console.log("LobbyPage loaded")
+        // console.log("My player name:", Lobby.myPlayerName)
+        // console.log("Player model count:", Lobby.playerListModel.rowCount())
+        // console.log("Game model count:", Lobby.gameListModel.rowCount())
         // Bereits vorhandenen Chat-Verlauf wiederherstellen (z.B. nach Rückkehr
         // aus einem Spiel).
     }

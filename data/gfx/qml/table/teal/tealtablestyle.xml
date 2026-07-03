@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Teal QML table style (portiert aus dem Widget-Client-Stil "teal_table",
+   https://www.pokerth.net, von Pinboc).
+
+   Aufbau wie das grüne Default: ein Teal-Filz-Hintergrund (HD 1980x1200) mit
+   unterem Rand. Daher KEIN center-Modus, sondern unten ausgerichtet
+   (TableBackgroundAlign=bottom) – die Grafik muss nicht zentriert werden.
+
+   Alle UI-Elemente sind saubere SVGs. Pucks (weiß/blau/gold) entsprechen dem
+   Original; Action-Farben: Fold schwarz / Call blau / Raise lila / All-In rot.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Teal QML table style" />
+     <StyleMaintainerName value="Pinboc" />
+     <StyleMaintainerEMail value="https://pinboc.wordpress.com/" />
+     <StyleCreateDate value="19.06.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="bottom" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
+          Bewusst unabhängig vom Hell/Dunkel-Modus der App: der Tisch behält
+          immer dieses Aussehen. Hier lassen sich die Panel-Farben künftig je
+          Stil ändern. Alles solide Hex-Farben – die Transluzenz macht der
+          Client. Fehlt ein Tag, gilt der gebündelte Dunkel-Default. -->
+     <ChatLogBackground value="#1d222b" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#394150" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#576378" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#eff1f5" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#cdd3e0" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#7787a3" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

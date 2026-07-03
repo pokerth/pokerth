@@ -1,18 +1,38 @@
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Effects
 import QtQuick.Layouts
 
 import "../config" as Config
+import "../components"
 
 Rectangle {
     id: preLoaderPage
+    objectName: "preLoaderPage"
     visible: true
     width: mainWindow.width
     height: mainWindow.height
     color: "transparent"
+
+    // Einstellung „Splash beim Start deaktivieren" (Config-Key
+    // DisableSplashScreenOnStartup). Ist sie an, wird der PreLoader gar nicht erst
+    // angezeigt, sondern sofort durch die StartPage ersetzt.
+    readonly property bool splashDisabled:
+        (typeof SettingsManager !== "undefined" && SettingsManager)
+            ? SettingsManager.disableSplashScreen : false
+
+    Component.onCompleted: {
+        if (preLoaderPage.splashDisabled) {
+            preLoaderProgressInfoTextTimer.running = false
+            preLoaderDoneTimer.running = false
+            // Stack erst nach Abschluss der Konstruktion umbauen (nicht synchron
+            // im onCompleted des initialItem).
+            Qt.callLater(function() {
+                mainStackView.replaceCurrentItem(mainWindow.startPage)
+            })
+        }
+    }
 
     Image {
         id: preLoaderBackground
@@ -46,7 +66,7 @@ Rectangle {
                 id: preLoaderProgressRows
                 anchors.fill: parent
 
-                VectorImage {
+                SvgIcon {
                     id: preLoaderProgressIconPokerTH
                     Layout.alignment: Qt.AlignCenter
                     Layout.preferredWidth: 96
@@ -70,7 +90,7 @@ Rectangle {
                     Layout.margins: 8
                     spacing: 8
 
-                    VectorImage {
+                    SvgIcon {
                         id: preLoaderProgressInfoIconConsole
                         Layout.preferredWidth: 20
                         Layout.preferredHeight: 20
@@ -78,11 +98,10 @@ Rectangle {
                         //color: Config.StaticData.palette.secondary.col200
                     }
 
-                    Text {
+                    AppText {
                         id: preLoaderProgressInfoText
                         text: qsTr(Config.StaticData.progressMessages[Math.floor(Math.random() * Config.StaticData.progressMessages.length)])
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pointSize: 12
 
                         Timer {
@@ -94,6 +113,7 @@ Rectangle {
                         }
 
                         Timer {
+                            id: preLoaderDoneTimer
                             interval: 5000 // @FIXME: increase in productive mode
                             running: true
                             repeat: false
@@ -118,11 +138,10 @@ Rectangle {
                 Layout.preferredHeight: 16
                 Layout.bottomMargin: 12
 
-                Text {
+                AppText {
                     id: preLoaderFooterText
-                    text: qsTr("PokerTH - v2.1.0preview")
+                    text: qsTr("PokerTH - v2.1.0")
                     color: Config.StaticData.palette.secondary.col200
-                    font.family: Config.StaticData.loadedFont.font.family
                     font.pointSize: 12
                     style: Text.Outline
                     styleColor: Config.StaticData.palette.secondary.col600
