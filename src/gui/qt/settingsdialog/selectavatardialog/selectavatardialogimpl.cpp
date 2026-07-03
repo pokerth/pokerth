@@ -29,6 +29,7 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "selectavatardialogimpl.h"
+#include "core/appimage_utils.h"
 #include "myavatarlistitem.h"
 #include <QScreen>
 #include "mymessagebox.h"
@@ -305,7 +306,8 @@ void selectAvatarDialogImpl::setExternalAvatar()
 {
 
 	if (avatarDir == "") avatarDir = QDir::homePath();
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), avatarDir, tr("Images (*.png *.jpg *.gif)"));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Select external avatar picture"), avatarDir, tr("Images (*.png *.jpg *.gif)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty()) {
 		lineEdit->setText(fileName);

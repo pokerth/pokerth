@@ -1,7 +1,10 @@
 #include "serverconnectionhandler.h"
 #include "session.h"
 #include "configfile.h"
+#include "core/appimage_utils.h"
 #include <QByteArray>
+#include <QProcess>
+#include <QProcessEnvironment>
 #include <QTimer>
 #include <QDebug>
 
@@ -48,8 +51,10 @@ void ServerConnectionHandler::connectToServer(const QString &username, const QSt
         return;
     }
     
-    // Save credentials
-    saveCredentials(username, password, rememberPassword);
+    // Guest login must not overwrite persisted user credentials.
+    if (!isGuest) {
+        saveCredentials(username, password, rememberPassword);
+    }
     
     // Store pending credentials for retry/reuse
     m_pendingUsername = username;
@@ -80,6 +85,43 @@ void ServerConnectionHandler::cancelConnection()
     updateProgress(0, tr("Connection canceled"));
     
     // TODO: Implement actual cancellation logic with Session
+}
+
+bool ServerConnectionHandler::openExternalUrl(const QUrl &url) const
+{
+    if (!url.isValid())
+        return false;
+
+#ifdef Q_OS_LINUX
+    const QString targetString = url.toString();
+
+    // External host tools must not inherit bundled Qt libraries.
+    // Restore the original LD_LIBRARY_PATH (saved by the launcher) or strip it
+    // entirely so system tools like xdg-open / kde-open work correctly.
+    auto startDetachedHostTool = [](const QString &program, const QStringList &args) {
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        const QString origLdLibraryPath = QString::fromLocal8Bit(qgetenv("POKERTH_ORIG_LD_LIBRARY_PATH"));
+        if (origLdLibraryPath.isEmpty())
+            env.remove(QStringLiteral("LD_LIBRARY_PATH"));
+        else
+            env.insert(QStringLiteral("LD_LIBRARY_PATH"), origLdLibraryPath);
+        env.remove(QStringLiteral("LD_PRELOAD"));
+        QProcess process;
+        process.setProcessEnvironment(env);
+        process.setProgram(program);
+        process.setArguments(args);
+        return process.startDetached();
+    };
+
+    if (startDetachedHostTool(QStringLiteral("xdg-open"), {targetString}))
+        return true;
+    if (startDetachedHostTool(QStringLiteral("gio"), {QStringLiteral("open"), targetString}))
+        return true;
+    if (startDetachedHostTool(QStringLiteral("kde-open"), {targetString}))
+        return true;
+#endif
+
+    return AppImageUtils::openUrlSafe(url);
 }
 
 void ServerConnectionHandler::updateProgress(int progress, const QString &message)
@@ -160,11 +202,15 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
     // Error 11 is often a TLS handshake issue that succeeds on retry
     if (errorID == 11 && m_retryCount < 1 && !m_pendingUsername.isEmpty()) {
         m_retryCount++;
+        const int scheduledRetryCount = m_retryCount;
         updateProgress(15, tr("Connection failed, retrying..."));
         
         // Wait a moment before retrying
-        QTimer::singleShot(2000, this, [this]() {
-            if (!m_session) return;
+        QTimer::singleShot(2000, this, [this, scheduledRetryCount]() {
+            // Ignore stale retry timers after a successful connection or a new connect attempt.
+            if (!m_session || !m_isConnecting || m_retryCount != scheduledRetryCount) {
+                return;
+            }
             
             updateProgress(20, tr("Retrying connection..."));
             
@@ -189,11 +235,39 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
         case 11:
             errorMsg = tr("TLS connection error");
             break;
+        case 101:
+            errorMsg = tr("Protocol version not supported by server");
+            break;
+        case 102:
+            errorMsg = tr("Server is under maintenance");
+            break;
+        case 103:
+            errorMsg = tr("Server is full");
+            break;
+        case 104:
+        case 105:
+            errorMsg = tr("Invalid password");
+            break;
+        case 106:
+            errorMsg = tr("Username already in use");
+            break;
+        case 107:
+            errorMsg = tr("Invalid username");
+            break;
+        case 118:
+            errorMsg = tr("You have been kicked from the server");
+            break;
+        case 119:
+            errorMsg = tr("You are banned from this server");
+            break;
+        case 121:
+            errorMsg = tr("Session timed out");
+            break;
         case 133:
             errorMsg = tr("Connection blocked (too many attempts)");
             break;
         default:
-            errorMsg = tr("Unknown network error");
+            errorMsg = tr("Network error (%1)").arg(errorID);
             break;
     }
     
@@ -260,4 +334,7 @@ void ServerConnectionHandler::saveCredentials(const QString &username, const QSt
         m_savedPassword = "";
         emit savedPasswordChanged();
     }
+
+    // Persist to disk; writeConfigString() only updates the in-memory buffer.
+    m_config->writeBuffer();
 }

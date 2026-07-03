@@ -203,6 +203,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event)
 
 	if (fadeOutAction && !fastFlipCardsFront) {
 		QPainter painter(this);
+		painter.setRenderHint(QPainter::SmoothPixmapTransform);
 		painter.setOpacity(frameOpacity);
 		if(isFlipside)
 			painter.drawPixmap(0,0, flipside);
@@ -212,6 +213,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event)
 
 	if (flipCardsAction1) {
 		QPainter painter2(this);
+		painter2.setRenderHint(QPainter::SmoothPixmapTransform);
 		QPointF center(flipside.width()/2.0, flipside.height()/2.0);
 		painter2.translate(center);
 		painter2.scale(frameFlipCardsAction1Size ,1);
@@ -221,6 +223,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event)
 
 	if (flipCardsAction2) {
 		QPainter painter3(this);
+		painter3.setRenderHint(QPainter::SmoothPixmapTransform);
 		QPointF center(front.width()/2.0, front.height()/2.0);
 		painter3.translate(center);
 		painter3.scale(frameFlipCardsAction2Size ,1);
@@ -231,6 +234,7 @@ void MyCardsPixmapLabel::paintEvent(QPaintEvent * event)
 	if (fastFlipCardsFront && !flipCardsAction1 && !flipCardsAction2) {
 		if(objectName().contains("pixmapLabel_card0")) {
 			QPainter painter4(this);
+			painter4.setRenderHint(QPainter::SmoothPixmapTransform);
 			if(fadeOutAction) {
 				painter4.setOpacity(0.25);
 			}

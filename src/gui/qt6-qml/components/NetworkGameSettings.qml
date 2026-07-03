@@ -16,43 +16,21 @@ Rectangle {
         id: networkGameSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Netzwerkspiel")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Netzwerkspiel"); topGap: 4 }
 
         ScrollView {
+            id: netScrollView
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.topMargin: 4
             Layout.bottomMargin: 4
             Layout.leftMargin: 12
-            Layout.rightMargin: 12
             clip: true
+            contentWidth: availableWidth
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
             ColumnLayout {
-                width: parent.width
-                spacing: 12
+                width: parent.width - 12
 
                 // Spieler & Startkapital
                 GroupBox {
@@ -66,11 +44,12 @@ Rectangle {
                         rowSpacing: 8
 
                         Label {
+                            Layout.fillWidth: true
                             text: qsTr("Anzahl der Spieler:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        SpinBox {
+                        CustomSpinBox {
                             id: netNumberOfPlayers
                             from: 2
                             to: 10
@@ -81,11 +60,12 @@ Rectangle {
                         }
 
                         Label {
+                            Layout.fillWidth: true
                             text: qsTr("Startkapital:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        SpinBox {
+                        CustomSpinBox {
                             id: netStartCash
                             from: 100
                             to: 1000000
@@ -97,11 +77,12 @@ Rectangle {
                         }
 
                         Label {
+                            Layout.fillWidth: true
                             text: qsTr("Erster Small Blind:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        SpinBox {
+                        CustomSpinBox {
                             id: netFirstSmallBlind
                             from: 5
                             to: 10000
@@ -144,12 +125,13 @@ Rectangle {
                             Layout.leftMargin: 30
 
                             Label {
+                                Layout.fillWidth: true
                                 text: qsTr("Small Blind erhöhen alle:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtHands.checked
                             }
 
-                            SpinBox {
+                            CustomSpinBox {
                                 id: netRaiseSmallBlindEveryHands
                                 from: 1
                                 to: 100
@@ -184,12 +166,13 @@ Rectangle {
                             Layout.leftMargin: 30
 
                             Label {
+                                Layout.fillWidth: true
                                 text: qsTr("Small Blind erhöhen alle:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtMinutes.checked
                             }
 
-                            SpinBox {
+                            CustomSpinBox {
                                 id: netRaiseSmallBlindEveryMinutes
                                 from: 1
                                 to: 60
@@ -271,11 +254,12 @@ Rectangle {
                         rowSpacing: 8
 
                         Label {
-                            text: qsTr("Verzögerung zwischen Händen (Sekunden):")
+                            Layout.fillWidth: true
+                            text: qsTr("Verzögerung zwischen Händen\n(Sekunden):")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        SpinBox {
+                        CustomSpinBox {
                             id: netDelayBetweenHands
                             from: 0
                             to: 30
@@ -286,11 +270,12 @@ Rectangle {
                         }
 
                         Label {
-                            text: qsTr("Timeout für Spieleraktion (Sekunden):")
+                            Layout.fillWidth: true
+                            text: qsTr("Timeout für Spieleraktion\n(Sekunden):")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        SpinBox {
+                        CustomSpinBox {
                             id: netTimeOutPlayerAction
                             from: 10
                             to: 120
@@ -314,11 +299,12 @@ Rectangle {
                         rowSpacing: 8
 
                         Label {
+                            Layout.fillWidth: true
                             text: qsTr("Server-Port:")
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        SpinBox {
+                        CustomSpinBox {
                             id: serverPort
                             from: 1024
                             to: 65535
@@ -328,22 +314,18 @@ Rectangle {
                             }
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             Layout.columnSpan: 2
                             text: qsTr("IPv6 verwenden")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("ServerUseIpv6") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("ServerUseIpv6", checked ? 1 : 0)
-                            }
+                            configKey: "ServerUseIpv6"
+                            defaultChecked: false
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             Layout.columnSpan: 2
                             text: qsTr("SCTP verwenden")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("ServerUseSctp") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("ServerUseSctp", checked ? 1 : 0)
-                            }
+                            configKey: "ServerUseSctp"
+                            defaultChecked: false
                         }
                     }
                 }

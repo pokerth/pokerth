@@ -242,16 +242,18 @@ protected:
                     }
 #else
                     // Linux / macOS: per-socket keepalive tuning
+#if defined(TCP_KEEPALIVE) || defined(TCP_KEEPIDLE)
                     int keepidle  = 30;   // seconds until first keepalive probe
                     int keepintvl = 10;   // seconds between subsequent probes
                     int keepcnt   = 6;    // number of failed probes before disconnect
-#if defined(__APPLE__)
+#ifdef TCP_KEEPALIVE
                     setsockopt(fd, IPPROTO_TCP, TCP_KEEPALIVE, &keepidle,  sizeof(keepidle));
 #else
-                     setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &keepidle,  sizeof(keepidle));
+                    setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &keepidle,  sizeof(keepidle));
 #endif
                     setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &keepintvl, sizeof(keepintvl));
                     setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &keepcnt,   sizeof(keepcnt));
+#endif
                     // TCP_USER_TIMEOUT: abort connection if data remains
                     // unacknowledged for 90s (matches keepalive detection).
                     // Without this, a dead client can keep the server

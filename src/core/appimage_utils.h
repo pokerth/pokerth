@@ -38,9 +38,12 @@
 #include <QDesktopServices>
 #include <QString>
 #include <QStringList>
+#include <QByteArray>
+#include <QFileInfo>
 #include <QLabel>
 #include <QTextBrowser>
 #include <QWidget>
+#include <QFileDialog>
 #include <cstdlib>
 
 #ifdef Q_OS_LINUX
@@ -78,6 +81,62 @@ inline bool isAppImage()
 }
 
 /**
+ * Returns QFileDialog options suitable for the current environment.
+ *
+ * Inside an AppImage the bundled "platformthemes" plugin (libqgtk3) makes Qt
+ * route native file dialogs through GTK / xdg-desktop-portal. Combined with the
+ * AppImage's isolated glibc and LD_LIBRARY_PATH, opening such a native dialog
+ * loads/spawns code that crashes the whole process — the user sees PokerTH
+ * "close automatically" the moment a file dialog would appear (e.g. choosing a
+ * table style, card deck, avatar or log export path). Forcing Qt's own
+ * widget-based dialog (DontUseNativeDialog) avoids GTK/portal entirely.
+ *
+ * Pass the result as the QFileDialog::Options argument to the static
+ * getOpenFileName()/getSaveFileName()/getExistingDirectory() helpers, or OR it
+ * into options that are already being passed.
+ *
+ * On non-AppImage builds this returns default options (native dialog is used).
+ */
+inline QFileDialog::Options fileDialogOptions()
+{
+    if (isAppImage()) {
+        return QFileDialog::DontUseNativeDialog;
+    }
+    return QFileDialog::Options();
+}
+
+/**
+ * Returns true if the application runs with bundled libraries that are
+ * injected via LD_LIBRARY_PATH (AppImage *or* a self-contained tarball that
+ * ships its own Qt in a lib/ folder). In that case child host processes
+ * (xdg-open, kde-open, paplay, …) would inherit our bundled Qt/glibc and fail
+ * against the system versions, so their environment must be sanitized.
+ *
+ * Detection: any LD_LIBRARY_PATH entry that contains our bundled libQt6Core.
+ */
+inline bool runningWithBundledLibs()
+{
+#ifdef Q_OS_LINUX
+    if (isAppImage())
+        return true;
+    const QByteArray ld = qgetenv("LD_LIBRARY_PATH");
+    if (ld.isEmpty())
+        return false;
+    const QList<QByteArray> entries = ld.split(':');
+    for (const QByteArray &e : entries) {
+        if (e.isEmpty())
+            continue;
+        const QString dir = QString::fromLocal8Bit(e);
+        if (QFileInfo::exists(dir + "/libQt6Core.so.6"))
+            return true;
+    }
+    return false;
+#else
+    return false;
+#endif
+}
+
+/**
  * Returns the original LD_LIBRARY_PATH that was active before the AppImage
  * injected its own paths. The AppRun saves it as POKERTH_ORIG_LD_LIBRARY_PATH.
  * Returns empty string if not set.
@@ -100,7 +159,7 @@ inline QProcessEnvironment cleanProcessEnvironment()
 {
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 
-    if (!isAppImage()) {
+    if (!runningWithBundledLibs()) {
         return env;
     }
 
@@ -130,7 +189,7 @@ inline QProcessEnvironment cleanProcessEnvironment()
 inline bool openUrlSafe(const QUrl& url)
 {
 #ifdef Q_OS_LINUX
-    if (isAppImage()) {
+    if (runningWithBundledLibs()) {
         QProcess process;
         process.setProcessEnvironment(cleanProcessEnvironment());
         process.setProgram(QStringLiteral("xdg-open"));
@@ -152,7 +211,7 @@ inline bool openUrlSafe(const QUrl& url)
 inline bool startDetachedSafe(const QString& program, const QStringList& args)
 {
 #ifdef Q_OS_LINUX
-    if (isAppImage()) {
+    if (runningWithBundledLibs()) {
         QProcess process;
         process.setProcessEnvironment(cleanProcessEnvironment());
         process.setProgram(program);

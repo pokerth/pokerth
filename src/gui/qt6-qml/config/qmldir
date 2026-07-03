@@ -1,3 +1,5 @@
 module Config
-singleton StaticData StaticData.qml
-singleton Parameters Parameters.qml
+singleton StaticData  StaticData.qml
+singleton Parameters  Parameters.qml
+singleton Responsive  Responsive.qml
+singleton Theme       Theme.qml

@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QUrl>
 #include <boost/shared_ptr.hpp>
 
 // Forward declarations
@@ -36,6 +37,7 @@ class ServerConnectionHandler : public QObject
     Q_PROPERTY(QString savedUsername READ savedUsername NOTIFY savedUsernameChanged)
     Q_PROPERTY(QString savedPassword READ savedPassword NOTIFY savedPasswordChanged)
     Q_PROPERTY(bool rememberPassword READ rememberPassword NOTIFY rememberPasswordChanged)
+    Q_PROPERTY(QUrl registerUrl READ registerUrl CONSTANT)
 
 public:
     explicit ServerConnectionHandler(QObject *parent = nullptr);
@@ -50,6 +52,8 @@ public:
     QString savedUsername() const { return m_savedUsername; }
     QString savedPassword() const { return m_savedPassword; }
     bool rememberPassword() const { return m_rememberPassword; }
+    QUrl registerUrl() const { return QUrl(QStringLiteral("https://www.pokerth.net/ucp.php?mode=register")); }
+    Q_INVOKABLE bool openExternalUrl(const QUrl &url) const;
 
 public slots:
     // Called from QML to start connection

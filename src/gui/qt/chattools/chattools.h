@@ -94,13 +94,20 @@ public slots:
 		myStyle = theValue;
 	}
 	void refreshIgnoreList();
-	QString checkForEmotes(QString);
+
+signals:
+
+	// Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" wie im QML-/
+	// Web-Client). Nur INGAME_CHAT; die Nachricht erscheint nicht im Chat.
+	void reactionReceived(QString playerName, QString emoji);
 
 protected:
 
 	unsigned parsePrivateMessageTarget(QString &chatText);
 
 private:
+
+	void setupEmojiPickerAction();
 
 	QStringList chatLinesHistory;
 	QString lastChatString;
@@ -119,6 +126,8 @@ private:
 
 	GameTableStyleReader *myStyle;
 	gameLobbyDialogImpl *myLobby;
+
+	class EmojiPicker *myEmojiPicker;
 
 	std::list<std::string> ignoreList;
 };

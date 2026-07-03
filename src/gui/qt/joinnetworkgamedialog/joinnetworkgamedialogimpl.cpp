@@ -87,8 +87,8 @@ int joinNetworkGameDialogImpl::exec()
 
 	spinBox_port->setValue(QString::fromUtf8(myConfig->readConfigString("ServerPort").c_str()).toInt(&toIntTrue, 10));
 
-	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform
-	QRegularExpression rx("[A-Z|a-z]+[A-Z|a-z|\\d]*");
+	//Profile Name darf nicht mit einer Zahl beginnen --> XML konform (gültiger XML-Tag-Name)
+	QRegularExpression rx("[A-Za-z][A-Za-z0-9]*");
 	QValidator *validator = new QRegularExpressionValidator(rx, this);
 	lineEdit_profileName->setValidator(validator);
 
@@ -113,7 +113,7 @@ int joinNetworkGameDialogImpl::exec()
 			xmlDoc.appendChild( root );
 
 			QDomElement profiles = xmlDoc.createElement( "ServerProfiles" );
-			xmlDoc.appendChild( root );
+			root.appendChild( profiles );
 
 			QFile file( QString::fromUtf8(myServerProfilesFile.c_str()) );
 			if( !file.open( QIODevice::WriteOnly | QIODevice::Text ) )
@@ -204,7 +204,12 @@ void joinNetworkGameDialogImpl::itemFillForm (QTreeWidgetItem* item, int /*colum
 							  QMessageBox::Close);
 	}else {
 
-		QDomElement profile = xmlDoc.documentElement().firstChildElement( "ServerProfiles" ).firstChildElement( QString::fromStdString(item->data(0,0).toString().toStdString()));
+		const QString wantedName = item->data(0,0).toString();
+		QDomElement profiles = xmlDoc.documentElement().firstChildElement( "ServerProfiles" );
+		QDomElement profile = profiles.firstChildElement();
+		while ( !profile.isNull() && profile.attribute("Name") != wantedName ) {
+			profile = profile.nextSiblingElement();
+		}
 
 		if ( !profile.isNull()) {
 			lineEdit_profileName->setText(profile.attribute("Name"));
@@ -237,7 +242,12 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 
 		if ( !profiles.isNull()) {
 
-			QDomElement testProfile = xmlDoc.documentElement().firstChildElement( "ServerProfiles" ).firstChildElement( QString::fromStdString(lineEdit_profileName->text().toStdString()) );
+			const QString profileName = lineEdit_profileName->text();
+
+			QDomElement testProfile = profiles.firstChildElement();
+			while ( !testProfile.isNull() && testProfile.attribute("Name") != profileName ) {
+				testProfile = testProfile.nextSiblingElement();
+			}
 
 			if( !testProfile.isNull() ) {
 				// Wenn der Name schon existiert --> Überschreiben?
@@ -249,14 +259,14 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 					// yes was clicked
 					// remove the old
 					testProfile.parentNode().removeChild(testProfile);
-					// write the new
-					QDomElement profile1 = xmlDoc.createElement( QString::fromStdString(lineEdit_profileName->text().toUtf8().constData()) );
+					// write the new (element tag = profile name, as in the legacy format)
+					QDomElement profile1 = xmlDoc.createElement( lineEdit_profileName->text() );
 					profiles.appendChild( profile1 );
-					profile1.attribute("Name", lineEdit_profileName->text().toUtf8().constData());
-					profile1.attribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
-					profile1.attribute("Port", QString::number(spinBox_port->value()));
-					profile1.attribute("IsIpv6", QString::number(checkBox_ipv6->isChecked()));
-					profile1.attribute("IsSctp", QString::number(checkBox_sctp->isChecked()));
+					profile1.setAttribute("Name", lineEdit_profileName->text());
+					profile1.setAttribute("Address", lineEdit_ipAddress->text());
+					profile1.setAttribute("Port", QString::number(spinBox_port->value()));
+					profile1.setAttribute("IsIpv6", QString::number(checkBox_ipv6->isChecked()));
+					profile1.setAttribute("IsSctp", QString::number(checkBox_sctp->isChecked()));
 				}
 				break;
 				case QMessageBox::No:
@@ -268,14 +278,14 @@ void joinNetworkGameDialogImpl::saveServerProfile()
 				}
 
 			} else {
-				// Wenn der Name nicht existiert --> speichern
-				QDomElement profile2 = xmlDoc.createElement( QString::fromStdString(lineEdit_profileName->text().toStdString()) );
+				// Wenn der Name nicht existiert --> speichern (Tag = Profilname, Legacy-Format)
+				QDomElement profile2 = xmlDoc.createElement( lineEdit_profileName->text() );
 				profiles.appendChild( profile2 );
-				profile2.attribute("Name", lineEdit_profileName->text().toUtf8().constData());
-				profile2.attribute("Address", lineEdit_ipAddress->text().toUtf8().constData());
-				profile2.attribute("Port", QString::number(spinBox_port->value()));
-				profile2.attribute("IsIpv6", QString::number(checkBox_ipv6->isChecked()));
-				profile2.attribute("IsSctp", QString::number(checkBox_sctp->isChecked()));
+				profile2.setAttribute("Name", lineEdit_profileName->text());
+				profile2.setAttribute("Address", lineEdit_ipAddress->text());
+				profile2.setAttribute("Port", QString::number(spinBox_port->value()));
+				profile2.setAttribute("IsIpv6", QString::number(checkBox_ipv6->isChecked()));
+				profile2.setAttribute("IsSctp", QString::number(checkBox_sctp->isChecked()));
 
 			}
 		} else {
@@ -310,7 +320,12 @@ void joinNetworkGameDialogImpl::deleteServerProfile()
 									  QMessageBox::Close);
 	}else{
 
-		QDomElement profile = xmlDoc.documentElement().firstChildElement( "ServerProfiles" ).firstChildElement( QString::fromStdString(treeWidget->currentItem()->data(0,0).toString().toUtf8().constData()) );
+		const QString wantedName = treeWidget->currentItem()->data(0,0).toString();
+		QDomElement profiles = xmlDoc.documentElement().firstChildElement( "ServerProfiles" );
+		QDomElement profile = profiles.firstChildElement();
+		while ( !profile.isNull() && profile.attribute("Name") != wantedName ) {
+			profile = profile.nextSiblingElement();
+		}
 
 		if ( !profile.isNull() ) {
 			profile.parentNode().removeChild(profile);

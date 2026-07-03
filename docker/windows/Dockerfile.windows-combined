@@ -1,0 +1,156 @@
+FROM ubuntu:25.10
+# Build-Umgebung für PokerTH Combined-Installer (Widget + QML in einem Setup).
+#
+# Ablauf (identische Basis-Schichten wie Dockerfile.windows-qml):
+#   1. Werkzeuge (MinGW, NSIS, ImageMagick, Python)
+#   2. vcpkg  →  Boost / Protobuf / OpenSSL (Windows + Linux-Host)
+#   3. Qt via aqtinstall  →  win64_mingw + linux_gcc_64 (Host)
+#   4. Quellcode wird via COPY eingebracht (kein git clone)
+#   5. CMake-Build BEIDER Targets (pokerth_client + pokerth_qml-client)
+#      + DLL-/QML-/Daten-Sammlung (build_windows.sh, SKIP_NSIS=1)
+#   6. NSIS-Installer (installer_combined.nsi) mit beiden Clients
+#   7. Installer → /output/
+#
+# Docker Build Context = Projekt-Root:
+#   docker build -f docker/windows/Dockerfile.windows-combined -t <image> .
+
+ARG QT_VERSION=6.9.3
+ARG ROOT=/opt/pokerth-windows
+
+ENV QT_VERSION=${QT_VERSION}
+ENV ROOT=${ROOT}
+# Beide GUI-Targets werden in einem einzigen CMake-Configure gebaut.
+# build_windows.sh reicht ${TARGET} unquotiert an `cmake --build --target` durch,
+# sodass die Wortliste zu zwei Targets expandiert. Da der String "qml" enthält,
+# sammelt build_windows.sh automatisch die Obermenge (alle Qt6-DLLs + qml/-Module),
+# die beide Clients gemeinsam nutzen.
+ENV TARGET="pokerth_client pokerth_qml-client"
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Berlin
+
+# ── System-Pakete ─────────────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y \
+        locales \
+        mingw-w64 \
+        cmake git wget curl \
+        zip unzip p7zip-full \
+        build-essential pkg-config \
+        autoconf automake libtool \
+        nsis imagemagick \
+        python3 python3-pip python3-venv jq \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN sed -i '/de_DE.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+ENV LANG=de_DE.UTF-8
+ENV LANGUAGE=de_DE.UTF-8
+ENV LC_ALL=de_DE.UTF-8
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# ── vcpkg ─────────────────────────────────────────────────────────────────────
+RUN mkdir -p ${ROOT}
+RUN git clone https://github.com/Microsoft/vcpkg.git ${ROOT}/vcpkg \
+    && ${ROOT}/vcpkg/bootstrap-vcpkg.sh
+
+ENV VCPKG_ROOT=${ROOT}/vcpkg
+ENV PATH="${VCPKG_ROOT}:${PATH}"
+ENV CMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
+ENV VCPKG_TARGET_TRIPLET=x64-mingw-static
+
+RUN vcpkg install --triplet=x64-mingw-static \
+        boost-system \
+        boost-thread \
+        boost-program-options \
+        boost-filesystem \
+        boost-chrono \
+        boost-date-time \
+        boost-asio \
+        boost-interprocess \
+        boost-iostreams \
+        boost-lambda \
+        boost-foreach \
+        boost-uuid \
+        protobuf \
+        openssl \
+    && vcpkg install protobuf:x64-linux
+
+# ── Qt via aqtinstall ─────────────────────────────────────────────────────────
+RUN python3 -m venv ${ROOT}/venv
+ENV PATH="${ROOT}/venv/bin:${PATH}"
+RUN pip install --upgrade pip && pip install aqtinstall
+
+RUN mkdir -p ${ROOT}/Qt
+
+# Qt für Windows (Zielplattform)
+RUN cd ${ROOT}/Qt && aqt install-qt windows desktop ${QT_VERSION} win64_mingw \
+        --autodesktop \
+        --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d \
+                  qtgraphs qtgrpc qthttpserver qtimageformats qtlocation \
+                  qtlottie qtmultimedia qtnetworkauth qtpositioning \
+                  qtquick3d qtquick3dphysics qtquicktimeline \
+                  qtremoteobjects qtscxml qtsensors qtserialbus \
+                  qtserialport qtshadertools qtspeech qtvirtualkeyboard \
+                  qtwebchannel qtwebsockets qtwebview
+
+# Qt für Linux (wird als QT_HOST_PATH für den Cross-Build benötigt)
+RUN cd ${ROOT}/Qt && aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 \
+        --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d \
+                  qtgraphs qtgrpc qthttpserver qtimageformats qtlocation \
+                  qtlottie qtmultimedia qtnetworkauth qtpositioning \
+                  qtquick3d qtquick3dphysics qtquicktimeline \
+                  qtremoteobjects qtscxml qtsensors qtserialbus \
+                  qtserialport qtshadertools qtspeech qtvirtualkeyboard \
+                  qtwebchannel qtwebsockets qtwebview
+
+ENV QT_WINDOWS_DIR=${ROOT}/Qt/${QT_VERSION}/mingw_64
+ENV QT_HOST_PATH=${ROOT}/Qt/${QT_VERSION}/gcc_64
+ENV CMAKE_PREFIX_PATH=${QT_WINDOWS_DIR}
+ENV Qt6_DIR=${QT_WINDOWS_DIR}/lib/cmake/Qt6
+
+# ── Quellcode (Build-Kontext = Projekt-Root) ──────────────────────────────────
+COPY . ${ROOT}/pokerth/
+
+# ── Build: beide Clients kompilieren + DLLs/QML/Daten sammeln ────────────────
+# SKIP_NSIS=1 überspringt die Einzel-Installer-Erstellung; den kombinierten
+# Installer bauen wir unten selbst mit installer_combined.nsi.
+RUN cd ${ROOT}/pokerth && SKIP_NSIS=1 bash docker/windows/build_windows.sh
+
+# ── Icon erzeugen (sonst nur in der übersprungenen NSIS-Sektion) ──────────────
+RUN cd ${ROOT}/pokerth \
+    && if [ -f pokerth.svg ]; then \
+           convert -background none -density 256 pokerth.svg \
+                   -define icon:auto-resize=256,128,64,48,32,16 \
+                   docker/windows/pokerth.ico || true; \
+       elif [ -f pokerth.png ]; then \
+           convert pokerth.png -resize 256x256 \
+                   -define icon:auto-resize=256,128,64,48,32,16 \
+                   docker/windows/pokerth.ico || true; \
+       fi \
+    && cp -f docker/windows/pokerth.ico build/deploy/ 2>/dev/null || true
+
+# ── Verifizieren, dass beide Exes im Deploy liegen ────────────────────────────
+RUN test -f ${ROOT}/pokerth/build/deploy/pokerth_client.exe \
+    && test -f ${ROOT}/pokerth/build/deploy/pokerth_qml-client.exe \
+    || (echo "FEHLER: Es fehlt mindestens ein Client-Exe im Deploy-Verzeichnis!"; \
+        ls -l ${ROOT}/pokerth/build/deploy/ || true; exit 1)
+
+# ── NSIS-Installer für kombiniertes Paket ─────────────────────────────────────
+RUN cd ${ROOT}/pokerth/docker/windows \
+    && VERSION=$(grep -oP '(?<=PRODUCT_VERSION ")[^"]+' installer_combined.nsi | head -1) \
+    && BUILD_TIMESTAMP=$(date +%Y%m%d_%H%M%S) \
+    && makensis -NOCD \
+          -DOUTFILE="PokerTH-Combined-${VERSION}-${BUILD_TIMESTAMP}-Setup.exe" \
+          installer_combined.nsi
+
+# ── Ausgabe bereitstellen ────────────────────────────────────────────────────
+RUN mkdir -p /output \
+    && INSTALLER=$(ls ${ROOT}/pokerth/docker/windows/PokerTH-Combined-*-Setup.exe \
+                   2>/dev/null | tail -1) \
+    && if [ -n "$INSTALLER" ]; then \
+           cp "$INSTALLER" /output/; \
+       else \
+           echo "FEHLER: Kein Combined-Installer gefunden!"; \
+           ls ${ROOT}/pokerth/docker/windows/ || true; \
+           exit 1; \
+       fi
+
+ENTRYPOINT ["/bin/bash"]

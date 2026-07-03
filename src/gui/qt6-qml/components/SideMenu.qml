@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.VectorImage
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
@@ -8,7 +7,7 @@ import "../config" as Config
 
 Drawer {
     id: sideMenu
-    width: mainWindow.portraitMode ? mainWindow.width : mainWindow.width / 3
+    width: Config.Responsive.compact ? mainWindow.width : mainWindow.width / 3
     height: mainWindow.height - 38
     y: 38
 
@@ -22,7 +21,7 @@ Drawer {
     ColumnLayout {
         anchors.fill: parent
 
-        VectorImage {
+        SvgIcon {
             source: "../resources/pokerth.svg"
             Layout.preferredWidth: 96
             Layout.preferredHeight: 96
@@ -30,11 +29,10 @@ Drawer {
             Layout.alignment: Qt.AlignCenter
         }
 
-        Label {
+        AppLabel {
             id: sideMenuLabel
             color: Config.StaticData.palette.secondary.col200
-            text: qsTr("PokerTH - v2.0 alpha")
-            font.family: Config.StaticData.loadedFont.font.family
+            text: qsTr("PokerTH - v2.1.0")
             Layout.alignment: Qt.AlignCenter
             Layout.bottomMargin: 24
             font.pointSize: 16
@@ -63,13 +61,13 @@ Drawer {
 
                 color: Config.StaticData.palette.secondary.col500
                 width: parent.width
-                height: 36
+                height: Config.Theme.touchTarget
 
                 RowLayout {
                     anchors.fill: parent
                     spacing: 6
 
-                    VectorImage {
+                    SvgIcon {
                         id: iconImage
                         Layout.leftMargin: 16
                         Layout.topMargin: 4
@@ -87,14 +85,13 @@ Drawer {
                         }
                     }
 
-                    Text {
+                    AppText {
                         id: label
                         Layout.alignment: Qt.AlignLeft
                         Layout.fillWidth: true
                         Layout.topMargin: 4
                         Layout.bottomMargin: 4
                         color: Config.StaticData.palette.secondary.col200
-                        font.family: Config.StaticData.loadedFont.font.family
                         font.pointSize: 12
                         text: "StartSideMenuItem"
                     }
@@ -130,31 +127,6 @@ Drawer {
 
     ListModel {
         id: sideMenuListItems
-        ListElement {
-            name: qsTr("Internetspiel")
-            icon: "globe"
-            source: "InternetGame"
-        }
-        ListElement {
-            name: qsTr("Lokales Spiel starten")
-            icon: "spade"
-            source: "LocalGame"
-        }
-        ListElement {
-            name: qsTr("Netzwerkspiel erstellen")
-            icon: "network"
-            source: "NetworkGameCreate"
-        }
-        ListElement {
-            name: qsTr("Netzwerkspiel beitreten")
-            icon: "plugsConnected"
-            source: "NetworkGameEnter"
-        }
-        ListElement {
-            name: qsTr("Einstellungen")
-            icon: "settings"
-            source: "Settings"
-        }
         ListElement {
             name: qsTr("Über PokerTH")
             icon: "user"

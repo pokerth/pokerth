@@ -2359,6 +2359,11 @@ p, li { white-space: pre-wrap; }
         <source>initial gui graphics design</source>
         <translation>erstes GUI-Grafikdesign</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="135"/>
+        <source>code modernization, QML layout</source>
+        <translation>Code-Modernisierung, QML-Layout</translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialog</name>
@@ -6236,6 +6241,12 @@ Bitte wählen Sie ein gültiges Avatar-Bild!</translation>
 </context>
 <context>
     <name>settingsDialog</name>
+    <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="352"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="386"/>
+        <source>Disable emoji reactions</source>
+        <translation>Emoji-Reaktionen deaktivieren</translation>
+    </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="68"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="53"/>

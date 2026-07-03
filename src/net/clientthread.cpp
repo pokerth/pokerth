@@ -43,6 +43,7 @@
 #include <net/asioreceivebuffer.h>
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
+#include <vector>
 #include <clientenginefactory.h>
 #include <game.h>
 #include <log.h>
@@ -103,7 +104,7 @@ using namespace std::chrono;
 using namespace boost::chrono;
 #endif
 
-ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, Log *myLog)
+ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, boost::shared_ptr<Log> myLog)
 	: m_ioService(new boost::asio::io_context), m_clientLog(myLog), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
 	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
@@ -189,15 +190,27 @@ ClientThread::SendKickPlayer(unsigned playerId)
 void
 ClientThread::SendLeaveCurrentGame()
 {
-	// Flush log before leaving game to ensure all data is written to SQLite
+	// NOTE: This runs in the GUI thread. Flushing the SQLite log synchronously
+	// here can block the GUI on the SQLite file lock if the network thread is
+	// flushing the same log at the same moment (e.g. an end-of-hand flush at
+	// round end) -> the whole GUI freezes. So we POST the flush onto the
+	// io_service instead: it then runs on the network/client thread, the same
+	// thread that performs all regular logging, and the GUI thread never blocks.
+	// The leave packet is posted afterwards; since the io_service is processed
+	// in order on a single thread, the flush still completes before we leave.
+	LOG_MSG("SendLeaveCurrentGame: ENTER gameId=" << GetGameId()
+	        << " - posting log flush + leave to io_service");
+	// Flush log before leaving game to ensure all data is written to SQLite.
+	// Bind the shared_ptr so the Log stays alive until the handler runs.
 	if (m_clientLog) {
-		m_clientLog->flushLog();
+		boost::asio::post(*m_ioService, boost::bind(&Log::flushLog, m_clientLog));
 	}
 	boost::shared_ptr<NetPacket> packet(new NetPacket);
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_LeaveGameRequestMessage);
 	LeaveGameRequestMessage *netLeave = packet->GetMsg()->mutable_leavegamerequestmessage();
 	netLeave->set_gameid(GetGameId());
 	boost::asio::post(*m_ioService, boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+	LOG_MSG("SendLeaveCurrentGame: flush + leave packet posted, returning to GUI");
 }
 
 void
@@ -217,7 +230,34 @@ ClientThread::SendStartEvent(bool fillUpWithCpuPlayers)
 void
 ClientThread::SendPlayerAction()
 {
-	// Warning: This function is called in the context of the GUI thread.
+	// Called on the GUI thread. Reading GetGame()->getCurrentHand() *here* races
+	// with the network thread, which mutates the engine Hand in clientstate (hand
+	// transitions). A transient null read used to make us silently drop the action
+	// -> the packet was never sent and the game froze (server kept waiting for an
+	// action the client thought it had made). Fix: only POST to the io_service;
+	// the actual read+build+send happens in DoSendPlayerAction() on that thread,
+	// i.e. the SAME thread that mutates the Hand -> a consistent, race-free view.
+	// The local player's action was already set on the engine (setMyAction) before
+	// this call, and asio::post establishes the happens-before so the io thread
+	// sees it.
+	boost::asio::post(*m_ioService, boost::bind(&ClientThread::DoSendPlayerAction, shared_from_this()));
+}
+
+void
+ClientThread::DoSendPlayerAction()
+{
+	// Runs on the io_service (network) thread.
+	boost::shared_ptr<Game> curGame = GetGame();
+	if (!curGame || !curGame->getCurrentHand()) {
+		// Reached only if the hand/game is genuinely gone on the network thread
+		// (the game really ended/we left). Dropping is correct here; this is no
+		// longer the transient GUI-thread race that caused the freeze.
+		LOG_ERROR("[SENDACTDROP] DoSendPlayerAction DROPPED - "
+		          << (curGame ? "currentHand==null" : "game==null")
+		          << " gameId=" << GetGameId()
+		          << " -> game ended/transitioned, action not sent");
+		return;
+	}
 	// Create a network packet containing the current player action.
 	{
 		boost::mutex::scoped_lock lock(m_pingDataMutex);
@@ -227,17 +267,27 @@ ClientThread::SendPlayerAction()
 	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_MyActionRequestMessage);
 	MyActionRequestMessage *netMyAction = packet->GetMsg()->mutable_myactionrequestmessage();
 	netMyAction->set_gameid(GetGameId());
-	boost::shared_ptr<PlayerInterface> myPlayer = GetGame()->getSeatsList()->front();
-	netMyAction->set_handnum(GetGame()->getCurrentHandID());
-	netMyAction->set_gamestate(static_cast<NetGameState>(GetGame()->getCurrentHand()->getCurrentRound()));
+	boost::shared_ptr<PlayerInterface> myPlayer = curGame->getSeatsList()->front();
+	netMyAction->set_handnum(curGame->getCurrentHandID());
+	netMyAction->set_gamestate(static_cast<NetGameState>(curGame->getCurrentHand()->getCurrentRound()));
 	netMyAction->set_myaction(static_cast<NetPlayerAction>(myPlayer->getMyAction()));
 	// Only send last bet if not fold/checked.
 	if (myPlayer->getMyAction() != PLAYER_ACTION_FOLD && myPlayer->getMyAction() != PLAYER_ACTION_CHECK)
 		netMyAction->set_myrelativebet(myPlayer->getMyLastRelativeSet());
 	else
 		netMyAction->set_myrelativebet(0);
-	// Just dump the packet.
-	boost::asio::post(*m_ioService, boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+	qDebug() << "[SENDACT] MyActionRequest -> server"
+	         << "handnum=" << netMyAction->handnum()
+	         << "gamestate=" << (int)netMyAction->gamestate()
+	         << "(0=Pre,1=F,2=T,3=R)"
+	         << "myaction=" << (int)netMyAction->myaction()
+	         << "(1=FOLD,2=CHK,3=CALL,4=BET,5=RAISE,6=ALLIN)"
+	         << "myrelativebet=" << (int)netMyAction->myrelativebet()
+	         << "| local mySet=" << myPlayer->getMySet()
+	         << "myCash=" << myPlayer->getMyCash()
+	         << "myButton=" << myPlayer->getMyButton();
+	// Already on the io_service thread -> send directly.
+	SendSessionPacket(packet);
 }
 
 void
@@ -1642,8 +1692,19 @@ ClientThread::ModifyGameInfoRemoveSpectatorDuringGame(unsigned playerId, int rem
 void
 ClientThread::ClearGameInfoMap()
 {
-	boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
-	m_gameInfoMap.clear();
+	std::vector<unsigned> removedGameIds;
+	{
+		boost::mutex::scoped_lock lock(m_gameInfoMapMutex);
+		removedGameIds.reserve(m_gameInfoMap.size());
+		for (GameInfoMap::const_iterator it = m_gameInfoMap.begin(); it != m_gameInfoMap.end(); ++it) {
+			removedGameIds.push_back(it->first);
+		}
+		m_gameInfoMap.clear();
+	}
+
+	for (size_t i = 0; i < removedGameIds.size(); ++i) {
+		GetCallback().SignalNetClientGameListRemove(removedGameIds[i]);
+	}
 }
 
 void

@@ -3,13 +3,23 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 import "../config" as Config
+import "../components"
 
 
 Rectangle {
     id: serverConnectionPage
-    width: mainWindow.width
-    height: mainWindow.height
-    color: Config.StaticData.palette.secondary.col700
+    // An den sichtbaren Bereich (StackView unterhalb der Topbar) binden, nicht
+    // an das ganze Fenster – sonst ist die Box vertikal nicht zentriert.
+    width: mainStackView.width
+    height: mainStackView.height
+    color: "transparent"
+
+    Image {
+        id: serverConnectionBackground
+        anchors.fill: parent
+        source: "../resources/startWindowBackground.png"
+        fillMode: Image.PreserveAspectCrop
+    }
 
     Component.onCompleted: {
         // Load saved credentials from config
@@ -21,269 +31,301 @@ Rectangle {
     // Connections to backend signals
     Connections {
         target: ServerConnection
-        
+
         function onConnectionProgressChanged(progress) {
             connectionProgress.value = progress
         }
-        
+
         function onStatusMessageChanged(message) {
             statusText.text = message
         }
-        
+
         function onConnectionSucceeded() {
-            console.log("Connection succeeded!")
+            // console.log("Connection succeeded!")
         }
-        
+
         function onConnectionFailed(errorMessage) {
-            console.log("Connection failed:", errorMessage)
-            // Show error and go back to initial view
+            // console.log("Connection failed:", errorMessage)
             statusText.text = errorMessage
-            statusText.color = "#FF5252"
-            
-            // Reset after delay
-            Qt.callLater(function() {
-                mainStack.currentIndex = 0
-                statusText.color = Config.StaticData.palette.secondary.col300
-            })
+            statusText.color = Config.Theme.colorError
+            errorResetTimer.restart()
         }
-        
+
         function onShowLobby() {
-            console.log("Showing lobby...")
-            mainStackView.push("LobbyPage.qml")
+            // console.log("[NAV] onShowLobby → replace currentItem with LobbyPage.qml | depth before:", mainStackView.depth)
+            mainStackView.replace(mainStackView.currentItem, "LobbyPage.qml")
         }
     }
 
-    StackLayout {
-        id: mainStack
-        anchors.centerIn: parent
-        width: Math.min(parent.width * 0.9, 500)
-        height: Math.min(parent.height * 0.9, 400)
-        currentIndex: 0 // Start with the initial choices view
+    Timer {
+        id: errorResetTimer
+        interval: 3500
+        repeat: false
+        onTriggered: {
+            mainStack.currentIndex = 0
+            statusText.color = Config.StaticData.palette.secondary.col300
+        }
+    }
 
-        // View 0: Initial choices
-        ColumnLayout {
-            id: initialChoicesView
-            spacing: 15
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+    Flickable {
+        id: serverConnScroller
+        anchors.fill: parent
+        contentWidth: serverConnScroller.width
+        contentHeight: serverConnScrollContent.height
+        boundsBehavior: Flickable.StopAtBounds
+        clip: true
 
-            Button {
-                text: qsTr("Login as User")
-                font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: 16
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                onClicked: {
-                    mainStack.currentIndex = 1 // Switch to login form view
-                    }
-                }
+        ScrollBar.vertical: ScrollBar {
+            // AlwaysOff statt AsNeeded: AsNeeded blendet die Bar bei jeder
+            // contentHeight-Änderung transient ein (mehrsekündiges Fade) –
+            // sichtbar als kurz aufblitzende Scrollbar beim Seitenaufbau,
+            // obwohl nichts zu scrollen ist.
+            policy: serverConnScroller.contentHeight > serverConnScroller.height + 1
+                    ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        }
 
-                Button {
-                    text: qsTr("Register")
-                    Layout.alignment: Qt.AlignHCenter
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 16
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    onClicked: {
-                        Qt.openUrlExternally("https://www.pokerth.net/ucp.php?mode=register")
-                    }
-                }
+        Item {
+            id: serverConnScrollContent
+            width: serverConnScroller.width
+            // Mindesthöhe = Viewport → Box bleibt vertikal zum Fensterrand
+            // zentriert; bei zu niedrigem Fenster kann gescrollt werden.
+            height: Math.max(serverConnScroller.height,
+                             Config.Theme.brandBoxHeight + Config.Theme.margin * 2)
 
-                Button {
-                    text: qsTr("Continue as Guest")
-                    Layout.alignment: Qt.AlignHCenter
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 16
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    onClicked: {
-                        var guestName = "Guest" + Math.floor(Math.random() * 10000)
-                        usernameLabel.text = guestName
-                        connectionProgress.value = 0
-                        mainStack.currentIndex = 2 // Switch to connecting
-                        
-                        // Call backend to connect (guest, don't save credentials)
-                        ServerConnection.connectToServer(guestName, "", true, false)
-                    }
-                }
+        // Card – wie auf der StartPage (vertikal zentriert)
+        Rectangle {
+            id: loginCard
+            anchors.centerIn: parent
+            width: Math.min(parent.width - Config.Theme.margin * 2, Config.Theme.brandBoxWidth)
+            height: Config.Theme.brandBoxHeight
+            color: "transparent"
+
+            Rectangle {
+                anchors.fill: parent
+                color: Config.StaticData.palette.secondary.col700
+                opacity: 0.92
+                radius: 5
             }
 
-            // View 1: Login as User form
-            ColumnLayout {
-                id: loginFormView
-                spacing: 15
-                Layout.fillHeight: true
-                width: parent.width * 0.8
-
-                Label {
-                    text: qsTr("User Login")
-                    Layout.alignment: Qt.AlignHCenter
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 20
-                    color: Config.StaticData.palette.secondary.col200
-                }
-
-                TextField {
-                    id: usernameInput
-                    placeholderText: qsTr("Username")
-                    Layout.fillWidth: true
-                    font.family: Config.StaticData.loadedFont.font.family
-                    color: Config.StaticData.palette.secondary.col200
-                    background: Rectangle {
-                        color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.5)
-                        radius: 3
-                    }
-                    placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
-                }
-
-                TextField {
-                    id: passwordInput
-                    placeholderText: qsTr("Password")
-                    echoMode: TextInput.Password
-                    Layout.fillWidth: true
-                    font.family: Config.StaticData.loadedFont.font.family
-                    color: Config.StaticData.palette.secondary.col200
-                     background: Rectangle {
-                        color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.5)
-                        radius: 3
-                    }
-                    placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
-                }
-
-                CheckBox {
-                    id: rememberMeCheckbox
-                    text: qsTr("Remember me")
-                    Layout.alignment: Qt.AlignLeft
-                    font.family: Config.StaticData.loadedFont.font.family
-                    contentItem: Text {
-                        text: rememberMeCheckbox.text
-                        font: rememberMeCheckbox.font
-                        color: Config.StaticData.palette.secondary.col200
-                        verticalAlignment: Text.AlignVCenter
-                        leftPadding: rememberMeCheckbox.indicator.width + rememberMeCheckbox.spacing
-                    }
-                }
-
-                Button {
-                    text: qsTr("Login")
-                    Layout.alignment: Qt.AlignHCenter
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 16
-                    onClicked: {
-                        console.log("Login clicked. Username:", usernameInput.text, "Password:", passwordInput.text, "Remember me:", rememberMeCheckbox.checked)
-                        usernameLabel.text = usernameInput.text
-                        connectionProgress.value = 0
-                        mainStack.currentIndex = 2 // Go to login section
-                        
-                        // Call backend to connect with username and password, passing remember me flag
-                        ServerConnection.connectToServer(usernameInput.text, passwordInput.text, false, rememberMeCheckbox.checked)
-                    }
-                }
-
-                Button {
-                    text: qsTr("Back")
-                    Layout.alignment: Qt.AlignHCenter
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 14
-                    onClicked: {
-                        mainStack.currentIndex = 0 // Go back to initial choices
-                    }
-                }
+            // PokerTH-Logo + Kartensymbole oben in der Card, fix positioniert –
+            // exakt wie auf der StartPage (Config.Theme.margin vom oberen Rand).
+            BrandHeader {
+                id: loginLogo
+                anchors.top: parent.top
+                anchors.topMargin: Config.Theme.margin
+                anchors.horizontalCenter: parent.horizontalCenter
+                logoSize: Config.Theme.brandLogoSize
             }
 
-            // View 2: Connecting
-            ColumnLayout {
-                id: guestLoginView
-                Layout.minimumWidth: 0
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-                spacing: 20
+            StackLayout {
+                id: mainStack
+                anchors.fill: parent
+                anchors.margins: 28
+                anchors.topMargin: loginLogo.y + loginLogo.height + 12   // Logo + Abstand
+                currentIndex: 0
 
-                Item {
-                    Layout.fillHeight: true
-                }
-
-                Text {
-                    text: qsTr("Connecting as...")
-                    font.pixelSize: 14
-                    Layout.fillWidth: false
-                    font.family: Config.StaticData.loadedFont.font.family
-                    color: Config.StaticData.palette.secondary.col200
-                    Layout.alignment: Qt.AlignHCenter
-                }
-
-                Text {
-                    id: usernameLabel
-                    text: qsTr("Username/Guest")
-                    font.pixelSize: 20
-                    Layout.fillWidth: false
-                    font.family: Config.StaticData.loadedFont.font.family
-                    color: Config.StaticData.palette.secondary.col200
-                    Layout.alignment: Qt.AlignHCenter
-                }
-
-                // Progress Bar
+                // View 0: Auswahl
                 ColumnLayout {
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter
-                    spacing: 10
+                    id: initialChoicesView
+                    spacing: 18
 
-                    ProgressBar {
-                        id: connectionProgress
-                        Layout.preferredWidth: Math.min(parent.width * 0.8, 300)
+                    Item { Layout.fillHeight: true }
+
+                    CustomButton {
+                        text: qsTr("Login as User")
+                        Layout.fillWidth: true
+                        onClicked: mainStack.currentIndex = 1
+                    }
+
+                    CustomButton {
+                        text: qsTr("Register")
+                        Layout.fillWidth: true
+                        onClicked: ServerConnection.openExternalUrl(ServerConnection.registerUrl)
+                    }
+
+                    CustomButton {
+                        text: qsTr("Continue as Guest")
+                        Layout.fillWidth: true
+                        onClicked: {
+                            var guestName = "Guest" + Math.floor(Math.random() * 10000)
+                            usernameLabel.text = guestName
+                            connectionProgress.value = 0
+                            mainStack.currentIndex = 2
+                            ServerConnection.connectToServer(guestName, "", true, false)
+                        }
+                    }
+
+                    Item { Layout.fillHeight: true }
+                }
+
+                // View 1: Login-Formular
+                ColumnLayout {
+                    id: loginFormView
+                    spacing: 12
+
+                    Item { Layout.fillHeight: true }
+
+                    AppLabel {
+                        text: qsTr("User Login")
                         Layout.alignment: Qt.AlignHCenter
-                        from: 0
-                        to: 100
-                        value: 0
+                        font.bold: true
+                        font.pixelSize: Config.Theme.fontSizeTitle
+                        color: Config.StaticData.palette.secondary.col200
+                    }
 
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 1
+                        color: Config.StaticData.palette.secondary.col500
+                    }
+
+                    TextField {
+                        id: usernameInput
+                        placeholderText: qsTr("Username")
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Config.Theme.touchTarget
+                        font.family: Config.StaticData.loadedFont.font.family
+                        color: Config.StaticData.palette.secondary.col200
+                        placeholderTextColor: Config.StaticData.palette.secondary.col400
                         background: Rectangle {
-                            implicitWidth: 300
-                            implicitHeight: 8
-                            color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.5)
-                            radius: 4
+                            color: Config.StaticData.palette.secondary.col600
+                            border.color: Config.StaticData.palette.secondary.col500
+                            border.width: 1
+                            radius: 3
+                        }
+                    }
+
+                    TextField {
+                        id: passwordInput
+                        placeholderText: qsTr("Password")
+                        echoMode: TextInput.Password
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Config.Theme.touchTarget
+                        font.family: Config.StaticData.loadedFont.font.family
+                        color: Config.StaticData.palette.secondary.col200
+                        placeholderTextColor: Config.StaticData.palette.secondary.col400
+                        background: Rectangle {
+                            color: Config.StaticData.palette.secondary.col600
+                            border.color: Config.StaticData.palette.secondary.col500
+                            border.width: 1
+                            radius: 3
+                        }
+                    }
+
+                    CheckBox {
+                        id: rememberMeCheckbox
+                        text: qsTr("Remember me")
+                        checked: false
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Config.Theme.spacing
+
+                        CustomButton {
+                            text: qsTr("Back")
+                            Layout.fillWidth: true
+                            onClicked: mainStack.currentIndex = 0
                         }
 
-                        contentItem: Item {
-                            implicitWidth: 300
-                            implicitHeight: 6
-
-                            Rectangle {
-                                width: connectionProgress.visualPosition * parent.width
-                                height: parent.height
-                                radius: 4
-                                color: Config.StaticData.palette.secondary.col500
+                        CustomButton {
+                            text: qsTr("Login")
+                            Layout.fillWidth: true
+                            onClicked: {
+                                // console.log("Login clicked. Username:", usernameInput.text, "Remember me:", rememberMeCheckbox.checked)
+                                usernameLabel.text = usernameInput.text
+                                connectionProgress.value = 0
+                                mainStack.currentIndex = 2
+                                ServerConnection.connectToServer(usernameInput.text, passwordInput.text, false, rememberMeCheckbox.checked)
                             }
                         }
                     }
 
-                    Text {
-                        id: statusText
-                        text: qsTr("Initializing connection...")
-                        font.pixelSize: 14
-                        font.family: Config.StaticData.loadedFont.font.family
+                    Item { Layout.fillHeight: true }
+                }
+
+                // View 2: Verbindungsaufbau
+                ColumnLayout {
+                    id: guestLoginView
+                    spacing: 20
+
+                    Item { Layout.fillHeight: true }
+
+                    AppText {
+                        text: qsTr("Connecting as...")
+                        font.pixelSize: Config.Theme.fontSizeBody
                         color: Config.StaticData.palette.secondary.col300
                         Layout.alignment: Qt.AlignHCenter
                     }
-                }
 
-                Item {
-                    Layout.fillHeight: true
-                }
-
-                Button {
-                    text: qsTr("Cancel")
-                    Layout.alignment: Qt.AlignHCenter
-                    font.family: Config.StaticData.loadedFont.font.family
-                    font.pixelSize: 14
-                    Layout.preferredWidth: 120
-                    onClicked: {
-                        ServerConnection.cancelConnection()
-                        connectionProgress.value = 0
-                        mainStack.currentIndex = 0 // Go back to initial choices
+                    AppText {
+                        id: usernameLabel
+                        text: qsTr("Username/Guest")
+                        font.pixelSize: Config.Theme.fontSizeTitle
+                        font.bold: true
+                        color: Config.StaticData.palette.secondary.col200
+                        Layout.alignment: Qt.AlignHCenter
                     }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+
+                        ProgressBar {
+                            id: connectionProgress
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignHCenter
+                            from: 0
+                            to: 100
+                            value: 0
+
+                            background: Rectangle {
+                                implicitWidth: 200
+                                implicitHeight: 8
+                                color: Config.StaticData.palette.secondary.col600
+                                border.color: Config.StaticData.palette.secondary.col500
+                                border.width: 1
+                                radius: 4
+                            }
+
+                            contentItem: Item {
+                                implicitWidth: 200
+                                implicitHeight: 6
+
+                                Rectangle {
+                                    width: connectionProgress.visualPosition * parent.width
+                                    height: parent.height
+                                    radius: 4
+                                    color: Config.StaticData.palette.secondary.col300
+                                }
+                            }
+                        }
+
+                        AppText {
+                            id: statusText
+                            text: qsTr("Initializing connection...")
+                            font.pixelSize: Config.Theme.fontSizeBody
+                            color: Config.StaticData.palette.secondary.col300
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                    }
+
+                    Item { Layout.fillHeight: true }
+
+                    CustomButton {
+                        text: qsTr("Cancel")
+                        Layout.fillWidth: true
+                        onClicked: {
+                            ServerConnection.cancelConnection()
+                            connectionProgress.value = 0
+                            mainStack.currentIndex = 0
+                        }
+                    }
+
+                    Item { Layout.fillHeight: true }
                 }
             }
         }
+        }
+    }
 }

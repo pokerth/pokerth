@@ -1,0 +1,132 @@
+FROM ubuntu:25.10
+# Build-Umgebung für PokerTH QML-Client Windows-Installer
+#
+# Ablauf:
+#   1. Werkzeuge (MinGW, NSIS, ImageMagick, Python)
+#   2. vcpkg  →  Boost / Protobuf / OpenSSL (Windows + Linux-Host)
+#   3. Qt via aqtinstall  →  win64_mingw + linux_gcc_64 (Host)
+#   4. Quellcode wird via COPY eingebracht (kein git clone)
+#   5. CMake-Build + DLL-Sammlung (build_windows.sh)
+#   6. NSIS-Installer (installer_qml.nsi)
+#   7. Installer → /output/
+#
+# Docker Build Context = Projekt-Root:
+#   docker build -f docker/windows/Dockerfile.windows-qml -t <image> .
+
+ARG QT_VERSION=6.9.3
+ARG ROOT=/opt/pokerth-windows
+
+ENV QT_VERSION=${QT_VERSION}
+ENV ROOT=${ROOT}
+ENV TARGET=pokerth_qml-client
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Berlin
+
+# ── System-Pakete ─────────────────────────────────────────────────────────────
+RUN apt-get update && apt-get install -y \
+        locales \
+        mingw-w64 \
+        cmake git wget curl \
+        zip unzip p7zip-full \
+        build-essential pkg-config \
+        autoconf automake libtool \
+        nsis imagemagick \
+        python3 python3-pip python3-venv jq \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN sed -i '/de_DE.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
+ENV LANG=de_DE.UTF-8
+ENV LANGUAGE=de_DE.UTF-8
+ENV LC_ALL=de_DE.UTF-8
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# ── vcpkg ─────────────────────────────────────────────────────────────────────
+RUN mkdir -p ${ROOT}
+RUN git clone https://github.com/Microsoft/vcpkg.git ${ROOT}/vcpkg \
+    && ${ROOT}/vcpkg/bootstrap-vcpkg.sh
+
+ENV VCPKG_ROOT=${ROOT}/vcpkg
+ENV PATH="${VCPKG_ROOT}:${PATH}"
+ENV CMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
+ENV VCPKG_TARGET_TRIPLET=x64-mingw-static
+
+RUN vcpkg install --triplet=x64-mingw-static \
+        boost-system \
+        boost-thread \
+        boost-program-options \
+        boost-filesystem \
+        boost-chrono \
+        boost-date-time \
+        boost-asio \
+        boost-interprocess \
+        boost-iostreams \
+        boost-lambda \
+        boost-foreach \
+        boost-uuid \
+        protobuf \
+        openssl \
+    && vcpkg install protobuf:x64-linux
+
+# ── Qt via aqtinstall ─────────────────────────────────────────────────────────
+RUN python3 -m venv ${ROOT}/venv
+ENV PATH="${ROOT}/venv/bin:${PATH}"
+RUN pip install --upgrade pip && pip install aqtinstall
+
+RUN mkdir -p ${ROOT}/Qt
+
+# Qt für Windows (Zielplattform)
+RUN cd ${ROOT}/Qt && aqt install-qt windows desktop ${QT_VERSION} win64_mingw \
+        --autodesktop \
+        --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d \
+                  qtgraphs qtgrpc qthttpserver qtimageformats qtlocation \
+                  qtlottie qtmultimedia qtnetworkauth qtpositioning \
+                  qtquick3d qtquick3dphysics qtquicktimeline \
+                  qtremoteobjects qtscxml qtsensors qtserialbus \
+                  qtserialport qtshadertools qtspeech qtvirtualkeyboard \
+                  qtwebchannel qtwebsockets qtwebview
+
+# Qt für Linux (wird als QT_HOST_PATH für den Cross-Build benötigt)
+RUN cd ${ROOT}/Qt && aqt install-qt linux desktop ${QT_VERSION} linux_gcc_64 \
+        --modules qt3d qt5compat qtcharts qtconnectivity qtdatavis3d \
+                  qtgraphs qtgrpc qthttpserver qtimageformats qtlocation \
+                  qtlottie qtmultimedia qtnetworkauth qtpositioning \
+                  qtquick3d qtquick3dphysics qtquicktimeline \
+                  qtremoteobjects qtscxml qtsensors qtserialbus \
+                  qtserialport qtshadertools qtspeech qtvirtualkeyboard \
+                  qtwebchannel qtwebsockets qtwebview
+
+ENV QT_WINDOWS_DIR=${ROOT}/Qt/${QT_VERSION}/mingw_64
+ENV QT_HOST_PATH=${ROOT}/Qt/${QT_VERSION}/gcc_64
+ENV CMAKE_PREFIX_PATH=${QT_WINDOWS_DIR}
+ENV Qt6_DIR=${QT_WINDOWS_DIR}/lib/cmake/Qt6
+
+# ── Quellcode (Build-Kontext = Projekt-Root) ──────────────────────────────────
+COPY . ${ROOT}/pokerth/
+
+# ── Build: Kompilieren + DLLs + Daten sammeln ────────────────────────────────
+# build_windows.sh versucht am Ende makensis mit installer.nsi (widget) –
+# das schlägt bei einem reinen QML-Build nicht ab (set -e fehlt dort),
+# daher läuft das Script sicher durch.
+RUN cd ${ROOT}/pokerth && bash docker/windows/build_windows.sh
+
+# ── NSIS-Installer für QML-Client ────────────────────────────────────────────
+RUN cd ${ROOT}/pokerth/docker/windows \
+    && VERSION=$(grep -oP '(?<=PRODUCT_VERSION ")[^"]+' installer_qml.nsi) \
+    && BUILD_TIMESTAMP=$(date +%Y%m%d_%H%M%S) \
+    && makensis -NOCD \
+          -DOUTFILE="PokerTH-QML-${VERSION}-${BUILD_TIMESTAMP}-Setup.exe" \
+          installer_qml.nsi
+
+# ── Ausgabe bereitstellen ────────────────────────────────────────────────────
+RUN mkdir -p /output \
+    && INSTALLER=$(ls ${ROOT}/pokerth/docker/windows/PokerTH-QML-*-Setup.exe \
+                   2>/dev/null | tail -1) \
+    && if [ -n "$INSTALLER" ]; then \
+           cp "$INSTALLER" /output/; \
+       else \
+           echo "FEHLER: Kein QML-Installer gefunden!"; \
+           ls ${ROOT}/pokerth/docker/windows/ || true; \
+           exit 1; \
+       fi
+
+ENTRYPOINT ["/bin/bash"]

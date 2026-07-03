@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
-import QtQuick.VectorImage
 import QtQuick.Effects
 
 import "../config" as Config
@@ -19,17 +18,22 @@ Rectangle {
 
     Layout.fillWidth: true
     Layout.fillHeight: false
-    Layout.preferredHeight: 24
-    Layout.topMargin: 8
+    Layout.preferredHeight: checkBoxLayout.implicitHeight + 8
+    Layout.topMargin: 4
     color: "transparent"
 
     RowLayout {
+        id: checkBoxLayout
         spacing: 8
-        VectorImage {
+        width: parent.width
+        anchors.verticalCenter: parent.verticalCenter
+
+        SvgIcon {
             id: customCheck
             source: checkBox.isChecked ? "../resources/checkSquare.svg" : "../resources/square.svg"
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
+            Layout.alignment: Qt.AlignVCenter
             MultiEffect {
                 id: customCheckCol
                 source: customCheck
@@ -44,6 +48,8 @@ Rectangle {
             color: Config.StaticData.palette.secondary.col200
             text: qsTr("CheckBox LabelText")
             font.pointSize: 12
+            Layout.fillWidth: true
+            wrapMode: Text.Wrap
         }
     }
 

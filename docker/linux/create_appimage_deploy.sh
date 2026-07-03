@@ -16,7 +16,9 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BUILD_DIR="${PROJECT_ROOT}/build"
 ARCH="$(uname -m)"
 APPDIR="${SCRIPT_DIR}/PokerTH.AppDir"
-APPIMAGE_NAME="PokerTH-${ARCH}-$(date +%Y%m%d).AppImage"
+# Name per Umgebungsvariable übersteuerbar (z. B. vom Docker-Build mit
+# glibc-Version im Namen), sonst Default mit Arch + Zeitstempel.
+APPIMAGE_NAME="${APPIMAGE_NAME:-PokerTH-${ARCH}-$(date +%Y%m%d_%H%M%S).AppImage}"
 
 echo "=== PokerTH AppImage Erstellung ==="
 echo "Project Root: $PROJECT_ROOT"
@@ -242,6 +244,11 @@ else
     # Minimales 1x1 PNG als Fallback (AppImage braucht ein Icon)
     printf '\x89PNG\r\n\x1a\n' > "$APPDIR/pokerth.png"
 fi
+
+# .DirIcon bestimmt das Icon der AppImage-DATEI im Dateimanager. Als echte Datei
+# (statt des von appimagetool erzeugten Symlinks) ist es überall zuverlässig
+# sichtbar.
+cp "$APPDIR/pokerth.png" "$APPDIR/.DirIcon"
 
 # --- Lizenz & Docs ---
 

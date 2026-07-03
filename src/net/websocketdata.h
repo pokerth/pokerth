@@ -36,9 +36,72 @@
 #include <net/websocket_defs.h>
 
 
+// Subprotocol name a client must request (Sec-WebSocket-Protocol) to enable
+// length-prefixed framing. Clients that do not request it keep the legacy
+// "one websocket message == one packet" framing for backward compatibility.
+#define POKERTH_WS_SUBPROTOCOL_LEN	"pokerth-len-v1"
+
+// Type-erased view on the underlying websocketpp endpoint. The TLS and non-TLS
+// endpoints are distinct C++ types (server vs tls_server); this interface lets
+// the rest of the server treat them uniformly, so the websocket send/close
+// paths work for both ws:// and wss:// connections.
+class WebSocketEndpoint
+{
+public:
+	virtual ~WebSocketEndpoint() {}
+	virtual void Send(websocketpp::connection_hdl hdl, const std::string &payload,
+					  websocketpp::lib::error_code &ec) = 0;
+	virtual void Close(websocketpp::connection_hdl hdl, const std::string &reason,
+					   websocketpp::lib::error_code &ec) = 0;
+	// Remote IP address of the connection, or empty string on failure.
+	virtual std::string RemoteAddress(websocketpp::connection_hdl hdl) = 0;
+};
+
+template<typename ServerType>
+class WebSocketEndpointImpl : public WebSocketEndpoint
+{
+public:
+	explicit WebSocketEndpointImpl(boost::shared_ptr<ServerType> srv) : m_server(srv) {}
+
+	void Send(websocketpp::connection_hdl hdl, const std::string &payload,
+			  websocketpp::lib::error_code &ec) override
+	{
+		m_server->send(hdl, payload, websocketpp::frame::opcode::BINARY, ec);
+	}
+
+	void Close(websocketpp::connection_hdl hdl, const std::string &reason,
+			   websocketpp::lib::error_code &ec) override
+	{
+		m_server->close(hdl, websocketpp::close::status::normal, reason, ec);
+	}
+
+	std::string RemoteAddress(websocketpp::connection_hdl hdl) override
+	{
+		try {
+			typename ServerType::connection_ptr con = m_server->get_con_from_hdl(hdl);
+			if (con) {
+				boost::system::error_code ec;
+				auto ep = con->get_raw_socket().remote_endpoint(ec);
+				if (!ec) {
+					return ep.address().to_string();
+				}
+			}
+		} catch (...) {
+		}
+		return std::string();
+	}
+
+private:
+	boost::shared_ptr<ServerType> m_server;
+};
+
 struct WebSocketData {
-	boost::shared_ptr<server> webSocketServer;
+	boost::shared_ptr<WebSocketEndpoint> endpoint;
 	websocketpp::connection_hdl webHandle;
+	// When true, every packet on this connection is delimited by a 4-byte
+	// big-endian length prefix (same wire framing as the native TCP path),
+	// in both directions. Negotiated via the websocket subprotocol at open.
+	bool lengthPrefixed = false;
 };
 
 #endif

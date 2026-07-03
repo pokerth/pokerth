@@ -8,7 +8,7 @@
 ; General Configuration
 
 !define PRODUCT_NAME "PokerTH"
-!define PRODUCT_VERSION "2.0.7"
+!define PRODUCT_VERSION "2.1.0"
 !define PRODUCT_PUBLISHER "PokerTH Team"
 !define PRODUCT_WEB_SITE "http://www.pokerth.net"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\pokerth_client.exe"
@@ -20,7 +20,11 @@ SetCompressor /SOLID lzma
 
 ; Name and file
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "PokerTH-${PRODUCT_VERSION}-Setup.exe"
+!ifdef OUTFILE
+  OutFile "${OUTFILE}"
+!else
+  OutFile "PokerTH-${PRODUCT_VERSION}-Setup.exe"
+!endif
 
 ; Default installation directory
 InstallDir "$PROGRAMFILES64\PokerTH"

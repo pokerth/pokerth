@@ -64,6 +64,12 @@ loghelper_init(const string &logDir, int logLevel)
 }
 
 void
+loghelper_write_raw(const std::string & /*line*/)
+{
+	// Client-only diagnostic sink; the server logs via internal_log_* above.
+}
+
+void
 internal_log_err(const string &msg)
 {
 	if (!g_logFile.empty()) {

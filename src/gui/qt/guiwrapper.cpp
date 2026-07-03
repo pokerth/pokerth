@@ -384,7 +384,7 @@ void GuiWrapper::SignalNetClientPlayerLeft(unsigned playerId, const string &play
 	myStartWindow->signalNetClientPlayerLeft(playerId, tmpName);
 	myW->signalNetClientPlayerLeft(playerId);
 	if (!playerName.empty() && playerName[0] != '#' && myW->isVisible())
-		myGuiLog->signalLogPlayerLeftMsg(tmpName, removeReason == NTF_NET_REMOVED_KICKED);
+		myGuiLog->signalLogPlayerLeftMsg(tmpName, removeReason);
 }
 void GuiWrapper::SignalNetClientSpectatorJoined(unsigned playerId, const string &playerName)
 {

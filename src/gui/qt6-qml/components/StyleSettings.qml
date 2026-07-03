@@ -12,35 +12,90 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     color: "transparent"
 
+    // Im data-Verzeichnis (<AppDataDir>/gfx/qml/...) gefundene Stile, vom
+    // SettingsManager (C++) eingelesen. Jeder Eintrag: { name, description,
+    // maintainer, dir, xml, preview, previewPortrait }.
+    property var tableStyles: []
+    property var cardStyles: []
+    property var cardBackStyles: []
+    // Aktuell ausgewählter Stil – initialisiert aus den Config-Keys, beim Klick
+    // über den StyleProvider persistiert und sofort auf den Tisch angewendet.
+    property string selectedTableStyle: ""
+    property string selectedCardStyle: ""
+    property string selectedCardBackStyle: ""
+
+    Component.onCompleted: {
+        if (typeof SettingsManager !== "undefined" && SettingsManager) {
+            refreshStyles()
+            selectedTableStyle = SettingsManager.readConfigString("QmlGameTableStyle")
+            selectedCardStyle = SettingsManager.readConfigString("QmlCardDeckStyle")
+            selectedCardBackStyle = SettingsManager.readConfigString("QmlCardBackStyle")
+        }
+    }
+
+    function refreshStyles() {
+        tableStyles = SettingsManager.availableTableStyles()
+        cardStyles = SettingsManager.availableCardDeckStyles()
+        cardBackStyles = SettingsManager.availableCardBackStyles()
+    }
+
+    // Ergebnis eines Stil-Imports (SettingsManager.import*Style) verarbeiten:
+    // Liste auffrischen und eine evtl. Meldung (Warnung/Fehler) anzeigen.
+    function handleImportResult(result) {
+        if (!result || result.status === "cancelled")
+            return
+        refreshStyles()
+        if (result.message)
+            importResultPopup.openWith(qsTr("Stil hinzufügen"), result.message, qsTr("OK"))
+    }
+
+    // Entfernen eines importierten Stils: war er gerade aktiv, zurück auf
+    // "default" schalten, damit Auswahl und Tisch konsistent bleiben.
+    function removeStyle(category, name) {
+        if (!SettingsManager.removeUserStyle(category, name))
+            return
+        if (typeof StyleProvider !== "undefined" && StyleProvider) {
+            if (category === "table" && selectedTableStyle === name) {
+                selectedTableStyle = "default"
+                StyleProvider.setTableStyle("default")
+            } else if (category === "cards" && selectedCardStyle === name) {
+                selectedCardStyle = "default"
+                StyleProvider.setCardDeckStyle("default")
+            } else if (category === "backside" && selectedCardBackStyle === name) {
+                selectedCardBackStyle = "default"
+                StyleProvider.setCardBackStyle("default")
+            }
+        }
+        refreshStyles()
+    }
+
+    // Hinweis-Popup für Import-Warnungen und -Fehler (nur "OK").
+    ConfirmPopup {
+        id: importResultPopup
+        showCancel: false
+    }
+
+    // Rückfrage vor dem Entfernen eines importierten Stils.
+    ConfirmPopup {
+        id: removeConfirmPopup
+        property string category: ""
+        property string styleName: ""
+        onConfirmed: styleSettings.removeStyle(category, styleName)
+
+        function askFor(cat, name, description) {
+            category = cat
+            styleName = name
+            openWith(qsTr("Stil entfernen"),
+                     qsTr("Den Stil \"%1\" wirklich entfernen?").arg(description || name),
+                     qsTr("Entfernen"))
+        }
+    }
+
     ColumnLayout {
         id: styleSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 8
-            Layout.bottomMargin: 0
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.fillHeight: false
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Stil")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Stil") }
 
         ColumnLayout {
             Layout.fillWidth: true
@@ -64,37 +119,51 @@ Rectangle {
                 ScrollView {
                     id: gameTableTab
                     clip: true
+                    contentWidth: availableWidth
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     ColumnLayout {
-                        width: parent.width
+                        width: gameTableTab.availableWidth
                         spacing: 8
 
                         Label {
-                            text: qsTr("Spieltisch-Stil auswählen")
+                            Layout.fillWidth: true
+                            text: qsTr("Verfügbare Spieltisch-Stile:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        Button {
-                            text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Spieltisch-Stil
-                            }
-                        }
-
-                        Button {
-                            text: qsTr("Stil entfernen")
-                            onClicked: {
-                                // TODO: Ausgewählten Stil entfernen
+                        Repeater {
+                            model: styleSettings.tableStyles
+                            delegate: Component {
+                                StyleCard {
+                                    styleEntry: modelData
+                                    selected: modelData.name === styleSettings.selectedTableStyle
+                                    onClicked: {
+                                        styleSettings.selectedTableStyle = modelData.name
+                                        if (typeof StyleProvider !== "undefined" && StyleProvider)
+                                            StyleProvider.setTableStyle(modelData.name)
+                                    }
+                                    onRemoveRequested: removeConfirmPopup.askFor(
+                                                           "table", modelData.name, modelData.description)
+                                }
                             }
                         }
 
                         Label {
-                            Layout.topMargin: 8
-                            text: qsTr("Hinweis: Die Stil-Auswahl mit Vorschau wird später implementiert")
+                            Layout.fillWidth: true
+                            visible: styleSettings.tableStyles.length === 0
+                            text: qsTr("Keine Spieltisch-Stile gefunden.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
+                        }
+
+                        Button {
+                            Layout.topMargin: 4
+                            text: qsTr("Stil hinzufügen...")
+                            onClicked: styleSettings.handleImportResult(
+                                           SettingsManager.importTableStyle())
                         }
                     }
                 }
@@ -103,37 +172,52 @@ Rectangle {
                 ScrollView {
                     id: cardsDeckTab
                     clip: true
+                    contentWidth: availableWidth
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     ColumnLayout {
-                        width: parent.width
+                        width: cardsDeckTab.availableWidth
                         spacing: 8
 
                         Label {
-                            text: qsTr("Kartenstapel-Stil auswählen")
+                            Layout.fillWidth: true
+                            text: qsTr("Verfügbare Kartenstapel-Stile:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        Button {
-                            text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Kartenstapel-Stil
-                            }
-                        }
-
-                        Button {
-                            text: qsTr("Stil entfernen")
-                            onClicked: {
-                                // TODO: Ausgewählten Stil entfernen
+                        Repeater {
+                            model: styleSettings.cardStyles
+                            delegate: Component {
+                                StyleCard {
+                                    styleEntry: modelData
+                                    forceLandscape: true
+                                    selected: modelData.name === styleSettings.selectedCardStyle
+                                    onClicked: {
+                                        styleSettings.selectedCardStyle = modelData.name
+                                        if (typeof StyleProvider !== "undefined" && StyleProvider)
+                                            StyleProvider.setCardDeckStyle(modelData.name)
+                                    }
+                                    onRemoveRequested: removeConfirmPopup.askFor(
+                                                           "cards", modelData.name, modelData.description)
+                                }
                             }
                         }
 
                         Label {
-                            Layout.topMargin: 8
-                            text: qsTr("Hinweis: Die Stil-Auswahl mit Vorschau wird später implementiert")
+                            Layout.fillWidth: true
+                            visible: styleSettings.cardStyles.length === 0
+                            text: qsTr("Keine Kartenstapel-Stile gefunden.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
                             wrapMode: Text.WordWrap
+                        }
+
+                        Button {
+                            Layout.topMargin: 4
+                            text: qsTr("Stil hinzufügen...")
+                            onClicked: styleSettings.handleImportResult(
+                                           SettingsManager.importCardDeckStyle())
                         }
                     }
                 }
@@ -142,73 +226,52 @@ Rectangle {
                 ScrollView {
                     id: cardsBackgroundTab
                     clip: true
+                    contentWidth: availableWidth
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     ColumnLayout {
-                        width: parent.width
-                        spacing: 12
+                        width: cardsBackgroundTab.availableWidth
+                        spacing: 8
 
                         Label {
-                            text: qsTr("Kartenrückseite auswählen")
+                            Layout.fillWidth: true
+                            text: qsTr("Verfügbare Kartenrückseiten:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
                         }
 
-                        ButtonGroup {
-                            id: flipsideGroup
-                        }
-
-                        RadioButton {
-                            id: flipsideTux
-                            text: qsTr("Standard (Tux)")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("FlipsideTux") !== 0 : true
-                            ButtonGroup.group: flipsideGroup
-                            onCheckedChanged: {
-                                if (SettingsManager && checked) {
-                                    SettingsManager.writeConfigInt("FlipsideTux", 1)
-                                    SettingsManager.writeConfigInt("FlipsideOwn", 0)
-                                }
-                            }
-                        }
-
-                        RadioButton {
-                            id: flipsideOwn
-                            text: qsTr("Eigene Kartenrückseite")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("FlipsideOwn") !== 0 : false
-                            ButtonGroup.group: flipsideGroup
-                            onCheckedChanged: {
-                                if (SettingsManager && checked) {
-                                    SettingsManager.writeConfigInt("FlipsideTux", 0)
-                                    SettingsManager.writeConfigInt("FlipsideOwn", 1)
-                                }
-                            }
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            Layout.leftMargin: 30
-
-                            TextField {
-                                id: ownFlipsideFilename
-                                Layout.fillWidth: true
-                                text: SettingsManager ? SettingsManager.readConfigString("FlipsideOwnFile") : ""
-                                enabled: flipsideOwn.checked
-                                readOnly: true
-                            }
-
-                            Button {
-                                text: qsTr("Durchsuchen...")
-                                enabled: flipsideOwn.checked
-                                onClicked: {
-                                    // TODO: Datei-Auswahl-Dialog für Kartenrückseite
+                        Repeater {
+                            model: styleSettings.cardBackStyles
+                            delegate: Component {
+                                StyleCard {
+                                    styleEntry: modelData
+                                    forceLandscape: true
+                                    selected: modelData.name === styleSettings.selectedCardBackStyle
+                                    onClicked: {
+                                        styleSettings.selectedCardBackStyle = modelData.name
+                                        if (typeof StyleProvider !== "undefined" && StyleProvider)
+                                            StyleProvider.setCardBackStyle(modelData.name)
+                                    }
+                                    onRemoveRequested: removeConfirmPopup.askFor(
+                                                           "backside", modelData.name, modelData.description)
                                 }
                             }
                         }
 
                         Label {
-                            Layout.topMargin: 8
-                            text: qsTr("Unterstützte Formate: PNG, JPG, GIF")
+                            Layout.fillWidth: true
+                            visible: styleSettings.cardBackStyles.length === 0
+                            text: qsTr("Keine Kartenrückseiten gefunden.")
                             color: Config.StaticData.palette.secondary.col400
                             font.italic: true
+                            wrapMode: Text.WordWrap
+                        }
+
+                        Button {
+                            Layout.topMargin: 4
+                            text: qsTr("Stil hinzufügen...")
+                            onClicked: styleSettings.handleImportResult(
+                                           SettingsManager.importCardBackStyle())
                         }
                     }
                 }

@@ -1,0 +1,94 @@
+FROM ubuntu:26.04
+# Build-Umgebung für PokerTH Qt-Widgets-Client AppImage (Ubuntu 26.04 LTS)
+#
+# Widget-Pendant zu Dockerfile.appimage-qml-ubuntu26 – gleiche Toolchain/
+# Abhängigkeitsstrategie, gebaut wird das Target `pokerth_client`.
+#
+# Warum Ubuntu 26.04?
+#   Das AppImage bündelt glibc + ld-linux.
+#   Das gebündelte glibc muss mindestens so neu sein wie das neueste Zielsystem —
+#   sonst fehlen Symbole in Host-Libs (z. B. libglib-2.0.so.0).
+#   Ubuntu 26.04 (glibc 2.43) deckt Ubuntu 22.04–26.04 als Ziel ab.
+#
+# Warum System-Qt statt aqtinstall?
+#   aqtinstall-Prebuilds (CentOS 7 / alter Toolchain) crashen beim Qt6Core
+#   static initializer auf Ubuntu 26.04 / Kernel 7+ (SIGABRT, Offset 0xbe088).
+#   Das System-Qt ist nativ für Ubuntu 26.04 gebaut und startet fehlerfrei.
+#
+# Abhängigkeitsstrategie:
+#   - Boost 1.88: aus dem Quellcode gebaut (Ubuntu 26.04 hat ggf. ältere Version)
+#   - Protobuf 3.21.12: aus dem Quellcode (liefert libprotobuf.so.32)
+#   - Qt 6.x: via apt (system-nativ, kompatibel mit Ubuntu 26.04)
+#   - OpenSSL, libpulse, etc.: Ubuntu-26.04-Pakete
+
+ENV TZ=Europe/Berlin
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
+        build-essential cmake ninja-build \
+        git wget ca-certificates file \
+        libssl-dev libwebsocketpp-dev \
+        libgl-dev libx11-dev libxkbcommon-dev \
+        libglib2.0-dev libfontconfig-dev libfreetype-dev \
+        libegl-dev libpulse-dev libfuse2 desktop-file-utils \
+        qt6-base-dev qt6-declarative-dev \
+        qt6-websockets-dev qt6-multimedia-dev \
+        qt6-shadertools-dev qt6-tools-dev \
+        libqt6opengl6-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Boost 1.88 aus dem Quellcode ---
+RUN wget -q https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz \
+    && tar xzf boost_1_88_0.tar.gz \
+    && cd boost_1_88_0 \
+    && ./bootstrap.sh --prefix=/usr/local \
+    && ./b2 -j$(nproc) install \
+        --with-iostreams --with-random --with-thread \
+        --with-filesystem --with-program_options \
+        --with-system --with-date_time \
+    && ldconfig \
+    && cd / && rm -rf boost_1_88_0 boost_1_88_0.tar.gz
+
+# --- Protobuf 3.21.12 aus dem Quellcode (liefert libprotobuf.so.32) ---
+RUN wget -q https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz \
+    && mkdir protobuf-src \
+    && tar xzf protobuf-all-21.12.tar.gz -C protobuf-src --strip-components=1 \
+    && cmake -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr/local \
+        -Dprotobuf_BUILD_TESTS=OFF \
+        -Dprotobuf_BUILD_SHARED_LIBS=ON \
+        -S protobuf-src -B protobuf-build \
+    && cmake --build protobuf-build -j$(nproc) \
+    && cmake --install protobuf-build \
+    && ldconfig \
+    && rm -rf protobuf-src protobuf-all-21.12.tar.gz protobuf-build
+
+WORKDIR /opt/pokerth
+
+# Build-Kontext muss das Projekt-Root sein (docker build -f ... <projekt-root>)
+COPY . .
+
+# --- PokerTH Qt-Widgets-Client bauen (System-Qt via apt) ---
+RUN rm -f cmake/FindBoost.cmake \
+    && rm -rf ./build \
+    && cmake -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_PREFIX_PATH="/usr/lib/x86_64-linux-gnu" \
+        -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+        -S . -B ./build \
+    && cmake --build ./build \
+        --target pokerth_client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
+        -j$(nproc)
+
+# --- AppImage erstellen (glibc-Version aus Build-Container im Namen) ---
+RUN chmod +x docker/linux/create_appimage_deploy.sh \
+    && GLIBC=$(ldd --version | awk 'NR==1{print $NF}') \
+    && export APPIMAGE_NAME="PokerTH-Widget-glibc${GLIBC}-$(uname -m)-$(date +%Y%m%d_%H%M%S).AppImage" \
+    && docker/linux/create_appimage_deploy.sh
+
+RUN mkdir -p /output \
+    && cp docker/linux/PokerTH-Widget-*.AppImage /output/
+
+ENTRYPOINT ["/bin/bash"]

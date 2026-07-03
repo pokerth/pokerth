@@ -1,0 +1,19 @@
+# Lokale Build-Verzeichnisse – enthalten CMakeCache.txt mit Host-Pfaden,
+# die im Container andere Verzeichnisse referenzieren würden.
+build/
+build-android*/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.code-workspace
+
+# Temporäre Ausgaben der Docker-Build-Skripte
+docker/linux/*.AppImage
+docker/windows/*.exe
+docker/windows/pokerth.ico
+docker/android/*.apk
+
+# Python-Cache
+**/__pycache__/
+**/*.pyc

@@ -9,6 +9,9 @@ TabBar {
     id: customTabBar
 
     property alias model: tabButtons.model
+    // Höhe/Schriftgröße der Tabs konfigurierbar (Default = bisheriges Aussehen).
+    property int tabHeight: 24
+    property real tabFontPointSize: 10
 
     Layout.fillWidth: true
     padding: 0
@@ -26,10 +29,14 @@ TabBar {
 
             property bool isHovered: false
 
-            height: 24
+            width: tabButtons.model.length > 0 ? Math.floor(customTabBar.width / tabButtons.model.length) : implicitWidth
+            height: customTabBar.tabHeight
             padding: 0
             contentItem: Text {
                 text: modelData
+                font.pointSize: customTabBar.tabFontPointSize
+                width: tabButton.width
+                elide: Text.ElideRight
                 color: customTabBar.currentIndex === index || tabButton.isHovered ? Config.StaticData.palette.secondary.col100 : Config.StaticData.palette.secondary.col200
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

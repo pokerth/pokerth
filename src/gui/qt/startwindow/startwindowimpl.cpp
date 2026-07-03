@@ -40,6 +40,7 @@
 #include "guiwrapper.h"
 #include "configfile.h"
 #include "gametableimpl.h"
+#include "soundevents.h"
 #include "newgamedialogimpl.h"
 #include "aboutpokerthimpl.h"
 #include "mymessagedialogimpl.h"
@@ -64,6 +65,8 @@
 #include <QScreen>
 #include <QWindow>
 #include <QGuiApplication>
+#include <QStyle>
+#include <QStyleFactory>
 
 #ifdef ANDROID
 #ifndef ANDROID_TEST
@@ -245,11 +248,28 @@ startWindowImpl::startWindowImpl(ConfigFile *c, Log *l, const std::string &passw
 	this->menubar->setStyleSheet("QMenuBar { background-color: #505050; font-size:12px; border-width: 0px;} QMenuBar::item { background: transparent; color: #FDC942; } QMenuBar::item:selected { background: #787878; color: #FDC942; } QMenuBar::item:pressed { background: #FDC942; color: #505050; }");
 	centralwidget->setStyleSheet(".QWidget { background-image: url(\""+myAppDataPath+"gfx/gui/misc/startwindowbg10_desktop.png\"); background-position: bottom center; background-origin: content; background-repeat: no-repeat;}");
 
-	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
-	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
-	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
-	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
-	pushButton_Logs->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border-width: 0px;}");
+	pushButtonStart_Local_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
+	pushButtonInternet_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
+	pushButton_Create_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
+	pushButton_Join_Network_Game->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
+	pushButton_Logs->setStyleSheet("QPushButton { text-align:left; font-weight:bold; padding-left: 1px; padding-bottom: 3px; padding-top: 3px; padding-right: 3px; background-color: #505050; color: #FDC942; font-size:12px; border: 1px solid #505050;}");
+
+	// On Windows 10 the native "windowsvista" style keeps drawing the push
+	// buttons with the native theme and ignores the stylesheet
+	// background-color/color set above, so the buttons appear white/native
+	// (Windows 11 uses the newer "windows11" style, where it works).  Force
+	// the Fusion style on just these buttons so the stylesheet colors are
+	// honored identically on Win10 and Win11.
+	if (QStyle *fusionStyle = QStyleFactory::create("Fusion")) {
+		fusionStyle->setParent(this);
+		const QList<QPushButton*> startWindowButtons = {
+			pushButtonStart_Local_Game, pushButtonInternet_Game,
+			pushButton_Create_Network_Game, pushButton_Join_Network_Game,
+			pushButton_Logs };
+		for (QPushButton *btn : startWindowButtons) {
+			btn->setStyle(fusionStyle);
+		}
+	}
 
 	connect( actionAbout_PokerTH, SIGNAL( triggered() ), this, SLOT( callAboutPokerthDialog() ) );
 	connect( actionConfigure_PokerTH, SIGNAL( triggered() ), this, SLOT( callSettingsDialogFromStartwindow() ) );
@@ -914,6 +934,13 @@ void startWindowImpl::showTimeoutDialog(int msgID, unsigned duration)
 		myTimeoutDialog->raise();
 		myTimeoutDialog->activateWindow();
 		myTimeoutDialog->startTimeout();
+
+		// Audio-Hinweis zum AFK-Countdown (Lobby wie ingame) – das Popup
+		// kann hinter anderen Fenstern liegen oder übersehen werden.
+		if(myGuiInterface && myGuiInterface->getMyW()
+		   && myGuiInterface->getMyW()->getMySoundEventHandler()) {
+			myGuiInterface->getMyW()->getMySoundEventHandler()->playSound("yourturn", 0);
+		}
 	}
 }
 

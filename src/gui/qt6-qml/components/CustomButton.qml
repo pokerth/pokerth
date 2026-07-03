@@ -1,46 +1,46 @@
 import QtQuick
+import QtQuick.Controls
 
 import "../config" as Config
 
-Rectangle {
+// PokerTH base button — built on AbstractButton for keyboard + accessibility support.
+// Touch target is at least Theme.touchTarget (48dp on mobile, 44dp on desktop).
+AbstractButton {
     id: customButton
 
-    property alias text: label.text
-    signal clicked
+    implicitWidth:  Config.Theme.buttonWidth < 0 ? 160 : Config.Theme.buttonWidth
+    implicitHeight: Config.Theme.touchTarget
 
-    width: 196
-    height: 32
-    color: Config.StaticData.palette.secondary.col700
-    border.color: Config.StaticData.palette.secondary.col200
+    // Visual feedback state
+    background: Rectangle {
+        radius: Config.Theme.radiusSmall
+        color: customButton.pressed
+               ? Config.Theme.colorSurface
+               : customButton.hovered
+                 ? Config.StaticData.palette.secondary.col600
+                 : Config.StaticData.palette.secondary.col700
+        border.color: customButton.hovered || customButton.pressed
+                      ? Config.Theme.colorTextPrimary
+                      : Config.Theme.colorTextSecondary
+        border.width: 1
 
-    Text {
-        id: label
-        anchors.centerIn: parent
-        color: Config.StaticData.palette.secondary.col200
-        font.family: Config.StaticData.loadedFont.font.family
-        text: "Button Text"
+        Behavior on color { ColorAnimation { duration: 100 } }
     }
 
-    MouseArea {
-        id: area
-        anchors.fill: parent
+    contentItem: AppText {
+        text: customButton.text
+        color: customButton.hovered || customButton.pressed
+               ? Config.Theme.colorTextPrimary
+               : Config.Theme.colorTextSecondary
+        font.pixelSize: Config.Theme.fontSizeBody
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment:   Text.AlignVCenter
+
+        Behavior on color { ColorAnimation { duration: 100 } }
+    }
+
+    HoverHandler {
         cursorShape: Qt.PointingHandCursor
-        hoverEnabled: true
-
-        onClicked: {
-            customButton.clicked();
-        }
-
-        onEntered: {
-            parent.color = Config.StaticData.palette.secondary.col600;
-            parent.border.color = Config.StaticData.palette.secondary.col100;
-            label.color = Config.StaticData.palette.secondary.col100;
-        }
-
-        onExited: {
-            parent.color = Config.StaticData.palette.secondary.col700;
-            parent.border.color = Config.StaticData.palette.secondary.col200;
-            label.color = Config.StaticData.palette.secondary.col200;
-        }
     }
 }
+

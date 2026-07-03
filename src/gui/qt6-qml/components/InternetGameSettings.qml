@@ -16,45 +16,21 @@ Rectangle {
         id: internetGameSettingsContent
         anchors.fill: parent
 
-        Label {
-            Layout.alignment: Qt.AlignTop
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            horizontalAlignment: Text.AlignLeft
-            text: qsTr("Internetspiel")
-            font.bold: true
-            font.pointSize: 12
-            color: Config.StaticData.palette.secondary.col200
-        }
-
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.preferredHeight: 1
-            Layout.fillHeight: false
-            Layout.topMargin: 0
-            Layout.bottomMargin: 4
-            Layout.leftMargin: 12
-            Layout.rightMargin: 12
-            Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col500
-        }
+        SettingsHeader { title: qsTr("Internetspiel"); topGap: 4 }
 
         ScrollView {
+            id: inetScrollView
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.topMargin: 4
             Layout.bottomMargin: 4
             Layout.leftMargin: 12
-            Layout.rightMargin: 12
             clip: true
+            contentWidth: availableWidth
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
             ColumnLayout {
-                width: parent.width
-                spacing: 12
-
-                // Server-Konfigurationsmodus
+                width: parent.width - 12
                 GroupBox {
                     Layout.fillWidth: true
                     title: qsTr("Server-Konfiguration")
@@ -141,7 +117,7 @@ Rectangle {
                                 enabled: manualServerConfig.checked
                             }
 
-                            SpinBox {
+                            CustomSpinBox {
                                 id: internetServerPort
                                 from: 1024
                                 to: 65535
@@ -212,14 +188,12 @@ Rectangle {
                             }
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             id: useInternetGamePassword
                             Layout.columnSpan: 2
                             text: qsTr("Spiel-Passwort verwenden")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("UseInternetGamePassword") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("UseInternetGamePassword", checked ? 1 : 0)
-                            }
+                            configKey: "UseInternetGamePassword"
+                            defaultChecked: false
                         }
 
                         Label {
@@ -239,13 +213,10 @@ Rectangle {
                             }
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             Layout.columnSpan: 2
                             text: qsTr("Zuschauer erlauben")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("InternetGameAllowSpectators") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("InternetGameAllowSpectators", checked ? 1 : 0)
-                            }
+                            configKey: "InternetGameAllowSpectators"
                         }
                     }
                 }
@@ -259,13 +230,11 @@ Rectangle {
                         anchors.fill: parent
                         spacing: 8
 
-                        CheckBox {
+                        ConfigCheckBox {
                             id: useAvatarServer
                             text: qsTr("Avatar-Server verwenden")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("UseAvatarServer") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("UseAvatarServer", checked ? 1 : 0)
-                            }
+                            configKey: "UseAvatarServer"
+                            defaultChecked: false
                         }
 
                         RowLayout {
@@ -300,28 +269,22 @@ Rectangle {
                         anchors.fill: parent
                         spacing: 8
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("TLS/SSL verwenden (verschlüsselte Verbindung)")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("InternetServerUseTls") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("InternetServerUseTls", checked ? 1 : 0)
-                            }
+                            configKey: "InternetServerUseTls"
+                            defaultChecked: false
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("IPv6 verwenden")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("InternetServerUseIpv6") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("InternetServerUseIpv6", checked ? 1 : 0)
-                            }
+                            configKey: "InternetServerUseIpv6"
+                            defaultChecked: false
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("SCTP verwenden (statt TCP)")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("InternetServerUseSctp") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("InternetServerUseSctp", checked ? 1 : 0)
-                            }
+                            configKey: "InternetServerUseSctp"
+                            defaultChecked: false
                         }
                     }
                 }
@@ -335,19 +298,78 @@ Rectangle {
                         anchors.fill: parent
                         spacing: 8
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("Lobby-Chat verwenden")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("UseLobbyChat") !== 0 : true
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("UseLobbyChat", checked ? 1 : 0)
-                            }
+                            configKey: "UseLobbyChat"
                         }
 
-                        CheckBox {
+                        ConfigCheckBox {
                             text: qsTr("Tisch automatisch verlassen nach Spielende")
-                            checked: SettingsManager ? SettingsManager.readConfigInt("NetAutoLeaveGameAfterFinish") !== 0 : false
-                            onCheckedChanged: {
-                                if (SettingsManager) SettingsManager.writeConfigInt("NetAutoLeaveGameAfterFinish", checked ? 1 : 0)
+                            configKey: "NetAutoLeaveGameAfterFinish"
+                            defaultChecked: false
+                        }
+                    }
+                }
+
+                // Ignorierte Spieler
+                GroupBox {
+                    Layout.fillWidth: true
+                    title: qsTr("Ignorierte Spieler")
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        spacing: 8
+
+                        Label {
+                            text: qsTr("Spieler auf der Ignore-Liste werden nicht im Chat angezeigt.")
+                            color: Config.StaticData.palette.secondary.col400
+                            wrapMode: Text.WordWrap
+                            Layout.fillWidth: true
+                            font.pixelSize: Config.Theme.fontSizeBody
+                        }
+
+                        ListView {
+                            id: ignoreListView
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: Math.min(contentHeight, 160)
+                            clip: true
+                            model: SettingsManager ? SettingsManager.readConfigStringList("PlayerIgnoreList") : []
+
+                            delegate: RowLayout {
+                                width: ignoreListView.width
+                                height: Config.Theme.touchTarget * 0.8
+
+                                Label {
+                                    Layout.fillWidth: true
+                                    text: modelData
+                                    color: Config.StaticData.palette.secondary.col200
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+
+                                CustomButton {
+                                    text: qsTr("Entfernen")
+                                    Layout.preferredWidth: 100
+                                    onClicked: {
+                                        if (!SettingsManager) return
+                                        var list = SettingsManager.readConfigStringList("PlayerIgnoreList")
+                                        list.splice(index, 1)
+                                        SettingsManager.writeConfigStringList("PlayerIgnoreList", list)
+                                        ignoreListView.model = SettingsManager.readConfigStringList("PlayerIgnoreList")
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                anchors.fill: parent
+                                visible: ignoreListView.count === 0
+                                color: "transparent"
+
+                                Label {
+                                    anchors.centerIn: parent
+                                    text: qsTr("(keine ignorierten Spieler)")
+                                    color: Config.StaticData.palette.secondary.col500
+                                    font.italic: true
+                                }
                             }
                         }
                     }

@@ -65,8 +65,11 @@ Session::~Session()
 	terminateNetworkServer();
 	delete myQtToolsInterface;
 	myQtToolsInterface = 0;
-	delete myLog;
-	myLog = 0;
+	// Do NOT delete myLog here: it is a shared_ptr now. If the network client
+	// thread was leaked above (Join timeout), it still holds a copy and may
+	// finish an in-flight log flush; the Log is destroyed (and its SQLite
+	// connection closed) only once the last reference drops, so the leaked
+	// thread can never write through a freed Log -> no corrupted .pdb.
 }
 
 bool Session::init()
@@ -141,7 +144,7 @@ void Session::startLocalGame(const GameData &gameData, const StartData &startDat
 	// EngineFactory erstellen
 	boost::shared_ptr<EngineFactory> factory(new LocalEngineFactory(myConfig)); // LocalEngine erstellen
 
-	currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum, myLog));
+	currentGame.reset(new Game(myGui, factory, playerDataList, gameData, startData, currentGameNum, myLog.get()));
 
 	//// SPIEL-SCHLEIFE
 	currentGame->initHand();
@@ -184,9 +187,11 @@ void Session::startInternetClient()
 	}
 	myGameType = GAME_TYPE_INTERNET;
 
-	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));
-#ifdef QML_CLIENT
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));  // shares Log ownership
+#if defined(QML_CLIENT) && QML_CLIENT_PRODUCTION_MODE
 	myNetClient->SetClientType(CLIENT_TYPE_QML);
+#else
+	myNetClient->SetClientType(CLIENT_TYPE_QT_WIDGET);
 #endif
 	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
 
@@ -216,7 +221,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	}
 	myGameType = GAME_TYPE_NETWORK;
 
-	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));  // shares Log ownership
 #ifdef QML_CLIENT
 	myNetClient->SetClientType(CLIENT_TYPE_QML);
 #endif
@@ -248,7 +253,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 	}
 	myGameType = GAME_TYPE_NETWORK;
 
-	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));
+	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));  // shares Log ownership
 #ifdef QML_CLIENT
 	myNetClient->SetClientType(CLIENT_TYPE_QML);
 #endif

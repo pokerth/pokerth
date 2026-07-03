@@ -79,19 +79,28 @@ if [ -d "$BUILD_DIR/bin" ]; then
 fi
 
 echo "Copying Qt DLLs..."
-cp ${QT_WINDOWS_DIR}/bin/Qt6Core.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Gui.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Widgets.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Network.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Sql.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Xml.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6WebSockets.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Multimedia.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6MultimediaWidgets.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Qml.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Quick.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6QuickControls2.dll $DEPLOY_DIR/ 2>/dev/null || true
-cp ${QT_WINDOWS_DIR}/bin/Qt6Svg.dll $DEPLOY_DIR/ 2>/dev/null || true
+if [[ "${TARGET}" == *"qml"* ]]; then
+    # QML-Client: alle Qt6-DLLs kopieren (windeployqt-Äquivalent für Cross-Build)
+    echo "  QML target: copying all Qt6*.dll from ${QT_WINDOWS_DIR}/bin/"
+    cp ${QT_WINDOWS_DIR}/bin/Qt6*.dll $DEPLOY_DIR/ 2>/dev/null || true
+else
+    # Widget-Client: nur die tatsächlich benötigten DLLs
+    for dll in Qt6Core Qt6Gui Qt6Widgets Qt6Network Qt6Sql Qt6Xml \
+               Qt6WebSockets Qt6Multimedia Qt6MultimediaWidgets Qt6Svg; do
+        cp ${QT_WINDOWS_DIR}/bin/${dll}.dll $DEPLOY_DIR/ 2>/dev/null || true
+    done
+fi
+
+# QML-Client: qml/-Modul-Importe (QtQuick, Controls, Layouts, Effects …)
+if [[ "${TARGET}" == *"qml"* ]]; then
+    echo "Copying Qt QML module imports..."
+    if [ -d "${QT_WINDOWS_DIR}/qml" ]; then
+        cp -r ${QT_WINDOWS_DIR}/qml $DEPLOY_DIR/
+        echo "  qml/ directory copied ($(find $DEPLOY_DIR/qml -type f | wc -l) files)"
+    else
+        echo "  Warning: qml/ directory not found at ${QT_WINDOWS_DIR}/qml"
+    fi
+fi
 
 echo "Copying Qt plugins..."
 mkdir -p $DEPLOY_DIR/plugins/platforms
@@ -105,6 +114,14 @@ cp -r ${QT_WINDOWS_DIR}/plugins/styles/*.dll $DEPLOY_DIR/plugins/styles/ 2>/dev/
 cp -r ${QT_WINDOWS_DIR}/plugins/imageformats/*.dll $DEPLOY_DIR/plugins/imageformats/ 2>/dev/null || true
 cp -r ${QT_WINDOWS_DIR}/plugins/sqldrivers/*.dll $DEPLOY_DIR/plugins/sqldrivers/ 2>/dev/null || true
 cp -r ${QT_WINDOWS_DIR}/plugins/tls/*.dll $DEPLOY_DIR/plugins/tls/ 2>/dev/null || true
+
+echo "Copying additional Qt plugins..."
+mkdir -p $DEPLOY_DIR/plugins/multimedia
+mkdir -p $DEPLOY_DIR/plugins/iconengines
+mkdir -p $DEPLOY_DIR/plugins/networkinformation
+cp -r ${QT_WINDOWS_DIR}/plugins/multimedia/*.dll  $DEPLOY_DIR/plugins/multimedia/  2>/dev/null || true
+cp -r ${QT_WINDOWS_DIR}/plugins/iconengines/*.dll $DEPLOY_DIR/plugins/iconengines/ 2>/dev/null || true
+cp -r ${QT_WINDOWS_DIR}/plugins/networkinformation/*.dll $DEPLOY_DIR/plugins/networkinformation/ 2>/dev/null || true
 
 
 echo "Copying MinGW runtime DLLs from vcpkg..."
@@ -218,6 +235,13 @@ else
     echo "  No data directory"
 fi
 echo ""
+
+# Skip NSIS when the caller assembles the installer itself (e.g. the combined
+# widget+QML build in Dockerfile.windows-combined, which uses installer_combined.nsi).
+if [ "${SKIP_NSIS:-0}" = "1" ]; then
+    echo "SKIP_NSIS=1 → NSIS-Installer-Erstellung übersprungen (wird extern erledigt)."
+    exit 0
+fi
 
 # Create Windows Installer with NSIS
 echo "======================================"

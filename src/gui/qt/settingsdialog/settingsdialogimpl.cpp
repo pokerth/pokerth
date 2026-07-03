@@ -219,8 +219,15 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 		spinBox_androidUiScale->setSpecialValueText(tr("Auto"));
 		spinBox_androidUiScale->setToolTip(tr("0 = automatic scaling to fit screen.\n50-150 = manual percentage (requires restart)."));
 		// Insert into the Interface tab's first page layout.
-		// checkBox_disableChatEmoticons is the last checkbox in that section.
-		QWidget *interfacePage = checkBox_disableChatEmoticons->parentWidget();
+		// wrapStackedWidgetPagesInScrollAreas() already ran, so widget(0) is a
+		// QScrollArea – we need to reach the original inner page to get its layout.
+		QWidget *interfacePage = nullptr;
+		if (stackedWidget->count() > 0) {
+			QWidget *w = stackedWidget->widget(0);
+			if (auto *sa = qobject_cast<QScrollArea*>(w))
+				w = sa->widget();
+			interfacePage = w;
+		}
 		if (interfacePage && interfacePage->layout()) {
 			QGridLayout *grid = qobject_cast<QGridLayout*>(interfacePage->layout());
 			if (grid) {
@@ -392,7 +399,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_disableSplashscreen->setChecked(myConfig->readConfigInt("DisableSplashScreenOnStartup"));
 	checkBox_enableAccidentallyCallBlocker->setChecked(myConfig->readConfigInt("AccidentallyCallBlocker"));
 	checkBox_dontHideAvatarsOfIgnored->setChecked(myConfig->readConfigInt("DontHideAvatarsOfIgnored"));
-	checkBox_disableChatEmoticons->setChecked(myConfig->readConfigInt("DisableChatEmoticons"));
+	checkBox_disableEmojiReactions->setChecked(myConfig->readConfigInt("DisableEmojiReactions"));
 
 #ifdef ANDROID
 	spinBox_androidUiScale->setValue(myConfig->readConfigInt("AndroidUiScalePercent"));
@@ -890,7 +897,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("EnableBetInputFocusSwitch", checkBox_enableBetInputFocusSwitch->isChecked());
 	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("DontHideAvatarsOfIgnored", checkBox_dontHideAvatarsOfIgnored->isChecked());
-	myConfig->writeConfigInt("DisableChatEmoticons", checkBox_disableChatEmoticons->isChecked());
+	myConfig->writeConfigInt("DisableEmojiReactions", checkBox_disableEmojiReactions->isChecked());
 
 #ifdef ANDROID
 	myConfig->writeConfigInt("AndroidUiScalePercent", spinBox_androidUiScale->value());
@@ -1015,7 +1022,8 @@ void settingsDialogImpl::setFlipsidePicFileName()
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Select your flipside picture"),
 					   flipSideDir.absolutePath(),
-					   tr("Images (*.png *.jpg *.gif)"));
+					   tr("Images (*.png *.jpg *.gif)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty())
 		lineEdit_OwnFlipsideFilename->setText(fileName);
@@ -1126,7 +1134,8 @@ void settingsDialogImpl::setLogDir()
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
 				  QDir::homePath(),
 				  QFileDialog::ShowDirsOnly
-				  | QFileDialog::DontResolveSymlinks);
+				  | QFileDialog::DontResolveSymlinks
+				  | AppImageUtils::fileDialogOptions());
 
 	if (!dir.isEmpty()) {
 
@@ -1357,7 +1366,8 @@ void settingsDialogImpl::addGameTableStyle()
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your game table style"),
 					   dirString,
-					   tr("PokerTH game table styles (*.xml)"));
+					   tr("PokerTH game table styles (*.xml)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty()) {
 
@@ -1482,7 +1492,8 @@ void settingsDialogImpl::addCardDeckStyle()
 
 	QString fileName = QFileDialog::getOpenFileName(this, tr("Please select your card deck style"),
 					   dirString,
-					   tr("PokerTH card deck styles (*.xml)"));
+					   tr("PokerTH card deck styles (*.xml)"),
+					   nullptr, AppImageUtils::fileDialogOptions());
 
 	if (!fileName.isEmpty()) {
 

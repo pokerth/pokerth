@@ -2,253 +2,294 @@
 set -e
 
 # Binary Deploy Script für PokerTH Linux
-# Erstellt ein vollständiges Binary-Paket mit allen Abhängigkeiten
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BUILD_DIR="${PROJECT_ROOT}/build"
 DEPLOY_DIR="${SCRIPT_DIR}/pokerth-linux-binary"
-DEPLOY_NAME="pokerth-linux-$(uname -m)-$(date +%Y%m%d)"
+DEPLOY_NAME="pokerth-linux-$(uname -m)-$(date +%Y%m%d_%H%M%S)"
+DEPLOY_PARENT_DIR="$(dirname "$DEPLOY_DIR")"
 
 echo "=== PokerTH Binary Deploy Erstellung ==="
-echo "Project Root: $PROJECT_ROOT"
-echo "Build Dir: $BUILD_DIR"
-echo "Deploy Name: $DEPLOY_NAME"
+echo "Deploy: $DEPLOY_DIR"
 echo ""
 
-# Prüfe ob Build existiert
-if [ ! -d "$BUILD_DIR" ]; then
-    echo "ERROR: Build-Verzeichnis nicht gefunden: $BUILD_DIR"
-    echo "Bitte führen Sie zuerst den Build-Prozess durch."
-    exit 1
+echo "=== Bereinigung (vorab) ==="
+if [ -d "$DEPLOY_DIR" ]; then
+    rm -rf "$DEPLOY_DIR"
+    echo "Entfernt: $DEPLOY_DIR"
+else
+    echo "Kein altes Deploy-Verzeichnis gefunden"
 fi
 
-# Prüfe ob Binaries existieren
+LAST_ZIP=$(find "$DEPLOY_PARENT_DIR" -maxdepth 1 -type f -name "pokerth-linux-*.zip" -printf "%T@ %p\n" 2>/dev/null | sort -nr | head -1 | cut -d' ' -f2-)
+if [ -n "$LAST_ZIP" ] && [ -f "$LAST_ZIP" ]; then
+    rm -f "$LAST_ZIP"
+    echo "Entfernt: $LAST_ZIP"
+else
+    echo "Keine alte ZIP-Datei gefunden"
+fi
+echo ""
+
 if [ ! -f "$BUILD_DIR/bin/pokerth_client" ]; then
-    echo "ERROR: pokerth_client Binary nicht gefunden!"
+    echo "ERROR: pokerth_client Binary nicht gefunden in $BUILD_DIR/bin/"
     exit 1
 fi
 
-# Erstelle Deploy-Verzeichnis
-rm -rf "$DEPLOY_DIR"
-mkdir -p "$DEPLOY_DIR"/{bin,lib,data,share}
+mkdir -p "$DEPLOY_DIR"/{bin,lib,data,share,plugins}
 
 echo "=== Kopiere Binaries ==="
 cp -v "$BUILD_DIR/bin/pokerth_client" "$DEPLOY_DIR/bin/"
-if [ -f "$BUILD_DIR/bin/pokerth_qml-client" ]; then
-    cp -v "$BUILD_DIR/bin/pokerth_qml-client" "$DEPLOY_DIR/bin/"
-fi
+[ -f "$BUILD_DIR/bin/pokerth_qml-client" ] && cp -v "$BUILD_DIR/bin/pokerth_qml-client" "$DEPLOY_DIR/bin/"
+[ -d "$BUILD_DIR/bin/botfiles" ] && cp -r "$BUILD_DIR/bin/botfiles" "$DEPLOY_DIR/bin/"
 
-# Kopiere botfiles falls vorhanden
-if [ -d "$BUILD_DIR/bin/botfiles" ]; then
-    echo "=== Kopiere Botfiles ==="
-    cp -rv "$BUILD_DIR/bin/botfiles" "$DEPLOY_DIR/bin/"
+# System-Libs die nicht mitgeliefert werden (regex auf basename)
+# PulseAudio/ALSA werden ausgeschlossen: müssen zum System-Audiodaemon passen.
+# Fontconfig/Expat bleiben auf dem Host, damit die dortige Font-Config-Syntax
+# (z. B. neuere guessfamily-Regeln auf SteamOS/CachyOS) sicher verstanden wird.
+# GL/EGL/GBM/DRM (Mesa-Stack) MÜSSEN vom Host kommen: libGL/libEGL laden den
+# GPU-spezifischen DRI-Treiber (z. B. radeonsi_dri.so) des Hosts und brauchen
+# dazu passende libglapi/libdrm. Ein gebündelter Mesa-Stack überschattet den
+# Host-Treiber -> "EGL not available" / "Failed to create context" / RHI-Abbruch.
+# (Entspricht der linuxdeployqt-Excludelist für Grafik.)
+# libwayland-* ebenso: sie sprechen direkt mit dem Host-Compositor und der
+# Host-libEGL_mesa. Auf einer Wayland-Sitzung läuft GL NUR über EGL; eine
+# gebündelte libwayland-client/-egl bricht den EGL-Wayland-Handshake -> exakt
+# dasselbe "EGL not available". Daher Host-seitig lassen.
+SKIP_PATTERN='^(libc[.-]|libm[.-]|libdl[.-]|libpthread[.-]|librt[.-]|libresolv[.-]|libutil[.-]|libnsl[.-]|ld-linux|ld-[0-9]|libpulse[.-]|libpulse-simple[.-]|libpulsecommon-|libasound[.-]|libfontconfig[.-]|libexpat[.-]|libGL[.-]|libGLX[.-]|libGLdispatch[.-]|libGLESv2[.-]|libEGL[.-]|libOpenGL[.-]|libglapi[.-]|libgbm[.-]|libdrm[.-]|libwayland-client[.-]|libwayland-cursor[.-]|libwayland-egl[.-]|libwayland-server[.-])'
+
+# ldd löst bereits ALLE transitiven Abhängigkeiten auf – keine Rekursion nötig.
+# Nimmt Dateiliste per stdin (via pipe aus find), verarbeitet alles in einem ldd-Aufruf.
+copy_deps() {
+    xargs -r ldd 2>/dev/null \
+        | awk '/=>/ {print $3}' \
+        | grep '^/' \
+        | sort -u \
+        | while read -r lib; do
+            name="$(basename "$lib")"
+            if ! [[ "$name" =~ $SKIP_PATTERN ]] && [ ! -f "$DEPLOY_DIR/lib/$name" ]; then
+                cp -L "$lib" "$DEPLOY_DIR/lib/$name" && chmod +x "$DEPLOY_DIR/lib/$name" && echo "  + $name"
+            fi
+        done
+}
+
+# Bei nicht-System-Qt (aqtinstall) liegen die Qt-Libs NICHT in einem Standard-
+# Suchpfad. Ohne diesen Export findet das ldd in copy_deps die Qt-Libs der
+# Plugins/QML-Module nicht ("not found") und lässt sie still weg -> das Deploy
+# startet nicht. Mit dem Distro-Qt (in /usr/lib) trat das nicht auf.
+if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/lib" ]; then
+    export LD_LIBRARY_PATH="$QT6_ROOT/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 fi
 
 echo ""
-echo "=== Sammle Abhängigkeiten ==="
-
-# Funktion zum Sammeln aller Abhängigkeiten
-collect_dependencies() {
-    local binary="$1"
-    local lib_dir="$2"
-    
-    echo "Analysiere: $(basename $binary)"
-    
-    # Sammle alle Bibliotheken rekursiv
-    local processed_libs="$lib_dir/.processed"
-    touch "$processed_libs"
-    
-    process_binary() {
-        local bin="$1"
-        
-        # Verwende Array statt Pipe, um Subshell zu vermeiden
-        local libs=()
-        while IFS= read -r line; do
-            local lib=$(echo "$line" | grep "=>" | awk '{print $3}')
-            [ -n "$lib" ] && libs+=("$lib")
-        done < <(ldd "$bin" 2>/dev/null)
-        
-        for lib in "${libs[@]}"; do
-            if [ -z "$lib" ] || [ ! -f "$lib" ]; then
-                continue
-            fi
-            
-            local libname="$(basename $lib)"
-            
-            # Überspringe grundlegende glibc-Bibliotheken
-            # sowie PulseAudio/ALSA Client-Libs (müssen zum System-Audiodaemon passen)
-            case "$libname" in
-                libc.so.* | libc-*.so | \
-                libm.so.* | libm-*.so | \
-                libdl.so.* | libdl-*.so | \
-                libpthread.so.* | libpthread-*.so | \
-                librt.so.* | librt-*.so | \
-                libresolv.so.* | libresolv-*.so | \
-                libutil.so.* | libutil-*.so | \
-                libnsl.so.* | libnsl-*.so | \
-                ld-linux*.so.* | ld-*.so | \
-                libpulse.so.* | libpulse-simple.so.* | libpulsecommon-*.so | \
-                libasound.so.*)
-                    continue
-                    ;;
-            esac
-            
-            # Skip wenn schon bearbeitet
-            if grep -q "^${lib}$" "$processed_libs" 2>/dev/null; then
-                continue
-            fi
-            
-            # Markiere als bearbeitet
-            echo "$lib" >> "$processed_libs"
-            
-            # Kopiere die Bibliothek und setze Ausführungsrechte
-            if [ ! -f "$lib_dir/$libname" ]; then
-                cp -L "$lib" "$lib_dir/" 2>/dev/null && chmod +x "$lib_dir/$libname" && echo "  + $libname" || true
-            fi
-            
-            # Rekursiv die Abhängigkeiten dieser Bibliothek sammeln
-            process_binary "$lib"
-        done
-    }
-    
-    process_binary "$binary"
-    rm -f "$processed_libs"
-}
-
-# Sammle Abhängigkeiten für alle Binaries
-for binary in "$DEPLOY_DIR/bin/pokerth_client" "$DEPLOY_DIR/bin/pokerth_qml-client"; do
-    if [ -f "$binary" ]; then
-        collect_dependencies "$binary" "$DEPLOY_DIR/lib"
-    fi
-done
+echo "=== Sammle Abhängigkeiten (Binaries) ==="
+find "$DEPLOY_DIR/bin" -maxdepth 1 -type f | copy_deps
 
 echo ""
 echo "=== Sammle Qt-Plugins ==="
-# Finde Qt6-Plugin-Verzeichnis
-QT6_PLUGINS=$(find /usr/lib* -type d -name "qt6" -path "*/plugins" 2>/dev/null | head -1)
-if [ -z "$QT6_PLUGINS" ]; then
-    QT6_PLUGINS="/usr/lib/x86_64-linux-gnu/qt6/plugins"
+# QT6_ROOT erlaubt ein nicht-System-Qt (z. B. aqtinstall unter /opt/Qt/<ver>/gcc_64),
+# nötig wenn das System-Qt zu alt ist (Ubuntu 24.04 = 6.4 < benötigte 6.7).
+if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/plugins" ]; then
+    QT6_PLUGINS="$QT6_ROOT/plugins"
+else
+    QT6_PLUGINS=$(find /usr/lib* -type d -name "plugins" -path "*/qt6/*" 2>/dev/null | head -1)
+    [ -z "$QT6_PLUGINS" ] && QT6_PLUGINS="/usr/lib/x86_64-linux-gnu/qt6/plugins"
 fi
 
 if [ -d "$QT6_PLUGINS" ]; then
-    echo "Qt6 Plugins gefunden: $QT6_PLUGINS"
-    
-    # Kopiere wichtige Plugin-Kategorien
-    for plugin_category in platforms xcbglintegrations platforminputcontexts imageformats platformthemes multimedia sqldrivers tls; do
-        if [ -d "$QT6_PLUGINS/$plugin_category" ]; then
-            echo "Kopiere $plugin_category plugins..."
-            mkdir -p "$DEPLOY_DIR/plugins/$plugin_category"
-            cp -v "$QT6_PLUGINS/$plugin_category"/*.so "$DEPLOY_DIR/plugins/$plugin_category/" 2>/dev/null || true
-            chmod +x "$DEPLOY_DIR/plugins/$plugin_category"/*.so 2>/dev/null || true
-            
-            # Sammle Abhängigkeiten der Plugins
-            for plugin in "$DEPLOY_DIR/plugins/$plugin_category"/*.so; do
-                [ -f "$plugin" ] && collect_dependencies "$plugin" "$DEPLOY_DIR/lib"
-            done
+    echo "Qt6 Plugins: $QT6_PLUGINS"
+    for cat in platforms xcbglintegrations platforminputcontexts imageformats iconengines platformthemes multimedia sqldrivers tls wayland-shell-integration wayland-decoration-client wayland-graphics-integration-client; do
+        if [ -d "$QT6_PLUGINS/$cat" ]; then
+            mkdir -p "$DEPLOY_DIR/plugins/$cat"
+            if [ "$cat" = "sqldrivers" ]; then
+                # Nur SQLite – die Client nutzt kein MySQL/PostgreSQL/ODBC/Mimer.
+                # Deren Treiber-Plugins bräuchten libmysqlclient/libpq/… die weder
+                # gebündelt noch zwingend auf dem Host sind.
+                cp "$QT6_PLUGINS/$cat"/libqsqlite.so "$DEPLOY_DIR/plugins/$cat/" 2>/dev/null && \
+                    chmod +x "$DEPLOY_DIR/plugins/$cat"/*.so 2>/dev/null && \
+                    echo "  $cat (nur sqlite)" || true
+            else
+                cp "$QT6_PLUGINS/$cat"/*.so "$DEPLOY_DIR/plugins/$cat/" 2>/dev/null && \
+                    chmod +x "$DEPLOY_DIR/plugins/$cat"/*.so 2>/dev/null && \
+                    echo "  $cat" || true
+            fi
         fi
     done
+    # Alle Plugin-Abhängigkeiten in einem einzigen ldd-Aufruf
+    find "$DEPLOY_DIR/plugins" -name "*.so" | copy_deps
 else
     echo "WARNUNG: Qt6 Plugins nicht gefunden in $QT6_PLUGINS"
 fi
 
 echo ""
-echo "=== Kopiere Data-Verzeichnis ==="
-if [ -d "$PROJECT_ROOT/data" ]; then
-    cp -rv "$PROJECT_ROOT/data"/* "$DEPLOY_DIR/data/"
+echo "=== Sammle Qt-QML-Module ==="
+if [ -n "$QT6_ROOT" ] && [ -d "$QT6_ROOT/qml" ]; then
+    QT6_QML="$QT6_ROOT/qml"
+else
+    QT6_QML=$(find /usr/lib* -type d -name "qml" -path "*/qt6/*" 2>/dev/null | head -1)
+    [ -z "$QT6_QML" ] && QT6_QML="/usr/lib/x86_64-linux-gnu/qt6/qml"
 fi
 
-# Erstelle Symlink-Struktur für PokerTH's Datei-Such-Logik
-# PokerTH sucht: bin/../share/pokerth/data/ wenn Binary in bin/ liegt
+if [ -d "$QT6_QML" ]; then
+    echo "Qt6 QML: $QT6_QML"
+    mkdir -p "$DEPLOY_DIR/qml"
+    for mod in QtCore QtQuick QtQml Qt5Compat QtMultimedia; do
+        if [ -d "$QT6_QML/$mod" ]; then
+            cp -r "$QT6_QML/$mod" "$DEPLOY_DIR/qml/" && echo "  $mod"
+        fi
+    done
+    # Alle QML-Plugin-Abhängigkeiten in einem einzigen ldd-Aufruf
+    find "$DEPLOY_DIR/qml" -name "*.so" | copy_deps
+else
+    echo "WARNUNG: Qt6 QML-Module nicht gefunden in $QT6_QML"
+fi
+
 echo ""
-echo "=== Erstelle Share-Symlink-Struktur ==="
+echo "=== Kopiere Daten und Ressourcen ==="
+[ -d "$PROJECT_ROOT/data" ]          && cp -r "$PROJECT_ROOT/data/." "$DEPLOY_DIR/data/"
+[ -d "$PROJECT_ROOT/docs" ]          && cp -r "$PROJECT_ROOT/docs"   "$DEPLOY_DIR/"
+[ -f "$PROJECT_ROOT/COPYING" ]       && cp    "$PROJECT_ROOT/COPYING"          "$DEPLOY_DIR/"
+[ -f "$PROJECT_ROOT/ChangeLog" ]     && cp    "$PROJECT_ROOT/ChangeLog"        "$DEPLOY_DIR/"
+[ -f "$PROJECT_ROOT/pokerth.desktop" ]     && cp "$PROJECT_ROOT/pokerth.desktop"     "$DEPLOY_DIR/share/"
+[ -f "$PROJECT_ROOT/pokerth_qml.desktop" ] && cp "$PROJECT_ROOT/pokerth_qml.desktop" "$DEPLOY_DIR/share/"
+[ -f "$PROJECT_ROOT/pokerth.lua" ]         && cp "$PROJECT_ROOT/pokerth.lua"         "$DEPLOY_DIR/share/"
+# Skalierbares App-Icon fürs Deploy: die Launcher registrieren damit eine
+# .desktop-Datei in ~/.local/share, damit der Wayland-Compositor (KWin) das
+# Fenster-/Taskbar-Icon über die app_id auflösen kann (Qt 6.8 kann es dort
+# nicht via setWindowIcon setzen).
+[ -f "$PROJECT_ROOT/pokerth.svg" ]         && cp "$PROJECT_ROOT/pokerth.svg"         "$DEPLOY_DIR/share/"
+
+# Share-Symlink für PokerTH's Datei-Such-Logik (bin/../share/pokerth/data/)
 mkdir -p "$DEPLOY_DIR/share/pokerth"
 ln -sf "../../data" "$DEPLOY_DIR/share/pokerth/data"
 
 echo ""
-echo "=== Kopiere zusätzliche Ressourcen ==="
-# Desktop-Dateien
-if [ -f "$PROJECT_ROOT/pokerth.desktop" ]; then
-    cp -v "$PROJECT_ROOT/pokerth.desktop" "$DEPLOY_DIR/share/"
-fi
-if [ -f "$PROJECT_ROOT/pokerth_qml.desktop" ]; then
-    cp -v "$PROJECT_ROOT/pokerth_qml.desktop" "$DEPLOY_DIR/share/"
-fi
+echo "=== Erstelle Konfiguration und Launcher ==="
 
-# Lua-Script
-if [ -f "$PROJECT_ROOT/pokerth.lua" ]; then
-    cp -v "$PROJECT_ROOT/pokerth.lua" "$DEPLOY_DIR/share/"
-fi
-
-# Dokumentation
-if [ -d "$PROJECT_ROOT/docs" ]; then
-    mkdir -p "$DEPLOY_DIR/docs"
-    cp -rv "$PROJECT_ROOT/docs"/* "$DEPLOY_DIR/docs/"
-fi
-
-# Lizenz
-if [ -f "$PROJECT_ROOT/COPYING" ]; then
-    cp -v "$PROJECT_ROOT/COPYING" "$DEPLOY_DIR/"
-fi
-
-# ChangeLog
-if [ -f "$PROJECT_ROOT/ChangeLog" ]; then
-    cp -v "$PROJECT_ROOT/ChangeLog" "$DEPLOY_DIR/"
-fi
-
-echo ""
-echo "=== Erstelle qt.conf für Plugin-Pfade ==="
-# qt.conf neben dem Binary ist die zuverlässigste Methode für Qt Plugin-Pfade
+# qt.conf: Qt findet Plugins und Libs relativ zum Binary
 cat > "$DEPLOY_DIR/bin/qt.conf" << 'EOF'
 [Paths]
 Plugins = ../plugins
 Libraries = ../lib
+QmlImports = ../qml
 EOF
-echo "qt.conf erstellt in bin/"
 
-echo ""
-echo "=== Erstelle Launcher-Scripts ==="
-
-# Launcher für pokerth_client
 cat > "$DEPLOY_DIR/pokerth" << 'EOF'
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Originale LD_LIBRARY_PATH sichern BEVOR wir sie modifizieren, damit
+# AppImageUtils::cleanProcessEnvironment() sie für externe Prozesse
+# (xdg-open, paplay, …) wiederherstellen kann. Wir bündeln eigene Qt-Libs,
+# daher greift runningWithBundledLibs() auch im Tarball-Deploy.
+export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
-export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
+export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
-
-# Audio: FFmpeg-Backend explizit setzen (Qt6 Multimedia auf Linux)
 export QT_MEDIA_BACKEND=ffmpeg
 
-# Debug-Modus: mit --debug-audio starten für ausführliche Audio/Plugin-Diagnose
 if [[ "$1" == "--debug-audio" ]]; then
     shift
     export QT_DEBUG_PLUGINS=1
-    export QT_LOGGING_RULES="qt.multimedia.*=true"
+    export QT_LOGGING_RULES="pokerth.audio.info=true;qt.multimedia.*=true"
     echo "[DEBUG] LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
     echo "[DEBUG] QT_PLUGIN_PATH=$QT_PLUGIN_PATH"
-    echo "[DEBUG] QT_MEDIA_BACKEND=$QT_MEDIA_BACKEND"
-    echo "[DEBUG] Multimedia plugins:"
-    ls -la "$SCRIPT_DIR/plugins/multimedia/" 2>/dev/null || echo "  (keine gefunden!)"
-    echo "[DEBUG] PulseAudio libs in deploy:"
-    ls "$SCRIPT_DIR/lib/" | grep -i pulse || echo "  (keine gefunden!)"
+    echo "[DEBUG] Multimedia plugins:"; ls -la "$SCRIPT_DIR/plugins/multimedia/" 2>/dev/null || echo "  (keine gefunden!)"
+    echo "[DEBUG] PulseAudio libs:";    ls "$SCRIPT_DIR/lib/" | grep -i pulse || echo "  (keine gefunden!)"
 fi
 
+# --- Desktop-Integration (idempotent) -------------------------------------
+# Wayland-Compositoren (z. B. KWin) lesen das Fenster-/Taskbar-Icon NICHT aus
+# setWindowIcon (Qt 6.8 kann es dort nicht setzen), sondern aus der zur app_id
+# passenden .desktop-Datei. Für das portable Deploy registrieren wir sie hier
+# in ~/.local/share mit absoluten Exec-/Icon-Pfaden. app_id "pokerth" wird im
+# Code via setDesktopFileName() gesetzt und matcht den Basenamen unten.
+integrate_desktop_entry() {
+    apps_dir="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+    desktop_file="$apps_dir/pokerth.desktop"
+    icon="$SCRIPT_DIR/share/pokerth.svg"
+    [ -f "$icon" ] || icon="$SCRIPT_DIR/data/gfx/gui/misc/windowicon.png"
+    if [ ! -f "$desktop_file" ] || ! grep -qxF "Exec=$SCRIPT_DIR/pokerth" "$desktop_file"; then
+        mkdir -p "$apps_dir"
+        cat > "$desktop_file" <<DESKTOP
+[Desktop Entry]
+Type=Application
+Name=PokerTH
+GenericName=Poker Card Game
+Comment=Texas hold'em game
+Exec=$SCRIPT_DIR/pokerth
+Icon=$icon
+Terminal=false
+StartupWMClass=pokerth_client
+Categories=Qt;Game;CardGame;
+DESKTOP
+        command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$apps_dir" >/dev/null 2>&1 || true
+    fi
+}
+integrate_desktop_entry
+
 cd "$SCRIPT_DIR"
-# Setze Working Directory sodass bin/../data/ gefunden wird
 exec "$SCRIPT_DIR/bin/pokerth_client" "$@"
 EOF
 chmod +x "$DEPLOY_DIR/pokerth"
 
-# Launcher für pokerth_qml-client (falls vorhanden)
 if [ -f "$DEPLOY_DIR/bin/pokerth_qml-client" ]; then
     cat > "$DEPLOY_DIR/pokerth-qml" << 'EOF'
 #!/bin/bash
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+unset QT_PLUGIN_PATH
+unset QT_QPA_PLATFORM_PLUGIN_PATH
+unset QML_IMPORT_PATH
+unset QML2_IMPORT_PATH
+# Originale LD_LIBRARY_PATH sichern (siehe cleanProcessEnvironment()).
+export POKERTH_ORIG_LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}"
 export LD_LIBRARY_PATH="$SCRIPT_DIR/lib:$LD_LIBRARY_PATH"
-export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins:$QT_PLUGIN_PATH"
+export QT_PLUGIN_PATH="$SCRIPT_DIR/plugins"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$SCRIPT_DIR/plugins/platforms"
+export QML2_IMPORT_PATH="$SCRIPT_DIR/qml"
+export QML_DISABLE_DISK_CACHE=1
 export QT_MEDIA_BACKEND=ffmpeg
+
+if [[ "$1" == "--debug-audio" ]]; then
+    shift
+    export QT_LOGGING_RULES="pokerth.audio.info=true;qt.multimedia.*=true"
+    echo "[DEBUG] LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+    echo "[DEBUG] Multimedia-Plugins:"; ls -la "$SCRIPT_DIR/plugins/multimedia/" 2>/dev/null || echo "  (keine gefunden!)"
+    echo "[DEBUG] Gebündelte Audio-Codec-Libs:"; ls "$SCRIPT_DIR/lib/" | grep -iE "flac|sndfile|vorbis|opus|pulse" || echo "  (keine)"
+    echo "[DEBUG] Host-libpulse:"; ldd "$SCRIPT_DIR/bin/pokerth_qml-client" 2>/dev/null | grep -iE "pulse|sndfile|flac" || echo "  (keine)"
+    echo "[DEBUG] Tipp: Wenn kein Ton — 'POKERTH_AUDIO_BACKEND=paplay ./pokerth-qml' testen (nutzt reine Host-Libs)."
+fi
+
+# --- Desktop-Integration (idempotent) -------------------------------------
+# Wayland-Compositoren (z. B. KWin auf dem Steam Deck) lesen das Fenster-/
+# Taskbar-Icon NICHT aus setWindowIcon (Qt 6.8 kann es dort nicht setzen),
+# sondern aus der zur app_id passenden .desktop-Datei. Für das portable Deploy
+# registrieren wir sie hier in ~/.local/share mit absoluten Exec-/Icon-Pfaden.
+# app_id "pokerth_qml" wird im Code via setDesktopFileName() gesetzt und matcht
+# den Basenamen unten.
+integrate_desktop_entry() {
+    apps_dir="${XDG_DATA_HOME:-$HOME/.local/share}/applications"
+    desktop_file="$apps_dir/pokerth_qml.desktop"
+    icon="$SCRIPT_DIR/share/pokerth.svg"
+    [ -f "$icon" ] || icon="$SCRIPT_DIR/data/gfx/gui/misc/windowicon.png"
+    if [ ! -f "$desktop_file" ] || ! grep -qxF "Exec=$SCRIPT_DIR/pokerth-qml" "$desktop_file"; then
+        mkdir -p "$apps_dir"
+        cat > "$desktop_file" <<DESKTOP
+[Desktop Entry]
+Type=Application
+Name=PokerTH
+GenericName=Poker Card Game
+Comment=Texas hold'em game
+Exec=$SCRIPT_DIR/pokerth-qml
+Icon=$icon
+Terminal=false
+StartupWMClass=pokerth_qml-client
+Categories=Qt;Game;CardGame;
+DESKTOP
+        command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$apps_dir" >/dev/null 2>&1 || true
+    fi
+}
+integrate_desktop_entry
+
 cd "$SCRIPT_DIR"
 exec "$SCRIPT_DIR/bin/pokerth_qml-client" "$@"
 EOF
@@ -256,99 +297,50 @@ EOF
 fi
 
 echo ""
-echo "=== Erstelle README ==="
-cat > "$DEPLOY_DIR/README.txt" << EOF
-PokerTH Binary Distribution for Linux
-======================================
+echo "=== Verifiziere Abhängigkeiten ==="
+# copy_deps sammelt nur, was ldd auflöst. Fehlt eine Lib im BUILD-Container
+# (z. B. libxcb-cursor0), meldet ldd "not found" und die Lib wird STILL
+# übersprungen -> das Deploy startet auf dem Zielsystem nicht (Platform-Plugin
+# lädt nicht). Hier prüfen wir mit dem Deploy-eigenen lib/ + Build-Host, ob
+# noch etwas ungelöst ist, und brechen bei essentiellen Komponenten hart ab.
+UNRESOLVED=$( { find "$DEPLOY_DIR/bin" -maxdepth 1 -type f;
+                find "$DEPLOY_DIR/plugins" "$DEPLOY_DIR/lib" "$DEPLOY_DIR/qml" -name "*.so*" 2>/dev/null; } \
+    | while read -r f; do
+        LD_LIBRARY_PATH="$DEPLOY_DIR/lib" ldd "$f" 2>/dev/null \
+            | awk -v F="$f" '/not found/ {print F"\t"$1}'
+      done | sort -u )
 
-This is a portable binary distribution of PokerTH for Linux.
-It contains all necessary dependencies and can be run without installation.
-
-INSTALLATION:
--------------
-1. Extract the archive to any location
-2. Run ./pokerth to start the game
-
-RUNNING:
---------
-Standard Client (Qt):
-  ./pokerth
-
-QML Client (if available):
-  ./pokerth-qml
-
-IMPORTANT:
-----------
-⚠️  ALWAYS use the launcher scripts (./pokerth or ./pokerth-qml)!
-⚠️  DO NOT run the binaries in bin/ directly - they won't find
-    libraries and data files.
-
-The launcher scripts automatically set the correct environment variables:
-  - LD_LIBRARY_PATH for the included libraries
-  - QT_PLUGIN_PATH for the Qt plugins
-  - Working directory for the data files
-
-SYSTEM REQUIREMENTS:
---------------------
-- Linux mit glibc 2.x
-- X11 oder Wayland Display-Server
-- OpenGL-fähige Grafikkarte (empfohlen)
-
-PROBLEMBEHEBUNG:
-----------------
-Falls die Anwendung nicht startet, versuchen Sie:
-
-1. Prüfen Sie fehlende System-Bibliotheken:
-   ldd ./bin/pokerth_client
-
-2. Stellen Sie sicher, dass Sie die notwendigen Berechtigungen haben:
-   chmod +x ./pokerth
-
-3. Für Audio-Unterstützung benötigen Sie möglicherweise PulseAudio oder ALSA
-
-LIZENZ:
--------
-Siehe COPYING für Lizenzinformationen.
-
-WEITERE INFORMATIONEN:
-----------------------
-Homepage: https://www.pokerth.net/
-GitHub: https://github.com/pokerth/pokerth
-
-Build-Informationen:
-- Build-Datum: $(date)
-- Architektur: $(uname -m)
-- System: $(uname -s)
-
-EOF
-
-echo ""
-echo "=== Erstelle Archiv ==="
-cd "$(dirname $DEPLOY_DIR)"
-# tar czf "${DEPLOY_NAME}.tar.gz" "$(basename $DEPLOY_DIR)"
-
-# Erstelle auch ZIP für bessere Benutzerfreundlichkeit
-if command -v zip &> /dev/null; then
-    zip -qr "${DEPLOY_NAME}.zip" "$(basename $DEPLOY_DIR)"
-    echo "ZIP-Archiv erstellt: ${DEPLOY_NAME}.zip"
+if [ -n "$UNRESOLVED" ]; then
+    echo "Hinweis: Ungelöste Abhängigkeiten im Build-Container:"
+    echo "$UNRESOLVED" | sed 's/^/  /'
+    echo "  (Optionale/host-seitige Plugins wie libqgtk3 [GTK-Theme], eglfs oder"
+    echo "   der ffmpeg-Media-Plugin sind unkritisch – deren Libs liefert der"
+    echo "   Desktop-Host bzw. sie werden nicht benötigt.)"
+    # Nur das X11-Platform-Plugin ist zwingend: ohne libqxcb.so startet die App
+    # auf einem X11-Desktop nicht. Alles andere ist optional -> nur hier hart abbrechen.
+    if echo "$UNRESOLVED" | grep -q "/plugins/platforms/libqxcb.so"; then
+        echo "FEHLER: X11-Platform-Plugin (libqxcb.so) hat ungelöste Abhängigkeiten -> Abbruch."
+        echo "        Fehlende Libs im Build-Container installieren und neu bauen."
+        exit 1
+    fi
 else
-    echo "WARNUNG: zip-Programm nicht gefunden, ZIP-Archiv wird übersprungen"
+    echo "OK: keine ungelösten Abhängigkeiten."
 fi
 
 echo ""
-echo "=== Zusammenfassung ==="
-echo "Deploy-Verzeichnis: $DEPLOY_DIR"
-cd "$(dirname $DEPLOY_DIR)"
-ls -lh "${DEPLOY_NAME}.zip" 2>/dev/null || true
+echo "=== Erstelle Archiv ==="
+cd "$(dirname "$DEPLOY_DIR")"
+if command -v zip &>/dev/null; then
+    zip -qr "${DEPLOY_NAME}.zip" "$(basename "$DEPLOY_DIR")"
+    echo "ZIP: ${DEPLOY_NAME}.zip ($(du -sh "${DEPLOY_NAME}.zip" | cut -f1))"
+else
+    echo "WARNUNG: zip nicht gefunden, ZIP-Archiv übersprungen"
+fi
+
 echo ""
-echo "Anzahl Bibliotheken: $(ls -1 $DEPLOY_DIR/lib 2>/dev/null | wc -l)"
-echo "Gesamtgröße: $(du -sh $DEPLOY_DIR | cut -f1)"
+echo "=== Fertig ==="
+echo "Bibliotheken : $(ls -1 "$DEPLOY_DIR/lib" 2>/dev/null | wc -l)"
+echo "Gesamtgröße  : $(du -sh "$DEPLOY_DIR" | cut -f1)"
 echo ""
-echo "=== Fertig! ==="
-echo ""
-echo "Um das Binary-Paket zu testen:"
-echo "  cd $DEPLOY_DIR"
-echo "  ./pokerth"
-echo ""
-echo "Um die Archive zu verteilen:"
-[ -f "${DEPLOY_NAME}.zip" ] && echo "  ${DEPLOY_NAME}.zip"
+echo "Testen: cd $DEPLOY_DIR && ./pokerth"
+[ -f "${DEPLOY_NAME}.zip" ] && echo "Archiv: $(dirname "$DEPLOY_DIR")/${DEPLOY_NAME}.zip"

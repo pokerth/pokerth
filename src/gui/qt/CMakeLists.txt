@@ -8,11 +8,13 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     ../../core/loghelper_client.cpp
     ../../net/net_helper_client.cpp
     chattools/chattools.cpp
+    chattools/emojipicker.cpp
     guiwrapper.cpp
     qttools/qttoolswrapper.cpp
     qttools/qthelper/qthelper.cpp
     qttools/darkmodehelper.cpp
     gametable/gametableimpl.cpp
+    gametable/reactionfx.cpp
     gametable/mycardspixmaplabel.cpp
     gametable/mysetlabel.cpp
     gametable/myactionbutton.cpp
@@ -82,8 +84,13 @@ if(ANDROID)
     # Verwende qt_add_executable mit MANUAL_FINALIZATION
     qt_add_executable(pokerth_client MANUAL_FINALIZATION "${POKERTH_CLIENT_SRC}")
 elseif(WIN32)
-    # Windows GUI app ohne Konsolenfenster
-    add_executable(pokerth_client WIN32 "${POKERTH_CLIENT_SRC}")
+    # Windows GUI app ohne Konsolenfenster. pokerth.rc bettet pokerth.ico als
+    # App-Icon in die .exe ein (Explorer, Taskbar, Titelleiste). windres findet
+    # die in der .rc relativ referenzierte .ico über den Include-Pfad auf den
+    # Repo-Root; der Pfad zur .rc selbst ist absolut (CWD-unabhängig).
+    set_source_files_properties("${CMAKE_SOURCE_DIR}/pokerth.rc" PROPERTIES
+        COMPILE_FLAGS "-I${CMAKE_SOURCE_DIR}")
+    add_executable(pokerth_client WIN32 "${POKERTH_CLIENT_SRC}" "${CMAKE_SOURCE_DIR}/pokerth.rc")
 else()
     add_executable(pokerth_client "${POKERTH_CLIENT_SRC}")
 endif()

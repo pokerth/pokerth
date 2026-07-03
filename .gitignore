@@ -23,7 +23,8 @@ docker/linux/PokerTH-*.AppImage
 docker/linux/pokerth-linux-binary/
 *workspace
 botfiles/
-
+docker/linux/appimagetool-x86_64.AppImage
+docker/linux/PokerTH-QML.AppDir
 
 
 # Test infrastructure - sensitive data
@@ -66,4 +67,11 @@ fixedcommands.txt
 # Windows installer artifacts
 docker/windows/*.exe
 docker/windows/pokerth.ico
+
+
 docker/linux/pokerth-linux-binary/  
+preview/pulse-runtime.*/
+preview/.preview_view_mode
+preview/.preview_view_mode_stop
+*.apk
+docker/android/my.keystore

@@ -404,6 +404,8 @@ void MyAvatarLabel::paintEvent(QPaintEvent*)
 {
 
 	QPainter painter(this);
+	// Qt6: enable smooth interpolation when upscaling 1x assets on HiDPI screens
+	painter.setRenderHint(QPainter::SmoothPixmapTransform);
 	if(transparent)
 		painter.setOpacity(0.4);
 	else

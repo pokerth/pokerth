@@ -1,9 +1,17 @@
 #include "qtaudioplayer.h"
 #include "core/appimage_utils.h"
+#include <QDir>
 #include <QDebug>
 #include <QFileInfo>
 #include <QStandardPaths>
+#include <QLoggingCategory>
 #include <cmath>
+
+// Diagnostic logging for the audio subsystem.  Warnings/criticals are always
+// visible; the verbose device/backend diagnostics use qCInfo and are enabled
+// on demand via QT_LOGGING_RULES="pokerth.audio.info=true"
+// (the launcher's --debug-audio flag sets this).
+Q_LOGGING_CATEGORY(lcAudio, "pokerth.audio")
 
 #ifdef Q_OS_WIN
 #pragma comment(lib, "winmm.lib")
@@ -15,6 +23,43 @@ static const char* SOUND_FILES[] = {
     "blinds_raises_level3", "call", "check", "dealtwocards", "fold",
     "lobbychatnotify", "onlinegameready", "playerconnected", "raise", "yourturn"
 };
+
+static QString qmlResourceSoundPath(const QString& key)
+{
+    return QStringLiteral(":/resources/sounds/default/%1.wav").arg(key);
+}
+
+static QString appDataSoundPath(const QString& appDataPath, const QString& key)
+{
+    return QDir(appDataPath).filePath(QStringLiteral("sounds/default/%1.wav").arg(key));
+}
+
+static QString resolveSoundPath(const QString& appDataPath, const QString& key)
+{
+    const QString resourcePath = qmlResourceSoundPath(key);
+    if (QFileInfo::exists(resourcePath))
+        return resourcePath;
+
+    const QString diskPath = appDataSoundPath(appDataPath, key);
+    if (QFileInfo::exists(diskPath))
+        return diskPath;
+
+    return QString();
+}
+
+static QUrl resolveSoundUrl(const QString& appDataPath, const QString& key)
+{
+    const QString resourcePath = qmlResourceSoundPath(key);
+    if (QFileInfo::exists(resourcePath)) {
+        return QUrl(QStringLiteral("qrc:/resources/sounds/default/%1.wav").arg(key));
+    }
+
+    const QString diskPath = appDataSoundPath(appDataPath, key);
+    if (QFileInfo::exists(diskPath))
+        return QUrl::fromLocalFile(diskPath);
+
+    return QUrl();
+}
 
 // --- WavMixer implementation ---
 
@@ -219,15 +264,24 @@ void QtAudioPlayer::initAudio()
     // Check for forced backend via environment variable
     QString forcedBackend = qEnvironmentVariable("POKERTH_AUDIO_BACKEND");
     if (!forcedBackend.isEmpty()) {
+        qCInfo(lcAudio) << "Forced backend via POKERTH_AUDIO_BACKEND:" << forcedBackend;
     }
-    
+
     // === Audio subsystem diagnostics ===
     {
-        auto outputs = QMediaDevices::audioOutputs();
+        const auto outputs = QMediaDevices::audioOutputs();
+        const QAudioDevice def = QMediaDevices::defaultAudioOutput();
+        qCInfo(lcAudio) << "Available audio outputs:" << outputs.size()
+                        << "| default:" << (def.isNull() ? QStringLiteral("<none>") : def.description());
         for (const auto& dev : outputs) {
+            qCInfo(lcAudio) << "  -" << dev.description()
+                            << (dev.isDefault() ? "(default)" : "")
+                            << "| id:" << dev.id();
         }
+        if (outputs.isEmpty())
+            qCWarning(lcAudio) << "No audio output devices reported by QMediaDevices!";
     }
-    
+
     // Determine which backend to use
     if (forcedBackend.toLower() == "paplay") {
         backend = AudioBackend::PaPlayBackend;
@@ -243,20 +297,29 @@ void QtAudioPlayer::initAudio()
 #endif
     } else {
         // Auto-detect best backend
-#ifdef Q_OS_LINUX
-        // AppImage: QAudioSink may not work because the bundled glibc/libs
-        // conflict with the host audio stack.  Use paplay via
-        // startDetachedSafe() which restores the original LD_LIBRARY_PATH.
-        if (AppImageUtils::isAppImage() && detectPaPlay()) {
-            backend = AudioBackend::PaPlayBackend;
-        } else {
-            // Native builds: use the software mixer — a single persistent
-            // QAudioSink stream that mixes all sounds in-process.  This
-            // avoids spawning a new paplay/pw-play process per sound effect,
-            // which floods PulseAudio/PipeWire with concurrent streams and
-            // causes stuttering in other audio consumers (e.g. video players).
-            backend = AudioBackend::SoftwareMixerBackend;
-        }
+#ifdef Q_OS_ANDROID
+        // Android: use the software mixer with a reduced buffer (~50ms).
+        // QSoundEffect has no polyphony — a second sound can cut off the
+        // first mid-playback.  The software mixer mixes all voices into
+        // one continuous stream and avoids that problem.
+        // A smaller buffer (vs. the 200ms default) removes the audible
+        // playback delay while still preventing underruns on AAudio.
+        // Q_OS_ANDROID is also a subset of Q_OS_LINUX, so this check must
+        // come first to avoid falling into the Linux branch.
+        backend = AudioBackend::SoftwareMixerBackend;
+#elif defined(Q_OS_LINUX)
+        // Always prefer the software mixer: a single persistent QAudioSink
+        // stream that mixes ALL sounds in-process.  Spawning a paplay/pw-play
+        // process per sound effect (the former AppImage path) floods
+        // PulseAudio/PipeWire with concurrent short-lived streams — the audio
+        // graph is reconfigured on every sound, which stutters ALL audio
+        // consumers (e.g. video players) and gets progressively worse over a
+        // session.  If the QAudioSink fails to start (e.g. a broken AppImage
+        // audio environment where the bundled glibc/libs conflict with the host
+        // stack), the init code below auto-falls back to paplay/pw-play (see the
+        // `if (!mixerSink)` branch), so the mixer-first choice is safe even in
+        // an AppImage.
+        backend = AudioBackend::SoftwareMixerBackend;
 #elif defined(Q_OS_WIN)
         // Windows: WinMM streaming mixer — single persistent waveOut handle
         // with double-buffering on a dedicated audio thread.  Avoids both
@@ -271,11 +334,18 @@ void QtAudioPlayer::initAudio()
     
     // Initialize selected backend
     float vol = myConfig->readConfigInt("SoundVolume") / 10.0f;
-    
-    QAudioDevice deviceToUse = selectedDevice.isNull() 
-        ? QMediaDevices::defaultAudioOutput() 
+
+    QAudioDevice deviceToUse = selectedDevice.isNull()
+        ? QMediaDevices::defaultAudioOutput()
         : selectedDevice;
-    
+
+    static const char* backendNames[] = {
+        "QSoundEffect", "PaPlay", "SoftwareMixer", "WinMM"
+    };
+    qCInfo(lcAudio) << "Selected backend:" << backendNames[static_cast<int>(backend)]
+                    << "| device:" << (deviceToUse.isNull() ? QStringLiteral("<default/none>") : deviceToUse.description())
+                    << "| volume:" << vol;
+
     if (backend == AudioBackend::SoftwareMixerBackend) {
         initSoftwareMixerBackend(deviceToUse, vol);
         // If the QAudioSink failed to start (broken PulseAudio/PipeWire/
@@ -321,11 +391,10 @@ void QtAudioPlayer::initQSoundEffectBackend(const QAudioDevice& device, float vo
     
     for (const char* soundName : SOUND_FILES) {
         QString key = QString::fromLatin1(soundName);
-        QString filePath = myAppDataPath + "sounds/default/" + key + ".wav";
-        
-        QFileInfo fileInfo(filePath);
-        if (!fileInfo.exists()) {
-            qWarning() << "[Audio] Sound file not found:" << filePath;
+        QUrl sourceUrl = resolveSoundUrl(myAppDataPath, key);
+
+        if (!sourceUrl.isValid()) {
+            qWarning() << "[Audio] Sound file not found for key:" << key;
             continue;
         }
         
@@ -334,7 +403,7 @@ void QtAudioPlayer::initQSoundEffectBackend(const QAudioDevice& device, float vo
         if (!selectedDevice.isNull() && !device.isNull()) {
             effect->setAudioDevice(device);
         }
-        effect->setSource(QUrl::fromLocalFile(filePath));
+        effect->setSource(sourceUrl);
         effect->setLoopCount(1);
         effect->setVolume(volume);
         
@@ -353,7 +422,7 @@ void QtAudioPlayer::initPaPlayBackend()
     
     for (const char* soundName : SOUND_FILES) {
         QString key = QString::fromLatin1(soundName);
-        QString filePath = myAppDataPath + "sounds/default/" + key + ".wav";
+        QString filePath = appDataSoundPath(myAppDataPath, key);
         
         QFileInfo fileInfo(filePath);
         if (!fileInfo.exists()) {
@@ -469,10 +538,10 @@ void QtAudioPlayer::initSoftwareMixerBackend(const QAudioDevice& device, float v
 
     for (const char* soundName : SOUND_FILES) {
         QString key = QString::fromLatin1(soundName);
-        QString filePath = myAppDataPath + "sounds/default/" + key + ".wav";
+        QString filePath = resolveSoundPath(myAppDataPath, key);
 
-        if (!QFileInfo::exists(filePath)) {
-            qWarning() << "[Audio] Sound file not found:" << filePath;
+        if (filePath.isEmpty()) {
+            qWarning() << "[Audio] Sound file not found for key:" << key;
             continue;
         }
         if (!mixer->loadWav(key, filePath)) {
@@ -492,8 +561,11 @@ void QtAudioPlayer::initSoftwareMixerBackend(const QAudioDevice& device, float v
     // Small buffers cause underruns that trigger IdleState transitions,
     // cutting off sounds mid-playback (e.g. blinds_raises WAVs).
     // Use 600ms on Windows to prevent stuttering/clipping, 200ms elsewhere.
+    // Android uses 50ms — sufficient for AAudio without audible latency.
 #ifdef Q_OS_WIN
     mixerSink->setBufferSize(44100 * 4 * 3 / 5); // ~600ms for WASAPI
+#elif defined(Q_OS_ANDROID)
+    mixerSink->setBufferSize(44100 * 4 / 20);     // ~50ms for Android AAudio
 #else
     mixerSink->setBufferSize(44100 * 4 / 5);      // ~200ms for PulseAudio/CoreAudio
 #endif
@@ -506,6 +578,10 @@ void QtAudioPlayer::initSoftwareMixerBackend(const QAudioDevice& device, float v
         qWarning() << "[Audio] Failed to start mixer sink:" << mixerSink->error();
         delete mixerSink;
         mixerSink = nullptr;
+    } else {
+        qCInfo(lcAudio) << "SoftwareMixer sink started on"
+                        << sinkDevice.description() << "| state:" << mixerSink->state()
+                        << "| bufferSize:" << mixerSink->bufferSize();
     }
 
     // NOTE: The mixer sink streams continuously (silence when no sounds

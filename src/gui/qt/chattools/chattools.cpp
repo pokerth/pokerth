@@ -29,6 +29,9 @@
  * as that of the covered work.                                              *
  *****************************************************************************/
 #include "chattools.h"
+#include "emojipicker.h"
+#include "gui/chat_emote_shortcuts.h"
+#include <QProxyStyle>
 #include "session.h"
 #include "configfile.h"
 #include "gametablestylereader.h"
@@ -39,11 +42,166 @@
 
 using namespace std;
 
+namespace
+{
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo)
+// QLineEdit zeichnet Trailing-Action-Icons in PM_SmallIconSize (per Default
+// ~16px) – unabhängig von der Auflösung des übergebenen Icons. Dieser kleine
+// Proxy-Style hebt nur dieses Maß für das jeweilige Eingabefeld an, damit die
+// Emoji-Auslöser-Icons (🙂/🎉) größer und besser tippbar werden.
+class BiggerActionIconStyle : public QProxyStyle
+{
+public:
+	explicit BiggerActionIconStyle(int iconSize) : myIconSize(iconSize) {}
+	int pixelMetric(PixelMetric metric, const QStyleOption *option = nullptr,
+	                const QWidget *widget = nullptr) const override
+	{
+		if (metric == QStyle::PM_SmallIconSize)
+			return myIconSize;
+		return QProxyStyle::pixelMetric(metric, option, widget);
+	}
+private:
+	int myIconSize;
+};
+
+bool isEmojiCodepoint(uint cp)
+{
+	return (cp >= 0x1F000 && cp <= 0x1FAFF)   // Emojis, Symbole, Erweiterungen
+	       || (cp >= 0x2600 && cp <= 0x27BF)  // Misc Symbols, Dingbats
+	       || (cp >= 0x2B00 && cp <= 0x2BFF)  // ⭐ u. a.
+	       || cp == 0x2764 || cp == 0x203C || cp == 0x2049
+	       || (cp >= 0x1F1E6 && cp <= 0x1F1FF); // Flaggen
+}
+
+// Prüft, ob ein Reaktions-Payload ("/emoji <x>") ausschließlich aus echten
+// Emoji-Zeichen besteht (inkl. Variation-Selektoren, ZWJ und Hautton-Modifiern)
+// und mindestens ein Emoji enthält. So werden als Reaktion getarnte
+// Textnachrichten ("/emoji haha") verworfen, beliebige echte Emojis aber
+// zugelassen.
+bool isEmojiOnlyReaction(const QString &text)
+{
+	if (text.isEmpty())
+		return false;
+	bool hasEmoji = false;
+	int i = 0;
+	while (i < text.size()) {
+		const QChar ch = text.at(i);
+		uint cp = ch.unicode();
+		int len = 1;
+		if (ch.isHighSurrogate() && i + 1 < text.size()) {
+			cp = QChar::surrogateToUcs4(ch, text.at(i + 1));
+			len = 2;
+		}
+		const bool joiner = cp == 0x200D || cp == 0x20E3
+		                    || (cp >= 0xFE00 && cp <= 0xFE0F)
+		                    || (cp >= 0x1F3FB && cp <= 0x1F3FF);
+		if (isEmojiCodepoint(cp))
+			hasEmoji = true;
+		else if (!joiner)
+			return false;   // Buchstabe/Ziffer/Satzzeichen → keine Reaktion
+		i += len;
+	}
+	return hasEmoji;
+}
+
+// Unicode-Emojis im (HTML-)Chat-Text vergrößern: jeder Emoji-Lauf (inkl.
+// ZWJ-Sequenzen, Variation Selectors und Hautton-Modifier) wird in einen
+// font-size-Span gewickelt. Inhalte innerhalb von HTML-Tags bleiben
+// unangetastet.
+QString wrapEmojisLarger(const QString &msg, int pixelSize)
+{
+	QString out;
+	out.reserve(msg.size() + 64);
+	bool inTag = false;
+	int i = 0;
+	while (i < msg.size()) {
+		const QChar ch = msg.at(i);
+		if (ch == QLatin1Char('<')) inTag = true;
+		else if (ch == QLatin1Char('>')) inTag = false;
+		if (inTag || ch == QLatin1Char('>')) {
+			out += ch;
+			++i;
+			continue;
+		}
+		uint cp = ch.unicode();
+		int len = 1;
+		if (ch.isHighSurrogate() && i + 1 < msg.size()) {
+			cp = QChar::surrogateToUcs4(ch, msg.at(i + 1));
+			len = 2;
+		}
+		if (isEmojiCodepoint(cp)) {
+			const int start = i;
+			while (i < msg.size()) {
+				const QChar c2 = msg.at(i);
+				uint cp2 = c2.unicode();
+				int l2 = 1;
+				if (c2.isHighSurrogate() && i + 1 < msg.size()) {
+					cp2 = QChar::surrogateToUcs4(c2, msg.at(i + 1));
+					l2 = 2;
+				}
+				const bool joiner = cp2 == 0xFE0F || cp2 == 0x200D
+				                    || (cp2 >= 0x1F3FB && cp2 <= 0x1F3FF);
+				if (!isEmojiCodepoint(cp2) && !joiner)
+					break;
+				i += l2;
+			}
+			out += QStringLiteral("<span style=\"font-size:%1px; font-family:'%2';\">")
+			           .arg(pixelSize).arg(EmojiPicker::emojiFontFamily())
+			       + msg.mid(start, i - start) + QStringLiteral("</span>");
+		} else {
+			out += msg.mid(i, len);
+			i += len;
+		}
+	}
+	return out;
+}
+
+} // namespace
+
+
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+	setupEmojiPickerAction();
+}
+
+void ChatTools::setupEmojiPickerAction()
+{
+	if (!myLineEdit)
+		return;
+
+	// Auslöser-Icons im Eingabefeld vergrößern. Der Proxy-Style gilt für dieses
+	// Eingabefeld (und damit auch für das 🎉-Reaktions-Icon, das der Gametable
+	// auf Desktop in dasselbe Feld legt). Größe je nach Plattform.
+#ifdef Q_OS_ANDROID
+	const int triggerIconSize = 30;
+#else
+	const int triggerIconSize = 22;
+#endif
+	BiggerActionIconStyle *iconStyle = new BiggerActionIconStyle(triggerIconSize);
+	iconStyle->setParent(myLineEdit);   // Lebensdauer an das Eingabefeld koppeln
+	myLineEdit->setStyle(iconStyle);
+
+	// Emoji-Picker-Knopf im Eingabefeld (rechts) – einheitlich für
+	// Internet-Lobby, LAN-Lobby und Gametable-Chat.
+	QAction *emojiAction = myLineEdit->addAction(EmojiPicker::emojiIcon(QStringLiteral("🙂"), triggerIconSize),
+	                                             QLineEdit::TrailingPosition);
+	emojiAction->setToolTip(tr("Insert emoji"));
+	QObject::connect(emojiAction, &QAction::triggered, this, [this]() {
+		if (!myEmojiPicker) {
+			myEmojiPicker = new EmojiPicker(myLineEdit);
+			QObject::connect(myEmojiPicker, &EmojiPicker::picked, this, [this](const QString &e) {
+				myLineEdit->insert(e);
+#ifndef Q_OS_ANDROID
+				// Auf Android NICHT zurückfokussieren – das würde die
+				// virtuelle Tastatur erneut aufpoppen lassen.
+				myLineEdit->setFocus();
+#endif
+			});
+		}
+		myEmojiPicker->showAt(myLineEdit);
+	});
 }
 
 ChatTools::~ChatTools()
@@ -87,10 +245,37 @@ void ChatTools::sendMessage()
 void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 {
 
+	// Emoji-Reaktionen (Konvention des QML-/Web-Clients): "/emoji 🎉" bzw.
+	// legacy "[R]🎉" – nur im Spiel-Chat. Nicht anzeigen, sondern als
+	// Reaktions-Animation am Sitz des Absenders abspielen (gametableimpl).
+	if(myChatType == INGAME_CHAT) {
+		const QString trimmedMsg = message.trimmed();
+		bool isReactionMsg = false;
+		QString reactionEmoji;
+		if(trimmedMsg.startsWith(QStringLiteral("/emoji ")) && trimmedMsg.size() < 22) {
+			isReactionMsg = true;
+			reactionEmoji = trimmedMsg.mid(7).trimmed();
+		} else if(trimmedMsg.startsWith(QStringLiteral("[R]")) && trimmedMsg.size() < 14) {
+			isReactionMsg = true;
+			reactionEmoji = trimmedMsg.mid(3).trimmed();
+		}
+		if(isReactionMsg) {
+			// Reaktions-Nachrichten erscheinen nie im Chat-Verlauf. Nur echte
+			// Emojis abspielen – als Reaktion getarnter Text wird verworfen.
+			if(isEmojiOnlyReaction(reactionEmoji))
+				emit reactionReceived(playerName, reactionEmoji);
+			return;
+		}
+	}
+
 	if(myTextBrowser) {
 
 		message = message.replace("<","&lt;");
 		message = message.replace(">","&gt;");
+		// ASCII-Kürzel (":-)", "8-)", "<3", …) auf dem escapten Text umsetzen,
+		// bevor Link-/Style-Markup hinzukommt – so kollidieren kurze Kürzel nie
+		// mit eigenem HTML wie "color:#...".
+		message = applyChatEmoteShortcuts(message);
 		//doing the links
 		message = message.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
 
@@ -173,9 +358,9 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				}
 			}
 
-			if(!myConfig->readConfigInt("DisableChatEmoticons")) {
-				tempMsg = checkForEmotes(tempMsg);
-			}
+			// Unicode-Emojis größer darstellen (die alten PNG-Emoticons
+			// wurden durch native Emojis ersetzt).
+			tempMsg = wrapEmojisLarger(tempMsg, 20);
 
 			if(message.indexOf(QString("/me "))==0) {
 				myTextBrowser->append(tempMsg.replace("/me ","<i>*"+playerName+" ")+"</i>");
@@ -350,45 +535,4 @@ unsigned ChatTools::parsePrivateMessageTarget(QString &chatText)
 	return playerId;
 }
 
-QString ChatTools::checkForEmotes(QString msg)
-{
-
-	msg.replace("0:-)", "<img src=\":emotes/emotes/face-angel.png\" />");
-	msg.replace("X-(", "<img src=\":emotes/emotes/face-angry.png\" />");
-	msg.replace("B-)", "<img src=\":emotes/emotes/face-cool.png\" />");
-	msg.replace("8-)", "<img src=\":emotes/emotes/face-cool.png\" />");
-	msg.replace(":'(", "<img src=\":emotes/emotes/face-crying.png\" />");
-	msg.replace("&gt;:-)", "<img src=\":emotes/emotes/face-devilish.png\" />");
-	msg.replace(":-[", "<img src=\":emotes/emotes/face-embarrassed.png\" />");
-	msg.replace(":-*", "<img src=\":emotes/emotes/face-kiss.png\" />");
-	msg.replace(":-))", "<img src=\":emotes/emotes/face-laugh.png\" />");
-	msg.replace(":))", "<img src=\":emotes/emotes/face-laugh.png\" />");
-	msg.replace(":-|", "<img src=\":emotes/emotes/face-plain.png\" />");
-	msg.replace(":-P", "<img src=\":emotes/emotes/face-raspberry.png\" />");
-	msg.replace(":-p", "<img src=\":emotes/emotes/face-raspberry.png\" />");
-	msg.replace(":-(", "<img src=\":emotes/emotes/face-sad.png\" />");
-	msg.replace(":(", "<img src=\":emotes/emotes/face-sad.png\" />");
-	msg.replace(":-&", "<img src=\":emotes/emotes/face-sick.png\" />");
-	msg.replace(":-D", "<img src=\":emotes/emotes/face-smile-big.png\" />");
-	msg.replace(":D", "<img src=\":emotes/emotes/face-smile-big.png\" />");
-	msg.replace(":-!", "<img src=\":emotes/emotes/face-smirk.png\" />");
-	msg.replace(":-0", "<img src=\":emotes/emotes/face-surprise.png\" />");
-	msg.replace(":-O", "<img src=\":emotes/emotes/face-surprise.png\" />");
-	msg.replace(":-o", "<img src=\":emotes/emotes/face-surprise.png\" />");
-	msg.replace(":-/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
-
-	//prevent links from beeing broken by :/ emoticon
-	if(!msg.contains("http://") && !msg.contains("https://")) {
-		msg.replace(":/", "<img src=\":emotes/emotes/face-uncertain.png\" />");
-	}
-
-	msg.replace(";-)", "<img src=\":emotes/emotes/face-wink.png\" />");
-	msg.replace(";)", "<img src=\":emotes/emotes/face-wink.png\" />");
-	msg.replace(":-S", "<img src=\":emotes/emotes/face-worried.png\" />");
-	msg.replace(":-s", "<img src=\":emotes/emotes/face-worried.png\" />");
-	msg.replace(":-)", "<img src=\":emotes/emotes/face-smile.png\" />");
-	msg.replace(":)", "<img src=\":emotes/emotes/face-smile.png\" />");
-
-	return msg;
-}
 

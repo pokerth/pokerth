@@ -2,13 +2,37 @@
     <qresource prefix="/">
         <file>pokerth.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>components/AppText.qml</file>
+        <file>components/AppLabel.qml</file>
+        <file>components/BetChip.qml</file>
+        <file>components/BlindButtonImage.qml</file>
+        <file>components/PlayerActionBadge.qml</file>
+        <file>components/PlayerTimeoutBar.qml</file>
+        <file>components/PlayerBoxBackground.qml</file>
+        <file>components/PlayerTurnGlow.qml</file>
+        <file>components/PlayerWinnerOverlay.qml</file>
+        <file>components/SettingsHeader.qml</file>
+        <file>components/ConfigCheckBox.qml</file>
+        <file>components/RankingFilterField.qml</file>
         <file>components/CustomButton.qml</file>
         <file>components/CustomCheckBox.qml</file>
+        <file>components/CustomSpinBox.qml</file>
         <file>components/CustomComboBox.qml</file>
         <file>components/CustomTabBar.qml</file>
         <file>components/CustomToggle.qml</file>
         <file>components/GamePlayerBox.qml</file>
         <file>components/GamePlayerSelfBox.qml</file>
+        <file>components/GameReactionFx.qml</file>
+        <file>components/EmojiPicker.qml</file>
+        <file>components/ChatBox.qml</file>
+        <file>components/ResizeHandle.qml</file>
+        <file>components/PanelShadow.qml</file>
+        <file>components/SectionDivider.qml</file>
+        <file>components/CommunityRankingView.qml</file>
+        <file>components/CommunityPlayerView.qml</file>
+        <file>components/PlayerActionIcon.qml</file>
+        <file>components/PlayerListItem.qml</file>
+        <file>components/GameListItem.qml</file>
         <file>components/GuiSettings.qml</file>
         <file>components/InternetGameSettings.qml</file>
         <file>components/LocalGameSettings.qml</file>
@@ -19,12 +43,33 @@
         <file>components/SideMenu.qml</file>
         <file>components/SoundSettings.qml</file>
         <file>components/StyleSettings.qml</file>
+        <file>components/StyleCard.qml</file>
+        <file>components/AvatarCardRow.qml</file>
+        <file>components/BrandHeader.qml</file>
+        <file>components/CardImage.qml</file>
+        <file>components/GameStatusBar.qml</file>
+        <file>components/ConfirmPopup.qml</file>
+        <file>components/ExampleAvatarPicker.qml</file>
+        <file>components/CommunityCards.qml</file>
+        <file>components/WinningHandBadge.qml</file>
+        <file>components/GameSidePanel.qml</file>
+        <file>components/GameInfoPanel.qml</file>
+        <file>components/GameRoundIconButton.qml</file>
+        <file>components/ReactionPicker.qml</file>
+        <file>components/GameActionBar.qml</file>
+        <file>components/LobbyStatsBar.qml</file>
         <file>config/qmldir</file>
         <file>config/Parameters.qml</file>
+        <file>config/Responsive.qml</file>
         <file>config/StaticData.qml</file>
+        <file>config/Theme.qml</file>
         <file>i18n/pokerth_de_DE.ts</file>
         <file>i18n/pokerth_en_US.ts</file>
         <file>i18n/pokerth_fr_FR.ts</file>
+        <file>i18n/pokerth_it_IT.ts</file>
+        <file>i18n/pokerth_es_ES.ts</file>
+        <file>i18n/pokerth_pt_PT.ts</file>
+        <file>i18n/pokerth_pt_BR.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>
         <file>pages/InternetGamePage.qml</file>
@@ -33,22 +78,39 @@
         <file>pages/NetworkGameCreatePage.qml</file>
         <file>pages/NetworkGameEnterPage.qml</file>
         <file>pages/PreLoader.qml</file>
+        <file>pages/RankingPage.qml</file>
+        <file>pages/CommunityRankingPage.qml</file>
+        <file>pages/BbcRankingPage.qml</file>
+        <file>pages/WecRankingPage.qml</file>
+        <file>pages/PokerthPlayerPage.qml</file>
         <file>pages/SettingsPage.qml</file>
         <file>pages/StartPage.qml</file>
         <file>pages/ServerConnectionDialog.qml</file>
+        <file>pages/LobbyCreateGamePage.qml</file>
+        <file>pages/GameWaitPage.qml</file>
         <file>pages/LobbyPage.qml</file>
+        <file>resources/addReaction.svg</file>
         <file>resources/arrowUpLeft.svg</file>
+        <file>resources/barChart.svg</file>
+        <file>resources/block.svg</file>
         <file>resources/cardBackground.svg</file>
         <file>resources/caretLeft.svg</file>
+        <file>resources/checkCircle.svg</file>
         <file>resources/checkSquare.svg</file>
         <file>resources/chip.svg</file>
         <file>resources/chipStack.svg</file>
         <file>resources/close.svg</file>
+        <file>resources/doorExit.svg</file>
+        <file>resources/eye.svg</file>
+        <file>resources/flag.svg</file>
+        <file>resources/gameChat.svg</file>
+        <file>resources/gameLog.svg</file>
         <file>resources/dotsThree.svg</file>
         <file>resources/dotsThreeVertical.svg</file>
         <file>resources/download.svg</file>
         <file>resources/gameBackground.svg</file>
         <file>resources/gamePage.svg</file>
+        <file>resources/gavel.svg</file>
         <file>resources/gameTableHD.png</file>
         <file>resources/gameTableUHD.png</file>
         <file>resources/globe.svg</file>
@@ -56,22 +118,163 @@
         <file>resources/monitor.svg</file>
         <file>resources/network.svg</file>
         <file>resources/palette.svg</file>
+        <file>resources/personAdd.svg</file>
         <file>resources/plugsConnected.svg</file>
         <file>resources/pokerth.svg</file>
         <file>resources/power.svg</file>
-        <file>resources/Rubik-Italic-VariableFont_wght.ttf</file>
-        <file>resources/Rubik-VariableFont_wght.ttf</file>
+        <file>resources/Inter-VariableFont.ttf</file>
+        <file>resources/Inter-OFL.txt</file>
+        <file>resources/NotoColorEmoji.ttf</file>
+        <file>resources/NotoColorEmoji-OFL.txt</file>
+        <file>resources/minus.svg</file>
+        <file>resources/plus.svg</file>
+        <file>resources/zoomIn.svg</file>
+        <file>resources/zoomOut.svg</file>
+        <file>resources/send.svg</file>
         <file>resources/settings.svg</file>
         <file>resources/spade.svg</file>
         <file>resources/speaker.svg</file>
+        <file>resources/sounds/default/allin.wav</file>
+        <file>resources/sounds/default/bet.wav</file>
+        <file>resources/sounds/default/blinds_raises_level1.wav</file>
+        <file>resources/sounds/default/blinds_raises_level2.wav</file>
+        <file>resources/sounds/default/blinds_raises_level3.wav</file>
+        <file>resources/sounds/default/call.wav</file>
+        <file>resources/sounds/default/check.wav</file>
+        <file>resources/sounds/default/dealtwocards.wav</file>
+        <file>resources/sounds/default/fold.wav</file>
+        <file>resources/sounds/default/lobbychatnotify.wav</file>
+        <file>resources/sounds/default/onlinegameready.wav</file>
+        <file>resources/sounds/default/playerconnected.wav</file>
+        <file>resources/sounds/default/raise.wav</file>
+        <file>resources/sounds/default/yourturn.wav</file>
         <file>resources/square.svg</file>
         <file>resources/startWindowBackground.png</file>
+        <file>resources/tableGreen.png</file>
+        <file>resources/tableDealerPuck.svg</file>
+        <file>resources/tableSmallBlind.svg</file>
+        <file>resources/tableBigBlind.svg</file>
         <file>resources/terminal.svg</file>
         <file>resources/terminalWindow.svg</file>
         <file>resources/threeLines.svg</file>
         <file>resources/toggleLeft.svg</file>
         <file>resources/toggleRight.svg</file>
         <file>resources/user.svg</file>
+        <file>resources/users.svg</file>
         <file>resources/userSquare.svg</file>
+        <file>resources/responsive-cards/1c.svg</file>
+        <file>resources/responsive-cards/2c.svg</file>
+        <file>resources/responsive-cards/3c.svg</file>
+        <file>resources/responsive-cards/4c.svg</file>
+        <file>resources/responsive-cards/5c.svg</file>
+        <file>resources/responsive-cards/6c.svg</file>
+        <file>resources/responsive-cards/7c.svg</file>
+        <file>resources/responsive-cards/8c.svg</file>
+        <file>resources/responsive-cards/9c.svg</file>
+        <file>resources/responsive-cards/10c.svg</file>
+        <file>resources/responsive-cards/11c.svg</file>
+        <file>resources/responsive-cards/12c.svg</file>
+        <file>resources/responsive-cards/13c.svg</file>
+        <file>resources/responsive-cards/1d.svg</file>
+        <file>resources/responsive-cards/2d.svg</file>
+        <file>resources/responsive-cards/3d.svg</file>
+        <file>resources/responsive-cards/4d.svg</file>
+        <file>resources/responsive-cards/5d.svg</file>
+        <file>resources/responsive-cards/6d.svg</file>
+        <file>resources/responsive-cards/7d.svg</file>
+        <file>resources/responsive-cards/8d.svg</file>
+        <file>resources/responsive-cards/9d.svg</file>
+        <file>resources/responsive-cards/10d.svg</file>
+        <file>resources/responsive-cards/11d.svg</file>
+        <file>resources/responsive-cards/12d.svg</file>
+        <file>resources/responsive-cards/13d.svg</file>
+        <file>resources/responsive-cards/1h.svg</file>
+        <file>resources/responsive-cards/2h.svg</file>
+        <file>resources/responsive-cards/3h.svg</file>
+        <file>resources/responsive-cards/4h.svg</file>
+        <file>resources/responsive-cards/5h.svg</file>
+        <file>resources/responsive-cards/6h.svg</file>
+        <file>resources/responsive-cards/7h.svg</file>
+        <file>resources/responsive-cards/8h.svg</file>
+        <file>resources/responsive-cards/9h.svg</file>
+        <file>resources/responsive-cards/10h.svg</file>
+        <file>resources/responsive-cards/11h.svg</file>
+        <file>resources/responsive-cards/12h.svg</file>
+        <file>resources/responsive-cards/13h.svg</file>
+        <file>resources/responsive-cards/1s.svg</file>
+        <file>resources/responsive-cards/2s.svg</file>
+        <file>resources/responsive-cards/3s.svg</file>
+        <file>resources/responsive-cards/4s.svg</file>
+        <file>resources/responsive-cards/5s.svg</file>
+        <file>resources/responsive-cards/6s.svg</file>
+        <file>resources/responsive-cards/7s.svg</file>
+        <file>resources/responsive-cards/8s.svg</file>
+        <file>resources/responsive-cards/9s.svg</file>
+        <file>resources/responsive-cards/10s.svg</file>
+        <file>resources/responsive-cards/11s.svg</file>
+        <file>resources/responsive-cards/12s.svg</file>
+        <file>resources/responsive-cards/13s.svg</file>
+        <file>resources/cards-simple/10c.svg</file>
+        <file>resources/cards-simple/10d.svg</file>
+        <file>resources/cards-simple/10h.svg</file>
+        <file>resources/cards-simple/10s.svg</file>
+        <file>resources/cards-simple/11c.svg</file>
+        <file>resources/cards-simple/11d.svg</file>
+        <file>resources/cards-simple/11h.svg</file>
+        <file>resources/cards-simple/11s.svg</file>
+        <file>resources/cards-simple/12c.svg</file>
+        <file>resources/cards-simple/12d.svg</file>
+        <file>resources/cards-simple/12h.svg</file>
+        <file>resources/cards-simple/12s.svg</file>
+        <file>resources/cards-simple/13c.svg</file>
+        <file>resources/cards-simple/13d.svg</file>
+        <file>resources/cards-simple/13h.svg</file>
+        <file>resources/cards-simple/13s.svg</file>
+        <file>resources/cards-simple/1c.svg</file>
+        <file>resources/cards-simple/1d.svg</file>
+        <file>resources/cards-simple/1h.svg</file>
+        <file>resources/cards-simple/1s.svg</file>
+        <file>resources/cards-simple/2c.svg</file>
+        <file>resources/cards-simple/2d.svg</file>
+        <file>resources/cards-simple/2h.svg</file>
+        <file>resources/cards-simple/2s.svg</file>
+        <file>resources/cards-simple/3c.svg</file>
+        <file>resources/cards-simple/3d.svg</file>
+        <file>resources/cards-simple/3h.svg</file>
+        <file>resources/cards-simple/3s.svg</file>
+        <file>resources/cards-simple/4c.svg</file>
+        <file>resources/cards-simple/4d.svg</file>
+        <file>resources/cards-simple/4h.svg</file>
+        <file>resources/cards-simple/4s.svg</file>
+        <file>resources/cards-simple/5c.svg</file>
+        <file>resources/cards-simple/5d.svg</file>
+        <file>resources/cards-simple/5h.svg</file>
+        <file>resources/cards-simple/5s.svg</file>
+        <file>resources/cards-simple/6c.svg</file>
+        <file>resources/cards-simple/6d.svg</file>
+        <file>resources/cards-simple/6h.svg</file>
+        <file>resources/cards-simple/6s.svg</file>
+        <file>resources/cards-simple/7c.svg</file>
+        <file>resources/cards-simple/7d.svg</file>
+        <file>resources/cards-simple/7h.svg</file>
+        <file>resources/cards-simple/7s.svg</file>
+        <file>resources/cards-simple/8c.svg</file>
+        <file>resources/cards-simple/8d.svg</file>
+        <file>resources/cards-simple/8h.svg</file>
+        <file>resources/cards-simple/8s.svg</file>
+        <file>resources/cards-simple/9c.svg</file>
+        <file>resources/cards-simple/9d.svg</file>
+        <file>resources/cards-simple/9h.svg</file>
+        <file>resources/cards-simple/9s.svg</file>
+        <file>resources/hands/royalflush.svg</file>
+        <file>resources/hands/straightflush.svg</file>
+        <file>resources/hands/fourofakind.svg</file>
+        <file>resources/hands/fullhouse.svg</file>
+        <file>resources/hands/flush.svg</file>
+        <file>resources/hands/straight.svg</file>
+        <file>resources/hands/threeofakind.svg</file>
+        <file>resources/hands/twopair.svg</file>
+        <file>resources/hands/onepair.svg</file>
+        <file>resources/hands/highcard.svg</file>
     </qresource>
 </RCC>
