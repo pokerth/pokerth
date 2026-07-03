@@ -125,6 +125,25 @@ ItemDelegate {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
                 elide: Text.ElideRight
+
+                // Desktop-Hover-Tooltip: "spielt in ..." / "spielt derzeit nicht"
+                // (Widget-Client zeigt dieselbe Info im Nickliste-Kontextmenü).
+                // Nur bei Hover abfragen; gameListRevision als reaktive
+                // Abhängigkeit, falls der Spieler währenddessen (bei)tritt.
+                readonly property string inGameName: {
+                    var _rev = Lobby ? Lobby.gameListRevision : 0
+                    return (Lobby && nameHover.hovered)
+                        ? Lobby.playerInGameName(playerItem.targetPlayerId) : ""
+                }
+
+                HoverHandler { id: nameHover }
+
+                ToolTip.text: inGameName !== ""
+                              ? qsTr("%1 is playing in \"%2\".").arg(displayName).arg(inGameName)
+                              : qsTr("%1 is not playing at the moment.").arg(displayName)
+                ToolTip.visible: nameHover.hovered && !Config.Responsive.isMobile
+                                 && Config.Parameters.showTooltips
+                ToolTip.delay: 400
             }
 
             // Wide-Screen: Action-Icons inline, rechtsbündig.

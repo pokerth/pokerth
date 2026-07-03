@@ -1540,6 +1540,16 @@ bool LobbyHandler::isPlayerInAnyGame(unsigned playerId) const
     return false;
 }
 
+QString LobbyHandler::playerInGameName(unsigned playerId) const
+{
+    if (!m_session || playerId == 0)
+        return QString();
+    const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+    if (gameId == 0)
+        return QString();
+    return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
+}
+
 // ── Eingehende Spiel-Einladungen (Invite-Only-Spiele) ──────────────────────
 void LobbyHandler::onSelfGameInvitation(unsigned gameId, unsigned playerIdFrom)
 {

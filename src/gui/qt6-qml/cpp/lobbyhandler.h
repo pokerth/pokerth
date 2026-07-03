@@ -269,6 +269,7 @@ public slots:
     Q_INVOKABLE void kickPlayer(unsigned playerId);
     Q_INVOKABLE void invitePlayer(unsigned playerId);
     Q_INVOKABLE bool isPlayerInAnyGame(unsigned playerId) const;
+    Q_INVOKABLE QString playerInGameName(unsigned playerId) const;
     Q_INVOKABLE void adminBanPlayer(unsigned playerId);
     Q_INVOKABLE void reportGameName(unsigned gameId);
     Q_INVOKABLE void adminCloseGame(unsigned gameId);

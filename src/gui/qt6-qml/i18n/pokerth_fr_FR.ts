@@ -1285,7 +1285,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <location line="+26"/>
         <location line="+128"/>
         <location line="+9"/>
-        <location line="+97"/>
+        <location line="+107"/>
         <location line="+9"/>
         <location line="+11"/>
         <location line="+11"/>
@@ -2497,7 +2497,17 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+141"/>
+        <location filename="../components/PlayerListItem.qml" line="+142"/>
+        <source>%1 is playing in &quot;%2&quot;.</source>
+        <translation>%1 joue actuellement dans la partie &quot;%2&quot;.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 is not playing at the moment.</source>
+        <translation>%1 ne joue pas actuellement.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <location line="+74"/>
         <source>Invite to Game</source>
         <translation>Inviter à la partie</translation>

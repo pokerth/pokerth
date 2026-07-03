@@ -1285,7 +1285,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <location line="+26"/>
         <location line="+128"/>
         <location line="+9"/>
-        <location line="+97"/>
+        <location line="+107"/>
         <location line="+9"/>
         <location line="+11"/>
         <location line="+11"/>
@@ -2497,7 +2497,17 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+141"/>
+        <location filename="../components/PlayerListItem.qml" line="+142"/>
+        <source>%1 is playing in &quot;%2&quot;.</source>
+        <translation>%1 está jugando en &quot;%2&quot;.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 is not playing at the moment.</source>
+        <translation>%1 no está jugando en este momento.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
         <location line="+74"/>
         <source>Invite to Game</source>
         <translation>Invitar a la partida</translation>
