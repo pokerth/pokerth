@@ -44,9 +44,11 @@ apps:
     command-chain: [bin/launcher]
     desktop: share/applications/pokerth.desktop
     environment:
-      LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
+      LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:/var/lib/snapd/lib/gl
       QT_PLUGIN_PATH: $SNAP/plugins
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
+      LIBGL_DRIVERS_PATH: $SNAP/usr/lib/x86_64-linux-gnu/dri
+      __EGL_VENDOR_LIBRARY_DIRS: $SNAP/usr/share/glvnd/egl_vendor.d:/var/lib/snapd/lib/gl/egl_vendor.d
       XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
       FONTCONFIG_PATH: $SNAP/etc/fonts
       FONTCONFIG_SYSROOT: $SNAP
@@ -67,9 +69,11 @@ apps:
     command-chain: [bin/launcher]
     desktop: share/applications/pokerth_qml.desktop
     environment:
-      LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
+      LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio:/var/lib/snapd/lib/gl
       QT_PLUGIN_PATH: $SNAP/plugins
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
+      LIBGL_DRIVERS_PATH: $SNAP/usr/lib/x86_64-linux-gnu/dri
+      __EGL_VENDOR_LIBRARY_DIRS: $SNAP/usr/share/glvnd/egl_vendor.d:/var/lib/snapd/lib/gl/egl_vendor.d
       QML2_IMPORT_PATH: $SNAP/qml
       XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
       FONTCONFIG_PATH: $SNAP/etc/fonts
@@ -150,6 +154,10 @@ parts:
       - zlib1g
       - libprotobuf32t64
       - libgl1
+      # Mesa user-space drivers: strict confinement hides the host's DRI
+      # drivers, so the snap must ship its own (needed by the QML client's
+      # GPU rendering; NVIDIA libs come from /var/lib/snapd/lib/gl instead)
+      - libgl1-mesa-dri
       - libxkbcommon0
       - libfontconfig1
       - libfreetype6
@@ -214,6 +222,13 @@ parts:
       cp -a ${QT_DIR}/plugins/platforms/libqxcb.so ${CRAFT_PART_INSTALL}/plugins/platforms/
       cp -a ${QT_DIR}/plugins/platforms/libqwayland-generic.so ${CRAFT_PART_INSTALL}/plugins/platforms/ 2>/dev/null || true
       cp -a ${QT_DIR}/plugins/platforms/libqminimal.so ${CRAFT_PART_INSTALL}/plugins/platforms/ 2>/dev/null || true
+      # GL integration plugins: without these Qt Quick cannot create a GL
+      # context (QXcbIntegration: "neither GLX nor EGL are enabled" -> abort).
+      # Same set the QML AppImage bundles.
+      for cat in xcbglintegrations wayland-graphics-integration-client wayland-shell-integration wayland-decoration-client; do
+        mkdir -p ${CRAFT_PART_INSTALL}/plugins/${cat}
+        cp -a ${QT_DIR}/plugins/${cat}/*.so ${CRAFT_PART_INSTALL}/plugins/${cat}/ 2>/dev/null || true
+      done
       mkdir -p ${CRAFT_PART_INSTALL}/plugins/imageformats
       cp -a ${QT_DIR}/plugins/imageformats/*.so ${CRAFT_PART_INSTALL}/plugins/imageformats/
       mkdir -p ${CRAFT_PART_INSTALL}/plugins/sqldrivers

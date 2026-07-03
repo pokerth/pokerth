@@ -89,6 +89,10 @@ jobs:
           mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/platforms
           cp -a ${QT_DIR}/plugins/platforms/libqxcb.so          ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/platforms/
           cp -a ${QT_DIR}/plugins/platforms/libqminimal.so       ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/platforms/ 2>/dev/null || true
+          # GL integration for xcb: without it Qt Quick (QML client) cannot
+          # create a GL context ("neither GLX nor EGL are enabled")
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/xcbglintegrations
+          cp -a ${QT_DIR}/plugins/xcbglintegrations/*.so         ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/xcbglintegrations/
           mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/imageformats
           cp -a ${QT_DIR}/plugins/imageformats/*.so              ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/imageformats/
           mkdir -p ${PKG_DIR}/usr/lib/pokerth/qt6-plugins/sqldrivers
