@@ -32,6 +32,11 @@ ItemDelegate {
             ? ((!wideLayout && expanded && hasActions) ? expandedHeight : rowHeight)
             : 0
 
+    // Default-Padding des ItemDelegate (Basic-Style: 12px) schiebt den Inhalt
+    // bei fester Zeilenhöhe 30 nach unten → Name vertikal zentrieren.
+    topPadding: 0
+    bottomPadding: 0
+
     property bool expanded: false
     readonly property bool playerIgnored: {
         var _rev = Lobby ? Lobby.playerIgnoreListRevision : 0
