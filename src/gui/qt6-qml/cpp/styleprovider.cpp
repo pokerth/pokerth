@@ -36,9 +36,15 @@ QString StyleProvider::styleDirPath(const QString &category, const QString &name
 {
     if (!m_config || name.isEmpty())
         return QString();
-    // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
-    return QString::fromStdString(m_config->readConfigString("AppDataDir"))
-           + "gfx/qml/" + category + "/" + name;
+    // Mitgelieferte Stile liegen unter <AppDataDir>/gfx/qml/, importierte unter
+    // <UserDataDir>/gfx/qml/ (siehe SettingsManager::importStyle). Beide Dirs
+    // enden bereits mit einem Verzeichnis-Trennzeichen.
+    const QString rel = "gfx/qml/" + category + "/" + name;
+    const QString appPath =
+        QString::fromStdString(m_config->readConfigString("AppDataDir")) + rel;
+    if (QDir(appPath).exists())
+        return appPath;
+    return QString::fromStdString(m_config->readConfigString("UserDataDir")) + rel;
 }
 
 void StyleProvider::loadTableStyle()

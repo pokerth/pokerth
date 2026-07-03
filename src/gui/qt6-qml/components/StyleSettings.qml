@@ -26,12 +26,68 @@ Rectangle {
 
     Component.onCompleted: {
         if (typeof SettingsManager !== "undefined" && SettingsManager) {
-            tableStyles = SettingsManager.availableTableStyles()
-            cardStyles = SettingsManager.availableCardDeckStyles()
-            cardBackStyles = SettingsManager.availableCardBackStyles()
+            refreshStyles()
             selectedTableStyle = SettingsManager.readConfigString("QmlGameTableStyle")
             selectedCardStyle = SettingsManager.readConfigString("QmlCardDeckStyle")
             selectedCardBackStyle = SettingsManager.readConfigString("QmlCardBackStyle")
+        }
+    }
+
+    function refreshStyles() {
+        tableStyles = SettingsManager.availableTableStyles()
+        cardStyles = SettingsManager.availableCardDeckStyles()
+        cardBackStyles = SettingsManager.availableCardBackStyles()
+    }
+
+    // Ergebnis eines Stil-Imports (SettingsManager.import*Style) verarbeiten:
+    // Liste auffrischen und eine evtl. Meldung (Warnung/Fehler) anzeigen.
+    function handleImportResult(result) {
+        if (!result || result.status === "cancelled")
+            return
+        refreshStyles()
+        if (result.message)
+            importResultPopup.openWith(qsTr("Stil hinzufügen"), result.message, qsTr("OK"))
+    }
+
+    // Entfernen eines importierten Stils: war er gerade aktiv, zurück auf
+    // "default" schalten, damit Auswahl und Tisch konsistent bleiben.
+    function removeStyle(category, name) {
+        if (!SettingsManager.removeUserStyle(category, name))
+            return
+        if (typeof StyleProvider !== "undefined" && StyleProvider) {
+            if (category === "table" && selectedTableStyle === name) {
+                selectedTableStyle = "default"
+                StyleProvider.setTableStyle("default")
+            } else if (category === "cards" && selectedCardStyle === name) {
+                selectedCardStyle = "default"
+                StyleProvider.setCardDeckStyle("default")
+            } else if (category === "backside" && selectedCardBackStyle === name) {
+                selectedCardBackStyle = "default"
+                StyleProvider.setCardBackStyle("default")
+            }
+        }
+        refreshStyles()
+    }
+
+    // Hinweis-Popup für Import-Warnungen und -Fehler (nur "OK").
+    ConfirmPopup {
+        id: importResultPopup
+        showCancel: false
+    }
+
+    // Rückfrage vor dem Entfernen eines importierten Stils.
+    ConfirmPopup {
+        id: removeConfirmPopup
+        property string category: ""
+        property string styleName: ""
+        onConfirmed: styleSettings.removeStyle(category, styleName)
+
+        function askFor(cat, name, description) {
+            category = cat
+            styleName = name
+            openWith(qsTr("Stil entfernen"),
+                     qsTr("Den Stil \"%1\" wirklich entfernen?").arg(description || name),
+                     qsTr("Entfernen"))
         }
     }
 
@@ -88,6 +144,8 @@ Rectangle {
                                         if (typeof StyleProvider !== "undefined" && StyleProvider)
                                             StyleProvider.setTableStyle(modelData.name)
                                     }
+                                    onRemoveRequested: removeConfirmPopup.askFor(
+                                                           "table", modelData.name, modelData.description)
                                 }
                             }
                         }
@@ -104,9 +162,8 @@ Rectangle {
                         Button {
                             Layout.topMargin: 4
                             text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Spieltisch-Stil
-                            }
+                            onClicked: styleSettings.handleImportResult(
+                                           SettingsManager.importTableStyle())
                         }
                     }
                 }
@@ -141,6 +198,8 @@ Rectangle {
                                         if (typeof StyleProvider !== "undefined" && StyleProvider)
                                             StyleProvider.setCardDeckStyle(modelData.name)
                                     }
+                                    onRemoveRequested: removeConfirmPopup.askFor(
+                                                           "cards", modelData.name, modelData.description)
                                 }
                             }
                         }
@@ -157,9 +216,8 @@ Rectangle {
                         Button {
                             Layout.topMargin: 4
                             text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Kartenstapel-Stil
-                            }
+                            onClicked: styleSettings.handleImportResult(
+                                           SettingsManager.importCardDeckStyle())
                         }
                     }
                 }
@@ -194,6 +252,8 @@ Rectangle {
                                         if (typeof StyleProvider !== "undefined" && StyleProvider)
                                             StyleProvider.setCardBackStyle(modelData.name)
                                     }
+                                    onRemoveRequested: removeConfirmPopup.askFor(
+                                                           "backside", modelData.name, modelData.description)
                                 }
                             }
                         }
@@ -210,9 +270,8 @@ Rectangle {
                         Button {
                             Layout.topMargin: 4
                             text: qsTr("Stil hinzufügen...")
-                            onClicked: {
-                                // TODO: Datei-Auswahl-Dialog für Kartenrückseite
-                            }
+                            onClicked: styleSettings.handleImportResult(
+                                           SettingsManager.importCardBackStyle())
                         }
                     }
                 }

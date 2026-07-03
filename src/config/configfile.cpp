@@ -223,6 +223,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("CurrentCardDeckStyle", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastGameTableStyleDir", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("LastCardDeckStyleDir", CONFIG_TYPE_STRING, ""));
+	// QML-Client: Kartenrückseiten sind dort eine eigene Stil-Kategorie.
+	configList.push_back(ConfigInfo("LastCardBackStyleDir", CONFIG_TYPE_STRING, ""));
 	// QML-Client: Name des ausgewählten Stil-Unterordners in
 	// <AppDataDir>/gfx/qml/<table|cards>/<name>. Eigene Keys, damit der
 	// Widget-Client (Current*Style speichert volle XML-Pfade) unberührt bleibt.

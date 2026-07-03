@@ -264,7 +264,7 @@
         <translation>Sí</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+48"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -485,7 +485,7 @@
         <translation>Chat</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+15"/>
         <source>Emoji-Reaktionen</source>
         <translation>Reacciones con emojis</translation>
     </message>
@@ -2931,9 +2931,119 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+206"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+208"/>
         <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
         <translation>Imágenes (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+    </message>
+    <message>
+        <location line="+75"/>
+        <source>Spieltisch-Stil auswählen</source>
+        <translation>Seleccionar estilo de mesa de juego</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <translation>El archivo seleccionado no es un estilo de mesa de juego.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kartenstapel-Stil auswählen</source>
+        <translation>Seleccionar estilo de baraja</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <translation>El archivo seleccionado no es un estilo de baraja.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kartenrückseiten-Stil auswählen</source>
+        <translation>Seleccionar estilo de reverso de cartas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <translation>El archivo seleccionado no es un estilo de reverso de cartas.</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>PokerTH-Stile (*.xml)</source>
+        <translation>Estilos de PokerTH (*.xml)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <translation>No se puede leer el archivo de estilo.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <translation>El archivo seleccionado no es un estilo de PokerTH.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <translation>El archivo de estilo no contiene XML válido (%1).</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <translation>El nombre del archivo de estilo debe terminar en &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <translation>El archivo de estilo debe estar en su propia carpeta.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <translation>Ya existe un estilo con el nombre &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <translation>La baraja está incompleta, faltan: %1</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <translation>Falta la imagen del reverso de las cartas (Backside).</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <translation>La carpeta del archivo de estilo contiene una cantidad inusualmente grande de archivos. Coloca el estilo en su propia carpeta.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <translation>No se pudo copiar el estilo a &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <translation>El estilo tiene la versión de formato %1, la versión actual es %2.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fehlende Angaben: %1.</source>
+        <translation>Datos faltantes: %1.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Nicht gefundene Grafiken: %1.</source>
+        <translation>Gráficos no encontrados: %1.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <translation>El estilo &quot;%1&quot; se ha añadido, pero está incompleto:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <translation>El cliente sustituye el contenido faltante por gráficos estándar.</translation>
     </message>
 </context>
 <context>
@@ -3053,32 +3163,32 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+92"/>
+        <location filename="../pages/StartPage.qml" line="+117"/>
         <source>Internetspiel</source>
         <translation>Partida por Internet</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Lokales Spiel starten</source>
         <translation>Iniciar partida local</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
         <translation>Crear partida en red</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
         <translation>Unirse a partida en red</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Community / Ranking</source>
         <translation>Comunidad / Clasificación</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Logs</source>
         <translation>Registros</translation>
     </message>
@@ -3119,7 +3229,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>StyleCard</name>
     <message>
-        <location filename="../components/StyleCard.qml" line="+64"/>
+        <location filename="../components/StyleCard.qml" line="+68"/>
         <source>Keine
 Vorschau</source>
         <translation>Sin
@@ -3135,11 +3245,41 @@ vista previa</translation>
         <source>✓ Ausgewählt</source>
         <translation>✓ Seleccionado</translation>
     </message>
+    <message>
+        <location line="+43"/>
+        <source>Stil entfernen</source>
+        <translation>Eliminar estilo</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
     <message>
-        <location filename="../components/StyleSettings.qml" line="+42"/>
+        <location filename="../components/StyleSettings.qml" line="+49"/>
+        <source>Stil hinzufügen</source>
+        <translation>Añadir estilo</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Stil entfernen</source>
+        <translation>Eliminar estilo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <translation>¿Realmente quieres eliminar el estilo &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Entfernen</source>
+        <translation>Eliminar</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Stil</source>
         <translation>Estilo</translation>
     </message>
@@ -3164,34 +3304,34 @@ vista previa</translation>
         <translation>Estilos de mesa disponibles:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
         <translation>No se encontraron estilos de mesa.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+28"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
         <translation>Estilos de mazo disponibles:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
         <translation>No se encontraron estilos de mazo.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+28"/>
         <source>Verfügbare Kartenrückseiten:</source>
         <translation>Reversos de cartas disponibles:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Keine Kartenrückseiten gefunden.</source>
         <translation>No se encontraron reversos de cartas.</translation>
     </message>
     <message>
-        <location line="-98"/>
-        <location line="+53"/>
-        <location line="+53"/>
+        <location line="-100"/>
+        <location line="+54"/>
+        <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Añadir estilo...</translation>
     </message>

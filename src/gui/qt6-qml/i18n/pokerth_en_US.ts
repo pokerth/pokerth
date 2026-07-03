@@ -264,7 +264,7 @@
         <translation>Yes</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+48"/>
         <source>Cancel</source>
         <translation>Cancel</translation>
     </message>
@@ -485,7 +485,7 @@
         <translation>Chat</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+15"/>
         <source>Emoji-Reaktionen</source>
         <translation>Emoji reactions</translation>
     </message>
@@ -2931,9 +2931,119 @@ Uploading log files may fail if you are using an http proxy.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+206"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+208"/>
         <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
         <translation>Images (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+    </message>
+    <message>
+        <location line="+75"/>
+        <source>Spieltisch-Stil auswählen</source>
+        <translation>Select game table style</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <translation>The selected file is not a game table style.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kartenstapel-Stil auswählen</source>
+        <translation>Select card deck style</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <translation>The selected file is not a card deck style.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kartenrückseiten-Stil auswählen</source>
+        <translation>Select card back style</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <translation>The selected file is not a card back style.</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>PokerTH-Stile (*.xml)</source>
+        <translation>PokerTH styles (*.xml)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <translation>The style file cannot be read.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <translation>The selected file is not a PokerTH style.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <translation>The style file does not contain valid XML (%1).</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <translation>The style file&apos;s name must end with &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <translation>The style file must be located in its own folder.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <translation>A style named &quot;%1&quot; already exists.</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <translation>The card deck is incomplete, missing: %1</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <translation>The card back image (Backside) is missing.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <translation>The folder of the style file contains an unusually large number of files. Please put the style into its own folder.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <translation>The style could not be copied to &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <translation>The style has format version %1, the current version is %2.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fehlende Angaben: %1.</source>
+        <translation>Missing fields: %1.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Nicht gefundene Grafiken: %1.</source>
+        <translation>Graphics not found: %1.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <translation>The style &quot;%1&quot; was added, but it is incomplete:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <translation>Missing content is replaced by the client&apos;s default graphics.</translation>
     </message>
 </context>
 <context>
@@ -3053,32 +3163,32 @@ Uploading log files may fail if you are using an http proxy.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+92"/>
+        <location filename="../pages/StartPage.qml" line="+117"/>
         <source>Internetspiel</source>
         <translation>Internet Game</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Lokales Spiel starten</source>
         <translation>Start Local Game</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
         <translation>Create Network Game</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
         <translation>Join Network Game</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Community / Ranking</source>
         <translation>Community / Ranking</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Logs</source>
         <translation>Logs</translation>
     </message>
@@ -3119,7 +3229,7 @@ Uploading log files may fail if you are using an http proxy.</translation>
 <context>
     <name>StyleCard</name>
     <message>
-        <location filename="../components/StyleCard.qml" line="+64"/>
+        <location filename="../components/StyleCard.qml" line="+68"/>
         <source>Keine
 Vorschau</source>
         <translation>No
@@ -3135,11 +3245,41 @@ Preview</translation>
         <source>✓ Ausgewählt</source>
         <translation>✓ Selected</translation>
     </message>
+    <message>
+        <location line="+43"/>
+        <source>Stil entfernen</source>
+        <translation>Remove style</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
     <message>
-        <location filename="../components/StyleSettings.qml" line="+42"/>
+        <location filename="../components/StyleSettings.qml" line="+49"/>
+        <source>Stil hinzufügen</source>
+        <translation>Add style</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Stil entfernen</source>
+        <translation>Remove style</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <translation>Really remove the style &quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Entfernen</source>
+        <translation>Remove</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Stil</source>
         <translation>Style</translation>
     </message>
@@ -3164,34 +3304,34 @@ Preview</translation>
         <translation>Available Table Styles:</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
         <translation>No table styles found.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+28"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
         <translation>Available Card Deck Styles:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
         <translation>No card deck styles found.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+28"/>
         <source>Verfügbare Kartenrückseiten:</source>
         <translation>Available card backs:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Keine Kartenrückseiten gefunden.</source>
         <translation>No card backs found.</translation>
     </message>
     <message>
-        <location line="-98"/>
-        <location line="+53"/>
-        <location line="+53"/>
+        <location line="-100"/>
+        <location line="+54"/>
+        <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Add Style...</translation>
     </message>

@@ -264,7 +264,7 @@
         <translation>Oui</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+48"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
@@ -485,7 +485,7 @@
         <translation>Chat</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+15"/>
         <source>Emoji-Reaktionen</source>
         <translation>Réactions emoji</translation>
     </message>
@@ -2931,9 +2931,119 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+206"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+208"/>
         <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
         <translation>Images (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+    </message>
+    <message>
+        <location line="+75"/>
+        <source>Spieltisch-Stil auswählen</source>
+        <translation>Sélectionner un style de table de jeu</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Spieltisch-Stil.</source>
+        <translation>Le fichier sélectionné n&apos;est pas un style de table de jeu.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kartenstapel-Stil auswählen</source>
+        <translation>Sélectionner un style de jeu de cartes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Kartenstapel-Stil.</source>
+        <translation>Le fichier sélectionné n&apos;est pas un style de jeu de cartes.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Kartenrückseiten-Stil auswählen</source>
+        <translation>Sélectionner un style de dos de cartes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Die ausgewählte Datei ist kein Kartenrückseiten-Stil.</source>
+        <translation>Le fichier sélectionné n&apos;est pas un style de dos de cartes.</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>PokerTH-Stile (*.xml)</source>
+        <translation>Styles PokerTH (*.xml)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Die Stil-Datei kann nicht gelesen werden.</source>
+        <translation>Le fichier de style ne peut pas être lu.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Die ausgewählte Datei ist kein PokerTH-Stil.</source>
+        <translation>Le fichier sélectionné n&apos;est pas un style PokerTH.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Die Stil-Datei enthält kein gültiges XML (%1).</source>
+        <translation>Le fichier de style ne contient pas de XML valide (%1).</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Der Dateiname der Stil-Datei muss auf &quot;%1&quot; enden.</source>
+        <translation>Le nom du fichier de style doit se terminer par &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
+        <translation>Le fichier de style doit se trouver dans un dossier dédié.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Ein Stil mit dem Namen &quot;%1&quot; ist bereits vorhanden.</source>
+        <translation>Un style nommé &quot;%1&quot; existe déjà.</translation>
+    </message>
+    <message>
+        <location line="+41"/>
+        <source>Der Kartenstapel ist unvollständig, es fehlen: %1</source>
+        <translation>Le jeu de cartes est incomplet, il manque : %1</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Die Kartenrückseiten-Grafik (Backside) fehlt.</source>
+        <translation>L&apos;image du dos des cartes (Backside) est manquante.</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Der Ordner der Stil-Datei enthält ungewöhnlich viele Dateien. Bitte den Stil in einen eigenen Ordner legen.</source>
+        <translation>Le dossier du fichier de style contient un nombre inhabituellement élevé de fichiers. Veuillez placer le style dans un dossier dédié.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Der Stil konnte nicht nach &quot;%1&quot; kopiert werden.</source>
+        <translation>Le style n&apos;a pas pu être copié vers &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Der Stil hat Format-Version %1, aktuell ist Version %2.</source>
+        <translation>Le style utilise la version de format %1, la version actuelle est %2.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Fehlende Angaben: %1.</source>
+        <translation>Informations manquantes : %1.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Nicht gefundene Grafiken: %1.</source>
+        <translation>Graphismes introuvables : %1.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Der Stil &quot;%1&quot; wurde übernommen, ist aber unvollständig:</source>
+        <translation>Le style &quot;%1&quot; a été ajouté, mais il est incomplet :</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
+        <translation>Le client remplace le contenu manquant par les graphismes par défaut.</translation>
     </message>
 </context>
 <context>
@@ -3053,32 +3163,32 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+92"/>
+        <location filename="../pages/StartPage.qml" line="+117"/>
         <source>Internetspiel</source>
         <translation>Jeu Internet</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Lokales Spiel starten</source>
         <translation>Démarrer un jeu local</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Netzwerkspiel erstellen</source>
         <translation>Créer un jeu en réseau</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Netzwerkspiel beitreten</source>
         <translation>Rejoindre un jeu en réseau</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Community / Ranking</source>
         <translation>Communauté / Classement</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+13"/>
         <source>Logs</source>
         <translation>Journaux</translation>
     </message>
@@ -3119,7 +3229,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>StyleCard</name>
     <message>
-        <location filename="../components/StyleCard.qml" line="+64"/>
+        <location filename="../components/StyleCard.qml" line="+68"/>
         <source>Keine
 Vorschau</source>
         <translation>Aucun
@@ -3135,11 +3245,41 @@ aperçu</translation>
         <source>✓ Ausgewählt</source>
         <translation>✓ Sélectionné</translation>
     </message>
+    <message>
+        <location line="+43"/>
+        <source>Stil entfernen</source>
+        <translation>Supprimer le style</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
     <message>
-        <location filename="../components/StyleSettings.qml" line="+42"/>
+        <location filename="../components/StyleSettings.qml" line="+49"/>
+        <source>Stil hinzufügen</source>
+        <translation>Ajouter un style</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+39"/>
+        <source>Stil entfernen</source>
+        <translation>Supprimer le style</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Den Stil &quot;%1&quot; wirklich entfernen?</source>
+        <translation>Voulez-vous vraiment supprimer le style &quot;%1&quot; ?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Entfernen</source>
+        <translation>Supprimer</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Stil</source>
         <translation>Style</translation>
     </message>
@@ -3164,34 +3304,34 @@ aperçu</translation>
         <translation>Styles de table disponibles :</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+25"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
         <translation>Aucun style de table trouvé.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+28"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
         <translation>Styles de jeu de cartes disponibles :</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
         <translation>Aucun style de jeu de cartes trouvé.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+28"/>
         <source>Verfügbare Kartenrückseiten:</source>
         <translation>Dos de cartes disponibles :</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+26"/>
         <source>Keine Kartenrückseiten gefunden.</source>
         <translation>Aucun dos de carte trouvé.</translation>
     </message>
     <message>
-        <location line="-98"/>
-        <location line="+53"/>
-        <location line="+53"/>
+        <location line="-100"/>
+        <location line="+54"/>
+        <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Ajouter un style...</translation>
     </message>

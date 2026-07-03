@@ -23,6 +23,9 @@ Popup {
     property string title: ""
     property string message: ""
     property string confirmText: qsTr("Yes")
+    // false = reiner Hinweis-Dialog: nur der Bestätigen-Button (z. B. "OK"),
+    // kein Abbrechen (analog zu MessageBox::information/warning).
+    property bool showCancel: true
 
     signal confirmed()
 
@@ -66,6 +69,7 @@ Popup {
             spacing: 8
 
             CustomButton {
+                visible: root.showCancel
                 text: qsTr("Cancel")
                 Layout.fillWidth: true
                 onClicked: root.close()

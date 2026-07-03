@@ -75,13 +75,33 @@ public:
     Q_INVOKABLE void resetToDefaults();
     Q_INVOKABLE QString pickImageFile(const QString &title);
 
-    // Liste der verfügbaren QML-Stile unter <AppDataDir>/gfx/qml/<table|cards>/*.
+    // Liste der verfügbaren QML-Stile unter <AppDataDir>/gfx/qml/<table|cards>/*
+    // sowie – für importierte Stile – <UserDataDir>/gfx/qml/<...>/*.
     // Jeder Eintrag ist eine Map mit den Schlüsseln:
     //   name, description, maintainer, dir, xml,
-    //   preview, previewPortrait  (preview* sind file://-URLs, leer wenn fehlend).
+    //   preview, previewPortrait  (preview* sind file://-URLs, leer wenn fehlend),
+    //   userStyle (true = importiert, liegt im Benutzer-Verzeichnis, löschbar).
     Q_INVOKABLE QVariantList availableTableStyles() const;
     Q_INVOKABLE QVariantList availableCardDeckStyles() const;
     Q_INVOKABLE QVariantList availableCardBackStyles() const;
+
+    // Stil-Import (Pendant zu "addGameTableStyle" & Co. des Widget-Clients):
+    // öffnet einen Datei-Dialog für die Stil-XML, prüft die Datei analog zum
+    // Widget-Client (XML-Syntax, Stil-Typ, Pflichtfelder, referenzierte
+    // Grafiken, Format-Version) und kopiert das komplette Stil-Verzeichnis nach
+    // <UserDataDir>/gfx/qml/<category>/<ordnername>/. Ergebnis-Map:
+    //   status  "ok" | "warning" | "error" | "cancelled"
+    //           (warning = übernommen, aber unvollständig/veraltet – fehlende
+    //            Inhalte ersetzt der Client zur Laufzeit durch seine Defaults)
+    //   name    Ordnername des importierten Stils (bei ok/warning)
+    //   message menschenlesbare Meldung (leer bei ok und cancelled)
+    Q_INVOKABLE QVariantMap importTableStyle();
+    Q_INVOKABLE QVariantMap importCardDeckStyle();
+    Q_INVOKABLE QVariantMap importCardBackStyle();
+
+    // Löscht einen importierten Stil – bewusst nur unterhalb von
+    // <UserDataDir>/gfx/qml/, mitgelieferte Stile sind nicht löschbar.
+    Q_INVOKABLE bool removeUserStyle(const QString &category, const QString &name);
 
     // Liste der mitgelieferten Beispiel-Avatare unter
     // <AppDataDir>/gfx/avatars/default/<people|misc>/*. Diese haben für die
@@ -103,9 +123,21 @@ signals:
     void configRevisionChanged();
 
 private:
-    // Scannt <AppDataDir>/gfx/qml/<category>/* nach Unterordnern, die eine
-    // "*<xmlSuffix>"-Datei enthalten, und liefert je Stil eine Beschreibungs-Map.
+    // Scannt <AppDataDir>/gfx/qml/<category>/* und <UserDataDir>/gfx/qml/<category>/*
+    // nach Unterordnern, die eine "*<xmlSuffix>"-Datei enthalten, und liefert je
+    // Stil eine Beschreibungs-Map. Bei Namensgleichheit gewinnt der mitgelieferte
+    // Stil (der Import verhindert solche Duplikate bereits).
     QVariantList scanStyleDir(const QString &category, const QString &xmlSuffix) const;
+
+    // Wurzel-Verzeichnis einer Stil-Kategorie (user=true → Benutzer-Verzeichnis
+    // für importierte Stile, sonst mitgelieferte Daten). Ohne Trennzeichen am Ende.
+    QString stylesRootPath(bool user, const QString &category) const;
+
+    // Gemeinsame Implementierung der drei import*Style()-Methoden.
+    QVariantMap importStyle(const QString &category, const QString &sectionTag,
+                            const QString &xmlSuffix, int expectedVersion,
+                            const QString &lastDirKey, const QString &dialogTitle,
+                            const QString &wrongTypeMessage);
 
     boost::shared_ptr<ConfigFile> m_config;
     int m_configRevision = 0;  // hochgezählt bei jedem Schreiben (Live-Reaktivität)

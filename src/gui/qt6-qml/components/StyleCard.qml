@@ -16,7 +16,11 @@ Rectangle {
     // Wenn true, IMMER das Querformat-Vorschaubild verwenden (z. B. Kartenstapel
     // und Kartenrückseite – dort gibt es bewusst kein Portrait-Preview).
     property bool forceLandscape: false
+    // Importierte Stile (userStyle) lassen sich wieder entfernen; mitgelieferte
+    // nicht – für sie bleibt der Entfernen-Button ausgeblendet.
+    readonly property bool removable: styleEntry.userStyle === true
     signal clicked()
+    signal removeRequested()
 
     // Auf echten Mobilgeräten das Portrait-Vorschaubild, auf dem Desktop das
     // Querformat. Fehlt die jeweilige Orientierung, die andere als Ersatz nutzen.
@@ -106,5 +110,37 @@ Rectangle {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: card.clicked()
+    }
+
+    // Entfernen-Button (nur importierte Stile), oberhalb der Karten-MouseArea,
+    // damit der Klick nicht gleichzeitig den Stil auswählt.
+    Rectangle {
+        visible: card.removable
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.margins: 6
+        width: 22; height: 22; radius: 11
+        color: removeArea.containsMouse ? Config.StaticData.palette.secondary.col500
+                                        : Config.StaticData.palette.secondary.col700
+
+        SvgIcon {
+            anchors.centerIn: parent
+            width: 12
+            height: 12
+            source: "../resources/close.svg"
+        }
+
+        MouseArea {
+            id: removeArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: card.removeRequested()
+        }
+
+        ToolTip.visible: removeArea.containsMouse && !Config.Responsive.isMobile
+                         && Config.Parameters.showTooltips
+        ToolTip.delay: 600
+        ToolTip.text: qsTr("Stil entfernen")
     }
 }
