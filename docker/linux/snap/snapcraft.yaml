@@ -49,9 +49,14 @@ apps:
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/x86_64-linux-gnu/dri
       __EGL_VENDOR_LIBRARY_DIRS: $SNAP/usr/share/glvnd/egl_vendor.d:/var/lib/snapd/lib/gl/egl_vendor.d
+      XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
       XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
       FONTCONFIG_PATH: $SNAP/etc/fonts
       FONTCONFIG_SYSROOT: $SNAP
+      # Config/logs in the revision-independent dir: PokerTH persists absolute
+      # paths (LogDir) in config.xml, which go stale when HOME moves to a new
+      # revision on refresh ("Failed to open sqlite")
+      XDG_CONFIG_HOME: $SNAP_USER_COMMON
     plugs:
       - desktop
       - desktop-legacy
@@ -74,10 +79,15 @@ apps:
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
       LIBGL_DRIVERS_PATH: $SNAP/usr/lib/x86_64-linux-gnu/dri
       __EGL_VENDOR_LIBRARY_DIRS: $SNAP/usr/share/glvnd/egl_vendor.d:/var/lib/snapd/lib/gl/egl_vendor.d
+      XKB_CONFIG_ROOT: $SNAP/usr/share/X11/xkb
       QML2_IMPORT_PATH: $SNAP/qml
       XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
       FONTCONFIG_PATH: $SNAP/etc/fonts
       FONTCONFIG_SYSROOT: $SNAP
+      # Config/logs in the revision-independent dir: PokerTH persists absolute
+      # paths (LogDir) in config.xml, which go stale when HOME moves to a new
+      # revision on refresh ("Failed to open sqlite")
+      XDG_CONFIG_HOME: $SNAP_USER_COMMON
     plugs:
       - desktop
       - desktop-legacy
@@ -158,6 +168,9 @@ parts:
       # drivers, so the snap must ship its own (needed by the QML client's
       # GPU rendering; NVIDIA libs come from /var/lib/snapd/lib/gl instead)
       - libgl1-mesa-dri
+      # XKB keymap data: libxkbcommon can't read the host's /usr/share/X11/xkb
+      # in confinement ("failed to create xkb context" on Wayland)
+      - xkb-data
       - libxkbcommon0
       - libfontconfig1
       - libfreetype6
@@ -208,7 +221,9 @@ parts:
       cp ${CRAFT_PART_SRC}/pokerth.png ${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/256x256/apps/pokerth.png
       # Copy only needed Qt runtime libs into snap
       mkdir -p ${CRAFT_PART_INSTALL}/lib
-      for lib in Core Gui Widgets Network Sql Xml Multimedia Svg OpenGL DBus XcbQpa WaylandClient WebSockets; do
+      # WaylandEglClientHwIntegration: required by the wayland-egl graphics
+      # integration plugin ("Failed to load client buffer integration")
+      for lib in Core Gui Widgets Network Sql Xml Multimedia Svg OpenGL DBus XcbQpa WaylandClient WaylandEglClientHwIntegration WebSockets; do
         cp -a ${QT_DIR}/lib/libQt6${lib}.so* ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
       done
       # QML runtime libs (Qml*, Quick* incl. Controls2 styles pulled in by qml plugins)
