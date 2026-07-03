@@ -2,6 +2,14 @@ name: Build & Publish Snap
 
 on:
   workflow_dispatch:
+    inputs:
+      channel:
+        description: "Snap Store channel to release to"
+        type: choice
+        default: candidate
+        options:
+          - candidate
+          - stable
 
 jobs:
   build-snap:
@@ -57,6 +65,6 @@ jobs:
 
       - name: Publish to Snap Store
         run: |
-          snapcraft upload --release=stable pokerth_*.snap
+          snapcraft upload --release=${{ inputs.channel }} pokerth_*.snap
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}

@@ -1,11 +1,13 @@
 name: pokerth
-version: '2.0.8'
+version: '2.1.0'
 title: PokerTH
 summary: Multiplayer Texas Hold'em poker client and server
 description: |
   PokerTH is an open-source multiplayer Texas Hold'em poker client and server.
   Play Texas Hold'em against up to nine computer opponents or online with
   other players from around the world.
+  Contains both the classic widget client (pokerth) and the QML client
+  (pokerth.pokerth-qml).
 license: AGPL-3.0-only
 contact: https://github.com/pokerth/pokerth/issues
 issues: https://github.com/pokerth/pokerth/issues
@@ -23,6 +25,8 @@ lint:
         - lib/libQt6WaylandClient.so*
         - lib/libQt6OpenGL.so*
         - lib/libQt6WebSockets.so*
+        - lib/libQt6Qml*.so*
+        - lib/libQt6Quick*.so*
         - usr/lib/x86_64-linux-gnu/libEGL_mesa.so*
         - usr/lib/x86_64-linux-gnu/libGLX_mesa.so*
         - usr/lib/x86_64-linux-gnu/libicuio.so*
@@ -43,6 +47,30 @@ apps:
       LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
       QT_PLUGIN_PATH: $SNAP/plugins
       QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
+      XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
+      FONTCONFIG_PATH: $SNAP/etc/fonts
+      FONTCONFIG_SYSROOT: $SNAP
+    plugs:
+      - desktop
+      - desktop-legacy
+      - network
+      - network-bind
+      - home
+      - removable-media
+      - audio-playback
+      - x11
+      - wayland
+      - opengl
+
+  pokerth-qml:
+    command: bin/pokerth_qml-client
+    command-chain: [bin/launcher]
+    desktop: share/applications/pokerth_qml.desktop
+    environment:
+      LD_LIBRARY_PATH: $SNAP/lib:$SNAP/usr/lib:$SNAP/usr/lib/x86_64-linux-gnu:$SNAP/usr/lib/x86_64-linux-gnu/pulseaudio
+      QT_PLUGIN_PATH: $SNAP/plugins
+      QT_QPA_PLATFORM_PLUGIN_PATH: $SNAP/plugins/platforms
+      QML2_IMPORT_PATH: $SNAP/qml
       XDG_DATA_DIRS: $SNAP/share:$XDG_DATA_DIRS
       FONTCONFIG_PATH: $SNAP/etc/fonts
       FONTCONFIG_SYSROOT: $SNAP
@@ -160,10 +188,13 @@ parts:
         -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
         -DCMAKE_PREFIX_PATH="${QT_DIR}" \
         -DQt6_DIR="${QT_DIR}/lib/cmake/Qt6"
-      cmake --build . --target pokerth_client pokerth_lib pokerth_db pokerth_protocol zlib_compress -j$(nproc)
+      cmake --build . --target pokerth_client pokerth_qml-client pokerth_lib pokerth_db pokerth_protocol zlib_compress -j$(nproc)
       cmake --install . --component pokerth_client
-      # Fix desktop file: Snapcraft needs a simple Exec= line to map to the snap command
+      # QML-Client install rules have no COMPONENT -> land in "Unspecified"
+      cmake --install . --component Unspecified
+      # Fix desktop files: Snapcraft needs a simple Exec= line to map to the snap command
       sed -i 's|^Exec=.*|Exec=pokerth_client|' ${CRAFT_PART_INSTALL}/share/applications/pokerth.desktop
+      sed -i 's|^Exec=.*|Exec=pokerth_qml-client|' ${CRAFT_PART_INSTALL}/share/applications/pokerth_qml.desktop
       # Copy icon for desktop file (usr/ prefix for snapcraft linter)
       mkdir -p ${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/256x256/apps
       cp ${CRAFT_PART_SRC}/pokerth.png ${CRAFT_PART_INSTALL}/usr/share/icons/hicolor/256x256/apps/pokerth.png
@@ -172,6 +203,8 @@ parts:
       for lib in Core Gui Widgets Network Sql Xml Multimedia Svg OpenGL DBus XcbQpa WaylandClient WebSockets; do
         cp -a ${QT_DIR}/lib/libQt6${lib}.so* ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
       done
+      # QML runtime libs (Qml*, Quick* incl. Controls2 styles pulled in by qml plugins)
+      cp -a ${QT_DIR}/lib/libQt6Qml*.so* ${QT_DIR}/lib/libQt6Quick*.so* ${CRAFT_PART_INSTALL}/lib/
       # Copy ICU libs needed by Qt (only data, i18n, uc — skip io, test, tu)
       for iculib in libicudata libicui18n libicuuc; do
         cp -a ${QT_DIR}/lib/${iculib}.so* ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
@@ -197,6 +230,11 @@ parts:
       # Copy Qt bundled multimedia support libs (FFmpeg etc.)
       for lib in ${QT_DIR}/lib/libav*.so* ${QT_DIR}/lib/libsw*.so*; do
         [ -f "$lib" ] && cp -a "$lib" ${CRAFT_PART_INSTALL}/lib/ 2>/dev/null || true
+      done
+      # Bundle QML import tree for the QML client (imports: QtCore, QtQml, QtQuick.*)
+      mkdir -p ${CRAFT_PART_INSTALL}/qml
+      for mod in QtCore QtQml QtQuick; do
+        cp -r ${QT_DIR}/qml/${mod} ${CRAFT_PART_INSTALL}/qml/
       done
       # Copy missing Nimbus Sans L font (referenced by PokerTH on Linux)
       cp /usr/share/fonts/type1/gsfonts/n019003l.pfb \
