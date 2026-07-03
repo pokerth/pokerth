@@ -43,7 +43,7 @@ jobs:
             -m qtwebsockets qtmultimedia qtshadertools \
             -O $HOME/qt6
 
-      - name: Build pokerth_client
+      - name: Build pokerth_client and pokerth_qml-client
         run: |
           QT_DIR="$HOME/qt6/6.9.2/gcc_64"
           rm -f cmake/FindBoost.cmake
@@ -56,9 +56,11 @@ jobs:
             -DQt6_DIR="${QT_DIR}/lib/cmake/Qt6" \
             -S . -B ./build
           cmake --build ./build \
-            --target pokerth_client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
+            --target pokerth_client pokerth_qml-client pokerth_lib pokerth_db pokerth_protocol zlib_compress \
             -j$(nproc)
           cmake --install ./build --component pokerth_client
+          # QML-Client install rules have no COMPONENT -> land in "Unspecified"
+          cmake --install ./build --component Unspecified
 
       - name: Assemble deb package
         run: |
@@ -77,6 +79,8 @@ jobs:
           for lib in Core Gui Widgets Network Sql Xml Multimedia Svg OpenGL DBus XcbQpa WaylandClient WebSockets; do
             cp -a ${QT_DIR}/lib/libQt6${lib}.so* ${PKG_DIR}/usr/lib/pokerth/ 2>/dev/null || true
           done
+          # QML runtime libs (Qml*, Quick* incl. Controls2 styles pulled in by qml plugins)
+          cp -a ${QT_DIR}/lib/libQt6Qml*.so* ${QT_DIR}/lib/libQt6Quick*.so* ${PKG_DIR}/usr/lib/pokerth/
           for iculib in libicudata libicui18n libicuuc; do
             cp -a ${QT_DIR}/lib/${iculib}.so* ${PKG_DIR}/usr/lib/pokerth/ 2>/dev/null || true
           done
@@ -98,6 +102,12 @@ jobs:
             [ -f "$lib" ] && cp -a "$lib" ${PKG_DIR}/usr/lib/pokerth/ || true
           done
 
+          # Bundle QML import tree for the QML client (imports: QtCore, QtQml, QtQuick.*)
+          mkdir -p ${PKG_DIR}/usr/lib/pokerth/qml
+          for mod in QtCore QtQml QtQuick; do
+            cp -r ${QT_DIR}/qml/${mod} ${PKG_DIR}/usr/lib/pokerth/qml/
+          done
+
           # Bundle all built Boost runtime libs (avoids missing lib issues on target)
           cp -a $HOME/boost-install/lib/libboost_*.so* ${PKG_DIR}/usr/lib/pokerth/ 2>/dev/null || true
 
@@ -115,10 +125,11 @@ jobs:
             echo '</component>'
           } > ${PKG_DIR}/usr/share/metainfo/net.pokerth.PokerTH.metainfo.xml
 
-          # Fix desktop file: Exec must point to wrapper so LD_LIBRARY_PATH is set
+          # Fix desktop files: Exec must point to wrappers so LD_LIBRARY_PATH is set
           sed -i 's|^Exec=.*|Exec=pokerth|' ${PKG_DIR}/usr/share/applications/pokerth.desktop
+          sed -i 's|^Exec=.*|Exec=pokerth-qml|' ${PKG_DIR}/usr/share/applications/pokerth_qml.desktop
 
-          # Wrapper script that sets QT_PLUGIN_PATH and LD_LIBRARY_PATH
+          # Wrapper scripts that set QT_PLUGIN_PATH and LD_LIBRARY_PATH
           mkdir -p ${PKG_DIR}/usr/bin
           {
             echo '#!/bin/sh'
@@ -127,6 +138,14 @@ jobs:
             echo 'exec /usr/bin/pokerth_client "$@"'
           } > ${PKG_DIR}/usr/bin/pokerth
           chmod +x ${PKG_DIR}/usr/bin/pokerth
+          {
+            echo '#!/bin/sh'
+            echo 'export LD_LIBRARY_PATH=/usr/lib/pokerth:$LD_LIBRARY_PATH'
+            echo 'export QT_PLUGIN_PATH=/usr/lib/pokerth/qt6-plugins'
+            echo 'export QML2_IMPORT_PATH=/usr/lib/pokerth/qml'
+            echo 'exec /usr/bin/pokerth_qml-client "$@"'
+          } > ${PKG_DIR}/usr/bin/pokerth-qml
+          chmod +x ${PKG_DIR}/usr/bin/pokerth-qml
 
           # Copy font
           mkdir -p ${PKG_DIR}/usr/share/pokerth/data/fonts
@@ -145,6 +164,7 @@ jobs:
             echo "Description: PokerTH ${VERSION} - Texas Hold'em poker game"
             echo " PokerTH is an open-source multiplayer Texas Hold'em poker client and server."
             echo " Play against up to nine computer opponents or online with other players."
+            echo " Contains both the classic widget client (pokerth) and the QML client (pokerth-qml)."
           } > ${PKG_DIR}/DEBIAN/control
 
           dpkg-deb --build --root-owner-group ${PKG_DIR}
