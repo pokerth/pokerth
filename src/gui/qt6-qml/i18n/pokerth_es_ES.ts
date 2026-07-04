@@ -3096,12 +3096,12 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+210"/>
-        <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
-        <translation>Imágenes (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+        <location filename="../cpp/settingsmanager.cpp" line="+213"/>
+        <source>Images (*.png *.jpg *.jpeg *.gif)</source>
+        <translation>Imágenes (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+208"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Seleccionar estilo de mesa de juego</translation>
     </message>
@@ -3617,7 +3617,7 @@ vista previa</translation>
         <translation>PokerTH - v2.1.0</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+170"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>

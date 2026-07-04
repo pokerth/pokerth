@@ -3096,12 +3096,12 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+210"/>
-        <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
-        <translation>Images (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+        <location filename="../cpp/settingsmanager.cpp" line="+213"/>
+        <source>Images (*.png *.jpg *.jpeg *.gif)</source>
+        <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+208"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Sélectionner un style de table de jeu</translation>
     </message>
@@ -3617,7 +3617,7 @@ aperçu</translation>
         <translation>PokerTH - v2.1.0</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+170"/>
         <source>Back</source>
         <translation>Retour</translation>
     </message>

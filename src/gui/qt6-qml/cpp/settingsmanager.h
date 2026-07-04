@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QUrl>
 #include <QVariantList>
 #include <boost/shared_ptr.hpp>
 
@@ -74,6 +75,13 @@ public:
     Q_INVOKABLE void saveConfig();
     Q_INVOKABLE void resetToDefaults();
     Q_INVOKABLE QString pickImageFile(const QString &title);
+
+    // Avatar-Pfad aus der Config → anzeigbare Bild-URL (file:// bzw. qrc:/ für
+    // Alt-Einträge aus dem Ressourcenbundle). Leer, wenn kein Pfad gesetzt ist
+    // oder die Datei nicht existiert. Kapselt die URL-Bildung in C++, damit QML
+    // nicht selbst Pfade zusammensetzen muss (Windows-Pfade beginnen z. B.
+    // nicht mit "/").
+    Q_INVOKABLE QUrl avatarDisplayUrl(const QString &path) const;
 
     // Für die Über-Seite: Versionsstring (POKERTH_BETA_RELEASE_STRING) sowie
     // die mitgelieferten Texte aus <AppDataDir>/misc/ (leer, wenn nicht gefunden).
@@ -141,6 +149,19 @@ private:
 
     // Liest eine Textdatei aus <AppDataDir>/misc/ (leer, wenn nicht vorhanden).
     QString readMiscFile(const QString &fileName) const;
+
+    // Basisverzeichnis der Beispiel-Avatare (mit Trennzeichen am Ende). Auf
+    // Android liegen sie im Qt-Ressourcenbundle und werden beim ersten Zugriff
+    // nach <UserDataDir>/gfx/avatars/default/ kopiert, denn Vorschau (file://)
+    // und Engine (std::ifstream beim Avatar-Upload) brauchen echte Dateien.
+    QString exampleAvatarsBasePath() const;
+
+    // Übernimmt eine Dateidialog-Auswahl: content://-URIs (Android) und
+    // Dateien über dem Engine-Limit (30 KB, MAX_AVATAR_FILE_SIZE) werden als
+    // echte Datei unter <UserDataDir>/gfx/avatars/user/ abgelegt – bei Bedarf
+    // herunterskaliert –, sonst wird der Pfad unverändert zurückgegeben.
+    // Leer bei Abbruch oder Fehler.
+    QString importPickedImage(const QString &picked) const;
 
     // Gemeinsame Implementierung der drei import*Style()-Methoden.
     QVariantMap importStyle(const QString &category, const QString &sectionTag,

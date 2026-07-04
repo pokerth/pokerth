@@ -19,7 +19,10 @@
 #include "settingsmanager.h"
 #include "configfile.h"
 #include "game_defs.h"
+#include <QBuffer>
+#include <QCryptographicHash>
 #include <QFileDialog>
+#include <QImage>
 #include <QTextStream>
 #include <QDir>
 #include <QFile>
@@ -203,13 +206,121 @@ void SettingsManager::resetToDefaults()
 
 QString SettingsManager::pickImageFile(const QString &title)
 {
-    return QFileDialog::getOpenFileName(
+    return importPickedImage(QFileDialog::getOpenFileName(
         nullptr,
         title,
         QString(),
-        tr("Images (*.png *.jpg *.jpeg *.gif *.bmp)"),
+        tr("Images (*.png *.jpg *.jpeg *.gif)"),
         nullptr, AppImageUtils::fileDialogOptions()
-    );
+    ));
+}
+
+namespace
+{
+// Obergrenze der Engine für Avatar-Dateien (MAX_AVATAR_FILE_SIZE in
+// core/avatarmanager.h, dort nicht ohne schwere Includes erreichbar);
+// größere Dateien verwirft der Upload stillschweigend.
+const qint64 kMaxAvatarFileSize = 30720;
+} // namespace
+
+QString SettingsManager::importPickedImage(const QString &picked) const
+{
+    if (picked.isEmpty() || !m_config)
+        return picked;
+
+    // Lokale Dateien in Engine-tauglicher Größe direkt verwenden (wie der
+    // Widget-Client, der Pfade unverändert speichert).
+    const bool isContentUri = picked.startsWith(QLatin1String("content:"));
+    if (!isContentUri && QFileInfo(picked).size() <= kMaxAvatarFileSize)
+        return picked;
+
+    // Zwei Fälle, in denen die Auswahl so nicht verwendbar wäre:
+    //  - Android-content://-URIs sind nur für die laufende Sitzung lesbar und
+    //    weder von der file://-Vorschau noch von der Engine (std::ifstream
+    //    beim Avatar-Upload) zu öffnen.
+    //  - Dateien über dem Engine-Limit (typisch für Fotos aus der Galerie).
+    // Beides wird in eine echte Datei unter <UserDataDir>/gfx/avatars/user/
+    // überführt, bei Bedarf herunterskaliert. Dateiname = MD5 des Inhalts
+    // (Namenskonvention des AvatarManagers), so entstehen bei wiederholter
+    // Auswahl keine Duplikate.
+    QFile src(picked);
+    if (!src.open(QIODevice::ReadOnly))
+        return QString();
+    QByteArray data = src.readAll();
+    if (data.isEmpty())
+        return QString();
+
+    // Dateiendung anhand des Dateikopfs bestimmen (content://-URIs haben
+    // keine; die Engine erkennt den Avatar-Typ an der Endung).
+    QString ext;
+    if (data.startsWith("\x89PNG"))
+        ext = QStringLiteral(".png");
+    else if (data.startsWith("\xFF\xD8\xFF"))
+        ext = QStringLiteral(".jpg");
+    else if (data.startsWith("GIF8"))
+        ext = QStringLiteral(".gif");
+    else
+        return QString();
+
+    if (data.size() > kMaxAvatarFileSize) {
+        // Neu kodieren und stufenweise verkleinern, bis die Datei unter das
+        // Engine-Limit fällt (Avatare werden ohnehin klein dargestellt).
+        // Animierte GIFs über dem Limit werden dabei zum Standbild.
+        const QImage img = QImage::fromData(data);
+        if (img.isNull())
+            return QString();
+        const char *format = img.hasAlphaChannel() ? "PNG" : "JPG";
+        ext = img.hasAlphaChannel() ? QStringLiteral(".png") : QStringLiteral(".jpg");
+        QByteArray scaledData;
+        for (const int edge : { 192, 128, 96, 64 }) {
+            const QImage scaled = (img.width() > edge || img.height() > edge)
+                ? img.scaled(edge, edge, Qt::KeepAspectRatio, Qt::SmoothTransformation)
+                : img;
+            QByteArray out;
+            QBuffer buffer(&out);
+            buffer.open(QIODevice::WriteOnly);
+            if (!scaled.save(&buffer, format, 85))
+                return QString();
+            if (out.size() <= kMaxAvatarFileSize) {
+                scaledData = out;
+                break;
+            }
+        }
+        if (scaledData.isEmpty())
+            return QString();
+        data = scaledData;
+    }
+
+    // UserDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+    const QString dirPath = QString::fromStdString(m_config->readConfigString("UserDataDir"))
+                            + "gfx/avatars/user";
+    if (!QDir().mkpath(dirPath))
+        return QString();
+
+    const QString target = dirPath + "/"
+        + QString::fromLatin1(QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex())
+        + ext;
+    if (!QFile::exists(target)) {
+        QFile dst(target);
+        if (!dst.open(QIODevice::WriteOnly) || dst.write(data) != data.size()) {
+            dst.remove();
+            return QString();
+        }
+    }
+    return target;
+}
+
+QUrl SettingsManager::avatarDisplayUrl(const QString &path) const
+{
+    if (path.isEmpty())
+        return QUrl();
+    // Ressourcenpfade (z. B. vom Widget-Client auf Android gespeicherte
+    // Beispiel-Avatare, :/android/...).
+    if (path.startsWith(QLatin1Char(':')))
+        return QUrl(QStringLiteral("qrc") + path);
+    if (!QFileInfo::exists(path))
+        return QUrl();
+    return QUrl::fromLocalFile(path);
 }
 
 QString SettingsManager::appVersion() const
@@ -507,15 +618,44 @@ bool SettingsManager::removeUserStyle(const QString &category, const QString &na
     return dir.exists() && dir.removeRecursively();
 }
 
+QString SettingsManager::exampleAvatarsBasePath() const
+{
+    // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
+    const QString base = QString::fromStdString(m_config->readConfigString("AppDataDir"))
+                         + "gfx/avatars/default/";
+    if (!base.startsWith(QLatin1Char(':')))
+        return base;
+
+    // Android: AppDataDir ist ein Qt-Ressourcenpfad (:/android/android-data/).
+    // Vorschau (file://-URL) und Engine (std::ifstream beim Avatar-Upload)
+    // brauchen aber echte Dateien, deshalb die Beispiel-Avatare einmalig in
+    // das Benutzer-Verzeichnis kopieren. UserDataDir endet bereits mit einem
+    // Verzeichnis-Trennzeichen.
+    const QString target = QString::fromStdString(m_config->readConfigString("UserDataDir"))
+                           + "gfx/avatars/default/";
+    const QStringList categories = { QStringLiteral("people"), QStringLiteral("misc") };
+    for (const QString &category : categories) {
+        QDir srcDir(base + category);
+        if (!srcDir.exists() || !QDir().mkpath(target + category))
+            continue;
+        const QStringList files =
+            srcDir.entryList(QStringList() << "*.png", QDir::Files);
+        for (const QString &file : files) {
+            const QString dst = target + category + "/" + file;
+            if (!QFile::exists(dst))
+                QFile::copy(srcDir.absoluteFilePath(file), dst);
+        }
+    }
+    return target;
+}
+
 QVariantList SettingsManager::availableExampleAvatars() const
 {
     QVariantList result;
     if (!m_config)
         return result;
 
-    // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.
-    const QString base = QString::fromStdString(m_config->readConfigString("AppDataDir"))
-                         + "gfx/avatars/default/";
+    const QString base = exampleAvatarsBasePath();
 
     // Reihenfolge der Kategorien wie im Widget-Client (selectAvatarDialog).
     const QStringList categories = { QStringLiteral("people"), QStringLiteral("misc") };

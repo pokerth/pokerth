@@ -3096,12 +3096,12 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+210"/>
-        <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
-        <translation>Immagini (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+        <location filename="../cpp/settingsmanager.cpp" line="+213"/>
+        <source>Images (*.png *.jpg *.jpeg *.gif)</source>
+        <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+208"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Seleziona stile del tavolo da gioco</translation>
     </message>
@@ -3617,7 +3617,7 @@ anteprima</translation>
         <translation>PokerTH - v2.1.0</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+170"/>
         <source>Back</source>
         <translation>Indietro</translation>
     </message>
