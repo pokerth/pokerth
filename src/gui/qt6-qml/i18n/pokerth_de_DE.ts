@@ -678,7 +678,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+145"/>
+        <location filename="../pages/GameWaitPage.qml" line="+147"/>
         <source>Players</source>
         <translation>Spieler</translation>
     </message>
@@ -707,48 +707,48 @@
     </message>
     <message>
         <location line="-237"/>
-        <location line="+572"/>
+        <location line="+587"/>
         <source>Game List</source>
         <translation>Spielliste</translation>
     </message>
     <message>
-        <location line="-521"/>
-        <location line="+533"/>
+        <location line="-536"/>
+        <location line="+548"/>
         <source>No game list filter</source>
         <translation>Kein Filter</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open games</source>
         <translation>Offene Spiele</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full games</source>
         <translation>Offene, nicht volle Spiele</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Offene, nicht volle, nicht private Spiele</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Offene, nicht volle, private Spiele</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Offene, nicht volle, Rang-Spiele</translation>
     </message>
     <message>
-        <location line="-459"/>
+        <location line="-474"/>
         <source>Game Info</source>
         <translation>Spielinfo</translation>
     </message>
@@ -823,7 +823,12 @@
         <translation>Spieler im Spiel (%1)</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+84"/>
+        <source>Kick player</source>
+        <translation>Spieler entfernen</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Lobby Chat</source>
         <translation>Lobby-Chat</translation>
     </message>

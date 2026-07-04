@@ -678,7 +678,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+145"/>
+        <location filename="../pages/GameWaitPage.qml" line="+147"/>
         <source>Players</source>
         <translation>Jugadores</translation>
     </message>
@@ -707,48 +707,48 @@
     </message>
     <message>
         <location line="-237"/>
-        <location line="+572"/>
+        <location line="+587"/>
         <source>Game List</source>
         <translation>Lista de partidas</translation>
     </message>
     <message>
-        <location line="-521"/>
-        <location line="+533"/>
+        <location line="-536"/>
+        <location line="+548"/>
         <source>No game list filter</source>
         <translation>Sin filtro de lista de partidas</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open games</source>
         <translation>Mostrar partidas abiertas</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostrar partidas abiertas y no llenas</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostrar partidas abiertas, no llenas y no privadas</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostrar partidas abiertas, no llenas y privadas</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Mostrar partidas abiertas, no llenas y de clasificación</translation>
     </message>
     <message>
-        <location line="-459"/>
+        <location line="-474"/>
         <source>Game Info</source>
         <translation>Información de la partida</translation>
     </message>
@@ -823,7 +823,12 @@
         <translation>Jugadores en la partida (%1)</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+84"/>
+        <source>Kick player</source>
+        <translation>Expulsar jugador</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Lobby Chat</source>
         <translation>Chat del lobby</translation>
     </message>

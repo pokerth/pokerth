@@ -25,15 +25,17 @@ Rectangle {
         var _g = gameRev
         return Lobby ? Lobby.currentGameInfo() : ({})
     }
-    // Admin = entweder vom Server gemeldeter Server-Admin oder ich bin der
-    // Spiel-Admin (Host/Ersteller) → darf starten. isCurrentGameAdmin kommt vom
-    // Selbst-Beitritt, adminPlayerId aus der Spiel-Info (Fallback/Bestätigung).
-    readonly property bool isAdmin: Lobby
-        && (Lobby.isCurrentPlayerAdmin
-            || Lobby.isCurrentGameAdmin
+    // Spiel-Admin (Host/Ersteller): isCurrentGameAdmin kommt vom Selbst-Beitritt,
+    // adminPlayerId aus der Spiel-Info (Fallback/Bestätigung). Nur er darf
+    // Spieler kicken – der Server prüft session->IsGameAdmin() (servergamestate).
+    readonly property bool isGameAdmin: Lobby
+        && (Lobby.isCurrentGameAdmin
             || (info.adminPlayerId !== undefined && info.adminPlayerId === Lobby.myPlayerId))
+    // Admin = Spiel-Admin oder vom Server gemeldeter Server-Admin → darf starten.
+    readonly property bool isAdmin: Lobby && (Lobby.isCurrentPlayerAdmin || isGameAdmin)
     readonly property bool isRanking: (info.gameType || 1) === 4
     readonly property bool canStart: isAdmin && !isRanking && players.length >= 2
+    readonly property bool canKick: isGameAdmin && !isRanking
 
     // NTF_NET_REMOVED_ON_REQUEST (socket_msg.h) – selbst angefordertes Verlassen
     readonly property int removedOnRequest: 202
@@ -722,6 +724,21 @@ Rectangle {
                                         font.bold: false
                                         Layout.fillWidth: true
                                         elide: Text.ElideRight
+                                    }
+
+                                    // Spiel-Admin darf vor Spielstart Spieler
+                                    // rauswerfen (wie Widget-Client-Game-Lobby);
+                                    // sich selbst natürlich nicht.
+                                    PlayerActionIcon {
+                                        visible: gameWaitPage.canKick
+                                                 && modelData.playerId !== Lobby.myPlayerId
+                                        source: "qrc:/resources/personRemove.svg"
+                                        baseColor: Config.StaticData.chartColor(5, true)
+                                        tooltipText: qsTr("Kick player")
+                                        Layout.alignment: Qt.AlignVCenter
+                                        onTriggered: {
+                                            if (Lobby) Lobby.kickPlayer(modelData.playerId)
+                                        }
                                     }
                                 }
                             }
