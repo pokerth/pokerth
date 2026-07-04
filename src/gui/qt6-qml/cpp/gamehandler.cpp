@@ -716,7 +716,19 @@ void GameHandler::computeCallAndRaiseAmounts()
                     (humanSet == highestSet && humanPlayer->getMyAction() != PLAYER_ACTION_NONE) ||
                     !humanPlayer->isSessionActive();
 
-                if (!buttonsDisabled && !bero->getFullBetRule()) {
+                // Raise-Beträge NUR publizieren, solange ich überhaupt handeln
+                // darf (newCanAct). Im Rundenübergang liefert die Formel sonst
+                // scheinbar gültige, aber VERALTETE Werte: sind die Sets schon
+                // in den Pot eingesammelt (mySet == 0), BeRo/round aber noch
+                // Preflop (Netzwerk: collectPot() vor dem Rundenwechsel), ergibt
+                // minimum = highestSet + minimumRaise = 2×BB. QML sät daraus den
+                // Default-Einsatz (syncRaiseAmount/Selbstheilung in GameActionBar)
+                // und klemmt ihn später nur noch auf [min,max] – der veraltete
+                // Default („Bet $2×BB" statt $BB am Flop) blieb so stehen.
+                // newCanAct ist in genau diesen Fenstern false (roundClosed/
+                // Showdown/bereits gehandelt) – dann gibt es auch keine gültigen
+                // Raise-Beträge.
+                if (newCanAct && !buttonsDisabled && !bero->getFullBetRule()) {
                     int minimum = 0;
                     bool canBetRaise = false;
 
@@ -932,21 +944,33 @@ void GameHandler::onRefreshGameLabels(int gameState)
             emit myTurnChanged();
         }
         m_phaseText = newPhase;
-        emit phaseTextChanged();
     }
 
+    bool handChanged = false;
     if (m_game) {
         auto hand = m_game->getCurrentHand();
         if (hand) {
             int newHandNum = hand->getMyID();
             if (newHandNum != m_handNumber) {
                 m_handNumber = newHandNum;
-                emit handNumberChanged();
+                handChanged = true;
             }
         }
     }
 
+    // ERST die Beträge neu berechnen, DANN die Runden-/Handgrenze signalisieren:
+    // QML setzt bei phaseText-/handNumber-Wechsel raiseAmount auf 0 und füllt
+    // ihn sofort wieder aus minRaiseAmount (Selbstheilung in GameActionBar).
+    // Feuerten die Signale VOR dem Recompute (alte Reihenfolge), sah dieses
+    // Re-Seeding noch die Werte der ALTEN Runde/Hand – und syncRaiseAmount()
+    // senkt einen einmal gesetzten Betrag nie wieder auf das frische Minimum
+    // ab (klemmt nur auf [min,max]). Folge: Default-Raise klebte z. B. am
+    // Preflop-Minimum (2×BB) statt dem BB am Flop zu folgen.
     computeCallAndRaiseAmounts();
+    if (phaseChanged)
+        emit phaseTextChanged();
+    if (handChanged)
+        emit handNumberChanged();
     // Nach computeCallAndRaiseAmounts() sind alle Werte der neuen Runde korrekt
     // (switchRounds() ist bereits abgeschlossen). QML kann die Vorauswahl nun
     // freischalten – unabhängig davon, ob callAmountChanged gefeuert hat.
