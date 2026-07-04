@@ -27,6 +27,7 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     cpp/networkgamehandler.cpp
     cpp/qmlguiinterface.cpp
     cpp/screenhelper.cpp
+    cpp/androidconnectionservice.cpp
     cpp/webnetworkfactory.cpp
     ../qt/sound/soundevents.cpp
     ../qt/sound/qtaudioplayer.cpp)

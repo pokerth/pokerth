@@ -7,6 +7,7 @@
 #include "serverconnectionhandler.h"
 #include "lobbyhandler.h"
 #include "gamehandler.h"
+#include "androidconnectionservice.h"
 #include "configfile.h"
 #include <session.h>
 #include <game.h>
@@ -54,6 +55,15 @@ void QmlGuiInterface::SignalNetClientConnect(int actionID)
             m_lobbyHandler->setSession(m_session);
         }, Qt::QueuedConnection);
     }
+
+    // Client-Start (actionID 1 = MSG_SOCK_INIT_DONE, alle Verbindungsarten:
+    // Internet, LAN-Join, eigener Host): Android-Foreground-Service starten,
+    // damit die Verbindung Hintergrund-Phasen (Doze/App-Freezer) übersteht.
+    // Gestoppt wird bei Netzwerkfehler (SignalNetClientError) und beim
+    // Verlassen des Servers (LobbyHandler::leaveServer).
+    if (actionID == 1) {
+        AndroidConnectionService::start();
+    }
 }
 
 void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
@@ -69,6 +79,8 @@ void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
     if (m_gameHandler) {
         QMetaObject::invokeMethod(m_gameHandler, "onNetworkGameEnded", Qt::QueuedConnection);
     }
+    // Verbindung ist weg → der Foreground-Service hat nichts mehr zu schützen.
+    AndroidConnectionService::stop();
 }
 
 void QmlGuiInterface::SignalNetClientLoginShow()

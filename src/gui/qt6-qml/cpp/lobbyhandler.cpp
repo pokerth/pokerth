@@ -4,6 +4,7 @@
  *****************************************************************************/
 
 #include "lobbyhandler.h"
+#include "androidconnectionservice.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
@@ -1419,6 +1420,8 @@ void LobbyHandler::leaveServer()
     // Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
     // Lobby) und den lokalen Lobby-Zustand zurücksetzen.
     m_session->terminateNetworkClient();
+    // Keine aktive Online-Session mehr → Foreground-Service beenden.
+    AndroidConnectionService::stop();
     m_gameRunning = false;
     if (m_isInGame) {
         m_isInGame = false;

@@ -155,6 +155,19 @@
     </message>
 </context>
 <context>
+    <name>AndroidConnectionService</name>
+    <message>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+25"/>
+        <source>Connected to the game server</source>
+        <translation>Conectado al servidor de juego</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Online game connection</source>
+        <translation>Conexión de partida online</translation>
+    </message>
+</context>
+<context>
     <name>AvatarCardRow</name>
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
@@ -1259,7 +1272,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1063"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1064"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
@@ -1395,7 +1408,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
     <message>
         <location line="+166"/>
         <location line="+26"/>
-        <location line="+128"/>
+        <location line="+130"/>
         <location line="+9"/>
         <location line="+140"/>
         <location line="+9"/>
@@ -2435,7 +2448,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>NetworkGameHandler</name>
     <message>
-        <location filename="../cpp/networkgamehandler.cpp" line="+49"/>
+        <location filename="../cpp/networkgamehandler.cpp" line="+53"/>
         <location line="+76"/>
         <source>No session available.</source>
         <translation>No hay sesión disponible.</translation>

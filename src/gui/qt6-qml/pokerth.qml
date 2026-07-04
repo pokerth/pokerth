@@ -871,6 +871,13 @@ ApplicationWindow {
                     item !== null &&
                     (item.objectName === "gamePage" || item.objectName === "gameWaitPage")
                 )
+                // Resume-Probe: Nach einer Hintergrund-Phase aktiv ein Paket
+                // schicken (AFK-Reset – Rückkehr IST Nutzeraktivität). Ist die
+                // Verbindung im Hintergrund gestorben, schlägt der Send fehl
+                // und der Verbindungsverlust wird sofort gemeldet (Popup +
+                // Login-Seite) statt erst beim ersten Tap oder per Keepalive.
+                if (mainWindow.inLobbySession)
+                    Lobby.resetNetworkTimeout()
             }
         }
     }
