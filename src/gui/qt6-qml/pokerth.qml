@@ -248,6 +248,9 @@ ApplicationWindow {
     }
 
     function performLeaveLobby() {
+        // Bewusster Disconnect meldet keinen connectionFailed – eine offene
+        // Timeout-Warnung der beendeten Session hier direkt schließen.
+        timeoutWarningPopup.close()
         if (typeof Lobby !== "undefined" && Lobby)
             Lobby.leaveServer()
         mainStackView.pop()
@@ -834,12 +837,15 @@ ApplicationWindow {
     Connections {
         target: ServerConnection
         function onConnectionFailed(errorMessage) {
+            // Timeout-Warnung ist mit der Verbindung obsolet – IMMER schließen,
+            // auch wenn die Lobby bereits verlassen wurde (sonst bleibt das
+            // Popup nach Ablauf mangels aktivem OK-Button für immer offen).
+            timeoutWarningPopup.close()
             // Nur nach abgeschlossenem Login (Lobby im Stack) – während des
             // Verbindens zeigen die Verbindungsseiten den Fehler selbst an.
             if (!mainWindow.inLobbySession)
                 return
-            // Offene Modals (Timeout-Warnung, Verlassen-Bestätigungen) schließen.
-            timeoutWarningPopup.close()
+            // Offene Modals (Verlassen-Bestätigungen) schließen.
             leaveGameConfirmPopup.close()
             leaveLobbyConfirmPopup.close()
             connectionLostPopup.message = errorMessage
@@ -855,6 +861,15 @@ ApplicationWindow {
         target: Lobby
         function onTimeoutWarningReceived(reason, remainingSec) {
             timeoutWarningPopup.show(reason, remainingSec)
+        }
+        // Nach Ablauf des Countdowns trennt der Server NICHT immer die
+        // Verbindung: beim AFK-Kick im Spiel und beim Admin-Timeout eines
+        // offenen Spiels wird man nur aus dem Spiel entfernt (Session lebt
+        // weiter). Der Widget-Client versteckt den Dialog dafür in
+        // networkNotification() – Pendant hier: die Entfernung aus dem Spiel
+        // macht die Warnung gegenstandslos, Popup schließen.
+        function onRemovedFromGame(reason) {
+            timeoutWarningPopup.close()
         }
         function onNetworkMessageReceived(message) {
             networkMessagePopup.message = message
