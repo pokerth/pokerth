@@ -165,11 +165,23 @@ else
     echo "  Warning: data directory not found in ${ROOT}/pokerth"
 fi
 
-# Create qt.conf to help Qt find plugins
+# Create qt.conf to help Qt find plugins.
+# fontengine=freetype: Qt's default Windows font engine (DirectWrite) cannot
+# rasterize the bundled Noto Color Emoji font, which uses CBDT/CBLC bitmap
+# glyphs rather than vector COLR/CPAL layers -- DirectWrite only supports the
+# latter (like Windows' own Segoe UI Emoji). Glyphs render as fully
+# transparent, so every emoji icon (chat/lobby picker, game reactions) turns
+# into a null QPixmap and buttons appear blank while still being clickable.
+# FreeType (bundled in every official Qt build) renders CBDT/CBLC fine, same
+# as on Linux/Android, and matches what the QML client already gets via its
+# own FreeType-based text engine.
 echo "Creating qt.conf..."
 cat > $DEPLOY_DIR/qt.conf << EOF
 [Paths]
 Plugins = plugins
+
+[Platforms]
+WindowsArguments = fontengine=freetype
 EOF
 
 # Create launcher script with proper locale and Qt settings
