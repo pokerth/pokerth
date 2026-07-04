@@ -1308,6 +1308,16 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
 void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString &message)
 {
+    // PMs ignorierter Spieler verwerfen — der Widgets-Client filtert sie über
+    // denselben Ignore-Loop in ChatTools::receiveMessage (pm=true).
+    if (m_config) {
+        const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+        for (const auto &entry : ignoreList) {
+            if (playerName == QString::fromUtf8(entry.c_str()))
+                return;
+        }
+    }
+
     // Colour for PMs: muted text (similar to chattools.cpp italic PM style)
     const bool isDark      = !m_config || (m_config->readConfigInt("DarkMode") != 0);
     const QString colorPM  = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");

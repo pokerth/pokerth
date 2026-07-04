@@ -272,6 +272,18 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
 {
     if (message.isEmpty()) return;
 
+    // Nachrichten ignorierter Spieler verwerfen (vor Reaktions-Behandlung, damit
+    // auch deren Emoji-Reaktionen stumm bleiben). Liste wie im Lobby-Chat bei
+    // jeder Nachricht frisch lesen (chattools.cpp-Muster, gilt dort ebenso für
+    // den Spiel-Chat).
+    if (m_config) {
+        const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+        for (const auto &entry : ignoreList) {
+            if (playerName == QString::fromUtf8(entry.c_str()))
+                return;
+        }
+    }
+
     // Emoji-Reaktionen (Konvention des Web-Clients): "/emoji 🎉" bzw. legacy
     // "[R]🎉". Nicht in den Chat-Verlauf aufnehmen, sondern als Reaktions-
     // Animation am Sitz des Absenders abspielen. Auf dem getrimmten Text
