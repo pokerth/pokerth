@@ -63,6 +63,12 @@ void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
             m_handler->onNetClientError(errorID, osErrorID);
         }, Qt::QueuedConnection);
     }
+    // Ein Netzwerkfehler beendet auch ein laufendes Netzwerkspiel → Spielzustand
+    // zurücksetzen (m_myTurn/m_game), wie bei SignalNetClientRemovedFromGame,
+    // damit keine späte Aktion in das tote Spiel läuft.
+    if (m_gameHandler) {
+        QMetaObject::invokeMethod(m_gameHandler, "onNetworkGameEnded", Qt::QueuedConnection);
+    }
 }
 
 void QmlGuiInterface::SignalNetClientLoginShow()
@@ -356,6 +362,17 @@ void QmlGuiInterface::SignalRejectedGameInvitation(unsigned gameId, unsigned pla
         const int r = static_cast<int>(reason);
         QMetaObject::invokeMethod(m_lobbyHandler, [this, gameId, playerIdWho, r]() {
             m_lobbyHandler->onRejectedGameInvitation(gameId, playerIdWho, r);
+        }, Qt::QueuedConnection);
+    }
+}
+
+void QmlGuiInterface::SignalNetClientRejoinPossible(unsigned gameId)
+{
+    // Server bietet nach Verbindungsabbruch das Fortsetzen der alten
+    // Spielsitzung an (InitAck.rejoinGameId). Kommt vom Netzwerk-Thread.
+    if (m_lobbyHandler) {
+        QMetaObject::invokeMethod(m_lobbyHandler, [this, gameId]() {
+            m_lobbyHandler->onRejoinPossible(gameId);
         }, Qt::QueuedConnection);
     }
 }

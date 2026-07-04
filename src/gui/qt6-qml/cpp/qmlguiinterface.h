@@ -139,7 +139,7 @@ public:
     virtual void SignalNetClientServerListClear() override {}
     virtual void SignalNetClientServerListShow() override {}
     
-    virtual void SignalNetClientRejoinPossible(unsigned gameId) override {}
+    virtual void SignalNetClientRejoinPossible(unsigned gameId) override;
     virtual void SignalNetClientPostRiverShowCards(unsigned playerId) override {}
     
     virtual void SignalLobbyPlayerJoined(unsigned playerId, const std::string &nickName) override;

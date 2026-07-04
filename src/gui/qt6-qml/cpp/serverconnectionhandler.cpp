@@ -235,6 +235,12 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
         case 11:
             errorMsg = tr("TLS connection error");
             break;
+        case 16:
+            // ERR_SOCK_CONN_RESET: Verbindung während der Sitzung abgebrochen
+            // (z.B. WLAN weg). Wird nach dem Login vom globalen
+            // connectionLostPopup in pokerth.qml angezeigt.
+            errorMsg = tr("The connection to the server was lost");
+            break;
         case 101:
             errorMsg = tr("Protocol version not supported by server");
             break;

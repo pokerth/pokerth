@@ -781,6 +781,76 @@ ApplicationWindow {
         }
     }
 
+    // ── Verbindungsverlust nach dem Login (Lobby/Warteraum/Spiel) ──────────
+    // Die Verbindungs-/Beitrittsseiten behandeln connectionFailed selbst
+    // (Statuszeile während des Verbindens); nach dem Login gab es aber keinen
+    // Konsumenten: Ein Verbindungsabbruch im laufenden Spiel blieb unsichtbar.
+    // Global melden und zur Login-Seite zurückkehren – nach dem erneuten Login
+    // bietet der Server ggf. das Rejoin ins laufende Spiel an (LobbyPage-Popup).
+    Popup {
+        id: connectionLostPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        property string message: ""
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: connectionLostPopup.availableWidth
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Connection lost")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: connectionLostPopup.message
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            CustomButton {
+                Layout.fillWidth: true
+                text: qsTr("OK")
+                onClicked: connectionLostPopup.close()
+            }
+        }
+    }
+
+    Connections {
+        target: ServerConnection
+        function onConnectionFailed(errorMessage) {
+            // Nur nach abgeschlossenem Login (Lobby im Stack) – während des
+            // Verbindens zeigen die Verbindungsseiten den Fehler selbst an.
+            if (!mainWindow.inLobbySession)
+                return
+            // Offene Modals (Timeout-Warnung, Verlassen-Bestätigungen) schließen.
+            timeoutWarningPopup.close()
+            leaveGameConfirmPopup.close()
+            leaveLobbyConfirmPopup.close()
+            connectionLostPopup.message = errorMessage
+            // Zurück zur StartPage (baut Lobby-/Spiel-Seiten ab) und direkt die
+            // Login-Seite öffnen, damit ein erneuter Login nur einen Tap kostet.
+            mainStackView.pop(null)
+            mainStackView.push("pages/ServerConnectionDialog.qml")
+            connectionLostPopup.open()
+        }
+    }
+
     Connections {
         target: Lobby
         function onTimeoutWarningReceived(reason, remainingSec) {

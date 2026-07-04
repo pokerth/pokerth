@@ -164,6 +164,11 @@ class LobbyHandler : public QObject
     Q_PROPERTY(int playerIgnoreListRevision READ playerIgnoreListRevision NOTIFY playerIgnoreListChanged)
     Q_PROPERTY(bool isInGame READ isInGame NOTIFY isInGameChanged)
     Q_PROPERTY(int currentGameId READ currentGameId NOTIFY currentGameIdChanged)
+    // Vom Server (InitAck) angebotenes Rejoin in ein laufendes Spiel nach
+    // Verbindungsabbruch (0 = kein Angebot). Die LobbyPage zeigt dazu ein
+    // Ja/Nein-Popup; als Property statt reinem Signal, weil das Angebot schon
+    // beim Login eintrifft - bevor die LobbyPage instanziiert ist.
+    Q_PROPERTY(int rejoinOfferGameId READ rejoinOfferGameId NOTIFY rejoinOfferChanged)
     // Persistenter Lobby-Chat-Verlauf (formatierte HTML-Zeilen). Erlaubt es
     // mehreren Seiten (Lobby + GameWait), denselben Chat inkl. History zu zeigen.
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
@@ -189,6 +194,7 @@ public:
     bool canInviteFromCurrentGame() const;
     bool isInGame() const { return m_isInGame; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
+    int  rejoinOfferGameId() const { return static_cast<int>(m_rejoinOfferGameId); }
     Q_INVOKABLE QString currentGameName() const;
     int playerListFilterMode() const { return m_playerListFilterMode; }
     int gameListFilterMode() const { return m_gameListFilterMode; }
@@ -239,6 +245,13 @@ public slots:
     // Ein Spieler ist meinem aktuellen Spiel beigetreten → Benachrichtigungs-
     // Sound (playerconnected bzw. onlinegameready, wenn das Spiel voll ist).
     void onGamePlayerJoined();
+    // Server bietet nach einem Verbindungsabbruch das Wiederaufnehmen der
+    // alten Spielsitzung an (InitAck.rejoinGameId). Von QmlGuiInterface
+    // aufgerufen; die LobbyPage zeigt dazu ein Ja/Nein-Popup.
+    void onRejoinPossible(unsigned gameId);
+    // Antwort aus QML auf das Rejoin-Popup.
+    Q_INVOKABLE void acceptRejoin();
+    Q_INVOKABLE void declineRejoin();
     // AFK-Timeout-Warnung des Servers (Lobby wie ingame) → QML-Popup + Beep.
     void onTimeoutWarning(int reason, int remainingSec);
     // Server-Meldung (Klartext bzw. msgId aus socket_msg.h) → QML-Info-Popup.
@@ -324,6 +337,7 @@ signals:
     void playerIgnoreListChanged();
     void isInGameChanged();
     void currentGameIdChanged();
+    void rejoinOfferChanged();
 
 private:
     // Hängt eine fertig formatierte Chat-Zeile an den Verlauf an (begrenzt) und
@@ -346,6 +360,8 @@ private:
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;
+    // Vom Server angebotenes Rejoin nach Verbindungsabbruch (0 = keines).
+    unsigned m_rejoinOfferGameId = 0;
     bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
     bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;

@@ -1259,7 +1259,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1044"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1063"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
@@ -1397,7 +1397,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <location line="+26"/>
         <location line="+128"/>
         <location line="+9"/>
-        <location line="+107"/>
+        <location line="+140"/>
         <location line="+9"/>
         <location line="+11"/>
         <location line="+11"/>
@@ -1736,7 +1736,27 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Unirse</translation>
     </message>
     <message>
-        <location line="-730"/>
+        <location line="+141"/>
+        <source>Rejoin possible</source>
+        <translation>Es posible volver a conectarse</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
+        <translation>Hay una sesión existente con una partida anterior.&lt;br&gt;¿Quiere volver a unirse a esta partida?</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Rejoin</source>
+        <translation>Volver a unirse</translation>
+    </message>
+    <message>
+        <location line="-894"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostrar partidas abiertas y no llenas</translation>
     </message>
@@ -2995,6 +3015,11 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Error de conexión TLS</translation>
     </message>
     <message>
+        <location line="+6"/>
+        <source>The connection to the server was lost</source>
+        <translation>Se ha perdido la conexión con el servidor</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Protocol version not supported by server</source>
         <translation>Versión de protocolo no admitida por el servidor</translation>
@@ -3630,11 +3655,12 @@ vista previa</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location line="+215"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="-180"/>
         <source>Server Message</source>
         <translation>Mensaje del servidor</translation>
     </message>
@@ -3644,7 +3670,12 @@ vista previa</translation>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location line="-339"/>
+        <location line="+151"/>
+        <source>Connection lost</source>
+        <translation>Conexión perdida</translation>
+    </message>
+    <message>
+        <location line="-490"/>
         <location line="+371"/>
         <location line="+22"/>
         <source>Leave Game</source>

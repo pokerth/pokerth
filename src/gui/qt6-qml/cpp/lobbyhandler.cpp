@@ -583,6 +583,25 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
     m_gameListModel.clear();
     m_playerListModel.clear();
 
+    // Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
+    // ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
+    if (m_rejoinOfferGameId != 0) {
+        m_rejoinOfferGameId = 0;
+        emit rejoinOfferChanged();
+    }
+
+    // Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
+    // kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
+    // über den Reconnect hinweg stehen.
+    m_gameRunning = false;
+    if (m_isInGame) {
+        m_isInGame = false;
+        m_currentGameId = 0;
+        emit isInGameChanged();
+        emit currentGameIdChanged();
+    }
+    setCurrentGameAdmin(false);
+
     static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->setSession(m_session.get());
     static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setSession(m_session.get());
@@ -1548,6 +1567,39 @@ QString LobbyHandler::playerInGameName(unsigned playerId) const
     if (gameId == 0)
         return QString();
     return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
+}
+
+// ── Rejoin nach Verbindungsabbruch ──────────────────────────────────────────
+// Der Server erkennt beim Login anhand von Spielername + alter Session-GUID,
+// dass noch eine laufende Spielsitzung existiert, und bietet sie im InitAck
+// an (rejoinGameId). Das Popup dazu zeigt die LobbyPage (rejoinOfferGameId).
+void LobbyHandler::onRejoinPossible(unsigned gameId)
+{
+    qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId;
+    if (m_rejoinOfferGameId == gameId)
+        return;
+    m_rejoinOfferGameId = gameId;
+    emit rejoinOfferChanged();
+}
+
+void LobbyHandler::acceptRejoin()
+{
+    const unsigned gameId = m_rejoinOfferGameId;
+    qDebug() << "[REJOIN] acceptRejoin: gameId=" << gameId;
+    m_rejoinOfferGameId = 0;
+    emit rejoinOfferChanged();
+    if (!m_session || gameId == 0)
+        return;
+    m_session->clientRejoinGame(gameId);
+}
+
+void LobbyHandler::declineRejoin()
+{
+    qDebug() << "[REJOIN] declineRejoin: gameId=" << m_rejoinOfferGameId;
+    if (m_rejoinOfferGameId != 0) {
+        m_rejoinOfferGameId = 0;
+        emit rejoinOfferChanged();
+    }
 }
 
 // ── Eingehende Spiel-Einladungen (Invite-Only-Spiele) ──────────────────────

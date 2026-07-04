@@ -36,6 +36,7 @@
 #include <net/sendbuffer.h>
 #include <cstdlib>
 #include <boost/asio/ssl.hpp>
+#include <boost/weak_ptr.hpp>
 
 
 #define SEND_BUF_FIRST_ALLOC_CHUNKSIZE		4096
@@ -64,8 +65,16 @@ protected:
     size_t GetSendBufLeft() const;
     bool ReallocSendBuf();
     void AppendToSendBufWithoutCheck(const char *data, size_t size);
+    // Close the owning session after a write error (returns false if the
+    // session is no longer reachable and the caller must close the raw
+    // socket itself). May throw PokerTHException on the client (intended).
+    bool CloseSessionOnWriteError(boost::shared_ptr<SessionData> session);
 
 private:
+    // Owning session (weak to avoid the SessionData <-> SendBuffer cycle);
+    // needed to report write errors as a proper session close instead of
+    // silently closing the socket handle.
+    boost::weak_ptr<SessionData> m_session;
     char *sendBuf;
     char *curWriteBuf;
     size_t sendBufAllocated;
