@@ -875,6 +875,15 @@ ApplicationWindow {
             networkMessagePopup.message = message
             networkMessagePopup.open()
         }
+        // "Show player stats" (Lobby-Icon / Tisch-Kontextmenü): native
+        // Player-Page statt Browser-Link.
+        function onPlayerStatsRequested(playerName) {
+            var c = mainStackView.currentItem
+            // Doppelklick-Schutz: Page desselben Spielers liegt bereits oben.
+            if (c && c.objectName === "pokerthPlayerPage" && c.username === playerName)
+                return
+            mainStackView.push("pages/PokerthPlayerPage.qml", { username: playerName })
+        }
     }
 
     Connections {

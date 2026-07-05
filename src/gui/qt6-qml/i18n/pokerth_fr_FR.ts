@@ -296,7 +296,7 @@
         <translation>Membre depuis %1</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+31"/>
         <source>Awards</source>
         <translation>Récompenses</translation>
     </message>
@@ -412,6 +412,30 @@
         <location line="+1"/>
         <source>No matches.</source>
         <translation>Aucun résultat.</translation>
+    </message>
+</context>
+<context>
+    <name>CommunitySwitch</name>
+    <message>
+        <location filename="../components/CommunitySwitch.qml" line="+39"/>
+        <source>This season</source>
+        <translation>Cette saison</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>All-time</source>
+        <translation>Tous les temps</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>This month</source>
+        <translation>Ce mois-ci</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This year</source>
+        <translation>Cette année</translation>
     </message>
 </context>
 <context>
@@ -645,10 +669,6 @@
 <context>
     <name>GameStatusBar</name>
     <message>
-        <source>Open link</source>
-        <translation type="vanished">Ouvrir le lien</translation>
-    </message>
-    <message>
         <location filename="../components/GameStatusBar.qml" line="+97"/>
         <source>Show table ranking</source>
         <translation>Afficher le classement de la table</translation>
@@ -687,17 +707,18 @@
 <context>
     <name>GameTableStatsPage</name>
     <message>
-        <location filename="../pages/GameTableStatsPage.qml" line="+58"/>
+        <location filename="../pages/GameTableStatsPage.qml" line="+93"/>
+        <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
         <translation>Impossible de charger le classement de la table (HTTP %1).</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-16"/>
         <source>Could not parse server response.</source>
         <translation>Impossible d&apos;analyser la réponse du serveur.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+58"/>
         <source>Table ranking – %1</source>
         <translation>Classement de la table – %1</translation>
     </message>
@@ -707,12 +728,22 @@
         <translation>Classement de la table</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+23"/>
+        <source>Current BBC season standings of the players at this table.</source>
+        <translation>Classement de la saison BBC en cours des joueurs de cette table.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Current WEC month standings of the players at this table.</source>
+        <translation>Classement du mois WEC en cours des joueurs de cette table.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
         <translation>Classement de la saison en cours des joueurs de cette table.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>#</source>
         <translation>#</translation>
     </message>
@@ -727,9 +758,14 @@
         <translation>Parties</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Avg</source>
         <translation>Moy</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Points</source>
+        <translation>Points</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -737,7 +773,7 @@
         <translation>Score</translation>
     </message>
     <message>
-        <location line="+127"/>
+        <location line="+137"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>Aucune donnée de classement pour les joueurs de cette table pour l&apos;instant.</translation>
     </message>
@@ -1215,12 +1251,12 @@
     </message>
     <message>
         <location line="+8"/>
-        <location line="+446"/>
+        <location line="+458"/>
         <source>Spiel erstellen</source>
         <translation>Créer une partie</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-429"/>
         <source>Spielname</source>
         <translation>Nom de la partie</translation>
     </message>
@@ -1260,7 +1296,7 @@
         <translation>Partie classée</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Community-Vorlage</source>
         <translation>Modèle communautaire</translation>
     </message>
@@ -2805,7 +2841,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Dernière connexion %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+28"/>
         <source>Current season</source>
         <translation>Saison actuelle</translation>
     </message>

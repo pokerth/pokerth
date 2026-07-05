@@ -74,6 +74,7 @@ set(QML_FILES
     components/CommunityCards.qml
     components/CommunityPlayerView.qml
     components/CommunityRankingView.qml
+    components/CommunitySwitch.qml
     components/ConfigCheckBox.qml
     components/ConfirmPopup.qml
     components/CustomButton.qml

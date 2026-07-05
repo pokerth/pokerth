@@ -155,6 +155,25 @@ Rectangle {
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
+
+                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
+                // Player-Page der gewählten Quelle (gleicher Nickname). BBC/WEC
+                // kennen nur Nicknames – solange keiner bekannt ist (Seite wurde
+                // nur mit playerId geöffnet und lädt noch), passiert nichts.
+                CommunitySwitch {
+                    id: communitySwitch
+                    Layout.alignment: Qt.AlignTop
+                    current: "pokerth"
+                    onSelected: function(community) {
+                        var nick = (playerPage.player && playerPage.player.username)
+                                   ? playerPage.player.username : playerPage.username
+                        if (nick === "")
+                            return
+                        playerPage.StackView.view.replace(
+                            communitySwitch.playerPageUrl(community),
+                            communitySwitch.playerPageProps(community, nick))
+                    }
+                }
             }
 
             // ── Aktuelle-Saison-Kennzahlen ──────────────────────────────────

@@ -296,7 +296,7 @@
         <translation>Miembro desde %1</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+31"/>
         <source>Awards</source>
         <translation>Premios</translation>
     </message>
@@ -412,6 +412,30 @@
         <location line="+1"/>
         <source>No matches.</source>
         <translation>No hay resultados.</translation>
+    </message>
+</context>
+<context>
+    <name>CommunitySwitch</name>
+    <message>
+        <location filename="../components/CommunitySwitch.qml" line="+39"/>
+        <source>This season</source>
+        <translation>Esta temporada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+5"/>
+        <source>All-time</source>
+        <translation>Histórico</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>This month</source>
+        <translation>Este mes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This year</source>
+        <translation>Este año</translation>
     </message>
 </context>
 <context>
@@ -645,10 +669,6 @@
 <context>
     <name>GameStatusBar</name>
     <message>
-        <source>Open link</source>
-        <translation type="vanished">Abrir enlace</translation>
-    </message>
-    <message>
         <location filename="../components/GameStatusBar.qml" line="+97"/>
         <source>Show table ranking</source>
         <translation>Mostrar clasificación de la mesa</translation>
@@ -687,17 +707,18 @@
 <context>
     <name>GameTableStatsPage</name>
     <message>
-        <location filename="../pages/GameTableStatsPage.qml" line="+58"/>
+        <location filename="../pages/GameTableStatsPage.qml" line="+93"/>
+        <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
         <translation>No se pudo cargar la clasificación de la mesa (HTTP %1).</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-16"/>
         <source>Could not parse server response.</source>
         <translation>No se pudo interpretar la respuesta del servidor.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+58"/>
         <source>Table ranking – %1</source>
         <translation>Clasificación de la mesa – %1</translation>
     </message>
@@ -707,12 +728,22 @@
         <translation>Clasificación de la mesa</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+23"/>
+        <source>Current BBC season standings of the players at this table.</source>
+        <translation>Clasificación de la temporada actual de BBC de los jugadores de esta mesa.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Current WEC month standings of the players at this table.</source>
+        <translation>Clasificación del mes actual de WEC de los jugadores de esta mesa.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Current season standings of the players at this table.</source>
         <translation>Clasificación de la temporada actual de los jugadores de esta mesa.</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>#</source>
         <translation>#</translation>
     </message>
@@ -727,9 +758,14 @@
         <translation>Partidas</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Avg</source>
         <translation>Prom.</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Points</source>
+        <translation>Puntos</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -737,7 +773,7 @@
         <translation>Puntuación</translation>
     </message>
     <message>
-        <location line="+127"/>
+        <location line="+137"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>Aún no hay datos de clasificación para los jugadores de esta mesa.</translation>
     </message>
@@ -1215,12 +1251,12 @@
     </message>
     <message>
         <location line="+8"/>
-        <location line="+446"/>
+        <location line="+458"/>
         <source>Spiel erstellen</source>
         <translation>Crear partida</translation>
     </message>
     <message>
-        <location line="-417"/>
+        <location line="-429"/>
         <source>Spielname</source>
         <translation>Nombre de la partida</translation>
     </message>
@@ -1260,7 +1296,7 @@
         <translation>Partida de clasificación</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+33"/>
         <source>Community-Vorlage</source>
         <translation>Plantilla de la comunidad</translation>
     </message>
@@ -2805,7 +2841,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Último acceso %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+28"/>
         <source>Current season</source>
         <translation>Temporada actual</translation>
     </message>

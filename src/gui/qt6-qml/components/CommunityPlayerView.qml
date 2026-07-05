@@ -168,6 +168,21 @@ Rectangle {
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
+
+                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
+                // Player-Page der gewählten Quelle (gleicher Nickname).
+                CommunitySwitch {
+                    id: communitySwitch
+                    Layout.alignment: Qt.AlignTop
+                    current: playerView.baseUrl.indexOf("bbc.") !== -1 ? "bbc" : "wec"
+                    onSelected: function(community) {
+                        var nick = (playerView.player && playerView.player.nickname)
+                                   ? playerView.player.nickname : playerView.nickname
+                        playerView.StackView.view.replace(
+                            communitySwitch.playerPageUrl(community),
+                            communitySwitch.playerPageProps(community, nick))
+                    }
+                }
             }
 
             // ── Awards (BBC) – eigene Zeile über die volle Breite, damit der

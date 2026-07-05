@@ -338,6 +338,9 @@ signals:
     void playerListRevisionChanged();
     void gameListRevisionChanged();
     void playerIgnoreListChanged();
+    // "Show player stats" (Lobby-Icon / Tisch-Kontextmenü): QML zeigt die
+    // native Player-Page des Spielers.
+    void playerStatsRequested(const QString &playerName);
     void isInGameChanged();
     void currentGameIdChanged();
     void rejoinOfferChanged();

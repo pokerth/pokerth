@@ -1804,15 +1804,16 @@ void LobbyHandler::unignorePlayer(unsigned playerId)
 
 // ── Player stats ───────────────────────────────────────────────────────────
 
+// Löst die playerId zum Namen auf und meldet die Anfrage an QML
+// (pokerth.qml pusht die native PokerthPlayerPage) – früher wurde hier der
+// Browser-Link redirect_user_profile.php?nick=… geöffnet.
 void LobbyHandler::showPlayerStats(unsigned playerId)
 {
     if (playerId == 0) return;
     const QString playerName = resolvedPlayerName(playerId);
     if (playerName.isEmpty()) return;
 
-    const QString url = QString("https://www.pokerth.net/redirect_user_profile.php?nick=%1")
-        .arg(QString::fromUtf8(QUrl::toPercentEncoding(playerName)));
-    openExternalUrl(url);
+    emit playerStatsRequested(playerName);
 }
 
 // ── Domain text helpers ────────────────────────────────────────────────────

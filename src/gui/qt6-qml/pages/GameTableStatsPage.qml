@@ -17,6 +17,13 @@ import "../components"
 // RankingPage/PokerthPlayerPage). Unbekannte Nicks (Gäste/ohne Saisonwertung)
 // lässt der Server einfach weg. Aufrufer setzt nicks (Seat-Reihenfolge,
 // GameTable.tableStatsNicks()) und tableName.
+//
+// Über den Quellen-Umschalter oben rechts lässt sich zusätzlich die aktuelle
+// BBC-Saison- bzw. WEC-Monatswertung der Tischspieler anzeigen: dafür wird die
+// jeweilige Rangliste geladen (eingebettete Initialdaten von
+// GET <baseUrl>/results/ranking, ohne CSRF – Muster wie CommunityRankingView)
+// und clientseitig auf die Tisch-Nicks gefiltert. rank_pos ist dort die
+// Position in der Gesamtrangliste; Spieler ohne Wertung fehlen in der Liste.
 Rectangle {
     id: tableStatsPage
     objectName: "gameTableStatsPage"
@@ -30,16 +37,44 @@ Rectangle {
     property var nicks: []
     property string tableName: ""
 
+    // Aktive Quelle des Umschalters: "pokerth" | "bbc" | "wec".
+    property string community: "pokerth"
+
+    // Einheitliches Zeilenformat für alle Quellen:
+    //   { rank_pos, player_id, username, games, mid, score }
+    // mid = Avg (PokerTH) bzw. Points (BBC/WEC), Werte fertig formatiert.
     property var rows: []
     property bool loading: false
     property string errorText: ""
+    // Läufer-Nummer gegen veraltete Antworten nach schnellem Umschalten.
+    property int loadSeq: 0
 
     function score2(v) { return (Number(v) / 100).toFixed(2) }
+
+    // Vue-Prop (HTML-entity-kodiert) aus dem Seiten-HTML lesen – wie
+    // CommunityRankingView/CommunityPlayerView.
+    function jsonAttr(html, name) {
+        var m = html.match(new RegExp(":" + name + "=\"([^\"]*)\""))
+        if (!m)
+            return null
+        var s = m[1].replace(/&quot;/g, "\"").replace(/&#39;/g, "'")
+                    .replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+                    .replace(/&amp;/g, "&")
+        try { return JSON.parse(s) } catch (e) { return null }
+    }
 
     function loadData() {
         loading = true
         errorText = ""
+        rows = []
+        var seq = ++loadSeq
+        if (community === "pokerth")
+            loadPokerthData(seq)
+        else
+            loadCommunityData(seq)
+    }
 
+    function loadPokerthData(seq) {
         // Payload exakt wie die Webseite: immer u1…u10, fehlende Plätze leer.
         var payload = {}
         for (var i = 1; i <= 10; ++i)
@@ -50,13 +85,12 @@ Rectangle {
         xhr.setRequestHeader("Content-Type", "application/json")
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest")
         xhr.onreadystatechange = function() {
-            if (xhr.readyState !== XMLHttpRequest.DONE)
+            if (xhr.readyState !== XMLHttpRequest.DONE || seq !== tableStatsPage.loadSeq)
                 return
             tableStatsPage.loading = false
             if (xhr.status !== 200) {
                 tableStatsPage.errorText =
                     qsTr("Could not load table ranking (HTTP %1).").arg(xhr.status || 0)
-                tableStatsPage.rows = []
                 return
             }
             try {
@@ -65,13 +99,59 @@ Rectangle {
                 // Der Server liefert in Anfrage-(Seat-)Reihenfolge – für die
                 // Ranking-Tabelle nach Platzierung sortieren (beste zuerst).
                 list.sort(function(a, b) { return a.rank_pos - b.rank_pos })
-                tableStatsPage.rows = list
+                var mapped = []
+                for (var i = 0; i < list.length; ++i) {
+                    var r = list[i]
+                    mapped.push({ rank_pos: r.rank_pos, player_id: r.player_id || 0,
+                                  username: r.username,
+                                  games: "" + r.season_games,
+                                  mid: tableStatsPage.score2(r.average_score),
+                                  score: tableStatsPage.score2(r.final_score) })
+                }
+                tableStatsPage.rows = mapped
             } catch (e) {
                 tableStatsPage.errorText = qsTr("Could not parse server response.")
-                tableStatsPage.rows = []
             }
         }
         xhr.send(JSON.stringify(payload))
+    }
+
+    function loadCommunityData(seq) {
+        var comm = community
+        var xhr = new XMLHttpRequest()
+        xhr.open("GET", communitySwitch.baseUrlFor(comm) + "/results/ranking")
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState !== XMLHttpRequest.DONE || seq !== tableStatsPage.loadSeq)
+                return
+            tableStatsPage.loading = false
+            if (xhr.status !== 200) {
+                tableStatsPage.errorText =
+                    qsTr("Could not load table ranking (HTTP %1).").arg(xhr.status || 0)
+                return
+            }
+            // Eingebettete Initialdaten = aktuelle Saison (BBC) bzw. aktueller
+            // Monat (WEC), in Rang-Reihenfolge.
+            var all = tableStatsPage.jsonAttr(xhr.responseText,
+                                              comm === "bbc" ? "results" : "stats") || []
+            var wanted = {}
+            for (var i = 0; i < tableStatsPage.nicks.length; ++i) {
+                if (tableStatsPage.nicks[i])
+                    wanted[String(tableStatsPage.nicks[i]).toLowerCase()] = true
+            }
+            var mapped = []
+            for (var j = 0; j < all.length; ++j) {
+                var r = all[j]
+                if (!wanted[(r.nickname || "").toLowerCase()])
+                    continue
+                mapped.push({ rank_pos: j + 1, player_id: 0,
+                              username: r.nickname,
+                              games: "" + r.games,
+                              mid: "" + r.points,
+                              score: "" + r.score })
+            }
+            tableStatsPage.rows = mapped
+        }
+        xhr.send()
     }
 
     Component.onCompleted: loadData()
@@ -82,19 +162,41 @@ Rectangle {
         anchors.margins: 16
         spacing: 10
 
-        AppLabel {
-            text: tableStatsPage.tableName !== ""
-                  ? qsTr("Table ranking – %1").arg(tableStatsPage.tableName)
-                  : qsTr("Table ranking")
+        RowLayout {
             Layout.fillWidth: true
-            elide: Text.ElideRight
-            color: Config.StaticData.palette.secondary.col200
-            font.pointSize: 14
-            font.bold: true
+            spacing: 8
+
+            AppLabel {
+                text: tableStatsPage.tableName !== ""
+                      ? qsTr("Table ranking – %1").arg(tableStatsPage.tableName)
+                      : qsTr("Table ranking")
+                Layout.fillWidth: true
+                elide: Text.ElideRight
+                color: Config.StaticData.palette.secondary.col200
+                font.pointSize: 14
+                font.bold: true
+            }
+
+            // Quellen-Umschalter oben rechts: lädt die Wertung der Tischspieler
+            // aus der gewählten Quelle neu.
+            CommunitySwitch {
+                id: communitySwitch
+                current: tableStatsPage.community
+                onSelected: function(community) {
+                    tableStatsPage.community = community
+                    tableStatsPage.loadData()
+                }
+            }
         }
 
         AppLabel {
-            text: qsTr("Current season standings of the players at this table.")
+            text: {
+                switch (tableStatsPage.community) {
+                case "bbc": return qsTr("Current BBC season standings of the players at this table.")
+                case "wec": return qsTr("Current WEC month standings of the players at this table.")
+                }
+                return qsTr("Current season standings of the players at this table.")
+            }
             Layout.fillWidth: true
             wrapMode: Text.WordWrap
             color: Config.StaticData.palette.secondary.col300
@@ -139,7 +241,8 @@ Rectangle {
                     font.bold: true
                 }
                 AppLabel {
-                    text: qsTr("Avg")
+                    // PokerTH: Saison-Durchschnitt; BBC/WEC: Punkte.
+                    text: tableStatsPage.community === "pokerth" ? qsTr("Avg") : qsTr("Points")
                     visible: !tableStatsPage.compact
                     Layout.preferredWidth: 60
                     horizontalAlignment: Text.AlignRight
@@ -223,14 +326,24 @@ Rectangle {
 
                             HoverHandler { id: nickHover; cursorShape: Qt.PointingHandCursor }
                             TapHandler {
-                                onTapped: tableStatsPage.StackView.view.push("PokerthPlayerPage.qml", {
-                                    playerId: statsDelegate.modelData.player_id || 0,
-                                    username: statsDelegate.modelData.username || ""
-                                })
+                                // Player-Page der aktiven Quelle öffnen (PokerTH
+                                // bevorzugt per player_id, BBC/WEC per Nickname).
+                                onTapped: {
+                                    if (tableStatsPage.community === "pokerth")
+                                        tableStatsPage.StackView.view.push("PokerthPlayerPage.qml", {
+                                            playerId: statsDelegate.modelData.player_id || 0,
+                                            username: statsDelegate.modelData.username || ""
+                                        })
+                                    else
+                                        tableStatsPage.StackView.view.push(
+                                            communitySwitch.playerPageUrl(tableStatsPage.community),
+                                            communitySwitch.playerPageProps(tableStatsPage.community,
+                                                                            statsDelegate.modelData.username || ""))
+                                }
                             }
                         }
                         AppLabel {
-                            text: statsDelegate.modelData.season_games
+                            text: statsDelegate.modelData.games
                             visible: !tableStatsPage.compact
                             Layout.preferredWidth: 70
                             horizontalAlignment: Text.AlignRight
@@ -238,7 +351,7 @@ Rectangle {
                             font.pixelSize: Config.Theme.fontSizeBody
                         }
                         AppLabel {
-                            text: tableStatsPage.score2(statsDelegate.modelData.average_score)
+                            text: statsDelegate.modelData.mid
                             visible: !tableStatsPage.compact
                             Layout.preferredWidth: 60
                             horizontalAlignment: Text.AlignRight
@@ -246,7 +359,7 @@ Rectangle {
                             font.pixelSize: Config.Theme.fontSizeBody
                         }
                         AppLabel {
-                            text: tableStatsPage.score2(statsDelegate.modelData.final_score)
+                            text: statsDelegate.modelData.score
                             Layout.preferredWidth: tableStatsPage.compact ? 56 : 80
                             horizontalAlignment: Text.AlignRight
                             color: Config.StaticData.palette.secondary.col100
