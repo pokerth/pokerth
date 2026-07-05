@@ -1209,18 +1209,18 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+156"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+232"/>
         <source>← Zurück</source>
         <translation>← Back</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+383"/>
+        <location line="+446"/>
         <source>Spiel erstellen</source>
         <translation>Create Game</translation>
     </message>
     <message>
-        <location line="-354"/>
+        <location line="-417"/>
         <source>Spielname</source>
         <translation>Game name</translation>
     </message>
@@ -1260,7 +1260,17 @@
         <translation>Ranking game</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+21"/>
+        <source>Community-Vorlage</source>
+        <translation>Community template</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Eigene Einstellungen</source>
+        <translation>Custom settings</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Passwort</source>
         <translation>Password</translation>
     </message>
@@ -1300,7 +1310,7 @@
         <translation>Blinds raise interval</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
         <translation>Every</translation>
@@ -1316,7 +1326,12 @@
         <translation>minutes</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+16"/>
+        <source>Blindliste: %1</source>
+        <translation>Blind list: %1</translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Zeitlimits</source>
         <translation>Time limits</translation>
     </message>
@@ -1326,12 +1341,12 @@
         <translation>Player action time limit</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+25"/>
         <source>Pause zwischen Händen</source>
         <translation>Delay between hands</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+34"/>
         <source>Abbrechen</source>
         <translation>Cancel</translation>
     </message>
@@ -1478,8 +1493,8 @@ Please reenter the password and try again.</translation>
         <translation>Could not join the game.</translation>
     </message>
     <message>
-        <location line="+176"/>
-        <location line="+26"/>
+        <location line="+177"/>
+        <location line="+30"/>
         <location line="+130"/>
         <location line="+9"/>
         <location line="+140"/>

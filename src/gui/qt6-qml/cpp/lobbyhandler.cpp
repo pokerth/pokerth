@@ -1381,7 +1381,8 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
                               int startCash, int firstSmallBlind,
                               int raiseIntervalMode, int raiseEveryHands,
                               int raiseEveryMinutes, int raiseMode,
-                              int playerActionTimeout, int delayBetweenHands)
+                              int playerActionTimeout, int delayBetweenHands,
+                              const QVariantList &manualBlinds)
 {
     if (!m_session) {
         emit errorOccurred(tr("Not connected to server"));
@@ -1398,6 +1399,10 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
     gameData.raiseSmallBlindEveryHandsValue   = raiseEveryHands;
     gameData.raiseSmallBlindEveryMinutesValue = raiseEveryMinutes;
     gameData.raiseMode                    = static_cast<RaiseMode>(raiseMode);
+    if (gameData.raiseMode == MANUAL_BLINDS_ORDER) {
+        for (const QVariant &blind : manualBlinds)
+            gameData.manualBlindsList.push_back(blind.toInt());
+    }
     gameData.afterManualBlindsMode        = AFTERMB_DOUBLE_BLINDS;
     gameData.afterMBAlwaysRaiseValue      = 0;
     gameData.guiSpeed                     = 4;

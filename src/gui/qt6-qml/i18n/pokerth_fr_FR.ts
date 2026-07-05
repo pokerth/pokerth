@@ -1209,18 +1209,18 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+156"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+232"/>
         <source>← Zurück</source>
         <translation>← Retour</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+383"/>
+        <location line="+446"/>
         <source>Spiel erstellen</source>
         <translation>Créer une partie</translation>
     </message>
     <message>
-        <location line="-354"/>
+        <location line="-417"/>
         <source>Spielname</source>
         <translation>Nom de la partie</translation>
     </message>
@@ -1260,7 +1260,17 @@
         <translation>Partie classée</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+21"/>
+        <source>Community-Vorlage</source>
+        <translation>Modèle communautaire</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Eigene Einstellungen</source>
+        <translation>Paramètres personnalisés</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Passwort</source>
         <translation>Mot de passe</translation>
     </message>
@@ -1300,7 +1310,7 @@
         <translation>Intervalle d&apos;augmentation des blindes</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
         <translation>Toutes les</translation>
@@ -1316,7 +1326,12 @@
         <translation>minutes</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+16"/>
+        <source>Blindliste: %1</source>
+        <translation>Liste des blindes : %1</translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Zeitlimits</source>
         <translation>Limites de temps</translation>
     </message>
@@ -1326,12 +1341,12 @@
         <translation>Limite de temps par action</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+25"/>
         <source>Pause zwischen Händen</source>
         <translation>Pause entre les mains</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+34"/>
         <source>Abbrechen</source>
         <translation>Annuler</translation>
     </message>
@@ -1478,8 +1493,8 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Impossible de rejoindre la partie.</translation>
     </message>
     <message>
-        <location line="+176"/>
-        <location line="+26"/>
+        <location line="+177"/>
+        <location line="+30"/>
         <location line="+130"/>
         <location line="+9"/>
         <location line="+140"/>

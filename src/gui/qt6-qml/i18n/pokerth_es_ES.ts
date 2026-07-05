@@ -1209,18 +1209,18 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+156"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+232"/>
         <source>← Zurück</source>
         <translation>← Atrás</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+383"/>
+        <location line="+446"/>
         <source>Spiel erstellen</source>
         <translation>Crear partida</translation>
     </message>
     <message>
-        <location line="-354"/>
+        <location line="-417"/>
         <source>Spielname</source>
         <translation>Nombre de la partida</translation>
     </message>
@@ -1260,7 +1260,17 @@
         <translation>Partida de clasificación</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+21"/>
+        <source>Community-Vorlage</source>
+        <translation>Plantilla de la comunidad</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Eigene Einstellungen</source>
+        <translation>Configuración personalizada</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Passwort</source>
         <translation>Contraseña</translation>
     </message>
@@ -1300,7 +1310,7 @@
         <translation>Intervalo de subida de ciegas</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
         <translation>Cada</translation>
@@ -1316,7 +1326,12 @@
         <translation>Minutos</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+16"/>
+        <source>Blindliste: %1</source>
+        <translation>Lista de ciegas: %1</translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Zeitlimits</source>
         <translation>Límites de tiempo</translation>
     </message>
@@ -1326,12 +1341,12 @@
         <translation>Límite de tiempo para la acción del jugador</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+25"/>
         <source>Pause zwischen Händen</source>
         <translation>Pausa entre manos</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+34"/>
         <source>Abbrechen</source>
         <translation>Cancelar</translation>
     </message>
@@ -1478,8 +1493,8 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>No se pudo unir a la partida.</translation>
     </message>
     <message>
-        <location line="+176"/>
-        <location line="+26"/>
+        <location line="+177"/>
+        <location line="+30"/>
         <location line="+130"/>
         <location line="+9"/>
         <location line="+140"/>

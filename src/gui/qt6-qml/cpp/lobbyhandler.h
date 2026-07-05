@@ -273,12 +273,15 @@ public slots:
     void onWaitGameDialog();
 
     // Player actions (QML-invokable)
+    // manualBlinds: nur relevant bei raiseMode == MANUAL_BLINDS_ORDER (2);
+    // feste Blindliste, z.B. für die Community-Vorlagen (BBC Steps).
     Q_INVOKABLE void createGame(const QString &name, const QString &password,
                                int gameType, bool allowSpectators, int maxPlayers,
                                int startCash, int firstSmallBlind,
                                int raiseIntervalMode, int raiseEveryHands,
                                int raiseEveryMinutes, int raiseMode,
-                               int playerActionTimeout, int delayBetweenHands);
+                               int playerActionTimeout, int delayBetweenHands,
+                               const QVariantList &manualBlinds = QVariantList());
     Q_INVOKABLE void kickPlayer(unsigned playerId);
     Q_INVOKABLE void invitePlayer(unsigned playerId);
     Q_INVOKABLE bool isPlayerInAnyGame(unsigned playerId) const;
