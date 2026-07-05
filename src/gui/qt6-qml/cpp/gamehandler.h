@@ -177,6 +177,10 @@ public:
     // am Tisch) – 1:1 wie der Qt-Widgets-Client (MyNameLabel). Baut aus den
     // Live-Seats des laufenden Spiels; leer, wenn kein Spiel läuft.
     Q_INVOKABLE QString tableStatsUrl() const;
+    // Nicks der aktiven Spieler am laufenden Netzwerktisch (Seat-Reihenfolge,
+    // ohne bereits ausgestiegene Spieler) – Datengrundlage für tableStatsUrl()
+    // und die native Tisch-Ranking-Seite (GameTableStatsPage).
+    Q_INVOKABLE QStringList tableStatsNicks() const;
     QVariantList players() const { return m_players; }
     int pot() const { return m_pot; }
     int gameId() const { return m_gameId; }

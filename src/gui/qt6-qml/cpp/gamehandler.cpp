@@ -221,28 +221,38 @@ QString GameHandler::tableStatsUrl() const
         return QString();
     const GameInfo info = m_session->getClientGameInfo(gameId);
 
-    // Nick-Liste 1:1 wie der Qt-Widgets-Client (MyNameLabel): nur aktive Spieler.
-    // Zusätzlich – wie beim Aufbau von m_players – bereits ausgestiegene Spieler
-    // (m_leftPlayers) überspringen, damit die URL exakt den sichtbaren
-    // Spielerboxen entspricht und sich beim Verlassen mitzieht.
     QString nickList;
-    int playerCounter = 0;
-    PlayerList seats = m_game->getSeatsList();
-    for (auto it = seats->begin(); it != seats->end(); ++it) {
-        if (m_leftPlayers.contains((*it)->getMyUniqueID()))
-            continue;
-        if (!(*it)->getMyActiveStatus())
-            continue;
-        ++playerCounter;
-        nickList += QString("&nick%1=").arg(playerCounter);
-        nickList += QString::fromUtf8(QUrl::toPercentEncoding(
-            QString::fromStdString((*it)->getMyName())));
+    const QStringList nicks = tableStatsNicks();
+    for (int i = 0; i < nicks.size(); ++i) {
+        nickList += QString("&nick%1=").arg(i + 1);
+        nickList += QString::fromUtf8(QUrl::toPercentEncoding(nicks.at(i)));
     }
 
     return QStringLiteral("https://www.pokerth.net/redirect_user_profile.php?tableview=1")
         + nickList
         + QStringLiteral("&table=")
         + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
+}
+
+QStringList GameHandler::tableStatsNicks() const
+{
+    QStringList nicks;
+    if (!m_game || !m_session || m_session->getClientCurrentGameId() == 0)
+        return nicks;
+
+    // Nick-Liste 1:1 wie der Qt-Widgets-Client (MyNameLabel): nur aktive Spieler.
+    // Zusätzlich – wie beim Aufbau von m_players – bereits ausgestiegene Spieler
+    // (m_leftPlayers) überspringen, damit die Liste exakt den sichtbaren
+    // Spielerboxen entspricht und sich beim Verlassen mitzieht.
+    PlayerList seats = m_game->getSeatsList();
+    for (auto it = seats->begin(); it != seats->end(); ++it) {
+        if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+            continue;
+        if (!(*it)->getMyActiveStatus())
+            continue;
+        nicks << QString::fromStdString((*it)->getMyName());
+    }
+    return nicks;
 }
 
 // ─── private helpers ────────────────────────────────────────────────────────

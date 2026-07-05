@@ -618,7 +618,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+385"/>
+        <location filename="../components/GamePlayerBox.qml" line="+392"/>
         <source>Ignore player</source>
         <translation>Ignora giocatore</translation>
     </message>
@@ -645,9 +645,18 @@
 <context>
     <name>GameStatusBar</name>
     <message>
-        <location filename="../components/GameStatusBar.qml" line="+78"/>
         <source>Open link</source>
-        <translation>Apri il link</translation>
+        <translation type="vanished">Apri il link</translation>
+    </message>
+    <message>
+        <location filename="../components/GameStatusBar.qml" line="+97"/>
+        <source>Show table ranking</source>
+        <translation>Mostra classifica del tavolo</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Open in browser</source>
+        <translation>Apri nel browser</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -673,6 +682,64 @@
         <location line="+6"/>
         <source>Hand: %1</source>
         <translation>Mano: %1</translation>
+    </message>
+</context>
+<context>
+    <name>GameTableStatsPage</name>
+    <message>
+        <location filename="../pages/GameTableStatsPage.qml" line="+58"/>
+        <source>Could not load table ranking (HTTP %1).</source>
+        <translation>Impossibile caricare la classifica del tavolo (HTTP %1).</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Could not parse server response.</source>
+        <translation>Impossibile analizzare la risposta del server.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Table ranking – %1</source>
+        <translation>Classifica del tavolo – %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Table ranking</source>
+        <translation>Classifica del tavolo</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Current season standings of the players at this table.</source>
+        <translation>Classifica della stagione corrente dei giocatori a questo tavolo.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Player</source>
+        <translation>Giocatore</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Games</source>
+        <translation>Partite</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Avg</source>
+        <translation>Media</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Score</source>
+        <translation>Punteggio</translation>
+    </message>
+    <message>
+        <location line="+127"/>
+        <source>No ranking data for the players at this table yet.</source>
+        <translation>Ancora nessun dato di classifica per i giocatori a questo tavolo.</translation>
     </message>
 </context>
 <context>
@@ -1411,7 +1478,7 @@ Reinserire la password e riprovare.</translation>
         <translation>Impossibile unirsi alla partita.</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+176"/>
         <location line="+26"/>
         <location line="+130"/>
         <location line="+9"/>

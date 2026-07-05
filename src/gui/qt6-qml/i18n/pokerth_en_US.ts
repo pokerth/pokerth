@@ -618,7 +618,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+385"/>
+        <location filename="../components/GamePlayerBox.qml" line="+392"/>
         <source>Ignore player</source>
         <translation>Ignore player</translation>
     </message>
@@ -645,9 +645,18 @@
 <context>
     <name>GameStatusBar</name>
     <message>
-        <location filename="../components/GameStatusBar.qml" line="+78"/>
         <source>Open link</source>
-        <translation>Open link</translation>
+        <translation type="vanished">Open link</translation>
+    </message>
+    <message>
+        <location filename="../components/GameStatusBar.qml" line="+97"/>
+        <source>Show table ranking</source>
+        <translation>Show table ranking</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Open in browser</source>
+        <translation>Open in browser</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -673,6 +682,64 @@
         <location line="+6"/>
         <source>Hand: %1</source>
         <translation>Hand: %1</translation>
+    </message>
+</context>
+<context>
+    <name>GameTableStatsPage</name>
+    <message>
+        <location filename="../pages/GameTableStatsPage.qml" line="+58"/>
+        <source>Could not load table ranking (HTTP %1).</source>
+        <translation>Could not load table ranking (HTTP %1).</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Could not parse server response.</source>
+        <translation>Could not parse server response.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Table ranking – %1</source>
+        <translation>Table ranking – %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Table ranking</source>
+        <translation>Table ranking</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Current season standings of the players at this table.</source>
+        <translation>Current season standings of the players at this table.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Player</source>
+        <translation>Player</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Games</source>
+        <translation>Games</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Avg</source>
+        <translation>Avg</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Score</source>
+        <translation>Score</translation>
+    </message>
+    <message>
+        <location line="+127"/>
+        <source>No ranking data for the players at this table yet.</source>
+        <translation>No ranking data for the players at this table yet.</translation>
     </message>
 </context>
 <context>
@@ -1411,7 +1478,7 @@ Please reenter the password and try again.</translation>
         <translation>Could not join the game.</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+176"/>
         <location line="+26"/>
         <location line="+130"/>
         <location line="+9"/>

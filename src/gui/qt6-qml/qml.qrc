@@ -72,6 +72,7 @@
         <file>i18n/pokerth_pt_BR.ts</file>
         <file>pages/AboutPage.qml</file>
         <file>pages/GamePage.qml</file>
+        <file>pages/GameTableStatsPage.qml</file>
         <file>pages/InternetGamePage.qml</file>
         <file>pages/LocalGamePage.qml</file>
         <file>pages/LogsPage.qml</file>

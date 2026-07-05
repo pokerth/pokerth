@@ -125,6 +125,7 @@ set(QML_FILES
     pages/BbcRankingPage.qml
     pages/CommunityRankingPage.qml
     pages/GamePage.qml
+    pages/GameTableStatsPage.qml
     pages/GameWaitPage.qml
     pages/InternetGamePage.qml
     pages/LobbyCreateGamePage.qml
