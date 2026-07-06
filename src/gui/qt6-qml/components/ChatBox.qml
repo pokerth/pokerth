@@ -135,6 +135,65 @@ Item {
         inputField.cursorPosition = pos
     }
 
+    // ── Shortcode-Autovervollständigung (":smi…" → 😄) ────────────────────
+    // Vorschläge kommen aus derselben C++-Map, die beim Senden ersetzt
+    // (chat_emote_shortcuts.h via Lobby.chatEmoteShortcodes) – angeboten wird
+    // also nur, was auch wirklich funktioniert. Trigger: ":" + mindestens
+    // 2 Kleinbuchstaben vor dem Cursor (wie Discord; so kollidieren ASCII-
+    // Kürzel wie ":p"/":s" nicht mit dem Popup).
+    property var _emoteCodes: []
+    property var _emoteMatches: []
+    property int _emoteIndex: 0
+    property int _emoteTokenStart: -1
+    // Esc blendet das Popup bis zur nächsten Eingabe aus.
+    property bool _emoteSuppressed: false
+
+    function _emoteList() {
+        if (_emoteCodes.length === 0 && typeof Lobby !== "undefined" && Lobby)
+            _emoteCodes = Lobby.chatEmoteShortcodes()
+        return _emoteCodes
+    }
+
+    function _updateEmoteSuggestions() {
+        var upto = inputField.text.slice(0, inputField.cursorPosition)
+        // Token = ":" (am Anfang oder nach Leerzeichen) + 2+ Code-Zeichen
+        // direkt vor dem Cursor. Der schließende ":" beendet den Token –
+        // fertige Shortcodes lassen das Popup also von selbst verschwinden.
+        var m = upto.match(/(?:^|\s):([a-z0-9_+-]{2,})$/)
+        if (!m) {
+            if (_emoteMatches.length > 0)
+                _emoteMatches = []
+            return
+        }
+        var typed = m[1]
+        _emoteTokenStart = upto.length - typed.length - 1
+        var list = _emoteList()
+        var pre = [], sub = []
+        for (var i = 0; i < list.length; ++i) {
+            var idx = list[i].code.indexOf(typed)
+            if (idx === 0) pre.push(list[i])
+            else if (idx > 0) sub.push(list[i])
+        }
+        _emoteMatches = pre.concat(sub)
+        _emoteIndex = 0
+    }
+
+    // Ersetzt den getippten Token (":smi") durch das Emoji des gewählten
+    // Vorschlags – als Emoji statt ":smile:", genau wie der Emoji-Picker
+    // (WYSIWYG und weniger Bytes im 128-Byte-Server-Limit).
+    function _acceptEmoteSuggestion() {
+        if (_emoteMatches.length === 0)
+            return
+        var e = _emoteMatches[Math.min(_emoteIndex, _emoteMatches.length - 1)]
+        var t = inputField.text
+        var newText = t.slice(0, _emoteTokenStart) + e.emoji
+                      + t.slice(inputField.cursorPosition)
+        var pos = _emoteTokenStart + e.emoji.length
+        inputField.text = newText
+        inputField.cursorPosition = Math.min(pos, inputField.text.length)
+        _emoteMatches = []
+    }
+
     function _send() {
         var t = inputField.text.trim()
         if (t === "")
@@ -334,15 +393,46 @@ Item {
                 onAccepted: root._send()
                 // Begrenzung auf das Server-Byte-Limit – feuert auch bei
                 // Einfügen und Emoji-Insert (nicht nur bei Tastatureingabe).
-                onTextChanged: root._clampChatInput()
+                // Danach die Shortcode-Vorschläge aktualisieren.
+                onTextChanged: {
+                    root._clampChatInput()
+                    root._updateEmoteSuggestions()
+                }
+                // Cursorbewegung (Pfeil links/rechts, Klick) kann den Token
+                // unter dem Cursor ändern → Vorschläge neu berechnen.
+                onCursorPositionChanged: root._updateEmoteSuggestions()
                 // Tippt der Nutzer: History-Navigation + Tab-Iteration zurücksetzen.
                 onTextEdited: {
                     root._historyIndex = 0
                     root._nickState.counter = 0
+                    root._emoteSuppressed = false
                 }
-                // Tab = Nick-Vervollständigung (iteriert bei wiederholtem Tab);
-                // Hoch/Runter = History.
+                // Offenes Shortcode-Popup: Hoch/Runter = Auswahl, Tab/Enter =
+                // übernehmen, Esc = ausblenden. Sonst: Tab = Nick-Vervoll-
+                // ständigung (iteriert bei wiederholtem Tab), Hoch/Runter = History.
                 Keys.onPressed: (event) => {
+                    if (emoteSuggestBox.visible) {
+                        if (event.key === Qt.Key_Up) {
+                            event.accepted = true
+                            root._emoteIndex = (root._emoteIndex + root._emoteMatches.length - 1)
+                                               % root._emoteMatches.length
+                            return
+                        } else if (event.key === Qt.Key_Down) {
+                            event.accepted = true
+                            root._emoteIndex = (root._emoteIndex + 1) % root._emoteMatches.length
+                            return
+                        } else if (event.key === Qt.Key_Tab
+                                   || event.key === Qt.Key_Return
+                                   || event.key === Qt.Key_Enter) {
+                            event.accepted = true
+                            root._acceptEmoteSuggestion()
+                            return
+                        } else if (event.key === Qt.Key_Escape) {
+                            event.accepted = true
+                            root._emoteSuppressed = true
+                            return
+                        }
+                    }
                     if (event.key === Qt.Key_Tab) {
                         event.accepted = true
                         var t = Config.StaticData.nickComplete(root._nickState,
@@ -353,11 +443,15 @@ Item {
                         }
                     } else if (event.key === Qt.Key_Up) {
                         event.accepted = true
+                        // Ein zufällig passender Token am Ende des History-
+                        // Eintrags soll das Shortcode-Popup nicht öffnen.
+                        root._emoteSuppressed = true
                         if (root._historyIndex + 1 <= root.historyStore.length)
                             root._historyIndex++
                         root._showHistory(root._historyIndex)
                     } else if (event.key === Qt.Key_Down) {
                         event.accepted = true
+                        root._emoteSuppressed = true
                         if (root._historyIndex - 1 >= 0)
                             root._historyIndex--
                         root._showHistory(root._historyIndex)
@@ -419,6 +513,76 @@ Item {
                 inputField.insert(inputField.cursorPosition, emoji)
                 inputField.forceActiveFocus()
                 root.showEmojiPicker = false
+            }
+        }
+    }
+
+    // ── Shortcode-Vorschlagsliste (über der Eingabezeile, außerhalb des
+    // Layouts – wie das Emoji-Picker-Popup). Präfix-Treffer stehen vor
+    // Substring-Treffern; Auswahl per Maus oder Hoch/Runter + Tab/Enter.
+    Rectangle {
+        id: emoteSuggestBox
+        visible: inputField.activeFocus && root._emoteMatches.length > 0
+                 && !root._emoteSuppressed
+        width: root.width
+        height: Math.min(root._emoteMatches.length, 6) * 26 + 8
+        y: root.height - root.inputHeight - height - 8
+        z: 60
+        radius: 8
+        color: Config.Theme.withAlpha(root.colBackground, 0.95)
+        border.color: root.colBorder
+        border.width: 1
+
+        ListView {
+            id: emoteSuggestList
+            anchors.fill: parent
+            anchors.margins: 4
+            clip: true
+            model: root._emoteMatches
+            currentIndex: root._emoteIndex
+            // Bei Tastatur-Navigation die Auswahl im Sichtbereich halten.
+            onCurrentIndexChanged: positionViewAtIndex(currentIndex, ListView.Contain)
+            boundsBehavior: Flickable.StopAtBounds
+
+            delegate: Rectangle {
+                width: emoteSuggestList.width
+                height: 26
+                radius: 5
+                color: index === root._emoteIndex ? root.colSurface : "transparent"
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 6
+                    anchors.rightMargin: 6
+                    spacing: 8
+                    Text {
+                        text: modelData.emoji
+                        font.family: Config.StaticData.emojiFamily
+                        font.pixelSize: 15
+                    }
+                    Text {
+                        Layout.fillWidth: true
+                        text: ":" + modelData.code + ":"
+                        elide: Text.ElideRight
+                        color: index === root._emoteIndex
+                               ? root.colText : root.colTextSecondary
+                        font.family: Config.StaticData.loadedFont.font.family
+                        font.pixelSize: 13
+                    }
+                }
+                HoverHandler {
+                    cursorShape: Qt.PointingHandCursor
+                    onHoveredChanged: if (hovered) root._emoteIndex = index
+                }
+                // TapHandler statt MouseArea: nimmt dem Eingabefeld nicht den
+                // Fokus weg.
+                TapHandler {
+                    onTapped: {
+                        root._emoteIndex = index
+                        root._acceptEmoteSuggestion()
+                        inputField.forceActiveFocus()
+                    }
+                }
             }
         }
     }

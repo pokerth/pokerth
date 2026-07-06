@@ -1054,6 +1054,27 @@ bool LobbyHandler::openExternalUrl(const QString &url) const
     return false;
 }
 
+QVariantList LobbyHandler::chatEmoteShortcodes() const
+{
+    // Einmal aufgebaut (die Map ist statisch); alphabetisch sortiert, damit
+    // die Vorschlagsliste der ChatBox stabil und vorhersehbar ist.
+    static const QVariantList list = [] {
+        const QHash<QString, QString> &m = chatEmoteShortcodeMap();
+        QStringList codes = m.keys();
+        codes.sort();
+        QVariantList l;
+        l.reserve(codes.size());
+        for (const QString &code : codes) {
+            QVariantMap entry;
+            entry.insert(QStringLiteral("code"), code);
+            entry.insert(QStringLiteral("emoji"), m.value(code));
+            l << entry;
+        }
+        return l;
+    }();
+    return list;
+}
+
 void LobbyHandler::sendChatMessage(const QString &message)
 {
     if (!m_session || message.trimmed().isEmpty())

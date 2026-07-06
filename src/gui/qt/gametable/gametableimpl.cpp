@@ -3630,15 +3630,20 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 	
 	if (etype == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		
-		if (isGameTableFocused && keyEvent->key() == Qt::Key_Tab) {
+
+		// Offenes Shortcode-Vorschlags-Popup des Chats: Tab/Hoch/Runter
+		// steuern dann das Popup (dieser Filter hängt an qApp und liefe
+		// sonst VOR dem Popup) – keine Nick-Vervollständigung/History.
+		const bool shortcodePopupOpen = myChat && myChat->shortcodeCompletionActive();
+
+		if (isGameTableFocused && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Tab) {
 			myChat->nickAutoCompletition();
 			return true;
 		} else if (isGameTableFocused && keyEvent->key() == Qt::Key_Back) {
 			event->ignore();
 			closeGameTable();
 			return true;
-		} else if (isGameTableFocused && keyEvent->key() == Qt::Key_Up &&
+		} else if (isGameTableFocused && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Up &&
 #ifdef GUI_800x480
 		           tabs.lineEdit_ChatInput->hasFocus()
 #else
@@ -3650,7 +3655,7 @@ bool gameTableImpl::eventFilter(QObject *obj, QEvent *event)
 			}
 			myChat->showChatHistoryIndex(keyUpDownChatCounter);
 			return true;
-		} else if (isGameTableFocused && keyEvent->key() == Qt::Key_Down &&
+		} else if (isGameTableFocused && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Down &&
 #ifdef GUI_800x480
 		           tabs.lineEdit_ChatInput->hasFocus()
 #else

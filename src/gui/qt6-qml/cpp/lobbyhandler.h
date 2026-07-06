@@ -301,6 +301,11 @@ public slots:
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
     Q_INVOKABLE bool openExternalUrl(const QString &url) const;
+    // Alle unterstützten Emoji-Shortcodes (":smile:" → 😄) als sortierte Liste
+    // von {code, emoji} für die Autovervollständigung der ChatBox. Quelle ist
+    // dieselbe Map, die beim Senden ersetzt (chat_emote_shortcuts.h) – es wird
+    // also nur angeboten, was auch wirklich funktioniert.
+    Q_INVOKABLE QVariantList chatEmoteShortcodes() const;
     Q_INVOKABLE bool isPlayerIgnored(unsigned playerId) const;
     Q_INVOKABLE void ignorePlayer(unsigned playerId);
     Q_INVOKABLE void unignorePlayer(unsigned playerId);

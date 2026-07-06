@@ -7,6 +7,8 @@
 #include <QHash>
 #include <QRegularExpression>
 
+#include "chat_emote_shortcode_table.h"
+
 // Wandelt ASCII-Emoticon-Kürzel (":-)", "8-)", "<3", ">_<", …) in die
 // entsprechenden Unicode-Emojis um. Gemeinsam genutzt vom Qt-Widgets-Client
 // (chattools.cpp) und vom QML-Client (gamehandler.cpp / lobbyhandler.cpp),
@@ -24,6 +26,18 @@
 //  * Bewusst NICHT enthalten sind mehrdeutige Kürzel, die in normalem Text
 //    häufig auftreten: ":0"/":3" (Uhrzeiten), ":\\"/"D:" (Windows-Pfade),
 //    bare "8)"/"B)" (z. B. "(Plan B)").
+// Discord-/GitHub-Style-Shortcodes (":smile:", ":moon:", ":fire:", …) →
+// Unicode-Emoji. Vollständige GitHub-Shortcode-Liste
+// (https://gist.github.com/rxaviers/7360908), generiert in
+// chat_emote_shortcode_table.h. Separat zugänglich, damit die Chat-
+// Autovervollständigung (ChatBox.qml, via LobbyHandler::chatEmoteShortcodes)
+// EXAKT die Codes anbietet, die applyChatEmoteShortcuts auch wirklich ersetzt.
+inline const QHash<QString, QString> &chatEmoteShortcodeMap()
+{
+    static const QHash<QString, QString> shortcodes = buildChatEmoteShortcodeMap();
+    return shortcodes;
+}
+
 inline QString applyChatEmoteShortcuts(QString text)
 {
     auto emo = [](char32_t cp) -> QString { return QString::fromUcs4(&cp, 1); };
@@ -60,115 +74,8 @@ inline QString applyChatEmoteShortcuts(QString text)
     // vorzeitig zu 😟. Nur kleingeschriebene Namen ([a-z0-9_+-]) zwischen zwei
     // Doppelpunkten matchen – so kollidieren ":D"/":P"/":)" usw. NICHT damit.
     // Unbekannte Codes (":foobar:") bleiben unverändert stehen.
-    static const QHash<QString, QString> shortcodes = [] {
-        auto e = [](char32_t cp) { return QString::fromUcs4(&cp, 1); };
-        QHash<QString, QString> m;
-        // Gesichter
-        m.insert(QStringLiteral("grinning"),     e(0x1F600));
-        m.insert(QStringLiteral("smiley"),       e(0x1F603));
-        m.insert(QStringLiteral("smile"),        e(0x1F604));
-        m.insert(QStringLiteral("grin"),         e(0x1F601));
-        m.insert(QStringLiteral("laughing"),     e(0x1F606));
-        m.insert(QStringLiteral("satisfied"),    e(0x1F606));
-        m.insert(QStringLiteral("sweat_smile"),  e(0x1F605));
-        m.insert(QStringLiteral("joy"),          e(0x1F602));
-        m.insert(QStringLiteral("rofl"),         e(0x1F923));
-        m.insert(QStringLiteral("slightly_smiling_face"), e(0x1F642));
-        m.insert(QStringLiteral("slight_smile"), e(0x1F642));
-        m.insert(QStringLiteral("upside_down_face"), e(0x1F643));
-        m.insert(QStringLiteral("wink"),         e(0x1F609));
-        m.insert(QStringLiteral("blush"),        e(0x1F60A));
-        m.insert(QStringLiteral("innocent"),     e(0x1F607));
-        m.insert(QStringLiteral("heart_eyes"),   e(0x1F60D));
-        m.insert(QStringLiteral("kissing_heart"), e(0x1F618));
-        m.insert(QStringLiteral("kiss"),         e(0x1F48B));
-        m.insert(QStringLiteral("stuck_out_tongue"), e(0x1F61B));
-        m.insert(QStringLiteral("stuck_out_tongue_winking_eye"), e(0x1F61C));
-        m.insert(QStringLiteral("sunglasses"),   e(0x1F60E));
-        m.insert(QStringLiteral("smirk"),        e(0x1F60F));
-        m.insert(QStringLiteral("thinking"),     e(0x1F914));
-        m.insert(QStringLiteral("neutral_face"), e(0x1F610));
-        m.insert(QStringLiteral("expressionless"), e(0x1F611));
-        m.insert(QStringLiteral("unamused"),     e(0x1F612));
-        m.insert(QStringLiteral("relieved"),     e(0x1F60C));
-        m.insert(QStringLiteral("pensive"),      e(0x1F614));
-        m.insert(QStringLiteral("confused"),     e(0x1F615));
-        m.insert(QStringLiteral("worried"),      e(0x1F61F));
-        m.insert(QStringLiteral("cry"),          e(0x1F622));
-        m.insert(QStringLiteral("sob"),          e(0x1F62D));
-        m.insert(QStringLiteral("angry"),        e(0x1F620));
-        m.insert(QStringLiteral("rage"),         e(0x1F621));
-        m.insert(QStringLiteral("sleeping"),     e(0x1F634));
-        m.insert(QStringLiteral("mask"),         e(0x1F637));
-        m.insert(QStringLiteral("dizzy_face"),   e(0x1F635));
-        m.insert(QStringLiteral("scream"),       e(0x1F631));
-        m.insert(QStringLiteral("fearful"),      e(0x1F628));
-        m.insert(QStringLiteral("eyes"),         e(0x1F440));
-        // Hände / Gesten
-        m.insert(QStringLiteral("thumbsup"),     e(0x1F44D));
-        m.insert(QStringLiteral("+1"),           e(0x1F44D));
-        m.insert(QStringLiteral("thumbsdown"),   e(0x1F44E));
-        m.insert(QStringLiteral("-1"),           e(0x1F44E));
-        m.insert(QStringLiteral("ok_hand"),      e(0x1F44C));
-        m.insert(QStringLiteral("clap"),         e(0x1F44F));
-        m.insert(QStringLiteral("pray"),         e(0x1F64F));
-        m.insert(QStringLiteral("muscle"),       e(0x1F4AA));
-        m.insert(QStringLiteral("wave"),         e(0x1F44B));
-        // Herzen
-        m.insert(QStringLiteral("heart"),        e(0x2764));
-        m.insert(QStringLiteral("broken_heart"), e(0x1F494));
-        m.insert(QStringLiteral("two_hearts"),   e(0x1F495));
-        // Natur / Himmel
-        m.insert(QStringLiteral("fire"),         e(0x1F525));
-        m.insert(QStringLiteral("star"),         e(0x2B50));
-        m.insert(QStringLiteral("star2"),        e(0x1F31F));
-        m.insert(QStringLiteral("sparkles"),     e(0x2728));
-        m.insert(QStringLiteral("zap"),          e(0x26A1));
-        m.insert(QStringLiteral("sunny"),        e(0x2600));
-        m.insert(QStringLiteral("moon"),         e(0x1F314));
-        m.insert(QStringLiteral("crescent_moon"), e(0x1F319));
-        m.insert(QStringLiteral("full_moon"),    e(0x1F315));
-        m.insert(QStringLiteral("new_moon"),     e(0x1F311));
-        m.insert(QStringLiteral("snowflake"),    e(0x2744));
-        m.insert(QStringLiteral("zzz"),          e(0x1F4A4));
-        // Objekte / Symbole
-        m.insert(QStringLiteral("tada"),         e(0x1F389));
-        m.insert(QStringLiteral("rocket"),       e(0x1F680));
-        m.insert(QStringLiteral("100"),          e(0x1F4AF));
-        m.insert(QStringLiteral("bulb"),         e(0x1F4A1));
-        m.insert(QStringLiteral("gift"),         e(0x1F381));
-        m.insert(QStringLiteral("trophy"),       e(0x1F3C6));
-        m.insert(QStringLiteral("crown"),        e(0x1F451));
-        m.insert(QStringLiteral("white_check_mark"), e(0x2705));
-        m.insert(QStringLiteral("heavy_check_mark"),  e(0x2714));
-        m.insert(QStringLiteral("x"),            e(0x274C));
-        m.insert(QStringLiteral("warning"),      e(0x26A0));
-        m.insert(QStringLiteral("question"),     e(0x2753));
-        m.insert(QStringLiteral("exclamation"),  e(0x2757));
-        // Figuren / Spaß
-        m.insert(QStringLiteral("poop"),         e(0x1F4A9));
-        m.insert(QStringLiteral("hankey"),       e(0x1F4A9));
-        m.insert(QStringLiteral("ghost"),        e(0x1F47B));
-        m.insert(QStringLiteral("skull"),        e(0x1F480));
-        m.insert(QStringLiteral("alien"),        e(0x1F47D));
-        m.insert(QStringLiteral("robot"),        e(0x1F916));
-        m.insert(QStringLiteral("clown"),        e(0x1F921));
-        // Essen / Trinken
-        m.insert(QStringLiteral("beer"),         e(0x1F37A));
-        m.insert(QStringLiteral("beers"),        e(0x1F37B));
-        m.insert(QStringLiteral("coffee"),       e(0x2615));
-        m.insert(QStringLiteral("pizza"),        e(0x1F355));
-        // Poker-typisch
-        m.insert(QStringLiteral("game_die"),     e(0x1F3B2));
-        m.insert(QStringLiteral("spades"),       e(0x2660));
-        m.insert(QStringLiteral("hearts"),       e(0x2665));
-        m.insert(QStringLiteral("diamonds"),     e(0x2666));
-        m.insert(QStringLiteral("clubs"),        e(0x2663));
-        m.insert(QStringLiteral("moneybag"),     e(0x1F4B0));
-        m.insert(QStringLiteral("dollar"),       e(0x1F4B5));
-        return m;
-    }();
     {
+        const QHash<QString, QString> &shortcodes = chatEmoteShortcodeMap();
         static const QRegularExpression scRe(QStringLiteral(":([a-z0-9_+-]+):"));
         QRegularExpressionMatchIterator it = scRe.globalMatch(text);
         if (it.hasNext()) {
