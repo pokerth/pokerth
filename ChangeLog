@@ -1,3 +1,17 @@
+2026-07-06 version 2.1.1:
+- QML: production mode enabled – the client now identifies itself to the server as native QML client type with its own version
+- QML: player statistics page with local/community switch
+- QML: table player info page
+- QML: game creation dialog fine-tuned
+- QML: ignore-players hardening
+- QML: table admin can now kick players in the game-wait page of custom games
+- QML: re-join after disconnect, better disconnect handling
+- QML: bugfix big blind display, bugfix close on AFK timeout
+- chat: emote shortcode support (widget & QML)
+- android: avatar support, app-resume hardening
+- widget: possible bugfix for emoji font rendering on Windows
+- snap: packaging fine-tuning
+
 2026-07-03 version 2.1.0:
 - new QML client now stable, shipped alongside the Widget client
 - bugfix: LAN game server profiles were never actually saved/loaded (widget)

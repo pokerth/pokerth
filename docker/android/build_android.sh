@@ -217,14 +217,14 @@ mkdir -p "$ANDROID_BUILD_DIR/res/drawable"
 mkdir -p "$ANDROID_BUILD_DIR/res/values"
 
 # Package-Name, Version und Orientierung pro Target.
-VERSION_CODE="20"
+VERSION_CODE="21"
 if [[ $TARGET == "pokerth_qml-client" ]]; then
   PACKAGE_NAME="org.pokerth.qml"
-  VERSION_NAME="2.1.0"
+  VERSION_NAME="2.1.1"
   SCREEN_ORIENTATION="fullUser"
 else
   PACKAGE_NAME="org.pokerth.widget"
-  VERSION_NAME="2.1.0"
+  VERSION_NAME="2.1.1"
   SCREEN_ORIENTATION="landscape"
 fi
 
