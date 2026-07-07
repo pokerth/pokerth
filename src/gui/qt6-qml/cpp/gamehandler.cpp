@@ -1006,11 +1006,22 @@ void GameHandler::onMeInAction()
              << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
     if (localGameCallbacksBlocked()) return;
     refreshPlayerData();
-    computeCallAndRaiseAmounts();
-    if (!m_myTurn) {
+    // m_myTurn ZUERST setzen, DANN die Beträge berechnen. computeCallAndRaiseAmounts()
+    // wertet roundClosed nur bei !m_myTurn aus – bin ich in Position (letzter Akteur)
+    // und alle Gegner haben gecheckt, sind alle Sets gleich (postflop 0) → roundClosed
+    // würde fälschlich true, newCanAct false und die Raise-Beträge blieben 0 (Slider/
+    // Bet gesperrt, nur All-In möglich). Da es hier gerade MEIN Zug wird, ist m_myTurn=true
+    // korrekt und schaltet die roundClosed-Fehlerkennung sauber ab.
+    //
+    // Das myTurnChanged-Signal ERST NACH dem Recompute feuern: QML reagiert darauf
+    // (onMyTurnChanged) u.a. mit dem Fokus-Umschalten ins Betrag-Feld, sofern
+    // raiseAvailable – das setzt korrekt berechnete min/maxRaiseAmount voraus.
+    const bool becameMyTurn = !m_myTurn;
+    if (becameMyTurn)
         m_myTurn = true;
+    computeCallAndRaiseAmounts();
+    if (becameMyTurn)
         emit myTurnChanged();
-    }
     qDebug() << "[ACTDBG] meInAction myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
     if (m_game) {
         auto dh = m_game->getCurrentHand();

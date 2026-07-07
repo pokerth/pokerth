@@ -1261,9 +1261,12 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
     // Determine theme-aware colours (matches Qt-widget palette.link / palette.text)
     const bool isDark       = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    const QString colorAccent = QLatin1String("#E3C800");                                    // accent gold
+    // Theme-aware chat colours: the bright dark-mode gold/red wash out on the
+    // light chat background, so use dimmed variants (Theme.colorAccentDim etc.)
+    // in light mode – same values the QML palette uses.
+    const QString colorAccent = isDark ? QLatin1String("#E3C800") : QLatin1String("#b09a00"); // accent gold
     const QString colorText   = isDark ? QLatin1String("#cdd3e0") : QLatin1String("#394150"); // secondary text
-    const QString colorDanger = QLatin1String("#e05050");                                    // chatbot warn
+    const QString colorDanger = isDark ? QLatin1String("#e05050") : QLatin1String("#c62828"); // chatbot warn
 
     // Detect /me action before escaping
     const bool isAction = message.startsWith(QLatin1String("/me "));
@@ -1694,7 +1697,9 @@ void LobbyHandler::onPlayerGameInvitation(unsigned gameId, unsigned playerIdWho,
     const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
     const QString from = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName).toHtmlEscaped();
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:#8ab4f8;\">")
+    const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
+    const QString colorInvite = isDark ? QLatin1String("#8ab4f8") : QLatin1String("#1a5fb4"); // info blue
+    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:") + colorInvite + QStringLiteral(";\">")
                  + tr("%1 has been invited to %2 by %3.").arg(who, game, from)
                  + QStringLiteral("</span>"));
 }
@@ -1709,7 +1714,9 @@ void LobbyHandler::onRejectedGameInvitation(unsigned gameId, unsigned playerIdWh
         ? tr("%1 cannot join %2 because he is busy.").arg(who, game)
         : tr("%1 has rejected the invitation to %2.").arg(who, game);
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:#e0686d;\">") + msg + QStringLiteral("</span>"));
+    const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
+    const QString colorReject = isDark ? QLatin1String("#e0686d") : QLatin1String("#c62828"); // reject red
+    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:") + colorReject + QStringLiteral(";\">") + msg + QStringLiteral("</span>"));
 }
 
 void LobbyHandler::adminBanPlayer(unsigned playerId)
