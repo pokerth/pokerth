@@ -108,6 +108,18 @@
         <file>android-data/gfx/qml/backside/default/backside.svg</file>
         <file>android-data/gfx/qml/backside/default/backsidestyle.xml</file>
         <file>android-data/gfx/qml/backside/default/preview.png</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_black/backside.svg</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_black/nobusclassicblackbacksidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_black/preview.png</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_blue/backside.svg</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_blue/nobusclassicbluebacksidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_blue/preview.png</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_green/backside.svg</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_green/nobusclassicgreenbacksidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_green/preview.png</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_red/backside.svg</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_red/nobusclassicredbacksidestyle.xml</file>
+        <file>android-data/gfx/qml/backside/nobus_classic_red/preview.png</file>
         <file>android-data/gfx/qml/cards/bella_union_4c/0.svg</file>
         <file>android-data/gfx/qml/cards/bella_union_4c/1.svg</file>
         <file>android-data/gfx/qml/cards/bella_union_4c/10.svg</file>
@@ -216,6 +228,60 @@
         <file>android-data/gfx/qml/cards/default/9.svg</file>
         <file>android-data/gfx/qml/cards/default/defaultdeckstyle.xml</file>
         <file>android-data/gfx/qml/cards/default/preview.png</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/0.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/1.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/10.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/11.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/12.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/13.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/14.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/15.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/16.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/17.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/18.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/19.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/2.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/20.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/21.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/22.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/23.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/24.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/25.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/26.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/27.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/28.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/29.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/3.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/30.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/31.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/32.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/33.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/34.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/35.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/36.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/37.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/38.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/39.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/4.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/40.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/41.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/42.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/43.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/44.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/45.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/46.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/47.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/48.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/49.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/5.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/50.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/51.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/6.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/7.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/8.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/9.svg</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/nobus4cclassicdeckstyle.xml</file>
+        <file>android-data/gfx/qml/cards/nobus_4c_classic/preview.png</file>
         <file>android-data/gfx/qml/table/danuxi/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/danuxi/actionCall.svg</file>
         <file>android-data/gfx/qml/table/danuxi/actionFold.svg</file>

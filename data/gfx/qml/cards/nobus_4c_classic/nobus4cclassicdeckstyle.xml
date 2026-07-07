@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style – Nachbau des klassischen "Nobus 4 colours classic"
+   Widget-Client-Kartensets (nobus_4c_classic) als reines SVG.
+
+   4-Farben-Deck: Karo=blau, Herz=rot, Pik=schwarz, Kreuz=grün. Jede Karte trägt
+   einen leichten, suit-getönten Farbverlauf, einen Eck-Index (Rang-Buchstabe +
+   kleines Suit-Symbol) und ein großes zentrales Suit-Symbol.
+
+   Aufbau (wie das mitgelieferte cards/default-Set): 0.svg..51.svg nach Engine-Index.
+   Die Suit-Pfade stammen aus dem cards/default-Set, die Rang-Buchstaben sind echte
+   DejaVu-Serif-Bold-Konturen (schriftart-unabhängig als Pfad eingebettet). Die
+   Kartenrückseite ist eine EIGENE Stil-Kategorie (data/gfx/qml/backside/).
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Nobus 4 colours classic (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="07.07.2026" />
+     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <BigIndexesActionBottom value="0" />
+  </CardDeck>
+</PokerTH>
