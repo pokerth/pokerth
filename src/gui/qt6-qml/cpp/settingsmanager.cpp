@@ -19,10 +19,13 @@
 #include "settingsmanager.h"
 #include "configfile.h"
 #include "game_defs.h"
+#include "ziputils.h"
 #include <QBuffer>
 #include <QCryptographicHash>
+#include <QDirIterator>
 #include <QFileDialog>
 #include <QImage>
+#include <QTemporaryDir>
 #include <QTextStream>
 #include <QDir>
 #include <QFile>
@@ -455,20 +458,67 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
     };
 
     // Datei-Dialog: startet im zuletzt verwendeten Verzeichnis (wie im
-    // Widget-Client über die Last*StyleDir-Config-Keys gemerkt).
+    // Widget-Client über die Last*StyleDir-Config-Keys gemerkt). Akzeptiert ein
+    // .zip-Archiv ODER – auf dem Desktop – direkt die lose Stil-XML im Ordner.
     QString startDir = QString::fromStdString(
         m_config->readConfigString(lastDirKey.toStdString()));
     if (startDir.isEmpty() || !QDir(startDir).exists())
         startDir = QDir::home().absolutePath();
-    const QString xmlPath = QFileDialog::getOpenFileName(
+    const QString picked = QFileDialog::getOpenFileName(
         nullptr, dialogTitle, startDir,
-        tr("PokerTH-Stile (*.xml)"),
+        tr("PokerTH-Stile (*.zip *.xml)"),
         nullptr, AppImageUtils::fileDialogOptions());
-    if (xmlPath.isEmpty())
+    if (picked.isEmpty())
         return result;
     m_config->writeConfigString(lastDirKey.toStdString(),
-                                QFileInfo(xmlPath).absolutePath().toStdString());
+                                QFileInfo(picked).absolutePath().toStdString());
     m_config->writeBuffer();
+
+    // Ab hier wird ausschließlich mit lokalen Dateien gearbeitet: xmlPath zeigt
+    // auf die auszuwertende Stil-XML, styleDir auf deren Ordner. Ein Archiv wird
+    // dazu zuerst in ein temporäres Verzeichnis entpackt – das deckt auch den
+    // Flatpak-Portal-Fall ab, bei dem nur die gewählte Datei (nicht der Ordner
+    // mit den 52 Karten) in die Sandbox gereicht wird. tempDir lebt bis zum
+    // Funktionsende und deckt damit das spätere Kopieren mit ab.
+    QString xmlPath;
+    QDir styleDir;
+    QString name;
+    QTemporaryDir tempDir;
+
+    // Dateikopf über QFile lesen (bedient auch content:// / Portal-Pfade) und ein
+    // ZIP am Magic "PK\x03\x04" erkennen – unabhängig von der Dateiendung.
+    QFile pickedFile(picked);
+    if (!pickedFile.open(QIODevice::ReadOnly))
+        return fail(tr("Die ausgewählte Datei kann nicht gelesen werden."));
+    const bool isZip = pickedFile.peek(4).startsWith(QByteArrayLiteral("PK\x03\x04"));
+
+    if (isZip) {
+        if (!tempDir.isValid())
+            return fail(tr("Es konnte kein temporäres Verzeichnis angelegt werden."));
+        const QByteArray zipData = pickedFile.readAll();
+        pickedFile.close();
+        QString zipError;
+        if (!ZipUtils::extractArchive(zipData, tempDir.path(), zipError))
+            return fail(zipError);
+
+        // Die Stil-XML im entpackten Baum suchen (Konvention "*<xmlSuffix>").
+        QDirIterator it(tempDir.path(), QStringList() << ("*" + xmlSuffix),
+                        QDir::Files, QDirIterator::Subdirectories);
+        if (!it.hasNext())
+            return fail(tr("Das Archiv enthält keine Datei \"%1\".").arg(xmlSuffix));
+        xmlPath = it.next();
+        styleDir = QFileInfo(xmlPath).dir();
+        // Stilname = Ordnername im Archiv. Liegt die XML im Archiv-Wurzelordner
+        // (ohne eigenen Ordner), als Fallback den Archiv-Dateinamen verwenden.
+        name = QDir::cleanPath(styleDir.absolutePath()) == QDir::cleanPath(tempDir.path())
+                   ? QFileInfo(picked).completeBaseName()
+                   : styleDir.dirName();
+    } else {
+        pickedFile.close();
+        xmlPath = picked;
+        styleDir = QFileInfo(xmlPath).dir();
+        name = styleDir.dirName();
+    }
 
     // XML einlesen: <PokerTH><sectionTag><Tag value="..."/>…. Die Werte werden
     // wie im StyleProvider über das value-Attribut transportiert.
@@ -505,9 +555,6 @@ QVariantMap SettingsManager::importStyle(const QString &category, const QString 
     // "*<xmlSuffix>" – eine anders benannte Datei wäre nach dem Import unsichtbar.
     if (!xmlPath.endsWith(xmlSuffix, Qt::CaseInsensitive))
         return fail(tr("Der Dateiname der Stil-Datei muss auf \"%1\" enden.").arg(xmlSuffix));
-
-    const QDir styleDir = QFileInfo(xmlPath).dir();
-    const QString name = styleDir.dirName();
 
     // Der Stil-Name ist der Ordnername (Config-Keys wie QmlGameTableStyle
     // speichern nur Namen) – Namenskollision mit vorhandenen Stilen ablehnen.
@@ -616,6 +663,73 @@ bool SettingsManager::removeUserStyle(const QString &category, const QString &na
         return false;
     QDir dir(stylesRootPath(true, category) + "/" + name);
     return dir.exists() && dir.removeRecursively();
+}
+
+QVariantMap SettingsManager::exportStyle(const QString &category, const QString &name)
+{
+    QVariantMap result;
+    result["status"] = "cancelled";
+    static const QStringList kCategories = { "table", "cards", "backside" };
+    // Nur echte Stil-Ordnernamen zulassen (keine Pfad-Bestandteile).
+    if (!m_config || !kCategories.contains(category) || name.isEmpty()
+        || name.contains('/') || name.contains('\\')
+        || name == "." || name == "..")
+        return result;
+
+    auto fail = [&result](const QString &message) {
+        result["status"] = "error";
+        result["message"] = message;
+        return result;
+    };
+
+    // Stil-Ordner suchen – erst importiert (Benutzer-Verzeichnis), dann
+    // mitgeliefert; beide sind exportierbar.
+    QString styleDir;
+    for (const bool userRoot : { true, false }) {
+        const QString candidate = stylesRootPath(userRoot, category) + "/" + name;
+        if (QDir(candidate).exists()) {
+            styleDir = candidate;
+            break;
+        }
+    }
+    if (styleDir.isEmpty())
+        return fail(tr("Der Stil \"%1\" wurde nicht gefunden.").arg(name));
+
+    // Speichern-Dialog (Vorgabe: <name>.zip im zuletzt genutzten Export-Ordner).
+    QString startDir = QString::fromStdString(
+        m_config->readConfigString("LastStyleExportDir"));
+    if (startDir.isEmpty() || !QDir(startDir).exists())
+        startDir = QDir::home().absolutePath();
+    const QString target = QFileDialog::getSaveFileName(
+        nullptr, tr("Stil exportieren"), startDir + "/" + name + ".zip",
+        tr("ZIP-Archive (*.zip)"), nullptr, AppImageUtils::fileDialogOptions());
+    if (target.isEmpty())
+        return result;
+    m_config->writeConfigString("LastStyleExportDir",
+                                QFileInfo(target).absolutePath().toStdString());
+    m_config->writeBuffer();
+
+    // Archiv im Speicher erzeugen und über QFile schreiben – das bedient auch
+    // content:// / Portal-Zielpfade, die kein reguläres FILE* öffnen lassen.
+    QString zipError;
+    const QByteArray archive = ZipUtils::createArchive(styleDir, name, zipError);
+    if (archive.isEmpty())
+        return fail(zipError.isEmpty()
+                        ? tr("Das Archiv konnte nicht erstellt werden.")
+                        : zipError);
+
+    QFile out(target);
+    if (!out.open(QIODevice::WriteOnly) || out.write(archive) != archive.size()) {
+        out.close();
+        QFile::remove(target);
+        return fail(tr("Das Archiv konnte nicht nach \"%1\" geschrieben werden.").arg(target));
+    }
+    out.close();
+
+    result["status"] = "ok";
+    result["name"] = name;
+    result["path"] = target;
+    return result;
 }
 
 QString SettingsManager::exampleAvatarsBasePath() const

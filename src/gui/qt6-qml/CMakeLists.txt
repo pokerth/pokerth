@@ -19,6 +19,7 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     ../../core/qttoolsinterface.cpp
     cpp/retranslate.cpp
     cpp/settingsmanager.cpp
+    cpp/ziputils.cpp
     cpp/styleprovider.cpp
     cpp/serverconnectionhandler.cpp
     cpp/lobbyhandler.cpp
@@ -226,8 +227,20 @@ if(ANDROID)
     endif()
 endif()
 
+# miniz: Public-Domain-Single-File-ZIP-Bibliothek für Stil-Import/-Export (.zip).
+# Nötig, weil der Flatpak-Portal-Dateidialog nur die EINE gewählte Datei in die
+# Sandbox reicht – ein ganzer Stil-Ordner (52 Karten + XML + Preview) ist so nicht
+# importierbar, ein einzelnes Archiv dagegen schon. MINIZ_NO_ZLIB_COMPATIBLE_NAMES:
+# ohne dieses Define exportiert miniz zlib-Namen (compress/inflate/crc32/…), die mit
+# dem über boost::iostreams gelinkten echten zlib kollidieren würden.
+add_library(miniz STATIC ${CMAKE_SOURCE_DIR}/src/third_party/miniz/miniz.c)
+target_include_directories(miniz PUBLIC ${CMAKE_SOURCE_DIR}/src/third_party/miniz)
+target_compile_definitions(miniz PUBLIC MINIZ_NO_ZLIB_COMPATIBLE_NAMES)
+set_target_properties(miniz PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 target_link_libraries(pokerth_qml-client PUBLIC pokerth_lib)
 target_link_libraries(pokerth_qml-client PUBLIC pokerth_db)
+target_link_libraries(pokerth_qml-client PRIVATE miniz)
 
 target_link_libraries(pokerth_qml-client PUBLIC pokerth_protocol)
 target_link_libraries(pokerth_qml-client PRIVATE Qt6::Core Qt6::Gui Qt6::Quick Qt6::Qml Qt6::Sql Qt6::Xml Qt6::Svg Qt6::QuickControls2 Qt6::Widgets Qt6::Multimedia)

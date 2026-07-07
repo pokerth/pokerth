@@ -49,6 +49,14 @@ Rectangle {
             importResultPopup.openWith(qsTr("Stil hinzufügen"), result.message, qsTr("OK"))
     }
 
+    // Stil als .zip exportieren: der Speichern-Dialog nennt bereits den Zielpfad,
+    // daher läuft der Erfolgsfall still – nur Fehler werden gemeldet.
+    function exportStyle(category, name) {
+        var result = SettingsManager.exportStyle(category, name)
+        if (result && result.status === "error" && result.message)
+            importResultPopup.openWith(qsTr("Stil exportieren"), result.message, qsTr("OK"))
+    }
+
     // Entfernen eines importierten Stils: war er gerade aktiv, zurück auf
     // "default" schalten, damit Auswahl und Tisch konsistent bleiben.
     function removeStyle(category, name) {
@@ -146,6 +154,7 @@ Rectangle {
                                     }
                                     onRemoveRequested: removeConfirmPopup.askFor(
                                                            "table", modelData.name, modelData.description)
+                                    onExportRequested: styleSettings.exportStyle("table", modelData.name)
                                 }
                             }
                         }
@@ -200,6 +209,7 @@ Rectangle {
                                     }
                                     onRemoveRequested: removeConfirmPopup.askFor(
                                                            "cards", modelData.name, modelData.description)
+                                    onExportRequested: styleSettings.exportStyle("cards", modelData.name)
                                 }
                             }
                         }
@@ -254,6 +264,7 @@ Rectangle {
                                     }
                                     onRemoveRequested: removeConfirmPopup.askFor(
                                                            "backside", modelData.name, modelData.description)
+                                    onExportRequested: styleSettings.exportStyle("backside", modelData.name)
                                 }
                             }
                         }

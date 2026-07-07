@@ -3328,6 +3328,42 @@ Uploading log files may fail if you are using an http proxy.</translation>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
         <translation>Missing content is replaced by the client&apos;s default graphics.</translation>
     </message>
+    <message>
+        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <translation>PokerTH styles (*.zip *.xml)</translation>
+    </message>
+    <message>
+        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <translation>The selected file cannot be read.</translation>
+    </message>
+    <message>
+        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <translation>A temporary directory could not be created.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <translation>The archive does not contain a file &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Export style</translation>
+    </message>
+    <message>
+        <source>ZIP-Archive (*.zip)</source>
+        <translation>ZIP archives (*.zip)</translation>
+    </message>
+    <message>
+        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <translation>The style &quot;%1&quot; was not found.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>The archive could not be created.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <translation>The archive could not be written to &quot;%1&quot;.</translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -3533,6 +3569,10 @@ Preview</translation>
         <source>Stil entfernen</source>
         <translation>Remove style</translation>
     </message>
+    <message>
+        <source>Stil als ZIP exportieren</source>
+        <translation>Export style as ZIP</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
@@ -3617,6 +3657,10 @@ Preview</translation>
         <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Add Style...</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Export style</translation>
     </message>
 </context>
 <context>
@@ -3843,6 +3887,69 @@ and go back to the lobby?</translation>
 and disconnect from the server?</source>
         <translation>Attention! Do you really want to leave the lobby
 and disconnect from the server?</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <translation>The archive could not be read.</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <translation>The archive is empty or contains too many files.</translation>
+    </message>
+    <message>
+        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <translation>The target directory could not be created.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <translation>An archive entry could not be read.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <translation>The archive contains an invalid path: %1</translation>
+    </message>
+    <message>
+        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <translation>Directory could not be created: %1</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <translation>The archive is unusually large.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <translation>An archive entry could not be extracted: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <translation>File could not be written: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <translation>The style folder was not found.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>The archive could not be created.</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht gelesen werden: %1</source>
+        <translation>File could not be read: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <translation>File could not be written to the archive: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <translation>The style folder does not contain any files.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <translation>The archive could not be finalized.</translation>
     </message>
 </context>
 </TS>

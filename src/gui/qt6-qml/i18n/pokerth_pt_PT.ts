@@ -3328,6 +3328,42 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
         <translation>O cliente substitui o conteúdo em falta por gráficos padrão.</translation>
     </message>
+    <message>
+        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <translation>Estilos do PokerTH (*.zip *.xml)</translation>
+    </message>
+    <message>
+        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <translation>Não é possível ler o ficheiro selecionado.</translation>
+    </message>
+    <message>
+        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <translation>Não foi possível criar uma pasta temporária.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <translation>O arquivo não contém nenhum ficheiro &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Exportar estilo</translation>
+    </message>
+    <message>
+        <source>ZIP-Archive (*.zip)</source>
+        <translation>Arquivos ZIP (*.zip)</translation>
+    </message>
+    <message>
+        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <translation>O estilo &quot;%1&quot; não foi encontrado.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>Não foi possível criar o arquivo.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <translation>Não foi possível gravar o arquivo em &quot;%1&quot;.</translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -3533,6 +3569,10 @@ Pré-visualização</translation>
         <source>Stil entfernen</source>
         <translation>Remover estilo</translation>
     </message>
+    <message>
+        <source>Stil als ZIP exportieren</source>
+        <translation>Exportar estilo como ZIP</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
@@ -3617,6 +3657,10 @@ Pré-visualização</translation>
         <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Adicionar Estilo...</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Exportar estilo</translation>
     </message>
 </context>
 <context>
@@ -3843,6 +3887,69 @@ voltar para a sala?</translation>
 and disconnect from the server?</source>
         <translation>Atenção! Tens a certeza que queres sair da sala
 e desligar-te do servidor?</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <translation>Não foi possível ler o arquivo.</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <translation>O arquivo está vazio ou contém demasiados ficheiros.</translation>
+    </message>
+    <message>
+        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <translation>Não foi possível criar a pasta de destino.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <translation>Não foi possível ler uma entrada do arquivo.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <translation>O arquivo contém um caminho inválido: %1</translation>
+    </message>
+    <message>
+        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <translation>Não foi possível criar a pasta: %1</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <translation>O arquivo é invulgarmente grande.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <translation>Não foi possível extrair uma entrada do arquivo: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <translation>Não foi possível gravar o ficheiro: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <translation>A pasta do estilo não foi encontrada.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>Não foi possível criar o arquivo.</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht gelesen werden: %1</source>
+        <translation>Não foi possível ler o ficheiro: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <translation>Não foi possível gravar o ficheiro no arquivo: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <translation>A pasta do estilo não contém ficheiros.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <translation>Não foi possível finalizar o arquivo.</translation>
     </message>
 </context>
 </TS>

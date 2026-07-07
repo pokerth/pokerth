@@ -3328,6 +3328,42 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
         <translation>El cliente sustituye el contenido faltante por gráficos estándar.</translation>
     </message>
+    <message>
+        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <translation>Estilos de PokerTH (*.zip *.xml)</translation>
+    </message>
+    <message>
+        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <translation>No se puede leer el archivo seleccionado.</translation>
+    </message>
+    <message>
+        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <translation>No se pudo crear un directorio temporal.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <translation>El archivo ZIP no contiene ningún archivo &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Exportar estilo</translation>
+    </message>
+    <message>
+        <source>ZIP-Archive (*.zip)</source>
+        <translation>Archivos ZIP (*.zip)</translation>
+    </message>
+    <message>
+        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <translation>No se encontró el estilo &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>No se pudo crear el archivo ZIP.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <translation>No se pudo escribir el archivo ZIP en &quot;%1&quot;.</translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -3533,6 +3569,10 @@ vista previa</translation>
         <source>Stil entfernen</source>
         <translation>Eliminar estilo</translation>
     </message>
+    <message>
+        <source>Stil als ZIP exportieren</source>
+        <translation>Exportar estilo como ZIP</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
@@ -3617,6 +3657,10 @@ vista previa</translation>
         <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Añadir estilo...</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Exportar estilo</translation>
     </message>
 </context>
 <context>
@@ -3843,6 +3887,69 @@ y volver a la sala?</translation>
 and disconnect from the server?</source>
         <translation>¡Atención! ¿Seguro que quieres salir del lobby
 y desconectarte del servidor?</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <translation>No se pudo leer el archivo ZIP.</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <translation>El archivo ZIP está vacío o contiene demasiados archivos.</translation>
+    </message>
+    <message>
+        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <translation>No se pudo crear el directorio de destino.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <translation>No se pudo leer una entrada del archivo ZIP.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <translation>El archivo ZIP contiene una ruta no válida: %1</translation>
+    </message>
+    <message>
+        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <translation>No se pudo crear el directorio: %1</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <translation>El archivo ZIP es inusualmente grande.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <translation>No se pudo extraer una entrada del archivo ZIP: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <translation>No se pudo escribir el archivo: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <translation>No se encontró la carpeta del estilo.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>No se pudo crear el archivo ZIP.</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht gelesen werden: %1</source>
+        <translation>No se pudo leer el archivo: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <translation>No se pudo escribir el archivo en el archivo ZIP: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <translation>La carpeta del estilo no contiene archivos.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <translation>No se pudo finalizar el archivo ZIP.</translation>
     </message>
 </context>
 </TS>

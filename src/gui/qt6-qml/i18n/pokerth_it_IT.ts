@@ -3328,6 +3328,42 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
         <translation>Il client sostituisce i contenuti mancanti con la grafica predefinita.</translation>
     </message>
+    <message>
+        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <translation>Stili PokerTH (*.zip *.xml)</translation>
+    </message>
+    <message>
+        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <translation>Impossibile leggere il file selezionato.</translation>
+    </message>
+    <message>
+        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <translation>Impossibile creare una cartella temporanea.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <translation>L'archivio non contiene alcun file &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Esporta stile</translation>
+    </message>
+    <message>
+        <source>ZIP-Archive (*.zip)</source>
+        <translation>Archivi ZIP (*.zip)</translation>
+    </message>
+    <message>
+        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <translation>Lo stile &quot;%1&quot; non è stato trovato.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>Impossibile creare l'archivio.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <translation>Impossibile scrivere l'archivio in &quot;%1&quot;.</translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>
@@ -3533,6 +3569,10 @@ anteprima</translation>
         <source>Stil entfernen</source>
         <translation>Rimuovi stile</translation>
     </message>
+    <message>
+        <source>Stil als ZIP exportieren</source>
+        <translation>Esporta stile come ZIP</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
@@ -3617,6 +3657,10 @@ anteprima</translation>
         <location line="+54"/>
         <source>Stil hinzufügen...</source>
         <translation>Aggiungi stile...</translation>
+    </message>
+    <message>
+        <source>Stil exportieren</source>
+        <translation>Esporta stile</translation>
     </message>
 </context>
 <context>
@@ -3843,6 +3887,69 @@ e tornare al prepartita?</translation>
 and disconnect from the server?</source>
         <translation>Attenzione! Vuoi davvero lasciare la lobby
 e disconnetterti dal server?</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <translation>Impossibile leggere l'archivio.</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <translation>L'archivio è vuoto o contiene troppi file.</translation>
+    </message>
+    <message>
+        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <translation>Impossibile creare la cartella di destinazione.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <translation>Impossibile leggere una voce dell'archivio.</translation>
+    </message>
+    <message>
+        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <translation>L'archivio contiene un percorso non valido: %1</translation>
+    </message>
+    <message>
+        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <translation>Impossibile creare la cartella: %1</translation>
+    </message>
+    <message>
+        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <translation>L'archivio è insolitamente grande.</translation>
+    </message>
+    <message>
+        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <translation>Impossibile estrarre una voce dell'archivio: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <translation>Impossibile scrivere il file: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <translation>La cartella dello stile non è stata trovata.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>Impossibile creare l'archivio.</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht gelesen werden: %1</source>
+        <translation>Impossibile leggere il file: %1</translation>
+    </message>
+    <message>
+        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <translation>Impossibile scrivere il file nell'archivio: %1</translation>
+    </message>
+    <message>
+        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <translation>La cartella dello stile non contiene alcun file.</translation>
+    </message>
+    <message>
+        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <translation>Impossibile finalizzare l'archivio.</translation>
     </message>
 </context>
 </TS>

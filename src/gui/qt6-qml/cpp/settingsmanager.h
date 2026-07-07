@@ -117,6 +117,13 @@ public:
     // <UserDataDir>/gfx/qml/, mitgelieferte Stile sind nicht löschbar.
     Q_INVOKABLE bool removeUserStyle(const QString &category, const QString &name);
 
+    // Exportiert einen Stil (mitgeliefert oder importiert) als .zip zum Teilen.
+    // Öffnet einen Speichern-Dialog (Vorgabename <name>.zip) und packt den
+    // kompletten Stil-Ordner unter einem Wurzelordner <name>/ ins Archiv, sodass
+    // er anschließend per import*Style() wieder eingelesen werden kann.
+    // Ergebnis-Map: status "ok" | "error" | "cancelled", message (bei error).
+    Q_INVOKABLE QVariantMap exportStyle(const QString &category, const QString &name);
+
     // Liste der mitgelieferten Beispiel-Avatare unter
     // <AppDataDir>/gfx/avatars/default/<people|misc>/*. Diese haben für die
     // Community einen historischen Wert (wie im Widget-Client). Jeder Eintrag
