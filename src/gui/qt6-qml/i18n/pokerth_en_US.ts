@@ -2370,18 +2370,8 @@ Uploading log files may fail if you are using an http proxy.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Every Day</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Every Week</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Every Month</translation>
+        <source>Jede Aktion</source>
+        <translation>Every Action</translation>
     </message>
     <message>
         <location line="-30"/>

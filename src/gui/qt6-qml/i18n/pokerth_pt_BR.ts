@@ -2368,18 +2368,8 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Todos os dias</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Toda semana</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Todo mês</translation>
+        <source>Jede Aktion</source>
+        <translation>Cada ação</translation>
     </message>
     <message>
         <location line="-30"/>

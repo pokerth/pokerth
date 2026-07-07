@@ -2370,18 +2370,8 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Chaque jour</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Chaque semaine</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Chaque mois</translation>
+        <source>Jede Aktion</source>
+        <translation>Chaque action</translation>
     </message>
     <message>
         <location line="-30"/>

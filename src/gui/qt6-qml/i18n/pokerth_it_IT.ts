@@ -2370,18 +2370,8 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Ogni giorno</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Ogni settimana</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Ogni mese</translation>
+        <source>Jede Aktion</source>
+        <translation>Ogni azione</translation>
     </message>
     <message>
         <location line="-30"/>

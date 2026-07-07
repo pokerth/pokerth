@@ -2370,18 +2370,8 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Cada día</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Cada semana</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Cada mes</translation>
+        <source>Jede Aktion</source>
+        <translation>Cada acción</translation>
     </message>
     <message>
         <location line="-30"/>

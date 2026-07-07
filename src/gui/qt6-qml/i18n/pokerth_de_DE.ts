@@ -2370,18 +2370,8 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Jeden Tag</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Jede Woche</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Jeden Monat</translation>
+        <source>Jede Aktion</source>
+        <translation>Jede Aktion</translation>
     </message>
     <message>
         <location line="-30"/>

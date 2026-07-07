@@ -2370,18 +2370,8 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
     </message>
     <message>
         <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Todos os Dias</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Todas as Semanas</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Todos os Meses</translation>
+        <source>Jede Aktion</source>
+        <translation>Cada Ação</translation>
     </message>
     <message>
         <location line="-30"/>
