@@ -138,13 +138,8 @@ Rectangle {
                 if (nick === "")
                     return
                 wecPage.StackView.view.push("qrc:/components/CommunityPlayerView.qml", {
-                    baseUrl: "https://wec.pokerth.net",
-                    nickname: nick,
-                    blocks: [
-                        { label: qsTr("This month"), key: "month" },
-                        { label: qsTr("This year"),  key: "year" },
-                        { label: qsTr("All-time"),   key: "alltime" }
-                    ]
+                    community: "wec",
+                    nickname: nick
                 })
             }
 

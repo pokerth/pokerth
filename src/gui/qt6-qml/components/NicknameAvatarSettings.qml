@@ -76,8 +76,8 @@ Rectangle {
                                     id: myAvatarPreview
                                     anchors.fill: parent
                                     anchors.margins: 2
-                                    source: myAvatarField.text.startsWith("/")
-                                            ? ("file://" + myAvatarField.text.replace(/#/g, "%23"))
+                                    source: SettingsManager
+                                            ? SettingsManager.avatarDisplayUrl(myAvatarField.text)
                                             : ""
                                     fillMode: Image.PreserveAspectCrop
                                     smooth: true
@@ -189,8 +189,8 @@ Rectangle {
                                         id: opponentAvatarPreview
                                         anchors.fill: parent
                                         anchors.margins: 2
-                                        source: opponentAvatarField.text.startsWith("/")
-                                                ? ("file://" + opponentAvatarField.text.replace(/#/g, "%23"))
+                                        source: SettingsManager
+                                                ? SettingsManager.avatarDisplayUrl(opponentAvatarField.text)
                                                 : ""
                                         fillMode: Image.PreserveAspectCrop
                                         smooth: true

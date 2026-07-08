@@ -221,28 +221,38 @@ QString GameHandler::tableStatsUrl() const
         return QString();
     const GameInfo info = m_session->getClientGameInfo(gameId);
 
-    // Nick-Liste 1:1 wie der Qt-Widgets-Client (MyNameLabel): nur aktive Spieler.
-    // Zusätzlich – wie beim Aufbau von m_players – bereits ausgestiegene Spieler
-    // (m_leftPlayers) überspringen, damit die URL exakt den sichtbaren
-    // Spielerboxen entspricht und sich beim Verlassen mitzieht.
     QString nickList;
-    int playerCounter = 0;
-    PlayerList seats = m_game->getSeatsList();
-    for (auto it = seats->begin(); it != seats->end(); ++it) {
-        if (m_leftPlayers.contains((*it)->getMyUniqueID()))
-            continue;
-        if (!(*it)->getMyActiveStatus())
-            continue;
-        ++playerCounter;
-        nickList += QString("&nick%1=").arg(playerCounter);
-        nickList += QString::fromUtf8(QUrl::toPercentEncoding(
-            QString::fromStdString((*it)->getMyName())));
+    const QStringList nicks = tableStatsNicks();
+    for (int i = 0; i < nicks.size(); ++i) {
+        nickList += QString("&nick%1=").arg(i + 1);
+        nickList += QString::fromUtf8(QUrl::toPercentEncoding(nicks.at(i)));
     }
 
     return QStringLiteral("https://www.pokerth.net/redirect_user_profile.php?tableview=1")
         + nickList
         + QStringLiteral("&table=")
         + QString::fromUtf8(QUrl::toPercentEncoding(QString::fromStdString(info.name)));
+}
+
+QStringList GameHandler::tableStatsNicks() const
+{
+    QStringList nicks;
+    if (!m_game || !m_session || m_session->getClientCurrentGameId() == 0)
+        return nicks;
+
+    // Nick-Liste 1:1 wie der Qt-Widgets-Client (MyNameLabel): nur aktive Spieler.
+    // Zusätzlich – wie beim Aufbau von m_players – bereits ausgestiegene Spieler
+    // (m_leftPlayers) überspringen, damit die Liste exakt den sichtbaren
+    // Spielerboxen entspricht und sich beim Verlassen mitzieht.
+    PlayerList seats = m_game->getSeatsList();
+    for (auto it = seats->begin(); it != seats->end(); ++it) {
+        if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+            continue;
+        if (!(*it)->getMyActiveStatus())
+            continue;
+        nicks << QString::fromStdString((*it)->getMyName());
+    }
+    return nicks;
 }
 
 // ─── private helpers ────────────────────────────────────────────────────────
@@ -271,6 +281,18 @@ void GameHandler::appendGameLog(const QString &message, int type)
 void GameHandler::appendChat(const QString &playerName, const QString &message)
 {
     if (message.isEmpty()) return;
+
+    // Nachrichten ignorierter Spieler verwerfen (vor Reaktions-Behandlung, damit
+    // auch deren Emoji-Reaktionen stumm bleiben). Liste wie im Lobby-Chat bei
+    // jeder Nachricht frisch lesen (chattools.cpp-Muster, gilt dort ebenso für
+    // den Spiel-Chat).
+    if (m_config) {
+        const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+        for (const auto &entry : ignoreList) {
+            if (playerName == QString::fromUtf8(entry.c_str()))
+                return;
+        }
+    }
 
     // Emoji-Reaktionen (Konvention des Web-Clients): "/emoji 🎉" bzw. legacy
     // "[R]🎉". Nicht in den Chat-Verlauf aufnehmen, sondern als Reaktions-
@@ -465,7 +487,11 @@ void GameHandler::refreshPlayerData()
                 // nicht-gefoldeten Spieler sichtbar (bis zur nächsten Hand).
                 const bool allInReveal = m_allInRevealed
                                          && (*it)->getMyAction() != PLAYER_ACTION_FOLD;
-                const bool faceUp = cardsKnown && (id == 0 || showdownReveal || allInReveal);
+                // Freiwilliges Zeigen nach der Hand (AfterHandShowCards): der Spieler
+                // muss nicht zwingend in playerNeedToShowCards stehen (Gewinn ohne
+                // Showdown), also separat aufdecken.
+                const bool postRiverShown = m_postRiverShownPlayers.contains((*it)->getMyUniqueID());
+                const bool faceUp = cardsKnown && (id == 0 || showdownReveal || allInReveal || postRiverShown);
                 if (id != 0 && m_allInRevealed) {
                     qDebug() << "[ALLIN] refreshPD seat" << id
                              << "cardsKnown=" << cardsKnown
@@ -486,9 +512,10 @@ void GameHandler::refreshPlayerData()
                 int act = (*it)->getMyAction();
                 const bool sameRound = (currentToken >= 0 && m_actionToken[id] == currentToken);
                 int displayAction;
-                if (m_showdownActive || allInReveal) {
-                    // Showdown und All-In-Runout (Karten aufgedeckt): Badge entfernen
-                    // damit die aufgedeckten Karten nicht verdeckt werden.
+                if (m_showdownActive || allInReveal || postRiverShown) {
+                    // Showdown, All-In-Runout und freiwilliges Zeigen (Karten
+                    // aufgedeckt): Badge entfernen, damit die aufgedeckten Karten
+                    // nicht verdeckt werden.
                     displayAction = 0;
                 } else if (act == PLAYER_ACTION_ALLIN) {
                     displayAction = act;
@@ -716,7 +743,19 @@ void GameHandler::computeCallAndRaiseAmounts()
                     (humanSet == highestSet && humanPlayer->getMyAction() != PLAYER_ACTION_NONE) ||
                     !humanPlayer->isSessionActive();
 
-                if (!buttonsDisabled && !bero->getFullBetRule()) {
+                // Raise-Beträge NUR publizieren, solange ich überhaupt handeln
+                // darf (newCanAct). Im Rundenübergang liefert die Formel sonst
+                // scheinbar gültige, aber VERALTETE Werte: sind die Sets schon
+                // in den Pot eingesammelt (mySet == 0), BeRo/round aber noch
+                // Preflop (Netzwerk: collectPot() vor dem Rundenwechsel), ergibt
+                // minimum = highestSet + minimumRaise = 2×BB. QML sät daraus den
+                // Default-Einsatz (syncRaiseAmount/Selbstheilung in GameActionBar)
+                // und klemmt ihn später nur noch auf [min,max] – der veraltete
+                // Default („Bet $2×BB" statt $BB am Flop) blieb so stehen.
+                // newCanAct ist in genau diesen Fenstern false (roundClosed/
+                // Showdown/bereits gehandelt) – dann gibt es auch keine gültigen
+                // Raise-Beträge.
+                if (newCanAct && !buttonsDisabled && !bero->getFullBetRule()) {
                     int minimum = 0;
                     bool canBetRaise = false;
 
@@ -932,21 +971,33 @@ void GameHandler::onRefreshGameLabels(int gameState)
             emit myTurnChanged();
         }
         m_phaseText = newPhase;
-        emit phaseTextChanged();
     }
 
+    bool handChanged = false;
     if (m_game) {
         auto hand = m_game->getCurrentHand();
         if (hand) {
             int newHandNum = hand->getMyID();
             if (newHandNum != m_handNumber) {
                 m_handNumber = newHandNum;
-                emit handNumberChanged();
+                handChanged = true;
             }
         }
     }
 
+    // ERST die Beträge neu berechnen, DANN die Runden-/Handgrenze signalisieren:
+    // QML setzt bei phaseText-/handNumber-Wechsel raiseAmount auf 0 und füllt
+    // ihn sofort wieder aus minRaiseAmount (Selbstheilung in GameActionBar).
+    // Feuerten die Signale VOR dem Recompute (alte Reihenfolge), sah dieses
+    // Re-Seeding noch die Werte der ALTEN Runde/Hand – und syncRaiseAmount()
+    // senkt einen einmal gesetzten Betrag nie wieder auf das frische Minimum
+    // ab (klemmt nur auf [min,max]). Folge: Default-Raise klebte z. B. am
+    // Preflop-Minimum (2×BB) statt dem BB am Flop zu folgen.
     computeCallAndRaiseAmounts();
+    if (phaseChanged)
+        emit phaseTextChanged();
+    if (handChanged)
+        emit handNumberChanged();
     // Nach computeCallAndRaiseAmounts() sind alle Werte der neuen Runde korrekt
     // (switchRounds() ist bereits abgeschlossen). QML kann die Vorauswahl nun
     // freischalten – unabhängig davon, ob callAmountChanged gefeuert hat.
@@ -960,11 +1011,22 @@ void GameHandler::onMeInAction()
              << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
     if (localGameCallbacksBlocked()) return;
     refreshPlayerData();
-    computeCallAndRaiseAmounts();
-    if (!m_myTurn) {
+    // m_myTurn ZUERST setzen, DANN die Beträge berechnen. computeCallAndRaiseAmounts()
+    // wertet roundClosed nur bei !m_myTurn aus – bin ich in Position (letzter Akteur)
+    // und alle Gegner haben gecheckt, sind alle Sets gleich (postflop 0) → roundClosed
+    // würde fälschlich true, newCanAct false und die Raise-Beträge blieben 0 (Slider/
+    // Bet gesperrt, nur All-In möglich). Da es hier gerade MEIN Zug wird, ist m_myTurn=true
+    // korrekt und schaltet die roundClosed-Fehlerkennung sauber ab.
+    //
+    // Das myTurnChanged-Signal ERST NACH dem Recompute feuern: QML reagiert darauf
+    // (onMyTurnChanged) u.a. mit dem Fokus-Umschalten ins Betrag-Feld, sofern
+    // raiseAvailable – das setzt korrekt berechnete min/maxRaiseAmount voraus.
+    const bool becameMyTurn = !m_myTurn;
+    if (becameMyTurn)
         m_myTurn = true;
+    computeCallAndRaiseAmounts();
+    if (becameMyTurn)
         emit myTurnChanged();
-    }
     qDebug() << "[ACTDBG] meInAction myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
     if (m_game) {
         auto dh = m_game->getCurrentHand();
@@ -1336,6 +1398,7 @@ void GameHandler::onNextRoundCleanGui()
     // Showdown beenden, bevor die Spielerdaten neu gebaut werden → Karten zu.
     setShowdownActive(false);
     m_allInRevealed = false;
+    m_postRiverShownPlayers.clear();
     if (m_canShowCards) {
         m_canShowCards = false;
         emit canShowCardsChanged();
@@ -1939,4 +2002,44 @@ void GameHandler::onFlipHolecardsAllIn()
     m_allInRevealed = true;
     qDebug() << "[ALLIN]   m_allInRevealed set to true, calling refreshPlayerData";
     refreshPlayerData();
+}
+
+void GameHandler::onPlayerShowCards(unsigned playerId)
+{
+    // Ein Spieler hat nach der Hand freiwillig seine Karten gezeigt. Die Engine
+    // hat setMyCards()/setMyCardsValueInt() im AfterHandShowCardsMessage-Handler
+    // (clientstate.cpp) bereits aktualisiert. Im Widgets-Client deckt
+    // gameTableImpl::showHoleCards die Karten auf und protokolliert die Aktion via
+    // setMyCardsFlip(1,1) → logFlipHoleCardsMsg. Beides fehlte im QML-Client, weil
+    // SignalNetClientPostRiverShowCards dort ein No-op war.
+    if (localGameCallbacksBlocked()) return;
+    if (!m_game) return;
+    auto hand = m_game->getCurrentHand();
+    if (!hand) return;
+    auto activeList = hand->getActivePlayerList();
+    if (!activeList) return;
+
+    for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+        if ((*it)->getMyUniqueID() != playerId)
+            continue;
+        int cards[2] = {-1, -1};
+        (*it)->getMyCards(cards);
+        if (cards[0] < 0 || cards[1] < 0)
+            return;
+        // Karten aufgedeckt lassen (bis zur nächsten Hand).
+        m_postRiverShownPlayers.insert(playerId);
+        // Spielverlauf protokollieren: "name shows [c0, c1] - \"Handname\""
+        // (wie logFlipHoleCardsMsg mit state=1 im Widgets-Client).
+        QString line = QString::fromStdString((*it)->getMyName())
+                     + " shows [" + logCard(cards[0]) + ", " + logCard(cards[1]) + "]";
+        const int cardsValueInt = (*it)->getMyCardsValueInt();
+        if (cardsValueInt != -1) {
+            std::string handName = CardsValue::determineHandName(cardsValueInt, activeList);
+            if (!handName.empty())
+                line += " - \"" + QString::fromStdString(handName) + "\"";
+        }
+        appendGameLog(line);
+        refreshPlayerData();
+        return;
+    }
 }

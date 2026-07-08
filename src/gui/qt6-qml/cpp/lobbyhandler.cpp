@@ -4,6 +4,7 @@
  *****************************************************************************/
 
 #include "lobbyhandler.h"
+#include "androidconnectionservice.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
@@ -583,6 +584,25 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
     m_gameListModel.clear();
     m_playerListModel.clear();
 
+    // Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
+    // ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
+    if (m_rejoinOfferGameId != 0) {
+        m_rejoinOfferGameId = 0;
+        emit rejoinOfferChanged();
+    }
+
+    // Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
+    // kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
+    // über den Reconnect hinweg stehen.
+    m_gameRunning = false;
+    if (m_isInGame) {
+        m_isInGame = false;
+        m_currentGameId = 0;
+        emit isInGameChanged();
+        emit currentGameIdChanged();
+    }
+    setCurrentGameAdmin(false);
+
     static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->setSession(m_session.get());
     static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setSession(m_session.get());
@@ -1034,6 +1054,27 @@ bool LobbyHandler::openExternalUrl(const QString &url) const
     return false;
 }
 
+QVariantList LobbyHandler::chatEmoteShortcodes() const
+{
+    // Einmal aufgebaut (die Map ist statisch); alphabetisch sortiert, damit
+    // die Vorschlagsliste der ChatBox stabil und vorhersehbar ist.
+    static const QVariantList list = [] {
+        const QHash<QString, QString> &m = chatEmoteShortcodeMap();
+        QStringList codes = m.keys();
+        codes.sort();
+        QVariantList l;
+        l.reserve(codes.size());
+        for (const QString &code : codes) {
+            QVariantMap entry;
+            entry.insert(QStringLiteral("code"), code);
+            entry.insert(QStringLiteral("emoji"), m.value(code));
+            l << entry;
+        }
+        return l;
+    }();
+    return list;
+}
+
 void LobbyHandler::sendChatMessage(const QString &message)
 {
     if (!m_session || message.trimmed().isEmpty())
@@ -1220,9 +1261,12 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
     // Determine theme-aware colours (matches Qt-widget palette.link / palette.text)
     const bool isDark       = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    const QString colorAccent = QLatin1String("#E3C800");                                    // accent gold
+    // Theme-aware chat colours: the bright dark-mode gold/red wash out on the
+    // light chat background, so use dimmed variants (Theme.colorAccentDim etc.)
+    // in light mode – same values the QML palette uses.
+    const QString colorAccent = isDark ? QLatin1String("#E3C800") : QLatin1String("#b09a00"); // accent gold
     const QString colorText   = isDark ? QLatin1String("#cdd3e0") : QLatin1String("#394150"); // secondary text
-    const QString colorDanger = QLatin1String("#e05050");                                    // chatbot warn
+    const QString colorDanger = isDark ? QLatin1String("#e05050") : QLatin1String("#c62828"); // chatbot warn
 
     // Detect /me action before escaping
     const bool isAction = message.startsWith(QLatin1String("/me "));
@@ -1288,6 +1332,16 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
 void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString &message)
 {
+    // PMs ignorierter Spieler verwerfen — der Widgets-Client filtert sie über
+    // denselben Ignore-Loop in ChatTools::receiveMessage (pm=true).
+    if (m_config) {
+        const std::list<std::string> ignoreList = m_config->readConfigStringList("PlayerIgnoreList");
+        for (const auto &entry : ignoreList) {
+            if (playerName == QString::fromUtf8(entry.c_str()))
+                return;
+        }
+    }
+
     // Colour for PMs: muted text (similar to chattools.cpp italic PM style)
     const bool isDark      = !m_config || (m_config->readConfigInt("DarkMode") != 0);
     const QString colorPM  = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
@@ -1351,7 +1405,8 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
                               int startCash, int firstSmallBlind,
                               int raiseIntervalMode, int raiseEveryHands,
                               int raiseEveryMinutes, int raiseMode,
-                              int playerActionTimeout, int delayBetweenHands)
+                              int playerActionTimeout, int delayBetweenHands,
+                              const QVariantList &manualBlinds)
 {
     if (!m_session) {
         emit errorOccurred(tr("Not connected to server"));
@@ -1368,6 +1423,10 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
     gameData.raiseSmallBlindEveryHandsValue   = raiseEveryHands;
     gameData.raiseSmallBlindEveryMinutesValue = raiseEveryMinutes;
     gameData.raiseMode                    = static_cast<RaiseMode>(raiseMode);
+    if (gameData.raiseMode == MANUAL_BLINDS_ORDER) {
+        for (const QVariant &blind : manualBlinds)
+            gameData.manualBlindsList.push_back(blind.toInt());
+    }
     gameData.afterManualBlindsMode        = AFTERMB_DOUBLE_BLINDS;
     gameData.afterMBAlwaysRaiseValue      = 0;
     gameData.guiSpeed                     = 4;
@@ -1400,6 +1459,8 @@ void LobbyHandler::leaveServer()
     // Verbindung zum Server trennen (wie startWindowImpl beim Verlassen der
     // Lobby) und den lokalen Lobby-Zustand zurücksetzen.
     m_session->terminateNetworkClient();
+    // Keine aktive Online-Session mehr → Foreground-Service beenden.
+    AndroidConnectionService::stop();
     m_gameRunning = false;
     if (m_isInGame) {
         m_isInGame = false;
@@ -1550,6 +1611,39 @@ QString LobbyHandler::playerInGameName(unsigned playerId) const
     return QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str());
 }
 
+// ── Rejoin nach Verbindungsabbruch ──────────────────────────────────────────
+// Der Server erkennt beim Login anhand von Spielername + alter Session-GUID,
+// dass noch eine laufende Spielsitzung existiert, und bietet sie im InitAck
+// an (rejoinGameId). Das Popup dazu zeigt die LobbyPage (rejoinOfferGameId).
+void LobbyHandler::onRejoinPossible(unsigned gameId)
+{
+    qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId;
+    if (m_rejoinOfferGameId == gameId)
+        return;
+    m_rejoinOfferGameId = gameId;
+    emit rejoinOfferChanged();
+}
+
+void LobbyHandler::acceptRejoin()
+{
+    const unsigned gameId = m_rejoinOfferGameId;
+    qDebug() << "[REJOIN] acceptRejoin: gameId=" << gameId;
+    m_rejoinOfferGameId = 0;
+    emit rejoinOfferChanged();
+    if (!m_session || gameId == 0)
+        return;
+    m_session->clientRejoinGame(gameId);
+}
+
+void LobbyHandler::declineRejoin()
+{
+    qDebug() << "[REJOIN] declineRejoin: gameId=" << m_rejoinOfferGameId;
+    if (m_rejoinOfferGameId != 0) {
+        m_rejoinOfferGameId = 0;
+        emit rejoinOfferChanged();
+    }
+}
+
 // ── Eingehende Spiel-Einladungen (Invite-Only-Spiele) ──────────────────────
 void LobbyHandler::onSelfGameInvitation(unsigned gameId, unsigned playerIdFrom)
 {
@@ -1603,7 +1697,9 @@ void LobbyHandler::onPlayerGameInvitation(unsigned gameId, unsigned playerIdWho,
     const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
     const QString from = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName).toHtmlEscaped();
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:#8ab4f8;\">")
+    const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
+    const QString colorInvite = isDark ? QLatin1String("#8ab4f8") : QLatin1String("#1a5fb4"); // info blue
+    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:") + colorInvite + QStringLiteral(";\">")
                  + tr("%1 has been invited to %2 by %3.").arg(who, game, from)
                  + QStringLiteral("</span>"));
 }
@@ -1618,7 +1714,9 @@ void LobbyHandler::onRejectedGameInvitation(unsigned gameId, unsigned playerIdWh
         ? tr("%1 cannot join %2 because he is busy.").arg(who, game)
         : tr("%1 has rejected the invitation to %2.").arg(who, game);
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:#e0686d;\">") + msg + QStringLiteral("</span>"));
+    const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
+    const QString colorReject = isDark ? QLatin1String("#e0686d") : QLatin1String("#c62828"); // reject red
+    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:") + colorReject + QStringLiteral(";\">") + msg + QStringLiteral("</span>"));
 }
 
 void LobbyHandler::adminBanPlayer(unsigned playerId)
@@ -1734,15 +1832,16 @@ void LobbyHandler::unignorePlayer(unsigned playerId)
 
 // ── Player stats ───────────────────────────────────────────────────────────
 
+// Löst die playerId zum Namen auf und meldet die Anfrage an QML
+// (pokerth.qml pusht die native PokerthPlayerPage) – früher wurde hier der
+// Browser-Link redirect_user_profile.php?nick=… geöffnet.
 void LobbyHandler::showPlayerStats(unsigned playerId)
 {
     if (playerId == 0) return;
     const QString playerName = resolvedPlayerName(playerId);
     if (playerName.isEmpty()) return;
 
-    const QString url = QString("https://www.pokerth.net/redirect_user_profile.php?nick=%1")
-        .arg(QString::fromUtf8(QUrl::toPercentEncoding(playerName)));
-    openExternalUrl(url);
+    emit playerStatsRequested(playerName);
 }
 
 // ── Domain text helpers ────────────────────────────────────────────────────

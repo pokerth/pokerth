@@ -7,6 +7,7 @@
 #include "serverconnectionhandler.h"
 #include "lobbyhandler.h"
 #include "gamehandler.h"
+#include "androidconnectionservice.h"
 #include "configfile.h"
 #include <session.h>
 #include <game.h>
@@ -54,6 +55,15 @@ void QmlGuiInterface::SignalNetClientConnect(int actionID)
             m_lobbyHandler->setSession(m_session);
         }, Qt::QueuedConnection);
     }
+
+    // Client-Start (actionID 1 = MSG_SOCK_INIT_DONE, alle Verbindungsarten:
+    // Internet, LAN-Join, eigener Host): Android-Foreground-Service starten,
+    // damit die Verbindung Hintergrund-Phasen (Doze/App-Freezer) übersteht.
+    // Gestoppt wird bei Netzwerkfehler (SignalNetClientError) und beim
+    // Verlassen des Servers (LobbyHandler::leaveServer).
+    if (actionID == 1) {
+        AndroidConnectionService::start();
+    }
 }
 
 void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
@@ -63,6 +73,14 @@ void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
             m_handler->onNetClientError(errorID, osErrorID);
         }, Qt::QueuedConnection);
     }
+    // Ein Netzwerkfehler beendet auch ein laufendes Netzwerkspiel → Spielzustand
+    // zurücksetzen (m_myTurn/m_game), wie bei SignalNetClientRemovedFromGame,
+    // damit keine späte Aktion in das tote Spiel läuft.
+    if (m_gameHandler) {
+        QMetaObject::invokeMethod(m_gameHandler, "onNetworkGameEnded", Qt::QueuedConnection);
+    }
+    // Verbindung ist weg → der Foreground-Service hat nichts mehr zu schützen.
+    AndroidConnectionService::stop();
 }
 
 void QmlGuiInterface::SignalNetClientLoginShow()
@@ -356,6 +374,17 @@ void QmlGuiInterface::SignalRejectedGameInvitation(unsigned gameId, unsigned pla
         const int r = static_cast<int>(reason);
         QMetaObject::invokeMethod(m_lobbyHandler, [this, gameId, playerIdWho, r]() {
             m_lobbyHandler->onRejectedGameInvitation(gameId, playerIdWho, r);
+        }, Qt::QueuedConnection);
+    }
+}
+
+void QmlGuiInterface::SignalNetClientRejoinPossible(unsigned gameId)
+{
+    // Server bietet nach Verbindungsabbruch das Fortsetzen der alten
+    // Spielsitzung an (InitAck.rejoinGameId). Kommt vom Netzwerk-Thread.
+    if (m_lobbyHandler) {
+        QMetaObject::invokeMethod(m_lobbyHandler, [this, gameId]() {
+            m_lobbyHandler->onRejoinPossible(gameId);
         }, Qt::QueuedConnection);
     }
 }
@@ -706,6 +735,16 @@ void QmlGuiInterface::flipHolecardsAllIn()
 {
     if (!m_gameHandler) return;
     QMetaObject::invokeMethod(m_gameHandler, "onFlipHolecardsAllIn", Qt::QueuedConnection);
+}
+
+void QmlGuiInterface::SignalNetClientPostRiverShowCards(unsigned playerId)
+{
+    // Ein anderer Spieler zeigt nach der Hand freiwillig seine Karten. Im
+    // Widgets-Client löst das gameTableImpl::showHoleCards aus (Karten aufdecken +
+    // Log). Hier an den GameHandler weiterreichen, statt es zu verschlucken.
+    if (!m_gameHandler) return;
+    QMetaObject::invokeMethod(m_gameHandler, "onPlayerShowCards", Qt::QueuedConnection,
+                              Q_ARG(unsigned, playerId));
 }
 
 void QmlGuiInterface::postRiverAnimation1()

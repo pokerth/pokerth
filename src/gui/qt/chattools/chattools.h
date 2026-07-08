@@ -76,6 +76,11 @@ public slots:
 	void nickAutoCompletition();
 	void setChatTextEdited();
 
+	// Offenes Shortcode-Vorschlags-Popup (":smi…")? Die Dialoge lassen dann
+	// Tab/Hoch/Runter in Ruhe (keine Nick-Vervollständigung/History), damit
+	// die Tasten das Popup steuern können.
+	bool shortcodeCompletionActive() const;
+
 	void setPlayerNicksList(QStringList value)
 	{
 		myNickStringList = value;
@@ -104,10 +109,15 @@ signals:
 protected:
 
 	unsigned parsePrivateMessageTarget(QString &chatText);
+	// Fängt Tab im Shortcode-Popup ab (Vorschlag übernehmen statt weiterreichen).
+	bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
 
 	void setupEmojiPickerAction();
+	void setupShortcodeCompleter();
+	void updateShortcodeCompletion();
+	void insertShortcodeCompletion(const QModelIndex &index);
 
 	QStringList chatLinesHistory;
 	QString lastChatString;
@@ -128,6 +138,13 @@ private:
 	gameLobbyDialogImpl *myLobby;
 
 	class EmojiPicker *myEmojiPicker;
+
+	// Shortcode-Autovervollständigung (":smi…" → 😄)
+	QCompleter *myShortcodeCompleter;
+	QStandardItemModel *myShortcodeModel;
+	QList<QPair<QString, QString> > myShortcodeList;   // (code, emoji), sortiert
+	QHash<QString, QIcon> myShortcodeIconCache;
+	int myShortcodeTokenStart;
 
 	std::list<std::string> ignoreList;
 };

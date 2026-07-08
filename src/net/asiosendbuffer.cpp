@@ -37,6 +37,7 @@
 #include <net/sessiondata.h>
 #include <net/netpacket.h>
 #include <core/loghelper.h>
+#include <core/pokerthexception.h>
 #if BOOST_VERSION >= 108400
 #include <boost/core/invoke_swap.hpp>
 #else
@@ -91,19 +92,30 @@ AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> sock
 			sendBufUsed = 0;
 			closeAfterSend = false;
 		} else {
-			// Write error - log and close socket
+			// Write error - the connection is broken.
 			LOG_ERROR("HandleWrite error: " << error.message());
-			boost::mutex::scoped_lock lock(dataMutex);
-			curWriteBufUsed = 0;
-			sendBufUsed = 0;  // Discard pending data
-			closeAfterSend = false;
-			try {
-				if (socket->is_open()) {
-					boost::system::error_code ec;
-					socket->close(ec);
-				}
-			} catch (...) {}
+			boost::shared_ptr<SessionData> session;
+			{
+				boost::mutex::scoped_lock lock(dataMutex);
+				curWriteBufUsed = 0;
+				sendBufUsed = 0;  // Discard pending data
+				closeAfterSend = false;
+				session = m_session.lock();
+			}
+			if (!CloseSessionOnWriteError(session)) {
+				// No session reachable - close the raw socket as last resort.
+				try {
+					if (socket->is_open()) {
+						boost::system::error_code ec;
+						socket->close(ec);
+					}
+				} catch (...) {}
+			}
 		}
+	} catch (const PokerTHException &) {
+		// Session close on the client throws to notify ClientThread::Main()
+		// (-> SignalNetClientError). Must not be swallowed here.
+		throw;
 	} catch (const std::exception& e) {
 		LOG_ERROR("Exception in HandleWrite: " << e.what());
 		boost::mutex::scoped_lock lock(dataMutex);
@@ -145,19 +157,30 @@ AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost:
             sendBufUsed = 0;
             closeAfterSend = false;
         } else {
-            // Write error - log and close socket
+            // Write error - the connection is broken.
             LOG_ERROR("HandleWriteSsl error: " << error.message());
-            boost::mutex::scoped_lock lock(dataMutex);
-            curWriteBufUsed = 0;
-            sendBufUsed = 0;  // Discard pending data
-            closeAfterSend = false;
-            try {
-                if (sslStream->lowest_layer().is_open()) {
-                    boost::system::error_code ec;
-                    sslStream->lowest_layer().close(ec);
-                }
-            } catch (...) {}
+            boost::shared_ptr<SessionData> session;
+            {
+                boost::mutex::scoped_lock lock(dataMutex);
+                curWriteBufUsed = 0;
+                sendBufUsed = 0;  // Discard pending data
+                closeAfterSend = false;
+                session = m_session.lock();
+            }
+            if (!CloseSessionOnWriteError(session)) {
+                // No session reachable - close the raw socket as last resort.
+                try {
+                    if (sslStream->lowest_layer().is_open()) {
+                        boost::system::error_code ec;
+                        sslStream->lowest_layer().close(ec);
+                    }
+                } catch (...) {}
+            }
         }
+    } catch (const PokerTHException &) {
+        // Session close on the client throws to notify ClientThread::Main()
+        // (-> SignalNetClientError). Must not be swallowed here.
+        throw;
     } catch (const std::exception& e) {
         LOG_ERROR("Exception in HandleWriteSsl: " << e.what());
         boost::mutex::scoped_lock lock(dataMutex);
@@ -173,12 +196,30 @@ AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost:
     }
 }
 
+bool
+AsioSendBuffer::CloseSessionOnWriteError(boost::shared_ptr<SessionData> session)
+{
+    if (!session)
+        return false;
+    // Report the broken connection through the session callback, exactly like
+    // a read error does: the client turns this into a NetException -> GUI
+    // network error, the server removes the session. Just closing the socket
+    // handle here would cancel the pending async_read with operation_aborted
+    // and nobody would ever learn about the disconnect - the client then
+    // hangs "connected" in a dead game without any error dialog.
+    if (session->GetState() != SessionData::Closed) {
+        session->Close(); // throws PokerTHException on the client (intended)
+    }
+    return true;
+}
+
 void
 AsioSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 {
     try {
         if (!session) return;
-        
+        m_session = session;
+
         // Prüfe ob Session noch offen ist
         if (session->GetState() == SessionData::Closed) {
             // Session bereits geschlossen, Puffer leeren
@@ -365,8 +406,9 @@ AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::strea
 }
 
 void
-AsioSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> /*session*/, boost::shared_ptr<NetPacket> packet)
+AsioSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
+	m_session = session;
 	uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);

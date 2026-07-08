@@ -45,11 +45,11 @@
 #define POKERTH_VERSION_MINOR	1
 #define POKERTH_VERSION			((POKERTH_VERSION_MAJOR << 8) | POKERTH_VERSION_MINOR)
 
-#define POKERTH_BETA_REVISION	0
-#define POKERTH_BETA_RELEASE_STRING	 "2.1.0"
+#define POKERTH_BETA_REVISION	2
+#define POKERTH_BETA_RELEASE_STRING	 "2.1.2"
 
 // --- Client type identifiers (encoded in high byte of buildId) ---
-#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.0)
+#define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.2)
 #define CLIENT_TYPE_QML			0x02	// QML client (starting at 2.1.0)
 
 // --- Build ID encoding: (clientType << 24) | (major << 16) | (minor << 8) | revision ---
@@ -65,21 +65,20 @@
 // The QML client continues the version scheme as 2.1.x.
 #define QML_VERSION_MAJOR		2
 #define QML_VERSION_MINOR		1
-#define QML_VERSION_REVISION	0
+#define QML_VERSION_REVISION	2
 
 // --- QML client production mode ---
-// Set to 1 once the official server (pokerth.net) supports CLIENT_TYPE_QML (expected in v2.1.0).
-// While 0, the QML client identifies itself as CLIENT_TYPE_QT_WIDGET to stay compatible
-// with the current official server (v2.0.8), which does not yet know CLIENT_TYPE_QML.
-// TODO: set to 1 when deploying QML client as the primary/official client.
-#define QML_CLIENT_PRODUCTION_MODE	0
+// Enabled since v2.1.1: the official server (pokerth.net, v2.1.0+) supports CLIENT_TYPE_QML,
+// so the QML client now identifies itself with its real client type and version.
+// (While 0, it identified as CLIENT_TYPE_QT_WIDGET for compatibility with servers < 2.1.0.)
+#define QML_CLIENT_PRODUCTION_MODE	1
 
 // --- Minimum supported build IDs (server rejects anything below) ---
 // Policy: current and previous release are allowed for each client type.
-// Qt Widget: min 2.0.8, current 2.1.0 (both allowed)
-#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 0, 8)
-// QML: update min to previous release with each new release (e.g. min=2.1.0 when releasing 2.1.1)
-#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
+// Qt Widget: min 2.1.1, current 2.1.2 (both allowed)
+#define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 1, 1)
+// QML: min 2.1.1, current 2.1.2 (both allowed); update min to previous release with each new release
+#define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 1)
 
 #define SQLITE_LOG_VERSION		1
 

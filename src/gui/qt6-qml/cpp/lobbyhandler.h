@@ -164,6 +164,11 @@ class LobbyHandler : public QObject
     Q_PROPERTY(int playerIgnoreListRevision READ playerIgnoreListRevision NOTIFY playerIgnoreListChanged)
     Q_PROPERTY(bool isInGame READ isInGame NOTIFY isInGameChanged)
     Q_PROPERTY(int currentGameId READ currentGameId NOTIFY currentGameIdChanged)
+    // Vom Server (InitAck) angebotenes Rejoin in ein laufendes Spiel nach
+    // Verbindungsabbruch (0 = kein Angebot). Die LobbyPage zeigt dazu ein
+    // Ja/Nein-Popup; als Property statt reinem Signal, weil das Angebot schon
+    // beim Login eintrifft - bevor die LobbyPage instanziiert ist.
+    Q_PROPERTY(int rejoinOfferGameId READ rejoinOfferGameId NOTIFY rejoinOfferChanged)
     // Persistenter Lobby-Chat-Verlauf (formatierte HTML-Zeilen). Erlaubt es
     // mehreren Seiten (Lobby + GameWait), denselben Chat inkl. History zu zeigen.
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
@@ -189,6 +194,7 @@ public:
     bool canInviteFromCurrentGame() const;
     bool isInGame() const { return m_isInGame; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
+    int  rejoinOfferGameId() const { return static_cast<int>(m_rejoinOfferGameId); }
     Q_INVOKABLE QString currentGameName() const;
     int playerListFilterMode() const { return m_playerListFilterMode; }
     int gameListFilterMode() const { return m_gameListFilterMode; }
@@ -239,6 +245,13 @@ public slots:
     // Ein Spieler ist meinem aktuellen Spiel beigetreten → Benachrichtigungs-
     // Sound (playerconnected bzw. onlinegameready, wenn das Spiel voll ist).
     void onGamePlayerJoined();
+    // Server bietet nach einem Verbindungsabbruch das Wiederaufnehmen der
+    // alten Spielsitzung an (InitAck.rejoinGameId). Von QmlGuiInterface
+    // aufgerufen; die LobbyPage zeigt dazu ein Ja/Nein-Popup.
+    void onRejoinPossible(unsigned gameId);
+    // Antwort aus QML auf das Rejoin-Popup.
+    Q_INVOKABLE void acceptRejoin();
+    Q_INVOKABLE void declineRejoin();
     // AFK-Timeout-Warnung des Servers (Lobby wie ingame) → QML-Popup + Beep.
     void onTimeoutWarning(int reason, int remainingSec);
     // Server-Meldung (Klartext bzw. msgId aus socket_msg.h) → QML-Info-Popup.
@@ -260,12 +273,15 @@ public slots:
     void onWaitGameDialog();
 
     // Player actions (QML-invokable)
+    // manualBlinds: nur relevant bei raiseMode == MANUAL_BLINDS_ORDER (2);
+    // feste Blindliste, z.B. für die Community-Vorlagen (BBC Steps).
     Q_INVOKABLE void createGame(const QString &name, const QString &password,
                                int gameType, bool allowSpectators, int maxPlayers,
                                int startCash, int firstSmallBlind,
                                int raiseIntervalMode, int raiseEveryHands,
                                int raiseEveryMinutes, int raiseMode,
-                               int playerActionTimeout, int delayBetweenHands);
+                               int playerActionTimeout, int delayBetweenHands,
+                               const QVariantList &manualBlinds = QVariantList());
     Q_INVOKABLE void kickPlayer(unsigned playerId);
     Q_INVOKABLE void invitePlayer(unsigned playerId);
     Q_INVOKABLE bool isPlayerInAnyGame(unsigned playerId) const;
@@ -285,6 +301,11 @@ public slots:
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
     Q_INVOKABLE bool openExternalUrl(const QString &url) const;
+    // Alle unterstützten Emoji-Shortcodes (":smile:" → 😄) als sortierte Liste
+    // von {code, emoji} für die Autovervollständigung der ChatBox. Quelle ist
+    // dieselbe Map, die beim Senden ersetzt (chat_emote_shortcuts.h) – es wird
+    // also nur angeboten, was auch wirklich funktioniert.
+    Q_INVOKABLE QVariantList chatEmoteShortcodes() const;
     Q_INVOKABLE bool isPlayerIgnored(unsigned playerId) const;
     Q_INVOKABLE void ignorePlayer(unsigned playerId);
     Q_INVOKABLE void unignorePlayer(unsigned playerId);
@@ -322,8 +343,12 @@ signals:
     void playerListRevisionChanged();
     void gameListRevisionChanged();
     void playerIgnoreListChanged();
+    // "Show player stats" (Lobby-Icon / Tisch-Kontextmenü): QML zeigt die
+    // native Player-Page des Spielers.
+    void playerStatsRequested(const QString &playerName);
     void isInGameChanged();
     void currentGameIdChanged();
+    void rejoinOfferChanged();
 
 private:
     // Hängt eine fertig formatierte Chat-Zeile an den Verlauf an (begrenzt) und
@@ -346,6 +371,8 @@ private:
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;
+    // Vom Server angebotenes Rejoin nach Verbindungsabbruch (0 = keines).
+    unsigned m_rejoinOfferGameId = 0;
     bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
     bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;

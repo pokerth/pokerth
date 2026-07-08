@@ -19,6 +19,11 @@ Settings {
 
     property bool showCommunityContent: true
 
+    // Vorausgewählte Ranglisten-Quelle ("pokerth" | "bbc" | "wec") für Table
+    // Info und Player Stats, wenn Community-Inhalte aktiv sind. Auswahl siehe
+    // Config.Community.entries.
+    property string defaultCommunity: "pokerth"
+
     // Tooltips auf Icon-Buttons (nur Desktop – auf Touch gibt es kein Hover).
     property bool showTooltips: true
 

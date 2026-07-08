@@ -93,12 +93,8 @@ Rectangle {
                 if (nick === "")
                     return
                 bbcPage.StackView.view.push("qrc:/components/CommunityPlayerView.qml", {
-                    baseUrl: "https://bbc.pokerth.net",
-                    nickname: nick,
-                    blocks: [
-                        { label: qsTr("This season"), key: "season" },
-                        { label: qsTr("All-time"),    key: "alltime" }
-                    ]
+                    community: "bbc",
+                    nickname: nick
                 })
             }
 

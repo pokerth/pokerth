@@ -14,7 +14,83 @@ Rectangle {
 
     // Ranking-Konstanten (vom Server vorgegeben)
     readonly property bool isRanking: gameTypeCombo.currentIndex === 3
+    readonly property bool isInviteOnly: gameTypeCombo.currentIndex === 2
     property string nameError: ""
+
+    // ── Community-Vorlagen (BBC / Monthly Cup / WEC) ─────────────────────────
+    // Offizielle Turnier-Settings der PokerTH-Community. Nur für Custom-Spiele
+    // vom Typ "Nur eingeladene Spieler" und nur bei aktiviertem Community-
+    // Inhalt wählbar. BBC Steps nutzen eine feste Blindliste (Erhöhung alle
+    // 5 Minuten), Monthly Cup und WEC verdoppeln die Blinds nach Handzahl.
+    readonly property var communityPresets: [
+        { name: "BBC Step 1", startCash: 3000, firstSmallBlind: 15,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500,
+                   600, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000,
+                   10000, 12000, 15000] },
+        { name: "BBC Step 2", startCash: 4000, firstSmallBlind: 20,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [25, 30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600,
+                   800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000,
+                   12000, 15000, 20000] },
+        { name: "BBC Step 3", startCash: 5000, firstSmallBlind: 25,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800,
+                   1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000,
+                   12000, 15000, 20000, 25000] },
+        { name: "BBC Step 4", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800, 1000, 1200,
+                   1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 15000,
+                   20000, 25000, 30000, 40000, 50000] },
+        { name: "Monthly Cup", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 16, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [] },
+        { name: "Monthly Cup Final", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
+          blinds: [] },
+        { name: "WEC", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
+          blinds: [] },
+        { name: "WEC Grand Final", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 35, raiseEveryMinutes: 5, playerActionTimeout: 25,
+          blinds: [] }
+    ]
+    readonly property var activePreset: (Config.Parameters.showCommunityContent
+                                         && isInviteOnly
+                                         && presetCombo.currentIndex > 0)
+        ? communityPresets[presetCombo.currentIndex - 1] : null
+    readonly property bool presetActive: activePreset !== null
+    // Sperrt die vom Server (Ranking) bzw. von der Vorlage vorgegebenen Felder.
+    readonly property bool fieldsLocked: isRanking || presetActive
+
+    // Überträgt die gewählte Vorlage in die Formularfelder bzw. stellt bei
+    // "Eigene Einstellungen" die Standardwerte wieder her.
+    function applyPreset() {
+        var p = activePreset
+        if (!p) {
+            maxPlayersSpinBox.value = 10
+            startCashSpinBox.value = 3000
+            firstBlindSpinBox.value = 10
+            raiseByMinutesRadio.checked = false
+            raiseByHandsRadio.checked = true
+            raiseEveryHandsSpinBox.value = 8
+            raiseEveryMinutesSpinBox.value = 5
+            playerActionTimeoutSpinBox.value = 20
+            delayBetweenHandsSpinBox.value = 7
+            return
+        }
+        gameNameField.text = p.name
+        maxPlayersSpinBox.value = 10
+        startCashSpinBox.value = p.startCash
+        firstBlindSpinBox.value = p.firstSmallBlind
+        raiseByHandsRadio.checked = p.raiseOnHands
+        raiseByMinutesRadio.checked = !p.raiseOnHands
+        raiseEveryHandsSpinBox.value = p.raiseEveryHands
+        raiseEveryMinutesSpinBox.value = p.raiseEveryMinutes
+        playerActionTimeoutSpinBox.value = p.playerActionTimeout
+        delayBetweenHandsSpinBox.value = 7   // alle Vorlagen: DelayBetweenHands=7
+    }
 
     // ── Hilfsfunktion: gestylter ComboBox-Popup ──────────────────────────────
     component StyledCombo: ComboBox {
@@ -250,6 +326,54 @@ Rectangle {
                             qsTr("Nur eingeladene Spieler"),
                             qsTr("Ranglistenspiel")
                         ]
+                        // Merkt sich den letzten Ranking-Status, damit die
+                        // Zeitwerte nur beim Wechsel von/zu "Ranglistenspiel"
+                        // zurückgesetzt werden.
+                        property bool wasRanking: false
+                        onCurrentIndexChanged: {
+                            // Vorlagen gelten nur für "Nur eingeladene Spieler":
+                            // beim Wechsel des Spieltyps Vorlage zurücksetzen.
+                            if (currentIndex !== 2 && presetCombo.currentIndex !== 0) {
+                                presetCombo.currentIndex = 0
+                                lobbyCreateGamePage.applyPreset()
+                            }
+                            // Ranglistenspiele: kurze Zeiten (5 s / 5 s)
+                            // voreinstellen, sonst Standardwerte.
+                            var ranking = currentIndex === 3
+                            if (ranking !== wasRanking) {
+                                wasRanking = ranking
+                                playerActionTimeoutSpinBox.value = ranking ? 5 : 20
+                                delayBetweenHandsSpinBox.value = ranking ? 5 : 7
+                            }
+                        }
+                    }
+                }
+
+                // Community-Vorlage (nur für Einladungsspiele bei aktiviertem
+                // Community-Inhalt)
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    visible: Config.Parameters.showCommunityContent
+                             && lobbyCreateGamePage.isInviteOnly
+                    AppLabel {
+                        text: qsTr("Community-Vorlage")
+                        color: Config.StaticData.palette.secondary.col200
+                        font.pixelSize: 12
+                        Layout.preferredWidth: 150
+                        verticalAlignment: Text.AlignVCenter
+                        Layout.alignment: Qt.AlignVCenter
+                    }
+                    StyledCombo {
+                        id: presetCombo
+                        Layout.fillWidth: true
+                        model: [
+                            qsTr("Eigene Einstellungen"),
+                            "BBC Step 1", "BBC Step 2", "BBC Step 3", "BBC Step 4",
+                            "Monthly Cup", "Monthly Cup Final",
+                            "WEC", "WEC Grand Final"
+                        ]
+                        onActivated: lobbyCreateGamePage.applyPreset()
                     }
                 }
 
@@ -309,7 +433,7 @@ Rectangle {
                     spacing: 8
                     AppLabel {
                         text: qsTr("Max. Spieler")
-                        color: lobbyCreateGamePage.isRanking
+                        color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
@@ -322,7 +446,7 @@ Rectangle {
                         from: 2
                         to: 10
                         value: lobbyCreateGamePage.isRanking ? 10 : 10
-                        enabled: !lobbyCreateGamePage.isRanking
+                        enabled: !lobbyCreateGamePage.fieldsLocked
                     }
                 }
 
@@ -332,7 +456,7 @@ Rectangle {
                     spacing: 8
                     AppLabel {
                         text: qsTr("Startgeld")
-                        color: lobbyCreateGamePage.isRanking
+                        color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
@@ -346,7 +470,7 @@ Rectangle {
                         to: 1000000
                         stepSize: 50
                         value: lobbyCreateGamePage.isRanking ? 10000 : 3000
-                        enabled: !lobbyCreateGamePage.isRanking
+                        enabled: !lobbyCreateGamePage.fieldsLocked
                         textFromValue: function(val) { return "$\u2009" + val }
                         valueFromText: function(text) { return parseInt(text.replace(/[^0-9]/g, "")) || 0 }
                     }
@@ -374,7 +498,7 @@ Rectangle {
                     spacing: 8
                     AppLabel {
                         text: qsTr("Erster Small Blind")
-                        color: lobbyCreateGamePage.isRanking
+                        color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
@@ -387,7 +511,7 @@ Rectangle {
                         from: 5
                         to: 20000
                         value: lobbyCreateGamePage.isRanking ? 50 : 10
-                        enabled: !lobbyCreateGamePage.isRanking
+                        enabled: !lobbyCreateGamePage.fieldsLocked
                         textFromValue: function(val) { return "$\u2009" + val }
                         valueFromText: function(text) { return parseInt(text.replace(/[^0-9]/g, "")) || 0 }
                     }
@@ -400,10 +524,18 @@ Rectangle {
 
                     AppLabel {
                         text: qsTr("Blind-Erhöhungsintervall")
-                        color: lobbyCreateGamePage.isRanking
+                        color: lobbyCreateGamePage.fieldsLocked
                             ? Config.StaticData.palette.secondary.col400
                             : Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
+                    }
+
+                    // Die beiden Radios liegen in unterschiedlichen RowLayouts
+                    // und wären ohne explizite Gruppe nicht wechselseitig
+                    // exklusiv (autoExclusive wirkt nur unter Geschwistern).
+                    ButtonGroup {
+                        id: raiseIntervalGroup
+                        buttons: [raiseByHandsRadio, raiseByMinutesRadio]
                     }
 
                     RowLayout {
@@ -412,7 +544,7 @@ Rectangle {
                         RadioButton {
                             id: raiseByHandsRadio
                             checked: true
-                            enabled: !lobbyCreateGamePage.isRanking
+                            enabled: !lobbyCreateGamePage.fieldsLocked
                             text: qsTr("Alle")
                         }
                         CustomSpinBox {
@@ -420,12 +552,12 @@ Rectangle {
                             from: 1
                             to: 999
                             value: lobbyCreateGamePage.isRanking ? 11 : 8
-                            enabled: !lobbyCreateGamePage.isRanking && raiseByHandsRadio.checked
+                            enabled: !lobbyCreateGamePage.fieldsLocked && raiseByHandsRadio.checked
                             implicitWidth: 110
                         }
                         AppLabel {
                             text: qsTr("Hände")
-                            color: (raiseByHandsRadio.checked && !lobbyCreateGamePage.isRanking)
+                            color: (raiseByHandsRadio.checked && !lobbyCreateGamePage.fieldsLocked)
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
                             font.pixelSize: 12
@@ -440,7 +572,7 @@ Rectangle {
                         RadioButton {
                             id: raiseByMinutesRadio
                             checked: false
-                            enabled: !lobbyCreateGamePage.isRanking
+                            enabled: !lobbyCreateGamePage.fieldsLocked
                             text: qsTr("Alle")
                         }
                         CustomSpinBox {
@@ -448,18 +580,31 @@ Rectangle {
                             from: 1
                             to: 60
                             value: 5
-                            enabled: !lobbyCreateGamePage.isRanking && raiseByMinutesRadio.checked
+                            enabled: !lobbyCreateGamePage.fieldsLocked && raiseByMinutesRadio.checked
                             implicitWidth: 110
                         }
                         AppLabel {
                             text: qsTr("Minuten")
-                            color: (raiseByMinutesRadio.checked && !lobbyCreateGamePage.isRanking)
+                            color: (raiseByMinutesRadio.checked && !lobbyCreateGamePage.fieldsLocked)
                                 ? Config.StaticData.palette.secondary.col200
                                 : Config.StaticData.palette.secondary.col400
                             font.pixelSize: 12
                             verticalAlignment: Text.AlignVCenter
                             Layout.alignment: Qt.AlignVCenter
                         }
+                    }
+
+                    // Feste Blindliste der gewählten Community-Vorlage (BBC)
+                    AppLabel {
+                        visible: lobbyCreateGamePage.presetActive
+                                 && lobbyCreateGamePage.activePreset.blinds.length > 0
+                        Layout.fillWidth: true
+                        text: visible
+                            ? qsTr("Blindliste: %1").arg(lobbyCreateGamePage.activePreset.blinds.join(" · "))
+                            : ""
+                        color: Config.StaticData.palette.secondary.col300
+                        font.pixelSize: 11
+                        wrapMode: Text.WordWrap
                     }
                 }
 
@@ -485,7 +630,9 @@ Rectangle {
                     spacing: 8
                     AppLabel {
                         text: qsTr("Zeitlimit Spieleraktion")
-                        color: Config.StaticData.palette.secondary.col200
+                        color: lobbyCreateGamePage.presetActive
+                            ? Config.StaticData.palette.secondary.col400
+                            : Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -496,6 +643,7 @@ Rectangle {
                         from: 5
                         to: 60
                         value: 20
+                        enabled: !lobbyCreateGamePage.presetActive
                         textFromValue: function(val) { return val + "\u2009s" }
                         valueFromText: function(text) { return parseInt(text) || 0 }
                     }
@@ -507,7 +655,9 @@ Rectangle {
                     spacing: 8
                     AppLabel {
                         text: qsTr("Pause zwischen Händen")
-                        color: Config.StaticData.palette.secondary.col200
+                        color: lobbyCreateGamePage.presetActive
+                            ? Config.StaticData.palette.secondary.col400
+                            : Config.StaticData.palette.secondary.col200
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -518,6 +668,7 @@ Rectangle {
                         from: 5
                         to: 20
                         value: 7
+                        enabled: !lobbyCreateGamePage.presetActive
                         textFromValue: function(val) { return val + "\u2009s" }
                         valueFromText: function(text) { return parseInt(text) || 0 }
                     }
@@ -561,7 +712,11 @@ Rectangle {
                             var riMode  = isRanking ? 1 : (raiseByHandsRadio.checked ? 1 : 2)
                             var rHands  = isRanking ? 11   : raiseEveryHandsSpinBox.value
                             var rMins   = raiseEveryMinutesSpinBox.value
-                            var rMode   = 1  // immer verdoppeln (DOUBLE_BLINDS)
+                            // Community-Vorlage mit fester Blindliste (BBC Steps)
+                            // → manuelle Blindreihenfolge, sonst immer verdoppeln.
+                            var preset  = lobbyCreateGamePage.activePreset
+                            var blinds  = (preset && preset.blinds.length > 0) ? preset.blinds : []
+                            var rMode   = blinds.length > 0 ? 2 : 1  // MANUAL_BLINDS_ORDER : DOUBLE_BLINDS
                             var specs   = isRanking ? true : spectatorsToggle.checked
                             var pw      = (passwordToggle.checked && !isRanking) ? passwordField.text : ""
 
@@ -578,7 +733,8 @@ Rectangle {
                                 rMins,
                                 rMode,
                                 playerActionTimeoutSpinBox.value,
-                                delayBetweenHandsSpinBox.value
+                                delayBetweenHandsSpinBox.value,
+                                blinds
                             )
                             // Navigation erfolgt über onSelfJoinedGame in LobbyPage
                         }

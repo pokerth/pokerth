@@ -1,3 +1,31 @@
+2026-07-08 version 2.1.2:
+- new: two more card decks ported - nobus 4c classic, xanax (QML)
+- new: import/export of themes as ZIP (QML)
+- new: ranking pages with column sorting (QML)
+- new: option to pre-select the default community for stats and ranking pages (QML)
+- improvement: PokerTH and community player statistics pages refined (QML)
+- improvement: more compact odds display with less scrolling (QML)
+- improvement: show-cards handling at showdown (QML)
+- bugfix: chatbox colors in light mode (QML)
+- bugfix: double quotes in chat messages (QML)
+- bugfix: log interval setting (QML)
+
+2026-07-06 version 2.1.1:
+- QML client now runs in production mode: it identifies itself to the server with its own client type and version
+- new: player statistics page with switch between local and community stats (QML)
+- new: player info page on the game table (QML)
+- new: emote shortcodes in chat (widget & QML)
+- new: avatar selection on Android (QML)
+- new: table admin can kick players from the game-wait page in custom games (QML)
+- new: re-join running games after a disconnect (QML)
+- bugfix: stale default bet amount after round transition, e.g. 2x big blind offered at the flop (QML)
+- bugfix: AFK timeout warning popup could stay open forever after a disconnect (QML)
+- bugfix: possible fix for emoji font rendering on Windows (widget)
+- follow-up: game creation dialog fine-tuned (QML)
+- follow-up: ignore-players hardening (QML)
+- android: better disconnect handling, app-resume hardening, more robust network send/receive buffers
+- packaging: Snap fine-tuning
+
 2026-07-03 version 2.1.0:
 - new QML client now stable, shipped alongside the Widget client
 - bugfix: LAN game server profiles were never actually saved/loaded (widget)

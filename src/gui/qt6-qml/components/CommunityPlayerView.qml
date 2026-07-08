@@ -18,10 +18,23 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    property string baseUrl: ""
+    // Quelle ("bbc" | "wec") – legt Basis-URL und Stat-Blöcke fest.
+    property string community: ""
     property string nickname: ""
-    // [{ label, key }] – key referenziert einen Block in stats.
-    property var blocks: []
+
+    readonly property string baseUrl: community !== "" ? Config.Community.baseUrlFor(community) : ""
+    // [{ label, key }] – key referenziert einen Block in stats. Reihenfolge +
+    // Überschrift je Quelle (BBC: Saison/All-time, WEC: Monat/Jahr/All-time).
+    readonly property var blocks: {
+        if (community === "bbc")
+            return [ { label: qsTr("This season"), key: "season" },
+                     { label: qsTr("All-time"),    key: "alltime" } ]
+        if (community === "wec")
+            return [ { label: qsTr("This month"), key: "month" },
+                     { label: qsTr("This year"),  key: "year" },
+                     { label: qsTr("All-time"),   key: "alltime" } ]
+        return []
+    }
 
     readonly property bool compact: Config.Responsive.compact
     // Awards: responsive – auf Desktop groß genug zum Lesen, auf Mobilgeräten kompakter.
@@ -168,6 +181,20 @@ Rectangle {
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
+
+                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
+                // Player-Page der gewählten Quelle (gleicher Nickname).
+                CommunitySwitch {
+                    Layout.alignment: Qt.AlignTop
+                    current: playerView.community
+                    onSelected: function(community) {
+                        var nick = (playerView.player && playerView.player.nickname)
+                                   ? playerView.player.nickname : playerView.nickname
+                        playerView.StackView.view.replace(
+                            Config.Community.playerPageUrl(community),
+                            Config.Community.playerPageProps(community, nick))
+                    }
+                }
             }
 
             // ── Awards (BBC) – eigene Zeile über die volle Breite, damit der
@@ -311,6 +338,29 @@ Rectangle {
                     readonly property var statData:
                         (playerView.stats && playerView.stats[modelData.key])
                         ? playerView.stats[modelData.key] : null
+                    // BBC vs. WEC: places ist bei BBC ein Array von Steps (je ein
+                    // 10er-Array Platz 1–10 oder null), bei WEC eine einzelne flache
+                    // 10er-Verteilung. `stepped` = BBC-Form (Step-Tabs), sonst genau
+                    // ein Ergebnis ohne Tabs.
+                    readonly property bool stepped: {
+                        var pl = (statData && statData.places) ? statData.places : []
+                        return pl.length > 0 && Array.isArray(pl[0])
+                    }
+                    readonly property var steps: {
+                        var out = []
+                        var pl = (statData && statData.places) ? statData.places : []
+                        if (pl.length === 0)
+                            return out
+                        if (Array.isArray(pl[0])) {
+                            for (var i = 0; i < pl.length; ++i)
+                                if (pl[i] && pl[i].length)
+                                    out.push({ label: qsTr("Step %1").arg(i + 1), data: pl[i] })
+                        } else {
+                            out.push({ label: "", data: pl })
+                        }
+                        return out
+                    }
+                    readonly property var stepLabels: steps.map(function(s) { return s.label })
                     Layout.fillWidth: true
                     spacing: 6
 
@@ -359,6 +409,43 @@ Rectangle {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    // ── Results: Platzierungs-Verteilung je Step ────────────
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: 14
+                        spacing: 8
+                        visible: blockItem.steps.length > 0
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 10
+                            AppLabel {
+                                text: qsTr("Results:")
+                                color: Config.StaticData.palette.secondary.col200
+                                font.pixelSize: Config.Theme.fontSizeBody
+                                font.bold: true
+                            }
+                            CustomTabBar {
+                                id: stepBar
+                                visible: blockItem.stepped
+                                Layout.fillWidth: false
+                                Layout.preferredWidth: Math.max(1, blockItem.steps.length) * 74
+                                tabHeight: 26
+                                model: blockItem.stepLabels
+                            }
+                            Item { Layout.fillWidth: true }
+                        }
+
+                        PlacementResult {
+                            Layout.fillWidth: true
+                            readonly property int step:
+                                Math.min(stepBar.currentIndex, blockItem.steps.length - 1)
+                            values: (blockItem.steps.length > 0 && step >= 0)
+                                    ? blockItem.steps[step].data : []
+                            barColors: Config.StaticData.heatColors
                         }
                     }
                 }

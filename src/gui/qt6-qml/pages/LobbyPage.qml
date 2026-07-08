@@ -1501,7 +1501,97 @@ Rectangle {
         }
     }
 
+    // ── Rejoin nach Verbindungsabbruch ──────────────────────────────────────
+    // Der Server hat beim Login eine noch laufende Spielsitzung erkannt
+    // (InitAck.rejoinGameId → Lobby.rejoinOfferGameId). Ja/Nein-Popup analog
+    // zum Qt-Widgets-Client (callRejoinPossibleDialog).
+    Popup {
+        id: rejoinGamePopup
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        closePolicy: Popup.CloseOnEscape
+
+        property bool answered: false
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: Math.min(lobbyPage.width * 0.85, 360)
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Rejoin possible")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("There is an existing session with a previous game.<br>Do you want to rejoin this game?")
+                textFormat: Text.RichText
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+                CustomButton {
+                    text: qsTr("No")
+                    Layout.fillWidth: true
+                    onClicked: rejoinGamePopup.respond(false)
+                }
+                CustomButton {
+                    text: qsTr("Rejoin")
+                    Layout.fillWidth: true
+                    onClicked: rejoinGamePopup.respond(true)
+                }
+            }
+        }
+
+        function respond(accepted) {
+            answered = true
+            if (accepted)
+                Lobby.acceptRejoin()
+            else
+                Lobby.declineRejoin()
+            close()
+        }
+        onClosed: {
+            // Ohne Auswahl geschlossen (Escape) → Angebot verwerfen, damit es
+            // nicht bei jedem erneuten Öffnen der Seite wieder aufpoppt.
+            if (!answered)
+                Lobby.declineRejoin()
+        }
+    }
+
+    Connections {
+        target: Lobby
+        function onRejoinOfferChanged() {
+            if (Lobby.rejoinOfferGameId !== 0) {
+                lobbyPage.showingPlayerList = false
+                lobbyPage.showingGameInfo = false
+                rejoinGamePopup.answered = false
+                rejoinGamePopup.open()
+            }
+        }
+    }
+
     Component.onCompleted: {
+        // Das Rejoin-Angebot trifft mit dem InitAck ein, bevor diese Seite
+        // instanziiert ist (StackView lädt asynchron) → beim Laden nachholen.
+        if (Lobby.rejoinOfferGameId !== 0) {
+            rejoinGamePopup.answered = false
+            Qt.callLater(function() { rejoinGamePopup.open() })
+        }
         // console.log("LobbyPage loaded")
         // console.log("My player name:", Lobby.myPlayerName)
         // console.log("Player model count:", Lobby.playerListModel.rowCount())

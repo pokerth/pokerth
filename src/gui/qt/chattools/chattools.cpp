@@ -159,11 +159,12 @@ QString wrapEmojisLarger(const QString &msg, int pixelSize)
 } // namespace
 
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 	setupEmojiPickerAction();
+	setupShortcodeCompleter();
 }
 
 void ChatTools::setupEmojiPickerAction()
@@ -202,6 +203,162 @@ void ChatTools::setupEmojiPickerAction()
 		}
 		myEmojiPicker->showAt(myLineEdit);
 	});
+}
+
+// Autovervollständigung für Emoji-Shortcodes (":smi…" → 😄), wie die ChatBox
+// des QML-Clients. Vorschläge kommen aus derselben Map, die beim Anzeigen
+// ersetzt (chat_emote_shortcuts.h) – angeboten wird nur, was auch wirklich
+// funktioniert. Der QCompleter liefert dabei nur Popup, Tastatur-Navigation
+// (Hoch/Runter/Enter/Esc) und activated(); gefiltert und sortiert wird selbst
+// (UnfilteredPopupCompletion), damit Präfix- vor Substring-Treffern stehen.
+void ChatTools::setupShortcodeCompleter()
+{
+	if (!myLineEdit)
+		return;
+
+	const QHash<QString, QString> &map = chatEmoteShortcodeMap();
+	QStringList codes = map.keys();
+	codes.sort();
+	myShortcodeList.reserve(codes.size());
+	QStringListIterator it(codes);
+	while (it.hasNext()) {
+		const QString code = it.next();
+		myShortcodeList.append(qMakePair(code, map.value(code)));
+	}
+
+	myShortcodeModel = new QStandardItemModel(this);
+	myShortcodeCompleter = new QCompleter(myShortcodeModel, this);
+	myShortcodeCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+	myShortcodeCompleter->setMaxVisibleItems(8);
+	// Bewusst setWidget() statt QLineEdit::setCompleter(): Letzteres würde bei
+	// Übernahme die GANZE Zeile ersetzen – hier wird nur der Token ersetzt.
+	myShortcodeCompleter->setWidget(myLineEdit);
+	QObject::connect(myShortcodeCompleter, QOverload<const QModelIndex &>::of(&QCompleter::activated),
+	                 this, &ChatTools::insertShortcodeCompletion);
+	// Tab soll den markierten Vorschlag übernehmen (wie im QML-Client) –
+	// eigener Filter auf dem Popup macht das deterministisch (s. eventFilter).
+	myShortcodeCompleter->popup()->installEventFilter(this);
+
+	// textEdited statt textChanged: programmatisches setText (History-Abruf,
+	// Längen-Kürzung) soll das Popup nicht öffnen.
+	QObject::connect(myLineEdit, &QLineEdit::textEdited,
+	                 this, &ChatTools::updateShortcodeCompletion);
+	// Cursorbewegung kann den Token unter dem Cursor ändern – aber nur bei
+	// bereits offenem Popup neu bewerten (setText bewegt auch den Cursor).
+	QObject::connect(myLineEdit, &QLineEdit::cursorPositionChanged,
+	                 this, [this](int, int) {
+		if (shortcodeCompletionActive())
+			updateShortcodeCompletion();
+	});
+}
+
+bool ChatTools::shortcodeCompletionActive() const
+{
+	return myShortcodeCompleter && myShortcodeCompleter->popup()->isVisible();
+}
+
+void ChatTools::updateShortcodeCompletion()
+{
+	if (!myShortcodeCompleter)
+		return;
+	const QString upto = myLineEdit->text().left(myLineEdit->cursorPosition());
+	// Token = ":" (am Anfang oder nach Leerzeichen) + mindestens 2 Code-
+	// Zeichen direkt vor dem Cursor (wie ChatBox.qml): so kollidieren die
+	// ASCII-Kürzel (":P", ":D") nicht mit dem Popup, und der schließende ":"
+	// eines fertig getippten Shortcodes schließt das Popup von selbst.
+	static const QRegularExpression tokenRe(QStringLiteral("(?:^|\\s):([a-z0-9_+-]{2,})$"));
+	const QRegularExpressionMatch match = tokenRe.match(upto);
+	if (!match.hasMatch()) {
+		myShortcodeCompleter->popup()->hide();
+		return;
+	}
+	const QString typed = match.captured(1);
+	myShortcodeTokenStart = int(upto.size() - typed.size()) - 1;
+
+	// Präfix-Treffer vor Substring-Treffern, jeweils alphabetisch.
+	QList<QPair<QString, QString> > prefix, substr;
+	QListIterator<QPair<QString, QString> > it(myShortcodeList);
+	while (it.hasNext()) {
+		const QPair<QString, QString> &entry = it.next();
+		const int idx = entry.first.indexOf(typed);
+		if (idx == 0)
+			prefix.append(entry);
+		else if (idx > 0)
+			substr.append(entry);
+	}
+	prefix += substr;
+
+	myShortcodeModel->clear();
+	static const int maxRows = 30;
+	for (int i = 0; i < prefix.size() && i < maxRows; ++i) {
+		const QString &code = prefix.at(i).first;
+		const QString &emoji = prefix.at(i).second;
+		// Emoji als Icon rendern (EmojiPicker::emojiIcon garantiert die
+		// Zielgröße des Bitmap-Emoji-Fonts) und cachen.
+		QHash<QString, QIcon>::const_iterator cached = myShortcodeIconCache.constFind(emoji);
+		if (cached == myShortcodeIconCache.constEnd())
+			cached = myShortcodeIconCache.insert(emoji, EmojiPicker::emojiIcon(emoji, 18));
+		QStandardItem *item = new QStandardItem(cached.value(), QString(":%1:").arg(code));
+		item->setData(emoji, Qt::UserRole);
+		item->setEditable(false);
+		myShortcodeModel->appendRow(item);
+	}
+	if (myShortcodeModel->rowCount() == 0) {
+		myShortcodeCompleter->popup()->hide();
+		return;
+	}
+	myShortcodeCompleter->complete();
+	// Ersten Vorschlag vorauswählen, damit Enter/Tab sofort übernehmen.
+	myShortcodeCompleter->popup()->setCurrentIndex(
+		myShortcodeCompleter->completionModel()->index(0, 0));
+}
+
+void ChatTools::insertShortcodeCompletion(const QModelIndex &index)
+{
+	const QString emoji = index.data(Qt::UserRole).toString();
+	if (emoji.isEmpty() || myShortcodeTokenStart < 0 || !myLineEdit)
+		return;
+	const QString text = myLineEdit->text();
+	const int cursor = myLineEdit->cursorPosition();
+	// Nur übernehmen, wenn der getippte Token noch unverändert dasteht.
+	// Schutz gegen ein activated() mit veraltetem Zustand (z. B. wenn der
+	// Text zwischen Popup-Anzeige und Übernahme anderweitig geleert wurde).
+	if (myShortcodeTokenStart >= text.size()
+			|| text.at(myShortcodeTokenStart) != QLatin1Char(':')
+			|| cursor <= myShortcodeTokenStart)
+		return;
+	// Getippten Token (":smi") durch das Emoji ersetzen – als Emoji statt
+	// ":smile:", genau wie der Emoji-Picker (WYSIWYG und weniger Bytes im
+	// 128-Byte-Server-Limit; checkInputLength greift über textChanged).
+	myLineEdit->setText(text.left(myShortcodeTokenStart) + emoji + text.mid(cursor));
+	myLineEdit->setCursorPosition(qMin(myShortcodeTokenStart + int(emoji.size()),
+	                                   int(myLineEdit->text().size())));
+}
+
+bool ChatTools::eventFilter(QObject *obj, QEvent *event)
+{
+	// Tab/Enter im offenen Vorschlags-Popup übernehmen den markierten
+	// Vorschlag – HIER, vor dem Filter des QCompleters (dieser Filter ist
+	// später installiert und läuft daher zuerst). Der QCompleter reicht
+	// Return nämlich ERST an das Eingabefeld weiter und übernimmt dann:
+	// returnPressed würde die halb getippte Nachricht (":su…") vorab senden
+	// und das Emoji landete zusätzlich im geleerten Feld. Tab fiele als
+	// Nick-Vervollständigung an die Dialoge durch.
+	if (myShortcodeCompleter && obj == myShortcodeCompleter->popup()
+			&& event->type() == QEvent::KeyPress) {
+		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+		if (keyEvent->key() == Qt::Key_Tab
+				|| keyEvent->key() == Qt::Key_Return
+				|| keyEvent->key() == Qt::Key_Enter) {
+			QModelIndex idx = myShortcodeCompleter->popup()->currentIndex();
+			if (!idx.isValid())
+				idx = myShortcodeCompleter->completionModel()->index(0, 0);
+			insertShortcodeCompletion(idx);
+			myShortcodeCompleter->popup()->hide();
+			return true;
+		}
+	}
+	return QObject::eventFilter(obj, event);
 }
 
 ChatTools::~ChatTools()

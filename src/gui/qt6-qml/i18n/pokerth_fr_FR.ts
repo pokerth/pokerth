@@ -155,6 +155,19 @@
     </message>
 </context>
 <context>
+    <name>AndroidConnectionService</name>
+    <message>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+25"/>
+        <source>Connected to the game server</source>
+        <translation>Connecté au serveur de jeu</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Online game connection</source>
+        <translation>Connexion de partie en ligne</translation>
+    </message>
+</context>
+<context>
     <name>AvatarCardRow</name>
     <message>
         <location filename="../components/AvatarCardRow.qml" line="+132"/>
@@ -200,17 +213,15 @@
         <translation>Rechercher un pseudo</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>This season</source>
-        <translation>Cette saison</translation>
+        <translation type="vanished">Cette saison</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>All-time</source>
-        <translation>Tous les temps</translation>
+        <translation type="vanished">Tous les temps</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+24"/>
         <source>Step1</source>
         <translation>Step1</translation>
     </message>
@@ -228,7 +239,7 @@
         <translation>Message …</translation>
     </message>
     <message>
-        <location line="+430"/>
+        <location line="+594"/>
         <source>Link öffnen</source>
         <translation>Ouvrir le lien</translation>
     </message>
@@ -263,7 +274,28 @@
 <context>
     <name>CommunityPlayerView</name>
     <message>
-        <location filename="../components/CommunityPlayerView.qml" line="+87"/>
+        <location filename="../components/CommunityPlayerView.qml" line="+30"/>
+        <source>This season</source>
+        <translation>Cette saison</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+4"/>
+        <source>All-time</source>
+        <translation>Tous les temps</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>This month</source>
+        <translation>Ce mois-ci</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This year</source>
+        <translation>Cette année</translation>
+    </message>
+    <message>
+        <location line="+66"/>
         <source>Player not found.</source>
         <translation>Joueur introuvable.</translation>
     </message>
@@ -283,7 +315,7 @@
         <translation>Membre depuis %1</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+30"/>
         <source>Awards</source>
         <translation>Récompenses</translation>
     </message>
@@ -327,6 +359,16 @@
         <source>Points</source>
         <translation>Points</translation>
     </message>
+    <message>
+        <location filename="../components/CommunityPlayerView.qml"/>
+        <source>Results:</source>
+        <translation>Résultats :</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityPlayerView.qml"/>
+        <source>Step %1</source>
+        <translation>Step %1</translation>
+    </message>
 </context>
 <context>
     <name>CommunityRankingPage</name>
@@ -354,7 +396,7 @@
 <context>
     <name>CommunityRankingView</name>
     <message>
-        <location filename="../components/CommunityRankingView.qml" line="+106"/>
+        <location filename="../components/CommunityRankingView.qml" line="+157"/>
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
@@ -381,17 +423,17 @@
         <translation>Pseudo</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Games</source>
         <translation>Parties</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message>
-        <location line="+117"/>
+        <location line="+160"/>
         <source>No entries.</source>
         <translation>Aucune entrée.</translation>
     </message>
@@ -399,6 +441,45 @@
         <location line="+1"/>
         <source>No matches.</source>
         <translation>Aucun résultat.</translation>
+    </message>
+    <message>
+        <location line="-44"/>
+        <source>◀ Prev</source>
+        <translation>◀ Préc.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>%1 / %2</source>
+        <translation>%1 / %2</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Page %1 / %2  ·  %3 players</source>
+        <translation>Page %1 / %2  ·  %3 joueurs</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Next ▶</source>
+        <translation>Suiv. ▶</translation>
+    </message>
+</context>
+<context>
+    <name>CommunitySwitch</name>
+    <message>
+        <source>This season</source>
+        <translation type="vanished">Cette saison</translation>
+    </message>
+    <message>
+        <source>All-time</source>
+        <translation type="vanished">Tous les temps</translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation type="vanished">Ce mois-ci</translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation type="vanished">Cette année</translation>
     </message>
 </context>
 <context>
@@ -605,7 +686,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+385"/>
+        <location filename="../components/GamePlayerBox.qml" line="+392"/>
         <source>Ignore player</source>
         <translation>Ignorer le joueur</translation>
     </message>
@@ -632,9 +713,14 @@
 <context>
     <name>GameStatusBar</name>
     <message>
-        <location filename="../components/GameStatusBar.qml" line="+78"/>
-        <source>Open link</source>
-        <translation>Ouvrir le lien</translation>
+        <location filename="../components/GameStatusBar.qml" line="+97"/>
+        <source>Show table ranking</source>
+        <translation>Afficher le classement de la table</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Open in browser</source>
+        <translation>Ouvrir dans le navigateur</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -663,9 +749,83 @@
     </message>
 </context>
 <context>
+    <name>GameTableStatsPage</name>
+    <message>
+        <location filename="../pages/GameTableStatsPage.qml" line="+134"/>
+        <location line="+36"/>
+        <source>Could not load table ranking (HTTP %1).</source>
+        <translation>Impossible de charger le classement de la table (HTTP %1).</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <source>Could not parse server response.</source>
+        <translation>Impossible d&apos;analyser la réponse du serveur.</translation>
+    </message>
+    <message>
+        <location line="+58"/>
+        <source>Table ranking – %1</source>
+        <translation>Classement de la table – %1</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Table ranking</source>
+        <translation>Classement de la table</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Current BBC season standings of the players at this table.</source>
+        <translation>Classement de la saison BBC en cours des joueurs de cette table.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Current WEC month standings of the players at this table.</source>
+        <translation>Classement du mois WEC en cours des joueurs de cette table.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Current season standings of the players at this table.</source>
+        <translation>Classement de la saison en cours des joueurs de cette table.</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Player</source>
+        <translation>Joueur</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Games</source>
+        <translation>Parties</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Avg</source>
+        <translation>Moy</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Points</source>
+        <translation>Points</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Score</source>
+        <translation>Score</translation>
+    </message>
+    <message>
+        <location line="+138"/>
+        <source>No ranking data for the players at this table yet.</source>
+        <translation>Aucune donnée de classement pour les joueurs de cette table pour l&apos;instant.</translation>
+    </message>
+</context>
+<context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+145"/>
+        <location filename="../pages/GameWaitPage.qml" line="+147"/>
         <source>Players</source>
         <translation>Joueurs</translation>
     </message>
@@ -694,48 +854,48 @@
     </message>
     <message>
         <location line="-237"/>
-        <location line="+572"/>
+        <location line="+587"/>
         <source>Game List</source>
         <translation>Liste des parties</translation>
     </message>
     <message>
-        <location line="-521"/>
-        <location line="+533"/>
+        <location line="-536"/>
+        <location line="+548"/>
         <source>No game list filter</source>
         <translation>Aucun filtre</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open games</source>
         <translation>Jeux ouverts</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full games</source>
         <translation>Jeux ouverts et non complets</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Jeux ouverts, non complets, non privés</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Jeux ouverts, non complets, privés</translation>
     </message>
     <message>
-        <location line="-532"/>
-        <location line="+533"/>
+        <location line="-547"/>
+        <location line="+548"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Jeux ouverts, non complets, classés</translation>
     </message>
     <message>
-        <location line="-459"/>
+        <location line="-474"/>
         <source>Game Info</source>
         <translation>Infos de partie</translation>
     </message>
@@ -810,7 +970,12 @@
         <translation>Joueurs dans la partie (%1)</translation>
     </message>
     <message>
-        <location line="+98"/>
+        <location line="+84"/>
+        <source>Kick player</source>
+        <translation>Expulser le joueur</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Lobby Chat</source>
         <translation>Chat du lobby</translation>
     </message>
@@ -943,7 +1108,12 @@
         <translation>Afficher le contenu communautaire</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+16"/>
+        <source>Standard-Community:</source>
+        <translation>Communauté par défaut :</translation>
+    </message>
+    <message>
+        <location line="+44"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Mettre le focus sur le champ de mise quand c&apos;est votre tour</translation>
     </message>
@@ -1124,18 +1294,18 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+156"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+232"/>
         <source>← Zurück</source>
         <translation>← Retour</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location line="+383"/>
+        <location line="+458"/>
         <source>Spiel erstellen</source>
         <translation>Créer une partie</translation>
     </message>
     <message>
-        <location line="-354"/>
+        <location line="-429"/>
         <source>Spielname</source>
         <translation>Nom de la partie</translation>
     </message>
@@ -1175,7 +1345,17 @@
         <translation>Partie classée</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+33"/>
+        <source>Community-Vorlage</source>
+        <translation>Modèle communautaire</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Eigene Einstellungen</source>
+        <translation>Paramètres personnalisés</translation>
+    </message>
+    <message>
+        <location line="+14"/>
         <source>Passwort</source>
         <translation>Mot de passe</translation>
     </message>
@@ -1215,7 +1395,7 @@
         <translation>Intervalle d&apos;augmentation des blindes</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+22"/>
         <location line="+28"/>
         <source>Alle</source>
         <translation>Toutes les</translation>
@@ -1231,7 +1411,12 @@
         <translation>minutes</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+16"/>
+        <source>Blindliste: %1</source>
+        <translation>Liste des blindes : %1</translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Zeitlimits</source>
         <translation>Limites de temps</translation>
     </message>
@@ -1241,12 +1426,12 @@
         <translation>Limite de temps par action</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+25"/>
         <source>Pause zwischen Händen</source>
         <translation>Pause entre les mains</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+34"/>
         <source>Abbrechen</source>
         <translation>Annuler</translation>
     </message>
@@ -1259,7 +1444,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1044"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1085"/>
         <source>Guests cannot send chat messages</source>
         <translation>Les invités ne peuvent pas envoyer de messages</translation>
     </message>
@@ -1393,11 +1578,11 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Impossible de rejoindre la partie.</translation>
     </message>
     <message>
-        <location line="+166"/>
-        <location line="+26"/>
-        <location line="+128"/>
+        <location line="+180"/>
+        <location line="+30"/>
+        <location line="+130"/>
         <location line="+9"/>
-        <location line="+107"/>
+        <location line="+144"/>
         <location line="+9"/>
         <location line="+11"/>
         <location line="+11"/>
@@ -1405,7 +1590,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Non connecté au serveur</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%1 a été invité à %2 par %3.</translation>
     </message>
@@ -1415,7 +1600,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>%1 a refusé l&apos;invitation à %2.</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+137"/>
         <source>Registered players only</source>
         <translation>Joueurs enregistrés uniquement</translation>
     </message>
@@ -1455,7 +1640,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Complète</translation>
     </message>
     <message>
-        <location line="-146"/>
+        <location line="-149"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 ne peut pas rejoindre %2 car il est occupé.</translation>
     </message>
@@ -1736,7 +1921,27 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Rejoindre</translation>
     </message>
     <message>
-        <location line="-730"/>
+        <location line="+141"/>
+        <source>Rejoin possible</source>
+        <translation>Reconnexion possible</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>There is an existing session with a previous game.&lt;br&gt;Do you want to rejoin this game?</source>
+        <translation>Une session d&apos;une ancienne partie existe déjà.&lt;br&gt;Voulez-vous rejoindre cette partie ?</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>No</source>
+        <translation>Non</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Rejoin</source>
+        <translation>Rejoindre</translation>
+    </message>
+    <message>
+        <location line="-894"/>
         <source>Show open &amp; non-full games</source>
         <translation>Jeux ouverts et non complets</translation>
     </message>
@@ -2203,7 +2408,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Intervalle de journalisation :</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Jedes Spiel</source>
         <translation>Chaque partie</translation>
     </message>
@@ -2213,22 +2418,12 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Chaque main</translation>
     </message>
     <message>
-        <location line="+2"/>
-        <source>Jeden Tag</source>
-        <translation>Chaque jour</translation>
+        <location line="-1"/>
+        <source>Jede Aktion</source>
+        <translation>Chaque action</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Jede Woche</source>
-        <translation>Chaque semaine</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Jeden Monat</source>
-        <translation>Chaque mois</translation>
-    </message>
-    <message>
-        <location line="-30"/>
+        <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
         <translation>Durée de conservation (jours) :</translation>
     </message>
@@ -2415,7 +2610,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>NetworkGameHandler</name>
     <message>
-        <location filename="../cpp/networkgamehandler.cpp" line="+49"/>
+        <location filename="../cpp/networkgamehandler.cpp" line="+53"/>
         <location line="+76"/>
         <source>No session available.</source>
         <translation>Aucune session disponible.</translation>
@@ -2685,7 +2880,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Dernière connexion %1</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+28"/>
         <source>Current season</source>
         <translation>Saison actuelle</translation>
     </message>
@@ -2729,19 +2924,104 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <source>#%1</source>
         <translation>#%1</translation>
     </message>
+    <message>
+        <location filename="../pages/PokerthPlayerPage.qml"/>
+        <source>Seasons</source>
+        <translation>Saisons</translation>
+    </message>
 </context>
 <context>
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.0</source>
-        <translation>PokerTH - v2.1.0</translation>
+        <source>PokerTH - v2.1.2</source>
+        <translation>PokerTH - v2.1.2</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="../cpp/ziputils.cpp" line="+54"/>
+        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <translation>Impossible de lire l&apos;archive.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <translation>L&apos;archive est vide ou contient trop de fichiers.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <translation>Impossible de créer le répertoire de destination.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <translation>Impossible de lire une entrée de l&apos;archive.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+8"/>
+        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <translation>L&apos;archive contient un chemin non valide : %1</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+14"/>
+        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <translation>Impossible de créer le répertoire : %1</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <translation>L&apos;archive est anormalement volumineuse.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <translation>Impossible d&apos;extraire une entrée de l&apos;archive : %1</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <translation>Impossible d&apos;écrire le fichier : %1</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <translation>Le dossier du style est introuvable.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>Impossible de créer l&apos;archive.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Datei konnte nicht gelesen werden: %1</source>
+        <translation>Impossible de lire le fichier : %1</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <translation>Impossible d&apos;écrire le fichier dans l&apos;archive : %1</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <translation>Le dossier du style ne contient aucun fichier.</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <translation>Impossible de finaliser l&apos;archive.</translation>
     </message>
 </context>
 <context>
     <name>RankingPage</name>
     <message>
-        <location filename="../pages/RankingPage.qml" line="+70"/>
+        <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
         <translation>Impossible de charger le classement (HTTP %1).</translation>
     </message>
@@ -2751,7 +3031,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Impossible d&apos;analyser la réponse du serveur.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Ranking</source>
         <translation>Classement</translation>
     </message>
@@ -2776,27 +3056,27 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>#</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Player</source>
         <translation>Joueur</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Games</source>
         <translation>Parties</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Avg</source>
         <translation>Moy</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Score</source>
         <translation>Score</translation>
     </message>
     <message>
-        <location line="+149"/>
+        <location line="+150"/>
         <source>No entries.</source>
         <translation>Aucune entrée.</translation>
     </message>
@@ -2842,6 +3122,24 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
         <translation>Les paramètres ont été réinitialisés. Veuillez redémarrer PokerTH pour que toutes les modifications prennent effet.</translation>
+    </message>
+</context>
+<context>
+    <name>SeasonStatsSection</name>
+    <message>
+        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <source>Season Stats</source>
+        <translation>Statistiques de la saison</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Games</source>
+        <translation>Parties</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Share</source>
+        <translation>Part</translation>
     </message>
 </context>
 <context>
@@ -2995,6 +3293,11 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Erreur de connexion TLS</translation>
     </message>
     <message>
+        <location line="+6"/>
+        <source>The connection to the server was lost</source>
+        <translation>La connexion au serveur a été perdue</translation>
+    </message>
+    <message>
         <location line="+3"/>
         <source>Protocol version not supported by server</source>
         <translation>Version du protocole non prise en charge par le serveur</translation>
@@ -3053,12 +3356,12 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+210"/>
-        <source>Images (*.png *.jpg *.jpeg *.gif *.bmp)</source>
-        <translation>Images (*.png *.jpg *.jpeg *.gif *.bmp)</translation>
+        <location filename="../cpp/settingsmanager.cpp" line="+216"/>
+        <source>Images (*.png *.jpg *.jpeg *.gif)</source>
+        <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+208"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Sélectionner un style de table de jeu</translation>
     </message>
@@ -3088,12 +3391,11 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Le fichier sélectionné n&apos;est pas un style de dos de cartes.</translation>
     </message>
     <message>
-        <location line="+27"/>
         <source>PokerTH-Stile (*.xml)</source>
-        <translation>Styles PokerTH (*.xml)</translation>
+        <translation type="vanished">Styles PokerTH (*.xml)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
         <translation>Le fichier de style ne peut pas être lu.</translation>
     </message>
@@ -3113,7 +3415,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Le nom du fichier de style doit se terminer par &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
         <translation>Le fichier de style doit se trouver dans un dossier dédié.</translation>
     </message>
@@ -3166,6 +3468,51 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <location line="+2"/>
         <source>Fehlende Inhalte ersetzt der Client durch Standard-Grafiken.</source>
         <translation>Le client remplace le contenu manquant par les graphismes par défaut.</translation>
+    </message>
+    <message>
+        <location line="-182"/>
+        <source>PokerTH-Stile (*.zip *.xml)</source>
+        <translation>Styles PokerTH (*.zip *.xml)</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
+        <translation>Le fichier sélectionné ne peut pas être lu.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
+        <translation>Impossible de créer un répertoire temporaire.</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
+        <translation>L&apos;archive ne contient aucun fichier « %1 ».</translation>
+    </message>
+    <message>
+        <location line="+196"/>
+        <source>Stil exportieren</source>
+        <translation>Exporter le style</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>ZIP-Archive (*.zip)</source>
+        <translation>Archives ZIP (*.zip)</translation>
+    </message>
+    <message>
+        <location line="-9"/>
+        <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
+        <translation>Le style « %1 » est introuvable.</translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>Impossible de créer l&apos;archive.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
+        <translation>Impossible d&apos;écrire l&apos;archive dans « %1 ».</translation>
     </message>
 </context>
 <context>
@@ -3220,8 +3567,8 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+35"/>
-        <source>PokerTH - v2.1.0</source>
-        <translation>PokerTH - v2.1.0</translation>
+        <source>PokerTH - v2.1.2</source>
+        <translation>PokerTH - v2.1.2</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -3351,7 +3698,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>StyleCard</name>
     <message>
-        <location filename="../components/StyleCard.qml" line="+68"/>
+        <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
         <translation>Aucun
@@ -3372,6 +3719,11 @@ aperçu</translation>
         <source>Stil entfernen</source>
         <translation>Supprimer le style</translation>
     </message>
+    <message>
+        <location line="+32"/>
+        <source>Stil als ZIP exportieren</source>
+        <translation>Exporter le style au format ZIP</translation>
+    </message>
 </context>
 <context>
     <name>StyleSettings</name>
@@ -3382,6 +3734,7 @@ aperçu</translation>
     </message>
     <message>
         <location line="+0"/>
+        <location line="+8"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -3426,7 +3779,7 @@ aperçu</translation>
         <translation>Styles de table disponibles :</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
         <translation>Aucun style de table trouvé.</translation>
     </message>
@@ -3436,7 +3789,7 @@ aperçu</translation>
         <translation>Styles de jeu de cartes disponibles :</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
         <translation>Aucun style de jeu de cartes trouvé.</translation>
     </message>
@@ -3446,16 +3799,21 @@ aperçu</translation>
         <translation>Dos de cartes disponibles :</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
         <translation>Aucun dos de carte trouvé.</translation>
     </message>
     <message>
-        <location line="-100"/>
-        <location line="+54"/>
-        <location line="+54"/>
+        <location line="-102"/>
+        <location line="+55"/>
+        <location line="+55"/>
         <source>Stil hinzufügen...</source>
         <translation>Ajouter un style...</translation>
+    </message>
+    <message>
+        <location line="-226"/>
+        <source>Stil exportieren</source>
+        <translation>Exporter le style</translation>
     </message>
 </context>
 <context>
@@ -3551,30 +3909,27 @@ aperçu</translation>
         <translation>Rechercher un pseudo</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>This month</source>
-        <translation>Ce mois-ci</translation>
+        <translation type="vanished">Ce mois-ci</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>This year</source>
-        <translation>Cette année</translation>
+        <translation type="vanished">Cette année</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>All-time</source>
-        <translation>Tous les temps</translation>
+        <translation type="vanished">Tous les temps</translation>
     </message>
 </context>
 <context>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+160"/>
-        <source>PokerTH - v2.1.0</source>
-        <translation>PokerTH - v2.1.0</translation>
+        <source>PokerTH - v2.1.2</source>
+        <translation>PokerTH - v2.1.2</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+170"/>
         <source>Back</source>
         <translation>Retour</translation>
     </message>
@@ -3630,11 +3985,12 @@ aperçu</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location line="+215"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="-180"/>
         <source>Server Message</source>
         <translation>Message du serveur</translation>
     </message>
@@ -3644,7 +4000,12 @@ aperçu</translation>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location line="-339"/>
+        <location line="+151"/>
+        <source>Connection lost</source>
+        <translation>Connexion perdue</translation>
+    </message>
+    <message>
+        <location line="-490"/>
         <location line="+371"/>
         <location line="+22"/>
         <source>Leave Game</source>

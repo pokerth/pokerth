@@ -157,7 +157,7 @@ ApplicationWindow {
     minimumHeight: 600
     // TRY to center the window, doesn't work on my Ubuntu but should work on other platforms.
     visible: true
-    title: qsTr("PokerTH - v2.1.0")
+    title: qsTr("PokerTH - v2.1.2")
 
     // Android hardware back button: intercept close and navigate back instead
     // of destroying the QML scene while background threads are still running.
@@ -248,6 +248,9 @@ ApplicationWindow {
     }
 
     function performLeaveLobby() {
+        // Bewusster Disconnect meldet keinen connectionFailed – eine offene
+        // Timeout-Warnung der beendeten Session hier direkt schließen.
+        timeoutWarningPopup.close()
         if (typeof Lobby !== "undefined" && Lobby)
             Lobby.leaveServer()
         mainStackView.pop()
@@ -781,14 +784,114 @@ ApplicationWindow {
         }
     }
 
+    // ── Verbindungsverlust nach dem Login (Lobby/Warteraum/Spiel) ──────────
+    // Die Verbindungs-/Beitrittsseiten behandeln connectionFailed selbst
+    // (Statuszeile während des Verbindens); nach dem Login gab es aber keinen
+    // Konsumenten: Ein Verbindungsabbruch im laufenden Spiel blieb unsichtbar.
+    // Global melden und zur Login-Seite zurückkehren – nach dem erneuten Login
+    // bietet der Server ggf. das Rejoin ins laufende Spiel an (LobbyPage-Popup).
+    Popup {
+        id: connectionLostPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        property string message: ""
+
+        background: Rectangle {
+            color: Config.StaticData.palette.secondary.col700
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: connectionLostPopup.availableWidth
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Connection lost")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: connectionLostPopup.message
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            CustomButton {
+                Layout.fillWidth: true
+                text: qsTr("OK")
+                onClicked: connectionLostPopup.close()
+            }
+        }
+    }
+
+    Connections {
+        target: ServerConnection
+        function onConnectionFailed(errorMessage) {
+            // Timeout-Warnung ist mit der Verbindung obsolet – IMMER schließen,
+            // auch wenn die Lobby bereits verlassen wurde (sonst bleibt das
+            // Popup nach Ablauf mangels aktivem OK-Button für immer offen).
+            timeoutWarningPopup.close()
+            // Nur nach abgeschlossenem Login (Lobby im Stack) – während des
+            // Verbindens zeigen die Verbindungsseiten den Fehler selbst an.
+            if (!mainWindow.inLobbySession)
+                return
+            // Offene Modals (Verlassen-Bestätigungen) schließen.
+            leaveGameConfirmPopup.close()
+            leaveLobbyConfirmPopup.close()
+            connectionLostPopup.message = errorMessage
+            // Zurück zur StartPage (baut Lobby-/Spiel-Seiten ab) und direkt die
+            // Login-Seite öffnen, damit ein erneuter Login nur einen Tap kostet.
+            mainStackView.pop(null)
+            mainStackView.push("pages/ServerConnectionDialog.qml")
+            connectionLostPopup.open()
+        }
+    }
+
     Connections {
         target: Lobby
         function onTimeoutWarningReceived(reason, remainingSec) {
             timeoutWarningPopup.show(reason, remainingSec)
         }
+        // Nach Ablauf des Countdowns trennt der Server NICHT immer die
+        // Verbindung: beim AFK-Kick im Spiel und beim Admin-Timeout eines
+        // offenen Spiels wird man nur aus dem Spiel entfernt (Session lebt
+        // weiter). Der Widget-Client versteckt den Dialog dafür in
+        // networkNotification() – Pendant hier: die Entfernung aus dem Spiel
+        // macht die Warnung gegenstandslos, Popup schließen.
+        function onRemovedFromGame(reason) {
+            timeoutWarningPopup.close()
+        }
         function onNetworkMessageReceived(message) {
             networkMessagePopup.message = message
             networkMessagePopup.open()
+        }
+        // "Show player stats" (Lobby-Icon / Tisch-Kontextmenü): native
+        // Player-Page statt Browser-Link. Quelle = im Backend vorausgewählte
+        // Default-Community (bei aktiven Community-Inhalten), sonst PokerTH.
+        function onPlayerStatsRequested(playerName) {
+            var comm = (Config.Parameters.showCommunityContent
+                        && Config.Community.has(Config.Parameters.defaultCommunity))
+                       ? Config.Parameters.defaultCommunity : "pokerth"
+            var c = mainStackView.currentItem
+            // Doppelklick-Schutz: Page desselben Spielers liegt bereits oben
+            // (PokerTH per username, BBC/WEC per nickname).
+            if (c && ((comm === "pokerth" && c.objectName === "pokerthPlayerPage"
+                       && c.username === playerName)
+                      || (comm !== "pokerth" && c.objectName === "communityPlayerPage"
+                          && c.community === comm && c.nickname === playerName)))
+                return
+            mainStackView.push(Config.Community.playerPageUrl(comm),
+                               Config.Community.playerPageProps(comm, playerName))
         }
     }
 
@@ -801,6 +904,13 @@ ApplicationWindow {
                     item !== null &&
                     (item.objectName === "gamePage" || item.objectName === "gameWaitPage")
                 )
+                // Resume-Probe: Nach einer Hintergrund-Phase aktiv ein Paket
+                // schicken (AFK-Reset – Rückkehr IST Nutzeraktivität). Ist die
+                // Verbindung im Hintergrund gestorben, schlägt der Send fehl
+                // und der Verbindungsverlust wird sofort gemeldet (Popup +
+                // Login-Seite) statt erst beim ersten Tap oder per Keepalive.
+                if (mainWindow.inLobbySession)
+                    Lobby.resetNetworkTimeout()
             }
         }
     }

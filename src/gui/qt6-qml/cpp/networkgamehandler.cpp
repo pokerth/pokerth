@@ -4,6 +4,7 @@
  *****************************************************************************/
 
 #include "networkgamehandler.h"
+#include "androidconnectionservice.h"
 
 #include <session.h>
 #include <configfile.h>
@@ -39,6 +40,9 @@ void NetworkGameHandler::shutdown()
     m_serverSession.reset();
     m_serverGui.reset();
     m_session.reset();
+    // App-Shutdown: Foreground-Service explizit beenden (START_NOT_STICKY
+    // verhindert zwar den Neustart, aber sauber abmelden ist besser).
+    AndroidConnectionService::stop();
 }
 
 void NetworkGameHandler::createGame(int maxPlayers, int startCash, int firstSmallBlind,

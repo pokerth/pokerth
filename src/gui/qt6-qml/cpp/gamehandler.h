@@ -177,6 +177,10 @@ public:
     // am Tisch) – 1:1 wie der Qt-Widgets-Client (MyNameLabel). Baut aus den
     // Live-Seats des laufenden Spiels; leer, wenn kein Spiel läuft.
     Q_INVOKABLE QString tableStatsUrl() const;
+    // Nicks der aktiven Spieler am laufenden Netzwerktisch (Seat-Reihenfolge,
+    // ohne bereits ausgestiegene Spieler) – Datengrundlage für tableStatsUrl()
+    // und die native Tisch-Ranking-Seite (GameTableStatsPage).
+    Q_INVOKABLE QStringList tableStatsNicks() const;
     QVariantList players() const { return m_players; }
     int pot() const { return m_pot; }
     int gameId() const { return m_gameId; }
@@ -267,6 +271,8 @@ public:
     Q_INVOKABLE void onPostRiverRunBeRo();
     Q_INVOKABLE void onShowdown();
     Q_INVOKABLE void onFlipHolecardsAllIn();
+    // Ein Spieler zeigt nach der Hand freiwillig seine Karten (AfterHandShowCards).
+    Q_INVOKABLE void onPlayerShowCards(unsigned playerId);
 
     // Called from QML
     Q_INVOKABLE void fold();
@@ -415,6 +421,12 @@ private:
     // All-in-Aufdeckung: alle nicht-gefoldeten Spielerkarten sichtbar
     // (AllInShowCardsMessage), bis zur nächsten Hand zurückgesetzt.
     bool m_allInRevealed = false;
+    // Spieler (Unique-ID), die nach der Hand freiwillig ihre Karten gezeigt haben
+    // (AfterHandShowCardsMessage → SignalNetClientPostRiverShowCards). Ihre Karten
+    // bleiben aufgedeckt bis zur nächsten Hand. Im Widgets-Client macht das
+    // gameTableImpl::showHoleCards; die QML-Showdown-Aufdeckung greift hier nicht,
+    // weil der Zeiger nicht in playerNeedToShowCards steht (Gewinn ohne Showdown).
+    QSet<unsigned> m_postRiverShownPlayers;
     // Aktions-Anzeige: pro Sitz die zuletzt gesehene Aktion + das Runden-Token,
     // in dem sie gesetzt wurde. So wird die Aktion nur in ihrer eigenen Runde
     // angezeigt und zu Rundenbeginn überall automatisch entfernt.

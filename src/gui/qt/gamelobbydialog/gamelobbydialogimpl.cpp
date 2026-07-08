@@ -1530,21 +1530,25 @@ bool gameLobbyDialogImpl::eventFilter(QObject *obj, QEvent *event)
 {
 	if (event->type() == QEvent::KeyPress) {
 		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-		
-		if (obj == lineEdit_ChatInput && lineEdit_ChatInput->text() != "" && keyEvent->key() == Qt::Key_Tab) {
+
+		// Offenes Shortcode-Vorschlags-Popup des Chats: Tab/Hoch/Runter
+		// steuern dann das Popup – keine Nick-Vervollständigung/History.
+		const bool shortcodePopupOpen = myChat && myChat->shortcodeCompletionActive();
+
+		if (obj == lineEdit_ChatInput && !shortcodePopupOpen && lineEdit_ChatInput->text() != "" && keyEvent->key() == Qt::Key_Tab) {
 			myChat->nickAutoCompletition();
 			return true;
 		} else if (keyEvent->key() == Qt::Key_Back) {
 			event->ignore();
 			this->reject();
 			return false;
-		} else if (obj == lineEdit_ChatInput && keyEvent->key() == Qt::Key_Up) {
+		} else if (obj == lineEdit_ChatInput && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Up) {
 			if((keyUpCounter + 1) <= myChat->getChatLinesHistorySize()) {
 				keyUpCounter++;
 			}
 			myChat->showChatHistoryIndex(keyUpCounter);
 			return true;
-		} else if (obj == lineEdit_ChatInput && keyEvent->key() == Qt::Key_Down) {
+		} else if (obj == lineEdit_ChatInput && !shortcodePopupOpen && keyEvent->key() == Qt::Key_Down) {
 			if((keyUpCounter - 1) >= 0) {
 				keyUpCounter--;
 			}

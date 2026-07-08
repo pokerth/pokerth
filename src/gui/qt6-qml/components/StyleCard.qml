@@ -21,6 +21,7 @@ Rectangle {
     readonly property bool removable: styleEntry.userStyle === true
     signal clicked()
     signal removeRequested()
+    signal exportRequested()
 
     // Auf echten Mobilgeräten das Portrait-Vorschaubild, auf dem Desktop das
     // Querformat. Fehlt die jeweilige Orientierung, die andere als Ersatz nutzen.
@@ -142,5 +143,37 @@ Rectangle {
                          && Config.Parameters.showTooltips
         ToolTip.delay: 600
         ToolTip.text: qsTr("Stil entfernen")
+    }
+
+    // Export-Button (als .zip teilen) – für ALLE Stile, auch mitgelieferte.
+    // Liegt links neben dem Entfernen-Button, sofern dieser sichtbar ist.
+    Rectangle {
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.topMargin: 6
+        anchors.rightMargin: 6 + (card.removable ? 28 : 0)
+        width: 22; height: 22; radius: 11
+        color: exportArea.containsMouse ? Config.StaticData.palette.secondary.col500
+                                        : Config.StaticData.palette.secondary.col700
+
+        SvgIcon {
+            anchors.centerIn: parent
+            width: 12
+            height: 12
+            source: "../resources/download.svg"
+        }
+
+        MouseArea {
+            id: exportArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: card.exportRequested()
+        }
+
+        ToolTip.visible: exportArea.containsMouse && !Config.Responsive.isMobile
+                         && Config.Parameters.showTooltips
+        ToolTip.delay: 600
+        ToolTip.text: qsTr("Stil als ZIP exportieren")
     }
 }

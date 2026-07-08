@@ -104,12 +104,13 @@ Rectangle {
                             ComboBox {
                                 id: logInterval
                                 Layout.fillWidth: true
+                                // Index must match the engine's LogInterval values:
+                                // 0 = flush after every action, 1 = after every hand,
+                                // 2 = after every game (see src/engine/log.cpp).
                                 model: [
+                                    qsTr("Jede Aktion"),
                                     qsTr("Jede Hand"),
-                                    qsTr("Jedes Spiel"),
-                                    qsTr("Jeden Tag"),
-                                    qsTr("Jede Woche"),
-                                    qsTr("Jeden Monat")
+                                    qsTr("Jedes Spiel")
                                 ]
                                 currentIndex: SettingsManager ? SettingsManager.readConfigInt("LogInterval") : 1
                                 enabled: logOnOff.checked

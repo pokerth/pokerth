@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style – Nachbau der Nobus-Flipside (grün) als SVG.
+   Einfacher vertikaler Farbverlauf (hell oben -> gesättigt unten) mit gerundeten
+   Ecken und dünnem Rahmen, passend zum Karten-Set nobus_4c_classic.
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Nobus classic (grün)" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="07.07.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" />
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>

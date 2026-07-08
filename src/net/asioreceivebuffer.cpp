@@ -105,8 +105,21 @@ AsioReceiveBuffer::StartAsyncRead(boost::shared_ptr<SessionData> session)
 void
 AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boost::system::error_code &error, size_t bytesRead)
 {
-    // unchanged behavior; both TCP and SSL report through error/bytesRead
-    if (error != boost::asio::error::operation_aborted) {
+    if (error == boost::asio::error::operation_aborted) {
+        // A locally cancelled read is only legitimate if the session was
+        // closed intentionally (state Closed; on shutdown handlers no longer
+        // run at all). If the session is still officially open, the socket
+        // handle was closed behind our back (e.g. after a write error) -
+        // swallowing the abort here would leave the session owner unaware of
+        // the disconnect: the client would hang "connected" in a dead game
+        // forever. Treat it as a connection loss instead.
+        if (session && session->GetState() != SessionData::Closed) {
+            LOG_ERROR("Session " << session->GetId() << " - read aborted while session still open, closing session");
+            session->Close(); // client: throws -> GUI error; server: cleanup
+        }
+        return;
+    }
+    {
         try {
             // Prüfe ob Session noch gültig und nicht geschlossen
             if (!session || session->GetState() == SessionData::Closed) {

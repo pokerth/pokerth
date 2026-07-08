@@ -61,8 +61,15 @@ Item {
         button === 1 || ((button === 2 || button === 3) && showBlindButtons)
     // Spieler hat gefoldet → Karten durchscheinend (wie im Qt-Widgets-Client)
     readonly property bool folded: seatData && seatData.folded !== undefined ? seatData.folded : false
-    // Gesetzter Avatar (file://-URL) bzw. "" → Platzhalter
-    readonly property string avatarSource: seatData && seatData.avatar !== undefined ? seatData.avatar : ""
+    // Gesetzter Avatar (file://-URL) bzw. "" → Platzhalter. Avatare ignorierter
+    // Spieler werden wie im Qt-Widgets-Client (MyAvatarLabel) ausgeblendet,
+    // sofern DontHideAvatarsOfIgnored das nicht abschaltet.
+    readonly property bool hideIgnoredAvatar:
+        playerIgnored
+        && ((typeof SettingsManager !== "undefined" && SettingsManager && SettingsManager.configRevision >= 0)
+                ? SettingsManager.readConfigInt("DontHideAvatarsOfIgnored") === 0 : true)
+    readonly property string avatarSource:
+        (seatData && seatData.avatar !== undefined && !hideIgnoredAvatar) ? seatData.avatar : ""
 
     // Letzte Aktion dieses Spielers (0=keine,1=Fold,2=Check,3=Call,4=Bet,5=Raise,6=All-In)
     readonly property int action: seatData && seatData.action !== undefined ? seatData.action : 0

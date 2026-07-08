@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <manifest package="org.pokerth.qml"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="2.1.0"
-          android:versionCode="20"
+          android:versionName="2.1.2"
+          android:versionCode="22"
           android:installLocation="auto">
 
     <uses-sdk
-        android:minSdkVersion="26"
-        android:targetSdkVersion="34"/>
+        android:minSdkVersion="28"
+        android:targetSdkVersion="35"/>
 
     <supports-screens
         android:largeScreens="true"

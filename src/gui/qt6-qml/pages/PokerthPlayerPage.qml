@@ -26,11 +26,23 @@ Rectangle {
     property int pos: 0
     property var last5: []
     property var games: []
+    // Season-Stats-Rohdaten der API: barStats = Häufigkeit je Platz 1–10
+    // (bar_stats), placePercents = zugehörige Prozent-Strings (stats[1]).
+    property var barStats: []
+    property var placePercents: []
+    // Alle vom Spieler gespielten Saisons, neueste zuerst (API-Feld `seasons`,
+    // Format "<Jahr>_<Quartal>", z. B. "2026_2").
+    property var seasons: []
     property bool loading: false
     property string errorText: ""
 
     function score2(v) { return (Number(v) / 100).toFixed(2) }
     function datePart(s) { return s ? String(s).substring(0, 10) : "" }
+    // "2026_2" → "2026 Q2"; unbekanntes Format unverändert durchreichen.
+    function seasonLabel(s) {
+        var parts = String(s).split("_")
+        return parts.length === 2 ? (parts[0] + " Q" + parts[1]) : String(s)
+    }
 
     function load() {
         loading = true
@@ -57,6 +69,15 @@ Rectangle {
                 playerPage.pos = res.pos || 0
                 playerPage.last5 = res.last5 || []
                 playerPage.games = res.games || []
+                playerPage.barStats = res.bar_stats || []
+                // stats[1] ist ein Objekt {"1":"8.3%",…}; in ein nach Platz
+                // 1–10 geordnetes Array umformen, das die Section direkt nutzt.
+                var pct = (res.stats && res.stats.length > 1) ? res.stats[1] : null
+                var arr = []
+                for (var p = 1; p <= 10; ++p)
+                    arr.push(pct && pct[p] !== undefined ? pct[p] : "")
+                playerPage.placePercents = arr
+                playerPage.seasons = res.seasons || []
             } catch (e) {
                 playerPage.errorText = qsTr("Could not parse server response.")
             }
@@ -155,6 +176,25 @@ Rectangle {
                         font.pixelSize: Config.Theme.fontSizeCaption
                     }
                 }
+
+                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
+                // Player-Page der gewählten Quelle (gleicher Nickname). BBC/WEC
+                // kennen nur Nicknames – solange keiner bekannt ist (Seite wurde
+                // nur mit playerId geöffnet und lädt noch), passiert nichts.
+                CommunitySwitch {
+                    id: communitySwitch
+                    Layout.alignment: Qt.AlignTop
+                    current: "pokerth"
+                    onSelected: function(community) {
+                        var nick = (playerPage.player && playerPage.player.username)
+                                   ? playerPage.player.username : playerPage.username
+                        if (nick === "")
+                            return
+                        playerPage.StackView.view.replace(
+                            Config.Community.playerPageUrl(community),
+                            Config.Community.playerPageProps(community, nick))
+                    }
+                }
             }
 
             // ── Aktuelle-Saison-Kennzahlen ──────────────────────────────────
@@ -241,6 +281,13 @@ Rectangle {
                 Item { Layout.fillWidth: true }
             }
 
+            // ── Season Stats (Charts wie pokerth.net) ───────────────────────
+            SeasonStatsSection {
+                Layout.fillWidth: true
+                counts: playerPage.barStats
+                percents: playerPage.placePercents
+            }
+
             // ── Letzte Spiele ───────────────────────────────────────────────
             AppLabel {
                 text: qsTr("Recent games")
@@ -253,60 +300,101 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 visible: playerPage.games.length > 0
-                Layout.preferredHeight: gamesCol.implicitHeight + 2
+                // Auf wenige Zeilen begrenzt; längere Historie scrollt intern
+                // (eigene vertikale Scrollbar) statt die ganze Seite zu strecken.
+                readonly property int rowH: 30
+                readonly property int maxRows: 6
+                Layout.preferredHeight:
+                    Math.min(playerPage.games.length, maxRows) * rowH + 2
                 color: Config.StaticData.palette.secondary.col600
                 border.color: Config.StaticData.palette.secondary.col500
                 border.width: 1
                 radius: 4
+                clip: true
 
-                Column {
-                    id: gamesCol
+                ListView {
+                    id: gamesList
                     anchors.fill: parent
                     anchors.margins: 1
+                    clip: true
+                    model: playerPage.games
+                    boundsBehavior: Flickable.StopAtBounds
+                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
 
-                    Repeater {
-                        model: playerPage.games
-                        Item {
-                            id: gameRow
-                            required property int index
-                            required property var modelData
-                            width: gamesCol.width
-                            height: 30
+                    delegate: Item {
+                        id: gameRow
+                        required property int index
+                        required property var modelData
+                        width: gamesList.width
+                        height: 30
 
-                            Rectangle {
-                                anchors.fill: parent
-                                color: gameRow.index % 2 === 0
-                                       ? Config.StaticData.palette.secondary.col700
-                                       : Config.StaticData.palette.secondary.col600
+                        Rectangle {
+                            anchors.fill: parent
+                            color: gameRow.index % 2 === 0
+                                   ? Config.StaticData.palette.secondary.col700
+                                   : Config.StaticData.palette.secondary.col600
+                        }
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.leftMargin: 10
+                            anchors.rightMargin: 10
+                            spacing: 8
+                            AppLabel {
+                                text: qsTr("#%1").arg(gameRow.modelData.place)
+                                Layout.preferredWidth: 40
+                                color: gameRow.modelData.place === 1
+                                       ? Config.Theme.colorAccent
+                                       : Config.StaticData.palette.secondary.col100
+                                font.pixelSize: Config.Theme.fontSizeBody
+                                font.bold: gameRow.modelData.place === 1
                             }
-                            RowLayout {
-                                anchors.fill: parent
-                                anchors.leftMargin: 10
-                                anchors.rightMargin: 10
-                                spacing: 8
-                                AppLabel {
-                                    text: qsTr("#%1").arg(gameRow.modelData.place)
-                                    Layout.preferredWidth: 40
-                                    color: gameRow.modelData.place === 1
-                                           ? Config.Theme.colorAccent
-                                           : Config.StaticData.palette.secondary.col100
-                                    font.pixelSize: Config.Theme.fontSizeBody
-                                    font.bold: gameRow.modelData.place === 1
-                                }
-                                AppLabel {
-                                    text: (gameRow.modelData.game && gameRow.modelData.game.name) ? gameRow.modelData.game.name : ""
-                                    Layout.fillWidth: true
-                                    elide: Text.ElideRight
-                                    color: Config.StaticData.palette.secondary.col100
-                                    font.pixelSize: Config.Theme.fontSizeBody
-                                }
-                                AppLabel {
-                                    text: playerPage.datePart(gameRow.modelData.start_time)
-                                    visible: !playerPage.compact
-                                    color: Config.StaticData.palette.secondary.col300
-                                    font.pixelSize: Config.Theme.fontSizeCaption
-                                }
+                            AppLabel {
+                                text: (gameRow.modelData.game && gameRow.modelData.game.name) ? gameRow.modelData.game.name : ""
+                                Layout.fillWidth: true
+                                elide: Text.ElideRight
+                                color: Config.StaticData.palette.secondary.col100
+                                font.pixelSize: Config.Theme.fontSizeBody
                             }
+                            AppLabel {
+                                text: playerPage.datePart(gameRow.modelData.start_time)
+                                visible: !playerPage.compact
+                                color: Config.StaticData.palette.secondary.col300
+                                font.pixelSize: Config.Theme.fontSizeCaption
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ── Alle gespielten Saisons ─────────────────────────────────────
+            AppLabel {
+                text: qsTr("Seasons")
+                visible: playerPage.seasons.length > 0
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: Config.Theme.fontSizeBody
+                font.bold: true
+            }
+
+            Flow {
+                Layout.fillWidth: true
+                visible: playerPage.seasons.length > 0
+                spacing: 8
+                Repeater {
+                    model: playerPage.seasons
+                    Rectangle {
+                        required property var modelData
+                        implicitWidth: seasonText.implicitWidth + 20
+                        implicitHeight: 26
+                        radius: 13
+                        color: Config.StaticData.palette.secondary.col600
+                        border.color: Config.StaticData.palette.secondary.col500
+                        border.width: 1
+                        AppLabel {
+                            id: seasonText
+                            anchors.centerIn: parent
+                            text: playerPage.seasonLabel(parent.modelData)
+                            color: Config.StaticData.palette.secondary.col200
+                            font.pixelSize: Config.Theme.fontSizeCaption
                         }
                     }
                 }

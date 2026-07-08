@@ -26,8 +26,26 @@ Rectangle {
     readonly property string tableStatsUrl:
         (GameTable && GameTable.players) ? GameTable.tableStatsUrl() : ""
 
-    // Öffnet die Tisch-Statistikübersicht über denselben AppImage-sicheren
-    // Opener wie "Show Player Stats" (Lobby.openExternalUrl).
+    // Öffnet das Tisch-Ranking als native Seite (XHR auf den JSON-Endpunkt der
+    // pokerth.net-Tischansicht) – wie die Community-Ranking-Seiten, kein
+    // Browser nötig. mainStackView löst über die Kontextkette auf (Muster
+    // GameWaitPage), da GameStatusBar tief in GamePage steckt und die
+    // StackView-Attached-Properties dort nicht verfügbar sind.
+    function openTableStatsPage() {
+        if (tableStatsUrl === "" || !GameTable)
+            return
+        // Doppelklick-Schutz: Seite nicht zweimal übereinander pushen.
+        if (mainStackView.currentItem
+                && mainStackView.currentItem.objectName === "gameTableStatsPage")
+            return
+        mainStackView.push("../pages/GameTableStatsPage.qml", {
+            nicks: GameTable.tableStatsNicks(),
+            tableName: tableName
+        })
+    }
+
+    // Browser-Fallback (Kontextmenü): die ursprüngliche pokerth.net-Seite über
+    // denselben AppImage-sicheren Opener wie "Show Player Stats".
     function openTableStats() {
         if (tableStatsUrl !== "" && typeof Lobby !== "undefined" && Lobby)
             Lobby.openExternalUrl(tableStatsUrl)
@@ -63,19 +81,24 @@ Rectangle {
         enabled: tableNameLabel.visible && tableStatsUrl !== ""
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        // Linksklick öffnet direkt; Rechtsklick bietet zusätzlich das Menü.
+        // Linksklick öffnet direkt die native Seite; Rechtsklick bietet das
+        // Menü mit Browser-Fallback.
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: (mouse) => {
             if (mouse.button === Qt.RightButton)
                 tableNameMenu.popup()
             else
-                openTableStats()
+                openTableStatsPage()
         }
 
         Menu {
             id: tableNameMenu
             MenuItem {
-                text: qsTr("Open link")
+                text: qsTr("Show table ranking")
+                onTriggered: openTableStatsPage()
+            }
+            MenuItem {
+                text: qsTr("Open in browser")
                 onTriggered: openTableStats()
             }
         }
