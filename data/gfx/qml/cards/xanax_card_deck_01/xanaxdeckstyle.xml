@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style – Nachbau des klassischen "Xanax"-Kartensets
+   (xanax_card_deck_01) als reines SVG.
+
+   Pergament-Optik (cremefarbener Radial-Verlauf) mit dekorativem, eingelegtem
+   Achteck-Rahmen. 2-farbig: Karo/Herz rot (#a80c08), Pik/Kreuz schwarz (#141414).
+   Jede Karte zeigt zentral einen großen Rang + großes Suit-Symbol.
+
+   Mobile-first: nur die OBEREN Eck-Indizes (oben-links + oben-rechts) – die
+   vertikal gespiegelten unteren Indizes des Originals werden bewusst weggelassen.
+
+   Aufbau (wie das mitgelieferte cards/default-Set): 0.svg..51.svg nach Engine-Index.
+   Rang-Glyphen aus dem cards/bella_union_4c-Set (einheitliche Zeichenhöhe, keine
+   Unterlängen), Suit-Pfade aus dem cards/default-Set. Die Kartenrückseite ist eine
+   EIGENE Stil-Kategorie (data/gfx/qml/backside/).
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Xanax parchment (QML/SVG)" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="08.07.2026" />
+     <PokerTHStyleFileVersion value="2" />
+     <Preview value="preview.png" />
+     <BigIndexesActionBottom value="0" />
+  </CardDeck>
+</PokerTH>

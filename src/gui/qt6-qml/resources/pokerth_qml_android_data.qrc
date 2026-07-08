@@ -282,6 +282,60 @@
         <file>android-data/gfx/qml/cards/nobus_4c_classic/9.svg</file>
         <file>android-data/gfx/qml/cards/nobus_4c_classic/nobus4cclassicdeckstyle.xml</file>
         <file>android-data/gfx/qml/cards/nobus_4c_classic/preview.png</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/0.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/1.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/10.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/11.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/12.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/13.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/14.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/15.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/16.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/17.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/18.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/19.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/2.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/20.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/21.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/22.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/23.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/24.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/25.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/26.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/27.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/28.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/29.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/3.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/30.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/31.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/32.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/33.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/34.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/35.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/36.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/37.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/38.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/39.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/4.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/40.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/41.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/42.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/43.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/44.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/45.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/46.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/47.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/48.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/49.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/5.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/50.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/51.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/6.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/7.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/8.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/9.svg</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/preview.png</file>
+        <file>android-data/gfx/qml/cards/xanax_card_deck_01/xanaxdeckstyle.xml</file>
         <file>android-data/gfx/qml/table/danuxi/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/danuxi/actionCall.svg</file>
         <file>android-data/gfx/qml/table/danuxi/actionFold.svg</file>
