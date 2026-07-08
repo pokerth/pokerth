@@ -1,3 +1,15 @@
+2026-07-08 version 2.1.2:
+- new: two more card decks ported - nobus 4c classic, xanax (QML)
+- new: import/export of card decks as ZIP (QML)
+- new: ranking pages with column sorting (QML)
+- new: option to pre-select the default community for stats and ranking pages (QML)
+- improvement: PokerTH and community player statistics pages refined (QML)
+- improvement: more compact odds display with less scrolling (QML)
+- improvement: show-cards handling at showdown (QML)
+- bugfix: chatbox colors in light mode (QML)
+- bugfix: double quotes in chat messages (QML)
+- bugfix: log interval setting (QML)
+
 2026-07-06 version 2.1.1:
 - QML client now runs in production mode: it identifies itself to the server with its own client type and version
 - new: player statistics page with switch between local and community stats (QML)

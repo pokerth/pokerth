@@ -2934,8 +2934,8 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.1</source>
-        <translation>PokerTH - v2.1.1</translation>
+        <source>PokerTH - v2.1.2</source>
+        <translation>PokerTH - v2.1.2</translation>
     </message>
 </context>
 <context>
@@ -3567,8 +3567,8 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+35"/>
-        <source>PokerTH - v2.1.1</source>
-        <translation>PokerTH - v2.1.1</translation>
+        <source>PokerTH - v2.1.2</source>
+        <translation>PokerTH - v2.1.2</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -3925,8 +3925,8 @@ Vorschau</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+160"/>
-        <source>PokerTH - v2.1.1</source>
-        <translation>PokerTH - v2.1.1</translation>
+        <source>PokerTH - v2.1.2</source>
+        <translation>PokerTH - v2.1.2</translation>
     </message>
     <message>
         <location line="+170"/>
