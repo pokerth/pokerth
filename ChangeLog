@@ -1,6 +1,6 @@
 2026-07-08 version 2.1.2:
 - new: two more card decks ported - nobus 4c classic, xanax (QML)
-- new: import/export of card decks as ZIP (QML)
+- new: import/export of themes as ZIP (QML)
 - new: ranking pages with column sorting (QML)
 - new: option to pre-select the default community for stats and ranking pages (QML)
 - improvement: PokerTH and community player statistics pages refined (QML)
