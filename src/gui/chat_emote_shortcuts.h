@@ -94,6 +94,35 @@ inline QString applyChatEmoteShortcuts(QString text)
         }
     }
 
+    // ── HTML-Entities schützen (außer &lt;/&gt;) ────────────────────────────
+    // Der Text ist HTML-escaped; toHtmlEscaped() erzeugt u. a. "&quot;" und
+    // "&amp;". Ihr abschließendes ';' darf NICHT den Anfang eines Kürzels wie
+    // ";D"/";)"/";P" bilden – sonst würde z. B. '"D' → "&quot;D" fälschlich zu
+    // '&quot😜'. Entities werden daher (wie URLs) durch Platzhalter
+    // (\x03<index>\x04) ersetzt und am Ende unverändert wieder eingesetzt.
+    // AUSGENOMMEN sind "&lt;"/"&gt;": Pfeil-Kürzel ("&lt;3", "&gt;:)",
+    // "&gt;_&lt;") matchen bewusst auf ihrer escapten Form.
+    static const QRegularExpression entityRe(QStringLiteral(
+        "&(?!lt;)(?!gt;)(?:[a-zA-Z][a-zA-Z0-9]*|#[0-9]+|#x[0-9a-fA-F]+);"));
+    QStringList savedEntities;
+    {
+        QRegularExpressionMatchIterator it = entityRe.globalMatch(text);
+        if (it.hasNext()) {
+            QString out;
+            out.reserve(text.size());
+            int last = 0;
+            while (it.hasNext()) {
+                const QRegularExpressionMatch m = it.next();
+                out += text.mid(last, m.capturedStart() - last);
+                out += QChar(0x0003) + QString::number(savedEntities.size()) + QChar(0x0004);
+                savedEntities << m.captured();
+                last = m.capturedEnd();
+            }
+            out += text.mid(last);
+            text = out;
+        }
+    }
+
     // ── Engel / Teufel (enthalten ":-)" bzw. ":)") ──
     text.replace(QLatin1String("0:-)"),     emo(0x1F607)); // 😇 angel
     text.replace(QLatin1String("0:)"),      emo(0x1F607)); // 😇
@@ -210,6 +239,10 @@ inline QString applyChatEmoteShortcuts(QString text)
     // ── Herz (escaped; "</3" vor "<3") ──
     text.replace(QLatin1String("&lt;/3"),    emo(0x1F494)); // 💔 broken heart
     text.replace(QLatin1String("&lt;3"),     emo(0x2764));  // ❤  heart
+
+    // ── Geschützte HTML-Entities unverändert wieder einsetzen ──
+    for (int i = 0; i < savedEntities.size(); ++i)
+        text.replace(QChar(0x0003) + QString::number(i) + QChar(0x0004), savedEntities.at(i));
 
     // ── Geschützte URLs unverändert wieder einsetzen ──
     for (int i = 0; i < savedUrls.size(); ++i)
