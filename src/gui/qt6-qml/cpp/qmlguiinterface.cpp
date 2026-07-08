@@ -737,6 +737,16 @@ void QmlGuiInterface::flipHolecardsAllIn()
     QMetaObject::invokeMethod(m_gameHandler, "onFlipHolecardsAllIn", Qt::QueuedConnection);
 }
 
+void QmlGuiInterface::SignalNetClientPostRiverShowCards(unsigned playerId)
+{
+    // Ein anderer Spieler zeigt nach der Hand freiwillig seine Karten. Im
+    // Widgets-Client löst das gameTableImpl::showHoleCards aus (Karten aufdecken +
+    // Log). Hier an den GameHandler weiterreichen, statt es zu verschlucken.
+    if (!m_gameHandler) return;
+    QMetaObject::invokeMethod(m_gameHandler, "onPlayerShowCards", Qt::QueuedConnection,
+                              Q_ARG(unsigned, playerId));
+}
+
 void QmlGuiInterface::postRiverAnimation1()
 {
     // Show-down: call BeRo::postRiverRun() which distributes the pot

@@ -271,6 +271,8 @@ public:
     Q_INVOKABLE void onPostRiverRunBeRo();
     Q_INVOKABLE void onShowdown();
     Q_INVOKABLE void onFlipHolecardsAllIn();
+    // Ein Spieler zeigt nach der Hand freiwillig seine Karten (AfterHandShowCards).
+    Q_INVOKABLE void onPlayerShowCards(unsigned playerId);
 
     // Called from QML
     Q_INVOKABLE void fold();
@@ -419,6 +421,12 @@ private:
     // All-in-Aufdeckung: alle nicht-gefoldeten Spielerkarten sichtbar
     // (AllInShowCardsMessage), bis zur nächsten Hand zurückgesetzt.
     bool m_allInRevealed = false;
+    // Spieler (Unique-ID), die nach der Hand freiwillig ihre Karten gezeigt haben
+    // (AfterHandShowCardsMessage → SignalNetClientPostRiverShowCards). Ihre Karten
+    // bleiben aufgedeckt bis zur nächsten Hand. Im Widgets-Client macht das
+    // gameTableImpl::showHoleCards; die QML-Showdown-Aufdeckung greift hier nicht,
+    // weil der Zeiger nicht in playerNeedToShowCards steht (Gewinn ohne Showdown).
+    QSet<unsigned> m_postRiverShownPlayers;
     // Aktions-Anzeige: pro Sitz die zuletzt gesehene Aktion + das Runden-Token,
     // in dem sie gesetzt wurde. So wird die Aktion nur in ihrer eigenen Runde
     // angezeigt und zu Rundenbeginn überall automatisch entfernt.

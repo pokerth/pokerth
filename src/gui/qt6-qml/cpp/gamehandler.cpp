@@ -487,7 +487,11 @@ void GameHandler::refreshPlayerData()
                 // nicht-gefoldeten Spieler sichtbar (bis zur nächsten Hand).
                 const bool allInReveal = m_allInRevealed
                                          && (*it)->getMyAction() != PLAYER_ACTION_FOLD;
-                const bool faceUp = cardsKnown && (id == 0 || showdownReveal || allInReveal);
+                // Freiwilliges Zeigen nach der Hand (AfterHandShowCards): der Spieler
+                // muss nicht zwingend in playerNeedToShowCards stehen (Gewinn ohne
+                // Showdown), also separat aufdecken.
+                const bool postRiverShown = m_postRiverShownPlayers.contains((*it)->getMyUniqueID());
+                const bool faceUp = cardsKnown && (id == 0 || showdownReveal || allInReveal || postRiverShown);
                 if (id != 0 && m_allInRevealed) {
                     qDebug() << "[ALLIN] refreshPD seat" << id
                              << "cardsKnown=" << cardsKnown
@@ -508,9 +512,10 @@ void GameHandler::refreshPlayerData()
                 int act = (*it)->getMyAction();
                 const bool sameRound = (currentToken >= 0 && m_actionToken[id] == currentToken);
                 int displayAction;
-                if (m_showdownActive || allInReveal) {
-                    // Showdown und All-In-Runout (Karten aufgedeckt): Badge entfernen
-                    // damit die aufgedeckten Karten nicht verdeckt werden.
+                if (m_showdownActive || allInReveal || postRiverShown) {
+                    // Showdown, All-In-Runout und freiwilliges Zeigen (Karten
+                    // aufgedeckt): Badge entfernen, damit die aufgedeckten Karten
+                    // nicht verdeckt werden.
                     displayAction = 0;
                 } else if (act == PLAYER_ACTION_ALLIN) {
                     displayAction = act;
@@ -1393,6 +1398,7 @@ void GameHandler::onNextRoundCleanGui()
     // Showdown beenden, bevor die Spielerdaten neu gebaut werden → Karten zu.
     setShowdownActive(false);
     m_allInRevealed = false;
+    m_postRiverShownPlayers.clear();
     if (m_canShowCards) {
         m_canShowCards = false;
         emit canShowCardsChanged();
@@ -1996,4 +2002,44 @@ void GameHandler::onFlipHolecardsAllIn()
     m_allInRevealed = true;
     qDebug() << "[ALLIN]   m_allInRevealed set to true, calling refreshPlayerData";
     refreshPlayerData();
+}
+
+void GameHandler::onPlayerShowCards(unsigned playerId)
+{
+    // Ein Spieler hat nach der Hand freiwillig seine Karten gezeigt. Die Engine
+    // hat setMyCards()/setMyCardsValueInt() im AfterHandShowCardsMessage-Handler
+    // (clientstate.cpp) bereits aktualisiert. Im Widgets-Client deckt
+    // gameTableImpl::showHoleCards die Karten auf und protokolliert die Aktion via
+    // setMyCardsFlip(1,1) → logFlipHoleCardsMsg. Beides fehlte im QML-Client, weil
+    // SignalNetClientPostRiverShowCards dort ein No-op war.
+    if (localGameCallbacksBlocked()) return;
+    if (!m_game) return;
+    auto hand = m_game->getCurrentHand();
+    if (!hand) return;
+    auto activeList = hand->getActivePlayerList();
+    if (!activeList) return;
+
+    for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+        if ((*it)->getMyUniqueID() != playerId)
+            continue;
+        int cards[2] = {-1, -1};
+        (*it)->getMyCards(cards);
+        if (cards[0] < 0 || cards[1] < 0)
+            return;
+        // Karten aufgedeckt lassen (bis zur nächsten Hand).
+        m_postRiverShownPlayers.insert(playerId);
+        // Spielverlauf protokollieren: "name shows [c0, c1] - \"Handname\""
+        // (wie logFlipHoleCardsMsg mit state=1 im Widgets-Client).
+        QString line = QString::fromStdString((*it)->getMyName())
+                     + " shows [" + logCard(cards[0]) + ", " + logCard(cards[1]) + "]";
+        const int cardsValueInt = (*it)->getMyCardsValueInt();
+        if (cardsValueInt != -1) {
+            std::string handName = CardsValue::determineHandName(cardsValueInt, activeList);
+            if (!handName.empty())
+                line += " - \"" + QString::fromStdString(handName) + "\"";
+        }
+        appendGameLog(line);
+        refreshPlayerData();
+        return;
+    }
 }
