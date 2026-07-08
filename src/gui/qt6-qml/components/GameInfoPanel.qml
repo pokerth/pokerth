@@ -188,7 +188,7 @@ ColumnLayout {
             Column {
                 id: chanceCol
                 width: chanceFlick.width - root.scrollGutter
-                spacing: 4
+                spacing: 0
 
                 // Royal Flush oben, Höchste Karte unten (wie im Widgets-Client).
                 Repeater {
@@ -203,23 +203,21 @@ ColumnLayout {
                         readonly property bool possible: entry ? entry.possible : false
 
                         width: chanceCol.width
-                        height: 40
+                        height: 26
 
                         // Wahrscheinlichkeits-Balken als Zeilen-Hintergrund – kostet
                         // keine horizontale Breite, sodass der Name den vollen Platz
                         // bekommt (statt früh mit „…" abgeschnitten zu werden).
+                        // Wie der Chat: keine Bubbles/Ränder – die Zeilen füllen die
+                        // volle Höhe ohne Abstand und ergeben so eine durchgehende,
+                        // einheitliche Fläche; nur der Füllbalken hebt sich ab.
                         Rectangle {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            height: parent.height - 6
-                            radius: 6
-                            color: Config.Theme.withAlpha(root.colBorder, 0.18)
+                            anchors.fill: parent
+                            color: Config.Theme.withAlpha(root.colBorder, 0.14)
                             Rectangle {
                                 anchors.left: parent.left
                                 anchors.top: parent.top
                                 anchors.bottom: parent.bottom
-                                radius: parent.radius
                                 width: parent.width * Math.max(0, Math.min(100, prob)) / 100
                                 color: possible
                                        ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.30)
@@ -234,24 +232,22 @@ ColumnLayout {
                             spacing: 8
 
                             Image {
-                                Layout.preferredWidth: 52
-                                Layout.preferredHeight: 34
+                                Layout.preferredWidth: 38
+                                Layout.preferredHeight: 22
                                 Layout.alignment: Qt.AlignVCenter
                                 fillMode: Image.PreserveAspectFit
                                 smooth: true
                                 opacity: possible ? 1.0 : 0.32
                                 source: root.handIcon(cat)
-                                sourceSize.width: Math.ceil(52 * Screen.devicePixelRatio)
-                                sourceSize.height: Math.ceil(34 * Screen.devicePixelRatio)
+                                sourceSize.width: Math.ceil(38 * Screen.devicePixelRatio)
+                                sourceSize.height: Math.ceil(22 * Screen.devicePixelRatio)
                             }
 
                             AppText {
                                 Layout.fillWidth: true
                                 Layout.alignment: Qt.AlignVCenter
                                 text: root.handDefs[cat].name
-                                // Lieber umbrechen als früh kürzen; „…" erst nach 2 Zeilen.
-                                wrapMode: Text.WordWrap
-                                maximumLineCount: 2
+                                // Eine Zeile pro Kategorie – kompakt; bei Platzmangel „…".
                                 elide: Text.ElideRight
                                 font.pixelSize: root.messageFontSize
                                 color: possible ? root.colText : root.colTextMuted
