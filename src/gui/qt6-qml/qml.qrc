@@ -32,6 +32,7 @@
         <file>components/RankingHeaderCell.qml</file>
         <file>components/SeasonStatsSection.qml</file>
         <file>components/PlacementPieChart.qml</file>
+        <file>components/PlacementResult.qml</file>
         <file>components/CommunityPlayerView.qml</file>
         <file>components/CommunitySwitch.qml</file>
         <file>components/PlayerActionIcon.qml</file>

@@ -104,6 +104,7 @@ set(QML_FILES
     components/NicknameAvatarSettings.qml
     components/PanelShadow.qml
     components/PlacementPieChart.qml
+    components/PlacementResult.qml
     components/PlayerActionBadge.qml
     components/PlayerActionIcon.qml
     components/PlayerBoxBackground.qml

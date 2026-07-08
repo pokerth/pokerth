@@ -338,6 +338,29 @@ Rectangle {
                     readonly property var statData:
                         (playerView.stats && playerView.stats[modelData.key])
                         ? playerView.stats[modelData.key] : null
+                    // BBC vs. WEC: places ist bei BBC ein Array von Steps (je ein
+                    // 10er-Array Platz 1–10 oder null), bei WEC eine einzelne flache
+                    // 10er-Verteilung. `stepped` = BBC-Form (Step-Tabs), sonst genau
+                    // ein Ergebnis ohne Tabs.
+                    readonly property bool stepped: {
+                        var pl = (statData && statData.places) ? statData.places : []
+                        return pl.length > 0 && Array.isArray(pl[0])
+                    }
+                    readonly property var steps: {
+                        var out = []
+                        var pl = (statData && statData.places) ? statData.places : []
+                        if (pl.length === 0)
+                            return out
+                        if (Array.isArray(pl[0])) {
+                            for (var i = 0; i < pl.length; ++i)
+                                if (pl[i] && pl[i].length)
+                                    out.push({ label: qsTr("Step %1").arg(i + 1), data: pl[i] })
+                        } else {
+                            out.push({ label: "", data: pl })
+                        }
+                        return out
+                    }
+                    readonly property var stepLabels: steps.map(function(s) { return s.label })
                     Layout.fillWidth: true
                     spacing: 6
 
@@ -386,6 +409,43 @@ Rectangle {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    // ── Results: Platzierungs-Verteilung je Step ────────────
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.topMargin: 14
+                        spacing: 8
+                        visible: blockItem.steps.length > 0
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 10
+                            AppLabel {
+                                text: qsTr("Results:")
+                                color: Config.StaticData.palette.secondary.col200
+                                font.pixelSize: Config.Theme.fontSizeBody
+                                font.bold: true
+                            }
+                            CustomTabBar {
+                                id: stepBar
+                                visible: blockItem.stepped
+                                Layout.fillWidth: false
+                                Layout.preferredWidth: Math.max(1, blockItem.steps.length) * 74
+                                tabHeight: 26
+                                model: blockItem.stepLabels
+                            }
+                            Item { Layout.fillWidth: true }
+                        }
+
+                        PlacementResult {
+                            Layout.fillWidth: true
+                            readonly property int step:
+                                Math.min(stepBar.currentIndex, blockItem.steps.length - 1)
+                            values: (blockItem.steps.length > 0 && step >= 0)
+                                    ? blockItem.steps[step].data : []
+                            barColors: Config.StaticData.heatColors
                         }
                     }
                 }

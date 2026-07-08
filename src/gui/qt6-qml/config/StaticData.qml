@@ -112,6 +112,13 @@ QtObject {
         "#5668e2"   // 10 – blau
     ]
 
+    // Grün→Rot-Heat-Palette der BBC/WEC-Ergebnis-Balken, exakt wie
+    // bbc_wec_site BarChart.vue (COLORS): Platz 1 (grün, gut) … Platz 10 (rot).
+    readonly property var heatColors: [
+        "#4ba800", "#78bb00", "#a5cd00", "#d2e000", "#fff200",
+        "#ffc100", "#ff9100", "#ff6100", "#ff3000", "#ff0000"
+    ]
+
     // Responsiver Kartenpfad: {rank}{suit}.svg (responsive-playing-cards Namenskonvention)
     // rank: 1=Ass, 2-10, 11=Bube, 12=Dame, 13=König  |  suit: d=Karo, h=Herz, s=Pik, c=Kreuz
     function cardSourceResponsive(cardIndex) {

@@ -359,6 +359,16 @@
         <source>Points</source>
         <translation>Points</translation>
     </message>
+    <message>
+        <location filename="../components/CommunityPlayerView.qml"/>
+        <source>Results:</source>
+        <translation>Résultats :</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityPlayerView.qml"/>
+        <source>Step %1</source>
+        <translation>Step %1</translation>
+    </message>
 </context>
 <context>
     <name>CommunityRankingPage</name>

@@ -359,6 +359,16 @@
         <source>Points</source>
         <translation>Punti</translation>
     </message>
+    <message>
+        <location filename="../components/CommunityPlayerView.qml"/>
+        <source>Results:</source>
+        <translation>Risultati:</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityPlayerView.qml"/>
+        <source>Step %1</source>
+        <translation>Step %1</translation>
+    </message>
 </context>
 <context>
     <name>CommunityRankingPage</name>
@@ -3119,7 +3129,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location filename="../components/SeasonStatsSection.qml" line="+35"/>
         <source>Season Stats</source>
-        <translation>Statistiche stagione</translation>
+        <translation>Statistiche della stagione</translation>
     </message>
     <message>
         <location line="+59"/>
