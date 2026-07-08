@@ -218,6 +218,41 @@ Rectangle {
                         checked: Config.Parameters.showCommunityContent
                         onCheckedChanged: Config.Parameters.showCommunityContent = checked
                     }
+
+                    // Vorausgewählte Quelle für Table Info und Player Stats.
+                    RowLayout {
+                        id: defaultCommunityRow
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 24
+                        visible: Config.Parameters.showCommunityContent
+                        Layout.preferredHeight: visible ? implicitHeight : 0
+
+                        Label {
+                            Layout.preferredHeight: 24
+                            verticalAlignment: Text.AlignVCenter
+                            text: qsTr("Standard-Community:")
+                            color: Config.StaticData.palette.secondary.col200
+                            font.pointSize: 12
+                        }
+
+                        ComboBox {
+                            id: defaultCommunitySelector
+                            objectName: "defaultCommunitySelector"
+                            model: Config.Community.entries
+                            textRole: "label"
+                            Component.onCompleted:
+                                currentIndex = Math.max(0, indexForKey(Config.Parameters.defaultCommunity))
+                            onActivated:
+                                Config.Parameters.defaultCommunity = model[currentIndex].key
+
+                            function indexForKey(key) {
+                                for (var i = 0; i < model.length; ++i)
+                                    if (model[i].key === key)
+                                        return i
+                                return -1
+                            }
+                        }
+                    }
                     } // ColumnLayout
                 }
 

@@ -170,8 +170,8 @@ Rectangle {
                         if (nick === "")
                             return
                         playerPage.StackView.view.replace(
-                            communitySwitch.playerPageUrl(community),
-                            communitySwitch.playerPageProps(community, nick))
+                            Config.Community.playerPageUrl(community),
+                            Config.Community.playerPageProps(community, nick))
                     }
                 }
             }

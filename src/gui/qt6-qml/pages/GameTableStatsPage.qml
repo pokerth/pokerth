@@ -37,8 +37,12 @@ Rectangle {
     property var nicks: []
     property string tableName: ""
 
-    // Aktive Quelle des Umschalters: "pokerth" | "bbc" | "wec".
-    property string community: "pokerth"
+    // Aktive Quelle des Umschalters: "pokerth" | "bbc" | "wec". Startwert ist
+    // die im Backend vorausgewählte Default-Quelle (bei aktiven Community-
+    // Inhalten), sonst PokerTH.
+    property string community: (Config.Parameters.showCommunityContent
+                                && Config.Community.has(Config.Parameters.defaultCommunity))
+                               ? Config.Parameters.defaultCommunity : "pokerth"
 
     // Einheitliches Zeilenformat für alle Quellen:
     //   { rank_pos, player_id, username, games, mid, score }
@@ -156,7 +160,7 @@ Rectangle {
     function loadCommunityData(seq) {
         var comm = community
         var xhr = new XMLHttpRequest()
-        xhr.open("GET", communitySwitch.baseUrlFor(comm) + "/results/ranking")
+        xhr.open("GET", Config.Community.baseUrlFor(comm) + "/results/ranking")
         xhr.onreadystatechange = function() {
             if (xhr.readyState !== XMLHttpRequest.DONE || seq !== tableStatsPage.loadSeq)
                 return
@@ -378,9 +382,9 @@ Rectangle {
                                         })
                                     else
                                         tableStatsPage.StackView.view.push(
-                                            communitySwitch.playerPageUrl(tableStatsPage.community),
-                                            communitySwitch.playerPageProps(tableStatsPage.community,
-                                                                            statsDelegate.modelData.username || ""))
+                                            Config.Community.playerPageUrl(tableStatsPage.community),
+                                            Config.Community.playerPageProps(tableStatsPage.community,
+                                                                             statsDelegate.modelData.username || ""))
                                 }
                             }
                         }

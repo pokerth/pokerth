@@ -213,17 +213,15 @@
         <translation>Buscar apodo</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>This season</source>
-        <translation>Esta temporada</translation>
+        <translation type="vanished">Esta temporada</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>All-time</source>
-        <translation>Histórico</translation>
+        <translation type="vanished">Histórico</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+24"/>
         <source>Step1</source>
         <translation>Paso1</translation>
     </message>
@@ -241,7 +239,7 @@
         <translation>Mensaje …</translation>
     </message>
     <message>
-        <location line="+430"/>
+        <location line="+594"/>
         <source>Link öffnen</source>
         <translation>Abrir enlace</translation>
     </message>
@@ -276,7 +274,28 @@
 <context>
     <name>CommunityPlayerView</name>
     <message>
-        <location filename="../components/CommunityPlayerView.qml" line="+87"/>
+        <location filename="../components/CommunityPlayerView.qml" line="+30"/>
+        <source>This season</source>
+        <translation>Esta temporada</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <location line="+4"/>
+        <source>All-time</source>
+        <translation>Histórico</translation>
+    </message>
+    <message>
+        <location line="-2"/>
+        <source>This month</source>
+        <translation>Este mes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>This year</source>
+        <translation>Este año</translation>
+    </message>
+    <message>
+        <location line="+66"/>
         <source>Player not found.</source>
         <translation>Jugador no encontrado.</translation>
     </message>
@@ -296,7 +315,7 @@
         <translation>Miembro desde %1</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+30"/>
         <source>Awards</source>
         <translation>Premios</translation>
     </message>
@@ -367,7 +386,7 @@
 <context>
     <name>CommunityRankingView</name>
     <message>
-        <location filename="../components/CommunityRankingView.qml" line="+106"/>
+        <location filename="../components/CommunityRankingView.qml" line="+157"/>
         <location line="+17"/>
         <location line="+16"/>
         <source>Could not load ranking.</source>
@@ -394,17 +413,17 @@
         <translation>Apodo</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Games</source>
         <translation>Partidas</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+24"/>
         <source>Score</source>
         <translation>Puntuación</translation>
     </message>
     <message>
-        <location line="+117"/>
+        <location line="+160"/>
         <source>No entries.</source>
         <translation>No hay entradas.</translation>
     </message>
@@ -414,22 +433,22 @@
         <translation>No hay resultados.</translation>
     </message>
     <message>
-        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <location line="-44"/>
         <source>◀ Prev</source>
         <translation>◀ Ant.</translation>
     </message>
     <message>
-        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <location line="+10"/>
         <source>%1 / %2</source>
         <translation>%1 / %2</translation>
     </message>
     <message>
-        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <location line="+1"/>
         <source>Page %1 / %2  ·  %3 players</source>
         <translation>Página %1 / %2  ·  %3 jugadores</translation>
     </message>
     <message>
-        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <location line="+11"/>
         <source>Next ▶</source>
         <translation>Sig. ▶</translation>
     </message>
@@ -437,25 +456,20 @@
 <context>
     <name>CommunitySwitch</name>
     <message>
-        <location filename="../components/CommunitySwitch.qml" line="+39"/>
         <source>This season</source>
-        <translation>Esta temporada</translation>
+        <translation type="vanished">Esta temporada</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location line="+5"/>
         <source>All-time</source>
-        <translation>Histórico</translation>
+        <translation type="vanished">Histórico</translation>
     </message>
     <message>
-        <location line="-2"/>
         <source>This month</source>
-        <translation>Este mes</translation>
+        <translation type="vanished">Este mes</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>This year</source>
-        <translation>Este año</translation>
+        <translation type="vanished">Este año</translation>
     </message>
 </context>
 <context>
@@ -727,7 +741,7 @@
 <context>
     <name>GameTableStatsPage</name>
     <message>
-        <location filename="../pages/GameTableStatsPage.qml" line="+93"/>
+        <location filename="../pages/GameTableStatsPage.qml" line="+134"/>
         <location line="+36"/>
         <source>Could not load table ranking (HTTP %1).</source>
         <translation>No se pudo cargar la clasificación de la mesa (HTTP %1).</translation>
@@ -768,17 +782,17 @@
         <translation>#</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Player</source>
         <translation>Jugador</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Games</source>
         <translation>Partidas</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Avg</source>
         <translation>Prom.</translation>
     </message>
@@ -788,12 +802,12 @@
         <translation>Puntos</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Score</source>
         <translation>Puntuación</translation>
     </message>
     <message>
-        <location line="+137"/>
+        <location line="+138"/>
         <source>No ranking data for the players at this table yet.</source>
         <translation>Aún no hay datos de clasificación para los jugadores de esta mesa.</translation>
     </message>
@@ -1084,7 +1098,12 @@
         <translation>Mostrar contenido de la comunidad</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+16"/>
+        <source>Standard-Community:</source>
+        <translation>Comunidad predeterminada:</translation>
+    </message>
+    <message>
+        <location line="+44"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Poner el foco en el campo de apuesta cuando sea tu turno</translation>
     </message>
@@ -1415,7 +1434,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1064"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1085"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
@@ -1549,11 +1568,11 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>No se pudo unir a la partida.</translation>
     </message>
     <message>
-        <location line="+177"/>
+        <location line="+180"/>
         <location line="+30"/>
         <location line="+130"/>
         <location line="+9"/>
-        <location line="+140"/>
+        <location line="+144"/>
         <location line="+9"/>
         <location line="+11"/>
         <location line="+11"/>
@@ -1561,7 +1580,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>No conectado al servidor</translation>
     </message>
     <message>
-        <location line="-51"/>
+        <location line="-53"/>
         <source>%1 has been invited to %2 by %3.</source>
         <translation>%1 ha sido invitado a %2 por %3.</translation>
     </message>
@@ -1571,7 +1590,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>%1 ha rechazado la invitación a %2.</translation>
     </message>
     <message>
-        <location line="+134"/>
+        <location line="+137"/>
         <source>Registered players only</source>
         <translation>Sólo registrados</translation>
     </message>
@@ -1611,7 +1630,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Completa</translation>
     </message>
     <message>
-        <location line="-146"/>
+        <location line="-149"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 no puede unirse a %2 porque está ocupado.</translation>
     </message>
@@ -2379,7 +2398,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Intervalo de registro:</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+14"/>
         <source>Jedes Spiel</source>
         <translation>Cada partida</translation>
     </message>
@@ -2389,12 +2408,12 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Cada mano</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="-1"/>
         <source>Jede Aktion</source>
         <translation>Cada acción</translation>
     </message>
     <message>
-        <location line="-30"/>
+        <location line="-29"/>
         <source>Log-Speicherdauer (Tage):</source>
         <translation>Duración de conservación del registro (días):</translation>
     </message>
@@ -2905,9 +2924,89 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../cpp/ziputils.cpp" line="+54"/>
+        <source>Das Archiv konnte nicht gelesen werden.</source>
+        <translation>No se pudo leer el archivo ZIP.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
+        <translation>El archivo ZIP está vacío o contiene demasiados archivos.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
+        <translation>No se pudo crear el directorio de destino.</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
+        <translation>No se pudo leer una entrada del archivo ZIP.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+8"/>
+        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
+        <translation>El archivo ZIP contiene una ruta no válida: %1</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+14"/>
+        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
+        <translation>No se pudo crear el directorio: %1</translation>
+    </message>
+    <message>
+        <location line="-6"/>
+        <source>Das Archiv ist ungewöhnlich groß.</source>
+        <translation>El archivo ZIP es inusualmente grande.</translation>
+    </message>
+    <message>
+        <location line="+14"/>
+        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
+        <translation>No se pudo extraer una entrada del archivo ZIP: %1</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Datei konnte nicht geschrieben werden: %1</source>
+        <translation>No se pudo escribir el archivo: %1</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>Der Stil-Ordner wurde nicht gefunden.</source>
+        <translation>No se encontró la carpeta del estilo.</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Das Archiv konnte nicht erstellt werden.</source>
+        <translation>No se pudo crear el archivo ZIP.</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Datei konnte nicht gelesen werden: %1</source>
+        <translation>No se pudo leer el archivo: %1</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
+        <translation>No se pudo escribir el archivo en el archivo ZIP: %1</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Der Stil-Ordner enthält keine Dateien.</source>
+        <translation>La carpeta del estilo no contiene archivos.</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
+        <translation>No se pudo finalizar el archivo ZIP.</translation>
+    </message>
+</context>
+<context>
     <name>RankingPage</name>
     <message>
-        <location filename="../pages/RankingPage.qml" line="+70"/>
+        <location filename="../pages/RankingPage.qml" line="+90"/>
         <source>Could not load ranking (HTTP %1).</source>
         <translation>No se pudo cargar la clasificación (HTTP %1).</translation>
     </message>
@@ -2917,7 +3016,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>No se pudo interpretar la respuesta del servidor.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>Ranking</source>
         <translation>Clasificación</translation>
     </message>
@@ -2942,27 +3041,27 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>#</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Player</source>
         <translation>Jugador</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+8"/>
         <source>Games</source>
         <translation>Partidas</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Avg</source>
         <translation>Prom.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+10"/>
         <source>Score</source>
         <translation>Puntuación</translation>
     </message>
     <message>
-        <location line="+149"/>
+        <location line="+150"/>
         <source>No entries.</source>
         <translation>No hay entradas.</translation>
     </message>
@@ -3224,7 +3323,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+213"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+216"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Imágenes (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
@@ -3259,12 +3358,11 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>El archivo seleccionado no es un estilo de reverso de cartas.</translation>
     </message>
     <message>
-        <location line="+27"/>
         <source>PokerTH-Stile (*.xml)</source>
-        <translation>Estilos de PokerTH (*.xml)</translation>
+        <translation type="vanished">Estilos de PokerTH (*.xml)</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+86"/>
         <source>Die Stil-Datei kann nicht gelesen werden.</source>
         <translation>No se puede leer el archivo de estilo.</translation>
     </message>
@@ -3284,7 +3382,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>El nombre del archivo de estilo debe terminar en &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+5"/>
         <source>Die Stil-Datei muss in einem eigenen Ordner liegen.</source>
         <translation>El archivo de estilo debe estar en su propia carpeta.</translation>
     </message>
@@ -3339,38 +3437,47 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>El cliente sustituye el contenido faltante por gráficos estándar.</translation>
     </message>
     <message>
+        <location line="-182"/>
         <source>PokerTH-Stile (*.zip *.xml)</source>
         <translation>Estilos de PokerTH (*.zip *.xml)</translation>
     </message>
     <message>
+        <location line="+23"/>
         <source>Die ausgewählte Datei kann nicht gelesen werden.</source>
         <translation>No se puede leer el archivo seleccionado.</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>Es konnte kein temporäres Verzeichnis angelegt werden.</source>
         <translation>No se pudo crear un directorio temporal.</translation>
     </message>
     <message>
+        <location line="+11"/>
         <source>Das Archiv enthält keine Datei &quot;%1&quot;.</source>
         <translation>El archivo ZIP no contiene ningún archivo &quot;%1&quot;.</translation>
     </message>
     <message>
+        <location line="+196"/>
         <source>Stil exportieren</source>
         <translation>Exportar estilo</translation>
     </message>
     <message>
+        <location line="+1"/>
         <source>ZIP-Archive (*.zip)</source>
         <translation>Archivos ZIP (*.zip)</translation>
     </message>
     <message>
+        <location line="-9"/>
         <source>Der Stil &quot;%1&quot; wurde nicht gefunden.</source>
         <translation>No se encontró el estilo &quot;%1&quot;.</translation>
     </message>
     <message>
+        <location line="+22"/>
         <source>Das Archiv konnte nicht erstellt werden.</source>
         <translation>No se pudo crear el archivo ZIP.</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>Das Archiv konnte nicht nach &quot;%1&quot; geschrieben werden.</source>
         <translation>No se pudo escribir el archivo ZIP en &quot;%1&quot;.</translation>
     </message>
@@ -3558,7 +3665,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>StyleCard</name>
     <message>
-        <location filename="../components/StyleCard.qml" line="+68"/>
+        <location filename="../components/StyleCard.qml" line="+69"/>
         <source>Keine
 Vorschau</source>
         <translation>Sin
@@ -3580,6 +3687,7 @@ vista previa</translation>
         <translation>Eliminar estilo</translation>
     </message>
     <message>
+        <location line="+32"/>
         <source>Stil als ZIP exportieren</source>
         <translation>Exportar estilo como ZIP</translation>
     </message>
@@ -3593,6 +3701,7 @@ vista previa</translation>
     </message>
     <message>
         <location line="+0"/>
+        <location line="+8"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -3637,7 +3746,7 @@ vista previa</translation>
         <translation>Estilos de mesa disponibles:</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+26"/>
         <source>Keine Spieltisch-Stile gefunden.</source>
         <translation>No se encontraron estilos de mesa.</translation>
     </message>
@@ -3647,7 +3756,7 @@ vista previa</translation>
         <translation>Estilos de mazo disponibles:</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>Keine Kartenstapel-Stile gefunden.</source>
         <translation>No se encontraron estilos de mazo.</translation>
     </message>
@@ -3657,18 +3766,19 @@ vista previa</translation>
         <translation>Reversos de cartas disponibles:</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+27"/>
         <source>Keine Kartenrückseiten gefunden.</source>
         <translation>No se encontraron reversos de cartas.</translation>
     </message>
     <message>
-        <location line="-100"/>
-        <location line="+54"/>
-        <location line="+54"/>
+        <location line="-102"/>
+        <location line="+55"/>
+        <location line="+55"/>
         <source>Stil hinzufügen...</source>
         <translation>Añadir estilo...</translation>
     </message>
     <message>
+        <location line="-226"/>
         <source>Stil exportieren</source>
         <translation>Exportar estilo</translation>
     </message>
@@ -3766,19 +3876,16 @@ vista previa</translation>
         <translation>Buscar apodo</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>This month</source>
-        <translation>Este mes</translation>
+        <translation type="vanished">Este mes</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>This year</source>
-        <translation>Este año</translation>
+        <translation type="vanished">Este año</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>All-time</source>
-        <translation>Histórico</translation>
+        <translation type="vanished">Histórico</translation>
     </message>
 </context>
 <context>
@@ -3897,69 +4004,6 @@ y volver a la sala?</translation>
 and disconnect from the server?</source>
         <translation>¡Atención! ¿Seguro que quieres salir del lobby
 y desconectarte del servidor?</translation>
-    </message>
-</context>
-<context>
-    <name>QObject</name>
-    <message>
-        <source>Das Archiv konnte nicht gelesen werden.</source>
-        <translation>No se pudo leer el archivo ZIP.</translation>
-    </message>
-    <message>
-        <source>Das Archiv ist leer oder enthält zu viele Dateien.</source>
-        <translation>El archivo ZIP está vacío o contiene demasiados archivos.</translation>
-    </message>
-    <message>
-        <source>Das Zielverzeichnis konnte nicht angelegt werden.</source>
-        <translation>No se pudo crear el directorio de destino.</translation>
-    </message>
-    <message>
-        <source>Ein Archiv-Eintrag konnte nicht gelesen werden.</source>
-        <translation>No se pudo leer una entrada del archivo ZIP.</translation>
-    </message>
-    <message>
-        <source>Das Archiv enthält einen ungültigen Pfad: %1</source>
-        <translation>El archivo ZIP contiene una ruta no válida: %1</translation>
-    </message>
-    <message>
-        <source>Verzeichnis konnte nicht angelegt werden: %1</source>
-        <translation>No se pudo crear el directorio: %1</translation>
-    </message>
-    <message>
-        <source>Das Archiv ist ungewöhnlich groß.</source>
-        <translation>El archivo ZIP es inusualmente grande.</translation>
-    </message>
-    <message>
-        <source>Ein Archiv-Eintrag konnte nicht entpackt werden: %1</source>
-        <translation>No se pudo extraer una entrada del archivo ZIP: %1</translation>
-    </message>
-    <message>
-        <source>Datei konnte nicht geschrieben werden: %1</source>
-        <translation>No se pudo escribir el archivo: %1</translation>
-    </message>
-    <message>
-        <source>Der Stil-Ordner wurde nicht gefunden.</source>
-        <translation>No se encontró la carpeta del estilo.</translation>
-    </message>
-    <message>
-        <source>Das Archiv konnte nicht erstellt werden.</source>
-        <translation>No se pudo crear el archivo ZIP.</translation>
-    </message>
-    <message>
-        <source>Datei konnte nicht gelesen werden: %1</source>
-        <translation>No se pudo leer el archivo: %1</translation>
-    </message>
-    <message>
-        <source>Datei konnte nicht ins Archiv geschrieben werden: %1</source>
-        <translation>No se pudo escribir el archivo en el archivo ZIP: %1</translation>
-    </message>
-    <message>
-        <source>Der Stil-Ordner enthält keine Dateien.</source>
-        <translation>La carpeta del estilo no contiene archivos.</translation>
-    </message>
-    <message>
-        <source>Das Archiv konnte nicht abgeschlossen werden.</source>
-        <translation>No se pudo finalizar el archivo ZIP.</translation>
     </message>
 </context>
 </TS>

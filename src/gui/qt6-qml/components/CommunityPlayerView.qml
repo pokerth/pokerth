@@ -18,10 +18,23 @@ Rectangle {
     Layout.fillHeight: true
     color: Config.StaticData.palette.secondary.col700
 
-    property string baseUrl: ""
+    // Quelle ("bbc" | "wec") – legt Basis-URL und Stat-Blöcke fest.
+    property string community: ""
     property string nickname: ""
-    // [{ label, key }] – key referenziert einen Block in stats.
-    property var blocks: []
+
+    readonly property string baseUrl: community !== "" ? Config.Community.baseUrlFor(community) : ""
+    // [{ label, key }] – key referenziert einen Block in stats. Reihenfolge +
+    // Überschrift je Quelle (BBC: Saison/All-time, WEC: Monat/Jahr/All-time).
+    readonly property var blocks: {
+        if (community === "bbc")
+            return [ { label: qsTr("This season"), key: "season" },
+                     { label: qsTr("All-time"),    key: "alltime" } ]
+        if (community === "wec")
+            return [ { label: qsTr("This month"), key: "month" },
+                     { label: qsTr("This year"),  key: "year" },
+                     { label: qsTr("All-time"),   key: "alltime" } ]
+        return []
+    }
 
     readonly property bool compact: Config.Responsive.compact
     // Awards: responsive – auf Desktop groß genug zum Lesen, auf Mobilgeräten kompakter.
@@ -172,15 +185,14 @@ Rectangle {
                 // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
                 // Player-Page der gewählten Quelle (gleicher Nickname).
                 CommunitySwitch {
-                    id: communitySwitch
                     Layout.alignment: Qt.AlignTop
-                    current: playerView.baseUrl.indexOf("bbc.") !== -1 ? "bbc" : "wec"
+                    current: playerView.community
                     onSelected: function(community) {
                         var nick = (playerView.player && playerView.player.nickname)
                                    ? playerView.player.nickname : playerView.nickname
                         playerView.StackView.view.replace(
-                            communitySwitch.playerPageUrl(community),
-                            communitySwitch.playerPageProps(community, nick))
+                            Config.Community.playerPageUrl(community),
+                            Config.Community.playerPageProps(community, nick))
                     }
                 }
             }

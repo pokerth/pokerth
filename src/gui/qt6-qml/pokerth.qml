@@ -876,13 +876,22 @@ ApplicationWindow {
             networkMessagePopup.open()
         }
         // "Show player stats" (Lobby-Icon / Tisch-Kontextmenü): native
-        // Player-Page statt Browser-Link.
+        // Player-Page statt Browser-Link. Quelle = im Backend vorausgewählte
+        // Default-Community (bei aktiven Community-Inhalten), sonst PokerTH.
         function onPlayerStatsRequested(playerName) {
+            var comm = (Config.Parameters.showCommunityContent
+                        && Config.Community.has(Config.Parameters.defaultCommunity))
+                       ? Config.Parameters.defaultCommunity : "pokerth"
             var c = mainStackView.currentItem
-            // Doppelklick-Schutz: Page desselben Spielers liegt bereits oben.
-            if (c && c.objectName === "pokerthPlayerPage" && c.username === playerName)
+            // Doppelklick-Schutz: Page desselben Spielers liegt bereits oben
+            // (PokerTH per username, BBC/WEC per nickname).
+            if (c && ((comm === "pokerth" && c.objectName === "pokerthPlayerPage"
+                       && c.username === playerName)
+                      || (comm !== "pokerth" && c.objectName === "communityPlayerPage"
+                          && c.community === comm && c.nickname === playerName)))
                 return
-            mainStackView.push("pages/PokerthPlayerPage.qml", { username: playerName })
+            mainStackView.push(Config.Community.playerPageUrl(comm),
+                               Config.Community.playerPageProps(comm, playerName))
         }
     }
 

@@ -9,9 +9,9 @@ import "../config" as Config
 // reagiert auf selected(community): Player-Pages ersetzen sich damit selbst
 // (StackView.replace), die Tisch-Übersicht lädt ihre Daten neu.
 //
-// Die Helfer bündeln die Quell-Konfiguration (Basis-URL, Stat-Blöcke der
-// CommunityPlayerView, Player-Page-URL+Props), damit sie nicht in jeder
-// aufrufenden Seite dupliziert werden muss.
+// Quell-Registry und Routing (Einträge, Basis-URL, Player-Page-URL+Props)
+// liegen zentral in Config.Community, damit sie nicht in jeder aufrufenden
+// Seite dupliziert werden müssen.
 Rectangle {
     id: sw
 
@@ -19,46 +19,6 @@ Rectangle {
     property string current: "pokerth"
     // Klick auf einen NICHT aktiven Eintrag (aktiver Eintrag löst nichts aus).
     signal selected(string community)
-
-    readonly property var entries: [
-        { label: "PokerTH", key: "pokerth" },
-        { label: "BBC",     key: "bbc" },
-        { label: "WEC",     key: "wec" }
-    ]
-
-    function baseUrlFor(community) {
-        return community === "bbc" ? "https://bbc.pokerth.net"
-                                   : "https://wec.pokerth.net"
-    }
-
-    // Stat-Blöcke der CommunityPlayerView je Quelle (Reihenfolge + Überschrift,
-    // key referenziert den Block in deren stats-Objekt).
-    function blocksFor(community) {
-        if (community === "bbc")
-            return [
-                { label: qsTr("This season"), key: "season" },
-                { label: qsTr("All-time"),    key: "alltime" }
-            ]
-        return [
-            { label: qsTr("This month"), key: "month" },
-            { label: qsTr("This year"),  key: "year" },
-            { label: qsTr("All-time"),   key: "alltime" }
-        ]
-    }
-
-    // Player-Page der Quelle: PokerTH hat eine eigene Seite, BBC/WEC teilen
-    // sich die CommunityPlayerView.
-    function playerPageUrl(community) {
-        return community === "pokerth"
-               ? "qrc:/pages/PokerthPlayerPage.qml"
-               : "qrc:/components/CommunityPlayerView.qml"
-    }
-    function playerPageProps(community, nick) {
-        if (community === "pokerth")
-            return { username: nick }
-        return { baseUrl: baseUrlFor(community), nickname: nick,
-                 blocks: blocksFor(community) }
-    }
 
     implicitWidth: segmentRow.implicitWidth + 2
     implicitHeight: 26
@@ -73,7 +33,7 @@ Rectangle {
         anchors.margins: 1
 
         Repeater {
-            model: sw.entries
+            model: Config.Community.entries
 
             Rectangle {
                 id: segment

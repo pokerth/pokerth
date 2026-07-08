@@ -144,6 +144,7 @@ set(QML_FILES
     pages/SettingsPage.qml
     pages/StartPage.qml
     pages/WecRankingPage.qml
+    config/Community.qml
     config/Parameters.qml
     config/Responsive.qml
     config/StaticData.qml
