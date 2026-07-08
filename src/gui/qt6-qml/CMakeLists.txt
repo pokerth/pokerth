@@ -111,6 +111,7 @@ set(QML_FILES
     components/PlayerTurnGlow.qml
     components/PlayerWinnerOverlay.qml
     components/RankingFilterField.qml
+    components/RankingHeaderCell.qml
     components/ReactionPicker.qml
     components/ResetSettings.qml
     components/ResizeHandle.qml

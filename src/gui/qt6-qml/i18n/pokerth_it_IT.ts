@@ -413,6 +413,26 @@
         <source>No matches.</source>
         <translation>Nessuna corrispondenza.</translation>
     </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>◀ Prev</source>
+        <translation>◀ Prec</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>%1 / %2</source>
+        <translation>%1 / %2</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>Page %1 / %2  ·  %3 players</source>
+        <translation>Pagina %1 / %2  ·  %3 giocatori</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>Next ▶</source>
+        <translation>Succ ▶</translation>
+    </message>
 </context>
 <context>
     <name>CommunitySwitch</name>

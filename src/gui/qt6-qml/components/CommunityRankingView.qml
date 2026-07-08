@@ -43,6 +43,57 @@ Rectangle {
     // Body für den POST – wird von der Seite gesetzt (Funktion → Objekt).
     property var makeBody: function() { return {} }
 
+    // ── Sortierung & Pagination (clientseitig) ────────────────────────────────
+    // Alle Zeilen kommen auf einmal vom Server; Sortieren/Blättern passiert hier.
+    property string sortKey: "score"        // Default: nach Score (= Rangliste)
+    property string sortOrder: "desc"       // "asc" | "desc"
+    property int currentPage: 1
+    property int pageSize: 25
+    readonly property bool ascending: sortOrder.indexOf("asc") === 0
+
+    // Gefiltert → sortiert. Numerische Felder (score/games/…) werden numerisch
+    // verglichen, alles andere (nickname) alphabetisch.
+    readonly property var sortedRows: {
+        var arr = filteredRows.slice()
+        var key = sortKey
+        var dir = ascending ? 1 : -1
+        arr.sort(function(a, b) {
+            var av = a[key], bv = b[key]
+            var an = parseFloat(av), bn = parseFloat(bv)
+            var numeric = !isNaN(an) && !isNaN(bn)
+                          && String(av).trim() !== "" && String(bv).trim() !== ""
+            if (numeric)
+                return an === bn ? 0 : (an < bn ? -dir : dir)
+            var as = String(av === undefined || av === null ? "" : av).toLowerCase()
+            var bs = String(bv === undefined || bv === null ? "" : bv).toLowerCase()
+            return as === bs ? 0 : (as < bs ? -dir : dir)
+        })
+        return arr
+    }
+    readonly property int total: filteredRows.length
+    readonly property int pageCount: Math.max(1, Math.ceil(total / pageSize))
+    // Sichtbarer Ausschnitt der aktuellen Seite.
+    readonly property var pageRows: {
+        var start = (currentPage - 1) * pageSize
+        return sortedRows.slice(start, start + pageSize)
+    }
+
+    // Klick auf einen Spaltenkopf: gleiches Feld → Richtung umkehren, sonst neues
+    // Feld (Zahlen absteigend, Namen aufsteigend als sinnvolle Voreinstellung).
+    function requestSort(key) {
+        if (sortKey === key)
+            sortOrder = ascending ? "desc" : "asc"
+        else {
+            sortKey = key
+            sortOrder = (key === "nickname") ? "asc" : "desc"
+        }
+        currentPage = 1
+    }
+
+    // Neuer Datensatz oder geänderte Suche → zurück auf Seite 1.
+    onRowsChanged: currentPage = 1
+    onSearchTextChanged: currentPage = 1
+
     // Mobil/schmal: Nebenspalten ausblenden, nur #/Nickname/Score zeigen, damit
     // die Tabelle ohne horizontales Scrollen passt.
     readonly property bool compact: Config.Responsive.compact
@@ -181,42 +232,46 @@ Rectangle {
                     font.pixelSize: Config.Theme.fontSizeCaption
                     font.bold: true
                 }
-                AppLabel {
-                    text: qsTr("Nickname")
+                RankingHeaderCell {
+                    label: qsTr("Nickname")
                     Layout.fillWidth: true
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "nickname"
+                    activeKey: view.sortKey
+                    sortOrder: view.sortOrder
+                    onSortRequested: view.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Games")
+                RankingHeaderCell {
+                    label: qsTr("Games")
                     visible: !view.compact
                     Layout.preferredWidth: 70
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "games"
+                    activeKey: view.sortKey
+                    sortOrder: view.sortOrder
+                    onSortRequested: view.requestSort(key)
                 }
                 Repeater {
                     model: view.extraColumns
-                    AppLabel {
+                    RankingHeaderCell {
                         required property var modelData
                         visible: !view.compact
-                        text: modelData.label
+                        label: modelData.label
                         Layout.preferredWidth: modelData.width || 70
                         horizontalAlignment: Text.AlignRight
-                        color: Config.StaticData.palette.secondary.col200
-                        font.pixelSize: Config.Theme.fontSizeCaption
-                        font.bold: true
+                        sortKey: modelData.field
+                        activeKey: view.sortKey
+                        sortOrder: view.sortOrder
+                        onSortRequested: view.requestSort(key)
                     }
                 }
-                AppLabel {
-                    text: qsTr("Score")
+                RankingHeaderCell {
+                    label: qsTr("Score")
                     Layout.preferredWidth: view.compact ? 56 : 80
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "score"
+                    activeKey: view.sortKey
+                    sortOrder: view.sortOrder
+                    onSortRequested: view.requestSort(key)
                 }
             }
         }
@@ -227,7 +282,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: view.filteredRows
+            model: view.pageRows
             boundsBehavior: Flickable.StopAtBounds
             ScrollBar.vertical: ScrollBar {
                 policy: rankList.contentHeight > rankList.height + 4
@@ -238,6 +293,8 @@ Rectangle {
                 id: rankDelegate
                 required property int index
                 required property var modelData
+                // Fortlaufende Position über alle Seiten hinweg (1-basiert).
+                readonly property int rankNo: (view.currentPage - 1) * view.pageSize + index + 1
                 width: ListView.view.width
                 height: 34
 
@@ -256,13 +313,13 @@ Rectangle {
                     spacing: 8
 
                     AppLabel {
-                        text: rankDelegate.index + 1
+                        text: rankDelegate.rankNo
                         Layout.preferredWidth: view.compact ? 32 : 40
-                        color: (rankDelegate.index + 1) <= 3
+                        color: rankDelegate.rankNo <= 3
                                ? Config.Theme.colorAccent
                                : Config.StaticData.palette.secondary.col100
                         font.pixelSize: Config.Theme.fontSizeBody
-                        font.bold: (rankDelegate.index + 1) <= 3
+                        font.bold: rankDelegate.rankNo <= 3
                     }
                     AppLabel {
                         id: nickLabel
@@ -311,6 +368,46 @@ Rectangle {
                         font.bold: true
                     }
                 }
+            }
+        }
+
+        // Seiten-Navigation – clientseitig, da alle Zeilen bereits geladen sind.
+        // Nur sichtbar, wenn es mehr als eine Seite gibt.
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
+            Layout.preferredHeight: visible ? 40 : 0
+            visible: view.total > view.pageSize
+            spacing: 8
+
+            CustomButton {
+                text: qsTr("◀ Prev")
+                Layout.preferredWidth: view.compact ? 84 : 110
+                enabled: view.currentPage > 1
+                onClicked: view.currentPage--
+            }
+
+            Item { Layout.fillWidth: true }
+
+            AppLabel {
+                text: view.compact
+                      ? qsTr("%1 / %2").arg(view.currentPage).arg(view.pageCount)
+                      : qsTr("Page %1 / %2  ·  %3 players")
+                          .arg(view.currentPage).arg(view.pageCount).arg(view.total)
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: Config.Theme.fontSizeCaption
+            }
+
+            Item { Layout.fillWidth: true }
+
+            CustomButton {
+                text: qsTr("Next ▶")
+                Layout.preferredWidth: view.compact ? 84 : 110
+                enabled: view.currentPage < view.pageCount
+                onClicked: view.currentPage++
             }
         }
     }

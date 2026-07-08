@@ -33,6 +33,11 @@ Rectangle {
     property bool loading: false
     property string errorText: ""
 
+    // Sortierung – serverseitig (Body sort:{prop,order}). Default wie bisher:
+    // nach Rangposition. Klick auf einen Spaltenkopf schaltet Feld/Richtung um.
+    property string sortProp: "rank_pos"
+    property string sortOrder: "descending"     // "ascending" | "descending"
+
     // Beim Wiederherstellen über den Globus-Toggle gesetzt → Filter-Zustand
     // (Saison, Suche, Seite) wiederherstellen statt Defaults laden.
     property var restoreState: null
@@ -42,7 +47,22 @@ Rectangle {
 
     // Aktuellen Filter-Zustand für das spätere Wiederherstellen sichern.
     function captureState() {
-        return { season: season, searchQuery: searchQuery, currentPage: currentPage }
+        return { season: season, searchQuery: searchQuery, currentPage: currentPage,
+                 sortProp: sortProp, sortOrder: sortOrder }
+    }
+
+    // Klick auf einen Spaltenkopf: gleiches Feld → Richtung umkehren, sonst neues
+    // Feld (Zahlen absteigend, Name aufsteigend als sinnvolle Voreinstellung).
+    // Sortierung ist serverseitig → neu laden und zurück auf Seite 1.
+    function requestSort(prop) {
+        if (sortProp === prop)
+            sortOrder = (sortOrder === "ascending" ? "descending" : "ascending")
+        else {
+            sortProp = prop
+            sortOrder = (prop === "username") ? "ascending" : "descending"
+        }
+        currentPage = 1
+        loadData()
     }
 
     function loadData() {
@@ -52,7 +72,7 @@ Rectangle {
         var payload = {
             page: currentPage,
             pageSize: pageSize,
-            sort: { prop: "rank_pos", order: "descending" },
+            sort: { prop: sortProp, order: sortOrder },
             filters: searchQuery !== ""
                      ? { value: searchQuery, props: "username" } : null
         }
@@ -93,6 +113,8 @@ Rectangle {
             season = restoreState.season || "current"
             searchQuery = restoreState.searchQuery || ""
             currentPage = restoreState.currentPage || 1
+            sortProp = restoreState.sortProp || "rank_pos"
+            sortOrder = restoreState.sortOrder || "descending"
             searchField.text = searchQuery     // löst onTextChanged aus (Timer unterdrückt)
             restoring = false
         }
@@ -194,45 +216,50 @@ Rectangle {
                 anchors.rightMargin: 10
                 spacing: 8
 
-                AppLabel {
-                    text: qsTr("#")
+                RankingHeaderCell {
+                    label: qsTr("#")
                     Layout.preferredWidth: rankingPage.compact ? 32 : 40
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "rank_pos"
+                    activeKey: rankingPage.sortProp
+                    sortOrder: rankingPage.sortOrder
+                    onSortRequested: rankingPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Player")
+                RankingHeaderCell {
+                    label: qsTr("Player")
                     Layout.fillWidth: true
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "username"
+                    activeKey: rankingPage.sortProp
+                    sortOrder: rankingPage.sortOrder
+                    onSortRequested: rankingPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Games")
+                RankingHeaderCell {
+                    label: qsTr("Games")
                     visible: !rankingPage.compact
                     Layout.preferredWidth: 70
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "season_games"
+                    activeKey: rankingPage.sortProp
+                    sortOrder: rankingPage.sortOrder
+                    onSortRequested: rankingPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Avg")
+                RankingHeaderCell {
+                    label: qsTr("Avg")
                     visible: !rankingPage.compact
                     Layout.preferredWidth: 60
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "average_score"
+                    activeKey: rankingPage.sortProp
+                    sortOrder: rankingPage.sortOrder
+                    onSortRequested: rankingPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Score")
+                RankingHeaderCell {
+                    label: qsTr("Score")
                     Layout.preferredWidth: rankingPage.compact ? 56 : 80
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "final_score"
+                    activeKey: rankingPage.sortProp
+                    sortOrder: rankingPage.sortOrder
+                    onSortRequested: rankingPage.requestSort(key)
                 }
             }
         }

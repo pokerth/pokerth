@@ -49,6 +49,43 @@ Rectangle {
     // Läufer-Nummer gegen veraltete Antworten nach schnellem Umschalten.
     property int loadSeq: 0
 
+    // ── Sortierung (clientseitig) ─────────────────────────────────────────────
+    // Wenige Zeilen (max. Tischgröße) → keine Pagination nötig, nur Sortieren.
+    // Default: nach Platzierung der Gesamtrangliste (beste zuerst).
+    property string sortKey: "rank_pos"
+    property string sortOrder: "asc"        // "asc" | "desc"
+    readonly property bool ascending: sortOrder.indexOf("asc") === 0
+
+    // Numerische Felder (rank_pos/games/mid/score) numerisch, username alphabetisch.
+    readonly property var sortedRows: {
+        var arr = rows.slice()
+        var key = sortKey
+        var dir = ascending ? 1 : -1
+        arr.sort(function(a, b) {
+            var av = a[key], bv = b[key]
+            var an = parseFloat(av), bn = parseFloat(bv)
+            var numeric = !isNaN(an) && !isNaN(bn)
+                          && String(av).trim() !== "" && String(bv).trim() !== ""
+            if (numeric)
+                return an === bn ? 0 : (an < bn ? -dir : dir)
+            var as = String(av === undefined || av === null ? "" : av).toLowerCase()
+            var bs = String(bv === undefined || bv === null ? "" : bv).toLowerCase()
+            return as === bs ? 0 : (as < bs ? -dir : dir)
+        })
+        return arr
+    }
+
+    // Klick auf einen Spaltenkopf: gleiches Feld → Richtung umkehren, sonst neues
+    // Feld (Platzierung/Name aufsteigend, übrige Zahlen absteigend).
+    function requestSort(key) {
+        if (sortKey === key)
+            sortOrder = ascending ? "desc" : "asc"
+        else {
+            sortKey = key
+            sortOrder = (key === "username" || key === "rank_pos") ? "asc" : "desc"
+        }
+    }
+
     function score2(v) { return (Number(v) / 100).toFixed(2) }
 
     // Vue-Prop (HTML-entity-kodiert) aus dem Seiten-HTML lesen – wie
@@ -217,46 +254,51 @@ Rectangle {
                 anchors.rightMargin: 10
                 spacing: 8
 
-                AppLabel {
-                    text: qsTr("#")
+                RankingHeaderCell {
+                    label: qsTr("#")
                     Layout.preferredWidth: tableStatsPage.compact ? 48 : 60
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "rank_pos"
+                    activeKey: tableStatsPage.sortKey
+                    sortOrder: tableStatsPage.sortOrder
+                    onSortRequested: tableStatsPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Player")
+                RankingHeaderCell {
+                    label: qsTr("Player")
                     Layout.fillWidth: true
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "username"
+                    activeKey: tableStatsPage.sortKey
+                    sortOrder: tableStatsPage.sortOrder
+                    onSortRequested: tableStatsPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Games")
+                RankingHeaderCell {
+                    label: qsTr("Games")
                     visible: !tableStatsPage.compact
                     Layout.preferredWidth: 70
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "games"
+                    activeKey: tableStatsPage.sortKey
+                    sortOrder: tableStatsPage.sortOrder
+                    onSortRequested: tableStatsPage.requestSort(key)
                 }
-                AppLabel {
+                RankingHeaderCell {
                     // PokerTH: Saison-Durchschnitt; BBC/WEC: Punkte.
-                    text: tableStatsPage.community === "pokerth" ? qsTr("Avg") : qsTr("Points")
+                    label: tableStatsPage.community === "pokerth" ? qsTr("Avg") : qsTr("Points")
                     visible: !tableStatsPage.compact
                     Layout.preferredWidth: 60
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "mid"
+                    activeKey: tableStatsPage.sortKey
+                    sortOrder: tableStatsPage.sortOrder
+                    onSortRequested: tableStatsPage.requestSort(key)
                 }
-                AppLabel {
-                    text: qsTr("Score")
+                RankingHeaderCell {
+                    label: qsTr("Score")
                     Layout.preferredWidth: tableStatsPage.compact ? 56 : 80
                     horizontalAlignment: Text.AlignRight
-                    color: Config.StaticData.palette.secondary.col200
-                    font.pixelSize: Config.Theme.fontSizeCaption
-                    font.bold: true
+                    sortKey: "score"
+                    activeKey: tableStatsPage.sortKey
+                    sortOrder: tableStatsPage.sortOrder
+                    onSortRequested: tableStatsPage.requestSort(key)
                 }
             }
         }
@@ -275,7 +317,7 @@ Rectangle {
                 anchors.fill: parent
                 anchors.margins: 1
                 clip: true
-                model: tableStatsPage.rows
+                model: tableStatsPage.sortedRows
                 boundsBehavior: Flickable.StopAtBounds
                 ScrollBar.vertical: ScrollBar {
                     policy: statsList.contentHeight > statsList.height + 4

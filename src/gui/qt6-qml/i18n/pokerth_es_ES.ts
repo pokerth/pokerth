@@ -413,6 +413,26 @@
         <source>No matches.</source>
         <translation>No hay resultados.</translation>
     </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>◀ Prev</source>
+        <translation>◀ Ant.</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>%1 / %2</source>
+        <translation>%1 / %2</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>Page %1 / %2  ·  %3 players</source>
+        <translation>Página %1 / %2  ·  %3 jugadores</translation>
+    </message>
+    <message>
+        <location filename="../components/CommunityRankingView.qml" line="0"/>
+        <source>Next ▶</source>
+        <translation>Sig. ▶</translation>
+    </message>
 </context>
 <context>
     <name>CommunitySwitch</name>

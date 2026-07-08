@@ -29,6 +29,7 @@
         <file>components/PanelShadow.qml</file>
         <file>components/SectionDivider.qml</file>
         <file>components/CommunityRankingView.qml</file>
+        <file>components/RankingHeaderCell.qml</file>
         <file>components/CommunityPlayerView.qml</file>
         <file>components/CommunitySwitch.qml</file>
         <file>components/PlayerActionIcon.qml</file>
