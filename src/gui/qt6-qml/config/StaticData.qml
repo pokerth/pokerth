@@ -95,6 +95,23 @@ QtObject {
         "#4060e0"   // 10 – Blau
     ]
 
+    // Platzierungs-Palette 1–10, exakt wie die pokerth.net-Season-Charts
+    // (chartColors.js → PLACEMENT_COLORS). Bewusst getrennt von `chartColors`
+    // oben: jene ist eine dunklere UI-Akzent-Variante, hier soll die Season-
+    // Stats-Grafik farblich 1:1 der Website entsprechen.
+    readonly property var placementColors: [
+        "#56e289",  // 1  – grün
+        "#68e256",  // 2  – hellgrün
+        "#aee256",  // 3  – gelbgrün
+        "#e2c856",  // 4  – gelb
+        "#e2a056",  // 5  – orange
+        "#e25468",  // 6  – rot
+        "#e256ae",  // 7  – pink
+        "#cf56e2",  // 8  – lila
+        "#8a56e2",  // 9  – violett
+        "#5668e2"   // 10 – blau
+    ]
+
     // Responsiver Kartenpfad: {rank}{suit}.svg (responsive-playing-cards Namenskonvention)
     // rank: 1=Ass, 2-10, 11=Bube, 12=Dame, 13=König  |  suit: d=Karo, h=Herz, s=Pik, c=Kreuz
     function cardSourceResponsive(cardIndex) {

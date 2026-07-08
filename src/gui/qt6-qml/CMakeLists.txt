@@ -103,6 +103,7 @@ set(QML_FILES
     components/NetworkGameSettings.qml
     components/NicknameAvatarSettings.qml
     components/PanelShadow.qml
+    components/PlacementPieChart.qml
     components/PlayerActionBadge.qml
     components/PlayerActionIcon.qml
     components/PlayerBoxBackground.qml
@@ -115,6 +116,7 @@ set(QML_FILES
     components/ReactionPicker.qml
     components/ResetSettings.qml
     components/ResizeHandle.qml
+    components/SeasonStatsSection.qml
     components/SectionDivider.qml
     components/SettingsHeader.qml
     components/SideMenu.qml

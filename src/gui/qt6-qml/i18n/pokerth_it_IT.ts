@@ -2914,6 +2914,11 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <source>#%1</source>
         <translation>#%1</translation>
     </message>
+    <message>
+        <location filename="../pages/PokerthPlayerPage.qml"/>
+        <source>Seasons</source>
+        <translation>Stagioni</translation>
+    </message>
 </context>
 <context>
     <name>PreLoader</name>
@@ -3107,6 +3112,24 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
         <translation>Le impostazioni sono state ripristinate. Riavvia PokerTH affinché tutte le modifiche abbiano effetto.</translation>
+    </message>
+</context>
+<context>
+    <name>SeasonStatsSection</name>
+    <message>
+        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <source>Season Stats</source>
+        <translation>Statistiche stagione</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Games</source>
+        <translation>Partite</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Share</source>
+        <translation>Quota</translation>
     </message>
 </context>
 <context>

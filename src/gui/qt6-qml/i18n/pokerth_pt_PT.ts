@@ -2914,6 +2914,11 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
         <source>#%1</source>
         <translation>#%1</translation>
     </message>
+    <message>
+        <location filename="../pages/PokerthPlayerPage.qml"/>
+        <source>Seasons</source>
+        <translation>Épocas</translation>
+    </message>
 </context>
 <context>
     <name>PreLoader</name>
@@ -3107,6 +3112,24 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
         <translation>As definições foram repostas. Reinicia o PokerTH para que todas as alterações tenham efeito.</translation>
+    </message>
+</context>
+<context>
+    <name>SeasonStatsSection</name>
+    <message>
+        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <source>Season Stats</source>
+        <translation>Estatísticas da época</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Games</source>
+        <translation>Jogos</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Share</source>
+        <translation>Proporção</translation>
     </message>
 </context>
 <context>

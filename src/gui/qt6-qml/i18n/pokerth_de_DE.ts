@@ -2914,6 +2914,11 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
         <source>#%1</source>
         <translation>#%1</translation>
     </message>
+    <message>
+        <location filename="../pages/PokerthPlayerPage.qml"/>
+        <source>Seasons</source>
+        <translation>Saisons</translation>
+    </message>
 </context>
 <context>
     <name>PreLoader</name>
@@ -3107,6 +3112,24 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
         <translation>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</translation>
+    </message>
+</context>
+<context>
+    <name>SeasonStatsSection</name>
+    <message>
+        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <source>Season Stats</source>
+        <translation>Saison-Statistik</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Games</source>
+        <translation>Spiele</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Share</source>
+        <translation>Anteil</translation>
     </message>
 </context>
 <context>

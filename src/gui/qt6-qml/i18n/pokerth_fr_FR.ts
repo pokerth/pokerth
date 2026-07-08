@@ -2914,6 +2914,11 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <source>#%1</source>
         <translation>#%1</translation>
     </message>
+    <message>
+        <location filename="../pages/PokerthPlayerPage.qml"/>
+        <source>Seasons</source>
+        <translation>Saisons</translation>
+    </message>
 </context>
 <context>
     <name>PreLoader</name>
@@ -3107,6 +3112,24 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <location line="+32"/>
         <source>Einstellungen wurden zurückgesetzt. Bitte starte PokerTH neu, damit alle Änderungen wirksam werden.</source>
         <translation>Les paramètres ont été réinitialisés. Veuillez redémarrer PokerTH pour que toutes les modifications prennent effet.</translation>
+    </message>
+</context>
+<context>
+    <name>SeasonStatsSection</name>
+    <message>
+        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <source>Season Stats</source>
+        <translation>Statistiques de la saison</translation>
+    </message>
+    <message>
+        <location line="+59"/>
+        <source>Games</source>
+        <translation>Parties</translation>
+    </message>
+    <message>
+        <location line="+28"/>
+        <source>Share</source>
+        <translation>Part</translation>
     </message>
 </context>
 <context>
