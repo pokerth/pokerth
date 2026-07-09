@@ -162,6 +162,15 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
 
     m_localGameExitRequested = false;
     m_game = game;
+    // Zuschauer-Modus des Netzwerk-Clients übernehmen (im lokalen Spiel immer
+    // false). Steht bereits fest, wenn die Engine das Spiel meldet: der
+    // JoinGameAck kam vor dem Spielstart.
+    const bool spectating = m_session && m_session->isNetworkClientRunning()
+                            && m_session->isClientSpectating();
+    if (spectating != m_spectating) {
+        m_spectating = spectating;
+        emit spectatingChanged();
+    }
     m_leftPlayers.clear();
     // Ausstehende Busted-Player-Timer aus dem vorigen Spiel verwerfen.
     qDeleteAll(m_bustedLocalTimers);
@@ -548,9 +557,11 @@ void GameHandler::refreshPlayerData()
                 // Computer-Gegner: für sie gibt es keine Kontextaktionen
                 // (Ignore/Stats) – wie im Qt-Widgets-Client (MyAvatarLabel).
                 p["isComputer"] = ((*it)->getMyType() == PLAYER_TYPE_COMPUTER);
-                // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der Config.
+                // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der
+                // Config – aber nur, wenn ich selbst dort sitze. Als Zuschauer
+                // ist Sitz 0 ein fremder Spieler und bekäme sonst MEINEN Avatar.
                 std::string avatarRaw = (*it)->getMyAvatar();
-                if (avatarRaw.empty() && id == 0 && m_config)
+                if (avatarRaw.empty() && id == 0 && !m_spectating && m_config)
                     avatarRaw = m_config->readConfigString("MyAvatar");
                 p["avatar"] = resolveAvatarSource(avatarRaw);
                 p["card0"]  = faceUp ? cards[0] : -1;
@@ -618,7 +629,9 @@ void GameHandler::computeCallAndRaiseAmounts()
     int dbgHandId   = -1;   // [ACTDBG] aktuelle Hand-ID (für Log)
     bool dbgRoundClosed = false;  // [ACTDBG] Setzrunde abgeschlossen (für Log)
 
-    if (m_game) {
+    // Als Zuschauer gibt es keinen eigenen Sitz: Call-/Raise-Beträge bleiben 0
+    // und canAct false (die GamePage blendet die Action-Bar ohnehin aus).
+    if (m_game && !m_spectating) {
         auto hand = m_game->getCurrentHand();
         if (hand) {
             auto bero = hand->getCurrentBeRo();
@@ -830,6 +843,10 @@ void GameHandler::computeCallAndRaiseAmounts()
 
 bool GameHandler::humanCanAct() const
 {
+    // Als Zuschauer gibt es keinen eigenen Sitz. Ohne diesen Wächter läse die
+    // Funktion unten seats->front() – den FREMDEN Spieler auf Sitz 0 – und
+    // startTimeoutAnimation() machte daraus fälschlich "ich bin am Zug".
+    if (m_spectating) return false;
     if (!m_game) return false;
     auto hand = m_game->getCurrentHand();
     if (!hand) return false;
@@ -1216,6 +1233,17 @@ void GameHandler::refreshSpectators()
                 const PlayerInfo pi = m_session->getClientPlayerInfo(id);
                 names << QString::fromUtf8(pi.playerName.c_str());
             }
+            // Der Server schickt einem Zuschauer nur die JEWEILS ANDEREN
+            // Zuschauer (AcceptNewSession sendet den eigenen SpectatorJoined an
+            // alle übrigen Sessions). Ohne diese Ergänzung zeigte das Auge-Icon
+            // dem einzigen Zuschauer eines Tisches "0".
+            if (m_session->isClientSpectating()) {
+                const PlayerInfo me = m_session->getClientPlayerInfo(
+                    m_session->getClientUniquePlayerId());
+                const QString myName = QString::fromUtf8(me.playerName.c_str());
+                if (!myName.isEmpty())
+                    names << myName;
+            }
         }
     }
     if (names != m_spectatorNames) {
@@ -1296,9 +1324,10 @@ void GameHandler::refreshBoardCards()
 
 void GameHandler::refreshChanceAndHand()
 {
-    // Eigenen Spieler (Sitz 0) suchen.
+    // Eigenen Spieler (Sitz 0) suchen. Als Zuschauer gibt es keinen – dann
+    // bleibt die Chancen-/Blatt-Anzeige leer (haveCards == false).
     boost::shared_ptr<PlayerInterface> human;
-    if (m_game) {
+    if (m_game && !m_spectating) {
         PlayerList seats = m_game->getSeatsList();
         if (seats) {
             for (auto it = seats->begin(); it != seats->end(); ++it) {
@@ -1947,9 +1976,10 @@ void GameHandler::onShowdown()
     // 4) "Show"-Button: Mensch-Spieler (Sitz 0) kann seine Karten freiwillig zeigen,
     //    wenn er nicht gefoldet hat und nicht zeigen MUSS (Logik 1:1 aus dem
     //    Qt-Widgets-Client, gameTableImpl::postRiverRunAnimation2).
+    // Zuschauer besitzen keinen Sitz und damit keine Karten zum Zeigen.
     bool newCanShow = false;
     auto seatsList = hand->getSeatsList();
-    if (seatsList && !seatsList->empty()) {
+    if (!m_spectating && seatsList && !seatsList->empty()) {
         auto humanPlayer = seatsList->front(); // seat 0
         if (humanPlayer->getMyActiveStatus()
             && humanPlayer->getMyAction() != PLAYER_ACTION_FOLD) {

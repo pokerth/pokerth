@@ -160,6 +160,10 @@ class GameHandler : public QObject
     // ein Auge-Icon mit Badge, Namen für den Tooltip.
     Q_PROPERTY(int spectatorCount READ spectatorCount NOTIFY spectatorsChanged)
     Q_PROPERTY(QStringList spectatorNames READ spectatorNames NOTIFY spectatorsChanged)
+    // true, wenn ich diesem Tisch nur zuschaue. Dann gibt es keinen eigenen
+    // Sitz: die GamePage zeichnet alle Sitze als Ring (ohne Self-Box) und
+    // blendet die Action-Bar aus.
+    Q_PROPERTY(bool spectating READ spectating NOTIFY spectatingChanged)
 
 public:
     explicit GameHandler(QObject *parent = nullptr);
@@ -213,6 +217,7 @@ public:
     int pingMax() const { return m_pingMax; }
     int spectatorCount() const { return static_cast<int>(m_spectatorNames.size()); }
     QStringList spectatorNames() const { return m_spectatorNames; }
+    bool spectating() const { return m_spectating; }
 
     // Zeilentyp für die Einfärbung des Spielverlaufs – Farben/Stil 1:1 wie der
     // Qt-Widgets-Client (Default-Tischstil).
@@ -320,6 +325,7 @@ signals:
     void cardsChanceChanged();
     void pingStateChanged();
     void spectatorsChanged();
+    void spectatingChanged();
     // Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" des Web-Clients) –
     // wird nicht im Chat angezeigt, sondern als Animation am Sitz abgespielt.
     void reactionReceived(const QString &playerName, const QString &emoji);
@@ -354,7 +360,11 @@ private:
     // Aktions-Timer auf meinem Sitz (m_timeoutSeatId == 0), der bereits ab
     // startTimeoutAnimation gesetzt ist (vor meInAction). Zusätzlich m_myTurn,
     // falls der Timer-Pfad mal nicht greift. Verhindert verworfene Aktionen.
-    bool isMyTurnToAct() const { return m_myTurn || m_timeoutSeatId == 0; }
+    //
+    // Als Zuschauer NIE: dort ist Sitz 0 ein fremder Spieler, dessen Aktions-
+    // Timer m_timeoutSeatId auf 0 setzt. Ohne diesen Wächter könnten fold()/
+    // call()/raise()/showMyCards() (Tastenkürzel!) für ihn ausgelöst werden.
+    bool isMyTurnToAct() const { return !m_spectating && (m_myTurn || m_timeoutSeatId == 0); }
     void doActionDone();
     // Showdown-Flag setzen und – nur bei echter Änderung – die QML-Seite
     // benachrichtigen (showdownActive gatet u. a. die Aktions-Buttons).
@@ -414,6 +424,7 @@ private:
     int m_pingMin = -1;
     int m_pingMax = -1;
     QStringList m_spectatorNames;  // Namen der Zuschauer des laufenden Spiels
+    bool m_spectating = false;     // ich schaue diesem Tisch nur zu
     // Eingangssignatur der letzten Chancen-Berechnung (Hole-Cards, Board, Fold-
     // Zustand). Bleibt sie gleich, wird die teure calcCardsChance-Schleife
     // übersprungen – refreshChanceAndHand() läuft sonst bei jedem Mikro-Refresh.

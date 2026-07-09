@@ -318,15 +318,21 @@ void Session::clientCreateGame(const GameData &gameData, const string &name, con
 	);
 }
 
-void Session::clientJoinGame(unsigned gameId, const std::string &password)
+void Session::clientJoinGame(unsigned gameId, const std::string &password, bool spectateOnly)
 {
 	if (!myNetClient)
 		return; // only act if client is running.
 	myNetClient->SendJoinGame(
 		gameId,
 		password,
-		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1
+		myConfig->readConfigInt("NetAutoLeaveGameAfterFinish") == 1,
+		spectateOnly
 	);
+}
+
+bool Session::isClientSpectating() const
+{
+	return myNetClient ? myNetClient->IsSpectating() : false;
 }
 
 void Session::clientRejoinGame(unsigned gameId)

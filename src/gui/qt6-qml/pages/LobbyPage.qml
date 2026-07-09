@@ -868,6 +868,27 @@ Rectangle {
                                             visible: model.gameType === 4
                                         }
                                         Item { Layout.fillWidth: true }
+
+                                        // Zuschauen: nur bei laufenden Spielen, die
+                                        // Zuschauer erlauben, und nur solange wir an
+                                        // keinem Tisch sitzen.
+                                        PlayerActionIcon {
+                                            visible: {
+                                                // Neuauswertung, wenn sich die Spielliste ändert
+                                                // (Spielstart/-ende); isInGame bindet sich selbst.
+                                                var _rev = lobbyPage.gameListRevision
+                                                return Lobby && !Lobby.isInGame
+                                                       && Lobby.canSpectateGame(model.gameId || 0)
+                                            }
+                                            iconSize: 16
+                                            source: "qrc:/resources/eye.svg"
+                                            baseColor: Config.Theme.colorAccent
+                                            tooltipText: qsTr("Spectate game")
+                                            onTriggered: {
+                                                if (Lobby)
+                                                    Lobby.spectateGame(model.gameId)
+                                            }
+                                        }
                                     }
                                 }
 

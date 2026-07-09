@@ -832,6 +832,27 @@ bool LobbyHandler::canJoinGame(unsigned gameId) const
     return gameType == GAME_TYPE_NORMAL || gameType == GAME_TYPE_RANKING;
 }
 
+bool LobbyHandler::canSpectateGame(unsigned gameId) const
+{
+    if (!m_session || gameId == 0)
+        return false;
+
+    // Nur ein Tisch zur Zeit: wer bereits sitzt oder zuschaut, muss erst raus.
+    if (m_isInGame)
+        return false;
+
+    const GameInfo info = m_session->getClientGameInfo(gameId);
+
+    // Nur laufende Spiele. Ein Spiel im Warteraum hat noch keinen Tisch zu
+    // zeigen; ein geschlossenes ist vorbei.
+    if (static_cast<int>(info.mode) != GAME_MODE_STARTED)
+        return false;
+
+    // Einzige Bedingung des Servers (ServerLobbyThread::HandleNetPacketJoinGame):
+    // Passwort, Einladung und Gast-Status prüft er bei spectateOnly NICHT.
+    return info.data.allowSpectators;
+}
+
 void LobbyHandler::setPlayerListFilterMode(int mode)
 {
     if (mode < 0 || mode > 2)
@@ -1125,6 +1146,11 @@ void LobbyHandler::onGamePlayerJoined()
     // einen Rejoin nach Disconnect, und "onlinegameready" (Spiel wieder voll)
     // klänge wie ein Spielstart mitten in der Hand.
     if (m_gameRunning)
+        return;
+    // Als Zuschauer NIE: der Server meldet uns beim Beitritt jeden bereits
+    // sitzenden Spieler einzeln als PlayerJoined (AcceptNewSession) – das gäbe
+    // eine Salve von Beitritts-Tönen für ein Spiel, das längst läuft.
+    if (m_isSpectating)
         return;
     if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
         return;
@@ -1445,6 +1471,15 @@ void LobbyHandler::joinGame(unsigned gameId, const QString &password)
     m_session->clientJoinGame(gameId, password.toStdString());
 }
 
+void LobbyHandler::spectateGame(unsigned gameId)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    m_session->clientJoinGame(gameId, std::string(), true);
+}
+
 void LobbyHandler::leaveGame()
 {
     if (!m_session)
@@ -1462,6 +1497,10 @@ void LobbyHandler::leaveServer()
     // Keine aktive Online-Session mehr → Foreground-Service beenden.
     AndroidConnectionService::stop();
     m_gameRunning = false;
+    if (m_isSpectating) {
+        m_isSpectating = false;
+        emit isSpectatingChanged();
+    }
     if (m_isInGame) {
         m_isInGame = false;
         m_currentGameId = 0;
@@ -1476,6 +1515,13 @@ void LobbyHandler::onSelfJoinedGame()
     // unmittelbar wieder onGameStarted).
     m_gameRunning = false;
     m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
+    // Ob der Server uns als Zuschauer aufgenommen hat, steht im JoinGameAck –
+    // der ist bereits verarbeitet, wenn dieses Signal die GUI erreicht.
+    const bool spectating = m_session && m_session->isClientSpectating();
+    if (spectating != m_isSpectating) {
+        m_isSpectating = spectating;
+        emit isSpectatingChanged();
+    }
     if (!m_isInGame) {
         m_isInGame = true;
         emit isInGameChanged();
@@ -1520,6 +1566,10 @@ void LobbyHandler::onRemovedFromGame(int reason)
     m_isInGame = false;
     m_gameRunning = false;
     m_currentGameId = 0;
+    if (m_isSpectating) {
+        m_isSpectating = false;
+        emit isSpectatingChanged();
+    }
     // Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
     // Server-Admin-Status bleibt davon unberührt.
     setCurrentGameAdmin(false);

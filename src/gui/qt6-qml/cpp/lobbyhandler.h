@@ -163,6 +163,9 @@ class LobbyHandler : public QObject
     Q_PROPERTY(int gameListRevision READ gameListRevision NOTIFY gameListRevisionChanged)
     Q_PROPERTY(int playerIgnoreListRevision READ playerIgnoreListRevision NOTIFY playerIgnoreListChanged)
     Q_PROPERTY(bool isInGame READ isInGame NOTIFY isInGameChanged)
+    // true, wenn wir dem aktuellen Spiel als Zuschauer beigetreten sind
+    // (Auge-Icon in der Lobby). Zuschauer sitzen nicht am Tisch.
+    Q_PROPERTY(bool isSpectating READ isSpectating NOTIFY isSpectatingChanged)
     Q_PROPERTY(int currentGameId READ currentGameId NOTIFY currentGameIdChanged)
     // Vom Server (InitAck) angebotenes Rejoin in ein laufendes Spiel nach
     // Verbindungsabbruch (0 = kein Angebot). Die LobbyPage zeigt dazu ein
@@ -193,6 +196,7 @@ public:
     bool isCurrentGameAdmin() const { return m_isCurrentGameAdmin; }
     bool canInviteFromCurrentGame() const;
     bool isInGame() const { return m_isInGame; }
+    bool isSpectating() const { return m_isSpectating; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
     int  rejoinOfferGameId() const { return static_cast<int>(m_rejoinOfferGameId); }
     Q_INVOKABLE QString currentGameName() const;
@@ -236,6 +240,10 @@ public slots:
     
     // Actions from QML
     Q_INVOKABLE void joinGame(unsigned gameId, const QString &password);
+    // Einem laufenden Spiel als Zuschauer beiwohnen (Auge-Icon der Lobby).
+    // Kein Passwort nötig: der Server prüft bei spectateOnly weder Passwort
+    // noch Einladung, sondern ausschließlich GameData::allowSpectators.
+    Q_INVOKABLE void spectateGame(unsigned gameId);
     Q_INVOKABLE void leaveGame();
     // Verlässt die Lobby/den Server vollständig (Verbindung trennen). Wird
     // beim Zurückkehren zur Startseite aufgerufen, damit der Client nicht
@@ -300,6 +308,7 @@ public slots:
     Q_INVOKABLE QString playerCountryByName(const QString &name) const;
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
+    Q_INVOKABLE bool canSpectateGame(unsigned gameId) const;
     Q_INVOKABLE bool openExternalUrl(const QString &url) const;
     // Alle unterstützten Emoji-Shortcodes (":smile:" → 😄) als sortierte Liste
     // von {code, emoji} für die Autovervollständigung der ChatBox. Quelle ist
@@ -347,6 +356,7 @@ signals:
     // native Player-Page des Spielers.
     void playerStatsRequested(const QString &playerName);
     void isInGameChanged();
+    void isSpectatingChanged();
     void currentGameIdChanged();
     void rejoinOfferChanged();
 
@@ -376,6 +386,9 @@ private:
     bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
     bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;
+    // true zwischen Zuschauer-Beitritt und Verlassen des Tisches. Wird aus dem
+    // JoinGameAck des Servers übernommen (Session::isClientSpectating).
+    bool m_isSpectating = false;
     // true zwischen Spielstart und Rückkehr in den Warteraum/die Lobby. Die
     // Join-Sounds (playerconnected/onlinegameready) gehören nur in den
     // Warteraum; ein PlayerJoined im laufenden Spiel ist ein Rejoin nach

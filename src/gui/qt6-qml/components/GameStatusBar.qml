@@ -147,6 +147,29 @@ Rectangle {
 
         Item { Layout.fillWidth: true }
 
+        // Deutlicher Hinweis, dass wir nur zuschauen: der Tisch sieht sonst
+        // (bis auf die fehlende Action-Leiste) aus wie ein normales Spiel.
+        Rectangle {
+            Layout.alignment: Qt.AlignVCenter
+            Layout.rightMargin: 10
+            visible: GameTable ? GameTable.spectating : false
+            implicitWidth: spectatingLabel.implicitWidth + 14
+            implicitHeight: spectatingLabel.implicitHeight + 6
+            radius: height / 2
+            color: Config.Theme.withAlpha(Config.Theme.colorAccent, 0.18)
+            border.color: Config.Theme.colorAccent
+            border.width: 1
+
+            AppText {
+                id: spectatingLabel
+                anchors.centerIn: parent
+                text: qsTr("Spectating")
+                color: Config.Theme.colorAccent
+                font.pixelSize: Config.Responsive.landscapeCompact ? 10 : 12
+                font.bold: true
+            }
+        }
+
         // Zuschauer-Anzeige (Auge + Anzahl) links neben der rechtsbündigen
         // Phasen-/Game-Info. Nur sichtbar, wenn das laufende Spiel mindestens
         // einen Zuschauer hat – analog zum Qt-Widgets-Client. Namen im Tooltip.

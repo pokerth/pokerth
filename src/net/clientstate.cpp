@@ -974,6 +974,8 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		const RemovedFromGameMessage &netRemoved = tmpPacket->GetMsg()->removedfromgamemessage();
 
 		client->ClearPlayerDataList();
+		// Der Zuschauer-Modus gilt immer nur für das gerade verlassene Spiel.
+		client->SetSpectating(false);
 		// Resubscribe Lobby messages.
 		client->ResubscribeLobbyMsg();
 		// Show Lobby.
@@ -1098,8 +1100,19 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 		} else if (netMessage.chattype() == ChatMessage::chatTypeGame) {
 			unsigned playerId = netMessage.playerid();
 			boost::shared_ptr<PlayerData> tmpPlayer = client->GetPlayerDataByUniqueId(playerId);
-			if (tmpPlayer.get())
+			if (tmpPlayer.get()) {
 				playerName = tmpPlayer->GetName();
+			} else {
+				// Zuschauer dürfen mitreden (der Server verteilt ihren Chat an
+				// Spieler wie Zuschauer), sitzen aber nicht am Tisch und stehen
+				// daher in KEINER Spielerliste. Ihr Name steht in den gecachten
+				// PlayerInfos – GameSpectatorJoinedMessage fordert sie an.
+				PlayerInfo info;
+				if (client->GetCachedPlayerInfo(playerId, info))
+					playerName = info.playerName;
+				else
+					client->RequestPlayerInfo(playerId);
+			}
 			if (!playerName.empty())
 				client->GetCallback().SignalNetClientGameChatMsg(playerName, netMessage.chattext());
 		} else if (netMessage.chattype() == ChatMessage::chatTypeLobby) {
@@ -1702,14 +1715,25 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		NetPacket::GetGameData(netJoinAck.gameinfo(), tmpData);
 		client->SetGameData(tmpData);
 		client->ModifyGameInfoClearSpectatorsDuringGame();
+		client->SetSpectating(netJoinAck.spectateonly());
 
-		// Player number is 0 on init. Will be set when the game starts.
-		boost::shared_ptr<PlayerData> playerData(
-			new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
-						   context.GetPlayerRights(), netJoinAck.areyougameadmin()));
-		playerData->SetName(context.GetPlayerName());
-		playerData->SetAvatarFile(context.GetAvatarFile());
-		client->AddPlayerData(playerData);
+		if (netJoinAck.spectateonly()) {
+			// Ein Zuschauer belegt keinen Sitz. Legten wir hier PlayerData an,
+			// zöge InitGame() daraus einen zusätzlichen Phantom-Sitz am Tisch.
+			// Der GUI muss der Beitritt trotzdem gemeldet werden – sonst
+			// bekäme sie das sonst über AddPlayerData() ausgelöste
+			// SignalNetClientSelfJoined nie zu sehen.
+			client->GetCallback().SignalNetClientSelfJoined(
+				client->GetGuiPlayerId(), context.GetPlayerName(), false);
+		} else {
+			// Player number is 0 on init. Will be set when the game starts.
+			boost::shared_ptr<PlayerData> playerData(
+				new PlayerData(client->GetGuiPlayerId(), 0, PLAYER_TYPE_HUMAN,
+							   context.GetPlayerRights(), netJoinAck.areyougameadmin()));
+			playerData->SetName(context.GetPlayerName());
+			playerData->SetAvatarFile(context.GetAvatarFile());
+			client->AddPlayerData(playerData);
+		}
 
 		client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_JOIN);
 		client->SetState(ClientStateWaitGame::Instance());
@@ -1751,6 +1775,9 @@ ClientStateWaitJoin::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			break;
 		case JoinGameFailedMessage::rejoinFailed :
 			failureCode = NTF_NET_JOIN_REJOIN_FAILED;
+			break;
+		case JoinGameFailedMessage::noSpectatorsAllowed :
+			failureCode = NTF_NET_JOIN_NO_SPECTATORS;
 			break;
 		default :
 			failureCode = NTF_NET_INTERNAL;
@@ -1810,6 +1837,17 @@ ClientStateWaitGame::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 			client->GetCallback().SignalNetClientGameInfo(MSG_NET_GAME_CLIENT_SYNCSTART);
 		}
 		client->SetState(ClientStateSynchronizeStart::Instance());
+	} else if (client->IsSpectating()
+			   && tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_GameStartRejoinMessage) {
+		// Einen Zuschauer setzt der Server zu Beginn der nächsten Hand in das
+		// laufende Spiel (ServerGameStateHand::InitNewSpectators) und schickt
+		// ihm den Spielstand direkt als GameStartRejoinMessage. Es gibt dabei
+		// KEIN StartEvent und keine Start-Synchronisation – Zuschauer zählen
+		// nicht zu den Sessions, auf deren StartEventAck der Server wartet.
+		client->UnsubscribeLobbyMsg();
+		client->SetState(ClientStateWaitStart::Instance());
+		// Den Spielstart an den nächsten Zustand weiterreichen.
+		client->GetState().HandlePacket(client, tmpPacket);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_InviteNotifyMessage) {
 		const InviteNotifyMessage &netInvNotify = tmpPacket->GetMsg()->invitenotifymessage();
 		qDebug() << "[INVITE] ClientStateWaitGame: InviteNotifyMessage received"
@@ -2043,7 +2081,10 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		// Hand was started.
 		// These are the cards. Good luck.
 		const HandStartMessage &netHandStart = tmpPacket->GetMsg()->handstartmessage();
-		int myCards[2];
+		// -1 = "unbekannte Karte" (Rückseite). Der Server schickt einem
+		// Zuschauer weder plainCards noch encryptedCards, so dass unten keiner
+		// der beiden Zweige greift.
+		int myCards[2] = { -1, -1 };
 		string userPassword(client->GetContext().GetPassword());
 		if (netHandStart.has_plaincards() && userPassword.empty()) {
 			const HandStartMessage::PlainCards &plainCards = netHandStart.plaincards();
@@ -2163,8 +2204,12 @@ ClientStateWaitHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client
 		}
 		// CRITICAL: Refresh Set display BEFORE starting hand to clear stale bets from eliminated players
 		client->GetGui().refreshSet();
-		// Start new hand.
-		client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
+		// Start new hand. Sitz 0 ist der GUI-Spieler – nur er kennt seine
+		// Hole Cards. Als Zuschauer sitzt dort ein fremder Spieler, dessen
+		// Karten verdeckt bleiben (bereits oben auf -1 zurückgesetzt).
+		if (!client->IsSpectating()) {
+			client->GetGame()->getSeatsList()->front()->setMyCards(myCards);
+		}
 		client->GetGame()->initHand();
 		qDebug() << "[ACTDBG] initHand done, new handID=" << client->GetGame()->getCurrentHandID()
 		         << "player0Action=" << client->GetGame()->getSeatsList()->front()->getMyAction();
@@ -2481,7 +2526,9 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		// Start displaying the timeout for the player.
 		client->GetGui().startTimeoutAnimation(tmpPlayer->getMyID(), client->GetGameData().playerActionTimeoutSec);
 
-		if (tmpPlayer->getMyID() == 0) { // Is this the GUI player?
+		// Sitz 0 ist der GUI-Spieler – aber nur, wenn wir mitspielen. Als
+		// Zuschauer sitzt dort ein fremder Spieler; wir sind nie am Zug.
+		if (tmpPlayer->getMyID() == 0 && !client->IsSpectating()) {
 			auto bero0 = curGame->getCurrentHand()->getCurrentBeRo();
 			qDebug() << "[BBDBG] PlayersTurnMessage seat0"
 			         << "msgGameState=" << (int)netPlayersTurn.gamestate()

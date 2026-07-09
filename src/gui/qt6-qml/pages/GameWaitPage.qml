@@ -406,8 +406,13 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
+            // Als Zuschauer läuft das Spiel bereits: der Server setzt uns erst
+            // zu Beginn der nächsten Hand an den Tisch (dann wird die GamePage
+            // aufgeschoben). Bis dahin warten wir hier.
             AppLabel {
-                text: qsTr("Waiting for players …")
+                text: (Lobby && Lobby.isSpectating)
+                      ? qsTr("Spectating — waiting for the next hand …")
+                      : qsTr("Waiting for players …")
                 color: Config.StaticData.palette.secondary.col300
                 font.pixelSize: 12
             }

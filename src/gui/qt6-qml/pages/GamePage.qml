@@ -150,7 +150,9 @@ Rectangle {
 
     function playReactionAtSeat(seatIdx, emoji) {
         var px, py
-        if (seatIdx <= 0) {
+        // Sitz 0 sitzt in der Self-Box – außer als Zuschauer, dann ist er ein
+        // gewöhnlicher Ring-Sitz und wird über slotForSeat() gefunden.
+        if (seatIdx <= 0 && !tableZone.spectating) {
             px = selfBox.x + selfBox.width / 2
             py = selfBox.y + selfBox.height / 2
                  - (selfBox.height * tableZone.boxScale) / 2 - 6
@@ -391,7 +393,11 @@ Rectangle {
                         && StyleProvider.tableBackgroundAlignment === "center"
                     readonly property real srcW: Math.max(1, implicitWidth  || tableZone.width)
                     readonly property real srcH: Math.max(1, implicitHeight || tableZone.height)
-                    readonly property real coverExtra: tableZone.wide ? actionBar.height : 0
+                    // Zusatzhöhe für den Bereich HINTER der Action-Leiste. Ist sie
+                    // ausgeblendet (Zuschauer), gibt es nichts zu überdecken – sonst
+                    // schöbe der Zuschlag die Tischgrafik nach unten aus der Mitte.
+                    readonly property real coverExtra:
+                        (tableZone.wide && actionBar.visible) ? actionBar.height : 0
                     // Vertikaler Mittelpunkt der Player-Box-Ellipse (Zonen-Koords).
                     readonly property real ellipseCenterY: tableZone.communityCenterY
                     // Crop-/Zoom-Faktor aus dem Stil (>= 1.0, default 1.0): größer =
@@ -452,6 +458,13 @@ Rectangle {
             // Spieler-Slots ordnen sich je nach Seitenverhältnis automatisch um.
             readonly property bool wide: width >= height
 
+            // Zuschauer-Modus: kein eigener Sitz. Der Platz unten in der Mitte,
+            // an dem sonst die (größere) Self-Box klebt, wird zu einem ganz
+            // normalen Ring-Sitz für Sitz 0 – alle Boxen sind gleich groß und
+            // gleichmäßig über die Ellipse verteilt.
+            readonly property bool spectating:
+                (typeof GameTable !== "undefined" && GameTable) ? GameTable.spectating : false
+
             // Gegner- und Self-Box wachsen im Querformat gemeinsam. Referenz ist
             // nicht nur die absolute Breite, sondern wie viel zusätzliche Breite
             // bei gleicher Höhe entsteht: dadurch reagieren die Boxen sichtbar
@@ -477,13 +490,17 @@ Rectangle {
             // (Gegnerboxen: 84 bzw. 71). Die Bisektion leitet selfVisualH/bottomY/
             // selfClearX/selfVisualTopY aus selfBaseHeight ab → reserviert automatisch
             // mehr Platz (Gegner-Bottom-Sitze rücken hoch), daher überlappungsfrei.
+            // Als Zuschauer sitzt unten ein gewöhnlicher Sitz: gleiche Maße wie die
+            // Gegnerboxen, damit der Ring gleichmäßig wirkt.
             readonly property int selfBaseHeight:
-                !wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96)
+                spectating ? oppBaseHeight
+                           : (!wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96))
             // Self-Box-Breite dynamisch: identische Abstände wie Gegnerboxen.
             //   Compact  : cardsH=46, cardW=33, avW=46 → 2×4 + 46 + 4 + 2×33 + 4 = 128
             //   Landscape: cardsH=40, cardW=29, avW=40 → 2×4 + 40 + 4 + 2×29 + 4 = 114
             //   Portrait : cardsH=41, cardW=29, avW=41 → 2×4 + 41 + 4 + 2×29 + 4 = 115
             readonly property int selfBaseWidth: {
+                if (spectating) return oppBaseWidth
                 var cH  = selfBaseHeight - 12 - (Config.Responsive.landscape ? 32 : 18)
                 var cW  = Math.round(cH * 120 / 168)
                 var avS = Math.min(cH, 60)
@@ -504,6 +521,8 @@ Rectangle {
                 // Für die Skalierungsberechnung den Peak-Wert nutzen, damit
                 // ausscheidende Spieler die Box-Größe nicht verändern.
                 var oppCnt = _peakSeatCount - 1
+                // Sitze auf dem Ring (als Zuschauer inkl. Sitz 0), s. ringCount.
+                var ringCnt = spectating ? _peakSeatCount : oppCnt
                 var s
 
                 // Box-Skala-Obergrenze wächst mit der Spielerzahl: bei wenigen
@@ -570,7 +589,10 @@ Rectangle {
                     // = höheres feasibles boxScale (größere Boxen/Karten/Schrift).
                     var gap = 4
                     // Muss mit buildLandscapeSlots().selfWeight übereinstimmen.
-                    var selfWeightCap = Config.Responsive.landscapeCompact ? 0.5 : 0.3
+                    // Zuschauer: Sitz 0 ist ein normaler Ring-Sitz (Gewicht 1.0)
+                    // → gleichmäßige Verteilung über die volle Ellipse.
+                    var selfWeightCap = spectating ? 1.0
+                                      : (Config.Responsive.landscapeCompact ? 0.5 : 0.3)
                     var stepDeg = oppCnt >= 1 ? 360 / (oppCnt + selfWeightCap) : 360
                     var firstAngle = 90 + (selfWeightCap * stepDeg + stepDeg) / 2
 
@@ -579,7 +601,9 @@ Rectangle {
                         var sideMargin = Math.max(18, width * 0.025) + sideBadgeGapBase * sTest
                         var visualW = oppBaseWidth * sTest
                         var visualH = oppBaseHeight * sTest
-                        var selfVisualH = selfBaseHeight * sTest
+                        // Zuschauer: unterhalb der Ellipse liegt keine Self-Box,
+                        // der unterste Sitz IST der Bodenpunkt der Ellipse.
+                        var selfVisualH = spectating ? 0 : selfBaseHeight * sTest
                         var gapY = Math.max(8, opponentGapBase * sTest)
                         // Im landscapeCompact ziehen wir die untere Ellipsen-
                         // Hälfte näher an die Self-Box: das verschafft den
@@ -588,9 +612,10 @@ Rectangle {
                         // bleibt als Minimum, damit Bet-/Action-Badges
                         // unterhalb der Bottom-Reihe nicht ins Self-Avatar
                         // hineinragen.
-                        var selfGapY = Config.Responsive.landscapeCompact
-                            ? Math.max(8, selfBadgeGapBase * sTest * 0.5)
-                            : selfBadgeGapBase * sTest
+                        var selfGapY = spectating ? 0
+                            : (Config.Responsive.landscapeCompact
+                               ? Math.max(8, selfBadgeGapBase * sTest * 0.5)
+                               : selfBadgeGapBase * sTest)
                         // radiusX nach oben auf 0.36 deckeln: an großen/breiten
                         // Fenstern sollen die Seiten-Sitze nicht ganz an den Rand
                         // rücken, sondern näher am Zentrum bleiben. Muss mit
@@ -609,6 +634,12 @@ Rectangle {
                         var topYpix = (Config.Responsive.landscapeCompact ? 0 : 12)
                                       + visualH / 2 + topBadgeExt * sTest
                         var bottomYpix = height - 4 - selfVisualH - selfGapY - visualH / 2
+                        // Oberkante des untersten Tisch-Inhalts, gegen die die
+                        // Community-Reihe geprüft wird: die Self-Box bzw. – als
+                        // Zuschauer – der unterste Ring-Sitz selbst.
+                        var bottomContentTop = spectating
+                            ? bottomYpix - visualH / 2
+                            : height - 12 - selfVisualH
                         // Wie buildLandscapeSlots(): radiusY = nur (bottomY-topY)/2.
                         // Kein Max mit (visualH + gapY*2.2): das würde den
                         // Vertikalradius künstlich aufblasen → Bisection würde
@@ -631,6 +662,9 @@ Rectangle {
                         var centerYpix    = (topYpix + bottomYpix) / 2
                         var maxBottomYpix = (height - 4 - selfVisualH) + selfVisualH * 0.55 - visualH / 2
                         var vMaxLowerP    = radiusYpix > 0 ? (maxBottomYpix - centerYpix) / radiusYpix : 1.0
+                        // Ohne Self-Box (Zuschauer) gibt es keine Ecken neben ihr,
+                        // in die untere Seiten-Sitze absinken dürften → Absenkung aus.
+                        var lowerToSelfP  = Config.Responsive.landscapeCompact && !spectating
                         var selfClearXpix = selfBaseWidth * sTest / 2 + visualW / 2 + 12
                         function slotVec(deg) {
                             var rad  = deg * Math.PI / 180
@@ -645,7 +679,7 @@ Rectangle {
                                         + ((!gravityUpperOnly || sinV <= 0) ? sideGravity * Math.abs(cosV) : 0)
                                         + (sinV > 0 ? lowerGravity * sinV : 0)
                             if (vFactor > 1.0) vFactor = 1.0
-                            if (Config.Responsive.landscapeCompact && sinV > 0
+                            if (lowerToSelfP && sinV > 0
                                 && Math.abs(radiusXpix * cosV) > selfClearXpix
                                 && vMaxLowerP > vFactor)
                                 vFactor = vFactor + (vMaxLowerP - vFactor) * sinOrig
@@ -690,7 +724,7 @@ Rectangle {
                             // Community-Gesamthöhe (Kartenreihe 64 + Pott-Badge 40 +
                             // Winner-Badge 20) · communityScale + Pad.
                             if (topOppBottom > -1e9
-                                && (height - 12 - selfVisualH) - topOppBottom
+                                && bottomContentTop - topOppBottom
                                    < 0.72 * sTest * 124 + 28)
                                 return false
                         }
@@ -700,8 +734,13 @@ Rectangle {
                         // und die Einsatz-Anzeige reicht in die Nachbarbox hinein.
                         var xNeeded = sTest * (oppBaseWidth + sideBadgeGapBase) + gap
                         var yNeeded = sTest * oppBaseHeight + gap
-                        for (var iPair = 1; iPair < oppCnt; iPair++) {
-                            var d1 = firstAngle + (iPair - 1) * stepDeg
+                        // Als Zuschauer beginnt der Ring beim Bodensitz (90°), damit
+                        // auch das Paar opp0↔opp1 geprüft wird. Das Wrap-Paar
+                        // oppN↔opp0 ist dazu spiegelsymmetrisch und damit abgedeckt.
+                        var ringFirst = spectating ? 90 : firstAngle
+                        var ringSeats = spectating ? oppCnt + 1 : oppCnt
+                        for (var iPair = 1; iPair < ringSeats; iPair++) {
+                            var d1 = ringFirst + (iPair - 1) * stepDeg
                             var d2 = d1 + stepDeg
                             var v1 = slotVec(d1)
                             var v2 = slotVec(d2)
@@ -723,10 +762,14 @@ Rectangle {
                     function feasibleHeadsUp(sTest) {
                         if (sTest <= 0) return false
                         var visualH = oppBaseHeight * sTest
-                        var selfVisualH = selfBaseHeight * sTest
+                        // Oberkante der untersten Box: Self-Box bzw. – als
+                        // Zuschauer – der gleich große unterste Ring-Sitz.
+                        var bottomContentTop = spectating
+                            ? height - 4 - visualH
+                            : height - 12 - selfBaseHeight * sTest
                         var topYband = (Config.Responsive.landscapeCompact ? 0 : 4) + visualH / 2
                         var topOppBottom = topYband + visualH / 2 + sTest * 25
-                        return (height - 12 - selfVisualH) - topOppBottom
+                        return bottomContentTop - topOppBottom
                                >= 0.72 * sTest * 124 + 28
                     }
 
@@ -778,7 +821,7 @@ Rectangle {
                     // nicht modellieren; in breitem Portrait überlappten Bottom-
                     // Reihe und Self-Box potentiell.
                     var gapP = 8
-                    var seqP = slotSeqPortrait[oppCnt] || []
+                    var seqP = (spectating ? slotSeqSpectate : slotSeqPortrait)[ringCnt] || []
                     var posP = slotPosPortrait
 
                     function feasibleAtP(sTest) {
@@ -790,14 +833,20 @@ Rectangle {
                         // Wand-Checks
                         if (visualW > 2 * (0.15 * width - 4)) return false
                         if (visualH > 2 * (0.075 * height - 4)) return false
-                        // Self-Box vs. Bottom-Reihe (L_bottom/R_bottom bei oppCnt>=8).
-                        // seatNudge=+14 für diese Slots wird berücksichtigt:
-                        //   self_top    = height - 4 - selfVisualH  (scale-kompensierbares bottomMargin)
-                        //   bottom_kant = 0.785*height + 14 + visualH/2
-                        //   Abstand     = 0.215*height - 18 - selfVisualH - visualH/2
-                        //   Constraint  = Abstand >= gapP  →  0.215*H - 26 - ... >= 0
-                        if (oppCnt >= 8 && 0.215 * height - 26 - selfVisualH - visualH / 2 < gapP)
-                            return false
+                        if (spectating) {
+                            // Wand unten: der BC-Sitz (y=0.90) darf den unteren
+                            // Rand nicht berühren. Es gibt keine Self-Box.
+                            if (0.90 * height + visualH / 2 > height - 4) return false
+                        } else if (oppCnt >= 8) {
+                            // Self-Box vs. Bottom-Reihe (L_bottom/R_bottom bei oppCnt>=8).
+                            // seatNudge=+14 für diese Slots wird berücksichtigt:
+                            //   self_top    = height - 4 - selfVisualH  (scale-kompensierbares bottomMargin)
+                            //   bottom_kant = 0.785*height + 14 + visualH/2
+                            //   Abstand     = 0.215*height - 18 - selfVisualH - visualH/2
+                            //   Constraint  = Abstand >= gapP  →  0.215*H - 26 - ... >= 0
+                            if (0.215 * height - 26 - selfVisualH - visualH / 2 < gapP)
+                                return false
+                        }
 
                         // Paar-Trennung
                         if (seqP.length < 2) return true
@@ -852,9 +901,14 @@ Rectangle {
                     // Bisektions-Reserve (Kompakt 1.1, sonst 0.72 · boxScale) →
                     // garantierte Mindestlücke, kein Regressionsrisiko.
                     var isCmp     = Config.Responsive.landscapeCompact
-                    var topB      = topOpponentBottomY + (isCmp ? 39 : 26) * oppScale
+                    var badgeExt  = (isCmp ? 39 : 26) * oppScale
+                    var topB      = topOpponentBottomY + badgeExt
                     var halfAbove = communityCenterY - topB - 6
-                    var halfBelow = selfVisualTopY - communityCenterY - 6
+                    // Die Self-Box hat oben keine Bet-Badge. Der Bodensitz des
+                    // Zuschauers dagegen zeigt seine nach OBEN (betSide "top"),
+                    // also zur Community hin – dieser Streifen ist belegt.
+                    var botB      = selfVisualTopY - (spectating ? badgeExt : 0)
+                    var halfBelow = botB - communityCenterY - 6
                     var avail     = Math.min(halfAbove, halfBelow)
                     // Kompakt dichter füllen (72) als Desktop (84, bewusst luftig).
                     var gapFill   = avail > 0 ? avail / (isCmp ? 66 : 84) : 0
@@ -919,6 +973,8 @@ Rectangle {
             // beabstandet (User-Wunsch Symmetrie).
             // Spalten-x bei 0.14 (statt 0.15) damit Boxen in mittleren
             // Portrait-Größen etwas weiter außen sitzen.
+            // "BC" (bottom center) wird nur im Zuschauer-Modus benutzt: dort steht
+            // dort statt der Self-Box ein gewöhnlicher Ring-Sitz (Sitz 0).
             readonly property var slotPosPortrait: ({
                 "L_bottom": [0.15, 0.785],
                 "L_lower":  [0.15, 0.65],
@@ -928,7 +984,8 @@ Rectangle {
                 "TR":       [0.85, 0.21],
                 "R_upper":  [0.85, 0.345],
                 "R_lower":  [0.85, 0.65],
-                "R_bottom": [0.85, 0.785]
+                "R_bottom": [0.85, 0.785],
+                "BC":       [0.50, 0.90]
             })
             // Querformat: Slot-Abstände werden aus visueller Boxgröße,
             // Spieleranzahl und Self-Abstand berechnet statt als offene Ellipse
@@ -941,14 +998,18 @@ Rectangle {
                 var s = boxScale
                 var visualW = oppBaseWidth * s
                 var visualH = oppBaseHeight * s
-                var selfVisualH = selfBaseHeight * s
+                // Zuschauer: keine Self-Box unter der Ellipse – ihr Bodenpunkt
+                // ist selbst der Mittelpunkt des untersten Ring-Sitzes.
+                // Muss mit feasibleAt() identisch sein.
+                var selfVisualH = spectating ? 0 : selfBaseHeight * s
                 var sideMargin = Math.max(18, width * 0.025) + sideBadgeGapBase * s
                 var wantedGapY = opponentGapBase * s
                 var gapY = Math.max(8, wantedGapY)
                 // Im landscapeCompact: halbierte selfGapY (s. Bisection-Comment).
-                var selfGapY = Config.Responsive.landscapeCompact
-                    ? Math.max(8, selfBadgeGapBase * s * 0.5)
-                    : selfBadgeGapBase * s
+                var selfGapY = spectating ? 0
+                    : (Config.Responsive.landscapeCompact
+                       ? Math.max(8, selfBadgeGapBase * s * 0.5)
+                       : selfBadgeGapBase * s)
                 var sideX = (sideMargin + visualW / 2) / Math.max(width, 1)
                 // radiusX so groß wie möglich (Seiten-Sitze landen am Rand).
                 // Top-Trio passt durch den boxScale-Cap (siehe boxScale oben)
@@ -1011,6 +1072,9 @@ Rectangle {
                 // Community + größere Boxen). Muss mit maxBottomYpix in feasibleAt().
                 var maxBottomY = (selfTop + selfVisualH * 0.55 - visualH / 2) / Math.max(height, 1)
                 var vMaxLower  = radiusY > 0 ? (maxBottomY - centerY) / radiusY : 1.0
+                // Ohne Self-Box (Zuschauer) gibt es keine freien Ecken neben ihr →
+                // Absenkung aus. Muss mit lowerToSelfP in feasibleAt() identisch sein.
+                var lowerToSelf = Config.Responsive.landscapeCompact && !spectating
                 var selfClearX = (selfBaseWidth * s / 2 + visualW / 2 + 12) / Math.max(width, 1)
                 function point(degrees) {
                     var radians = degrees * Math.PI / 180
@@ -1050,7 +1114,7 @@ Rectangle {
                     // fast voll ab, die darüber (sin≈0.40) nur teilweise – ein
                     // einheitliches vMaxLower setzte alle auf dieselbe Höhe
                     // (flache Linie statt Ellipsenbogen).
-                    if (Config.Responsive.landscapeCompact && sinV > 0
+                    if (lowerToSelf && sinV > 0
                         && Math.abs(radiusX * cosV) > selfClearX
                         && vMaxLower > vFactor)
                         vFactor = vFactor + (vMaxLower - vFactor) * sinOrig
@@ -1092,14 +1156,49 @@ Rectangle {
                 //
                 // Disconnectet ein Spieler, ändert sich N → automatische,
                 // saubere Re-Verteilung über die unten generierten Winkel.
+                //
+                // Zuschauer: Sitz 0 ist eine ganz normale Perle (selfWeight 1.0)
+                // → dOpp = 360/seatCount, firstOppAngle = 90 + dOpp. Sitz 0 liegt
+                // damit exakt auf dem Bodenpunkt (90°), die übrigen Sitze folgen
+                // gleichmäßig im Kreis.
                 var opps = Math.max(1, seatCount - 1)
-                var selfWeight = Config.Responsive.landscapeCompact ? 0.5 : 0.3
+                var selfWeight = spectating ? 1.0
+                               : (Config.Responsive.landscapeCompact ? 0.5 : 0.3)
                 var dOpp = 360 / (opps + selfWeight)
                 var dSelf = selfWeight * dOpp
                 var firstOppAngle = 90 + (dSelf + dOpp) / 2
                 var slots = {}
+                // Sitz 0 des Zuschauers: exakt auf dem Bodenpunkt der Ellipse.
+                if (spectating)
+                    slots["opp0"] = point(90)
                 for (var i = 1; i <= opps; i++) {
                     slots["opp" + i] = point(firstOppAngle + (i - 1) * dOpp)
+                }
+
+                // Der Ring ist von Haus aus kopflastig-nach-unten: sideGravity und
+                // lowerGravity drücken die Sitze abwärts, und am oberen Scheitel
+                // (270°) sitzt bei den meisten Spielerzahlen niemand. Mit Self-Box
+                // ist das gewollt – der Ring soll sich um sie schließen. Als
+                // Zuschauer bleibt oben dadurch eine große Lücke, während der
+                // Bodensitz am Fensterrand klebt.
+                //
+                // Statt die (fein austarierten) Gravity-Terme anzufassen, wird der
+                // FERTIGE Ring als Ganzes vertikal in der Zone zentriert. Eine reine
+                // Verschiebung: alle Paar-Abstände – und damit die Bisektion in
+                // boxScale – bleiben unberührt, ebenso der Abstand zwischen oberen
+                // Sitzen und Community (beide verschieben sich gleich weit).
+                if (spectating) {
+                    var halfH = (visualH / 2) / Math.max(height, 1)
+                    var minY = Infinity, maxY = -Infinity
+                    for (var name in slots) {
+                        var sy = slots[name][1]
+                        if (sy < minY) minY = sy
+                        if (sy > maxY) maxY = sy
+                    }
+                    // Gleiche Ränder oben/unten: top + shift == 1 - (bottom + shift)
+                    var shiftY = (1 - (maxY + halfH) - (minY - halfH)) / 2
+                    for (var key in slots)
+                        slots[key] = [slots[key][0], slots[key][1] + shiftY]
                 }
                 return slots
             }
@@ -1130,7 +1229,26 @@ Rectangle {
                 }
                 return dict
             }
-            readonly property var slotSeq: wide ? slotSeqLandscape : slotSeqPortrait
+            // Zuschauer-Ring: Sitz 0 sitzt unten in der Mitte, danach folgen die
+            // übrigen Sitze in genau der Reihenfolge, in der sonst die Gegner
+            // verteilt werden. Indiziert über die GESAMTE Sitzzahl (1..10), nicht
+            // über die Gegnerzahl.
+            readonly property var slotSeqSpectate: {
+                var base  = wide ? slotSeqLandscape : slotSeqPortrait
+                var first = wide ? "opp0" : "BC"
+                var dict  = {}
+                dict[1] = [first]
+                for (var n = 2; n <= 10; n++) {
+                    var rest = base[n - 1]
+                    if (rest) dict[n] = [first].concat(rest)
+                }
+                return dict
+            }
+            readonly property var slotSeq:
+                spectating ? slotSeqSpectate : (wide ? slotSeqLandscape : slotSeqPortrait)
+            // Zahl der Sitze, die auf dem Ring verteilt werden: als Zuschauer alle,
+            // sonst alle außer dem eigenen (der in der Self-Box unten sitzt).
+            readonly property int ringCount: spectating ? seatCount : seatCount - 1
 
             // zoomContent.transformOrigin == TopLeft, x=(1−sc)·w/2 + panX
             // → Bildschirmmitte auf Content-Punkt (cx,cy): panX = w − cx·sc
@@ -1153,7 +1271,9 @@ Rectangle {
             // bzw. refreshActionTriggered.
             function _scheduleFollow(seatId, sec) {
                 if (!zoomActive || !GameTable || zoomPanner.active) return
-                if (seatId <= 0) return                      // 0 = ich (myTurn-Pfad), -1 = keiner
+                // -1 = keiner. Sitz 0 bin ich (myTurn-Pfad) – außer als Zuschauer,
+                // dort ist Sitz 0 ein ganz normaler Ring-Sitz.
+                if (seatId < 0 || (seatId === 0 && !spectating)) return
                 if (seatId === _followedSeat) return          // schon dort
                 if (seatId === _pendingFollowSeat && followTimer.running) return  // schon geplant
                 _pendingFollowSeat = seatId
@@ -1165,7 +1285,7 @@ Rectangle {
             function _doFollow() {
                 followTimer.stop()
                 if (!zoomActive || !GameTable || zoomPanner.active) return
-                if (_pendingFollowSeat <= 0) return
+                if (_pendingFollowSeat < 0 || (_pendingFollowSeat === 0 && !spectating)) return
                 _panToSeat(_pendingFollowSeat)
                 _followedSeat = _pendingFollowSeat
                 _pendingFollowSeat = -1
@@ -1178,16 +1298,18 @@ Rectangle {
             }
 
             function slotForSeat(seatIdx) {
-                if (!GameTable || seatIdx <= 0) return null
+                // Sitz 0 hat nur als Zuschauer einen Ring-Slot; sonst sitzt dort
+                // die Self-Box, die nicht angeschwenkt wird.
+                if (!GameTable || seatIdx < 0 || (seatIdx === 0 && !spectating)) return null
                 var players = GameTable.players
                 var oppOrder = 0
-                for (var i = 1; i <= seatIdx && i < players.length; i++)
+                for (var i = spectating ? 0 : 1; i <= seatIdx && i < players.length; i++)
                     if (players[i].name !== "") oppOrder++
                 if (oppOrder < 1) return null
                 var seatCount = 0
                 for (var j = 0; j < players.length; j++)
                     if (players[j].name !== "") seatCount++
-                var seq = slotSeq[seatCount - 1]
+                var seq = slotSeq[spectating ? seatCount : seatCount - 1]
                 if (!seq || oppOrder > seq.length) return null
                 var name = seq[oppOrder - 1]
                 var pos = slotPos[name]
@@ -1195,7 +1317,7 @@ Rectangle {
                 var nudge
                 var nudgeX = 0
                 // Spiegelt seatNudge/seatNudgeX im Repeater-Delegate.
-                var flankWide = wide && !Config.Responsive.landscapeCompact
+                var flankWide = wide && !Config.Responsive.landscapeCompact && !spectating
                                 && (name === "opp1" || name === "opp" + (seatCount - 1))
                                 && pos[1] > 0.5
                 if (flankWide) {
@@ -1219,17 +1341,30 @@ Rectangle {
             }
 
             readonly property real topOpponentBottomY: {
-                var oppCount = seatCount - 1
-                var seq = slotSeq[oppCount] || []
-                var topCenter = 0.13
+                var seq = slotSeq[ringCount] || []
+                // 0.13 deckelt, wie tief die "Oberkante der oberen Reihe" gelten
+                // darf – nötig, solange die Community zwischen oberen Sitzen und
+                // Self-Box eingepasst wird. Als Zuschauer wird sie stattdessen
+                // mittig in den freien Ring gelegt; dort ist der ECHTE oberste
+                // Sitz maßgeblich (bei wenigen Spielern liegt er weit unter 0.13).
+                var topCenter = spectating ? Infinity : 0.13
                 for (var i = 0; i < seq.length; ++i) {
                     var p = slotPos[seq[i]]
                     if (p && p[1] < topCenter) topCenter = p[1]
                 }
+                if (!isFinite(topCenter)) topCenter = 0.13
                 return topCenter * height + oppBaseHeight * oppScale / 2
             }
-            readonly property real selfVisualTopY:
-                selfBox.y + selfBox.height / 2 - selfBox.height * boxScale / 2
+            // Oberkante der untersten Box. Ohne Zuschauer-Modus ist das die
+            // Self-Box; als Zuschauer der unterste Ring-Sitz (Slot opp0 / BC).
+            readonly property real selfVisualTopY: {
+                if (spectating) {
+                    var p = slotPos[wide ? "opp0" : "BC"]
+                    var cy = (p ? p[1] : 0.9) * height
+                    return cy - oppBaseHeight * oppScale / 2
+                }
+                return selfBox.y + selfBox.height / 2 - selfBox.height * boxScale / 2
+            }
             // Community-Karten Y-Position:
             //   – Reguläres Wide: vertikaler SCHWERPUNKT aller Boxen (Gegner +
             //     Self). Die früher genutzte Mitte (topOpp+self)/2 ist spieler-
@@ -1241,11 +1376,15 @@ Rectangle {
             //   – landscapeCompact / Portrait: weiterhin (topOpp+self)/2
             //     (eigenes, separat abgestimmtes Layout).
             readonly property real communityCenterY: {
-                if (!wide || Config.Responsive.landscapeCompact)
+                // Der Schwerpunkt-Trick unten existiert, um die Karten in den Pulk
+                // aus Gegnern UND Self-Box zu ziehen. Ohne Self-Box (Zuschauer)
+                // liegt der Ring symmetrisch um die Zonenmitte – dann gehören die
+                // Karten schlicht in die Mitte des freien Innenraums.
+                if (!wide || Config.Responsive.landscapeCompact || spectating)
                     return (topOpponentBottomY + selfVisualTopY) / 2
                 var sumY = height - 12 - selfBaseHeight * boxScale / 2   // Self-Box-Mitte
                 var n = 1
-                var seq = slotSeq[seatCount - 1] || []
+                var seq = slotSeq[ringCount] || []
                 for (var i = 0; i < seq.length; ++i) {
                     var p = slotPos[seq[i]]
                     if (p) { sumY += p[1] * height; n++ }
@@ -1334,19 +1473,25 @@ Rectangle {
                         ? GameTable.players[index] : null
                     readonly property bool occupied: pdata !== null && pdata.name !== ""
 
-                    // Position dieses Sitzes unter den Gegnern (1-basiert; Sitz 0 = Mensch)
+                    // Position dieses Sitzes auf dem Ring (1-basiert). Ohne
+                    // Zuschauer-Modus sitzt Sitz 0 in der Self-Box und zählt
+                    // nicht mit; als Zuschauer ist er der erste Ring-Sitz.
                     readonly property int oppOrder: {
                         if (typeof GameTable === "undefined" || !GameTable) return 0
                         var c = 0
-                        for (var i = 1; i <= index && i < GameTable.players.length; i++)
+                        for (var i = tableZone.spectating ? 0 : 1;
+                             i <= index && i < GameTable.players.length; i++)
                             if (GameTable.players[i].name !== "") c++
                         return c
                     }
 
-                    readonly property int oppCount: tableZone.seatCount - 1
+                    readonly property int oppCount: tableZone.ringCount
                     readonly property var seq: tableZone.slotSeq[oppCount] || []
                     readonly property string slotName:
                         (occupied && oppOrder >= 1 && oppOrder <= seq.length) ? seq[oppOrder - 1] : ""
+                    // Unterster Ring-Sitz (nur im Zuschauer-Modus besetzt).
+                    readonly property bool bottomCenter:
+                        slotName === "opp0" || slotName === "BC"
                     // Immer ein gültiges [x,y]-Paar liefern. Während eines
                     // Orientierungswechsels (oder vor dem ersten Layout, wenn
                     // width/height noch 0 sind) können slotSeq und slotPos kurz
@@ -1358,7 +1503,7 @@ Rectangle {
                         return (p === undefined || p === null) ? [0.5, 0.5] : p
                     }
 
-                    visible: occupied && index !== 0 && slotName !== ""
+                    visible: occupied && (tableZone.spectating || index !== 0) && slotName !== ""
 
                     // Inhalt füllt die Box ohne überschüssige Ränder; Karten im
                     // Original-Seitenverhältnis (2×31+3=65)
@@ -1377,8 +1522,12 @@ Rectangle {
                     // Desktop-Wide: tiefer + horizontal nach AUSSEN, damit sie die
                     // (große) Self-Box nicht berühren / einengen. Ultrawide
                     // (landscapeCompact) hat dafür sein eigenes Corner-Sink-Layout.
+                    // Sitze links/rechts der Self-Box nach außen schieben. Als
+                    // Zuschauer gibt es keine Self-Box, um die herum Platz nötig
+                    // wäre – der Ring ist bereits gleichmäßig.
                     readonly property bool flankWide:
                         tableZone.wide && !Config.Responsive.landscapeCompact
+                        && !tableZone.spectating
                         && (slotName === "opp1" || slotName === "opp" + oppCount)
                         && slot[1] > 0.5
                     // Horizontaler Auswärts-Versatz: Box-Mitte mindestens
@@ -1421,7 +1570,12 @@ Rectangle {
                         // (Player 4–6) eng im Bogen → Einsatz/Icon unterhalb der Box
                         // anzeigen, damit der seitliche Bereich nicht mit den
                         // Nachbarboxen überlappt.
-                        betSide: tableZone.wide
+                        //
+                        // Der unterste Ring-Sitz des Zuschauers (Slot opp0/BC) steht
+                        // am unteren Tischrand: sein Badge muss nach OBEN, zur
+                        // Tischmitte hin, sonst rutscht es aus dem Tisch heraus.
+                        betSide: seatSlot.bottomCenter ? "top"
+                               : tableZone.wide
                                ? (seatSlot.slot[0] < 0.45 ? "left"
                                   : seatSlot.slot[0] > 0.55 ? "right"
                                   : "bottom")
@@ -1432,7 +1586,7 @@ Rectangle {
                         // dem Pot-Badge kollidieren → Button LINKS, Einsatz RECHTS
                         // neben der Box. Gilt im gesamten Querformat (Desktop-Wide
                         // wie Ultrawide), nicht nur im landscapeCompact.
-                        betSplit: tableZone.wide
+                        betSplit: !seatSlot.bottomCenter && tableZone.wide
                                   && seatSlot.slot[0] >= 0.45 && seatSlot.slot[0] <= 0.55
                     }
                 }
@@ -1442,6 +1596,9 @@ Rectangle {
             GamePlayerSelfBox {
                 id: selfBox
                 z: 1
+                // Als Zuschauer habe ich keinen Sitz – Sitz 0 wird stattdessen
+                // als gewöhnlicher Ring-Sitz (Slot opp0/BC) gezeichnet.
+                visible: !tableZone.spectating
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: tableZone.wide
                     ? 12 + tableZone.selfBaseHeight * (tableZone.boxScale - 1) / 2
@@ -1644,7 +1801,7 @@ Rectangle {
                     // diese Korrektur unterschätzt die Prüfung, wie tief/weit außen
                     // sie reichen → maxH zu groß → Überlappung mit dem Chat.
                     var nudgeY  = 0, nudgeX = 0
-                    if (!Config.Responsive.landscapeCompact
+                    if (!Config.Responsive.landscapeCompact && !spectating
                             && (name === "opp1" || name === "opp" + (seatCount - 1))
                             && pos[1] > 0.5) {
                         nudgeY = oppBaseHeight * boxScale * 0.6
@@ -1727,7 +1884,7 @@ Rectangle {
                     // (opp1/oppN) sitzen tiefer und weiter außen (hier: rechter
                     // Sitz in den Info-Bereich) als ihre rohe Slot-Position.
                     var nudgeY = 0, nudgeX = 0
-                    if (!Config.Responsive.landscapeCompact
+                    if (!Config.Responsive.landscapeCompact && !spectating
                             && (name === "opp1" || name === "opp" + (seatCount - 1))
                             && pos[1] > 0.5) {
                         nudgeY = oppBaseHeight * boxScale * 0.6
@@ -1886,7 +2043,9 @@ Rectangle {
             GameRoundIconButton {
                 id: reactionToggle
                 z: 200
-                visible: gamePage.emojiReactionsEnabled
+                // Zuschauer haben keinen Sitz, über dem eine eigene Reaktion
+                // aufsteigen könnte. Reaktionen ANDERER bleiben sichtbar.
+                visible: gamePage.emojiReactionsEnabled && !tableZone.spectating
                 anchors.top: parent.top
                 anchors.left: chatToggle.visible ? chatToggle.right : parent.left
                 anchors.leftMargin: chatToggle.visible ? 6 : 8
@@ -1912,8 +2071,11 @@ Rectangle {
         }
 
         // 3. Action-Leiste: Raise-Controls + Fold / Call / Raise
+        // Zuschauer greifen nicht ins Spiel ein → keine Action-Leiste. Der
+        // freiwerdende Platz kommt dem Tisch zugute (Layout.fillHeight oben).
         GameActionBar {
             id: actionBar
+            visible: !tableZone.spectating
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
             wide: tableZone.wide

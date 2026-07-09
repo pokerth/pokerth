@@ -79,7 +79,8 @@ using namespace boost::chrono;
 ClientThread::ClientThread(GuiInterface &gui, AvatarManager &avatarManager, boost::shared_ptr<Log> myLog)
 	: m_ioService(new boost::asio::io_context), m_clientLog(myLog), m_curState(NULL), m_gui(gui),
 	  m_avatarManager(avatarManager), m_isServerSelected(false),
-	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_sessionEstablished(false),
+	  m_curGameId(0), m_curGameNum(1), m_guiPlayerId(0), m_spectating(false),
+	  m_sessionEstablished(false),
 	  m_stateTimer(*m_ioService), m_avatarTimer(*m_ioService)
 {
 	m_context.reset(new ClientContext);
@@ -324,7 +325,7 @@ ClientThread::SendJoinFirstGame(const std::string &password, bool autoLeave)
 }
 
 void
-ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave)
+ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave, bool spectateOnly)
 {
 	// Warning: This function is called in the context of the GUI thread.
 	// Create a network packet to request joining a game.
@@ -333,6 +334,9 @@ ClientThread::SendJoinGame(unsigned gameId, const std::string &password, bool au
 	JoinExistingGameMessage *netJoinGame = packet->GetMsg()->mutable_joinexistinggamemessage();
 	netJoinGame->set_gameid(gameId);
 	netJoinGame->set_autoleave(autoLeave);
+	if (spectateOnly) {
+		netJoinGame->set_spectateonly(true);
+	}
 
 	if (!password.empty()) {
 		netJoinGame->set_password(password);
@@ -1230,6 +1234,18 @@ ClientThread::GetOrigGuiPlayerNum() const
 	return m_origGuiPlayerNum;
 }
 
+bool
+ClientThread::IsSpectating() const
+{
+	return m_spectating;
+}
+
+void
+ClientThread::SetSpectating(bool spectating)
+{
+	m_spectating = spectating;
+}
+
 void
 ClientThread::SetGuiPlayerId(unsigned guiPlayerId)
 {
@@ -1343,6 +1359,16 @@ ClientThread::ClearPlayerDataList()
 void
 ClientThread::MapPlayerDataList()
 {
+	// A spectator has no seat of his own, so there is nothing to rotate: keep
+	// the server's seat numbering. m_origGuiPlayerNum = 0 makes every
+	// (number + numberOfPlayers) % numberOfPlayers mapping in the GUI an
+	// identity, so seat N of the server stays seat N on the table.
+	if (IsSpectating()) {
+		m_origGuiPlayerNum = 0;
+		m_playerDataList.sort(*boost::lambda::_1 < *boost::lambda::_2);
+		return;
+	}
+
 	// Retrieve the GUI player.
 	boost::shared_ptr<PlayerData> guiPlayer = GetPlayerDataByUniqueId(GetGuiPlayerId());
 	assert(guiPlayer.get());

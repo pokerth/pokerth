@@ -37,6 +37,7 @@
 #include <boost/asio.hpp>
 #include <boost/asio/steady_timer.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <atomic>
 #include <string>
 #include <algorithm>
 #include <numeric>
@@ -139,7 +140,7 @@ public:
 	void SendLobbyChatMessage(const std::string &msg);
 	void SendPrivateChatMessage(unsigned targetPlayerId, const std::string &msg);
 	void SendJoinFirstGame(const std::string &password, bool autoLeave);
-	void SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave);
+	void SendJoinGame(unsigned gameId, const std::string &password, bool autoLeave, bool spectateOnly = false);
 	void SendRejoinGame(unsigned gameId, bool autoLeave);
 	void SendCreateGame(const GameData &gameData, const std::string &name, const std::string &password, bool autoLeave);
 	void SendResetTimeout();
@@ -175,6 +176,12 @@ public:
 	unsigned GetGameId() const;
 	unsigned GetGuiPlayerId() const;
 	int GetOrigGuiPlayerNum() const;
+	// true, wenn wir dem aktuellen Spiel als Zuschauer beigetreten sind
+	// (JoinGameAck.spectateOnly). Ein Zuschauer besitzt KEINEN Sitz: er
+	// taucht nicht in der Spielerliste des Spiels auf, bekommt keine
+	// Hole Cards und ist nie am Zug.
+	bool IsSpectating() const;
+	void SetSpectating(bool spectating);
 
 	Gsasl *GetAuthContext();
 
@@ -356,6 +363,8 @@ private:
 	unsigned m_guiPlayerId;
 	mutable boost::mutex m_guiPlayerIdMutex;
 	int m_origGuiPlayerNum;
+	// Vom Netzwerk-Thread gesetzt (JoinGameAck), vom GUI-Thread gelesen.
+	std::atomic<bool> m_spectating;
 	bool m_sessionEstablished;
 
 	mutable boost::mutex m_curStatsMutex;
