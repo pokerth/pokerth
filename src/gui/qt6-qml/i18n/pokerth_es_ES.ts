@@ -668,12 +668,12 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1946"/>
+        <location filename="../pages/GamePage.qml" line="+1995"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historial y probabilidades</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+51"/>
         <source>Chat</source>
         <translation>Chat</translation>
     </message>
@@ -841,81 +841,89 @@
     </message>
     <message>
         <location line="+31"/>
-        <location line="+285"/>
+        <location line="+299"/>
         <source>Sort alphabetically</source>
         <translation>Ordenar alfabéticamente</translation>
     </message>
     <message>
-        <location line="-284"/>
-        <location line="+285"/>
+        <location line="-298"/>
+        <location line="+299"/>
         <source>Sort by country</source>
         <translation>Ordenar por país</translation>
     </message>
     <message>
-        <location line="-284"/>
-        <location line="+285"/>
+        <location line="-298"/>
+        <location line="+299"/>
         <source>Display idle players</source>
         <translation>Mostrar jugadores libres</translation>
     </message>
     <message>
-        <location line="-242"/>
-        <location line="+592"/>
+        <location line="-256"/>
+        <location line="+606"/>
         <source>Game List</source>
         <translation>Lista de partidas</translation>
     </message>
     <message>
-        <location line="-541"/>
-        <location line="+553"/>
+        <location line="-555"/>
+        <location line="+567"/>
         <source>No game list filter</source>
         <translation>Sin filtro de lista de partidas</translation>
     </message>
     <message>
-        <location line="-552"/>
-        <location line="+553"/>
+        <location line="-566"/>
+        <location line="+567"/>
         <source>Show open games</source>
         <translation>Mostrar partidas abiertas</translation>
     </message>
     <message>
-        <location line="-552"/>
-        <location line="+553"/>
+        <location line="-566"/>
+        <location line="+567"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostrar partidas abiertas y no llenas</translation>
     </message>
     <message>
-        <location line="-552"/>
-        <location line="+553"/>
+        <location line="-566"/>
+        <location line="+567"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostrar partidas abiertas, no llenas y no privadas</translation>
     </message>
     <message>
-        <location line="-552"/>
-        <location line="+553"/>
+        <location line="-566"/>
+        <location line="+567"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostrar partidas abiertas, no llenas y privadas</translation>
     </message>
     <message>
-        <location line="-552"/>
-        <location line="+553"/>
+        <location line="-566"/>
+        <location line="+567"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Mostrar partidas abiertas, no llenas y de clasificación</translation>
     </message>
     <message>
-        <location line="-479"/>
+        <location line="-493"/>
         <source>Game Info</source>
         <translation>Información de la partida</translation>
     </message>
     <message>
-        <location line="+12"/>
         <source>Spectating — waiting for the next hand …</source>
-        <translation>Espectador — esperando la próxima mano …</translation>
+        <translation type="vanished">Espectador — esperando la próxima mano …</translation>
+    </message>
+    <message>
+        <source>Waiting for players …</source>
+        <translation type="vanished">Esperando jugadores …</translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Spectating — waiting for the next hand</source>
+        <translation>Espectador — esperando la próxima mano</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Waiting for players …</source>
-        <translation>Esperando jugadores …</translation>
+        <source>Waiting for players</source>
+        <translation>Esperando jugadores</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+77"/>
         <source>Connected Players</source>
         <translation>Jugadores conectados</translation>
     </message>
@@ -1659,7 +1667,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1456"/>
+        <location filename="../pages/LobbyPage.qml" line="+1475"/>
         <source>Game invitation</source>
         <translation>Invitación a partida</translation>
     </message>
@@ -1679,24 +1687,24 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Unirse</translation>
     </message>
     <message>
-        <location line="-458"/>
+        <location line="-469"/>
         <source>Create Game</source>
         <translation>Crear partida</translation>
     </message>
     <message>
-        <location line="-721"/>
-        <location line="+779"/>
+        <location line="-719"/>
+        <location line="+777"/>
         <source>Game Info</source>
         <translation>Información de la partida</translation>
     </message>
     <message>
-        <location line="-517"/>
-        <location line="+466"/>
+        <location line="-515"/>
+        <location line="+464"/>
         <source>Join Game</source>
         <translation>Unirse a la partida</translation>
     </message>
     <message>
-        <location line="-259"/>
+        <location line="-257"/>
         <source>Game List</source>
         <translation>Lista de partidas</translation>
     </message>
@@ -1721,38 +1729,38 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Clasificación</translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+111"/>
         <location line="+263"/>
         <source>Lobby Chat</source>
         <translation>Chat del lobby</translation>
     </message>
     <message>
-        <location line="-584"/>
+        <location line="-582"/>
         <source>No game list filter</source>
         <translation>Sin filtro de lista de partidas</translation>
     </message>
     <message>
-        <location line="+358"/>
+        <location line="+356"/>
         <source>Player: %1</source>
         <translation>Jugador: %1</translation>
     </message>
     <message>
-        <location line="-870"/>
+        <location line="-868"/>
         <source>Players</source>
         <translation>Jugadores</translation>
     </message>
     <message>
-        <location line="+984"/>
+        <location line="+982"/>
         <source>Select a game to see details</source>
         <translation>Selecciona una partida para ver los detalles</translation>
     </message>
     <message>
-        <location line="-469"/>
+        <location line="-467"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostrar partidas abiertas, no llenas y no privadas</translation>
     </message>
     <message>
-        <location line="-608"/>
+        <location line="-618"/>
         <source>Report game name</source>
         <translation>Denunciar nombre de la partida</translation>
     </message>
@@ -1767,6 +1775,11 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <location line="+2"/>
         <source>Report</source>
         <translation>Denunciar</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Spectate</source>
+        <translation>Ver</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1801,18 +1814,18 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
     </message>
     <message>
         <location line="-412"/>
-        <location line="+774"/>
+        <location line="+772"/>
         <source>Report inappropriate game name</source>
         <translation>Informar de nombre de partida inapropiado</translation>
     </message>
     <message>
-        <location line="-766"/>
-        <location line="+773"/>
+        <location line="-764"/>
+        <location line="+771"/>
         <source>Close game (admin)</source>
         <translation>Cerrar partida (admin)</translation>
     </message>
     <message>
-        <location line="-736"/>
+        <location line="-734"/>
         <source>Players: %1 / %2</source>
         <translation>Jugadores: %1 / %2</translation>
     </message>
@@ -1823,12 +1836,12 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
     </message>
     <message>
         <location line="+33"/>
-        <location line="+717"/>
+        <location line="+715"/>
         <source>Type: %1</source>
         <translation>Tipo: %1</translation>
     </message>
     <message>
-        <location line="-706"/>
+        <location line="-704"/>
         <source>Small blind: %1</source>
         <translation>Ciega pequeña: %1</translation>
     </message>
@@ -1876,18 +1889,18 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+665"/>
+        <location line="+663"/>
         <source>Players in game (%1)</source>
         <translation>Jugadores en la partida (%1)</translation>
     </message>
     <message>
-        <location line="-588"/>
-        <location line="+466"/>
+        <location line="-586"/>
+        <location line="+464"/>
         <source>Leave Game</source>
         <translation>Abandonar partida</translation>
     </message>
     <message>
-        <location line="-369"/>
+        <location line="-367"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostrar partidas abiertas, no llenas y privadas</translation>
     </message>
@@ -1902,17 +1915,25 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Jugadores conectados</translation>
     </message>
     <message>
-        <location line="+185"/>
+        <location line="-649"/>
+        <location line="+834"/>
         <source>Spectate game</source>
         <translation>Ver la partida</translation>
     </message>
     <message>
-        <location line="+254"/>
+        <location line="-833"/>
+        <source>Are you sure you want to spectate the game:
+&quot;%1&quot;?</source>
+        <translation>¿Seguro que quieres ver la partida:
+&quot;%1&quot;?</translation>
+    </message>
+    <message>
+        <location line="+1085"/>
         <source>SB: %1 | Start cash: %2</source>
         <translation>SB: %1 | Capital inicial: %2</translation>
     </message>
     <message>
-        <location line="+228"/>
+        <location line="+239"/>
         <source>Privates Spiel</source>
         <translation>Partida privada</translation>
     </message>
@@ -1957,7 +1978,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Volver a unirse</translation>
     </message>
     <message>
-        <location line="-915"/>
+        <location line="-924"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostrar partidas abiertas y no llenas</translation>
     </message>

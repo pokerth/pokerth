@@ -55,6 +55,16 @@ Rectangle {
             qsTr("Report"))
     }
 
+    function requestSpectateGame(gameId, gameName) {
+        if (!gameId) return
+        spectateGamePopup.pendingGameId = gameId
+        spectateGamePopup.openWith(
+            qsTr("Spectate game"),
+            qsTr("Are you sure you want to spectate the game:\n\"%1\"?")
+                .arg(gameName || ("Game #" + gameId)),
+            qsTr("Spectate"))
+    }
+
     function requestCloseGame() {
         if (!selectedGame) return
         closeGamePopup.openWith(
@@ -884,10 +894,8 @@ Rectangle {
                                             source: "qrc:/resources/eye.svg"
                                             baseColor: Config.Theme.colorAccent
                                             tooltipText: qsTr("Spectate game")
-                                            onTriggered: {
-                                                if (Lobby)
-                                                    Lobby.spectateGame(model.gameId)
-                                            }
+                                            onTriggered: lobbyPage.requestSpectateGame(
+                                                model.gameId, model.gameName)
                                         }
                                     }
                                 }
@@ -1339,6 +1347,17 @@ Rectangle {
         onConfirmed: {
             if (Lobby && lobbyPage.selectedGame)
                 Lobby.adminCloseGame(lobbyPage.selectedGame.gameId)
+        }
+    }
+
+    // Auf Seitenebene (nicht im Listen-Delegate): die Zeile kann beim Scrollen
+    // oder bei einem Listen-Update zerstört werden, während das Popup offen ist.
+    ConfirmPopup {
+        id: spectateGamePopup
+        property int pendingGameId: 0
+        onConfirmed: {
+            if (Lobby && pendingGameId > 0)
+                Lobby.spectateGame(pendingGameId)
         }
     }
 

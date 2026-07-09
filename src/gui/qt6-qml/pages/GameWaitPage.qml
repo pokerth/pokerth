@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Universal
 import QtQuick.Layouts
 import QtQuick.Effects
 
@@ -409,12 +410,31 @@ Rectangle {
             // Als Zuschauer läuft das Spiel bereits: der Server setzt uns erst
             // zu Beginn der nächsten Hand an den Tisch (dann wird die GamePage
             // aufgeschoben). Bis dahin warten wir hier.
-            AppLabel {
-                text: (Lobby && Lobby.isSpectating)
-                      ? qsTr("Spectating — waiting for the next hand …")
-                      : qsTr("Waiting for players …")
-                color: Config.StaticData.palette.secondary.col300
-                font.pixelSize: 12
+            //
+            // Die wandernden Punkte ersetzen die frühere Auslassung "…" am
+            // Textende – beides zusammen wäre doppelt gemoppelt.
+            Column {
+                Layout.fillWidth: true
+                spacing: 2
+
+                AppLabel {
+                    id: waitLabel
+                    text: (Lobby && Lobby.isSpectating)
+                          ? qsTr("Spectating — waiting for the next hand")
+                          : qsTr("Waiting for players")
+                    color: Config.StaticData.palette.secondary.col300
+                    font.pixelSize: 12
+                }
+
+                // Derselbe „Spinner" wie im Splash (PreLoader): die Universal-
+                // ProgressBar zeichnet im indeterminate-Modus wandernde Punkte.
+                // Nur so breit wie der Text darüber, in dessen Farbe – wirkt so
+                // wie eine lebendige Unterstreichung.
+                ProgressBar {
+                    indeterminate: true
+                    width: waitLabel.implicitWidth
+                    Universal.accent: Config.StaticData.palette.secondary.col300
+                }
             }
 
             // Compact: game list toggle button (top-right)
