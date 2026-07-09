@@ -11,7 +11,8 @@
     "--socket=wayland",
     "--socket=pulseaudio",
     "--device=dri",
-    "--filesystem=home"
+    "--filesystem=home",
+    "--env=QML_DISABLE_DISK_CACHE=1"
   ],
   "cleanup": [
     "/include",
