@@ -208,12 +208,13 @@ integrate_desktop_entry() {
     desktop_file="$apps_dir/pokerth.desktop"
     icon="$SCRIPT_DIR/share/pokerth.svg"
     [ -f "$icon" ] || icon="$SCRIPT_DIR/data/gfx/gui/misc/windowicon.png"
-    if [ ! -f "$desktop_file" ] || ! grep -qxF "Exec=$SCRIPT_DIR/pokerth" "$desktop_file"; then
-        mkdir -p "$apps_dir"
-        cat > "$desktop_file" <<DESKTOP
+    # Soll-Inhalt bauen und bei jeder Abweichung neu schreiben. Ein Vergleich nur
+    # der Exec-Zeile würde geänderte Name-/Icon-Felder in bereits integrierten
+    # Einträgen für immer einfrieren.
+    desired=$(cat <<DESKTOP
 [Desktop Entry]
 Type=Application
-Name=PokerTH
+Name=PokerTH Widget
 GenericName=Poker Card Game
 Comment=Texas hold'em game
 Exec=$SCRIPT_DIR/pokerth
@@ -222,6 +223,10 @@ Terminal=false
 StartupWMClass=pokerth_client
 Categories=Qt;Game;CardGame;
 DESKTOP
+)
+    if [ ! -f "$desktop_file" ] || [ "$(cat "$desktop_file")" != "$desired" ]; then
+        mkdir -p "$apps_dir"
+        printf '%s\n' "$desired" > "$desktop_file"
         command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$apps_dir" >/dev/null 2>&1 || true
     fi
 }
@@ -271,12 +276,13 @@ integrate_desktop_entry() {
     desktop_file="$apps_dir/pokerth_qml.desktop"
     icon="$SCRIPT_DIR/share/pokerth.svg"
     [ -f "$icon" ] || icon="$SCRIPT_DIR/data/gfx/gui/misc/windowicon.png"
-    if [ ! -f "$desktop_file" ] || ! grep -qxF "Exec=$SCRIPT_DIR/pokerth-qml" "$desktop_file"; then
-        mkdir -p "$apps_dir"
-        cat > "$desktop_file" <<DESKTOP
+    # Soll-Inhalt bauen und bei jeder Abweichung neu schreiben. Ein Vergleich nur
+    # der Exec-Zeile würde geänderte Name-/Icon-Felder in bereits integrierten
+    # Einträgen für immer einfrieren.
+    desired=$(cat <<DESKTOP
 [Desktop Entry]
 Type=Application
-Name=PokerTH
+Name=PokerTH QML
 GenericName=Poker Card Game
 Comment=Texas hold'em game
 Exec=$SCRIPT_DIR/pokerth-qml
@@ -285,6 +291,10 @@ Terminal=false
 StartupWMClass=pokerth_qml-client
 Categories=Qt;Game;CardGame;
 DESKTOP
+)
+    if [ ! -f "$desktop_file" ] || [ "$(cat "$desktop_file")" != "$desired" ]; then
+        mkdir -p "$apps_dir"
+        printf '%s\n' "$desired" > "$desktop_file"
         command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$apps_dir" >/dev/null 2>&1 || true
     fi
 }

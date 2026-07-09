@@ -221,7 +221,7 @@ EOF
 echo "=== Erstelle Desktop-Datei und Icon ==="
 cat > "$APPDIR/pokerth.desktop" << 'EOF'
 [Desktop Entry]
-Name=PokerTH
+Name=PokerTH Widget
 GenericName=Poker Card Game
 GenericName[de]=Pokerspiel
 Comment=Texas hold'em game

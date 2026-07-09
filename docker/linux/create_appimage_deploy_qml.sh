@@ -360,7 +360,7 @@ echo "=== Erstelle Desktop-Datei und Icon ==="
 # Compositor ohne xdg-toplevel-icon (Fallback-Pfad) Fenster und Icon korrekt zu.
 cat > "$APPDIR/pokerth_qml.desktop" << 'EOF'
 [Desktop Entry]
-Name=PokerTH
+Name=PokerTH QML
 GenericName=Poker Card Game
 GenericName[de]=Pokerspiel
 Comment=Texas hold'em game (QML client)
