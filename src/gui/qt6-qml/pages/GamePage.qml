@@ -39,6 +39,11 @@ Rectangle {
             actionBar.applyPlayingMode(index)
     }
 
+    // Zuschauer: weder Tischchat noch Verlauf/Chancen. Auch die Tastenkürzel
+    // müssen aus – sonst öffnete Alt+C/Alt+L/Alt+I ein Overlay, dessen
+    // Schließen-Button (der Toggle) gar nicht mehr da ist.
+    readonly property bool spectating: tableZone ? tableZone.spectating : false
+
     // ── Info-Panel (Verlauf/Chancen/Blatt) ────────────────────────────────────
     // Desktop: permanent unten RECHTS angedockt (gespiegelt zum Chat unten links),
     // ÜBER dem Tisch schwebend (reserviert keinen Platz). Reicht die Breite nicht
@@ -222,19 +227,19 @@ Rectangle {
     Shortcut {
         sequence: "Alt+L"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.toggleLogOverlay()
     }
     Shortcut {
         sequence: "Alt+C"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.toggleChatOverlay()
     }
     Shortcut {
         sequence: "Alt+I"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.toggleInfoOverlay()
     }
     Shortcut {
@@ -901,14 +906,9 @@ Rectangle {
                     // Bisektions-Reserve (Kompakt 1.1, sonst 0.72 · boxScale) →
                     // garantierte Mindestlücke, kein Regressionsrisiko.
                     var isCmp     = Config.Responsive.landscapeCompact
-                    var badgeExt  = (isCmp ? 39 : 26) * oppScale
-                    var topB      = topOpponentBottomY + badgeExt
+                    var topB      = topOpponentBottomY + (isCmp ? 39 : 26) * oppScale
                     var halfAbove = communityCenterY - topB - 6
-                    // Die Self-Box hat oben keine Bet-Badge. Der Bodensitz des
-                    // Zuschauers dagegen zeigt seine nach OBEN (betSide "top"),
-                    // also zur Community hin – dieser Streifen ist belegt.
-                    var botB      = selfVisualTopY - (spectating ? badgeExt : 0)
-                    var halfBelow = botB - communityCenterY - 6
+                    var halfBelow = selfVisualTopY - communityCenterY - 6
                     var avail     = Math.min(halfAbove, halfBelow)
                     // Kompakt dichter füllen (72) als Desktop (84, bewusst luftig).
                     var gapFill   = avail > 0 ? avail / (isCmp ? 66 : 84) : 0
@@ -1570,12 +1570,7 @@ Rectangle {
                         // (Player 4–6) eng im Bogen → Einsatz/Icon unterhalb der Box
                         // anzeigen, damit der seitliche Bereich nicht mit den
                         // Nachbarboxen überlappt.
-                        //
-                        // Der unterste Ring-Sitz des Zuschauers (Slot opp0/BC) steht
-                        // am unteren Tischrand: sein Badge muss nach OBEN, zur
-                        // Tischmitte hin, sonst rutscht es aus dem Tisch heraus.
-                        betSide: seatSlot.bottomCenter ? "top"
-                               : tableZone.wide
+                        betSide: tableZone.wide
                                ? (seatSlot.slot[0] < 0.45 ? "left"
                                   : seatSlot.slot[0] > 0.55 ? "right"
                                   : "bottom")
@@ -1586,8 +1581,14 @@ Rectangle {
                         // dem Pot-Badge kollidieren → Button LINKS, Einsatz RECHTS
                         // neben der Box. Gilt im gesamten Querformat (Desktop-Wide
                         // wie Ultrawide), nicht nur im landscapeCompact.
-                        betSplit: !seatSlot.bottomCenter && tableZone.wide
-                                  && seatSlot.slot[0] >= 0.45 && seatSlot.slot[0] <= 0.55
+                        //
+                        // Der unterste Ring-Sitz des Zuschauers (Slot opp0/BC) braucht
+                        // dieselbe Aufteilung, und zwar in JEDER Orientierung: unter
+                        // ihm ist kein Platz, und nebeneinander INNERHALB der Boxbreite
+                        // überlappen Einsatz (zentriert) und Blind-Button (rechts).
+                        betSplit: seatSlot.bottomCenter
+                                  || (tableZone.wide
+                                      && seatSlot.slot[0] >= 0.45 && seatSlot.slot[0] <= 0.55)
                     }
                 }
             }
@@ -1760,6 +1761,7 @@ Rectangle {
             // ist. Reicht der Platz nicht, bleibt es beim Overlay-Chat (Chat-Icon).
             readonly property real dockedChatW: {
                 if (Config.Responsive.isMobile) return 0
+                if (spectating) return 0
                 if (typeof GameTable === "undefined" || !GameTable || !GameTable.hasHumanOpponents) return 0
                 return Math.min(280, (width - actionBar.panelWidth) / 2 - 24)
             }
@@ -1852,6 +1854,7 @@ Rectangle {
             // freier Breite; sonst Overlay + Toggle.
             readonly property real dockedInfoW: {
                 if (Config.Responsive.isMobile) return 0
+                if (spectating) return 0
                 return Math.min(280, (width - actionBar.panelWidth) / 2 - 24)
             }
             readonly property bool dockedInfoFits: dockedInfoW >= 170
@@ -1981,6 +1984,9 @@ Rectangle {
             GameRoundIconButton {
                 id: infoToggle
                 z: 200
+                // Zuschauer: kein Verlauf/Chancen-Panel (Chancen setzen ein
+                // eigenes Blatt voraus, das es hier nicht gibt).
+                visible: !tableZone.spectating
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.margins: 8
@@ -2028,7 +2034,9 @@ Rectangle {
                 z: 200
                 // Immer sichtbar (sofern menschliche Mitspieler) – auch wenn der
                 // Chat permanent angedockt ist, damit er sich ausblenden lässt.
-                visible: ((typeof GameTable !== "undefined" && GameTable) ? GameTable.hasHumanOpponents : false)
+                // Zuschauer nehmen am Tischchat nicht teil.
+                visible: !tableZone.spectating
+                         && ((typeof GameTable !== "undefined" && GameTable) ? GameTable.hasHumanOpponents : false)
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.margins: 8
