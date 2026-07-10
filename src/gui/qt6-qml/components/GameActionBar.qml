@@ -23,6 +23,20 @@ Item {
     implicitHeight: actionBarCol.implicitHeight
                     + (actionBar.wide && !actionBar.compactActions ? 8 : 0)
 
+    // Eckenradius der Theme-Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche
+    // (<ActionButtonBorderRadius> im Tisch-Stil). Die Zustands-Rahmen (Vorwahl
+    // gold, primäre Aktion) liegen als Rechteck ÜBER dem SVG; nur mit dem Radius
+    // des Stils schließen sie bündig ab, statt an den Ecken zu klaffen.
+    readonly property real themeButtonRadiusUnits:
+        (typeof StyleProvider !== "undefined" && StyleProvider)
+        ? StyleProvider.actionButtonBorderRadius : 9
+
+    // Der Button wird auf seine tatsächliche Größe gestreckt, der Radius also mit.
+    // Bezug ist die Höhe (43 Einheiten); die Kappung bei h/2 fängt Pillenformen ab.
+    function themeButtonRadius(h) {
+        return Math.min(h / 2, actionBar.themeButtonRadiusUnits * h / 43)
+    }
+
     // Spielmodus-Aktion: vom Aufrufer (Shortcuts) und der Modus-ComboBox genutzt.
     // Falls bereits mein Zug: gewählten Auto-Modus ausführen – aber VERZÖGERT
     // (Qt.callLater), niemals synchron. fold()/call() verändert sofort den
@@ -748,7 +762,8 @@ Item {
                                                      && StyleProvider && StyleProvider.allInButton !== ""
                     Layout.preferredWidth: 52
                     Layout.preferredHeight: actionBar.raiseRowHeight
-                    radius: 5
+                    // Mit Theme-SVG den Radius des Stils, sonst den Fallback-Wert.
+                    radius: allInBtn.useTheme ? actionBar.themeButtonRadius(allInBtn.height) : 5
                     opacity: (isShowMode || allInBtn.armed) ? 1.0 : 0.4
                     color: allInBtn.useTheme ? "transparent"
                          : allInArea.containsPress
@@ -782,7 +797,7 @@ Item {
                         anchors.fill: parent
                         anchors.margins: allInBtn.border.width
                         visible: allInBtn.useTheme
-                        radius: 5
+                        radius: actionBar.themeButtonRadius(height)
                         color: "#FFFFFF"
                         opacity: allInArea.containsPress ? 0.18
                                : allInArea.containsMouse ? 0.08 : 0.0
@@ -925,7 +940,7 @@ Item {
                 Rectangle {
                     anchors.fill: parent
                     visible: ab.hasTheme && (ab.preChecked || (ab.highlight && ab.armed))
-                    radius: 9
+                    radius: actionBar.themeButtonRadius(ab.height)
                     color: "transparent"
                     border.width: 2
                     border.color: ab.preChecked ? "#FFD700" : ab.edgeColor

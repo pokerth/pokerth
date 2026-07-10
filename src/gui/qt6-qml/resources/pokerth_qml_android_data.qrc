@@ -448,6 +448,17 @@
         <file>android-data/gfx/qml/table/mute2/preview_portrait.png</file>
         <file>android-data/gfx/qml/table/mute2/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/mute2/table.png</file>
+        <file>android-data/gfx/qml/table/star_trek/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/preview.png</file>
+        <file>android-data/gfx/qml/table/star_trek/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/star_trek/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/star_trek/startrektablestyle.xml</file>
+        <file>android-data/gfx/qml/table/star_trek/table.png</file>
         <file>android-data/gfx/qml/table/teal/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/teal/actionCall.svg</file>
         <file>android-data/gfx/qml/table/teal/actionFold.svg</file>

@@ -24,6 +24,12 @@
           Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
      <TableBackgroundZoom value="1.0" />
 
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="6.5" />
+
      <DealerPuck value="dealerPuck.svg" />
      <SmallBlindPuck value="smallblindPuck.svg" />
      <BigBlindPuck value="bigblindPuck.svg" />

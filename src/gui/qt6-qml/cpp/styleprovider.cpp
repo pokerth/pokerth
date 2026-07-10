@@ -52,6 +52,8 @@ void StyleProvider::loadTableStyle()
     m_tableBackground.clear();
     m_tableBackgroundAlignment.clear();
     m_tableBackgroundZoom = 1.0;
+    m_actionButtonBorderRadius = 9.0;
+    m_playerBoxAccent.clear();
     m_dealerPuck.clear();
     m_smallBlindPuck.clear();
     m_bigBlindPuck.clear();
@@ -119,6 +121,17 @@ void StyleProvider::loadTableStyle()
             if (ok && z > 0.0)
                 m_tableBackgroundZoom = z;
         }
+        else if (tag == "ActionButtonBorderRadius") {
+            // Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichen-
+            // fläche. QML rechnet ihn auf die tatsächliche Button-Höhe um und
+            // zeichnet die Zustands-Rahmen damit deckungsgleich zur Button-Form.
+            bool ok = false;
+            const double r = value.toDouble(&ok);
+            if (ok && r >= 0.0)
+                m_actionButtonBorderRadius = r;
+        }
+        else if (tag == "PlayerBoxAccent")
+            m_playerBoxAccent = value.trimmed();
         else if (tag == "DealerPuck")
             m_dealerPuck = urlIfExists(value);
         else if (tag == "SmallBlindPuck")

@@ -39,6 +39,14 @@ class StyleProvider : public QObject
     Q_PROPERTY(QString tableBackground READ tableBackground NOTIFY changed)
     Q_PROPERTY(QString tableBackgroundAlignment READ tableBackgroundAlignment NOTIFY changed)
     Q_PROPERTY(qreal tableBackgroundZoom READ tableBackgroundZoom NOTIFY changed)
+    // Eckenradius der Aktions-Buttons, in Einheiten der 168x43-Zeichenfläche
+    // der Button-SVGs. Der Client zeichnet Zustands-Rahmen (Vorwahl gold,
+    // primäre Aktion) als Rechteck über das SVG – ohne diesen Wert passten
+    // dessen Ecken nicht zur Button-Form. Default 9 = gebündelter Stil.
+    Q_PROPERTY(qreal actionButtonBorderRadius READ actionButtonBorderRadius NOTIFY changed)
+    // Akzentfarbe der Spielerboxen (<PlayerBoxAccent>). Tönt Verlauf und Rahmen
+    // der Box. Leer = neutraler, gebündelter Default.
+    Q_PROPERTY(QString playerBoxAccent READ playerBoxAccent NOTIFY changed)
     Q_PROPERTY(QString dealerPuck READ dealerPuck NOTIFY changed)
     Q_PROPERTY(QString smallBlindPuck READ smallBlindPuck NOTIFY changed)
     Q_PROPERTY(QString bigBlindPuck READ bigBlindPuck NOTIFY changed)
@@ -82,6 +90,8 @@ public:
     QString tableBackground() const { return m_tableBackground; }
     QString tableBackgroundAlignment() const { return m_tableBackgroundAlignment; }
     qreal tableBackgroundZoom() const { return m_tableBackgroundZoom; }
+    qreal actionButtonBorderRadius() const { return m_actionButtonBorderRadius; }
+    QString playerBoxAccent() const { return m_playerBoxAccent; }
     QString dealerPuck() const { return m_dealerPuck; }
     QString smallBlindPuck() const { return m_smallBlindPuck; }
     QString bigBlindPuck() const { return m_bigBlindPuck; }
@@ -129,6 +139,8 @@ private:
     QString m_tableBackground;
     QString m_tableBackgroundAlignment;
     qreal m_tableBackgroundZoom = 1.0;
+    qreal m_actionButtonBorderRadius = 9.0;
+    QString m_playerBoxAccent;
     QString m_dealerPuck;
     QString m_smallBlindPuck;
     QString m_bigBlindPuck;
