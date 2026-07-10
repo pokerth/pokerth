@@ -61,16 +61,17 @@
      <BetRaiseButtonTextColor value="#5cff5c" />
      <AllInButtonTextColor value="#fff200" />
 
-     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Hier bewusst NICHT aus
-          <PlayerBoxAccent> abgeleitet: der Akzent ist ein neutrales Grau, ein
-          Tint wuerde die Panels nur aufhellen und die dunkle Carbon-Optik des
-          Tisches brechen. Unabhaengig vom Hell/Dunkel-Modus. -->
-     <ChatLogBackground value="#191919" />    <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#333333" />    <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#5a5a5a" />    <!-- Rahmen / Trennlinie -->
+     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
+          abgeleitet wie in den anderen Stilen: der Rahmen traegt den Akzent,
+          die Flaechen nur einen Hauch. Basis sind hier die eigenen Grautoene des
+          Stils statt der blaustichigen Defaults – die Carbon-Optik bleibt so
+          monochrom. Unabhaengig vom Hell/Dunkel-Modus. -->
+     <ChatLogBackground value="#262627" />    <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#414243" />    <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#777a7c" />    <!-- Rahmen / Trennlinie -->
      <ChatLogText value="#e6e6e6" />    <!-- Haupttext -->
      <ChatLogTextSecondary value="#c2c2c2" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#8a8a8a" />    <!-- gedämpfter Text / Platzhalter -->
+     <ChatLogTextMuted value="#8d8e90" />    <!-- gedämpfter Text / Platzhalter -->
 
   </TableStyle>
 </PokerTH>

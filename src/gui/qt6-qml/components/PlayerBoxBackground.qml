@@ -7,9 +7,13 @@ import "../config" as Config
 // damit die Box als angehobene Karte statt als flache Fläche wirkt.
 //
 // Ein Tisch-Stil darf die Box über <PlayerBoxAccent> einfärben (z. B. der Star-
-// Trek-Stil mit einem Orangestich). Der Akzent tönt Verlauf und Rahmen, ersetzt
+// Trek-Stil mit dem Blau der Brücken-Konsolen). Der Akzent tönt Verlauf und Rahmen, ersetzt
 // sie aber nicht – die Box bleibt dunkel und der Text darauf lesbar. Ohne den
 // Tag bleibt der neutrale, gebündelte Look.
+//
+// Die Stärken gelten für ALLE Stile gemeinsam. Bei kräftigeren Werten müssen
+// warme Akzente vorsichtig gewählt werden: Orange auf dem blaugrauen Basiston
+// kippt schnell ins Bräunliche.
 Rectangle {
     id: boxBackground
 
@@ -34,12 +38,12 @@ Rectangle {
     radius: 6
     opacity: 0.9
     gradient: Gradient {
-        GradientStop { position: 0.0; color: boxBackground.tinted(boxBackground.baseTop, 0.16) }
-        GradientStop { position: 1.0; color: boxBackground.tinted(boxBackground.baseBottom, 0.10) }
+        GradientStop { position: 0.0; color: boxBackground.tinted(boxBackground.baseTop, 0.34) }
+        GradientStop { position: 1.0; color: boxBackground.tinted(boxBackground.baseBottom, 0.22) }
     }
     border.color: boxBackground.hasAccent
                   ? Qt.rgba(boxBackground.accent.r, boxBackground.accent.g,
-                            boxBackground.accent.b, 0.38)
+                            boxBackground.accent.b, 0.60)
                   : Qt.rgba(1, 1, 1, 0.06)
     border.width: 1
 
