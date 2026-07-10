@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 800">
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#c9d3e6"/>
+    </linearGradient>
+    <linearGradient id="deep" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14285f"/>
+      <stop offset="0.5" stop-color="#050d2b"/>
+      <stop offset="1" stop-color="#0d1c4e"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#02081f" stop-opacity="0.95"/>
+      <stop offset="0.65" stop-color="#02081f" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#02081f" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="deltas" width="72" height="72" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="#7fa8ff" stroke-opacity="0.3" stroke-width="2.2">
+        <path d="M13 2c3.5 6.5 8 14 10.5 20-4.5-2.8-16.5-2.8-21 0C5 16 9.5 8.5 13 2Z" transform="translate(4 4)"/>
+        <path d="M13 2c3.5 6.5 8 14 10.5 20-4.5-2.8-16.5-2.8-21 0C5 16 9.5 8.5 13 2Z" transform="translate(40 40)"/>
+      </g>
+      <g fill="#7fa8ff" fill-opacity="0.2">
+        <circle cx="53" cy="17" r="2"/>
+        <circle cx="17" cy="53" r="2"/>
+      </g>
+    </pattern>
+  </defs>
+
+  <rect x="9" y="9" width="562" height="782" rx="42" fill="url(#card)" stroke="#4a5568" stroke-width="18"/>
+  <rect x="52" y="52" width="476" height="696" rx="28" fill="url(#deep)" stroke="#f5c276" stroke-width="10"/>
+  <rect x="74" y="74" width="432" height="652" rx="18" fill="url(#deltas)"/>
+  <rect x="74" y="74" width="432" height="652" rx="18" fill="none" stroke="#7fa8ff" stroke-opacity="0.35" stroke-width="3"/>
+  <ellipse cx="290" cy="400" rx="200" ry="230" fill="url(#vignette)"/>
+
+  <!-- Starfleet-Emblem (icons8), zentriert: 80x80 → Faktor 3.7, Mittelpunkt 290/400 -->
+  <g transform="translate(142 252) scale(3.7)">
+    <path fill="#ffeea3" d="M40,69.5C19.322,69.5,2.5,58.061,2.5,44S19.322,18.5,40,18.5S77.5,29.939,77.5,44 S60.678,69.5,40,69.5z"/>
+    <path fill="#f5c276" d="M40,19c20.402,0,37,11.215,37,25S60.402,69,40,69S3,57.785,3,44S19.598,19,40,19 M40,18 C19.013,18,2,29.641,2,44s17.013,26,38,26s38-11.641,38-26S60.987,18,40,18L40,18z"/>
+    <path fill="#b0c1d4" d="M16.529,77.5c0.894-15.511,2.729-28.754,5.459-39.365c3.571-13.044,9.627-24.927,17.999-35.324 c7.011,9.305,12.818,20.576,16.813,32.642c4.099,12.011,5.549,24.38,6.651,36.048h-0.156c-5.01-9.056-10.079-16.335-14.16-22.195 c-0.941-1.173-1.58-1.662-2.155-1.662c-0.863,0-1.662,0.421-2.984,1.119l-0.735,0.386C34.864,54.62,23.509,63.946,16.69,77.5 H16.529z"/>
+    <path fill="#66798f" d="M39.974,3.627c6.806,9.161,12.448,20.191,16.354,31.991c3.844,11.265,5.349,22.865,6.43,33.901 c-4.701-8.278-9.39-15.011-13.213-20.501l-0.02-0.028l-0.022-0.027c-1.039-1.294-1.771-1.821-2.524-1.821 c-0.987,0-1.825,0.442-3.214,1.174c-0.227,0.12-0.472,0.249-0.736,0.386l-0.044,0.023l-0.042,0.027 c-8.046,5.248-18.861,14.075-25.795,26.797c0.931-14.628,2.72-27.162,5.32-37.276C25.966,25.502,31.853,13.852,39.974,3.627 M40,2 c-7.678,9.41-14.483,21.352-18.496,36.01C18.712,48.867,16.872,62.438,16,78h1c5.768-11.621,15.671-21.352,26.49-28.41 c1.745-0.905,2.617-1.448,3.49-1.448c0.349,0,0.872,0.362,1.745,1.448C53.261,56.105,58.114,63.133,63,72h1 c-1.221-13.029-2.712-24.943-6.726-36.705C53.261,23.171,47.329,11.59,40,2L40,2z"/>
+  </g>
+</svg>

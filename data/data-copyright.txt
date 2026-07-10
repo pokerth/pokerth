@@ -26,6 +26,11 @@ gfx/cards/default:
 	- 0.png - 52.png			--> http://commons.wikimedia.org/wiki/Poker_(cards_deck)
 
 
+gfx/qml/backside/star_trek:
+
+	- backside.svg (Emblem)			--> https://icons8.com (icon "Next Generation Badge")
+
+
 gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
 
 

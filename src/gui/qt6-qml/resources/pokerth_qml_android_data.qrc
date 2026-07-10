@@ -120,6 +120,9 @@
         <file>android-data/gfx/qml/backside/nobus_classic_red/backside.svg</file>
         <file>android-data/gfx/qml/backside/nobus_classic_red/nobusclassicredbacksidestyle.xml</file>
         <file>android-data/gfx/qml/backside/nobus_classic_red/preview.png</file>
+        <file>android-data/gfx/qml/backside/star_trek/backside.svg</file>
+        <file>android-data/gfx/qml/backside/star_trek/preview.png</file>
+        <file>android-data/gfx/qml/backside/star_trek/startrekbacksidestyle.xml</file>
         <file>android-data/gfx/qml/cards/bella_union_4c/0.svg</file>
         <file>android-data/gfx/qml/cards/bella_union_4c/1.svg</file>
         <file>android-data/gfx/qml/cards/bella_union_4c/10.svg</file>
