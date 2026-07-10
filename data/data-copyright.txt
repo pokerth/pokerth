@@ -42,7 +42,8 @@ gfx/qml/cards/star_trek:
 						    https://fonts.google.com/specimen/PT+Serif
 
 
-gfx/qml/cards/stardust:
+gfx/qml/cards/stardust_dark:
+gfx/qml/cards/stardust_light:
 
 	- 0.svg - 51.svg (Rang-Glyphen)		--> Orbitron, (c) The Orbitron Project Authors, SIL Open Font License 1.1
 						    https://fonts.google.com/specimen/Orbitron
