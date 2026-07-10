@@ -68,3 +68,4 @@ preview/.preview_view_mode
 preview/.preview_view_mode_stop
 *.apk
 docker/android/my.keystore
+generate_matrix_backside.py

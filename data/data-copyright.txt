@@ -55,6 +55,13 @@ gfx/qml/backside/stardust:
 	- backside.svg				--> eigenes Werk (PokerTH Development Team)
 
 
+gfx/qml/backside/matrix:
+
+	- backside.svg (Zeichen-Glyphen)	--> Halfwidth-Katakana: Droid Sans Fallback, (c) Google/Android, Apache License 2.0
+						    Ziffern: DejaVu Sans Mono (Bitstream Vera / DejaVu-Lizenz, frei)
+	  (Rahmen/Layout eigenes Werk, PokerTH Development Team)
+
+
 gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
 
 
