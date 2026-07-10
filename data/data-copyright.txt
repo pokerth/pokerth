@@ -31,6 +31,12 @@ gfx/qml/backside/star_trek:
 	- backside.svg (Emblem)			--> https://icons8.com (icon "Next Generation Badge")
 
 
+gfx/qml/cards/star_trek:
+
+	- 0.svg - 51.svg (Rang-Glyphen)		--> PT Serif Bold, (c) ParaType Ltd, SIL Open Font License 1.1
+						    https://fonts.google.com/specimen/PT+Serif
+
+
 gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
 
 
