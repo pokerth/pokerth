@@ -1453,9 +1453,18 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
         for (const QVariant &blind : manualBlinds)
             gameData.manualBlindsList.push_back(blind.toInt());
     }
-    gameData.afterManualBlindsMode        = AFTERMB_DOUBLE_BLINDS;
-    gameData.afterMBAlwaysRaiseValue      = 0;
-    gameData.guiSpeed                     = 4;
+    // Das Verhalten nach der manuellen Blindliste und die GUI-Geschwindigkeit
+    // haben auf der Erstellen-Seite keine Bedienelemente; sie stammen – wie im
+    // Widget-Client – aus den Optionen.
+    if (m_config) {
+        if (m_config->readConfigInt("NetAfterMBAlwaysRaiseAbout")) {
+            gameData.afterManualBlindsMode   = AFTERMB_RAISE_ABOUT;
+            gameData.afterMBAlwaysRaiseValue = m_config->readConfigInt("NetAfterMBAlwaysRaiseValue");
+        } else if (m_config->readConfigInt("NetAfterMBStayAtLastBlind")) {
+            gameData.afterManualBlindsMode   = AFTERMB_STAY_AT_LAST_BLIND;
+        }
+        gameData.guiSpeed = m_config->readConfigInt("GameSpeed");
+    }
     gameData.delayBetweenHandsSec         = delayBetweenHands;
     gameData.playerActionTimeoutSec       = playerActionTimeout;
 
