@@ -42,6 +42,18 @@ gfx/qml/cards/star_trek:
 						    https://fonts.google.com/specimen/PT+Serif
 
 
+gfx/qml/cards/stardust:
+
+	- 0.svg - 51.svg (Rang-Glyphen)		--> Orbitron, (c) The Orbitron Project Authors, SIL Open Font License 1.1
+						    https://fonts.google.com/specimen/Orbitron
+	  (Suit-Symbole aus gfx/qml/cards/default übernommen)
+
+
+gfx/qml/backside/stardust:
+
+	- backside.svg				--> eigenes Werk (PokerTH Development Team)
+
+
 gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
 
 

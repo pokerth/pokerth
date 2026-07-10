@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style "Stardust" – Gegenstück zur Kartenrückseite
+   data/gfx/qml/backside/stardust/.
+
+   Nachbau des klassischen PokerTH-Kartendecks "Stardust" (Etienne Genot, 2009)
+   im QML/SVG-Framework. Da die themed QML-Decks index-/pip-basiert sind (keine
+   illustrierten Bildkarten), wird der Look über Schrift + Farbwelt getroffen:
+   dunkle "Space"-Kartenfläche mit blauem Farbverlauf und feinem Sternenfeld,
+   leuchtender Cyan-Fasenrahmen (statt Gold wie bei star_trek). Pips rot für
+   Karo/Herz, weiß für Pik/Kreuz.
+
+   Die Rang-Glyphen sind Pfade aus der Orbitron (Google Fonts, OFL, siehe
+   data-copyright.txt) – eine quadratische Sci-Fi-Schrift, die dem im Original
+   verwendeten Eurostile-artigen Font am nächsten kommt. Die Suit-Pfade stammen
+   wie bei den anderen QML-Decks aus dem cards/default-Set.
+
+   Anordnung von Rang-Index und Suit-Symbolen wie bei cards/nobus_4c_classic:
+   Rang oben links, kleines Suit-Symbol darunter, großes Suit-Symbol unten
+   rechts – identisches Layout für alle Karten inkl. Bildkarten.
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+
+   Erzeugt mit generate_stardust_deck.py.
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Stardust (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="10.07.2026" />
+     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <BigIndexesActionBottom value="0" />
+  </CardDeck>
+</PokerTH>
