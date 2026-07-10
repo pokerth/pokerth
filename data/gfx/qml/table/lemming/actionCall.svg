@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 43">
+  <defs>
+    <radialGradient id="tl" gradientUnits="userSpaceOnUse" cx="12" cy="6" r="44">
+      <stop offset="0" stop-color="#5ccfff" stop-opacity="0.35"/>
+      <stop offset="0.15" stop-color="#5ccfff" stop-opacity="0.175"/>
+      <stop offset="0.36" stop-color="#36aeff" stop-opacity="0.065"/>
+      <stop offset="0.70" stop-color="#36aeff" stop-opacity="0.012"/>
+      <stop offset="1" stop-color="#36aeff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bl" gradientUnits="userSpaceOnUse" cx="12" cy="37" r="44">
+      <stop offset="0" stop-color="#5ccfff" stop-opacity="0.35"/>
+      <stop offset="0.15" stop-color="#5ccfff" stop-opacity="0.175"/>
+      <stop offset="0.36" stop-color="#36aeff" stop-opacity="0.065"/>
+      <stop offset="0.70" stop-color="#36aeff" stop-opacity="0.012"/>
+      <stop offset="1" stop-color="#36aeff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tr" gradientUnits="userSpaceOnUse" cx="156" cy="6" r="44">
+      <stop offset="0" stop-color="#5ccfff" stop-opacity="0.35"/>
+      <stop offset="0.15" stop-color="#5ccfff" stop-opacity="0.175"/>
+      <stop offset="0.36" stop-color="#36aeff" stop-opacity="0.065"/>
+      <stop offset="0.70" stop-color="#36aeff" stop-opacity="0.012"/>
+      <stop offset="1" stop-color="#36aeff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="br" gradientUnits="userSpaceOnUse" cx="156" cy="37" r="44">
+      <stop offset="0" stop-color="#5ccfff" stop-opacity="0.35"/>
+      <stop offset="0.15" stop-color="#5ccfff" stop-opacity="0.175"/>
+      <stop offset="0.36" stop-color="#36aeff" stop-opacity="0.065"/>
+      <stop offset="0.70" stop-color="#36aeff" stop-opacity="0.012"/>
+      <stop offset="1" stop-color="#36aeff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path d="M8 1.5H160a6.5 6.5 0 0 1 6.5 6.5Q154.5 21.5 166.5 35a6.5 6.5 0 0 1-6.5 6.5H8a6.5 6.5 0 0 1-6.5-6.5Q13.5 21.5 1.5 8A6.5 6.5 0 0 1 8 1.5Z" fill="#0b0d10" fill-opacity="0.42"/>
+  <path d="M8 1.5H160a6.5 6.5 0 0 1 6.5 6.5Q154.5 21.5 166.5 35a6.5 6.5 0 0 1-6.5 6.5H8a6.5 6.5 0 0 1-6.5-6.5Q13.5 21.5 1.5 8A6.5 6.5 0 0 1 8 1.5Z" fill="url(#tl)"/>
+  <path d="M8 1.5H160a6.5 6.5 0 0 1 6.5 6.5Q154.5 21.5 166.5 35a6.5 6.5 0 0 1-6.5 6.5H8a6.5 6.5 0 0 1-6.5-6.5Q13.5 21.5 1.5 8A6.5 6.5 0 0 1 8 1.5Z" fill="url(#bl)"/>
+  <path d="M8 1.5H160a6.5 6.5 0 0 1 6.5 6.5Q154.5 21.5 166.5 35a6.5 6.5 0 0 1-6.5 6.5H8a6.5 6.5 0 0 1-6.5-6.5Q13.5 21.5 1.5 8A6.5 6.5 0 0 1 8 1.5Z" fill="url(#tr)"/>
+  <path d="M8 1.5H160a6.5 6.5 0 0 1 6.5 6.5Q154.5 21.5 166.5 35a6.5 6.5 0 0 1-6.5 6.5H8a6.5 6.5 0 0 1-6.5-6.5Q13.5 21.5 1.5 8A6.5 6.5 0 0 1 8 1.5Z" fill="url(#br)"/>
+</svg>

@@ -238,9 +238,12 @@ endif()
 # importierbar, ein einzelnes Archiv dagegen schon. MINIZ_NO_ZLIB_COMPATIBLE_NAMES:
 # ohne dieses Define exportiert miniz zlib-Namen (compress/inflate/crc32/…), die mit
 # dem über boost::iostreams gelinkten echten zlib kollidieren würden.
+# MINIZ_NO_STDIO: ziputils.cpp arbeitet ausschließlich im Speicher (init_mem/init_heap),
+# das Datei-I/O von miniz wird nie benutzt – ohne dieses Define wählt miniz dafür je nach
+# Plattform einen fopen/ftello-Pfad und warnt per #pragma message vor fehlendem LFS.
 add_library(miniz STATIC ${CMAKE_SOURCE_DIR}/src/third_party/miniz/miniz.c)
 target_include_directories(miniz PUBLIC ${CMAKE_SOURCE_DIR}/src/third_party/miniz)
-target_compile_definitions(miniz PUBLIC MINIZ_NO_ZLIB_COMPATIBLE_NAMES)
+target_compile_definitions(miniz PUBLIC MINIZ_NO_ZLIB_COMPATIBLE_NAMES MINIZ_NO_STDIO)
 set_target_properties(miniz PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_link_libraries(pokerth_qml-client PUBLIC pokerth_lib)

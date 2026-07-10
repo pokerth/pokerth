@@ -358,6 +358,17 @@
         <file>android-data/gfx/qml/table/default/preview_portrait.png</file>
         <file>android-data/gfx/qml/table/default/smallblindPuck.svg</file>
         <file>android-data/gfx/qml/table/default/table.png</file>
+        <file>android-data/gfx/qml/table/lemming/actionAllIn.svg</file>
+        <file>android-data/gfx/qml/table/lemming/actionCall.svg</file>
+        <file>android-data/gfx/qml/table/lemming/actionFold.svg</file>
+        <file>android-data/gfx/qml/table/lemming/actionRaise.svg</file>
+        <file>android-data/gfx/qml/table/lemming/bigblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/lemming/dealerPuck.svg</file>
+        <file>android-data/gfx/qml/table/lemming/lemmingtablestyle.xml</file>
+        <file>android-data/gfx/qml/table/lemming/preview.png</file>
+        <file>android-data/gfx/qml/table/lemming/preview_portrait.png</file>
+        <file>android-data/gfx/qml/table/lemming/smallblindPuck.svg</file>
+        <file>android-data/gfx/qml/table/lemming/table.png</file>
         <file>android-data/gfx/qml/table/mute/actionAllIn.svg</file>
         <file>android-data/gfx/qml/table/mute/actionCall.svg</file>
         <file>android-data/gfx/qml/table/mute/actionFold.svg</file>
