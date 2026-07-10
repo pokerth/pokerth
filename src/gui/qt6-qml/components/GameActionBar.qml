@@ -31,10 +31,14 @@ Item {
         (typeof StyleProvider !== "undefined" && StyleProvider)
         ? StyleProvider.actionButtonBorderRadius : 9
 
-    // Der Button wird auf seine tatsächliche Größe gestreckt, der Radius also mit.
-    // Bezug ist die Höhe (43 Einheiten); die Kappung bei h/2 fängt Pillenformen ab.
-    function themeButtonRadius(h) {
-        return Math.min(h / 2, actionBar.themeButtonRadiusUnits * h / 43)
+    // Der Button wird auf seine tatsächliche Größe gestreckt, der Radius also mit
+    // – in x und y unterschiedlich stark. Ein Rectangle kann aber nur einen
+    // kreisrunden Radius: wir nehmen den kleineren der beiden, dann bleibt der
+    // Rahmen innerhalb der Kontur statt aus ihr herauszulaufen.
+    function themeButtonRadius(w, h) {
+        return Math.min(w / 2, h / 2,
+                        actionBar.themeButtonRadiusUnits * w / 168,
+                        actionBar.themeButtonRadiusUnits * h / 43)
     }
 
     // Spielmodus-Aktion: vom Aufrufer (Shortcuts) und der Modus-ComboBox genutzt.
@@ -763,7 +767,8 @@ Item {
                     Layout.preferredWidth: 52
                     Layout.preferredHeight: actionBar.raiseRowHeight
                     // Mit Theme-SVG den Radius des Stils, sonst den Fallback-Wert.
-                    radius: allInBtn.useTheme ? actionBar.themeButtonRadius(allInBtn.height) : 5
+                    radius: allInBtn.useTheme
+                            ? actionBar.themeButtonRadius(allInBtn.width, allInBtn.height) : 5
                     opacity: (isShowMode || allInBtn.armed) ? 1.0 : 0.4
                     color: allInBtn.useTheme ? "transparent"
                          : allInArea.containsPress
@@ -797,7 +802,7 @@ Item {
                         anchors.fill: parent
                         anchors.margins: allInBtn.border.width
                         visible: allInBtn.useTheme
-                        radius: actionBar.themeButtonRadius(height)
+                        radius: actionBar.themeButtonRadius(width, height)
                         color: "#FFFFFF"
                         opacity: allInArea.containsPress ? 0.18
                                : allInArea.containsMouse ? 0.08 : 0.0
@@ -937,12 +942,27 @@ Item {
                 // Zustands-Rahmen ÜBER dem Theme-SVG: Vorwahl (gold) bzw.
                 // primäre Aktion (Raise) hervorheben. Beim Fallback erledigt
                 // das der border des Gradient-Rechtecks oben.
+                //
+                // Der Rahmen wird in der 168x43-Zeichenfläche des Button-SVG
+                // gezeichnet und mit derselben (ungleichmäßigen) Skalierung
+                // gestreckt wie das Bild. Nur so deckt er sich mit der Kontur:
+                // Image.Stretch macht aus der SVG-Ecke eine Ellipse, und ein
+                // Rectangle.radius in Pixeln kann immer nur kreisrund sein –
+                // im Portrait ist der Button deutlich gedrungener als 168x43,
+                // dort liefen die beiden Radien sichtbar auseinander.
                 Rectangle {
-                    anchors.fill: parent
                     visible: ab.hasTheme && (ab.preChecked || (ab.highlight && ab.armed))
-                    radius: actionBar.themeButtonRadius(ab.height)
+                    width: 168
+                    height: 43
+                    transform: Scale {
+                        xScale: ab.width / 168
+                        yScale: ab.height / 43
+                    }
+                    radius: actionBar.themeButtonRadiusUnits
                     color: "transparent"
-                    border.width: 2
+                    // In Zeichenflächen-Einheiten; die Skalierung dünnt sie auf
+                    // die gewohnten ~2 px aus.
+                    border.width: 2.6
                     border.color: ab.preChecked ? "#FFD700" : ab.edgeColor
                 }
 
