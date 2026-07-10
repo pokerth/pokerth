@@ -43,7 +43,6 @@ Rectangle {
                             id: logOnOff
                             text: qsTr("Logging aktivieren")
                             configKey: "LogOnOff"
-                            defaultChecked: false
                         }
 
                         RowLayout {
@@ -88,7 +87,7 @@ Rectangle {
                                 id: logStoreDuration
                                 from: 1
                                 to: 365
-                                value: SettingsManager ? SettingsManager.readConfigInt("LogStoreDuration") : 30
+                                value: SettingsManager ? SettingsManager.readConfigInt("LogStoreDuration") : 2
                                 enabled: logOnOff.checked
                                 onValueModified: {
                                     if (SettingsManager) SettingsManager.writeConfigInt("LogStoreDuration", value)

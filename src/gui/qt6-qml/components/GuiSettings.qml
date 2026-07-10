@@ -131,7 +131,7 @@ Rectangle {
                         objectName: "reduceEffectsCheckbox"
                         text: qsTr("Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme")
                         checked: SettingsManager ? SettingsManager.readConfigInt("QmlReduceEffects") !== 0 : false
-                        onCheckedChanged: {
+                        onToggled: {
                             if (SettingsManager) SettingsManager.writeConfigInt("QmlReduceEffects", checked ? 1 : 0)
                             Config.Theme.effectsEnabled = !checked
                         }
@@ -167,7 +167,7 @@ Rectangle {
                         objectName: "disableSplashScreenOnStartupCheckbox"
                         text: qsTr("Startbildschirm beim Startvorgang deaktivieren")
                         checked: SettingsManager ? SettingsManager.disableSplashScreen : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.disableSplashScreen = checked }
+                        onToggled: { if (SettingsManager) SettingsManager.disableSplashScreen = checked }
                     }
 
                     CheckBox {
@@ -175,7 +175,7 @@ Rectangle {
                         Layout.fillWidth: true
                         text: qsTr("Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen")
                         checked: SettingsManager ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checked ? 1 : 0) }
+                        onToggled: { if (SettingsManager) SettingsManager.writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checked ? 1 : 0) }
                         contentItem: Text {
                             text: parent.text
                             wrapMode: Text.Wrap
@@ -269,7 +269,6 @@ Rectangle {
                         objectName: "showNetworkStatusColorOnAvatarCheckbox"
                         text: qsTr("Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen")
                         configKey: "ShowPingStateInAvatar"
-                        defaultChecked: false
                     }
 
                     ConfigCheckBox {
