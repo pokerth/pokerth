@@ -50,6 +50,15 @@ gfx/qml/cards/stardust_light:
 	  (Suit-Symbole aus gfx/qml/cards/default übernommen)
 
 
+gfx/qml/cards/lemming:
+
+	- 0.svg - 51.svg			--> SVG-Nachbau des Decks LEMMING-CARDS-01, (c) lemming (2021)
+						    https://www.pokerth.net/download/styles/cards/LEMMING-CARDS-01.zip
+	- 0.svg - 51.svg (Rang-Glyphen)		--> Montserrat Bold, (c) The Montserrat Project Authors, SIL Open Font License 1.1
+						    https://fonts.google.com/specimen/Montserrat
+	  (Suit-Symbole aus gfx/qml/cards/default übernommen)
+
+
 gfx/qml/backside/stardust:
 
 	- backside.svg				--> eigenes Werk (PokerTH Development Team)

@@ -69,3 +69,6 @@ preview/.preview_view_mode_stop
 *.apk
 docker/android/my.keystore
 generate_matrix_backside.py
+
+# Font-Cache der Kartendeck-Generatoren (generate_*_deck.py)
+.cache/
