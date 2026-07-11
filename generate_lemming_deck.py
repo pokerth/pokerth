@@ -69,12 +69,14 @@ SUITS = {
 }
 
 # ── layout ────────────────────────────────────────────────────────────────────
-INDEX_CX     = 19.0     # centre x of the corner index (rank + small pip)
-LEFT_MIN     = 6.0      # min left edge of the rank (keeps "10" from clipping)
-BASELINE_Y   = 34.0     # baseline of the corner rank
-CAP_HEIGHT   = 27.0     # cap/figure height of every rank -> one common size
-SMALL_PIP    = (19.0, 55.0, 0.48)    # cx, cy, scale of the pip under the rank
-BIG_SUIT     = (60.0, 113.0, 1.30)   # cx, cy, scale of the big outline symbol
+INDEX_CX     = 26.0     # centre x of the corner index (rank + small pip)
+LEFT_MIN     = 7.0      # min left edge of the rank (keeps "10" from clipping)
+BASELINE_Y   = 44.0     # baseline of the corner rank
+CAP_HEIGHT   = 36.0     # cap/figure height of every rank -> one common size
+SMALL_PIP    = (26.0, 64.0, 0.52)    # cx, cy, scale of the pip under the rank
+# big outline symbol: cx, cy, x-scale, y-scale — squat and wide, so it stays
+# clear of the (large) corner index without losing presence.
+BIG_SUIT     = (60.0, 118.0, 1.42, 1.10)
 BIG_STROKE   = 5.0      # stroke width of the big outline symbol, in card units
 
 def load_font():
@@ -117,8 +119,11 @@ def make_card(idx, font, scale):
     X = round(X, 2)
 
     scx, scy, ss = SMALL_PIP
-    bcx, bcy, bs = BIG_SUIT
+    bcx, bcy, bsx, bsy = BIG_SUIT
     suit_d = SUIT_PATH[gid]
+    # the symbol is scaled anisotropically -> compensate the stroke width with the
+    # geometric mean, so the outline keeps an even weight all around.
+    bsw = round(BIG_STROKE / math.sqrt(bsx * bsy), 2)
 
     p = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 168">',
          f'<defs><linearGradient id="g_{gid}" x1="0" y1="0" x2="0.18" y2="1">'
@@ -135,9 +140,9 @@ def make_card(idx, font, scale):
          f'<path d="{suit_d}" transform="translate({scx} {scy}) scale({ss}) '
          f'translate(-29.0 -29.5)" fill="{ink}"/>',
          # big suit symbol: outline only, no fill
-         f'<path d="{suit_d}" transform="translate({bcx} {bcy}) scale({bs}) '
+         f'<path d="{suit_d}" transform="translate({bcx} {bcy}) scale({bsx} {bsy}) '
          f'translate(-29.0 -29.5)" fill="none" stroke="{ink}" '
-         f'stroke-width="{round(BIG_STROKE / bs, 2)}" stroke-linejoin="round"/>',
+         f'stroke-width="{bsw}" stroke-linejoin="round"/>',
          '</svg>']
     return "".join(p)
 
