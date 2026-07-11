@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <manifest package="org.pokerth.qml"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="2.1.2"
-          android:versionCode="22"
+          android:versionName="2.1.3"
+          android:versionCode="23"
           android:installLocation="auto">
 
     <uses-sdk

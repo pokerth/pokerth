@@ -2936,8 +2936,8 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.2</source>
-        <translation>PokerTH - v2.1.2</translation>
+        <source>PokerTH - v2.1.3</source>
+        <translation>PokerTH - v2.1.3</translation>
     </message>
 </context>
 <context>
@@ -3565,8 +3565,8 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+35"/>
-        <source>PokerTH - v2.1.2</source>
-        <translation>PokerTH - v2.1.2</translation>
+        <source>PokerTH - v2.1.3</source>
+        <translation>PokerTH - v2.1.3</translation>
     </message>
     <message>
         <location line="+96"/>
@@ -3911,8 +3911,8 @@ aperçu</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+160"/>
-        <source>PokerTH - v2.1.2</source>
-        <translation>PokerTH - v2.1.2</translation>
+        <source>PokerTH - v2.1.3</source>
+        <translation>PokerTH - v2.1.3</translation>
     </message>
     <message>
         <location line="+170"/>
