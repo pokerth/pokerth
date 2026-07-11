@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Green Casino QML table style.
+   Feutre vert / liseré or, pucks & boutons d'action casino, teinte chat verte/or.
+   Fond plein écran (PreserveAspectCrop), aligné centre. AGPL-3.0.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Green Casino" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="11.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <TableBackgroundZoom value="1.0" />
+
+     <!-- Eckenradius in Einheiten der 168x43-Zeichenflaeche der Button-SVGs. -->
+     <ActionButtonBorderRadius value="9" />
+
+     <!-- Accent des boxes joueurs : or casino. -->
+     <PlayerBoxAccent value="#c8a84a" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Couleurs chat / journal / cotes : vert sombre + accent or. -->
+     <ChatLogBackground value="#0c1a0e" />
+     <ChatLogSurface value="#14281a" />
+     <ChatLogBorder value="#5a4a20" />
+     <ChatLogText value="#fff5d6" />
+     <ChatLogTextSecondary value="#e6d6a8" />
+     <ChatLogTextMuted value="#a99760" />
+  </TableStyle>
+</PokerTH>

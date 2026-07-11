@@ -49,9 +49,9 @@
      <ChatLogBackground value="#1c2e37" />    <!-- Panel-Hintergrund -->
      <ChatLogSurface value="#344e5c" />    <!-- Eingabefeld / Chat-Bubble -->
      <ChatLogBorder value="#397c8d" />    <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#eff1f5" />    <!-- Haupttext -->
-     <ChatLogTextSecondary value="#cdd3e0" />    <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#638ba4" />    <!-- gedämpfter Text / Platzhalter -->
+     <ChatLogText value="#d6fcff" />    <!-- Haupttext -->
+     <ChatLogTextSecondary value="#a8e1e6" />    <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#60a4a9" />    <!-- gedämpfter Text / Platzhalter -->
 
   </TableStyle>
 </PokerTH>
