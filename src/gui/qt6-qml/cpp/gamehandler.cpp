@@ -489,13 +489,18 @@ void GameHandler::refreshPlayerData()
                 // nicht gefoldet UND checkIfINeedToShowCards()). Das Showdown-Flag
                 // verhindert, dass die noch veraltete playerNeedToShowCards-Liste
                 // während der River-Setzrunde der nächsten Hand fälschlich aufdeckt.
+                // Fold-/Aufdeck-Zustand über den Showdown-Snapshot (die nächste Hand
+                // kann getMyAction()/playerNeedToShowCards längst zurückgesetzt haben
+                // – siehe captureShowdownSnapshot()).
+                const bool isFolded = showdownFolded((*it)->getMyUniqueID(),
+                                                     (*it)->getMyAction() == PLAYER_ACTION_FOLD);
                 const bool showdownReveal = m_showdownActive
-                                            && (*it)->getMyAction() != PLAYER_ACTION_FOLD
-                                            && (*it)->checkIfINeedToShowCards();
+                                            && !isFolded
+                                            && showdownNeedsToShow((*it)->getMyUniqueID(),
+                                                                   (*it)->checkIfINeedToShowCards());
                 // All-In-Aufdeckung: Karten sind nach AllInShowCardsMessage für alle
                 // nicht-gefoldeten Spieler sichtbar (bis zur nächsten Hand).
-                const bool allInReveal = m_allInRevealed
-                                         && (*it)->getMyAction() != PLAYER_ACTION_FOLD;
+                const bool allInReveal = m_allInRevealed && !isFolded;
                 // Freiwilliges Zeigen nach der Hand (AfterHandShowCards): der Spieler
                 // muss nicht zwingend in playerNeedToShowCards stehen (Gewinn ohne
                 // Showdown), also separat aufdecken.
@@ -553,7 +558,7 @@ void GameHandler::refreshPlayerData()
                 p["action"] = displayAction;
                 // Gefoldete Spieler bleiben die ganze Hand über gefoldet → Karten
                 // durchscheinend darstellen (wie im Qt-Widgets-Client).
-                p["folded"] = ((*it)->getMyAction() == PLAYER_ACTION_FOLD);
+                p["folded"] = isFolded;
                 // Computer-Gegner: für sie gibt es keine Kontextaktionen
                 // (Ignore/Stats) – wie im Qt-Widgets-Client (MyAvatarLabel).
                 p["isComputer"] = ((*it)->getMyType() == PLAYER_TYPE_COMPUTER);
@@ -1428,6 +1433,10 @@ void GameHandler::onNextRoundCleanGui()
     setShowdownActive(false);
     m_allInRevealed = false;
     m_postRiverShownPlayers.clear();
+    // Showdown-Snapshot der Vorhand verwerfen → ab jetzt wieder Live-Zustand.
+    m_foldedAtHandEnd.clear();
+    m_needToShowAtHandEnd.clear();
+    m_showdownSnapshotValid = false;
     if (m_canShowCards) {
         m_canShowCards = false;
         emit canShowCardsChanged();
@@ -1790,6 +1799,64 @@ void GameHandler::onPostRiverRunBeRo()
         hand->getCurrentBeRo()->postRiverRun();
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Showdown-Snapshot
+//
+// Der Showdown darf den Fold-Zustand NICHT live aus den Player-Objekten lesen:
+//
+//   * Game::initHand() setzt zu Beginn JEDER Hand die Aktion ALLER Spieler auf
+//     PLAYER_ACTION_NONE (game.cpp) – auch PLAYER_ACTION_FOLD. (Der Netz-Client
+//     schützt FOLD in ClientStateRunHand::ResetPlayerActions() gezielt vor dem
+//     Runden-Reset; initHand() tut das bewusst nicht.)
+//   * Der Widgets-Client kann sich trotzdem auf getMyAction() verlassen, weil er
+//     den Netz-Thread blockiert: waitForGuiUpdateDone() wartet dort auf eine
+//     Semaphore, die erst prepareForNewHand() nach Ende der Post-River-Animation
+//     freigibt (gametableimpl.cpp). initHand() läuft also garantiert später.
+//   * Im QML-Client ist waitForGuiUpdateDone() ein No-op (qmlguiinterface.h) und
+//     onShowdown() läuft per QueuedConnection. Im Netzwerkspiel startet der
+//     Server die nächste Hand – initHand() kann die FOLD-Flags also längst
+//     gelöscht haben, bevor onShowdown() drankommt.
+//
+// Folge ohne Snapshot: Beim Showdown gelten gefoldete Spieler als aktiv. Wer
+// seine Karten kennt (im Netzwerkspiel mindestens man selbst), landet mit
+// gewertetem Blattnamen im Spielverlauf – auch wenn dieses Blatt den echten
+// Gewinner schlägt. Das sieht für den Spieler nach einem falschen Gewinner aus.
+//
+// Deshalb: Zustand am Hand-Ende einfrieren (synchron auf dem Netz-Thread, siehe
+// QmlGuiInterface::postRiverRunAnimation1) und ab da nur noch den Snapshot lesen.
+void GameHandler::captureShowdownSnapshot()
+{
+    m_foldedAtHandEnd.clear();
+    m_needToShowAtHandEnd.clear();
+    m_showdownSnapshotValid = false;
+    if (!m_game) return;
+    auto hand = m_game->getCurrentHand();
+    if (!hand) return;
+    auto activeList = hand->getActivePlayerList();
+    if (!activeList) return;
+
+    for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+        const unsigned uid = (*it)->getMyUniqueID();
+        if ((*it)->getMyAction() == PLAYER_ACTION_FOLD)
+            m_foldedAtHandEnd.insert(uid);
+        // checkIfINeedToShowCards() liest board->getPlayerNeedToShowCards() –
+        // dieselbe Liste überschreibt die nächste Hand ebenfalls.
+        if ((*it)->checkIfINeedToShowCards())
+            m_needToShowAtHandEnd.insert(uid);
+    }
+    m_showdownSnapshotValid = true;
+}
+
+bool GameHandler::showdownFolded(unsigned uniqueId, bool liveFolded) const
+{
+    return m_showdownSnapshotValid ? m_foldedAtHandEnd.contains(uniqueId) : liveFolded;
+}
+
+bool GameHandler::showdownNeedsToShow(unsigned uniqueId, bool liveNeedsToShow) const
+{
+    return m_showdownSnapshotValid ? m_needToShowAtHandEnd.contains(uniqueId) : liveNeedsToShow;
+}
+
 void GameHandler::onShowdown()
 {
     if (localGameCallbacksBlocked()) return;
@@ -1836,7 +1903,7 @@ void GameHandler::onShowdown()
     auto isMainPotWinner = [&](const auto &p) -> bool {
         const bool isW = std::find(winners.begin(), winners.end(), p->getMyUniqueID()) != winners.end();
         const bool hasActuallyWon = isW && p->getLastMoneyWon() > 0;
-        if (p->getMyAction() == PLAYER_ACTION_FOLD || !hasActuallyWon)
+        if (showdownFolded(p->getMyUniqueID(), p->getMyAction() == PLAYER_ACTION_FOLD) || !hasActuallyWon)
             return false;
         if (hasAllInPlayer && winnersWithMoney > 1
             && p->getMyCardsValueInt() < highestWinnerCardsValue)
@@ -1865,7 +1932,7 @@ void GameHandler::onShowdown()
     int nonFold = 0;
     if (activeList) {
         for (auto it = activeList->begin(); it != activeList->end(); ++it)
-            if ((*it)->getMyAction() != PLAYER_ACTION_FOLD) ++nonFold;
+            if (!showdownFolded((*it)->getMyUniqueID(), (*it)->getMyAction() == PLAYER_ACTION_FOLD)) ++nonFold;
     }
     if (activeList && bero && nonFold > 1) {
         std::string name = CardsValue::determineHandName(bero->getHighestCardsValue(), activeList);
@@ -1933,7 +2000,9 @@ void GameHandler::onShowdown()
     //    (wie showHoleCards → setMyCardsFlip(1,1) für die Post-River-Runde:
     //    "name shows [c0, c1] - \"Handname\"").
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
-        if ((*it)->getMyAction() == PLAYER_ACTION_FOLD || !(*it)->checkIfINeedToShowCards())
+        const unsigned uid = (*it)->getMyUniqueID();
+        if (showdownFolded(uid, (*it)->getMyAction() == PLAYER_ACTION_FOLD)
+            || !showdownNeedsToShow(uid, (*it)->checkIfINeedToShowCards()))
             continue;
         int cards[2] = {-1, -1};
         (*it)->getMyCards(cards);
@@ -1956,7 +2025,7 @@ void GameHandler::onShowdown()
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
         const bool isWinner = std::find(winners.begin(), winners.end(), (*it)->getMyUniqueID()) != winners.end();
         const bool hasActuallyWon = isWinner && (*it)->getLastMoneyWon() > 0;
-        if ((*it)->getMyAction() == PLAYER_ACTION_FOLD || !hasActuallyWon)
+        if (showdownFolded((*it)->getMyUniqueID(), (*it)->getMyAction() == PLAYER_ACTION_FOLD) || !hasActuallyWon)
             continue;
         // Bei All-In mit mehreren Gewinnern: bestes Blatt = Hauptpot, Rest Side-Pot.
         const bool isMainPot = isMainPotWinner(*it);
@@ -1981,12 +2050,14 @@ void GameHandler::onShowdown()
     auto seatsList = hand->getSeatsList();
     if (!m_spectating && seatsList && !seatsList->empty()) {
         auto humanPlayer = seatsList->front(); // seat 0
+        const unsigned humanUid = humanPlayer->getMyUniqueID();
         if (humanPlayer->getMyActiveStatus()
-            && humanPlayer->getMyAction() != PLAYER_ACTION_FOLD) {
+            && !showdownFolded(humanUid, humanPlayer->getMyAction() == PLAYER_ACTION_FOLD)) {
             if (nonFold == 1) {
                 // Gewonnen ohne Showdown – kann zeigen
                 newCanShow = true;
-            } else if (nonFold > 1 && !humanPlayer->checkIfINeedToShowCards()) {
+            } else if (nonFold > 1
+                       && !showdownNeedsToShow(humanUid, humanPlayer->checkIfINeedToShowCards())) {
                 // Mehrere aktive Spieler, Mensch muss aber nicht zeigen – kann freiwillig zeigen
                 newCanShow = true;
             }
@@ -2052,6 +2123,12 @@ void GameHandler::onPlayerShowCards(unsigned playerId)
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
         if ((*it)->getMyUniqueID() != playerId)
             continue;
+        // Gefoldete Spieler gehören nicht in den Showdown – auch dann nicht, wenn
+        // eine AfterHandShowCardsMessage für sie eintrudelt. Sonst erschiene ihr
+        // Blatt gewertet im Spielverlauf und könnte den echten Gewinner "schlagen".
+        // (Das Engine-SQL-Log filtert an derselben Stelle: Log::logHoleCardsHandName.)
+        if (showdownFolded(playerId, (*it)->getMyAction() == PLAYER_ACTION_FOLD))
+            return;
         int cards[2] = {-1, -1};
         (*it)->getMyCards(cards);
         if (cards[0] < 0 || cards[1] < 0)

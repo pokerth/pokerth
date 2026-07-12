@@ -764,6 +764,19 @@ void QmlGuiInterface::postRiverRunAnimation1()
     GameHandler *gh = m_gameHandler;
     boost::shared_ptr<Session> session = m_session;
 
+    // Fold-/Aufdeck-Zustand SOFORT einfrieren, solange die Engine-Daten der
+    // gerade beendeten Hand noch gültig sind. Wir laufen hier synchron auf dem
+    // Netz-Thread (clientstate.cpp ruft uns direkt aus dem
+    // EndOfHandShowCards-Handler – dort verlässt sich auch das SQL-Log auf die
+    // noch intakten FOLD-Flags). onShowdown() unten läuft dagegen QUEUED, und im
+    // Netzwerkspiel startet der SERVER die nächste Hand: deren initHand() setzt
+    // alle Aktionen auf NONE und würde den Fold-Zustand vorher wegräumen. Der
+    // Widgets-Client hat das Problem nicht, weil er den Netz-Thread hier per
+    // Semaphore blockiert (waitForGuiUpdateDone) – im QML-Client ist das ein
+    // No-op. Ohne diesen Snapshot erscheinen gefoldete Spieler mit gewertetem
+    // Blatt im Showdown/Spielverlauf.
+    QMetaObject::invokeMethod(gh, "captureShowdownSnapshot", Qt::DirectConnection);
+
     QMetaObject::invokeMethod(gh, "onShowdown", Qt::QueuedConnection);
 
     // Start the next hand after a pause so the user can see the result

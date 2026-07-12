@@ -278,6 +278,10 @@ public:
     Q_INVOKABLE void onFlipHolecardsAllIn();
     // Ein Spieler zeigt nach der Hand freiwillig seine Karten (AfterHandShowCards).
     Q_INVOKABLE void onPlayerShowCards(unsigned playerId);
+    // Fold-/Show-Zustand am Hand-Ende einfrieren. MUSS synchron auf dem Netz-
+    // Thread laufen (DirectConnection aus postRiverRunAnimation1), solange die
+    // Engine-Daten noch gültig sind – siehe showdownFolded() in der .cpp.
+    Q_INVOKABLE void captureShowdownSnapshot();
 
     // Called from QML
     Q_INVOKABLE void fold();
@@ -438,6 +442,18 @@ private:
     // gameTableImpl::showHoleCards; die QML-Showdown-Aufdeckung greift hier nicht,
     // weil der Zeiger nicht in playerNeedToShowCards steht (Gewinn ohne Showdown).
     QSet<unsigned> m_postRiverShownPlayers;
+    // ── Showdown-Snapshot (Fold- und Aufdeck-Zustand am Hand-Ende) ─────────────
+    // Der Showdown-Code läuft verzögert (onShowdown via QueuedConnection), die
+    // nächste Hand kann die Engine-Daten bis dahin längst überschrieben haben.
+    // Daher am Hand-Ende einfrieren und danach NUR noch diese Kopien lesen.
+    // Details und Begründung: showdownFolded() in gamehandler.cpp.
+    QSet<unsigned> m_foldedAtHandEnd;
+    QSet<unsigned> m_needToShowAtHandEnd;
+    bool m_showdownSnapshotValid = false;
+    // Fold-/Aufdeck-Zustand für den Showdown. Solange der Snapshot gültig ist,
+    // gewinnt er gegen den (evtl. bereits zurückgesetzten) Live-Zustand.
+    bool showdownFolded(unsigned uniqueId, bool liveFolded) const;
+    bool showdownNeedsToShow(unsigned uniqueId, bool liveNeedsToShow) const;
     // Aktions-Anzeige: pro Sitz die zuletzt gesehene Aktion + das Runden-Token,
     // in dem sie gesetzt wurde. So wird die Aktion nur in ihrer eigenen Runde
     // angezeigt und zu Rundenbeginn überall automatisch entfernt.
