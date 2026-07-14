@@ -166,6 +166,9 @@ protected:
 	void ResetComputerPlayerList();
 
 	void RemoveSession(boost::shared_ptr<SessionData> session, int reason);
+	// For callers which already marked the session as Closed: the spectator/player
+	// distinction is derived from the state the session had before it was closed.
+	void RemoveSession(boost::shared_ptr<SessionData> session, int reason, SessionData::State sessionState);
 	void RemovePlayerData(boost::shared_ptr<PlayerData> player, int reason, bool spectateOnly);
 	void SessionError(boost::shared_ptr<SessionData> session, int errorCode);
 	void MoveSessionToLobby(boost::shared_ptr<SessionData> session, int reason);

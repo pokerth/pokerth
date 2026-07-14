@@ -468,7 +468,9 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			try {
 				boost::shared_ptr<ServerGame> tmpGame = session->GetGame();
 				if (tmpGame) {
-					tmpGame->RemoveSession(session, NTF_NET_INTERNAL);
+					// Pass the state from before the close: a spectator must be
+					// announced with GameSpectatorLeftMessage, not GamePlayerLeftMessage.
+					tmpGame->RemoveSession(session, NTF_NET_INTERNAL, oldState);
 				}
 				session->SetGame(boost::shared_ptr<ServerGame>());
 			} catch (const std::exception& e) {

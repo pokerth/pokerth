@@ -954,10 +954,19 @@ ServerGame::RemoveSession(boost::shared_ptr<SessionData> session, int reason)
 	if (!session)
 		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
 
+	RemoveSession(session, reason, session->GetState());
+}
+
+void
+ServerGame::RemoveSession(boost::shared_ptr<SessionData> session, int reason, SessionData::State sessionState)
+{
+	if (!session)
+		throw ServerException(__FILE__, __LINE__, ERR_NET_INVALID_SESSION, 0);
+
 	if (GetSessionManager().RemoveSession(session->GetId())) {
 		boost::shared_ptr<PlayerData> tmpPlayerData = session->GetPlayerData();
 		if (tmpPlayerData && !tmpPlayerData->GetName().empty()) {
-			RemovePlayerData(tmpPlayerData, reason, session->GetState() == SessionData::Spectating || session->GetState() == SessionData::SpectatorWaiting);
+			RemovePlayerData(tmpPlayerData, reason, sessionState == SessionData::Spectating || sessionState == SessionData::SpectatorWaiting);
 		}
 	}
 }
