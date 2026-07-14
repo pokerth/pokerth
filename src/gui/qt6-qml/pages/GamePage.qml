@@ -1789,6 +1789,27 @@ Rectangle {
             // Wird der Chat gedockt, ist das Overlay überflüssig.
             onDockedChatFitsChanged: if (dockedChatFits) showChat = false
 
+            // Slot-Namen, hinter denen wirklich eine SICHTBARE Spielerbox steckt.
+            // Reservierte Platzhalter (keepEmptySeats) halten zwar ihren Slot im
+            // Ring, zeichnen aber nichts – Chat und Info-Panel dürfen deshalb über
+            // sie hinweg bis zur nächsten sichtbaren Box aufgezogen werden. Ohne
+            // diese Unterscheidung würde ein unsichtbarer Platzhalter die beiden
+            // Boxen genauso begrenzen wie ein echter Gegner.
+            readonly property var visibleSlotNames: {
+                var set = {}
+                if (typeof GameTable === "undefined" || !GameTable) return set
+                var seq = slotSeq[ringCount] || []
+                var players = GameTable.players
+                var order = 0
+                for (var i = spectating ? 0 : 1; i < players.length; i++) {
+                    if (!seatOnRing(players[i])) continue
+                    order++
+                    if (order <= seq.length && players[i].name !== "")
+                        set[seq[order - 1]] = true
+                }
+                return set
+            }
+
             // Minimale Höhe des gedockten Chats (= Action-Bar-Höhe minus Außenabstand).
             readonly property real dockedChatMinH: actionBar.height - 8
             // Maximale Höhe: so weit nach oben aufziehbar, bis die Unterkante
@@ -1815,6 +1836,9 @@ Rectangle {
                 var slots = slotPosLandscape
                 var maxH = height + actionBar.height - 8   // kein Limit → voll
                 for (var name in slots) {
+                    // Unsichtbarer Platzhalter eines verlassenen Sitzes → begrenzt
+                    // den Chat nicht; er darf bis zur nächsten sichtbaren Box hoch.
+                    if (!visibleSlotNames[name]) continue
                     var pos     = slots[name]
                     // seatNudge/seatNudgeX aus dem Repeater-Delegate spiegeln: die
                     // beiden die Self-Box flankierenden Bottom-Sitze (opp1/oppN)
@@ -1901,6 +1925,8 @@ Rectangle {
                 var slots = slotPosLandscape
                 var maxH = height + actionBar.height - 8
                 for (var name in slots) {
+                    // Platzhalter-Slot (kein sichtbarer Spieler) → keine Begrenzung.
+                    if (!visibleSlotNames[name]) continue
                     var pos   = slots[name]
                     // seatNudge/seatNudgeX aus dem Repeater-Delegate spiegeln (vgl.
                     // dockedChatMaxH): die Self-Box flankierenden Bottom-Sitze

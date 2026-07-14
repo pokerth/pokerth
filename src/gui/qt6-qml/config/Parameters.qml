@@ -19,9 +19,9 @@ Settings {
 
     // Sitze von Spielern, die den Tisch verlassen haben (Disconnect, Kick,
     // Verlassen, Ausgeschieden), als unsichtbare Platzhalter im Ring behalten →
-    // die verbleibenden Spielerboxen behalten ihre Position. false = Ellipse wird
-    // ohne den freien Sitz neu verteilt (bisheriges Verhalten).
-    property bool keepEmptySeats: false
+    // die verbleibenden Spielerboxen behalten ihre Position (Standard). false =
+    // Ellipse wird ohne den freien Sitz neu verteilt (Boxen rücken nach).
+    property bool keepEmptySeats: true
 
     property bool showCommunityContent: true
 
