@@ -338,6 +338,23 @@ if(IOS)
                 "$<TARGET_BUNDLE_CONTENT_DIR:pokerth_qml-client>/data"
         COMMENT "Kopiere data/ (Stile, Karten, Sounds, Fonts) ins iOS-App-Bundle")
 
+    # Multimedia-Backend: QtMultimedia hat seit 6.5 FFmpeg als Default-Backend, und
+    # das statische Qt linkt dessen Plugin automatisch mit ein. Die dazugehoerigen
+    # FFmpeg-Bibliotheken (libavcodec/libswscale/…) liefert das aqt-iOS-Paket aber
+    # NICHT mit → der Link scheitert an undefinierten Symbolen (sws_scale, …).
+    # Das Darwin-Backend (AVFoundation) ist auf iOS der native Weg, ist im
+    # Qt-iOS-Paket enthalten und reicht fuer die WAV-Sounds des Clients vollstaendig.
+    # INCLUDE_BY_TYPE ersetzt die Default-Pluginliste dieses Typs, das FFmpeg-Plugin
+    # bleibt damit aussen vor.
+    if(NOT TARGET Qt6::QDarwinMediaPlugin)
+        message(FATAL_ERROR
+            "Qt6::QDarwinMediaPlugin nicht gefunden. Ohne das AVFoundation-Backend "
+            "wuerde das FFmpeg-Plugin gelinkt, dessen Bibliotheken die Qt-iOS-"
+            "Installation nicht enthaelt. Qt mit dem Modul qtmultimedia installieren.")
+    endif()
+    qt_import_plugins(pokerth_qml-client
+        INCLUDE_BY_TYPE multimedia Qt6::QDarwinMediaPlugin)
+
     qt_finalize_target(pokerth_qml-client)
 endif()
 
