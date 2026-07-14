@@ -1,0 +1,64 @@
+name: Build iOS IPA (QML client)
+
+# Manual only: macOS runners bill at 10x the Linux rate and a cold build
+# (vcpkg cross-compiles boost/openssl/protobuf for iOS) takes over an hour.
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: "CMake build type"
+        type: choice
+        options: [Release, Debug]
+        default: Release
+
+jobs:
+  build-ios:
+    # arm64 runner with Xcode preinstalled; Qt 6.9 needs Xcode 15+.
+    runs-on: macos-15
+    timeout-minutes: 180
+
+    env:
+      QT_VERSION: 6.9.2
+      BUILD_TYPE: ${{ inputs.build_type }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s /Applications/Xcode.app
+          xcodebuild -version
+
+      # Qt for iOS + the matching host Qt (~2 GB, several minutes via aqtinstall).
+      # Keyed on the build script because it holds the Qt version and module list.
+      - name: Cache Qt
+        uses: actions/cache@v4
+        with:
+          path: ~/Qt
+          key: ios-qt-${{ env.QT_VERSION }}-${{ hashFiles('build_ios_qml.sh') }}
+
+      # boost/openssl/protobuf cross-compiled for arm64-ios plus the host protoc.
+      # Cold build ≈ 45-70 min, restored from cache ≈ 1 min.
+      - name: Cache vcpkg
+        uses: actions/cache@v4
+        with:
+          path: ~/vcpkg
+          key: ios-vcpkg-${{ hashFiles('build_ios_qml.sh') }}
+
+      - name: Build QML client and package unsigned IPA
+        run: bash build_ios_qml.sh
+
+      - name: Show IPA contents
+        run: |
+          IPA=$(ls build_ios/*.ipa)
+          echo "IPA: $IPA ($(du -h "$IPA" | cut -f1))"
+          unzip -l "$IPA" | head -20
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-ios-arm64-unsigned-${{ github.sha }}
+          path: build_ios/*.ipa
+          if-no-files-found: error
+          retention-days: 30

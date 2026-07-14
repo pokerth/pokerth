@@ -197,6 +197,15 @@ if(ANDROID)
     qt_add_executable(pokerth_qml-client MANUAL_FINALIZATION ${POKERTH_QML_CLIENT_SRC})
     target_include_directories(pokerth_qml-client PRIVATE "${Protobuf_INCLUDE_DIR}")
     target_link_libraries(pokerth_qml-client PUBLIC protobuf::libprotobuf)
+elseif(IOS)
+    # iOS: Qt liegt als STATISCHE Bibliothek vor. Ein statisches Qt linkt keine
+    # Plugins von sich aus – weder die QPA-Plattform noch die QML-Plugins von
+    # QtQuick/Controls/Effects/VectorImage. Genau das erledigt qt_finalize_target()
+    # (unten): es laesst qmlimportscanner ueber das Target-Quellverzeichnis laufen
+    # und linkt die gefundenen Module dazu. Ohne diesen Weg (also mit einem
+    # nackten add_executable) baut die App zwar, findet zur Laufzeit aber weder
+    # Plattform-Plugin noch "module QtQuick is not installed".
+    qt_add_executable(pokerth_qml-client MANUAL_FINALIZATION MACOSX_BUNDLE ${POKERTH_QML_CLIENT_SRC})
 elseif(WIN32)
     # Windows GUI app ohne Konsolenfenster. pokerth.rc bettet pokerth.ico als
     # App-Icon in die .exe ein (Explorer, Taskbar, Titelleiste). windres findet
@@ -288,6 +297,49 @@ target_compile_definitions(pokerth_qml-client PUBLIC QML_CLIENT)
 # zu Compile-Zeit zu No-ops machen → keine String-Formatierung/I/O pro Aktion
 # im Spiel. qInfo/qWarning/qCritical/qFatal bleiben erhalten.
 target_compile_definitions(pokerth_qml-client PRIVATE QT_NO_DEBUG_OUTPUT)
+
+# iOS: App-Bundle konfigurieren und finalisieren
+if(IOS)
+    set(POKERTH_IOS_BUNDLE_ID "org.pokerth.qml" CACHE STRING "CFBundleIdentifier der iOS-App")
+    set(POKERTH_IOS_VERSION   "2.1.3"           CACHE STRING "CFBundleShortVersionString der iOS-App")
+    set(POKERTH_IOS_BUILD     "23"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
+
+    # Asset-Katalog mit dem App-Icon (1024er PNG, ohne Alpha – actool lehnt
+    # transparente iOS-App-Icons ab). Xcode kompiliert ihn in Assets.car.
+    set(POKERTH_IOS_ASSETS "${CMAKE_CURRENT_SOURCE_DIR}/ios/Assets.xcassets")
+    target_sources(pokerth_qml-client PRIVATE "${POKERTH_IOS_ASSETS}")
+    set_source_files_properties("${POKERTH_IOS_ASSETS}" PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+
+    set_target_properties(pokerth_qml-client PROPERTIES
+        # Bundle heisst PokerTH.app (nicht pokerth_qml-client.app); der Name steht
+        # auf dem Home-Screen unter dem Icon.
+        OUTPUT_NAME "PokerTH"
+        MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/ios/Info.plist"
+        QT_IOS_LAUNCH_SCREEN     "${CMAKE_CURRENT_SOURCE_DIR}/ios/LaunchScreen.storyboard"
+        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "${POKERTH_IOS_BUNDLE_ID}"
+        XCODE_ATTRIBUTE_MARKETING_VERSION         "${POKERTH_IOS_VERSION}"
+        XCODE_ATTRIBUTE_CURRENT_PROJECT_VERSION   "${POKERTH_IOS_BUILD}"
+        XCODE_ATTRIBUTE_ASSETCATALOG_COMPILER_APPICON_NAME "AppIcon"
+        XCODE_ATTRIBUTE_TARGETED_DEVICE_FAMILY "1,2"   # iPhone + iPad
+    )
+
+    # data/ ins App-Bundle kopieren. Anders als auf Android braucht es dafuer KEIN
+    # Qt-Resource: iOS hat ein echtes Dateisystem, und getDataPathStdString()
+    # (qthelper.cpp) liefert im __APPLE__-Zweig fuer alles, was nicht auf
+    # Contents/MacOS endet, bereits "<applicationDirPath>/data/" – bei einem
+    # flachen iOS-Bundle also <PokerTH.app>/data/. Die Dateien muessen daher nur
+    # dorthin, und AppDataDir/StyleProvider funktionieren unveraendert.
+    # POST_BUILD statt ~1000 Einzeldateien als Bundle-Resources: das haelt die
+    # Xcode-Projektdatei klein. Xcode signiert das Bundle erst nach allen
+    # Build-Phasen, ein spaeter ergaenztes Signieren erfasst die Daten also mit.
+    add_custom_command(TARGET pokerth_qml-client POST_BUILD
+        COMMAND "${CMAKE_COMMAND}" -E copy_directory
+                "${CMAKE_SOURCE_DIR}/data"
+                "$<TARGET_BUNDLE_CONTENT_DIR:pokerth_qml-client>/data"
+        COMMENT "Kopiere data/ (Stile, Karten, Sounds, Fonts) ins iOS-App-Bundle")
+
+    qt_finalize_target(pokerth_qml-client)
+endif()
 
 # Android: Konfiguriere und finalisiere Target
 if(ANDROID)
