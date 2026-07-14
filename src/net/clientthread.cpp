@@ -1244,6 +1244,10 @@ void
 ClientThread::SetSpectating(bool spectating)
 {
 	m_spectating = spectating;
+	// Ein Zuschauer spielt nicht mit -> es wird auch kein Logfile geschrieben.
+	if (m_clientLog) {
+		m_clientLog->setRecordingSuspended(spectating);
+	}
 }
 
 void
