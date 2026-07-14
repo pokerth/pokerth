@@ -502,7 +502,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+793"/>
+        <location filename="../components/GameActionBar.qml" line="+813"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
@@ -641,7 +641,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1995"/>
+        <location filename="../pages/GamePage.qml" line="+2015"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historial y probabilidades</translation>
     </message>
@@ -1087,6 +1087,11 @@
     </message>
     <message>
         <location line="+15"/>
+        <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
+        <translation>Mantener los asientos de los jugadores que abandonaron la mesa (las cajas de los jugadores restantes no se mueven)</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Community-Inhalte anzeigen</source>
         <translation>Mostrar contenido de la comunidad</translation>
     </message>
@@ -1096,17 +1101,17 @@
         <translation>Comunidad predeterminada:</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+43"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Poner el foco en el campo de apuesta cuando sea tu turno</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
         <translation>Mostrar el color del estado de red en la esquina del avatar</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
         <translation>Desactivar las reacciones con emojis</translation>
     </message>
@@ -1277,7 +1282,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+320"/>
         <source>← Zurück</source>
         <translation>← Atrás</translation>
     </message>
@@ -2395,7 +2400,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Activar registro</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
         <source>Log-Verzeichnis:</source>
         <translation>Directorio de registro:</translation>
     </message>

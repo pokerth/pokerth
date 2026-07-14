@@ -430,12 +430,28 @@ Rectangle {
                 }
             }
 
-            // Anzahl der besetzten Sitze
+            // Platzhalter-Modus: Sitze von Spielern, die den Tisch verlassen haben
+            // (Disconnect/Kick/Verlassen/Ausgeschieden – vom GameHandler mit
+            // `reserved` markiert), bleiben Teil des Rings. Sie werden nur nicht
+            // gezeichnet, belegen ihren Slot aber weiter → die Ellipse wird NICHT
+            // neu verteilt und die verbleibenden Boxen bleiben, wo sie sind.
+            readonly property bool keepEmptySeats: Config.Parameters.keepEmptySeats
+
+            // Einziges Kriterium dafür, ob ein Sitz einen Ring-Slot beansprucht.
+            // Muss überall gelten, wo Slots gezählt/zugeordnet werden (seatCount,
+            // slotForSeat, oppOrder im Delegate) – sonst driften Reihenfolge und
+            // Slot-Zahl auseinander.
+            function seatOnRing(p) {
+                if (!p) return false
+                return p.name !== "" || (keepEmptySeats && p.reserved === true)
+            }
+
+            // Anzahl der Sitze, die einen Platz im Ring beanspruchen
             readonly property int seatCount: {
                 if (typeof GameTable === "undefined" || !GameTable) return 1
                 var c = 0
                 for (var i = 0; i < GameTable.players.length; i++)
-                    if (GameTable.players[i].name !== "") c++
+                    if (seatOnRing(GameTable.players[i])) c++
                 return Math.max(c, 1)
             }
 
@@ -1304,11 +1320,11 @@ Rectangle {
                 var players = GameTable.players
                 var oppOrder = 0
                 for (var i = spectating ? 0 : 1; i <= seatIdx && i < players.length; i++)
-                    if (players[i].name !== "") oppOrder++
+                    if (seatOnRing(players[i])) oppOrder++
                 if (oppOrder < 1) return null
                 var seatCount = 0
                 for (var j = 0; j < players.length; j++)
-                    if (players[j].name !== "") seatCount++
+                    if (seatOnRing(players[j])) seatCount++
                 var seq = slotSeq[spectating ? seatCount : seatCount - 1]
                 if (!seq || oppOrder > seq.length) return null
                 var name = seq[oppOrder - 1]
@@ -1471,7 +1487,11 @@ Rectangle {
 
                     readonly property var pdata: (typeof GameTable !== "undefined" && GameTable && GameTable.players.length > index)
                         ? GameTable.players[index] : null
+                    // Echter Spieler sitzt hier → Box wird gezeichnet.
                     readonly property bool occupied: pdata !== null && pdata.name !== ""
+                    // Sitz beansprucht einen Ring-Slot – auch als reservierter,
+                    // unsichtbarer Platzhalter eines abgegangenen Spielers.
+                    readonly property bool onRing: tableZone.seatOnRing(pdata)
 
                     // Position dieses Sitzes auf dem Ring (1-basiert). Ohne
                     // Zuschauer-Modus sitzt Sitz 0 in der Self-Box und zählt
@@ -1481,14 +1501,14 @@ Rectangle {
                         var c = 0
                         for (var i = tableZone.spectating ? 0 : 1;
                              i <= index && i < GameTable.players.length; i++)
-                            if (GameTable.players[i].name !== "") c++
+                            if (tableZone.seatOnRing(GameTable.players[i])) c++
                         return c
                     }
 
                     readonly property int oppCount: tableZone.ringCount
                     readonly property var seq: tableZone.slotSeq[oppCount] || []
                     readonly property string slotName:
-                        (occupied && oppOrder >= 1 && oppOrder <= seq.length) ? seq[oppOrder - 1] : ""
+                        (onRing && oppOrder >= 1 && oppOrder <= seq.length) ? seq[oppOrder - 1] : ""
                     // Unterster Ring-Sitz (nur im Zuschauer-Modus besetzt).
                     readonly property bool bottomCenter:
                         slotName === "opp0" || slotName === "BC"

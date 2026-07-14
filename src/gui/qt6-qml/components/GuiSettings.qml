@@ -212,6 +212,21 @@ Rectangle {
                     }
 
                     CheckBox {
+                        objectName: "keepEmptySeatsCheckbox"
+                        Layout.fillWidth: true
+                        text: qsTr("Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)")
+                        checked: Config.Parameters.keepEmptySeats
+                        onCheckedChanged: Config.Parameters.keepEmptySeats = checked
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            leftPadding: parent.indicator.width + parent.spacing
+                            verticalAlignment: Text.AlignVCenter
+                            color: parent.palette.windowText
+                        }
+                    }
+
+                    CheckBox {
                         objectName: "showCommunityContentCheckbox"
                         Layout.fillWidth: true
                         text: qsTr("Community-Inhalte anzeigen")

@@ -502,7 +502,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+793"/>
+        <location filename="../components/GameActionBar.qml" line="+813"/>
         <source>Show</source>
         <translation>Montrer</translation>
     </message>
@@ -641,7 +641,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+1995"/>
+        <location filename="../pages/GamePage.qml" line="+2015"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historique et chances</translation>
     </message>
@@ -1087,6 +1087,11 @@
     </message>
     <message>
         <location line="+15"/>
+        <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
+        <translation>Conserver les places des joueurs ayant quitté la table (les boîtes des joueurs restants ne bougent pas)</translation>
+    </message>
+    <message>
+        <location line="+15"/>
         <source>Community-Inhalte anzeigen</source>
         <translation>Afficher le contenu communautaire</translation>
     </message>
@@ -1096,17 +1101,17 @@
         <translation>Communauté par défaut :</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+43"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Mettre le focus sur le champ de mise quand c&apos;est votre tour</translation>
     </message>
     <message>
-        <location line="-7"/>
+        <location line="-6"/>
         <source>Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen</source>
         <translation>Afficher la couleur d&apos;état réseau dans le coin de l&apos;avatar</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+19"/>
         <source>Emoji-Reaktionen deaktivieren</source>
         <translation>Désactiver les réactions emoji</translation>
     </message>
@@ -1277,7 +1282,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+314"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+320"/>
         <source>← Zurück</source>
         <translation>← Retour</translation>
     </message>
@@ -2395,7 +2400,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Activer la journalisation</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
         <source>Log-Verzeichnis:</source>
         <translation>Répertoire des journaux :</translation>
     </message>

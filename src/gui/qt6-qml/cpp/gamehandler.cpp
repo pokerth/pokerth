@@ -99,6 +99,7 @@ GameHandler::GameHandler(QObject *parent)
         p["card1"]   = -1;
         p["fade0"]   = false;
         p["fade1"]   = false;
+        p["reserved"] = false;
         m_players.append(p);
     }
     // Initialize empty board cards (5 slots, -1 = not dealt)
@@ -402,6 +403,9 @@ void GameHandler::refreshPlayerData()
         p["card1"]  = -1;
         p["fade0"]  = false;
         p["fade1"]  = false;
+        // Leerer Sitz eines Spielers, der den Tisch verlassen hat (Disconnect,
+        // Kick, Verlassen, Ausgeschieden) – siehe Markierung unten.
+        p["reserved"] = false;
         newPlayers.append(p);
     }
 
@@ -475,9 +479,18 @@ void GameHandler::refreshPlayerData()
 
         for (auto it = seats->begin(); it != seats->end(); ++it) {
             int id = (*it)->getMyID();
-            // Spieler, der das Spiel verlassen hat: Sitz als leer behandeln.
-            if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+            // Spieler, der das Spiel verlassen hat: Sitz als leer behandeln, ihn
+            // aber als "reserviert" markieren. Die Tischansicht kann den Sitz damit
+            // – je nach Einstellung – als unsichtbaren Platzhalter im Ring halten,
+            // sodass die verbleibenden Boxen nicht nachrücken.
+            if (m_leftPlayers.contains((*it)->getMyUniqueID())) {
+                if (id >= 0 && id < 10) {
+                    QVariantMap gone = newPlayers[id].toMap();
+                    gone["reserved"] = true;
+                    newPlayers[id] = gone;
+                }
                 continue;
+            }
             if (!(*it)->getMyName().empty() && (*it)->getMyType() == PLAYER_TYPE_HUMAN)
                 ++humanCount;
             if (id >= 0 && id < 10) {
