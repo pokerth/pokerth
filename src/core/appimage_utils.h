@@ -32,6 +32,7 @@
 #ifndef APPIMAGE_UTILS_H
 #define APPIMAGE_UTILS_H
 
+#include <QtGlobal>   // QT_CONFIG(process) – auf iOS ist QProcess wegkonfiguriert
 #include <QUrl>
 #include <QProcess>
 #include <QProcessEnvironment>
@@ -219,7 +220,18 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
         return process.startDetached();
     }
 #endif
+#if QT_CONFIG(process)
     return QProcess::startDetached(program, args);
+#else
+    // Qt für iOS ist ohne Process-Feature gebaut – das System erlaubt keine
+    // Kindprozesse, QProcess ist dort nicht deklariert (QProcessEnvironment
+    // dagegen schon, deshalb übersetzt der Rest dieses Headers). Der einzige
+    // Aufrufer ist der paplay/pw-play-Fallback des Audio-Backends, das auf iOS
+    // gar nicht erst ausgewählt wird (initAudio() gated auf Q_OS_LINUX).
+    Q_UNUSED(program);
+    Q_UNUSED(args);
+    return false;
+#endif
 }
 
 /**

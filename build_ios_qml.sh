@@ -188,9 +188,11 @@ cmake --build "$BUILD_DIR" --config "$BUILD_TYPE" --target "$BUILD_TARGET" \
 # 6. Package .ipa
 ########################################
 
-APP_BUNDLE="$BUILD_DIR/bin/${BUILD_TYPE}-iphoneos/${APP_NAME}.app"
-if [ ! -d "$APP_BUNDLE" ]; then
-  # Fallback in case CMAKE_RUNTIME_OUTPUT_DIRECTORY ever changes.
+# Xcode haengt je nach Version/Setting ein "-iphoneos" an das Konfigurations-
+# verzeichnis an (bin/Release-iphoneos) oder eben nicht (bin/Release) – deshalb
+# das Bundle suchen statt den Pfad zu raten.
+APP_BUNDLE="$(find "$BUILD_DIR/bin" -type d -name "${APP_NAME}.app" -print -quit 2>/dev/null || true)"
+if [ -z "$APP_BUNDLE" ]; then
   APP_BUNDLE="$(find "$BUILD_DIR" -type d -name "${APP_NAME}.app" -print -quit)"
 fi
 if [ ! -d "$APP_BUNDLE" ]; then
