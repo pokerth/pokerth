@@ -1,0 +1,14 @@
+<!--
+   Android-Daten-Bundle für den QML-Client (nur ANDROID, siehe CMakeLists.txt).
+   AppDataDir = :/android/android-data/ ; Stile aus gfx/qml/{table,cards,backside},
+   Beispiel-Avatare aus gfx/avatars/default/{people,misc} (werden beim ersten
+   Zugriff nach UserDataDir kopiert, siehe SettingsManager::exampleAvatarsBasePath).
+
+   GENERIERT - nicht bearbeiten. Die Dateiliste wird zur Configure-Zeit aus data/
+   eingesammelt (file(GLOB_RECURSE ... CONFIGURE_DEPENDS) in CMakeLists.txt), damit
+   neue Kartendecks/Tisch-Stile ohne manuelle Pflege im APK landen.
+-->
+<RCC>
+    <qresource prefix="/android">
+@POKERTH_ANDROID_DATA_ENTRIES@    </qresource>
+</RCC>

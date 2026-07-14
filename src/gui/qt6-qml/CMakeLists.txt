@@ -58,8 +58,31 @@ qt_add_resources(POKERTH_QML_CLIENT_SRC "${CMAKE_CURRENT_BINARY_DIR}/svgicon.qrc
 # :/android/android-data/ (configfile.cpp). Ohne dieses Bundle gibt es auf Android
 # kein echtes Dateisystem-data/ → keine Tisch-/Karten-/Rückseiten-Stile.
 # Auf Desktop werden die Stile aus dem installierten data/ gelesen (install() unten).
+#
+# Die Dateiliste wird zur Configure-Zeit aus data/ generiert (frueher eine von Hand
+# gepflegte .qrc, die bei jedem neuen Stil vergessen wurde). CONFIGURE_DEPENDS laesst
+# CMake bei neuen/entfernten Dateien selbst neu konfigurieren, damit neue Kartendecks,
+# Rueckseiten und Tisch-Stile ohne Zutun im APK landen.
 if(ANDROID)
-    qt_add_resources(POKERTH_QML_CLIENT_SRC resources/pokerth_qml_android_data.qrc)
+    set(POKERTH_ANDROID_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../data")
+    file(GLOB_RECURSE POKERTH_ANDROID_DATA_FILES CONFIGURE_DEPENDS
+         "${POKERTH_ANDROID_DATA_DIR}/gfx/avatars/*"
+         "${POKERTH_ANDROID_DATA_DIR}/gfx/qml/*")
+    list(SORT POKERTH_ANDROID_DATA_FILES)
+
+    set(POKERTH_ANDROID_DATA_ENTRIES "")
+    foreach(_data_file IN LISTS POKERTH_ANDROID_DATA_FILES)
+        file(RELATIVE_PATH _data_rel "${POKERTH_ANDROID_DATA_DIR}" "${_data_file}")
+        string(APPEND POKERTH_ANDROID_DATA_ENTRIES
+               "        <file alias=\"android-data/${_data_rel}\">${_data_file}</file>\n")
+    endforeach()
+
+    list(LENGTH POKERTH_ANDROID_DATA_FILES _data_count)
+    message(STATUS "Android data bundle: ${_data_count} files from ${POKERTH_ANDROID_DATA_DIR}")
+
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/resources/pokerth_qml_android_data.qrc.in"
+                   "${CMAKE_CURRENT_BINARY_DIR}/pokerth_qml_android_data.qrc" @ONLY)
+    qt_add_resources(POKERTH_QML_CLIENT_SRC "${CMAKE_CURRENT_BINARY_DIR}/pokerth_qml_android_data.qrc")
 endif()
 
 set(QML_FILES
