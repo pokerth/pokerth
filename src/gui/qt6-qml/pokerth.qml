@@ -216,20 +216,12 @@ ApplicationWindow {
 
         var current = mainStackView.currentItem
 
-        // Warteraum: das Spiel sauber über den Server verlassen (wie der
-        // "Leave Game"-Button). Der StackView wird durch onRemovedFromGame
-        // gepoppt – hier NICHT direkt poppen.
-        if (current && current.objectName === "gameWaitPage") {
-            if (typeof Lobby !== "undefined" && Lobby)
-                Lobby.leaveGame()
-            return true
-        }
-
-        // Laufendes Spiel: vor dem Verlassen IMMER nachfragen (egal ob per
-        // Esc, Android-Back oder Tür-Icon), damit ein versehentlicher
-        // Tastendruck das Spiel nicht ungewollt beendet. Das eigentliche
-        // Verlassen erledigt performLeaveGame() nach Bestätigung.
-        if (current && current.objectName === "gamePage") {
+        // Warteraum und laufendes Spiel: vor dem Verlassen IMMER nachfragen
+        // (egal ob per Esc, Android-Back oder Tür-Icon), damit ein
+        // versehentlicher Tastendruck das Spiel nicht ungewollt verlässt. Das
+        // eigentliche Verlassen erledigt performLeaveGame() nach Bestätigung.
+        if (current && (current.objectName === "gameWaitPage"
+                        || current.objectName === "gamePage")) {
             leaveGameConfirmPopup.open()
             return true
         }
@@ -260,15 +252,17 @@ ApplicationWindow {
         var current = mainStackView.currentItem
         // console.log("[NAV] performLeaveGame | currentItem:", current ? (current.objectName || current.toString()) : "null", "| depth:", mainStackView.depth)
         var isGamePage = current && current.objectName === "gamePage"
+        var isWaitPage = current && current.objectName === "gameWaitPage"
         var localGame = isGamePage
                         && (typeof GameTable !== "undefined")
                         && GameTable
                         && GameTable.isLocalGameRunning()
 
-        // Laufendes Netzwerkspiel: serverseitig verlassen und zurück in die
-        // LOBBY (nicht in den darunterliegenden Warteraum). Der StackView wird
-        // durch onRemovedFromGame bis zur Lobby gepoppt – hier NICHT poppen.
-        if (isGamePage && !localGame) {
+        // Warteraum bzw. laufendes Netzwerkspiel: serverseitig verlassen und
+        // zurück in die LOBBY (nicht in den darunterliegenden Warteraum). Der
+        // StackView wird durch onRemovedFromGame bis zur Lobby gepoppt – hier
+        // NICHT poppen.
+        if (isWaitPage || (isGamePage && !localGame)) {
             if (typeof Lobby !== "undefined" && Lobby)
                 Lobby.leaveGame()
             return
