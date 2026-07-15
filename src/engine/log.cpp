@@ -127,7 +127,15 @@ Log::init()
             DIR *logDir;
             logDir = opendir((myConfig->readConfigString("LogDir")).c_str());
             bool dirExists = logDir != NULL;
-            closedir(logDir);
+            // closedir() nur auf ein gueltiges Handle: opendir() gibt bei nicht
+            // existierendem Verzeichnis NULL zurueck, und closedir(NULL) ist
+            // undefiniertes Verhalten (SIGSEGV in fdclosedir). Auf Desktop faellt
+            // das nie auf, weil LogDir von ConfigFile stets angelegt wird; auf iOS
+            // existiert das Verzeichnis beim allerersten Start noch nicht -> Absturz
+            // direkt im Log::init() beim App-Launch.
+            if(logDir != NULL) {
+                closedir(logDir);
+            }
 
             // check if logging path exist
             if(myConfig->readConfigString("LogDir") != "" && dirExists) {
