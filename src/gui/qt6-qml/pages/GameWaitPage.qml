@@ -41,6 +41,15 @@ Rectangle {
     // NTF_NET_REMOVED_ON_REQUEST (socket_msg.h) – selbst angefordertes Verlassen
     readonly property int removedOnRequest: 202
 
+    // Rückfrage, bevor der Spiel-Admin einen Spieler aus dem offenen Spiel wirft.
+    function confirmKick(playerId, playerName) {
+        kickPopup.targetPlayerId = playerId
+        kickPopup.openWith(
+            qsTr("Kick player"),
+            qsTr("Are you sure you want to kick \"%1\" from the game?").arg(playerName),
+            qsTr("Kick"))
+    }
+
     // Portrait-mode overlay state
     property bool showingPlayerList: false
     property int playerListCollapseResetCounter: 0
@@ -761,9 +770,9 @@ Rectangle {
                                         baseColor: Config.StaticData.chartColor(5, true)
                                         tooltipText: qsTr("Kick player")
                                         Layout.alignment: Qt.AlignVCenter
-                                        onTriggered: {
-                                            if (Lobby) Lobby.kickPlayer(modelData.playerId)
-                                        }
+                                        onTriggered: gameWaitPage.confirmKick(
+                                            modelData.playerId,
+                                            modelData.playerName || "")
                                     }
                                 }
                             }
@@ -924,5 +933,11 @@ Rectangle {
                 }
             }
         }
+    }
+
+    ConfirmPopup {
+        id: kickPopup
+        property int targetPlayerId: 0
+        onConfirmed: { if (Lobby) Lobby.kickPlayer(targetPlayerId) }
     }
 }

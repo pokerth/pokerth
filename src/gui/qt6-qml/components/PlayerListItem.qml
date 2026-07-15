@@ -70,6 +70,14 @@ ItemDelegate {
     readonly property color statsColor: Config.StaticData.chartColor(9, true)
     readonly property color banColor: Config.StaticData.chartColor(5, true)
 
+    // Rückfrage vor dem Einladen eines Spielers ins eigene Spiel.
+    function confirmInvite() {
+        invitePopup.openWith(
+            qsTr("Invite to Game"),
+            qsTr("Are you sure you want to invite \"%1\" to your game?").arg(displayName),
+            qsTr("Invite"))
+    }
+
     onCollapseResetCounterChanged: {
         expanded = false
         listView.expandedPlayerIndex = -1
@@ -163,7 +171,7 @@ ItemDelegate {
                     source: "qrc:/resources/personAdd.svg"
                     baseColor: playerItem.inviteColor
                     tooltipText: qsTr("Invite to Game")
-                    onTriggered: { if (Lobby) Lobby.invitePlayer(playerItem.targetPlayerId) }
+                    onTriggered: playerItem.confirmInvite()
                 }
                 PlayerActionIcon {
                     visible: playerItem.canIgnore
@@ -265,7 +273,7 @@ ItemDelegate {
                 }
                 
                 onClicked: {
-                    if (Lobby) Lobby.invitePlayer(targetPlayerId)
+                    playerItem.confirmInvite()
                     playerItem.expanded = false
                 }
             }
@@ -422,5 +430,10 @@ ItemDelegate {
                : "transparent"
         radius: 3
         Behavior on color { ColorAnimation { duration: 130 } }
+    }
+
+    ConfirmPopup {
+        id: invitePopup
+        onConfirmed: { if (Lobby) Lobby.invitePlayer(playerItem.targetPlayerId) }
     }
 }

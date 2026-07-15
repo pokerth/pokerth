@@ -641,7 +641,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2015"/>
+        <location filename="../pages/GamePage.qml" line="+2041"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>History &amp; Odds</translation>
     </message>
@@ -803,7 +803,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+148"/>
+        <location filename="../pages/GameWaitPage.qml" line="+157"/>
         <source>Players</source>
         <translation>Players</translation>
     </message>
@@ -953,12 +953,23 @@
         <translation>Players in game (%1)</translation>
     </message>
     <message>
-        <location line="+84"/>
+        <location line="-639"/>
+        <location line="+723"/>
         <source>Kick player</source>
         <translation>Kick player</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="-722"/>
+        <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Kick</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+750"/>
         <source>Lobby Chat</source>
         <translation>Lobby Chat</translation>
     </message>
@@ -2811,7 +2822,7 @@ Uploading log files may fail if you are using an http proxy.</translation>
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+147"/>
+        <location filename="../components/PlayerListItem.qml" line="+155"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 is playing in &quot;%2&quot;.</translation>
     </message>
@@ -2821,13 +2832,24 @@ Uploading log files may fail if you are using an http proxy.</translation>
         <translation>%1 is not playing at the moment.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="-80"/>
+        <location line="+97"/>
         <location line="+74"/>
         <source>Invite to Game</source>
         <translation>Invite to Game</translation>
     </message>
     <message>
-        <location line="-67"/>
+        <location line="-170"/>
+        <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Invite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+102"/>
         <location line="+103"/>
         <source>Ignore player</source>
         <translation>Ignore player</translation>
@@ -3920,7 +3942,7 @@ Preview</translation>
         <translation>PokerTH - v2.1.3</translation>
     </message>
     <message>
-        <location line="+170"/>
+        <location line="+164"/>
         <source>Back</source>
         <translation>Back</translation>
     </message>
