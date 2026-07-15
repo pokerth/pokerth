@@ -50,6 +50,15 @@ Rectangle {
 
     function datePart(s) { return s ? String(s).substring(0, 10) : "" }
 
+    // Quellen-Umschalter: ersetzt diese Seite durch die Player-Page der gewählten
+    // Quelle (gleicher Nickname). Als Funktion, weil der Umschalter je nach Layout
+    // an zwei Stellen (inline / eigene Zeile) sitzt und beide dieselbe Logik brauchen.
+    function switchCommunity(community) {
+        var nick = (player && player.nickname) ? player.nickname : nickname
+        StackView.view.replace(Config.Community.playerPageUrl(community),
+                               Config.Community.playerPageProps(community, nick))
+    }
+
     function attr(html, name) {
         var m = html.match(new RegExp(":" + name + "=\"([^\"]*)\""))
         if (!m)
@@ -141,58 +150,73 @@ Rectangle {
             spacing: 14
 
             // ── Kopf: Avatar + Name + Eckdaten ──────────────────────────────
-            RowLayout {
+            // Im Kompakt-/Portrait-Modus wandert der Quellen-Umschalter in eine
+            // eigene Zeile darunter (rechtsbündig), damit der Kopf nicht breiter
+            // wird als das Display. Auf Desktop/Tablet bleibt er oben rechts inline.
+            ColumnLayout {
                 Layout.fillWidth: true
-                spacing: 14
+                spacing: 8
 
-                Rectangle {
-                    Layout.preferredWidth: 72
-                    Layout.preferredHeight: 72
-                    Layout.alignment: Qt.AlignTop
-                    radius: 6
-                    color: Config.StaticData.palette.secondary.col600
-                    clip: true
-                    visible: playerView.avatarUrl !== ""
-
-                    Image {
-                        anchors.fill: parent
-                        fillMode: Image.PreserveAspectCrop
-                        asynchronous: true
-                        source: playerView.avatarUrl
-                    }
-                }
-
-                ColumnLayout {
+                RowLayout {
                     Layout.fillWidth: true
-                    spacing: 4
+                    spacing: 14
 
-                    AppLabel {
-                        text: playerView.player ? playerView.player.nickname : playerView.nickname
-                        Layout.fillWidth: true
-                        elide: Text.ElideRight
-                        color: Config.StaticData.palette.secondary.col100
-                        font.pointSize: 16
-                        font.bold: true
+                    Rectangle {
+                        Layout.preferredWidth: 72
+                        Layout.preferredHeight: 72
+                        Layout.alignment: Qt.AlignTop
+                        radius: 6
+                        color: Config.StaticData.palette.secondary.col600
+                        clip: true
+                        visible: playerView.avatarUrl !== ""
+
+                        Image {
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectCrop
+                            asynchronous: true
+                            source: playerView.avatarUrl
+                        }
                     }
-                    AppLabel {
-                        visible: playerView.player && playerView.player.created_at
-                        text: qsTr("Member since %1").arg(playerView.datePart(playerView.player ? playerView.player.created_at : ""))
-                        color: Config.StaticData.palette.secondary.col300
-                        font.pixelSize: Config.Theme.fontSizeCaption
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 4
+
+                        AppLabel {
+                            text: playerView.player ? playerView.player.nickname : playerView.nickname
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                            color: Config.StaticData.palette.secondary.col100
+                            font.pointSize: 16
+                            font.bold: true
+                        }
+                        AppLabel {
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                            visible: playerView.player && playerView.player.created_at
+                            text: qsTr("Member since %1").arg(playerView.datePart(playerView.player ? playerView.player.created_at : ""))
+                            color: Config.StaticData.palette.secondary.col300
+                            font.pixelSize: Config.Theme.fontSizeCaption
+                        }
+                    }
+
+                    // Desktop/Tablet: Umschalter inline oben rechts.
+                    CommunitySwitch {
+                        visible: !playerView.compact
+                        Layout.alignment: Qt.AlignTop
+                        current: playerView.community
+                        onSelected: playerView.switchCommunity(community)
                     }
                 }
 
-                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
-                // Player-Page der gewählten Quelle (gleicher Nickname).
-                CommunitySwitch {
-                    Layout.alignment: Qt.AlignTop
-                    current: playerView.community
-                    onSelected: function(community) {
-                        var nick = (playerView.player && playerView.player.nickname)
-                                   ? playerView.player.nickname : playerView.nickname
-                        playerView.StackView.view.replace(
-                            Config.Community.playerPageUrl(community),
-                            Config.Community.playerPageProps(community, nick))
+                // Kompakt/Portrait: Umschalter in eigener Zeile, rechtsbündig.
+                RowLayout {
+                    Layout.fillWidth: true
+                    visible: playerView.compact
+                    Item { Layout.fillWidth: true }
+                    CommunitySwitch {
+                        current: playerView.community
+                        onSelected: playerView.switchCommunity(community)
                     }
                 }
             }

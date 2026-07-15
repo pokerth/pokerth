@@ -44,6 +44,19 @@ Rectangle {
         return parts.length === 2 ? (parts[0] + " Q" + parts[1]) : String(s)
     }
 
+    // Quellen-Umschalter: ersetzt diese Seite durch die Player-Page der
+    // gewählten Quelle (gleicher Nickname). BBC/WEC kennen nur Nicknames –
+    // solange keiner bekannt ist (Seite nur mit playerId geöffnet, lädt noch),
+    // passiert nichts. Als Funktion, weil der Umschalter je nach Layout an zwei
+    // Stellen (inline / eigene Zeile) sitzt und beide dieselbe Logik brauchen.
+    function switchCommunity(community) {
+        var nick = (player && player.username) ? player.username : username
+        if (nick === "")
+            return
+        StackView.view.replace(Config.Community.playerPageUrl(community),
+                               Config.Community.playerPageProps(community, nick))
+    }
+
     function load() {
         loading = true
         errorText = ""
@@ -113,86 +126,102 @@ Rectangle {
             spacing: 14
 
             // ── Kopf: Avatar + Name + Land + Eckdaten ───────────────────────
-            RowLayout {
+            // Im Kompakt-/Portrait-Modus (schmales Phone) wandert der Quellen-
+            // Umschalter in eine eigene Zeile darunter (rechtsbündig), damit der
+            // Kopf – Avatar + Name + 3-Segment-Umschalter – nicht breiter wird als
+            // das Display. Auf Desktop/Tablet bleibt er oben rechts inline.
+            ColumnLayout {
                 Layout.fillWidth: true
-                spacing: 14
+                spacing: 8
 
-                Rectangle {
-                    Layout.preferredWidth: 72
-                    Layout.preferredHeight: 72
-                    radius: 6
-                    color: Config.StaticData.palette.secondary.col600
-                    clip: true
-
-                    Image {
-                        anchors.fill: parent
-                        visible: source != ""
-                        fillMode: Image.PreserveAspectCrop
-                        asynchronous: true
-                        source: (playerPage.player && playerPage.player.avatar_hash)
-                                ? playerPage.baseUrl + "/images/avatars/game/"
-                                  + playerPage.player.avatar_hash + "." + playerPage.player.avatar_mime
-                                : ""
-                    }
-                }
-
-                ColumnLayout {
+                RowLayout {
                     Layout.fillWidth: true
-                    spacing: 4
+                    spacing: 14
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
+                    Rectangle {
+                        Layout.preferredWidth: 72
+                        Layout.preferredHeight: 72
+                        Layout.alignment: Qt.AlignTop
+                        radius: 6
+                        color: Config.StaticData.palette.secondary.col600
+                        clip: true
+
                         Image {
-                            readonly property string code:
-                                (playerPage.player && playerPage.player.country_iso
-                                 ? String(playerPage.player.country_iso) : "").toLowerCase()
-                            visible: code !== ""
-                            source: code !== "" ? "qrc:/resources/cflags/" + code + ".svg" : ""
-                            Layout.preferredWidth: 22
-                            Layout.preferredHeight: 15
-                            fillMode: Image.PreserveAspectFit
-                            smooth: true
+                            anchors.fill: parent
+                            visible: source != ""
+                            fillMode: Image.PreserveAspectCrop
+                            asynchronous: true
+                            source: (playerPage.player && playerPage.player.avatar_hash)
+                                    ? playerPage.baseUrl + "/images/avatars/game/"
+                                      + playerPage.player.avatar_hash + "." + playerPage.player.avatar_mime
+                                    : ""
                         }
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 4
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 8
+                            Image {
+                                readonly property string code:
+                                    (playerPage.player && playerPage.player.country_iso
+                                     ? String(playerPage.player.country_iso) : "").toLowerCase()
+                                visible: code !== ""
+                                source: code !== "" ? "qrc:/resources/cflags/" + code + ".svg" : ""
+                                Layout.preferredWidth: 22
+                                Layout.preferredHeight: 15
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true
+                            }
+                            AppLabel {
+                                text: playerPage.player ? playerPage.player.username : ""
+                                Layout.fillWidth: true
+                                elide: Text.ElideRight
+                                color: Config.StaticData.palette.secondary.col100
+                                font.pointSize: 16
+                                font.bold: true
+                            }
+                        }
+                        // Datums-Zeilen füllen die Breite und eliden – so bestimmen
+                        // sie im schmalen Portrait nicht die Kopf-Mindestbreite.
                         AppLabel {
-                            text: playerPage.player ? playerPage.player.username : ""
                             Layout.fillWidth: true
                             elide: Text.ElideRight
-                            color: Config.StaticData.palette.secondary.col100
-                            font.pointSize: 16
-                            font.bold: true
+                            visible: playerPage.player && playerPage.player.created
+                            text: qsTr("Member since %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.created : ""))
+                            color: Config.StaticData.palette.secondary.col300
+                            font.pixelSize: Config.Theme.fontSizeCaption
+                        }
+                        AppLabel {
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                            visible: playerPage.player && playerPage.player.last_login
+                            text: qsTr("Last login %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.last_login : ""))
+                            color: Config.StaticData.palette.secondary.col300
+                            font.pixelSize: Config.Theme.fontSizeCaption
                         }
                     }
-                    AppLabel {
-                        visible: playerPage.player && playerPage.player.created
-                        text: qsTr("Member since %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.created : ""))
-                        color: Config.StaticData.palette.secondary.col300
-                        font.pixelSize: Config.Theme.fontSizeCaption
-                    }
-                    AppLabel {
-                        visible: playerPage.player && playerPage.player.last_login
-                        text: qsTr("Last login %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.last_login : ""))
-                        color: Config.StaticData.palette.secondary.col300
-                        font.pixelSize: Config.Theme.fontSizeCaption
+
+                    // Desktop/Tablet: Umschalter inline oben rechts.
+                    CommunitySwitch {
+                        visible: !playerPage.compact
+                        Layout.alignment: Qt.AlignTop
+                        current: "pokerth"
+                        onSelected: playerPage.switchCommunity(community)
                     }
                 }
 
-                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
-                // Player-Page der gewählten Quelle (gleicher Nickname). BBC/WEC
-                // kennen nur Nicknames – solange keiner bekannt ist (Seite wurde
-                // nur mit playerId geöffnet und lädt noch), passiert nichts.
-                CommunitySwitch {
-                    id: communitySwitch
-                    Layout.alignment: Qt.AlignTop
-                    current: "pokerth"
-                    onSelected: function(community) {
-                        var nick = (playerPage.player && playerPage.player.username)
-                                   ? playerPage.player.username : playerPage.username
-                        if (nick === "")
-                            return
-                        playerPage.StackView.view.replace(
-                            Config.Community.playerPageUrl(community),
-                            Config.Community.playerPageProps(community, nick))
+                // Kompakt/Portrait: Umschalter in eigener Zeile, rechtsbündig.
+                RowLayout {
+                    Layout.fillWidth: true
+                    visible: playerPage.compact
+                    Item { Layout.fillWidth: true }
+                    CommunitySwitch {
+                        current: "pokerth"
+                        onSelected: playerPage.switchCommunity(community)
                     }
                 }
             }
