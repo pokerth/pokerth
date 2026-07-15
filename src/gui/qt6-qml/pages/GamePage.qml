@@ -608,7 +608,13 @@ Rectangle {
                     // Reiner Sicherheits-Abstand zwischen benachbarten Box-Paaren
                     // in der Bisektions-Probe. Kleiner = Boxen dürfen enger packen
                     // = höheres feasibles boxScale (größere Boxen/Karten/Schrift).
-                    var gap = 4
+                    // Im landscapeCompact (kleine Phone-Landscape-Auflösungen wie
+                    // iPhone mini, Höhe < 600) deutlich großzügiger: dort standen die
+                    // oberen/seitlichen Gegner-Paare (Player 2↔3 / 7↔8) so eng, dass
+                    // sie sich visuell berührten. Mehr Sicherheits-Abstand → die
+                    // Bisektion cappt boxScale niedriger → kleinere, überlappungs-
+                    // freie Boxen.
+                    var gap = Config.Responsive.landscapeCompact ? 12 : 4
                     // Muss mit buildLandscapeSlots().selfWeight übereinstimmen.
                     // Zuschauer: Sitz 0 ist ein normaler Ring-Sitz (Gewicht 1.0)
                     // → gleichmäßige Verteilung über die volle Ellipse.
@@ -926,13 +932,19 @@ Rectangle {
                     var halfAbove = communityCenterY - topB - 6
                     var halfBelow = selfVisualTopY - communityCenterY - 6
                     var avail     = Math.min(halfAbove, halfBelow)
-                    // Kompakt dichter füllen (72) als Desktop (84, bewusst luftig).
-                    var gapFill   = avail > 0 ? avail / (isCmp ? 66 : 84) : 0
+                    // Kompakt gefüllt (82), aber bewusst nicht so aggressiv wie
+                    // früher (66): auf kleinen Phone-Landscape-Auflösungen (iPhone
+                    // mini) wirkten die Community-Karten sonst überproportional groß
+                    // gegenüber den (kleinen) Gegnerboxen. Desktop bleibt bei 84.
+                    var gapFill   = avail > 0 ? avail / (isCmp ? 82 : 84) : 0
                     // Horizontale Sicherheit: Kartenreihe (~264 Basisbreite) bleibt
                     // innerhalb 70 % der Fensterbreite (Mitte zwischen den Seitenboxen).
                     var capW      = (0.70 * width) / 264
-                    var cap       = Math.min(isCmp ? 2.6 : 1.8, boxScale * 2.0, capW)
-                    var floor     = boxScale * (isCmp ? 1.1 : 0.72)
+                    var cap       = Math.min(isCmp ? 2.1 : 1.8, boxScale * 2.0, capW)
+                    // Boden (Mindestgröße): Kompakt auf 0.85·boxScale gesenkt (war
+                    // 1.1) – so bleiben die Karten proportional zu den Boxen, statt
+                    // sie zu überragen. Desktop unverändert (0.72).
+                    var floor     = boxScale * (isCmp ? 0.85 : 0.72)
                     return Math.max(0.55, Math.min(cap, Math.max(floor, gapFill)))
                 }
                 // Portrait: die Community sitzt vertikal ZWISCHEN oberer (~0.345)
