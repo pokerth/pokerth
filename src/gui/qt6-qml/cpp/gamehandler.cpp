@@ -1756,6 +1756,35 @@ bool GameHandler::isLocalGameRunning() const
     return static_cast<bool>(m_session->getCurrentGame());
 }
 
+bool GameHandler::isInternetGameRunning() const
+{
+    return m_session
+        && m_session->isNetworkClientRunning()
+        && m_session->getGameType() == Session::GAME_TYPE_INTERNET;
+}
+
+void GameHandler::reportAvatar(int seatId)
+{
+    // Nur im Internet-Spiel sinnvoll (wie im Qt-Widgets-Client, MyAvatarLabel).
+    if (!isInternetGameRunning() || !m_game)
+        return;
+
+    PlayerList seats = m_game->getSeatsList();
+    for (auto it = seats->begin(); it != seats->end(); ++it) {
+        if ((*it)->getMyID() != seatId)
+            continue;
+        // Avatar-Hash = Basisname der Avatardatei (ohne Pfad/Endung), exakt wie
+        // MyAvatarLabel::reportBadAvatar den Wert an den Server übergibt.
+        const std::string avatar = (*it)->getMyAvatar();
+        if (avatar.empty())
+            return;
+        const QFileInfo fi(QString::fromStdString(avatar));
+        m_session->reportBadAvatar((*it)->getMyUniqueID(),
+                                   fi.baseName().toStdString());
+        return;
+    }
+}
+
 // ─── Game-loop advance slots (called via QMetaObject from QmlGuiInterface) ───
 
 void GameHandler::onRunBeRo()

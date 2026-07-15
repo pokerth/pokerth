@@ -287,7 +287,7 @@
         <translation>Quest&apos;anno</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+75"/>
         <source>Player not found.</source>
         <translation>Giocatore non trovato.</translation>
     </message>
@@ -302,12 +302,12 @@
         <translation>Impossibile analizzare la risposta del server.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+80"/>
         <source>Member since %1</source>
         <translation>Membro dal %1</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Awards</source>
         <translation>Premi</translation>
     </message>
@@ -641,7 +641,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2041"/>
+        <location filename="../pages/GamePage.qml" line="+2053"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Cronologia e probabilità</translation>
     </message>
@@ -659,19 +659,49 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+392"/>
+        <location filename="../components/GamePlayerBox.qml" line="+399"/>
+        <location line="+26"/>
+        <location line="+2"/>
         <source>Ignore player</source>
         <translation>Ignora giocatore</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-23"/>
+        <location line="+29"/>
+        <location line="+2"/>
         <source>Unignore player</source>
         <translation>Non ignorare più il giocatore</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-26"/>
         <source>Show player stats</source>
         <translation>Mostra statistiche giocatore</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+28"/>
+        <source>Report inappropriate avatar</source>
+        <translation>Segnala avatar non appropriato</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <source>Are you sure you want to ignore &quot;%1&quot;?</source>
+        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Are you sure you want to unignore &quot;%1&quot;?</source>
+        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
+        <translation>Vuoi davvero segnalare l&apos;avatar di «%1» come non appropriato?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Report</source>
+        <translation>Segnala</translation>
     </message>
 </context>
 <context>
@@ -2822,7 +2852,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+155"/>
+        <location filename="../components/PlayerListItem.qml" line="+179"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 sta giocando in &quot;%2&quot;.</translation>
     </message>
@@ -2832,14 +2862,14 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <translation>%1 non sta giocando in questo momento.</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <location line="+97"/>
+        <location line="-104"/>
+        <location line="+121"/>
         <location line="+74"/>
         <source>Invite to Game</source>
         <translation>Invita alla partita</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-194"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
         <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
     </message>
@@ -2849,25 +2879,46 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <translation>Invita</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+6"/>
+        <location line="+2"/>
+        <location line="+118"/>
         <location line="+103"/>
         <source>Ignore player</source>
         <translation>Ignora giocatore</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-222"/>
+        <source>Are you sure you want to ignore &quot;%1&quot;?</source>
+        <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+2"/>
+        <location line="+117"/>
         <location line="+132"/>
         <source>Unignore player</source>
         <translation>Non ignorare più il giocatore</translation>
     </message>
     <message>
-        <location line="-125"/>
+        <location line="-250"/>
+        <source>Are you sure you want to unignore &quot;%1&quot;?</source>
+        <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
+        <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
+    </message>
+    <message>
+        <location line="+117"/>
         <location line="+161"/>
         <source>Show player stats</source>
         <translation>Mostra statistiche giocatore</translation>
     </message>
     <message>
-        <location line="-154"/>
+        <location line="-279"/>
+        <location line="+2"/>
+        <location line="+123"/>
         <location line="+190"/>
         <source>Total kickban</source>
         <translation>Kickban totale</translation>
@@ -2884,7 +2935,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+59"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+72"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
     </message>
@@ -2899,17 +2950,17 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <translation>Impossibile analizzare la risposta del server.</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+99"/>
         <source>Member since %1</source>
         <translation>Membro dal %1</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+8"/>
         <source>Last login %1</source>
         <translation>Ultimo accesso %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Current season</source>
         <translation>Stagione attuale</translation>
     </message>

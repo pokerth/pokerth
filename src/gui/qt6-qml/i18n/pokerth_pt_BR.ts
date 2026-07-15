@@ -287,7 +287,7 @@
         <translation>Este ano</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+75"/>
         <source>Player not found.</source>
         <translation>Jogador não encontrado.</translation>
     </message>
@@ -302,12 +302,12 @@
         <translation>Não foi possível interpretar a resposta do servidor.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+80"/>
         <source>Member since %1</source>
         <translation>Membro desde %1</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Awards</source>
         <translation>Prêmios</translation>
     </message>
@@ -640,7 +640,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2041"/>
+        <location filename="../pages/GamePage.qml" line="+2053"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Histórico e chances</translation>
     </message>
@@ -658,19 +658,49 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+392"/>
+        <location filename="../components/GamePlayerBox.qml" line="+399"/>
+        <location line="+26"/>
+        <location line="+2"/>
         <source>Ignore player</source>
         <translation>Jogador ignorado</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-23"/>
+        <location line="+29"/>
+        <location line="+2"/>
         <source>Unignore player</source>
         <translation>Aceitar jogador</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-26"/>
         <source>Show player stats</source>
         <translation>Mostrar estatus do jogador</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+28"/>
+        <source>Report inappropriate avatar</source>
+        <translation>Reportar avatar inapropriado</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <source>Are you sure you want to ignore &quot;%1&quot;?</source>
+        <translation>Tem certeza de que deseja ignorar “%1”?&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Are you sure you want to unignore &quot;%1&quot;?</source>
+        <translation>Tem certeza de que deseja deixar de ignorar “%1”?&gt;</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
+        <translation>Tem certeza de que deseja reportar o avatar de “%1” como inapropriado?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Report</source>
+        <translation>Reportar</translation>
     </message>
 </context>
 <context>
@@ -2820,7 +2850,7 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+155"/>
+        <location filename="../components/PlayerListItem.qml" line="+179"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 está jogando em &quot;%2&quot;.</translation>
     </message>
@@ -2830,14 +2860,14 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
         <translation>%1 não está jogando no momento.</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <location line="+97"/>
+        <location line="-104"/>
+        <location line="+121"/>
         <location line="+74"/>
         <source>Invite to Game</source>
         <translation>Convidar para o jogo</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-194"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
         <translation>Tem certeza de que deseja convidar “%1” para o seu jogo?</translation>
     </message>
@@ -2847,25 +2877,46 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
         <translation>Convidar</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+6"/>
+        <location line="+2"/>
+        <location line="+118"/>
         <location line="+103"/>
         <source>Ignore player</source>
         <translation>Jogador ignorado</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-222"/>
+        <source>Are you sure you want to ignore &quot;%1&quot;?</source>
+        <translation>Tem certeza de que deseja ignorar “%1”?&gt;</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+2"/>
+        <location line="+117"/>
         <location line="+132"/>
         <source>Unignore player</source>
         <translation>Aceitar jogador</translation>
     </message>
     <message>
-        <location line="-125"/>
+        <location line="-250"/>
+        <source>Are you sure you want to unignore &quot;%1&quot;?</source>
+        <translation>Tem certeza de que deseja deixar de ignorar “%1”?&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
+        <translation>Tem certeza de que deseja expulsar e banir totalmente “%1”?&gt;</translation>
+    </message>
+    <message>
+        <location line="+117"/>
         <location line="+161"/>
         <source>Show player stats</source>
         <translation>Mostrar estatus do jogador</translation>
     </message>
     <message>
-        <location line="-154"/>
+        <location line="-279"/>
+        <location line="+2"/>
+        <location line="+123"/>
         <location line="+190"/>
         <source>Total kickban</source>
         <translation>Total de ChutesBan</translation>
@@ -2882,7 +2933,7 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+59"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+72"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Não foi possível carregar o jogador (HTTP %1).</translation>
     </message>
@@ -2897,17 +2948,17 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
         <translation>Não foi possível interpretar a resposta do servidor.</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+99"/>
         <source>Member since %1</source>
         <translation>Membro desde %1</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+8"/>
         <source>Last login %1</source>
         <translation>Último login %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Current season</source>
         <translation>Temporada atual</translation>
     </message>

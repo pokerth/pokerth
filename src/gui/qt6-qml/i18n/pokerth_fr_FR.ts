@@ -287,7 +287,7 @@
         <translation>Cette année</translation>
     </message>
     <message>
-        <location line="+66"/>
+        <location line="+75"/>
         <source>Player not found.</source>
         <translation>Joueur introuvable.</translation>
     </message>
@@ -302,12 +302,12 @@
         <translation>Impossible d&apos;analyser la réponse du serveur.</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location line="+80"/>
         <source>Member since %1</source>
         <translation>Membre depuis %1</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Awards</source>
         <translation>Récompenses</translation>
     </message>
@@ -641,7 +641,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2041"/>
+        <location filename="../pages/GamePage.qml" line="+2053"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Historique et chances</translation>
     </message>
@@ -659,19 +659,49 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+392"/>
+        <location filename="../components/GamePlayerBox.qml" line="+399"/>
+        <location line="+26"/>
+        <location line="+2"/>
         <source>Ignore player</source>
         <translation>Ignorer le joueur</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-23"/>
+        <location line="+29"/>
+        <location line="+2"/>
         <source>Unignore player</source>
         <translation>Ne plus ignorer le joueur</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-26"/>
         <source>Show player stats</source>
         <translation>Afficher les statistiques du joueur</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <location line="+28"/>
+        <source>Report inappropriate avatar</source>
+        <translation>Signaler un avatar inapproprié</translation>
+    </message>
+    <message>
+        <location line="-16"/>
+        <source>Are you sure you want to ignore &quot;%1&quot;?</source>
+        <translation>Voulez-vous vraiment ignorer «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Are you sure you want to unignore &quot;%1&quot;?</source>
+        <translation>Voulez-vous vraiment ne plus ignorer «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Are you sure you want to report the avatar of &quot;%1&quot; as inappropriate?</source>
+        <translation>Voulez-vous vraiment signaler l&apos;avatar de «&#xa0;%1&#xa0;» comme inapproprié&#xa0;?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Report</source>
+        <translation>Signaler</translation>
     </message>
 </context>
 <context>
@@ -961,7 +991,7 @@
     <message>
         <location line="-722"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation>Voulez-vous vraiment expulser « %1 » de la partie ?</translation>
+        <translation>Voulez-vous vraiment expulser «&#xa0;%1&#xa0;» de la partie&#xa0;?</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2822,7 +2852,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+155"/>
+        <location filename="../components/PlayerListItem.qml" line="+179"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 joue actuellement dans la partie &quot;%2&quot;.</translation>
     </message>
@@ -2832,16 +2862,16 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>%1 ne joue pas actuellement.</translation>
     </message>
     <message>
-        <location line="-80"/>
-        <location line="+97"/>
+        <location line="-104"/>
+        <location line="+121"/>
         <location line="+74"/>
         <source>Invite to Game</source>
         <translation>Inviter à la partie</translation>
     </message>
     <message>
-        <location line="-170"/>
+        <location line="-194"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation>Voulez-vous vraiment inviter « %1 » dans votre partie ?</translation>
+        <translation>Voulez-vous vraiment inviter «&#xa0;%1&#xa0;» dans votre partie&#xa0;?</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2849,25 +2879,46 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Inviter</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+6"/>
+        <location line="+2"/>
+        <location line="+118"/>
         <location line="+103"/>
         <source>Ignore player</source>
         <translation>Ignorer le joueur</translation>
     </message>
     <message>
-        <location line="-96"/>
+        <location line="-222"/>
+        <source>Are you sure you want to ignore &quot;%1&quot;?</source>
+        <translation>Voulez-vous vraiment ignorer «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+2"/>
+        <location line="+117"/>
         <location line="+132"/>
         <source>Unignore player</source>
         <translation>Ne plus ignorer le joueur</translation>
     </message>
     <message>
-        <location line="-125"/>
+        <location line="-250"/>
+        <source>Are you sure you want to unignore &quot;%1&quot;?</source>
+        <translation>Voulez-vous vraiment ne plus ignorer «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Are you sure you want to totally kickban &quot;%1&quot;?</source>
+        <translation>Voulez-vous vraiment bannir totalement «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
+    </message>
+    <message>
+        <location line="+117"/>
         <location line="+161"/>
         <source>Show player stats</source>
         <translation>Afficher les statistiques du joueur</translation>
     </message>
     <message>
-        <location line="-154"/>
+        <location line="-279"/>
+        <location line="+2"/>
+        <location line="+123"/>
         <location line="+190"/>
         <source>Total kickban</source>
         <translation>Kick/ban total</translation>
@@ -2884,7 +2935,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+59"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+72"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Impossible de charger le joueur (HTTP %1).</translation>
     </message>
@@ -2899,17 +2950,17 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Impossible d&apos;analyser la réponse du serveur.</translation>
     </message>
     <message>
-        <location line="+86"/>
+        <location line="+99"/>
         <source>Member since %1</source>
         <translation>Membre depuis %1</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+8"/>
         <source>Last login %1</source>
         <translation>Dernière connexion %1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Current season</source>
         <translation>Saison actuelle</translation>
     </message>

@@ -177,6 +177,14 @@ public:
     Q_INVOKABLE void startLocalGame();
     Q_INVOKABLE void endLocalGame();
     Q_INVOKABLE bool isLocalGameRunning() const;
+    // Läuft ein Internet-Spiel (Netzwerk-Client, Spieltyp Internet)? Nur dann
+    // ist das Melden eines Avatars sinnvoll – wie im Qt-Widgets-Client, das
+    // "Report inappropriate avatar" ausschließlich für Internet-Spiele zeigt.
+    Q_INVOKABLE bool isInternetGameRunning() const;
+    // Meldet den Avatar des Spielers am angegebenen Sitz als unangemessen an
+    // den Server (Port von MyAvatarLabel::reportBadAvatar). Der Avatar-Hash
+    // ergibt sich – wie im Widgets-Client – aus dem Basisnamen der Avatardatei.
+    Q_INVOKABLE void reportAvatar(int seatId);
     // URL zur Tisch-Statistikübersicht (tableview=1 + Nicks der aktiven Spieler
     // am Tisch) – 1:1 wie der Qt-Widgets-Client (MyNameLabel). Baut aus den
     // Live-Seats des laufenden Spiels; leer, wenn kein Spiel läuft.
