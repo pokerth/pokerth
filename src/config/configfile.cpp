@@ -36,6 +36,8 @@
 #include <QDomElement>
 #include <QFile>
 #include <QTextStream>
+#include <QDir>              // QDir::mkpath – zuverlaessiges Anlegen der App-Verzeichnisse
+#include <QStandardPaths>    // iOS: beschreibbares AppDataLocation statt Container-Root
 
 #define MODUS 0711
 
@@ -156,6 +158,39 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	_mkdir(dataDir.c_str());
 	_mkdir(cacheDir.c_str());
 
+#elif defined(Q_OS_IOS)
+	// iOS: Der Sandbox-Container-Root ($HOME) ist nicht zuverlaessig beschreibbar –
+	// ein "mkdir($HOME/.pokerth)" schlaegt still fehl. In der Folge existieren
+	// weder Log- noch Cache-Verzeichnis, was sich als Absturz in Log::init()
+	// (opendir==NULL) bzw. als Fehler 25 (ERR_SOCK_TRANSFER_OPEN_FAILED) beim
+	// Serverlisten-Download aeussert. Deshalb das von Apple vorgesehene,
+	// garantiert beschreibbare Application-Support-Verzeichnis nutzen. Es enthaelt
+	// bereits den App-Namen (QGuiApplication::setApplicationName/OrganizationName
+	// werden vor der ConfigFile-Konstruktion gesetzt), daher kein eigenes
+	// ".pokerth" mehr anhaengen.
+	{
+		const QString iosBase =
+			QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+		if (!iosBase.isEmpty())
+		{
+			configFileName = iosBase.toStdString() + "/";
+			////define log-dir
+			logDir = configFileName;
+			logDir += "log-files/";
+			////define data-dir
+			dataDir = configFileName;
+			dataDir += "data/";
+			////define cache-dir
+			cacheDir = configFileName;
+			cacheDir += "cache/";
+			// Verzeichnisse zuverlaessig anlegen. QDir::mkpath legt fehlende
+			// Elternpfade mit an und ist idempotent (kein Fehler, wenn schon da).
+			QDir().mkpath(pathToQString(configFileName));
+			QDir().mkpath(pathToQString(logDir));
+			QDir().mkpath(pathToQString(dataDir));
+			QDir().mkpath(pathToQString(cacheDir));
+		}
+	}
 #else
 	// define app-dir
 	const char *homePath = getenv("XDG_CONFIG_HOME");
