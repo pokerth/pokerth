@@ -961,12 +961,12 @@
     <message>
         <location line="-722"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation type="unfinished"></translation>
+        <translation>Espelli</translation>
     </message>
     <message>
         <location line="+750"/>
@@ -2841,12 +2841,12 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     <message>
         <location line="-170"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Invita</translation>
     </message>
     <message>
         <location line="+102"/>

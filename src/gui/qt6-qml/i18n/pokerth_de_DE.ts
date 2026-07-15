@@ -961,12 +961,12 @@
     <message>
         <location line="-722"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchten Sie „%1“ wirklich aus dem Spiel werfen?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation type="unfinished"></translation>
+        <translation>Rauswerfen</translation>
     </message>
     <message>
         <location line="+750"/>
@@ -2841,12 +2841,12 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
     <message>
         <location line="-170"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchten Sie „%1“ wirklich in Ihr Spiel einladen?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Einladen</translation>
     </message>
     <message>
         <location line="+102"/>

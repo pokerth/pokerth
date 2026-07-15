@@ -961,12 +961,12 @@
     <message>
         <location line="-722"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Are you sure you want to kick &quot;%1&quot; from the game?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation type="unfinished"></translation>
+        <translation>Kick</translation>
     </message>
     <message>
         <location line="+750"/>
@@ -2841,12 +2841,12 @@ Uploading log files may fail if you are using an http proxy.</translation>
     <message>
         <location line="-170"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Are you sure you want to invite &quot;%1&quot; to your game?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Invite</translation>
     </message>
     <message>
         <location line="+102"/>

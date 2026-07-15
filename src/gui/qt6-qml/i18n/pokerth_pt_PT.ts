@@ -961,12 +961,12 @@
     <message>
         <location line="-722"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tem a certeza de que deseja expulsar «%1» do jogo?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Kick</source>
-        <translation type="unfinished"></translation>
+        <translation>Expulsar</translation>
     </message>
     <message>
         <location line="+750"/>
@@ -2841,12 +2841,12 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
     <message>
         <location line="-170"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tem a certeza de que deseja convidar «%1» para o seu jogo?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Convidar</translation>
     </message>
     <message>
         <location line="+102"/>
