@@ -116,7 +116,7 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	infoText.append(tr("- Online ranking website with result tables")+"\n");
 	infoText.append("\n");
 	QString thisYear = QDate::currentDate().toString("yyyy");
-	infoText.append("(c)2006-"+thisYear+", Felix Hammer, Florian Thauer, Lothar May");
+	infoText.append("(c)2006-"+thisYear+", Felix Hammer, Florian Thauer, Lothar May, Kai Philipp");
 	label_infotext->setText(infoText);
 
 	QString projectText;

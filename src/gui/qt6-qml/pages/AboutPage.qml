@@ -159,7 +159,7 @@ Rectangle {
                         color: Config.StaticData.palette.secondary.col200
                         font.pixelSize: Config.Theme.fontSizeBody
                         text: "(c)2006-" + new Date().getFullYear()
-                              + ", Felix Hammer, Florian Thauer, Lothar May"
+                              + ", Kai Philipp, Felix Hammer, Florian Thauer, Lothar May"
                     }
 
                     AppText {
