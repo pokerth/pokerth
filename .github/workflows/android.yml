@@ -81,26 +81,33 @@ jobs:
                       /opt/hostedtoolcache/CodeQL /usr/local/share/boost
           df -h /
 
-      # Cache keys carry the ABI set because the Qt/vcpkg trees only hold what
-      # that run installed; restore-keys let a different ABI set start from an
-      # existing tree and top it up (both installs are additive and idempotent).
+      # Restore/save instead of actions/cache: a cold four-ABI run cross-compiles
+      # boost for hours, and actions/cache drops everything when the job fails.
+      # Each run saves its own snapshot (run_id suffix) and restores the newest
+      # matching prefix, so a failed run still hands its finished ABIs to the
+      # next one. Both Qt and vcpkg installs are additive and idempotent, so a
+      # partial tree is always safe to build on.
       - name: Compute cache slug
         id: slug
         run: echo "abis=$(echo '${{ inputs.abis }}' | tr ' ' '-')" >> "$GITHUB_OUTPUT"
 
-      - name: Cache Qt
-        uses: actions/cache@v4
+      - name: Restore Qt
+        uses: actions/cache/restore@v4
         with:
           path: ~/Qt
-          key: android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-${{ hashFiles('build_android_qml.sh') }}
-          restore-keys: android-qt-${{ env.QT_VERSION }}-
+          key: android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+          restore-keys: |
+            android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-
+            android-qt-${{ env.QT_VERSION }}-
 
-      - name: Cache vcpkg
-        uses: actions/cache@v4
+      - name: Restore vcpkg
+        uses: actions/cache/restore@v4
         with:
           path: ~/vcpkg
-          key: android-vcpkg-${{ steps.slug.outputs.abis }}-${{ hashFiles('build_android_qml.sh') }}
-          restore-keys: android-vcpkg-
+          key: android-vcpkg-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+          restore-keys: |
+            android-vcpkg-${{ steps.slug.outputs.abis }}-
+            android-vcpkg-
 
       - name: Restore upload keystore
         if: env.HAS_KEYSTORE == 'true'
@@ -118,6 +125,22 @@ jobs:
         run: |
           bash build_android_qml.sh
           echo "aab_name=$(basename "$(ls PokerTH-*.aab)")" >> "$GITHUB_OUTPUT"
+
+      # if: always() — the whole point is to keep the ABIs that did finish when a
+      # later one fails. vcpkg first: it is the expensive half.
+      - name: Save vcpkg
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/vcpkg
+          key: android-vcpkg-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+
+      - name: Save Qt
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/Qt
+          key: android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
 
       - name: Upload App Bundle
         uses: actions/upload-artifact@v4

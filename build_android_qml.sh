@@ -277,6 +277,25 @@ set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-execst
 ' "$PROTOBUF_OVERLAY_DIR/protobuf/portfile.cmake"
 fi
 
+# vcpkg's stock arm-android triplet still configures ports with
+# -DANDROID_ARM_NEON=OFF. Since NDK r26 the toolchain hard-fails on that
+# ("Disabling Neon is no longer supported"), so vcpkg cannot even probe the
+# compiler and no port ever builds. This overlay is that triplet minus the dead
+# flag — NEON is mandatory on every armeabi-v7a device Google Play still serves,
+# so there is nothing to preserve. The name matches the built-in triplet, which
+# keeps the install path (and with it the deployment settings) unchanged.
+TRIPLET_OVERLAY_DIR="$VCPKG_DIR/pokerth-overlay-triplets"
+mkdir -p "$TRIPLET_OVERLAY_DIR"
+cat > "$TRIPLET_OVERLAY_DIR/arm-android.cmake" <<'EOF'
+set(VCPKG_TARGET_ARCHITECTURE arm)
+set(VCPKG_CRT_LINKAGE dynamic)
+set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_CMAKE_SYSTEM_NAME Android)
+set(VCPKG_CMAKE_SYSTEM_VERSION 28)
+set(VCPKG_MAKE_BUILD_TRIPLET "--host=armv7a-linux-androideabi")
+set(VCPKG_CMAKE_CONFIGURE_OPTIONS -DANDROID_ABI=armeabi-v7a)
+EOF
+
 for ABI in "${ABI_LIST[@]}"; do
   TRIPLET="$(vcpkg_triplet_for_abi "$ABI")"
   log "Installing vcpkg dependencies for $ABI ($TRIPLET)…"
@@ -287,6 +306,7 @@ for ABI in "${ABI_LIST[@]}"; do
     --triplet="$TRIPLET" \
     --host-triplet="$VCPKG_HOST_TRIPLET" \
     --overlay-ports="$PROTOBUF_OVERLAY_DIR" \
+    --overlay-triplets="$TRIPLET_OVERLAY_DIR" \
     --clean-after-build \
     "${VCPKG_PORTS[@]}"
 done
