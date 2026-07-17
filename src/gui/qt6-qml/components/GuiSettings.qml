@@ -181,7 +181,14 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
-                            color: parent.palette.windowText
+                            // Universal.foreground statt palette.windowText: palette folgt
+                            // der SYSTEM-Palette und nicht dem Universal.theme, das
+                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
+                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
+                            // Universal.foreground ist exakt das, was der Style-Default der
+                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
+                            // umbrechende und einzeilige Labels identisch aus.
+                            color: parent.Universal.foreground
                         }
                     }
 
@@ -207,7 +214,14 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
-                            color: parent.palette.windowText
+                            // Universal.foreground statt palette.windowText: palette folgt
+                            // der SYSTEM-Palette und nicht dem Universal.theme, das
+                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
+                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
+                            // Universal.foreground ist exakt das, was der Style-Default der
+                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
+                            // umbrechende und einzeilige Labels identisch aus.
+                            color: parent.Universal.foreground
                         }
                     }
 
@@ -222,7 +236,14 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
-                            color: parent.palette.windowText
+                            // Universal.foreground statt palette.windowText: palette folgt
+                            // der SYSTEM-Palette und nicht dem Universal.theme, das
+                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
+                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
+                            // Universal.foreground ist exakt das, was der Style-Default der
+                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
+                            // umbrechende und einzeilige Labels identisch aus.
+                            color: parent.Universal.foreground
                         }
                     }
 
