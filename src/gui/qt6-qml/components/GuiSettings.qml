@@ -181,6 +181,11 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
+                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
+                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
+                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
+                            // umbrechenden Labels erscheinen groesser als alle anderen.
+                            font: parent.font
                             // Universal.foreground statt palette.windowText: palette folgt
                             // der SYSTEM-Palette und nicht dem Universal.theme, das
                             // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
@@ -214,6 +219,11 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
+                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
+                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
+                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
+                            // umbrechenden Labels erscheinen groesser als alle anderen.
+                            font: parent.font
                             // Universal.foreground statt palette.windowText: palette folgt
                             // der SYSTEM-Palette und nicht dem Universal.theme, das
                             // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
@@ -236,6 +246,11 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
+                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
+                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
+                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
+                            // umbrechenden Labels erscheinen groesser als alle anderen.
+                            font: parent.font
                             // Universal.foreground statt palette.windowText: palette folgt
                             // der SYSTEM-Palette und nicht dem Universal.theme, das
                             // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
