@@ -4934,6 +4934,17 @@ Proszę wybrać inny!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Oferuj tłumaczenie czatu (symbol globusa obok wiadomości)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Wyświetla symbol globusa obok przychodzących wiadomości czatu. Dotknięcie go tłumaczy tę wiadomość na wybrany język za pomocą usługi zewnętrznej (Tłumacz Google lub zapasowo MyMemory). Nic nie jest wysyłane, dopóki go nie dotkniesz.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="20"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="20"/>
         <source>Settings</source>

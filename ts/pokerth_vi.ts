@@ -4228,6 +4228,17 @@ Hãy chọn một hình đại diện đúng kiểu với hệ thống!</transla
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Cung cấp dịch trò chuyện (biểu tượng quả địa cầu bên cạnh tin nhắn)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Hiển thị biểu tượng quả địa cầu bên cạnh các tin nhắn trò chuyện đến. Nhấn vào đó sẽ dịch tin nhắn sang ngôn ngữ bạn đã chọn bằng dịch vụ bên ngoài (Google Dịch, hoặc MyMemory dự phòng). Không có gì được gửi đi cho đến khi bạn nhấn vào.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="20"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="20"/>
         <source>Settings</source>

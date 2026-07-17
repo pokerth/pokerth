@@ -353,6 +353,13 @@
                </property>
               </widget>
              </item>
+             <item row="6" column="0">
+              <widget class="QCheckBox" name="checkBox_allowChatTranslation">
+               <property name="text">
+                <string>Offer chat translation (globe symbol next to messages)</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </widget>

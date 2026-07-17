@@ -4,14 +4,12 @@
 #include <QObject>
 #include <QStringList>
 #include <QHash>
-#include <QNetworkAccessManager>
 
 class ConfigFile;
-class QNetworkReply;
+class ChatTranslatorCore;
 
-/* Übersetzt einzelne Chat-Zeilen über kostenlose, keyfreie Web-Dienste. Wird
- * pro Chat-Handler (Lobby/Game) instanziiert und operiert direkt auf dessen
- * chatLog-Liste:
+/* QML-seitige Chat-Übersetzung. Wird pro Chat-Handler (Lobby/Game) instanziiert
+ * und operiert direkt auf dessen chatLog-Liste:
  *
  *   • decorate() hängt an jede übersetzbare Zeile ein Globus-Symbol an – als
  *     spezieller Link "pokerthtranslate:<id>", den die ChatBox abfängt (das
@@ -21,10 +19,9 @@ class QNetworkReply;
  *     asynchrone Übersetzung und ersetzt das Symbol in genau dieser Zeile
  *     durch die Übersetzung.
  *
- * Zielsprache ist die im Client eingestellte Sprache (Config "Language").
- * Primärquelle: Google-Translate "gtx"-Endpoint (kein Key, Auto-Quellsprache,
- * die Anfrage kommt von der Client-IP). Fallback: MyMemory. Rechtliche Hinweise
- * zu beiden Diensten: docs/third_party_services.md.
+ * Die eigentliche Netzwerk-/Dienst-Logik liegt in ChatTranslatorCore (mit dem
+ * Widgets-Client geteilt); diese Klasse kümmert sich nur um das Einbetten und
+ * Ersetzen des Symbols in der QStringList-Chatliste.
  */
 class ChatTranslator : public QObject
 {
@@ -56,30 +53,29 @@ signals:
 	void chatLogMutated();
 
 private slots:
-	void onPrimaryReply();
-	void onFallbackReply();
+	void onCoreTranslated(int requestId, const QString &text, bool ok);
 
 private:
-	QString targetLang() const;            // Config "Language" -> BCP47/2-Buchstaben
-	void startPrimary(int id);
-	void startFallback(int id);
 	void finish(int id, const QString &translated, bool ok);
 	// Ersetzt in der zugehörigen chatLog-Zeile das aktuell eingebettete Anchor-
 	// HTML durch newAnchor. Liefert false, wenn die Zeile nicht (mehr) existiert
 	// (z. B. aus dem 400-Zeilen-Verlauf herausgetrimmt).
 	bool replaceAnchor(int id, const QString &newAnchor);
 	static QString anchorFor(int id, const QString &glyph);
+	static QString anchorShown(int id, const QString &translated);
 
 	struct Pending {
 		QString sourceText;     // Rohtext der Nachricht (vor HTML/Style-Markup)
 		QString currentAnchor;  // exaktes Anchor-HTML, das gerade in der Zeile steht
+		QString translated;     // gecachte Übersetzung (leer = noch nicht geholt)
 		bool inFlight = false;
+		bool shown = false;     // Übersetzung aktuell eingeblendet? (Toggle)
 	};
 
 	QStringList *m_chatLog;
-	ConfigFile *m_config = nullptr;
-	QNetworkAccessManager m_nam;
-	QHash<int, Pending> m_entries;
+	ChatTranslatorCore *m_core;
+	QHash<int, Pending> m_entries;   // Zeilen-id -> Zustand
+	QHash<int, int> m_reqToLine;     // Core-Request-id -> Zeilen-id
 	int m_nextId = 1;
 };
 

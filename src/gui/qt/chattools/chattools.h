@@ -43,6 +43,7 @@ class Session;
 class ConfigFile;
 class GameTableStyleReader;
 class gameLobbyDialogImpl;
+class ChatTranslatorCore;
 
 class ChatTools : public QObject
 {
@@ -119,6 +120,29 @@ private:
 	void updateShortcodeCompletion();
 	void insertShortcodeCompletion(const QModelIndex &index);
 
+	// ── Chat-Übersetzung ────────────────────────────────────────────────
+	// Baut das anklickbare Globus-Anchor-HTML ("pokerthtranslate:<id>").
+	QString translateAnchorHtml(int id, const QString &glyph) const;
+	// Eingeblendete Übersetzung: bleibt EIN Anchor (gleicher href) -> ein
+	// erneuter Klick blendet sie wieder aus (Toggle).
+	QString translateAnchorShownHtml(int id, const QString &text) const;
+	// Findet den Anchor mit passender id im QTextBrowser und liefert einen
+	// Cursor, der ihn selektiert (null, wenn nicht mehr vorhanden).
+	QTextCursor findTranslateAnchor(int id) const;
+	// Ersetzt den Anchor inline durch nur ein Symbol (🌐/⏳) bzw. durch das
+	// Symbol + die eingeblendete Übersetzung.
+	void setTranslateGlyph(int id, const QString &glyph);
+	void setTranslateShown(int id, const QString &text);
+
+private slots:
+	// QTextBrowser-Links (openLinks ist aus): unser Pseudo-Schema übersetzt,
+	// echte http(s)-Links werden extern geöffnet.
+	void onChatAnchorClicked(const QUrl &url);
+	// Ergebnis aus dem Übersetzer-Kern.
+	void onChatTranslated(int requestId, const QString &text, bool ok);
+
+private:
+
 	QStringList chatLinesHistory;
 	QString lastChatString;
 	QStringList lastMatchStringList;
@@ -147,6 +171,15 @@ private:
 	int myShortcodeTokenStart;
 
 	std::list<std::string> ignoreList;
+
+	// ── Chat-Übersetzung ────────────────────────────────────────────────
+	ChatTranslatorCore *myTranslator;
+	QHash<int, QString> myTranslateSource;   // Anchor-id -> Rohtext der Nachricht
+	QHash<int, QString> myTranslateCache;    // Anchor-id -> gecachte Übersetzung
+	QHash<int, int> myTranslateReqToId;      // Core-Request-id -> Anchor-id
+	QSet<int> myTranslateInFlight;           // laufende Anfragen (Doppel-Tap-Schutz)
+	QSet<int> myTranslateShown;              // aktuell eingeblendete Übersetzungen (Toggle)
+	int myTranslateNextId;
 };
 
 #endif

@@ -4561,6 +4561,17 @@ Si us plau, introduiu un imatge vàlid!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Oferir la traducció del xat (icona de globus terraqüi al costat dels missatges)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Mostra una icona de globus terraqüi al costat dels missatges entrants del xat. En tocar-la, el missatge es tradueix a l'idioma seleccionat mitjançant un servei extern (Google Traductor o, alternativament, MyMemory). No s'envia res fins que la toques.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="20"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="20"/>
         <source>Settings</source>

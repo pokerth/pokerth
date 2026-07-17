@@ -5448,6 +5448,17 @@ Please enter an valid picture!</source>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Предлагать перевод чата (значок глобуса рядом с сообщениями)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Показывает значок глобуса рядом с входящими сообщениями чата. При нажатии сообщение переводится на выбранный язык через внешний сервис (Google Переводчик или, в качестве запасного варианта, MyMemory). Ничего не отправляется, пока вы не нажмёте на значок.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="20"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="20"/>
         <source>Settings</source>

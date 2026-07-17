@@ -5285,6 +5285,17 @@ Please enter an valid picture!</source>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Oferecer tradução do chat (ícone de globo ao lado das mensagens)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Mostra um ícone de globo ao lado das mensagens recebidas no chat. Ao tocá-lo, a mensagem é traduzida para o idioma selecionado usando um serviço externo (Google Tradutor ou, como alternativa, o MyMemory). Nada é enviado até você tocá-lo.</translation>
+    </message>
+    <message>
         <source>&lt;a href=&quot;http://en.wikipedia.org/wiki/Ipv6&quot;&gt;What is this?&lt;/a&gt;</source>
         <translation>&lt;a href=&quot;http://pt.wikipedia.org/wiki/Ipv6&quot;&gt;O que é isso?&lt;/a&gt;</translation>
     </message>

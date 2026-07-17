@@ -9,6 +9,7 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     ../../net/net_helper_client.cpp
     chattools/chattools.cpp
     chattools/emojipicker.cpp
+    ../chattranslator/chattranslatorcore.cpp
     guiwrapper.cpp
     qttools/qttoolswrapper.cpp
     qttools/qthelper/qthelper.cpp
@@ -109,6 +110,7 @@ target_include_directories(pokerth_client PUBLIC
     sound
     qttools
     chattools
+    ../chattranslator
     qttools/qthelper
     gametable
     gametable/startsplash

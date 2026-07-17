@@ -6242,6 +6242,17 @@ Bitte wählen Sie ein gültiges Avatar-Bild!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Zeigt ein Globus-Symbol neben eingehenden Chat-Nachrichten. Ein Antippen übersetzt die Nachricht über einen externen Dienst (Google Übersetzer, ersatzweise MyMemory) in die gewählte Sprache. Es wird erst etwas gesendet, wenn du das Symbol antippst.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="352"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="386"/>
         <source>Disable emoji reactions</source>

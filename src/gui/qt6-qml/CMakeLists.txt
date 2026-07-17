@@ -25,6 +25,7 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     cpp/lobbyhandler.cpp
     cpp/gamehandler.cpp
     cpp/chattranslator.cpp
+    ../chattranslator/chattranslatorcore.cpp
     cpp/loghandler.cpp
     cpp/networkgamehandler.cpp
     cpp/qmlguiinterface.cpp
@@ -231,6 +232,7 @@ target_include_directories(pokerth_qml-client PUBLIC
     ../../engine/network_engine
     ../../net
     ../
+    ../chattranslator
     ../qt/sound
     .
     cpp)

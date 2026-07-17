@@ -1,52 +1,32 @@
 #include "chattranslator.h"
-#include "configfile.h"
-
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QUrl>
-#include <QUrlQuery>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonObject>
+#include "chattranslatorcore.h"
 
 // Symbole. 🌐 = anklickbar (übersetzen), ⏳ = läuft. Beide werden über die
 // System-Emoji-Fallback-Schrift des TextEdit gerendert (wie die restlichen
-// Unicode-Emojis im Chat).
-static const QString kGlobeGlyph   = QStringLiteral("\xF0\x9F\x8C\x90"); // U+1F310
-static const QString kSpinnerGlyph = QStringLiteral("\xE2\x8F\xB3");     // U+23F3
+// Unicode-Emojis im Chat). WICHTIG: über den Codepoint (fromUcs4) bauen, NICHT
+// per QStringLiteral("\xF0…") – dort würden die UTF-8-Bytes als Latin-1 gelesen
+// (jedes Byte ein Zeichen -> "ð…"-Mojibake statt Emoji).
+static const QString kGlobeGlyph   = QString::fromUcs4(U"\U0001F310"); // 🌐
+static const QString kSpinnerGlyph = QString::fromUcs4(U"\U000023F3"); // ⏳
 
 ChatTranslator::ChatTranslator(QStringList *chatLog, QObject *parent)
 	: QObject(parent)
 	, m_chatLog(chatLog)
+	, m_core(new ChatTranslatorCore(nullptr, this))
 {
+	connect(m_core, &ChatTranslatorCore::translated,
+	        this, &ChatTranslator::onCoreTranslated);
 }
 
 void ChatTranslator::setConfig(ConfigFile *config)
 {
-	m_config = config;
+	m_core->setConfig(config);
 	emit enabledChanged();
 }
 
 bool ChatTranslator::enabled() const
 {
-	return m_config && m_config->readConfigInt("AllowChatTranslation") != 0;
-}
-
-QString ChatTranslator::targetLang() const
-{
-	QString code = m_config
-		? QString::fromStdString(m_config->readConfigString("Language"))
-		: QString();
-	if (code.isEmpty())
-		code = QStringLiteral("en_US");
-	// pt_BR/pt_PT behalten die Region (Google und MyMemory unterscheiden sie),
-	// für alle übrigen Sprachen genügt der 2-Buchstaben-Sprachcode.
-	if (code.startsWith(QLatin1String("pt_BR")))
-		return QStringLiteral("pt-BR");
-	if (code.startsWith(QLatin1String("pt_PT")))
-		return QStringLiteral("pt-PT");
-	const int us = code.indexOf(QLatin1Char('_'));
-	return us > 0 ? code.left(us) : code;
+	return m_core->enabled();
 }
 
 QString ChatTranslator::anchorFor(int id, const QString &glyph)
@@ -59,6 +39,17 @@ QString ChatTranslator::anchorFor(int id, const QString &glyph)
 		.arg(glyph);
 }
 
+QString ChatTranslator::anchorShown(int id, const QString &translated)
+{
+	// Eingeblendete Übersetzung: bleibt EIN Anchor (gleicher href) – ein
+	// erneuter Klick blendet sie wieder aus. Gedämpft/kursiv, dem Original
+	// nachgestellt, das Globus-Symbol bleibt als Kennzeichen vorangestellt.
+	return QStringLiteral("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none; color:#8899bb; font-style:italic;\">%2 %3</a>")
+		.arg(id)
+		.arg(kGlobeGlyph)
+		.arg(translated.toHtmlEscaped());
+}
+
 QString ChatTranslator::decorate(const QString &formattedLine, const QString &sourceText)
 {
 	if (!enabled() || sourceText.trimmed().isEmpty())
@@ -68,7 +59,7 @@ QString ChatTranslator::decorate(const QString &formattedLine, const QString &so
 	const QString anchor = anchorFor(id, kGlobeGlyph);
 
 	Pending p;
-	p.sourceText   = sourceText;
+	p.sourceText    = sourceText;
 	p.currentAnchor = anchor;
 	m_entries.insert(id, p);
 
@@ -83,149 +74,53 @@ void ChatTranslator::requestTranslation(int id)
 	if (!enabled() || it == m_entries.end() || it->inFlight)
 		return;
 
+	// Toggle: eingeblendete Übersetzung wieder ausblenden.
+	if (it->shown) {
+		replaceAnchor(id, anchorFor(id, kGlobeGlyph));
+		it->shown = false;
+		return;
+	}
+	// Schon einmal übersetzt -> aus dem Cache einblenden (keine neue Anfrage).
+	if (!it->translated.isEmpty()) {
+		replaceAnchor(id, anchorShown(id, it->translated));
+		it->shown = true;
+		return;
+	}
+
 	it->inFlight = true;
 	// Symbol auf "läuft" umstellen (bleibt über den href auffindbar).
 	replaceAnchor(id, anchorFor(id, kSpinnerGlyph));
-	startPrimary(id);
+
+	const int req = m_core->translate(it->sourceText);
+	m_reqToLine.insert(req, id);
 }
 
-void ChatTranslator::startPrimary(int id)
+void ChatTranslator::onCoreTranslated(int requestId, const QString &text, bool ok)
 {
-	auto it = m_entries.find(id);
-	if (it == m_entries.end())
+	auto rit = m_reqToLine.find(requestId);
+	if (rit == m_reqToLine.end())
 		return;
-
-	QUrl url(QStringLiteral("https://translate.googleapis.com/translate_a/single"));
-	QUrlQuery query;
-	query.addQueryItem(QStringLiteral("client"), QStringLiteral("gtx"));
-	query.addQueryItem(QStringLiteral("sl"), QStringLiteral("auto"));
-	query.addQueryItem(QStringLiteral("tl"), targetLang());
-	query.addQueryItem(QStringLiteral("dt"), QStringLiteral("t"));
-	query.addQueryItem(QStringLiteral("q"), it->sourceText);
-	url.setQuery(query);
-
-	QNetworkRequest req(url);
-	req.setHeader(QNetworkRequest::UserAgentHeader,
-	              QByteArrayLiteral("Mozilla/5.0 (compatible; PokerTH)"));
-	QNetworkReply *reply = m_nam.get(req);
-	reply->setProperty("xlate_id", id);
-	connect(reply, &QNetworkReply::finished, this, &ChatTranslator::onPrimaryReply);
-}
-
-void ChatTranslator::onPrimaryReply()
-{
-	QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-	if (!reply)
-		return;
-	reply->deleteLater();
-	const int id = reply->property("xlate_id").toInt();
-
-	if (reply->error() != QNetworkReply::NoError) {
-		startFallback(id);
-		return;
-	}
-
-	// Antwort: [[["Übersetzung","Original",…],[…]], null, "en", …]
-	const QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
-	if (!doc.isArray()) {
-		startFallback(id);
-		return;
-	}
-	const QJsonArray outer = doc.array();
-	if (outer.isEmpty() || !outer.at(0).isArray()) {
-		startFallback(id);
-		return;
-	}
-	QString translated;
-	const QJsonArray sentences = outer.at(0).toArray();
-	for (const QJsonValue &seg : sentences) {
-		if (seg.isArray()) {
-			const QJsonArray a = seg.toArray();
-			if (!a.isEmpty())
-				translated += a.at(0).toString();
-		}
-	}
-	if (translated.trimmed().isEmpty()) {
-		startFallback(id);
-		return;
-	}
-	finish(id, translated, true);
-}
-
-void ChatTranslator::startFallback(int id)
-{
-	auto it = m_entries.find(id);
-	if (it == m_entries.end())
-		return;
-
-	const QString tl = targetLang();
-	// MyMemory verlangt eine Quellsprache; die Auto-Erkennung von Google ist an
-	// dieser Stelle ausgefallen. Heuristik: Im internationalen Lobby-Chat ist
-	// Englisch die häufigste Fremdsprache. Ist der Client selbst englisch, lässt
-	// sich die Quelle nicht sinnvoll raten -> sauber abbrechen (Retry möglich).
-	const QString src = tl.startsWith(QLatin1String("en"))
-		? QString()
-		: QStringLiteral("en");
-	if (src.isEmpty()) {
-		finish(id, QString(), false);
-		return;
-	}
-
-	QUrl url(QStringLiteral("https://api.mymemory.translated.net/get"));
-	QUrlQuery query;
-	query.addQueryItem(QStringLiteral("q"), it->sourceText);
-	query.addQueryItem(QStringLiteral("langpair"), src + QLatin1Char('|') + tl);
-	url.setQuery(query);
-
-	QNetworkRequest req(url);
-	req.setHeader(QNetworkRequest::UserAgentHeader,
-	              QByteArrayLiteral("Mozilla/5.0 (compatible; PokerTH)"));
-	QNetworkReply *reply = m_nam.get(req);
-	reply->setProperty("xlate_id", id);
-	connect(reply, &QNetworkReply::finished, this, &ChatTranslator::onFallbackReply);
-}
-
-void ChatTranslator::onFallbackReply()
-{
-	QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-	if (!reply)
-		return;
-	reply->deleteLater();
-	const int id = reply->property("xlate_id").toInt();
-
-	if (reply->error() != QNetworkReply::NoError) {
-		finish(id, QString(), false);
-		return;
-	}
-	// Antwort: { "responseData": { "translatedText": "…" }, "responseStatus": 200 }
-	const QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
-	QString translated;
-	if (doc.isObject()) {
-		const QJsonObject rd = doc.object().value(QStringLiteral("responseData")).toObject();
-		translated = rd.value(QStringLiteral("translatedText")).toString();
-	}
-	finish(id, translated, !translated.trimmed().isEmpty());
+	const int id = rit.value();
+	m_reqToLine.erase(rit);
+	finish(id, text, ok);
 }
 
 void ChatTranslator::finish(int id, const QString &translated, bool ok)
 {
-	if (!m_entries.contains(id))
+	auto it = m_entries.find(id);
+	if (it == m_entries.end())
 		return;
+	it->inFlight = false;
 
 	if (ok && !translated.trimmed().isEmpty()) {
-		// Terminal: Symbol durch die Übersetzung ersetzen (kein Link mehr, damit
-		// nicht erneut angefragt wird). Gedämpfte, kursive Darstellung, dem
-		// Original nachgestellt.
-		const QString html =
-			QStringLiteral("<span style=\"color:#8899bb; font-style:italic;\">")
-			+ kGlobeGlyph + QStringLiteral(" ")
-			+ translated.toHtmlEscaped()
-			+ QStringLiteral("</span>");
-		replaceAnchor(id, html);
-		m_entries.remove(id);
+		// Übersetzung einblenden und cachen (Toggle: erneuter Klick blendet
+		// sie wieder aus, ohne neue Anfrage).
+		it->translated = translated;
+		it->shown = true;
+		replaceAnchor(id, anchorShown(id, translated));
 	} else {
 		// Fehlgeschlagen: wieder anklickbares Globus-Symbol (Retry ist möglich).
-		m_entries[id].inFlight = false;
+		it->shown = false;
 		replaceAnchor(id, anchorFor(id, kGlobeGlyph));
 	}
 }

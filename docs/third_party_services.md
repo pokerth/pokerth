@@ -11,10 +11,13 @@ Feature: an optional globe symbol (🌐) shown next to incoming chat messages
 (lobby and in-game). Tapping it translates that single message into the
 language the user has selected in the client.
 
-Implementation: `src/gui/qt6-qml/cpp/chattranslator.cpp`
-Setting: `AllowChatTranslation` (default on). Nothing is ever transmitted until
-the user explicitly taps the symbol of a specific message — there is no
-automatic or bulk translation.
+Implementation: `src/gui/chattranslator/chattranslatorcore.cpp` holds the
+shared, toolkit-independent service/language logic used by both clients — the
+QML client (`src/gui/qt6-qml/cpp/chattranslator.cpp`) and the Qt-Widgets client
+(`src/gui/qt/chattools/chattools.cpp`). Both behave identically.
+Setting: `AllowChatTranslation` (default on), exposed in the settings of both
+clients. Nothing is ever transmitted until the user explicitly taps the symbol
+of a specific message — there is no automatic or bulk translation.
 
 ### Primary: Google Translate ("gtx" endpoint)
 
