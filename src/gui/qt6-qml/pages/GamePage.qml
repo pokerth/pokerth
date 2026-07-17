@@ -2251,7 +2251,7 @@ Rectangle {
             chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
             chatTranslator: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatTranslator : null
             nickList: gamePage.gameNickList()
-            messageFontSize: 11
+            messageFontSize: 13
             inputHeight: 28
             // Wenig Platz → Picker als Popup über der Box.
             emojiPickerAsPopup: true

@@ -34,10 +34,15 @@ ColumnLayout {
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
 
-    // Schriftgröße für Verlauf-/Chancen-Texte – analog zur ChatBox
-    // (messageFontSize), damit Log/Chancen so groß wie der Chat sind.
+    // Schriftgröße der Chancen-Texte (Kategorie + Prozent).
     // Overlay: 12 (Default), gedockt: 11 (vom Aufrufer gesetzt).
     property int messageFontSize: 12
+
+    // Der Spielverlauf (Log) läuft wie der Chat als fortlaufender Text und wird
+    // größer gesetzt als die kompakte Chancen-Liste – analog zur ChatBox
+    // (messageFontSize dort). +2 hält Log und Chat auf gleicher Größe:
+    // Overlay 14, gedockt 13.
+    property int logFontSize: messageFontSize + 2
 
     // ── Datenanbindung ────────────────────────────────────────────────────────
     readonly property var chance:
@@ -166,7 +171,7 @@ ColumnLayout {
                 selectionColor: root.colAccent
                 selectedTextColor: "#101010"
                 font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: root.messageFontSize
+                font.pixelSize: root.logFontSize
                 TapHandler {
                     acceptedButtons: Qt.RightButton
                     onTapped: logCtxMenu.popup()

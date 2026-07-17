@@ -29,7 +29,7 @@ Item {
     property var chatTranslator: null
     property bool inputEnabled: true
     property string placeholder: qsTr("Nachricht …")
-    property int messageFontSize: 12
+    property int messageFontSize: 14
     // Emoji-Picker als Popup ÜBER der Box statt inline über der Eingabezeile.
     property bool emojiPickerAsPopup: false
     property int pickerInlineHeight: 150
