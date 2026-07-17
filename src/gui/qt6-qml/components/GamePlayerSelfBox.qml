@@ -40,6 +40,21 @@ Rectangle {
                                      : pingState === 2 ? "#fbc02d"   // gelb
                                      : pingState === 3 ? "#e53935"   // rot
                                      : "transparent"
+    // Länderflagge: wie die Gegnerbox (GamePlayerBox) aus dem gemeinsamen
+    // gamePlayersInGame-Lookup, hier jedoch über die eigene playerId statt über
+    // den Namen – für den eigenen Sitz ist sie direkt bekannt und eindeutig.
+    // playerListRevision erzwingt Reaktivität, sobald die PlayerInfo eintrifft.
+    readonly property string countryCode: {
+        if (typeof Lobby === "undefined" || !Lobby) return ""
+        var _p = Lobby.playerListRevision
+        var _g = Lobby.gameListRevision
+        var gp = Lobby.gamePlayersInGame(Lobby.currentGameId)
+        for (var i = 0; i < gp.length; i++)
+            if (gp[i].playerId === Lobby.myPlayerId)
+                return gp[i].countryCode || ""
+        return ""
+    }
+
     readonly property bool isMyTurn: selfData ? selfData.myTurn : false
     // Am Zug: lokal über myTurn, im Netzwerk-Spiel über den Action-Timeout
     // (timeoutSeatId === 0). Beides, damit der Highlight in BEIDEN Modi erscheint.
@@ -212,6 +227,18 @@ Rectangle {
                 font.letterSpacing: 0.3
                 elide: Text.ElideRight
                 text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
+            }
+
+            Image {
+                visible: root.countryCode !== ""
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                width: 22
+                height: 15
+                source: root.countryCode !== ""
+                    ? "qrc:/resources/cflags/" + root.countryCode + ".svg" : ""
+                fillMode: Image.PreserveAspectFit
+                smooth: true
             }
 
             AppText {
