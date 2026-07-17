@@ -641,6 +641,25 @@ Item {
                             // Qt-Widgets-Client: Enter bei fokussiertem Betrag).
                             actionBar.clickAction("raise")
                         }
+                        // Fokus abgeben, sobald das Feld gesperrt wird (Zug vorbei →
+                        // min/maxRaiseAmount werden 0 → raiseAvailable false).
+                        //
+                        // Nötig, weil enabled=false NUR den activeFocus nimmt, die
+                        // focus-Eigenschaft aber true lässt: Beim nächsten eigenen Zug
+                        // aktiviert raiseAvailable das Feld wieder, und der Fokus-Scope
+                        // gibt ihm den activeFocus von selbst zurück. Auf Touch-Geräten
+                        // (iPad/iPhone) fährt dadurch ab dem ersten Tippen ins Feld bei
+                        // JEDEM Zug ungefragt die Bildschirmtastatur hoch – auch wenn man
+                        // nur checken will. Ohne Zutun des Nutzers wieder fokussiert zu
+                        // werden ist auch auf dem Desktop falsch (Tastatureingaben landen
+                        // dann im Betragsfeld statt bei den Aktions-Shortcuts).
+                        // Der gewollte Auto-Fokus kommt ausschließlich aus der Einstellung
+                        // EnableBetInputFocusSwitch (onMyTurnChanged oben) – die ruft
+                        // forceActiveFocus() erst NACH dem Reaktivieren und bleibt wirksam.
+                        onEnabledChanged: {
+                            if (!enabled)
+                                focus = false
+                        }
                         // Text bleibt synchron mit raiseAmount (von Slider/%-Buttons)
                         onActiveFocusChanged: {
                             if (!activeFocus) {
