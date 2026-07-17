@@ -4,6 +4,7 @@
  *****************************************************************************/
 
 #include "gamehandler.h"
+#include "chattranslator.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include <session.h>
@@ -112,6 +113,12 @@ GameHandler::GameHandler(QObject *parent)
         playYourTurnTimeoutSound();
     });
 
+    // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
+    // Zeile stößt chatLogChanged() an, damit die QML-Bindung neu rendert.
+    m_chatTranslator = new ChatTranslator(&m_chatLog, this);
+    connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
+            this, &GameHandler::chatLogChanged);
+
     // AFK-Reset: echte Nutzeraktivität (Maus/Tastatur) hält den serverseitigen
     // Inaktivitäts-Timeout zurück. WICHTIG: Spielaktionen (fold/call/raise)
     // zählen serverseitig NICHT als Aktivität (Type_MyActionRequestMessage ist
@@ -147,7 +154,14 @@ GameHandler::~GameHandler()
 void GameHandler::setConfig(ConfigFile *config)
 {
     m_config = config;
+    if (m_chatTranslator)
+        m_chatTranslator->setConfig(config);
     ensureSoundEventHandler();
+}
+
+QObject* GameHandler::chatTranslator() const
+{
+    return m_chatTranslator;
 }
 
 void GameHandler::setSession(boost::shared_ptr<Session> session)
@@ -359,6 +373,11 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
         line = QStringLiteral("[") + ts + QStringLiteral("] <i>* ") + name + QStringLiteral(" ") + styledMsg + QStringLiteral(" *</i>");
     else
         line = QStringLiteral("[") + ts + QStringLiteral("] <b>") + name + QStringLiteral(":</b> ") + styledMsg;
+
+    // Übersetzen-Symbol nur an Nachrichten anderer (rawDisplay = Quelltext ohne
+    // HTML/Style-Markup).
+    if (m_chatTranslator && playerName != myNick)
+        line = m_chatTranslator->decorate(line, rawDisplay);
 
     m_chatLog.append(line);
     const int kMaxLines = 400;

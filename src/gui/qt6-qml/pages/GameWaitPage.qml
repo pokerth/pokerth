@@ -808,6 +808,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
                             // Dieser Chat ist der Lobby-Chat → gegen die volle
                             // (ungefilterte) Lobby-Spielerliste vervollständigen,
                             // nicht nur gegen die am Tisch sitzenden Spieler.

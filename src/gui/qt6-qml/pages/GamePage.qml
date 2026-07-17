@@ -2079,6 +2079,7 @@ Rectangle {
                     colSurface: gamePage.tblChatSurface
                     colBackground: gamePage.tblChatBackground
                     chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
+                    chatTranslator: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatTranslator : null
                     nickList: gamePage.gameNickList()
                     onSendRequested: (text) => {
                         if (typeof GameTable !== "undefined" && GameTable)
@@ -2248,6 +2249,7 @@ Rectangle {
             colSurface: gamePage.tblChatSurface
             colBackground: gamePage.tblChatBackground
             chatModel: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatLog : []
+            chatTranslator: (typeof GameTable !== "undefined" && GameTable) ? GameTable.chatTranslator : null
             nickList: gamePage.gameNickList()
             messageFontSize: 11
             inputHeight: 28

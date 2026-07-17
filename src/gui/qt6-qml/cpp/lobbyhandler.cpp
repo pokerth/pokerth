@@ -5,6 +5,7 @@
 
 #include "lobbyhandler.h"
 #include "androidconnectionservice.h"
+#include "chattranslator.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
@@ -568,6 +569,17 @@ LobbyHandler::LobbyHandler(QObject *parent)
     gameProxy->setSourceModel(&m_gameListModel);
     gameProxy->setDynamicSortFilter(true);
     m_gameListProxyModel = gameProxy;
+
+    // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
+    // Zeile stößt chatLogChanged() an, damit die QML-Bindung neu rendert.
+    m_chatTranslator = new ChatTranslator(&m_chatLog, this);
+    connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
+            this, &LobbyHandler::chatLogChanged);
+}
+
+QObject* LobbyHandler::chatTranslator() const
+{
+    return m_chatTranslator;
 }
 
 LobbyHandler::~LobbyHandler()
@@ -615,6 +627,9 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
 void LobbyHandler::setConfig(ConfigFile *config)
 {
     m_config = config;
+
+    if (m_chatTranslator)
+        m_chatTranslator->setConfig(config);
 
     if (!m_config)
         return;
@@ -1353,6 +1368,11 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
                + escapedName + QLatin1String(":</b> ") + styledMsg;
     }
 
+    // Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss man nicht
+    // übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup.
+    if (m_chatTranslator && playerName != myNick)
+        line = m_chatTranslator->decorate(line, rawDisplay);
+
     pushChatLine(line);
 }
 
@@ -1377,11 +1397,14 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     escapedMsg = enlargeEmojis(escapedMsg);
 
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    const QString line = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
+    QString line       = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
                          + colorPM + QLatin1String(";\">")
                          + playerName.toHtmlEscaped()
                          + QLatin1String("(pm): ") + escapedMsg
                          + QLatin1String("</span></i>");
+    // Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
+    if (m_chatTranslator)
+        line = m_chatTranslator->decorate(line, message);
     pushChatLine(line);
 }
 

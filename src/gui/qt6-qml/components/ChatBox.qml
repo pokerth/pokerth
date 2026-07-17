@@ -23,6 +23,10 @@ Item {
     property var chatModel: []
     // Nicknames für die Tab-Vervollständigung.
     property var nickList: []
+    // Chat-Übersetzer des zugehörigen Handlers (Lobby.chatTranslator bzw.
+    // GameTable.chatTranslator). Taps auf das Globus-Symbol werden hierhin
+    // geroutet; null = keine Übersetzung (Symbole erscheinen dann gar nicht).
+    property var chatTranslator: null
     property bool inputEnabled: true
     property string placeholder: qsTr("Nachricht …")
     property int messageFontSize: 12
@@ -317,8 +321,17 @@ Item {
                     onTapped: {
                         const link = msgText.linkAt(linkTap.point.position.x,
                                                     linkTap.point.position.y)
-                        if (link !== "")
+                        if (link === "")
+                            return
+                        // Das Globus-Symbol ist ein Pseudo-Link "pokerthtranslate:<id>".
+                        // NICHT extern öffnen, sondern die Zeile übersetzen lassen.
+                        if (link.indexOf("pokerthtranslate:") === 0) {
+                            if (root.chatTranslator)
+                                root.chatTranslator.requestTranslation(
+                                    parseInt(link.substring(17)))
+                        } else {
                             root._openLink(link)
+                        }
                     }
                 }
                 // Rechtsklick: Menü öffnen und Link unter dem Cursor merken
@@ -327,8 +340,11 @@ Item {
                     id: ctxTap
                     acceptedButtons: Qt.RightButton
                     onTapped: {
-                        root._menuLink = msgText.linkAt(ctxTap.point.position.x,
-                                                        ctxTap.point.position.y)
+                        const l = msgText.linkAt(ctxTap.point.position.x,
+                                                 ctxTap.point.position.y)
+                        // Das Übersetzen-Pseudo-Link ist kein echter Link → im
+                        // Kontextmenü nicht als „Link öffnen/kopieren" anbieten.
+                        root._menuLink = (l.indexOf("pokerthtranslate:") === 0) ? "" : l
                         ctxMenu.popup()
                     }
                 }

@@ -116,6 +116,32 @@ Rectangle {
                     }
 
                     ConfigCheckBox {
+                        objectName: "allowChatTranslationCheckbox"
+                        Layout.fillWidth: true
+                        text: qsTr("Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)")
+                        configKey: "AllowChatTranslation"
+                        defaultChecked: true
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            leftPadding: parent.indicator.width + parent.spacing
+                            verticalAlignment: Text.AlignVCenter
+                            font: parent.font
+                            color: parent.Universal.foreground
+                        }
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 28
+                        Layout.bottomMargin: 4
+                        wrapMode: Text.Wrap
+                        text: qsTr("Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.")
+                        color: Config.StaticData.palette.secondary.col400
+                        font.pointSize: 10
+                    }
+
+                    ConfigCheckBox {
                         objectName: "fadeOutLosingCardsAnimationCheckbox"
                         text: qsTr("Ausblend-Animation für Verliererkarten")
                         configKey: "ShowFadeOutCardsAnimation"

@@ -19,6 +19,7 @@
 class Session;
 class SoundEvents;
 class ConfigFile;
+class ChatTranslator;
 struct GameInfo;
 
 // Model for players in lobby
@@ -175,6 +176,9 @@ class LobbyHandler : public QObject
     // Persistenter Lobby-Chat-Verlauf (formatierte HTML-Zeilen). Erlaubt es
     // mehreren Seiten (Lobby + GameWait), denselben Chat inkl. History zu zeigen.
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
+    // Übersetzer für den Lobby-Chat. Die ChatBox routet Taps auf das Globus-
+    // Symbol an chatTranslator.requestTranslation(id).
+    Q_PROPERTY(QObject* chatTranslator READ chatTranslator CONSTANT)
 
 public:
     explicit LobbyHandler(QObject *parent = nullptr);
@@ -191,6 +195,7 @@ public:
     QString myPlayerName() const { return m_myPlayerName; }
     unsigned myPlayerId() const { return m_myPlayerId; }
     QStringList chatLog() const { return m_chatLog; }
+    QObject* chatTranslator() const;
     bool isMyPlayerGuest() const;
     bool isCurrentPlayerAdmin() const { return m_isCurrentPlayerAdmin; }
     bool isCurrentGameAdmin() const { return m_isCurrentGameAdmin; }
@@ -378,6 +383,7 @@ private:
     QString m_myPlayerName;
     unsigned m_myPlayerId;
     QStringList m_chatLog;      // formatierter Lobby-Chat-Verlauf (HTML-Zeilen)
+    ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;

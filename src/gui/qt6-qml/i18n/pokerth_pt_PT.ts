@@ -1161,6 +1161,16 @@
         <source>Versehentliches Call nach einem großen Raise verhindern</source>
         <translation>Evitar Call acidental após um grande Raise</translation>
     </message>
+    <message>
+        <location filename="../components/GuiSettings.qml" line="121"/>
+        <source>Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)</source>
+        <translation>Oferecer tradução do chat (ícone de globo junto às mensagens)</translation>
+    </message>
+    <message>
+        <location filename="../components/GuiSettings.qml" line="121"/>
+        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <translation>A tradução usa um serviço externo (Google Tradutor ou, em alternativa, o MyMemory). Nada é enviado até tocar no ícone de uma mensagem; o idioma de destino é o selecionado acima.</translation>
+    </message>
 </context>
 <context>
     <name>InternetGameSettings</name>

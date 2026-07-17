@@ -252,6 +252,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontHideAvatarsOfIgnored", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableEmojiReactions", CONFIG_TYPE_INT, "0"));
+	// Chat-Übersetzung anbieten (Globus-Symbol neben eingehenden Nachrichten).
+	// Standardmäßig aktiv; es verlässt nichts den Client, bis der Nutzer das
+	// Symbol einer konkreten Zeile antippt (siehe ChatTranslator /
+	// docs/third_party_services.md).
+	configList.push_back(ConfigInfo("AllowChatTranslation", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));

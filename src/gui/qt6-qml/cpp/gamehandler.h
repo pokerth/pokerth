@@ -20,6 +20,7 @@ class Session;
 class Game;
 class SoundEvents;
 class QTimer;
+class ChatTranslator;
 
 // Inkrementelles Listenmodell für den Spielverlauf (Log). Bewusst KEIN
 // QStringList-Property: ein QStringList ist für QML ein Werttyp, der bei jeder
@@ -130,6 +131,9 @@ class GameHandler : public QObject
     // der Modell-Zeiger fix ist – Aktualisierungen laufen über die Modell-Signale.
     Q_PROPERTY(GameLogModel* gameLog READ gameLog CONSTANT)
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
+    // Übersetzer für den Spiel-Chat. Die ChatBox routet Taps auf das Globus-
+    // Symbol an chatTranslator.requestTranslation(id).
+    Q_PROPERTY(QObject* chatTranslator READ chatTranslator CONSTANT)
     // true, sobald außer mir noch (mind.) ein menschlicher Spieler im Spiel ist
     Q_PROPERTY(bool hasHumanOpponents READ hasHumanOpponents NOTIFY hasHumanOpponentsChanged)
     // true im Post-River, wenn der Mensch-Spieler seine Karten freiwillig zeigen kann
@@ -214,6 +218,7 @@ public:
     int timeoutSec() const { return m_timeoutSec; }
     GameLogModel* gameLog() { return &m_gameLogModel; }
     QStringList chatLog() const { return m_chatLog; }
+    QObject* chatTranslator() const;
     bool hasHumanOpponents() const { return m_hasHumanOpponents; }
     bool canShowCards() const { return m_canShowCards; }
     bool showdownActive() const { return m_showdownActive; }
@@ -421,6 +426,7 @@ private:
     int m_timeoutSec = 0;       // Dauer des Action-Timeouts in Sekunden
     GameLogModel m_gameLogModel; // Live-Aktions-Log (Spielverlauf) für das Overlay
     QStringList m_chatLog;      // In-Game-Chat-Verlauf
+    ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     bool m_hasHumanOpponents = false;
     bool m_canShowCards = false;
     // Showdown aktiv: erst dann dürfen Gegnerkarten aufgedeckt werden. Verhindert,

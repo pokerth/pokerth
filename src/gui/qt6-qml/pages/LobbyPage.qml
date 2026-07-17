@@ -996,6 +996,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
                             // Vollständige (ungefilterte) Spielerliste für die
                             // Tab-Vervollständigung – damit auch Spieler in
                             // (offenen) Spielen vervollständigt werden, die der
@@ -1259,6 +1260,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
                             // Vollständige (ungefilterte) Spielerliste für die
                             // Tab-Vervollständigung – damit auch Spieler in
                             // (offenen) Spielen vervollständigt werden, die der
