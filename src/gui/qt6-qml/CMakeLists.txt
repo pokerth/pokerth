@@ -296,7 +296,20 @@ target_compile_definitions(pokerth_qml-client PUBLIC QML_CLIENT)
 # Instrumentierung [ACTDBG] im GameHandler aus der gelösten Freeze-Untersuchung)
 # zu Compile-Zeit zu No-ops machen → keine String-Formatierung/I/O pro Aktion
 # im Spiel. qInfo/qWarning/qCritical/qFatal bleiben erhalten.
-target_compile_definitions(pokerth_qml-client PRIVATE QT_NO_DEBUG_OUTPUT)
+#
+# POKERTH_DIAG_LOG=ON kehrt das für Diagnose-Builds um: qDebug() bleibt
+# übersetzt UND der Message-Handler in pokerth.cpp laesst QtDebugMsg durch
+# (beides ist noetig – sonst gibt es entweder keine Aufrufe oder sie werden
+# verworfen). Damit landen die [ACTDBG]-Zeilen in pokerth-debug.log und auf
+# stderr (auf iOS live in der Konsole.app). Nur fuer die Fehlersuche
+# einschalten: die Instrumentierung schreibt pro Spieler-Aktion synchron.
+option(POKERTH_DIAG_LOG "Diagnose-Build: [ACTDBG]-qDebug-Instrumentierung aktiv" OFF)
+if(POKERTH_DIAG_LOG)
+    target_compile_definitions(pokerth_qml-client PRIVATE POKERTH_DIAG_LOG)
+    message(STATUS "PokerTH: Diagnose-Logging AKTIV ([ACTDBG] qDebug wird geloggt)")
+else()
+    target_compile_definitions(pokerth_qml-client PRIVATE QT_NO_DEBUG_OUTPUT)
+endif()
 
 # iOS: App-Bundle konfigurieren und finalisieren
 if(IOS)

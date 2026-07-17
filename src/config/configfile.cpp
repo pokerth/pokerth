@@ -175,7 +175,15 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		{
 			configFileName = iosBase.toStdString() + "/";
 			////define log-dir
-			logDir = configFileName;
+			// Bewusst NICHT unter Application Support, sondern unter Documents:
+			// nur Documents ist – zusammen mit UIFileSharingEnabled und
+			// LSSupportsOpeningDocumentsInPlace in der Info.plist – aus der
+			// Dateien-App und aus dem Finder erreichbar. So kommt man jederzeit
+			// an pokerth-debug.log und die Spiel-Logs, ohne den App-Container
+			// ueber Xcode herunterladen zu muessen.
+			const QString iosDocs =
+				QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+			logDir = iosDocs.isEmpty() ? configFileName : (iosDocs.toStdString() + "/");
 			logDir += "log-files/";
 			////define data-dir
 			dataDir = configFileName;

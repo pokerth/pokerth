@@ -10,6 +10,10 @@ on:
         type: choice
         options: [Release, Debug]
         default: Release
+      diag_log:
+        description: "Diagnose-Build: [ACTDBG]-Logging in pokerth-debug.log (Freeze-Suche)"
+        type: boolean
+        default: false
 
 jobs:
   build-ios:
@@ -20,6 +24,8 @@ jobs:
     env:
       QT_VERSION: 6.9.2
       BUILD_TYPE: ${{ inputs.build_type }}
+      # Boolean-Input -> CMake-Option (ON/OFF)
+      DIAG_LOG: ${{ inputs.diag_log && 'ON' || 'OFF' }}
 
     steps:
       - name: Checkout
@@ -31,20 +37,27 @@ jobs:
           xcodebuild -version
 
       # Qt for iOS + the matching host Qt (~2 GB, several minutes via aqtinstall).
-      # Keyed on the build script because it holds the Qt version and module list.
+      #
+      # Die Keys hängen bewusst NICHT an hashFiles(build_ios_qml.sh): jede
+      # unbeteiligte Skript-Änderung (ein neuer Schalter, ein Pfad-Fix) würde
+      # sonst beide Caches verwerfen und vcpkg eine Stunde neu bauen lassen.
+      # Stattdessen die Qt-Version bzw. eine manuelle Revision. Ein "zu alter"
+      # Cache ist unkritisch: install-qt und "vcpkg install" laufen ohnehin bei
+      # jedem Lauf und ergänzen nur, was fehlt.
       - name: Cache Qt
         uses: actions/cache@v4
         with:
           path: ~/Qt
-          key: ios-qt-${{ env.QT_VERSION }}-${{ hashFiles('build_ios_qml.sh') }}
+          key: ios-qt-${{ env.QT_VERSION }}
 
       # boost/openssl/protobuf cross-compiled for arm64-ios plus the host protoc.
       # Cold build ≈ 45-70 min, restored from cache ≈ 1 min.
+      # PORT-REVISION beim Ändern der VCPKG_PORTS-Liste in build_ios_qml.sh hochzählen.
       - name: Cache vcpkg
         uses: actions/cache@v4
         with:
           path: ~/vcpkg
-          key: ios-vcpkg-${{ hashFiles('build_ios_qml.sh') }}
+          key: ios-vcpkg-r1
 
       - name: Build QML client and package unsigned IPA
         run: bash build_ios_qml.sh
@@ -58,7 +71,7 @@ jobs:
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-ios-arm64-unsigned-${{ github.sha }}
+          name: PokerTH-ios-arm64-unsigned${{ inputs.diag_log && '-diag' || '' }}-${{ github.sha }}
           path: build_ios/*.ipa
           if-no-files-found: error
           retention-days: 30

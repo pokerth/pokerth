@@ -61,6 +61,18 @@
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>PokerTH needs access to the local network to host and join games on your Wi-Fi (LAN games).</string>
+	<!--
+	  Macht den Documents-Ordner der App sichtbar: in der Dateien-App unter
+	  "Auf meinem iPhone/iPad > PokerTH" und im Finder ueber das angeschlossene
+	  Geraet. Dort liegt log-files/pokerth-debug.log (siehe configfile.cpp),
+	  sodass Logs ohne Xcode-Container-Download eingesehen und geteilt werden
+	  koennen. UIFileSharingEnabled = Finder/iTunes, LSSupportsOpeningDocuments-
+	  InPlace = Dateien-App; erst beide zusammen ergeben beide Wege.
+	-->
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 </dict>

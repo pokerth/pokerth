@@ -74,8 +74,14 @@ static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & 
     // Freeze-Untersuchung (gelöst) und schrieb pro Aktion synchron nach stderr
     // UND auf Platte (fflush je Zeile) → unnötige I/O im Spiel. Nur noch
     // Info/Warning/Critical/Fatal (selten, echte Diagnose) werden geloggt.
+    //
+    // Ausnahme: Diagnose-Build (-DPOKERTH_DIAG_LOG=ON, siehe qt6-qml/CMakeLists.txt).
+    // Dort ist die per-Aktion-Instrumentierung genau das Gesuchte, also muessen
+    // die Debug-Zeilen hier durchgelassen werden.
+#ifndef POKERTH_DIAG_LOG
     if (type == QtDebugMsg)
         return;
+#endif
 
     const char *tag = "[QML] ";
     switch (type) {

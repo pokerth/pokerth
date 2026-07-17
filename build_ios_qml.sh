@@ -17,6 +17,7 @@
 #   VCPKG_DIR       vcpkg checkout                        (default $HOME/vcpkg)
 #   BUILD_TYPE      Release | Debug                       (default Release)
 #   BUILD_DIR       CMake build dir                       (default ./build_ios)
+#   DIAG_LOG        ON -> [ACTDBG] diagnostic logging     (default OFF)
 
 set -euo pipefail
 
@@ -40,6 +41,8 @@ fi
 
 BUILD_TYPE="${BUILD_TYPE:-Release}"
 BUILD_DIR="${BUILD_DIR:-$SCRIPT_DIR/build_ios}"
+# Diagnose-Build: laesst die [ACTDBG]-Instrumentierung des GameHandlers mitlaufen.
+DIAG_LOG="${DIAG_LOG:-OFF}"
 
 log() {
   echo "▶ $1"
@@ -171,6 +174,7 @@ rm -rf "$BUILD_DIR"
   -DVCPKG_HOST_TRIPLET="$VCPKG_HOST_TRIPLET" \
   -DQT_HOST_PATH="$QT_HOST_DIR" \
   -DCMAKE_BUILD_TYPE="$BUILD_TYPE" \
+  -DPOKERTH_DIAG_LOG="$DIAG_LOG" \
   -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED=NO \
   -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED=NO \
   -DCMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY="" \
@@ -203,7 +207,11 @@ log "App bundle: $APP_BUNDLE"
 
 # An .ipa is just a ZIP with the .app inside a Payload/ directory.
 IPA_DIR="$BUILD_DIR/ipa"
-IPA_FILE="${IPA_OUT:-$BUILD_DIR/${APP_NAME}-ios-arm64-unsigned.ipa}"
+# Diagnose-Builds im Dateinamen kenntlich machen – sonst ist am Geraet nicht mehr
+# zu unterscheiden, ob die installierte App die Instrumentierung mitschreibt.
+IPA_SUFFIX=""
+[ "$DIAG_LOG" = "ON" ] && IPA_SUFFIX="-diag"
+IPA_FILE="${IPA_OUT:-$BUILD_DIR/${APP_NAME}-ios-arm64-unsigned${IPA_SUFFIX}.ipa}"
 # zip runs from inside IPA_DIR, so the target must be absolute.
 case "$IPA_FILE" in /*) ;; *) IPA_FILE="$PWD/$IPA_FILE" ;; esac
 rm -rf "$IPA_DIR" "$IPA_FILE"
@@ -218,4 +226,11 @@ ls -lh "$IPA_FILE"
 echo ""
 echo "Side-load it with Sideloadly, AltStore or SideStore — those re-sign the app"
 echo "with your own Apple ID. A free Apple ID gives a 7-day signature."
+if [ "$DIAG_LOG" = "ON" ]; then
+  echo ""
+  echo "DIAGNOSTIC BUILD: [ACTDBG] instrumentation is active."
+  echo "  Log file on device: Files app > On My iPhone/iPad > PokerTH >"
+  echo "                      log-files/pokerth-debug.log"
+  echo "  Live view: Console.app on a Mac (select the device, filter 'PokerTH')."
+fi
 echo "======================================"
