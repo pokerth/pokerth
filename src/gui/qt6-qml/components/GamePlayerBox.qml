@@ -386,6 +386,21 @@ Item {
     Menu {
         id: contextMenu
 
+        // Breite an den breitesten sichtbaren Eintrag anpassen (min. 180).
+        // Nötig, weil das ListView-contentItem des Menüs keine implicitWidth
+        // meldet – ohne das würde die Breite allein vom Background bestimmt und
+        // längere (auch übersetzte) Labels wie „Report inappropriate avatar"
+        // abgeschnitten.
+        implicitWidth: {
+            var w = 180
+            for (var i = 0; i < count; ++i) {
+                var it = itemAt(i)
+                if (it && it.visible)
+                    w = Math.max(w, it.implicitWidth)
+            }
+            return w
+        }
+
         // Dunkles Theme passend zur Tischoberfläche.
         background: Rectangle {
             implicitWidth: 180
