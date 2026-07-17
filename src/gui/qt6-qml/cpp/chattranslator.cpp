@@ -33,8 +33,11 @@ QString ChatTranslator::anchorFor(int id, const QString &glyph)
 {
 	// text-decoration:none, damit das Symbol nicht als unterstrichener Link
 	// erscheint. Der Scheme-Präfix "pokerthtranslate:" wird von der ChatBox
-	// abgefangen (nicht extern geöffnet).
-	return QStringLiteral("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">%2</a>")
+	// abgefangen (nicht extern geöffnet). Das Symbol wird – wie die Chat-Emojis
+	// (enlargeEmojis, 22px/Noto Color Emoji) – vergrößert, damit es unabhängig
+	// von der Textgröße gut erkennbar ist.
+	return QStringLiteral("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
+	                      "<span style=\"font-size:22px; font-family:'Noto Color Emoji';\">%2</span></a>")
 		.arg(id)
 		.arg(glyph);
 }
