@@ -546,22 +546,34 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			// wurden durch native Emojis ersetzt).
 			tempMsg = wrapEmojisLarger(tempMsg, 20);
 
+			// Zeile ohne Globus zusammenbauen. Der Körper (tempMsg bzw. der
+			// von "/me " befreite Körper) ist ein sauberer, ersetzbarer
+			// Teilstring – beim Einblenden wird er durch die Übersetzung
+			// ERSETZT (nicht rechts daneben gehängt).
+			const bool isAction = (message.indexOf(QString("/me "))==0);
+			QString bodyHtml = tempMsg;
+			if(isAction)
+				bodyHtml.replace("/me ", "");   // "/me " gehört nicht zum Nachrichtenkörper
+			QString lineNoGlobe;
+			if(isAction)
+				lineNoGlobe = "<i>*" + playerName + " " + bodyHtml + "</i>";
+			else if(pm == true)
+				lineNoGlobe = "<i>" + playerName + "(pm): " + bodyHtml + "</i>";
+			else
+				lineNoGlobe = playerName + ": " + bodyHtml;
+
 			// Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss
-			// man nicht übersetzen). Wird ans Zeilenende gehängt und beim Klick
-			// über onChatAnchorClicked() aufgelöst.
-			QString xlate;
+			// man nicht übersetzen).
 			if(myTranslator && myTranslator->enabled() && playerName != myNick) {
 				const int xid = myTranslateNextId++;
-				myTranslateSource.insert(xid, rawSource);
-				xlate = " " + translateAnchorHtml(xid, kTranslateGlobe);
-			}
-
-			if(message.indexOf(QString("/me "))==0) {
-				myTextBrowser->append(tempMsg.replace("/me ","<i>*"+playerName+" ")+"</i>"+xlate);
-			} else if(pm == true) {
-				myTextBrowser->append("<i>"+playerName+"(pm): " + tempMsg+"</i>"+xlate);
+				TranslateEntry e;
+				e.sourceText  = rawSource;
+				e.lineNoGlobe = lineNoGlobe;
+				e.bodyHtml    = bodyHtml;
+				myTranslateEntries.insert(xid, e);
+				myTextBrowser->append(lineNoGlobe + " " + translateAnchorHtml(xid, kTranslateGlobe));
 			} else {
-				myTextBrowser->append(playerName + ": " + tempMsg + xlate);
+				myTextBrowser->append(lineNoGlobe);
 			}
 		}
 	}
@@ -580,11 +592,21 @@ void ChatTools::clearChat()
 		myTextBrowser->clear();
 
 	// Übersetzungs-Zustand gehört zum jetzt geleerten Verlauf.
-	myTranslateSource.clear();
-	myTranslateCache.clear();
+	myTranslateEntries.clear();
 	myTranslateReqToId.clear();
-	myTranslateInFlight.clear();
-	myTranslateShown.clear();
+}
+
+// Ersetzt den Inhalt eines Textblocks (ohne den Absatztrenner) durch html.
+static void replaceBlockContentHtml(const QTextBlock &block, const QString &html)
+{
+	if(!block.isValid())
+		return;
+	// Blockinhalt selektieren OHNE den Absatztrenner (sonst würde der Block mit
+	// dem nächsten verschmelzen). EndOfBlock ist auch für den letzten Block korrekt.
+	QTextCursor cursor(block);
+	cursor.setPosition(block.position());
+	cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+	cursor.insertHtml(html);
 }
 
 QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
@@ -593,55 +615,61 @@ QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
 	       .arg(id).arg(glyph);
 }
 
-QString ChatTools::translateAnchorShownHtml(int id, const QString &text) const
-{
-	// Eingeblendete Übersetzung bleibt EIN Anchor (gleicher href), damit ein
-	// erneuter Klick sie wieder ausblendet. Gedämpft/kursiv, das Globus-Symbol
-	// bleibt vorangestellt.
-	return QString("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none; color:#8899bb; font-style:italic;\">%2 %3</a>")
-	       .arg(id).arg(kTranslateGlobe).arg(text.toHtmlEscaped());
-}
-
-QTextCursor ChatTools::findTranslateAnchor(int id) const
+QTextBlock ChatTools::findTranslateBlock(int id) const
 {
 	if(!myTextBrowser)
-		return QTextCursor();
-
+		return QTextBlock();
 	const QString href = QString("pokerthtranslate:") + QString::number(id);
 	QTextDocument *doc = myTextBrowser->document();
 	for(QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
 		for(QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it) {
 			const QTextFragment frag = it.fragment();
-			if(!frag.isValid())
-				continue;
-			const QTextCharFormat fmt = frag.charFormat();
-			if(fmt.isAnchor() && fmt.anchorHref() == href) {
-				QTextCursor cursor(doc);
-				cursor.setPosition(frag.position());
-				cursor.setPosition(frag.position() + frag.length(), QTextCursor::KeepAnchor);
-				return cursor;
-			}
+			if(frag.isValid() && frag.charFormat().isAnchor()
+			   && frag.charFormat().anchorHref() == href)
+				return block;
 		}
 	}
-	return QTextCursor();
+	return QTextBlock();
 }
 
-void ChatTools::setTranslateGlyph(int id, const QString &glyph)
+void ChatTools::rebuildTranslateBlock(int id)
 {
-	QTextCursor cursor = findTranslateAnchor(id);
-	if(cursor.isNull())
+	QHash<int, TranslateEntry>::iterator it = myTranslateEntries.find(id);
+	if(it == myTranslateEntries.end())
 		return;
-	// Selektierten Anchor durch denselben Anchor mit anderem Symbol ersetzen –
-	// href bleibt gleich, also weiter auffindbar (z. B. ⏳ -> zurück auf 🌐).
-	cursor.insertHtml(translateAnchorHtml(id, glyph));
+	const QTextBlock block = findTranslateBlock(id);
+	if(!block.isValid())
+		return; // Zeile nicht mehr vorhanden (z. B. Verlauf geleert)
+
+	// Körper: Original oder – wenn eingeblendet – die Übersetzung an gleicher
+	// Stelle (Farbe/Look der Originalnachricht via styledTranslation).
+	QString bodyLine = it->lineNoGlobe;
+	if(it->shown) {
+		const QString tb = ChatTranslatorCore::styledTranslation(it->bodyHtml, it->translated);
+		const int p = bodyLine.indexOf(it->bodyHtml);
+		if(p >= 0)
+			bodyLine.replace(p, it->bodyHtml.size(), tb);
+	}
+	const QString glyph = it->inFlight ? kTranslateSpinner : kTranslateGlobe;
+	replaceBlockContentHtml(block, bodyLine + " " + translateAnchorHtml(id, glyph));
 }
 
-void ChatTools::setTranslateShown(int id, const QString &text)
+void ChatTools::refreshTranslationEnabled()
 {
-	QTextCursor cursor = findTranslateAnchor(id);
-	if(cursor.isNull())
-		return;
-	cursor.insertHtml(translateAnchorShownHtml(id, text));
+	if(!myTranslator || myTranslator->enabled())
+		return; // Aktivieren wirkt auf neue Nachrichten; Bestehende bleiben.
+
+	// Deaktiviert: jede Zeile auf das Original OHNE Globus zurückbauen.
+	if(myTextBrowser) {
+		const QList<int> ids = myTranslateEntries.keys();
+		for(int id : ids) {
+			const QTextBlock block = findTranslateBlock(id);
+			if(block.isValid())
+				replaceBlockContentHtml(block, myTranslateEntries.value(id).lineNoGlobe);
+		}
+	}
+	myTranslateEntries.clear();
+	myTranslateReqToId.clear();
 }
 
 void ChatTools::onChatAnchorClicked(const QUrl &url)
@@ -652,25 +680,23 @@ void ChatTools::onChatAnchorClicked(const QUrl &url)
 		const int id = url.toString().mid(QStringLiteral("pokerthtranslate:").size()).toInt();
 		if(!myTranslator || !myTranslator->enabled())
 			return;
-		if(!myTranslateSource.contains(id) || myTranslateInFlight.contains(id))
+		QHash<int, TranslateEntry>::iterator it = myTranslateEntries.find(id);
+		if(it == myTranslateEntries.end() || it->inFlight)
 			return;
 
-		// Toggle: eingeblendete Übersetzung wieder ausblenden.
-		if(myTranslateShown.contains(id)) {
-			setTranslateGlyph(id, kTranslateGlobe);
-			myTranslateShown.remove(id);
+		if(it->shown) {                    // Toggle: Übersetzung ausblenden (Original zeigen)
+			it->shown = false;
+			rebuildTranslateBlock(id);
 			return;
 		}
-		// Schon einmal übersetzt -> aus dem Cache einblenden (keine neue Anfrage).
-		if(myTranslateCache.contains(id)) {
-			setTranslateShown(id, myTranslateCache.value(id));
-			myTranslateShown.insert(id);
+		if(!it->translated.isEmpty()) {    // aus Cache einblenden (keine neue Anfrage)
+			it->shown = true;
+			rebuildTranslateBlock(id);
 			return;
 		}
-		// Holen.
-		myTranslateInFlight.insert(id);
-		setTranslateGlyph(id, kTranslateSpinner);
-		const int req = myTranslator->translate(myTranslateSource.value(id));
+		it->inFlight = true;               // holen
+		rebuildTranslateBlock(id);         // Spinner anzeigen
+		const int req = myTranslator->translate(it->sourceText);
 		myTranslateReqToId.insert(req, id);
 	} else {
 		// Echte Links extern öffnen (früher über openExternalLinks in der .ui).
@@ -683,17 +709,17 @@ void ChatTools::onChatTranslated(int requestId, const QString &text, bool ok)
 	if(!myTranslateReqToId.contains(requestId))
 		return;
 	const int id = myTranslateReqToId.take(requestId);
-	myTranslateInFlight.remove(id);
-
+	QHash<int, TranslateEntry>::iterator it = myTranslateEntries.find(id);
+	if(it == myTranslateEntries.end())
+		return;
+	it->inFlight = false;
 	if(ok && !text.trimmed().isEmpty()) {
-		// Übersetzung einblenden und cachen (erneuter Klick blendet sie wieder aus).
-		myTranslateCache.insert(id, text);
-		setTranslateShown(id, text);
-		myTranslateShown.insert(id);
-	} else {
-		// Fehlgeschlagen: wieder anklickbares 🌐 (Retry möglich).
-		setTranslateGlyph(id, kTranslateGlobe);
+		it->translated = text;   // cachen (erneuter Klick blendet aus/ein)
+		it->shown = true;        // Übersetzung ersetzt das Original
 	}
+	// Spinner zurück auf Globus; ggf. Übersetzung einblenden. Bei Fehler bleibt
+	// das Original stehen (Globus erlaubt erneuten Versuch).
+	rebuildTranslateBlock(id);
 }
 
 void ChatTools::checkInputLength(QString string)

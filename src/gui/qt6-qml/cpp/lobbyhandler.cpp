@@ -1369,9 +1369,10 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
     }
 
     // Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss man nicht
-    // übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup.
+    // übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup; styledMsg
+    // ist der Nachrichtenkörper in der Zeile, der beim Einblenden ersetzt wird.
     if (m_chatTranslator && playerName != myNick)
-        line = m_chatTranslator->decorate(line, rawDisplay);
+        line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
 
     pushChatLine(line);
 }
@@ -1403,8 +1404,9 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
                          + QLatin1String("(pm): ") + escapedMsg
                          + QLatin1String("</span></i>");
     // Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
+    // escapedMsg ist der Nachrichtenkörper in der Zeile.
     if (m_chatTranslator)
-        line = m_chatTranslator->decorate(line, message);
+        line = m_chatTranslator->decorate(line, message, escapedMsg);
     pushChatLine(line);
 }
 

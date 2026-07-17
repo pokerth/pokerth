@@ -42,6 +42,14 @@ public:
 	// Config "Language" (z. B. "de_DE") -> API-Sprachcode ("de", "pt-BR", …).
 	QString targetLang() const;
 
+	// Baut das HTML für die eingeblendete Übersetzung, die den Originaltext an
+	// gleicher Stelle ERSETZT. Übernimmt – wenn möglich – den umschließenden
+	// <span> (und damit die Farbe) der Originalnachricht, damit die Übersetzung
+	// im selben Look erscheint (theme-/tischfarben-korrekt), nur kursiv als
+	// Kennzeichnung. Von beiden Clients genutzt.
+	static QString styledTranslation(const QString &originalBodyHtml,
+	                                 const QString &translated);
+
 signals:
 	void translated(int requestId, const QString &text, bool ok);
 

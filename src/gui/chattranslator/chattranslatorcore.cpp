@@ -45,6 +45,23 @@ QString ChatTranslatorCore::targetLang() const
 	return us > 0 ? code.left(us) : code;
 }
 
+QString ChatTranslatorCore::styledTranslation(const QString &originalBodyHtml,
+                                              const QString &translated)
+{
+	const QString esc = translated.toHtmlEscaped();
+	// Umschließenden <span ...> der Originalnachricht (mit Farbe) wiederverwenden
+	// und den Inhalt durch die – kursiv gesetzte – Übersetzung ersetzen.
+	if (originalBodyHtml.startsWith(QLatin1String("<span"))) {
+		const int gt = originalBodyHtml.indexOf(QLatin1Char('>'));
+		if (gt > 0)
+			return originalBodyHtml.left(gt + 1)
+			       + QStringLiteral("<i>") + esc + QStringLiteral("</i></span>");
+	}
+	// Kein umschließender Span (z. B. PM-Text) -> schlicht kursiv, erbt die
+	// Farbe des umgebenden Kontexts.
+	return QStringLiteral("<i>") + esc + QStringLiteral("</i>");
+}
+
 int ChatTranslatorCore::translate(const QString &text)
 {
 	const int id = m_nextId++;

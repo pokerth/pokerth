@@ -329,6 +329,11 @@ Item {
                             if (root.chatTranslator)
                                 root.chatTranslator.requestTranslation(
                                     parseInt(link.substring(17)))
+                            // Der Tap aufs Symbol darf keine (gelbe) Textauswahl
+                            // hinterlassen – Selektion bleibt sonst aber möglich.
+                            // callLater: nach dem Neu-Rendern der Zeile abräumen.
+                            msgText.deselect()
+                            Qt.callLater(msgText.deselect)
                         } else {
                             root._openLink(link)
                         }

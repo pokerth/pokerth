@@ -38,13 +38,22 @@ public:
 	bool enabled() const;
 
 	// Hängt (falls aktiviert) das Globus-Symbol an eine frisch gebaute Chat-
-	// Zeile und merkt sich den Rohtext für die spätere Übersetzung. Gibt die
-	// Zeile unverändert zurück, wenn die Funktion deaktiviert ist oder der
-	// Quelltext leer ist.
-	QString decorate(const QString &formattedLine, const QString &sourceText);
+	// Zeile und merkt sich Rohtext + Nachrichtenkörper für die spätere
+	// Übersetzung. bodyHtml ist der exakte HTML-Teilstring der Nachricht
+	// innerhalb von formattedLine (styledMsg bzw. escapedMsg) – er wird beim
+	// Einblenden durch die Übersetzung ERSETZT. Gibt die Zeile unverändert
+	// zurück, wenn die Funktion deaktiviert ist oder der Quelltext leer ist.
+	QString decorate(const QString &formattedLine, const QString &sourceText,
+	                 const QString &bodyHtml);
 
 	// Vom QML aufgerufen, wenn auf das Globus-Symbol getippt wird.
 	Q_INVOKABLE void requestTranslation(int id);
+
+	// Vom QML aufgerufen, wenn sich der Config-Schalter "AllowChatTranslation"
+	// ändert. Wendet den neuen Zustand auf den SICHTBAREN Verlauf an: bei
+	// Deaktivierung werden alle vorhandenen Globus-Symbole/Übersetzungen sofort
+	// entfernt (neue Nachrichten regelt decorate() ohnehin live).
+	Q_INVOKABLE void refreshEnabled();
 
 signals:
 	void enabledChanged();
@@ -57,16 +66,20 @@ private slots:
 
 private:
 	void finish(int id, const QString &translated, bool ok);
-	// Ersetzt in der zugehörigen chatLog-Zeile das aktuell eingebettete Anchor-
-	// HTML durch newAnchor. Liefert false, wenn die Zeile nicht (mehr) existiert
-	// (z. B. aus dem 400-Zeilen-Verlauf herausgetrimmt).
-	bool replaceAnchor(int id, const QString &newAnchor);
+	// Index der chatLog-Zeile, die den Globus-Anker dieser id enthält (-1, wenn
+	// nicht mehr vorhanden, z. B. aus dem 400-Zeilen-Verlauf herausgetrimmt).
+	int findLineIndex(int id) const;
+	// Tauscht in der Zeile das Globus-Symbol (🌐 <-> ⏳).
+	void setGlobe(int id, const QString &glyph);
+	// Blendet die Übersetzung ein/aus, indem der Nachrichtenkörper zwischen
+	// Original und Übersetzung ERSETZT wird.
+	void setBodyShown(int id, bool shown);
 	static QString anchorFor(int id, const QString &glyph);
-	static QString anchorShown(int id, const QString &translated);
 
 	struct Pending {
 		QString sourceText;     // Rohtext der Nachricht (vor HTML/Style-Markup)
-		QString currentAnchor;  // exaktes Anchor-HTML, das gerade in der Zeile steht
+		QString bodyHtml;       // Original-Nachrichtenkörper (HTML) in der Zeile
+		QString currentAnchor;  // exaktes Globus-Anker-HTML, das gerade in der Zeile steht
 		QString translated;     // gecachte Übersetzung (leer = noch nicht geholt)
 		bool inFlight = false;
 		bool shown = false;     // Übersetzung aktuell eingeblendet? (Toggle)

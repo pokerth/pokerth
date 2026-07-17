@@ -65,6 +65,11 @@ public slots:
 	void receiveMessage(QString playerName, QString message, bool pm=false);
 	void privateMessage(QString playerName, QString message);
 	void clearChat();
+	// Wird nach dem Übernehmen der Einstellungen aufgerufen. Wendet den Schalter
+	// "AllowChatTranslation" auf den SICHTBAREN Verlauf an: bei Deaktivierung
+	// werden alle vorhandenen Globus-Symbole/Übersetzungen sofort entfernt
+	// (neue Nachrichten regelt receiveMessage() ohnehin live).
+	void refreshTranslationEnabled();
 	void checkInputLength(QString string);
 
 	void fillChatLinesHistory(QString fillString);
@@ -123,16 +128,13 @@ private:
 	// ── Chat-Übersetzung ────────────────────────────────────────────────
 	// Baut das anklickbare Globus-Anchor-HTML ("pokerthtranslate:<id>").
 	QString translateAnchorHtml(int id, const QString &glyph) const;
-	// Eingeblendete Übersetzung: bleibt EIN Anchor (gleicher href) -> ein
-	// erneuter Klick blendet sie wieder aus (Toggle).
-	QString translateAnchorShownHtml(int id, const QString &text) const;
-	// Findet den Anchor mit passender id im QTextBrowser und liefert einen
-	// Cursor, der ihn selektiert (null, wenn nicht mehr vorhanden).
-	QTextCursor findTranslateAnchor(int id) const;
-	// Ersetzt den Anchor inline durch nur ein Symbol (🌐/⏳) bzw. durch das
-	// Symbol + die eingeblendete Übersetzung.
-	void setTranslateGlyph(int id, const QString &glyph);
-	void setTranslateShown(int id, const QString &text);
+	// Findet den Textblock (Chat-Zeile), der den Globus-Anker dieser id enthält.
+	QTextBlock findTranslateBlock(int id) const;
+	// Baut den Inhalt der Chat-Zeile aus dem gespeicherten Zustand neu auf
+	// (Original- ODER Übersetzungs-Körper + Globus/Spinner) und ersetzt damit
+	// den zugehörigen Block im Dokument. So ERSETZT die Übersetzung den Text an
+	// gleicher Stelle (statt rechts daneben zu erscheinen).
+	void rebuildTranslateBlock(int id);
 
 private slots:
 	// QTextBrowser-Links (openLinks ist aus): unser Pseudo-Schema übersetzt,
@@ -173,12 +175,17 @@ private:
 	std::list<std::string> ignoreList;
 
 	// ── Chat-Übersetzung ────────────────────────────────────────────────
+	struct TranslateEntry {
+		QString sourceText;   // Rohtext der Nachricht (für die Anfrage)
+		QString lineNoGlobe;  // gerenderte Chat-Zeile OHNE Globus (Original-Körper)
+		QString bodyHtml;     // Original-Nachrichtenkörper (Teilstring von lineNoGlobe)
+		QString translated;   // gecachte Übersetzung (leer = noch nicht geholt)
+		bool inFlight = false;
+		bool shown = false;   // Übersetzung aktuell eingeblendet? (Toggle)
+	};
 	ChatTranslatorCore *myTranslator;
-	QHash<int, QString> myTranslateSource;   // Anchor-id -> Rohtext der Nachricht
-	QHash<int, QString> myTranslateCache;    // Anchor-id -> gecachte Übersetzung
-	QHash<int, int> myTranslateReqToId;      // Core-Request-id -> Anchor-id
-	QSet<int> myTranslateInFlight;           // laufende Anfragen (Doppel-Tap-Schutz)
-	QSet<int> myTranslateShown;              // aktuell eingeblendete Übersetzungen (Toggle)
+	QHash<int, TranslateEntry> myTranslateEntries;  // Anchor-id -> Zustand
+	QHash<int, int> myTranslateReqToId;             // Core-Request-id -> Anchor-id
 	int myTranslateNextId;
 };
 

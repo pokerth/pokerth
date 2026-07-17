@@ -375,9 +375,10 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
         line = QStringLiteral("[") + ts + QStringLiteral("] <b>") + name + QStringLiteral(":</b> ") + styledMsg;
 
     // Übersetzen-Symbol nur an Nachrichten anderer (rawDisplay = Quelltext ohne
-    // HTML/Style-Markup).
+    // HTML/Style-Markup; styledMsg = Nachrichtenkörper, der beim Einblenden
+    // durch die Übersetzung ersetzt wird).
     if (m_chatTranslator && playerName != myNick)
-        line = m_chatTranslator->decorate(line, rawDisplay);
+        line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
 
     m_chatLog.append(line);
     const int kMaxLines = 400;

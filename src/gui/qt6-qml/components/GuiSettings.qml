@@ -115,12 +115,22 @@ Rectangle {
                         }
                     }
 
-                    ConfigCheckBox {
+                    CheckBox {
                         objectName: "allowChatTranslationCheckbox"
                         Layout.fillWidth: true
                         text: qsTr("Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)")
-                        configKey: "AllowChatTranslation"
-                        defaultChecked: true
+                        checked: (typeof SettingsManager !== "undefined" && SettingsManager)
+                                 ? SettingsManager.readConfigInt("AllowChatTranslation") !== 0 : true
+                        onToggled: {
+                            if (typeof SettingsManager !== "undefined" && SettingsManager)
+                                SettingsManager.writeConfigInt("AllowChatTranslation", checked ? 1 : 0)
+                            // Echtzeit: den sichtbaren Verlauf beider Chats sofort
+                            // anpassen (Globus/Übersetzungen ein-/ausblenden).
+                            if (typeof Lobby !== "undefined" && Lobby && Lobby.chatTranslator)
+                                Lobby.chatTranslator.refreshEnabled()
+                            if (typeof GameTable !== "undefined" && GameTable && GameTable.chatTranslator)
+                                GameTable.chatTranslator.refreshEnabled()
+                        }
                         contentItem: Text {
                             text: parent.text
                             wrapMode: Text.Wrap
