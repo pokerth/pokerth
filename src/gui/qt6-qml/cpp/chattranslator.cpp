@@ -38,7 +38,7 @@ QString ChatTranslator::anchorFor(int id, const QString &glyph)
 	// Nachrichten-Emojis (enlargeEmojis: 22px) – gut erkennbar, ohne die Zeile
 	// zu dominieren. Größe ist fix, also unabhängig von der Chat-Textgröße.
 	return QStringLiteral("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
-	                      "<span style=\"font-size:18px; font-family:'Noto Color Emoji';\">%2</span></a>")
+	                      "<span style=\"font-size:15px; font-family:'Noto Color Emoji';\">%2</span></a>")
 		.arg(id)
 		.arg(glyph);
 }

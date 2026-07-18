@@ -615,7 +615,7 @@ QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
 	// Nachrichten-Emojis (wrapEmojisLarger: 20px) – gut erkennbar, ohne die
 	// Zeile zu dominieren. Größe ist fix, also unabhängig von der Textgröße.
 	return QString("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
-	               "<span style=\"font-size:16px; font-family:'%2';\">%3</span></a>")
+	               "<span style=\"font-size:14px; font-family:'%2';\">%3</span></a>")
 	       .arg(id).arg(EmojiPicker::emojiFontFamily()).arg(glyph);
 }
 
