@@ -292,6 +292,13 @@ Item {
                 readOnly: true
                 selectByMouse: true
                 persistentSelection: true
+                // Der Verlauf darf den Tastaturfokus NIE an sich ziehen: jeder
+                // Press auf den Text (Selektion, Drag-Scrollen, Link-/Globus-Tap)
+                // würde ihn sonst dem Eingabefeld wegnehmen – die bereits
+                // getippte Nachricht bliebe stehen, aber Enter ginge ins Leere.
+                // Maus-Selektion funktioniert ohne Fokus weiter (persistent-
+                // Selection hält sie sichtbar), Ctrl+C fängt inputField ab.
+                activeFocusOnPress: false
                 color: root.colText
                 selectionColor: root.colAccent
                 selectedTextColor: "#101010"
@@ -376,6 +383,9 @@ Item {
             Button {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
+                // Kein Klick-Fokus: der Fokus muss im Eingabefeld bleiben,
+                // sonst sendet Enter nach dem Auf-/Zuklappen nicht mehr.
+                focusPolicy: Qt.NoFocus
                 onClicked: root.showEmojiPicker = !root.showEmojiPicker
                 background: Rectangle {
                     radius: 6
@@ -432,6 +442,18 @@ Item {
                 // übernehmen, Esc = ausblenden. Sonst: Tab = Nick-Vervoll-
                 // ständigung (iteriert bei wiederholtem Tab), Hoch/Runter = History.
                 Keys.onPressed: (event) => {
+                    // Der Verlauf hat nie den Fokus (activeFocusOnPress: false),
+                    // bekäme also kein Ctrl+C ab. Ist im Eingabefeld selbst nichts
+                    // markiert, im Verlauf aber schon, kopiert Ctrl+C die
+                    // Verlaufs-Auswahl (sonst täte es hier ohnehin nichts).
+                    if (event.key === Qt.Key_C
+                            && (event.modifiers & Qt.ControlModifier)
+                            && inputField.selectedText.length === 0
+                            && msgText.selectedText.length > 0) {
+                        event.accepted = true
+                        msgText.copy()
+                        return
+                    }
                     if (emoteSuggestBox.visible) {
                         if (event.key === Qt.Key_Up) {
                             event.accepted = true
@@ -491,6 +513,9 @@ Item {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
                 enabled: root.inputEnabled && inputField.text.trim().length > 0
+                // Kein Klick-Fokus: nach dem Senden per Maus bleibt der Cursor
+                // im Eingabefeld, die nächste Nachricht geht direkt per Enter raus.
+                focusPolicy: Qt.NoFocus
                 onClicked: root._send()
                 background: Item {}
                 HoverHandler { cursorShape: Qt.PointingHandCursor }
