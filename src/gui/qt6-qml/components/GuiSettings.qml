@@ -110,7 +110,13 @@ Rectangle {
                             onActivated: {
                                 var code = model[currentIndex].code
                                 Config.Parameters.language = code
-                                LanguageManager.switchLanguage(code)
+                                LanguageManager.switchLanguage(code)   // Oberfläche sofort
+                                // Maßgeblich ins ConfigFile schreiben (Kurzcode,
+                                // damit der Widgets-Client seine .qm findet).
+                                // Die Chat-Übersetzung liest den Key live -> greift sofort.
+                                if (typeof SettingsManager !== "undefined" && SettingsManager)
+                                    SettingsManager.language =
+                                        Config.StaticData.localeToConfigLanguage(code)
                             }
                         }
                     }

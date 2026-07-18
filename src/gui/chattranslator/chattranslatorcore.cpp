@@ -28,21 +28,53 @@ bool ChatTranslatorCore::enabled() const
 	return m_config && m_config->readConfigInt("AllowChatTranslation") != 0;
 }
 
+QString ChatTranslatorCore::normalizeLangCode(const QString &raw)
+{
+	QString code = raw.trimmed();
+	code.replace(QLatin1Char('-'), QLatin1Char('_'));
+	if (code.isEmpty())
+		return QStringLiteral("en");
+
+	// Regionale Varianten, die die Dienste unterscheiden. Beide Schreibweisen
+	// abdecken: QML-Locale ("pt_BR") und PokerTH-Kürzel ("ptbr").
+	if (code.startsWith(QLatin1String("pt_BR"), Qt::CaseInsensitive)
+	    || code.compare(QLatin1String("ptbr"), Qt::CaseInsensitive) == 0)
+		return QStringLiteral("pt-BR");
+	if (code.startsWith(QLatin1String("pt_PT"), Qt::CaseInsensitive)
+	    || code.compare(QLatin1String("ptpt"), Qt::CaseInsensitive) == 0)
+		return QStringLiteral("pt-PT");
+	if (code.startsWith(QLatin1String("zh_CN"), Qt::CaseInsensitive)
+	    || code.compare(QLatin1String("zhcn"), Qt::CaseInsensitive) == 0)
+		return QStringLiteral("zh-CN");
+	if (code.startsWith(QLatin1String("zh_TW"), Qt::CaseInsensitive)
+	    || code.compare(QLatin1String("zhtw"), Qt::CaseInsensitive) == 0)
+		return QStringLiteral("zh-TW");
+
+	// Sprachteil vor der Region ("de_DE" -> "de").
+	const int us = code.indexOf(QLatin1Char('_'));
+	const QString lang = (us > 0 ? code.left(us) : code).toLower();
+
+	// PokerTH-Kürzel (ts-Dateinamen) auf ISO 639-1 abbilden, wo sie abweichen.
+	static const QHash<QString, QString> alias = {
+		{ QStringLiteral("cz"), QStringLiteral("cs") },  // Tschechisch
+		{ QStringLiteral("dk"), QStringLiteral("da") },  // Dänisch
+		{ QStringLiteral("gr"), QStringLiteral("el") },  // Griechisch
+		{ QStringLiteral("jp"), QStringLiteral("ja") },  // Japanisch
+		{ QStringLiteral("se"), QStringLiteral("sv") },  // Schwedisch
+		{ QStringLiteral("ua"), QStringLiteral("uk") },  // Ukrainisch
+	};
+	return alias.value(lang, lang);
+}
+
 QString ChatTranslatorCore::targetLang() const
 {
-	QString code = m_config
+	// Einzige Quelle: der ConfigFile-Key "Language" – denselben pflegen BEIDE
+	// Clients. Wird bei jeder Anfrage frisch gelesen, ein Sprachwechsel wirkt
+	// damit sofort (ohne Neustart).
+	const QString code = m_config
 		? QString::fromStdString(m_config->readConfigString("Language"))
 		: QString();
-	if (code.isEmpty())
-		code = QStringLiteral("en_US");
-	// pt_BR/pt_PT behalten die Region (Google und MyMemory unterscheiden sie),
-	// für alle übrigen Sprachen genügt der 2-Buchstaben-Sprachcode.
-	if (code.startsWith(QLatin1String("pt_BR")))
-		return QStringLiteral("pt-BR");
-	if (code.startsWith(QLatin1String("pt_PT")))
-		return QStringLiteral("pt-PT");
-	const int us = code.indexOf(QLatin1Char('_'));
-	return us > 0 ? code.left(us) : code;
+	return normalizeLangCode(code);
 }
 
 QString ChatTranslatorCore::styledTranslation(const QString &originalBodyHtml,

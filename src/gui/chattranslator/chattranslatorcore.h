@@ -39,8 +39,15 @@ public:
 	// Request-ID; das Ergebnis kommt asynchron über translated(requestId, …).
 	int translate(const QString &text);
 
-	// Config "Language" (z. B. "de_DE") -> API-Sprachcode ("de", "pt-BR", …).
+	// Zielsprache als API-Code ("de", "pt-BR", "zh-CN", …). Quelle ist der
+	// ConfigFile-Key "Language", den beide Clients pflegen.
 	QString targetLang() const;
+
+	// Normalisiert einen Sprachcode auf einen von den Diensten verstandenen
+	// Code. Deckt QML-Locales ("de_DE") ebenso ab wie die PokerTH-Kürzel der
+	// Widget-ts-Dateien ("cz", "dk", "gr", "jp", "ptbr", "zhcn" …), die teils
+	// von ISO 639-1 abweichen.
+	static QString normalizeLangCode(const QString &raw);
 
 	// Baut das HTML für die eingeblendete Übersetzung, die den Originaltext an
 	// gleicher Stelle ERSETZT. Übernimmt – wenn möglich – den umschließenden

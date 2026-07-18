@@ -200,6 +200,11 @@ ApplicationWindow {
         Config.Theme.windowHeight      = height
         x = screen.width / 2 - width / 2
         y = screen.height / 2 - height / 2
+        // Sprache kommt aus dem ConfigFile (Key "Language") – derselbe Wert, den
+        // auch der Widgets-Client nutzt. Parameters.language ist nur noch der
+        // Laufzeitwert für die Oberfläche.
+        Config.Parameters.language = Config.StaticData.configLanguageToLocale(
+                    SettingsManager ? SettingsManager.language : "")
         LanguageManager.switchLanguage(Config.Parameters.language)
         // Initialise dark/light mode from stored preference
         var dm = SettingsManager ? SettingsManager.readConfigInt("DarkMode") : 1
