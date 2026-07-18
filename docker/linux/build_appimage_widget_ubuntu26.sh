@@ -30,12 +30,6 @@ echo ""
 
 # Sicherstellen, dass wir auf dem richtigen Branch sind
 CURRENT_BRANCH=$(git -C "$PROJECT_ROOT" rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unbekannt")
-if [ "$CURRENT_BRANCH" != "qt6-qml" ]; then
-    echo "WARNUNG: Aktueller Branch ist '$CURRENT_BRANCH', erwartet 'qt6-qml'."
-    echo "Bitte erst: git checkout qt6-qml"
-    read -r -p "Trotzdem fortfahren? [j/N] " REPLY
-    [[ "$REPLY" =~ ^[jJyY]$ ]] || exit 1
-fi
 echo "Branch: $CURRENT_BRANCH  (wird via COPY in den Container kopiert)"
 echo ""
 
