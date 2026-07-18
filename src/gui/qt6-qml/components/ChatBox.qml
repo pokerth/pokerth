@@ -538,10 +538,14 @@ Item {
     }
 
     // ── Emoji-Picker als Popup über der Box (außerhalb des Layouts) ──
+    // Bündig mit dem SICHTBAREN Chat-Rahmen, nicht mit der ChatBox: am Tisch
+    // sitzt die ChatBox mit Rand in ihrem Dock-Rechteck – ohne diesen Ausgleich
+    // wirkt der Picker schmaler als die Chat-Box und sitzt leicht versetzt.
     Rectangle {
         visible: root.showEmojiPicker && root.emojiPickerAsPopup
         y: -height - 10
-        width: root.width
+        x: root.parent ? -root.x : 0
+        width: root.parent ? root.parent.width : root.width
         height: 156
         radius: 10
         z: 50
