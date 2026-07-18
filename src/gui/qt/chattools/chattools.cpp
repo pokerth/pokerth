@@ -611,10 +611,11 @@ static void replaceBlockContentHtml(const QTextBlock &block, const QString &html
 
 QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
 {
-	// Symbol wie ein Chat-Emoji vergrößern (wrapEmojisLarger, 20px), damit es
-	// unabhängig von der Textgröße gut erkennbar ist.
+	// Symbol wie ein Chat-Emoji rendern, aber bewusst etwas kleiner als die
+	// Nachrichten-Emojis (wrapEmojisLarger: 20px) – gut erkennbar, ohne die
+	// Zeile zu dominieren. Größe ist fix, also unabhängig von der Textgröße.
 	return QString("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
-	               "<span style=\"font-size:20px; font-family:'%2';\">%3</span></a>")
+	               "<span style=\"font-size:16px; font-family:'%2';\">%3</span></a>")
 	       .arg(id).arg(EmojiPicker::emojiFontFamily()).arg(glyph);
 }
 
