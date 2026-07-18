@@ -359,7 +359,7 @@ ApplicationWindow {
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
-                    source: "resources/globe.svg"
+                    source: "resources/trophy.svg"
                     visible: mainWindow.topBarIconsVisible && Config.Parameters.showCommunityContent
                     ToolTip.visible: rankingArea.containsMouse
                                      && !Config.Responsive.isMobile && Config.Parameters.showTooltips

@@ -40,7 +40,10 @@ Rectangle {
             return
         mainStackView.push("../pages/GameTableStatsPage.qml", {
             nicks: GameTable.tableStatsNicks(),
-            tableName: tableName
+            tableName: tableName,
+            // Einstellungen des laufenden Tisches als Momentaufnahme mitgeben.
+            gameInfo: (typeof Lobby !== "undefined" && Lobby)
+                      ? Lobby.currentGameInfo() : ({})
         })
     }
 
