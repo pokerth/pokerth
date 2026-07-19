@@ -26,24 +26,35 @@
    trotz gleicher Flaeche wie Nobby die Schwelle 30 - bei 60 fallen die
    hellen Buende ihres Banjohalses weg und der Hals wirkt schwarz.
 
+   Der Index ist gegenueber dem default-Deck um Faktor 1,3 vergroessert (Rang
+   scale 0.5733 auf Anker 25/10.6, Farbsymbol 0.5603 auf 25/70.72): die
+   detaillierten Motive ziehen den Blick, ein Index in Originalgroesse wirkt
+   daneben zu klein. Die Motive sind im Gegenzug um 10% kleiner.
+
+   Die Anker sind so gesetzt, dass die Tinte links wie oben 6 Einheiten
+   Abstand zum Innenrahmen (x=4,6) haben. Massgeblich ist die breiteste
+   Glyphe ueber alle 52 Karten - das Kreuz-Symbol; wer die Anker aendert,
+   misst die Tinten-Bounding-Box, nicht die Gruppen-Koordinaten.
+
    Platzierung: Unterkante y=160, rechte Kante x=106 (Herz), x=112 (Karo),
    x=114 (Pik, Kreuz). Karo bleibt knapp unter 114, weil Nobbys Laternenhaken
    sonst fast am Innenrahmen (x=115,4) klebt.
    Skaliert wird anhand der tatsaechlichen Bounding Box des
    Motiv-SVG, nicht seiner Zeichenflaeche - sonst wirken Motive mit Rand
-   kleiner als die uebrigen. Hoehen: Nobby 122, Nanny 110, Zauberer 104, Tod
-   der Ratten 104. Nobby laeuft am groessten, weil er als schmale Figur mit
+   kleiner als die uebrigen. Hoehen: Nobby 110, Nanny 99, Zauberer 94, Tod
+   der Ratten 94. Nobby laeuft am groessten, weil er als schmale Figur mit
    viel Luft zwischen Koerper und Laternenstab sonst kleiner wirkt.
 
    Zwei Sonderfaelle:
    - Der Zauberstab ragt oben links ueber die Figur hinaus und kommt der
      Index-Gruppe zu nah (auf x=106 ueberlappt er sie ab Hoehe 108 sogar).
      Der Zauberer sitzt deshalb auf x=114 und ist als Einziger anisotrop
-     skaliert - 6% schmaler bei voller Hoehe (scale 0.08118 0.08636). 6%
-     sieht man der Figur nicht an, ab etwa 12% wirkt sie sichtbar gestaucht.
-   - Der Tod der Ratten ist eine diagonale, fast quadratische Komposition:
-     bei Hoehe 104 ist er schon 105 breit und reicht von x=9 bis x=114. Mehr
-     Hoehe geht nicht, ohne ihn links aus der Karte laufen zu lassen.
+     skaliert - 6% schmaler bei voller Hoehe (Verhaeltnis 0.07337 zu 0.07805).
+     6% sieht man der Figur nicht an, ab etwa 12% wirkt sie sichtbar
+     gestaucht.
+   - Der Tod der Ratten ist eine diagonale, fast quadratische Komposition und
+     mit 95 Breite zu 94 Hoehe das breiteste Motiv. Er reicht bis x=19; mehr
+     Hoehe wuerde ihn links aus der Karte laufen lassen.
 
    Obergrenzen nicht schaetzen, sondern messen: Index-Gruppen und Motiv-Gruppe
    getrennt auf transparent rendern, Alpha binarisieren, multiplizieren -
