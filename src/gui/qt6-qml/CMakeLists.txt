@@ -316,6 +316,28 @@ endif()
 
 # iOS: App-Bundle konfigurieren und finalisieren
 if(IOS)
+    # iosbackgroundsession.mm ist Objective-C++ (UIKit-Zugriff). Ohne
+    # enable_language(OBJCXX) wuerde CMake die .mm-Datei als reines C++
+    # uebersetzen und an den #import-Direktiven scheitern.
+    enable_language(OBJCXX)
+    target_sources(pokerth_qml-client PRIVATE cpp/iosbackgroundsession.mm)
+    # ARC (Automatic Reference Counting) fuer diese Datei: die von
+    # addObserverForName: gelieferten Observer-Objekte sind autoreleased. Ohne
+    # ARC wuerden die globalen Referenzen darauf ins Leere zeigen, sobald der
+    # Autorelease-Pool laeuft (Absturz beim removeObserver:). Mit ARC haelt die
+    # starke globale Variable das Objekt korrekt am Leben.
+    set_source_files_properties(cpp/iosbackgroundsession.mm PROPERTIES
+        COMPILE_OPTIONS "-fobjc-arc")
+    # screenhelper.cpp enthaelt auf iOS einen UIKit-Zweig (idleTimerDisabled,
+    # verhindert Bildschirmsperre waehrend des Spiels). Die Datei bleibt eine
+    # .cpp – der Android-Zweig und die gemeinsame Klasse stehen dort –, wird auf
+    # iOS aber als Objective-C++ uebersetzt, damit #import/UIKit funktioniert.
+    set_source_files_properties(cpp/screenhelper.cpp PROPERTIES LANGUAGE OBJCXX)
+
+    # UIApplication/NSNotificationCenter: UIKit + Foundation.
+    target_link_libraries(pokerth_qml-client PRIVATE
+        "-framework UIKit" "-framework Foundation")
+
     set(POKERTH_IOS_BUNDLE_ID "org.pokerth.qml" CACHE STRING "CFBundleIdentifier der iOS-App")
     set(POKERTH_IOS_VERSION   "2.1.3"           CACHE STRING "CFBundleShortVersionString der iOS-App")
     set(POKERTH_IOS_BUILD     "23"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")

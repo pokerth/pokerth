@@ -5,6 +5,7 @@
 
 #include "lobbyhandler.h"
 #include "androidconnectionservice.h"
+#include "iosbackgroundsession.h"
 #include "chattranslator.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
@@ -1530,6 +1531,7 @@ void LobbyHandler::leaveServer()
     m_session->terminateNetworkClient();
     // Keine aktive Online-Session mehr → Foreground-Service beenden.
     AndroidConnectionService::stop();
+    IosBackgroundSession::stop();
     m_gameRunning = false;
     if (m_isSpectating) {
         m_isSpectating = false;

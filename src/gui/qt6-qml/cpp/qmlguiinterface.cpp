@@ -8,6 +8,7 @@
 #include "lobbyhandler.h"
 #include "gamehandler.h"
 #include "androidconnectionservice.h"
+#include "iosbackgroundsession.h"
 #include "configfile.h"
 #include <session.h>
 #include <game.h>
@@ -63,6 +64,9 @@ void QmlGuiInterface::SignalNetClientConnect(int actionID)
     // Verlassen des Servers (LobbyHandler::leaveServer).
     if (actionID == 1) {
         AndroidConnectionService::start();
+        // iOS-Pendant: markiert die aktive Session, damit beim App-Wechsel eine
+        // Hintergrund-Gnadenfrist angefordert wird (s. iosbackgroundsession.h).
+        IosBackgroundSession::start();
     }
 }
 
@@ -81,6 +85,7 @@ void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
     }
     // Verbindung ist weg → der Foreground-Service hat nichts mehr zu schützen.
     AndroidConnectionService::stop();
+    IosBackgroundSession::stop();
 }
 
 void QmlGuiInterface::SignalNetClientLoginShow()

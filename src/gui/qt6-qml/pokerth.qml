@@ -244,6 +244,50 @@ ApplicationWindow {
         return true
     }
 
+    // Sicherheitsnetz beim Verlassen eines NETZWERK-Spiels.
+    //
+    // Regulär vollzieht nicht performLeaveGame() den Wechsel zurück zur Lobby,
+    // sondern erst die Server-Bestätigung: Lobby.leaveGame() schickt das Paket,
+    // der Server antwortet mit removedFromGame, und GameWaitPage (liegt unter der
+    // GamePage im Stack) poppt bis zur Lobby. Ist die Verbindung tot – auf iOS
+    // reisst das System beim Suspendieren TCP-Sockets ab, ohne dass der Client es
+    // merkt –, kommt diese Antwort NIE. Der Nutzer sitzt dann dauerhaft im
+    // Spielbildschirm fest: die Abfrage erscheint, „Ja" bewirkt aber nichts, und
+    // nur ein Neustart der App hilft (genau so im Testbericht + Debug-Log:
+    // zwei Leave-Versuche, beide ohne Wirkung).
+    //
+    // Der Timer poppt deshalb nach Ablauf selbst zur Lobby. Er wird von
+    // onRemovedFromGame gestoppt, sodass er im Normalfall (Antwort in
+    // Millisekunden) nie feuert und das Verhalten unverändert bleibt.
+    Timer {
+        id: leaveGameFallbackTimer
+        interval: 5000
+        repeat: false
+        onTriggered: {
+            // Nur eingreifen, wenn Spiel/Warteraum ueberhaupt noch im Stack liegen.
+            // Bewusst der ganze Stack statt nur currentItem: der Nutzer kann
+            // waehrend des Wartens ein Overlay (z.B. die Einstellungen) geoeffnet
+            // haben – im Testbericht war genau das moeglich, waehrend das Spiel
+            // stand. Das Overlay wird vom pop() zur Lobby mit entfernt.
+            var stuck = mainStackView.find(function(item) {
+                return item && (item.objectName === "gamePage"
+                                || item.objectName === "gameWaitPage")
+            })
+            if (!stuck)
+                return
+            console.warn("[NAV] leaveGame: keine Server-Bestätigung nach "
+                         + (leaveGameFallbackTimer.interval / 1000)
+                         + "s – verlasse das Spiel clientseitig (Verbindung tot?)")
+            var lobby = mainStackView.find(function(item) {
+                return item && item.objectName === "lobbyPage"
+            })
+            if (lobby)
+                mainStackView.pop(lobby)
+            else
+                mainStackView.pop(null)   // keine Lobby im Stack → zur Startseite
+        }
+    }
+
     function performLeaveLobby() {
         // Bewusster Disconnect meldet keinen connectionFailed – eine offene
         // Timeout-Warnung der beendeten Session hier direkt schließen.
@@ -270,6 +314,9 @@ ApplicationWindow {
         if (isWaitPage || (isGamePage && !localGame)) {
             if (typeof Lobby !== "undefined" && Lobby)
                 Lobby.leaveGame()
+            // Sicherheitsnetz starten: kommt die Server-Bestätigung nicht, holt
+            // uns leaveGameFallbackTimer trotzdem aus dem Spiel (s. dort).
+            leaveGameFallbackTimer.restart()
             return
         }
 
@@ -868,6 +915,11 @@ ApplicationWindow {
         // networkNotification() – Pendant hier: die Entfernung aus dem Spiel
         // macht die Warnung gegenstandslos, Popup schließen.
         function onRemovedFromGame(reason) {
+            // Server hat das Verlassen bestätigt → das Sicherheitsnetz
+            // (leaveGameFallbackTimer) wird nicht mehr gebraucht. Ohne dieses
+            // Stoppen würde es nach einem regulären Verlassen nachfeuern und
+            // könnte eine inzwischen geöffnete Seite wegpoppen.
+            leaveGameFallbackTimer.stop()
             timeoutWarningPopup.close()
         }
         function onNetworkMessageReceived(message) {

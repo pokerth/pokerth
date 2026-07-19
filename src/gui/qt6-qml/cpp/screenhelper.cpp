@@ -5,6 +5,10 @@
 #include <QCoreApplication>
 #endif
 
+#ifdef Q_OS_IOS
+#import <UIKit/UIKit.h>
+#endif
+
 ScreenHelper::ScreenHelper(QObject *parent) : QObject(parent) {}
 
 void ScreenHelper::setKeepScreenOn(bool keep)
@@ -45,6 +49,32 @@ void ScreenHelper::setKeepScreenOn(bool keep)
         iface->runOnAndroidMainThread(applyFlag);
     else
         applyFlag(); // non-Android or Qt < 6.2 fallback
+
+#elif defined(Q_OS_IOS)
+    // iOS-Pendant zu FLAG_KEEP_SCREEN_ON: der "Idle Timer" ist die Uhr, nach
+    // deren Ablauf iOS den Bildschirm abdunkelt und sperrt. Abgeschaltet bleibt
+    // das Display waehrend des Spiels an.
+    //
+    // Das ist hier NICHT nur Komfort, sondern verhindert einen Verbindungs-
+    // abbruch: Nach der Bildschirmsperre suspendiert iOS die App, das Socket-
+    // I/O steht still und die TCP-Verbindung zum Server stirbt still. Fuer den
+    // Nutzer sieht das aus wie ein eingefrorenes Spiel bei bedienbarer GUI -
+    // genau das beobachtete Verhalten, obwohl die App im Vordergrund war.
+    // Wer laenger ueberlegt, ohne den Bildschirm zu beruehren, lief bisher
+    // genau in diese Falle.
+    //
+    // UIKit erwartet den Main-Thread; setKeepScreenOn() wird aus QML (GUI-
+    // Thread) aufgerufen, der Check ist nur die Absicherung.
+    {
+        const bool disableIdleTimer = keep;
+        dispatch_block_t apply = ^{
+            [UIApplication sharedApplication].idleTimerDisabled = disableIdleTimer;
+        };
+        if ([NSThread isMainThread])
+            apply();
+        else
+            dispatch_async(dispatch_get_main_queue(), apply);
+    }
 #else
     Q_UNUSED(keep)
 #endif
