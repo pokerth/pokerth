@@ -299,9 +299,9 @@ build_app_bundle() {
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>2.1.3</string>
+    <string>2.1.4</string>
     <key>CFBundleVersion</key>
-    <string>2.1.3</string>
+    <string>2.1.4</string>
     <key>CFBundleIconFile</key>
     <string>pokerth.icns</string>
     <key>NSHighResolutionCapable</key>
