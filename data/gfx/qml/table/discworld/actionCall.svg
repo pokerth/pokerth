@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 43">
+  <!-- Discworld: gebeizte Eichenbohle. Basisverlauf + Maserung, oben ein
+       schmales Kantenlicht, unten die Schattenkante - der Knopf soll wie ein
+       Stück Tresenholz wirken, nicht wie lackierter Kunststoff. -->
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5c682f"/>
+      <stop offset="0.55" stop-color="#3a431e"/>
+      <stop offset="1" stop-color="#232a12"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="166" height="41" rx="7.0" ry="7.0" fill="url(#base)"/>
+
+  <g fill="none" stroke="#18200c" stroke-linecap="round">
+    <path d="M10 7.5Q47 5.5 84 7.5T158 7.5" stroke-width="0.9" stroke-opacity="0.3"/>
+    <path d="M10 13.0Q47 14.6 84 13.0T158 13.0" stroke-width="0.6" stroke-opacity="0.22"/>
+    <path d="M10 19.5Q47 18.3 84 19.5T158 19.5" stroke-width="1.1" stroke-opacity="0.26"/>
+    <path d="M10 25.0Q47 27.0 84 25.0T158 25.0" stroke-width="0.7" stroke-opacity="0.2"/>
+    <path d="M10 31.0Q47 29.2 84 31.0T158 31.0" stroke-width="0.9" stroke-opacity="0.28"/>
+    <path d="M10 36.5Q47 37.7 84 36.5T158 36.5" stroke-width="0.6" stroke-opacity="0.18"/>
+  </g>
+
+  <!-- Kantenlicht oben / Schattenkante unten -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M8.0 2.2H160.0" stroke="#8d9a54" stroke-opacity="0.55" stroke-width="1.2"/>
+    <path d="M8.0 41.0H160.0" stroke="#000000" stroke-opacity="0.45" stroke-width="1.6"/>
+  </g>
+
+  <rect x="1" y="1" width="166" height="41" rx="7.0" ry="7.0"
+        fill="none" stroke="#141a08" stroke-width="1.6"/>
+</svg>

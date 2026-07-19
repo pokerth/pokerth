@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Discworld: Wirtshaus-Marke aus Gold. Geprägter Rand, vertiefte Type. -->
+  <defs>
+    <linearGradient id="rim" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe9ac"/>
+      <stop offset="0.45" stop-color="#c4922e"/>
+      <stop offset="1" stop-color="#6b4710"/>
+    </linearGradient>
+    <radialGradient id="face" cx="36%" cy="30%" r="72%">
+      <stop offset="0" stop-color="#ffdf94"/>
+      <stop offset="0.55" stop-color="#d3a03a"/>
+      <stop offset="1" stop-color="#8a5f16"/>
+    </radialGradient>
+  </defs>
+  <circle cx="20" cy="20" r="19" fill="url(#rim)" stroke="#4e330a" stroke-width="1"/>
+  <circle cx="20" cy="20" r="16.4" fill="url(#face)" stroke="#5d3f0c" stroke-width="0.7"/>
+  <circle cx="20" cy="20" r="14.1" fill="none" stroke="#5d3f0c" stroke-width="0.6" stroke-opacity="0.5"/>
+  <text x="20" y="28.6" text-anchor="middle" font-family="Georgia, serif" font-size="23"
+        font-weight="700" fill="#ffe6ad" fill-opacity="0.35">D</text>
+  <text x="20" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="23"
+        font-weight="700" fill="#3a2405">D</text>
+</svg>
