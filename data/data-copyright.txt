@@ -31,6 +31,22 @@ gfx/qml/backside/star_trek:
 	- backside.svg (Emblem)			--> https://icons8.com (icon "Next Generation Badge")
 
 
+gfx/qml/cards/discworld:
+
+	- 0.svg - 51.svg (Rang-Glyphen,		--> aus gfx/qml/cards/default übernommen
+	  Farbsymbole im Index)
+	- 0.svg - 12.svg (Nobby Nobbs)		--> generiert mit ChatGPT (OpenAI),
+	- 13.svg - 25.svg (Nanny Ogg)		    vektorisiert mit vectorise.ai;
+	- 26.svg - 38.svg (Zauberer)		    Motive angelehnt an
+	- 39.svg - 51.svg (Der Tod der Ratten)	    Terry Pratchetts "Scheibenwelt"
+
+
+gfx/qml/backside/discworld:
+
+	- backside.svg (Great A'Tuin)		--> generiert mit ChatGPT (OpenAI),
+						    vektorisiert mit vectorise.ai
+
+
 gfx/qml/table/star_trek:
 
 	- table.png				--> generiert mit ChatGPT (OpenAI)
