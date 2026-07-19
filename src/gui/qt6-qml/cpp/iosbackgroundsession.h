@@ -28,11 +28,21 @@
 // Freigeben der Gnadenfrist erledigt die Implementierung selbst anhand der
 // UIApplication-Benachrichtigungen.
 //
-// Auf allen anderen Plattformen sind beide Funktionen No-ops.
+// Auf allen anderen Plattformen sind beide Funktionen No-ops. Sie stehen als
+// inline-Definitionen hier im Header, weil iosbackgroundsession.mm nur im
+// iOS-Zweig der CMakeLists zum Target gehoert (eine .mm laesst sich anderswo
+// nicht uebersetzen) - sonst faenden die Aufrufer beim Linken keine Symbole.
+#include <QtGlobal>
+
 namespace IosBackgroundSession
 {
+#ifdef Q_OS_IOS
 void start();
 void stop();
+#else
+inline void start() {}
+inline void stop() {}
+#endif
 }
 
 #endif // IOSBACKGROUNDSESSION_H

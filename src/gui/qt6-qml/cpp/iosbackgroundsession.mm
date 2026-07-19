@@ -96,14 +96,4 @@ void IosBackgroundSession::stop()
     });
 }
 
-#else // !Q_OS_IOS
-
-void IosBackgroundSession::start()
-{
-}
-
-void IosBackgroundSession::stop()
-{
-}
-
-#endif
+#endif // Q_OS_IOS
