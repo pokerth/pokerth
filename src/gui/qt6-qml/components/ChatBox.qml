@@ -245,18 +245,42 @@ Item {
                 interval: 15000
                 onTriggered: { msgFlick.autoScroll = true; msgFlick.scrollToBottom() }
             }
-            function scrollToBottom() { contentY = Math.max(0, contentHeight - height) }
+            // Ans Ende springen heißt „wieder mitlaufen": autoScroll aktivieren
+            // und die Bindung oben die Position übernehmen lassen. Die direkte
+            // Zuweisung wirkt sofort (falls autoScroll schon an war), die Bindung
+            // zieht danach jede noch folgende Höhenänderung nach.
+            function scrollToBottom() {
+                autoScroll = true
+                contentY = Math.max(0, contentHeight - height)
+            }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Hält die View am Ende (Auto-Scroll) bzw. an der gemerkten Position.
-            // Per Qt.callLater entkoppelt, damit es NACH dem Layout läuft (finale
-            // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
+            // Am Ende kleben, solange Auto-Scroll aktiv ist – als BINDUNG, nicht
+            // als einmalige Zuweisung. Grund: QQuickTextEdit aktualisiert seine
+            // implicitHeight erst in der Polish-Phase (RichText zusätzlich erst
+            // nach dem Neu-Umbrechen des Dokuments). Ein Qt.callLater kann davor
+            // laufen und würde dann auf die ALTE Höhe scrollen – die zuletzt
+            // angehängte Zeile bliebe unsichtbar, bis irgendein späteres Update
+            // die View erneut bewegt (typisch: die nächste Nachricht). Die
+            // Bindung folgt dagegen JEDER Höhenänderung, egal wann sie eintrifft.
+            //
+            // Kein !moving/!pressed in der Bedingung: sobald der Nutzer selbst
+            // scrollt, setzt onContentYChanged autoScroll auf false und löst die
+            // Bindung damit ohnehin – und der Wert hängt nicht an contentY, die
+            // Bindung kämpft also nie gegen eine laufende Geste.
+            Binding {
+                target: msgFlick
+                property: "contentY"
+                value: Math.max(0, msgFlick.contentHeight - msgFlick.height)
+                when: msgFlick.autoScroll
+                restoreMode: Binding.RestoreNone
+            }
+            // Nur noch der pausierte Fall: gemerkte Position halten, während der
+            // Text komplett ersetzt wird. NUR wiederherstellen, wenn der Nutzer
+            // nicht gerade selbst scrollt – sonst klemmt das die Bewegung fest.
             function followBottom() {
-                if (autoScroll) scrollToBottom()
-                // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
-                // selbst scrollt – sonst klemmt das restoreScroll die Bewegung fest.
-                else if (!moving && !msgScrollBar.pressed) restoreScroll()
+                if (!autoScroll && !moving && !msgScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
