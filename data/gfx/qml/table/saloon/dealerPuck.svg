@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Saloon: Sheriffstern aus angelaufenem Nickel. Sechszackig mit Kugelspitzen,
+       in der Mitte eine geprägte Medaille mit vertiefter Type. -->
+  <defs>
+    <linearGradient id="star" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f4eee1"/>
+      <stop offset="0.45" stop-color="#b6ac99"/>
+      <stop offset="1" stop-color="#6a6154"/>
+    </linearGradient>
+    <radialGradient id="face" cx="36%" cy="30%" r="72%">
+      <stop offset="0" stop-color="#efe8d9"/>
+      <stop offset="0.55" stop-color="#bcb29e"/>
+      <stop offset="1" stop-color="#7b7263"/>
+    </radialGradient>
+  </defs>
+
+  <g fill="url(#star)" stroke="#3f3930" stroke-width="0.9" stroke-linejoin="round">
+    <!-- Kugelspitzen zuerst, damit der Sternkörper sie sauber überdeckt -->
+    <circle cx="20.00" cy="2.20" r="2.2"/>
+    <circle cx="35.42" cy="11.10" r="2.2"/>
+    <circle cx="35.42" cy="28.90" r="2.2"/>
+    <circle cx="20.00" cy="37.80" r="2.2"/>
+    <circle cx="4.58"  cy="28.90" r="2.2"/>
+    <circle cx="4.58"  cy="11.10" r="2.2"/>
+    <path d="M20.00 2.20 L24.30 12.55 L35.42 11.10 L28.60 20.00
+             L35.42 28.90 L24.30 27.45 L20.00 37.80 L15.70 27.45
+             L4.58 28.90 L11.40 20.00 L4.58 11.10 L15.70 12.55 Z"/>
+  </g>
+
+  <circle cx="20" cy="20" r="8.0" fill="url(#face)" stroke="#4a443a" stroke-width="0.7"/>
+  <circle cx="20" cy="20" r="6.7" fill="none" stroke="#4a443a" stroke-width="0.5" stroke-opacity="0.5"/>
+
+  <text x="20" y="24.6" text-anchor="middle" font-family="Georgia, serif" font-size="12"
+        font-weight="700" fill="#ffffff" fill-opacity="0.35">D</text>
+  <text x="20" y="24.1" text-anchor="middle" font-family="Georgia, serif" font-size="12"
+        font-weight="700" fill="#241f19">D</text>
+</svg>

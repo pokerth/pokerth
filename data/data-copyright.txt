@@ -52,6 +52,11 @@ gfx/qml/table/star_trek:
 	- table.png				--> generiert mit ChatGPT (OpenAI)
 
 
+gfx/qml/table/saloon:
+
+	- table.png				--> generiert mit ChatGPT (OpenAI)
+
+
 gfx/qml/cards/star_trek:
 
 	- 0.svg - 51.svg (Rang-Glyphen)		--> PT Serif Bold, (c) ParaType Ltd, SIL Open Font License 1.1

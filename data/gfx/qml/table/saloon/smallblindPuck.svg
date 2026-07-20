@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Saloon: Silberdollar. Geriffelter Rand, vertiefte Serifen-Type. -->
+  <defs>
+    <linearGradient id="rim" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#f6f2e8"/>
+      <stop offset="0.45" stop-color="#bdb4a2"/>
+      <stop offset="1" stop-color="#6f665a"/>
+    </linearGradient>
+    <radialGradient id="face" cx="36%" cy="30%" r="72%">
+      <stop offset="0" stop-color="#f1ebdd"/>
+      <stop offset="0.55" stop-color="#c2b8a5"/>
+      <stop offset="1" stop-color="#847b6b"/>
+    </radialGradient>
+  </defs>
+
+  <circle cx="20" cy="20" r="19" fill="url(#rim)" stroke="#443e35" stroke-width="1"/>
+
+  <!-- Riffelung des Münzrands -->
+  <g stroke="#5a5348" stroke-width="0.7" stroke-opacity="0.55">
+    <path d="M20 1.4V4.2M20 35.8V38.6M1.4 20H4.2M35.8 20H38.6"/>
+    <path d="M6.9 6.9L8.9 8.9M31.1 31.1L33.1 33.1M33.1 6.9L31.1 8.9M8.9 31.1L6.9 33.1"/>
+    <path d="M12.8 2.6L13.9 5.2M26.1 34.8L27.2 37.4M2.6 27.2L5.2 26.1M34.8 13.9L37.4 12.8"/>
+    <path d="M27.2 2.6L26.1 5.2M13.9 34.8L12.8 37.4M2.6 12.8L5.2 13.9M34.8 26.1L37.4 27.2"/>
+  </g>
+
+  <circle cx="20" cy="20" r="16.4" fill="url(#face)" stroke="#544d43" stroke-width="0.7"/>
+  <circle cx="20" cy="20" r="14.1" fill="none" stroke="#544d43" stroke-width="0.6" stroke-opacity="0.5"/>
+
+  <text x="20" y="26.6" text-anchor="middle" font-family="Georgia, serif" font-size="16"
+        font-weight="700" fill="#ffffff" fill-opacity="0.35">SB</text>
+  <text x="20" y="26" text-anchor="middle" font-family="Georgia, serif" font-size="16"
+        font-weight="700" fill="#2f2a23">SB</text>
+</svg>

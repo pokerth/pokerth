@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Saloon QML table style – Pokertisch im "Silver Nugget", irgendwo im Westen.
+
+   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
+   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
+   table.png ist NUR beschnitten (5 px links, 146 px oben), damit der Filz –
+   das grüne Tuch innerhalb der Holzumrandung – exakt in der Bildmitte liegt:
+   1276 px breit, Mitte (807, 413) auf 1614x826. Nur so sitzt die Spieler-
+   Ellipse mittig auf dem Tuch. TableBackgroundZoom ist ohne Neubau justierbar
+   (Wert ändern, Client neu starten).
+
+   Action-Buttons: Bohlen aus der Schankwand – Basisverlauf mit Maserung,
+   Kantenlicht oben, Schattenkante unten. Vier Hölzer statt vier Signalfarben
+   (Scheunengrau/Salbei/Whiskeyeiche/Brandzeder), damit die Knöpfe
+   unterscheidbar bleiben, aber wie Tresenholz wirken.
+
+   Pucks: der Dealer trägt den Sheriffstern aus angelaufenem Nickel, die
+   Blinds sind Silber- und Golddollar – geriffelter Rand, vertiefte Type.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Saloon QML table style" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="20.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Hier 1.0: das Bild ist mit 1.95:1 deutlich breiter als das 1.6:1 von
+          Danuxi/Discworld, im Querformat begrenzt also die Bildhöhe die
+          Skalierung – der Filz füllt damit schon ohne Zoom rund 90 % der
+          Zonenbreite, und Tischfuß und Schankraum bleiben im Bild. -->
+     <TableBackgroundZoom value="1.0" />
+
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="7" />
+
+     <!-- Akzentfarbe der Spielerboxen: das Petroleumlicht der Wandlampen –
+          wärmeres, rötlicheres Gold als bei Discworld. Tönt Verlauf und Rahmen
+          der Box und passt zu Whiskey, Messing und Lampenschein. -->
+     <PlayerBoxAccent value="#c07f30" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Alle vier Hölzer sind dunkel – helle, leicht vergilbte Beschriftung
+          (Steckbrief-Papier) statt der aus den Verlaufs-Stops abgeleiteten Farbe. -->
+     <FoldButtonTextColor value="#f2e6cf" />
+     <CheckCallButtonTextColor value="#f2e6cf" />
+     <BetRaiseButtonTextColor value="#f8e8c4" />
+     <AllInButtonTextColor value="#f9e0cd" />
+
+     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
+          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles Braun wie
+          die Bretterwand der Schankstube, Rahmen in <PlayerBoxAccent> – Chat-/
+          Log-Box und Spielerboxen tragen denselben Akzent. -->
+     <ChatLogBackground value="#17110b" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#251c13" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#7b5b2e" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#f3e6cd" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#d6bd93" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#9b8156" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>
