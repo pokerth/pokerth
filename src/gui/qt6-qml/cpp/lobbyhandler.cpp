@@ -603,6 +603,7 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
         m_rejoinOfferGameId = 0;
         emit rejoinOfferChanged();
     }
+    setRejoinWaiting(false);
 
     // Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
     // kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
@@ -1272,6 +1273,15 @@ void LobbyHandler::onNetworkNotification(int notificationId)
     case NTF_NET_JOIN_GAME_INVALID:
     case NTF_NET_JOIN_REJOIN_FAILED:
         msgText = tr("Could not join the game."); break;
+    case NTF_NET_REMOVED_START_FAILED:
+        // Die Start-Synchronisation (auch beim Rejoin) hat zu lange gedauert.
+        msgText = tr("Your connection to the server is very slow, the game had to start without you."); break;
+    case NTF_NET_REMOVED_KICKED:
+        msgText = tr("You were kicked from the game."); break;
+    case NTF_NET_REMOVED_TIMEOUT:
+        // AFK-Kick des Servers. Die vorausgegangene Countdown-Warnung wird vom
+        // onRemovedFromGame-Handler in pokerth.qml geschlossen.
+        msgText = tr("You were removed due to inactivity."); break;
     default:
         return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
     }
@@ -1533,6 +1543,7 @@ void LobbyHandler::leaveServer()
     AndroidConnectionService::stop();
     IosBackgroundSession::stop();
     m_gameRunning = false;
+    setRejoinWaiting(false);
     if (m_isSpectating) {
         m_isSpectating = false;
         emit isSpectatingChanged();
@@ -1583,6 +1594,8 @@ void LobbyHandler::onGameStarted()
     emit playerListRevisionChanged();
 
     m_gameRunning = true;
+    // Wir sitzen am Tisch → ein evtl. laufendes Rejoin-Warten ist erledigt.
+    setRejoinWaiting(false);
 
     emit gameStarted();
 }
@@ -1601,6 +1614,9 @@ void LobbyHandler::onRemovedFromGame(int reason)
 {
     m_isInGame = false;
     m_gameRunning = false;
+    // Deckt auch NTF_NET_REMOVED_START_FAILED ab: Der Server hat die Hand ohne
+    // uns gestartet, das Warten auf den Rejoin ist damit hinfällig.
+    setRejoinWaiting(false);
     m_currentGameId = 0;
     if (m_isSpectating) {
         m_isSpectating = false;
@@ -1719,6 +1735,23 @@ void LobbyHandler::acceptRejoin()
     if (!m_session || gameId == 0)
         return;
     m_session->clientRejoinGame(gameId);
+}
+
+void LobbyHandler::setRejoinWaiting(bool waiting)
+{
+    if (m_rejoinWaiting == waiting)
+        return;
+    m_rejoinWaiting = waiting;
+    emit rejoinWaitingChanged();
+}
+
+// Der Server hat den Rejoin angenommen und schickt das StartEvent vom Typ
+// rejoinEvent. An den Tisch gesetzt werden wir aber erst zu Beginn der
+// nächsten Hand - bis dahin bleibt der Warteraum stehen.
+void LobbyHandler::onRejoinSyncWait()
+{
+    qDebug() << "[REJOIN] onRejoinSyncWait: waiting for next hand";
+    setRejoinWaiting(true);
 }
 
 void LobbyHandler::declineRejoin()

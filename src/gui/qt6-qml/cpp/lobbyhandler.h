@@ -173,6 +173,11 @@ class LobbyHandler : public QObject
     // Ja/Nein-Popup; als Property statt reinem Signal, weil das Angebot schon
     // beim Login eintrifft - bevor die LobbyPage instanziiert ist.
     Q_PROPERTY(int rejoinOfferGameId READ rejoinOfferGameId NOTIFY rejoinOfferChanged)
+    // true zwischen angenommenem Rejoin (Server: rejoinEvent) und dem Beginn
+    // der nächsten Hand, an dem uns der Server an den Tisch setzt. Der
+    // Warteraum zeigt dafür einen eigenen Hinweistext und sperrt "Leave Game"
+    // - genau wie der Widgets-Client (waitRejoinStartGameMsgBox).
+    Q_PROPERTY(bool rejoinWaiting READ rejoinWaiting NOTIFY rejoinWaitingChanged)
     // Persistenter Lobby-Chat-Verlauf (formatierte HTML-Zeilen). Erlaubt es
     // mehreren Seiten (Lobby + GameWait), denselben Chat inkl. History zu zeigen.
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
@@ -204,6 +209,7 @@ public:
     bool isSpectating() const { return m_isSpectating; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
     int  rejoinOfferGameId() const { return static_cast<int>(m_rejoinOfferGameId); }
+    bool rejoinWaiting() const { return m_rejoinWaiting; }
     Q_INVOKABLE QString currentGameName() const;
     int playerListFilterMode() const { return m_playerListFilterMode; }
     int gameListFilterMode() const { return m_gameListFilterMode; }
@@ -265,6 +271,9 @@ public slots:
     // Antwort aus QML auf das Rejoin-Popup.
     Q_INVOKABLE void acceptRejoin();
     Q_INVOKABLE void declineRejoin();
+    // Server hat den Rejoin bestätigt (StartEvent rejoinEvent → SYNCREJOIN):
+    // Warten auf den Beginn der nächsten Hand. Von QmlGuiInterface aufgerufen.
+    void onRejoinSyncWait();
     // AFK-Timeout-Warnung des Servers (Lobby wie ingame) → QML-Popup + Beep.
     void onTimeoutWarning(int reason, int remainingSec);
     // Server-Meldung (Klartext bzw. msgId aus socket_msg.h) → QML-Info-Popup.
@@ -364,6 +373,7 @@ signals:
     void isSpectatingChanged();
     void currentGameIdChanged();
     void rejoinOfferChanged();
+    void rejoinWaitingChanged();
 
 private:
     // Hängt eine fertig formatierte Chat-Zeile an den Verlauf an (begrenzt) und
@@ -389,6 +399,9 @@ private:
     unsigned m_pendingInviteGameId = 0;
     // Vom Server angebotenes Rejoin nach Verbindungsabbruch (0 = keines).
     unsigned m_rejoinOfferGameId = 0;
+    // true, solange wir nach angenommenem Rejoin auf die nächste Hand warten.
+    bool m_rejoinWaiting = false;
+    void setRejoinWaiting(bool waiting);
     bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
     bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;

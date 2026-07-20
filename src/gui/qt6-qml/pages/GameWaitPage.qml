@@ -35,7 +35,9 @@ Rectangle {
     // Admin = Spiel-Admin oder vom Server gemeldeter Server-Admin → darf starten.
     readonly property bool isAdmin: Lobby && (Lobby.isCurrentPlayerAdmin || isGameAdmin)
     readonly property bool isRanking: (info.gameType || 1) === 4
+    // Läuft bereits eine Hand (Rejoin-Wartezustand), gibt es nichts zu starten.
     readonly property bool canStart: isAdmin && !isRanking && players.length >= 2
+                                     && !(Lobby && Lobby.rejoinWaiting)
     readonly property bool canKick: isGameAdmin && !isRanking
 
     // NTF_NET_REMOVED_ON_REQUEST (socket_msg.h) – selbst angefordertes Verlassen
@@ -416,9 +418,10 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
-            // Als Zuschauer läuft das Spiel bereits: der Server setzt uns erst
-            // zu Beginn der nächsten Hand an den Tisch (dann wird die GamePage
-            // aufgeschoben). Bis dahin warten wir hier.
+            // Als Zuschauer - und ebenso nach einem angenommenen Rejoin - läuft
+            // das Spiel bereits: der Server setzt uns erst zu Beginn der
+            // nächsten Hand an den Tisch (dann wird die GamePage aufgeschoben).
+            // Bis dahin warten wir hier.
             //
             // Die wandernden Punkte ersetzen die frühere Auslassung "…" am
             // Textende – beides zusammen wäre doppelt gemoppelt.
@@ -428,9 +431,11 @@ Rectangle {
 
                 AppLabel {
                     id: waitLabel
-                    text: (Lobby && Lobby.isSpectating)
-                          ? qsTr("Spectating — waiting for the next hand")
-                          : qsTr("Waiting for players")
+                    text: (Lobby && Lobby.rejoinWaiting)
+                          ? qsTr("Waiting for the start of the next hand to rejoin the game")
+                          : (Lobby && Lobby.isSpectating)
+                            ? qsTr("Spectating — waiting for the next hand")
+                            : qsTr("Waiting for players")
                     color: Config.StaticData.palette.secondary.col300
                     font.pixelSize: 12
                 }
@@ -858,6 +863,11 @@ Rectangle {
                     spacing: 8
 
                     CustomButton {
+                        // Während der Rejoin-Synchronisation wartet der Server
+                        // auf uns; ein Verlassen in diesem Fenster würde die
+                        // laufende Hand blockieren (Widgets-Client sperrt den
+                        // Leave-Button an derselben Stelle).
+                        enabled: !(Lobby && Lobby.rejoinWaiting)
                         text: qsTr("Leave Game")
                         Layout.fillWidth: true
                         onClicked: {

@@ -15,6 +15,7 @@
 #include <gamedata.h>
 #include <game_defs.h>
 #include <cardsvalue.h>
+#include "net/socket_msg.h"
 #include <QString>
 #include <QChar>
 #include <QMetaObject>
@@ -67,6 +68,20 @@ void QmlGuiInterface::SignalNetClientConnect(int actionID)
         // iOS-Pendant: markiert die aktive Session, damit beim App-Wechsel eine
         // Hintergrund-Gnadenfrist angefordert wird (s. iosbackgroundsession.h).
         IosBackgroundSession::start();
+    }
+}
+
+void QmlGuiInterface::SignalNetClientGameInfo(int actionID)
+{
+    // MSG_NET_GAME_CLIENT_SYNCREJOIN: Wir sind einem laufenden Spiel wieder
+    // beigetreten; der Server setzt uns aber erst zu Beginn der nächsten Hand
+    // an den Tisch. Bis dahin bleibt der Warteraum stehen - ohne Hinweis wäre
+    // das nicht von einem normalen Warten auf Mitspieler zu unterscheiden.
+    // Pendant zum Widgets-Client (waitRejoinStartGameMsgBox).
+    if (m_lobbyHandler && actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
+        QMetaObject::invokeMethod(m_lobbyHandler, [this]() {
+            m_lobbyHandler->onRejoinSyncWait();
+        }, Qt::QueuedConnection);
     }
 }
 

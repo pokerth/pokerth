@@ -231,7 +231,7 @@
         <translation>Messaggio …</translation>
     </message>
     <message>
-        <location line="+636"/>
+        <location line="+640"/>
         <source>Link öffnen</source>
         <translation>Apri link</translation>
     </message>
@@ -888,7 +888,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+157"/>
+        <location filename="../pages/GameWaitPage.qml" line="+159"/>
         <source>Players</source>
         <translation>Giocatori</translation>
     </message>
@@ -899,71 +899,76 @@
     </message>
     <message>
         <location line="+31"/>
-        <location line="+304"/>
+        <location line="+307"/>
         <source>Sort alphabetically</source>
         <translation>Ordina alfabeticamente</translation>
     </message>
     <message>
-        <location line="-303"/>
-        <location line="+304"/>
+        <location line="-306"/>
+        <location line="+307"/>
         <source>Sort by country</source>
         <translation>Ordina per nazionalità</translation>
     </message>
     <message>
-        <location line="-303"/>
-        <location line="+304"/>
+        <location line="-306"/>
+        <location line="+307"/>
         <source>Display idle players</source>
         <translation>Visualizza giocatori liberi</translation>
     </message>
     <message>
-        <location line="-261"/>
-        <location line="+612"/>
+        <location line="-264"/>
+        <location line="+620"/>
         <source>Game List</source>
         <translation>Elenco partite</translation>
     </message>
     <message>
-        <location line="-561"/>
-        <location line="+573"/>
+        <location line="-569"/>
+        <location line="+581"/>
         <source>No game list filter</source>
         <translation>Nessun filtro elenco partite</translation>
     </message>
     <message>
-        <location line="-572"/>
-        <location line="+573"/>
+        <location line="-580"/>
+        <location line="+581"/>
         <source>Show open games</source>
         <translation>Mostra partite aperte</translation>
     </message>
     <message>
-        <location line="-572"/>
-        <location line="+573"/>
+        <location line="-580"/>
+        <location line="+581"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostra partite aperte e non piene</translation>
     </message>
     <message>
-        <location line="-572"/>
-        <location line="+573"/>
+        <location line="-580"/>
+        <location line="+581"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostra partite aperte, non piene e non private</translation>
     </message>
     <message>
-        <location line="-572"/>
-        <location line="+573"/>
+        <location line="-580"/>
+        <location line="+581"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostra partite aperte, non piene e private</translation>
     </message>
     <message>
-        <location line="-572"/>
-        <location line="+573"/>
+        <location line="-580"/>
+        <location line="+581"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Mostra partite aperte, non piene e con classifica</translation>
     </message>
     <message>
-        <location line="-499"/>
+        <location line="-507"/>
         <source>Game Info</source>
         <translation>Informazioni partita</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+21"/>
+        <source>Waiting for the start of the next hand to rejoin the game</source>
+        <translation>In attesa dell&apos;inizio della prossima mano per rientrare nella partita</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Spectating — waiting for the next hand</source>
         <translation>Spettatore — in attesa della prossima mano</translation>
     </message>
@@ -1038,13 +1043,13 @@
         <translation>Giocatori in partita (%1)</translation>
     </message>
     <message>
-        <location line="-639"/>
-        <location line="+723"/>
+        <location line="-642"/>
+        <location line="+726"/>
         <source>Kick player</source>
         <translation>Espelli giocatore</translation>
     </message>
     <message>
-        <location line="-722"/>
+        <location line="-725"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Vuoi davvero espellere «%1» dalla partita?</translation>
     </message>
@@ -1054,7 +1059,7 @@
         <translation>Espelli</translation>
     </message>
     <message>
-        <location line="+750"/>
+        <location line="+753"/>
         <source>Lobby Chat</source>
         <translation>Chat della lobby</translation>
     </message>
@@ -1074,7 +1079,7 @@
         <translation>Completa con giocatori del computer</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+24"/>
         <source>Leave Game</source>
         <translation>Abbandona partita</translation>
     </message>
@@ -1127,7 +1132,7 @@
         <translation>Lingua:</translation>
     </message>
     <message>
-        <location line="+64"/>
+        <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
         <translation>Animazione di dissolvenza per le carte perdenti</translation>
     </message>
@@ -1538,7 +1543,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1121"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1123"/>
         <source>Guests cannot send chat messages</source>
         <translation>Gli ospiti non possono inviare messaggi in chat</translation>
     </message>
@@ -1672,12 +1677,27 @@ Reinserire la password e riprovare.</translation>
         <translation>Impossibile unirsi alla partita.</translation>
     </message>
     <message>
+        <location line="+3"/>
+        <source>Your connection to the server is very slow, the game had to start without you.</source>
+        <translation>La connessione al server è molto lenta, la partita è dovuta cominciare senza di te.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>You were kicked from the game.</source>
+        <translation>Sei stato espulso dalla partita.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>You were removed due to inactivity.</source>
+        <translation>Sei stato rimosso per inattività.</translation>
+    </message>
+    <message>
         <location line="+190"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+145"/>
+        <location line="+152"/>
         <location line="+9"/>
-        <location line="+144"/>
+        <location line="+161"/>
         <location line="+9"/>
         <location line="+11"/>
         <location line="+11"/>
@@ -2723,7 +2743,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>NetworkGameHandler</name>
     <message>
-        <location filename="../cpp/networkgamehandler.cpp" line="+53"/>
+        <location filename="../cpp/networkgamehandler.cpp" line="+55"/>
         <location line="+76"/>
         <source>No session available.</source>
         <translation>Nessuna sessione disponibile.</translation>
@@ -3806,7 +3826,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+50"/>
+        <location filename="../config/StaticData.qml" line="+87"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
@@ -3915,7 +3935,7 @@ anteprima</translation>
         <translation>Dorso delle carte</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+25"/>
         <source>Verfügbare Spieltisch-Stile:</source>
         <translation>Stili tavolo disponibili:</translation>
     </message>
@@ -3925,7 +3945,7 @@ anteprima</translation>
         <translation>Nessuno stile tavolo trovato.</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Verfügbare Kartenstapel-Stile:</source>
         <translation>Stili mazzo di carte disponibili:</translation>
     </message>
@@ -3935,7 +3955,7 @@ anteprima</translation>
         <translation>Nessuno stile mazzo di carte trovato.</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+29"/>
         <source>Verfügbare Kartenrückseiten:</source>
         <translation>Dorsi delle carte disponibili:</translation>
     </message>
@@ -3945,14 +3965,14 @@ anteprima</translation>
         <translation>Nessun dorso delle carte trovato.</translation>
     </message>
     <message>
-        <location line="-102"/>
-        <location line="+55"/>
-        <location line="+55"/>
+        <location line="-104"/>
+        <location line="+56"/>
+        <location line="+56"/>
         <source>Stil hinzufügen...</source>
         <translation>Aggiungi stile...</translation>
     </message>
     <message>
-        <location line="-226"/>
+        <location line="-232"/>
         <source>Stil exportieren</source>
         <translation>Esporta stile</translation>
     </message>
@@ -4058,7 +4078,7 @@ anteprima</translation>
         <translation>PokerTH - v2.1.4</translation>
     </message>
     <message>
-        <location line="+164"/>
+        <location line="+216"/>
         <source>Back</source>
         <translation>Indietro</translation>
     </message>
