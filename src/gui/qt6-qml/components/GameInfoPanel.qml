@@ -121,39 +121,35 @@ ColumnLayout {
                 interval: 15000
                 onTriggered: { logFlick.autoScroll = true; logFlick.scrollToBottom() }
             }
-            // Ans Ende springen heißt „wieder mitlaufen": autoScroll aktivieren
-            // und die Bindung unten die Position übernehmen lassen.
-            function scrollToBottom() {
-                autoScroll = true
-                contentY = Math.max(0, contentHeight - height)
+            // Ans Ende kleben. pinBottom() prüft selbst autoScroll, damit ein
+            // nachgelagerter (Qt.callLater-)Aufruf nichts tut, wenn der Nutzer
+            // inzwischen weggescrollt hat.
+            function pinBottom() {
+                if (autoScroll) contentY = Math.max(0, contentHeight - height)
             }
+            function scrollToBottom() { autoScroll = true; pinBottom() }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Am Ende kleben, solange Auto-Scroll aktiv ist – als BINDUNG, nicht
-            // als einmalige Zuweisung. QQuickTextEdit aktualisiert seine
-            // implicitHeight erst in der Polish-Phase; ein Qt.callLater kann
-            // davor laufen und würde auf die ALTE Höhe scrollen – die zuletzt
-            // angehängte Zeile bliebe unsichtbar, bis ein späteres Update die
-            // View erneut bewegt. Die Bindung folgt jeder Höhenänderung.
-            Binding {
-                target: logFlick
-                property: "contentY"
-                value: Math.max(0, logFlick.contentHeight - logFlick.height)
-                when: logFlick.autoScroll
-                restoreMode: Binding.RestoreNone
-            }
-            // Nur noch der pausierte Fall: gemerkte Position halten, während der
-            // Text komplett ersetzt wird. NUR wiederherstellen, wenn der Nutzer
-            // nicht gerade selbst scrollt – sonst klemmt das die Bewegung fest.
+            // Bei Auto-Scroll ZWEIMAL ans Ende ziehen: sofort (contentHeight ist im
+            // Change-Handler bereits der neue Wert) UND einmal per Qt.callLater.
+            // QQuickTextEdit aktualisiert seine implicitHeight erst in der Polish-
+            // Phase und QQuickFlickable seine interne Scroll-Grenze ebenfalls dort;
+            // je nach Reihenfolge klemmt die noch alte Grenze das sofortige Setzen
+            // nach unten – dann greift der callLater nach dem Polish. Einer der
+            // beiden landet immer korrekt, doppeltes Setzen ist folgenlos.
             function followBottom() {
-                if (!autoScroll && !moving && !logScrollBar.pressed) restoreScroll()
+                if (autoScroll) { pinBottom(); Qt.callLater(pinBottom) }
+                // Pausiert: gemerkte Position halten, während der Text komplett
+                // ersetzt wird – aber nur, wenn der Nutzer nicht gerade selbst
+                // scrollt, sonst klemmt das restoreScroll die Bewegung fest.
+                else if (!moving && !logScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
-            onContentHeightChanged: Qt.callLater(followBottom)
+            onContentHeightChanged: followBottom()
             // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
-            onHeightChanged: Qt.callLater(followBottom)
+            onHeightChanged: followBottom()
             // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
             // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
             onContentYChanged: {

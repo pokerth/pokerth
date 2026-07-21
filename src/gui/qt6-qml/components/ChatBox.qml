@@ -245,48 +245,41 @@ Item {
                 interval: 15000
                 onTriggered: { msgFlick.autoScroll = true; msgFlick.scrollToBottom() }
             }
-            // Ans Ende springen heißt „wieder mitlaufen": autoScroll aktivieren
-            // und die Bindung oben die Position übernehmen lassen. Die direkte
-            // Zuweisung wirkt sofort (falls autoScroll schon an war), die Bindung
-            // zieht danach jede noch folgende Höhenänderung nach.
-            function scrollToBottom() {
-                autoScroll = true
-                contentY = Math.max(0, contentHeight - height)
+            // Ans Ende kleben. pinBottom() prüft selbst autoScroll, damit ein
+            // nachgelagerter (Qt.callLater-)Aufruf nichts tut, wenn der Nutzer
+            // inzwischen weggescrollt hat.
+            function pinBottom() {
+                if (autoScroll) contentY = Math.max(0, contentHeight - height)
             }
+            // Externer Sprung ans Ende = „wieder mitlaufen": autoScroll erst an,
+            // dann pinnen.
+            function scrollToBottom() { autoScroll = true; pinBottom() }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Am Ende kleben, solange Auto-Scroll aktiv ist – als BINDUNG, nicht
-            // als einmalige Zuweisung. Grund: QQuickTextEdit aktualisiert seine
-            // implicitHeight erst in der Polish-Phase (RichText zusätzlich erst
-            // nach dem Neu-Umbrechen des Dokuments). Ein Qt.callLater kann davor
-            // laufen und würde dann auf die ALTE Höhe scrollen – die zuletzt
-            // angehängte Zeile bliebe unsichtbar, bis irgendein späteres Update
-            // die View erneut bewegt (typisch: die nächste Nachricht). Die
-            // Bindung folgt dagegen JEDER Höhenänderung, egal wann sie eintrifft.
-            //
-            // Kein !moving/!pressed in der Bedingung: sobald der Nutzer selbst
-            // scrollt, setzt onContentYChanged autoScroll auf false und löst die
-            // Bindung damit ohnehin – und der Wert hängt nicht an contentY, die
-            // Bindung kämpft also nie gegen eine laufende Geste.
-            Binding {
-                target: msgFlick
-                property: "contentY"
-                value: Math.max(0, msgFlick.contentHeight - msgFlick.height)
-                when: msgFlick.autoScroll
-                restoreMode: Binding.RestoreNone
-            }
-            // Nur noch der pausierte Fall: gemerkte Position halten, während der
-            // Text komplett ersetzt wird. NUR wiederherstellen, wenn der Nutzer
-            // nicht gerade selbst scrollt – sonst klemmt das die Bewegung fest.
+            // Bei Auto-Scroll ZWEIMAL ans Ende ziehen: sofort (contentHeight ist im
+            // Change-Handler bereits der neue Wert) UND einmal per Qt.callLater.
+            // Grund: QQuickTextEdit aktualisiert seine implicitHeight erst in der
+            // Polish-Phase und QQuickFlickable aktualisiert seine INTERNE
+            // Scroll-Grenze (max. contentY) ebenfalls erst dort. Je nach Reihen-
+            // folge wird das sofortige Setzen von der noch alten Grenze nach unten
+            // geklemmt – dann greift der callLater NACH dem Polish auf die finale
+            // Grenze. Einer der beiden Durchläufe landet immer korrekt; das
+            // doppelte Setzen auf denselben Endwert ist folgenlos.
+            // Das war der Bug: mit reinem Qt.callLater blieb die zuletzt getippte
+            // Zeile bis zur nächsten Nachricht unter dem Sichtbereich.
             function followBottom() {
-                if (!autoScroll && !moving && !msgScrollBar.pressed) restoreScroll()
+                if (autoScroll) { pinBottom(); Qt.callLater(pinBottom) }
+                // Pausiert: gemerkte Position halten, während der Text komplett
+                // ersetzt wird – aber nur, wenn der Nutzer nicht gerade selbst
+                // scrollt, sonst klemmt das restoreScroll die Bewegung fest.
+                else if (!moving && !msgScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
-            onContentHeightChanged: Qt.callLater(followBottom)
+            onContentHeightChanged: followBottom()
             // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
-            onHeightChanged: Qt.callLater(followBottom)
+            onHeightChanged: followBottom()
             // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
             // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
             onContentYChanged: {
