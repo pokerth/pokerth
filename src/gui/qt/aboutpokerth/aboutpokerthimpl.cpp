@@ -133,6 +133,8 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("initial gui graphics design")+"<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Kai Philipp (<a href=mailto:kphilipp@inquies.de>kphilipp@inquies.de</a>)<br>");
 	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("code modernization, QML layout")+"<br>");
+	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;Arnaud Obscur (<a href=mailto:narmod@pokerth.net>narmod@pokerth.net</a>)<br>");
+	projectText.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- "+tr("web client development")+"<br>");
 	textBrowser_2->setHtml(projectText);
 
 	QFile file(QDir::toNativeSeparators(myAppDataPath+"misc/third_party_libs.txt"));

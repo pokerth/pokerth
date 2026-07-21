@@ -2364,6 +2364,11 @@ p, li { white-space: pre-wrap; }
         <source>code modernization, QML layout</source>
         <translation>Code-Modernisierung, QML-Layout</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="137"/>
+        <source>web client development</source>
+        <translation>Entwicklung des Web-Clients</translation>
+    </message>
 </context>
 <context>
     <name>changeCompleteBlindsDialog</name>

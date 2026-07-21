@@ -1573,6 +1573,11 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="137"/>
+        <source>web client development</source>
+        <translation>vývoj webového klienta</translation>
+    </message>
+    <message>
         <source>PokerTH %1 for Android (API%2)</source>
         <translation>PokerTH %1 pro Android (API%2)</translation>
     </message>

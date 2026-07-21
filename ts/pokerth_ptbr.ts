@@ -2210,6 +2210,11 @@ p, li { white-space: pre-wrap; }
         <translation>modernização do código, layout QML</translation>
     </message>
     <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="137"/>
+        <source>web client development</source>
+        <translation>desenvolvimento do cliente web</translation>
+    </message>
+    <message>
         <source>PokerTH %1 for Android (API%2)</source>
         <translation>PokerTH %1 para Android (API%2)</translation>
     </message>

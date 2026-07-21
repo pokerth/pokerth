@@ -200,6 +200,8 @@ Rectangle {
                     t += role + qsTr("initial gui graphics design") + "<br>"
                     t += ind + "Kai Philipp (<a href='mailto:kphilipp@inquies.de'>kphilipp@inquies.de</a>)<br>"
                     t += role + qsTr("code modernization, QML layout") + "<br>"
+                    t += ind + "Arnaud Obscur (<a href='mailto:narmod@pokerth.net'>narmod@pokerth.net</a>)<br>"
+                    t += role + qsTr("web client development") + "<br>"
                     return t
                 }
             }

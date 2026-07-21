@@ -104,6 +104,11 @@
         <translation>modernizzazione del codice, layout QML</translation>
     </message>
     <message>
+        <location line="+2"/>
+        <source>web client development</source>
+        <translation>sviluppo del client web</translation>
+    </message>
+    <message>
         <location line="+8"/>
         <source>- Wikimedia Commons: for different popular avatar picture resources</source>
         <translation>- Wikimedia Commons: per le diverse gallerie di avatar</translation>
@@ -471,7 +476,7 @@
 <context>
     <name>CustomCheckBox</name>
     <message>
-        <location filename="../components/CustomCheckBox.qml" line="+49"/>
+        <location filename="../components/CustomCheckBox.qml" line="+50"/>
         <source>CheckBox LabelText</source>
         <translation>CheckBox LabelText</translation>
     </message>
@@ -3043,7 +3048,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+78"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+81"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Impossibile caricare il giocatore (HTTP %1).</translation>
     </message>
@@ -3755,7 +3760,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <translation>PokerTH - v2.1.4</translation>
     </message>
     <message>
-        <location line="+96"/>
+        <location line="+100"/>
         <source>Über PokerTH</source>
         <translation>Informazioni su PokerTH</translation>
     </message>
