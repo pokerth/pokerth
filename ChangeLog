@@ -2,6 +2,8 @@
 - new: in-chat message translation via a globe button (widget & QML)
 - new: confirmation popups for context-menu actions such as invite and kick (QML)
 - new: optional placeholder for players who left or disconnected, keeping seat positions stable (QML)
+- new: two more table themes - discworld, saloon (QML)
+- new: discworld card deck (QML)
 - improvement: trophy icon for ranking pages (QML)
 - improvement: chat and emoji handling fine-tuned (QML)
 - improvement: chatbox and logbox can resize over empty placeholder player boxes (QML)
@@ -13,8 +15,9 @@
 - bugfix: bet input focus issues (QML)
 - bugfix: own country flag not shown (QML)
 - bugfix: game-table context menu width (QML)
+- bugfix: local PokerTH directory creation could fail on some setups (Error 25) (QML)
 - android: more robust asset handling and a Play Store AAB build workflow
-- iOS: layout fine-tuning for iPhone mini (portrait and landscape) and an initial build workflow
+- iOS: layout fine-tuning for iPhone mini (portrait and landscape), TCP socket hardening, and an initial build workflow
 - packaging: deploy scripts fine-tuning
 
 2026-07-11 version 2.1.3:
