@@ -1948,27 +1948,21 @@ void GameHandler::onShowdown()
     auto activeList = hand->getActivePlayerList();
     auto bero = hand->getCurrentBeRo();
 
-    // Side-Pot-Kriterium: bei All-In mit mehreren Geld-Gewinnern gewinnt der
-    // Spieler mit dem besten Blatt (höchster cardsValueInt) den Hauptpot, alle
-    // übrigen Gewinner einen Side-Pot. getAllInCondition() statt PLAYER_ACTION_ALLIN,
-    // da ResetPlayerActions() den All-In-Status zu Beginn jeder Setzrunde löscht.
-    const bool hasAllInPlayer = hand->getAllInCondition();
+    // Side-Pot-Kriterium exakt wie die Engine selbst (Log::logHandWinner): Hauptpot-
+    // Gewinner = Geld-Gewinner mit dem besten Showdown-Blatt (cardsValueInt >=
+    // highestCardsValue, das über alle nicht gefoldeten Spieler ermittelt wird). Geld-
+    // Gewinner mit schlechterem Blatt haben nur einen Side-Pot gewonnen und bekommen
+    // KEIN Winner-Badge. Bewusst OHNE getAllInCondition()-Gate: auf dem Netzwerk-Client
+    // wird allInCondition nur bei komplettem All-In-Showdown gesetzt (per
+    // AllInShowCardsMessage) und würde einen Side-Pot ohne globalen All-In – kurzer
+    // Stack all-in, andere setzen normal weiter bis zum Showdown – nicht erkennen.
     const int highestWinnerCardsValue = bero ? bero->getHighestCardsValue() : 0;
-    int winnersWithMoney = 0;
-    if (activeList) {
-        for (auto it = activeList->begin(); it != activeList->end(); ++it) {
-            const bool isW = std::find(winners.begin(), winners.end(), (*it)->getMyUniqueID()) != winners.end();
-            if (isW && (*it)->getLastMoneyWon() > 0)
-                ++winnersWithMoney;
-        }
-    }
     auto isMainPotWinner = [&](const auto &p) -> bool {
         const bool isW = std::find(winners.begin(), winners.end(), p->getMyUniqueID()) != winners.end();
         const bool hasActuallyWon = isW && p->getLastMoneyWon() > 0;
         if (showdownFolded(p->getMyUniqueID(), p->getMyAction() == PLAYER_ACTION_FOLD) || !hasActuallyWon)
             return false;
-        if (hasAllInPlayer && winnersWithMoney > 1
-            && p->getMyCardsValueInt() < highestWinnerCardsValue)
+        if (highestWinnerCardsValue > 0 && p->getMyCardsValueInt() < highestWinnerCardsValue)
             return false; // Side-Pot-Gewinner
         return true;
     };
@@ -2081,9 +2075,9 @@ void GameHandler::onShowdown()
         appendGameLog(line);
     }
 
-    // 2) Gewinner – Haupt-/Side-Pot wie postRiverRunAnimation3. Echte Gewinner
-    //    stehen in der winners-Liste UND haben tatsächlich Geld gewonnen.
-    //    hasAllInPlayer/winnersWithMoney/highestWinnerCardsValue oben berechnet.
+    // 2) Gewinner – Haupt-/Side-Pot via isMainPotWinner (highestWinnerCardsValue
+    //    oben berechnet). Echte Gewinner stehen in der winners-Liste UND haben
+    //    tatsächlich Geld gewonnen.
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
         const bool isWinner = std::find(winners.begin(), winners.end(), (*it)->getMyUniqueID()) != winners.end();
         const bool hasActuallyWon = isWinner && (*it)->getLastMoneyWon() > 0;
