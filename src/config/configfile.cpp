@@ -221,11 +221,17 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		////define cache-dir
 		cacheDir = configFileName;
 		cacheDir += "cache/";
-		// create directories on first start of app
-		mkdir(configFileName.c_str(), MODUS);
+		// create directories on first start of app. mkdir() returns -1 with
+		// errno==EEXIST if the directory already exists, which is fine; any
+		// other failure means we will not be able to store config/cache (and
+		// the server list download later fails as "Network error (25)"), so it
+		// is worth surfacing in the log instead of failing silently.
+		if (mkdir(configFileName.c_str(), MODUS) != 0 && errno != EEXIST)
+			LOG_ERROR("Could not create config directory '" << configFileName << "' (errno " << errno << ")");
 		mkdir(logDir.c_str(), MODUS);
 		mkdir(dataDir.c_str(), MODUS);
-		mkdir(cacheDir.c_str(), MODUS);
+		if (mkdir(cacheDir.c_str(), MODUS) != 0 && errno != EEXIST)
+			LOG_ERROR("Could not create cache directory '" << cacheDir << "' (errno " << errno << ")");
 	}
 #endif
 
