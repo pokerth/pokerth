@@ -129,9 +129,13 @@ Rectangle {
                     clip: true
                     contentWidth: availableWidth
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                    // Ist die Scrollleiste eingeblendet, liegt sie über dem
+                    // rechten Rand der Stil-Karten – dann Platz freihalten,
+                    // damit deren Buttons nicht am Rand kleben.
+                    readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                     ColumnLayout {
-                        width: gameTableTab.availableWidth
+                        width: gameTableTab.availableWidth - gameTableTab.scrollBarSpace
                         spacing: 8
 
                         Label {
@@ -183,9 +187,10 @@ Rectangle {
                     clip: true
                     contentWidth: availableWidth
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                    readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                     ColumnLayout {
-                        width: cardsDeckTab.availableWidth
+                        width: cardsDeckTab.availableWidth - cardsDeckTab.scrollBarSpace
                         spacing: 8
 
                         Label {
@@ -238,9 +243,10 @@ Rectangle {
                     clip: true
                     contentWidth: availableWidth
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                    readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                     ColumnLayout {
-                        width: cardsBackgroundTab.availableWidth
+                        width: cardsBackgroundTab.availableWidth - cardsBackgroundTab.scrollBarSpace
                         spacing: 8
 
                         Label {

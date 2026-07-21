@@ -4980,6 +4980,17 @@ Kérlek válassz egy valós képet!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Csevegésfordítás felajánlása (földgömb ikon az üzenetek mellett)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Földgömb ikont jelenít meg a beérkező csevegőüzenetek mellett. Rá koppintva az üzenet lefordul a kiválasztott nyelvre egy külső szolgáltatással (Google Fordító, illetve tartalékként a MyMemory). Semmi sem kerül elküldésre, amíg rá nem koppint.</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="68"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="53"/>
         <location filename="../src/gui/qt/settingsdialog.ui" line="147"/>

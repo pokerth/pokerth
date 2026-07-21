@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style (Kartenrückseite) "Stardust".
+
+   Gegenstück zum Kartendeck data/gfx/qml/cards/stardust/. Dunkle "Space"-Karte
+   mit blauem Farbverlauf, Sternenfeld und leuchtendem Cyan-Fasenrahmen (wie die
+   Vorderseiten). Zentrales Emblem ist ein Stardust-Funkelstern mit Halo – reine
+   SVG-Pfade/Gradienten (kein <use>/Filter), damit QtSvg es zuverlässig rendert.
+   Dateinamen sind relativ zu diesem XML zu verstehen.
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Stardust (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="10.07.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+
+     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>

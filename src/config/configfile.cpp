@@ -36,6 +36,8 @@
 #include <QDomElement>
 #include <QFile>
 #include <QTextStream>
+#include <QDir>              // QDir::mkpath – zuverlaessiges Anlegen der App-Verzeichnisse
+#include <QStandardPaths>    // iOS: beschreibbares AppDataLocation statt Container-Root
 
 #define MODUS 0711
 
@@ -156,6 +158,47 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	_mkdir(dataDir.c_str());
 	_mkdir(cacheDir.c_str());
 
+#elif defined(Q_OS_IOS)
+	// iOS: Der Sandbox-Container-Root ($HOME) ist nicht zuverlaessig beschreibbar –
+	// ein "mkdir($HOME/.pokerth)" schlaegt still fehl. In der Folge existieren
+	// weder Log- noch Cache-Verzeichnis, was sich als Absturz in Log::init()
+	// (opendir==NULL) bzw. als Fehler 25 (ERR_SOCK_TRANSFER_OPEN_FAILED) beim
+	// Serverlisten-Download aeussert. Deshalb das von Apple vorgesehene,
+	// garantiert beschreibbare Application-Support-Verzeichnis nutzen. Es enthaelt
+	// bereits den App-Namen (QGuiApplication::setApplicationName/OrganizationName
+	// werden vor der ConfigFile-Konstruktion gesetzt), daher kein eigenes
+	// ".pokerth" mehr anhaengen.
+	{
+		const QString iosBase =
+			QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+		if (!iosBase.isEmpty())
+		{
+			configFileName = iosBase.toStdString() + "/";
+			////define log-dir
+			// Bewusst NICHT unter Application Support, sondern unter Documents:
+			// nur Documents ist – zusammen mit UIFileSharingEnabled und
+			// LSSupportsOpeningDocumentsInPlace in der Info.plist – aus der
+			// Dateien-App und aus dem Finder erreichbar. So kommt man jederzeit
+			// an pokerth-debug.log und die Spiel-Logs, ohne den App-Container
+			// ueber Xcode herunterladen zu muessen.
+			const QString iosDocs =
+				QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+			logDir = iosDocs.isEmpty() ? configFileName : (iosDocs.toStdString() + "/");
+			logDir += "log-files/";
+			////define data-dir
+			dataDir = configFileName;
+			dataDir += "data/";
+			////define cache-dir
+			cacheDir = configFileName;
+			cacheDir += "cache/";
+			// Verzeichnisse zuverlaessig anlegen. QDir::mkpath legt fehlende
+			// Elternpfade mit an und ist idempotent (kein Fehler, wenn schon da).
+			QDir().mkpath(pathToQString(configFileName));
+			QDir().mkpath(pathToQString(logDir));
+			QDir().mkpath(pathToQString(dataDir));
+			QDir().mkpath(pathToQString(cacheDir));
+		}
+	}
 #else
 	// define app-dir
 	const char *homePath = getenv("XDG_CONFIG_HOME");
@@ -178,11 +221,17 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 		////define cache-dir
 		cacheDir = configFileName;
 		cacheDir += "cache/";
-		// create directories on first start of app
-		mkdir(configFileName.c_str(), MODUS);
+		// create directories on first start of app. mkdir() returns -1 with
+		// errno==EEXIST if the directory already exists, which is fine; any
+		// other failure means we will not be able to store config/cache (and
+		// the server list download later fails as "Network error (25)"), so it
+		// is worth surfacing in the log instead of failing silently.
+		if (mkdir(configFileName.c_str(), MODUS) != 0 && errno != EEXIST)
+			LOG_ERROR("Could not create config directory '" << configFileName << "' (errno " << errno << ")");
 		mkdir(logDir.c_str(), MODUS);
 		mkdir(dataDir.c_str(), MODUS);
-		mkdir(cacheDir.c_str(), MODUS);
+		if (mkdir(cacheDir.c_str(), MODUS) != 0 && errno != EEXIST)
+			LOG_ERROR("Could not create cache directory '" << cacheDir << "' (errno " << errno << ")");
 	}
 #endif
 
@@ -209,6 +258,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontHideAvatarsOfIgnored", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableEmojiReactions", CONFIG_TYPE_INT, "0"));
+	// Chat-Übersetzung anbieten (Globus-Symbol neben eingehenden Nachrichten).
+	// Standardmäßig aktiv; es verlässt nichts den Client, bis der Nutzer das
+	// Symbol einer konkreten Zeile antippt (siehe ChatTranslator /
+	// docs/third_party_services.md).
+	configList.push_back(ConfigInfo("AllowChatTranslation", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));

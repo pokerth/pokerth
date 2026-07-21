@@ -31,6 +31,8 @@
         <file>components/CommunityRankingView.qml</file>
         <file>components/RankingHeaderCell.qml</file>
         <file>components/SeasonStatsSection.qml</file>
+        <file>components/PlayerSeasonCard.qml</file>
+        <file>components/StatTile.qml</file>
         <file>components/PlacementPieChart.qml</file>
         <file>components/PlacementResult.qml</file>
         <file>components/CommunityPlayerView.qml</file>
@@ -167,6 +169,7 @@
         <file>resources/threeLines.svg</file>
         <file>resources/toggleLeft.svg</file>
         <file>resources/toggleRight.svg</file>
+        <file>resources/trophy.svg</file>
         <file>resources/user.svg</file>
         <file>resources/users.svg</file>
         <file>resources/userSquare.svg</file>

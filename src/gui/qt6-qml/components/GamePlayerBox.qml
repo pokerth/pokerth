@@ -119,9 +119,16 @@ Item {
     readonly property bool canIgnore: !targetIsGuest && !targetIsSelf && !playerIgnored
     readonly property bool canUnignore: !targetIsGuest && !targetIsSelf && playerIgnored
     readonly property bool canShowStats: !targetIsGuest
+    // Avatar melden: nur im Internet-Spiel und nur wenn der Spieler einen
+    // (existierenden) Avatar gesetzt hat – 1:1 wie der Qt-Widgets-Client
+    // (MyAvatarLabel). seatData.avatar ist nur bei vorhandener Datei gesetzt.
+    readonly property bool canReportAvatar:
+        !targetIsSelf
+        && (typeof GameTable !== "undefined" && GameTable && GameTable.isInternetGameRunning())
+        && !!(seatData && seatData.avatar && seatData.avatar !== "")
     readonly property bool hasContextActions:
         desktopMode && targetPlayerId !== 0 && !targetIsComputer
-        && (canIgnore || canUnignore || canShowStats)
+        && (canIgnore || canUnignore || canShowStats || canReportAvatar)
 
     // Widescreen-Layout: Box ist groß genug für 2-zeilige Info (Name + Flagge/Cash).
     // Nutzt height >= 76 als Proxy für tableZone.wide (oppBaseHeight = wide ? 84 : 71).
@@ -379,6 +386,21 @@ Item {
     Menu {
         id: contextMenu
 
+        // Breite an den breitesten sichtbaren Eintrag anpassen (min. 180).
+        // Nötig, weil das ListView-contentItem des Menüs keine implicitWidth
+        // meldet – ohne das würde die Breite allein vom Background bestimmt und
+        // längere (auch übersetzte) Labels wie „Report inappropriate avatar"
+        // abgeschnitten.
+        implicitWidth: {
+            var w = 180
+            for (var i = 0; i < count; ++i) {
+                var it = itemAt(i)
+                if (it && it.visible)
+                    w = Math.max(w, it.implicitWidth)
+            }
+            return w
+        }
+
         // Dunkles Theme passend zur Tischoberfläche.
         background: Rectangle {
             implicitWidth: 180
@@ -391,17 +413,64 @@ Item {
         CtxItem {
             text: qsTr("Ignore player")
             visible: root.canIgnore
-            onTriggered: { if (typeof Lobby !== "undefined" && Lobby) Lobby.ignorePlayer(root.targetPlayerId) }
+            onTriggered: root.confirmIgnore()
         }
         CtxItem {
             text: qsTr("Unignore player")
             visible: root.canUnignore
-            onTriggered: { if (typeof Lobby !== "undefined" && Lobby) Lobby.unignorePlayer(root.targetPlayerId) }
+            onTriggered: root.confirmUnignore()
         }
         CtxItem {
             text: qsTr("Show player stats")
             visible: root.canShowStats
             onTriggered: { if (typeof Lobby !== "undefined" && Lobby) Lobby.showPlayerStats(root.targetPlayerId) }
         }
+        CtxItem {
+            text: qsTr("Report inappropriate avatar")
+            visible: root.canReportAvatar
+            onTriggered: root.confirmReportAvatar()
+        }
+    }
+
+    readonly property string targetPlayerName: root.seatData ? (root.seatData.name || "") : ""
+
+    // Rückfrage vor dem Ignorieren eines Spielers (versehentlicher Klick).
+    function confirmIgnore() {
+        ignorePopup.openWith(
+            qsTr("Ignore player"),
+            qsTr("Are you sure you want to ignore \"%1\"?").arg(root.targetPlayerName),
+            qsTr("Ignore player"))
+    }
+
+    // Rückfrage vor dem Aufheben der Ignorierung eines Spielers.
+    function confirmUnignore() {
+        unignorePopup.openWith(
+            qsTr("Unignore player"),
+            qsTr("Are you sure you want to unignore \"%1\"?").arg(root.targetPlayerName),
+            qsTr("Unignore player"))
+    }
+
+    // Rückfrage vor dem Melden eines unangemessenen Avatars (Port der
+    // Bestätigung aus MyAvatarLabel::reportBadAvatar).
+    function confirmReportAvatar() {
+        reportAvatarPopup.openWith(
+            qsTr("Report inappropriate avatar"),
+            qsTr("Are you sure you want to report the avatar of \"%1\" as inappropriate?").arg(root.targetPlayerName),
+            qsTr("Report"))
+    }
+
+    ConfirmPopup {
+        id: ignorePopup
+        onConfirmed: { if (typeof Lobby !== "undefined" && Lobby) Lobby.ignorePlayer(root.targetPlayerId) }
+    }
+
+    ConfirmPopup {
+        id: unignorePopup
+        onConfirmed: { if (typeof Lobby !== "undefined" && Lobby) Lobby.unignorePlayer(root.targetPlayerId) }
+    }
+
+    ConfirmPopup {
+        id: reportAvatarPopup
+        onConfirmed: { if (typeof GameTable !== "undefined" && GameTable) GameTable.reportAvatar(root.seatIndex) }
     }
 }

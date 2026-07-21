@@ -70,6 +70,38 @@ ItemDelegate {
     readonly property color statsColor: Config.StaticData.chartColor(9, true)
     readonly property color banColor: Config.StaticData.chartColor(5, true)
 
+    // Rückfrage vor dem Einladen eines Spielers ins eigene Spiel.
+    function confirmInvite() {
+        invitePopup.openWith(
+            qsTr("Invite to Game"),
+            qsTr("Are you sure you want to invite \"%1\" to your game?").arg(displayName),
+            qsTr("Invite"))
+    }
+
+    // Rückfrage vor dem Ignorieren eines Spielers (versehentlicher Klick).
+    function confirmIgnore() {
+        ignorePopup.openWith(
+            qsTr("Ignore player"),
+            qsTr("Are you sure you want to ignore \"%1\"?").arg(displayName),
+            qsTr("Ignore player"))
+    }
+
+    // Rückfrage vor dem Aufheben der Ignorierung eines Spielers.
+    function confirmUnignore() {
+        unignorePopup.openWith(
+            qsTr("Unignore player"),
+            qsTr("Are you sure you want to unignore \"%1\"?").arg(displayName),
+            qsTr("Unignore player"))
+    }
+
+    // Rückfrage vor dem endgültigen Kickban (Admin) eines Spielers.
+    function confirmBan() {
+        banPopup.openWith(
+            qsTr("Total kickban"),
+            qsTr("Are you sure you want to totally kickban \"%1\"?").arg(displayName),
+            qsTr("Total kickban"))
+    }
+
     onCollapseResetCounterChanged: {
         expanded = false
         listView.expandedPlayerIndex = -1
@@ -163,21 +195,21 @@ ItemDelegate {
                     source: "qrc:/resources/personAdd.svg"
                     baseColor: playerItem.inviteColor
                     tooltipText: qsTr("Invite to Game")
-                    onTriggered: { if (Lobby) Lobby.invitePlayer(playerItem.targetPlayerId) }
+                    onTriggered: playerItem.confirmInvite()
                 }
                 PlayerActionIcon {
                     visible: playerItem.canIgnore
                     source: "qrc:/resources/block.svg"
                     baseColor: playerItem.ignoreColor
                     tooltipText: qsTr("Ignore player")
-                    onTriggered: { if (Lobby) Lobby.ignorePlayer(playerItem.targetPlayerId) }
+                    onTriggered: playerItem.confirmIgnore()
                 }
                 PlayerActionIcon {
                     visible: playerItem.canUnignore
                     source: "qrc:/resources/checkCircle.svg"
                     baseColor: playerItem.ignoreColor
                     tooltipText: qsTr("Unignore player")
-                    onTriggered: { if (Lobby) Lobby.unignorePlayer(playerItem.targetPlayerId) }
+                    onTriggered: playerItem.confirmUnignore()
                 }
                 PlayerActionIcon {
                     visible: playerItem.canShowPlayerStats
@@ -191,7 +223,7 @@ ItemDelegate {
                     source: "qrc:/resources/gavel.svg"
                     baseColor: playerItem.banColor
                     tooltipText: qsTr("Total kickban")
-                    onTriggered: { if (Lobby) Lobby.adminBanPlayer(playerItem.targetPlayerId) }
+                    onTriggered: playerItem.confirmBan()
                 }
             }
 
@@ -265,7 +297,7 @@ ItemDelegate {
                 }
                 
                 onClicked: {
-                    if (Lobby) Lobby.invitePlayer(targetPlayerId)
+                    playerItem.confirmInvite()
                     playerItem.expanded = false
                 }
             }
@@ -301,7 +333,7 @@ ItemDelegate {
                 }
 
                 onClicked: {
-                    if (Lobby) Lobby.ignorePlayer(targetPlayerId)
+                    playerItem.confirmIgnore()
                     playerItem.expanded = false
                 }
             }
@@ -337,7 +369,7 @@ ItemDelegate {
                 }
 
                 onClicked: {
-                    if (Lobby) Lobby.unignorePlayer(targetPlayerId)
+                    playerItem.confirmUnignore()
                     playerItem.expanded = false
                 }
             }
@@ -409,7 +441,7 @@ ItemDelegate {
                 }
                 
                 onClicked: {
-                    if (Lobby) Lobby.adminBanPlayer(targetPlayerId)
+                    playerItem.confirmBan()
                     playerItem.expanded = false
                 }
             }
@@ -422,5 +454,25 @@ ItemDelegate {
                : "transparent"
         radius: 3
         Behavior on color { ColorAnimation { duration: 130 } }
+    }
+
+    ConfirmPopup {
+        id: invitePopup
+        onConfirmed: { if (Lobby) Lobby.invitePlayer(playerItem.targetPlayerId) }
+    }
+
+    ConfirmPopup {
+        id: ignorePopup
+        onConfirmed: { if (Lobby) Lobby.ignorePlayer(playerItem.targetPlayerId) }
+    }
+
+    ConfirmPopup {
+        id: unignorePopup
+        onConfirmed: { if (Lobby) Lobby.unignorePlayer(playerItem.targetPlayerId) }
+    }
+
+    ConfirmPopup {
+        id: banPopup
+        onConfirmed: { if (Lobby) Lobby.adminBanPlayer(playerItem.targetPlayerId) }
     }
 }

@@ -19,6 +19,7 @@
 class Session;
 class SoundEvents;
 class ConfigFile;
+class ChatTranslator;
 struct GameInfo;
 
 // Model for players in lobby
@@ -163,15 +164,26 @@ class LobbyHandler : public QObject
     Q_PROPERTY(int gameListRevision READ gameListRevision NOTIFY gameListRevisionChanged)
     Q_PROPERTY(int playerIgnoreListRevision READ playerIgnoreListRevision NOTIFY playerIgnoreListChanged)
     Q_PROPERTY(bool isInGame READ isInGame NOTIFY isInGameChanged)
+    // true, wenn wir dem aktuellen Spiel als Zuschauer beigetreten sind
+    // (Auge-Icon in der Lobby). Zuschauer sitzen nicht am Tisch.
+    Q_PROPERTY(bool isSpectating READ isSpectating NOTIFY isSpectatingChanged)
     Q_PROPERTY(int currentGameId READ currentGameId NOTIFY currentGameIdChanged)
     // Vom Server (InitAck) angebotenes Rejoin in ein laufendes Spiel nach
     // Verbindungsabbruch (0 = kein Angebot). Die LobbyPage zeigt dazu ein
     // Ja/Nein-Popup; als Property statt reinem Signal, weil das Angebot schon
     // beim Login eintrifft - bevor die LobbyPage instanziiert ist.
     Q_PROPERTY(int rejoinOfferGameId READ rejoinOfferGameId NOTIFY rejoinOfferChanged)
+    // true zwischen angenommenem Rejoin (Server: rejoinEvent) und dem Beginn
+    // der nächsten Hand, an dem uns der Server an den Tisch setzt. Der
+    // Warteraum zeigt dafür einen eigenen Hinweistext und sperrt "Leave Game"
+    // - genau wie der Widgets-Client (waitRejoinStartGameMsgBox).
+    Q_PROPERTY(bool rejoinWaiting READ rejoinWaiting NOTIFY rejoinWaitingChanged)
     // Persistenter Lobby-Chat-Verlauf (formatierte HTML-Zeilen). Erlaubt es
     // mehreren Seiten (Lobby + GameWait), denselben Chat inkl. History zu zeigen.
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
+    // Übersetzer für den Lobby-Chat. Die ChatBox routet Taps auf das Globus-
+    // Symbol an chatTranslator.requestTranslation(id).
+    Q_PROPERTY(QObject* chatTranslator READ chatTranslator CONSTANT)
 
 public:
     explicit LobbyHandler(QObject *parent = nullptr);
@@ -188,13 +200,16 @@ public:
     QString myPlayerName() const { return m_myPlayerName; }
     unsigned myPlayerId() const { return m_myPlayerId; }
     QStringList chatLog() const { return m_chatLog; }
+    QObject* chatTranslator() const;
     bool isMyPlayerGuest() const;
     bool isCurrentPlayerAdmin() const { return m_isCurrentPlayerAdmin; }
     bool isCurrentGameAdmin() const { return m_isCurrentGameAdmin; }
     bool canInviteFromCurrentGame() const;
     bool isInGame() const { return m_isInGame; }
+    bool isSpectating() const { return m_isSpectating; }
     int  currentGameId() const { return static_cast<int>(m_currentGameId); }
     int  rejoinOfferGameId() const { return static_cast<int>(m_rejoinOfferGameId); }
+    bool rejoinWaiting() const { return m_rejoinWaiting; }
     Q_INVOKABLE QString currentGameName() const;
     int playerListFilterMode() const { return m_playerListFilterMode; }
     int gameListFilterMode() const { return m_gameListFilterMode; }
@@ -236,6 +251,10 @@ public slots:
     
     // Actions from QML
     Q_INVOKABLE void joinGame(unsigned gameId, const QString &password);
+    // Einem laufenden Spiel als Zuschauer beiwohnen (Auge-Icon der Lobby).
+    // Kein Passwort nötig: der Server prüft bei spectateOnly weder Passwort
+    // noch Einladung, sondern ausschließlich GameData::allowSpectators.
+    Q_INVOKABLE void spectateGame(unsigned gameId);
     Q_INVOKABLE void leaveGame();
     // Verlässt die Lobby/den Server vollständig (Verbindung trennen). Wird
     // beim Zurückkehren zur Startseite aufgerufen, damit der Client nicht
@@ -252,6 +271,9 @@ public slots:
     // Antwort aus QML auf das Rejoin-Popup.
     Q_INVOKABLE void acceptRejoin();
     Q_INVOKABLE void declineRejoin();
+    // Server hat den Rejoin bestätigt (StartEvent rejoinEvent → SYNCREJOIN):
+    // Warten auf den Beginn der nächsten Hand. Von QmlGuiInterface aufgerufen.
+    void onRejoinSyncWait();
     // AFK-Timeout-Warnung des Servers (Lobby wie ingame) → QML-Popup + Beep.
     void onTimeoutWarning(int reason, int remainingSec);
     // Server-Meldung (Klartext bzw. msgId aus socket_msg.h) → QML-Info-Popup.
@@ -300,6 +322,7 @@ public slots:
     Q_INVOKABLE QString playerCountryByName(const QString &name) const;
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;
+    Q_INVOKABLE bool canSpectateGame(unsigned gameId) const;
     Q_INVOKABLE bool openExternalUrl(const QString &url) const;
     // Alle unterstützten Emoji-Shortcodes (":smile:" → 😄) als sortierte Liste
     // von {code, emoji} für die Autovervollständigung der ChatBox. Quelle ist
@@ -347,8 +370,10 @@ signals:
     // native Player-Page des Spielers.
     void playerStatsRequested(const QString &playerName);
     void isInGameChanged();
+    void isSpectatingChanged();
     void currentGameIdChanged();
     void rejoinOfferChanged();
+    void rejoinWaitingChanged();
 
 private:
     // Hängt eine fertig formatierte Chat-Zeile an den Verlauf an (begrenzt) und
@@ -368,14 +393,21 @@ private:
     QString m_myPlayerName;
     unsigned m_myPlayerId;
     QStringList m_chatLog;      // formatierter Lobby-Chat-Verlauf (HTML-Zeilen)
+    ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;
     // Vom Server angebotenes Rejoin nach Verbindungsabbruch (0 = keines).
     unsigned m_rejoinOfferGameId = 0;
+    // true, solange wir nach angenommenem Rejoin auf die nächste Hand warten.
+    bool m_rejoinWaiting = false;
+    void setRejoinWaiting(bool waiting);
     bool m_isCurrentPlayerAdmin = false;   // Server-Admin (kickban / Spiel schließen)
     bool m_isCurrentGameAdmin = false;     // Spiel-Admin (Host des aktuellen Tisches)
     bool m_isInGame = false;
+    // true zwischen Zuschauer-Beitritt und Verlassen des Tisches. Wird aus dem
+    // JoinGameAck des Servers übernommen (Session::isClientSpectating).
+    bool m_isSpectating = false;
     // true zwischen Spielstart und Rückkehr in den Warteraum/die Lobby. Die
     // Join-Sounds (playerconnected/onlinegameready) gehören nur in den
     // Warteraum; ein PlayerJoined im laufenden Spiel ist ein Rejoin nach

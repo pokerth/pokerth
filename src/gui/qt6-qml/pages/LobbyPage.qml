@@ -55,6 +55,16 @@ Rectangle {
             qsTr("Report"))
     }
 
+    function requestSpectateGame(gameId, gameName) {
+        if (!gameId) return
+        spectateGamePopup.pendingGameId = gameId
+        spectateGamePopup.openWith(
+            qsTr("Spectate game"),
+            qsTr("Are you sure you want to spectate the game:\n\"%1\"?")
+                .arg(gameName || ("Game #" + gameId)),
+            qsTr("Spectate"))
+    }
+
     function requestCloseGame() {
         if (!selectedGame) return
         closeGamePopup.openWith(
@@ -868,6 +878,25 @@ Rectangle {
                                             visible: model.gameType === 4
                                         }
                                         Item { Layout.fillWidth: true }
+
+                                        // Zuschauen: nur bei laufenden Spielen, die
+                                        // Zuschauer erlauben, und nur solange wir an
+                                        // keinem Tisch sitzen.
+                                        PlayerActionIcon {
+                                            visible: {
+                                                // Neuauswertung, wenn sich die Spielliste ändert
+                                                // (Spielstart/-ende); isInGame bindet sich selbst.
+                                                var _rev = lobbyPage.gameListRevision
+                                                return Lobby && !Lobby.isInGame
+                                                       && Lobby.canSpectateGame(model.gameId || 0)
+                                            }
+                                            iconSize: 16
+                                            source: "qrc:/resources/eye.svg"
+                                            baseColor: Config.Theme.colorAccent
+                                            tooltipText: qsTr("Spectate game")
+                                            onTriggered: lobbyPage.requestSpectateGame(
+                                                model.gameId, model.gameName)
+                                        }
                                     }
                                 }
 
@@ -967,6 +996,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
                             // Vollständige (ungefilterte) Spielerliste für die
                             // Tab-Vervollständigung – damit auch Spieler in
                             // (offenen) Spielen vervollständigt werden, die der
@@ -1230,6 +1260,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
                             // Vollständige (ungefilterte) Spielerliste für die
                             // Tab-Vervollständigung – damit auch Spieler in
                             // (offenen) Spielen vervollständigt werden, die der
@@ -1318,6 +1349,17 @@ Rectangle {
         onConfirmed: {
             if (Lobby && lobbyPage.selectedGame)
                 Lobby.adminCloseGame(lobbyPage.selectedGame.gameId)
+        }
+    }
+
+    // Auf Seitenebene (nicht im Listen-Delegate): die Zeile kann beim Scrollen
+    // oder bei einem Listen-Update zerstört werden, während das Popup offen ist.
+    ConfirmPopup {
+        id: spectateGamePopup
+        property int pendingGameId: 0
+        onConfirmed: {
+            if (Lobby && pendingGameId > 0)
+                Lobby.spectateGame(pendingGameId)
         }
     }
 

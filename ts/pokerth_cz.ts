@@ -4195,6 +4195,17 @@ Vložte platný obrázek!</translation>
 <context>
     <name>settingsDialog</name>
     <message>
+        <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="359"/>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="396"/>
+        <source>Offer chat translation (globe symbol next to messages)</source>
+        <translation>Nabízet překlad chatu (symbol glóbusu vedle zpráv)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="393"/>
+        <source>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</source>
+        <translation>Zobrazí symbol glóbusu vedle příchozích zpráv chatu. Klepnutím na něj se zpráva přeloží do vámi zvoleného jazyka pomocí externí služby (Překladač Google, případně MyMemory). Nic se neodešle, dokud na něj neklepnete.</translation>
+    </message>
+    <message>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>

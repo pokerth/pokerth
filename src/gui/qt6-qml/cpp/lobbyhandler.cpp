@@ -5,6 +5,8 @@
 
 #include "lobbyhandler.h"
 #include "androidconnectionservice.h"
+#include "iosbackgroundsession.h"
+#include "chattranslator.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
@@ -568,6 +570,17 @@ LobbyHandler::LobbyHandler(QObject *parent)
     gameProxy->setSourceModel(&m_gameListModel);
     gameProxy->setDynamicSortFilter(true);
     m_gameListProxyModel = gameProxy;
+
+    // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
+    // Zeile stößt chatLogChanged() an, damit die QML-Bindung neu rendert.
+    m_chatTranslator = new ChatTranslator(&m_chatLog, this);
+    connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
+            this, &LobbyHandler::chatLogChanged);
+}
+
+QObject* LobbyHandler::chatTranslator() const
+{
+    return m_chatTranslator;
 }
 
 LobbyHandler::~LobbyHandler()
@@ -590,6 +603,7 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
         m_rejoinOfferGameId = 0;
         emit rejoinOfferChanged();
     }
+    setRejoinWaiting(false);
 
     // Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
     // kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
@@ -615,6 +629,9 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
 void LobbyHandler::setConfig(ConfigFile *config)
 {
     m_config = config;
+
+    if (m_chatTranslator)
+        m_chatTranslator->setConfig(config);
 
     if (!m_config)
         return;
@@ -830,6 +847,27 @@ bool LobbyHandler::canJoinGame(unsigned gameId) const
     }
 
     return gameType == GAME_TYPE_NORMAL || gameType == GAME_TYPE_RANKING;
+}
+
+bool LobbyHandler::canSpectateGame(unsigned gameId) const
+{
+    if (!m_session || gameId == 0)
+        return false;
+
+    // Nur ein Tisch zur Zeit: wer bereits sitzt oder zuschaut, muss erst raus.
+    if (m_isInGame)
+        return false;
+
+    const GameInfo info = m_session->getClientGameInfo(gameId);
+
+    // Nur laufende Spiele. Ein Spiel im Warteraum hat noch keinen Tisch zu
+    // zeigen; ein geschlossenes ist vorbei.
+    if (static_cast<int>(info.mode) != GAME_MODE_STARTED)
+        return false;
+
+    // Einzige Bedingung des Servers (ServerLobbyThread::HandleNetPacketJoinGame):
+    // Passwort, Einladung und Gast-Status prüft er bei spectateOnly NICHT.
+    return info.data.allowSpectators;
 }
 
 void LobbyHandler::setPlayerListFilterMode(int mode)
@@ -1126,6 +1164,11 @@ void LobbyHandler::onGamePlayerJoined()
     // klänge wie ein Spielstart mitten in der Hand.
     if (m_gameRunning)
         return;
+    // Als Zuschauer NIE: der Server meldet uns beim Beitritt jeden bereits
+    // sitzenden Spieler einzeln als PlayerJoined (AcceptNewSession) – das gäbe
+    // eine Salve von Beitritts-Tönen für ein Spiel, das längst läuft.
+    if (m_isSpectating)
+        return;
     if (m_config && !m_config->readConfigInt("PlayNetworkGameNotification"))
         return;
     if (!m_session || m_currentGameId == 0)
@@ -1230,6 +1273,15 @@ void LobbyHandler::onNetworkNotification(int notificationId)
     case NTF_NET_JOIN_GAME_INVALID:
     case NTF_NET_JOIN_REJOIN_FAILED:
         msgText = tr("Could not join the game."); break;
+    case NTF_NET_REMOVED_START_FAILED:
+        // Die Start-Synchronisation (auch beim Rejoin) hat zu lange gedauert.
+        msgText = tr("Your connection to the server is very slow, the game had to start without you."); break;
+    case NTF_NET_REMOVED_KICKED:
+        msgText = tr("You were kicked from the game."); break;
+    case NTF_NET_REMOVED_TIMEOUT:
+        // AFK-Kick des Servers. Die vorausgegangene Countdown-Warnung wird vom
+        // onRemovedFromGame-Handler in pokerth.qml geschlossen.
+        msgText = tr("You were removed due to inactivity."); break;
     default:
         return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
     }
@@ -1327,6 +1379,12 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
                + escapedName + QLatin1String(":</b> ") + styledMsg;
     }
 
+    // Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss man nicht
+    // übersetzen). rawDisplay ist der Quelltext ohne HTML/Style-Markup; styledMsg
+    // ist der Nachrichtenkörper in der Zeile, der beim Einblenden ersetzt wird.
+    if (m_chatTranslator && playerName != myNick)
+        line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
+
     pushChatLine(line);
 }
 
@@ -1351,11 +1409,15 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     escapedMsg = enlargeEmojis(escapedMsg);
 
     const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    const QString line = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
+    QString line       = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
                          + colorPM + QLatin1String(";\">")
                          + playerName.toHtmlEscaped()
                          + QLatin1String("(pm): ") + escapedMsg
                          + QLatin1String("</span></i>");
+    // Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
+    // escapedMsg ist der Nachrichtenkörper in der Zeile.
+    if (m_chatTranslator)
+        line = m_chatTranslator->decorate(line, message, escapedMsg);
     pushChatLine(line);
 }
 
@@ -1427,9 +1489,18 @@ void LobbyHandler::createGame(const QString &name, const QString &password,
         for (const QVariant &blind : manualBlinds)
             gameData.manualBlindsList.push_back(blind.toInt());
     }
-    gameData.afterManualBlindsMode        = AFTERMB_DOUBLE_BLINDS;
-    gameData.afterMBAlwaysRaiseValue      = 0;
-    gameData.guiSpeed                     = 4;
+    // Das Verhalten nach der manuellen Blindliste und die GUI-Geschwindigkeit
+    // haben auf der Erstellen-Seite keine Bedienelemente; sie stammen – wie im
+    // Widget-Client – aus den Optionen.
+    if (m_config) {
+        if (m_config->readConfigInt("NetAfterMBAlwaysRaiseAbout")) {
+            gameData.afterManualBlindsMode   = AFTERMB_RAISE_ABOUT;
+            gameData.afterMBAlwaysRaiseValue = m_config->readConfigInt("NetAfterMBAlwaysRaiseValue");
+        } else if (m_config->readConfigInt("NetAfterMBStayAtLastBlind")) {
+            gameData.afterManualBlindsMode   = AFTERMB_STAY_AT_LAST_BLIND;
+        }
+        gameData.guiSpeed = m_config->readConfigInt("GameSpeed");
+    }
     gameData.delayBetweenHandsSec         = delayBetweenHands;
     gameData.playerActionTimeoutSec       = playerActionTimeout;
 
@@ -1443,6 +1514,15 @@ void LobbyHandler::joinGame(unsigned gameId, const QString &password)
         return;
     }
     m_session->clientJoinGame(gameId, password.toStdString());
+}
+
+void LobbyHandler::spectateGame(unsigned gameId)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    m_session->clientJoinGame(gameId, std::string(), true);
 }
 
 void LobbyHandler::leaveGame()
@@ -1461,7 +1541,13 @@ void LobbyHandler::leaveServer()
     m_session->terminateNetworkClient();
     // Keine aktive Online-Session mehr → Foreground-Service beenden.
     AndroidConnectionService::stop();
+    IosBackgroundSession::stop();
     m_gameRunning = false;
+    setRejoinWaiting(false);
+    if (m_isSpectating) {
+        m_isSpectating = false;
+        emit isSpectatingChanged();
+    }
     if (m_isInGame) {
         m_isInGame = false;
         m_currentGameId = 0;
@@ -1476,6 +1562,13 @@ void LobbyHandler::onSelfJoinedGame()
     // unmittelbar wieder onGameStarted).
     m_gameRunning = false;
     m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
+    // Ob der Server uns als Zuschauer aufgenommen hat, steht im JoinGameAck –
+    // der ist bereits verarbeitet, wenn dieses Signal die GUI erreicht.
+    const bool spectating = m_session && m_session->isClientSpectating();
+    if (spectating != m_isSpectating) {
+        m_isSpectating = spectating;
+        emit isSpectatingChanged();
+    }
     if (!m_isInGame) {
         m_isInGame = true;
         emit isInGameChanged();
@@ -1501,6 +1594,8 @@ void LobbyHandler::onGameStarted()
     emit playerListRevisionChanged();
 
     m_gameRunning = true;
+    // Wir sitzen am Tisch → ein evtl. laufendes Rejoin-Warten ist erledigt.
+    setRejoinWaiting(false);
 
     emit gameStarted();
 }
@@ -1519,7 +1614,14 @@ void LobbyHandler::onRemovedFromGame(int reason)
 {
     m_isInGame = false;
     m_gameRunning = false;
+    // Deckt auch NTF_NET_REMOVED_START_FAILED ab: Der Server hat die Hand ohne
+    // uns gestartet, das Warten auf den Rejoin ist damit hinfällig.
+    setRejoinWaiting(false);
     m_currentGameId = 0;
+    if (m_isSpectating) {
+        m_isSpectating = false;
+        emit isSpectatingChanged();
+    }
     // Spiel-Admin (Host)-Status verfällt mit dem Verlassen des Tisches; der
     // Server-Admin-Status bleibt davon unberührt.
     setCurrentGameAdmin(false);
@@ -1633,6 +1735,23 @@ void LobbyHandler::acceptRejoin()
     if (!m_session || gameId == 0)
         return;
     m_session->clientRejoinGame(gameId);
+}
+
+void LobbyHandler::setRejoinWaiting(bool waiting)
+{
+    if (m_rejoinWaiting == waiting)
+        return;
+    m_rejoinWaiting = waiting;
+    emit rejoinWaitingChanged();
+}
+
+// Der Server hat den Rejoin angenommen und schickt das StartEvent vom Typ
+// rejoinEvent. An den Tisch gesetzt werden wir aber erst zu Beginn der
+// nächsten Hand - bis dahin bleibt der Warteraum stehen.
+void LobbyHandler::onRejoinSyncWait()
+{
+    qDebug() << "[REJOIN] onRejoinSyncWait: waiting for next hand";
+    setRejoinWaiting(true);
 }
 
 void LobbyHandler::declineRejoin()

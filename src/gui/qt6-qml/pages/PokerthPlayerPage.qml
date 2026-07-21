@@ -27,12 +27,18 @@ Rectangle {
     property var last5: []
     property var games: []
     // Season-Stats-Rohdaten der API: barStats = Häufigkeit je Platz 1–10
-    // (bar_stats), placePercents = zugehörige Prozent-Strings (stats[1]).
+    // (bar_stats), stats = rohes stats-Feld (die Section leitet die Prozente ab).
     property var barStats: []
-    property var placePercents: []
-    // Alle vom Spieler gespielten Saisons, neueste zuerst (API-Feld `seasons`,
-    // Format "<Jahr>_<Quartal>", z. B. "2026_2").
+    property var stats: []
+    // Achtung: `seasons` der API ist die *globale* Liste aller abgeschlossenen
+    // Saisons (Format "<Jahr>_<Quartal>", z. B. "2026_2") – für jeden Spieler
+    // identisch, nicht dessen Teilnahmen. Welche davon der Spieler gespielt hat,
+    // ermittelt erst die PlayerSeasonCard je Saison; Karten ohne Ergebnis
+    // blenden sich selbst aus.
     property var seasons: []
+    // Zahl der Saisons, für die tatsächlich ein Ergebnis vorliegt (von den
+    // Karten hochgezählt); steuert die Überschrift des Saison-Blocks.
+    property int seasonResults: 0
     property bool loading: false
     property string errorText: ""
 
@@ -44,9 +50,25 @@ Rectangle {
         return parts.length === 2 ? (parts[0] + " Q" + parts[1]) : String(s)
     }
 
+    // Quellen-Umschalter: ersetzt diese Seite durch die Player-Page der
+    // gewählten Quelle (gleicher Nickname). BBC/WEC kennen nur Nicknames –
+    // solange keiner bekannt ist (Seite nur mit playerId geöffnet, lädt noch),
+    // passiert nichts. Als Funktion, weil der Umschalter je nach Layout an zwei
+    // Stellen (inline / eigene Zeile) sitzt und beide dieselbe Logik brauchen.
+    function switchCommunity(community) {
+        var nick = (player && player.username) ? player.username : username
+        if (nick === "")
+            return
+        StackView.view.replace(Config.Community.playerPageUrl(community),
+                               Config.Community.playerPageProps(community, nick))
+    }
+
     function load() {
         loading = true
         errorText = ""
+        // Saison-Karten werden über `seasons` neu erzeugt und zählen frisch –
+        // den Ergebnis-Zähler daher hier zurücksetzen, nicht kumulieren.
+        seasonResults = 0
         var q = playerId > 0 ? ("player_id=" + playerId)
                              : ("username=" + encodeURIComponent(username))
         var xhr = new XMLHttpRequest()
@@ -70,13 +92,7 @@ Rectangle {
                 playerPage.last5 = res.last5 || []
                 playerPage.games = res.games || []
                 playerPage.barStats = res.bar_stats || []
-                // stats[1] ist ein Objekt {"1":"8.3%",…}; in ein nach Platz
-                // 1–10 geordnetes Array umformen, das die Section direkt nutzt.
-                var pct = (res.stats && res.stats.length > 1) ? res.stats[1] : null
-                var arr = []
-                for (var p = 1; p <= 10; ++p)
-                    arr.push(pct && pct[p] !== undefined ? pct[p] : "")
-                playerPage.placePercents = arr
+                playerPage.stats = res.stats || []
                 playerPage.seasons = res.seasons || []
             } catch (e) {
                 playerPage.errorText = qsTr("Could not parse server response.")
@@ -113,86 +129,102 @@ Rectangle {
             spacing: 14
 
             // ── Kopf: Avatar + Name + Land + Eckdaten ───────────────────────
-            RowLayout {
+            // Im Kompakt-/Portrait-Modus (schmales Phone) wandert der Quellen-
+            // Umschalter in eine eigene Zeile darunter (rechtsbündig), damit der
+            // Kopf – Avatar + Name + 3-Segment-Umschalter – nicht breiter wird als
+            // das Display. Auf Desktop/Tablet bleibt er oben rechts inline.
+            ColumnLayout {
                 Layout.fillWidth: true
-                spacing: 14
+                spacing: 8
 
-                Rectangle {
-                    Layout.preferredWidth: 72
-                    Layout.preferredHeight: 72
-                    radius: 6
-                    color: Config.StaticData.palette.secondary.col600
-                    clip: true
-
-                    Image {
-                        anchors.fill: parent
-                        visible: source != ""
-                        fillMode: Image.PreserveAspectCrop
-                        asynchronous: true
-                        source: (playerPage.player && playerPage.player.avatar_hash)
-                                ? playerPage.baseUrl + "/images/avatars/game/"
-                                  + playerPage.player.avatar_hash + "." + playerPage.player.avatar_mime
-                                : ""
-                    }
-                }
-
-                ColumnLayout {
+                RowLayout {
                     Layout.fillWidth: true
-                    spacing: 4
+                    spacing: 14
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        spacing: 8
+                    Rectangle {
+                        Layout.preferredWidth: 72
+                        Layout.preferredHeight: 72
+                        Layout.alignment: Qt.AlignTop
+                        radius: 6
+                        color: Config.StaticData.palette.secondary.col600
+                        clip: true
+
                         Image {
-                            readonly property string code:
-                                (playerPage.player && playerPage.player.country_iso
-                                 ? String(playerPage.player.country_iso) : "").toLowerCase()
-                            visible: code !== ""
-                            source: code !== "" ? "qrc:/resources/cflags/" + code + ".svg" : ""
-                            Layout.preferredWidth: 22
-                            Layout.preferredHeight: 15
-                            fillMode: Image.PreserveAspectFit
-                            smooth: true
+                            anchors.fill: parent
+                            visible: source != ""
+                            fillMode: Image.PreserveAspectCrop
+                            asynchronous: true
+                            source: (playerPage.player && playerPage.player.avatar_hash)
+                                    ? playerPage.baseUrl + "/images/avatars/game/"
+                                      + playerPage.player.avatar_hash + "." + playerPage.player.avatar_mime
+                                    : ""
                         }
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        spacing: 4
+
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 8
+                            Image {
+                                readonly property string code:
+                                    (playerPage.player && playerPage.player.country_iso
+                                     ? String(playerPage.player.country_iso) : "").toLowerCase()
+                                visible: code !== ""
+                                source: code !== "" ? "qrc:/resources/cflags/" + code + ".svg" : ""
+                                Layout.preferredWidth: 22
+                                Layout.preferredHeight: 15
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true
+                            }
+                            AppLabel {
+                                text: playerPage.player ? playerPage.player.username : ""
+                                Layout.fillWidth: true
+                                elide: Text.ElideRight
+                                color: Config.StaticData.palette.secondary.col100
+                                font.pointSize: 16
+                                font.bold: true
+                            }
+                        }
+                        // Datums-Zeilen füllen die Breite und eliden – so bestimmen
+                        // sie im schmalen Portrait nicht die Kopf-Mindestbreite.
                         AppLabel {
-                            text: playerPage.player ? playerPage.player.username : ""
                             Layout.fillWidth: true
                             elide: Text.ElideRight
-                            color: Config.StaticData.palette.secondary.col100
-                            font.pointSize: 16
-                            font.bold: true
+                            visible: playerPage.player && playerPage.player.created
+                            text: qsTr("Member since %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.created : ""))
+                            color: Config.StaticData.palette.secondary.col300
+                            font.pixelSize: Config.Theme.fontSizeCaption
+                        }
+                        AppLabel {
+                            Layout.fillWidth: true
+                            elide: Text.ElideRight
+                            visible: playerPage.player && playerPage.player.last_login
+                            text: qsTr("Last login %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.last_login : ""))
+                            color: Config.StaticData.palette.secondary.col300
+                            font.pixelSize: Config.Theme.fontSizeCaption
                         }
                     }
-                    AppLabel {
-                        visible: playerPage.player && playerPage.player.created
-                        text: qsTr("Member since %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.created : ""))
-                        color: Config.StaticData.palette.secondary.col300
-                        font.pixelSize: Config.Theme.fontSizeCaption
-                    }
-                    AppLabel {
-                        visible: playerPage.player && playerPage.player.last_login
-                        text: qsTr("Last login %1").arg(playerPage.datePart(playerPage.player ? playerPage.player.last_login : ""))
-                        color: Config.StaticData.palette.secondary.col300
-                        font.pixelSize: Config.Theme.fontSizeCaption
+
+                    // Desktop/Tablet: Umschalter inline oben rechts.
+                    CommunitySwitch {
+                        visible: !playerPage.compact
+                        Layout.alignment: Qt.AlignTop
+                        current: "pokerth"
+                        onSelected: playerPage.switchCommunity(community)
                     }
                 }
 
-                // Quellen-Umschalter oben rechts: ersetzt diese Seite durch die
-                // Player-Page der gewählten Quelle (gleicher Nickname). BBC/WEC
-                // kennen nur Nicknames – solange keiner bekannt ist (Seite wurde
-                // nur mit playerId geöffnet und lädt noch), passiert nichts.
-                CommunitySwitch {
-                    id: communitySwitch
-                    Layout.alignment: Qt.AlignTop
-                    current: "pokerth"
-                    onSelected: function(community) {
-                        var nick = (playerPage.player && playerPage.player.username)
-                                   ? playerPage.player.username : playerPage.username
-                        if (nick === "")
-                            return
-                        playerPage.StackView.view.replace(
-                            Config.Community.playerPageUrl(community),
-                            Config.Community.playerPageProps(community, nick))
+                // Kompakt/Portrait: Umschalter in eigener Zeile, rechtsbündig.
+                RowLayout {
+                    Layout.fillWidth: true
+                    visible: playerPage.compact
+                    Item { Layout.fillWidth: true }
+                    CommunitySwitch {
+                        current: "pokerth"
+                        onSelected: playerPage.switchCommunity(community)
                     }
                 }
             }
@@ -222,30 +254,10 @@ Rectangle {
                             { label: qsTr("Points"), value: r ? ("" + r.points_sum) : "–" }
                         ]
                     }
-                    Rectangle {
-                        id: statCell
+                    StatTile {
                         required property var modelData
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 56
-                        radius: 6
-                        color: Config.StaticData.palette.secondary.col600
-                        ColumnLayout {
-                            anchors.centerIn: parent
-                            spacing: 2
-                            AppLabel {
-                                Layout.alignment: Qt.AlignHCenter
-                                text: statCell.modelData.value
-                                color: Config.StaticData.palette.secondary.col100
-                                font.pixelSize: Config.Theme.fontSizeTitle
-                                font.bold: true
-                            }
-                            AppLabel {
-                                Layout.alignment: Qt.AlignHCenter
-                                text: statCell.modelData.label
-                                color: Config.StaticData.palette.secondary.col300
-                                font.pixelSize: Config.Theme.fontSizeCaption
-                            }
-                        }
+                        label: modelData.label
+                        value: modelData.value
                     }
                 }
             }
@@ -285,7 +297,7 @@ Rectangle {
             SeasonStatsSection {
                 Layout.fillWidth: true
                 counts: playerPage.barStats
-                percents: playerPage.placePercents
+                stats: playerPage.stats
             }
 
             // ── Letzte Spiele ───────────────────────────────────────────────
@@ -366,36 +378,30 @@ Rectangle {
                 }
             }
 
-            // ── Alle gespielten Saisons ─────────────────────────────────────
+            // ── Gespielte Saisons ───────────────────────────────────────────
+            // Die Überschrift hängt an den tatsächlich gefundenen Ergebnissen,
+            // nicht an der (globalen) Saison-Liste – sonst stünde sie auch bei
+            // Spielern da, die noch keine Saison abgeschlossen haben.
             AppLabel {
                 text: qsTr("Seasons")
-                visible: playerPage.seasons.length > 0
+                visible: playerPage.seasonResults > 0
                 color: Config.StaticData.palette.secondary.col200
                 font.pixelSize: Config.Theme.fontSizeBody
                 font.bold: true
             }
 
-            Flow {
+            ColumnLayout {
                 Layout.fillWidth: true
-                visible: playerPage.seasons.length > 0
-                spacing: 8
+                spacing: 6
                 Repeater {
                     model: playerPage.seasons
-                    Rectangle {
+                    PlayerSeasonCard {
                         required property var modelData
-                        implicitWidth: seasonText.implicitWidth + 20
-                        implicitHeight: 26
-                        radius: 13
-                        color: Config.StaticData.palette.secondary.col600
-                        border.color: Config.StaticData.palette.secondary.col500
-                        border.width: 1
-                        AppLabel {
-                            id: seasonText
-                            anchors.centerIn: parent
-                            text: playerPage.seasonLabel(parent.modelData)
-                            color: Config.StaticData.palette.secondary.col200
-                            font.pixelSize: Config.Theme.fontSizeCaption
-                        }
+                        baseUrl: playerPage.baseUrl
+                        playerId: playerPage.player ? playerPage.player.player_id : 0
+                        season: modelData
+                        title: playerPage.seasonLabel(modelData)
+                        onResultAvailable: ++playerPage.seasonResults
                     }
                 }
             }

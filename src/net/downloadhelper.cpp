@@ -38,6 +38,8 @@
 #include <QUrl>
 #include <QNetworkRequest>
 #include <QFile>
+#include <QFileInfo>
+#include <QDir>
 
 #include <cstdio>
 
@@ -56,7 +58,17 @@ void
 DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/, size_t /*filesize*/, const string &/*httpPost*/)
 {
 	// Open target file for writing.
-	GetData()->targetFile = new QFile(QString::fromStdString(targetFileName));
+	const QString targetPath = QString::fromStdString(targetFileName);
+	// Make sure the target directory exists. The cache directory is normally
+	// created on startup (ConfigFile), but that mkdir is best-effort and may
+	// have failed silently (read-only home, missing HOME, deleted cache dir,
+	// snap revision change). Without this, a missing directory surfaces as the
+	// cryptic "Network error (25)" (ERR_SOCK_TRANSFER_OPEN_FAILED) instead of
+	// self-healing here.
+	const QString targetDir = QFileInfo(targetPath).absolutePath();
+	if (!targetDir.isEmpty())
+		QDir().mkpath(targetDir);
+	GetData()->targetFile = new QFile(targetPath);
 	if (!GetData()->targetFile->open(QIODevice::WriteOnly))
 		throw NetException(__FILE__, __LINE__, ERR_SOCK_TRANSFER_OPEN_FAILED, 0);
 

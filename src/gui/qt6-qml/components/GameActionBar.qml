@@ -23,6 +23,24 @@ Item {
     implicitHeight: actionBarCol.implicitHeight
                     + (actionBar.wide && !actionBar.compactActions ? 8 : 0)
 
+    // Eckenradius der Theme-Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche
+    // (<ActionButtonBorderRadius> im Tisch-Stil). Die Zustands-Rahmen (Vorwahl
+    // gold, primäre Aktion) liegen als Rechteck ÜBER dem SVG; nur mit dem Radius
+    // des Stils schließen sie bündig ab, statt an den Ecken zu klaffen.
+    readonly property real themeButtonRadiusUnits:
+        (typeof StyleProvider !== "undefined" && StyleProvider)
+        ? StyleProvider.actionButtonBorderRadius : 9
+
+    // Der Button wird auf seine tatsächliche Größe gestreckt, der Radius also mit
+    // – in x und y unterschiedlich stark. Ein Rectangle kann aber nur einen
+    // kreisrunden Radius: wir nehmen den kleineren der beiden, dann bleibt der
+    // Rahmen innerhalb der Kontur statt aus ihr herauszulaufen.
+    function themeButtonRadius(w, h) {
+        return Math.min(w / 2, h / 2,
+                        actionBar.themeButtonRadiusUnits * w / 168,
+                        actionBar.themeButtonRadiusUnits * h / 43)
+    }
+
     // Spielmodus-Aktion: vom Aufrufer (Shortcuts) und der Modus-ComboBox genutzt.
     // Falls bereits mein Zug: gewählten Auto-Modus ausführen – aber VERZÖGERT
     // (Qt.callLater), niemals synchron. fold()/call() verändert sofort den
@@ -623,6 +641,25 @@ Item {
                             // Qt-Widgets-Client: Enter bei fokussiertem Betrag).
                             actionBar.clickAction("raise")
                         }
+                        // Fokus abgeben, sobald das Feld gesperrt wird (Zug vorbei →
+                        // min/maxRaiseAmount werden 0 → raiseAvailable false).
+                        //
+                        // Nötig, weil enabled=false NUR den activeFocus nimmt, die
+                        // focus-Eigenschaft aber true lässt: Beim nächsten eigenen Zug
+                        // aktiviert raiseAvailable das Feld wieder, und der Fokus-Scope
+                        // gibt ihm den activeFocus von selbst zurück. Auf Touch-Geräten
+                        // (iPad/iPhone) fährt dadurch ab dem ersten Tippen ins Feld bei
+                        // JEDEM Zug ungefragt die Bildschirmtastatur hoch – auch wenn man
+                        // nur checken will. Ohne Zutun des Nutzers wieder fokussiert zu
+                        // werden ist auch auf dem Desktop falsch (Tastatureingaben landen
+                        // dann im Betragsfeld statt bei den Aktions-Shortcuts).
+                        // Der gewollte Auto-Fokus kommt ausschließlich aus der Einstellung
+                        // EnableBetInputFocusSwitch (onMyTurnChanged oben) – die ruft
+                        // forceActiveFocus() erst NACH dem Reaktivieren und bleibt wirksam.
+                        onEnabledChanged: {
+                            if (!enabled)
+                                focus = false
+                        }
                         // Text bleibt synchron mit raiseAmount (von Slider/%-Buttons)
                         onActiveFocusChanged: {
                             if (!activeFocus) {
@@ -748,7 +785,9 @@ Item {
                                                      && StyleProvider && StyleProvider.allInButton !== ""
                     Layout.preferredWidth: 52
                     Layout.preferredHeight: actionBar.raiseRowHeight
-                    radius: 5
+                    // Mit Theme-SVG den Radius des Stils, sonst den Fallback-Wert.
+                    radius: allInBtn.useTheme
+                            ? actionBar.themeButtonRadius(allInBtn.width, allInBtn.height) : 5
                     opacity: (isShowMode || allInBtn.armed) ? 1.0 : 0.4
                     color: allInBtn.useTheme ? "transparent"
                          : allInArea.containsPress
@@ -782,7 +821,7 @@ Item {
                         anchors.fill: parent
                         anchors.margins: allInBtn.border.width
                         visible: allInBtn.useTheme
-                        radius: 5
+                        radius: actionBar.themeButtonRadius(width, height)
                         color: "#FFFFFF"
                         opacity: allInArea.containsPress ? 0.18
                                : allInArea.containsMouse ? 0.08 : 0.0
@@ -922,12 +961,27 @@ Item {
                 // Zustands-Rahmen ÜBER dem Theme-SVG: Vorwahl (gold) bzw.
                 // primäre Aktion (Raise) hervorheben. Beim Fallback erledigt
                 // das der border des Gradient-Rechtecks oben.
+                //
+                // Der Rahmen wird in der 168x43-Zeichenfläche des Button-SVG
+                // gezeichnet und mit derselben (ungleichmäßigen) Skalierung
+                // gestreckt wie das Bild. Nur so deckt er sich mit der Kontur:
+                // Image.Stretch macht aus der SVG-Ecke eine Ellipse, und ein
+                // Rectangle.radius in Pixeln kann immer nur kreisrund sein –
+                // im Portrait ist der Button deutlich gedrungener als 168x43,
+                // dort liefen die beiden Radien sichtbar auseinander.
                 Rectangle {
-                    anchors.fill: parent
                     visible: ab.hasTheme && (ab.preChecked || (ab.highlight && ab.armed))
-                    radius: 9
+                    width: 168
+                    height: 43
+                    transform: Scale {
+                        xScale: ab.width / 168
+                        yScale: ab.height / 43
+                    }
+                    radius: actionBar.themeButtonRadiusUnits
                     color: "transparent"
-                    border.width: 2
+                    // In Zeichenflächen-Einheiten; die Skalierung dünnt sie auf
+                    // die gewohnten ~2 px aus.
+                    border.width: 2.6
                     border.color: ab.preChecked ? "#FFD700" : ab.edgeColor
                 }
 

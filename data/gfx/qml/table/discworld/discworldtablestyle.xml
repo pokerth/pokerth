@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Discworld QML table style – Pokertisch im "Mended Drum", Ankh-Morpork.
+
+   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
+   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
+   table.png ist so beschnitten, dass die Tischplatte (die gravierte Fläche
+   innerhalb der Holzumrandung) exakt auf Größe und Bildposition des danuxi-
+   Filzes liegt – 1274 px breit, Mitte (783, 477) – damit sitzt die Spieler-
+   Ellipse bei gleichem Zoom genauso am Tischrand. TableBackgroundZoom ist
+   ohne Neubau justierbar (Wert ändern, Client neu starten).
+
+   Action-Buttons: gebeizte Eichenbohlen – Basisverlauf mit Maserung,
+   Kantenlicht oben, Schattenkante unten. Vier Beizen statt vier Signalfarben
+   (Rot/Oliv/Goldeiche/Glut), damit die Knöpfe unterscheidbar bleiben, aber
+   wie Tresenholz wirken und nicht wie lackierter Kunststoff.
+
+   Pucks: Wirtshaus-Marken in Gold (Dealer), Silber (Small Blind) und Kupfer
+   (Big Blind) – geprägter Rand, vertiefte Serifen-Type.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Discworld QML table style" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="19.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt. -->
+     <TableBackgroundZoom value="1.3" />
+
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="7" />
+
+     <!-- Akzentfarbe der Spielerboxen: das Gold der Tischgravur, direkt aus
+          table.png gemittelt (Kerzenlicht-Gold, kein reines Gelb). Tönt Verlauf
+          und Rahmen der Box und passt zu Schnitzerei, Lampen und Kaminfeuer. -->
+     <PlayerBoxAccent value="#c98d49" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Alle vier Beizen sind dunkel – helle, leicht vergilbte Beschriftung
+          (Pergament) statt der aus den Verlaufs-Stops abgeleiteten Farbe. -->
+     <FoldButtonTextColor value="#f4e2c0" />
+     <CheckCallButtonTextColor value="#f4e2c0" />
+     <BetRaiseButtonTextColor value="#f8e8c4" />
+     <AllInButtonTextColor value="#f9e4bd" />
+
+     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
+          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles Braun wie
+          die Bohlen der Schankstube, Rahmen in <PlayerBoxAccent> – Chat-/Log-
+          Box und Spielerboxen tragen denselben Akzent. -->
+     <ChatLogBackground value="#150e08" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#241811" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#7a5526" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#f2e2c6" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#d9bd90" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#9c7c50" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

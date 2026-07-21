@@ -400,6 +400,7 @@ void settingsDialogImpl::prepareDialog()
 	checkBox_enableAccidentallyCallBlocker->setChecked(myConfig->readConfigInt("AccidentallyCallBlocker"));
 	checkBox_dontHideAvatarsOfIgnored->setChecked(myConfig->readConfigInt("DontHideAvatarsOfIgnored"));
 	checkBox_disableEmojiReactions->setChecked(myConfig->readConfigInt("DisableEmojiReactions"));
+	checkBox_allowChatTranslation->setChecked(myConfig->readConfigInt("AllowChatTranslation"));
 
 #ifdef ANDROID
 	spinBox_androidUiScale->setValue(myConfig->readConfigInt("AndroidUiScalePercent"));
@@ -898,6 +899,7 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("AccidentallyCallBlocker", checkBox_enableAccidentallyCallBlocker->isChecked());
 	myConfig->writeConfigInt("DontHideAvatarsOfIgnored", checkBox_dontHideAvatarsOfIgnored->isChecked());
 	myConfig->writeConfigInt("DisableEmojiReactions", checkBox_disableEmojiReactions->isChecked());
+	myConfig->writeConfigInt("AllowChatTranslation", checkBox_allowChatTranslation->isChecked());
 
 #ifdef ANDROID
 	myConfig->writeConfigInt("AndroidUiScalePercent", spinBox_androidUiScale->value());

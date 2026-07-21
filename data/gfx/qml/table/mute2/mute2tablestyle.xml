@@ -27,6 +27,17 @@
           Ohne Neubau justierbar – Wert ändern und Client neu starten. -->
      <TableBackgroundZoom value="1.0" />
 
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="6.5" />
+
+     <!-- Akzentfarbe der Spielerboxen: Blau des Filz-Ovals.
+          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
+          Default-Look. -->
+     <PlayerBoxAccent value="#2a86c8" />
+
      <DealerPuck value="dealerPuck.svg" />
      <SmallBlindPuck value="smallblindPuck.svg" />
      <BigBlindPuck value="bigblindPuck.svg" />
@@ -36,17 +47,15 @@
      <BetRaiseButton value="actionRaise.svg" />
      <AllInButton value="actionAllIn.svg" />
 
-     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
-          Bewusst unabhängig vom Hell/Dunkel-Modus der App: der Tisch behält
-          immer dieses Aussehen. Hier lassen sich die Panel-Farben künftig je
-          Stil ändern. Alles solide Hex-Farben – die Transluzenz macht der
-          Client. Fehlt ein Tag, gilt der gebündelte Dunkel-Default. -->
-     <ChatLogBackground value="#1d222b" />     <!-- Panel-Hintergrund -->
-     <ChatLogSurface value="#394150" />        <!-- Eingabefeld / Chat-Bubble -->
-     <ChatLogBorder value="#576378" />         <!-- Rahmen / Trennlinie -->
-     <ChatLogText value="#eff1f5" />           <!-- Haupttext -->
-     <ChatLogTextSecondary value="#cdd3e0" />  <!-- Sekundärtext / Icons -->
-     <ChatLogTextMuted value="#7787a3" />      <!-- gedämpfter Text / Platzhalter -->
+     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
+          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
+          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
+     <ChatLogBackground value="#1e2c3b" />    <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#374b61" />    <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#43739c" />    <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#d6eeff" />    <!-- Haupttext -->
+     <ChatLogTextSecondary value="#a8cce6" />    <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#608ba9" />    <!-- gedämpfter Text / Platzhalter -->
 
   </TableStyle>
 </PokerTH>

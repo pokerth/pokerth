@@ -23,9 +23,13 @@ Item {
     property var chatModel: []
     // Nicknames für die Tab-Vervollständigung.
     property var nickList: []
+    // Chat-Übersetzer des zugehörigen Handlers (Lobby.chatTranslator bzw.
+    // GameTable.chatTranslator). Taps auf das Globus-Symbol werden hierhin
+    // geroutet; null = keine Übersetzung (Symbole erscheinen dann gar nicht).
+    property var chatTranslator: null
     property bool inputEnabled: true
     property string placeholder: qsTr("Nachricht …")
-    property int messageFontSize: 12
+    property int messageFontSize: 14
     // Emoji-Picker als Popup ÜBER der Box statt inline über der Eingabezeile.
     property bool emojiPickerAsPopup: false
     property int pickerInlineHeight: 150
@@ -241,18 +245,42 @@ Item {
                 interval: 15000
                 onTriggered: { msgFlick.autoScroll = true; msgFlick.scrollToBottom() }
             }
-            function scrollToBottom() { contentY = Math.max(0, contentHeight - height) }
+            // Ans Ende springen heißt „wieder mitlaufen": autoScroll aktivieren
+            // und die Bindung oben die Position übernehmen lassen. Die direkte
+            // Zuweisung wirkt sofort (falls autoScroll schon an war), die Bindung
+            // zieht danach jede noch folgende Höhenänderung nach.
+            function scrollToBottom() {
+                autoScroll = true
+                contentY = Math.max(0, contentHeight - height)
+            }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Hält die View am Ende (Auto-Scroll) bzw. an der gemerkten Position.
-            // Per Qt.callLater entkoppelt, damit es NACH dem Layout läuft (finale
-            // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
+            // Am Ende kleben, solange Auto-Scroll aktiv ist – als BINDUNG, nicht
+            // als einmalige Zuweisung. Grund: QQuickTextEdit aktualisiert seine
+            // implicitHeight erst in der Polish-Phase (RichText zusätzlich erst
+            // nach dem Neu-Umbrechen des Dokuments). Ein Qt.callLater kann davor
+            // laufen und würde dann auf die ALTE Höhe scrollen – die zuletzt
+            // angehängte Zeile bliebe unsichtbar, bis irgendein späteres Update
+            // die View erneut bewegt (typisch: die nächste Nachricht). Die
+            // Bindung folgt dagegen JEDER Höhenänderung, egal wann sie eintrifft.
+            //
+            // Kein !moving/!pressed in der Bedingung: sobald der Nutzer selbst
+            // scrollt, setzt onContentYChanged autoScroll auf false und löst die
+            // Bindung damit ohnehin – und der Wert hängt nicht an contentY, die
+            // Bindung kämpft also nie gegen eine laufende Geste.
+            Binding {
+                target: msgFlick
+                property: "contentY"
+                value: Math.max(0, msgFlick.contentHeight - msgFlick.height)
+                when: msgFlick.autoScroll
+                restoreMode: Binding.RestoreNone
+            }
+            // Nur noch der pausierte Fall: gemerkte Position halten, während der
+            // Text komplett ersetzt wird. NUR wiederherstellen, wenn der Nutzer
+            // nicht gerade selbst scrollt – sonst klemmt das die Bewegung fest.
             function followBottom() {
-                if (autoScroll) scrollToBottom()
-                // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
-                // selbst scrollt – sonst klemmt das restoreScroll die Bewegung fest.
-                else if (!moving && !msgScrollBar.pressed) restoreScroll()
+                if (!autoScroll && !moving && !msgScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
@@ -288,6 +316,13 @@ Item {
                 readOnly: true
                 selectByMouse: true
                 persistentSelection: true
+                // Der Verlauf darf den Tastaturfokus NIE an sich ziehen: jeder
+                // Press auf den Text (Selektion, Drag-Scrollen, Link-/Globus-Tap)
+                // würde ihn sonst dem Eingabefeld wegnehmen – die bereits
+                // getippte Nachricht bliebe stehen, aber Enter ginge ins Leere.
+                // Maus-Selektion funktioniert ohne Fokus weiter (persistent-
+                // Selection hält sie sichtbar), Ctrl+C fängt inputField ab.
+                activeFocusOnPress: false
                 color: root.colText
                 selectionColor: root.colAccent
                 selectedTextColor: "#101010"
@@ -317,8 +352,22 @@ Item {
                     onTapped: {
                         const link = msgText.linkAt(linkTap.point.position.x,
                                                     linkTap.point.position.y)
-                        if (link !== "")
+                        if (link === "")
+                            return
+                        // Das Globus-Symbol ist ein Pseudo-Link "pokerthtranslate:<id>".
+                        // NICHT extern öffnen, sondern die Zeile übersetzen lassen.
+                        if (link.indexOf("pokerthtranslate:") === 0) {
+                            if (root.chatTranslator)
+                                root.chatTranslator.requestTranslation(
+                                    parseInt(link.substring(17)))
+                            // Der Tap aufs Symbol darf keine (gelbe) Textauswahl
+                            // hinterlassen – Selektion bleibt sonst aber möglich.
+                            // callLater: nach dem Neu-Rendern der Zeile abräumen.
+                            msgText.deselect()
+                            Qt.callLater(msgText.deselect)
+                        } else {
                             root._openLink(link)
+                        }
                     }
                 }
                 // Rechtsklick: Menü öffnen und Link unter dem Cursor merken
@@ -327,8 +376,11 @@ Item {
                     id: ctxTap
                     acceptedButtons: Qt.RightButton
                     onTapped: {
-                        root._menuLink = msgText.linkAt(ctxTap.point.position.x,
-                                                        ctxTap.point.position.y)
+                        const l = msgText.linkAt(ctxTap.point.position.x,
+                                                 ctxTap.point.position.y)
+                        // Das Übersetzen-Pseudo-Link ist kein echter Link → im
+                        // Kontextmenü nicht als „Link öffnen/kopieren" anbieten.
+                        root._menuLink = (l.indexOf("pokerthtranslate:") === 0) ? "" : l
                         ctxMenu.popup()
                     }
                 }
@@ -355,6 +407,9 @@ Item {
             Button {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
+                // Kein Klick-Fokus: der Fokus muss im Eingabefeld bleiben,
+                // sonst sendet Enter nach dem Auf-/Zuklappen nicht mehr.
+                focusPolicy: Qt.NoFocus
                 onClicked: root.showEmojiPicker = !root.showEmojiPicker
                 background: Rectangle {
                     radius: 6
@@ -411,6 +466,18 @@ Item {
                 // übernehmen, Esc = ausblenden. Sonst: Tab = Nick-Vervoll-
                 // ständigung (iteriert bei wiederholtem Tab), Hoch/Runter = History.
                 Keys.onPressed: (event) => {
+                    // Der Verlauf hat nie den Fokus (activeFocusOnPress: false),
+                    // bekäme also kein Ctrl+C ab. Ist im Eingabefeld selbst nichts
+                    // markiert, im Verlauf aber schon, kopiert Ctrl+C die
+                    // Verlaufs-Auswahl (sonst täte es hier ohnehin nichts).
+                    if (event.key === Qt.Key_C
+                            && (event.modifiers & Qt.ControlModifier)
+                            && inputField.selectedText.length === 0
+                            && msgText.selectedText.length > 0) {
+                        event.accepted = true
+                        msgText.copy()
+                        return
+                    }
                     if (emoteSuggestBox.visible) {
                         if (event.key === Qt.Key_Up) {
                             event.accepted = true
@@ -470,6 +537,9 @@ Item {
                 Layout.preferredWidth: root.inputHeight
                 Layout.preferredHeight: root.inputHeight
                 enabled: root.inputEnabled && inputField.text.trim().length > 0
+                // Kein Klick-Fokus: nach dem Senden per Maus bleibt der Cursor
+                // im Eingabefeld, die nächste Nachricht geht direkt per Enter raus.
+                focusPolicy: Qt.NoFocus
                 onClicked: root._send()
                 background: Item {}
                 HoverHandler { cursorShape: Qt.PointingHandCursor }
@@ -492,10 +562,14 @@ Item {
     }
 
     // ── Emoji-Picker als Popup über der Box (außerhalb des Layouts) ──
+    // Bündig mit dem SICHTBAREN Chat-Rahmen, nicht mit der ChatBox: am Tisch
+    // sitzt die ChatBox mit Rand in ihrem Dock-Rechteck – ohne diesen Ausgleich
+    // wirkt der Picker schmaler als die Chat-Box und sitzt leicht versetzt.
     Rectangle {
         visible: root.showEmojiPicker && root.emojiPickerAsPopup
         y: -height - 10
-        width: root.width
+        x: root.parent ? -root.x : 0
+        width: root.parent ? root.parent.width : root.width
         height: 156
         radius: 10
         z: 50

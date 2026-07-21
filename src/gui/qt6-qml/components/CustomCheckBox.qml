@@ -34,10 +34,11 @@ Rectangle {
             Layout.preferredWidth: 24
             Layout.preferredHeight: 24
             Layout.alignment: Qt.AlignVCenter
-            MultiEffect {
-                id: customCheckCol
-                source: customCheck
-                anchors.fill: customCheck
+            // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
+            // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
+            // referenziert werden (sonst schwarz).
+            layer.enabled: true
+            layer.effect: MultiEffect {
                 colorization: 1.0 // opacity equivalent
                 colorizationColor: Config.StaticData.palette.secondary.col200
             }

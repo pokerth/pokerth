@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Matrix QML table style – Pokertisch in einer dunklen Kammer, passend zur
+   Kartenrückseite "Matrix" und (per Vorschau) zum Deck "Stardust Light".
+
+   Wie bei star_trek zeigt die Tischgrafik den Tisch mittig/perspektivisch,
+   daher center-Modus: der Client zentriert das Bild auf den Mittelpunkt der
+   Spieler-Ellipse. table.png ist so beschnitten, dass die Tischfläche (grüner
+   Filz) in Größe und Bildposition der Referenz (danuxi/star_trek) entspricht –
+   ~1274 px breit, Mitte ~(793,481) bei 1586x992 – damit sitzt die Spieler-
+   Ellipse bei gleichem Zoom genau am Tischrand. TableBackgroundZoom ist ohne
+   Neubau justierbar (Wert ändern, Client neu starten).
+
+   Action-Buttons/Pucks: neutrale Default-SVGs. Akzent- und Panel-Farben in
+   Matrix-Grün. Dateinamen relativ zu diesem XML.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Matrix QML table style" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="10.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Nach dem Einpassen der table.png final justiert. -->
+     <TableBackgroundZoom value="1.25" />
+
+     <ActionButtonBorderRadius value="9" />
+
+     <!-- Akzentfarbe der Spielerboxen: Matrix-Grün (getönt, nicht Neon –
+          ein zu kräftiges #00ff41 kippt den Box-Verlauf ins Grelle). -->
+     <PlayerBoxAccent value="#35c94a" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <!-- Action-Buttons: dunkle, entsättigte Palette passend zu Filz + Card-Back.
+          Raise = Matrix-/Filz-Grün, Call = gedämpftes Stahlblau, Fold = Oxblood-
+          Rot (wie die Ledersessel), All-In = tiefstes Rot. Farben stecken in den
+          SVGs; helle Beschriftung explizit gesetzt (dunkle Buttons). -->
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+     <FoldButtonTextColor value="#f1e8e8" />
+     <CheckCallButtonTextColor value="#e9eff7" />
+     <BetRaiseButtonTextColor value="#e9f5ea" />
+     <AllInButtonTextColor value="#f5e4e4" />
+
+     <!-- Chat-/Log-Box: dunkles Terminal-Grün, Rahmen in <PlayerBoxAccent>. -->
+     <ChatLogBackground value="#06120a" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#0e2314" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#1f7a3a" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#d6ffe0" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#a7e6ba" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#5f9e74" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

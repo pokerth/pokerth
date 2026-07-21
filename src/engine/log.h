@@ -7,6 +7,7 @@
 
 #include <string>
 #include <set>
+#include <atomic>
 #include <mutex>
 #include <boost/filesystem.hpp>
 
@@ -26,6 +27,9 @@ public:
 
     ~Log();
 
+    // Legt den Namen der Logdatei fest. Die Datei selbst entsteht erst mit dem
+    // ersten echten Log-Eintrag (createLogDb()) - wer nicht spielt, hinterlaesst
+    // also keine leere .pdb-Datei.
     void init();
     void logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned dealerPosition, PlayerList seatsList);
     void logNewHandMsg(int handID, unsigned dealerPosition, int smallBlind, unsigned smallBlindPosition, int bigBlind, unsigned bigBlindPosition, PlayerList seatsList);
@@ -43,6 +47,14 @@ public:
     void flushLog();  // Force flush pending SQL statements (used when leaving game early)
 //    void closeLogDbAtExit();
 
+    // Zuschauer-Modus: Solange gesetzt, schreibt der Log nichts in die .pdb-Datei.
+    // Ein Zuschauer nimmt am Spiel nicht teil, also entsteht auch kein Logfile-
+    // Inhalt. Gesetzt/zurueckgesetzt von ClientThread::SetSpectating().
+    void setRecordingSuspended(bool suspended)
+    {
+        myRecordingSuspended = suspended;
+    }
+
     void setCurrentRound(GameState theValue)
     {
         currentRound = theValue;
@@ -56,7 +68,9 @@ public:
 private:
 
     void exec_transaction();
-    QSqlDatabase getDatabase() const; // Helper to get the database connection
+    QSqlDatabase getDatabase() const; // Verbindung zur bereits angelegten Logdatei (legt nichts an)
+    QSqlDatabase getOrCreateDatabase(); // wie getDatabase(), legt die Logdatei beim ersten Eintrag an
+    bool createLogDb(); // Logdatei + Tabellen anlegen (einmalig)
 
     QString myConnectionName;
     QString myDatabaseFileName;  // Store DB filename for thread-local connections
@@ -68,6 +82,13 @@ private:
     GameState currentRound;
     std::string sql;
     std::set<std::string> loggedSitsOut;  // Track players already logged as "sits out"
+
+    // Gesetzt, solange wir nur zuschauen (siehe setRecordingSuspended()). Wird
+    // vom Netzwerk-Thread gesetzt und in getOrCreateDatabase() gelesen -> atomic.
+    std::atomic<bool> myRecordingSuspended{false};
+
+    // true, sobald die Logdatei samt Tabellen existiert (createLogDb()).
+    bool myDbCreated = false;
 
     // Serializes every access to sql and every exec_transaction(). The log is
     // normally written from the network thread, but flushLog() is also called

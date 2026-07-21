@@ -20,6 +20,7 @@ class Session;
 class Game;
 class SoundEvents;
 class QTimer;
+class ChatTranslator;
 
 // Inkrementelles Listenmodell für den Spielverlauf (Log). Bewusst KEIN
 // QStringList-Property: ein QStringList ist für QML ein Werttyp, der bei jeder
@@ -130,6 +131,9 @@ class GameHandler : public QObject
     // der Modell-Zeiger fix ist – Aktualisierungen laufen über die Modell-Signale.
     Q_PROPERTY(GameLogModel* gameLog READ gameLog CONSTANT)
     Q_PROPERTY(QStringList chatLog READ chatLog NOTIFY chatLogChanged)
+    // Übersetzer für den Spiel-Chat. Die ChatBox routet Taps auf das Globus-
+    // Symbol an chatTranslator.requestTranslation(id).
+    Q_PROPERTY(QObject* chatTranslator READ chatTranslator CONSTANT)
     // true, sobald außer mir noch (mind.) ein menschlicher Spieler im Spiel ist
     Q_PROPERTY(bool hasHumanOpponents READ hasHumanOpponents NOTIFY hasHumanOpponentsChanged)
     // true im Post-River, wenn der Mensch-Spieler seine Karten freiwillig zeigen kann
@@ -160,6 +164,10 @@ class GameHandler : public QObject
     // ein Auge-Icon mit Badge, Namen für den Tooltip.
     Q_PROPERTY(int spectatorCount READ spectatorCount NOTIFY spectatorsChanged)
     Q_PROPERTY(QStringList spectatorNames READ spectatorNames NOTIFY spectatorsChanged)
+    // true, wenn ich diesem Tisch nur zuschaue. Dann gibt es keinen eigenen
+    // Sitz: die GamePage zeichnet alle Sitze als Ring (ohne Self-Box) und
+    // blendet die Action-Bar aus.
+    Q_PROPERTY(bool spectating READ spectating NOTIFY spectatingChanged)
 
 public:
     explicit GameHandler(QObject *parent = nullptr);
@@ -173,6 +181,14 @@ public:
     Q_INVOKABLE void startLocalGame();
     Q_INVOKABLE void endLocalGame();
     Q_INVOKABLE bool isLocalGameRunning() const;
+    // Läuft ein Internet-Spiel (Netzwerk-Client, Spieltyp Internet)? Nur dann
+    // ist das Melden eines Avatars sinnvoll – wie im Qt-Widgets-Client, das
+    // "Report inappropriate avatar" ausschließlich für Internet-Spiele zeigt.
+    Q_INVOKABLE bool isInternetGameRunning() const;
+    // Meldet den Avatar des Spielers am angegebenen Sitz als unangemessen an
+    // den Server (Port von MyAvatarLabel::reportBadAvatar). Der Avatar-Hash
+    // ergibt sich – wie im Widgets-Client – aus dem Basisnamen der Avatardatei.
+    Q_INVOKABLE void reportAvatar(int seatId);
     // URL zur Tisch-Statistikübersicht (tableview=1 + Nicks der aktiven Spieler
     // am Tisch) – 1:1 wie der Qt-Widgets-Client (MyNameLabel). Baut aus den
     // Live-Seats des laufenden Spiels; leer, wenn kein Spiel läuft.
@@ -202,6 +218,7 @@ public:
     int timeoutSec() const { return m_timeoutSec; }
     GameLogModel* gameLog() { return &m_gameLogModel; }
     QStringList chatLog() const { return m_chatLog; }
+    QObject* chatTranslator() const;
     bool hasHumanOpponents() const { return m_hasHumanOpponents; }
     bool canShowCards() const { return m_canShowCards; }
     bool showdownActive() const { return m_showdownActive; }
@@ -213,6 +230,7 @@ public:
     int pingMax() const { return m_pingMax; }
     int spectatorCount() const { return static_cast<int>(m_spectatorNames.size()); }
     QStringList spectatorNames() const { return m_spectatorNames; }
+    bool spectating() const { return m_spectating; }
 
     // Zeilentyp für die Einfärbung des Spielverlaufs – Farben/Stil 1:1 wie der
     // Qt-Widgets-Client (Default-Tischstil).
@@ -273,6 +291,10 @@ public:
     Q_INVOKABLE void onFlipHolecardsAllIn();
     // Ein Spieler zeigt nach der Hand freiwillig seine Karten (AfterHandShowCards).
     Q_INVOKABLE void onPlayerShowCards(unsigned playerId);
+    // Fold-/Show-Zustand am Hand-Ende einfrieren. MUSS synchron auf dem Netz-
+    // Thread laufen (DirectConnection aus postRiverRunAnimation1), solange die
+    // Engine-Daten noch gültig sind – siehe showdownFolded() in der .cpp.
+    Q_INVOKABLE void captureShowdownSnapshot();
 
     // Called from QML
     Q_INVOKABLE void fold();
@@ -320,6 +342,7 @@ signals:
     void cardsChanceChanged();
     void pingStateChanged();
     void spectatorsChanged();
+    void spectatingChanged();
     // Emoji-Reaktion empfangen (Chat-Konvention "/emoji 🎉" des Web-Clients) –
     // wird nicht im Chat angezeigt, sondern als Animation am Sitz abgespielt.
     void reactionReceived(const QString &playerName, const QString &emoji);
@@ -354,7 +377,11 @@ private:
     // Aktions-Timer auf meinem Sitz (m_timeoutSeatId == 0), der bereits ab
     // startTimeoutAnimation gesetzt ist (vor meInAction). Zusätzlich m_myTurn,
     // falls der Timer-Pfad mal nicht greift. Verhindert verworfene Aktionen.
-    bool isMyTurnToAct() const { return m_myTurn || m_timeoutSeatId == 0; }
+    //
+    // Als Zuschauer NIE: dort ist Sitz 0 ein fremder Spieler, dessen Aktions-
+    // Timer m_timeoutSeatId auf 0 setzt. Ohne diesen Wächter könnten fold()/
+    // call()/raise()/showMyCards() (Tastenkürzel!) für ihn ausgelöst werden.
+    bool isMyTurnToAct() const { return !m_spectating && (m_myTurn || m_timeoutSeatId == 0); }
     void doActionDone();
     // Showdown-Flag setzen und – nur bei echter Änderung – die QML-Seite
     // benachrichtigen (showdownActive gatet u. a. die Aktions-Buttons).
@@ -399,6 +426,7 @@ private:
     int m_timeoutSec = 0;       // Dauer des Action-Timeouts in Sekunden
     GameLogModel m_gameLogModel; // Live-Aktions-Log (Spielverlauf) für das Overlay
     QStringList m_chatLog;      // In-Game-Chat-Verlauf
+    ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     bool m_hasHumanOpponents = false;
     bool m_canShowCards = false;
     // Showdown aktiv: erst dann dürfen Gegnerkarten aufgedeckt werden. Verhindert,
@@ -414,6 +442,7 @@ private:
     int m_pingMin = -1;
     int m_pingMax = -1;
     QStringList m_spectatorNames;  // Namen der Zuschauer des laufenden Spiels
+    bool m_spectating = false;     // ich schaue diesem Tisch nur zu
     // Eingangssignatur der letzten Chancen-Berechnung (Hole-Cards, Board, Fold-
     // Zustand). Bleibt sie gleich, wird die teure calcCardsChance-Schleife
     // übersprungen – refreshChanceAndHand() läuft sonst bei jedem Mikro-Refresh.
@@ -427,6 +456,18 @@ private:
     // gameTableImpl::showHoleCards; die QML-Showdown-Aufdeckung greift hier nicht,
     // weil der Zeiger nicht in playerNeedToShowCards steht (Gewinn ohne Showdown).
     QSet<unsigned> m_postRiverShownPlayers;
+    // ── Showdown-Snapshot (Fold- und Aufdeck-Zustand am Hand-Ende) ─────────────
+    // Der Showdown-Code läuft verzögert (onShowdown via QueuedConnection), die
+    // nächste Hand kann die Engine-Daten bis dahin längst überschrieben haben.
+    // Daher am Hand-Ende einfrieren und danach NUR noch diese Kopien lesen.
+    // Details und Begründung: showdownFolded() in gamehandler.cpp.
+    QSet<unsigned> m_foldedAtHandEnd;
+    QSet<unsigned> m_needToShowAtHandEnd;
+    bool m_showdownSnapshotValid = false;
+    // Fold-/Aufdeck-Zustand für den Showdown. Solange der Snapshot gültig ist,
+    // gewinnt er gegen den (evtl. bereits zurückgesetzten) Live-Zustand.
+    bool showdownFolded(unsigned uniqueId, bool liveFolded) const;
+    bool showdownNeedsToShow(unsigned uniqueId, bool liveNeedsToShow) const;
     // Aktions-Anzeige: pro Sitz die zuletzt gesehene Aktion + das Runden-Token,
     // in dem sie gesetzt wurde. So wird die Aktion nur in ihrer eigenen Runde
     // angezeigt und zu Rundenbeginn überall automatisch entfernt.

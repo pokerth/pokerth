@@ -39,6 +39,43 @@ QtObject {
         return closestMatch;
     }
 
+    // ── Sprachcode-Zuordnung QML <-> ConfigFile ─────────────────────────────
+    // MASSGEBLICH ist der ConfigFile-Key "Language" – denselben Key pflegt der
+    // Widgets-Client. Dessen Kurzcodes folgen den ts-Dateinamen
+    // (data/translations/pokerth_de.qm), der QML-Client nutzt Locale-Codes
+    // (i18n/pokerth_de_DE.qm). Deshalb wird beim Lesen/Schreiben umgesetzt.
+    // WICHTIG: In die Config gehört der KURZCODE, sonst findet der
+    // Widgets-Client seine .qm nicht mehr (pokerth.cpp lädt ungestrippt).
+    readonly property var languageConfigCodes: ({
+        "de_DE": "de", "en_US": "en", "es_ES": "es", "fr_FR": "fr",
+        "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt"
+    })
+
+    // QML-Locale -> Config-Kurzcode (zum Schreiben).
+    function localeToConfigLanguage(locale) {
+        return languageConfigCodes[locale] !== undefined
+                ? languageConfigCodes[locale] : "en"
+    }
+
+    // Config-Wert -> QML-Locale (zum Lesen). Versteht sowohl den Kurzcode des
+    // Widgets-Clients ("de", "ptbr") als auch einen Locale-Wert ("de_DE", der
+    // Default ist QLocale::system().name()). Sprachen ohne QML-Übersetzung
+    // (z. B. "zhcn") landen auf der nächstbesten unterstützten Sprache; die
+    // Chat-Übersetzung folgt trotzdem weiterhin dem Config-Wert.
+    function configLanguageToLocale(cfg) {
+        if (!cfg || cfg === "")
+            return findSupportedLocale(Qt.locale().name)
+        for (var i = 0; i < languages.length; ++i) {
+            if (languages[i].code === cfg)
+                return languages[i].code
+        }
+        for (var loc in languageConfigCodes) {
+            if (languageConfigCodes[loc] === cfg)
+                return loc
+        }
+        return findSupportedLocale(cfg)
+    }
+
     // Poker-Aktion (0=keine,1=Fold,2=Check,3=Call,4=Bet,5=Raise,6=All-In) → das
     // anzuzeigende Wort. dontTranslate=true (Config-Key
     // DontTranslateInternationalPokerStringsFromStyle) hält die Begriffe fest auf

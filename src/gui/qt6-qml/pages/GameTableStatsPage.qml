@@ -36,6 +36,10 @@ Rectangle {
 
     property var nicks: []
     property string tableName: ""
+    // Einstellungen des laufenden Tisches (Lobby.currentGameInfo()) – vom
+    // Aufrufer als Momentaufnahme übergeben, damit die Seite auch nach dem
+    // Verlassen des Spiels konsistent bleibt. Leer = Karte wird ausgeblendet.
+    property var gameInfo: ({})
 
     // Aktive Quelle des Umschalters: "pokerth" | "bbc" | "wec". Startwert ist
     // die im Backend vorausgewählte Default-Quelle (bei aktiven Community-
@@ -88,6 +92,19 @@ Rectangle {
             sortKey = key
             sortOrder = (key === "username" || key === "rank_pos") ? "asc" : "desc"
         }
+    }
+
+    // maxPlayers ist in jeder echten Spiel-Info gesetzt – fehlt sie (Local Game,
+    // Aufruf ohne gameInfo), bleibt die Tischinfo-Karte aus.
+    readonly property bool hasGameInfo:
+        !!gameInfo && (gameInfo.maxPlayers || 0) > 0
+
+    // Einheitliche Zeile der Tischinfo-Karte.
+    component InfoItem: AppLabel {
+        Layout.fillWidth: true
+        elide: Text.ElideRight
+        color: Config.StaticData.palette.secondary.col200
+        font.pixelSize: Config.Theme.fontSizeBody
     }
 
     function score2(v) { return (Number(v) / 100).toFixed(2) }
@@ -226,6 +243,70 @@ Rectangle {
                 onSelected: function(community) {
                     tableStatsPage.community = community
                     tableStatsPage.loadData()
+                }
+            }
+        }
+
+        // ── Tischinfo (Einstellungen des laufenden Spiels) ────────────────────
+        // Gleiche Angaben wie die Game-Details im Wartebereich (GameWaitPage) –
+        // am Tisch selbst gibt es sonst keine Stelle, an der die Einstellungen
+        // (Blinds, Startgeld, Timeouts …) nachlesbar wären.
+        Rectangle {
+            Layout.fillWidth: true
+            visible: tableStatsPage.hasGameInfo
+            implicitHeight: infoGrid.implicitHeight + 20
+            color: Config.StaticData.palette.secondary.col600
+            border.color: Config.StaticData.palette.secondary.col500
+            border.width: 1
+            radius: 4
+
+            GridLayout {
+                id: infoGrid
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
+                // Schmale Fenster: eine Spalte, sonst zwei wie im Wartebereich.
+                columns: tableStatsPage.compact ? 1 : 2
+                rowSpacing: 5
+                columnSpacing: 14
+
+                InfoItem {
+                    text: qsTr("Type: %1").arg(
+                              (typeof Lobby !== "undefined" && Lobby)
+                              ? Lobby.gameTypeText(tableStatsPage.gameInfo.gameType || 1) : "")
+                }
+                InfoItem {
+                    text: qsTr("Players: %1 / %2")
+                          .arg(tableStatsPage.gameInfo.playerCount || 0)
+                          .arg(tableStatsPage.gameInfo.maxPlayers || 0)
+                }
+                InfoItem {
+                    text: qsTr("Small blind: %1").arg(tableStatsPage.gameInfo.firstSmallBlind || 0)
+                }
+                InfoItem {
+                    text: qsTr("Start cash: %1").arg(tableStatsPage.gameInfo.startMoney || 0)
+                }
+                InfoItem {
+                    text: (tableStatsPage.gameInfo.raiseIntervalMode || 1) === 1
+                          ? qsTr("Blinds raise interval: %1 hands")
+                            .arg(tableStatsPage.gameInfo.raiseEveryHands || 0)
+                          : qsTr("Blinds raise interval: %1 minutes")
+                            .arg(tableStatsPage.gameInfo.raiseEveryMinutes || 0)
+                }
+                InfoItem {
+                    text: qsTr("Blinds raise mode: %1")
+                          .arg((tableStatsPage.gameInfo.raiseMode || 1) === 1
+                               ? qsTr("double blinds") : qsTr("manual blinds order"))
+                }
+                InfoItem {
+                    text: qsTr("Action time: %1 sec")
+                          .arg(tableStatsPage.gameInfo.playerActionTimeoutSec || 0)
+                }
+                InfoItem {
+                    text: qsTr("Hand delay: %1 sec")
+                          .arg(tableStatsPage.gameInfo.delayBetweenHandsSec || 0)
                 }
             }
         }

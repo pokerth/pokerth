@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <manifest package="org.pokerth.widget"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="2.1.2"
-          android:versionCode="22"
+          android:versionName="2.1.4"
+          android:versionCode="24"
           android:installLocation="auto">
 
     <uses-sdk

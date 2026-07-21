@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style "Stardust Light" – helle Schwestervariante von
+   cards/stardust_dark, teilt sich dieselbe Kartenrückseite
+   data/gfx/qml/backside/stardust/.
+
+   Identisches Layout und dieselbe Orbitron-Schrift wie die Dark-Variante, nur
+   auf heller Kartenfläche (weißer Farbverlauf + feines Sternenfeld). 4-Farben-
+   Deck wie nobus_4c_classic mit den klassischen, kräftigen Blattfarben:
+   Karo=Blau, Herz=Rot, Pik=Schwarz, Kreuz=Grün. Rang, Pips und Fasenrahmen in
+   Blattfarbe, mit weichem Schlagschatten für Tiefe. Reine SVG-Pfade (QtSvg).
+
+   Die Rang-Glyphen sind Pfade aus der Orbitron (Google Fonts, OFL, siehe
+   data-copyright.txt); die Suit-Pfade stammen aus dem cards/default-Set.
+
+   Anordnung von Rang-Index und Suit-Symbolen wie bei cards/nobus_4c_classic:
+   Rang oben links, kleines Suit-Symbol darunter, großes Suit-Symbol unten
+   rechts – identisches Layout für alle Karten inkl. Bildkarten.
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+
+   Erzeugt mit generate_stardust_deck.py.
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Stardust Light (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="10.07.2026" />
+     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <BigIndexesActionBottom value="0" />
+  </CardDeck>
+</PokerTH>

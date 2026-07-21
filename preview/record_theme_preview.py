@@ -15,6 +15,7 @@ Im Gegensatz zum vollen Localgame-Recorder wird KEIN Video/Audio aufgenommen und
 es werden keine mehreren Haende durchgespielt - nur die beiden Tischvorschauen.
 
 Ablauf: Startseite -> "Lokales Spiel starten" -> "Spiel starten" -> Tisch ->
+        Call (F2) + warten bis der Flop liegt (--preflop schaltet das ab) ->
         Portrait-Screenshot -> F11 (Vollbild) -> Querformat-Screenshot ->
         skalieren -> in die Theme-Verzeichnisse.
 
@@ -147,6 +148,16 @@ class ThemePreviewRecorder:
         print(f"      Warte {self.args.table_sec}s auf den Spieltisch ...")
         time.sleep(self.args.table_sec)
 
+    def _advance_to_flop(self) -> None:
+        # Praeflop liegen keine Community-Cards auf dem Tisch – die Vorschau
+        # zeigt dann nur den leeren Filz. Also einmal callen (F2, s. GamePage.qml)
+        # und den Bots Zeit lassen, bis der Flop faellt.
+        print("      Call (F2) und warte "
+              f"{self.args.flop_sec}s auf den Flop ...")
+        self._run("xdotool", "windowactivate", "--sync", self.win_id, check=False)
+        self._run("xdotool", "key", "--clearmodifiers", "F2", check=False)
+        time.sleep(self.args.flop_sec)
+
     def _write_scaled(self, raw: Path, targets: list[Path], size: str,
                       crop: str | None = None) -> None:
         magick = shutil.which("magick") or shutil.which("convert")
@@ -197,34 +208,45 @@ class ThemePreviewRecorder:
                 except subprocess.TimeoutExpired:
                     proc.kill()
 
-    def _set_table_style_in_config(self) -> None:
-        # Setzt QmlGameTableStyle in der Client-Config (config.xml). Der Key muss
+    def _set_styles_in_config(self) -> None:
+        # Setzt die Stil-Keys in der Client-Config (config.xml). Die Keys muessen
         # bereits existieren (Config-Revision aktuell) – ein erster Lauf mit dem
-        # Default-Stil upgradet eine alte Config und legt den Key an.
+        # Default-Stil upgradet eine alte Config und legt sie an. Kartenstapel und
+        # Rueckseite sind eigene Keys: auf dem Tisch liegen offene wie verdeckte
+        # Karten, die Vorschau zeigt also beide.
+        styles = {"QmlGameTableStyle": self.args.style}
+        if self.args.card_deck:
+            styles["QmlCardDeckStyle"] = self.args.card_deck
+        if self.args.card_back:
+            styles["QmlCardBackStyle"] = self.args.card_back
+
         cfg = Path(self.args.config).expanduser()
         if not cfg.exists():
-            print(f"      [WARN] Config nicht gefunden: {cfg} – Stil nicht gesetzt")
+            print(f"      [WARN] Config nicht gefunden: {cfg} – Stile nicht gesetzt")
             return
         text = cfg.read_text(encoding="utf-8")
-        new, n = re.subn(
-            r'(<QmlGameTableStyle value=")[^"]*(")',
-            lambda m: m.group(1) + self.args.style + m.group(2),
-            text,
-        )
-        if n == 0:
-            print("      [WARN] QmlGameTableStyle-Key fehlt (alte Config?) – "
-                  "erst einen Default-Lauf zum Upgrade ausführen.")
-            return
-        cfg.write_text(new, encoding="utf-8")
-        print(f"      Config: QmlGameTableStyle = {self.args.style}")
+        for key, value in styles.items():
+            text, n = re.subn(
+                rf'(<{key} value=")[^"]*(")',
+                lambda m, v=value: m.group(1) + v + m.group(2),
+                text,
+            )
+            if n == 0:
+                print(f"      [WARN] {key}-Key fehlt (alte Config?) – "
+                      "erst einen Default-Lauf zum Upgrade ausführen.")
+                continue
+            print(f"      Config: {key} = {value}")
+        cfg.write_text(text, encoding="utf-8")
 
     def run(self) -> int:
         try:
             if self.args.set_table_style:
-                self._set_table_style_in_config()
+                self._set_styles_in_config()
             self._start_services()
             self._wait_for_window()
             self._navigate_to_table()
+            if not self.args.preflop:
+                self._advance_to_flop()
             self._capture_portrait()
             self._capture_landscape()
             print("\nFertig - Theme-Vorschauen (Portrait + Querformat) erstellt.")
@@ -249,12 +271,20 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--portrait-preview-h", type=int, default=822)
     p.add_argument("--preloader-sec", type=float, default=9.0)
     p.add_argument("--table-sec", type=float, default=7.0)
+    # Vorschau nach dem Flop (Default) – erst dann liegen Community-Cards.
+    p.add_argument("--flop-sec", type=float, default=9.0)
+    p.add_argument("--preflop", action="store_true",
+                   help="Vorschau schon praeflop aufnehmen (ohne Community-Cards)")
     p.add_argument("--binary", default=str(REPO_ROOT / "build/bin/pokerth_qml-client"))
     # Welcher Spieltisch-Stil: bestimmt das Ziel-Verzeichnis
     # (data/gfx/qml/table/<style>/preview*.png).
     p.add_argument("--style", default="default")
-    # QmlGameTableStyle vor dem Start in die Client-Config schreiben.
+    # Stil-Keys vor dem Start in die Client-Config schreiben.
     p.add_argument("--set-table-style", action="store_true")
+    # Optional zusaetzlich Kartenstapel/Rueckseite setzen (nur mit
+    # --set-table-style wirksam). Ohne Angabe bleibt der konfigurierte Stil.
+    p.add_argument("--card-deck", default=None)
+    p.add_argument("--card-back", default=None)
     p.add_argument("--config", default=str(Path("~/.pokerth/config.xml").expanduser()))
     return p
 

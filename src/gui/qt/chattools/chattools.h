@@ -43,6 +43,7 @@ class Session;
 class ConfigFile;
 class GameTableStyleReader;
 class gameLobbyDialogImpl;
+class ChatTranslatorCore;
 
 class ChatTools : public QObject
 {
@@ -64,6 +65,11 @@ public slots:
 	void receiveMessage(QString playerName, QString message, bool pm=false);
 	void privateMessage(QString playerName, QString message);
 	void clearChat();
+	// Wird nach dem Übernehmen der Einstellungen aufgerufen. Wendet den Schalter
+	// "AllowChatTranslation" auf den SICHTBAREN Verlauf an: bei Deaktivierung
+	// werden alle vorhandenen Globus-Symbole/Übersetzungen sofort entfernt
+	// (neue Nachrichten regelt receiveMessage() ohnehin live).
+	void refreshTranslationEnabled();
 	void checkInputLength(QString string);
 
 	void fillChatLinesHistory(QString fillString);
@@ -119,6 +125,26 @@ private:
 	void updateShortcodeCompletion();
 	void insertShortcodeCompletion(const QModelIndex &index);
 
+	// ── Chat-Übersetzung ────────────────────────────────────────────────
+	// Baut das anklickbare Globus-Anchor-HTML ("pokerthtranslate:<id>").
+	QString translateAnchorHtml(int id, const QString &glyph) const;
+	// Findet den Textblock (Chat-Zeile), der den Globus-Anker dieser id enthält.
+	QTextBlock findTranslateBlock(int id) const;
+	// Baut den Inhalt der Chat-Zeile aus dem gespeicherten Zustand neu auf
+	// (Original- ODER Übersetzungs-Körper + Globus/Spinner) und ersetzt damit
+	// den zugehörigen Block im Dokument. So ERSETZT die Übersetzung den Text an
+	// gleicher Stelle (statt rechts daneben zu erscheinen).
+	void rebuildTranslateBlock(int id);
+
+private slots:
+	// QTextBrowser-Links (openLinks ist aus): unser Pseudo-Schema übersetzt,
+	// echte http(s)-Links werden extern geöffnet.
+	void onChatAnchorClicked(const QUrl &url);
+	// Ergebnis aus dem Übersetzer-Kern.
+	void onChatTranslated(int requestId, const QString &text, bool ok);
+
+private:
+
 	QStringList chatLinesHistory;
 	QString lastChatString;
 	QStringList lastMatchStringList;
@@ -147,6 +173,20 @@ private:
 	int myShortcodeTokenStart;
 
 	std::list<std::string> ignoreList;
+
+	// ── Chat-Übersetzung ────────────────────────────────────────────────
+	struct TranslateEntry {
+		QString sourceText;   // Rohtext der Nachricht (für die Anfrage)
+		QString lineNoGlobe;  // gerenderte Chat-Zeile OHNE Globus (Original-Körper)
+		QString bodyHtml;     // Original-Nachrichtenkörper (Teilstring von lineNoGlobe)
+		QString translated;   // gecachte Übersetzung (leer = noch nicht geholt)
+		bool inFlight = false;
+		bool shown = false;   // Übersetzung aktuell eingeblendet? (Toggle)
+	};
+	ChatTranslatorCore *myTranslator;
+	QHash<int, TranslateEntry> myTranslateEntries;  // Anchor-id -> Zustand
+	QHash<int, int> myTranslateReqToId;             // Core-Request-id -> Anchor-id
+	int myTranslateNextId;
 };
 
 #endif

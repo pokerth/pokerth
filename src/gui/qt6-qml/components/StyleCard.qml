@@ -119,15 +119,15 @@ Rectangle {
         visible: card.removable
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.margins: 6
-        width: 22; height: 22; radius: 11
+        anchors.margins: 8
+        width: 28; height: 28; radius: 14
         color: removeArea.containsMouse ? Config.StaticData.palette.secondary.col500
                                         : Config.StaticData.palette.secondary.col700
 
         SvgIcon {
             anchors.centerIn: parent
-            width: 12
-            height: 12
+            width: 16
+            height: 16
             source: "../resources/close.svg"
         }
 
@@ -150,9 +150,9 @@ Rectangle {
     Rectangle {
         anchors.top: parent.top
         anchors.right: parent.right
-        anchors.topMargin: 6
-        anchors.rightMargin: 6 + (card.removable ? 28 : 0)
-        width: 22; height: 22; radius: 11
+        anchors.topMargin: 8
+        anchors.rightMargin: 8 + (card.removable ? 34 : 0)
+        width: 28; height: 28; radius: 14
         color: exportArea.containsMouse ? Config.StaticData.palette.secondary.col500
                                         : Config.StaticData.palette.secondary.col700
 

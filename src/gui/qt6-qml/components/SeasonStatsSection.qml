@@ -6,14 +6,26 @@ import "../config" as Config
 // Season-Stats-Block der Spielerseite – Nachbau der pokerth.net-Grafiken
 // (Chart.js/Vue) mit Bordmitteln: Positions-Tabelle, Kreis- und Balken-
 // diagramm der Platzierungs-Verteilung. `counts` = Häufigkeit je Platz
-// (Index 0 = Platz 1, entspricht bar_stats der API), `percents` = die vom
-// Server gelieferten Prozent-Strings (stats[1]). Farben 1:1 wie die Website
-// über Config.StaticData.placementColors.
+// (Index 0 = Platz 1, entspricht bar_stats der API), `stats` = das rohe
+// stats-Feld der API. Farben 1:1 wie die Website über
+// Config.StaticData.placementColors. `showTitle` aus, wenn der Aufrufer den
+// Block bereits selbst überschreibt (aufgeklappte Saison-Ergebnisse).
 ColumnLayout {
     id: section
 
     property var counts: []
-    property var percents: []
+    property var stats: []
+    property bool showTitle: true
+
+    // stats[1] ist ein Objekt {"1":"8.3%",…}; nach Platz 1–10 geordnet
+    // auflösen, damit die Prozent-Zeile direkt per Index zugreifen kann.
+    readonly property var percents: {
+        var pct = (stats && stats.length > 1) ? stats[1] : null
+        var arr = []
+        for (var p = 1; p <= 10; ++p)
+            arr.push(pct && pct[p] !== undefined ? pct[p] : "")
+        return arr
+    }
 
     readonly property bool compact: Config.Responsive.compact
     readonly property var colors: Config.StaticData.placementColors
@@ -33,6 +45,7 @@ ColumnLayout {
     // ── Überschrift ─────────────────────────────────────────────────────────
     AppLabel {
         text: qsTr("Season Stats")
+        visible: section.showTitle
         color: Config.StaticData.palette.secondary.col200
         font.pixelSize: Config.Theme.fontSizeBody
         font.bold: true

@@ -32,7 +32,7 @@ Drawer {
         AppLabel {
             id: sideMenuLabel
             color: Config.StaticData.palette.secondary.col200
-            text: qsTr("PokerTH - v2.1.2")
+            text: qsTr("PokerTH - v2.1.4")
             Layout.alignment: Qt.AlignCenter
             Layout.bottomMargin: 24
             font.pointSize: 16
@@ -76,12 +76,16 @@ Drawer {
                         Layout.preferredHeight: 24
                         Layout.preferredWidth: 24
 
-                        MultiEffect {
-                            id: iconImageCol
-                            source: iconImage
-                            anchors.fill: iconImage
+                        // Einfärbung per layer.effect: VectorImage (Qt >= 6.8)
+                        // ist kein Texture-Provider, daher darf MultiEffect es
+                        // nicht per source referenzieren (sonst schwarz). Der
+                        // Layer rendert das Icon in ein FBO, das der Effekt
+                        // sampeln kann.
+                        property color colorizationColor: Config.StaticData.palette.secondary.col200
+                        layer.enabled: true
+                        layer.effect: MultiEffect {
                             colorization: 1.0 // opacity equivalent
-                            colorizationColor: Config.StaticData.palette.secondary.col200
+                            colorizationColor: iconImage.colorizationColor
                         }
                     }
 
@@ -110,14 +114,14 @@ Drawer {
                     }
 
                     onEntered: {
-                        iconImageCol.colorizationColor = Config.StaticData.palette.secondary.col100;
+                        iconImage.colorizationColor = Config.StaticData.palette.secondary.col100;
                         label.color = Config.StaticData.palette.secondary.col100;
                         sideMenuListItem.color = Config.StaticData.palette.secondary.col400;
                     }
 
                     onExited: {
                         label.color = Config.StaticData.palette.secondary.col200;
-                        iconImageCol.colorizationColor = label.color = Config.StaticData.palette.secondary.col200;
+                        iconImage.colorizationColor = label.color = Config.StaticData.palette.secondary.col200;
                         sideMenuListItem.color = Config.StaticData.palette.secondary.col500;
                     }
                 }

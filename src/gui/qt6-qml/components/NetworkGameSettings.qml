@@ -67,10 +67,10 @@ Rectangle {
 
                         CustomSpinBox {
                             id: netStartCash
-                            from: 100
+                            from: 1000
                             to: 1000000
-                            stepSize: 100
-                            value: SettingsManager ? SettingsManager.readConfigInt("NetStartCash") : 2000
+                            stepSize: 50
+                            value: SettingsManager ? SettingsManager.readConfigInt("NetStartCash") : 3000
                             onValueModified: {
                                 if (SettingsManager) SettingsManager.writeConfigInt("NetStartCash", value)
                             }
@@ -85,7 +85,7 @@ Rectangle {
                         CustomSpinBox {
                             id: netFirstSmallBlind
                             from: 5
-                            to: 10000
+                            to: 20000
                             stepSize: 5
                             value: SettingsManager ? SettingsManager.readConfigInt("NetFirstSmallBlind") : 10
                             onValueModified: {
@@ -134,8 +134,8 @@ Rectangle {
                             CustomSpinBox {
                                 id: netRaiseSmallBlindEveryHands
                                 from: 1
-                                to: 100
-                                value: SettingsManager ? SettingsManager.readConfigInt("NetRaiseSmallBlindEveryHands") : 5
+                                to: 999
+                                value: SettingsManager ? SettingsManager.readConfigInt("NetRaiseSmallBlindEveryHands") : 8
                                 enabled: netRaiseBlindsAtHands.checked
                                 onValueModified: {
                                     if (SettingsManager) SettingsManager.writeConfigInt("NetRaiseSmallBlindEveryHands", value)
@@ -261,9 +261,9 @@ Rectangle {
 
                         CustomSpinBox {
                             id: netDelayBetweenHands
-                            from: 0
-                            to: 30
-                            value: SettingsManager ? SettingsManager.readConfigInt("NetDelayBetweenHands") : 10
+                            from: 5
+                            to: 20
+                            value: SettingsManager ? SettingsManager.readConfigInt("NetDelayBetweenHands") : 7
                             onValueModified: {
                                 if (SettingsManager) SettingsManager.writeConfigInt("NetDelayBetweenHands", value)
                             }
@@ -277,8 +277,8 @@ Rectangle {
 
                         CustomSpinBox {
                             id: netTimeOutPlayerAction
-                            from: 10
-                            to: 120
+                            from: 5
+                            to: 60
                             value: SettingsManager ? SettingsManager.readConfigInt("NetTimeOutPlayerAction") : 20
                             onValueModified: {
                                 if (SettingsManager) SettingsManager.writeConfigInt("NetTimeOutPlayerAction", value)

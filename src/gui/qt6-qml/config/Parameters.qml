@@ -17,6 +17,12 @@ Settings {
 
     property bool tableZoomEnabled: true
 
+    // Sitze von Spielern, die den Tisch verlassen haben (Disconnect, Kick,
+    // Verlassen, Ausgeschieden), als unsichtbare Platzhalter im Ring behalten →
+    // die verbleibenden Spielerboxen behalten ihre Position (Standard). false =
+    // Ellipse wird ohne den freien Sitz neu verteilt (Boxen rücken nach).
+    property bool keepEmptySeats: true
+
     property bool showCommunityContent: true
 
     // Vorausgewählte Ranglisten-Quelle ("pokerth" | "bbc" | "wec") für Table

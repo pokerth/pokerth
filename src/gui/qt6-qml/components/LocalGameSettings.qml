@@ -107,7 +107,7 @@ Rectangle {
                             from: 1000
                             to: 1000000
                             stepSize: 50
-                            value: SettingsManager ? SettingsManager.readConfigInt("StartCash") : 2000
+                            value: SettingsManager ? SettingsManager.readConfigInt("StartCash") : 5000
                             onValueModified: {
                                 if (SettingsManager) SettingsManager.writeConfigInt("StartCash", value)
                             }
@@ -172,7 +172,7 @@ Rectangle {
                                 id: raiseSmallBlindEveryHands
                                 from: 1
                                 to: 100
-                                value: SettingsManager ? SettingsManager.readConfigInt("RaiseSmallBlindEveryHands") : 5
+                                value: SettingsManager ? SettingsManager.readConfigInt("RaiseSmallBlindEveryHands") : 8
                                 enabled: raiseBlindsAtHands.checked
                                 onValueModified: {
                                     if (SettingsManager) SettingsManager.writeConfigInt("RaiseSmallBlindEveryHands", value)
@@ -430,7 +430,7 @@ Rectangle {
                             id: gameSpeed
                             from: 1
                             to: 11
-                            value: SettingsManager ? SettingsManager.readConfigInt("GameSpeed") : 6
+                            value: SettingsManager ? SettingsManager.readConfigInt("GameSpeed") : 4
                             onValueModified: {
                                 if (SettingsManager) SettingsManager.writeConfigInt("GameSpeed", value)
                             }

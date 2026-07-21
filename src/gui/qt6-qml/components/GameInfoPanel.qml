@@ -34,10 +34,15 @@ ColumnLayout {
     // Aktiver Tab von außen steuerbar (Shortcuts/Toggle): 0 Verlauf · 1 Chancen
     property alias currentIndex: tabs.currentIndex
 
-    // Schriftgröße für Verlauf-/Chancen-Texte – analog zur ChatBox
-    // (messageFontSize), damit Log/Chancen so groß wie der Chat sind.
+    // Schriftgröße der Chancen-Texte (Kategorie + Prozent).
     // Overlay: 12 (Default), gedockt: 11 (vom Aufrufer gesetzt).
     property int messageFontSize: 12
+
+    // Der Spielverlauf (Log) läuft wie der Chat als fortlaufender Text und wird
+    // größer gesetzt als die kompakte Chancen-Liste – analog zur ChatBox
+    // (messageFontSize dort). +2 hält Log und Chat auf gleicher Größe:
+    // Overlay 14, gedockt 13.
+    property int logFontSize: messageFontSize + 2
 
     // ── Datenanbindung ────────────────────────────────────────────────────────
     readonly property var chance:
@@ -116,18 +121,33 @@ ColumnLayout {
                 interval: 15000
                 onTriggered: { logFlick.autoScroll = true; logFlick.scrollToBottom() }
             }
-            function scrollToBottom() { contentY = Math.max(0, contentHeight - height) }
+            // Ans Ende springen heißt „wieder mitlaufen": autoScroll aktivieren
+            // und die Bindung unten die Position übernehmen lassen.
+            function scrollToBottom() {
+                autoScroll = true
+                contentY = Math.max(0, contentHeight - height)
+            }
             function restoreScroll() {
                 contentY = Math.min(savedContentY, Math.max(0, contentHeight - height))
             }
-            // Hält die View am Ende (Auto-Scroll) bzw. an der gemerkten Position.
-            // Per Qt.callLater entkoppelt, damit es NACH dem Layout läuft (finale
-            // contentHeight) und mehrere Höhen-Updates zu einem Aufruf bündelt.
+            // Am Ende kleben, solange Auto-Scroll aktiv ist – als BINDUNG, nicht
+            // als einmalige Zuweisung. QQuickTextEdit aktualisiert seine
+            // implicitHeight erst in der Polish-Phase; ein Qt.callLater kann
+            // davor laufen und würde auf die ALTE Höhe scrollen – die zuletzt
+            // angehängte Zeile bliebe unsichtbar, bis ein späteres Update die
+            // View erneut bewegt. Die Bindung folgt jeder Höhenänderung.
+            Binding {
+                target: logFlick
+                property: "contentY"
+                value: Math.max(0, logFlick.contentHeight - logFlick.height)
+                when: logFlick.autoScroll
+                restoreMode: Binding.RestoreNone
+            }
+            // Nur noch der pausierte Fall: gemerkte Position halten, während der
+            // Text komplett ersetzt wird. NUR wiederherstellen, wenn der Nutzer
+            // nicht gerade selbst scrollt – sonst klemmt das die Bewegung fest.
             function followBottom() {
-                if (autoScroll) scrollToBottom()
-                // Pausiert: NUR wiederherstellen, wenn der Nutzer nicht gerade
-                // selbst scrollt – sonst klemmt das restoreScroll die Bewegung fest.
-                else if (!moving && !logScrollBar.pressed) restoreScroll()
+                if (!autoScroll && !moving && !logScrollBar.pressed) restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
@@ -166,7 +186,7 @@ ColumnLayout {
                 selectionColor: root.colAccent
                 selectedTextColor: "#101010"
                 font.family: Config.StaticData.loadedFont.font.family
-                font.pixelSize: root.messageFontSize
+                font.pixelSize: root.logFontSize
                 TapHandler {
                     acceptedButtons: Qt.RightButton
                     onTapped: logCtxMenu.popup()

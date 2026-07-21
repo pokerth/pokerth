@@ -100,7 +100,7 @@ public:
 
     // ClientCallback methods - important ones implemented
     virtual void SignalNetClientConnect(int actionID) override;
-    virtual void SignalNetClientGameInfo(int actionID) override {}
+    virtual void SignalNetClientGameInfo(int actionID) override;
     virtual void SignalNetClientError(int errorID, int osErrorID) override;
     virtual void SignalNetClientLoginShow() override;
     

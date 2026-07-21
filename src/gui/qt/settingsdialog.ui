@@ -387,6 +387,16 @@
                </property>
               </widget>
              </item>
+             <item row="7" column="0" colspan="2">
+              <widget class="QCheckBox" name="checkBox_allowChatTranslation">
+               <property name="toolTip">
+                <string>Shows a globe symbol next to incoming chat messages. Tapping it translates that message into your selected language using an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap it.</string>
+               </property>
+               <property name="text">
+                <string>Offer chat translation (globe symbol next to messages)</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </widget>

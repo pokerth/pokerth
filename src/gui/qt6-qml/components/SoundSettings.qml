@@ -46,7 +46,7 @@ Rectangle {
                             id: playSounds
                             label: qsTr("Klangeffekte aktivieren")
                             checked: SettingsManager ? SettingsManager.soundEnabled : false
-                            onCheckedChanged: {
+                            onToggled: {
                                 if (SettingsManager) SettingsManager.soundEnabled = checked
                             }
                         }

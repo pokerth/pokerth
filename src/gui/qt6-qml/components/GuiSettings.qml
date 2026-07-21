@@ -110,9 +110,51 @@ Rectangle {
                             onActivated: {
                                 var code = model[currentIndex].code
                                 Config.Parameters.language = code
-                                LanguageManager.switchLanguage(code)
+                                LanguageManager.switchLanguage(code)   // Oberfläche sofort
+                                // Maßgeblich ins ConfigFile schreiben (Kurzcode,
+                                // damit der Widgets-Client seine .qm findet).
+                                // Die Chat-Übersetzung liest den Key live -> greift sofort.
+                                if (typeof SettingsManager !== "undefined" && SettingsManager)
+                                    SettingsManager.language =
+                                        Config.StaticData.localeToConfigLanguage(code)
                             }
                         }
+                    }
+
+                    CheckBox {
+                        objectName: "allowChatTranslationCheckbox"
+                        Layout.fillWidth: true
+                        text: qsTr("Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)")
+                        checked: (typeof SettingsManager !== "undefined" && SettingsManager)
+                                 ? SettingsManager.readConfigInt("AllowChatTranslation") !== 0 : true
+                        onToggled: {
+                            if (typeof SettingsManager !== "undefined" && SettingsManager)
+                                SettingsManager.writeConfigInt("AllowChatTranslation", checked ? 1 : 0)
+                            // Echtzeit: den sichtbaren Verlauf beider Chats sofort
+                            // anpassen (Globus/Übersetzungen ein-/ausblenden).
+                            if (typeof Lobby !== "undefined" && Lobby && Lobby.chatTranslator)
+                                Lobby.chatTranslator.refreshEnabled()
+                            if (typeof GameTable !== "undefined" && GameTable && GameTable.chatTranslator)
+                                GameTable.chatTranslator.refreshEnabled()
+                        }
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            leftPadding: parent.indicator.width + parent.spacing
+                            verticalAlignment: Text.AlignVCenter
+                            font: parent.font
+                            color: parent.Universal.foreground
+                        }
+                    }
+
+                    Label {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 28
+                        Layout.bottomMargin: 4
+                        wrapMode: Text.Wrap
+                        text: qsTr("Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.")
+                        color: Config.StaticData.palette.secondary.col400
+                        font.pointSize: 10
                     }
 
                     ConfigCheckBox {
@@ -131,7 +173,7 @@ Rectangle {
                         objectName: "reduceEffectsCheckbox"
                         text: qsTr("Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme")
                         checked: SettingsManager ? SettingsManager.readConfigInt("QmlReduceEffects") !== 0 : false
-                        onCheckedChanged: {
+                        onToggled: {
                             if (SettingsManager) SettingsManager.writeConfigInt("QmlReduceEffects", checked ? 1 : 0)
                             Config.Theme.effectsEnabled = !checked
                         }
@@ -167,7 +209,7 @@ Rectangle {
                         objectName: "disableSplashScreenOnStartupCheckbox"
                         text: qsTr("Startbildschirm beim Startvorgang deaktivieren")
                         checked: SettingsManager ? SettingsManager.disableSplashScreen : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.disableSplashScreen = checked }
+                        onToggled: { if (SettingsManager) SettingsManager.disableSplashScreen = checked }
                     }
 
                     CheckBox {
@@ -175,13 +217,25 @@ Rectangle {
                         Layout.fillWidth: true
                         text: qsTr("Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen")
                         checked: SettingsManager ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
-                        onCheckedChanged: { if (SettingsManager) SettingsManager.writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checked ? 1 : 0) }
+                        onToggled: { if (SettingsManager) SettingsManager.writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checked ? 1 : 0) }
                         contentItem: Text {
                             text: parent.text
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
-                            color: parent.palette.windowText
+                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
+                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
+                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
+                            // umbrechenden Labels erscheinen groesser als alle anderen.
+                            font: parent.font
+                            // Universal.foreground statt palette.windowText: palette folgt
+                            // der SYSTEM-Palette und nicht dem Universal.theme, das
+                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
+                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
+                            // Universal.foreground ist exakt das, was der Style-Default der
+                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
+                            // umbrechende und einzeilige Labels identisch aus.
+                            color: parent.Universal.foreground
                         }
                     }
 
@@ -207,7 +261,46 @@ Rectangle {
                             wrapMode: Text.Wrap
                             leftPadding: parent.indicator.width + parent.spacing
                             verticalAlignment: Text.AlignVCenter
-                            color: parent.palette.windowText
+                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
+                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
+                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
+                            // umbrechenden Labels erscheinen groesser als alle anderen.
+                            font: parent.font
+                            // Universal.foreground statt palette.windowText: palette folgt
+                            // der SYSTEM-Palette und nicht dem Universal.theme, das
+                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
+                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
+                            // Universal.foreground ist exakt das, was der Style-Default der
+                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
+                            // umbrechende und einzeilige Labels identisch aus.
+                            color: parent.Universal.foreground
+                        }
+                    }
+
+                    CheckBox {
+                        objectName: "keepEmptySeatsCheckbox"
+                        Layout.fillWidth: true
+                        text: qsTr("Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)")
+                        checked: Config.Parameters.keepEmptySeats
+                        onCheckedChanged: Config.Parameters.keepEmptySeats = checked
+                        contentItem: Text {
+                            text: parent.text
+                            wrapMode: Text.Wrap
+                            leftPadding: parent.indicator.width + parent.spacing
+                            verticalAlignment: Text.AlignVCenter
+                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
+                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
+                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
+                            // umbrechenden Labels erscheinen groesser als alle anderen.
+                            font: parent.font
+                            // Universal.foreground statt palette.windowText: palette folgt
+                            // der SYSTEM-Palette und nicht dem Universal.theme, das
+                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
+                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
+                            // Universal.foreground ist exakt das, was der Style-Default der
+                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
+                            // umbrechende und einzeilige Labels identisch aus.
+                            color: parent.Universal.foreground
                         }
                     }
 
@@ -269,7 +362,6 @@ Rectangle {
                         objectName: "showNetworkStatusColorOnAvatarCheckbox"
                         text: qsTr("Netzwerkstatus-Farbe in der Ecke des Avatars anzeigen")
                         configKey: "ShowPingStateInAvatar"
-                        defaultChecked: false
                     }
 
                     ConfigCheckBox {

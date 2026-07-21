@@ -181,8 +181,18 @@ Rectangle {
                         ComboBox {
                             id: internetGameType
                             Layout.fillWidth: true
-                            model: [qsTr("Normal"), qsTr("Registrierte Spieler"), qsTr("Rang-Spiel")]
-                            currentIndex: SettingsManager ? SettingsManager.readConfigInt("InternetGameType") : 0
+                            // Reihenfolge und Index entsprechen GameType-1
+                            // (GAME_TYPE_NORMAL … GAME_TYPE_RANKING).
+                            model: [qsTr("Normal"),
+                                    qsTr("Nur registrierte Spieler"),
+                                    qsTr("Nur eingeladene Spieler"),
+                                    qsTr("Ranglistenspiel")]
+                            currentIndex: {
+                                if (!SettingsManager)
+                                    return 0
+                                var type = SettingsManager.readConfigInt("InternetGameType")
+                                return (type >= 0 && type < model.length) ? type : 0
+                            }
                             onActivated: {
                                 if (SettingsManager) SettingsManager.writeConfigInt("InternetGameType", currentIndex)
                             }
@@ -297,11 +307,6 @@ Rectangle {
                     ColumnLayout {
                         anchors.fill: parent
                         spacing: 8
-
-                        ConfigCheckBox {
-                            text: qsTr("Lobby-Chat verwenden")
-                            configKey: "UseLobbyChat"
-                        }
 
                         ConfigCheckBox {
                             text: qsTr("Tisch automatisch verlassen nach Spielende")

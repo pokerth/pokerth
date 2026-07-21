@@ -1,0 +1,193 @@
+name: Build Android App Bundle (QML client)
+
+# Manual only: a cold build cross-compiles boost/openssl/protobuf for every ABI
+# via vcpkg and pulls one Qt kit per ABI, which takes hours. Cached, a full
+# four-ABI run is roughly 60-90 minutes.
+#
+# Secrets used (all optional — without them the bundle is built unsigned and
+# nothing is published):
+#   ANDROID_KEYSTORE_BASE64    upload keystore, base64 encoded:
+#                                base64 -w0 upload.keystore
+#   ANDROID_KEYSTORE_PASSWORD  keystore password
+#   ANDROID_KEY_ALIAS          key alias inside the keystore
+#   ANDROID_KEY_PASSWORD       key password (defaults to the keystore password)
+#   GOOGLE_PLAY_SERVICE_ACCOUNT_JSON  service account with "Release manager"
+#                                     rights, only needed to publish
+on:
+  workflow_dispatch:
+    inputs:
+      abis:
+        description: "ABIs to build (space separated, first one is the primary)"
+        type: choice
+        default: "arm64-v8a armeabi-v7a x86_64 x86"
+        options:
+          - "arm64-v8a armeabi-v7a x86_64 x86"   # every device Play serves
+          - "arm64-v8a x86_64"                    # 64-bit only (all modern phones + Chromebooks)
+          - "arm64-v8a"                           # fastest, phones/tablets only
+      api_level:
+        description: "compileSdk/targetSdk (Play requires 36 for new apps from 2026-08-31)"
+        type: choice
+        default: "35"
+        options: ["35", "36"]
+      version_code:
+        description: "versionCode — must be higher than every previous upload (default: run number)"
+        type: string
+        default: ""
+      universal_apk:
+        description: "Also build a universal APK (side-load testing — an .aab cannot be installed directly)"
+        type: boolean
+        default: true
+      play_track:
+        description: "Publish to Google Play on this track"
+        type: choice
+        default: "none"
+        options: [none, internal, alpha, beta, production]
+
+jobs:
+  build-aab:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+
+    env:
+      QT_VERSION: "6.9.3"
+      ANDROID_ABIS: ${{ inputs.abis }}
+      ANDROID_API_LEVEL: ${{ inputs.api_level }}
+      VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      UNIVERSAL_APK: ${{ inputs.universal_apk && '1' || '0' }}
+      # The secrets context is not available in step `if:`, so fan it out to env here.
+      HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && 'true' || 'false' }}
+
+    outputs:
+      aab_name: ${{ steps.build.outputs.aab_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # AGP 8.8 (pinned by Qt 6.9's Gradle template) needs JDK 17.
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Four Qt kits + four vcpkg triplets + NDK + build trees do not fit next to
+      # the runner's preinstalled toolchains. The bundled NDKs go too — the build
+      # installs the exact NDK version it was tested with.
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup \
+                      /usr/local/lib/android/sdk/ndk \
+                      /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          df -h /
+
+      # Restore/save instead of actions/cache: a cold four-ABI run cross-compiles
+      # boost for hours, and actions/cache drops everything when the job fails.
+      # Each run saves its own snapshot (run_id suffix) and restores the newest
+      # matching prefix, so a failed run still hands its finished ABIs to the
+      # next one. Both Qt and vcpkg installs are additive and idempotent, so a
+      # partial tree is always safe to build on.
+      - name: Compute cache slug
+        id: slug
+        run: echo "abis=$(echo '${{ inputs.abis }}' | tr ' ' '-')" >> "$GITHUB_OUTPUT"
+
+      - name: Restore Qt
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/Qt
+          key: android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+          restore-keys: |
+            android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-
+            android-qt-${{ env.QT_VERSION }}-
+
+      - name: Restore vcpkg
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/vcpkg
+          key: android-vcpkg-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+          restore-keys: |
+            android-vcpkg-${{ steps.slug.outputs.abis }}-
+            android-vcpkg-
+
+      - name: Restore upload keystore
+        if: env.HAS_KEYSTORE == 'true'
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/upload.keystore"
+          echo "ANDROID_KEYSTORE=$RUNNER_TEMP/upload.keystore" >> "$GITHUB_ENV"
+
+      - name: Build multi-ABI App Bundle
+        id: build
+        env:
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+          ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          bash build_android_qml.sh
+          echo "aab_name=$(basename "$(ls PokerTH-*.aab)")" >> "$GITHUB_OUTPUT"
+
+      # if: always() — the whole point is to keep the ABIs that did finish when a
+      # later one fails. vcpkg first: it is the expensive half.
+      - name: Save vcpkg
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/vcpkg
+          key: android-vcpkg-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+
+      - name: Save Qt
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/Qt
+          key: android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-android-aab-${{ github.sha }}
+          path: |
+            PokerTH-*.aab
+            pokerth-play-icon-512.png
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload universal APK
+        if: inputs.universal_apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-android-universal-apk-${{ github.sha }}
+          path: PokerTH-*-universal.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Gradle reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-reports
+          path: build-android-bundle/build/reports/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # Google Play only accepts a signed bundle whose versionCode is higher than
+  # anything uploaded before. The very first upload of a package has to be made
+  # by hand in the Play Console — the API cannot create a new app.
+  publish-play:
+    needs: build-aab
+    if: inputs.play_track != 'none'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download App Bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: PokerTH-android-aab-${{ github.sha }}
+
+      - name: Publish to Google Play (${{ inputs.play_track }})
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: org.pokerth.qml
+          releaseFiles: ${{ needs.build-aab.outputs.aab_name }}
+          track: ${{ inputs.play_track }}
+          status: completed

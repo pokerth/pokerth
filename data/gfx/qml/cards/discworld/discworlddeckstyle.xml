@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style "Discworld".
+
+   Pergament-Front mit Goldrahmen in der Palette des Discworld-Tischstils
+   (data/gfx/qml/table/discworld/). Der Index oben links behält bewusst die
+   Original-Glyphen des default-Decks (Rang + klassisches Farbsymbol), damit
+   die Karten am Tisch ohne Umgewöhnung lesbar bleiben; getauscht wird nur das
+   grosse Motiv unten rechts.
+
+   Motive: Pik traegt den Zauberer, Kreuz den Tod der Ratten, Karo den
+   Waechter Nobby Nobbs, Herz die Hexe Nanny Ogg.
+
+   Alle vier stammen aus Bitmap-Vektorisierungen (1,4-2,3 MB, 3016-6787
+   Pfade); 13x inline waeren das gut 20 MB pro Farbe. Fuer die Karten ist die
+   Geometrie deshalb auf Motivgroesse reduziert: Naht-Strokes entfernt,
+   Kurven abgeflacht, per Douglas-Peucker vereinfacht und Subpfade unter
+   einer Mindestflaeche verworfen - bei Motivgroesse nicht unterscheidbar,
+   aber 13-20x kleiner.
+
+   Die Werte gelten in Quell-Einheiten und muessen an die Bounding Box
+   angepasst werden, nicht blind uebernommen: Ziel ist eine Toleranz von rund
+   0,27 px im gerenderten Motiv. Bei Zeichenflaeche 1024x1536 sind das
+   Toleranz 3 / Flaeche 60 (Nobby, Zauberer); der Tod der Ratten kommt aus
+   einer 1024x1024-Flaeche und laeuft deshalb auf 2,5 / 40. Nanny braucht
+   trotz gleicher Flaeche wie Nobby die Schwelle 30 - bei 60 fallen die
+   hellen Buende ihres Banjohalses weg und der Hals wirkt schwarz.
+
+   Der Index ist gegenueber dem default-Deck um Faktor 1,3 vergroessert (Rang
+   scale 0.5733 auf Anker 25/10.6, Farbsymbol 0.5603 auf 25/70.72): die
+   detaillierten Motive ziehen den Blick, ein Index in Originalgroesse wirkt
+   daneben zu klein. Die Motive sind im Gegenzug um 10% kleiner.
+
+   Die Anker sind so gesetzt, dass die Tinte links wie oben 6 Einheiten
+   Abstand zum Innenrahmen (x=4,6) haben. Massgeblich ist die breiteste
+   Glyphe ueber alle 52 Karten - das Kreuz-Symbol; wer die Anker aendert,
+   misst die Tinten-Bounding-Box, nicht die Gruppen-Koordinaten.
+
+   Platzierung: Unterkante y=160, rechte Kante x=106 (Herz), x=112 (Karo),
+   x=114 (Pik, Kreuz). Karo bleibt knapp unter 114, weil Nobbys Laternenhaken
+   sonst fast am Innenrahmen (x=115,4) klebt.
+   Skaliert wird anhand der tatsaechlichen Bounding Box des
+   Motiv-SVG, nicht seiner Zeichenflaeche - sonst wirken Motive mit Rand
+   kleiner als die uebrigen. Hoehen: Nobby 110, Nanny 99, Zauberer 94, Tod
+   der Ratten 94. Nobby laeuft am groessten, weil er als schmale Figur mit
+   viel Luft zwischen Koerper und Laternenstab sonst kleiner wirkt.
+
+   Zwei Sonderfaelle:
+   - Der Zauberstab ragt oben links ueber die Figur hinaus und kommt der
+     Index-Gruppe zu nah (auf x=106 ueberlappt er sie ab Hoehe 108 sogar).
+     Der Zauberer sitzt deshalb auf x=114 und ist als Einziger anisotrop
+     skaliert - 6% schmaler bei voller Hoehe (Verhaeltnis 0.07337 zu 0.07805).
+     6% sieht man der Figur nicht an, ab etwa 12% wirkt sie sichtbar
+     gestaucht.
+   - Der Tod der Ratten ist eine diagonale, fast quadratische Komposition und
+     mit 95 Breite zu 94 Hoehe das breiteste Motiv. Er reicht bis x=19; mehr
+     Hoehe wuerde ihn links aus der Karte laufen lassen.
+
+   Obergrenzen nicht schaetzen, sondern messen: Index-Gruppen und Motiv-Gruppe
+   getrennt auf transparent rendern, Alpha binarisieren, multiplizieren -
+   ueberlappende Pixel > 0 heisst zu gross.
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Discworld (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="19.07.2026" />
+     <PokerTHStyleFileVersion value="2" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <BigIndexesActionBottom value="0" />
+  </CardDeck>
+</PokerTH>

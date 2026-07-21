@@ -5,6 +5,7 @@
 
 #include "networkgamehandler.h"
 #include "androidconnectionservice.h"
+#include "iosbackgroundsession.h"
 
 #include <session.h>
 #include <configfile.h>
@@ -43,6 +44,7 @@ void NetworkGameHandler::shutdown()
     // App-Shutdown: Foreground-Service explizit beenden (START_NOT_STICKY
     // verhindert zwar den Neustart, aber sauber abmelden ist besser).
     AndroidConnectionService::stop();
+    IosBackgroundSession::stop();
 }
 
 void NetworkGameHandler::createGame(int maxPlayers, int startCash, int firstSmallBlind,

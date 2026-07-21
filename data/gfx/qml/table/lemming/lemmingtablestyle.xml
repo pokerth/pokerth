@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Lemming TA01-MC QML table style (portiert aus dem Widget-Client-Stil
+   LEMMING-TABLE-01-MC, https://www.pokerth.net).
+
+   Besonderheit gegenüber den anderen QML-Stilen: Dieser Stil hat gar kein
+   Filz-Oval. Der Tisch-Hintergrund ist eine dunkle Carbon-/Wabentextur, aus
+   deren Unterkante weißer Rauch aufsteigt (Original: xx-muurpapier.png,
+   1920x1080). Die Grafik ist reines Graustufen-Bild und wird deshalb als
+   8-Bit-Graustufen-PNG mitgeliefert (verlustfrei, ~1/8 der Originalgröße).
+   Da die Textur flächig ist, genügt der klassische Cover-Modus (kein center).
+
+   Alle UI-Elemente sind saubere SVGs. Die Action-Buttons bilden die Signatur
+   des Originals nach: eine Rundrechteck-Form mit konkav eingezogenen Schmal-
+   seiten, vier weiche Glows in den Ecken und eine (fast) transparente Mitte.
+   Die Verlaufs-Stops sind gegen die Original-PNGs kalibriert.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Lemming TA01-MC QML table style" />
+     <StyleMaintainerName value="lemming" />
+     <StyleMaintainerEMail value="NULL" />
+     <StyleCreateDate value="10.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <!-- Kein center-Modus: die Wabentextur ist flächig, der Rauch sitzt an der
+          Unterkante. Klassisches Cover schneidet ihn am wenigsten an. -->
+     <TableBackgroundAlign value="bottom" />
+
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="6.5" />
+
+     <!-- Akzentfarbe der Spielerboxen: kühles Grau der monochromen Carbon-Optik.
+          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
+          Default-Look. -->
+     <PlayerBoxAccent value="#9aa0a6" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Schriftfarben MÜSSEN hier explizit stehen. Ohne sie leitet der
+          StyleProvider die Farbe aus der mittleren Helligkeit der Gradient-Stops
+          ab – das unterstellt einen deckenden Button. Diese Buttons sind aber
+          durchscheinend mit hellen Glows: Call/Raise/All-In bekämen dann fast
+          schwarze Schrift auf fast schwarzem Grund. Die Farben entsprechen den
+          farbigen Beschriftungen des Originals. -->
+     <FoldButtonTextColor value="#ff5f5f" />
+     <CheckCallButtonTextColor value="#5ccfff" />
+     <BetRaiseButtonTextColor value="#5cff5c" />
+     <AllInButtonTextColor value="#fff200" />
+
+     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
+          abgeleitet wie in den anderen Stilen: der Rahmen traegt den Akzent,
+          die Flaechen nur einen Hauch. Basis sind hier die eigenen Grautoene des
+          Stils statt der blaustichigen Defaults – die Carbon-Optik bleibt so
+          monochrom. Unabhaengig vom Hell/Dunkel-Modus. -->
+     <ChatLogBackground value="#262627" />    <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#414243" />    <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#777a7c" />    <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#e6e6e6" />    <!-- Haupttext -->
+     <ChatLogTextSecondary value="#c2c2c2" />    <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#8d8e90" />    <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

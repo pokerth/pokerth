@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 43">
+  <!-- LCARS-Bar: flache Fläche, kein Verlauf, kein Glow. Links die
+       abgesetzte Kappe, davon getrennt durch die typische Lücke. Die
+       Lücke liegt INNERHALB der Pille, damit der Zustands-Rahmen des
+       Clients (ActionButtonBorderRadius=21.5) bündig umschliesst. -->
+  <path d="M21.5 0A21.5 21.5 0 0 0 21.5 43Z" fill="#d1a24f"/>
+  <path d="M21.5 0H146.5A21.5 21.5 0 0 1 146.5 43H21.5Z" fill="#ffcc66"/>
+  <path d="M20.9 0H22.6V43H20.9Z" fill="#10131a"/>
+</svg>

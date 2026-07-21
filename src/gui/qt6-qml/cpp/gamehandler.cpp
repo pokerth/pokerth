@@ -4,6 +4,7 @@
  *****************************************************************************/
 
 #include "gamehandler.h"
+#include "chattranslator.h"
 #include "chatemotes.h"
 #include "gui/chat_emote_shortcuts.h"
 #include <session.h>
@@ -99,6 +100,7 @@ GameHandler::GameHandler(QObject *parent)
         p["card1"]   = -1;
         p["fade0"]   = false;
         p["fade1"]   = false;
+        p["reserved"] = false;
         m_players.append(p);
     }
     // Initialize empty board cards (5 slots, -1 = not dealt)
@@ -110,6 +112,12 @@ GameHandler::GameHandler(QObject *parent)
     connect(m_timeoutBeepTimer, &QTimer::timeout, this, [this]() {
         playYourTurnTimeoutSound();
     });
+
+    // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
+    // Zeile stößt chatLogChanged() an, damit die QML-Bindung neu rendert.
+    m_chatTranslator = new ChatTranslator(&m_chatLog, this);
+    connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
+            this, &GameHandler::chatLogChanged);
 
     // AFK-Reset: echte Nutzeraktivität (Maus/Tastatur) hält den serverseitigen
     // Inaktivitäts-Timeout zurück. WICHTIG: Spielaktionen (fold/call/raise)
@@ -146,7 +154,14 @@ GameHandler::~GameHandler()
 void GameHandler::setConfig(ConfigFile *config)
 {
     m_config = config;
+    if (m_chatTranslator)
+        m_chatTranslator->setConfig(config);
     ensureSoundEventHandler();
+}
+
+QObject* GameHandler::chatTranslator() const
+{
+    return m_chatTranslator;
 }
 
 void GameHandler::setSession(boost::shared_ptr<Session> session)
@@ -162,6 +177,15 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
 
     m_localGameExitRequested = false;
     m_game = game;
+    // Zuschauer-Modus des Netzwerk-Clients übernehmen (im lokalen Spiel immer
+    // false). Steht bereits fest, wenn die Engine das Spiel meldet: der
+    // JoinGameAck kam vor dem Spielstart.
+    const bool spectating = m_session && m_session->isNetworkClientRunning()
+                            && m_session->isClientSpectating();
+    if (spectating != m_spectating) {
+        m_spectating = spectating;
+        emit spectatingChanged();
+    }
     m_leftPlayers.clear();
     // Ausstehende Busted-Player-Timer aus dem vorigen Spiel verwerfen.
     qDeleteAll(m_bustedLocalTimers);
@@ -350,6 +374,12 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     else
         line = QStringLiteral("[") + ts + QStringLiteral("] <b>") + name + QStringLiteral(":</b> ") + styledMsg;
 
+    // Übersetzen-Symbol nur an Nachrichten anderer (rawDisplay = Quelltext ohne
+    // HTML/Style-Markup; styledMsg = Nachrichtenkörper, der beim Einblenden
+    // durch die Übersetzung ersetzt wird).
+    if (m_chatTranslator && playerName != myNick)
+        line = m_chatTranslator->decorate(line, rawDisplay, styledMsg);
+
     m_chatLog.append(line);
     const int kMaxLines = 400;
     if (m_chatLog.size() > kMaxLines)
@@ -393,6 +423,9 @@ void GameHandler::refreshPlayerData()
         p["card1"]  = -1;
         p["fade0"]  = false;
         p["fade1"]  = false;
+        // Leerer Sitz eines Spielers, der den Tisch verlassen hat (Disconnect,
+        // Kick, Verlassen, Ausgeschieden) – siehe Markierung unten.
+        p["reserved"] = false;
         newPlayers.append(p);
     }
 
@@ -466,9 +499,18 @@ void GameHandler::refreshPlayerData()
 
         for (auto it = seats->begin(); it != seats->end(); ++it) {
             int id = (*it)->getMyID();
-            // Spieler, der das Spiel verlassen hat: Sitz als leer behandeln.
-            if (m_leftPlayers.contains((*it)->getMyUniqueID()))
+            // Spieler, der das Spiel verlassen hat: Sitz als leer behandeln, ihn
+            // aber als "reserviert" markieren. Die Tischansicht kann den Sitz damit
+            // – je nach Einstellung – als unsichtbaren Platzhalter im Ring halten,
+            // sodass die verbleibenden Boxen nicht nachrücken.
+            if (m_leftPlayers.contains((*it)->getMyUniqueID())) {
+                if (id >= 0 && id < 10) {
+                    QVariantMap gone = newPlayers[id].toMap();
+                    gone["reserved"] = true;
+                    newPlayers[id] = gone;
+                }
                 continue;
+            }
             if (!(*it)->getMyName().empty() && (*it)->getMyType() == PLAYER_TYPE_HUMAN)
                 ++humanCount;
             if (id >= 0 && id < 10) {
@@ -480,13 +522,18 @@ void GameHandler::refreshPlayerData()
                 // nicht gefoldet UND checkIfINeedToShowCards()). Das Showdown-Flag
                 // verhindert, dass die noch veraltete playerNeedToShowCards-Liste
                 // während der River-Setzrunde der nächsten Hand fälschlich aufdeckt.
+                // Fold-/Aufdeck-Zustand über den Showdown-Snapshot (die nächste Hand
+                // kann getMyAction()/playerNeedToShowCards längst zurückgesetzt haben
+                // – siehe captureShowdownSnapshot()).
+                const bool isFolded = showdownFolded((*it)->getMyUniqueID(),
+                                                     (*it)->getMyAction() == PLAYER_ACTION_FOLD);
                 const bool showdownReveal = m_showdownActive
-                                            && (*it)->getMyAction() != PLAYER_ACTION_FOLD
-                                            && (*it)->checkIfINeedToShowCards();
+                                            && !isFolded
+                                            && showdownNeedsToShow((*it)->getMyUniqueID(),
+                                                                   (*it)->checkIfINeedToShowCards());
                 // All-In-Aufdeckung: Karten sind nach AllInShowCardsMessage für alle
                 // nicht-gefoldeten Spieler sichtbar (bis zur nächsten Hand).
-                const bool allInReveal = m_allInRevealed
-                                         && (*it)->getMyAction() != PLAYER_ACTION_FOLD;
+                const bool allInReveal = m_allInRevealed && !isFolded;
                 // Freiwilliges Zeigen nach der Hand (AfterHandShowCards): der Spieler
                 // muss nicht zwingend in playerNeedToShowCards stehen (Gewinn ohne
                 // Showdown), also separat aufdecken.
@@ -544,13 +591,15 @@ void GameHandler::refreshPlayerData()
                 p["action"] = displayAction;
                 // Gefoldete Spieler bleiben die ganze Hand über gefoldet → Karten
                 // durchscheinend darstellen (wie im Qt-Widgets-Client).
-                p["folded"] = ((*it)->getMyAction() == PLAYER_ACTION_FOLD);
+                p["folded"] = isFolded;
                 // Computer-Gegner: für sie gibt es keine Kontextaktionen
                 // (Ignore/Stats) – wie im Qt-Widgets-Client (MyAvatarLabel).
                 p["isComputer"] = ((*it)->getMyType() == PLAYER_TYPE_COMPUTER);
-                // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der Config.
+                // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der
+                // Config – aber nur, wenn ich selbst dort sitze. Als Zuschauer
+                // ist Sitz 0 ein fremder Spieler und bekäme sonst MEINEN Avatar.
                 std::string avatarRaw = (*it)->getMyAvatar();
-                if (avatarRaw.empty() && id == 0 && m_config)
+                if (avatarRaw.empty() && id == 0 && !m_spectating && m_config)
                     avatarRaw = m_config->readConfigString("MyAvatar");
                 p["avatar"] = resolveAvatarSource(avatarRaw);
                 p["card0"]  = faceUp ? cards[0] : -1;
@@ -618,7 +667,9 @@ void GameHandler::computeCallAndRaiseAmounts()
     int dbgHandId   = -1;   // [ACTDBG] aktuelle Hand-ID (für Log)
     bool dbgRoundClosed = false;  // [ACTDBG] Setzrunde abgeschlossen (für Log)
 
-    if (m_game) {
+    // Als Zuschauer gibt es keinen eigenen Sitz: Call-/Raise-Beträge bleiben 0
+    // und canAct false (die GamePage blendet die Action-Bar ohnehin aus).
+    if (m_game && !m_spectating) {
         auto hand = m_game->getCurrentHand();
         if (hand) {
             auto bero = hand->getCurrentBeRo();
@@ -830,6 +881,10 @@ void GameHandler::computeCallAndRaiseAmounts()
 
 bool GameHandler::humanCanAct() const
 {
+    // Als Zuschauer gibt es keinen eigenen Sitz. Ohne diesen Wächter läse die
+    // Funktion unten seats->front() – den FREMDEN Spieler auf Sitz 0 – und
+    // startTimeoutAnimation() machte daraus fälschlich "ich bin am Zug".
+    if (m_spectating) return false;
     if (!m_game) return false;
     auto hand = m_game->getCurrentHand();
     if (!hand) return false;
@@ -1216,6 +1271,17 @@ void GameHandler::refreshSpectators()
                 const PlayerInfo pi = m_session->getClientPlayerInfo(id);
                 names << QString::fromUtf8(pi.playerName.c_str());
             }
+            // Der Server schickt einem Zuschauer nur die JEWEILS ANDEREN
+            // Zuschauer (AcceptNewSession sendet den eigenen SpectatorJoined an
+            // alle übrigen Sessions). Ohne diese Ergänzung zeigte das Auge-Icon
+            // dem einzigen Zuschauer eines Tisches "0".
+            if (m_session->isClientSpectating()) {
+                const PlayerInfo me = m_session->getClientPlayerInfo(
+                    m_session->getClientUniquePlayerId());
+                const QString myName = QString::fromUtf8(me.playerName.c_str());
+                if (!myName.isEmpty())
+                    names << myName;
+            }
         }
     }
     if (names != m_spectatorNames) {
@@ -1296,9 +1362,10 @@ void GameHandler::refreshBoardCards()
 
 void GameHandler::refreshChanceAndHand()
 {
-    // Eigenen Spieler (Sitz 0) suchen.
+    // Eigenen Spieler (Sitz 0) suchen. Als Zuschauer gibt es keinen – dann
+    // bleibt die Chancen-/Blatt-Anzeige leer (haveCards == false).
     boost::shared_ptr<PlayerInterface> human;
-    if (m_game) {
+    if (m_game && !m_spectating) {
         PlayerList seats = m_game->getSeatsList();
         if (seats) {
             for (auto it = seats->begin(); it != seats->end(); ++it) {
@@ -1399,6 +1466,10 @@ void GameHandler::onNextRoundCleanGui()
     setShowdownActive(false);
     m_allInRevealed = false;
     m_postRiverShownPlayers.clear();
+    // Showdown-Snapshot der Vorhand verwerfen → ab jetzt wieder Live-Zustand.
+    m_foldedAtHandEnd.clear();
+    m_needToShowAtHandEnd.clear();
+    m_showdownSnapshotValid = false;
     if (m_canShowCards) {
         m_canShowCards = false;
         emit canShowCardsChanged();
@@ -1705,6 +1776,35 @@ bool GameHandler::isLocalGameRunning() const
     return static_cast<bool>(m_session->getCurrentGame());
 }
 
+bool GameHandler::isInternetGameRunning() const
+{
+    return m_session
+        && m_session->isNetworkClientRunning()
+        && m_session->getGameType() == Session::GAME_TYPE_INTERNET;
+}
+
+void GameHandler::reportAvatar(int seatId)
+{
+    // Nur im Internet-Spiel sinnvoll (wie im Qt-Widgets-Client, MyAvatarLabel).
+    if (!isInternetGameRunning() || !m_game)
+        return;
+
+    PlayerList seats = m_game->getSeatsList();
+    for (auto it = seats->begin(); it != seats->end(); ++it) {
+        if ((*it)->getMyID() != seatId)
+            continue;
+        // Avatar-Hash = Basisname der Avatardatei (ohne Pfad/Endung), exakt wie
+        // MyAvatarLabel::reportBadAvatar den Wert an den Server übergibt.
+        const std::string avatar = (*it)->getMyAvatar();
+        if (avatar.empty())
+            return;
+        const QFileInfo fi(QString::fromStdString(avatar));
+        m_session->reportBadAvatar((*it)->getMyUniqueID(),
+                                   fi.baseName().toStdString());
+        return;
+    }
+}
+
 // ─── Game-loop advance slots (called via QMetaObject from QmlGuiInterface) ───
 
 void GameHandler::onRunBeRo()
@@ -1761,6 +1861,64 @@ void GameHandler::onPostRiverRunBeRo()
         hand->getCurrentBeRo()->postRiverRun();
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Showdown-Snapshot
+//
+// Der Showdown darf den Fold-Zustand NICHT live aus den Player-Objekten lesen:
+//
+//   * Game::initHand() setzt zu Beginn JEDER Hand die Aktion ALLER Spieler auf
+//     PLAYER_ACTION_NONE (game.cpp) – auch PLAYER_ACTION_FOLD. (Der Netz-Client
+//     schützt FOLD in ClientStateRunHand::ResetPlayerActions() gezielt vor dem
+//     Runden-Reset; initHand() tut das bewusst nicht.)
+//   * Der Widgets-Client kann sich trotzdem auf getMyAction() verlassen, weil er
+//     den Netz-Thread blockiert: waitForGuiUpdateDone() wartet dort auf eine
+//     Semaphore, die erst prepareForNewHand() nach Ende der Post-River-Animation
+//     freigibt (gametableimpl.cpp). initHand() läuft also garantiert später.
+//   * Im QML-Client ist waitForGuiUpdateDone() ein No-op (qmlguiinterface.h) und
+//     onShowdown() läuft per QueuedConnection. Im Netzwerkspiel startet der
+//     Server die nächste Hand – initHand() kann die FOLD-Flags also längst
+//     gelöscht haben, bevor onShowdown() drankommt.
+//
+// Folge ohne Snapshot: Beim Showdown gelten gefoldete Spieler als aktiv. Wer
+// seine Karten kennt (im Netzwerkspiel mindestens man selbst), landet mit
+// gewertetem Blattnamen im Spielverlauf – auch wenn dieses Blatt den echten
+// Gewinner schlägt. Das sieht für den Spieler nach einem falschen Gewinner aus.
+//
+// Deshalb: Zustand am Hand-Ende einfrieren (synchron auf dem Netz-Thread, siehe
+// QmlGuiInterface::postRiverRunAnimation1) und ab da nur noch den Snapshot lesen.
+void GameHandler::captureShowdownSnapshot()
+{
+    m_foldedAtHandEnd.clear();
+    m_needToShowAtHandEnd.clear();
+    m_showdownSnapshotValid = false;
+    if (!m_game) return;
+    auto hand = m_game->getCurrentHand();
+    if (!hand) return;
+    auto activeList = hand->getActivePlayerList();
+    if (!activeList) return;
+
+    for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+        const unsigned uid = (*it)->getMyUniqueID();
+        if ((*it)->getMyAction() == PLAYER_ACTION_FOLD)
+            m_foldedAtHandEnd.insert(uid);
+        // checkIfINeedToShowCards() liest board->getPlayerNeedToShowCards() –
+        // dieselbe Liste überschreibt die nächste Hand ebenfalls.
+        if ((*it)->checkIfINeedToShowCards())
+            m_needToShowAtHandEnd.insert(uid);
+    }
+    m_showdownSnapshotValid = true;
+}
+
+bool GameHandler::showdownFolded(unsigned uniqueId, bool liveFolded) const
+{
+    return m_showdownSnapshotValid ? m_foldedAtHandEnd.contains(uniqueId) : liveFolded;
+}
+
+bool GameHandler::showdownNeedsToShow(unsigned uniqueId, bool liveNeedsToShow) const
+{
+    return m_showdownSnapshotValid ? m_needToShowAtHandEnd.contains(uniqueId) : liveNeedsToShow;
+}
+
 void GameHandler::onShowdown()
 {
     if (localGameCallbacksBlocked()) return;
@@ -1807,7 +1965,7 @@ void GameHandler::onShowdown()
     auto isMainPotWinner = [&](const auto &p) -> bool {
         const bool isW = std::find(winners.begin(), winners.end(), p->getMyUniqueID()) != winners.end();
         const bool hasActuallyWon = isW && p->getLastMoneyWon() > 0;
-        if (p->getMyAction() == PLAYER_ACTION_FOLD || !hasActuallyWon)
+        if (showdownFolded(p->getMyUniqueID(), p->getMyAction() == PLAYER_ACTION_FOLD) || !hasActuallyWon)
             return false;
         if (hasAllInPlayer && winnersWithMoney > 1
             && p->getMyCardsValueInt() < highestWinnerCardsValue)
@@ -1836,7 +1994,7 @@ void GameHandler::onShowdown()
     int nonFold = 0;
     if (activeList) {
         for (auto it = activeList->begin(); it != activeList->end(); ++it)
-            if ((*it)->getMyAction() != PLAYER_ACTION_FOLD) ++nonFold;
+            if (!showdownFolded((*it)->getMyUniqueID(), (*it)->getMyAction() == PLAYER_ACTION_FOLD)) ++nonFold;
     }
     if (activeList && bero && nonFold > 1) {
         std::string name = CardsValue::determineHandName(bero->getHighestCardsValue(), activeList);
@@ -1904,7 +2062,9 @@ void GameHandler::onShowdown()
     //    (wie showHoleCards → setMyCardsFlip(1,1) für die Post-River-Runde:
     //    "name shows [c0, c1] - \"Handname\"").
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
-        if ((*it)->getMyAction() == PLAYER_ACTION_FOLD || !(*it)->checkIfINeedToShowCards())
+        const unsigned uid = (*it)->getMyUniqueID();
+        if (showdownFolded(uid, (*it)->getMyAction() == PLAYER_ACTION_FOLD)
+            || !showdownNeedsToShow(uid, (*it)->checkIfINeedToShowCards()))
             continue;
         int cards[2] = {-1, -1};
         (*it)->getMyCards(cards);
@@ -1927,7 +2087,7 @@ void GameHandler::onShowdown()
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
         const bool isWinner = std::find(winners.begin(), winners.end(), (*it)->getMyUniqueID()) != winners.end();
         const bool hasActuallyWon = isWinner && (*it)->getLastMoneyWon() > 0;
-        if ((*it)->getMyAction() == PLAYER_ACTION_FOLD || !hasActuallyWon)
+        if (showdownFolded((*it)->getMyUniqueID(), (*it)->getMyAction() == PLAYER_ACTION_FOLD) || !hasActuallyWon)
             continue;
         // Bei All-In mit mehreren Gewinnern: bestes Blatt = Hauptpot, Rest Side-Pot.
         const bool isMainPot = isMainPotWinner(*it);
@@ -1947,16 +2107,19 @@ void GameHandler::onShowdown()
     // 4) "Show"-Button: Mensch-Spieler (Sitz 0) kann seine Karten freiwillig zeigen,
     //    wenn er nicht gefoldet hat und nicht zeigen MUSS (Logik 1:1 aus dem
     //    Qt-Widgets-Client, gameTableImpl::postRiverRunAnimation2).
+    // Zuschauer besitzen keinen Sitz und damit keine Karten zum Zeigen.
     bool newCanShow = false;
     auto seatsList = hand->getSeatsList();
-    if (seatsList && !seatsList->empty()) {
+    if (!m_spectating && seatsList && !seatsList->empty()) {
         auto humanPlayer = seatsList->front(); // seat 0
+        const unsigned humanUid = humanPlayer->getMyUniqueID();
         if (humanPlayer->getMyActiveStatus()
-            && humanPlayer->getMyAction() != PLAYER_ACTION_FOLD) {
+            && !showdownFolded(humanUid, humanPlayer->getMyAction() == PLAYER_ACTION_FOLD)) {
             if (nonFold == 1) {
                 // Gewonnen ohne Showdown – kann zeigen
                 newCanShow = true;
-            } else if (nonFold > 1 && !humanPlayer->checkIfINeedToShowCards()) {
+            } else if (nonFold > 1
+                       && !showdownNeedsToShow(humanUid, humanPlayer->checkIfINeedToShowCards())) {
                 // Mehrere aktive Spieler, Mensch muss aber nicht zeigen – kann freiwillig zeigen
                 newCanShow = true;
             }
@@ -2022,6 +2185,12 @@ void GameHandler::onPlayerShowCards(unsigned playerId)
     for (auto it = activeList->begin(); it != activeList->end(); ++it) {
         if ((*it)->getMyUniqueID() != playerId)
             continue;
+        // Gefoldete Spieler gehören nicht in den Showdown – auch dann nicht, wenn
+        // eine AfterHandShowCardsMessage für sie eintrudelt. Sonst erschiene ihr
+        // Blatt gewertet im Spielverlauf und könnte den echten Gewinner "schlagen".
+        // (Das Engine-SQL-Log filtert an derselben Stelle: Log::logHoleCardsHandName.)
+        if (showdownFolded(playerId, (*it)->getMyAction() == PLAYER_ACTION_FOLD))
+            return;
         int cards[2] = {-1, -1};
         (*it)->getMyCards(cards);
         if (cards[0] < 0 || cards[1] < 0)

@@ -8,12 +8,14 @@
 #include "lobbyhandler.h"
 #include "gamehandler.h"
 #include "androidconnectionservice.h"
+#include "iosbackgroundsession.h"
 #include "configfile.h"
 #include <session.h>
 #include <game.h>
 #include <gamedata.h>
 #include <game_defs.h>
 #include <cardsvalue.h>
+#include "net/socket_msg.h"
 #include <QString>
 #include <QChar>
 #include <QMetaObject>
@@ -63,6 +65,23 @@ void QmlGuiInterface::SignalNetClientConnect(int actionID)
     // Verlassen des Servers (LobbyHandler::leaveServer).
     if (actionID == 1) {
         AndroidConnectionService::start();
+        // iOS-Pendant: markiert die aktive Session, damit beim App-Wechsel eine
+        // Hintergrund-Gnadenfrist angefordert wird (s. iosbackgroundsession.h).
+        IosBackgroundSession::start();
+    }
+}
+
+void QmlGuiInterface::SignalNetClientGameInfo(int actionID)
+{
+    // MSG_NET_GAME_CLIENT_SYNCREJOIN: Wir sind einem laufenden Spiel wieder
+    // beigetreten; der Server setzt uns aber erst zu Beginn der nächsten Hand
+    // an den Tisch. Bis dahin bleibt der Warteraum stehen - ohne Hinweis wäre
+    // das nicht von einem normalen Warten auf Mitspieler zu unterscheiden.
+    // Pendant zum Widgets-Client (waitRejoinStartGameMsgBox).
+    if (m_lobbyHandler && actionID == MSG_NET_GAME_CLIENT_SYNCREJOIN) {
+        QMetaObject::invokeMethod(m_lobbyHandler, [this]() {
+            m_lobbyHandler->onRejoinSyncWait();
+        }, Qt::QueuedConnection);
     }
 }
 
@@ -81,6 +100,7 @@ void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
     }
     // Verbindung ist weg → der Foreground-Service hat nichts mehr zu schützen.
     AndroidConnectionService::stop();
+    IosBackgroundSession::stop();
 }
 
 void QmlGuiInterface::SignalNetClientLoginShow()
@@ -763,6 +783,19 @@ void QmlGuiInterface::postRiverRunAnimation1()
     if (!m_gameHandler) return;
     GameHandler *gh = m_gameHandler;
     boost::shared_ptr<Session> session = m_session;
+
+    // Fold-/Aufdeck-Zustand SOFORT einfrieren, solange die Engine-Daten der
+    // gerade beendeten Hand noch gültig sind. Wir laufen hier synchron auf dem
+    // Netz-Thread (clientstate.cpp ruft uns direkt aus dem
+    // EndOfHandShowCards-Handler – dort verlässt sich auch das SQL-Log auf die
+    // noch intakten FOLD-Flags). onShowdown() unten läuft dagegen QUEUED, und im
+    // Netzwerkspiel startet der SERVER die nächste Hand: deren initHand() setzt
+    // alle Aktionen auf NONE und würde den Fold-Zustand vorher wegräumen. Der
+    // Widgets-Client hat das Problem nicht, weil er den Netz-Thread hier per
+    // Semaphore blockiert (waitForGuiUpdateDone) – im QML-Client ist das ein
+    // No-op. Ohne diesen Snapshot erscheinen gefoldete Spieler mit gewertetem
+    // Blatt im Showdown/Spielverlauf.
+    QMetaObject::invokeMethod(gh, "captureShowdownSnapshot", Qt::DirectConnection);
 
     QMetaObject::invokeMethod(gh, "onShowdown", Qt::QueuedConnection);
 

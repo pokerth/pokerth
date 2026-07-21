@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Universal
 import QtQuick.Layouts
 import QtQuick.Effects
 
@@ -34,11 +35,22 @@ Rectangle {
     // Admin = Spiel-Admin oder vom Server gemeldeter Server-Admin → darf starten.
     readonly property bool isAdmin: Lobby && (Lobby.isCurrentPlayerAdmin || isGameAdmin)
     readonly property bool isRanking: (info.gameType || 1) === 4
+    // Läuft bereits eine Hand (Rejoin-Wartezustand), gibt es nichts zu starten.
     readonly property bool canStart: isAdmin && !isRanking && players.length >= 2
+                                     && !(Lobby && Lobby.rejoinWaiting)
     readonly property bool canKick: isGameAdmin && !isRanking
 
     // NTF_NET_REMOVED_ON_REQUEST (socket_msg.h) – selbst angefordertes Verlassen
     readonly property int removedOnRequest: 202
+
+    // Rückfrage, bevor der Spiel-Admin einen Spieler aus dem offenen Spiel wirft.
+    function confirmKick(playerId, playerName) {
+        kickPopup.targetPlayerId = playerId
+        kickPopup.openWith(
+            qsTr("Kick player"),
+            qsTr("Are you sure you want to kick \"%1\" from the game?").arg(playerName),
+            qsTr("Kick"))
+    }
 
     // Portrait-mode overlay state
     property bool showingPlayerList: false
@@ -406,10 +418,37 @@ Rectangle {
                 Layout.fillWidth: true
             }
 
-            AppLabel {
-                text: qsTr("Waiting for players …")
-                color: Config.StaticData.palette.secondary.col300
-                font.pixelSize: 12
+            // Als Zuschauer - und ebenso nach einem angenommenen Rejoin - läuft
+            // das Spiel bereits: der Server setzt uns erst zu Beginn der
+            // nächsten Hand an den Tisch (dann wird die GamePage aufgeschoben).
+            // Bis dahin warten wir hier.
+            //
+            // Die wandernden Punkte ersetzen die frühere Auslassung "…" am
+            // Textende – beides zusammen wäre doppelt gemoppelt.
+            Column {
+                Layout.fillWidth: true
+                spacing: 2
+
+                AppLabel {
+                    id: waitLabel
+                    text: (Lobby && Lobby.rejoinWaiting)
+                          ? qsTr("Waiting for the start of the next hand to rejoin the game")
+                          : (Lobby && Lobby.isSpectating)
+                            ? qsTr("Spectating — waiting for the next hand")
+                            : qsTr("Waiting for players")
+                    color: Config.StaticData.palette.secondary.col300
+                    font.pixelSize: 12
+                }
+
+                // Derselbe „Spinner" wie im Splash (PreLoader): die Universal-
+                // ProgressBar zeichnet im indeterminate-Modus wandernde Punkte.
+                // Nur so breit wie der Text darüber, in dessen Farbe – wirkt so
+                // wie eine lebendige Unterstreichung.
+                ProgressBar {
+                    indeterminate: true
+                    width: waitLabel.implicitWidth
+                    Universal.accent: Config.StaticData.palette.secondary.col300
+                }
             }
 
             // Compact: game list toggle button (top-right)
@@ -736,9 +775,9 @@ Rectangle {
                                         baseColor: Config.StaticData.chartColor(5, true)
                                         tooltipText: qsTr("Kick player")
                                         Layout.alignment: Qt.AlignVCenter
-                                        onTriggered: {
-                                            if (Lobby) Lobby.kickPlayer(modelData.playerId)
-                                        }
+                                        onTriggered: gameWaitPage.confirmKick(
+                                            modelData.playerId,
+                                            modelData.playerName || "")
                                     }
                                 }
                             }
@@ -774,6 +813,7 @@ Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             chatModel: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatLog : []
+                            chatTranslator: (typeof Lobby !== "undefined" && Lobby) ? Lobby.chatTranslator : null
                             // Dieser Chat ist der Lobby-Chat → gegen die volle
                             // (ungefilterte) Lobby-Spielerliste vervollständigen,
                             // nicht nur gegen die am Tisch sitzenden Spieler.
@@ -823,6 +863,11 @@ Rectangle {
                     spacing: 8
 
                     CustomButton {
+                        // Während der Rejoin-Synchronisation wartet der Server
+                        // auf uns; ein Verlassen in diesem Fenster würde die
+                        // laufende Hand blockieren (Widgets-Client sperrt den
+                        // Leave-Button an derselben Stelle).
+                        enabled: !(Lobby && Lobby.rejoinWaiting)
                         text: qsTr("Leave Game")
                         Layout.fillWidth: true
                         onClicked: {
@@ -899,5 +944,11 @@ Rectangle {
                 }
             }
         }
+    }
+
+    ConfirmPopup {
+        id: kickPopup
+        property int targetPlayerId: 0
+        onConfirmed: { if (Lobby) Lobby.kickPlayer(targetPlayerId) }
     }
 }

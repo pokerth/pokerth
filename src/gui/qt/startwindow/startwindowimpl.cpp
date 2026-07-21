@@ -910,6 +910,16 @@ void startWindowImpl::callSettingsDialog(bool ingame)
 		myGuiInterface->getMyW()->refreshGameTableStyle();
 		// Update lobby dialog dark mode styling if visible
 		myGameLobbyDialog->updateGameListStyleSheet();
+
+		// Echtzeit: Chat-Übersetzung auf allen Chats anwenden (Globus/
+		// Übersetzungen ein-/ausblenden), sobald "AllowChatTranslation"
+		// geändert wurde – ohne Neustart.
+		if(myGameLobbyDialog->getMyChat())
+			myGameLobbyDialog->getMyChat()->refreshTranslationEnabled();
+		if(myStartNetworkGameDialog->getMyChat())
+			myStartNetworkGameDialog->getMyChat()->refreshTranslationEnabled();
+		if(myGuiInterface->getMyW() && myGuiInterface->getMyW()->getMyChat())
+			myGuiInterface->getMyW()->getMyChat()->refreshTranslationEnabled();
 	}
 }
 

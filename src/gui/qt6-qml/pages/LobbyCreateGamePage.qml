@@ -15,7 +15,16 @@ Rectangle {
     // Ranking-Konstanten (vom Server vorgegeben)
     readonly property bool isRanking: gameTypeCombo.currentIndex === 3
     readonly property bool isInviteOnly: gameTypeCombo.currentIndex === 2
+    // Gäste dürfen serverseitig nur Standardspiele mit ihrem eigenen Spielnamen
+    // eröffnen (PLAYER_RIGHTS_GUEST, NTF_NET_JOIN_GUEST_FORBIDDEN).
+    readonly property bool isGuest: Lobby ? Lobby.isMyPlayerGuest : false
+    // Rangliste: der Server verbietet ein Passwort; Einladungsspiele regeln den
+    // Zugang über die Einladung.
+    readonly property bool passwordAllowed: !isRanking && !isInviteOnly
     property string nameError: ""
+    // Erst nach dem Befüllen des Formulars reagieren die Eingabefelder
+    // aufeinander (ComboBox-Signale feuern schon beim Seitenaufbau).
+    property bool formReady: false
 
     // ── Community-Vorlagen (BBC / Monthly Cup / WEC) ─────────────────────────
     // Offizielle Turnier-Settings der PokerTH-Community. Nur für Custom-Spiele
@@ -64,20 +73,23 @@ Rectangle {
     // Sperrt die vom Server (Ranking) bzw. von der Vorlage vorgegebenen Felder.
     readonly property bool fieldsLocked: isRanking || presetActive
 
+    // In den Netzwerkspiel-Optionen hinterlegte manuelle Blindreihenfolge.
+    property bool savedManualBlindsOrder: false
+    property var savedManualBlinds: []
+
+    // Blindliste des Spiels: eine Community-Vorlage sticht die gespeicherte
+    // Reihenfolge. Eine leere Liste bedeutet "Blinds verdoppeln".
+    readonly property var effectiveBlinds: presetActive
+        ? activePreset.blinds
+        : (savedManualBlindsOrder ? savedManualBlinds : [])
+
     // Überträgt die gewählte Vorlage in die Formularfelder bzw. stellt bei
-    // "Eigene Einstellungen" die Standardwerte wieder her.
+    // "Eigene Einstellungen" die Werte aus den Optionen wieder her.
     function applyPreset() {
         var p = activePreset
         if (!p) {
-            maxPlayersSpinBox.value = 10
-            startCashSpinBox.value = 3000
-            firstBlindSpinBox.value = 10
-            raiseByMinutesRadio.checked = false
-            raiseByHandsRadio.checked = true
-            raiseEveryHandsSpinBox.value = 8
-            raiseEveryMinutesSpinBox.value = 5
-            playerActionTimeoutSpinBox.value = 20
-            delayBetweenHandsSpinBox.value = 7
+            applyGameType()
+            loadTimingSettings()
             return
         }
         gameNameField.text = p.name
@@ -90,6 +102,82 @@ Rectangle {
         raiseEveryMinutesSpinBox.value = p.raiseEveryMinutes
         playerActionTimeoutSpinBox.value = p.playerActionTimeout
         delayBetweenHandsSpinBox.value = 7   // alle Vorlagen: DelayBetweenHands=7
+    }
+
+    // Zeitlimits aus den Netzwerkspiel-Optionen. Sie hängen – wie im Widget-
+    // Client – nicht vom Spieltyp ab und werden nur einmal übernommen.
+    function loadTimingSettings() {
+        if (!SettingsManager)
+            return
+        playerActionTimeoutSpinBox.value = SettingsManager.readConfigInt("NetTimeOutPlayerAction")
+        delayBetweenHandsSpinBox.value   = SettingsManager.readConfigInt("NetDelayBetweenHands")
+    }
+
+    // Tisch- und Blind-Einstellungen aus den Netzwerk-/Internetspiel-Optionen.
+    function loadGameSettings() {
+        if (!SettingsManager)
+            return
+        maxPlayersSpinBox.value        = SettingsManager.readConfigInt("NetNumberOfPlayers")
+        startCashSpinBox.value         = SettingsManager.readConfigInt("NetStartCash")
+        spectatorsToggle.checked       = SettingsManager.readConfigInt("InternetGameAllowSpectators") !== 0
+        firstBlindSpinBox.value        = SettingsManager.readConfigInt("NetFirstSmallBlind")
+        var raiseAtHands = SettingsManager.readConfigInt("NetRaiseBlindsAtHands") !== 0
+        raiseByHandsRadio.checked      = raiseAtHands
+        raiseByMinutesRadio.checked    = !raiseAtHands
+        raiseEveryHandsSpinBox.value   = SettingsManager.readConfigInt("NetRaiseSmallBlindEveryHands")
+        raiseEveryMinutesSpinBox.value = SettingsManager.readConfigInt("NetRaiseSmallBlindEveryMinutes")
+        savedManualBlindsOrder         = SettingsManager.readConfigInt("NetManualBlindsOrder") !== 0
+        // readConfigIntList() liefert eine QList<int>-Sequenz; als echtes
+        // JS-Array ist sie stabil und lässt sich per join()/length auswerten.
+        var saved = SettingsManager.readConfigIntList("NetManualBlindsList")
+        var blinds = []
+        for (var i = 0; i < saved.length; ++i)
+            blinds.push(saved[i])
+        savedManualBlinds = blinds
+    }
+
+    // Pendant zu createInternetGameDialogImpl::gameTypeChanged(): Ranglisten-
+    // spiele sind vom Server vorgegeben, alle anderen Spieltypen starten mit
+    // den gespeicherten Einstellungen.
+    function applyGameType() {
+        if (!passwordAllowed)
+            passwordToggle.checked = false
+        if (isRanking) {
+            maxPlayersSpinBox.value      = 10     // RANKING_GAME_NUMBER_OF_PLAYERS
+            startCashSpinBox.value       = 10000  // RANKING_GAME_START_CASH
+            firstBlindSpinBox.value      = 50     // RANKING_GAME_START_SBLIND
+            raiseByHandsRadio.checked    = true
+            raiseByMinutesRadio.checked  = false
+            raiseEveryHandsSpinBox.value = 11     // RANKING_GAME_RAISE_EVERY_HAND
+            spectatorsToggle.checked     = true
+            return
+        }
+        loadGameSettings()
+    }
+
+    // Pendant zu createInternetGameDialogImpl::fillFormular().
+    Component.onCompleted: {
+        if (isGuest) {
+            // Gäste eröffnen immer ein Standardspiel unter ihrem Spielernamen.
+            gameTypeCombo.currentIndex = 0
+            gameNameField.text = qsTr("%1's game").arg(Lobby ? Lobby.myPlayerName : "")
+        } else if (SettingsManager) {
+            var type = SettingsManager.readConfigInt("InternetGameType")
+            gameTypeCombo.currentIndex = (type >= 0 && type <= 3) ? type : 0
+            var name = SettingsManager.readConfigString("InternetGameName")
+            if (name.trim().length > 0)
+                gameNameField.text = name
+        }
+        // Auch nötig, wenn der gespeicherte Spieltyp dem Vorgabeindex 0
+        // entspricht und onCurrentIndexChanged deshalb nicht auslöst.
+        applyGameType()
+        loadTimingSettings()
+        if (SettingsManager && passwordAllowed
+                && SettingsManager.readConfigInt("UseInternetGamePassword")) {
+            passwordToggle.checked = true
+            passwordField.text = SettingsManager.readConfigString("InternetGamePassword")
+        }
+        formReady = true
     }
 
     // ── Hilfsfunktion: gestylter ComboBox-Popup ──────────────────────────────
@@ -273,7 +361,7 @@ Rectangle {
                     StyledField {
                         id: gameNameField
                         Layout.fillWidth: true
-                        text: qsTr("My Online Game")
+                        enabled: !lobbyCreateGamePage.isGuest
                         maximumLength: 48
                         placeholderText: qsTr("Spielname eingeben …")
                         background: Rectangle {
@@ -314,6 +402,7 @@ Rectangle {
                     StyledCombo {
                         id: gameTypeCombo
                         Layout.fillWidth: true
+                        enabled: !lobbyCreateGamePage.isGuest
                         iconSources: [
                             "../resources/user.svg",
                             "../resources/userSquare.svg",
@@ -326,25 +415,20 @@ Rectangle {
                             qsTr("Nur eingeladene Spieler"),
                             qsTr("Ranglistenspiel")
                         ]
-                        // Merkt sich den letzten Ranking-Status, damit die
-                        // Zeitwerte nur beim Wechsel von/zu "Ranglistenspiel"
-                        // zurückgesetzt werden.
-                        property bool wasRanking: false
                         onCurrentIndexChanged: {
+                            // Beim Aufbau der Seite füllt Component.onCompleted
+                            // das Formular; erst danach ist ein Wechsel echt.
+                            if (!lobbyCreateGamePage.formReady)
+                                return
                             // Vorlagen gelten nur für "Nur eingeladene Spieler":
                             // beim Wechsel des Spieltyps Vorlage zurücksetzen.
-                            if (currentIndex !== 2 && presetCombo.currentIndex !== 0) {
+                            var hadPreset = presetCombo.currentIndex > 0
+                            if (currentIndex !== 2)
                                 presetCombo.currentIndex = 0
-                                lobbyCreateGamePage.applyPreset()
-                            }
-                            // Ranglistenspiele: kurze Zeiten (5 s / 5 s)
-                            // voreinstellen, sonst Standardwerte.
-                            var ranking = currentIndex === 3
-                            if (ranking !== wasRanking) {
-                                wasRanking = ranking
-                                playerActionTimeoutSpinBox.value = ranking ? 5 : 20
-                                delayBetweenHandsSpinBox.value = ranking ? 5 : 7
-                            }
+                            lobbyCreateGamePage.applyGameType()
+                            // Die Vorlage hatte auch die Zeitlimits gesetzt.
+                            if (hadPreset)
+                                lobbyCreateGamePage.loadTimingSettings()
                         }
                     }
                 }
@@ -383,9 +467,9 @@ Rectangle {
                     spacing: 8
                     AppLabel {
                         text: qsTr("Passwort")
-                        color: lobbyCreateGamePage.isRanking
-                            ? Config.StaticData.palette.secondary.col400
-                            : Config.StaticData.palette.secondary.col200
+                        color: lobbyCreateGamePage.passwordAllowed
+                            ? Config.StaticData.palette.secondary.col200
+                            : Config.StaticData.palette.secondary.col400
                         font.pixelSize: 12
                         Layout.preferredWidth: 150
                         verticalAlignment: Text.AlignVCenter
@@ -394,13 +478,13 @@ Rectangle {
                     Switch {
                         id: passwordToggle
                         checked: false
-                        enabled: !lobbyCreateGamePage.isRanking
+                        enabled: lobbyCreateGamePage.passwordAllowed
                     }
                 }
                 StyledField {
                     id: passwordField
                     Layout.fillWidth: true
-                    visible: passwordToggle.checked && !lobbyCreateGamePage.isRanking
+                    visible: passwordToggle.checked && lobbyCreateGamePage.passwordAllowed
                     echoMode: TextInput.Password
                     placeholderText: qsTr("Passwort eingeben …")
                     maximumLength: 48
@@ -445,7 +529,7 @@ Rectangle {
                         id: maxPlayersSpinBox
                         from: 2
                         to: 10
-                        value: lobbyCreateGamePage.isRanking ? 10 : 10
+                        value: 10
                         enabled: !lobbyCreateGamePage.fieldsLocked
                     }
                 }
@@ -469,7 +553,7 @@ Rectangle {
                         from: 1000
                         to: 1000000
                         stepSize: 50
-                        value: lobbyCreateGamePage.isRanking ? 10000 : 3000
+                        value: 3000
                         enabled: !lobbyCreateGamePage.fieldsLocked
                         textFromValue: function(val) { return "$\u2009" + val }
                         valueFromText: function(text) { return parseInt(text.replace(/[^0-9]/g, "")) || 0 }
@@ -510,7 +594,7 @@ Rectangle {
                         id: firstBlindSpinBox
                         from: 5
                         to: 20000
-                        value: lobbyCreateGamePage.isRanking ? 50 : 10
+                        value: 10
                         enabled: !lobbyCreateGamePage.fieldsLocked
                         textFromValue: function(val) { return "$\u2009" + val }
                         valueFromText: function(text) { return parseInt(text.replace(/[^0-9]/g, "")) || 0 }
@@ -551,7 +635,7 @@ Rectangle {
                             id: raiseEveryHandsSpinBox
                             from: 1
                             to: 999
-                            value: lobbyCreateGamePage.isRanking ? 11 : 8
+                            value: 8
                             enabled: !lobbyCreateGamePage.fieldsLocked && raiseByHandsRadio.checked
                             implicitWidth: 110
                         }
@@ -594,13 +678,14 @@ Rectangle {
                         }
                     }
 
-                    // Feste Blindliste der gewählten Community-Vorlage (BBC)
+                    // Feste Blindliste: aus der Community-Vorlage (BBC) oder aus
+                    // der in den Optionen gespeicherten Blindreihenfolge.
                     AppLabel {
-                        visible: lobbyCreateGamePage.presetActive
-                                 && lobbyCreateGamePage.activePreset.blinds.length > 0
+                        visible: !lobbyCreateGamePage.isRanking
+                                 && lobbyCreateGamePage.effectiveBlinds.length > 0
                         Layout.fillWidth: true
                         text: visible
-                            ? qsTr("Blindliste: %1").arg(lobbyCreateGamePage.activePreset.blinds.join(" · "))
+                            ? qsTr("Blindliste: %1").arg(lobbyCreateGamePage.effectiveBlinds.join(" · "))
                             : ""
                         color: Config.StaticData.palette.secondary.col300
                         font.pixelSize: 11
@@ -712,13 +797,13 @@ Rectangle {
                             var riMode  = isRanking ? 1 : (raiseByHandsRadio.checked ? 1 : 2)
                             var rHands  = isRanking ? 11   : raiseEveryHandsSpinBox.value
                             var rMins   = raiseEveryMinutesSpinBox.value
-                            // Community-Vorlage mit fester Blindliste (BBC Steps)
-                            // → manuelle Blindreihenfolge, sonst immer verdoppeln.
-                            var preset  = lobbyCreateGamePage.activePreset
-                            var blinds  = (preset && preset.blinds.length > 0) ? preset.blinds : []
+                            // Feste Blindliste (Community-Vorlage oder gespeicherte
+                            // Reihenfolge) → manuelle Blindreihenfolge, sonst
+                            // immer verdoppeln. Ranglistenspiele verdoppeln stets.
+                            var blinds  = isRanking ? [] : lobbyCreateGamePage.effectiveBlinds
                             var rMode   = blinds.length > 0 ? 2 : 1  // MANUAL_BLINDS_ORDER : DOUBLE_BLINDS
                             var specs   = isRanking ? true : spectatorsToggle.checked
-                            var pw      = (passwordToggle.checked && !isRanking) ? passwordField.text : ""
+                            var pw      = (passwordToggle.checked && passwordAllowed) ? passwordField.text : ""
 
                             Lobby.createGame(
                                 gameNameField.text.trim(),
