@@ -1308,7 +1308,13 @@ void GameHandler::checkBustedLocalPlayers()
         // Bereits verlassen → kein Timer nötig.
         if (m_leftPlayers.contains(uid)) continue;
 
-        if ((*it)->getMyCash() == 0) {
+        // Nur wirklich ausgeschiedene Spieler ausblenden: cash==0 UND nicht mehr
+        // aktiv im Turnier. Ein All-In-Spieler hat mitten in der Hand ebenfalls
+        // cash==0 (sein ganzer Stack liegt als Einsatz im Pot), behält aber
+        // active==true und spielt noch um den Pot mit – der wird sonst nach 10 s
+        // fälschlich vom Tisch entfernt, obwohl das Spiel noch läuft. Erst zum
+        // nächsten Handstart setzt die Engine (game.cpp) cash==0-Spieler inaktiv.
+        if ((*it)->getMyCash() == 0 && !(*it)->getMyActiveStatus()) {
             // Noch kein Timer für diesen Spieler: 10-Sekunden-Verzögerung starten.
             if (!m_bustedLocalTimers.contains(uid)) {
                 QTimer *t = new QTimer(this);
