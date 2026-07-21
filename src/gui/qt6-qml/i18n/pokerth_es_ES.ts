@@ -231,7 +231,7 @@
         <translation>Mensaje …</translation>
     </message>
     <message>
-        <location line="+640"/>
+        <location line="+664"/>
         <source>Link öffnen</source>
         <translation>Abrir enlace</translation>
     </message>
@@ -585,7 +585,7 @@
         <translation>Probabilidades</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+235"/>
         <source>Kopieren</source>
         <translation>Copiar</translation>
     </message>
@@ -3010,6 +3010,29 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
     </message>
 </context>
 <context>
+    <name>PlayerSeasonCard</name>
+    <message>
+        <location filename="../components/PlayerSeasonCard.qml" line="+156"/>
+        <source>Score</source>
+        <translation>Puntuación</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Avg</source>
+        <translation>Prom.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Games</source>
+        <translation>Partidas</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Points</source>
+        <translation>Puntos</translation>
+    </message>
+</context>
+<context>
     <name>PlayerWinnerOverlay</name>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
@@ -3020,7 +3043,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+72"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+78"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>No se pudo cargar el jugador (HTTP %1).</translation>
     </message>
@@ -3030,7 +3053,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Jugador no encontrado.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+11"/>
         <source>Could not parse server response.</source>
         <translation>No se pudo interpretar la respuesta del servidor.</translation>
     </message>
@@ -3075,7 +3098,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Puntos</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+17"/>
         <source>Last 5:</source>
         <translation>Últimas 5:</translation>
     </message>
@@ -3090,7 +3113,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>#%1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+31"/>
         <source>Seasons</source>
         <translation>Temporadas</translation>
     </message>
@@ -3292,12 +3315,12 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>SeasonStatsSection</name>
     <message>
-        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
         <translation>Estadísticas de temporada</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Games</source>
         <translation>Partidas</translation>
     </message>

@@ -231,7 +231,7 @@
         <translation>Message …</translation>
     </message>
     <message>
-        <location line="+640"/>
+        <location line="+664"/>
         <source>Link öffnen</source>
         <translation>Ouvrir le lien</translation>
     </message>
@@ -585,7 +585,7 @@
         <translation>Chances</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+235"/>
         <source>Kopieren</source>
         <translation>Copier</translation>
     </message>
@@ -3010,6 +3010,29 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
     </message>
 </context>
 <context>
+    <name>PlayerSeasonCard</name>
+    <message>
+        <location filename="../components/PlayerSeasonCard.qml" line="+156"/>
+        <source>Score</source>
+        <translation>Score</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Avg</source>
+        <translation>Moy</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Games</source>
+        <translation>Parties</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Points</source>
+        <translation>Points</translation>
+    </message>
+</context>
+<context>
     <name>PlayerWinnerOverlay</name>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
@@ -3020,7 +3043,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+72"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+78"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Impossible de charger le joueur (HTTP %1).</translation>
     </message>
@@ -3030,7 +3053,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Joueur introuvable.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+11"/>
         <source>Could not parse server response.</source>
         <translation>Impossible d&apos;analyser la réponse du serveur.</translation>
     </message>
@@ -3075,7 +3098,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Points</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+17"/>
         <source>Last 5:</source>
         <translation>5 dernières :</translation>
     </message>
@@ -3090,7 +3113,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>#%1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+31"/>
         <source>Seasons</source>
         <translation>Saisons</translation>
     </message>
@@ -3292,12 +3315,12 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>SeasonStatsSection</name>
     <message>
-        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
         <translation>Statistiques de la saison</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Games</source>
         <translation>Parties</translation>
     </message>

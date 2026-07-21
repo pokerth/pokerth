@@ -231,7 +231,7 @@
         <translation>Nachricht …</translation>
     </message>
     <message>
-        <location line="+640"/>
+        <location line="+664"/>
         <source>Link öffnen</source>
         <translation>Link öffnen</translation>
     </message>
@@ -585,7 +585,7 @@
         <translation>Chancen</translation>
     </message>
     <message>
-        <location line="+220"/>
+        <location line="+235"/>
         <source>Kopieren</source>
         <translation>Kopieren</translation>
     </message>
@@ -3010,6 +3010,29 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
     </message>
 </context>
 <context>
+    <name>PlayerSeasonCard</name>
+    <message>
+        <location filename="../components/PlayerSeasonCard.qml" line="+156"/>
+        <source>Score</source>
+        <translation>Score</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Avg</source>
+        <translation>Ø</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Games</source>
+        <translation>Spiele</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Points</source>
+        <translation>Punkte</translation>
+    </message>
+</context>
+<context>
     <name>PlayerWinnerOverlay</name>
     <message>
         <location filename="../components/PlayerWinnerOverlay.qml" line="+56"/>
@@ -3020,7 +3043,7 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
 <context>
     <name>PokerthPlayerPage</name>
     <message>
-        <location filename="../pages/PokerthPlayerPage.qml" line="+72"/>
+        <location filename="../pages/PokerthPlayerPage.qml" line="+78"/>
         <source>Could not load player (HTTP %1).</source>
         <translation>Spieler konnte nicht geladen werden (HTTP %1).</translation>
     </message>
@@ -3030,7 +3053,7 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
         <translation>Spieler nicht gefunden.</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+11"/>
         <source>Could not parse server response.</source>
         <translation>Serverantwort konnte nicht verarbeitet werden.</translation>
     </message>
@@ -3075,7 +3098,7 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
         <translation>Punkte</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+17"/>
         <source>Last 5:</source>
         <translation>Letzte 5:</translation>
     </message>
@@ -3090,7 +3113,7 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
         <translation>#%1</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+31"/>
         <source>Seasons</source>
         <translation>Saisons</translation>
     </message>
@@ -3292,12 +3315,12 @@ Das Hochladen von Logdateien kann fehlschlagen, wenn Sie einen HTTP-Proxy verwen
 <context>
     <name>SeasonStatsSection</name>
     <message>
-        <location filename="../components/SeasonStatsSection.qml" line="+35"/>
+        <location filename="../components/SeasonStatsSection.qml" line="+47"/>
         <source>Season Stats</source>
         <translation>Saison-Statistik</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+60"/>
         <source>Games</source>
         <translation>Spiele</translation>
     </message>

@@ -134,6 +134,7 @@ set(QML_FILES
     components/PlayerActionIcon.qml
     components/PlayerBoxBackground.qml
     components/PlayerListItem.qml
+    components/PlayerSeasonCard.qml
     components/PlayerTimeoutBar.qml
     components/PlayerTurnGlow.qml
     components/PlayerWinnerOverlay.qml
@@ -147,6 +148,7 @@ set(QML_FILES
     components/SettingsHeader.qml
     components/SideMenu.qml
     components/SoundSettings.qml
+    components/StatTile.qml
     components/StyleCard.qml
     components/StyleSettings.qml
     components/SvgIconImage.qml
