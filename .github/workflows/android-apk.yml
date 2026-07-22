@@ -1,0 +1,169 @@
+name: Build Android APKs (per-variant)
+
+# Companion to android.yml (which builds the multi-ABI Play Store .aab): this
+# workflow builds the individual, directly installable single-ABI .apk variants
+# — the same ones the local docker/android/build_android_*_docker.sh wrappers
+# produce, but on GitHub runners without Docker. Each variant runs as its own
+# matrix job and uploads one .apk artifact.
+#
+# Variants:
+#   widget-arm64            classic Widgets client, arm64, Qt 6.9, api 35/min 28
+#   qml-arm64               QML client,             arm64, Qt 6.9, api 35/min 28
+#   qml-x86_64              QML client,           x86_64, Qt 6.9, api 35/min 28
+#   qml-arm64-qt67-api26    QML client on Qt 6.7,   arm64, api 34/min 26
+#                           (Android 8.0 devices, e.g. HUAWEI RNE-L21)
+#
+# A cold build cross-compiles boost/openssl/protobuf for the ABI via vcpkg and
+# pulls one Qt kit — hours; cached it is roughly 20-40 minutes per variant.
+#
+# Secrets (all optional — without them the APK is built unsigned):
+#   ANDROID_KEYSTORE_BASE64    keystore, base64 encoded:  base64 -w0 my.keystore
+#   ANDROID_KEYSTORE_PASSWORD  keystore password
+#   ANDROID_KEY_ALIAS          key alias inside the keystore
+#   ANDROID_KEY_PASSWORD       key password (defaults to the keystore password)
+on:
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: "Which variant to build"
+        type: choice
+        default: "all"
+        options:
+          - all
+          - widget-arm64
+          - qml-arm64
+          - qml-x86_64
+          - qml-arm64-qt67-api26
+      version_code:
+        description: "versionCode (default: run number)"
+        type: string
+        default: ""
+
+jobs:
+  # Turn the chosen variant (or "all") into the matrix the build job fans out on.
+  set-matrix:
+    runs-on: ubuntu-24.04
+    outputs:
+      include: ${{ steps.pick.outputs.include }}
+    steps:
+      - id: pick
+        run: |
+          ALL='[
+            {"name":"widget-arm64",         "target":"pokerth_client",     "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28"},
+            {"name":"qml-arm64",            "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28"},
+            {"name":"qml-x86_64",           "target":"pokerth_qml-client", "abi":"x86_64",    "qt":"6.9.3", "api":"35", "min":"28"},
+            {"name":"qml-arm64-qt67-api26", "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.7.3", "api":"34", "min":"26"}
+          ]'
+          if [ "${{ inputs.variant }}" = "all" ]; then
+            INCLUDE=$(echo "$ALL" | jq -c .)
+          else
+            INCLUDE=$(echo "$ALL" | jq -c --arg n "${{ inputs.variant }}" '[.[] | select(.name == $n)]')
+          fi
+          echo "include=$INCLUDE" >> "$GITHUB_OUTPUT"
+
+  build-apk:
+    needs: set-matrix
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.set-matrix.outputs.include) }}
+
+    env:
+      BUILD_TARGET: ${{ matrix.target }}
+      PACKAGE_FORMAT: apk
+      QT_VERSION: ${{ matrix.qt }}
+      ANDROID_ABIS: ${{ matrix.abi }}
+      ANDROID_API_LEVEL: ${{ matrix.api }}
+      ANDROID_MIN_SDK: ${{ matrix.min }}
+      VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      # The secrets context is not available in step `if:`, so fan it out here.
+      HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && 'true' || 'false' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # AGP needs JDK 17 (Qt 6.9 → AGP 8.8, Qt 6.7 kit raised to AGP 8.2).
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup \
+                      /usr/local/lib/android/sdk/ndk \
+                      /opt/hostedtoolcache/CodeQL /usr/local/share/boost
+          df -h /
+
+      # Each variant needs only its single ABI's Qt kit and vcpkg tree, so the
+      # caches are keyed per Qt version + ABI. Restore/save (not actions/cache)
+      # so a failed run still hands its finished tree to the next; both installs
+      # are idempotent, so a partial tree is always safe to build on.
+      - name: Restore Qt
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/Qt
+          key: android-apk-qt-${{ matrix.qt }}-${{ matrix.abi }}-${{ github.run_id }}
+          restore-keys: |
+            android-apk-qt-${{ matrix.qt }}-${{ matrix.abi }}-
+
+      - name: Restore vcpkg
+        uses: actions/cache/restore@v4
+        with:
+          path: ~/vcpkg
+          key: android-apk-vcpkg-${{ matrix.abi }}-${{ github.run_id }}
+          restore-keys: |
+            android-apk-vcpkg-${{ matrix.abi }}-
+
+      - name: Restore signing keystore
+        if: env.HAS_KEYSTORE == 'true'
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/signing.keystore"
+          echo "ANDROID_KEYSTORE=$RUNNER_TEMP/signing.keystore" >> "$GITHUB_ENV"
+
+      - name: Build ${{ matrix.name }} APK
+        id: build
+        env:
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+          ANDROID_KEYSTORE_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          bash build_android_qml.sh
+          echo "apk_name=$(basename "$(ls PokerTH-*.apk)")" >> "$GITHUB_OUTPUT"
+
+      # if: always() — keep the finished Qt/vcpkg tree even if a later step fails.
+      - name: Save vcpkg
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/vcpkg
+          key: android-apk-vcpkg-${{ matrix.abi }}-${{ github.run_id }}
+
+      - name: Save Qt
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ~/Qt
+          key: android-apk-qt-${{ matrix.qt }}-${{ matrix.abi }}-${{ github.run_id }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PokerTH-apk-${{ matrix.name }}-${{ github.sha }}
+          path: PokerTH-*.apk
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload Gradle reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-reports-${{ matrix.name }}
+          path: build-android-bundle/build/reports/
+          if-no-files-found: ignore
+          retention-days: 7

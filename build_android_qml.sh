@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
 ###
-# Build script for the PokerTH QML client for Android. Builds every requested ABI
-# and packs them into ONE multi-ABI Android App Bundle (.aab) ready for upload to
-# the Google Play Store, plus an optional universal .apk for side-load testing
-# (an .aab cannot be installed on a device directly).
+# Build script for the PokerTH Android client (QML by default, or the classic
+# Widgets client via BUILD_TARGET). Two output formats:
+#   PACKAGE_FORMAT=aab (default) — builds every requested ABI and packs them into
+#     ONE multi-ABI Android App Bundle (.aab) for the Google Play Store, plus an
+#     optional universal .apk for side-load testing (an .aab cannot be installed
+#     on a device directly).
+#   PACKAGE_FORMAT=apk — builds ONE single-ABI, directly installable .apk
+#     (ANDROID_ABIS must name exactly one ABI). Used by the per-variant matrix in
+#     .github/workflows/android-apk.yml.
 #
 # Runs on x86_64 Linux with sudo available; the same script is used by
 # .github/workflows/android.yml. Every install step is idempotent, so a cached
@@ -13,6 +18,8 @@
 #   bash build_android_qml.sh
 #
 # Environment overrides:
+#   BUILD_TARGET      pokerth_qml-client | pokerth_client (default qml client)
+#   PACKAGE_FORMAT    aab | apk                           (default aab)
 #   QT_VERSION        Qt version                          (default 6.9.3)
 #   QT_OUTPUT_DIR     Qt install prefix                   (default $HOME/Qt)
 #   VCPKG_DIR         vcpkg checkout                      (default $HOME/vcpkg)
@@ -34,9 +41,32 @@
 
 set -euo pipefail
 
-BUILD_TARGET="pokerth_qml-client"
-PACKAGE_NAME="${ANDROID_PACKAGE_NAME:-org.pokerth.qml}"
-SCREEN_ORIENTATION="fullUser"
+# Which client to package. The QML client lives in src/gui/qt6-qml, the classic
+# Widgets client in src/gui/qt; each has its own package name, launcher
+# orientation, short label and androiddeployqt package source directory.
+BUILD_TARGET="${BUILD_TARGET:-pokerth_qml-client}"
+case "$BUILD_TARGET" in
+  pokerth_qml-client)
+    PACKAGE_NAME="${ANDROID_PACKAGE_NAME:-org.pokerth.qml}"
+    SCREEN_ORIENTATION="fullUser"
+    GUI_SUBDIR="src/gui/qt6-qml"
+    APP_LABEL="qml"
+    ;;
+  pokerth_client)
+    PACKAGE_NAME="${ANDROID_PACKAGE_NAME:-org.pokerth.widget}"
+    SCREEN_ORIENTATION="landscape"
+    GUI_SUBDIR="src/gui/qt"
+    APP_LABEL="widget"
+    ;;
+  *)
+    echo "ERROR: unsupported BUILD_TARGET '$BUILD_TARGET' (use pokerth_qml-client or pokerth_client)" >&2
+    exit 1
+    ;;
+esac
+
+# aab = one multi-ABI Android App Bundle (Play Store); apk = one single-ABI APK
+# (side-load / per-device testing). apk mode requires exactly one ABI.
+PACKAGE_FORMAT="${PACKAGE_FORMAT:-aab}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -74,10 +104,15 @@ ANDROID_KEY_PASS="${ANDROID_KEY_PASS:-$ANDROID_KEYSTORE_PASS}"
 read -r -a ABI_LIST <<< "$ANDROID_ABIS"
 PRIMARY_ABI="${ABI_LIST[0]}"
 
+if [ "$PACKAGE_FORMAT" = "apk" ] && [ "${#ABI_LIST[@]}" -ne 1 ]; then
+  echo "ERROR: PACKAGE_FORMAT=apk builds a single-ABI APK — set ANDROID_ABIS to exactly one ABI (got: $ANDROID_ABIS)" >&2
+  exit 1
+fi
+
 # The Gradle project that ends up as the bundle: every ABI deploys into this one
 # directory, each into its own libs/<abi>/.
 ANDROID_BUILD_DIR="$SCRIPT_DIR/build-android-bundle"
-ANDROID_SOURCE_DIR="$SCRIPT_DIR/src/gui/qt6-qml/android"
+ANDROID_SOURCE_DIR="$SCRIPT_DIR/$GUI_SUBDIR/android"
 
 log() {
   echo ""
@@ -109,7 +144,12 @@ vcpkg_triplet_for_abi() {
   esac
 }
 
-echo "=== PokerTH Android App Bundle build ==="
+if [ "$PACKAGE_FORMAT" = "apk" ]; then
+  echo "=== PokerTH Android APK build ($APP_LABEL, $PRIMARY_ABI) ==="
+else
+  echo "=== PokerTH Android App Bundle build ($APP_LABEL) ==="
+fi
+echo "Target:      $BUILD_TARGET  ($PACKAGE_NAME)"
 echo "ABIs:        ${ABI_LIST[*]}"
 echo "Version:     $VERSION_NAME ($VERSION_CODE)"
 echo "SDK:         compile/target $ANDROID_API_LEVEL, min $ANDROID_MIN_SDK"
@@ -219,6 +259,20 @@ for ABI in "${ABI_LIST[@]}"; do
       --outputdir "$QT_OUTPUT_DIR" \
       --modules "${QT_MODULES[@]}"
   fi
+
+  # Qt < 6.8's Gradle template hardcodes AGP 7.4.1, whose aapt2 cannot read
+  # android-34+ and which conflicts with androidx.core:1.13.1 (needs
+  # compileSdk >= 34). Raise it to AGP 8.2.2 — the newest AGP still compatible
+  # with the Gradle 8.x these kits ship — and build such variants with
+  # ANDROID_API_LEVEL=34. Idempotent: a no-op once patched (or on Qt >= 6.8).
+  case "$QT_VERSION" in
+    6.5.*|6.6.*|6.7.*)
+      GRADLE_TEMPLATE="$QT_ANDROID_DIR/src/android/templates/build.gradle"
+      [ -f "$GRADLE_TEMPLATE" ] && sed -i \
+        's|com.android.tools.build:gradle:7.4.1|com.android.tools.build:gradle:8.2.2|' \
+        "$GRADLE_TEMPLATE"
+      ;;
+  esac
 done
 
 ########################################
@@ -401,7 +455,7 @@ DEPLOY_ORDER+=("$PRIMARY_ABI")
 for ABI in "${DEPLOY_ORDER[@]}"; do
   BUILD_DIR="$SCRIPT_DIR/build-android-$ABI"
 
-  DEPLOY_JSON="$(find "$BUILD_DIR/src/gui/qt6-qml" -name "*deployment-settings.json" -print -quit 2>/dev/null || true)"
+  DEPLOY_JSON="$(find "$BUILD_DIR/$GUI_SUBDIR" -name "*deployment-settings.json" -print -quit 2>/dev/null || true)"
   [ -n "$DEPLOY_JSON" ] || { echo "ERROR: no deployment-settings.json for $ABI — did qt_finalize_target() run?" >&2; exit 1; }
 
   # CMake leaves "sdk"/"sdkBuildToolsRevision" empty and takes the SDK versions
@@ -465,7 +519,7 @@ for ABI in "${DEPLOY_ORDER[@]}"; do
 done
 
 ########################################
-# 8. Bundle every ABI into one .aab
+# 8. Package: one multi-ABI .aab, or one single-ABI .apk
 ########################################
 
 set_gradle_property() {
@@ -478,20 +532,69 @@ set_gradle_property() {
 }
 
 # androiddeployqt only knows about the primary ABI, so it limits the build to
-# it (build.gradle: ndk.abiFilters = qtTargetAbiList). Widen it to everything
-# that is now sitting in libs/.
+# it (build.gradle: ndk.abiFilters = qtTargetAbiList). For a bundle we widen it
+# to everything now sitting in libs/; for a single-ABI APK it already is our one
+# ABI, so this is a no-op that just makes the filter explicit.
 ABI_CSV="$(IFS=,; echo "${ABI_LIST[*]}")"
-log "Bundling ABIs: $ABI_CSV"
 set_gradle_property qtTargetAbiList "$ABI_CSV"
 
-# Qt 6.9 pins AGP 8.8, which only knows SDKs up to 35 and aborts on anything
-# newer unless the check is waived explicitly.
+# AGP aborts on a compileSdk it does not know unless the check is waived
+# explicitly: Qt 6.9 pins AGP 8.8 (max SDK 35), the Qt 6.7 kit is raised to AGP
+# 8.2 (max SDK 34) above.
 if [ "$ANDROID_API_LEVEL" -gt 35 ]; then
   set_gradle_property android.suppressUnsupportedCompileSdk "$ANDROID_API_LEVEL"
 fi
 
-log "Running Gradle bundleRelease…"
 chmod +x "$ANDROID_BUILD_DIR/gradlew"
+
+########################################
+# 8a. Single-ABI APK path (PACKAGE_FORMAT=apk)
+########################################
+
+if [ "$PACKAGE_FORMAT" = "apk" ]; then
+  log "Running Gradle assembleRelease (single-ABI APK: $PRIMARY_ABI)…"
+  (cd "$ANDROID_BUILD_DIR" && ./gradlew assembleRelease --no-daemon --stacktrace)
+
+  RAW_APK="$(find "$ANDROID_BUILD_DIR/build/outputs/apk" -name "*.apk" ! -name "*unaligned*" -print -quit)"
+  [ -n "$RAW_APK" ] || { echo "ERROR: Gradle produced no .apk" >&2; exit 1; }
+
+  FINAL_APK="$SCRIPT_DIR/PokerTH-${APP_LABEL}-${VERSION_NAME}-${VERSION_CODE}-${PRIMARY_ABI}.apk"
+
+  if [ -n "$ANDROID_KEYSTORE" ]; then
+    log "Signing the APK with the upload key (zipalign + apksigner)…"
+    BT_DIR="$ANDROID_SDK_ROOT/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
+    "$BT_DIR/zipalign" -f -p 4 "$RAW_APK" "$FINAL_APK"
+    "$BT_DIR/apksigner" sign \
+      --ks "$ANDROID_KEYSTORE" \
+      --ks-pass "pass:$ANDROID_KEYSTORE_PASS" \
+      --ks-key-alias "$ANDROID_KEY_ALIAS" \
+      --key-pass "pass:$ANDROID_KEY_PASS" \
+      "$FINAL_APK"
+    "$BT_DIR/apksigner" verify "$FINAL_APK" > /dev/null
+    echo "APK signed and verified."
+  else
+    cp "$RAW_APK" "$FINAL_APK"
+    echo ""
+    echo "WARNING: no ANDROID_KEYSTORE set — the APK is UNSIGNED. Sign it before"
+    echo "         installing:  apksigner sign --ks <keystore> '$FINAL_APK'"
+  fi
+
+  echo ""
+  echo "======================================"
+  echo "Android APK created:"
+  ls -lh "$FINAL_APK"
+  echo "  target: $BUILD_TARGET   ABI: $PRIMARY_ABI   Qt: $QT_VERSION"
+  echo "  SDK:    compile/target $ANDROID_API_LEVEL, min $ANDROID_MIN_SDK"
+  echo "======================================"
+  exit 0
+fi
+
+########################################
+# 8b. Multi-ABI App Bundle path (PACKAGE_FORMAT=aab)
+########################################
+
+log "Bundling ABIs: $ABI_CSV"
+log "Running Gradle bundleRelease…"
 (cd "$ANDROID_BUILD_DIR" && ./gradlew bundleRelease --no-daemon --stacktrace)
 
 AAB_FILE="$(find "$ANDROID_BUILD_DIR/build/outputs/bundle" -name "*.aab" -print -quit)"
