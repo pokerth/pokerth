@@ -561,12 +561,34 @@ $POS_STATEMENTS
            open
            update without registering applications
            delay 2
+           -- Leave no window open: as long as the Finder shows the volume it
+           -- holds a reference to it and the eject below fails as "busy".
+           close
      end tell
    end tell
 DMG_SCRIPT
 
   sync
-  hdiutil detach "$DEVICE" || hdiutil detach "$DEVICE" -force
+
+  # Even after closing the window the volume can stay busy for a moment (Finder
+  # writing .DS_Store, Spotlight indexing). Retry before resorting to force.
+  local TRIES=0
+  until hdiutil detach "$DEVICE" >/dev/null 2>&1; do
+      TRIES=$((TRIES + 1))
+      if [ "$TRIES" -ge 15 ]; then
+          log "Warning: volume still busy after $TRIES attempts — forcing eject"
+          hdiutil detach "$DEVICE" -force || true
+          sleep 2
+          break
+      fi
+      sleep 2
+  done
+
+  # Converting a still-mounted image would silently produce a damaged DMG.
+  if [ -e "$DEVICE" ]; then
+      echo "Error: $DEVICE is still attached — not converting a mounted image" >&2
+      return 1
+  fi
 
   rm -f "$DMG_PATH"
   hdiutil convert "$TMP_DMG" -format UDZO -imagekey zlib-level=9 -o "$DMG_PATH"
