@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
+import QtQuick.Window
 
 import "../config" as Config
 
@@ -420,13 +421,19 @@ Item {
             if (GameTable.myTurn) {
                 actionBar.preSelectEnabled = true
                 actionBar.roundEnded = false   // mein Zug → Rundensperre lösen
-                // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (Config-Key
-                // EnableBetInputFocusSwitch): Eingabefeld fokussieren, sofern ein
-                // Raise/Bet überhaupt möglich ist.
-                if (actionBar.focusBetInputOnTurn && actionBar.raiseAvailable)
-                    raiseAmountInput.forceActiveFocus()
             }
             actionBar.syncRaiseAmount()
+            // Einstellung „Fokus ins Einsatzfeld bei eigenem Zug" (Config-Key
+            // EnableBetInputFocusSwitch): Eingabefeld fokussieren, sofern ein
+            // Raise/Bet überhaupt möglich ist.
+            //
+            // ERST NACH syncRaiseAmount(): Solange das Feld den activeFocus hat,
+            // schreibt die Connections-Bindung unten den neuen raiseAmount NICHT
+            // mehr in den Text (damit sie die Tipp-Eingabe nicht überschreibt).
+            // Vorher fokussiert stünde also noch der Betrag des letzten Zuges drin.
+            if (GameTable.myTurn && actionBar.focusBetInputOnTurn
+                && actionBar.raiseAvailable)
+                raiseAmountInput.focusAndSelectAll()
         }
         function onMeInActionTriggered() {
             // Mein Zug steht fest → eine evtl. noch aktive Rundensperre lösen.
@@ -449,6 +456,13 @@ Item {
                         // "canAct=", GameTable.canAct,
                         // "preSel=", actionBar.preSelectEnabled)
             actionBar.syncRaiseAmount()
+
+            // Wie meInAction() im Widgets-Client (setFocus + selectAll): auch hier
+            // fokussieren, weil myTurnChanged nicht bei jedem eigenen Zug feuert
+            // (m_myTurn kann schon true gewesen sein). focusAndSelectAll() ist
+            // idempotent – hat das Feld den Fokus bereits, wird nur neu markiert.
+            if (actionBar.focusBetInputOnTurn && actionBar.raiseAvailable)
+                raiseAmountInput.focusAndSelectAll()
 
             if (actionBar.playingMode === 2 || actionBar.playingMode === 1) {
                 actionBar.runAutoAction()
@@ -625,6 +639,28 @@ Item {
                         verticalAlignment: Qt.AlignVCenter
                         inputMethodHints: Qt.ImhDigitsOnly
                         validator: IntValidator { bottom: 0; top: 9999999 }
+                        // Auto-Fokus bei eigenem Zug: Betrag komplett markieren, damit
+                        // die erste getippte Ziffer den vorgeschlagenen Betrag ERSETZT
+                        // statt ihn zu verlängern (Parität zum Qt-Widgets-Client:
+                        // spinBox_betValue->setFocus(); spinBox_betValue->selectAll()).
+                        // Den Text vorher explizit nachziehen: Hatte das Feld den
+                        // activeFocus schon (z. B. aus dem letzten Zug), hat die
+                        // Connections-Bindung unten ihn bewusst nicht aktualisiert.
+                        function focusAndSelectAll() {
+                            // Widget-Parität: Tippt der Nutzer gerade in einem anderen
+                            // Textfeld (Chat-Eingabe), den Fokus NICHT wegreißen – im
+                            // Widgets-Client hängen beide Aufrufstellen an
+                            // `!lineEdit_ChatInput->hasFocus()` bzw. `text() == ""`.
+                            // Statt beide ChatBox-Instanzen hierher durchzureichen,
+                            // prüfen wir generisch das aktuell fokussierte Item: Nur
+                            // Texteingaben haben selectAll().
+                            var af = Window.activeFocusItem
+                            if (af && af !== raiseAmountInput && af.selectAll !== undefined)
+                                return
+                            text = actionBar.raiseAmount.toString()
+                            forceActiveFocus()
+                            selectAll()
+                        }
                         // Live-Aktualisierung des Bet/Raise-Buttons während der Eingabe –
                         // analog zu spinBoxBetValueChanged() im Qt-Widgets-Client.
                         onTextChanged: {
