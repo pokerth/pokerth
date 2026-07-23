@@ -44,8 +44,7 @@ cmake -S "$SCRIPT_DIR" -B "$BUILD_DIR" \
   -DCMAKE_TOOLCHAIN_FILE="$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake" \
   -DCMAKE_OSX_DEPLOYMENT_TARGET="$MACOSX_DEPLOYMENT_TARGET" \
   -DCMAKE_OSX_ARCHITECTURES="$OSX_ARCHITECTURES" \
-  -DVCPKG_TARGET_TRIPLET="$VCPKG_TRIPLET" \
-  -DVCPKG_OVERLAY_TRIPLETS="$VCPKG_OVERLAY_TRIPLETS"
+  -DVCPKG_TARGET_TRIPLET="$VCPKG_TRIPLET"
 
 log "Building pokerth_client (Widget) and pokerth_qml-client (QML)…"
 ninja -C "$BUILD_DIR" pokerth_client pokerth_qml-client

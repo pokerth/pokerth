@@ -14,7 +14,8 @@
       "Bash(bash -c ' *)",
       "Bash(awk '/LC_BUILD_VERSION/{f=1} f && /minos/{print $2; exit}')",
       "Bash(command -v cmake)",
-      "Bash(cmake -P /dev/stdin)"
+      "Bash(cmake -P /dev/stdin)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/buildsystems/vcpkg.cmake\" -o /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/f9d8bbb6-0163-445b-9230-03283b6f80d8/scratchpad/vcpkg.cmake)"
     ]
   }
 }

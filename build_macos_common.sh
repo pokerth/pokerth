@@ -56,6 +56,44 @@ pokerth_version() {
   echo "$VERSION"
 }
 
+# merge_universal_libs <BASE_TRIPLET> <OTHER_TRIPLET> <OUT_TRIPLET>
+# Combines two per-architecture vcpkg trees into installed/<OUT_TRIPLET>, which
+# is the tree the vcpkg toolchain later hands to CMake: headers, pkg-config and
+# CMake config files are architecture independent and simply come from the base
+# tree, every static library is replaced by a fat one.
+# The base tree must be the one for the host, so that the tools it contains
+# (protoc) can still be executed during the build.
+merge_universal_libs() {
+  local BASE_TREE="$VCPKG_DIR/installed/$1"
+  local OTHER_TREE="$VCPKG_DIR/installed/$2"
+  local OUT="$VCPKG_DIR/installed/$3"
+  local LIB REL COUNTERPART
+  local MERGED=0 SKIPPED=0
+
+  log "Merging $1 + $2 into $3…"
+  rm -rf "$OUT"
+  cp -R "$BASE_TREE" "$OUT"
+
+  while IFS= read -r -d '' LIB; do
+      REL="${LIB#"$OUT/"}"
+      COUNTERPART="$OTHER_TREE/$REL"
+      if [ ! -f "$COUNTERPART" ]; then
+          log "  Warning: no counterpart for $REL — stays single-architecture"
+          SKIPPED=$((SKIPPED + 1))
+          continue
+      fi
+      lipo -create "$LIB" "$COUNTERPART" -output "$LIB.universal"
+      mv "$LIB.universal" "$LIB"
+      MERGED=$((MERGED + 1))
+  done < <(find "$OUT" -type f \( -name '*.a' -o -name '*.dylib' \) -print0)
+
+  if [ "$MERGED" -eq 0 ]; then
+      echo "Error: no library could be merged — is $OTHER_TREE missing?" >&2
+      return 1
+  fi
+  log "  $MERGED libraries are universal now ($SKIPPED skipped)"
+}
+
 # log_source_state <SCRIPT_DIR>
 # Prints version and git state of the tree being packaged, so an outdated
 # checkout is visible in the build log instead of only in the finished bundle.
@@ -179,15 +217,32 @@ declare -a VCPKG_PORTS=(
 # The libraries must therefore carry both slices — a host-dependent triplet
 # (arm64-osx / x64-osx) would quietly restrict a release to the architecture of
 # whichever machine happened to build it.
+#
+# Built one architecture at a time and merged afterwards, because a fat vcpkg
+# pass fails: boost-context (pulled in by boost-asio) picks its hand-written
+# assembly once, from the host's CMAKE_SYSTEM_PROCESSOR, and then compiles it
+# for both slices — the foreign slice cannot be assembled.
 OSX_ARCHITECTURES="x86_64;arm64"
 VCPKG_TRIPLET="universal-osx"
 VCPKG_OVERLAY_TRIPLETS="${SCRIPT_DIR:?SCRIPT_DIR must be set before sourcing this file}/cmake/vcpkg-triplets"
 
-log "Installing vcpkg dependencies (${VCPKG_TRIPLET}: ${OSX_ARCHITECTURES})…"
-"$VCPKG_DIR/vcpkg" install \
-  --triplet="$VCPKG_TRIPLET" \
-  --overlay-triplets="$VCPKG_OVERLAY_TRIPLETS" \
-  "${VCPKG_PORTS[@]}"
+# The host's triplet first: its tree becomes the base of the merge, so that the
+# tools in it (protoc) run on this machine.
+if [[ "$(uname -m)" == "arm64" ]]; then
+  VCPKG_ARCH_TRIPLETS=(arm64-osx-pokerth x64-osx-pokerth)
+else
+  VCPKG_ARCH_TRIPLETS=(x64-osx-pokerth arm64-osx-pokerth)
+fi
+
+for TRIPLET in "${VCPKG_ARCH_TRIPLETS[@]}"; do
+  log "Installing vcpkg dependencies (${TRIPLET})…"
+  "$VCPKG_DIR/vcpkg" install \
+    --triplet="$TRIPLET" \
+    --overlay-triplets="$VCPKG_OVERLAY_TRIPLETS" \
+    "${VCPKG_PORTS[@]}"
+done
+
+merge_universal_libs "${VCPKG_ARCH_TRIPLETS[0]}" "${VCPKG_ARCH_TRIPLETS[1]}" "$VCPKG_TRIPLET"
 
 ########################################
 # 7. Qt installation (aqtinstall)
