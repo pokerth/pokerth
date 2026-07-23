@@ -218,6 +218,27 @@ QString SettingsManager::pickImageFile(const QString &title)
     ));
 }
 
+QString SettingsManager::pickDirectory(const QString &title, const QString &startDir) const
+{
+    // Startverzeichnis: der übergebene Pfad, sonst das Home-Verzeichnis (der
+    // konfigurierte Pfad kann aus einer alten Config stammen und fehlen).
+    QString start = startDir;
+    if (start.isEmpty() || !QDir(start).exists())
+        start = QDir::home().absolutePath();
+
+    const QString picked = QFileDialog::getExistingDirectory(
+        nullptr, title, start,
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
+            | AppImageUtils::fileDialogOptions());
+
+    // Der Aufrufer erwartet einen echten Dateisystempfad (das Log-Verzeichnis
+    // wird von der Engine direkt an SQLite weitergereicht), daher nur
+    // existierende lokale Verzeichnisse zurückgeben.
+    if (picked.isEmpty() || !QDir(picked).exists())
+        return QString();
+    return QDir(picked).absolutePath();
+}
+
 namespace
 {
 // Obergrenze der Engine für Avatar-Dateien (MAX_AVATAR_FILE_SIZE in

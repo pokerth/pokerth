@@ -76,6 +76,11 @@ public:
     Q_INVOKABLE void resetToDefaults();
     Q_INVOKABLE QString pickImageFile(const QString &title);
 
+    // Verzeichnisauswahl (Log-Verzeichnis in den Einstellungen). Liefert den
+    // gewählten absoluten Pfad; leer bei Abbruch oder wenn die Auswahl kein
+    // existierendes lokales Verzeichnis ist.
+    Q_INVOKABLE QString pickDirectory(const QString &title, const QString &startDir) const;
+
     // Avatar-Pfad aus der Config → anzeigbare Bild-URL (file:// bzw. qrc:/ für
     // Alt-Einträge aus dem Ressourcenbundle). Leer, wenn kein Pfad gesetzt ist
     // oder die Datei nicht existiert. Kapselt die URL-Bildung in C++, damit QML

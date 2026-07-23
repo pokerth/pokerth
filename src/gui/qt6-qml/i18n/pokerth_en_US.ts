@@ -236,7 +236,7 @@
         <translation>Message …</translation>
     </message>
     <message>
-        <location line="+664"/>
+        <location line="+657"/>
         <source>Link öffnen</source>
         <translation>Open link</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Odds</translation>
     </message>
     <message>
-        <location line="+235"/>
+        <location line="+231"/>
         <source>Kopieren</source>
         <translation>Copy</translation>
     </message>
@@ -2516,7 +2516,7 @@ Uploading log files may fail if you are using an http proxy.</translation>
 <context>
     <name>LogsSettings</name>
     <message>
-        <location filename="../components/LogsSettings.qml" line="+19"/>
+        <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
         <translation>Log Messages</translation>
     </message>
@@ -2541,7 +2541,29 @@ Uploading log files may fail if you are using an http proxy.</translation>
         <translation>Browse...</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+11"/>
+        <source>Log-Verzeichnis auswählen</source>
+        <translation>Select Log Directory</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Log-Verzeichnis</source>
+        <translation>Log Directory</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Das Log-Verzeichnis wurde geändert.
+Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <translation>The log directory has been changed.
+Please restart PokerTH so that the log files are stored there.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Log-Intervall:</source>
         <translation>Log Interval:</translation>
     </message>
@@ -3554,7 +3576,7 @@ Uploading log files may fail if you are using an http proxy.</translation>
         <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+229"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Select game table style</translation>
     </message>

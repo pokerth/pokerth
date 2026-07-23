@@ -236,7 +236,7 @@
         <translation>Message …</translation>
     </message>
     <message>
-        <location line="+664"/>
+        <location line="+657"/>
         <source>Link öffnen</source>
         <translation>Ouvrir le lien</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Chances</translation>
     </message>
     <message>
-        <location line="+235"/>
+        <location line="+231"/>
         <source>Kopieren</source>
         <translation>Copier</translation>
     </message>
@@ -2516,7 +2516,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
 <context>
     <name>LogsSettings</name>
     <message>
-        <location filename="../components/LogsSettings.qml" line="+19"/>
+        <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
         <translation>Messages de journal</translation>
     </message>
@@ -2541,7 +2541,29 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Parcourir...</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+11"/>
+        <source>Log-Verzeichnis auswählen</source>
+        <translation>Sélectionner le répertoire des journaux</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Log-Verzeichnis</source>
+        <translation>Répertoire des journaux</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Das Log-Verzeichnis wurde geändert.
+Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <translation>Le répertoire des journaux a été modifié.
+Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistrés.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Log-Intervall:</source>
         <translation>Intervalle de journalisation :</translation>
     </message>
@@ -3554,7 +3576,7 @@ Le téléchargement des fichiers journaux peut échouer si vous utilisez un prox
         <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+229"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Sélectionner un style de table de jeu</translation>
     </message>

@@ -236,7 +236,7 @@
         <translation>Mensagem …</translation>
     </message>
     <message>
-        <location line="+664"/>
+        <location line="+657"/>
         <source>Link öffnen</source>
         <translation>Abrir link</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Probabilidades</translation>
     </message>
     <message>
-        <location line="+235"/>
+        <location line="+231"/>
         <source>Kopieren</source>
         <translation>Copiar</translation>
     </message>
@@ -2516,7 +2516,7 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
 <context>
     <name>LogsSettings</name>
     <message>
-        <location filename="../components/LogsSettings.qml" line="+19"/>
+        <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
         <translation>Mensagens de Registo</translation>
     </message>
@@ -2541,7 +2541,29 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
         <translation>Procurar...</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+11"/>
+        <source>Log-Verzeichnis auswählen</source>
+        <translation>Selecionar Diretório de Registo</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Log-Verzeichnis</source>
+        <translation>Diretório de Registo</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Das Log-Verzeichnis wurde geändert.
+Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <translation>O diretório de registo foi alterado.
+Reinicie o PokerTH para que os ficheiros de registo sejam guardados nessa pasta.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Log-Intervall:</source>
         <translation>Intervalo de Registo:</translation>
     </message>
@@ -3554,7 +3576,7 @@ O envio de ficheiros de registo pode falhar se estiveres a usar um proxy http.</
         <translation>Imagens (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+229"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Selecionar estilo de mesa de jogo</translation>
     </message>

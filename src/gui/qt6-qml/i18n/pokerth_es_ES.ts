@@ -236,7 +236,7 @@
         <translation>Mensaje …</translation>
     </message>
     <message>
-        <location line="+664"/>
+        <location line="+657"/>
         <source>Link öffnen</source>
         <translation>Abrir enlace</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Probabilidades</translation>
     </message>
     <message>
-        <location line="+235"/>
+        <location line="+231"/>
         <source>Kopieren</source>
         <translation>Copiar</translation>
     </message>
@@ -2516,7 +2516,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
 <context>
     <name>LogsSettings</name>
     <message>
-        <location filename="../components/LogsSettings.qml" line="+19"/>
+        <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
         <translation>Mensajes de registro</translation>
     </message>
@@ -2541,7 +2541,29 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Examinar...</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+11"/>
+        <source>Log-Verzeichnis auswählen</source>
+        <translation>Seleccionar directorio de registro</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Log-Verzeichnis</source>
+        <translation>Directorio de registro</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Das Log-Verzeichnis wurde geändert.
+Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <translation>Se ha cambiado el directorio de registro.
+Reinicia PokerTH para que los archivos de registro se guarden allí.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Log-Intervall:</source>
         <translation>Intervalo de registro:</translation>
     </message>
@@ -3554,7 +3576,7 @@ La subida de archivos de registro puede fallar si utiliza un proxy.</translation
         <translation>Imágenes (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+229"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Seleccionar estilo de mesa de juego</translation>
     </message>

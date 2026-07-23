@@ -12,6 +12,12 @@ Rectangle {
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
     color: "transparent"
 
+    // Hinweis nach dem Wechsel des Log-Verzeichnisses (nur "OK").
+    ConfirmPopup {
+        id: logDirRestartHint
+        showCancel: false
+    }
+
     ColumnLayout {
         id: logsettingsContent
         anchors.fill: parent
@@ -65,8 +71,28 @@ Rectangle {
                             Button {
                                 text: qsTr("Durchsuchen...")
                                 enabled: logOnOff.checked
+                                // Auf Mobilgeräten liegt das Log-Verzeichnis im
+                                // App-Speicher und ist nicht frei wählbar (der
+                                // Systemdialog liefert dort nur content://-URIs,
+                                // mit denen die Engine nicht schreiben kann).
+                                visible: !Config.Responsive.isMobile
                                 onClicked: {
-                                    // TODO: Verzeichnis-Auswahl-Dialog
+                                    if (!SettingsManager)
+                                        return
+                                    var dir = SettingsManager.pickDirectory(
+                                        qsTr("Log-Verzeichnis auswählen"),
+                                        logDirectory.text)
+                                    if (!dir || dir === logDirectory.text)
+                                        return
+                                    logDirectory.text = dir
+                                    SettingsManager.writeConfigString("LogDir", dir)
+                                    // Das Log wird beim Programmstart einmalig
+                                    // geöffnet (Log::init()), das neue Verzeichnis
+                                    // greift daher erst nach einem Neustart.
+                                    logDirRestartHint.openWith(
+                                        qsTr("Log-Verzeichnis"),
+                                        qsTr("Das Log-Verzeichnis wurde geändert.\nBitte PokerTH neu starten, damit die Logdateien dort abgelegt werden."),
+                                        qsTr("OK"))
                                 }
                             }
                         }

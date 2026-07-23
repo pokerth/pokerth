@@ -236,7 +236,7 @@
         <translation>Mensagem …</translation>
     </message>
     <message>
-        <location line="+664"/>
+        <location line="+657"/>
         <source>Link öffnen</source>
         <translation>Abrir link</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Chances</translation>
     </message>
     <message>
-        <location line="+235"/>
+        <location line="+231"/>
         <source>Kopieren</source>
         <translation>Copiar</translation>
     </message>
@@ -2514,7 +2514,7 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
 <context>
     <name>LogsSettings</name>
     <message>
-        <location filename="../components/LogsSettings.qml" line="+19"/>
+        <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
         <translation>Mensagens de log</translation>
     </message>
@@ -2539,7 +2539,29 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
         <translation>Procurar...</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+11"/>
+        <source>Log-Verzeichnis auswählen</source>
+        <translation>Selecionar diretório de log</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Log-Verzeichnis</source>
+        <translation>Diretório de log</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Das Log-Verzeichnis wurde geändert.
+Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <translation>O diretório de log foi alterado.
+Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Log-Intervall:</source>
         <translation>Intervalo de log:</translation>
     </message>
@@ -3552,7 +3574,7 @@ Enviar arquivos de log pode gerar problemas ao usar http proxy.</translation>
         <translation>Imagens (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+229"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Selecionar estilo de mesa de jogo</translation>
     </message>

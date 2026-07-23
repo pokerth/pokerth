@@ -236,7 +236,7 @@
         <translation>Messaggio …</translation>
     </message>
     <message>
-        <location line="+664"/>
+        <location line="+657"/>
         <source>Link öffnen</source>
         <translation>Apri link</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Probabilità</translation>
     </message>
     <message>
-        <location line="+235"/>
+        <location line="+231"/>
         <source>Kopieren</source>
         <translation>Copia</translation>
     </message>
@@ -2516,7 +2516,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
 <context>
     <name>LogsSettings</name>
     <message>
-        <location filename="../components/LogsSettings.qml" line="+19"/>
+        <location filename="../components/LogsSettings.qml" line="+25"/>
         <source>Log-Nachrichten</source>
         <translation>Registro messaggi</translation>
     </message>
@@ -2541,7 +2541,29 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <translation>Sfoglia...</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+11"/>
+        <source>Log-Verzeichnis auswählen</source>
+        <translation>Seleziona la cartella dei log</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Log-Verzeichnis</source>
+        <translation>Cartella dei log</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Das Log-Verzeichnis wurde geändert.
+Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</source>
+        <translation>La cartella dei log è stata modificata.
+Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Log-Intervall:</source>
         <translation>Intervallo di log:</translation>
     </message>
@@ -3554,7 +3576,7 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+208"/>
+        <location line="+229"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Seleziona stile del tavolo da gioco</translation>
     </message>
