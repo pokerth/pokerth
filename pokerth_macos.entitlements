@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!--
+      Entitlements for the hardened runtime, which Apple requires for
+      notarization (codesign option "runtime").
+
+      The QML engine compiles JavaScript at runtime and maps that memory
+      executable; without these two entitlements the hardened runtime denies it
+      and Qt silently falls back to the interpreter — or, depending on the Qt
+      version, the client crashes on the first QML binding.
+    -->
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+</dict>
+</plist>

@@ -22,7 +22,8 @@
       "Bash(REMOTE_CONTAINERS_IPC=/tmp/vscode-remote-containers-ipc-01a0cebe-c8be-4d2c-9e2a-daae68896984.sock timeout 120 git push origin PokerTH-2.1.4)",
       "Bash(REMOTE_CONTAINERS_IPC=/tmp/vscode-remote-containers-ipc-01a0cebe-c8be-4d2c-9e2a-daae68896984.sock timeout 30 /home/vscode/.vscode-server/bin/8a7abeba6e03ea3af87bfbce9a1b7e48fed567b8/node /tmp/vscode-remote-containers-01a0cebe-c8be-4d2c-9e2a-daae68896984.js git-credential-helper get)",
       "Bash(grep -iE \"pokerth|Qt6::|Boost::|OpenSSL|protobuf|absl|utf8|\\\\\\\\$\\\\\\\\{\")",
-      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/e0c7cf30-5005-4b5f-ba6f-c6744f6bfa1a/scratchpad/fill_ts.py)"
+      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/e0c7cf30-5005-4b5f-ba6f-c6744f6bfa1a/scratchpad/fill_ts.py)",
+      "Bash(perl -0pi -e \"s/    if: \\\\\\\\\\\\$\\\\{\\\\{ secrets\\\\.MACOS_CERTIFICATE_P12 != '' \\\\}\\\\}/    if: env.HAS_SIGNING_CERT == 'true'/; s/    if: \\\\\\\\\\\\$\\\\{\\\\{ secrets\\\\.MACOS_NOTARY_KEY_P8 != '' && secrets\\\\.MACOS_CERTIFICATE_P12 != '' \\\\}\\\\}/    if: env.HAS_NOTARY_KEY == 'true' && env.HAS_SIGNING_CERT == 'true'/\" .github/workflows/macos.yml)"
     ]
   }
 }

@@ -429,12 +429,26 @@ EOF
 
   if [ -n "${CODESIGN_IDENTITY:-}" ]; then
       log "Code signing with identity: $CODESIGN_IDENTITY"
-      find "$APP_BUNDLE/Contents/Frameworks" -type f \( -name "*.dylib" -o -name "Qt*" \) \
-          -exec codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime {} \;
-      codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime \
-          "$APP_MACOS/$APP_NAME"
-      codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime \
-          --entitlements /dev/null "$APP_BUNDLE"
+      local SIGN=(codesign --force --sign "$CODESIGN_IDENTITY" --timestamp --options runtime)
+      local ENTITLEMENTS="$SCRIPT_DIR/pokerth_macos.entitlements"
+      local MACHO FRAMEWORK
+
+      # Signed inside out. Notarization rejects a bundle containing anything
+      # unsigned or ad-hoc signed, and signing the bundle last is what seals the
+      # nested signatures: the Qt plug-ins under PlugIns/ and the QML modules
+      # under Resources/ have to be covered too, not just Frameworks/.
+      while IFS= read -r -d '' MACHO; do
+          "${SIGN[@]}" "$MACHO"
+      done < <(find "$APP_CONTENTS" -type f -name "*.dylib" -not -path "*/*.framework/*" -print0)
+
+      # Frameworks are signed as bundles, not as their inner binary.
+      while IFS= read -r -d '' FRAMEWORK; do
+          "${SIGN[@]}" "$FRAMEWORK"
+      done < <(find "$APP_CONTENTS/Frameworks" -maxdepth 1 -type d -name "*.framework" -print0 2>/dev/null)
+
+      "${SIGN[@]}" "$APP_MACOS/$APP_NAME"
+      # The hardened runtime needs the JIT entitlements for the QML engine.
+      "${SIGN[@]}" --entitlements "$ENTITLEMENTS" "$APP_BUNDLE"
       codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
       log "Code signing complete!"
   else

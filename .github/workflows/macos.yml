@@ -29,6 +29,12 @@ jobs:
       # it is repeated here only so the runner's toolchain picks it up before
       # any step runs, and so the check below has something to compare against.
       DEPLOYMENT_TARGET: "12.0"
+      # The secrets context cannot be used in a step's "if", only in env — so
+      # the presence of the signing credentials is turned into a flag here.
+      # Without them the build signs ad-hoc, exactly as the local builds always
+      # did: users then have to allow the app once via right click → Open.
+      HAS_SIGNING_CERT: ${{ secrets.MACOS_CERTIFICATE_P12 != '' }}
+      HAS_NOTARY_KEY: ${{ secrets.MACOS_NOTARY_KEY_P8 != '' }}
 
     steps:
       # Full history incl. tags: build_macos_common.sh logs "git describe" for
@@ -37,6 +43,51 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # Developer ID signing. Without the secrets the build falls back to ad-hoc
+      # signing (see build_macos_common.sh), which is fine for a test build but
+      # makes macOS refuse the app on any other Mac.
+      #
+      # Required repository secrets:
+      #   MACOS_CERTIFICATE_P12       base64 of the exported "Developer ID
+      #                               Application" certificate incl. private key
+      #   MACOS_CERTIFICATE_PASSWORD  the password set while exporting the .p12
+      - name: Import signing certificate
+        if: env.HAS_SIGNING_CERT == 'true'
+        env:
+          CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          KEYCHAIN="$RUNNER_TEMP/pokerth-signing.keychain-db"
+          KEYCHAIN_PASSWORD=$(uuidgen)
+          CERT_FILE="$RUNNER_TEMP/certificate.p12"
+
+          # A dedicated keychain that only exists for this job — never the
+          # login keychain, which on a runner is unlocked for everything.
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security set-keychain-settings -lut 3600 "$KEYCHAIN"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+
+          echo "$CERTIFICATE_P12" | base64 --decode > "$CERT_FILE"
+          security import "$CERT_FILE" -k "$KEYCHAIN" -P "$CERTIFICATE_PASSWORD" \
+              -T /usr/bin/codesign
+          rm -f "$CERT_FILE"
+          # Lets codesign use the key without an interactive confirmation dialog.
+          security set-key-partition-list -S apple-tool:,apple:,codesign: \
+              -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN" >/dev/null
+          security list-keychains -d user -s "$KEYCHAIN" \
+              $(security list-keychains -d user | tr -d '"')
+
+          IDENTITY=$(security find-identity -v -p codesigning "$KEYCHAIN" \
+                     | awk -F'"' '/Developer ID Application/{print $2; exit}')
+          if [ -z "$IDENTITY" ]; then
+              echo "::error::no 'Developer ID Application' identity in the imported certificate"
+              exit 1
+          fi
+          echo "Signing identity: $IDENTITY"
+          # Picked up by build_macos_common.sh.
+          echo "CODESIGN_IDENTITY=$IDENTITY" >> "$GITHUB_ENV"
 
       - name: Select Xcode
         run: |
@@ -152,6 +203,55 @@ jobs:
           hdiutil detach "$MOUNT" || hdiutil detach "$MOUNT" -force
           exit $FAIL
 
+      # Notarization: Apple inspects the signed DMG and issues a ticket, which is
+      # then stapled into it. Without it macOS still refuses a downloaded app
+      # ("Apple cannot check it for malicious software") even when the signature
+      # is valid — a Developer ID certificate alone is not enough.
+      #
+      # Required repository secrets (App Store Connect → Users and Access →
+      # Integrations → App Store Connect API, role "Developer"):
+      #   MACOS_NOTARY_KEY_P8     base64 of the downloaded AuthKey_XXXXXXXX.p8
+      #   MACOS_NOTARY_KEY_ID     the key ID (the XXXXXXXX from that file name)
+      #   MACOS_NOTARY_ISSUER_ID  the issuer UUID shown above the key list
+      - name: Notarize and staple
+        if: env.HAS_NOTARY_KEY == 'true' && env.HAS_SIGNING_CERT == 'true'
+        env:
+          NOTARY_KEY_P8: ${{ secrets.MACOS_NOTARY_KEY_P8 }}
+          NOTARY_KEY_ID: ${{ secrets.MACOS_NOTARY_KEY_ID }}
+          NOTARY_ISSUER_ID: ${{ secrets.MACOS_NOTARY_ISSUER_ID }}
+        run: |
+          set -euo pipefail
+          DMG=$(ls "$BUILD_DIR"/PokerTH-*-Combined.dmg)
+          KEY_FILE="$RUNNER_TEMP/notary.p8"
+          trap 'rm -f "$KEY_FILE"' EXIT
+          echo "$NOTARY_KEY_P8" | base64 --decode > "$KEY_FILE"
+
+          # The disk image is what people download, so it gets signed too.
+          codesign --force --sign "$CODESIGN_IDENTITY" --timestamp "$DMG"
+
+          # Submissions are rejected with little detail; on failure fetch the
+          # log for the submission, which does name the offending file.
+          if ! xcrun notarytool submit "$DMG" \
+                   --key "$KEY_FILE" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER_ID" \
+                   --wait --timeout 45m --output-format json > "$RUNNER_TEMP/notary.json"; then
+              SUBMISSION=$(/usr/bin/python3 -c \
+                  "import json;print(json.load(open('$RUNNER_TEMP/notary.json')).get('id',''))" \
+                  2>/dev/null || true)
+              if [ -n "$SUBMISSION" ]; then
+                  echo "::group::notarytool log $SUBMISSION"
+                  xcrun notarytool log "$SUBMISSION" \
+                      --key "$KEY_FILE" --key-id "$NOTARY_KEY_ID" --issuer "$NOTARY_ISSUER_ID" || true
+                  echo "::endgroup::"
+              fi
+              echo "::error::notarization failed"
+              exit 1
+          fi
+
+          xcrun stapler staple "$DMG"
+          xcrun stapler validate "$DMG"
+          # What Gatekeeper will do on the user's Mac.
+          spctl --assess --type open --context context:primary-signature -vv "$DMG"
+
       - name: Summary
         run: |
           DMG=$(ls "$BUILD_DIR"/PokerTH-*-Combined.dmg)
@@ -159,6 +259,14 @@ jobs:
             echo "### $(basename "$DMG")"
             echo ""
             echo "- source: \`$(git describe --tags --always --dirty)\` (${GITHUB_SHA:0:8})"
+            AUTHORITY=$(codesign -dvv "$BUILD_DIR/PokerTH.app" 2>&1 | awk -F'=' '/^Authority/{print $2; exit}')
+            if [ -n "$AUTHORITY" ] && xcrun stapler validate "$DMG" >/dev/null 2>&1; then
+              echo "- signing: $AUTHORITY, notarized"
+            else
+              echo "- signing: ad-hoc (no Developer ID secrets configured)"
+              echo "- users have to allow the app once: right click → Open, or"
+              echo "  System Settings → Privacy & Security → \"Open Anyway\" (macOS 15+)"
+            fi
             echo "- architectures: \`$(lipo -archs "$BUILD_DIR/PokerTH.app/Contents/MacOS/PokerTH")\`, minimum macOS $DEPLOYMENT_TARGET"
             echo "- size: $(du -h "$DMG" | cut -f1)"
             echo "- md5: \`$(md5 -q "$DMG")\`"
