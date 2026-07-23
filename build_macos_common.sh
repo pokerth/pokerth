@@ -208,10 +208,14 @@ declare -a VCPKG_PORTS=(
   boost-smart-ptr
   boost-uuid
   protobuf
+  openssl
 )
 # Note: Main 'boost' package removed - it would include all submodules including boost-cobalt
 # Only essential modules are installed instead
 # Note: curl removed - using Qt Network instead
+# Note: openssl (needed by the built-in server via boost::asio::ssl) comes from
+# vcpkg rather than Homebrew: Homebrew formulae are single-architecture, so
+# linking them would make a universal binary impossible.
 
 # Universal build: one DMG that runs natively on Intel and on Apple Silicon.
 # The libraries must therefore carry both slices — a host-dependent triplet

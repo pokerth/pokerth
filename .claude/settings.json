@@ -15,7 +15,13 @@
       "Bash(awk '/LC_BUILD_VERSION/{f=1} f && /minos/{print $2; exit}')",
       "Bash(command -v cmake)",
       "Bash(cmake -P /dev/stdin)",
-      "Bash(curl -s \"https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/buildsystems/vcpkg.cmake\" -o /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/f9d8bbb6-0163-445b-9230-03283b6f80d8/scratchpad/vcpkg.cmake)"
+      "Bash(curl -s \"https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/buildsystems/vcpkg.cmake\" -o /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/f9d8bbb6-0163-445b-9230-03283b6f80d8/scratchpad/vcpkg.cmake)",
+      "Bash(gh pr *)",
+      "Bash(git config *)",
+      "Bash(timeout 30 /home/vscode/.vscode-server/bin/8a7abeba6e03ea3af87bfbce9a1b7e48fed567b8/node /tmp/vscode-remote-containers-01a0cebe-c8be-4d2c-9e2a-daae68896984.js git-credential-helper get)",
+      "Bash(REMOTE_CONTAINERS_IPC=/tmp/vscode-remote-containers-ipc-01a0cebe-c8be-4d2c-9e2a-daae68896984.sock timeout 120 git push origin PokerTH-2.1.4)",
+      "Bash(REMOTE_CONTAINERS_IPC=/tmp/vscode-remote-containers-ipc-01a0cebe-c8be-4d2c-9e2a-daae68896984.sock timeout 30 /home/vscode/.vscode-server/bin/8a7abeba6e03ea3af87bfbce9a1b7e48fed567b8/node /tmp/vscode-remote-containers-01a0cebe-c8be-4d2c-9e2a-daae68896984.js git-credential-helper get)",
+      "Bash(grep -iE \"pokerth|Qt6::|Boost::|OpenSSL|protobuf|absl|utf8|\\\\\\\\$\\\\\\\\{\")"
     ]
   }
 }
