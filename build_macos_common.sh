@@ -17,7 +17,12 @@ BREW_PREFIX_DEFAULT="/opt/homebrew"   # Apple Silicon
 VCPKG_DIR="$HOME/vcpkg"
 PYTHON_USER_BASE="$HOME/.local"
 AQT_BIN="$PYTHON_USER_BASE/bin/aqt"
-MACOSX_DEPLOYMENT_TARGET=12.0
+# Deliberate floor: at least one player runs macOS 12 (Monterey) and cannot
+# update. Exported, so that everything built here — the vcpkg ports as well as
+# PokerTH itself — uses the same target; without the export the ports silently
+# take the build machine's SDK default and their objects end up newer than the
+# binary that links them. Keep this the single place where the target is set.
+export MACOSX_DEPLOYMENT_TARGET=12.0
 
 QT_VERSION="6.9.2"
 QT_OUTPUT_DIR="$HOME/Qt"
@@ -33,6 +38,41 @@ log() {
 
 command_exists() {
   command -v "$1" >/dev/null 2>&1
+}
+
+# pokerth_version <SCRIPT_DIR>
+# Release version of the sources that are about to be packaged, read from the
+# single source of truth src/game_defs.h. Never hardcode it here: a version
+# written into this script only describes the script, not the checkout it
+# packages, so a stale working copy ships silently under the new name.
+pokerth_version() {
+  local DEFS="$1/src/game_defs.h"
+  local VERSION
+  VERSION=$(sed -n 's/^#define[[:space:]]*POKERTH_BETA_RELEASE_STRING[[:space:]]*"\([^"]*\)".*/\1/p' "$DEFS")
+  if [ -z "$VERSION" ]; then
+      echo "Error: cannot read POKERTH_BETA_RELEASE_STRING from $DEFS" >&2
+      return 1
+  fi
+  echo "$VERSION"
+}
+
+# log_source_state <SCRIPT_DIR>
+# Prints version and git state of the tree being packaged, so an outdated
+# checkout is visible in the build log instead of only in the finished bundle.
+log_source_state() {
+  local SCRIPT_DIR="$1"
+  local VERSION
+  VERSION=$(pokerth_version "$SCRIPT_DIR")
+  log "Packaging PokerTH $VERSION from $SCRIPT_DIR"
+  if git -C "$SCRIPT_DIR" rev-parse --git-dir >/dev/null 2>&1; then
+      local DESCRIBE BRANCH COMMIT_DATE
+      DESCRIBE=$(git -C "$SCRIPT_DIR" describe --tags --always --dirty)
+      BRANCH=$(git -C "$SCRIPT_DIR" rev-parse --abbrev-ref HEAD)
+      COMMIT_DATE=$(git -C "$SCRIPT_DIR" log -1 --format=%cd --date=short)
+      log "  git: $DESCRIBE on $BRANCH, last commit $COMMIT_DATE"
+  else
+      log "  git: not a repository — cannot verify that the sources are up to date"
+  fi
 }
 
 ########################################
@@ -135,16 +175,18 @@ declare -a VCPKG_PORTS=(
 # Only essential modules are installed instead
 # Note: curl removed - using Qt Network instead
 
-# Determine architecture
-if [[ "$(uname -m)" == "arm64" ]]; then
-  VCPKG_TRIPLET="arm64-osx"
-else
-  VCPKG_TRIPLET="x64-osx"
-fi
+# Universal build: one DMG that runs natively on Intel and on Apple Silicon.
+# The libraries must therefore carry both slices — a host-dependent triplet
+# (arm64-osx / x64-osx) would quietly restrict a release to the architecture of
+# whichever machine happened to build it.
+OSX_ARCHITECTURES="x86_64;arm64"
+VCPKG_TRIPLET="universal-osx"
+VCPKG_OVERLAY_TRIPLETS="${SCRIPT_DIR:?SCRIPT_DIR must be set before sourcing this file}/cmake/vcpkg-triplets"
 
-log "Installing vcpkg dependencies (${VCPKG_TRIPLET})…"
-"$HOME/vcpkg/vcpkg" install \
+log "Installing vcpkg dependencies (${VCPKG_TRIPLET}: ${OSX_ARCHITECTURES})…"
+"$VCPKG_DIR/vcpkg" install \
   --triplet="$VCPKG_TRIPLET" \
+  --overlay-triplets="$VCPKG_OVERLAY_TRIPLETS" \
   "${VCPKG_PORTS[@]}"
 
 ########################################
@@ -265,6 +307,8 @@ build_app_bundle() {
   local APP_CONTENTS="$APP_BUNDLE/Contents"
   local APP_MACOS="$APP_CONTENTS/MacOS"
   local APP_RESOURCES="$APP_CONTENTS/Resources"
+  local VERSION
+  VERSION=$(pokerth_version "$SCRIPT_DIR")
 
   log "Creating app bundle structure ($APP_NAME.app)…"
   rm -rf "$APP_BUNDLE"
@@ -299,9 +343,9 @@ build_app_bundle() {
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>2.1.4</string>
+    <string>$VERSION</string>
     <key>CFBundleVersion</key>
-    <string>2.1.4</string>
+    <string>$VERSION</string>
     <key>CFBundleIconFile</key>
     <string>pokerth.icns</string>
     <key>NSHighResolutionCapable</key>
@@ -438,7 +482,9 @@ ARROW_EOF
 
   sleep 2
 
-  osascript <<DMG_SCRIPT
+  # Purely cosmetic (icon placement and background). Scripting the Finder needs
+  # a GUI session, which a CI runner does not have — never let it fail the build.
+  osascript <<DMG_SCRIPT || log "Warning: Finder layout not applied (no GUI session?) — DMG stays functional"
    tell application "Finder"
      tell disk "$VOLUME_NAME"
            open
@@ -461,7 +507,7 @@ $POS_STATEMENTS
 DMG_SCRIPT
 
   sync
-  hdiutil detach "$DEVICE"
+  hdiutil detach "$DEVICE" || hdiutil detach "$DEVICE" -force
 
   rm -f "$DMG_PATH"
   hdiutil convert "$TMP_DMG" -format UDZO -imagekey zlib-level=9 -o "$DMG_PATH"
@@ -479,7 +525,13 @@ build_bundle_and_dmg() {
 
   local APP_NAME="PokerTH"
   local APP_BUNDLE="$BUILD_DIR/${APP_NAME}.app"
-  local DMG_PATH="$BUILD_DIR/${APP_NAME}.dmg"
+  local VERSION
+  VERSION=$(pokerth_version "$SCRIPT_DIR")
+  # Version in the file name: the DMG is uploaded under it, so it must come
+  # from the packaged sources rather than being typed in at upload time.
+  local DMG_PATH="$BUILD_DIR/${APP_NAME}-${VERSION}.dmg"
+
+  log_source_state "$SCRIPT_DIR"
 
   build_app_bundle "$BUILD_DIR" "$BUILD_TARGET" "$USE_QML" "$SCRIPT_DIR" \
       "$APP_NAME" "net.pokerth.PokerTH"
@@ -505,7 +557,14 @@ build_combined_bundles_and_dmg() {
 
   local QML_APP="$BUILD_DIR/PokerTH.app"
   local WIDGET_APP="$BUILD_DIR/PokerTH Classic.app"
-  local DMG_PATH="$BUILD_DIR/PokerTH-Combined.dmg"
+  local VERSION
+  VERSION=$(pokerth_version "$SCRIPT_DIR")
+  # Named exactly as the release artifact, so file name and bundle version can
+  # no longer drift apart (they did for 2.1.4: a 2.1.3 build was uploaded as
+  # PokerTH-2.1.4-Combined.dmg).
+  local DMG_PATH="$BUILD_DIR/PokerTH-${VERSION}-Combined.dmg"
+
+  log_source_state "$SCRIPT_DIR"
 
   # QML = modern/primary client, Widget = classic client.
   build_app_bundle "$BUILD_DIR" "pokerth_qml-client" "1" "$SCRIPT_DIR" \

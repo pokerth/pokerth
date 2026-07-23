@@ -2,7 +2,19 @@
   "permissions": {
     "allow": [
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -s \"https://sourceforge.net/projects/pokerth/rss?path=/pokerth/2.1.3\")",
+      "Bash(curl -s \"https://sourceforge.net/projects/pokerth/rss?path=/pokerth/2.1.4\")",
+      "Bash(bash -c 'source <\\(sed -n \"/^pokerth_version\\(\\)/,/^}/p\" build_macos_common.sh\\); pokerth_version \"$PWD\"')",
+      "Bash(python3 -c ' *)",
+      "Bash(command -v ruby yq node npx)",
+      "Bash(timeout 120 npx --yes js-yaml .github/workflows/macos.yml)",
+      "Bash(node -e ' *)",
+      "Bash(bash -n /tmp/verify.sh)",
+      "Bash(bash -c ' *)",
+      "Bash(awk '/LC_BUILD_VERSION/{f=1} f && /minos/{print $2; exit}')",
+      "Bash(command -v cmake)",
+      "Bash(cmake -P /dev/stdin)"
     ]
   }
 }
