@@ -140,6 +140,26 @@ jobs:
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/signing.keystore"
           echo "ANDROID_KEYSTORE=$RUNNER_TEMP/signing.keystore" >> "$GITHUB_ENV"
 
+      # Without the keystore the build still succeeds, but hands out an
+      # app-release-unsigned.apk that no device will install ("App not
+      # installed") — the whole point of this workflow. Say so where it cannot
+      # be missed: as a run annotation, in the job summary, and in the artifact
+      # name itself (see "Upload APK" below).
+      - name: Warn about missing signing secrets
+        if: env.HAS_KEYSTORE != 'true'
+        run: |
+          echo "::warning title=APK will be UNSIGNED::ANDROID_KEYSTORE_BASE64 is not set — the resulting APK cannot be installed on any device. Sign it locally (apksigner sign --ks docker/android/my.keystore --ks-key-alias app <apk>) or add the signing secrets."
+          {
+            echo "### ⚠️ Unsigned build"
+            echo ""
+            echo "\`ANDROID_KEYSTORE_BASE64\` is not set, so the APK is **unsigned** and will not install."
+            echo "Either add the signing secrets, or sign the artifact locally:"
+            echo ""
+            echo '```'
+            echo "apksigner sign --ks docker/android/my.keystore --ks-key-alias app <apk>"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Build ${{ matrix.name }} APK
         id: build
         env:
@@ -169,7 +189,7 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-apk-${{ matrix.name }}-${{ github.sha }}
+          name: PokerTH-apk-${{ matrix.name }}${{ env.HAS_KEYSTORE == 'true' && '' || '-UNSIGNED' }}-${{ github.sha }}
           path: PokerTH-*.apk
           if-no-files-found: error
           retention-days: 30

@@ -654,6 +654,7 @@ if [ "$UNIVERSAL_APK" = "1" ]; then
   fi
 
   APKS_FILE="$SCRIPT_DIR/PokerTH-${VERSION_NAME}-${VERSION_CODE}-universal.apks"
+  UNIVERSAL_APK_FILE="$SCRIPT_DIR/PokerTH-${VERSION_NAME}-${VERSION_CODE}-universal.apk"
   declare -a BUNDLETOOL_SIGN_ARGS=()
   if [ -n "$ANDROID_KEYSTORE" ]; then
     BUNDLETOOL_SIGN_ARGS=(
@@ -672,8 +673,30 @@ if [ "$UNIVERSAL_APK" = "1" ]; then
     "${BUNDLETOOL_SIGN_ARGS[@]}"
 
   # A .apks archive is a ZIP; the universal mode puts exactly one APK inside.
-  unzip -p "$APKS_FILE" universal.apk > "$SCRIPT_DIR/PokerTH-${VERSION_NAME}-${VERSION_CODE}-universal.apk"
+  unzip -p "$APKS_FILE" universal.apk > "$UNIVERSAL_APK_FILE"
   rm -f "$APKS_FILE"
+
+  # Which certificate ended up on the APK decides whether a device that already
+  # has PokerTH installed accepts it as an update. Without --ks bundletool does
+  # not leave the APK unsigned — it silently falls back to its own debug key,
+  # which installs fine on a clean device but is rejected as an update over any
+  # previously side-loaded build. Print the certificate either way, so the two
+  # cases are told apart from the log instead of from a tester's phone.
+  BT_DIR="$ANDROID_SDK_ROOT/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
+  log "Universal APK signature:"
+  if [ -n "$ANDROID_KEYSTORE" ]; then
+    "$BT_DIR/apksigner" verify --print-certs "$UNIVERSAL_APK_FILE" |
+      grep -E "Signer #1 certificate (DN|SHA-256)" || true
+  else
+    "$BT_DIR/apksigner" verify --print-certs "$UNIVERSAL_APK_FILE" |
+      grep -E "Signer #1 certificate DN" || true
+    echo ""
+    echo "WARNING: no ANDROID_KEYSTORE set — bundletool signed the universal APK"
+    echo "         with its DEBUG key. It installs on a device that has no"
+    echo "         PokerTH yet, but every existing side-load install refuses it"
+    echo "         as an update (INSTALL_FAILED_UPDATE_INCOMPATIBLE, shown as a"
+    echo "         bare 'App not installed')."
+  fi
 fi
 
 ########################################

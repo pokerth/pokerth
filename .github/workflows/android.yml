@@ -59,6 +59,9 @@ jobs:
 
     outputs:
       aab_name: ${{ steps.build.outputs.aab_name }}
+      # The secrets context is not available in a job-level `if:`, so hand the
+      # signing state down to publish-play as an output.
+      signed: ${{ steps.prep.outputs.signed }}
 
     steps:
       - name: Checkout
@@ -72,7 +75,10 @@ jobs:
       # above everything that ever left this repo by hand.
       # (GitHub expressions have no arithmetic, hence the step.)
       - name: Resolve versionCode
-        run: echo "VERSION_CODE=${VERSION_CODE_INPUT:-$((100 + GITHUB_RUN_NUMBER))}" >> "$GITHUB_ENV"
+        id: prep
+        run: |
+          echo "VERSION_CODE=${VERSION_CODE_INPUT:-$((100 + GITHUB_RUN_NUMBER))}" >> "$GITHUB_ENV"
+          echo "signed=$HAS_KEYSTORE" >> "$GITHUB_OUTPUT"
 
       # AGP 8.8 (pinned by Qt 6.9's Gradle template) needs JDK 17.
       - name: Set up JDK 17
@@ -125,6 +131,24 @@ jobs:
           echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/upload.keystore"
           echo "ANDROID_KEYSTORE=$RUNNER_TEMP/upload.keystore" >> "$GITHUB_ENV"
 
+      # Without the keystore the build still succeeds, but the .aab is rejected
+      # by Play and the universal .apk installs nowhere ("App not installed").
+      # Say so where it cannot be missed — the artifact names carry it too.
+      - name: Warn about missing signing secrets
+        if: env.HAS_KEYSTORE != 'true'
+        run: |
+          echo "::warning title=Build will not be signed with the upload key::ANDROID_KEYSTORE_BASE64 is not set — Play rejects the unsigned bundle, and bundletool signs the universal APK with its debug key, which no existing PokerTH install accepts as an update."
+          {
+            echo "### ⚠️ Missing signing key"
+            echo ""
+            echo "\`ANDROID_KEYSTORE_BASE64\` is not set:"
+            echo ""
+            echo "- the **bundle is unsigned** — Google Play will reject it"
+            echo "- the **universal APK carries bundletool's debug key** — it installs only on"
+            echo "  devices that have no PokerTH yet, and is refused as an update over every"
+            echo "  previously side-loaded build"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Build multi-ABI App Bundle
         id: build
         env:
@@ -155,7 +179,7 @@ jobs:
       - name: Upload App Bundle
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-android-aab-${{ github.sha }}
+          name: PokerTH-android-aab${{ env.HAS_KEYSTORE == 'true' && '' || '-UNSIGNED' }}-${{ github.sha }}
           path: |
             PokerTH-*.aab
             pokerth-play-icon-512.png
@@ -166,7 +190,9 @@ jobs:
         if: inputs.universal_apk
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-android-universal-apk-${{ github.sha }}
+          # Not "-UNSIGNED": without a keystore bundletool falls back to its own
+          # debug key, so the APK is signed — just with the wrong certificate.
+          name: PokerTH-android-universal-apk${{ env.HAS_KEYSTORE == 'true' && '' || '-DEBUGKEY' }}-${{ github.sha }}
           path: PokerTH-*-universal.apk
           if-no-files-found: error
           retention-days: 30
@@ -183,9 +209,12 @@ jobs:
   # Google Play only accepts a signed bundle whose versionCode is higher than
   # anything uploaded before. The very first upload of a package has to be made
   # by hand in the Play Console — the API cannot create a new app.
+  # An unsigned bundle is uploaded under a "-UNSIGNED" artifact name and Play
+  # would reject it anyway, so publishing is gated on the signing state instead
+  # of failing later on a missing artifact.
   publish-play:
     needs: build-aab
-    if: inputs.play_track != 'none'
+    if: inputs.play_track != 'none' && needs.build-aab.outputs.signed == 'true'
     runs-on: ubuntu-24.04
     steps:
       - name: Download App Bundle
