@@ -189,7 +189,10 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-apk-${{ matrix.name }}${{ env.HAS_KEYSTORE == 'true' && '' || '-UNSIGNED' }}-${{ github.sha }}
+          # Condition inverted on purpose: in `A && X || Y` GitHub returns Y
+          # whenever X is falsy, and the empty string is falsy — so the empty
+          # branch has to be the fallback, never the "true" branch.
+          name: PokerTH-apk-${{ matrix.name }}${{ env.HAS_KEYSTORE != 'true' && '-UNSIGNED' || '' }}-${{ github.sha }}
           path: PokerTH-*.apk
           if-no-files-found: error
           retention-days: 30

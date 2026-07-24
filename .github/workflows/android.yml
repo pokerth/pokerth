@@ -179,7 +179,10 @@ jobs:
       - name: Upload App Bundle
         uses: actions/upload-artifact@v4
         with:
-          name: PokerTH-android-aab${{ env.HAS_KEYSTORE == 'true' && '' || '-UNSIGNED' }}-${{ github.sha }}
+          # Condition inverted on purpose: in `A && X || Y` GitHub returns Y
+          # whenever X is falsy, and the empty string is falsy — so the empty
+          # branch has to be the fallback, never the "true" branch.
+          name: PokerTH-android-aab${{ env.HAS_KEYSTORE != 'true' && '-UNSIGNED' || '' }}-${{ github.sha }}
           path: |
             PokerTH-*.aab
             pokerth-play-icon-512.png
@@ -192,7 +195,8 @@ jobs:
         with:
           # Not "-UNSIGNED": without a keystore bundletool falls back to its own
           # debug key, so the APK is signed — just with the wrong certificate.
-          name: PokerTH-android-universal-apk${{ env.HAS_KEYSTORE == 'true' && '' || '-DEBUGKEY' }}-${{ github.sha }}
+          # (Inverted condition, same empty-string-is-falsy reason as above.)
+          name: PokerTH-android-universal-apk${{ env.HAS_KEYSTORE != 'true' && '-DEBUGKEY' || '' }}-${{ github.sha }}
           path: PokerTH-*-universal.apk
           if-no-files-found: error
           retention-days: 30
