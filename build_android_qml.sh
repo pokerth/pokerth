@@ -559,10 +559,10 @@ if [ "$PACKAGE_FORMAT" = "apk" ]; then
   [ -n "$RAW_APK" ] || { echo "ERROR: Gradle produced no .apk" >&2; exit 1; }
 
   FINAL_APK="$SCRIPT_DIR/PokerTH-${APP_LABEL}-${VERSION_NAME}-${VERSION_CODE}-${PRIMARY_ABI}.apk"
+  BT_DIR="$ANDROID_SDK_ROOT/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
 
   if [ -n "$ANDROID_KEYSTORE" ]; then
     log "Signing the APK with the upload key (zipalign + apksigner)…"
-    BT_DIR="$ANDROID_SDK_ROOT/build-tools/$ANDROID_BUILD_TOOLS_VERSION"
     "$BT_DIR/zipalign" -f -p 4 "$RAW_APK" "$FINAL_APK"
     "$BT_DIR/apksigner" sign \
       --ks "$ANDROID_KEYSTORE" \
@@ -579,12 +579,30 @@ if [ "$PACKAGE_FORMAT" = "apk" ]; then
     echo "         installing:  apksigner sign --ks <keystore> '$FINAL_APK'"
   fi
 
+  # Everything a failing side-load install comes down to — package name,
+  # versionCode, minSdk, packaged ABI and the signing certificate — printed from
+  # the finished file, so a "cannot install" report can be answered from the
+  # build log instead of from the device. In particular: a versionCode below the
+  # one already installed, or a certificate other than the one that signed the
+  # previous install, both fail with the same bare "App not installed".
+  log "APK contents (this is what the device checks on install):"
+  "$BT_DIR/aapt2" dump badging "$FINAL_APK" |
+    grep -E "^(package|sdkVersion|targetSdkVersion|native-code)" || true
+  if [ -n "$ANDROID_KEYSTORE" ]; then
+    "$BT_DIR/apksigner" verify --print-certs "$FINAL_APK" |
+      grep -E "Signer #1 certificate (DN|SHA-256)" || true
+  fi
+
   echo ""
   echo "======================================"
   echo "Android APK created:"
   ls -lh "$FINAL_APK"
   echo "  target: $BUILD_TARGET   ABI: $PRIMARY_ABI   Qt: $QT_VERSION"
   echo "  SDK:    compile/target $ANDROID_API_LEVEL, min $ANDROID_MIN_SDK"
+  echo "  package: $PACKAGE_NAME   version: $VERSION_NAME ($VERSION_CODE)"
+  echo ""
+  echo "  An earlier side-load of the same package must be uninstalled first if"
+  echo "  it has a higher versionCode or was signed with a different key."
   echo "======================================"
   exit 0
 fi

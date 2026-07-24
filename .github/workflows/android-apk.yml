@@ -9,6 +9,9 @@ name: Build Android APKs (per-variant)
 # Variants:
 #   widget-arm64            classic Widgets client, arm64, Qt 6.9, api 35/min 28
 #   qml-arm64               QML client,             arm64, Qt 6.9, api 35/min 28
+#   qml-armv7               QML client,       armeabi-v7a, Qt 6.9, api 35/min 28
+#                           (32-bit-only devices — an arm64 APK cannot install
+#                           there at all: INSTALL_FAILED_NO_MATCHING_ABIS)
 #   qml-x86_64              QML client,           x86_64, Qt 6.9, api 35/min 28
 #   qml-arm64-qt67-api26    QML client on Qt 6.7,   arm64, api 34/min 26
 #                           (Android 8.0 devices, e.g. HUAWEI RNE-L21)
@@ -32,10 +35,11 @@ on:
           - all
           - widget-arm64
           - qml-arm64
+          - qml-armv7
           - qml-x86_64
           - qml-arm64-qt67-api26
       version_code:
-        description: "versionCode (default: run number)"
+        description: "versionCode (default: 100 + run number)"
         type: string
         default: ""
 
@@ -51,6 +55,7 @@ jobs:
           ALL='[
             {"name":"widget-arm64",         "target":"pokerth_client",     "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28"},
             {"name":"qml-arm64",            "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28"},
+            {"name":"qml-armv7",            "target":"pokerth_qml-client", "abi":"armeabi-v7a", "qt":"6.9.3", "api":"35", "min":"28"},
             {"name":"qml-x86_64",           "target":"pokerth_qml-client", "abi":"x86_64",    "qt":"6.9.3", "api":"35", "min":"28"},
             {"name":"qml-arm64-qt67-api26", "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.7.3", "api":"34", "min":"26"}
           ]'
@@ -77,13 +82,23 @@ jobs:
       ANDROID_ABIS: ${{ matrix.abi }}
       ANDROID_API_LEVEL: ${{ matrix.api }}
       ANDROID_MIN_SDK: ${{ matrix.min }}
-      VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      VERSION_CODE_INPUT: ${{ inputs.version_code }}
       # The secrets context is not available in step `if:`, so fan it out here.
       HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && 'true' || 'false' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # 100 + run number, never the bare run number: this workflow's run numbers
+      # start at 1, while the local builds in docker/android/build_android.sh
+      # already shipped versionCode 20…24 as side-load APKs under the same
+      # package name. Installing a lower code over one of those fails with
+      # INSTALL_FAILED_VERSION_DOWNGRADE, which Android only shows as
+      # "App not installed". The offset keeps every workflow build above them.
+      # (GitHub expressions have no arithmetic, hence the step.)
+      - name: Resolve versionCode
+        run: echo "VERSION_CODE=${VERSION_CODE_INPUT:-$((100 + GITHUB_RUN_NUMBER))}" >> "$GITHUB_ENV"
 
       # AGP needs JDK 17 (Qt 6.9 → AGP 8.8, Qt 6.7 kit raised to AGP 8.2).
       - name: Set up JDK 17

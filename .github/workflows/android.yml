@@ -30,7 +30,7 @@ on:
         default: "35"
         options: ["35", "36"]
       version_code:
-        description: "versionCode — must be higher than every previous upload (default: run number)"
+        description: "versionCode — must be higher than every previous upload (default: 100 + run number)"
         type: string
         default: ""
       universal_apk:
@@ -52,7 +52,7 @@ jobs:
       QT_VERSION: "6.9.3"
       ANDROID_ABIS: ${{ inputs.abis }}
       ANDROID_API_LEVEL: ${{ inputs.api_level }}
-      VERSION_CODE: ${{ inputs.version_code || github.run_number }}
+      VERSION_CODE_INPUT: ${{ inputs.version_code }}
       UNIVERSAL_APK: ${{ inputs.universal_apk && '1' || '0' }}
       # The secrets context is not available in step `if:`, so fan it out to env here.
       HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && 'true' || 'false' }}
@@ -63,6 +63,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # 100 + run number, never the bare run number: the local builds in
+      # docker/android/build_android.sh already shipped versionCode 20…24 as
+      # side-load APKs under the same package name, and Android refuses to
+      # install a lower code over them ("App not installed" =
+      # INSTALL_FAILED_VERSION_DOWNGRADE). The offset keeps every workflow build
+      # above everything that ever left this repo by hand.
+      # (GitHub expressions have no arithmetic, hence the step.)
+      - name: Resolve versionCode
+        run: echo "VERSION_CODE=${VERSION_CODE_INPUT:-$((100 + GITHUB_RUN_NUMBER))}" >> "$GITHUB_ENV"
 
       # AGP 8.8 (pinned by Qt 6.9's Gradle template) needs JDK 17.
       - name: Set up JDK 17
