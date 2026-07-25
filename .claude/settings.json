@@ -36,7 +36,8 @@
       "Bash(unzip -p PokerTH-qml-2.1.4-104-arm64-v8a.apk META-INF/APP.SF)",
       "Bash(openssl x509 *)",
       "Bash(openssl rsa *)",
-      "Bash(awk 'NR<=1141 && /<name>/ {ln=NR; name=$0} END{print ln\": \"name}' pokerth_de_DE.ts)"
+      "Bash(awk 'NR<=1141 && /<name>/ {ln=NR; name=$0} END{print ln\": \"name}' pokerth_de_DE.ts)",
+      "Bash(awk 'NR>=215 && NR<=242 && \\(/public|slots|signals|private|Q_INVOKABLE/\\){print NR\": \"$0}' lobbyhandler.h)"
     ]
   }
 }

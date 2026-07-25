@@ -60,8 +60,10 @@ Rectangle {
         Config.BotSuggest.suggestForPreset(presetName, Lobby.idlePlayerNames(),
             function(ok, message) {
                 gameWaitPage.suggestBusy = false
+                // Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des
+                // bbcbot an den Anfragenden) – nicht in die Lobby broadcasten.
                 if (ok && message.length > 0)
-                    Lobby.sendChatMessage(message)
+                    Lobby.postLocalChatNote(message)
             })
     }
 

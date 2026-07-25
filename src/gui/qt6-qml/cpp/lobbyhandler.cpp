@@ -1193,6 +1193,28 @@ void LobbyHandler::sendChatMessage(const QString &message)
     }
 }
 
+void LobbyHandler::postLocalChatNote(const QString &message)
+{
+    if (message.trimmed().isEmpty())
+        return;
+
+    // Nur lokale Anzeige: dieselbe Timestamp-/Farb-/Emote-Aufbereitung wie ein
+    // normaler Chat-Eintrag, aber kursiv-gedämpft (wie PMs) als Hinweis, dass
+    // die Zeile nur der auslösende Nutzer sieht und NICHT gesendet wird.
+    const bool isDark     = !m_config || (m_config->readConfigInt("DarkMode") != 0);
+    const QString colorPM = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
+
+    QString escapedMsg = message.toHtmlEscaped();
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+    escapedMsg = enlargeEmojis(escapedMsg);
+
+    const QString tsPrefix = chatTimestampPrefix(m_config);
+    const QString line = tsPrefix + QLatin1String("<i><span style=\"color:")
+                         + colorPM + QLatin1String(";\">") + escapedMsg
+                         + QLatin1String("</span></i>");
+    pushChatLine(line);
+}
+
 void LobbyHandler::onGamePlayerJoined()
 {
     // Benachrichtigungs-Sound wie der Widgets-Client (gamelobbydialogimpl /

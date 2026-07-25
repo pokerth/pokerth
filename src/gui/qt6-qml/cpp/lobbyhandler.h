@@ -238,6 +238,10 @@ public slots:
     
     // Chat
     void sendChatMessage(const QString &message);
+    // Hängt eine Zeile NUR lokal an den eigenen Chat-Verlauf an (kein Netzwerk,
+    // kein Broadcast) – für Hinweise, die nur der auslösende Nutzer sehen soll,
+    // z. B. das Community-„Suggest"-Ergebnis.
+    void postLocalChatNote(const QString &message);
     void onLobbyChatMessage(const QString &playerName, const QString &message);
     void onPrivateChatMessage(const QString &playerName, const QString &message);
 
