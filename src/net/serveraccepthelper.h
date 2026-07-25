@@ -80,9 +80,10 @@ public:
                     | boost::asio::ssl::context::no_sslv3
                 );
 
-                // @TODO: find better way to specify cert and key files
-                m_sslContext->use_certificate_chain_file("/srv/pokerth_env/repos/pokerth-test/tls/server.crt");
-                m_sslContext->use_private_key_file("/srv/pokerth_env/repos/pokerth-test/tls/server.key", boost::asio::ssl::context::pem);
+                // Cert and key are resolved relative to the server's working
+                // directory (the build dir), matching ServerAcceptWebHelper.
+                m_sslContext->use_certificate_chain_file("../tls/server.crt");
+                m_sslContext->use_private_key_file("../tls/server.key", boost::asio::ssl::context::pem);
 
                 std::string ciphers = "ECDHE-RSA-AES128-GCM-SHA256:...";
                 if (SSL_CTX_set_cipher_list(m_sslContext->native_handle(), ciphers.c_str()) != 1) {

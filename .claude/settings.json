@@ -33,7 +33,9 @@
       "Bash(apksigner --version)",
       "Bash(unzip -l PokerTH-qml-2.1.4-104-arm64-v8a.apk)",
       "Bash(unzip -p PokerTH-qml-2.1.4-104-arm64-v8a.apk META-INF/MANIFEST.MF)",
-      "Bash(unzip -p PokerTH-qml-2.1.4-104-arm64-v8a.apk META-INF/APP.SF)"
+      "Bash(unzip -p PokerTH-qml-2.1.4-104-arm64-v8a.apk META-INF/APP.SF)",
+      "Bash(openssl x509 *)",
+      "Bash(openssl rsa *)"
     ]
   }
 }
