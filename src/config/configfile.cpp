@@ -263,6 +263,7 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	// Symbol einer konkreten Zeile antippt (siehe ChatTranslator /
 	// docs/third_party_services.md).
 	configList.push_back(ConfigInfo("AllowChatTranslation", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("ShowChatTimestamp", CONFIG_TYPE_INT, "1")); // Zeitstempel [HH:mm:ss] vor Chatzeilen
 	configList.push_back(ConfigInfo("DarkMode", CONFIG_TYPE_INT, "2")); // 0=Light, 1=Dark, 2=Auto/System
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));

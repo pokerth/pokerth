@@ -158,6 +158,12 @@ Rectangle {
                     }
 
                     ConfigCheckBox {
+                        objectName: "showChatTimestampCheckbox"
+                        text: qsTr("Zeitstempel im Chat anzeigen")
+                        configKey: "ShowChatTimestamp"
+                    }
+
+                    ConfigCheckBox {
                         objectName: "fadeOutLosingCardsAnimationCheckbox"
                         text: qsTr("Ausblend-Animation für Verliererkarten")
                         configKey: "ShowFadeOutCardsAnimation"

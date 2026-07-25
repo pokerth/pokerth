@@ -1142,6 +1142,10 @@
         <translation>Fade-out animation for losing cards</translation>
     </message>
     <message>
+        <source>Zeitstempel im Chat anzeigen</source>
+        <translation>Show timestamp in chat</translation>
+    </message>
+    <message>
         <location line="+6"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
         <translation>Animated Cards (Flip Animation)</translation>

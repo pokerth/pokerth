@@ -1368,14 +1368,14 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
     }
 
     // Build final line
-    const QString ts          = QDateTime::currentDateTime().toString("HH:mm:ss");
+    const QString tsPrefix    = chatTimestampPrefix(m_config);
     const QString escapedName = playerName.toHtmlEscaped();
     QString line;
     if (isAction) {
-        line = QLatin1String("[") + ts + QLatin1String("] <i>*")
+        line = tsPrefix + QLatin1String("<i>*")
                + escapedName + QLatin1String(" ") + styledMsg + QLatin1String("*</i>");
     } else {
-        line = QLatin1String("[") + ts + QLatin1String("] <b>")
+        line = tsPrefix + QLatin1String("<b>")
                + escapedName + QLatin1String(":</b> ") + styledMsg;
     }
 
@@ -1408,8 +1408,8 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     escapedMsg = enlargeEmojis(escapedMsg);
 
-    const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
-    QString line       = QLatin1String("[") + ts + QLatin1String("] <i><span style=\"color:")
+    const QString tsPrefix = chatTimestampPrefix(m_config);
+    QString line       = tsPrefix + QLatin1String("<i><span style=\"color:")
                          + colorPM + QLatin1String(";\">")
                          + playerName.toHtmlEscaped()
                          + QLatin1String("(pm): ") + escapedMsg
@@ -1815,10 +1815,10 @@ void LobbyHandler::onPlayerGameInvitation(unsigned gameId, unsigned playerIdWho,
     const QString who  = QString::fromStdString(m_session->getClientPlayerInfo(playerIdWho).playerName).toHtmlEscaped();
     const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
     const QString from = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName).toHtmlEscaped();
-    const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
+    const QString tsPrefix = chatTimestampPrefix(m_config);
     const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
     const QString colorInvite = isDark ? QLatin1String("#8ab4f8") : QLatin1String("#1a5fb4"); // info blue
-    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:") + colorInvite + QStringLiteral(";\">")
+    pushChatLine(tsPrefix + QStringLiteral("<span style=\"color:") + colorInvite + QStringLiteral(";\">")
                  + tr("%1 has been invited to %2 by %3.").arg(who, game, from)
                  + QStringLiteral("</span>"));
 }
@@ -1832,10 +1832,10 @@ void LobbyHandler::onRejectedGameInvitation(unsigned gameId, unsigned playerIdWh
     const QString msg  = (reason == DENY_GAME_INVITATION_BUSY)
         ? tr("%1 cannot join %2 because he is busy.").arg(who, game)
         : tr("%1 has rejected the invitation to %2.").arg(who, game);
-    const QString ts   = QDateTime::currentDateTime().toString("HH:mm:ss");
+    const QString tsPrefix = chatTimestampPrefix(m_config);
     const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
     const QString colorReject = isDark ? QLatin1String("#e0686d") : QLatin1String("#c62828"); // reject red
-    pushChatLine(QStringLiteral("[") + ts + QStringLiteral("] <span style=\"color:") + colorReject + QStringLiteral(";\">") + msg + QStringLiteral("</span>"));
+    pushChatLine(tsPrefix + QStringLiteral("<span style=\"color:") + colorReject + QStringLiteral(";\">") + msg + QStringLiteral("</span>"));
 }
 
 void LobbyHandler::adminBanPlayer(unsigned playerId)

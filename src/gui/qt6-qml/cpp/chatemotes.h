@@ -3,6 +3,21 @@
 
 #include <QString>
 #include <QRegularExpression>
+#include <QDateTime>
+#include <configfile.h>
+
+// Baut den Zeitstempel-Präfix "[HH:mm:ss] " einer Chatzeile – oder einen leeren
+// String, wenn der Nutzer den Zeitstempel per Einstellung ausgeblendet hat
+// (Config-Key "ShowChatTimestamp", Default an). Zentrale Stelle für Format,
+// Schlüssel und Default, damit Game- und Lobby-Chat identisch bleiben.
+inline QString chatTimestampPrefix(ConfigFile *config)
+{
+    if (config && config->readConfigInt("ShowChatTimestamp") == 0)
+        return QString();
+    return QLatin1Char('[')
+           + QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss"))
+           + QLatin1String("] ");
+}
 
 // Zeichenklassen der Emoji-Erkennung – gemeinsam genutzt von enlargeEmojis
 // und isEmojiOnlyReaction, damit beide denselben Emoji-Begriff haben.

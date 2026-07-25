@@ -1142,6 +1142,10 @@
         <translation>Animación de desvanecimiento para cartas perdedoras</translation>
     </message>
     <message>
+        <source>Zeitstempel im Chat anzeigen</source>
+        <translation>Mostrar la marca de tiempo en el chat</translation>
+    </message>
+    <message>
         <location line="+6"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
         <translation>Cartas animadas (animación al revelar)</translation>

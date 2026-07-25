@@ -1142,6 +1142,10 @@
         <translation>Ausblend-Animation für Verliererkarten</translation>
     </message>
     <message>
+        <source>Zeitstempel im Chat anzeigen</source>
+        <translation>Zeitstempel im Chat anzeigen</translation>
+    </message>
+    <message>
         <location line="+6"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
         <translation>Animierte Karten (Aufdeck-Animation)</translation>

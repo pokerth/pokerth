@@ -366,13 +366,13 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
                         + QStringLiteral(";\">") + escapedMsg + QStringLiteral("</span>");
     styledMsg = enlargeEmojis(styledMsg);
 
-    const QString ts = QDateTime::currentDateTime().toString(QStringLiteral("HH:mm:ss"));
+    const QString tsPrefix = chatTimestampPrefix(m_config);
     const QString name = playerName.toHtmlEscaped();
     QString line;
     if (isAction)
-        line = QStringLiteral("[") + ts + QStringLiteral("] <i>* ") + name + QStringLiteral(" ") + styledMsg + QStringLiteral(" *</i>");
+        line = tsPrefix + QStringLiteral("<i>* ") + name + QStringLiteral(" ") + styledMsg + QStringLiteral(" *</i>");
     else
-        line = QStringLiteral("[") + ts + QStringLiteral("] <b>") + name + QStringLiteral(":</b> ") + styledMsg;
+        line = tsPrefix + QStringLiteral("<b>") + name + QStringLiteral(":</b> ") + styledMsg;
 
     // Übersetzen-Symbol nur an Nachrichten anderer (rawDisplay = Quelltext ohne
     // HTML/Style-Markup; styledMsg = Nachrichtenkörper, der beim Einblenden
