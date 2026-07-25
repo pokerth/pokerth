@@ -352,6 +352,20 @@ Rectangle {
                             }
                         }
                     }
+
+                    // Optionales Admin-Feature (Spielerempfehlung im Warteraum
+                    // eines eigenen BBC-/WEC-Invite-Spiels) – wie die Standard-
+                    // Community nur bei aktivierten Community-Inhalten sichtbar.
+                    CheckBox {
+                        objectName: "showCommunitySuggestCheckbox"
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 24
+                        visible: Config.Parameters.showCommunityContent
+                        Layout.preferredHeight: visible ? implicitHeight : 0
+                        text: qsTr("Spieler in eigenen Community-Spielen vorschlagen")
+                        checked: Config.Parameters.showCommunitySuggest
+                        onCheckedChanged: Config.Parameters.showCommunitySuggest = checked
+                    }
                     } // ColumnLayout
                 }
 

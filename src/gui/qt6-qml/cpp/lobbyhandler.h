@@ -319,6 +319,10 @@ public slots:
     // gerade in einem (offenen) Spiel sitzen und vom Spielerlisten-Filter
     // (Modus 2) ausgeblendet werden – analog zum Qt-Widgets-Client.
     Q_INVOKABLE QStringList playerNickList() const;
+    // Namen der aktuell idle (nicht an einem Tisch sitzenden) Nicht-Gast-Spieler
+    // in der Lobby – dasselbe Prädikat wie der Idle-Filter der Spielerliste
+    // (getGameIdOfPlayer == 0). Basis für das Community-„Suggest"-Feature.
+    Q_INVOKABLE QStringList idlePlayerNames() const;
     Q_INVOKABLE QString playerCountryByName(const QString &name) const;
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;

@@ -1093,6 +1093,11 @@
         <source>Start Game</source>
         <translation>Iniciar jogo</translation>
     </message>
+    <message>
+        <location filename="../pages/GameWaitPage.qml" line="872"/>
+        <source>Suggest players</source>
+        <translation>Sugerir jogadores</translation>
+    </message>
 </context>
 <context>
     <name>GuiSettings</name>
@@ -1239,6 +1244,11 @@
         <location line="+28"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.</source>
         <translation>A tradução usa um serviço externo (Google Tradutor ou, em alternativa, o MyMemory). Nada é enviado até tocar no ícone de uma mensagem; o idioma de destino é o selecionado acima.</translation>
+    </message>
+    <message>
+        <location filename="../components/GuiSettings.qml" line="365"/>
+        <source>Spieler in eigenen Community-Spielen vorschlagen</source>
+        <translation>Sugerir jogadores nos seus próprios jogos da comunidade</translation>
     </message>
 </context>
 <context>

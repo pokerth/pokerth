@@ -30,6 +30,13 @@ Settings {
     // Config.Community.entries.
     property string defaultCommunity: "pokerth"
 
+    // Optionales Admin-Feature: Ersteller eines BBC-Step-/WEC-Invite-Spiels
+    // können im Warteraum passende idle Spieler in den Chat vorschlagen
+    // (Config.BotSuggest). Nur wirksam bei aktivierten Community-Inhalten.
+    // Standardmäßig AUS: nur für die wenigen BBC/WEC-Admins relevant, die
+    // Masse interessiert sich nur für die Community-Ranglisten.
+    property bool showCommunitySuggest: false
+
     // Tooltips auf Icon-Buttons (nur Desktop – auf Touch gibt es kein Hover).
     property bool showTooltips: true
 

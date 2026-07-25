@@ -175,6 +175,7 @@ set(QML_FILES
     pages/SettingsPage.qml
     pages/StartPage.qml
     pages/WecRankingPage.qml
+    config/BotSuggest.qml
     config/Community.qml
     config/Parameters.qml
     config/Responsive.qml

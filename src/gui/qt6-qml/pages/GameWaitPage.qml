@@ -40,6 +40,31 @@ Rectangle {
                                      && !(Lobby && Lobby.rejoinWaiting)
     readonly property bool canKick: isGameAdmin && !isRanking
 
+    // ── Community-„Suggest" (aus dem Legacy-bbcbot portiert) ─────────────────
+    // Nur der Ersteller eines Invite-Spiels (GameType 3), dessen Spielname einem
+    // BBC-Step- oder WEC-Preset entspricht, kann passende, gerade idle Spieler in
+    // den Lobby-Chat vorschlagen. Die Auswahllogik + das Cachen der Botfiles
+    // steckt im Singleton Config.BotSuggest.
+    readonly property string presetName: info.name || ""
+    readonly property bool canSuggest: Config.Parameters.showCommunityContent
+        && Config.Parameters.showCommunitySuggest
+        && isGameAdmin
+        && (info.gameType || 1) === 3
+        && Config.BotSuggest.supportsPreset(presetName)
+    property bool suggestBusy: false
+
+    function runSuggest() {
+        if (!Lobby || suggestBusy)
+            return
+        suggestBusy = true
+        Config.BotSuggest.suggestForPreset(presetName, Lobby.idlePlayerNames(),
+            function(ok, message) {
+                gameWaitPage.suggestBusy = false
+                if (ok && message.length > 0)
+                    Lobby.sendChatMessage(message)
+            })
+    }
+
     // NTF_NET_REMOVED_ON_REQUEST (socket_msg.h) – selbst angefordertes Verlassen
     readonly property int removedOnRequest: 202
 
@@ -801,10 +826,66 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 5
 
-                        AppLabel {
-                            text: qsTr("Lobby Chat")
-                            font.bold: true
-                            color: Config.StaticData.palette.secondary.col200
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 6
+
+                            AppLabel {
+                                text: qsTr("Lobby Chat")
+                                font.bold: true
+                                color: Config.StaticData.palette.secondary.col200
+                                Layout.fillWidth: true
+                            }
+
+                            // Schlägt für das eigene BBC-/WEC-Invite-Spiel passende
+                            // idle Spieler vor; das Ergebnis erscheint im Chat.
+                            Rectangle {
+                                visible: gameWaitPage.canSuggest
+                                implicitHeight: 26
+                                implicitWidth: suggestContent.implicitWidth + 16
+                                radius: 4
+                                opacity: gameWaitPage.suggestBusy ? 0.5 : 1.0
+                                color: suggestArea.containsMouse
+                                       ? Config.StaticData.palette.secondary.col600
+                                       : Qt.darker(Config.StaticData.palette.secondary.col700, 1.1)
+                                border.width: 1
+                                border.color: Config.StaticData.palette.secondary.col500
+
+                                RowLayout {
+                                    id: suggestContent
+                                    anchors.centerIn: parent
+                                    spacing: 5
+
+                                    Image {
+                                        Layout.preferredWidth: 15
+                                        Layout.preferredHeight: 15
+                                        source: "../resources/personAdd.svg"
+                                        sourceSize: Qt.size(30, 30)
+                                        smooth: true
+                                        antialiasing: true
+                                        layer.enabled: true
+                                        layer.effect: MultiEffect {
+                                            colorization: 1.0
+                                            colorizationColor: Config.StaticData.palette.secondary.col200
+                                        }
+                                    }
+
+                                    AppText {
+                                        text: qsTr("Suggest players")
+                                        font.pixelSize: 12
+                                        color: Config.StaticData.palette.secondary.col200
+                                    }
+                                }
+
+                                MouseArea {
+                                    id: suggestArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    enabled: !gameWaitPage.suggestBusy
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: gameWaitPage.runSuggest()
+                                }
+                            }
                         }
 
                         ChatBox {

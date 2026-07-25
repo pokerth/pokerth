@@ -66,6 +66,7 @@
         <file>components/GameActionBar.qml</file>
         <file>components/LobbyStatsBar.qml</file>
         <file>config/qmldir</file>
+        <file>config/BotSuggest.qml</file>
         <file>config/Community.qml</file>
         <file>config/Parameters.qml</file>
         <file>config/Responsive.qml</file>

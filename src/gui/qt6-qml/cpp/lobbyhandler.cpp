@@ -998,6 +998,46 @@ QStringList LobbyHandler::playerNickList() const
     return nicks;
 }
 
+QStringList LobbyHandler::idlePlayerNames() const
+{
+    QStringList names;
+    if (!m_session)
+        return names;
+
+    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+    const int count = m_playerListModel.rowCount();
+    for (int row = 0; row < count; ++row) {
+        const QModelIndex index = m_playerListModel.index(row, 0);
+        if (!index.isValid())
+            continue;
+
+        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+        if (playerId == 0)
+            continue;
+        // Gäste stehen weder in der BBC-Datenbank noch auf der WEC-Liste.
+        if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
+            continue;
+        // idle = sitzt an keinem Tisch (identisch zum Idle-Filter, Modus 2).
+        if (m_session->getGameIdOfPlayer(playerId) != 0)
+            continue;
+
+        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+        // Platzhalternamen (z. B. "#123") über die Session auflösen.
+        const bool nameIsPlaceholder = playerName.isEmpty()
+            || numericPlaceholderPattern.match(playerName).hasMatch();
+        if (nameIsPlaceholder) {
+            const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+            if (!sessionName.isEmpty())
+                playerName = sessionName;
+        }
+
+        if (!playerName.isEmpty() && !names.contains(playerName))
+            names << playerName;
+    }
+
+    return names;
+}
+
 QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
 {
     QVariantList players;
