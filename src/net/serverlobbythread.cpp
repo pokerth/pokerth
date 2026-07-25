@@ -2166,6 +2166,11 @@ ServerLobbyThread::InternalRemoveGame(boost::shared_ptr<ServerGame> game)
 			m_statDataChanged = true;
 		}
 	}
+	// Return any players/spectators still in the game to the lobby with full
+	// bookkeeping (removal from the game session manager + GamePlayerLeft
+	// notifications). Must happen before RemoveAllSessions(), which merely
+	// slams the sockets shut and would otherwise leave ghost players behind.
+	game->MoveAllSessionsToLobby();
 	// Remove game from list.
 	m_gameMap.erase(game->GetId());
 	// Remove all sessions left in the game.

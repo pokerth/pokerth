@@ -270,6 +270,23 @@ ServerGame::MoveSpectatorsToLobby()
 }
 
 void
+ServerGame::MoveAllSessionsToLobby()
+{
+	// Move every remaining session (seated players AND spectators) back to the
+	// lobby through the regular MoveSessionToLobby path. This performs the full
+	// bookkeeping - removes the session from the lobby thread's game session
+	// manager and announces GamePlayerLeft/GameSpectatorLeft to the others -
+	// which the raw socket-close in RemoveAllSessions() would otherwise skip,
+	// leaving ghost players in the lobby that reappear doubled on reconnect.
+	// Copy the list first: MoveSessionToLobby mutates the session manager.
+	std::vector<boost::shared_ptr<SessionData>> sessions = GetSessionManager().GetAllSessions();
+	for (auto &session : sessions) {
+		if (session)
+			MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_CLOSED);
+	}
+}
+
+void
 ServerGame::TimerVoteKick(const boost::system::error_code &ec)
 {
 	if (!ec && m_curState != &ServerGameStateFinal::Instance()) {
