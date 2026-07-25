@@ -669,12 +669,28 @@ Item {
                                 actionBar.raiseAmount = actionBar.clampRaiseAmount(v)
                         }
                         onAccepted: {
+                            if (!actionBar.raiseAvailable)
+                                return
                             var v = parseInt(text)
-                            if (!isNaN(v) && GameTable) {
-                                actionBar.raiseAmount = actionBar.clampRaiseAmount(v)
-                            }
+                            if (isNaN(v))
+                                return
                             // Enter im Raise-Feld löst Bet/Raise aus (wie der
-                            // Qt-Widgets-Client: Enter bei fokussiertem Betrag).
+                            // Qt-Widgets-Client: Enter bei fokussiertem Betrag) –
+                            // aber NUR bei einem sinnvollen Betrag. Ein zu hoher Wert
+                            // würde sonst still auf den Reststack (= All-In) geklemmt
+                            // und beim Enter überraschend als All-In gefeuert
+                            // (Spieler-Report: „300 getippt → All-In"). Liegt der
+                            // eingegebene Wert außerhalb [min,max], das Feld sichtbar
+                            // auf den echten, geklemmten Betrag korrigieren und NICHT
+                            // auslösen – der Nutzer bestätigt den nun sichtbaren
+                            // Betrag bewusst mit einem zweiten Enter.
+                            if (v < actionBar.raiseMinAmount || v > actionBar.raiseMaxAmount) {
+                                actionBar.raiseAmount = actionBar.clampRaiseAmount(v)
+                                text = actionBar.raiseAmount.toString()
+                                selectAll()
+                                return
+                            }
+                            actionBar.raiseAmount = v
                             actionBar.clickAction("raise")
                         }
                         // Fokus abgeben, sobald das Feld gesperrt wird (Zug vorbei →
@@ -699,6 +715,19 @@ Item {
                         // Text bleibt synchron mit raiseAmount (von Slider/%-Buttons)
                         onActiveFocusChanged: {
                             if (!activeFocus) {
+                                // Scope-Fokus NICHT behalten: Verliert das Feld den
+                                // activeFocus (z. B. weil der Nutzer ins Chat-Feld
+                                // wechselt), würde ein `focus == true` im Fokus-Scope
+                                // hängenbleiben. Beim nächsten Re-Layout oder wenn ein
+                                // Chat-Overlay (eigener Fokus-Scope) schließt, gäbe der
+                                // Scope dem Feld den activeFocus von selbst zurück – und
+                                // es fängt ein Enter ab, das der Nutzer für den Chat
+                                // gedacht hatte (Spieler-Report: „im Chat tippen, mein
+                                // Zug kommt → Enter löst BET aus"). Fokus hier freigeben,
+                                // dann kann sich das Feld den activeFocus nie selbst
+                                // zurückholen; der (bewusste) Auto-Fokus kommt weiterhin
+                                // ausschließlich aus focusAndSelectAll() bei eigenem Zug.
+                                focus = false
                                 text = actionBar.raiseAmount.toString()
                             }
                         }
