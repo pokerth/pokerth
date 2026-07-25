@@ -67,6 +67,7 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     ../../net/serverexception.cpp
     ../../net/serveracceptinterface.cpp
     ../../net/serveracceptwebhelper.cpp
+    ../../net/servertlsutil.cpp
     ../../net/servergame.cpp
     ../../net/servergamestate.cpp
     ../../net/serverlobbythread.cpp

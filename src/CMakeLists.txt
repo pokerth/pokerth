@@ -10,8 +10,9 @@ set(POKERTH_SERVER_SRC pokerth_server.cpp
     net/servermanagerfactoryserver.cpp
     net/serverlobbythread.cpp
     net/serverexception.cpp 
-    net/serveracceptinterface.cpp 
-    net/serveracceptwebhelper.cpp 
+    net/serveracceptinterface.cpp
+    net/serveracceptwebhelper.cpp
+    net/servertlsutil.cpp
     net/servergame.cpp 
     net/servergamestate.cpp 
     net/serverbanmanager.cpp 

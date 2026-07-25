@@ -29,8 +29,9 @@ set(POKERTH_OFFICIAL_SERVER_SRC
     ../net/servermanagerfactoryserver.cpp
     ../net/serverlobbythread.cpp
     ../net/serverexception.cpp 
-    ../net/serveracceptinterface.cpp 
-    ../net/serveracceptwebhelper.cpp 
+    ../net/serveracceptinterface.cpp
+    ../net/serveracceptwebhelper.cpp
+    ../net/servertlsutil.cpp
     ../net/servergame.cpp 
     ../net/servergamestate.cpp 
     ../net/serverbanmanager.cpp 

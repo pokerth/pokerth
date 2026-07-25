@@ -51,6 +51,7 @@
 
 #include <net/serveracceptinterface.h>
 #include <net/serverlobbythread.h>
+#include <net/servertlsutil.h>
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <core/loghelper.h>
@@ -80,10 +81,11 @@ public:
                     | boost::asio::ssl::context::no_sslv3
                 );
 
-                // Cert and key are resolved relative to the server's working
-                // directory (the build dir), matching ServerAcceptWebHelper.
-                m_sslContext->use_certificate_chain_file("../tls/server.crt");
-                m_sslContext->use_private_key_file("../tls/server.key", boost::asio::ssl::context::pem);
+                // Cert and key are resolved relative to the executable, not the
+                // current working directory (see GetServerTlsDir).
+                const std::string tlsDir = GetServerTlsDir();
+                m_sslContext->use_certificate_chain_file(tlsDir + "server.crt");
+                m_sslContext->use_private_key_file(tlsDir + "server.key", boost::asio::ssl::context::pem);
 
                 std::string ciphers = "ECDHE-RSA-AES128-GCM-SHA256:...";
                 if (SSL_CTX_set_cipher_list(m_sslContext->native_handle(), ciphers.c_str()) != 1) {
