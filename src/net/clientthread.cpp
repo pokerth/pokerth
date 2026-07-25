@@ -1788,6 +1788,14 @@ ClientThread::ReadSessionGuidFromFile()
 		std::vector<char> tmpGuid(CLIENT_GUID_SIZE);
 		guidStream.read(&tmpGuid[0], CLIENT_GUID_SIZE);
 		GetContext().SetSessionGuid(string(tmpGuid.begin(), tmpGuid.end()));
+		// Rejoin-Diagnose: nur mit hier gelesener GUID kann der Client nach einem
+		// Neustart (Android killt die App im Hintergrund) einen Wiedereinstieg
+		// anfragen.
+		LOG_MSG("[REJOIN] read guid.tmp (" << guidFileName << "), size="
+				<< GetContext().GetSessionGuid().size());
+	} else {
+		LOG_MSG("[REJOIN] no guid.tmp to read at " << guidFileName
+				<< " - rejoin after restart not possible");
 	}
 }
 
@@ -1798,6 +1806,12 @@ ClientThread::WriteSessionGuidToFile() const
 	std::ofstream guidStream(guidFileName.c_str(), ios::out | ios::trunc | ios::binary);
 	if (guidStream.good()) {
 		guidStream.write(GetContext().GetSessionGuid().c_str(), GetContext().GetSessionGuid().size());
+		// Rejoin-Diagnose: schlägt dieses Schreiben fehl (Pfad nicht beschreibbar),
+		// gibt es nach einem App-Neustart keine GUID für den Wiedereinstieg.
+		LOG_MSG("[REJOIN] wrote guid.tmp (" << guidFileName << "), size="
+				<< GetContext().GetSessionGuid().size());
+	} else {
+		LOG_ERROR("[REJOIN] could not write guid.tmp at " << guidFileName);
 	}
 }
 

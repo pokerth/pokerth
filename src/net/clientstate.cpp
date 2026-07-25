@@ -38,6 +38,7 @@
 #include <net/socket_helper.h>
 #include <net/socket_msg.h>
 #include <net/downloadhelper.h>
+#include <core/loghelper.h>
 #include <core/avatarmanager.h>
 #include <core/crypthelper.h>
 #include <qttoolsinterface.h>
@@ -1393,6 +1394,11 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
+			// Rejoin-Diagnose: das gesendete mylastsessionid entscheidet, ob der
+			// Server ein laufendes Spiel zum Wiedereinstieg anbieten kann. Leer =
+			// keine gespeicherte GUID (guid.tmp fehlt/nicht gelesen) => kein Rejoin.
+			LOG_MSG("[REJOIN] sending Init (unauth), mylastsessionid size="
+					<< context.GetSessionGuid().size());
 			if (!context.GetServerPassword().empty()) {
 				netInit->set_authserverpassword(context.GetServerPassword());
 			}
@@ -1476,6 +1482,10 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
             if (!context.GetSessionGuid().empty()) {
                 netInit->set_mylastsessionid(context.GetSessionGuid());
             }
+            // Rejoin-Diagnose (siehe unauth-Pfad oben): leere mylastsessionid =>
+            // kein Wiedereinstieg möglich.
+            LOG_MSG("[REJOIN] sending Init (auth), mylastsessionid size="
+                    << context.GetSessionGuid().size());
             if (!context.GetServerPassword().empty()) {
                 netInit->set_authserverpassword(context.GetServerPassword());
             }
@@ -1651,8 +1661,16 @@ ClientStateWaitSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cli
 		client->GetContext().SetSessionGuid(netInitAck.yoursessionid());
 		client->SetSessionEstablished(true);
 		client->GetCallback().SignalNetClientConnect(MSG_SOCK_SESSION_DONE);
+		// Rejoin-Diagnose: liegt hier eine rejoingameid an, hält der Server noch
+		// unseren Sitz in einem laufenden Spiel bereit und wir bieten den
+		// Wiedereinstieg an. Fehlt sie trotz vorher gesendeter mylastsessionid,
+		// liegt es serverseitig (Sitz nach 5 min freigegeben, Name/GUID/Cash-
+		// Mismatch, oder als "in Lobby" deaktiviert), nicht am Client.
 		if (netInitAck.has_rejoingameid()) {
+			LOG_MSG("[REJOIN] InitAck offers rejoin, gameId=" << netInitAck.rejoingameid());
 			client->GetCallback().SignalNetClientRejoinPossible(netInitAck.rejoingameid());
+		} else {
+			LOG_MSG("[REJOIN] InitAck without rejoin offer (no running game held for us)");
 		}
 		client->SetState(ClientStateWaitJoin::Instance());
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AvatarRequestMessage) {

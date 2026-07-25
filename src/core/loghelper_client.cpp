@@ -83,6 +83,42 @@ std::string timestampPrefix()
 	return os.str();
 }
 
+// Rotation period: wipe the debug log once its first entry is this old, so it
+// cannot grow without bound.
+constexpr int LOG_ROTATE_HOURS = 48;
+
+// Parse the log's first-entry time (written by timestampPrefix() in local time,
+// so it is parsed back the same way). Reads only the leading
+// "YYYY-MM-DD HH:MM:SS". Returns false on a missing/short/corrupt first line, in
+// which case the caller keeps appending (never wipe on doubt).
+bool parseLogStart(const std::string &path, std::time_t &out)
+{
+	std::ifstream in(path.c_str());
+	if (!in.good())
+		return false;
+	std::string firstLine;
+	if (!std::getline(in, firstLine) || firstLine.size() < 19)
+		return false;
+	std::tm tmv{};
+	std::istringstream ts(firstLine.substr(0, 19));
+	ts >> std::get_time(&tmv, "%Y-%m-%d %H:%M:%S");
+	if (ts.fail())
+		return false;
+	tmv.tm_isdst = -1; // let mktime resolve DST for the local time we parsed
+	const std::time_t start = std::mktime(&tmv);
+	if (start == static_cast<std::time_t>(-1))
+		return false;
+	out = start;
+	return true;
+}
+
+// True once the log's first entry has aged past LOG_ROTATE_HOURS.
+bool rotationDue(std::time_t periodStart)
+{
+	return periodStart != 0
+	       && std::difftime(std::time(nullptr), periodStart) >= LOG_ROTATE_HOURS * 3600.0;
+}
+
 } // namespace
 
 void
@@ -97,7 +133,16 @@ loghelper_init(const std::string &logDir, int logLevel)
 	const char last = logDir.back();
 	const std::string sep = (last == '/' || last == '\\') ? "" : "/";
 	const std::string path = logDir + sep + "pokerth-debug.log";
-	g_logFile.open(path.c_str(), std::ios::out | std::ios::app);
+	// Rotate only here, at app start: if an existing log's first entry is older
+	// than LOG_ROTATE_HOURS, truncate instead of appending. A running session is
+	// never touched - the log grows for the whole session and is only cleared on
+	// the next start once it has aged past the rotation period.
+	std::time_t existingStart = 0;
+	const bool rotate = parseLogStart(path, existingStart) && rotationDue(existingStart);
+	const std::ios::openmode mode = rotate
+		? (std::ios::out | std::ios::trunc)
+		: (std::ios::out | std::ios::app);
+	g_logFile.open(path.c_str(), mode);
 	if (g_logFile.is_open()) {
 		g_logFileReady = true;
 		g_logFile << timestampPrefix()

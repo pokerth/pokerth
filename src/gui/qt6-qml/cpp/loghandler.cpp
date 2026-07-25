@@ -403,6 +403,62 @@ bool LogHandler::deleteFiles(const QStringList &paths)
     return allOk;
 }
 
+QString LogHandler::debugLogPath() const
+{
+    if (!m_config)
+        return QString();
+    QString dir = QString::fromUtf8(m_config->readConfigString("LogDir").c_str());
+    if (dir.isEmpty())
+        return QString();
+    if (!dir.endsWith(QLatin1Char('/')) && !dir.endsWith(QLatin1Char('\\')))
+        dir += QLatin1Char('/');
+    return dir + QStringLiteral("pokerth-debug.log");
+}
+
+QString LogHandler::debugLogTail(int maxBytes) const
+{
+    const QString path = debugLogPath();
+    if (path.isEmpty())
+        return QString();
+    QFile f(path);
+    // Binary read (no newline translation) so seek() offsets stay exact.
+    if (!f.open(QIODevice::ReadOnly))
+        return QString();
+    const qint64 size = f.size();
+    bool truncated = false;
+    if (maxBytes > 0 && size > maxBytes) {
+        // The interesting connect/[REJOIN] lines are the most recent ones; show
+        // only the tail and drop the (likely partial) first line after seeking.
+        f.seek(size - maxBytes);
+        f.readLine();
+        truncated = true;
+    }
+    const QByteArray data = f.readAll();
+    f.close();
+    QString text = QString::fromUtf8(data);
+    if (truncated)
+        text.prepend(tr("… (showing the last %1 KB of the log)").arg(maxBytes / 1024)
+                     + QStringLiteral("\n\n"));
+    return text;
+}
+
+void LogHandler::saveDebugLogDialog()
+{
+    const QString src = debugLogPath();
+    if (src.isEmpty() || !QFile::exists(src))
+        return;
+    const QString suggested = QDir::homePath() + QStringLiteral("/pokerth-debug.log");
+    const QString dest = QFileDialog::getSaveFileName(
+        nullptr, tr("Save PokerTH debug log"), suggested,
+        tr("PokerTH debug log (*.log)"),
+        nullptr, AppImageUtils::fileDialogOptions());
+    if (dest.isEmpty())
+        return;
+    if (QFile::exists(dest))
+        QFile::remove(dest);
+    QFile::copy(src, dest);
+}
+
 QString LogHandler::homePath() const
 {
     return QDir::homePath();

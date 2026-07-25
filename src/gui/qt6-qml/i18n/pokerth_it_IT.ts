@@ -507,7 +507,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+832"/>
+        <location filename="../components/GameActionBar.qml" line="+868"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
@@ -893,7 +893,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+159"/>
+        <location filename="../pages/GameWaitPage.qml" line="+186"/>
         <source>Players</source>
         <translation>Giocatori</translation>
     </message>
@@ -922,48 +922,48 @@
     </message>
     <message>
         <location line="-264"/>
-        <location line="+620"/>
+        <location line="+676"/>
         <source>Game List</source>
         <translation>Elenco partite</translation>
     </message>
     <message>
-        <location line="-569"/>
-        <location line="+581"/>
+        <location line="-625"/>
+        <location line="+637"/>
         <source>No game list filter</source>
         <translation>Nessun filtro elenco partite</translation>
     </message>
     <message>
-        <location line="-580"/>
-        <location line="+581"/>
+        <location line="-636"/>
+        <location line="+637"/>
         <source>Show open games</source>
         <translation>Mostra partite aperte</translation>
     </message>
     <message>
-        <location line="-580"/>
-        <location line="+581"/>
+        <location line="-636"/>
+        <location line="+637"/>
         <source>Show open &amp; non-full games</source>
         <translation>Mostra partite aperte e non piene</translation>
     </message>
     <message>
-        <location line="-580"/>
-        <location line="+581"/>
+        <location line="-636"/>
+        <location line="+637"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Mostra partite aperte, non piene e non private</translation>
     </message>
     <message>
-        <location line="-580"/>
-        <location line="+581"/>
+        <location line="-636"/>
+        <location line="+637"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Mostra partite aperte, non piene e private</translation>
     </message>
     <message>
-        <location line="-580"/>
-        <location line="+581"/>
+        <location line="-636"/>
+        <location line="+637"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Mostra partite aperte, non piene e con classifica</translation>
     </message>
     <message>
-        <location line="-507"/>
+        <location line="-563"/>
         <source>Game Info</source>
         <translation>Informazioni partita</translation>
     </message>
@@ -1064,12 +1064,12 @@
         <translation>Espelli</translation>
     </message>
     <message>
-        <location line="+753"/>
+        <location line="+757"/>
         <source>Lobby Chat</source>
         <translation>Chat della lobby</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+73"/>
         <source>Guests cannot chat</source>
         <translation>Gli ospiti non possono chattare</translation>
     </message>
@@ -1094,7 +1094,7 @@
         <translation>Inizia partita</translation>
     </message>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="872"/>
+        <location line="-88"/>
         <source>Suggest players</source>
         <translation>Suggerisci giocatori</translation>
     </message>
@@ -1142,16 +1142,17 @@
         <translation>Lingua:</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+76"/>
         <source>Ausblend-Animation für Verliererkarten</source>
         <translation>Animazione di dissolvenza per le carte perdenti</translation>
     </message>
     <message>
+        <location line="-6"/>
         <source>Zeitstempel im Chat anzeigen</source>
-        <translation>Mostra l'orario nella chat</translation>
+        <translation>Mostra l&apos;orario nella chat</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+12"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
         <translation>Carte animate (animazione flip)</translation>
     </message>
@@ -1216,7 +1217,7 @@
         <translation>Community predefinita:</translation>
     </message>
     <message>
-        <location line="+43"/>
+        <location line="+57"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Imposta il focus sul campo di puntata quando è il tuo turno</translation>
     </message>
@@ -1236,7 +1237,7 @@
         <translation>Evita chiamate accidentali dopo un grande rilancio</translation>
     </message>
     <message>
-        <location line="-249"/>
+        <location line="-269"/>
         <source>Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)</source>
         <translation>Offri la traduzione della chat (icona del globo accanto ai messaggi)</translation>
     </message>
@@ -1246,7 +1247,7 @@
         <translation>La traduzione utilizza un servizio esterno (Google Traduttore o, in alternativa, MyMemory). Non viene inviato nulla finché non tocchi l&apos;icona di un messaggio; la lingua di destinazione è quella selezionata sopra.</translation>
     </message>
     <message>
-        <location filename="../components/GuiSettings.qml" line="365"/>
+        <location line="+210"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Suggerisci giocatori nelle proprie partite della community</translation>
     </message>
@@ -1562,7 +1563,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1123"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1163"/>
         <source>Guests cannot send chat messages</source>
         <translation>Gli ospiti non possono inviare messaggi in chat</translation>
     </message>
@@ -1577,7 +1578,7 @@
         <translation>Impossibile inviare il messaggio in chat</translation>
     </message>
     <message>
-        <location line="+63"/>
+        <location line="+85"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
     </message>
@@ -2414,7 +2415,22 @@ Reinserire la password e riprovare.</translation>
         <translation>Registro PokerTH SQL (*.pdb)</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+54"/>
+        <source>… (showing the last %1 KB of the log)</source>
+        <translation>… (mostra gli ultimi %1 KB del log)</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Save PokerTH debug log</source>
+        <translation>Salva il log di debug di PokerTH</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>PokerTH debug log (*.log)</source>
+        <translation>Log di debug di PokerTH (*.log)</translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>Log file not found.</source>
         <translation>File di log non trovato.</translation>
     </message>
@@ -2498,16 +2514,22 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
     </message>
     <message>
         <location line="+6"/>
+        <location line="+133"/>
         <source>Save as ...</source>
         <translation>Salva con nome...</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-127"/>
         <source>Delete</source>
         <translation>Elimina</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location line="+25"/>
+        <source>Show debug log</source>
+        <translation>Mostra log di debug</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Analyse Logfile ...</source>
         <translation>Esamina file di registro ...</translation>
     </message>
@@ -2525,6 +2547,16 @@ L&apos;upload dei file di registro potrebbe non funzionare se si sta usando un p
         <location line="+13"/>
         <source>Uploading log file</source>
         <translation>Caricamento del file di registro</translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Debug log</source>
+        <translation>Log di debug</translation>
+    </message>
+    <message>
+        <location line="+42"/>
+        <source>Refresh</source>
+        <translation>Aggiorna</translation>
     </message>
 </context>
 <context>

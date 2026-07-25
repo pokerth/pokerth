@@ -65,6 +65,19 @@ public:
     // Upload the file to pokerth.net for web analysis.
     Q_INVOKABLE void analyse(const QString &path);
 
+    // ── Client debug log (pokerth-debug.log) ────────────────────────────────
+    // The plain-text client debug log lives in the LogDir. On mobile it sits in
+    // private storage the user cannot reach with a file manager; these expose it
+    // in-app so a player can read/copy it (e.g. to report a rejoin problem) and
+    // save a copy elsewhere. All platforms.
+    // Tail of the debug log (last maxBytes bytes, partial first line dropped).
+    // Empty string if the log does not exist yet.
+    Q_INVOKABLE QString debugLogTail(int maxBytes = 200000) const;
+    // Absolute path of pokerth-debug.log (empty if LogDir is unset).
+    Q_INVOKABLE QString debugLogPath() const;
+    // Native save dialog to export the debug log to a user-chosen location.
+    Q_INVOKABLE void saveDebugLogDialog();
+
     // UploadCallback – invoked on the uploader thread.
     void UploadCompleted(const std::string &filename, const std::string &returnMessage) override;
     void UploadError(const std::string &filename, const std::string &errorMessage) override;

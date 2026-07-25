@@ -261,6 +261,19 @@ Rectangle {
             Item { Layout.fillWidth: !logsPage.compact }
             CustomButton {
                 Layout.fillWidth: logsPage.compact
+                // Öffnet den Client-Debug-Log (pokerth-debug.log) direkt in der
+                // App. Auf Mobilgeräten liegt die Datei in privatem Speicher, den
+                // der Nutzer sonst nicht erreicht – so kann ein Spieler den Log
+                // z. B. bei einem Rejoin-Problem lesen und weitergeben.
+                text: qsTr("Show debug log")
+                onClicked: {
+                    debugLogView.text = (typeof LogStore !== "undefined" && LogStore)
+                                        ? LogStore.debugLogTail(200000) : ""
+                    debugLogDialog.open()
+                }
+            }
+            CustomButton {
+                Layout.fillWidth: logsPage.compact
                 text: qsTr("Analyse Logfile ...")
                 enabled: logsPage.selectedPath !== ""
                          && !((typeof LogStore !== "undefined" && LogStore) ? LogStore.uploadInProgress : false)
@@ -297,6 +310,71 @@ Rectangle {
             wrapMode: Text.WordWrap
             width: 360
             color: Config.StaticData.palette.secondary.col100
+        }
+    }
+
+    // Debug-Log-Viewer: zeigt das (getailte) pokerth-debug.log lesbar an. Text
+    // ist selektierbar → kopieren/teilen; "Save as ..." exportiert die Datei.
+    Dialog {
+        id: debugLogDialog
+        anchors.centerIn: parent
+        modal: true
+        title: qsTr("Debug log")
+        standardButtons: Dialog.Close
+        width: Math.min(logsPage.width * 0.92, 680)
+        height: Math.min(logsPage.height * 0.88, 680)
+
+        property alias text: debugLogView.text
+
+        ColumnLayout {
+            anchors.fill: parent
+            spacing: 8
+
+            Rectangle {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: Config.StaticData.palette.secondary.col700
+                border.color: Config.StaticData.palette.secondary.col500
+                border.width: 1
+                radius: 4
+
+                ScrollView {
+                    anchors.fill: parent
+                    anchors.margins: 6
+                    clip: true
+
+                    TextArea {
+                        id: debugLogView
+                        readOnly: true
+                        selectByMouse: true
+                        wrapMode: TextArea.NoWrap
+                        color: Config.StaticData.palette.secondary.col100
+                        font.family: "monospace"
+                        font.pixelSize: 12
+                        text: ""
+                    }
+                }
+            }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 8
+
+                CustomButton {
+                    text: qsTr("Refresh")
+                    onClicked: debugLogView.text =
+                        (typeof LogStore !== "undefined" && LogStore)
+                            ? LogStore.debugLogTail(200000) : ""
+                }
+                CustomButton {
+                    text: qsTr("Save as ...")
+                    onClicked: {
+                        if (typeof LogStore !== "undefined" && LogStore)
+                            LogStore.saveDebugLogDialog()
+                    }
+                }
+                Item { Layout.fillWidth: true }
+            }
         }
     }
 }

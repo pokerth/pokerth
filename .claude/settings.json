@@ -37,7 +37,12 @@
       "Bash(openssl x509 *)",
       "Bash(openssl rsa *)",
       "Bash(awk 'NR<=1141 && /<name>/ {ln=NR; name=$0} END{print ln\": \"name}' pokerth_de_DE.ts)",
-      "Bash(awk 'NR>=215 && NR<=242 && \\(/public|slots|signals|private|Q_INVOKABLE/\\){print NR\": \"$0}' lobbyhandler.h)"
+      "Bash(awk 'NR>=215 && NR<=242 && \\(/public|slots|signals|private|Q_INVOKABLE/\\){print NR\": \"$0}' lobbyhandler.h)",
+      "Bash(ninja -t query update_translations)",
+      "Bash(timeout 300 ninja POKERTH_lupdate)",
+      "Bash(/usr/lib/qt6/bin/lupdate -locations absolute src/gui/qt6-qml -ts src/gui/qt6-qml/i18n/pokerth_de_DE.ts src/gui/qt6-qml/i18n/pokerth_en_US.ts src/gui/qt6-qml/i18n/pokerth_fr_FR.ts src/gui/qt6-qml/i18n/pokerth_it_IT.ts src/gui/qt6-qml/i18n/pokerth_es_ES.ts src/gui/qt6-qml/i18n/pokerth_pt_PT.ts src/gui/qt6-qml/i18n/pokerth_pt_BR.ts)",
+      "Bash(/usr/lib/qt6/bin/lupdate src/gui/qt6-qml -ts src/gui/qt6-qml/i18n/pokerth_de_DE.ts src/gui/qt6-qml/i18n/pokerth_en_US.ts src/gui/qt6-qml/i18n/pokerth_fr_FR.ts src/gui/qt6-qml/i18n/pokerth_it_IT.ts src/gui/qt6-qml/i18n/pokerth_es_ES.ts src/gui/qt6-qml/i18n/pokerth_pt_PT.ts src/gui/qt6-qml/i18n/pokerth_pt_BR.ts)",
+      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/0044cfc3-9ee1-4605-aeee-4a569556c963/scratchpad/fill_ts.py)"
     ]
   }
 }
