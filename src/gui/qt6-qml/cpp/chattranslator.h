@@ -39,6 +39,10 @@ public:
 	void setConfig(ConfigFile *config);
 	bool enabled() const;
 
+	// Vom besitzenden Handler aufgerufen, wenn dessen chatLog geleert wurde
+	// (neue Verbindung/neuer Login): verwirft alle Zeilen-Zustände.
+	void reset();
+
 	// Hängt (falls aktiviert) das Globus-Symbol an eine frisch gebaute Chat-
 	// Zeile und merkt sich Rohtext + Nachrichtenkörper für die spätere
 	// Übersetzung. bodyHtml ist der exakte HTML-Teilstring der Nachricht

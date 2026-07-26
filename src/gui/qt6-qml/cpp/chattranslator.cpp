@@ -44,6 +44,18 @@ bool ChatTranslator::enabled() const
 	return m_core->enabled();
 }
 
+void ChatTranslator::reset()
+{
+	// Der Verlauf, auf den sich die Zeilen-Zustände beziehen, ist weg – die
+	// Zeilen selbst müssen (anders als in refreshEnabled) nicht mehr bereinigt
+	// werden. Noch laufende Core-Antworten laufen anschließend ins Leere:
+	// onCoreTranslated verwirft unbekannte Request-Ids. m_nextId läuft weiter,
+	// damit alte und neue Anker-Ids sich nie überschneiden.
+	m_entries.clear();
+	m_reqToLine.clear();
+	m_hoveredId = 0;
+}
+
 QString ChatTranslator::anchorFor(int id, const QString &glyph)
 {
 	// text-decoration:none, damit das Symbol nicht als unterstrichener Link

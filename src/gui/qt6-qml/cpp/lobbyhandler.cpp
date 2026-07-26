@@ -597,6 +597,19 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
     m_gameListModel.clear();
     m_playerListModel.clear();
 
+    // Der Lobby-Chat gehört zur Verbindung, der LobbyHandler lebt dagegen so
+    // lange wie die App: Ohne dieses Leeren stünde nach einem erneuten Login
+    // der Verlauf der vorherigen Sitzung weiter in der Chatbox. Pendant zum
+    // Widgets-Client (clearDialog() → ChatTools::clearChat() vor
+    // startInternetClient()). Aufgerufen wird setSession() bei jedem neuen
+    // Client (SignalNetClientConnect, MSG_SOCK_INIT_DONE).
+    if (m_chatTranslator)
+        m_chatTranslator->reset();
+    if (!m_chatLog.isEmpty()) {
+        m_chatLog.clear();
+        emit chatLogChanged();
+    }
+
     // Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
     // ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
     if (m_rejoinOfferGameId != 0) {
