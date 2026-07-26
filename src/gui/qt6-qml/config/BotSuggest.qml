@@ -27,12 +27,21 @@ QtObject {
     property var _inflight: ({ db: false, wec: false })
 
     // ── Öffentliche Preset-Erkennung (auch für die Button-Sichtbarkeit) ──────
+    // bbcbot-Konvention (gameslist.txt „Game Title Prefix"): der Community-Titel
+    // ist nur der PREFIX des Spielnamens – den Rest hängt der Ersteller an
+    // (z. B. „BBC Step 1 – hosted by X"). Darum Prefix- statt Exakt-Match, sonst
+    // fällt jedes real benannte Community-Spiel durch (betraf u. a. Step 1).
     function stepForPreset(presetName) {
-        var m = /^BBC Step ([1-4])$/.exec(presetName || "")
+        // Ziffer 1–4 direkt hinter „BBC Step ", nicht von weiteren Ziffern
+        // gefolgt (kein Fehlgriff bei hypothetischem „BBC Step 12").
+        var m = /^BBC Step ([1-4])(?!\d)/.exec(presetName || "")
         return m ? parseInt(m[1], 10) : 0
     }
     function isWecPreset(presetName) {
-        return presetName === "WEC" || presetName === "WEC Grand Final"
+        // Prefix „WEC" deckt WEC / WEC Grand Final / WEC-Mid-Final ab (gameslist:
+        // wec, wecmfinal, wecgfinal – alle mit Titelprefix „WEC"). Der Negative
+        // Lookahead verhindert Treffer bei anderen mit „WEC…" beginnenden Wörtern.
+        return /^WEC(?![A-Za-z])/.test(presetName || "")
     }
     function supportsPreset(presetName) {
         return stepForPreset(presetName) > 0 || isWecPreset(presetName)
