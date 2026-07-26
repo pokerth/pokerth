@@ -80,9 +80,17 @@ Rectangle {
     }
 
     // Alt+L (Verlauf-Tab) – Name aus Kompatibilität zur bisherigen Belegung.
+    // Toggle: liegt der Verlauf-Tab bereits offen, schließt der Shortcut das
+    // Panel wieder – angedockt (Desktop) genauso wie als Overlay.
     function toggleLogOverlay() {
-        if (!gamePage.infoDocked && tableZone.showInfo
-                && infoPanelOverlay.currentIndex === 0)
+        if (gamePage.infoDocked) {
+            if (!tableZone.dockedInfoCollapsed && infoPanelDock.currentIndex === 0)
+                tableZone.dockedInfoCollapsed = true
+            else
+                showInfoTab(0)
+            return
+        }
+        if (tableZone.showInfo && infoPanelOverlay.currentIndex === 0)
             tableZone.showInfo = false
         else
             showInfoTab(0)
