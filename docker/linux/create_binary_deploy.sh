@@ -150,8 +150,13 @@ echo "=== Kopiere Daten und Ressourcen ==="
 [ -d "$PROJECT_ROOT/docs" ]          && cp -r "$PROJECT_ROOT/docs"   "$DEPLOY_DIR/"
 [ -f "$PROJECT_ROOT/COPYING" ]       && cp    "$PROJECT_ROOT/COPYING"          "$DEPLOY_DIR/"
 [ -f "$PROJECT_ROOT/ChangeLog" ]     && cp    "$PROJECT_ROOT/ChangeLog"        "$DEPLOY_DIR/"
-[ -f "$PROJECT_ROOT/pokerth.desktop" ]     && cp "$PROJECT_ROOT/pokerth.desktop"     "$DEPLOY_DIR/share/"
-[ -f "$PROJECT_ROOT/pokerth_qml.desktop" ] && cp "$PROJECT_ROOT/pokerth_qml.desktop" "$DEPLOY_DIR/share/"
+# Die statischen pokerth*.desktop-Dateien im Repo-Root sind SYSTEM-Install-
+# Varianten (System-Qt via /usr/lib, Binary aus PATH; genutzt von .deb/Snap).
+# Für das relozierbare ZIP-Bundle sind sie falsch (absolute Systempfade, kein
+# $SCRIPT_DIR, kein QML_DISABLE_DISK_CACHE) und würden den Wrapper umgehen.
+# Die korrekte Desktop-Integration schreiben die Launcher ./pokerth und
+# ./pokerth-qml zur Laufzeit selbst (integrate_desktop_entry → ~/.local/share
+# mit Exec=$SCRIPT_DIR/... und gebündelten Libs). Daher hier NICHT mitliefern.
 [ -f "$PROJECT_ROOT/pokerth.lua" ]         && cp "$PROJECT_ROOT/pokerth.lua"         "$DEPLOY_DIR/share/"
 # Skalierbares App-Icon fürs Deploy: die Launcher registrieren damit eine
 # .desktop-Datei in ~/.local/share, damit der Wayland-Compositor (KWin) das
