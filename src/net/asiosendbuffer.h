@@ -59,6 +59,9 @@ public:
     virtual void InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet);
     int EncodeToBuf(const void *data, size_t size);
 
+    virtual size_t GetPendingBytes() const;
+    virtual bool CheckAndClearOverflow();
+
     virtual void SetCloseAfterSend();
 
 protected:
@@ -82,6 +85,9 @@ private:
     size_t curWriteBufAllocated;
     size_t curWriteBufUsed;
     bool closeAfterSend;
+    // Set when a packet did not fit into the send queue any more. Read and
+    // cleared by CheckAndClearOverflow().
+    bool sendBufOverflow;
 };
 
 #endif

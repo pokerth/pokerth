@@ -51,6 +51,9 @@ public:
 	void SetCloseAfterSend(boost::shared_ptr<SessionData> session);
 
 private:
+	// Closes the session after the send queue overflowed. Separate function
+	// because it must run outside SendBuffer::dataMutex.
+	static void CloseOnSendOverflow(boost::shared_ptr<SessionData> session, bool overflow);
 
 	boost::shared_ptr<boost::asio::io_context> m_ioService;
 };

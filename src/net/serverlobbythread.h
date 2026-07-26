@@ -141,7 +141,20 @@ protected:
 	typedef std::list<SessionId> SessionIdList;
 	typedef std::map<SessionId, boost::timers::portable::microsec_timer> TimerSessionMap;
 	typedef std::map<unsigned, boost::shared_ptr<ServerGame> > GameMap;
-	typedef std::map<std::string, boost::timers::portable::microsec_timer> TimerClientAddressMap;
+	// Brute force protection state per client address. A token bucket rather
+	// than a plain "one init per interval" lock: several clients can share one
+	// address (NAT, mobile carrier CGNAT, the web client proxy), and after a
+	// network hiccup a whole table reconnects at once. A hard one-per-interval
+	// lock turns both into a minutes-long lockout, while the sustained rate -
+	// the part that actually matters against password guessing - is the same.
+	struct LoginRateLimit {
+		unsigned tokens;
+		boost::timers::portable::microsec_timer lastRefill;
+		// Whether the current lockout was already logged, so that a flood
+		// produces one line per address instead of one per attempt.
+		bool refusalLogged;
+	};
+	typedef std::map<std::string, LoginRateLimit> TimerClientAddressMap;
 	typedef std::list<unsigned> RemoveGameList;
 
 	// Main function of the thread.
@@ -188,6 +201,13 @@ protected:
 	void TimerRemoveGame(const boost::system::error_code &ec);
 	void TimerRemovePlayer(const boost::system::error_code &ec);
 	void TimerUpdateClientLoginLock(const boost::system::error_code &ec);
+	// Consumes one login token for the given address. Returns false if the
+	// address is currently rate limited.
+	bool AcquireLoginToken(const std::string &clientAddr);
+	// True for addresses excluded from brute force protection, configured via
+	// "ServerBruteForceProtectionExempt" (e.g. a web client proxy, whose users
+	// all share its address).
+	bool IsLoginRateLimitExempt(const std::string &clientAddr) const;
 	void TimerCleanupAvatarCache(const boost::system::error_code &ec);
 
 	bool IsGameNameInUse(const std::string &gameName) const;

@@ -42,7 +42,12 @@
       "Bash(timeout 300 ninja POKERTH_lupdate)",
       "Bash(/usr/lib/qt6/bin/lupdate -locations absolute src/gui/qt6-qml -ts src/gui/qt6-qml/i18n/pokerth_de_DE.ts src/gui/qt6-qml/i18n/pokerth_en_US.ts src/gui/qt6-qml/i18n/pokerth_fr_FR.ts src/gui/qt6-qml/i18n/pokerth_it_IT.ts src/gui/qt6-qml/i18n/pokerth_es_ES.ts src/gui/qt6-qml/i18n/pokerth_pt_PT.ts src/gui/qt6-qml/i18n/pokerth_pt_BR.ts)",
       "Bash(/usr/lib/qt6/bin/lupdate src/gui/qt6-qml -ts src/gui/qt6-qml/i18n/pokerth_de_DE.ts src/gui/qt6-qml/i18n/pokerth_en_US.ts src/gui/qt6-qml/i18n/pokerth_fr_FR.ts src/gui/qt6-qml/i18n/pokerth_it_IT.ts src/gui/qt6-qml/i18n/pokerth_es_ES.ts src/gui/qt6-qml/i18n/pokerth_pt_PT.ts src/gui/qt6-qml/i18n/pokerth_pt_BR.ts)",
-      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/0044cfc3-9ee1-4605-aeee-4a569556c963/scratchpad/fill_ts.py)"
+      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/0044cfc3-9ee1-4605-aeee-4a569556c963/scratchpad/fill_ts.py)",
+      "Bash(awk '{print}')",
+      "Bash(awk '{print $1,$2,$0}')",
+      "Bash(grep -n \"^SessionData::Close\\\\|void$\" sessiondata.cpp)",
+      "Bash(bash /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/41b37e69-34fd-40c6-96c3-c538885455e1/scratchpad/run.sh)",
+      "Bash(bash /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/41b37e69-34fd-40c6-96c3-c538885455e1/scratchpad/run3.sh)"
     ]
   }
 }

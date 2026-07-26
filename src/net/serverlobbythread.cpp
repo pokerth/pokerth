@@ -75,6 +75,7 @@
 #define SERVER_PROCESS_SEND_INTERVAL_MSEC			10
 
 #define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			NetHelper::GetLoginLockSec()
+#define SERVER_INIT_LOGIN_CLIENT_BURST				5		// inits one address may send back to back before the rate limit applies
 
 #define SERVER_INIT_SESSION_TIMEOUT_SEC				60
 #define SERVER_TIMEOUT_WARNING_REMAINING_SEC		60
@@ -1155,19 +1156,11 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 {
 	LOG_VERBOSE("Received init for session #" << session->GetId() << ".");
 
-	// Before any other processing, perform some denial of service and
-	// brute force attack prevention by checking whether the user recently sent an
-	// Init packet.
-	if (m_serverConfig.readConfigInt("ServerBruteForceProtection") != 0) {
-		bool recentlySentInit = false;
-		{
-			boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
-			if (m_timerClientAddressMap.find(session->GetClientAddr()) != m_timerClientAddressMap.end())
-				recentlySentInit = true;
-			else
-				m_timerClientAddressMap[session->GetClientAddr()] = boost::timers::portable::microsec_timer();
-		}
-		if (recentlySentInit) {
+	// Before any other processing, perform some denial of service and brute
+	// force attack prevention by rate limiting Init packets per address.
+	if (m_serverConfig.readConfigInt("ServerBruteForceProtection") != 0
+			&& !IsLoginRateLimitExempt(session->GetClientAddr())) {
+		if (!AcquireLoginToken(session->GetClientAddr())) {
 			SessionError(session, ERR_NET_INIT_BLOCKED);
 			return;
 		}
@@ -2091,10 +2084,16 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 		TimerClientAddressMap::iterator i = m_timerClientAddressMap.begin();
 		TimerClientAddressMap::iterator end = m_timerClientAddressMap.end();
 
+		const unsigned lockSec = SERVER_INIT_LOGIN_CLIENT_LOCK_SEC;
 		while (i != end) {
 			TimerClientAddressMap::iterator next = i;
 			++next;
-			if (i->second.elapsed().total_seconds() > (int)SERVER_INIT_LOGIN_CLIENT_LOCK_SEC)
+			// Drop entries whose bucket has refilled completely - they carry
+			// no state any more.
+			unsigned refilled = lockSec
+								? i->second.tokens + (unsigned)(i->second.lastRefill.elapsed().total_seconds() / lockSec)
+								: SERVER_INIT_LOGIN_CLIENT_BURST;
+			if (refilled >= SERVER_INIT_LOGIN_CLIENT_BURST)
 				m_timerClientAddressMap.erase(i);
 			i = next;
 		}
@@ -2104,6 +2103,81 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 			boost::bind(
 				&ServerLobbyThread::TimerUpdateClientLoginLock, shared_from_this(), boost::asio::placeholders::error));
 	}
+}
+
+bool
+ServerLobbyThread::AcquireLoginToken(const std::string &clientAddr)
+{
+	boost::mutex::scoped_lock lock(m_timerClientAddressMapMutex);
+
+	TimerClientAddressMap::iterator pos = m_timerClientAddressMap.find(clientAddr);
+	if (pos == m_timerClientAddressMap.end()) {
+		LoginRateLimit &fresh = m_timerClientAddressMap[clientAddr];
+		fresh.tokens = SERVER_INIT_LOGIN_CLIENT_BURST - 1;
+		fresh.lastRefill = boost::timers::portable::microsec_timer();
+		fresh.refusalLogged = false;
+		return true;
+	}
+
+	LoginRateLimit &entry = pos->second;
+	// Hand out one token per lock interval, up to the burst size. The
+	// remainder of the elapsed time is dropped when refilling, which makes
+	// the effective rate slightly stricter than nominal - deliberate, since
+	// erring towards the safe side here only costs a few seconds of waiting.
+	const unsigned lockSec = SERVER_INIT_LOGIN_CLIENT_LOCK_SEC;
+	if (lockSec) {
+		unsigned refill = (unsigned)(entry.lastRefill.elapsed().total_seconds() / lockSec);
+		if (refill) {
+			entry.tokens += refill;
+			if (entry.tokens > SERVER_INIT_LOGIN_CLIENT_BURST)
+				entry.tokens = SERVER_INIT_LOGIN_CLIENT_BURST;
+			entry.lastRefill = boost::timers::portable::microsec_timer();
+			entry.refusalLogged = false;
+		}
+	}
+
+	if (!entry.tokens) {
+		// One line per address and lockout, not per attempt - otherwise a
+		// login flood would also be a log flood.
+		if (!entry.refusalLogged) {
+			entry.refusalLogged = true;
+			LOG_MSG("Login rate limit reached by " << clientAddr << " - further inits blocked for now.");
+		}
+		return false;
+	}
+	entry.tokens--;
+	return true;
+}
+
+bool
+ServerLobbyThread::IsLoginRateLimitExempt(const std::string &clientAddr) const
+{
+	string exemptList(m_serverConfig.readConfigString("ServerBruteForceProtectionExempt"));
+	if (exemptList.empty() || clientAddr.empty())
+		return false;
+
+	// Comma separated list of plain addresses. Compare against the address as
+	// well as its IPv4-mapped IPv6 form, because a dual stack listener reports
+	// IPv4 peers as "::ffff:a.b.c.d".
+	const string mappedAddr("::ffff:" + clientAddr);
+	size_t start = 0;
+	while (start <= exemptList.size()) {
+		size_t sep = exemptList.find(',', start);
+		if (sep == string::npos)
+			sep = exemptList.size();
+		string entry(exemptList, start, sep - start);
+		// Trim surrounding whitespace.
+		size_t first = entry.find_first_not_of(" \t");
+		if (first != string::npos) {
+			size_t last = entry.find_last_not_of(" \t");
+			entry = entry.substr(first, last - first + 1);
+			if (!entry.empty()
+					&& (entry == clientAddr || entry == mappedAddr || ("::ffff:" + entry) == clientAddr))
+				return true;
+		}
+		start = sep + 1;
+	}
+	return false;
 }
 
 bool

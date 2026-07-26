@@ -51,6 +51,16 @@ SenderHelper::~SenderHelper()
 }
 
 void
+SenderHelper::CloseOnSendOverflow(boost::shared_ptr<SessionData> session, bool overflow)
+{
+	// Must be called without SendBuffer::dataMutex held: Close() runs the
+	// session callback, which reaches back into the send buffer.
+	if (overflow && session && session->GetState() != SessionData::Closed) {
+		session->Close();
+	}
+}
+
+void
 SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
 	if (packet && session) {
@@ -59,18 +69,26 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, boost::shared_ptr<Net
 			return;  // Session bereits geschlossen, nicht mehr senden
 		}
 		
+		bool overflow = false;
 		try {
 			SendBuffer &tmpBuffer = session->GetSendBuffer();
-			// Add packet to specific queue.
-			boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
-			tmpBuffer.InternalStorePacket(session, packet);
-			// Activate async send, if needed.
-			tmpBuffer.AsyncSendNextPacket(session);
+			{
+				// Add packet to specific queue.
+				boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
+				tmpBuffer.InternalStorePacket(session, packet);
+				// Activate async send, if needed.
+				tmpBuffer.AsyncSendNextPacket(session);
+			}
+			overflow = tmpBuffer.CheckAndClearOverflow();
 		} catch (const std::exception& e) {
 			LOG_ERROR("Exception in SenderHelper::Send: " << e.what());
 		} catch (...) {
 			LOG_ERROR("Unknown exception in SenderHelper::Send");
 		}
+		// Outside the try block and outside the lock: the send queue ran full,
+		// so the peer is not reading. Close the session - on the client
+		// Close() intentionally throws to signal the network error to the GUI.
+		CloseOnSendOverflow(session, overflow);
 	}
 }
 
@@ -83,24 +101,29 @@ SenderHelper::Send(boost::shared_ptr<SessionData> session, const NetPacketList &
 			return;  // Session bereits geschlossen, nicht mehr senden
 		}
 		
+		bool overflow = false;
 		try {
 			SendBuffer &tmpBuffer = session->GetSendBuffer();
-			// Add packets to specific queue.
-			boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
-			NetPacketList::const_iterator i = packetList.begin();
-			NetPacketList::const_iterator end = packetList.end();
-			while (i != end) {
-				if (*i)
-					tmpBuffer.InternalStorePacket(session, *i);
-				++i;
+			{
+				// Add packets to specific queue.
+				boost::mutex::scoped_lock lock(tmpBuffer.dataMutex);
+				NetPacketList::const_iterator i = packetList.begin();
+				NetPacketList::const_iterator end = packetList.end();
+				while (i != end) {
+					if (*i)
+						tmpBuffer.InternalStorePacket(session, *i);
+					++i;
+				}
+				// Activate async send, if needed.
+				tmpBuffer.AsyncSendNextPacket(session);
 			}
-			// Activate async send, if needed.
-			tmpBuffer.AsyncSendNextPacket(session);
+			overflow = tmpBuffer.CheckAndClearOverflow();
 		} catch (const std::exception& e) {
 			LOG_ERROR("Exception in SenderHelper::Send (list): " << e.what());
 		} catch (...) {
 			LOG_ERROR("Unknown exception in SenderHelper::Send (list)");
 		}
+		CloseOnSendOverflow(session, overflow);
 	}
 }
 

@@ -52,6 +52,23 @@ public:
 
 	virtual void HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> socket, const boost::system::error_code &error) = 0;
 
+	// Bytes still queued for sending, i.e. handed to the send buffer but not
+	// yet accepted by the socket. Diagnostic only: a large backlog on a
+	// dropped connection means the peer stopped draining, a backlog near
+	// zero means the connection itself went away.
+	virtual size_t GetPendingBytes() const
+	{
+		return 0;
+	}
+
+	// Returns (and clears) whether the send queue hit its hard limit since
+	// the last call. The caller must close the session; it cannot be closed
+	// where the overflow is detected, because dataMutex is held there.
+	virtual bool CheckAndClearOverflow()
+	{
+		return false;
+	}
+
 	mutable boost::mutex dataMutex;
 };
 

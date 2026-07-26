@@ -34,6 +34,7 @@
 
 #include <net/asioreceivebuffer.h>
 #include <net/sessiondata.h>
+#include <net/sendbuffer.h>
 #include <playerdata.h>
 #include <core/loghelper.h>
 #include <core/pokerthexception.h>
@@ -161,7 +162,14 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
                 if (session->GetPlayerData()) {
                     playerInfo = " player=\"" + session->GetPlayerData()->GetName() + "\"";
                 }
-                LOG_ERROR("Session " << session->GetId() << " (" << session->GetClientAddr() << playerInfo << ") - Connection closed: " << error);
+                // Log the unsent backlog as well. It separates the two very
+                // different causes behind an otherwise identical error: a
+                // large backlog means we produced data the peer never took
+                // (peer stalled, or our egress is saturated), a backlog near
+                // zero means the connection itself died.
+                LOG_ERROR("Session " << session->GetId() << " (" << session->GetClientAddr() << playerInfo
+                          << ") - Connection closed: " << error
+                          << " (unsent: " << session->GetSendBuffer().GetPendingBytes() << " bytes)");
                 session->Close();
             }
         } catch (const PokerTHException &) {

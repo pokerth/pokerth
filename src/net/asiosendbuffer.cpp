@@ -50,7 +50,8 @@ using namespace std;
 
 AsioSendBuffer::AsioSendBuffer()
 	: sendBuf(NULL), curWriteBuf(NULL), sendBufAllocated(0), sendBufUsed(0),
-	  curWriteBufAllocated(0), curWriteBufUsed(0), closeAfterSend(false)
+	  curWriteBufAllocated(0), curWriteBufUsed(0), closeAfterSend(false),
+	  sendBufOverflow(false)
 {
 }
 
@@ -93,15 +94,19 @@ AsioSendBuffer::HandleWrite(boost::shared_ptr<boost::asio::ip::tcp::socket> sock
 			closeAfterSend = false;
 		} else {
 			// Write error - the connection is broken.
-			LOG_ERROR("HandleWrite error: " << error.message());
 			boost::shared_ptr<SessionData> session;
+			size_t pending = 0;
 			{
 				boost::mutex::scoped_lock lock(dataMutex);
+				pending = sendBufUsed + curWriteBufUsed;
 				curWriteBufUsed = 0;
 				sendBufUsed = 0;  // Discard pending data
 				closeAfterSend = false;
 				session = m_session.lock();
 			}
+			LOG_ERROR("Session " << (session ? session->GetId() : 0)
+					  << " - HandleWrite error: " << error.message()
+					  << " (unsent: " << pending << " bytes)");
 			if (!CloseSessionOnWriteError(session)) {
 				// No session reachable - close the raw socket as last resort.
 				try {
@@ -158,15 +163,19 @@ AsioSendBuffer::HandleWriteSsl(boost::shared_ptr<boost::asio::ssl::stream<boost:
             closeAfterSend = false;
         } else {
             // Write error - the connection is broken.
-            LOG_ERROR("HandleWriteSsl error: " << error.message());
             boost::shared_ptr<SessionData> session;
+            size_t pending = 0;
             {
                 boost::mutex::scoped_lock lock(dataMutex);
+                pending = sendBufUsed + curWriteBufUsed;
                 curWriteBufUsed = 0;
                 sendBufUsed = 0;  // Discard pending data
                 closeAfterSend = false;
                 session = m_session.lock();
             }
+            LOG_ERROR("Session " << (session ? session->GetId() : 0)
+                      << " - HandleWriteSsl error: " << error.message()
+                      << " (unsent: " << pending << " bytes)");
             if (!CloseSessionOnWriteError(session)) {
                 // No session reachable - close the raw socket as last resort.
                 try {
@@ -408,13 +417,43 @@ AsioSendBuffer::AsyncSendNextPacketSsl(boost::shared_ptr<boost::asio::ssl::strea
 void
 AsioSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
+	// Note: the caller (SenderHelper::Send) holds dataMutex, so nothing in
+	// here may lock it again or close the session.
 	m_session = session;
 	uint32_t packetSize = packet->GetMsg()->ByteSizeLong();
 	google::protobuf::uint8 *buf = new google::protobuf::uint8[packetSize + NET_HEADER_SIZE];
 	*((uint32_t *)buf) = htonl(packetSize);
 	packet->GetMsg()->SerializeWithCachedSizesToArray(&buf[NET_HEADER_SIZE]);
-	EncodeToBuf(buf, packetSize + NET_HEADER_SIZE);
+	if (EncodeToBuf(buf, packetSize + NET_HEADER_SIZE) != 0) {
+		// The queue is full: the peer has not been draining its socket for a
+		// while. Dropping the packet would leave it with a truncated message
+		// stream and an inconsistent game state, so flag the session for
+		// closing instead - the caller acts on it once the lock is released.
+		if (!sendBufOverflow) {
+			sendBufOverflow = true;
+			LOG_ERROR("Session " << (session ? session->GetId() : 0)
+					  << " - send queue full (" << sendBufUsed + curWriteBufUsed
+					  << " bytes pending, limit " << (size_t)MAX_SEND_BUF_SIZE
+					  << "), closing session.");
+		}
+	}
 	delete[] buf;
+}
+
+size_t
+AsioSendBuffer::GetPendingBytes() const
+{
+	boost::mutex::scoped_lock lock(dataMutex);
+	return sendBufUsed + curWriteBufUsed;
+}
+
+bool
+AsioSendBuffer::CheckAndClearOverflow()
+{
+	boost::mutex::scoped_lock lock(dataMutex);
+	bool retVal = sendBufOverflow;
+	sendBufOverflow = false;
+	return retVal;
 }
 
 int
