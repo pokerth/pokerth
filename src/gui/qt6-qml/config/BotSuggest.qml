@@ -38,10 +38,14 @@ QtObject {
         return m ? parseInt(m[1], 10) : 0
     }
     function isWecPreset(presetName) {
-        // Prefix „WEC" deckt WEC / WEC Grand Final / WEC-Mid-Final ab (gameslist:
-        // wec, wecmfinal, wecgfinal – alle mit Titelprefix „WEC"). Der Negative
-        // Lookahead verhindert Treffer bei anderen mit „WEC…" beginnenden Wörtern.
-        return /^WEC(?![A-Za-z])/.test(presetName || "")
+        var n = presetName || ""
+        // „WEC Monthly Final" (wecmfinal) ist bewusst KEIN Suggest-Ziel.
+        if (/^WEC Monthly Final/.test(n))
+            return false
+        // Prefix „WEC" deckt WEC und WEC Grand Final ab (gameslist: wec, wecgfinal
+        // – Titelprefix „WEC"). Der Negative Lookahead verhindert Treffer bei
+        // anderen mit „WEC…" beginnenden Wörtern.
+        return /^WEC(?![A-Za-z])/.test(n)
     }
     function supportsPreset(presetName) {
         return stepForPreset(presetName) > 0 || isWecPreset(presetName)

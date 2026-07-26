@@ -61,6 +61,9 @@ Rectangle {
         { name: "WEC", startCash: 10000, firstSmallBlind: 50,
           raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
           blinds: [] },
+        { name: "WEC Monthly Final", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 25, raiseEveryMinutes: 5, playerActionTimeout: 15,
+          blinds: [] },
         { name: "WEC Grand Final", startCash: 10000, firstSmallBlind: 50,
           raiseOnHands: true, raiseEveryHands: 35, raiseEveryMinutes: 5, playerActionTimeout: 25,
           blinds: [] }
@@ -455,7 +458,7 @@ Rectangle {
                             qsTr("Eigene Einstellungen"),
                             "BBC Step 1", "BBC Step 2", "BBC Step 3", "BBC Step 4",
                             "Monthly Cup", "Monthly Cup Final",
-                            "WEC", "WEC Grand Final"
+                            "WEC", "WEC Monthly Final", "WEC Grand Final"
                         ]
                         onActivated: lobbyCreateGamePage.applyPreset()
                     }
