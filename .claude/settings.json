@@ -34,7 +34,9 @@
       "Bash(timeout 30 /home/vscode/.vscode-server/bin/*)",
       "Bash(timeout 120 npx --yes *)",
       "Bash(python3 -c \"import json;d=json.load\\(open\\('.claude/settings.json'\\)\\);print\\('valid JSON,',len\\(d['permissions']['allow']\\),'Regeln'\\)\")",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(echo \"--- exit: $?\")",
+      "Bash(/usr/lib/qt6/bin/qmllint pages/GamePage.qml)"
     ]
   }
 }

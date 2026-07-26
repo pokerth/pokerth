@@ -6,6 +6,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Universal
 import QtQuick.Layouts
 import QtQuick.Effects
+import QtQuick.Window
 
 import "config" as Config
 import "pages"
@@ -553,6 +554,15 @@ ApplicationWindow {
         onActivated: {
             navigateBackFromTopBar()
         }
+    }
+
+    // Vollbild: gilt auf JEDER Seite (Startseite, Lobby, Warteraum, Tisch) –
+    // deshalb am Fenster und nicht auf der GamePage. Zuschauer eingeschlossen.
+    Shortcut {
+        sequence: "F11"
+        context: Qt.ApplicationShortcut
+        onActivated: mainWindow.visibility = (mainWindow.visibility === Window.FullScreen)
+                                             ? Window.Windowed : Window.FullScreen
     }
 
     Shortcut {

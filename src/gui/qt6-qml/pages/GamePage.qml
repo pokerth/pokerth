@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Effects
-import QtQuick.Window
 
 import "../components"
 import "../config" as Config
@@ -113,16 +112,6 @@ Rectangle {
         tableZone.showChat = !tableZone.showChat
         if (tableZone.showChat && !tableZone.wide)
             tableZone.showInfo = false
-    }
-
-    function toggleFullscreenMode() {
-        var win = gamePage.Window.window
-        if (!win)
-            return
-        if (win.visibility === Window.FullScreen)
-            win.visibility = Window.Windowed
-        else
-            win.visibility = Window.FullScreen
     }
 
     // ── Emoji-Reaktionen (Port aus dem Web-Client) ───────────────────────────
@@ -268,12 +257,8 @@ Rectangle {
         enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(1)
     }
-    Shortcut {
-        sequence: "F11"
-        context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
-        onActivated: gamePage.toggleFullscreenMode()
-    }
+    // F11 (Vollbild) liegt bewusst NICHT hier, sondern am ApplicationWindow
+    // (pokerth.qml) – es soll auf jeder Seite wirken, nicht nur am Tisch.
 
     // ── Gametable-Actions: F-Tasten (siehe fKeysAlternate oben) ──
     // Für Zuschauer aus: die Action-Bar ist dann ausgeblendet (actionBar.visible),
