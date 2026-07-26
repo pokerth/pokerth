@@ -51,7 +51,10 @@
       "Bash(pkg-config --exists Qt6Gui)",
       "Bash(fc-list : family)",
       "Bash(/usr/lib/qt6/bin/qmllint components/ChatBox.qml)",
-      "Bash(echo \"--- exit: $?\")"
+      "Bash(echo \"--- exit: $?\")",
+      "Bash(unzip -p pokerth-linux-x86_64-20260726_165906.zip pokerth-linux-binary/share/pokerth_qml.desktop)",
+      "Bash(unzip -p pokerth-linux-x86_64-20260726_165906.zip pokerth-linux-binary/pokerth-qml)",
+      "Bash(awk 'NR>=95 && NR<=104' src/pokerth.cpp)"
     ]
   }
 }

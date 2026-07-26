@@ -115,6 +115,17 @@ int main(int argc, char *argv[])
         qputenv("QT_QUICK_CONTROLS_STYLE", "Universal");
     }
 
+    // QML-Disk-Cache (.qmlc) zentral abschalten – vor jeder Engine-Nutzung, also
+    // wirksam auf JEDEM Startpfad (Wrapper, mitgelieferte .desktop, direktes
+    // Binary, AppImage) und jeder Plattform. Grund: Qt validiert den Cache über
+    // Datei-mtimes; nach einem Update behält es teils den alten .qmlc einer
+    // *bestehenden* QML-Datei, sodass NEU hinzugefügte Properties/Funktionen als
+    // `undefined` gelesen werden (z. B. Config.Parameters.showCommunitySuggest →
+    // Suggest-Button verschwindet). Bisher setzte das nur der pokerth-qml-Wrapper
+    // bzw. das Flatpak-Manifest – hier gilt es garantiert überall. Der minimale
+    // Neucompile-Aufwand beim Start ist vernachlässigbar.
+    qputenv("QML_DISABLE_DISK_CACHE", "1");
+
     // Qt6 nutzt auf Wayland standardmäßig den THREADED Scene-Graph-Render-Loop.
     // Dessen Teardown beim Programmende kann mit der GUI-Thread-Zerstörung der
     // QML-Items kollidieren → Absturz in QQuickWindowPrivate::cleanup(QSGNode*).
