@@ -253,19 +253,19 @@ Rectangle {
     Shortcut {
         sequence: "Alt+F"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(2)
     }
     Shortcut {
         sequence: "Alt+M"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(0)
     }
     Shortcut {
         sequence: "Alt+K"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(1)
     }
     Shortcut {
@@ -276,52 +276,55 @@ Rectangle {
     }
 
     // ── Gametable-Actions: F-Tasten (siehe fKeysAlternate oben) ──
+    // Für Zuschauer aus: die Action-Bar ist dann ausgeblendet (actionBar.visible),
+    // ihre Bedienelemente wären also per Tastatur erreichbar, per Maus nicht.
+    // F11 (Vollbild) bleibt bewusst auch für Zuschauer aktiv.
     Shortcut {
         sequence: "F1"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "allin" : "fold")
     }
     Shortcut {
         sequence: "F2"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "raise" : "call")
     }
     Shortcut {
         sequence: "F3"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "call" : "raise")
     }
     Shortcut {
         sequence: "F4"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "fold" : "allin")
     }
     Shortcut {
         sequence: "F5"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: if (GameTable && GameTable.canShowCards) GameTable.showMyCards()
     }
     Shortcut {
         sequence: "F6"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(0)   // Manuell
     }
     Shortcut {
         sequence: "F7"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(2)   // Auto Check/Fold
     }
     Shortcut {
         sequence: "F8"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible
+        enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(1)   // Auto Check/Call
     }
 
