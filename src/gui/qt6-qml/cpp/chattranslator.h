@@ -14,7 +14,9 @@ class ChatTranslatorCore;
  *   • decorate() hängt an jede übersetzbare Zeile ein Globus-Symbol an – als
  *     spezieller Link "pokerthtranslate:<id>", den die ChatBox abfängt (das
  *     Icon-pro-Zeile-Muster des Web-Clients, ohne den Single-RichText-Chat
- *     umzubauen).
+ *     umzubauen). Sichtbar ist das Symbol nur an der Zeile unter dem Maus-
+ *     zeiger (setHoveredLine) – der Anker selbst steht immer in der Zeile,
+ *     trägt aber sonst nur einen unsichtbaren Platzhalter.
  *   • requestTranslation() startet – vom QML beim Antippen des Symbols – die
  *     asynchrone Übersetzung und ersetzt das Symbol in genau dieser Zeile
  *     durch die Übersetzung.
@@ -49,6 +51,11 @@ public:
 	// Vom QML aufgerufen, wenn auf das Globus-Symbol getippt wird.
 	Q_INVOKABLE void requestTranslation(int id);
 
+	// Vom QML gemeldete Chat-Zeile (Index in chatLog) unter dem Mauszeiger;
+	// -1 = keine. Nur an dieser Zeile erscheint das Globus-Symbol (auf Touch-
+	// Plattformen ohne Hover wirkungslos – dort bleiben alle Symbole sichtbar).
+	Q_INVOKABLE void setHoveredLine(int lineIndex);
+
 	// Vom QML aufgerufen, wenn sich der Config-Schalter "AllowChatTranslation"
 	// ändert. Wendet den neuen Zustand auf den SICHTBAREN Verlauf an: bei
 	// Deaktivierung werden alle vorhandenen Globus-Symbole/Übersetzungen sofort
@@ -69,8 +76,9 @@ private:
 	// Index der chatLog-Zeile, die den Globus-Anker dieser id enthält (-1, wenn
 	// nicht mehr vorhanden, z. B. aus dem 400-Zeilen-Verlauf herausgetrimmt).
 	int findLineIndex(int id) const;
-	// Tauscht in der Zeile das Globus-Symbol (🌐 <-> ⏳).
-	void setGlobe(int id, const QString &glyph);
+	// Setzt das Symbol der Zeile auf den aktuellen Zustand (Spinner / Globus /
+	// unsichtbarer Platzhalter) – no-op, wenn sich dadurch nichts ändert.
+	void updateGlobe(int id);
 	// Blendet die Übersetzung ein/aus, indem der Nachrichtenkörper zwischen
 	// Original und Übersetzung ERSETZT wird.
 	void setBodyShown(int id, bool shown);
@@ -85,11 +93,15 @@ private:
 		bool shown = false;     // Übersetzung aktuell eingeblendet? (Toggle)
 	};
 
+	// Symbol, das die Zeile im aktuellen Zustand tragen soll.
+	QString glyphFor(const Pending &p, int id) const;
+
 	QStringList *m_chatLog;
 	ChatTranslatorCore *m_core;
 	QHash<int, Pending> m_entries;   // Zeilen-id -> Zustand
 	QHash<int, int> m_reqToLine;     // Core-Request-id -> Zeilen-id
 	int m_nextId = 1;
+	int m_hoveredId = 0;             // Zeile unter dem Mauszeiger (0 = keine)
 };
 
 #endif // _CHATTRANSLATOR_H_

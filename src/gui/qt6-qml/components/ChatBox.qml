@@ -70,6 +70,63 @@ Item {
             console.warn("ChatBox: konnte URL nicht öffnen:", link)
     }
 
+    // ── Übersetzen-Symbol nur an der Zeile unter dem Mauszeiger ───────────
+    // Der Verlauf ist EIN RichText-Dokument (keine ListView), „Zeile" ist also
+    // der Index in chatModel. Die Einträge werden mit <br> verbunden und liegen
+    // im Dokument damit durch Zeilentrenner (U+2028) getrennt vor: der
+    // Zeilenindex an einer Position = Anzahl der Trenner davor. chatModel-
+    // Einträge enthalten selbst nie Zeilenumbrüche (eine Chat-Zeile = ein
+    // Eintrag), die Zuordnung ist also 1:1.
+    // _hoverFrom/_hoverTo cachen den Bereich der aktuell markierten Zeile, damit
+    // pro Mausbewegung nur die (billige) Positionsabfrage nötig ist und nicht
+    // das Durchzählen des ganzen Verlaufs.
+    property int _hoverFrom: -1
+    property int _hoverTo: -1
+
+    function _isLineSep(code) { return code === 0x2028 || code === 0x2029 }
+
+    function _updateHoverLine(x, y) {
+        if (!chatTranslator)
+            return
+        // Solange etwas markiert ist, NICHT ins Dokument schreiben: das Ein-/
+        // Ausblenden des Symbols ersetzt msgText.text komplett und würde die
+        // Auswahl (bzw. ein laufendes Ziehen) zerstören.
+        if (msgText.selectedText.length > 0)
+            return
+        var pos = msgText.positionAt(x, y)
+        if (pos >= _hoverFrom && pos <= _hoverTo)
+            return                       // immer noch dieselbe Zeile
+        var all = msgText.getText(0, msgText.length)
+        var line = 0, from = 0, i
+        for (i = 0; i < pos && i < all.length; ++i) {
+            if (_isLineSep(all.charCodeAt(i))) { ++line; from = i + 1 }
+        }
+        var to = all.length
+        for (i = pos; i < all.length; ++i) {
+            if (_isLineSep(all.charCodeAt(i))) { to = i; break }
+        }
+        _hoverFrom = from
+        _hoverTo = to
+        chatTranslator.setHoveredLine(line)
+    }
+
+    function _clearHoverLine() {
+        _hoverFrom = -1
+        _hoverTo = -1
+        if (chatTranslator)
+            chatTranslator.setHoveredLine(-1)
+    }
+
+    // Neue Nachricht (oder ein ein-/ausgeblendetes Symbol) verschiebt alle
+    // Positionen dahinter → gecachten Zeilenbereich verwerfen.
+    onChatModelChanged: { _hoverFrom = -1; _hoverTo = -1 }
+
+    // Verschwindet die Box (Seitenwechsel Lobby/Warteraum – beide hängen am
+    // selben Übersetzer), bliebe sonst ein Symbol an der zuletzt überfahrenen
+    // Zeile stehen.
+    onVisibleChanged: if (!visible) _clearHoverLine()
+    Component.onDestruction: _clearHoverLine()
+
     implicitWidth: 200
     implicitHeight: 160
 
@@ -245,6 +302,16 @@ Item {
                 interval: 15000
                 onTriggered: { msgFlick.autoScroll = true; msgFlick.scrollToBottom() }
             }
+            // Beim Scrollen wandern die Zeilen unter dem stehenden Mauszeiger
+            // hindurch – das Übersetzen-Symbol muss der neuen Zeile folgen.
+            // Verzögert, damit das während eines Flicks nicht pro Frame läuft.
+            Timer {
+                id: hoverRecheckTimer
+                interval: 60
+                onTriggered: if (msgHover.hovered)
+                                 root._updateHoverLine(msgHover.point.position.x,
+                                                       msgHover.point.position.y)
+            }
             // Ans Ende kleben. pinBottom() prüft selbst autoScroll, damit ein
             // nachgelagerter (Qt.callLater-)Aufruf nichts tut, wenn der Nutzer
             // inzwischen weggescrollt hat.
@@ -283,6 +350,7 @@ Item {
             // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
             // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
             onContentYChanged: {
+                hoverRecheckTimer.restart()
                 if (!moving && !msgScrollBar.pressed) return
                 savedContentY = contentY
                 // Mit Toleranz prüfen statt exaktem atYEnd: knapp am Ende reicht
@@ -332,8 +400,18 @@ Item {
                 // Maustasten, keine Hover-Events) → hoveredLink ist gesetzt und wird
                 // beim Tap direkt zum Öffnen genutzt (kein Koordinaten-Mapping).
                 HoverHandler {
+                    id: msgHover
                     cursorShape: msgText.hoveredLink !== ""
                                  ? Qt.PointingHandCursor : Qt.IBeamCursor
+                    // Das Übersetzen-Symbol folgt dem Mauszeiger von Zeile zu
+                    // Zeile (siehe root._updateHoverLine).
+                    onPointChanged: root._updateHoverLine(point.position.x,
+                                                          point.position.y)
+                    // Beim Verlassen ausblenden – aber nicht, während etwas
+                    // markiert ist: das Neusetzen des Texts würde die Auswahl
+                    // verwerfen, kurz bevor sie kopiert wird.
+                    onHoveredChanged: if (!hovered && msgText.selectedText.length === 0)
+                                          root._clearHoverLine()
                 }
                 // Linksklick: Link über die TAP-POSITION ermitteln (linkAt), NICHT
                 // über hoveredLink – letzteres wird beim Drücken (Press-/Selektions-
@@ -345,8 +423,13 @@ Item {
                     onTapped: {
                         const link = msgText.linkAt(linkTap.point.position.x,
                                                     linkTap.point.position.y)
-                        if (link === "")
+                        if (link === "") {
+                            // Ohne Maus (Touch) gibt es kein Hover: ein Tipp auf
+                            // die Zeile holt ihr Übersetzen-Symbol hervor.
+                            root._updateHoverLine(linkTap.point.position.x,
+                                                  linkTap.point.position.y)
                             return
+                        }
                         // Das Globus-Symbol ist ein Pseudo-Link "pokerthtranslate:<id>".
                         // NICHT extern öffnen, sondern die Zeile übersetzen lassen.
                         if (link.indexOf("pokerthtranslate:") === 0) {

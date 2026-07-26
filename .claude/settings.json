@@ -47,7 +47,11 @@
       "Bash(awk '{print $1,$2,$0}')",
       "Bash(grep -n \"^SessionData::Close\\\\|void$\" sessiondata.cpp)",
       "Bash(bash /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/41b37e69-34fd-40c6-96c3-c538885455e1/scratchpad/run.sh)",
-      "Bash(bash /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/41b37e69-34fd-40c6-96c3-c538885455e1/scratchpad/run3.sh)"
+      "Bash(bash /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/41b37e69-34fd-40c6-96c3-c538885455e1/scratchpad/run3.sh)",
+      "Bash(pkg-config --exists Qt6Gui)",
+      "Bash(fc-list : family)",
+      "Bash(/usr/lib/qt6/bin/qmllint components/ChatBox.qml)",
+      "Bash(echo \"--- exit: $?\")"
     ]
   }
 }

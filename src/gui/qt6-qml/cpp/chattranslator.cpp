@@ -8,6 +8,21 @@
 // Mojibake statt Emoji ergeben).
 static const QString kGlobeGlyph   = QString::fromUcs4(U"\U0001F310"); // 🌐
 static const QString kSpinnerGlyph = QString::fromUcs4(U"\U000023F3"); // ⏳
+// Unsichtbarer Platzhalter für Zeilen, die gerade NICHT unter dem Mauszeiger
+// liegen. Der Anker bleibt damit in der Zeile (und die Zeile über ihren href
+// auffindbar), zeigt aber nichts an. Geschütztes Leerzeichen, weil normale
+// Leerzeichen am Zeilenende vom RichText-Renderer wegfallen können.
+static const QString kHiddenGlyph  = QStringLiteral("&nbsp;");
+
+// Hover-Modus: Auf Desktop erscheint der Globus nur an der Zeile unter dem
+// Mauszeiger (der Verlauf war sonst mit Symbolen zugepflastert). Auf Touch-
+// Geräten gibt es kein Hover – dort bleiben die Symbole sichtbar, sonst wäre
+// die Funktion nicht mehr erreichbar.
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+static const bool kHoverOnly = false;
+#else
+static const bool kHoverOnly = true;
+#endif
 
 ChatTranslator::ChatTranslator(QStringList *chatLog, QObject *parent)
 	: QObject(parent)
@@ -43,6 +58,18 @@ QString ChatTranslator::anchorFor(int id, const QString &glyph)
 		.arg(glyph);
 }
 
+QString ChatTranslator::glyphFor(const Pending &p, int id) const
+{
+	if (p.inFlight)
+		return kSpinnerGlyph;
+	// Sichtbar, solange die Übersetzung eingeblendet ist (zeigt an, dass die
+	// Zeile übersetzt ist, und ist der Rückweg zum Original) – sonst nur an der
+	// Zeile unter dem Mauszeiger.
+	if (!kHoverOnly || p.shown || m_hoveredId == id)
+		return kGlobeGlyph;
+	return kHiddenGlyph;
+}
+
 QString ChatTranslator::decorate(const QString &formattedLine, const QString &sourceText,
                                  const QString &bodyHtml)
 {
@@ -50,15 +77,14 @@ QString ChatTranslator::decorate(const QString &formattedLine, const QString &so
 		return formattedLine;
 
 	const int id = m_nextId++;
-	const QString anchor = anchorFor(id, kGlobeGlyph);
 
 	Pending p;
 	p.sourceText    = sourceText;
 	p.bodyHtml      = bodyHtml;
-	p.currentAnchor = anchor;
+	p.currentAnchor = anchorFor(id, glyphFor(p, id));
 	m_entries.insert(id, p);
 
-	return formattedLine + QStringLiteral(" ") + anchor;
+	return formattedLine + QStringLiteral(" ") + p.currentAnchor;
 }
 
 int ChatTranslator::findLineIndex(int id) const
@@ -74,15 +100,17 @@ int ChatTranslator::findLineIndex(int id) const
 	return -1;
 }
 
-void ChatTranslator::setGlobe(int id, const QString &glyph)
+void ChatTranslator::updateGlobe(int id)
 {
 	auto it = m_entries.find(id);
 	if (it == m_entries.end())
 		return;
+	const QString newAnchor = anchorFor(id, glyphFor(*it, id));
+	if (newAnchor == it->currentAnchor)
+		return;
 	const int idx = findLineIndex(id);
 	if (idx < 0)
 		return;
-	const QString newAnchor = anchorFor(id, glyph);
 	QString &line = (*m_chatLog)[idx];
 	const int pos = line.indexOf(it->currentAnchor);
 	if (pos < 0)
@@ -90,6 +118,36 @@ void ChatTranslator::setGlobe(int id, const QString &glyph)
 	line.replace(pos, it->currentAnchor.size(), newAnchor);
 	it->currentAnchor = newAnchor;
 	emit chatLogMutated();
+}
+
+void ChatTranslator::setHoveredLine(int lineIndex)
+{
+	if (!kHoverOnly || !m_chatLog)
+		return;
+
+	// Zeile -> Anker-id: der href steht als Klartext in der (HTML-)Zeile.
+	int id = 0;
+	if (lineIndex >= 0 && lineIndex < m_chatLog->size()) {
+		static const QString kHref = QStringLiteral("pokerthtranslate:");
+		const QString &line = (*m_chatLog)[lineIndex];
+		const int p = line.indexOf(kHref);
+		if (p >= 0) {
+			const int s = p + kHref.size();
+			const int e = line.indexOf(QLatin1Char('"'), s);
+			if (e > s)
+				id = line.mid(s, e - s).toInt();
+		}
+	}
+
+	if (id == m_hoveredId)
+		return;
+	const int prev = m_hoveredId;
+	m_hoveredId = id;
+	// Symbol an der alten Zeile ausblenden, an der neuen einblenden.
+	if (prev > 0)
+		updateGlobe(prev);
+	if (id > 0)
+		updateGlobe(id);
 }
 
 void ChatTranslator::setBodyShown(int id, bool shown)
@@ -110,6 +168,9 @@ void ChatTranslator::setBodyShown(int id, bool shown)
 	line.replace(pos, from.size(), to);
 	it->shown = shown;
 	emit chatLogMutated();
+	// Das Symbol hängt am „shown"-Zustand (eingeblendete Übersetzung behält den
+	// Globus als Rückweg, auch wenn die Maus weiterzieht).
+	updateGlobe(id);
 }
 
 void ChatTranslator::requestTranslation(int id)
@@ -130,7 +191,7 @@ void ChatTranslator::requestTranslation(int id)
 	}
 
 	it->inFlight = true;
-	setGlobe(id, kSpinnerGlyph);
+	updateGlobe(id);   // Spinner anzeigen
 	const int req = m_core->translate(it->sourceText);
 	m_reqToLine.insert(req, id);
 }
@@ -151,12 +212,15 @@ void ChatTranslator::finish(int id, const QString &translated, bool ok)
 	if (it == m_entries.end())
 		return;
 	it->inFlight = false;
-	setGlobe(id, kGlobeGlyph); // Spinner zurück auf Globus
 
 	if (ok && !translated.trimmed().isEmpty()) {
 		it->translated = translated;
 		setBodyShown(id, true); // Übersetzung einblenden (ersetzt das Original)
 	}
+	// Spinner zurück auf Globus – bzw. auf den unsichtbaren Platzhalter, falls
+	// die Zeile inzwischen weder eingeblendet ist noch unter der Maus liegt.
+	// NACH setBodyShown, weil das Symbol vom „shown"-Zustand abhängt.
+	updateGlobe(id);
 	// Bei Fehler bleibt das Original stehen; Globus erlaubt einen erneuten Versuch.
 }
 
@@ -190,5 +254,6 @@ void ChatTranslator::refreshEnabled()
 	}
 	m_entries.clear();
 	m_reqToLine.clear();
+	m_hoveredId = 0;
 	emit chatLogMutated();
 }

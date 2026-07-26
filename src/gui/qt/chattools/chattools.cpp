@@ -36,6 +36,9 @@
 #include <QDesktopServices>
 #include <QTextDocument>
 #include <QTextBlock>
+#include <QMouseEvent>
+#include <QScrollBar>
+#include <QCursor>
 #include "session.h"
 #include "configfile.h"
 #include "gametablestylereader.h"
@@ -167,8 +170,23 @@ QString wrapEmojisLarger(const QString &msg, int pixelSize)
 // (nicht per "\xF0…"-Literal – das würde als Latin-1 gelesen und Mojibake geben).
 static const QString kTranslateGlobe   = QString::fromUcs4(U"\U0001F310"); // 🌐
 static const QString kTranslateSpinner = QString::fromUcs4(U"\U000023F3"); // ⏳
+// Unsichtbarer Platzhalter für Zeilen, die nicht unter dem Mauszeiger liegen:
+// der Anker bleibt so im Dokument (und die Zeile über ihn auffindbar), zeigt
+// aber nichts an. Geschütztes Leerzeichen, weil normale Leerzeichen am Zeilen-
+// ende beim HTML-Import wegfallen – ohne Fragment gäbe es keinen Anker mehr.
+static const QString kTranslateHidden  = QStringLiteral("&nbsp;");
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1)
+// Hover-Modus: Auf Desktop erscheint der Globus nur an der Zeile unter dem
+// Mauszeiger (der Verlauf war sonst mit Symbolen zugepflastert). Auf Touch-
+// Geräten gibt es kein Hover – dort bleiben die Symbole sichtbar, sonst wäre
+// die Funktion nicht mehr erreichbar.
+#if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
+static const bool kTranslateHoverOnly = false;
+#else
+static const bool kTranslateHoverOnly = true;
+#endif
+
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1), myTranslateHoverId(0)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
@@ -185,6 +203,19 @@ ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, 
 	if(myTextBrowser) {
 		myTextBrowser->setOpenLinks(false);
 		connect(myTextBrowser, &QTextBrowser::anchorClicked, this, &ChatTools::onChatAnchorClicked);
+		// Das Globus-Symbol soll nur an der Zeile UNTER DEM MAUSZEIGER stehen
+		// (sonst ist der Verlauf mit Symbolen zugepflastert). Dazu die
+		// Mausbewegungen über dem Verlauf mitlesen; Mouse-Tracking hat der
+		// QTextEdit-Viewport für die Link-Erkennung ohnehin an.
+		myTextBrowser->viewport()->setMouseTracking(true);
+		myTextBrowser->viewport()->installEventFilter(this);
+		// Beim Scrollen wandern die Zeilen unter dem (stehenden) Mauszeiger
+		// hindurch – das Symbol muss der neuen Zeile folgen.
+		connect(myTextBrowser->verticalScrollBar(), &QAbstractSlider::valueChanged,
+		        this, [this]() {
+			if(myTextBrowser && myTextBrowser->viewport()->underMouse())
+				updateTranslateHover(myTextBrowser->viewport()->mapFromGlobal(QCursor::pos()));
+		});
 	}
 }
 
@@ -358,6 +389,19 @@ void ChatTools::insertShortcodeCompletion(const QModelIndex &index)
 
 bool ChatTools::eventFilter(QObject *obj, QEvent *event)
 {
+	// Maus über dem Verlauf: das Übersetzen-Symbol folgt der Zeile unter dem
+	// Zeiger. Nur mitlesen, nie verschlucken.
+	if(myTextBrowser && obj == myTextBrowser->viewport()) {
+		if(event->type() == QEvent::MouseMove)
+			updateTranslateHover(static_cast<QMouseEvent*>(event)->position().toPoint());
+		// Beim Verlassen ausblenden – aber nicht, während etwas markiert ist:
+		// das Neusetzen des Blocks würde die Auswahl verwerfen, kurz bevor sie
+		// kopiert wird.
+		else if(event->type() == QEvent::Leave
+		        && !myTextBrowser->textCursor().hasSelection())
+			setTranslateHoverId(0);
+	}
+
 	// Tab/Enter im offenen Vorschlags-Popup übernehmen den markierten
 	// Vorschlag – HIER, vor dem Filter des QCompleters (dieser Filter ist
 	// später installiert und läuft daher zuerst). Der QCompleter reicht
@@ -571,7 +615,9 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				e.lineNoGlobe = lineNoGlobe;
 				e.bodyHtml    = bodyHtml;
 				myTranslateEntries.insert(xid, e);
-				myTextBrowser->append(lineNoGlobe + " " + translateAnchorHtml(xid, kTranslateGlobe));
+				// Symbol ist zunächst unsichtbar – es erscheint erst, wenn die
+				// Maus über der Zeile steht (translateGlyph).
+				myTextBrowser->append(lineNoGlobe + " " + translateAnchorHtml(xid, translateGlyph(xid)));
 			} else {
 				myTextBrowser->append(lineNoGlobe);
 			}
@@ -594,6 +640,7 @@ void ChatTools::clearChat()
 	// Übersetzungs-Zustand gehört zum jetzt geleerten Verlauf.
 	myTranslateEntries.clear();
 	myTranslateReqToId.clear();
+	myTranslateHoverId = 0;
 }
 
 // Ersetzt den Inhalt eines Textblocks (ohne den Absatztrenner) durch html.
@@ -617,6 +664,69 @@ QString ChatTools::translateAnchorHtml(int id, const QString &glyph) const
 	return QString("<a href=\"pokerthtranslate:%1\" style=\"text-decoration:none;\">"
 	               "<span style=\"font-size:14px; font-family:'%2';\">%3</span></a>")
 	       .arg(id).arg(EmojiPicker::emojiFontFamily()).arg(glyph);
+}
+
+QString ChatTools::translateGlyph(int id) const
+{
+	QHash<int, TranslateEntry>::const_iterator it = myTranslateEntries.find(id);
+	if(it == myTranslateEntries.end())
+		return kTranslateHidden;
+	if(it->inFlight)
+		return kTranslateSpinner;
+	// Sichtbar, solange die Übersetzung eingeblendet ist (zeigt an, dass die
+	// Zeile übersetzt ist, und ist der Rückweg zum Original) – sonst nur an der
+	// Zeile unter dem Mauszeiger.
+	if(!kTranslateHoverOnly || it->shown || myTranslateHoverId == id)
+		return kTranslateGlobe;
+	return kTranslateHidden;
+}
+
+int ChatTools::translateIdAtBlock(const QTextBlock &block) const
+{
+	if(!block.isValid())
+		return 0;
+	static const QString prefix = QStringLiteral("pokerthtranslate:");
+	for(QTextBlock::iterator it = block.begin(); !it.atEnd(); ++it) {
+		const QTextFragment frag = it.fragment();
+		if(frag.isValid() && frag.charFormat().isAnchor()
+		   && frag.charFormat().anchorHref().startsWith(prefix))
+			return frag.charFormat().anchorHref().mid(prefix.size()).toInt();
+	}
+	return 0;
+}
+
+void ChatTools::updateTranslateHover(const QPoint &viewportPos)
+{
+	if(!kTranslateHoverOnly || !myTextBrowser || myTranslateEntries.isEmpty())
+		return;
+	// Solange etwas markiert ist, NICHT ins Dokument schreiben: das Umsetzen des
+	// Symbols ersetzt den Inhalt ganzer Textblöcke und würde eine bestehende
+	// Auswahl (bzw. ein laufendes Ziehen) zerstören.
+	if(myTextBrowser->textCursor().hasSelection())
+		return;
+	const QTextCursor cursor = myTextBrowser->cursorForPosition(viewportPos);
+	// cursorForPosition rastet immer auf die nächstgelegene Stelle ein – im
+	// leeren Bereich unter dem Verlauf wäre das die letzte Zeile. Nur werten,
+	// wenn der Zeiger wirklich auf der Zeile steht (waagerecht ist der ganze
+	// Streifen gemeint, auch rechts neben kurzem Text).
+	const QRect lineRect = myTextBrowser->cursorRect(cursor);
+	if(viewportPos.y() < lineRect.top() || viewportPos.y() > lineRect.bottom()) {
+		setTranslateHoverId(0);
+		return;
+	}
+	setTranslateHoverId(translateIdAtBlock(cursor.block()));
+}
+
+void ChatTools::setTranslateHoverId(int id)
+{
+	if(id == myTranslateHoverId)
+		return;
+	const int previous = myTranslateHoverId;
+	myTranslateHoverId = id;
+	if(previous > 0)          // Symbol an der alten Zeile ausblenden …
+		rebuildTranslateBlock(previous);
+	if(id > 0)                // … und an der neuen einblenden
+		rebuildTranslateBlock(id);
 }
 
 QTextBlock ChatTools::findTranslateBlock(int id) const
@@ -654,8 +764,7 @@ void ChatTools::rebuildTranslateBlock(int id)
 		if(p >= 0)
 			bodyLine.replace(p, it->bodyHtml.size(), tb);
 	}
-	const QString glyph = it->inFlight ? kTranslateSpinner : kTranslateGlobe;
-	replaceBlockContentHtml(block, bodyLine + " " + translateAnchorHtml(id, glyph));
+	replaceBlockContentHtml(block, bodyLine + " " + translateAnchorHtml(id, translateGlyph(id)));
 }
 
 void ChatTools::refreshTranslationEnabled()
@@ -674,6 +783,7 @@ void ChatTools::refreshTranslationEnabled()
 	}
 	myTranslateEntries.clear();
 	myTranslateReqToId.clear();
+	myTranslateHoverId = 0;
 }
 
 void ChatTools::onChatAnchorClicked(const QUrl &url)

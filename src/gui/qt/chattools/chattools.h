@@ -128,6 +128,16 @@ private:
 	// ── Chat-Übersetzung ────────────────────────────────────────────────
 	// Baut das anklickbare Globus-Anchor-HTML ("pokerthtranslate:<id>").
 	QString translateAnchorHtml(int id, const QString &glyph) const;
+	// Symbol, das die Zeile im aktuellen Zustand tragen soll: Spinner solange
+	// die Übersetzung läuft, Globus wenn die Übersetzung eingeblendet ist oder
+	// die Zeile unter dem Mauszeiger liegt – sonst ein unsichtbarer Platzhalter.
+	QString translateGlyph(int id) const;
+	// Anchor-id der Chat-Zeile in diesem Textblock (0 = nicht übersetzbar).
+	int translateIdAtBlock(const QTextBlock &block) const;
+	// Ermittelt die Zeile unter der (Viewport-)Mausposition und schiebt das
+	// Globus-Symbol dorthin.
+	void updateTranslateHover(const QPoint &viewportPos);
+	void setTranslateHoverId(int id);
 	// Findet den Textblock (Chat-Zeile), der den Globus-Anker dieser id enthält.
 	QTextBlock findTranslateBlock(int id) const;
 	// Baut den Inhalt der Chat-Zeile aus dem gespeicherten Zustand neu auf
@@ -187,6 +197,7 @@ private:
 	QHash<int, TranslateEntry> myTranslateEntries;  // Anchor-id -> Zustand
 	QHash<int, int> myTranslateReqToId;             // Core-Request-id -> Anchor-id
 	int myTranslateNextId;
+	int myTranslateHoverId;                         // Zeile unter der Maus (0 = keine)
 };
 
 #endif
