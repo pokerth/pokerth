@@ -27,29 +27,21 @@ QtObject {
     property var _queues: ({ db: [], wec: [], gameslist: [] })
     property var _inflight: ({ db: false, wec: false, gameslist: false })
 
-    // ── Öffentliche Preset-Erkennung (auch für die Button-Sichtbarkeit) ──────
-    // bbcbot-Konvention (gameslist.txt „Game Title Prefix"): der Community-Titel
-    // ist nur der PREFIX des Spielnamens – den Rest hängt der Ersteller an
-    // (z. B. „BBC Step 1 – hosted by X"). Darum Prefix- statt Exakt-Match, sonst
-    // fällt jedes real benannte Community-Spiel durch (betraf u. a. Step 1).
-    function stepForPreset(presetName) {
-        // Ziffer 1–4 direkt hinter „BBC Step ", nicht von weiteren Ziffern
-        // gefolgt (kein Fehlgriff bei hypothetischem „BBC Step 12").
-        var m = /^BBC Step ([1-4])(?!\d)/.exec(presetName || "")
-        return m ? parseInt(m[1], 10) : 0
-    }
-    function isWecPreset(presetName) {
-        var n = presetName || ""
-        // „WEC Monthly Final" (wecmfinal) ist bewusst KEIN Suggest-Ziel.
-        if (/^WEC Monthly Final/.test(n))
-            return false
-        // Prefix „WEC" deckt WEC und WEC Grand Final ab (gameslist: wec, wecgfinal
-        // – Titelprefix „WEC"). Der Negative Lookahead verhindert Treffer bei
-        // anderen mit „WEC…" beginnenden Wörtern.
-        return /^WEC(?![A-Za-z])/.test(n)
-    }
-    function supportsPreset(presetName) {
-        return stepForPreset(presetName) > 0 || isWecPreset(presetName)
+    // ── Community-Suggest-Typ des eigenen Spiels ─────────────────────────────
+    // Der Suggest-Typ wird NICHT (mehr) aus dem Spielnamen geraten – das war
+    // fragil (Groß/Kleinschreibung, verschobener/ergänzter Prefix ⇒ „WEC" wurde
+    // nur bei exakt unverändertem Namen erkannt). Stattdessen trägt jedes Preset
+    // seinen Typ explizit; beim Erstellen setzt LobbyCreateGamePage diesen Wert,
+    // der Warteraum (GameWaitPage) liest ihn. Der Suggest-Button erscheint ohnehin
+    // nur für den Ersteller, der beim Anlegen das Preset kennt – der Spielname
+    // darf also frei geändert werden.
+    // Werte: "step1".."step4", "wec" (Suggest möglich) oder "" (kein Suggest –
+    // Monthly Cup, WEC Monthly Final, Nicht-Community-Spiele).
+    property string createdSuggestType: ""
+
+    // Ist der gesetzte Typ ein gültiges Suggest-Ziel? (Button-Sichtbarkeit)
+    function isSuggestType(type) {
+        return type === "wec" || /^step[1-4]$/.test(type || "")
     }
 
     // Aktuellen „Game Title Prefix" eines Community-Spiels aus gameslist.txt.
@@ -64,18 +56,19 @@ QtObject {
     }
 
     // ── Vorschlag erzeugen ───────────────────────────────────────────────────
-    // presetName: Spielname des eigenen Invite-Spiels ("BBC Step 2", "WEC", …)
-    // idleNames:  Namen der idle Lobby-Spieler (Lobby.idlePlayerNames())
-    // onResult(success, message): message wird bei success in den Chat gepostet.
-    function suggestForPreset(presetName, idleNames, onResult) {
-        var step = stepForPreset(presetName)
-        if (step > 0) {
+    // type:      Suggest-Typ des eigenen Spiels ("step1".."step4" | "wec")
+    // idleNames: Namen der idle Lobby-Spieler (Lobby.idlePlayerNames())
+    // onResult(success, message): message wird bei success (lokal) im Chat gezeigt.
+    function suggestForType(type, idleNames, onResult) {
+        var m = /^step([1-4])$/.exec(type || "")
+        if (m) {
+            var step = parseInt(m[1], 10)
             _ensure("db", function(ok) {
                 onResult(ok, ok ? _suggestStep(step, idleNames) : "")
             })
             return
         }
-        if (isWecPreset(presetName)) {
+        if (type === "wec") {
             _ensure("wec", function(ok) {
                 onResult(ok, ok ? _suggestWec(idleNames) : "")
             })

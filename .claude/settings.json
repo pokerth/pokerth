@@ -36,7 +36,8 @@
       "Bash(python3 -c \"import json;d=json.load\\(open\\('.claude/settings.json'\\)\\);print\\('valid JSON,',len\\(d['permissions']['allow']\\),'Regeln'\\)\")",
       "Bash(python3 -c ' *)",
       "Bash(echo \"--- exit: $?\")",
-      "Bash(/usr/lib/qt6/bin/qmllint pages/GamePage.qml)"
+      "Bash(/usr/lib/qt6/bin/qmllint pages/GamePage.qml)",
+      "Bash(node -e ' *)"
     ]
   }
 }

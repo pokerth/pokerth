@@ -41,23 +41,23 @@ Rectangle {
     readonly property bool canKick: isGameAdmin && !isRanking
 
     // ── Community-„Suggest" (aus dem Legacy-bbcbot portiert) ─────────────────
-    // Nur der Ersteller eines Invite-Spiels (GameType 3), dessen Spielname einem
-    // BBC-Step- oder WEC-Preset entspricht, kann passende, gerade idle Spieler in
-    // den Lobby-Chat vorschlagen. Die Auswahllogik + das Cachen der Botfiles
-    // steckt im Singleton Config.BotSuggest.
-    readonly property string presetName: info.name || ""
+    // Nur der Ersteller eines Invite-Spiels (GameType 3) mit einem BBC-Step-/WEC-
+    // Preset kann passende, gerade idle Spieler vorschlagen. Der Suggest-Typ kommt
+    // EXPLIZIT aus dem Preset (Config.BotSuggest.createdSuggestType, beim Erstellen
+    // gesetzt) – NICHT aus dem frei editierbaren Spielnamen. Auswahllogik + das
+    // Cachen der Botfiles steckt im Singleton Config.BotSuggest.
     readonly property bool canSuggest: Config.Parameters.showCommunityContent
         && Config.Parameters.showCommunitySuggest
         && isGameAdmin
         && (info.gameType || 1) === 3
-        && Config.BotSuggest.supportsPreset(presetName)
+        && Config.BotSuggest.isSuggestType(Config.BotSuggest.createdSuggestType)
     property bool suggestBusy: false
 
     function runSuggest() {
         if (!Lobby || suggestBusy)
             return
         suggestBusy = true
-        Config.BotSuggest.suggestForPreset(presetName, Lobby.idlePlayerNames(),
+        Config.BotSuggest.suggestForType(Config.BotSuggest.createdSuggestType, Lobby.idlePlayerNames(),
             function(ok, message) {
                 gameWaitPage.suggestBusy = false
                 // Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des
