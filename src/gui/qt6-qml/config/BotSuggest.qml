@@ -21,10 +21,11 @@ QtObject {
     readonly property int cacheTtlMs: 15 * 60 * 1000
 
     // Cache je Datei: data (geparst) + ts (Zeitpunkt des Ladens).
-    property var _cache: ({ db: { data: null, ts: 0 }, wec: { data: null, ts: 0 } })
+    property var _cache: ({ db: { data: null, ts: 0 }, wec: { data: null, ts: 0 },
+                            gameslist: { data: null, ts: 0 } })
     // Wartende Callbacks, solange eine Datei gerade geladen wird.
-    property var _queues: ({ db: [], wec: [] })
-    property var _inflight: ({ db: false, wec: false })
+    property var _queues: ({ db: [], wec: [], gameslist: [] })
+    property var _inflight: ({ db: false, wec: false, gameslist: false })
 
     // ── Öffentliche Preset-Erkennung (auch für die Button-Sichtbarkeit) ──────
     // bbcbot-Konvention (gameslist.txt „Game Title Prefix"): der Community-Titel
@@ -51,6 +52,17 @@ QtObject {
         return stepForPreset(presetName) > 0 || isWecPreset(presetName)
     }
 
+    // Aktuellen „Game Title Prefix" eines Community-Spiels aus gameslist.txt.
+    // Für die Monthly-Cup-Tische wird dieser Titel serverseitig monatlich
+    // gepflegt (z. B. "July Cup" / "August Cup", command "mcup"/"mcupfinal").
+    // onResult(title): leerer String, wenn nicht ermittelbar.
+    function gameTitlePrefix(command, onResult) {
+        _ensure("gameslist", function(ok) {
+            var map = ok ? botSuggest._cache.gameslist.data : null
+            onResult((map && map[command]) ? map[command] : "")
+        })
+    }
+
     // ── Vorschlag erzeugen ───────────────────────────────────────────────────
     // presetName: Spielname des eigenen Invite-Spiels ("BBC Step 2", "WEC", …)
     // idleNames:  Namen der idle Lobby-Spieler (Lobby.idlePlayerNames())
@@ -73,7 +85,11 @@ QtObject {
     }
 
     // ── Laden + Cachen ───────────────────────────────────────────────────────
-    function _fileName(kind) { return kind === "wec" ? "weclist.txt" : "minidb.txt" }
+    function _fileName(kind) {
+        if (kind === "wec") return "weclist.txt"
+        if (kind === "gameslist") return "gameslist.txt"
+        return "minidb.txt"
+    }
 
     function _ensure(kind, done) {
         var c = _cache[kind]
@@ -115,7 +131,31 @@ QtObject {
     }
 
     function _parse(kind, text) {
-        return kind === "wec" ? _parseWec(text) : _parseDb(text)
+        if (kind === "wec") return _parseWec(text)
+        if (kind === "gameslist") return _parseGameslist(text)
+        return _parseDb(text)
+    }
+
+    // gameslist.txt: Zeilen "#command#permgroup#Game Title Prefix#" (mind. 4×'#';
+    // Kommentare "//" und Zeilen mit weniger '#' werden ignoriert, wie im bbcbot).
+    // → { command: titlePrefix }, z. B. { mcup: "July Cup", mcupfinal: "July Cup Final" }.
+    function _parseGameslist(text) {
+        var map = ({})
+        var lines = text.split(/\r?\n/)
+        for (var i = 0; i < lines.length; ++i) {
+            var line = lines[i].trim()
+            if (line.length === 0 || line.indexOf("//") === 0)
+                continue
+            var parts = line.split("#")
+            if (parts.length < 5)   // "" + command + perm + title + "" ⇒ ≥ 4 '#'
+                continue
+            var cmd = parts[1].trim()
+            var title = parts[3].trim()
+            if (cmd.length === 0 || title.length === 0)
+                continue
+            map[cmd] = title
+        }
+        return map
     }
 
     // weclist.txt: ein Spielername pro Zeile → { lowercase: originalName }.

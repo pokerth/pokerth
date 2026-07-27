@@ -52,10 +52,13 @@ Rectangle {
           blinds: [60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800, 1000, 1200,
                    1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 15000,
                    20000, 25000, 30000, 40000, 50000] },
-        { name: "Monthly Cup", startCash: 10000, firstSmallBlind: 50,
+        // Monthly Cup: der Tischname wird serverseitig monatlich gepflegt
+        // (gameslist.txt, command "mcup"/"mcupfinal" → z. B. "July Cup",
+        // "August Cup"). titleCommand triggert das Ziehen des aktuellen Titels.
+        { name: "Monthly Cup", titleCommand: "mcup", startCash: 10000, firstSmallBlind: 50,
           raiseOnHands: true, raiseEveryHands: 16, raiseEveryMinutes: 5, playerActionTimeout: 10,
           blinds: [] },
-        { name: "Monthly Cup Final", startCash: 10000, firstSmallBlind: 50,
+        { name: "Monthly Cup Final", titleCommand: "mcupfinal", startCash: 10000, firstSmallBlind: 50,
           raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
           blinds: [] },
         { name: "WEC", startCash: 10000, firstSmallBlind: 50,
@@ -96,6 +99,19 @@ Rectangle {
             return
         }
         gameNameField.text = p.name
+        // Vorlagen mit monatlich wechselndem Tischnamen (Monthly Cup): aktuellen
+        // Titel-Prefix aus den botfiles ziehen und – sofern der Nutzer den
+        // (Fallback-)Namen nicht selbst geändert hat und dieselbe Vorlage noch
+        // gewählt ist – übernehmen. Asynchron; bei Fehlschlag bleibt p.name.
+        if (p.titleCommand) {
+            var fallbackName = p.name
+            Config.BotSuggest.gameTitlePrefix(p.titleCommand, function(title) {
+                if (title.length > 0
+                    && lobbyCreateGamePage.activePreset === p
+                    && gameNameField.text === fallbackName)
+                    gameNameField.text = title
+            })
+        }
         maxPlayersSpinBox.value = 10
         startCashSpinBox.value = p.startCash
         firstBlindSpinBox.value = p.firstSmallBlind
