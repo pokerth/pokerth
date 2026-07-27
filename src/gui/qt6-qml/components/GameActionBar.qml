@@ -714,7 +714,23 @@ Item {
                         }
                         // Text bleibt synchron mit raiseAmount (von Slider/%-Buttons)
                         onActiveFocusChanged: {
-                            if (!activeFocus) {
+                            if (activeFocus) {
+                                // Fokus erhalten (Klick, Tab ODER Auto-Fokus): den
+                                // vorgeschlagenen Default-Betrag komplett markieren,
+                                // damit die erste getippte Ziffer ihn ERSETZT statt an
+                                // ihn anzuhängen. Ohne das hängt beim Mausklick der
+                                // Cursor im bestehenden Wert und „300" wird angehängt
+                                // (z. B. 40 → 40300) → beim nächsten Compute auf den
+                                // Reststack geklemmt = überraschendes All-In. Das ist
+                                // die eigentliche Ursache des Spieler-Reports (siehe
+                                // Widget-Hotfix 2.1.4: „Betrag wird addiert statt
+                                // überschrieben"). focusAndSelectAll() deckte bisher nur
+                                // den Auto-Fokus-Pfad (EnableBetInputFocusSwitch) ab –
+                                // der Klick-Fall fehlte. Qt.callLater: erst NACH der
+                                // Klick-Cursorplatzierung markieren, sonst hebt der
+                                // Maus-Release die Selektion sofort wieder auf.
+                                Qt.callLater(raiseAmountInput.selectAll)
+                            } else {
                                 // Scope-Fokus NICHT behalten: Verliert das Feld den
                                 // activeFocus (z. B. weil der Nutzer ins Chat-Feld
                                 // wechselt), würde ein `focus == true` im Fokus-Scope
