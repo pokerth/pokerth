@@ -81,34 +81,28 @@ Item {
             ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
     readonly property string actionText: Config.StaticData.pokerActionWord(root.action, dontTranslatePokerTerms)
 
-    // Länderflagge: aus dem gemeinsamen lobbyEntry-Lookup (gamePlayersInGame),
-    // identisch zu GameWaitPage. playerListRevision erzwingt Reaktivität.
-    readonly property string countryCode: lobbyEntry ? (lobbyEntry.countryCode || "") : ""
+    // Länderflagge: direkt aus den Sitzdaten. Der GameHandler löst sie im
+    // Netzwerkspiel über die eindeutige Spieler-Id der Session auf (wie der
+    // Qt-Widgets-Client), nicht über die Spielerliste des Spiels – die ist am
+    // Tisch unvollständig, sobald jemand erst während des Spiels dazukommt.
+    readonly property string countryCode:
+        seatData && seatData.countryCode !== undefined ? seatData.countryCode : ""
 
     // ── Kontextaktionen (nur Desktop) ────────────────────────────────────────
     // Rechtsklick auf eine Gegnerbox öffnet ein Kontextmenü mit „Ignore Player",
     // „Unignore Player" und „Show player stats" – wie der Qt-Widgets-Client
     // (MyAvatarLabel) bzw. die Lobby-Spielerliste (PlayerListItem). Die Aktionen
-    // greifen nur im Netzwerkspiel: dort liefert gamePlayersInGame zu jedem
-    // menschlichen Mitspieler eine playerId (für lokale Spiele/CPU-Gegner leer →
-    // kein Menü). Touch-Geräte bleiben vorerst außen vor.
+    // greifen nur im Netzwerkspiel: nur dort trägt seatData eine playerId (für
+    // lokale Spiele/CPU-Gegner 0 → kein Menü). Touch-Geräte bleiben vorerst
+    // außen vor.
     readonly property bool desktopMode:
         typeof Config.Responsive !== "undefined" && !Config.Responsive.isMobile
-    readonly property var lobbyEntry: {
-        if (typeof Lobby === "undefined" || !Lobby || !root.seatData) return null
-        var _p = Lobby.playerListRevision
-        var _g = Lobby.gameListRevision
-        var pname = root.seatData.name
-        if (!pname) return null
-        var gp = Lobby.gamePlayersInGame(Lobby.currentGameId)
-        for (var i = 0; i < gp.length; i++)
-            if (gp[i].playerName === pname) return gp[i]
-        return null
-    }
     readonly property bool targetIsComputer:
         seatData && seatData.isComputer !== undefined ? seatData.isComputer : false
-    readonly property int targetPlayerId: lobbyEntry ? (lobbyEntry.playerId || 0) : 0
-    readonly property bool targetIsGuest: lobbyEntry ? !!lobbyEntry.isGuest : false
+    readonly property int targetPlayerId:
+        seatData && seatData.playerId !== undefined ? seatData.playerId : 0
+    readonly property bool targetIsGuest:
+        seatData && seatData.isGuest !== undefined ? seatData.isGuest : false
     readonly property bool targetIsSelf:
         targetPlayerId !== 0 && typeof Lobby !== "undefined" && Lobby && targetPlayerId === Lobby.myPlayerId
     readonly property bool playerIgnored: {

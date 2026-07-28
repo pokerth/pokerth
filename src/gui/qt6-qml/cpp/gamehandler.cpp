@@ -100,6 +100,9 @@ GameHandler::GameHandler(QObject *parent)
         p["card1"]   = -1;
         p["fade0"]   = false;
         p["fade1"]   = false;
+        p["playerId"] = 0;
+        p["countryCode"] = QString("");
+        p["isGuest"] = false;
         p["reserved"] = false;
         m_players.append(p);
     }
@@ -427,6 +430,9 @@ void GameHandler::refreshPlayerData()
         p["card1"]  = -1;
         p["fade0"]  = false;
         p["fade1"]  = false;
+        p["playerId"] = 0;
+        p["countryCode"] = QString("");
+        p["isGuest"] = false;
         // Leerer Sitz eines Spielers, der den Tisch verlassen hat (Disconnect,
         // Kick, Verlassen, Ausgeschieden) – siehe Markierung unten.
         p["reserved"] = false;
@@ -463,6 +469,9 @@ void GameHandler::refreshPlayerData()
     }
 
     int humanCount = 0;
+    // Nur im Netzwerkspiel ist getMyUniqueID() die serverweite Spieler-Id, mit
+    // der sich PlayerInfo (Flagge, Gast-Status) auflösen lässt.
+    const bool networkGame = m_session && m_session->isNetworkClientRunning();
     if (m_game) {
         PlayerList seats = m_game->getSeatsList();
 
@@ -599,6 +608,27 @@ void GameHandler::refreshPlayerData()
                 // Computer-Gegner: für sie gibt es keine Kontextaktionen
                 // (Ignore/Stats) – wie im Qt-Widgets-Client (MyAvatarLabel).
                 p["isComputer"] = ((*it)->getMyType() == PLAYER_TYPE_COMPUTER);
+                // Lokales Spiel: keine Netzwerk-Spieler-Id, keine Flagge.
+                p["playerId"] = 0;
+                p["countryCode"] = QString("");
+                p["isGuest"] = false;
+                // Netzwerkspiel: Spieler-Id, Länderflagge und Gast-Status direkt
+                // über die eindeutige Spieler-Id aus der Session – genau wie
+                // gameTableImpl::refreshPlayerAvatar() im Qt-Widgets-Client. Der
+                // Umweg über die Spielerliste des Spiels (gamePlayersInGame) ist
+                // am Tisch unzuverlässig: Während des Spiels ist der Client von
+                // den Lobby-Nachrichten abgemeldet, ein GamePlayerJoined trägt
+                // den Spieler NICHT in die GameInfo-Spielerliste nach. Wer erst
+                // während des laufenden Spiels an den Tisch kommt (Zuschauer,
+                // den der Server zur nächsten Hand setzt), fehlt dort also –
+                // seine Flagge blieb aus, obwohl der Warteraum sie noch zeigte.
+                if (networkGame) {
+                    const unsigned uniqueId = (*it)->getMyUniqueID();
+                    const PlayerInfo info = m_session->getClientPlayerInfo(uniqueId);
+                    p["playerId"] = uniqueId;
+                    p["countryCode"] = QString::fromStdString(info.countryCode).toLower();
+                    p["isGuest"] = info.isGuest;
+                }
                 // Avatar (gesetzter Spieler-Avatar); Sitz 0 notfalls aus der
                 // Config – aber nur, wenn ich selbst dort sitze. Als Zuschauer
                 // ist Sitz 0 ein fremder Spieler und bekäme sonst MEINEN Avatar.

@@ -298,8 +298,13 @@ void QmlGuiInterface::SignalNetClientPlayerChanged(unsigned playerId, const std:
     }
     // Zuschauer-Anzeige nachführen (ein umbenannter Spieler kann ein Zuschauer
     // sein – wie der Widgets-Client, der hier refreshSpectatorsDisplay anstößt).
-    if (m_gameHandler)
+    if (m_gameHandler) {
         QMetaObject::invokeMethod(m_gameHandler, "refreshSpectators", Qt::QueuedConnection);
+        // Die PlayerInfo trifft asynchron ein (Anforderung beim Beitritt zum
+        // laufenden Spiel). Sitzdaten neu aufbauen, damit Name, Länderflagge und
+        // Gast-Status am Tisch sofort stimmen statt erst bei der nächsten Aktion.
+        QMetaObject::invokeMethod(m_gameHandler, "onRefreshPlayerName", Qt::QueuedConnection);
+    }
 }
 
 void QmlGuiInterface::SignalNetClientSpectatorJoined(unsigned /*playerId*/, const std::string & /*playerName*/)

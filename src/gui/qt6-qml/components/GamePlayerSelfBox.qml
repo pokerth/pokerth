@@ -40,20 +40,11 @@ Rectangle {
                                      : pingState === 2 ? "#fbc02d"   // gelb
                                      : pingState === 3 ? "#e53935"   // rot
                                      : "transparent"
-    // Länderflagge: wie die Gegnerbox (GamePlayerBox) aus dem gemeinsamen
-    // gamePlayersInGame-Lookup, hier jedoch über die eigene playerId statt über
-    // den Namen – für den eigenen Sitz ist sie direkt bekannt und eindeutig.
-    // playerListRevision erzwingt Reaktivität, sobald die PlayerInfo eintrifft.
-    readonly property string countryCode: {
-        if (typeof Lobby === "undefined" || !Lobby) return ""
-        var _p = Lobby.playerListRevision
-        var _g = Lobby.gameListRevision
-        var gp = Lobby.gamePlayersInGame(Lobby.currentGameId)
-        for (var i = 0; i < gp.length; i++)
-            if (gp[i].playerId === Lobby.myPlayerId)
-                return gp[i].countryCode || ""
-        return ""
-    }
+    // Länderflagge: wie die Gegnerbox (GamePlayerBox) direkt aus den Sitzdaten –
+    // der GameHandler löst sie im Netzwerkspiel über die eindeutige Spieler-Id
+    // der Session auf.
+    readonly property string countryCode:
+        selfData && selfData.countryCode !== undefined ? selfData.countryCode : ""
 
     readonly property bool isMyTurn: selfData ? selfData.myTurn : false
     // Am Zug: lokal über myTurn, im Netzwerk-Spiel über den Action-Timeout

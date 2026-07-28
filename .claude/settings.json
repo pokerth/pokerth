@@ -38,7 +38,22 @@
       "Bash(echo \"--- exit: $?\")",
       "Bash(/usr/lib/qt6/bin/qmllint pages/GamePage.qml)",
       "Bash(node -e ' *)",
-      "Bash(/usr/lib/qt6/bin/qmllint components/GameActionBar.qml)"
+      "Bash(/usr/lib/qt6/bin/qmllint components/GameActionBar.qml)",
+      "Bash(curl -sSL -A \"PokerTH/2.0 \\(Qt Network\\)\" -o catalonia.svg https://www.pokerth.net/images/flags/catalonia.svg -w \"%{http_code} %{content_type} %{size_download}\\\\n\")",
+      "Bash(rsvg-convert -w 132 -h 88 /opt/pokerth_env/repos/pokerth-test/src/gui/qt6-qml/resources/cflags/catalonia.svg -o cat_check.png)",
+      "Bash(rsvg-convert -w 160 -h 110 /dev/null)",
+      "Bash(convert an.png -scale 160x110 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/e3d290dd-93e4-46d6-8a8e-d97b34b7218a/scratchpad/an_big.png)",
+      "Bash(convert cs.png -scale 160x110 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/e3d290dd-93e4-46d6-8a8e-d97b34b7218a/scratchpad/cs_big.png)",
+      "Bash(convert fam.png -scale 160x110 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/e3d290dd-93e4-46d6-8a8e-d97b34b7218a/scratchpad/fam_big.png)",
+      "Bash(convert undefined.png -scale 160x110 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/e3d290dd-93e4-46d6-8a8e-d97b34b7218a/scratchpad/undef_big.png)",
+      "Bash(convert an.png txt:)",
+      "Bash(rsvg-convert -w 300 -h 200 an.svg -o an_site.png)",
+      "Bash(convert cs.png -crop 1x11+8+0 txt:)",
+      "Bash(rsvg-convert -w 300 -h 225 an_new.svg -o an_new_big.png)",
+      "Bash(rsvg-convert -w 44 -h 30 an_new.svg -o an_new_small.png)",
+      "Bash(convert an_new_small.png -scale 220x150 an_new_small_zoom.png)",
+      "Bash(sed -i '/cflags\\\\/fam\\\\.svg/d' src/gui/qt6-qml/cflags.qrc)",
+      "Bash(sed -i '/cflags\\\\/fam\\\\.png/d' src/gui/qt/resources/pokerth.qrc src/gui/qt/resources/pokerth_android.qrc)"
     ]
   }
 }
