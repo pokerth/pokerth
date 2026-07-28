@@ -343,20 +343,20 @@ ClientHand::switchRounds()
 {
 	boost::recursive_mutex::scoped_lock lock(m_syncMutex);
 
-	PlayerListIterator it, it_1;
+	PlayerListIterator it;
 
 	// refresh runningPlayerList
 	for(it=runningPlayerList->begin(); it!=runningPlayerList->end(); ) {
 		if((*it)->getMyAction() == PLAYER_ACTION_FOLD || (*it)->getMyAction() == PLAYER_ACTION_ALLIN) {
 			it = runningPlayerList->erase(it);
-			if(!(runningPlayerList->empty())) {
-
-				it_1 = it;
-				if(it_1 == runningPlayerList->begin()) it_1 = runningPlayerList->end();
-				--it_1;
-				getCurrentBeRo()->setCurrentPlayersTurnId((*it_1)->getMyUniqueID());
-
-			}
+			// BEWUSST OHNE das setCurrentPlayersTurnId() der lokalen Variante
+			// (LocalHand::switchRounds): dort setzt die Engine den Rundenzeiger
+			// auf den Vorgänger zurück, weil LocalBeRo::run() von dort aus
+			// weiterläuft. Im Netzwerk-Client bestimmt AUSSCHLIESSLICH die
+			// PlayersTurnMessage, wer am Zug ist – die Übernahme hätte den
+			// Zugzeiger bei jedem gegnerischen Fold/All-In auf dessen
+			// Listen-Vorgänger umgebogen (also auf mich, wenn ich direkt davor
+			// sitze) und damit einen fremden Zug als meinen ausgewiesen.
 		} else {
 			++it;
 		}

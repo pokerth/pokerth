@@ -957,6 +957,10 @@ bool GameHandler::engineAwaitsMyAction() const
     if (!seats || seats->empty()) return false;
     auto human = seats->front();
     if (!human) return false;
+    // Der Server wartet nie auf einen Spieler, der gar nicht mehr handeln kann
+    // (gefoldet, all-in, ohne Chips, Session inaktiv) – dieselbe Bedingung, die
+    // auch onStartTimeoutAnimation als Wächter benutzt.
+    if (!humanCanAct()) return false;
     return bero->getCurrentPlayersTurnId() == human->getMyUniqueID();
 }
 
