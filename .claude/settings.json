@@ -119,7 +119,11 @@
       "Bash(cp -r data/gfx/qml/backside/pirates build/share/pokerth/data/gfx/qml/backside/)",
       "Bash(timeout 300 preview/record_theme_preview.py --style pirates --set-table-style --card-back pirates)",
       "Bash(convert /opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates/preview.png -crop 90x60+240+110 +repage -filter point -resize 500% qt_back_zoom.png)",
-      "Bash(identify qt_back_zoom.png)"
+      "Bash(identify qt_back_zoom.png)",
+      "Bash(cp data/gfx/qml/table/pirates/dealerPuck.svg data/gfx/qml/table/pirates/piratestablestyle.xml build/share/pokerth/data/gfx/qml/table/pirates/)",
+      "Bash(convert /opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates/preview.png -crop 260x70+150+340 +repage -filter point -resize 300% puck_ingame.png)",
+      "Bash(convert /opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates/preview.png -crop 70x50+440+340 +repage -filter point -resize 600% puck_ingame.png)",
+      "Bash(timeout 300 preview/record_theme_preview.py --style pirates --set-table-style --card-back pirates --flop-sec 6)"
     ],
     "additionalDirectories": [
       "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates"
