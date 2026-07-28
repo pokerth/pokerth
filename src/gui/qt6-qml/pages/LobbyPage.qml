@@ -982,10 +982,25 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 4
 
-                        AppLabel {
-                            text: qsTr("Lobby Chat")
-                            font.bold: true
-                            color: Config.StaticData.palette.secondary.col200
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 4
+
+                            AppLabel {
+                                text: qsTr("Lobby Chat")
+                                font.bold: true
+                                color: Config.StaticData.palette.secondary.col200
+                                Layout.fillWidth: true
+                            }
+
+                            PlayerActionIcon {
+                                visible: Lobby && Lobby.isCurrentPlayerAdmin
+                                iconSize: 20
+                                source: "qrc:/resources/campaign.svg"
+                                baseColor: Config.StaticData.chartColor(2, true)
+                                tooltipText: qsTr("Global notice (admin)")
+                                onTriggered: globalNoticePopup.openWith()
+                            }
                         }
 
                         SectionDivider {}
@@ -1246,10 +1261,25 @@ Rectangle {
                         anchors.margins: 5
                         spacing: 5
 
-                        AppLabel {
-                            text: qsTr("Lobby Chat")
-                            font.bold: true
-                            color: Config.StaticData.palette.secondary.col200
+                        RowLayout {
+                            Layout.fillWidth: true
+                            spacing: 4
+
+                            AppLabel {
+                                text: qsTr("Lobby Chat")
+                                font.bold: true
+                                color: Config.StaticData.palette.secondary.col200
+                                Layout.fillWidth: true
+                            }
+
+                            PlayerActionIcon {
+                                visible: Lobby && Lobby.isCurrentPlayerAdmin
+                                iconSize: 20
+                                source: "qrc:/resources/campaign.svg"
+                                baseColor: Config.StaticData.chartColor(2, true)
+                                tooltipText: qsTr("Global notice (admin)")
+                                onTriggered: globalNoticePopup.openWith()
+                            }
                         }
 
                         SectionDivider {}
@@ -1349,6 +1379,15 @@ Rectangle {
         onConfirmed: {
             if (Lobby && lobbyPage.selectedGame)
                 Lobby.adminCloseGame(lobbyPage.selectedGame.gameId)
+        }
+    }
+
+    // Server-weite Durchsage (nur Server-Admins; der Server prüft die Rechte)
+    GlobalNoticePopup {
+        id: globalNoticePopup
+        onAccepted: (noticeText) => {
+            if (Lobby)
+                Lobby.adminSendGlobalNotice(noticeText)
         }
     }
 

@@ -750,6 +750,21 @@ message AdminBanPlayerAckMessage {
 	required	AdminBanPlayerResult	banPlayerResult = 2;
 }
 
+// Server admin sends a global notice to all connected clients.
+// The server broadcasts it as a chatTypeBroadcast ChatMessage, therefore the
+// text is limited to the same 128 bytes as any other chat text.
+message AdminGlobalNoticeMessage {
+	required	string			noticeText = 1;
+}
+
+message AdminGlobalNoticeAckMessage {
+	enum AdminGlobalNoticeResult {
+		globalNoticeAccepted = 0;
+		globalNoticeInvalid = 1;
+	}
+	required	AdminGlobalNoticeResult	globalNoticeResult = 1;
+}
+
 // The main message type (it is prefixed by 4 bytes length of the message).
 
 message PokerTHMessage {
@@ -835,6 +850,8 @@ message PokerTHMessage {
 		Type_GameListSpectatorLeftMessage = 79;
 		Type_GameSpectatorJoinedMessage = 80;
 		Type_GameSpectatorLeftMessage = 81;
+		Type_AdminGlobalNoticeMessage = 82;
+		Type_AdminGlobalNoticeAckMessage = 83;
 	}
 	required	PokerTHMessageType				messageType = 1;
 
@@ -919,4 +936,6 @@ message PokerTHMessage {
 	optional	GameListSpectatorLeftMessage	gameListSpectatorLeftMessage = 80;
 	optional	GameSpectatorJoinedMessage		gameSpectatorJoinedMessage = 81;
 	optional	GameSpectatorLeftMessage		gameSpectatorLeftMessage = 82;
+	optional	AdminGlobalNoticeMessage		adminGlobalNoticeMessage = 83;
+	optional	AdminGlobalNoticeAckMessage		adminGlobalNoticeAckMessage = 84;
 }

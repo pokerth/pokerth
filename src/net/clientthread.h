@@ -153,6 +153,7 @@ public:
 	void SendReportGameName(unsigned reportedGameId);
 	void SendAdminRemoveGame(unsigned removeGameId);
 	void SendAdminBanPlayer(unsigned playerId);
+	void SendAdminGlobalNotice(const std::string &noticeText);
 
 	void SetClientType(unsigned clientType);
 

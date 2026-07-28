@@ -56,6 +56,7 @@
         <file>components/CardImage.qml</file>
         <file>components/GameStatusBar.qml</file>
         <file>components/ConfirmPopup.qml</file>
+        <file>components/GlobalNoticePopup.qml</file>
         <file>components/ExampleAvatarPicker.qml</file>
         <file>components/CommunityCards.qml</file>
         <file>components/WinningHandBadge.qml</file>
@@ -120,6 +121,7 @@
         <file>resources/download.svg</file>
         <file>resources/gameBackground.svg</file>
         <file>resources/gamePage.svg</file>
+        <file>resources/campaign.svg</file>
         <file>resources/gavel.svg</file>
         <file>resources/gameTableHD.png</file>
         <file>resources/gameTableUHD.png</file>

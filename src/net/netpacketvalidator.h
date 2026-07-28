@@ -123,6 +123,8 @@ protected:
 	static bool ValidateAdminRemoveGameAckMessage(const NetPacket &packet);
 	static bool ValidateAdminBanPlayerMessage(const NetPacket &packet);
 	static bool ValidateAdminBanPlayerAckMessage(const NetPacket &packet);
+	static bool ValidateAdminGlobalNoticeMessage(const NetPacket &packet);
+	static bool ValidateAdminGlobalNoticeAckMessage(const NetPacket &packet);
 	static bool ValidateGameListSpectatorJoinedMessage(const NetPacket &packet);
 	static bool ValidateGameListSpectatorLeftMessage(const NetPacket &packet);
 	static bool ValidateGameSpectatorJoinedMessage(const NetPacket &packet);

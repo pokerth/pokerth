@@ -685,6 +685,13 @@ ServerLobbyThread::HandleAdminBanPlayer(boost::shared_ptr<SessionData> session, 
 	HandleNetPacketAdminBanPlayer(session, banPlayer);
 }
 
+void
+ServerLobbyThread::HandleAdminGlobalNotice(boost::shared_ptr<SessionData> session, const AdminGlobalNoticeMessage &globalNotice)
+{
+	// An admin within a game sent a global notice.
+	HandleNetPacketAdminGlobalNotice(session, globalNotice);
+}
+
 bool
 ServerLobbyThread::KickPlayerByName(const std::string &playerName)
 {
@@ -1144,6 +1151,8 @@ ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::s
 				HandleNetPacketAdminRemoveGame(session, packet->GetMsg()->adminremovegamemessage());
 			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerMessage) {
 				HandleNetPacketAdminBanPlayer(session, packet->GetMsg()->adminbanplayermessage());
+			} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminGlobalNoticeMessage) {
+				HandleNetPacketAdminGlobalNotice(session, packet->GetMsg()->adminglobalnoticemessage());
 			} else {
 				SessionError(session, ERR_SOCK_INVALID_STATE);
 			}
@@ -1625,7 +1634,11 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				// Only allow private messages to players which are not in running games.
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
-					// Global Notice: PM an bbcbot mit "gn " Prefix von berechtigten Admins
+					// DEPRECATED (Altclients): Global Notice als PM an bbcbot mit
+					// "gn "-Prefix und hartkodierter Nick-Liste. Der reguläre Weg
+					// ist Type_AdminGlobalNoticeMessage (Rechte aus der Admin-Liste
+					// der DB, wie kickban). Sobald alle Admins einen Client mit
+					// dieser Nachricht nutzen, kann dieser Block entfallen.
 					const std::string senderName = session->GetPlayerData()->GetName();
 					const std::string targetName = targetSession->GetPlayerData()->GetName();
 					const bool isTargetBbcbot = (targetName == "bbcbot");
@@ -1789,6 +1802,27 @@ ServerLobbyThread::HandleNetPacketAdminBanPlayer(boost::shared_ptr<SessionData> 
 		}
 	} else {
 		netBanAck->set_banplayerresult(AdminBanPlayerAckMessage::banPlayerInvalid);
+	}
+	GetSender().Send(session, packet);
+}
+
+void
+ServerLobbyThread::HandleNetPacketAdminGlobalNotice(boost::shared_ptr<SessionData> session, const AdminGlobalNoticeMessage &globalNotice)
+{
+	// Create Ack-Packet.
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminGlobalNoticeAckMessage);
+	AdminGlobalNoticeAckMessage *netNoticeAck = packet->GetMsg()->mutable_adminglobalnoticeackmessage();
+
+	// Same authorisation as kickban / close game: server admin flag from the database.
+	if (session && session->GetPlayerData() && GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId())
+			&& !globalNotice.noticetext().empty()) {
+		LOG_ERROR("Global notice by " << session->GetPlayerData()->GetName() << "("
+				  << session->GetPlayerData()->GetDBId() << "): " << globalNotice.noticetext());
+		SendGlobalChat(globalNotice.noticetext());
+		netNoticeAck->set_globalnoticeresult(AdminGlobalNoticeAckMessage::globalNoticeAccepted);
+	} else {
+		netNoticeAck->set_globalnoticeresult(AdminGlobalNoticeAckMessage::globalNoticeInvalid);
 	}
 	GetSender().Send(session, packet);
 }

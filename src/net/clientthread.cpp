@@ -489,6 +489,16 @@ ClientThread::SendAdminBanPlayer(unsigned playerId)
 }
 
 void
+ClientThread::SendAdminGlobalNotice(const std::string &noticeText)
+{
+	boost::shared_ptr<NetPacket> packet(new NetPacket);
+	packet->GetMsg()->set_messagetype(PokerTHMessage::Type_AdminGlobalNoticeMessage);
+	AdminGlobalNoticeMessage *netNotice = packet->GetMsg()->mutable_adminglobalnoticemessage();
+	netNotice->set_noticetext(noticeText);
+	boost::asio::post(*m_ioService, boost::bind(&ClientThread::SendSessionPacket, shared_from_this(), packet));
+}
+
+void
 ClientThread::StartAsyncRead()
 {
 	GetContext().GetSessionData()->GetReceiveBuffer().StartAsyncRead(GetContext().GetSessionData());

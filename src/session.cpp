@@ -481,6 +481,13 @@ void Session::adminActionBanPlayer(unsigned playerId)
 	myNetClient->SendAdminBanPlayer(playerId);
 }
 
+void Session::adminActionGlobalNotice(const string &noticeText)
+{
+	if (!myNetClient)
+		return; // only act if client is running.
+	myNetClient->SendAdminGlobalNotice(noticeText);
+}
+
 void Session::kickPlayer(const string &playerName)
 {
 	if (!myNetClient)

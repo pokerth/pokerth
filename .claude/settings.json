@@ -131,7 +131,11 @@
       "Bash(curl -sS -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" -w \"%{http_code} -> %{redirect_url}\\\\n\" https://www.pokerth.net/live)",
       "Bash(curl -sSL -A \"PokerTH/2.0 \\(Qt Network\\)\" -o /dev/null -w \"final: %{url_effective} %{http_code}\\\\n\" https://www.pokerth.net/live)",
       "Bash(curl -sS -D - -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live)",
-      "Bash(curl -sS -D - -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live/)"
+      "Bash(curl -sS -D - -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live/)",
+      "Bash(awk 'NR<1320 && /^ClientState[A-Za-z]*::[A-Za-z]+/ {line=NR\": \"$0} END{}' src/net/clientstate.cpp)",
+      "Bash(awk -F: '$1<1310')",
+      "Bash(/usr/lib/qt6/bin/lupdate -locations relative -no-obsolete src/gui/qt6-qml -ts src/gui/qt6-qml/i18n/pokerth_de_DE.ts src/gui/qt6-qml/i18n/pokerth_en_US.ts src/gui/qt6-qml/i18n/pokerth_es_ES.ts src/gui/qt6-qml/i18n/pokerth_fr_FR.ts src/gui/qt6-qml/i18n/pokerth_it_IT.ts src/gui/qt6-qml/i18n/pokerth_pt_BR.ts src/gui/qt6-qml/i18n/pokerth_pt_PT.ts)",
+      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/1da6fa54-79d7-43a9-bac9-50e81f5f5514/scratchpad/fill_ts.py)"
     ],
     "additionalDirectories": [
       "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates"

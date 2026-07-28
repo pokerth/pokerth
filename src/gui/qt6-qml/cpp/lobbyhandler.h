@@ -313,6 +313,9 @@ public slots:
     Q_INVOKABLE bool isPlayerInAnyGame(unsigned playerId) const;
     Q_INVOKABLE QString playerInGameName(unsigned playerId) const;
     Q_INVOKABLE void adminBanPlayer(unsigned playerId);
+    // Server-weite Durchsage (nur Server-Admins). Der Server prüft die
+    // Berechtigung selbst; die UI blendet die Aktion nur zusätzlich aus.
+    Q_INVOKABLE void adminSendGlobalNotice(const QString &noticeText);
     Q_INVOKABLE void reportGameName(unsigned gameId);
     Q_INVOKABLE void adminCloseGame(unsigned gameId);
     Q_INVOKABLE void sendPrivateMessage(unsigned targetPlayerId, const QString &message);

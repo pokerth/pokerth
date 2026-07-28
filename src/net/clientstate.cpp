@@ -1305,6 +1305,18 @@ AbstractClientStateReceiving::HandlePacket(boost::shared_ptr<ClientThread> clien
 			break;
 		}
 		client->GetCallback().SignalNetClientMsgBox(msgCode);
+	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AdminGlobalNoticeAckMessage) {
+		const AdminGlobalNoticeAckMessage &netNoticeAck = tmpPacket->GetMsg()->adminglobalnoticeackmessage();
+		unsigned msgCode;
+		switch (netNoticeAck.globalnoticeresult()) {
+		case AdminGlobalNoticeAckMessage::globalNoticeAccepted:
+			msgCode = MSG_NET_ADMIN_GLOBAL_NOTICE_ACCEPTED;
+			break;
+		default:
+			msgCode = MSG_NET_ADMIN_GLOBAL_NOTICE_REJECTED;
+			break;
+		}
+		client->GetCallback().SignalNetClientMsgBox(msgCode);
 	} else if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_StatisticsMessage) {
 		const StatisticsMessage &netStatistics = tmpPacket->GetMsg()->statisticsmessage();
 

@@ -762,6 +762,8 @@ ServerGameStateInit::InternalProcessPacket(boost::shared_ptr<ServerGame> server,
 		server->GetLobbyThread().HandleAdminRemoveGame(session, packet->GetMsg()->adminremovegamemessage());
 	} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminBanPlayerMessage) {
 		server->GetLobbyThread().HandleAdminBanPlayer(session, packet->GetMsg()->adminbanplayermessage());
+	} else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_AdminGlobalNoticeMessage) {
+		server->GetLobbyThread().HandleAdminGlobalNotice(session, packet->GetMsg()->adminglobalnoticemessage());
 	} else {
 		server->SessionError(session, ERR_SOCK_INVALID_PACKET);
 	}

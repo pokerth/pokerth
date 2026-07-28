@@ -132,6 +132,8 @@ NetPacketValidator::NetPacketValidator()
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminRemoveGameAckMessage, ValidateAdminRemoveGameAckMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerMessage, ValidateAdminBanPlayerMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminBanPlayerAckMessage, ValidateAdminBanPlayerAckMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminGlobalNoticeMessage, ValidateAdminGlobalNoticeMessage));
+	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_AdminGlobalNoticeAckMessage, ValidateAdminGlobalNoticeAckMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorJoinedMessage, ValidateGameListSpectatorJoinedMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameListSpectatorLeftMessage, ValidateGameListSpectatorLeftMessage));
 	m_validationMap.insert(make_pair(PokerTHMessage_PokerTHMessageType_Type_GameSpectatorJoinedMessage, ValidateGameSpectatorJoinedMessage));
@@ -1203,6 +1205,26 @@ NetPacketValidator::ValidateAdminBanPlayerAckMessage(const NetPacket &packet)
 		}
 	}
 	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateAdminGlobalNoticeMessage(const NetPacket &packet)
+{
+	bool retVal = false;
+	if (packet.GetMsg()->has_adminglobalnoticemessage()) {
+		const AdminGlobalNoticeMessage &msg = packet.GetMsg()->adminglobalnoticemessage();
+		// Same limit as chat text: the notice is broadcast as a ChatMessage.
+		if (VALIDATE_STRING_SIZE(msg.noticetext(), 1, 128)) {
+			retVal = true;
+		}
+	}
+	return retVal;
+}
+
+bool
+NetPacketValidator::ValidateAdminGlobalNoticeAckMessage(const NetPacket &packet)
+{
+	return packet.GetMsg()->has_adminglobalnoticeackmessage();
 }
 
 bool

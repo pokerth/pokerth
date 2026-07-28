@@ -1180,7 +1180,12 @@ void LobbyHandler::sendChatMessage(const QString &message)
     QString text = message;
 
     try {
-        if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
+        if (m_isCurrentPlayerAdmin && text.startsWith(QLatin1String("/gn "), Qt::CaseInsensitive)) {
+            // Server-weite Durchsage als Chat-Kurzbefehl (gleicher Weg wie der
+            // Durchsage-Button). Nur für Server-Admins – für alle anderen bleibt
+            // "/gn ..." gewöhnlicher Chat-Text.
+            adminSendGlobalNotice(text.mid(4));
+        } else if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
             // Private message: /msg <nick> <text>  or  /msg "<nick with spaces>" <text>
             text.remove(0, 5);
             const unsigned targetId = parsePrivateMessageTarget(text);
@@ -1310,6 +1315,10 @@ void LobbyHandler::onNetworkMessageId(unsigned msgId)
         msgText = tr("The player was kicked, but could not be banned, \nbecause the nick could not be found in the database"); break;
     case MSG_NET_ADMIN_BAN_PLAYER_REJECTED:
         msgText = tr("The player could not be found."); break;
+    case MSG_NET_ADMIN_GLOBAL_NOTICE_ACCEPTED:
+        msgText = tr("The global notice was sent to all players."); break;
+    case MSG_NET_ADMIN_GLOBAL_NOTICE_REJECTED:
+        msgText = tr("The global notice was rejected by the server."); break;
     default:
         return;   // unbekannte IDs nicht anzeigen (wie der Widgets-Client)
     }
@@ -1920,6 +1929,22 @@ void LobbyHandler::adminBanPlayer(unsigned playerId)
         return;
     }
     m_session->adminActionBanPlayer(playerId);
+}
+
+void LobbyHandler::adminSendGlobalNotice(const QString &noticeText)
+{
+    if (!m_session) {
+        emit errorOccurred(tr("Not connected to server"));
+        return;
+    }
+    QString text = noticeText.trimmed();
+    if (text.isEmpty())
+        return;
+    // Der Server verteilt die Durchsage als Chat-Nachricht – daher dieselbe
+    // 128-Byte-Grenze wie beim Chat (sonst verwirft der Paket-Validator sie).
+    while (!text.isEmpty() && text.toUtf8().size() > 128)
+        text.chop(1);
+    m_session->adminActionGlobalNotice(text.toStdString());
 }
 
 void LobbyHandler::reportGameName(unsigned gameId)
