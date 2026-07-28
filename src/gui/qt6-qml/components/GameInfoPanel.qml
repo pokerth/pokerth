@@ -111,6 +111,10 @@ ColumnLayout {
                 id: logScrollBar
                 policy: logFlick.contentHeight > logFlick.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                // Ziehen am Griff setzt contentY direkt und erzeugt KEINE
+                // movementStarted/Ended-Signale – von Hand anhängen.
+                onPressedChanged: pressed ? logFlick.userScrollStarted()
+                                          : logFlick.userScrollEnded()
             }
             // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei neuen
             // Zeilen erhalten, nach 15 s Inaktivität wieder ans Ende.
@@ -139,31 +143,41 @@ ColumnLayout {
             // nach unten – dann greift der callLater nach dem Polish. Einer der
             // beiden landet immer korrekt, doppeltes Setzen ist folgenlos.
             function followBottom() {
+                // Während einer laufenden Nutzergeste gar nichts anfassen.
+                if (moving || logScrollBar.pressed)
+                    return
                 if (autoScroll) { pinBottom(); Qt.callLater(pinBottom) }
                 // Pausiert: gemerkte Position halten, während der Text komplett
-                // ersetzt wird – aber nur, wenn der Nutzer nicht gerade selbst
-                // scrollt, sonst klemmt das restoreScroll die Bewegung fest.
-                else if (!moving && !logScrollBar.pressed) restoreScroll()
+                // ersetzt wird.
+                else restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
             onContentHeightChanged: followBottom()
             // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
             onHeightChanged: followBottom()
-            // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
-            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
-            onContentYChanged: {
-                if (!moving && !logScrollBar.pressed) return
+
+            // Auto-Scroll-Zustand NUR aus echten Nutzergesten ableiten (siehe
+            // ausführliche Begründung in ChatBox.qml): `moving` gilt auch für
+            // die Positionskorrektur, die die Flickable bei jeder Höhen-
+            // änderung selbst vornimmt – deren Zwischenwerte dürfen den
+            // Auto-Scroll nicht abschalten, sonst bleibt die letzte Zeile
+            // angeschnitten stehen.
+            function userScrollStarted() {
+                autoScroll = false
+                logAutoScrollTimer.stop()
+            }
+            function userScrollEnded() {
                 savedContentY = contentY
                 // Mit Toleranz prüfen statt exaktem atYEnd: knapp am Ende reicht
                 // (Subpixel/async wachsende RichText-Zeilen), damit der
                 // Auto-Scroll am unteren Rand zuverlässig wieder anspringt.
-                if (contentY >= contentHeight - height - 4) {
-                    autoScroll = true; logAutoScrollTimer.stop()
-                } else {
-                    autoScroll = false; logAutoScrollTimer.restart()
-                }
+                autoScroll = contentY >= contentHeight - height - 4
+                if (autoScroll) { logAutoScrollTimer.stop(); pinBottom() }
+                else logAutoScrollTimer.restart()
             }
+            onMovementStarted: userScrollStarted()
+            onMovementEnded: userScrollEnded()
 
             // Read-only TextEdit hält den gesamten Verlauf als EIN HTML-Dokument
             // (GameLogModel.html – Zeilen mit <br> verkettet). Die Zeilen sind

@@ -130,6 +130,10 @@ Item {
     implicitWidth: 200
     implicitHeight: 160
 
+    // Rechter Freiraum für die vertikale Scrollbar, damit sie den Inhalt nie
+    // überlappt (Scrollbars liegen im Overlay-Stil sonst über dem Text).
+    readonly property int scrollGutter: 14
+
     // Beim Aufklappen des Inline-Pickers schrumpft die Liste – ans Ende
     // scrollen, damit die letzten Nachrichten sichtbar bleiben.
     onShowEmojiPickerChanged: {
@@ -290,6 +294,11 @@ Item {
                 id: msgScrollBar
                 policy: msgFlick.contentHeight > msgFlick.height + 4
                         ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                // Ziehen am Scrollbar-Griff setzt contentY direkt und erzeugt
+                // KEINE movementStarted/Ended-Signale der Flickable – deshalb
+                // hier von Hand an dieselbe Auswertung hängen.
+                onPressedChanged: pressed ? msgFlick.userScrollStarted()
+                                          : msgFlick.userScrollEnded()
             }
 
             // Auto-Scroll: pausiert beim Hochscrollen, Position bleibt bei neuen
@@ -336,41 +345,73 @@ Item {
             // Das war der Bug: mit reinem Qt.callLater blieb die zuletzt getippte
             // Zeile bis zur nächsten Nachricht unter dem Sichtbereich.
             function followBottom() {
+                // Während einer laufenden Nutzergeste gar nichts anfassen.
+                if (moving || msgScrollBar.pressed)
+                    return
                 if (autoScroll) { pinBottom(); Qt.callLater(pinBottom) }
                 // Pausiert: gemerkte Position halten, während der Text komplett
-                // ersetzt wird – aber nur, wenn der Nutzer nicht gerade selbst
-                // scrollt, sonst klemmt das restoreScroll die Bewegung fest.
-                else if (!moving && !msgScrollBar.pressed) restoreScroll()
+                // ersetzt wird.
+                else restoreScroll()
             }
             // An contentHeight hängen: feuert bei JEDER Höhenänderung – neue Zeile,
             // async umbrechende RichText-Zeilen und komplettes Ersetzen des Texts.
             onContentHeightChanged: followBottom()
             // Resize (z. B. geänderte Spieleranzahl) – gleich behandeln.
             onHeightChanged: followBottom()
-            // Nur benutzergetriebene Bewegungen werten (Flick/Wheel sowie
-            // Scrollbar-Ziehen) – NICHT das programmatische Positionieren.
-            onContentYChanged: {
-                hoverRecheckTimer.restart()
-                if (!moving && !msgScrollBar.pressed) return
+
+            // ── Auto-Scroll-Zustand NUR aus echten Nutzergesten ableiten ──────
+            // Früher hing das an onContentYChanged (gefiltert über `moving`).
+            // Das war die zweite Fehlerquelle: `moving` gilt auch für die
+            // Positionskorrektur, die die Flickable bei JEDER Höhenänderung
+            // selbst vornimmt (fixupY nach setContentHeight – z. B. wenn das
+            // Übersetzen-Symbol eine Zeile umbrechen lässt oder der Emoji-
+            // Picker aufgeht). Ein solcher Zwischenwert liegt zwangsläufig
+            // nicht am unteren Rand → autoScroll kippte auf false, obwohl der
+            // Nutzer nichts getan hatte. Danach hielt restoreScroll() die View
+            // knapp über dem Ende fest: die letzte Zeile blieb angeschnitten,
+            // bis der 15-s-Timer oder die nächste Nachricht sie wieder
+            // einfing – und ein Vergrößern der Box „reparierte" es nur dann,
+            // wenn dabei savedContentY über die neue Untergrenze rutschte.
+            // Jetzt: Geste beginnt → pausieren, Geste ist zur RUHE gekommen →
+            // einmal sauber entscheiden.
+            function userScrollStarted() {
+                autoScroll = false
+                autoScrollTimer.stop()
+            }
+            function userScrollEnded() {
                 savedContentY = contentY
                 // Mit Toleranz prüfen statt exaktem atYEnd: knapp am Ende reicht
                 // (Subpixel/async wachsende RichText-Zeilen), damit der
                 // Auto-Scroll am unteren Rand zuverlässig wieder anspringt.
-                if (contentY >= contentHeight - height - 4) {
-                    autoScroll = true; autoScrollTimer.stop()
-                } else {
-                    autoScroll = false; autoScrollTimer.restart()
-                }
+                autoScroll = contentY >= contentHeight - height - 4
+                if (autoScroll) { autoScrollTimer.stop(); pinBottom() }
+                else autoScrollTimer.restart()
             }
+            onMovementStarted: userScrollStarted()
+            onMovementEnded: userScrollEnded()
+
+            // Beim Scrollen wandern die Zeilen unter dem stehenden Mauszeiger
+            // hindurch – unabhängig davon, wer gescrollt hat.
+            onContentYChanged: hoverRecheckTimer.restart()
 
             // Read-only TextEdit hält den gesamten Verlauf als EIN HTML-Dokument.
             // Die einzelnen chatModel-Einträge sind bereits fertiges RichText und
             // werden mit <br> aneinandergereiht.
             TextEdit {
                 id: msgText
-                // Platz für die Scrollbar lassen, wenn sie sichtbar ist.
-                width: msgFlick.width
-                       - (msgFlick.contentHeight > msgFlick.height + 4 ? 12 : 0)
+                // Fester Freiraum für die Scrollbar – NICHT abhängig davon, ob
+                // sie gerade gebraucht wird. Sonst hinge die Textbreite an
+                // msgFlick.contentHeight, diese an msgText.implicitHeight und
+                // die wiederum (QQuickTextEdit rechnet in geometryChange sofort
+                // neu) an der Textbreite: ein echter, synchroner Bindungs-
+                // Zirkel. QML bricht dabei die re-entrante Auswertung ab, und
+                // je nach Einstiegspunkt bleibt contentHeight auf dem ALTEN
+                // Wert stehen, während das Dokument schon höher ist – die
+                // Scrollbar steht dann am Ende, die letzte Zeile ist trotzdem
+                // angeschnitten, und erst die nächste Nachricht (oder ein
+                // Resize) rechnet neu. Konstanter Gutter = deterministischer
+                // Umbruch, wie im GameInfoPanel (root.scrollGutter).
+                width: msgFlick.width - root.scrollGutter
                 text: root.chatModel.join("<br>")
                 textFormat: TextEdit.RichText
                 wrapMode: TextEdit.Wrap

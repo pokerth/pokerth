@@ -135,7 +135,10 @@
       "Bash(awk 'NR<1320 && /^ClientState[A-Za-z]*::[A-Za-z]+/ {line=NR\": \"$0} END{}' src/net/clientstate.cpp)",
       "Bash(awk -F: '$1<1310')",
       "Bash(/usr/lib/qt6/bin/lupdate -locations relative -no-obsolete src/gui/qt6-qml -ts src/gui/qt6-qml/i18n/pokerth_de_DE.ts src/gui/qt6-qml/i18n/pokerth_en_US.ts src/gui/qt6-qml/i18n/pokerth_es_ES.ts src/gui/qt6-qml/i18n/pokerth_fr_FR.ts src/gui/qt6-qml/i18n/pokerth_it_IT.ts src/gui/qt6-qml/i18n/pokerth_pt_BR.ts src/gui/qt6-qml/i18n/pokerth_pt_PT.ts)",
-      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/1da6fa54-79d7-43a9-bac9-50e81f5f5514/scratchpad/fill_ts.py)"
+      "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/1da6fa54-79d7-43a9-bac9-50e81f5f5514/scratchpad/fill_ts.py)",
+      "Bash(/usr/lib/qt6/bin/qmllint --no-unqualified components/ChatBox.qml components/GameInfoPanel.qml)",
+      "Bash(/usr/lib/qt6/bin/qmllint components/ChatBox.qml components/GameInfoPanel.qml)",
+      "Bash(grep -vi \"unqualified\\\\|was not found\\\\|import\\\\|^$\")"
     ],
     "additionalDirectories": [
       "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates"
