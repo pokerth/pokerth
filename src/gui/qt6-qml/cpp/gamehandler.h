@@ -104,6 +104,16 @@ class GameHandler : public QObject
     Q_PROPERTY(int handNumber READ handNumber NOTIFY handNumberChanged)
     Q_PROPERTY(bool myTurn READ myTurn NOTIFY myTurnChanged)
     Q_PROPERTY(bool canAct READ canAct NOTIFY canActChanged)
+    // Autoritatives "der Server wartet JETZT auf meine Aktion" (Netzwerk-Spiel).
+    // Quelle ist die Engine selbst: currentPlayersTurnId wird ausschließlich beim
+    // Eintreffen einer PlayersTurnMessage gesetzt und ändert sich erst, wenn ein
+    // anderer Spieler dran ist. Im Gegensatz zu myTurn/timeoutSeatId kann dieser
+    // Zustand von KEINEM nachlaufenden Refresh-Callback (disableMyButtons,
+    // stopTimeoutAnimation, Phasenwechsel, Showdown …) gelöscht werden – genau
+    // daran starben bisher Klicks, die still zur Vorwahl degradierten und dann
+    // in den Server-Timeout liefen. Nach der eigenen Aktion sofort false
+    // (m_actionSentForTurn), damit die Buttons wie bisher direkt inaktiv werden.
+    Q_PROPERTY(bool awaitingMyAction READ awaitingMyAction NOTIFY awaitingMyActionChanged)
     Q_PROPERTY(int callAmount READ callAmount NOTIFY callAmountChanged)
     Q_PROPERTY(int minRaiseAmount READ minRaiseAmount NOTIFY minRaiseAmountChanged)
     Q_PROPERTY(int maxRaiseAmount READ maxRaiseAmount NOTIFY maxRaiseAmountChanged)
@@ -204,6 +214,7 @@ public:
     int handNumber() const { return m_handNumber; }
     bool myTurn() const { return m_myTurn; }
     bool canAct() const { return m_canAct; }
+    bool awaitingMyAction() const { return m_awaitingMyAction; }
     int callAmount() const { return m_callAmount; }
     int minRaiseAmount() const { return m_minRaiseAmount; }
     int maxRaiseAmount() const { return m_maxRaiseAmount; }
@@ -325,6 +336,7 @@ signals:
     // der nächste eigene Zug wieder frische Werte liefert.
     void bettingRoundEnded();
     void canActChanged();
+    void awaitingMyActionChanged();
     void callAmountChanged();
     void minRaiseAmountChanged();
     void maxRaiseAmountChanged();
@@ -381,7 +393,24 @@ private:
     // Als Zuschauer NIE: dort ist Sitz 0 ein fremder Spieler, dessen Aktions-
     // Timer m_timeoutSeatId auf 0 setzt. Ohne diesen Wächter könnten fold()/
     // call()/raise()/showMyCards() (Tastenkürzel!) für ihn ausgelöst werden.
-    bool isMyTurnToAct() const { return !m_spectating && (m_myTurn || m_timeoutSeatId == 0); }
+    //
+    // Dritte Quelle: engineAwaitsMyAction() – die Engine weiß es autoritativ,
+    // auch wenn beide Flags von einem nachlaufenden Callback gelöscht wurden.
+    // m_actionSentForTurn sperrt danach zuverlässig gegen eine zweite Aktion im
+    // selben Zugfenster (früher erledigte das implizit das Löschen der Flags in
+    // doActionDone()).
+    bool isMyTurnToAct() const
+    {
+        return !m_spectating && !m_actionSentForTurn
+               && (m_myTurn || m_timeoutSeatId == 0 || engineAwaitsMyAction());
+    }
+    // Autoritative Engine-Abfrage: wartet der Server gerade auf meine Aktion?
+    // Nur im Netzwerk-Spiel aussagekräftig – im lokalen Spiel ist die eigene
+    // Unique-ID 0 und damit vom Startwert eines frischen BeRo (ebenfalls 0)
+    // nicht unterscheidbar; dort bleibt es beim bisherigen myTurn/Timer-Pfad.
+    bool engineAwaitsMyAction() const;
+    // m_awaitingMyAction neu berechnen und – nur bei Änderung – QML informieren.
+    void updateAwaitingMyAction();
     void doActionDone();
     // Showdown-Flag setzen und – nur bei echter Änderung – die QML-Seite
     // benachrichtigen (showdownActive gatet u. a. die Aktions-Buttons).
@@ -404,6 +433,16 @@ private:
     int m_handNumber = 0;
     bool m_myTurn = false;
     bool m_canAct = false;
+    // Gecachter Wert von engineAwaitsMyAction() abzüglich bereits gesendeter
+    // Aktion – die QML-Seite bindet darauf (awaitingMyAction).
+    bool m_awaitingMyAction = false;
+    // Letzter gesehener ENGINE-Zustand (ohne Latch) – für die Flankenerkennung
+    // in updateAwaitingMyAction().
+    bool m_engineAwaitedMyAction = false;
+    // Im aktuellen Zugfenster wurde bereits eine Aktion an den Server geschickt.
+    // Wird beim Öffnen eines neuen Fensters (meInAction, Timer auf Sitz 0, Flanke
+    // von engineAwaitsMyAction, neues Spiel) zurückgesetzt.
+    bool m_actionSentForTurn = false;
     // Flankenerkennung für bettingRoundEnded(): true, solange computeCallAndRaise-
     // Amounts() die Setzrunde als abgeschlossen erkennt (roundClosed). Das Signal
     // feuert nur auf der steigenden Flanke (Runde gerade entschieden).

@@ -37,7 +37,8 @@
       "Bash(python3 -c ' *)",
       "Bash(echo \"--- exit: $?\")",
       "Bash(/usr/lib/qt6/bin/qmllint pages/GamePage.qml)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(/usr/lib/qt6/bin/qmllint components/GameActionBar.qml)"
     ]
   }
 }

@@ -277,6 +277,15 @@ Item {
 
     readonly property bool canAct: GameTable !== null && GameTable.canAct
 
+    // Autoritatives „der Server wartet JETZT auf meine Aktion" (Netzwerk-Spiel,
+    // aus der Engine: currentPlayersTurnId == eigene Unique-ID, siehe
+    // GameHandler::engineAwaitsMyAction). Anders als myTurn/timeoutSeatId kann
+    // dieser Zustand von keinem nachlaufenden Refresh-Callback gelöscht werden.
+    // Er ist damit die verlässliche Quelle dafür, ob ein Klick SOFORT ausgeführt
+    // werden muss statt still zur Vorwahl zu werden (die im eigenen Zugfenster
+    // nie mehr ausgeführt würde → Server-Timeout mit Default-Aktion).
+    readonly property bool awaitingMyAction: GameTable !== null && GameTable.awaitingMyAction
+
     // Showdown-/Ergebnisanzeige (Post-River bis zur nächsten Hand): die
     // Aktions-Buttons müssen IMMER deaktiviert sein, sonst klickt man verfrüht
     // für die nächste Runde. Eigenes Gate, weil `armed` über myTurnNow auch an
@@ -290,6 +299,7 @@ Item {
     // werden Beträge gezeigt, sonst neutrale Labels (zurückgesetzte Werte).
     readonly property bool actionsArmed: !inShowdown && !boardDealing && !roundEnded
         && ((GameTable !== null && GameTable.myTurn)
+            || awaitingMyAction
             || (canAct && preSelectEnabled))
 
     // Kompakte Action-Bar nur auf echten Mobilgeräten mit knappem
@@ -305,7 +315,8 @@ Item {
     // Während der Vorwahl zeigt der Fold-Button bei freiem Check "Check / Fold"
     // Vorwahl bei gratis Check: zweizeilig, damit auch längere Übersetzungen
     // (z. B. "Check / Se coucher") auf den Button passen.
-    readonly property string foldText: (GameTable !== null && actionsArmed && !GameTable.myTurn && canCheck)
+    readonly property string foldText: (GameTable !== null && actionsArmed && !GameTable.myTurn
+                                        && !awaitingMyAction && canCheck)
         ? (checkWord + " /\n" + foldWord) : foldWord
 
     function fireAction(which) {
@@ -345,7 +356,16 @@ Item {
         // Es ist mein Zug, sobald der Server meinen Aktions-Timer zählt
         // (timeoutSeatId === 0) – auch wenn das myTurn-Flag noch nicht
         // gesetzt sein sollte. Dann SOFORT ausführen, sonst nur vormerken.
-        var myTurnNow = GameTable.myTurn || GameTable.timeoutSeatId === 0
+        //
+        // awaitingMyAction zuerst: es ist die einzige Quelle, die ein einmal
+        // geöffnetes Zugfenster nicht wieder verliert. Ohne sie degradierte der
+        // Klick zur Vorwahl, sobald myTurn/timeoutSeatId von einem nachlaufenden
+        // Callback (disableMyButtons, stopTimeoutAnimation, Phasenwechsel …)
+        // gelöscht worden waren – und eine Vorwahl, die WÄHREND des eigenen
+        // Zugfensters gesetzt wird, führt niemand mehr aus (onMeInActionTriggered
+        // ist längst durch) → Timeout mit Server-Default.
+        var myTurnNow = GameTable.awaitingMyAction
+                        || GameTable.myTurn || GameTable.timeoutSeatId === 0
         var p0btnDbg = GameTable.players.length > 0 ? GameTable.players[0]["button"] : -1
         // console.log("[ACTDBG] click", which,
                     // "myTurn=", GameTable.myTurn,
@@ -415,6 +435,26 @@ Item {
     // Raise-Wert vorbereiten, Vorwahl ausführen bzw. bei Änderungen verwerfen
     Connections {
         target: GameTable
+        function onAwaitingMyActionChanged() {
+            // Autoritative Zugfenster-Flanke aus der Engine. Sie entsperrt exakt
+            // wie onMyTurnChanged – aber auch dann, wenn myTurn gar nicht erst
+            // gesetzt wurde oder direkt wieder gelöscht wurde. Damit kann kein
+            // stehengebliebenes roundEnded/preSelectEnabled=false ein laufendes
+            // Zugfenster mehr blockieren.
+            if (!GameTable.awaitingMyAction) return
+            actionBar.preSelectEnabled = true
+            actionBar.roundEnded = false
+            actionBar.syncRaiseAmount()
+            // Sicherheitsnetz: eine vor dem Zug gesetzte Vorwahl ausführen, falls
+            // onMeInActionTriggered ausbleibt. Doppelausführung ist unkritisch –
+            // preAction wird vorher geleert und die zweite Aktion prallt in C++
+            // am Latch (m_actionSentForTurn) ab.
+            if (actionBar.playingMode === 0 && actionBar.preAction !== "") {
+                var pending = actionBar.preAction
+                actionBar.preAction = ""
+                actionBar.runPreAction(pending)
+            }
+        }
         function onMyTurnChanged() {
             // Eigener Zug beginnt → Vorauswahl immer freischalten.
             // Ausführung der vorgemerkten/automatischen Aktion in onMeInActionTriggered.
@@ -1001,7 +1041,8 @@ Item {
                 // Call-Blocker: nur der Call-Button wird nach einer Betrags-/
                 // Beschriftungsänderung kurz gesperrt (s. actionBar.callBlocked).
                 readonly property bool blocked: ab.actionKey === "call" && actionBar.callBlocked
-                readonly property bool myTurnNow: GameTable !== null && GameTable.myTurn
+                readonly property bool myTurnNow: GameTable !== null
+                                                  && (GameTable.myTurn || GameTable.awaitingMyAction)
                 // Vorwahl-Markierung (goldener Rahmen/Punkt) nur, solange der
                 // Button auch klickbar ist. Sonst bliebe nach Runden-/Handende
                 // eine veraltete Vorauswahl sichtbar, obwohl die Buttons in der

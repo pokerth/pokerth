@@ -196,6 +196,9 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     m_phaseText = "Preflop";
     m_handNumber = 0;
     m_myTurn = false;
+    m_actionSentForTurn = false;
+    m_engineAwaitedMyAction = false;
+    m_awaitingMyAction = false;
     m_callAmount = 0;
     m_minRaiseAmount = 0;
     m_maxRaiseAmount = 0;
@@ -223,6 +226,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     emit phaseTextChanged();
     emit handNumberChanged();
     emit myTurnChanged();
+    emit awaitingMyActionChanged();
     emit callAmountChanged();
     emit minRaiseAmountChanged();
     emit maxRaiseAmountChanged();
@@ -877,6 +881,12 @@ void GameHandler::computeCallAndRaiseAmounts()
         m_maxRaiseAmount = newMaxRaise;
         emit maxRaiseAmountChanged();
     }
+
+    // Zentraler Nachführpunkt: computeCallAndRaiseAmounts() hängt an JEDEM
+    // Refresh-Pfad (onRefreshSet/Cash/Pot/GameLabels, onMeInAction, doActionDone),
+    // also auch an dem onRefreshSet, das die PlayersTurnMessage auslöst –
+    // currentPlayersTurnId ist dort bereits gesetzt.
+    updateAwaitingMyAction();
 }
 
 bool GameHandler::humanCanAct() const
@@ -899,10 +909,53 @@ bool GameHandler::humanCanAct() const
         && human->isSessionActive();
 }
 
+bool GameHandler::engineAwaitsMyAction() const
+{
+    // Nur im Netzwerk-Spiel: dort vergibt der Server die Unique-IDs und 0 ist
+    // ausdrücklich ungültig (serverlobbythread.cpp), sodass der Startwert eines
+    // frischen BeRo (currentPlayersTurnId == 0) nie versehentlich auf mich
+    // passt. Im lokalen Spiel ist die eigene Unique-ID dagegen 0 – dort wäre
+    // der Startwert von meiner echten Zugmarkierung nicht zu unterscheiden.
+    if (m_spectating) return false;
+    if (!m_session || !m_session->isNetworkClientRunning()) return false;
+    if (!m_game) return false;
+    auto hand = m_game->getCurrentHand();
+    if (!hand) return false;
+    auto bero = hand->getCurrentBeRo();
+    if (!bero) return false;
+    auto seats = hand->getSeatsList();
+    if (!seats || seats->empty()) return false;
+    auto human = seats->front();
+    if (!human) return false;
+    return bero->getCurrentPlayersTurnId() == human->getMyUniqueID();
+}
+
+void GameHandler::updateAwaitingMyAction()
+{
+    const bool engineWaits = engineAwaitsMyAction();
+    // Flanken des ENGINE-Zustands (nicht des veröffentlichten Werts) steuern den
+    // Latch: sowohl das Öffnen als auch das Schließen eines Zugfensters gibt die
+    // nächste Aktion wieder frei.
+    if (engineWaits != m_engineAwaitedMyAction) {
+        m_engineAwaitedMyAction = engineWaits;
+        m_actionSentForTurn = false;
+    }
+    const bool waiting = engineWaits && !m_actionSentForTurn;
+    if (waiting != m_awaitingMyAction) {
+        m_awaitingMyAction = waiting;
+        emit awaitingMyActionChanged();
+    }
+}
+
 void GameHandler::doActionDone()
 {
     if (!m_session) return;
     if (localGameCallbacksBlocked()) return;
+
+    // Aktion für dieses Zugfenster ist raus. Der Latch ersetzt für die neue,
+    // engine-basierte Zugerkennung das, was das Löschen der beiden Flags unten
+    // bisher implizit erledigte: kein zweiter Zug im selben Fenster.
+    m_actionSentForTurn = true;
 
     if (m_myTurn) {
         m_myTurn = false;
@@ -1065,6 +1118,8 @@ void GameHandler::onMeInAction()
     qDebug() << "[ACTDBG] onMeInAction() blocked=" << localGameCallbacksBlocked()
              << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
     if (localGameCallbacksBlocked()) return;
+    // Neues Zugfenster → Latch der vorigen Aktion freigeben (siehe doActionDone).
+    m_actionSentForTurn = false;
     refreshPlayerData();
     // m_myTurn ZUERST setzen, DANN die Beträge berechnen. computeCallAndRaiseAmounts()
     // wertet roundClosed nur bei !m_myTurn aus – bin ich in Position (letzter Akteur)
@@ -1144,6 +1199,10 @@ void GameHandler::onStartTimeoutAnimation(int playerNum, int timeoutSec)
                  << "tSeat=" << m_timeoutSeatId << "timeoutSec=" << timeoutSec;
     if (localGameCallbacksBlocked()) return;
 
+    // Neues Zugfenster auf meinem Sitz → Latch der vorigen Aktion freigeben.
+    if (playerNum == 0)
+        m_actionSentForTurn = false;
+
     // Fortschrittsbalken (Ersatz fürs Action-Badge) für den gerade aktiven Sitz.
     if (m_timeoutSeatId != playerNum || m_timeoutSec != timeoutSec) {
         m_timeoutSeatId = playerNum;
@@ -1163,9 +1222,11 @@ void GameHandler::onStartTimeoutAnimation(int playerNum, int timeoutSec)
         m_myTurn = true;
         emit myTurnChanged();
     }
+    updateAwaitingMyAction();
     if (playerNum == 0)
         qDebug() << "[ACTDBG] startTimeout seat0 myTurn=" << m_myTurn
-                 << "humanCanAct=" << humanCanAct() << "tSeat=" << m_timeoutSeatId;
+                 << "humanCanAct=" << humanCanAct() << "tSeat=" << m_timeoutSeatId
+                 << "awaiting=" << m_awaitingMyAction;
 
     // Wie im Widgets-Client: Ton erst nach 3 Sekunden Vorlauf – nur für mich
     // und nur, wenn ich noch am Zug bin (eine vorgemerkte Aktion kann oben
@@ -1188,6 +1249,7 @@ void GameHandler::onStopTimeoutAnimation(int playerNum)
         m_myTurn = false;
         emit myTurnChanged();
     }
+    updateAwaitingMyAction();
 }
 
 void GameHandler::onNetworkGameEnded()
@@ -1207,6 +1269,8 @@ void GameHandler::onNetworkGameEnded()
         m_timeoutSeatId = -1;
         emit timeoutChanged();
     }
+    // Ohne m_game liefert engineAwaitsMyAction() false – Cache nachziehen.
+    updateAwaitingMyAction();
     m_timeoutBeepTimer->stop();
     if (m_pingState != 0 || m_pingAvg != -1) {
         m_pingState = 0;  // keine Netzwerkverbindung mehr → Ampel zurücksetzen

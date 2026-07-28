@@ -2530,7 +2530,12 @@ ClientStateRunHand::InternalHandlePacket(boost::shared_ptr<ClientThread> client,
 		}
 
 		// Next player's turn.
-		curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyID());
+		// UNIQUE-ID, nicht Sitz-ID: currentPlayersTurnId ist im gesamten Engine-
+		// Code eine Unique-ID (LocalBeRoPreflop::run, ClientHand::switchRounds,
+		// Game::getCurrentPlayer() → getPlayerByUniqueId()). Hier stand bisher
+		// getMyID() (= Sitznummer), sodass der Wert je nach Schreiber aus zwei
+		// verschiedenen ID-Räumen kam und als "wer ist am Zug" unbrauchbar war.
+		curGame->getCurrentHand()->getCurrentBeRo()->setCurrentPlayersTurnId(tmpPlayer->getMyUniqueID());
 
 		// Mark current player in GUI.
 		int guiStatus = 2;
