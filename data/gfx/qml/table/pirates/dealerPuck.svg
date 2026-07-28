@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Pirates: das Glasauge des Kapitaens, in eine Dublonen-Fassung gesetzt -
+       Goldring wie bei den Blind-Pucks, darin die Glaskugel mit Aderchen,
+       bernsteinfarbener Iris und der eingeschliffenen Dealer-Marke. -->
+  <defs>
+    <linearGradient id="bezel" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe396"/>
+      <stop offset="0.45" stop-color="#cd8f2d"/>
+      <stop offset="1" stop-color="#6b4310"/>
+    </linearGradient>
+    <radialGradient id="sclera" cx="35%" cy="28%" r="78%">
+      <stop offset="0" stop-color="#fffdf6"/>
+      <stop offset="0.55" stop-color="#e7ddca"/>
+      <stop offset="1" stop-color="#9c9182"/>
+    </radialGradient>
+    <radialGradient id="iris" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#e8b558"/>
+      <stop offset="0.55" stop-color="#a86e1f"/>
+      <stop offset="1" stop-color="#4a2c08"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Goldfassung -->
+  <circle cx="20" cy="20" r="19" fill="url(#bezel)" stroke="#3f2a0c" stroke-width="1"/>
+  <g stroke="#573708" stroke-width="0.7" stroke-opacity="0.5" stroke-linecap="round">
+    <path d="M20 1.6V4.0M20 36.0V38.4M1.6 20H4.0M36.0 20H38.4"/>
+    <path d="M6.6 6.6L8.3 8.3M31.7 31.7L33.4 33.4M33.4 6.6L31.7 8.3M8.3 31.7L6.6 33.4"/>
+  </g>
+
+  <!-- Glaskugel -->
+  <circle cx="20" cy="20" r="16.1" fill="url(#sclera)" stroke="#4c3a18" stroke-width="0.8"/>
+
+  <!-- Aederchen -->
+  <g fill="none" stroke="#a8341f" stroke-linecap="round" stroke-opacity="0.55">
+    <path d="M5.3 16.6q4.2 1.2 6.6 3.6" stroke-width="0.8"/>
+    <path d="M6.1 16.9q2.6 2.4 3.0 5.0" stroke-width="0.5"/>
+    <path d="M34.6 22.4q-4.3-0.9-6.9-3.0" stroke-width="0.8"/>
+    <path d="M33.8 23.1q-2.9-1.9-3.6-4.4" stroke-width="0.5"/>
+    <path d="M12.2 32.1q1.6-3.6 4.6-5.6" stroke-width="0.6"/>
+    <path d="M27.6 8.4q-1.9 3.3-4.9 5.0" stroke-width="0.5"/>
+  </g>
+
+  <!-- Iris mit Fasern und Limbusring -->
+  <circle cx="20" cy="20" r="9.7" fill="url(#iris)"/>
+  <g stroke="#3b2206" stroke-width="0.55" stroke-opacity="0.45" stroke-linecap="round">
+    <path d="M20 10.8V14.6M20 25.4V29.2M10.8 20H14.6M25.4 20H29.2"/>
+    <path d="M13.5 13.5L16.2 16.2M23.8 23.8L26.5 26.5M26.5 13.5L23.8 16.2M16.2 23.8L13.5 26.5"/>
+    <path d="M15.9 11.4L17.4 14.9M22.6 25.1L24.1 28.6M11.4 24.1L14.9 22.6M25.1 17.4L28.6 15.9"/>
+    <path d="M24.1 11.4L22.6 14.9M17.4 25.1L15.9 28.6M11.4 15.9L14.9 17.4M25.1 22.6L28.6 24.1"/>
+  </g>
+  <circle cx="20" cy="20" r="9.7" fill="none" stroke="#2a1705" stroke-width="1.2"/>
+
+  <!-- Pupille: gross genug, dass die Dealer-Marke ganz auf Schwarz sitzt -->
+  <circle cx="20" cy="20" r="5.7" fill="#0e0906"/>
+
+  <!-- Dealer-Marke, in die Pupille geschliffen -->
+  <text x="20" y="24.1" text-anchor="middle" font-family="Georgia, serif" font-size="11"
+        font-weight="700" fill="#000000" fill-opacity="0.55">D</text>
+  <text x="20" y="23.7" text-anchor="middle" font-family="Georgia, serif" font-size="11"
+        font-weight="700" fill="#f6dc9c">D</text>
+
+  <!-- Glanzlichter des Glases -->
+  <ellipse cx="12.5" cy="11.3" rx="4.0" ry="2.5" fill="#ffffff" fill-opacity="0.55"
+           transform="rotate(-38 12.5 11.3)"/>
+  <circle cx="26.4" cy="27.6" r="1.5" fill="#ffffff" fill-opacity="0.28"/>
+</svg>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Pirates: spanische Dublone wie beim Small Blind, aber frisch aus der
+       Truhe - sattes Rotgold, eigener Schroetling (anderer Hammerschlag) und
+       ein zusaetzlicher Praegering. -->
+  <defs>
+    <linearGradient id="rim" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#ffe396"/>
+      <stop offset="0.45" stop-color="#cd8f2d"/>
+      <stop offset="1" stop-color="#6b4310"/>
+    </linearGradient>
+    <radialGradient id="face" cx="36%" cy="30%" r="72%">
+      <stop offset="0" stop-color="#fbdc8d"/>
+      <stop offset="0.55" stop-color="#cb9231"/>
+      <stop offset="1" stop-color="#764c14"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Schroetling: unrunder Rand statt sauberem Kreis -->
+  <path fill="url(#rim)" stroke="#3f2a0c" stroke-width="1"
+        d="M38.69 20.00C38.74 21.60 38.45 23.28 38.01 24.83C37.57 26.37 36.93 27.94 36.05 29.27C35.18 30.59 33.96 31.73 32.78 32.78C31.59 33.82 30.29 34.67 28.96 35.52C27.63 36.36 26.28 37.27 24.78 37.85C23.29 38.44 21.62 38.94 20.00 39.02C18.38 39.10 16.66 38.77 15.09 38.32C13.52 37.88 11.99 37.14 10.57 36.33C9.16 35.51 7.72 34.58 6.57 33.43C5.43 32.27 4.39 30.86 3.71 29.41C3.02 27.95 2.72 26.27 2.45 24.70C2.19 23.13 2.15 21.57 2.13 20.00C2.11 18.43 2.05 16.82 2.33 15.27C2.61 13.71 3.07 12.07 3.81 10.65C4.55 9.24 5.65 7.94 6.78 6.78C7.91 5.62 9.21 4.58 10.58 3.69C11.96 2.80 13.46 1.91 15.03 1.45C16.60 0.98 18.38 0.78 20.00 0.91C21.62 1.04 23.26 1.65 24.76 2.23C26.26 2.81 27.66 3.58 29.01 4.39C30.37 5.20 31.75 6.03 32.90 7.10C34.06 8.16 35.14 9.44 35.94 10.80C36.74 12.16 37.26 13.72 37.72 15.25C38.18 16.79 38.64 18.40 38.69 20.00Z"/>
+
+  <!-- Hammerschlag-Kerben im Rand -->
+  <g stroke="#573708" stroke-width="0.7" stroke-opacity="0.5" stroke-linecap="round">
+    <path d="M20 1.9V4.5M20 35.5V38.1M2.2 20H4.8M35.2 20H37.8"/>
+    <path d="M6.9 6.9L8.8 8.8M31.2 31.2L33.1 33.1M33.1 6.9L31.2 8.8M8.8 31.2L6.9 33.1"/>
+    <path d="M26.9 2.8L25.8 5.2M14.1 34.8L13.0 37.2M2.8 13.1L5.2 14.2M34.8 25.8L37.2 26.9"/>
+  </g>
+
+  <!-- Praegefeld -->
+  <path fill="url(#face)" stroke="#553710" stroke-width="0.7"
+        d="M35.67 20.00C35.71 21.34 35.47 22.75 35.10 24.05C34.74 25.34 34.19 26.66 33.47 27.77C32.74 28.89 31.72 29.85 30.73 30.73C29.74 31.61 28.65 32.33 27.53 33.04C26.41 33.75 25.27 34.50 24.01 34.98C22.76 35.46 21.35 35.87 20.00 35.93C18.65 36.00 17.20 35.73 15.89 35.35C14.57 34.98 13.29 34.37 12.10 33.68C10.91 33.00 9.71 32.22 8.75 31.25C7.79 30.28 6.92 29.10 6.34 27.89C5.76 26.67 5.49 25.26 5.27 23.95C5.04 22.63 5.00 21.32 4.98 20.00C4.97 18.68 4.93 17.33 5.17 16.03C5.41 14.72 5.80 13.35 6.43 12.16C7.05 10.98 7.97 9.89 8.91 8.91C9.86 7.94 10.95 7.07 12.11 6.33C13.26 5.58 14.52 4.85 15.84 4.46C17.15 4.08 18.64 3.91 20.00 4.01C21.36 4.11 22.73 4.61 24.00 5.09C25.26 5.56 26.43 6.21 27.57 6.89C28.71 7.57 29.86 8.27 30.83 9.17C31.80 10.07 32.70 11.14 33.38 12.28C34.05 13.42 34.49 14.73 34.87 16.02C35.25 17.30 35.63 18.66 35.67 20.00Z"/>
+
+  <!-- Praegering + Perlkranz -->
+  <circle cx="20" cy="20" r="14.4" fill="none" stroke="#5c3b0e" stroke-width="0.6" stroke-opacity="0.55"/>
+  <g fill="#5c3b0e" fill-opacity="0.6">
+    <circle cx="32.90" cy="20.00" r="0.62"/><circle cx="32.46" cy="23.34" r="0.62"/>
+    <circle cx="31.17" cy="26.45" r="0.62"/><circle cx="29.13" cy="29.13" r="0.62"/>
+    <circle cx="26.45" cy="31.17" r="0.62"/><circle cx="23.34" cy="32.46" r="0.62"/>
+    <circle cx="20.00" cy="32.90" r="0.62"/><circle cx="16.66" cy="32.46" r="0.62"/>
+    <circle cx="13.55" cy="31.17" r="0.62"/><circle cx="10.87" cy="29.13" r="0.62"/>
+    <circle cx="8.83"  cy="26.45" r="0.62"/><circle cx="7.54"  cy="23.34" r="0.62"/>
+    <circle cx="7.10"  cy="20.00" r="0.62"/><circle cx="7.54"  cy="16.66" r="0.62"/>
+    <circle cx="8.83"  cy="13.55" r="0.62"/><circle cx="10.87" cy="10.87" r="0.62"/>
+    <circle cx="13.55" cy="8.83"  r="0.62"/><circle cx="16.66" cy="7.54"  r="0.62"/>
+    <circle cx="20.00" cy="7.10"  r="0.62"/><circle cx="23.34" cy="7.54"  r="0.62"/>
+    <circle cx="26.45" cy="8.83"  r="0.62"/><circle cx="29.13" cy="10.87" r="0.62"/>
+    <circle cx="31.17" cy="13.55" r="0.62"/><circle cx="32.46" cy="16.66" r="0.62"/>
+  </g>
+
+  <!-- Erhabene Type: heller Lichtsaum unten, dunkler Buchstabe darueber -->
+  <text x="20" y="26.6" text-anchor="middle" font-family="Georgia, serif" font-size="16"
+        font-weight="700" fill="#fff1c2" fill-opacity="0.45">BB</text>
+  <text x="20" y="26" text-anchor="middle" font-family="Georgia, serif" font-size="16"
+        font-weight="700" fill="#3a2508">BB</text>
+</svg>

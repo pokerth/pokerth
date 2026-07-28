@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Pirates QML table style – Pokertisch in einer Hafenschenke, Rum, Seekarte,
+   Jolly Roger und ein Papagei auf der Stange.
+
+   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
+   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
+   table.png ist NUR beschnitten (4 px links, 24 px oben), damit der Filz – das
+   dunkle Tuch innerhalb der Holzumrandung – exakt in der Bildmitte liegt:
+   Kanten bei x 144..1428 und y 362..611, Mitte (786, 486.5) auf 1574x973.
+   Der Client kennt keinen Versatz-Tag: er zentriert das Bild starr auf
+   communityCenterY, also verschiebt AUSSCHLIESSLICH der Zuschnitt den Tisch
+   gegen die Gemeinschaftskarten. TableBackgroundZoom ist ohne Neubau
+   justierbar (Wert ändern, Client neu starten).
+
+   Action-Buttons: Decksplanken – Basisverlauf mit Längsmaserung, Astloch,
+   Plankenstößen an den Enden und vier Eisennieten, Kantenlicht oben,
+   Schattenfuge unten. Vier Hölzer statt vier Signalfarben (salzgebleichtes
+   Treibholz/geteerte Eiche/Mahagoni-Rumfass/rot gestrichene Bordwand), damit
+   die Knöpfe unterscheidbar bleiben, aber wie Schiffsholz wirken.
+
+   Pucks: die Blinds sind von Hand geschlagene spanische Dublonen (unrunder
+   Schrötling, Hammerschlag im Rand, Perlkranz, erhabene Type) – Small Blind
+   blass und abgegriffen, Big Blind sattes Rotgold. Der Dealer trägt das
+   Glasauge des Kapitäns in derselben Dublonen-Fassung; die Dealer-Marke ist
+   in die Pupille geschliffen.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Pirates QML table style" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="28.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Das Bild hat mit 1.62:1 fast das Seitenverhältnis von Danuxi/Discworld
+          (dort 1.3), der Tisch sitzt hier aber flacher im Bild: der Filz ist nur
+          26 % der Bildhöhe, und im Querformat begrenzt die Bildhöhe die
+          Skalierung. Bei 1.25 stand die Spieler-Ellipse noch neben dem Tisch,
+          bei 1.4 war vom Schankraum kaum mehr etwas zu sehen – mit 1.33 sitzen
+          die Boxen auf dem Tischrand und Rumflasche, Papagei und Truhen bleiben
+          im Bild (per Vorschau-Lauf verglichen). -->
+     <TableBackgroundZoom value="1.33" />
+
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Planken sind fast rechtwinklig, nur die Kanten sind abgestoßen. -->
+     <ActionButtonBorderRadius value="4" />
+
+     <!-- Akzentfarbe der Spielerboxen: das Messing der Sturmlaternen – dasselbe
+          warme Gold wie die Dublonen und die Fassung des Glasauges. Tönt Verlauf
+          und Rahmen der Box. -->
+     <PlayerBoxAccent value="#cf9a34" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Alle vier Hölzer sind dunkel – helle, leicht vergilbte Beschriftung
+          (Seekarten-Pergament) statt der aus den Verlaufs-Stops abgeleiteten
+          Farbe. -->
+     <FoldButtonTextColor value="#efe6d4" />
+     <CheckCallButtonTextColor value="#f1e4c9" />
+     <BetRaiseButtonTextColor value="#f8dfb7" />
+     <AllInButtonTextColor value="#ffe2d0" />
+
+     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
+          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles, geteertes
+          Schiffsholz, Rahmen in <PlayerBoxAccent> – Chat-/Log-Box und
+          Spielerboxen tragen denselben Akzent. -->
+     <ChatLogBackground value="#141009" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#221a11" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#7d5c26" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#f3e8d2" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#d7c096" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#998158" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

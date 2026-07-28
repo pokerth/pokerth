@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 43">
+  <!-- Pirates: geteerte Eichenplanke aus dem Schiffsrumpf - dunkles, mit Pech
+       getraenktes Holz. Gleicher Plankenaufbau wie die uebrigen drei Knoepfe,
+       nur der Holzton unterscheidet sie. -->
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6c5540"/>
+      <stop offset="0.55" stop-color="#3f3227"/>
+      <stop offset="1" stop-color="#241c15"/>
+    </linearGradient>
+    <linearGradient id="nail" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#bdb4a4"/>
+      <stop offset="0.5" stop-color="#756c5f"/>
+      <stop offset="1" stop-color="#3a352d"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="166" height="41" rx="4" ry="4" fill="url(#base)"/>
+
+  <!-- Laengsmaserung -->
+  <g fill="none" stroke="#17110b" stroke-linecap="round">
+    <path d="M6 8.0Q46 6.2 86 8.0T162 8.0" stroke-width="0.9" stroke-opacity="0.32"/>
+    <path d="M6 13.5Q46 15.1 86 13.5T162 13.5" stroke-width="0.6" stroke-opacity="0.24"/>
+    <path d="M6 19.5Q46 18.4 86 19.5T162 19.5" stroke-width="1.1" stroke-opacity="0.28"/>
+    <path d="M6 25.5Q46 27.3 86 25.5T162 25.5" stroke-width="0.7" stroke-opacity="0.22"/>
+    <path d="M6 31.0Q46 29.3 86 31.0T162 31.0" stroke-width="0.9" stroke-opacity="0.30"/>
+    <path d="M6 36.5Q46 37.8 86 36.5T162 36.5" stroke-width="0.6" stroke-opacity="0.20"/>
+  </g>
+
+  <!-- Astloch -->
+  <g>
+    <ellipse cx="40" cy="21.5" rx="5.2" ry="3.3" fill="#160f09" fill-opacity="0.6"/>
+    <ellipse cx="40" cy="21.5" rx="3.0" ry="1.9" fill="#0d0906" fill-opacity="0.65"/>
+    <ellipse cx="40" cy="21.5" rx="7.4" ry="4.8" fill="none" stroke="#160f09"
+             stroke-opacity="0.35" stroke-width="0.7"/>
+  </g>
+
+  <!-- Plankenstoesse -->
+  <g stroke-linecap="round">
+    <path d="M15.5 3.5V39.5" stroke="#120d08" stroke-opacity="0.6" stroke-width="1.1"/>
+    <path d="M16.6 3.5V39.5" stroke="#8c7a63" stroke-opacity="0.26" stroke-width="0.7"/>
+    <path d="M152.5 3.5V39.5" stroke="#120d08" stroke-opacity="0.6" stroke-width="1.1"/>
+    <path d="M153.6 3.5V39.5" stroke="#8c7a63" stroke-opacity="0.26" stroke-width="0.7"/>
+  </g>
+
+  <!-- Eisennieten -->
+  <g fill="url(#nail)" stroke="#181209" stroke-width="0.6">
+    <circle cx="8.3" cy="12.5" r="2.2"/>
+    <circle cx="8.3" cy="30.5" r="2.2"/>
+    <circle cx="159.7" cy="12.5" r="2.2"/>
+    <circle cx="159.7" cy="30.5" r="2.2"/>
+  </g>
+
+  <!-- Kantenlicht oben / Schattenfuge unten -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M6.0 2.4H162.0" stroke="#a68d6d" stroke-opacity="0.5" stroke-width="1.2"/>
+    <path d="M6.0 40.8H162.0" stroke="#000000" stroke-opacity="0.5" stroke-width="1.6"/>
+  </g>
+
+  <rect x="1" y="1" width="166" height="41" rx="4" ry="4"
+        fill="none" stroke="#150f09" stroke-width="1.6"/>
+</svg>
