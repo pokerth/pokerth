@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style (Kartenrückseite) "Pirates".
+
+   Totenkopf mit Dreispitz und Kopftuch, Knochenweiß auf dunklem Braun –
+   dieselbe Palette wie der Pirates-Tischstil (data/gfx/qml/table/pirates/),
+   damit Tisch, Pucks und Kartenrücken zusammen gelesen werden.
+
+   Das Emblem ist eine Bitmap-Vektorisierung (pirate.svg, 501 KB, 480 Pfade)
+   und für die Karte auf Motivgröße reduziert – Verfahren siehe
+   ../../cards/discworld/discworlddeckstyle.xml. Hier gilt bei Zeichenfläche
+   512x499: Toleranz 1, Mindestfläche 2,5 (die halben Discworld-Werte, weil
+   die Zeichenfläche halb so groß ist – Ziel bleibt rund 0,27 px Toleranz im
+   gerenderten Motiv). Ergebnis 501 KB -> 72 KB, 480 -> 383 Pfade.
+
+   Drei Eigenheiten dieser Vorlage:
+   - Die Vektorisierung liegt als Strichzeichnung vor: 262 der 480 Pfade sind
+     reine Naht-Strokes (Gruppe mit fill="none"), die nur die Flächenränder
+     nachziehen. Sie fallen ersatzlos weg.
+   - Der unterste Pfad deckt die ganze Zeichenfläche (der schwarze Grund des
+     Sticker-Motivs). Er muss weg, sonst liegt ein schwarzes Rechteck über dem
+     Kartenverlauf.
+   - Die dunklen Flächen des Motivs (#020202/#141414) sind KEIN Hintergrund,
+     sondern Binnenzeichnung (Augenhöhlen, Schattenflächen) und liegen über
+     den hellen Flächen – sie dürfen nicht entfallen. Sie werden auf #17100a
+     gelegt, also zwischen die beiden Stops des Kartenverlaufs; damit gehen
+     sie im Grund auf, statt als Fleck sichtbar zu werden.
+     Weiß wird zu #ecdfc4 (Knochen).
+
+   Motivgröße: Breite 465 auf der 580x800-Karte (Innenrahmen 528 breit),
+   skaliert an der Bounding Box des Motivs, nicht an seiner Zeichenfläche.
+
+   preview.png ist die auf 424x561 gezogene backside.svg (Standardmaß aller
+   Rückseiten-Vorschauen) – gebaut mit preview/build_card_previews.sh.
+
+   Dateinamen sind relativ zu diesem XML zu verstehen.
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Pirates (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="28.07.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+
+     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>
