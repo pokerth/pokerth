@@ -238,9 +238,10 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
  * Patches all QLabels and QTextBrowsers with openExternalLinks=true
  * inside the given widget tree.
  *
- * When running inside an AppImage, openExternalLinks causes Qt to call
- * QDesktopServices::openUrl() internally, which inherits the bundled
- * LD_LIBRARY_PATH and crashes child processes (xdg-open, /bin/sh, etc.).
+ * When running with bundled libraries (AppImage *or* self-contained tarball),
+ * openExternalLinks causes Qt to call QDesktopServices::openUrl() internally,
+ * which inherits the bundled LD_LIBRARY_PATH and crashes child processes
+ * (xdg-open, /bin/sh, etc.) — the link click simply does nothing.
  *
  * This function:
  *  1. Finds all QLabel children with openExternalLinks == true
@@ -252,12 +253,14 @@ inline bool startDetachedSafe(const QString& program, const QStringList& args)
  *     - Connects anchorClicked to openUrlSafe()
  *
  * Call this once after setupUi() in each dialog constructor.
- * On non-AppImage builds this is a no-op.
+ * Without bundled libraries this is a no-op.
  */
 inline void patchExternalLinks(QWidget* root)
 {
 #ifdef Q_OS_LINUX
-    if (!isAppImage() || !root) {
+    // Gleiche Bedingung wie openUrlSafe(): der Tarball bundelt Qt ebenfalls
+    // per LD_LIBRARY_PATH, setzt aber kein POKERTH_APPIMAGE=1.
+    if (!runningWithBundledLibs() || !root) {
         return;
     }
 

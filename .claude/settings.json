@@ -123,7 +123,15 @@
       "Bash(cp data/gfx/qml/table/pirates/dealerPuck.svg data/gfx/qml/table/pirates/piratestablestyle.xml build/share/pokerth/data/gfx/qml/table/pirates/)",
       "Bash(convert /opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates/preview.png -crop 260x70+150+340 +repage -filter point -resize 300% puck_ingame.png)",
       "Bash(convert /opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates/preview.png -crop 70x50+440+340 +repage -filter point -resize 600% puck_ingame.png)",
-      "Bash(timeout 300 preview/record_theme_preview.py --style pirates --set-table-style --card-back pirates --flop-sec 6)"
+      "Bash(timeout 300 preview/record_theme_preview.py --style pirates --set-table-style --card-back pirates --flop-sec 6)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code} %{redirect_url}\\\\n\" -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120 Safari/537.36 Edg/120\" https://www.pokerth.net/live)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code} %{redirect_url}\\\\n\" -A \"Mozilla/5.0 Edg/120\" https://www.pokerth.net/live/)",
+      "Bash(curl -sS -o /dev/null -w \"PokerTH-UA: %{http_code}\\\\n\" -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live)",
+      "Bash(curl -sS -w \"\\\\n-- %{http_code}\\\\n\" -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live)",
+      "Bash(curl -sS -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" -w \"%{http_code} -> %{redirect_url}\\\\n\" https://www.pokerth.net/live)",
+      "Bash(curl -sSL -A \"PokerTH/2.0 \\(Qt Network\\)\" -o /dev/null -w \"final: %{url_effective} %{http_code}\\\\n\" https://www.pokerth.net/live)",
+      "Bash(curl -sS -D - -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live)",
+      "Bash(curl -sS -D - -o /dev/null -A \"PokerTH/2.0 \\(Qt Network\\)\" https://www.pokerth.net/live/)"
     ],
     "additionalDirectories": [
       "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates"

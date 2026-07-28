@@ -34,6 +34,7 @@
 #include "chattranslatorcore.h"
 #include <QProxyStyle>
 #include <QDesktopServices>
+#include "core/appimage_utils.h"
 #include <QTextDocument>
 #include <QTextBlock>
 #include <QMouseEvent>
@@ -814,7 +815,9 @@ void ChatTools::onChatAnchorClicked(const QUrl &url)
 		myTranslateReqToId.insert(req, id);
 	} else {
 		// Echte Links extern öffnen (früher über openExternalLinks in der .ui).
-		QDesktopServices::openUrl(url);
+		// openUrlSafe statt QDesktopServices::openUrl: bei gebundelten Libs
+		// (AppImage/Tarball) würde xdg-open unser LD_LIBRARY_PATH erben.
+		AppImageUtils::openUrlSafe(url);
 	}
 }
 
