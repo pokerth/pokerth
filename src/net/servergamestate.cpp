@@ -920,9 +920,20 @@ AbstractServerGameStateRunning::HandleNewPlayer(boost::shared_ptr<ServerGame> se
 {
 
 	// Verify that the user is allowed to rejoin.
+	// An empty seat GUID is the server's marker for "this seat must not be
+	// rejoined" (kicked, AFK timeout, left voluntarily, deactivated after the
+	// offline grace period - see ServerGame::RemoveSession/MarkPlayerAsKicked/
+	// RemoveDisconnectedPlayers).  It must therefore never match: a client
+	// which sends no mylastsessionid (web client, missing guid.tmp) has an
+	// empty OldGuid too, and would otherwise be seated on its own invalidated
+	// seat - with the cash already zeroed.  Same guard as the lobby side in
+	// ServerLobbyThread::GetRejoinGameIdForPlayer().
 	if (session && session->GetPlayerData()) {
 		boost::shared_ptr<PlayerInterface> tmpPlayer = server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetName());
-		if (tmpPlayer && tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
+		if (tmpPlayer
+				&& !tmpPlayer->getMyGuid().empty()
+				&& !tmpPlayer->isKicked()
+				&& tmpPlayer->getMyGuid() == session->GetPlayerData()->GetOldGuid()) {
 			// The player wants to rejoin.
 			AcceptNewSession(server, session, false);
 			// Remember: We need to initiate a rejoin when starting the next hand.
