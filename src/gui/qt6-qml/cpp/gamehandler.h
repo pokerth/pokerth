@@ -112,7 +112,7 @@ class GameHandler : public QObject
     // stopTimeoutAnimation, Phasenwechsel, Showdown …) gelöscht werden – genau
     // daran starben bisher Klicks, die still zur Vorwahl degradierten und dann
     // in den Server-Timeout liefen. Nach der eigenen Aktion sofort false
-    // (m_actionSentForTurn), damit die Buttons wie bisher direkt inaktiv werden.
+    // (m_myTurnWindowClosed), damit die Buttons wie bisher direkt inaktiv werden.
     Q_PROPERTY(bool awaitingMyAction READ awaitingMyAction NOTIFY awaitingMyActionChanged)
     Q_PROPERTY(int callAmount READ callAmount NOTIFY callAmountChanged)
     Q_PROPERTY(int minRaiseAmount READ minRaiseAmount NOTIFY minRaiseAmountChanged)
@@ -396,19 +396,25 @@ private:
     //
     // Dritte Quelle: engineAwaitsMyAction() – die Engine weiß es autoritativ,
     // auch wenn beide Flags von einem nachlaufenden Callback gelöscht wurden.
-    // m_actionSentForTurn sperrt danach zuverlässig gegen eine zweite Aktion im
+    // Das Fenster-Flag sperrt zugleich zuverlässig gegen eine zweite Aktion im
     // selben Zugfenster (früher erledigte das implizit das Löschen der Flags in
     // doActionDone()).
-    bool isMyTurnToAct() const
-    {
-        return !m_spectating && !m_actionSentForTurn
-               && (m_myTurn || m_timeoutSeatId == 0 || engineAwaitsMyAction());
-    }
-    // Autoritative Engine-Abfrage: wartet der Server gerade auf meine Aktion?
+    // Definition in der .cpp: braucht den vollständigen Session-Typ, weil das
+    // Zugfenster-Flag NUR im Netzwerk-Spiel gilt (lokal gibt es keine
+    // PlayersTurnMessage, die es wieder öffnen könnte).
+    bool isMyTurnToAct() const;
+    // Zeigt der Zugzeiger der Engine auf mich? Reiner Vergleich, ohne weitere
+    // Bedingungen – die Flanke davon öffnet/schließt das Zugfenster.
     // Nur im Netzwerk-Spiel aussagekräftig – im lokalen Spiel ist die eigene
     // Unique-ID 0 und damit vom Startwert eines frischen BeRo (ebenfalls 0)
     // nicht unterscheidbar; dort bleibt es beim bisherigen myTurn/Timer-Pfad.
+    bool engineTurnPointsAtMe() const;
+    // Autoritative Abfrage: wartet der Server JETZT auf meine Aktion?
     bool engineAwaitsMyAction() const;
+    // Zugfenster öffnen (neue PlayersTurnMessage für mich) bzw. schließen
+    // (eigene Aktion gesendet, Server hat das Fenster beendet, Showdown …).
+    void openMyTurnWindow();
+    void closeMyTurnWindow();
     // m_awaitingMyAction neu berechnen und – nur bei Änderung – QML informieren.
     void updateAwaitingMyAction();
     void doActionDone();
@@ -436,13 +442,13 @@ private:
     // Gecachter Wert von engineAwaitsMyAction() abzüglich bereits gesendeter
     // Aktion – die QML-Seite bindet darauf (awaitingMyAction).
     bool m_awaitingMyAction = false;
-    // Letzter gesehener ENGINE-Zustand (ohne Latch) – für die Flankenerkennung
-    // in updateAwaitingMyAction().
-    bool m_engineAwaitedMyAction = false;
-    // Im aktuellen Zugfenster wurde bereits eine Aktion an den Server geschickt.
-    // Wird beim Öffnen eines neuen Fensters (meInAction, Timer auf Sitz 0, Flanke
-    // von engineAwaitsMyAction, neues Spiel) zurückgesetzt.
-    bool m_actionSentForTurn = false;
+    // Letzter gesehener Zustand von engineTurnPointsAtMe() – Flankenerkennung.
+    bool m_engineTurnPointedAtMe = false;
+    // Zugfenster geschlossen: entweder wurde bereits eine Aktion gesendet oder
+    // der Server hat das Fenster beendet (PlayersActionDone für meinen Sitz,
+    // Timeout, Showdown, Spielende). Nur eine steigende Flanke des Zugzeigers –
+    // also eine echte neue PlayersTurnMessage für mich – öffnet es wieder.
+    bool m_myTurnWindowClosed = true;
     // Flankenerkennung für bettingRoundEnded(): true, solange computeCallAndRaise-
     // Amounts() die Setzrunde als abgeschlossen erkennt (roundClosed). Das Signal
     // feuert nur auf der steigenden Flanke (Runde gerade entschieden).

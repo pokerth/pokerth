@@ -199,8 +199,8 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     m_phaseText = "Preflop";
     m_handNumber = 0;
     m_myTurn = false;
-    m_actionSentForTurn = false;
-    m_engineAwaitedMyAction = false;
+    m_myTurnWindowClosed = true;
+    m_engineTurnPointedAtMe = false;
     m_awaitingMyAction = false;
     m_callAmount = 0;
     m_minRaiseAmount = 0;
@@ -939,8 +939,31 @@ bool GameHandler::humanCanAct() const
         && human->isSessionActive();
 }
 
-bool GameHandler::engineAwaitsMyAction() const
+bool GameHandler::isMyTurnToAct() const
 {
+    if (m_spectating) return false;
+    if (m_session && m_session->isNetworkClientRunning()) {
+        // Netzwerk: das Zugfenster-Flag ist maßgeblich. Es ersetzt das frühere
+        // implizite „nach der Aktion sind beide Flags gelöscht" und erlaubt
+        // zugleich die autoritative Engine-Quelle als dritten Öffner.
+        return !m_myTurnWindowClosed
+               && (m_myTurn || m_timeoutSeatId == 0 || engineAwaitsMyAction());
+    }
+    // Lokales Spiel: unverändert. Dort gibt es keinen Zugzeiger vom Server, der
+    // ein Fenster wieder öffnen könnte – m_myTurn/m_timeoutSeatId bleiben die
+    // einzige Quelle (gesetzt von LocalBeRo über meInAction/startTimeoutAnimation).
+    return m_myTurn || m_timeoutSeatId == 0;
+}
+
+bool GameHandler::engineTurnPointsAtMe() const
+{
+    // REINER Zeigervergleich, absichtlich ohne humanCanAct(): nur so ist der
+    // Wert monoton und taugt als Flanke zum ÖFFNEN eines Zugfensters. Nähme man
+    // humanCanAct() mit hinein, könnte ein bloßer Zustandswechsel des eigenen
+    // Spielers (Aktion per ResetPlayerActions auf NONE zurück, Cash nach
+    // gewonnenem Pot wieder > 0) ein längst geschlossenes Fenster wieder
+    // aufreißen, obwohl gar keine neue PlayersTurnMessage kam.
+    //
     // Nur im Netzwerk-Spiel: dort vergibt der Server die Unique-IDs und 0 ist
     // ausdrücklich ungültig (serverlobbythread.cpp), sodass der Startwert eines
     // frischen BeRo (currentPlayersTurnId == 0) nie versehentlich auf mich
@@ -957,24 +980,42 @@ bool GameHandler::engineAwaitsMyAction() const
     if (!seats || seats->empty()) return false;
     auto human = seats->front();
     if (!human) return false;
-    // Der Server wartet nie auf einen Spieler, der gar nicht mehr handeln kann
-    // (gefoldet, all-in, ohne Chips, Session inaktiv) – dieselbe Bedingung, die
-    // auch onStartTimeoutAnimation als Wächter benutzt.
-    if (!humanCanAct()) return false;
     return bero->getCurrentPlayersTurnId() == human->getMyUniqueID();
+}
+
+bool GameHandler::engineAwaitsMyAction() const
+{
+    // Offenes Zugfenster = der Zugzeiger steht auf mir, ich kann überhaupt
+    // handeln, und das Fenster wurde nicht bereits geschlossen.
+    return engineTurnPointsAtMe() && !m_myTurnWindowClosed && humanCanAct();
+}
+
+void GameHandler::openMyTurnWindow()
+{
+    if (!m_myTurnWindowClosed) return;
+    m_myTurnWindowClosed = false;
+    updateAwaitingMyAction();
+}
+
+void GameHandler::closeMyTurnWindow()
+{
+    if (m_myTurnWindowClosed) return;
+    m_myTurnWindowClosed = true;
+    updateAwaitingMyAction();
 }
 
 void GameHandler::updateAwaitingMyAction()
 {
-    const bool engineWaits = engineAwaitsMyAction();
-    // Flanken des ENGINE-Zustands (nicht des veröffentlichten Werts) steuern den
-    // Latch: sowohl das Öffnen als auch das Schließen eines Zugfensters gibt die
-    // nächste Aktion wieder frei.
-    if (engineWaits != m_engineAwaitedMyAction) {
-        m_engineAwaitedMyAction = engineWaits;
-        m_actionSentForTurn = false;
+    // Steigende Flanke des Zugzeigers = eine PlayersTurnMessage für mich ist
+    // eingetroffen → neues Fenster. Fällt der Zeiger weg (anderer Spieler dran,
+    // neue Setzrunde/Hand mit frischem BeRo), bleibt das Fenster geschlossen,
+    // bis es wieder auf mich zeigt.
+    const bool pointsAtMe = engineTurnPointsAtMe();
+    if (pointsAtMe != m_engineTurnPointedAtMe) {
+        m_engineTurnPointedAtMe = pointsAtMe;
+        m_myTurnWindowClosed = !pointsAtMe;
     }
-    const bool waiting = engineWaits && !m_actionSentForTurn;
+    const bool waiting = pointsAtMe && !m_myTurnWindowClosed && humanCanAct();
     if (waiting != m_awaitingMyAction) {
         m_awaitingMyAction = waiting;
         emit awaitingMyActionChanged();
@@ -986,10 +1027,10 @@ void GameHandler::doActionDone()
     if (!m_session) return;
     if (localGameCallbacksBlocked()) return;
 
-    // Aktion für dieses Zugfenster ist raus. Der Latch ersetzt für die neue,
+    // Aktion für dieses Zugfenster ist raus → Fenster zu. Das ersetzt für die
     // engine-basierte Zugerkennung das, was das Löschen der beiden Flags unten
     // bisher implizit erledigte: kein zweiter Zug im selben Fenster.
-    m_actionSentForTurn = true;
+    closeMyTurnWindow();
 
     if (m_myTurn) {
         m_myTurn = false;
@@ -1112,6 +1153,10 @@ void GameHandler::onRefreshGameLabels(int gameState)
             m_myTurn = false;
             emit myTurnChanged();
         }
+        // Rundengrenze (Flop/Turn/River ausgeteilt): mein Zugfenster der
+        // vorherigen Setzrunde ist vorbei. Erst die nächste PlayersTurnMessage
+        // für mich öffnet wieder eines.
+        closeMyTurnWindow();
         m_phaseText = newPhase;
     }
 
@@ -1152,8 +1197,8 @@ void GameHandler::onMeInAction()
     qDebug() << "[ACTDBG] onMeInAction() blocked=" << localGameCallbacksBlocked()
              << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId;
     if (localGameCallbacksBlocked()) return;
-    // Neues Zugfenster → Latch der vorigen Aktion freigeben (siehe doActionDone).
-    m_actionSentForTurn = false;
+    // Maßgeblicher Zugstart der Engine → Fenster auf (siehe doActionDone).
+    openMyTurnWindow();
     refreshPlayerData();
     // m_myTurn ZUERST setzen, DANN die Beträge berechnen. computeCallAndRaiseAmounts()
     // wertet roundClosed nur bei !m_myTurn aus – bin ich in Position (letzter Akteur)
@@ -1222,6 +1267,12 @@ void GameHandler::onDisableMyButtons()
         m_myTurn = false;
         emit myTurnChanged();
     }
+    // Der Server hat eine Aktion für MEINEN Sitz verbucht (eigener Zug, Timeout
+    // mit Default-Aktion oder Auto-Fold) → mein Zugfenster ist definitiv vorbei.
+    // Ohne dieses Schließen blieb awaitingMyAction nach einem Timeout bis zur
+    // nächsten PlayersTurnMessage stehen und hielt die Buttons über das
+    // Rundenende hinweg scharf.
+    closeMyTurnWindow();
 }
 
 void GameHandler::onStartTimeoutAnimation(int playerNum, int timeoutSec)
@@ -1233,9 +1284,9 @@ void GameHandler::onStartTimeoutAnimation(int playerNum, int timeoutSec)
                  << "tSeat=" << m_timeoutSeatId << "timeoutSec=" << timeoutSec;
     if (localGameCallbacksBlocked()) return;
 
-    // Neues Zugfenster auf meinem Sitz → Latch der vorigen Aktion freigeben.
+    // Der Server zählt jetzt MEINE Aktionszeit → Fenster auf.
     if (playerNum == 0)
-        m_actionSentForTurn = false;
+        openMyTurnWindow();
 
     // Fortschrittsbalken (Ersatz fürs Action-Badge) für den gerade aktiven Sitz.
     if (m_timeoutSeatId != playerNum || m_timeoutSec != timeoutSec) {
@@ -1283,6 +1334,9 @@ void GameHandler::onStopTimeoutAnimation(int playerNum)
         m_myTurn = false;
         emit myTurnChanged();
     }
+    // Timer auf meinem Sitz gestoppt = Fenster vorbei (gehandelt oder abgelaufen).
+    if (playerNum == 0)
+        closeMyTurnWindow();
     updateAwaitingMyAction();
 }
 
@@ -1303,8 +1357,7 @@ void GameHandler::onNetworkGameEnded()
         m_timeoutSeatId = -1;
         emit timeoutChanged();
     }
-    // Ohne m_game liefert engineAwaitsMyAction() false – Cache nachziehen.
-    updateAwaitingMyAction();
+    closeMyTurnWindow();   // kein Spiel mehr → kein offenes Zugfenster
     m_timeoutBeepTimer->stop();
     if (m_pingState != 0 || m_pingAvg != -1) {
         m_pingState = 0;  // keine Netzwerkverbindung mehr → Ampel zurücksetzen
@@ -2043,6 +2096,7 @@ void GameHandler::onShowdown()
         m_myTurn = false;
         emit myTurnChanged();
     }
+    closeMyTurnWindow();   // im Showdown wartet niemand mehr auf mich
     refreshPlayerData();
     computeCallAndRaiseAmounts(); // Buttons sofort deaktivieren
 
