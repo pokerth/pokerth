@@ -21,6 +21,7 @@ docker/linux/appimagetool-x86_64.AppImage
 docker/linux/PokerTH-*.AppImage
 /chatcleaner
 docker/linux/pokerth-linux-binary/
+docker/linux/pokerth-globalnotice-linux-binary/
 *workspace
 botfiles/
 docker/linux/appimagetool-x86_64.AppImage
@@ -34,6 +35,7 @@ docker/linux/PokerTH-QML.AppDir
 *_private.sql
 docker/linux/pokerth-linux-*.tar.gz
 docker/linux/pokerth-linux-*.zip
+docker/linux/pokerth-globalnotice-linux-*.zip
 lib/
 mocs/
 obj/

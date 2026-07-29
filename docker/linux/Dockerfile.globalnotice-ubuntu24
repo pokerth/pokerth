@@ -1,0 +1,102 @@
+FROM ubuntu:24.04
+# Build-Umgebung für das ZIP-Binary-Deploy von pokerth_globalnotice (Admin-CLI).
+#
+# Warum Ubuntu 24.04?
+#   Dasselbe Argument wie beim GUI-Tarball (Dockerfile.binary-ubuntu24): das ZIP
+#   bündelt KEIN glibc/ld-linux, damit ist die glibc des Build-Containers die
+#   minimale Host-Anforderung. 24.04 (glibc 2.39) ist der älteste sinnvoll
+#   unterstützte LTS-Floor und deckt alles Neuere ab.
+#
+# Warum dieselben Toolchain-Layer wie Dockerfile.binary-ubuntu24?
+#   Die RUN-Zeilen für apt/Qt/Boost/Protobuf sind absichtlich WORTGLEICH mit
+#   Dockerfile.binary-ubuntu24. Docker cacht Layer über (Basis-Image +
+#   Instruktionstext), dadurch teilen sich beide Images die teuren Source-Builds
+#   von Boost und Protobuf. Änderungen also bitte in beiden Dateien gleich
+#   nachziehen (sonst nur langsamer, nicht kaputt).
+#
+#   Der CMake-Konfigurationslauf des Projekts verlangt per find_package alle
+#   Qt-Module (Quick, Widgets, Multimedia, ...), auch wenn hier nur ein einziges
+#   Konsolen-Target gebaut wird. Deshalb bleibt die volle Qt-/Dev-Installation.
+
+ARG QT_VERSION=6.8.1
+ENV TZ=Europe/Berlin
+ENV DEBIAN_FRONTEND=noninteractive
+ENV QT6_ROOT=/opt/Qt/${QT_VERSION}/gcc_64
+
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
+        build-essential cmake ninja-build \
+        git wget curl ca-certificates file zip \
+        python3 python3-pip python3-venv \
+        libssl-dev libwebsocketpp-dev \
+        libgl-dev libx11-dev libxkbcommon-dev \
+        libglib2.0-dev libfontconfig-dev libfreetype-dev \
+        libegl-dev libpulse-dev \
+        libx11-xcb1 libxkbcommon-x11-0 \
+        libxcb-cursor0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
+        libxcb-randr0 libxcb-render0 libxcb-render-util0 libxcb-shape0 \
+        libxcb-shm0 libxcb-sync1 libxcb-xfixes0 libxcb-xkb1 libxcb-xinput0 \
+        libxcb-glx0 libxcb-util1 \
+        libwayland-client0 libwayland-cursor0 libwayland-egl1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Qt via aqtinstall (offizielle Prebuilds, glibc-kompatibel zu 24.04) ---
+RUN python3 -m venv /opt/aqtvenv \
+    && /opt/aqtvenv/bin/pip install --no-cache-dir -U pip aqtinstall \
+    && /opt/aqtvenv/bin/aqt install-qt --outputdir /opt/Qt \
+        linux desktop ${QT_VERSION} linux_gcc_64 \
+        -m qtmultimedia qtwebsockets qtshadertools qt5compat qtimageformats \
+    && test -d "${QT6_ROOT}/lib" \
+    && echo "Qt installiert nach ${QT6_ROOT}"
+ENV PATH="${QT6_ROOT}/bin:${PATH}"
+
+# --- Boost 1.88 aus dem Quellcode (24.04 liefert nur 1.83) ---
+RUN wget -q https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz \
+    && tar xzf boost_1_88_0.tar.gz \
+    && cd boost_1_88_0 \
+    && ./bootstrap.sh --prefix=/usr/local \
+    && ./b2 -j$(nproc) install \
+        --with-iostreams --with-random --with-thread \
+        --with-filesystem --with-program_options \
+        --with-system --with-date_time \
+    && ldconfig \
+    && cd / && rm -rf boost_1_88_0 boost_1_88_0.tar.gz
+
+# --- Protobuf 3.21.12 aus dem Quellcode (liefert libprotobuf.so.32) ---
+RUN wget -q https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.tar.gz \
+    && mkdir protobuf-src \
+    && tar xzf protobuf-all-21.12.tar.gz -C protobuf-src --strip-components=1 \
+    && cmake -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr/local \
+        -Dprotobuf_BUILD_TESTS=OFF \
+        -Dprotobuf_BUILD_SHARED_LIBS=ON \
+        -S protobuf-src -B protobuf-build \
+    && cmake --build protobuf-build -j$(nproc) \
+    && cmake --install protobuf-build \
+    && ldconfig \
+    && rm -rf protobuf-src protobuf-all-21.12.tar.gz protobuf-build
+
+WORKDIR /opt/pokerth
+
+# Build-Kontext muss das Projekt-Root sein (docker build -f ... <projekt-root>)
+COPY . .
+
+# --- Nur das CLI-Target bauen (pokerth_lib/pokerth_protocol kommen als Abhängigkeit) ---
+RUN rm -f cmake/FindBoost.cmake \
+    && rm -rf ./build \
+    && cmake -G Ninja \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_PREFIX_PATH="${QT6_ROOT}" \
+        -DCMAKE_POLICY_DEFAULT_CMP0144=NEW \
+        -S . -B ./build \
+    && cmake --build ./build --target pokerth_globalnotice -j$(nproc)
+
+# --- ZIP-Binary-Deploy erstellen (QT6_ROOT lenkt die Plugin-Sammlung) ---
+RUN chmod +x docker/linux/create_globalnotice_deploy.sh \
+    && QT6_ROOT="${QT6_ROOT}" docker/linux/create_globalnotice_deploy.sh
+
+RUN mkdir -p /output \
+    && cp docker/linux/pokerth-globalnotice-linux-*.zip /output/
+
+ENTRYPOINT ["/bin/bash"]

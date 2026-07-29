@@ -312,3 +312,16 @@ target_link_libraries(pokerth_bot
 )
 target_include_directories(pokerth_bot PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
+# pokerth_globalnotice - Admin CLI tool: log in and send a global notice
+add_executable(pokerth_globalnotice src/pokerth_globalnotice.cpp)
+target_link_libraries(pokerth_globalnotice
+    PRIVATE
+    pokerth_lib
+    Boost::program_options
+    Boost::iostreams
+    Qt6::Core
+    Qt6::Network
+    Qt6::Xml
+)
+target_include_directories(pokerth_globalnotice PRIVATE ${CMAKE_SOURCE_DIR}/src)
+
