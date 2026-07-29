@@ -138,7 +138,8 @@
       "Bash(python3 /tmp/claude-1000/-workspaces-opt-pokerth-env-repos-pokerth-test/1da6fa54-79d7-43a9-bac9-50e81f5f5514/scratchpad/fill_ts.py)",
       "Bash(/usr/lib/qt6/bin/qmllint --no-unqualified components/ChatBox.qml components/GameInfoPanel.qml)",
       "Bash(/usr/lib/qt6/bin/qmllint components/ChatBox.qml components/GameInfoPanel.qml)",
-      "Bash(grep -vi \"unqualified\\\\|was not found\\\\|import\\\\|^$\")"
+      "Bash(grep -vi \"unqualified\\\\|was not found\\\\|import\\\\|^$\")",
+      "Bash(xargs -I{} git show {} -- src/gui/qt/startwindow/startwindowimpl.cpp)"
     ],
     "additionalDirectories": [
       "/opt/pokerth_env/repos/pokerth-test/data/gfx/qml/table/pirates"

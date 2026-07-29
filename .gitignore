@@ -76,3 +76,4 @@ generate_matrix_backside.py
 
 # Font-Cache der Kartendeck-Generatoren (generate_*_deck.py)
 .cache/
+.claude/settings.json

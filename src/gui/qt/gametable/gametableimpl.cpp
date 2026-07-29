@@ -35,6 +35,8 @@
 #include "startwindowimpl.h"
 #include <QScreen>
 #include <QWindow>
+#include <QStyle>
+#include <QStyleFactory>
 
 #include "startsplash.h"
 #include "mycardspixmaplabel.h"
@@ -540,6 +542,24 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	pushButton_break->setMinimumSize(width+10,20);
 	groupBox_LeftToolBox->clearFocus();
 	groupBox_RightToolBox->clearFocus();
+
+	// On Windows 10 the native "windowsvista" style keeps drawing these push
+	// buttons with the native theme and ignores the background-color set by
+	// the table style, so only the (bright) stylesheet text color ends up on
+	// a white native button - the "Lobby"/"Stop"/"Start" caption becomes
+	// nearly invisible (Windows 11 uses the newer "windows11" style, where it
+	// works).  Force the Fusion style on just these buttons so the table
+	// style colors are honored identically on Win10 and Win11 - same fix as
+	// for the start window buttons.
+	if (QStyle *fusionStyle = QStyleFactory::create("Fusion")) {
+		fusionStyle->setParent(this);
+		const QList<QPushButton*> tableStyledButtons = {
+			pushButton_break, pushButton_tipSave,
+			pushButton_voteOnKickYes, pushButton_voteOnKickNo };
+		for (QPushButton *btn : tableStyledButtons) {
+			btn->setStyle(fusionStyle);
+		}
+	}
 #endif
 
 	//set Focus to gametable

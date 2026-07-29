@@ -1450,9 +1450,9 @@ void GameTableStyleReader::setBreakButtonStyle(QPushButton *bb, int state)
 	// 		blink
 	case 1:
 #ifdef GUI_800x480
-		bb->setStyleSheet("QPushButton { padding: 10px; background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+"; font-size: 26px}");
+		bb->setStyleSheet("QPushButton { padding: 10px; background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: #"+BreakLobbyButtonTextBlinkColor+"; font-size: 26px}");
 #else
-		bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: "+BreakLobbyButtonTextBlinkColor+";}");
+		bb->setStyleSheet("QPushButton { background-color: #"+BreakLobbyButtonBgBlinkColor+"; color: #"+BreakLobbyButtonTextBlinkColor+";}");
 #endif
 		break;
 	}
