@@ -1,0 +1,54 @@
+<svg width="63mm" height="88mm" viewBox="0 0 630 880" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Flüssiger Gold-Chrome-Effekt -->
+    <linearGradient id="kintsugiGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#AA7C11" />
+      <stop offset="30%" stop-color="#FFF3A8" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="75%" stop-color="#F3E5AB" />
+      <stop offset="100%" stop-color="#6A4E05" />
+    </linearGradient>
+
+    <!-- Tiefen-Schlagschatten für die Marmorplatten -->
+    <filter id="plateShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="5" stdDeviation="6" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Außenrand -->
+  <rect width="630" height="880" rx="40" ry="40" fill="#FFFFFF"/>
+  <rect x="25" y="25" width="580" height="830" rx="25" ry="25" fill="#0A1C14"/>
+
+  <!-- 2. Große Kintsugi-Marmorplatten (Y-Achse spiegelt sich bei 440) -->
+  <!-- Obere Hälfte -->
+  <polygon points="25,25 315,25 210,180 25,110" fill="#0B3C2B" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="315,25 605,25 605,110 410,180" fill="#13503B" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="25,110 210,180 120,320 25,290" fill="#165B44" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="605,110 410,180 500,320 605,290" fill="#0A3323" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="210,180 410,180 315,310" fill="#0F4735" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  
+  <!-- Mittlere Übergangsplatten -->
+  <polygon points="25,290 120,320 315,310 160,440 25,440" fill="#114C39" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="605,290 500,320 315,310 470,440 605,440" fill="#0D4231" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+
+  <!-- Untere Hälfte (Perfekt gespiegelt zu oben) -->
+  <polygon points="25,855 315,855 210,700 25,770" fill="#0B3C2B" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="315,855 605,855 605,770 410,700" fill="#13503B" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="25,770 210,700 120,560 25,590" fill="#165B44" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="605,770 410,700 500,560 605,590" fill="#0A3323" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="210,700 410,700 315,570" fill="#0F4735" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  
+  <polygon points="25,590 120,560 315,570 160,440 25,440" fill="#114C39" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+  <polygon points="605,590 500,560 315,570 470,440 605,440" fill="#0D4231" stroke="url(#kintsugiGold)" stroke-width="4" filter="url(#plateShadow)"/>
+
+  <!-- 3. Goldener massiver Außenrahmen -->
+  <rect x="42" y="42" width="546" height="796" rx="18" ry="18" stroke="url(#kintsugiGold)" stroke-width="5" fill="none" filter="url(#plateShadow)"/>
+  
+  <!-- 4. Schwebendes Kintsugi-Zentrumsfeld -->
+  <g filter="url(#plateShadow)">
+    <polygon points="315,360 380,440 315,520 250,440" fill="#0A1C14" stroke="url(#kintsugiGold)" stroke-width="3" />
+    <polygon points="315,385 355,440 315,495 275,440" fill="none" stroke="url(#kintsugiGold)" stroke-width="1" stroke-dasharray="4,2" />
+    <!-- Goldenes Kern-Karo -->
+    <polygon points="315,410 337,440 315,470 293,440" fill="url(#kintsugiGold)" />
+  </g>
+</svg>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Mile High Club QML table style
+
+   KEIN center-Modus, sondern unten ausgerichtet
+   (TableBackgroundAlign=bottom) – die Grafik muss nicht zentriert werden.
+
+   Alle UI-Elemente sind saubere SVGs. Pucks (Dealer weiß / Small Blind blau /
+   Big Blind rot) entsprechen dem Original; Action-Farben: Fold rot / Call blau /
+   Raise grün / All-In lila.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Mile High Club QML table style" />
+     <StyleMaintainerName value="BaShFX" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="29.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="bottom" />
+
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="6.5" />
+
+     <!-- Akzentfarbe der Spielerboxen: Leichtes Bordeaux-Rot.
+          Tönt Verlauf und Rahmen der Box; ohne den Tag bleibt der neutrale
+          Default-Look. -->
+     <PlayerBoxAccent value="#e7181c" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Farben der Chat- und Log-Box (schwebende Seiten-Panels am Tisch).
+          Bewusst unabhängig vom Hell/Dunkel-Modus der App. Dunkles Petrol des
+          abgedunkelten Raums statt des roten Box-Akzents: Rot auf dem grünen
+          Filz träte mit den Spielerboxen in Konkurrenz. -->
+     <ChatLogBackground value="#1c2e37" />    <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#344e5c" />    <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#397c8d" />    <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#d6fcff" />    <!-- Haupttext -->
+     <ChatLogTextSecondary value="#a8e1e6" />    <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#60a4a9" />    <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

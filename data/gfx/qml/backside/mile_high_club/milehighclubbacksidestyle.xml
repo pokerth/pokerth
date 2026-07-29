@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style (Kartenrückseite) "Mile High Club".
+
+   Saphir-Grüne "Kintsugi"-Karte mit Marmorplatten, flüssigen Chrome-Effekt
+   und Massiv-Gold-Rahmen. Zentrales Gold-Karo-Emblem und weißer Casino-Rahmen.
+   Passend zum grünen Filz. Fly High or Fall hard. 
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Mile High Club (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="BaShFX" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="29.07.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+
+     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>

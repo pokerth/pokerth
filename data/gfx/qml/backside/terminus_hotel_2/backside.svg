@@ -1,0 +1,123 @@
+<svg width="63mm" height="88mm" viewBox="0 0 630 880" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 1. Tiefen- und Raumschatten für 3D-Objektwirkung -->
+    <filter id="heavy3D" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000000" flood-opacity="0.9"/>
+    </filter>
+
+    <!-- 2. Innerer Schatten-Filter für Gravur- und Einschnitt-Effekte -->
+    <filter id="engravedDepth" x="-10%" y="-10%" width="120%" height="120%">
+      <feOffset dx="0" dy="5"/>
+      <feGaussianBlur stdDeviation="4" result="offset-blur"/>
+      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
+      <feFlood flood-color="#000000" flood-opacity="0.9" result="color"/>
+      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
+      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
+    </filter>
+
+    <!-- 3. Gebürstetes, mattes Illuminaten-Gold (Geheimbund-Klassik) -->
+    <linearGradient id="secretGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4D3D18" />
+      <stop offset="25%" stop-color="#AA8C3D" />
+      <stop offset="50%" stop-color="#FFF3A8" />
+      <stop offset="75%" stop-color="#C2A44D" />
+      <stop offset="100%" stop-color="#2B2109" />
+    </linearGradient>
+
+    <!-- 4. Reverser Goldverlauf für kontrastierende 3D-Prägungen -->
+    <linearGradient id="reverseGold" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#3A2D10" />
+      <stop offset="30%" stop-color="#C2A44D" />
+      <stop offset="70%" stop-color="#FFF3A8" />
+      <stop offset="100%" stop-color="#5E4B1D" />
+    </linearGradient>
+
+    <!-- 5. Obsidian- / Carbon-Struktur für das Gehäuse -->
+    <linearGradient id="obsidianBase" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1F1F24" />
+      <stop offset="50%" stop-color="#141417" />
+      <stop offset="100%" stop-color="#0B0B0C" />
+    </linearGradient>
+
+    <!-- 6. Taktisches Carbon-Gittermuster für die 3D-Struktur der Kartenrückseite -->
+    <pattern id="carbonTexture" width="10" height="10" patternUnits="userSpaceOnUse">
+      <rect width="10" height="10" fill="#141416"/>
+      <path d="M0,0 L10,10 M10,0 L0,10" stroke="#1D1D22" stroke-width="1.5" opacity="0.4"/>
+      <rect x="0" y="0" width="5" height="5" fill="#1A1A1E" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- 1. ÄUẞERE RAHMENSTRUKTUR (Schweres, gefrästes Metallchassis) -->
+  <rect width="630" height="880" rx="36" ry="36" fill="url(#obsidianBase)" filter="url(#heavy3D)"/>
+  
+  <!-- 3D-Gehäusekante (Geprägter Außenwall) -->
+  <rect x="15" y="15" width="600" height="850" rx="24" ry="24" fill="none" stroke="url(#secretGold)" stroke-width="4" opacity="0.85"/>
+  <rect x="22" y="22" width="586" height="836" rx="18" ry="18" fill="none" stroke="#000000" stroke-width="3"/>
+
+  <!-- 2. DER HAUPTSPIEGEL (Eingesenkte Carbon-Platte) -->
+  <rect x="30" y="30" width="570" height="820" rx="14" ry="14" fill="url(#carbonTexture)" filter="url(#engravedDepth)"/>
+
+  <!-- 3. RITUAL-SKELETT -->
+  <g stroke="url(#secretGold)" stroke-width="2" fill="none" opacity="0.3">
+    <line x1="30" y1="30" x2="600" y2="850" />
+    <line x1="600" y1="30" x2="30" y2="850" />
+    <rect x="60" y="60" width="510" height="760" rx="8" ry="8" stroke-dasharray="15,10"/>
+    <rect x="80" y="80" width="470" height="720" rx="4" ry="4" stroke-width="1"/>
+  </g>
+
+  <!-- 4. DIE VIER ECKEN: Verriegelungen -->
+  <g fill="url(#secretGold)" stroke="#000000" stroke-width="1.5" filter="url(#heavy3D)">
+    <path d="M45,45 L85,45 L85,60 L60,60 L60,85 L45,85 Z" /> <circle cx="52" cy="52" r="3" fill="#141416" />
+    <path d="M585,45 L545,45 L545,60 L570,60 L570,85 L585,85 Z" /> <circle cx="578" cy="52" r="3" fill="#141416" />
+    <path d="M45,835 L85,835 L85,820 L60,820 L60,795 L45,795 Z" /> <circle cx="52" cy="828" r="3" fill="#141416" />
+    <path d="M585,835 L545,835 L545,820 L570,820 L570,795 L585,795 Z" /> <circle cx="578" cy="828" r="3" fill="#141416" />
+  </g>
+
+  <!-- 5. DAS ZENTRALE EMBLEM: Die 3D-Weltkugel-Münze (The Global Network) -->
+  <g filter="url(#heavy3D)">
+    
+    <!-- Äußerer Münzrand mit haptischer Scharnier-/Segment-Optik -->
+    <circle cx="315" cy="440" r="125" fill="url(#secretGold)" stroke="#1A150A" stroke-width="2.5" />
+    <g stroke="#1A150A" stroke-width="3" fill="none" opacity="0.8">
+      <circle cx="315" cy="440" r="115" stroke-dasharray="20,15" />
+      <circle cx="315" cy="440" r="105" stroke-dasharray="6,8" stroke-width="1.5" />
+    </g>
+
+    <!-- Erhabener innerer Trennring -->
+    <circle cx="315" cy="440" r="94" fill="none" stroke="url(#reverseGold)" stroke-width="4" />
+    
+    <!-- Innerer Prägespiegel (Tiefergelegter Kern) -->
+    <circle cx="315" cy="440" r="90" fill="url(#obsidianBase)" stroke="#000000" stroke-width="2" />
+    <circle cx="315" cy="440" r="88" fill="url(#secretGold)" opacity="0.15" />
+
+    <!-- DIE GEOMETRISCHE 3D-WELTKUGEL -->
+    <g stroke="#1A150A" stroke-width="2" stroke-linejoin="round" fill="none">
+      <!-- Äußere Atmosphäre/Sphäre der Kugel -->
+      <circle cx="315" cy="440" r="70" stroke="url(#secretGold)" stroke-width="4.5" fill="url(#obsidianBase)" />
+      
+      <!-- Breitengrade (Horizontale Ellipsen/Linien) -->
+      <line x1="245" y1="440" x2="385" y2="440" stroke="url(#secretGold)" stroke-width="3" />
+      <path d="M254,415 Q315,430 376,415" stroke="url(#secretGold)" stroke-width="2" />
+      <path d="M254,465 Q315,450 376,465" stroke="url(#secretGold)" stroke-width="2" />
+      <path d="M275,390 Q315,405 355,390" stroke="url(#secretGold)" stroke-width="1.5" />
+      <path d="M275,490 Q315,475 355,490" stroke="url(#secretGold)" stroke-width="1.5" />
+
+      <!-- Längengrade (Vertikale Ellipsen/Achsen) -->
+      <line x1="315" y1="370" x2="315" y2="510" stroke="url(#secretGold)" stroke-width="3" />
+      <path d="M290,376 Q310,440 290,504" stroke="url(#secretGold)" stroke-width="2" />
+      <path d="M340,376 Q320,440 340,504" stroke="url(#secretGold)" stroke-width="2" />
+      <path d="M265,393 Q300,440 265,487" stroke="url(#secretGold)" stroke-width="1.5" />
+      <path d="M365,393 Q330,440 365,487" stroke="url(#secretGold)" stroke-width="1.5" />
+    
+    </g>
+
+    <!-- Ein feiner, rautenförmiger Fadenkreuz-Rahmen um die Weltkugel -->
+    <polygon points="315,350 405,440 315,530 225,440" fill="none" stroke="url(#secretGold)" stroke-width="1.5" stroke-dasharray="6,6" opacity="0.6" />
+  </g>
+
+  <!-- 6. DEKORATIVE SICHERHEITS-SCHLÖSSER -->
+  <g fill="url(#secretGold)" stroke="#000000" stroke-width="1" opacity="0.8">
+    <polygon points="30,430 45,440 30,450" />
+    <polygon points="600,430 585,440 600,450" />
+  </g>
+</svg>
