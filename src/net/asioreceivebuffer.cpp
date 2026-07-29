@@ -43,7 +43,7 @@
 using namespace std;
 
 AsioReceiveBuffer::AsioReceiveBuffer()
-	: recvBufUsed(0)
+	: recvBufUsed(0), unparsablePackets(0)
 {
 	recvBuf[0] = 0;
 }
@@ -204,6 +204,9 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 	bool dataAvailable = true;
 	do {
 		boost::shared_ptr<NetPacket> tmpPacket;
+		// Wurde ein vollständig gerahmtes Paket aus dem Puffer entfernt? (Auch
+		// dann, wenn sein Inhalt nicht geparst werden konnte – siehe unten.)
+		bool packetConsumed = false;
 		// This is necessary, because we use TCP.
 		// Packets may be received in multiple chunks or
 		// several packets may be received at once.
@@ -224,12 +227,6 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 			} else if (recvBufUsed >= packetSize + NET_HEADER_SIZE) {
 				try {
 					tmpPacket = NetPacket::Create(&recvBuf[NET_HEADER_SIZE], packetSize);
-					if (tmpPacket) {
-						recvBufUsed -= (packetSize + NET_HEADER_SIZE);
-						if (recvBufUsed) {
-							memmove(recvBuf, recvBuf + packetSize + NET_HEADER_SIZE, recvBufUsed);
-						}
-					}
 				} catch (const exception &e) {
 					// Reset buffer on error.
 					LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId() << " - Packet parse error: " << e.what());
@@ -238,6 +235,34 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 					session->Close();
 					return;
 				}
+				if (!tmpPacket) {
+					// Der Rahmen ist intakt (Länge geprüft, Paket vollständig da),
+					// nur der Inhalt ließ sich nicht parsen – typisch für eine
+					// Nachrichtenart, die erst eine neuere Version kennt. Das darf
+					// die Verbindung nicht lahmlegen: Bliebe das Paket im Puffer
+					// stehen, scheiterte jeder folgende Scan an denselben Bytes und
+					// die Session verarbeitete gar nichts mehr (bis zum Timeout).
+					// Also verwerfen und weitermachen – wie im WebSocket-Pfad.
+					++unparsablePackets;
+					LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId()
+							  << " - Unparsable packet of size " << packetSize << " - skipped ("
+							  << unparsablePackets << "/" << MAX_UNPARSABLE_PACKETS << ").");
+					if (unparsablePackets >= MAX_UNPARSABLE_PACKETS) {
+						// Dauerhaft unlesbare Daten sind kein Versionsunterschied
+						// mehr, sondern ein defekter Client oder ein Angriff.
+						LOG_ERROR(session->GetClientAddr() << "Session " << session->GetId()
+								  << " - Too many unparsable packets - closing connection");
+						recvBufUsed = 0;
+						session->Close();
+						return;
+					}
+				}
+				// Gültig gerahmtes Paket in jedem Fall aus dem Puffer nehmen.
+				recvBufUsed -= (packetSize + NET_HEADER_SIZE);
+				if (recvBufUsed) {
+					memmove(recvBuf, recvBuf + packetSize + NET_HEADER_SIZE, recvBufUsed);
+				}
+				packetConsumed = true;
 			}
 		}
 		if (tmpPacket) {
@@ -250,7 +275,10 @@ AsioReceiveBuffer::ScanPackets(boost::shared_ptr<SessionData> session)
 				session->Close();
 				return;
 			}
-		} else {
+		} else if (!packetConsumed) {
+			// Kein weiteres vollständiges Paket im Puffer. (Wurde eines verworfen,
+			// wird weitergescannt – dahinter können gültige Pakete liegen, die
+			// sonst bis zum nächsten Read liegen blieben.)
 			dataAvailable = false;
 		}
 	} while(dataAvailable);

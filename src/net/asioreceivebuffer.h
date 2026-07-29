@@ -38,6 +38,10 @@
 // MUST be larger than MAX_PACKET_SIZE
 #define RECV_BUF_SIZE		5 * MAX_PACKET_SIZE
 
+// Nicht parsbare Pakete werden übersprungen (Versionsunterschiede), bei
+// dauerhaftem Auftreten wird die Verbindung aber geschlossen.
+#define MAX_UNPARSABLE_PACKETS	10
+
 class AsioReceiveBuffer : public ReceiveBuffer
 {
 public:
@@ -57,6 +61,7 @@ private:
 	NetPacketList					receivedPackets;
 	char							recvBuf[RECV_BUF_SIZE];
 	size_t							recvBufUsed;
+	unsigned						unparsablePackets;
 };
 
 #endif

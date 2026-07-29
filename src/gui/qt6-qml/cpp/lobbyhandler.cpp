@@ -1228,10 +1228,13 @@ void LobbyHandler::sendChatMessage(const QString &message)
     QString text = message;
 
     try {
-        if (m_isCurrentPlayerAdmin && text.startsWith(QLatin1String("/gn "), Qt::CaseInsensitive)) {
+        if (text.startsWith(QLatin1String("/gn "), Qt::CaseInsensitive)) {
             // Server-weite Durchsage als Chat-Kurzbefehl (gleicher Weg wie der
-            // Durchsage-Button). Nur für Server-Admins – für alle anderen bleibt
-            // "/gn ..." gewöhnlicher Chat-Text.
+            // Durchsage-Button). Über die Rechte entscheidet allein der Server;
+            // der lokale Admin-Status steuert nur die Sichtbarkeit des Buttons.
+            // Würde hier zusätzlich lokal geprüft, landete die Durchsage eines
+            // Admins, dessen PlayerInfo noch nicht eingetroffen ist, versehentlich
+            // als normaler Chat-Text in der Lobby.
             adminSendGlobalNotice(text.mid(4));
         } else if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
             // Private message: /msg <nick> <text>  or  /msg "<nick with spaces>" <text>

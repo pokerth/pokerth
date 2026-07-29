@@ -1822,6 +1822,14 @@ ServerLobbyThread::HandleNetPacketAdminGlobalNotice(boost::shared_ptr<SessionDat
 		SendGlobalChat(globalNotice.noticetext());
 		netNoticeAck->set_globalnoticeresult(AdminGlobalNoticeAckMessage::globalNoticeAccepted);
 	} else {
+		// Ablehnung ebenfalls protokollieren: sonst ist im Serverlog nicht zu
+		// unterscheiden, ob das Paket gar nicht ankam oder die Rechte fehlten.
+		LOG_ERROR("Global notice rejected: player "
+				  << (session && session->GetPlayerData() ? session->GetPlayerData()->GetName() : "<no player>")
+				  << " (dbId " << (session && session->GetPlayerData() ? (int)session->GetPlayerData()->GetDBId() : -1)
+				  << ", admin " << (session && session->GetPlayerData()
+									&& GetBanManager().IsAdminPlayer(session->GetPlayerData()->GetDBId()))
+				  << ", textLen " << globalNotice.noticetext().size() << ")");
 		netNoticeAck->set_globalnoticeresult(AdminGlobalNoticeAckMessage::globalNoticeInvalid);
 	}
 	GetSender().Send(session, packet);
