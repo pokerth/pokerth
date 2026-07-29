@@ -1,7 +1,8 @@
-2026-07-29 version 2.1.5:
+2026-07-30 version 2.1.5:
 - new: community suggest in the game-wait page - proposes idle, eligible players for BBC step and WEC invite games, using the same selection logic as the legacy bot (QML)
 - new: global notice - PokerTH admins can broadcast a message to all connected clients, including a command line tool for sending it (QML & server)
 - new: pirates table theme and matching card backside (QML)
+- new: two more table themes with matching card backsides - mile high club, terminus hotel 2 (by BaShFX) (QML)
 - new: optional timestamps in chat (QML)
 - new: debug log view on the logs page (QML)
 - improvement: in-game action buttons hardened - button states now follow the betting round more reliably (QML)
