@@ -330,6 +330,10 @@ public slots:
     // in der Lobby – dasselbe Prädikat wie der Idle-Filter der Spielerliste
     // (getGameIdOfPlayer == 0). Basis für das Community-„Suggest"-Feature.
     Q_INVOKABLE QStringList idlePlayerNames() const;
+    // Gegenstück zu idlePlayerNames: Nicht-Gast-Spieler, die gerade an einem
+    // Tisch sitzen – je als { name, game } (Tischname). Für „Suggest" werden sie,
+    // sofern in DB/WEC-Liste, ans Ende gehängt und mit dem Spielnamen annotiert.
+    Q_INVOKABLE QVariantList playingPlayerEntries() const;
     Q_INVOKABLE QString playerCountryByName(const QString &name) const;
     Q_INVOKABLE QVariantList gamePlayersInGame(unsigned gameId) const;
     Q_INVOKABLE bool canJoinGame(unsigned gameId) const;

@@ -1051,6 +1051,54 @@ QStringList LobbyHandler::idlePlayerNames() const
     return names;
 }
 
+QVariantList LobbyHandler::playingPlayerEntries() const
+{
+    QVariantList entries;
+    if (!m_session)
+        return entries;
+
+    // Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
+    const unsigned ownGameId = m_session->getClientCurrentGameId();
+
+    static const QRegularExpression numericPlaceholderPattern("^#?\\d+$");
+    const int count = m_playerListModel.rowCount();
+    for (int row = 0; row < count; ++row) {
+        const QModelIndex index = m_playerListModel.index(row, 0);
+        if (!index.isValid())
+            continue;
+
+        const unsigned playerId = m_playerListModel.data(index, PlayerListModel::PlayerIdRole).toUInt();
+        if (playerId == 0)
+            continue;
+        if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
+            continue;
+        // Nur Spieler, die aktuell an einem Tisch sitzen (Gegenstück zum Idle-Filter).
+        const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+        if (gameId == 0)
+            continue;
+        // ... aber nicht die am eigenen Tisch.
+        if (ownGameId != 0 && gameId == ownGameId)
+            continue;
+
+        QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
+        const bool nameIsPlaceholder = playerName.isEmpty()
+            || numericPlaceholderPattern.match(playerName).hasMatch();
+        if (nameIsPlaceholder) {
+            const QString sessionName = QString::fromStdString(m_session->getClientPlayerInfo(playerId).playerName);
+            if (!sessionName.isEmpty())
+                playerName = sessionName;
+        }
+        if (playerName.isEmpty())
+            continue;
+
+        QVariantMap entry;
+        entry.insert("name", playerName);
+        entry.insert("game", QString::fromUtf8(m_session->getClientGameInfo(gameId).name.c_str()));
+        entries.append(entry);
+    }
+    return entries;
+}
+
 QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
 {
     QVariantList players;

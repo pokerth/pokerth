@@ -59,18 +59,18 @@ QtObject {
     // type:      Suggest-Typ des eigenen Spiels ("step1".."step4" | "wec")
     // idleNames: Namen der idle Lobby-Spieler (Lobby.idlePlayerNames())
     // onResult(success, message): message wird bei success (lokal) im Chat gezeigt.
-    function suggestForType(type, idleNames, onResult) {
+    function suggestForType(type, idleNames, playingPlayers, onResult) {
         var m = /^step([1-4])$/.exec(type || "")
         if (m) {
             var step = parseInt(m[1], 10)
             _ensure("db", function(ok) {
-                onResult(ok, ok ? _suggestStep(step, idleNames) : "")
+                onResult(ok, ok ? _suggestStep(step, idleNames, playingPlayers) : "")
             })
             return
         }
         if (type === "wec") {
             _ensure("wec", function(ok) {
-                onResult(ok, ok ? _suggestWec(idleNames) : "")
+                onResult(ok, ok ? _suggestWec(idleNames, playingPlayers) : "")
             })
             return
         }
@@ -200,44 +200,75 @@ QtObject {
         return (tickets << 11) + (games << 4) + rating
     }
 
-    function _suggestStep(step, idleNames) {
+    // Namensliste (idle Spieler) → Kandidatenobjekte { name } ohne Tischbezug.
+    function _asCandidates(names) {
+        var out = []
+        for (var i = 0; i < names.length; ++i)
+            out.push({ name: names[i] })
+        return out
+    }
+
+    // BBC-Step: Kandidaten { name, game? } bewerten, nach Score absteigend.
+    function _scoreStep(candidates, step) {
         var db = _cache.db.data
-        var scored = []
-        for (var i = 0; i < idleNames.length; ++i) {
-            var e = db[idleNames[i].toLowerCase()]
+        var out = []
+        for (var i = 0; i < candidates.length; ++i) {
+            var e = db[(candidates[i].name || "").toLowerCase()]
             if (!e)
                 continue
             var tickets = step === 1 ? 1 : (step === 2 ? e.ts2 : (step === 3 ? e.ts3 : e.ts4))
             var s = _score2(e.rating, tickets, e.games)
             if (s <= 10)
                 continue
-            scored.push({ name: e.name, score: s })
+            out.push({ dbName: e.name, score: s, game: candidates[i].game })
         }
-        scored.sort(function(a, b) { return b.score - a.score })
-        if (scored.length === 0)
-            return "Sorry, no player found to suggest"
-        var names = []
-        for (var j = 0; j < scored.length && j < 12; ++j)
-            names.push(scored[j].name)
-        return "I suggest the following players for step " + step + ": " + names.join(", ")
+        out.sort(function(a, b) { return b.score - a.score })
+        return out
     }
 
-    function _suggestWec(idleNames) {
+    // WEC: Kandidaten { name, game? } auf der WEC-Liste, Zufalls-Score (wie Bot).
+    function _scoreWec(candidates) {
         var set = _cache.wec.data
-        var scored = []
-        for (var i = 0; i < idleNames.length; ++i) {
-            var orig = set[idleNames[i].toLowerCase()]
+        var out = []
+        for (var i = 0; i < candidates.length; ++i) {
+            var orig = set[(candidates[i].name || "").toLowerCase()]
             if (orig === undefined)
                 continue
-            // Zufalls-Score wie im Legacy-Bot → zufällige Reihenfolge.
-            scored.push({ name: orig, score: Math.random() })
+            out.push({ dbName: orig, score: Math.random(), game: candidates[i].game })
         }
-        scored.sort(function(a, b) { return b.score - a.score })
-        if (scored.length === 0)
-            return "Sorry, no wec player found to suggest"
-        var names = []
-        for (var j = 0; j < scored.length && j < 10; ++j)
-            names.push(scored[j].name)
-        return "I suggest the following players for wec: " + names.join(", ")
+        out.sort(function(a, b) { return b.score - a.score })
+        return out
+    }
+
+    // Baut die Vorschlagszeile: zuerst idle Spieler, dann – an letzter Stelle –
+    // die gerade spielenden, je mit „(playing in game …)" annotiert. Beide
+    // Gruppen auf `limit` begrenzt; emptyText, falls beide leer.
+    function _buildMessage(headline, idleScored, busyScored, limit, emptyText) {
+        if (idleScored.length === 0 && busyScored.length === 0)
+            return emptyText
+        var parts = []
+        for (var i = 0; i < idleScored.length && i < limit; ++i)
+            parts.push(idleScored[i].dbName)
+        for (var j = 0; j < busyScored.length && j < limit; ++j)
+            parts.push(busyScored[j].dbName + " (playing in game " + busyScored[j].game + ")")
+        return headline + parts.join(", ")
+    }
+
+    function _suggestStep(step, idleNames, playingPlayers) {
+        return _buildMessage(
+            "I suggest the following players for step " + step + ": ",
+            _scoreStep(_asCandidates(idleNames), step),
+            _scoreStep(playingPlayers, step),
+            12,
+            "Sorry, no player found to suggest")
+    }
+
+    function _suggestWec(idleNames, playingPlayers) {
+        return _buildMessage(
+            "I suggest the following players for wec: ",
+            _scoreWec(_asCandidates(idleNames)),
+            _scoreWec(playingPlayers),
+            10,
+            "Sorry, no wec player found to suggest")
     }
 }

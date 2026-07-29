@@ -57,7 +57,8 @@ Rectangle {
         if (!Lobby || suggestBusy)
             return
         suggestBusy = true
-        Config.BotSuggest.suggestForType(Config.BotSuggest.createdSuggestType, Lobby.idlePlayerNames(),
+        Config.BotSuggest.suggestForType(Config.BotSuggest.createdSuggestType,
+            Lobby.idlePlayerNames(), Lobby.playingPlayerEntries(),
             function(ok, message) {
                 gameWaitPage.suggestBusy = false
                 // Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des
