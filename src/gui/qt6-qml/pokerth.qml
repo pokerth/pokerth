@@ -158,7 +158,7 @@ ApplicationWindow {
     minimumHeight: 600
     // TRY to center the window, doesn't work on my Ubuntu but should work on other platforms.
     visible: true
-    title: qsTr("PokerTH - v2.1.4")
+    title: qsTr("PokerTH - v2.1.5")
 
     // Android hardware back button: intercept close and navigate back instead
     // of destroying the QML scene while background threads are still running.

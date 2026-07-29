@@ -3245,8 +3245,8 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.4</source>
-        <translation>PokerTH - v2.1.4</translation>
+        <source>PokerTH - v2.1.5</source>
+        <translation>PokerTH - v2.1.5</translation>
     </message>
 </context>
 <context>
@@ -3874,8 +3874,8 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+35"/>
-        <source>PokerTH - v2.1.4</source>
-        <translation>PokerTH - v2.1.4</translation>
+        <source>PokerTH - v2.1.5</source>
+        <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -4220,8 +4220,8 @@ vista previa</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+161"/>
-        <source>PokerTH - v2.1.4</source>
-        <translation>PokerTH - v2.1.4</translation>
+        <source>PokerTH - v2.1.5</source>
+        <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
         <location line="+216"/>

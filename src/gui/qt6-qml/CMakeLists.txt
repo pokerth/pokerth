@@ -344,8 +344,8 @@ if(IOS)
         "-framework UIKit" "-framework Foundation")
 
     set(POKERTH_IOS_BUNDLE_ID "org.pokerth.qml" CACHE STRING "CFBundleIdentifier der iOS-App")
-    set(POKERTH_IOS_VERSION   "2.1.3"           CACHE STRING "CFBundleShortVersionString der iOS-App")
-    set(POKERTH_IOS_BUILD     "23"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
+    set(POKERTH_IOS_VERSION   "2.1.5"           CACHE STRING "CFBundleShortVersionString der iOS-App")
+    set(POKERTH_IOS_BUILD     "25"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
 
     # Asset-Katalog mit dem App-Icon (1024er PNG, ohne Alpha – actool lehnt
     # transparente iOS-App-Icons ab). Xcode kompiliert ihn in Assets.car.
