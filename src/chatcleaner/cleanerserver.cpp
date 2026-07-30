@@ -42,7 +42,7 @@
 
 using namespace std;
 
-CleanerServer::CleanerServer(): config(0), blockConnection(false), m_recvBufUsed(0), secondsSinceLastConfigChange(0)
+CleanerServer::CleanerServer(): tcpServer(0), tcpSocket(0), configRefreshTimer(0), authenticationTimer(0), myMessageFilter(0), config(0), blockConnection(false), authenticated(false), m_recvBufUsed(0), secondsSinceLastConfigChange(0)
 {
 	config = new CleanerConfig;
 
@@ -60,8 +60,11 @@ CleanerServer::CleanerServer(): config(0), blockConnection(false), m_recvBufUsed
 	qDebug() << QString("The server is running on port %1.").arg(tcpServer->serverPort());
 
 	configRefreshTimer = new QTimer();
+	authenticationTimer = new QTimer();
+	authenticationTimer->setSingleShot(true);
 
 	connect(configRefreshTimer, SIGNAL(timeout()), this, SLOT(refreshConfig()));
+	connect(authenticationTimer, SIGNAL(timeout()), this, SLOT(authenticationTimedOut()));
 	connect(tcpServer, SIGNAL(newConnection()), this, SLOT(newCon()));
 
 	refreshConfig();
@@ -74,16 +77,31 @@ CleanerServer::~CleanerServer()
 	delete myMessageFilter;
 	delete tcpServer;
 	delete configRefreshTimer;
+	delete authenticationTimer;
 }
 
 void CleanerServer::newCon()
 {
 	if(!blockConnection) {
 		tcpSocket = tcpServer->nextPendingConnection();
+		if (!tcpSocket)
+			return;
 		connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(onRead()));
 		connect(tcpSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(socketStateChanged(QAbstractSocket::SocketState)));
 		blockConnection = true;
+		authenticated = false;
 		tcpServer->pauseAccepting();
+
+		// Remote deployments must configure both shared secrets.  The local
+		// default keeps compatibility with existing same-host installations.
+		if (!tcpSocket->peerAddress().isLoopback()
+				&& (clientSecret.isEmpty() || serverSecret.isEmpty())) {
+			qDebug() << "Rejecting remote chat cleaner client without configured secrets.";
+			tcpSocket->close();
+			return;
+		}
+
+		authenticationTimer->start(CLEANER_AUTH_TIMEOUT_MSEC);
 	}
 }
 
@@ -152,6 +170,8 @@ bool CleanerServer::handleMessage(ChatCleanerMessage &msg)
 		const CleanerInitMessage &netInit = msg.cleanerinitmessage();
 		if (netInit.requestedversion() == CLEANER_PROTOCOL_VERSION) {
 			if (clientSecret == QString::fromStdString(netInit.clientsecret())) {
+				authenticated = true;
+				authenticationTimer->stop();
 				error = false;
 
 				boost::shared_ptr<ChatCleanerMessage> tmpAck(ChatCleanerMessage::default_instance().New());
@@ -164,7 +184,7 @@ bool CleanerServer::handleMessage(ChatCleanerMessage &msg)
 				qDebug() << "Invalid client secret.";
 		} else
 			qDebug() << "Invalid client version: " << netInit.requestedversion();
-	} else if (msg.messagetype() == ChatCleanerMessage::Type_CleanerChatRequestMessage) {
+	} else if (msg.messagetype() == ChatCleanerMessage::Type_CleanerChatRequestMessage && authenticated) {
 		error = false;
 		const CleanerChatRequestMessage &netRequest = msg.cleanerchatrequestmessage();
 		unsigned playerId = netRequest.playerid();
@@ -198,6 +218,8 @@ bool CleanerServer::handleMessage(ChatCleanerMessage &msg)
 			netReply->set_cleanertext(static_cast<const char *>(checkMessage.toUtf8()));
 			sendMessageToClient(*tmpReply);
 		}
+	} else if (msg.messagetype() == ChatCleanerMessage::Type_CleanerChatRequestMessage) {
+		qDebug() << "Rejected unauthenticated chat cleaner request.";
 	}
 	return error;
 }
@@ -206,8 +228,18 @@ void CleanerServer::socketStateChanged(QAbstractSocket::SocketState state)
 {
 	qDebug() << "Socket state changed to: " << state;
 	if (state == QAbstractSocket::UnconnectedState) {
+		authenticationTimer->stop();
 		blockConnection = false;
+		authenticated = false;
 		tcpServer->resumeAccepting();
+	}
+}
+
+void CleanerServer::authenticationTimedOut()
+{
+	if (blockConnection && !authenticated && tcpSocket) {
+		qDebug() << "Chat cleaner client did not authenticate in time.";
+		tcpSocket->close();
 	}
 }
 
@@ -232,4 +264,3 @@ void CleanerServer::sendMessageToClient(ChatCleanerMessage &msg)
 	tcpSocket->write((const char *)buf, packetSize + CLEANER_NET_HEADER_SIZE);
 	delete[] buf;
 }
-

@@ -37,6 +37,7 @@
 #define CLEANER_NET_HEADER_SIZE		4
 #define MAX_CLEANER_PACKET_SIZE		512
 #define CLEANER_PROTOCOL_VERSION	2
+#define CLEANER_AUTH_TIMEOUT_MSEC	5000
 
 class MessageFilter;
 class CleanerConfig;
@@ -55,6 +56,7 @@ private slots:
 	void onRead();
 	bool handleMessage(ChatCleanerMessage &msg);
 	void socketStateChanged(QAbstractSocket::SocketState);
+	void authenticationTimedOut();
 	void refreshConfig();
 	void sendMessageToClient(ChatCleanerMessage &msg);
 
@@ -62,10 +64,12 @@ private:
 	QTcpServer *tcpServer;
 	QTcpSocket *tcpSocket;
 	QTimer *configRefreshTimer;
+	QTimer *authenticationTimer;
 	MessageFilter *myMessageFilter;
 
 	CleanerConfig *config;
 	bool blockConnection;
+	bool authenticated;
 	QString clientSecret;
 	QString serverSecret;
 
