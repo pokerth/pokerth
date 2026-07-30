@@ -56,6 +56,16 @@ WebReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> /*session*/, const b
 void
 WebReceiveBuffer::HandleMessage(boost::shared_ptr<SessionData> session, const string &msg)
 {
+	// Keep the application-level limit in force even if the endpoint setting is
+	// changed in the future.  Without this, legacy framing hands the complete
+	// WebSocket message directly to protobuf parsing.
+	if (msg.size() > MAX_WEBSOCKET_MESSAGE_SIZE) {
+		LOG_ERROR("Session " << session->GetId() << " - WebSocket message exceeds "
+				  << MAX_WEBSOCKET_MESSAGE_SIZE << " bytes - closing connection");
+		session->Close();
+		return;
+	}
+
 	boost::shared_ptr<WebSocketData> webData = session->GetWebData();
 	if (webData && webData->lengthPrefixed) {
 		// Length-prefixed framing: do not rely on websocket message boundaries.
@@ -114,4 +124,3 @@ WebReceiveBuffer::ProcessPacket(boost::shared_ptr<SessionData> session, const ch
 		session->HandlePacket(tmpPacket);
 	}
 }
-

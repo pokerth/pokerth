@@ -67,6 +67,7 @@ ServerAcceptWebHelper::Listen(unsigned serverPort, bool /*ipv6*/, const std::str
 #endif
 
 		m_webSocketTlsServer->init_asio(m_ioService.get());
+		m_webSocketTlsServer->set_max_message_size(MAX_WEBSOCKET_MESSAGE_SIZE);
 
 		m_webSocketTlsServer->set_validate_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::validate), this, boost::placeholders::_1));
 		m_webSocketTlsServer->set_open_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_open), this, boost::placeholders::_1));
@@ -85,6 +86,7 @@ ServerAcceptWebHelper::Listen(unsigned serverPort, bool /*ipv6*/, const std::str
 #endif
 
 		m_webSocketServer->init_asio(m_ioService.get());
+		m_webSocketServer->set_max_message_size(MAX_WEBSOCKET_MESSAGE_SIZE);
 
 		m_webSocketServer->set_validate_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::validate), this, boost::placeholders::_1));
 		m_webSocketServer->set_open_handler(boost::bind(boost::mem_fn(&ServerAcceptWebHelper::on_open), this, boost::placeholders::_1));
