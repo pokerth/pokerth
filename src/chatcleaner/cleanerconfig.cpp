@@ -127,7 +127,7 @@ CleanerConfig::CleanerConfig()
 	configList.push_back(ConfigInfo("ConfigRevision", CONFIG_TYPE_INT, tempIntToString.str()));
 	configList.push_back(ConfigInfo("Language", CONFIG_TYPE_STRING, getDefaultLanguage()));
 
-	configList.push_back(ConfigInfo("HostAddress", CONFIG_TYPE_STRING, "0.0.0.0"));
+	configList.push_back(ConfigInfo("HostAddress", CONFIG_TYPE_STRING, "127.0.0.1"));
 	configList.push_back(ConfigInfo("DefaultListenPort", CONFIG_TYPE_STRING, "4327"));
 	configList.push_back(ConfigInfo("ClientAuthString", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("ServerAuthString", CONFIG_TYPE_STRING, ""));
