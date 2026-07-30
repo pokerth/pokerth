@@ -47,6 +47,9 @@
 #define MAX_FILE_DATA_SIZE			256
 #define MAX_PACKET_SIZE				384
 #define MAX_CHAT_TEXT_SIZE			128
+// WebSocket messages can carry multiple length-prefixed packets, but must not
+// inherit WebSocket++'s 32 MB default allocation limit.
+#define MAX_WEBSOCKET_MESSAGE_SIZE	16384
 
 /*#define MIN_PACKET_SIZE				4
 #define MAX_NAME_SIZE				64
@@ -91,4 +94,3 @@ private:
 typedef std::list<boost::shared_ptr<NetPacket> > NetPacketList;
 
 #endif
-
