@@ -90,6 +90,9 @@ ANDROID_ABIS="${ANDROID_ABIS:-arm64-v8a armeabi-v7a x86_64 x86}"
 BUILD_TYPE="${BUILD_TYPE:-Release}"
 UNIVERSAL_APK="${UNIVERSAL_APK:-0}"
 BUNDLETOOL_VERSION="${BUNDLETOOL_VERSION:-1.18.3}"
+# Google's read-only mirror of Maven Central (full sync, unmetered), queried
+# before Central itself — see patch_gradle_template_mirror().
+MAVEN_CENTRAL_MIRROR="${MAVEN_CENTRAL_MIRROR:-https://maven-central.storage-download.googleapis.com/maven2/}"
 
 # Single source of truth for the release string (same #define the client reports
 # to the server), so the store listing can never drift from the binary.
@@ -132,6 +135,26 @@ qt_arch_for_abi() {
     x86_64)      echo "android_x86_64" ;;
     *) echo "ERROR: unsupported ABI '$1'" >&2; exit 1 ;;
   esac
+}
+
+# Puts MAVEN_CENTRAL_MIRROR in front of every mavenCentral() of a Qt kit's
+# Gradle template. Idempotent — ~/Qt is cached between CI runs, so this sees
+# already patched kits, and a kit whose template carries no mavenCentral() at all
+# is reported instead of silently staying unpatched.
+patch_gradle_template_mirror() {
+  local qt_android_dir="$1" tpl patched=0
+  for tpl in "$qt_android_dir"/src/android/templates/build.gradle \
+             "$qt_android_dir"/src/android/templates/settings.gradle; do
+    [ -f "$tpl" ] || continue
+    if grep -q "$MAVEN_CENTRAL_MIRROR" "$tpl"; then
+      patched=1
+      continue
+    fi
+    grep -qE '^[[:space:]]*mavenCentral\(\)' "$tpl" || continue
+    sed -i -E "s|^([[:space:]]*)mavenCentral\(\)|\1maven { url '$MAVEN_CENTRAL_MIRROR' }\n\1mavenCentral()|g" "$tpl"
+    patched=1
+  done
+  [ "$patched" = 1 ] || echo "WARNING: no mavenCentral() in $qt_android_dir/src/android/templates — Maven Central is used unmirrored and may answer HTTP 429" >&2
 }
 
 vcpkg_triplet_for_abi() {
@@ -259,6 +282,17 @@ for ABI in "${ABI_LIST[@]}"; do
       --outputdir "$QT_OUTPUT_DIR" \
       --modules "${QT_MODULES[@]}"
   fi
+
+  # Maven Central rate-limits shared CI egress and answers HTTP 429 ("Too Many
+  # Requests"), which Gradle treats as a fatal resolution error instead of a
+  # reason to try the next repository — the build then dies while resolving AGP's
+  # own classpath. Google's read-only Central mirror goes in front of every
+  # repository list of the template, Central itself stays as the fallback.
+  #
+  # The template (not the generated project) is the only place this can be
+  # patched: the first Gradle run of a build is the one androiddeployqt starts
+  # itself, before we ever touch build-android-bundle/.
+  patch_gradle_template_mirror "$QT_ANDROID_DIR"
 
   # Qt < 6.8's Gradle template hardcodes AGP 7.4.1, whose aapt2 cannot read
   # android-34+ and which conflicts with androidx.core:1.13.1 (needs

@@ -134,6 +134,24 @@ jobs:
           restore-keys: |
             android-apk-vcpkg-${{ matrix.abi }}-
 
+      # Second half of the HTTP-429 defence (the first is the Maven mirror the
+      # build script patches into Qt's Gradle template): a warm cache carries the
+      # Gradle distribution and the whole AGP classpath, so a repeat run does not
+      # query Maven Central at all. Keyed per variant — two variants can share an
+      # ABI (widget-arm64/qml-arm64), and parallel jobs must not save one key.
+      - name: Restore Gradle caches
+        uses: actions/cache/restore@v4
+        with:
+          # Only the two directories that hold downloads — not all of ~/.gradle,
+          # whose daemon logs and per-build file hashes are worthless next run.
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: android-apk-gradle-${{ matrix.name }}-${{ github.run_id }}
+          restore-keys: |
+            android-apk-gradle-${{ matrix.name }}-
+            android-apk-gradle-
+
       - name: Restore signing keystore
         if: env.HAS_KEYSTORE == 'true'
         run: |
@@ -185,6 +203,15 @@ jobs:
         with:
           path: ~/Qt
           key: android-apk-qt-${{ matrix.qt }}-${{ matrix.abi }}-${{ github.run_id }}
+
+      - name: Save Gradle caches
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: android-apk-gradle-${{ matrix.name }}-${{ github.run_id }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

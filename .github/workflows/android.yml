@@ -125,6 +125,24 @@ jobs:
             android-vcpkg-${{ steps.slug.outputs.abis }}-
             android-vcpkg-
 
+      # Second half of the HTTP-429 defence (the first is the Maven mirror the
+      # build script patches into Qt's Gradle template): a warm ~/.gradle carries
+      # the Gradle distribution and the whole AGP classpath, so a repeat run does
+      # not query Maven Central at all. Keyed per run like the caches above, so a
+      # failed run still hands its downloads to the next one.
+      - name: Restore Gradle caches
+        uses: actions/cache/restore@v4
+        with:
+          # Only the two directories that hold downloads — not all of ~/.gradle,
+          # whose daemon logs and per-build file hashes are worthless next run.
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: android-gradle-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+          restore-keys: |
+            android-gradle-${{ steps.slug.outputs.abis }}-
+            android-gradle-
+
       - name: Restore upload keystore
         if: env.HAS_KEYSTORE == 'true'
         run: |
@@ -175,6 +193,17 @@ jobs:
         with:
           path: ~/Qt
           key: android-qt-${{ env.QT_VERSION }}-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
+
+      # if: always() as well — a run that died in Gradle is exactly the one whose
+      # partial downloads the next attempt should start from.
+      - name: Save Gradle caches
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.gradle/caches/modules-2
+            ~/.gradle/wrapper/dists
+          key: android-gradle-${{ steps.slug.outputs.abis }}-${{ github.run_id }}
 
       - name: Upload App Bundle
         uses: actions/upload-artifact@v4
