@@ -309,7 +309,21 @@ public:
 
     // Called from QML
     Q_INVOKABLE void fold();
-    Q_INVOKABLE void call();
+    // Check/Call. expectedAmount ist der Betrag, den der Spieler auf dem Button
+    // GESEHEN hat, als er ihn ausgelöst/vorgemerkt hat (0 = „Check"), −1 = jeder
+    // Betrag ist recht (bewusst nur „Auto Check/Call").
+    //
+    // Der Vergleich MUSS hier passieren: Die Engine-Daten (highestSet) werden vom
+    // Netz-Thread beim Eintreffen der Gegner-Aktion sofort verändert, während die
+    // QML-Seite ihre Werte erst über die Queued-Signale nachzieht. Zwischen beiden
+    // liegt ein Fenster, in dem der Button noch „Check" zeigt (bzw. eine Vorwahl
+    // „Check" bedeutet), die Engine aber bereits ein All-In/Raise kennt. Wird die
+    // Aktion – wie früher – erst hier aus dem Live-Zustand abgeleitet, wird aus dem
+    // gemeinten Gratis-Check ein Call über den vollen neuen Betrag (Spieler-Report:
+    // BB checkt, Gegner geht all-in, Client callt $4226). Verlangt die Engine mehr
+    // als der Spieler gesehen hat, wird deshalb NICHTS gesendet und false geliefert;
+    // das Zugfenster bleibt offen, der Spieler entscheidet neu.
+    Q_INVOKABLE bool call(int expectedAmount = -1);
     Q_INVOKABLE void raise(int amount = 0);
     Q_INVOKABLE void allIn();
     Q_INVOKABLE void showMyCards();
@@ -329,6 +343,13 @@ signals:
     // Zug schon über den Action-Timer als aktiv markiert wurde).
     void meInActionTriggered();
     void refreshActionTriggered();   // echte Spieler-Aktion (kein globaler Refresh)
+    // Ein Check/Call wurde verworfen, weil die Engine im Moment der Ausführung
+    // mehr verlangt als der Spieler auf dem Button gesehen hat (Gegner hat
+    // dazwischen erhöht/all-in gesetzt). Es wurde NICHTS gesendet – ich bin
+    // weiter am Zug. QML verwirft daraufhin die Vorwahl und sperrt den
+    // Call-Button kurz (AccidentallyCallBlocker), damit der nächste Klick nicht
+    // versehentlich den neuen, höheren Betrag callt.
+    void actionRejected(int requiredAmount, int expectedAmount);
     void roundValuesReady();          // nach Rundenwechsel: frische Werte verfügbar
     // Setzrunde gerade entschieden (letzte Aktion der Runde ist erfolgt, nächste
     // Runde/Hand noch nicht gestartet). QML sperrt darauf hin die Aktions-Buttons

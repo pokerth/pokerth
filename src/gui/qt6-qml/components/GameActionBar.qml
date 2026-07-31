@@ -61,12 +61,17 @@ Item {
         if (!GameTable || !GameTable.myTurn)
             return
         if (actionBar.playingMode === 2) {            // Auto Check/Fold
-            actionBar.preSelectEnabled = false        // eigener (Auto-)Zug erledigt
-            if (actionBar.canCheck) GameTable.call()
-            else GameTable.fold()
+            // Erwartungswert 0: NUR ein wirklich gratis Check. Lehnt die Engine
+            // ab (Gegner hat gesetzt/erhöht – ggf. erst in diesem Moment vom
+            // Netz-Thread eingetragen), wird gefoldet. Auf actionBar.canCheck
+            // ist hier kein Verlass: es hängt am QML-Wert callAmount, der dem
+            // Engine-Zustand um die Queued-Signale hinterherhinkt – genau daran
+            // konnte „Auto Check/Fold" Chips in einen Pot legen.
+            if (!fireAction("call", 0))
+                fireAction("fold")
         } else if (actionBar.playingMode === 1) {     // Auto Check/Call
-            actionBar.preSelectEnabled = false
-            GameTable.call()
+            // Bewusst ohne Erwartungswert (−1): dieser Modus callt jeden Betrag.
+            fireAction("call", -1)
         }
     }
 
@@ -319,31 +324,50 @@ Item {
                                         && !awaitingMyAction && canCheck)
         ? (checkWord + " /\n" + foldWord) : foldWord
 
-    function fireAction(which) {
-        if (GameTable === null) return
+    // Aktion ausführen. expectedCall ist beim Check/Call der Betrag, den der
+    // Spieler auf dem Button GESEHEN hat (0 = Check), −1 = beliebig. C++ führt
+    // die Aktion nur aus, wenn die Engine nicht mehr verlangt (s. GameHandler::call)
+    // – der Rückgabewert sagt, ob wirklich gehandelt wurde.
+    function fireAction(which, expectedCall) {
+        if (GameTable === null) return false
         // Eigener Zug ausgeführt → Vorauswahl SOFORT sperren (Vertrag von
         // preSelectEnabled: „false nach eigenem Zug"). Hier zuverlässig, weil
         // onMeInActionTriggered bei rein timer-getriebenen Netzwerk-Zügen u.U.
         // gar nicht feuert und das Zurücksetzen dort verschluckt würde → die
         // Buttons blieben nach meinem Zug fälschlich aktiv mit aktualisierten
         // Werten. Eine echte (Re-)Erhöhung eines Gegners schaltet die Vorauswahl
-        // über onRefreshActionTriggered (callAmount > 0) wieder frei.
+        // über onRefreshActionTriggered (callAmount > 0) wieder frei. Wird ein
+        // Check/Call verworfen, hebt onActionRejected die Sperre sofort wieder
+        // auf – es ist ja weiter mein Zug.
         actionBar.preSelectEnabled = false
-        if (which === "fold")       GameTable.fold()
-        else if (which === "call")  GameTable.call()
-        else if (which === "raise") GameTable.raise(raiseAmount)
-        else if (which === "allin") GameTable.allIn()
+        if (which === "fold")       { GameTable.fold();  return true }
+        if (which === "call")       return GameTable.call(expectedCall === undefined
+                                                          ? GameTable.callAmount : expectedCall)
+        if (which === "raise")      { GameTable.raise(raiseAmount); return true }
+        if (which === "allin")      { GameTable.allIn(); return true }
+        return false
     }
 
-    // Vorgemerkte Aktion beim eigenen Zug ausführen.
-    // Vorgemerktes "Fold" wird zu "Check", falls ein Check gratis möglich ist.
+    // Vorgemerkte Aktion beim eigenen Zug ausführen. Maßgeblich ist immer das,
+    // was zum Zeitpunkt der Vorwahl auf dem Button stand:
+    //  • "fold" bei gratis Check = Aufschrift „Check / Fold" → erst gratis
+    //    checken versuchen, sonst folden (wie der Widgets-Client, der in dem
+    //    Fall den Check-Button klickt),
+    //  • "call" nur bis zu dem damals gezeigten Betrag (preCallAmount).
     function runPreAction(which) {
-        if (which === "fold" && canCheck) {
-            actionBar.preSelectEnabled = false   // wie fireAction: eigener Zug erledigt
-            GameTable.call()
-        } else {
-            fireAction(which)
+        if (which === "fold") {
+            if (canCheck && fireAction("call", 0))
+                return
+            fireAction("fold")
+            return
         }
+        if (which === "call") {
+            // preCallAmount ist der bei der Vorwahl gezeigte Betrag; fehlt er
+            // (−1), gilt die sichere Auslegung „nur gratis checken".
+            fireAction("call", actionBar.preCallAmount >= 0 ? actionBar.preCallAmount : 0)
+            return
+        }
+        fireAction(which)
     }
 
     function clickAction(which) {
@@ -380,6 +404,8 @@ Item {
                     // "→ myTurnNow=", myTurnNow)
         if (myTurnNow) {
             preAction = ""
+            // Ohne expectedCall gilt der aktuell gezeigte Betrag (GameTable.callAmount
+            // = die Beschriftung des Check/Call-Buttons) als Obergrenze.
             fireAction(which)
         } else if (canAct) {
             if (preAction === which) {
@@ -600,6 +626,24 @@ Item {
             if (actionBar.preAction === "raise" && !actionBar.raiseAvailable)
                 actionBar.preAction = ""
             actionBar.syncRaiseAmount()
+        }
+        function onActionRejected(requiredAmount, expectedAmount) {
+            // Der Check/Call wurde in C++ verworfen, weil die Engine inzwischen
+            // mehr verlangt als auf dem Button stand (Gegner hat gesetzt/erhöht/
+            // all-in). Es wurde NICHTS gesendet – ich bin weiter am Zug:
+            //  • Vorwahl verwerfen (sie meinte einen anderen Betrag),
+            //  • Buttons wieder freigeben (fireAction hatte sie gesperrt),
+            //  • den Call-Button kurz sperren (AccidentallyCallBlocker), damit
+            //    ein zweiter, schon unterwegs befindlicher Klick nicht doch den
+            //    neuen, höheren Betrag callt.
+            // Auto Check/Fold foldet nach der Ablehnung selbst weiter (runAutoAction),
+            // Auto Check/Call callt bewusst jeden Betrag (−1) und wird nie abgelehnt.
+            actionBar.preAction = ""
+            actionBar.preSelectEnabled = true
+            if (actionBar.accidentalCallBlockerEnabled) {
+                actionBar.callBlocked = true
+                callBlockTimer.restart()
+            }
         }
         function onCanActChanged() {
             if (GameTable.canAct)

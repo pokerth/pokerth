@@ -1697,28 +1697,44 @@ void GameHandler::fold()
     doActionDone();
 }
 
-void GameHandler::call()
+bool GameHandler::call(int expectedAmount)
 {
-    qDebug() << "[CALLDBG] call() entry"
+    qDebug() << "[CALLDBG] call() entry expected=" << expectedAmount
              << "myTurn=" << m_myTurn << "tSeat=" << m_timeoutSeatId
              << "isMyTurnToAct=" << isMyTurnToAct();
     if (!m_game || !m_session || !isMyTurnToAct()) {
         qDebug() << "[CALLDBG] call() EARLY-RETURN (game=" << (m_game ? 1 : 0)
                  << " session=" << (m_session ? 1 : 0)
                  << " turn=" << isMyTurnToAct() << ")";
-        return;
+        return false;
     }
 
     auto hand = m_game->getCurrentHand();
-    if (!hand) return;
+    if (!hand) return false;
     auto seats = hand->getSeatsList();
-    if (!seats || seats->empty()) return;
+    if (!seats || seats->empty()) return false;
     auto humanPlayer = seats->front();
     auto bero = hand->getCurrentBeRo();
-    if (!bero) return;
+    if (!bero) return false;
 
     int highestSet = bero->getHighestSet();
     int humanSet = humanPlayer->getMySet();
+
+    // Deckungsprüfung gegen den Betrag, den der Spieler gesehen hat (0 = Check).
+    // Der Live-Zustand kann seit dem Klick/der Vorwahl vom Netz-Thread erhöht
+    // worden sein; dann NICHTS senden (siehe Kommentar an der Deklaration).
+    // Weniger als erwartet ist unkritisch (nie mehr Chips als gewollt) und wird
+    // ausgeführt; −1 heißt „beliebiger Betrag" (Auto Check/Call).
+    const int requiredAmount = (humanPlayer->getMyCash() + humanSet <= highestSet)
+                               ? humanPlayer->getMyCash()
+                               : std::max(0, highestSet - humanSet);
+    if (expectedAmount >= 0 && requiredAmount > expectedAmount) {
+        qDebug() << "[CALLDBG] call() REJECTED: required=" << requiredAmount
+                 << "> expected=" << expectedAmount
+                 << "(highestSet=" << highestSet << "mySet=" << humanSet << ")";
+        emit actionRejected(requiredAmount, expectedAmount);
+        return false;
+    }
 
     qDebug() << "[CALLDBG] call() pre-dispatch"
              << "humanSet=" << humanSet << "highestSet=" << highestSet
@@ -1756,6 +1772,7 @@ void GameHandler::call()
 
     doActionDone();
     onRefreshPot();
+    return true;
 }
 
 void GameHandler::raise(int amount)
