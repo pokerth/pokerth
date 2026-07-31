@@ -124,10 +124,11 @@ ColumnLayout {
                 Layout.preferredWidth: 14
                 Layout.preferredHeight: 14
                 Layout.alignment: Qt.AlignVCenter
-
-                MultiEffect {
-                    source: expanderCaret
-                    anchors.fill: expanderCaret
+                // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
+                // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
+                // referenziert werden (sonst schwarz/zerrissen gerendert).
+                layer.enabled: true
+                layer.effect: MultiEffect {
                     colorization: 1.0
                     colorizationColor: Config.Theme.colorTextMuted
                 }

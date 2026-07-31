@@ -237,10 +237,11 @@ ItemDelegate {
                 Layout.preferredHeight: 16
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 visible: !playerItem.wideLayout && hasActions
-
-                MultiEffect {
-                    source: expanderCaret
-                    anchors.fill: expanderCaret
+                // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
+                // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
+                // referenziert werden (sonst schwarz/zerrissen gerendert).
+                layer.enabled: true
+                layer.effect: MultiEffect {
                     colorization: 1.0
                     colorizationColor: Config.Theme.colorTextMuted
                 }
