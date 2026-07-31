@@ -96,7 +96,7 @@ public:
 
     // ServerCallback methods
     virtual void SignalNetServerSuccess(int actionID) override {}
-    virtual void SignalNetServerError(int errorID, int osErrorID) override {}
+    virtual void SignalNetServerError(int errorID, int osErrorID) override;
 
     // ClientCallback methods - important ones implemented
     virtual void SignalNetClientConnect(int actionID) override;

@@ -236,7 +236,7 @@
         <translation>Mensaje …</translation>
     </message>
     <message>
-        <location line="+740"/>
+        <location line="+781"/>
         <source>Link öffnen</source>
         <translation>Abrir enlace</translation>
     </message>
@@ -507,7 +507,7 @@
 <context>
     <name>GameActionBar</name>
     <message>
-        <location filename="../components/GameActionBar.qml" line="+953"/>
+        <location filename="../components/GameActionBar.qml" line="+997"/>
         <source>Show</source>
         <translation>Mostrar</translation>
     </message>
@@ -590,7 +590,7 @@
         <translation>Probabilidades</translation>
     </message>
     <message>
-        <location line="+231"/>
+        <location line="+245"/>
         <source>Kopieren</source>
         <translation>Copiar</translation>
     </message>
@@ -893,7 +893,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+186"/>
+        <location filename="../pages/GameWaitPage.qml" line="+187"/>
         <source>Players</source>
         <translation>Jugadores</translation>
     </message>
@@ -1596,12 +1596,12 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1176"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1224"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+20"/>
         <source>Player not found</source>
         <translation>Jugador no encontrado</translation>
     </message>
@@ -3072,12 +3072,12 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
     <message>
         <location line="-104"/>
         <location line="+121"/>
-        <location line="+74"/>
+        <location line="+75"/>
         <source>Invite to Game</source>
         <translation>Invitar a la partida</translation>
     </message>
     <message>
-        <location line="-194"/>
+        <location line="-195"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
         <translation>¿Seguro que quieres invitar a «%1» a tu partida?</translation>
     </message>
@@ -3090,12 +3090,12 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
         <location line="+6"/>
         <location line="+2"/>
         <location line="+118"/>
-        <location line="+103"/>
+        <location line="+104"/>
         <source>Ignore player</source>
         <translation>Ignorar jugador</translation>
     </message>
     <message>
-        <location line="-222"/>
+        <location line="-223"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
         <translation>¿Seguro que quieres ignorar a «%1»?&gt;</translation>
     </message>
@@ -3103,12 +3103,12 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
         <location line="+7"/>
         <location line="+2"/>
         <location line="+117"/>
-        <location line="+132"/>
+        <location line="+133"/>
         <source>Unignore player</source>
         <translation>No ignorar jugador</translation>
     </message>
     <message>
-        <location line="-250"/>
+        <location line="-251"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
         <translation>¿Seguro que quieres dejar de ignorar a «%1»?&gt;</translation>
     </message>
@@ -3119,15 +3119,15 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
     </message>
     <message>
         <location line="+117"/>
-        <location line="+161"/>
+        <location line="+162"/>
         <source>Show player stats</source>
         <translation>Mostrar estadísticas del jugador</translation>
     </message>
     <message>
-        <location line="-279"/>
+        <location line="-280"/>
         <location line="+2"/>
         <location line="+123"/>
-        <location line="+190"/>
+        <location line="+191"/>
         <source>Total kickban</source>
         <translation>Expulsar y bloquear</translation>
     </message>
@@ -3135,7 +3135,7 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
 <context>
     <name>PlayerSeasonCard</name>
     <message>
-        <location filename="../components/PlayerSeasonCard.qml" line="+156"/>
+        <location filename="../components/PlayerSeasonCard.qml" line="+157"/>
         <source>Score</source>
         <translation>Puntuación</translation>
     </message>
@@ -3456,17 +3456,17 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+226"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+230"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location line="+94"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-61"/>
+        <location line="-65"/>
         <source>Connecting as...</source>
         <translation>Conectando como...</translation>
     </message>
@@ -3524,7 +3524,7 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
 <context>
     <name>ServerConnectionHandler</name>
     <message>
-        <location filename="../cpp/serverconnectionhandler.cpp" line="+49"/>
+        <location filename="../cpp/serverconnectionhandler.cpp" line="+50"/>
         <source>Error: No session available</source>
         <translation>Error: no hay sesión disponible</translation>
     </message>
@@ -3574,7 +3574,324 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
         <translation>¡Conectado correctamente!</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+23"/>
+        <source>Server address was not set.</source>
+        <translation>La dirección del servidor no está establecida.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>An invalid port was set (ports 0-1023 are not allowed).</source>
+        <translation>Se ha establecido un puerto no válido (no se permiten los puertos 0-1023).</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Could not create a socket for TCP communication.</source>
+        <translation>No se puede crear un socket de comunicaciones TCP.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Could not set the IP address.</source>
+        <translation>No se puede establecer la dirección IP.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Could not set the port for this type of address.</source>
+        <translation>No se puede establecer el puerto para este tipo de dirección.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The server name could not be resolved.</source>
+        <translation>No se puede resolver el nombre del servidor.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Bind failed - please choose a different port.</source>
+        <translation>Fallo en la comunicación. Seleccione otro puerto.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal network error: &quot;listen&quot; failed.</source>
+        <translation>Error interno en la red: fallo en "listen".</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Server execution was terminated.</source>
+        <translation>Finalizada la ejecución del servidor.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Could not connect to the server.
+The server might still be processing a previous connection attempt.
+Please wait a moment and try again.</source>
+        <translation>No se pudo conectar al servidor.
+El servidor podría estar procesando todavía un intento de conexión anterior.
+Por favor, espere un momento e inténtelo de nuevo.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Connection timed out.
+The server might be busy or still processing a previous connection.
+Please wait a moment and try again.</source>
+        <translation>Tiempo de conexión agotado.
+El servidor podría estar ocupado o procesando todavía una conexión anterior.
+Por favor, espere un momento e inténtelo de nuevo.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal network error: &quot;select&quot; failed.</source>
+        <translation>Error interno en la red: fallo en "select".</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal network error: &quot;send&quot; failed.</source>
+        <translation>Error interno en la red: fallo en "send".</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>The connection to the server was lost.</source>
+        <translation>Se ha perdido la conexión con el servidor.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal network error: Duplicate TCP connection.</source>
+        <translation>Error interno en la red: conexión TCP duplicada.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>An invalid network packet was received.
+Please make sure that all players use the same version of PokerTH.</source>
+        <translation>Se ha recibido un paquete de red no válido.
+Asegúrese que todos los jugadores utilizan la misma versión de PokerTH.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal state error.
+Please make sure that all players use the same version of PokerTH.</source>
+        <translation>Error interno de estado.
+Asegúrese que todos los jugadores utilizan la misma versión de PokerTH.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal network error: invalid socket type.</source>
+        <translation>Error interno de red: tipo de socket no válido.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Invalid server list URL.
+Please correct the address in the settings.</source>
+        <translation>URL de lista de servidores no válida.
+Corrija la dirección en las preferencias.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The PokerTH internet server list contains invalid data.
+If you use a custom server list, please make sure its format is correct.</source>
+        <translation>La lista de servidores de PokerTH contiene información no válida.
+Si ha utilizado una lista de servidores personalizada, asegúrese de que el formato es correcto.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Could not unzip the PokerTH internet server list.</source>
+        <translation>No se puede descomprimir la lista de servidores de PokerTH.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Could not download the PokerTH internet server list.
+Please make sure you are directly connected to the internet.</source>
+        <translation>No se puede descargar la lista de servidores de PokerTH.
+Asegúrese de que está conectado a Internet.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Could not open the target file when downloading the server list.</source>
+        <translation>No se puede abrir el archivo de destino al descargar la lista de servidores.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>The PokerTH server does not support this version of the game.
+Please go to https://www.pokerth.net and download the latest version.</source>
+        <translation>El servidor de PokerTH no soporta esta versión del juego.
+Por favor, visite https://www.pokerth.net y descargue la última versión.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The server is down for maintenance. Please try again later.</source>
+        <translation>El servidor está desconectado por mantenimiento. Inténtelo más tarde.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Sorry, this server is already full.</source>
+        <translation>Lo sentimos, este servidor está lleno.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Invalid login.
+Please check your username and password.</source>
+        <translation>Acceso no válido.
+Compruebe el nombre de usuario y contraseña.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The password is too long. Please choose another one.</source>
+        <translation>La contraseña es demasiado larga. Elija otra.</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>This player name is already in use. Please choose a different name.</source>
+        <translation>Este nombre de jugador ya está en uso. Por favor, elija otro nombre.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The player name is invalid. Please choose a different name.</source>
+        <translation>El nombre de jugador no es válido. Por favor, elija otro nombre.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: invalid player cards.</source>
+        <translation>Error interno: cartas de jugador no válidas.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: invalid player results.</source>
+        <translation>Error interno: resultados de jugador no válidos.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The game name is either too short or too long. Please choose another one.</source>
+        <translation>El nombre de la partida es muy largo o muy corto. Seleccione otro.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: invalid game round.</source>
+        <translation>Error interno: ronda de juego no válida.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: invalid session.</source>
+        <translation>Error interno: sesión no válida.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The game could not be found.</source>
+        <translation>No se encuentra la partida.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The chat text is invalid.</source>
+        <translation>El texto de charla no es válido.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The server referred to an unknown player. Aborting.</source>
+        <translation>El servidor se ha referido a un jugador desconocido. Abortando.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: The current player could not be found.</source>
+        <translation>Error interno: no se encuentra al jugador actual.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: The current player is not active.</source>
+        <translation>Error interno: el jugador actual no está activo.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>You were kicked from the server.</source>
+        <translation>Ha sido expulsado del servidor.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>You were temporarily banned from the server.</source>
+        <translation>Se le ha prohibido temporalmente el acceso al servidor.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Your account is blocked indefinitely.</source>
+        <translation>Su cuenta ha sido bloqueada indefinidamente.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
+        <translation>La conexión se ha cerrado por inactividad. Le invitamos a volver a conectarse.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The client player count is invalid.</source>
+        <translation>El número de jugadores no es válido.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
+        <translation>Hay demasiadas ciegas manuales. Reconfigure las ciegas manuales.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>An invalid avatar file was configured. Please choose a different avatar.</source>
+        <translation>Se ha configurado un archivo de avatar no válido. Seleccione otro.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The selected avatar file is too large. Please choose a different avatar.</source>
+        <translation>El avatar seleccionado es demasiado grande. Seleccione otro.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: invalid buffer size.</source>
+        <translation>Error interno: tamaño de búfer no válido.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
+        <translation>Ha ocurrido un error interno. Informe al administrador en la charla principal.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Could not start game: Synchronization failed.</source>
+        <translation>No se puede iniciar la partida: fallo en la sincronización.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The game could not be terminated.</source>
+        <translation>No se pudo finalizar la partida.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>An internal game error occured.</source>
+        <translation>Ha ocurrido un error interno del juego.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: The dealer could not be found.</source>
+        <translation>Error interno: no se encuentra al repartidor.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>You cannot login at this time. Please try again in a few seconds.</source>
+        <translation>No puede acceder en este momento. Inténtelo pasados unos segundos.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Internal error: The authentication could not be initialized.</source>
+        <translation>Error interno: no se pudo inicializar la autenticación.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The server does not support the required authentication method.</source>
+        <translation>El servidor no soporta el método de autenticación requerido.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>The server could not reach its database. Please try again later.</source>
+        <translation>El servidor no pudo acceder a su base de datos. Por favor, inténtelo de nuevo más tarde.</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>An internal error occured. (Error code %1)</source>
+        <translation>Ha ocurrido un error interno. (Código de error %1)</translation>
+    </message>
+    <message>
+        <location line="+27"/>
         <source>Connection failed, retrying...</source>
         <translation>Error de conexión, reintentando...</translation>
     </message>
@@ -3582,86 +3899,6 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
         <location line="+9"/>
         <source>Retrying connection...</source>
         <translation>Reintentando conexión...</translation>
-    </message>
-    <message>
-        <location line="+12"/>
-        <source>Could not connect to server</source>
-        <translation>No se pudo conectar al servidor</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Authentication failed</source>
-        <translation>Error de autenticación</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Server error</source>
-        <translation>Error del servidor</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>TLS connection error</source>
-        <translation>Error de conexión TLS</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>The connection to the server was lost</source>
-        <translation>Se ha perdido la conexión con el servidor</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Protocol version not supported by server</source>
-        <translation>Versión de protocolo no admitida por el servidor</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Server is under maintenance</source>
-        <translation>El servidor está en mantenimiento</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Server is full</source>
-        <translation>El servidor está lleno</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Invalid password</source>
-        <translation>Contraseña incorrecta</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Username already in use</source>
-        <translation>El nombre de usuario ya está en uso</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Invalid username</source>
-        <translation>Nombre de usuario no válido</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>You have been kicked from the server</source>
-        <translation>Has sido expulsado del servidor</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>You are banned from this server</source>
-        <translation>Estás baneado de este servidor</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Session timed out</source>
-        <translation>La sesión ha expirado</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Connection blocked (too many attempts)</source>
-        <translation>Conexión bloqueada (demasiados intentos)</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>Network error (%1)</source>
-        <translation>Error de red (%1)</translation>
     </message>
 </context>
 <context>

@@ -85,6 +85,18 @@ void QmlGuiInterface::SignalNetClientGameInfo(int actionID)
     }
 }
 
+void QmlGuiInterface::SignalNetServerError(int errorID, int osErrorID)
+{
+    // Fehler des eingebetteten Servers (eigenes Netzwerkspiel hosten), z. B.
+    // belegter Port. Wie im Widgets-Client (signalNetServerError -> derselbe
+    // networkError-Slot) über denselben Weg melden - vorher verschluckt.
+    if (m_handler) {
+        QMetaObject::invokeMethod(m_handler, [this, errorID, osErrorID]() {
+            m_handler->onNetServerError(errorID, osErrorID);
+        }, Qt::QueuedConnection);
+    }
+}
+
 void QmlGuiInterface::SignalNetClientError(int errorID, int osErrorID)
 {
     if (m_handler) {

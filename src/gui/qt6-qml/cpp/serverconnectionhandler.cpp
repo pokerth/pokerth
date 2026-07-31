@@ -2,6 +2,7 @@
 #include "session.h"
 #include "configfile.h"
 #include "core/appimage_utils.h"
+#include <net/socket_msg.h>
 #include <QByteArray>
 #include <QProcess>
 #include <QProcessEnvironment>
@@ -193,14 +194,173 @@ void ServerConnectionHandler::onNetClientLoginShow()
     handleLoginDialog();
 }
 
+QString ServerConnectionHandler::networkErrorMessage(int errorID)
+{
+    // Texte wie startWindowImpl::networkError(int) im Widgets-Client; die
+    // Codes stammen aus socket_msg.h (nicht mehr als nackte Zahlen, die
+    // sich stillschweigend gegen die Header-Werte verschieben konnten).
+    switch (errorID) {
+
+    // ── Socket-/Verbindungsebene ─────────────────────────────────────────
+    case ERR_SOCK_SERVERADDR_NOT_SET:
+        return tr("Server address was not set.");
+    case ERR_SOCK_INVALID_PORT:
+        return tr("An invalid port was set (ports 0-1023 are not allowed).");
+    case ERR_SOCK_CREATION_FAILED:
+        return tr("Could not create a socket for TCP communication.");
+    case ERR_SOCK_SET_ADDR_FAILED:
+        return tr("Could not set the IP address.");
+    case ERR_SOCK_SET_PORT_FAILED:
+        return tr("Could not set the port for this type of address.");
+    case ERR_SOCK_RESOLVE_FAILED:
+        return tr("The server name could not be resolved.");
+    case ERR_SOCK_BIND_FAILED:
+        return tr("Bind failed - please choose a different port.");
+    case ERR_SOCK_LISTEN_FAILED:
+        return tr("Internal network error: \"listen\" failed.");
+    case ERR_SOCK_ACCEPT_FAILED:
+        return tr("Server execution was terminated.");
+    case ERR_SOCK_CONNECT_FAILED:
+    case ERR_SOCK_CONNECT_IPV6_FAILED:
+        return tr("Could not connect to the server.\nThe server might still be processing a previous connection attempt.\nPlease wait a moment and try again.");
+    case ERR_SOCK_CONNECT_TIMEOUT:
+    case ERR_SOCK_CONNECT_IPV6_TIMEOUT:
+        return tr("Connection timed out.\nThe server might be busy or still processing a previous connection.\nPlease wait a moment and try again.");
+    case ERR_SOCK_SELECT_FAILED:
+        return tr("Internal network error: \"select\" failed.");
+    case ERR_SOCK_SEND_FAILED:
+        return tr("Internal network error: \"send\" failed.");
+    case ERR_SOCK_RECV_FAILED:   // Windows meldet beim Schließen manchmal recv-Fehler.
+    case ERR_SOCK_CONN_RESET:
+        // Verbindung während der Sitzung abgebrochen (z. B. WLAN weg). Wird
+        // nach dem Login vom globalen connectionLostPopup in pokerth.qml
+        // angezeigt.
+        return tr("The connection to the server was lost.");
+    case ERR_SOCK_CONN_EXISTS:
+        return tr("Internal network error: Duplicate TCP connection.");
+    case ERR_SOCK_INVALID_PACKET:
+        return tr("An invalid network packet was received.\nPlease make sure that all players use the same version of PokerTH.");
+    case ERR_SOCK_INVALID_STATE:
+        return tr("Internal state error.\nPlease make sure that all players use the same version of PokerTH.");
+    case ERR_SOCK_INVALID_TYPE:
+        return tr("Internal network error: invalid socket type.");
+    case ERR_SOCK_INVALID_SERVERLIST_URL:
+    case ERR_SOCK_TRANSFER_INVALID_URL:
+        return tr("Invalid server list URL.\nPlease correct the address in the settings.");
+    case ERR_SOCK_INVALID_SERVERLIST_XML:
+        return tr("The PokerTH internet server list contains invalid data.\nIf you use a custom server list, please make sure its format is correct.");
+    case ERR_SOCK_UNZIP_FAILED:
+        return tr("Could not unzip the PokerTH internet server list.");
+    case ERR_SOCK_TRANSFER_INIT_FAILED:
+    case ERR_SOCK_TRANSFER_SELECT_FAILED:
+    case ERR_SOCK_TRANSFER_FAILED:
+        return tr("Could not download the PokerTH internet server list.\nPlease make sure you are directly connected to the internet.");
+    case ERR_SOCK_TRANSFER_OPEN_FAILED:
+        return tr("Could not open the target file when downloading the server list.");
+
+    // ── Login / Spielebene ───────────────────────────────────────────────
+    case ERR_NET_VERSION_NOT_SUPPORTED:
+        return tr("The PokerTH server does not support this version of the game.\nPlease go to https://www.pokerth.net and download the latest version.");
+    case ERR_NET_SERVER_MAINTENANCE:
+        return tr("The server is down for maintenance. Please try again later.");
+    case ERR_NET_SERVER_FULL:
+        return tr("Sorry, this server is already full.");
+    case ERR_NET_INVALID_PASSWORD:
+        return tr("Invalid login.\nPlease check your username and password.");
+    case ERR_NET_INVALID_PASSWORD_STR:
+        return tr("The password is too long. Please choose another one.");
+    case ERR_NET_PLAYER_NAME_IN_USE:
+        // Der Widgets-Client öffnet hier den Nick-ändern-Dialog; hier bleibt
+        // die Login-Seite stehen, auf der der Name direkt änderbar ist.
+        return tr("This player name is already in use. Please choose a different name.");
+    case ERR_NET_INVALID_PLAYER_NAME:
+        return tr("The player name is invalid. Please choose a different name.");
+    case ERR_NET_INVALID_PLAYER_CARDS:
+        return tr("Internal error: invalid player cards.");
+    case ERR_NET_INVALID_PLAYER_RESULTS:
+        return tr("Internal error: invalid player results.");
+    case ERR_NET_INVALID_GAME_NAME:
+        return tr("The game name is either too short or too long. Please choose another one.");
+    case ERR_NET_INVALID_GAME_ROUND:
+        return tr("Internal error: invalid game round.");
+    case ERR_NET_INVALID_SESSION:
+        return tr("Internal error: invalid session.");
+    case ERR_NET_UNKNOWN_GAME:
+        return tr("The game could not be found.");
+    case ERR_NET_INVALID_CHAT_TEXT:
+        return tr("The chat text is invalid.");
+    case ERR_NET_UNKNOWN_PLAYER_ID:
+        return tr("The server referred to an unknown player. Aborting.");
+    case ERR_NET_NO_CURRENT_PLAYER:
+        return tr("Internal error: The current player could not be found.");
+    case ERR_NET_PLAYER_NOT_ACTIVE:
+        return tr("Internal error: The current player is not active.");
+    case ERR_NET_PLAYER_KICKED:
+        return tr("You were kicked from the server.");
+    case ERR_NET_PLAYER_BANNED:
+        return tr("You were temporarily banned from the server.");
+    case ERR_NET_PLAYER_BLOCKED:
+        return tr("Your account is blocked indefinitely.");
+    case ERR_NET_SESSION_TIMED_OUT:
+        return tr("Your server connection timed out due to inactivity. You are very welcome to reconnect!");
+    case ERR_NET_INVALID_PLAYER_COUNT:
+        return tr("The client player count is invalid.");
+    case ERR_NET_TOO_MANY_MANUAL_BLINDS:
+        return tr("Too many manual blinds were set. Please reconfigure the manual blinds.");
+    case ERR_NET_INVALID_AVATAR_FILE:
+    case ERR_NET_WRONG_AVATAR_SIZE:
+        return tr("An invalid avatar file was configured. Please choose a different avatar.");
+    case ERR_NET_AVATAR_TOO_LARGE:
+        return tr("The selected avatar file is too large. Please choose a different avatar.");
+    case ERR_NET_BUF_INVALID_SIZE:
+        return tr("Internal error: invalid buffer size.");
+    case ERR_NET_INVALID_REQUEST_ID:
+        return tr("An internal avatar error occured. Please report this to an admin in the lobby chat.");
+    case ERR_NET_START_TIMEOUT:
+        return tr("Could not start game: Synchronization failed.");
+    case ERR_NET_GAME_TERMINATION_FAILED:
+        return tr("The game could not be terminated.");
+    case ERR_NET_INTERNAL_GAME_ERROR:
+        return tr("An internal game error occured.");
+    case ERR_NET_DEALER_NOT_FOUND:
+        return tr("Internal error: The dealer could not be found.");
+    case ERR_NET_INIT_BLOCKED:
+        return tr("You cannot login at this time. Please try again in a few seconds.");
+    case ERR_NET_GSASL_INIT_FAILED:
+        return tr("Internal error: The authentication could not be initialized.");
+    case ERR_NET_GSASL_NO_SCRAM:
+        return tr("The server does not support the required authentication method.");
+    case ERR_NET_DB_CONNECT_FAILED:
+        return tr("The server could not reach its database. Please try again later.");
+
+    // ERR_SOCK_INTERNAL und alles Unbekannte: Code mitnennen, damit eine
+    // Meldung aus dem Feld zuzuordnen bleibt (kein Log auf Mobilgeräten).
+    default:
+        return tr("An internal error occured. (Error code %1)").arg(errorID);
+    }
+}
+
+void ServerConnectionHandler::onNetServerError(int errorID, int osErrorID)
+{
+    Q_UNUSED(osErrorID);
+
+    qWarning() << "ServerConnectionHandler: Server error:" << errorID;
+
+    m_isConnecting = false;
+    emit isConnectingChanged(false);
+    const QString errorMsg = networkErrorMessage(errorID);
+    updateProgress(0, errorMsg);
+    emit connectionFailed(errorMsg);
+}
+
 void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
 {
     Q_UNUSED(osErrorID);
-    
+
     qWarning() << "ServerConnectionHandler: Network error:" << errorID << "retry count:" << m_retryCount;
-    
-    // Error 11 is often a TLS handshake issue that succeeds on retry
-    if (errorID == 11 && m_retryCount < 1 && !m_pendingUsername.isEmpty()) {
+
+    // ERR_SOCK_CONNECT_FAILED is often a TLS handshake issue that succeeds on retry
+    if (errorID == ERR_SOCK_CONNECT_FAILED && m_retryCount < 1 && !m_pendingUsername.isEmpty()) {
         m_retryCount++;
         const int scheduledRetryCount = m_retryCount;
         updateProgress(15, tr("Connection failed, retrying..."));
@@ -221,62 +381,8 @@ void ServerConnectionHandler::onNetClientError(int errorID, int osErrorID)
         return;
     }
     
-    QString errorMsg;
-    switch (errorID) {
-        case 1:
-            errorMsg = tr("Could not connect to server");
-            break;
-        case 2:
-            errorMsg = tr("Authentication failed");
-            break;
-        case 3:
-            errorMsg = tr("Server error");
-            break;
-        case 11:
-            errorMsg = tr("TLS connection error");
-            break;
-        case 16:
-            // ERR_SOCK_CONN_RESET: Verbindung während der Sitzung abgebrochen
-            // (z.B. WLAN weg). Wird nach dem Login vom globalen
-            // connectionLostPopup in pokerth.qml angezeigt.
-            errorMsg = tr("The connection to the server was lost");
-            break;
-        case 101:
-            errorMsg = tr("Protocol version not supported by server");
-            break;
-        case 102:
-            errorMsg = tr("Server is under maintenance");
-            break;
-        case 103:
-            errorMsg = tr("Server is full");
-            break;
-        case 104:
-        case 105:
-            errorMsg = tr("Invalid password");
-            break;
-        case 106:
-            errorMsg = tr("Username already in use");
-            break;
-        case 107:
-            errorMsg = tr("Invalid username");
-            break;
-        case 118:
-            errorMsg = tr("You have been kicked from the server");
-            break;
-        case 119:
-            errorMsg = tr("You are banned from this server");
-            break;
-        case 121:
-            errorMsg = tr("Session timed out");
-            break;
-        case 133:
-            errorMsg = tr("Connection blocked (too many attempts)");
-            break;
-        default:
-            errorMsg = tr("Network error (%1)").arg(errorID);
-            break;
-    }
-    
+    const QString errorMsg = networkErrorMessage(errorID);
+
     m_isConnecting = false;
     emit isConnectingChanged(false);
     updateProgress(0, errorMsg);

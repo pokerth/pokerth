@@ -55,6 +55,12 @@ public:
     QUrl registerUrl() const { return QUrl(QStringLiteral("https://www.pokerth.net/ucp.php?mode=register")); }
     Q_INVOKABLE bool openExternalUrl(const QUrl &url) const;
 
+    // Klartext zu einem Fehlercode aus socket_msg.h (ERR_SOCK_*/ERR_NET_*).
+    // Pendant zu startWindowImpl::networkError(int) im Widgets-Client; dort
+    // hat jeder Code eine eigene Meldung, hier lag nur eine Handvoll Codes
+    // als Text vor (der Rest kam als nackte Nummer an).
+    static QString networkErrorMessage(int errorID);
+
 public slots:
     // Called from QML to start connection
     void connectToServer(const QString &username, const QString &password, bool isGuest, bool rememberPassword = false);
@@ -77,6 +83,9 @@ public slots:
     void onNetClientConnect(int actionID);
     void onNetClientLoginShow();
     void onNetClientError(int errorID, int osErrorID);
+    // Fehler des eingebetteten Servers (eigenes Netzwerkspiel hosten). Ohne
+    // diesen Weg blieb z. B. ein belegter Port beim Hosten unbemerkt.
+    void onNetServerError(int errorID, int osErrorID);
 
 private:
     void updateProgress(int progress, const QString &message);

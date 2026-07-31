@@ -48,6 +48,10 @@ Rectangle {
             // console.log("Connection failed:", errorMessage)
             statusText.text = errorMessage
             statusText.color = Config.Theme.colorError
+            // Lesezeit an die Meldungslänge koppeln: Die ausführlichen Texte
+            // (z.B. Verbindungsaufbau fehlgeschlagen) waren in den festen
+            // 3,5 s nicht zu lesen, bevor die Seite zurücksprang.
+            errorResetTimer.interval = Math.min(12000, 3500 + errorMessage.length * 50)
             errorResetTimer.restart()
         }
 
@@ -306,7 +310,11 @@ Rectangle {
                             text: qsTr("Initializing connection...")
                             font.pixelSize: Config.Theme.fontSizeBody
                             color: Config.StaticData.palette.secondary.col300
-                            Layout.alignment: Qt.AlignHCenter
+                            // Fehlermeldungen sind mehrzeilig (s. ServerConnectionHandler::
+                            // networkErrorMessage) – ohne Umbruch lief der Text aus der Box.
+                            Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
                         }
                     }
 
