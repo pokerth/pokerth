@@ -1892,21 +1892,47 @@ void GameHandler::startLocalGame()
     if (!m_session) return;
     m_localGameExitRequested = false;
 
+    // Alle Werte kommen aus der Konfiguration (Einstellungen → Lokales Spiel),
+    // exakt wie im Widget-Client (startWindowImpl::startNewLocalGame ohne Dialog).
     GameData gameData;
     if (m_config) {
         gameData.maxNumberOfPlayers = m_config->readConfigInt("NumberOfPlayers");
         gameData.startMoney         = m_config->readConfigInt("StartCash");
         gameData.firstSmallBlind    = m_config->readConfigInt("FirstSmallBlind");
+
+        if (m_config->readConfigInt("RaiseBlindsAtHands")) {
+            gameData.raiseIntervalMode              = RAISE_ON_HANDNUMBER;
+            gameData.raiseSmallBlindEveryHandsValue = m_config->readConfigInt("RaiseSmallBlindEveryHands");
+        } else {
+            gameData.raiseIntervalMode                = RAISE_ON_MINUTES;
+            gameData.raiseSmallBlindEveryMinutesValue = m_config->readConfigInt("RaiseSmallBlindEveryMinutes");
+        }
+
+        if (m_config->readConfigInt("AlwaysDoubleBlinds")) {
+            gameData.raiseMode = DOUBLE_BLINDS;
+        } else {
+            gameData.raiseMode        = MANUAL_BLINDS_ORDER;
+            gameData.manualBlindsList = m_config->readConfigIntList("ManualBlindsList");
+
+            if (m_config->readConfigInt("AfterMBAlwaysDoubleBlinds")) {
+                gameData.afterManualBlindsMode = AFTERMB_DOUBLE_BLINDS;
+            } else if (m_config->readConfigInt("AfterMBAlwaysRaiseAbout")) {
+                gameData.afterManualBlindsMode = AFTERMB_RAISE_ABOUT;
+                gameData.afterMBAlwaysRaiseValue = m_config->readConfigInt("AfterMBAlwaysRaiseValue");
+            } else {
+                gameData.afterManualBlindsMode = AFTERMB_STAY_AT_LAST_BLIND;
+            }
+        }
+
+        gameData.guiSpeed = m_config->readConfigInt("GameSpeed");
     }
     if (gameData.maxNumberOfPlayers < 2) gameData.maxNumberOfPlayers = 6;
     if (gameData.startMoney <= 0)        gameData.startMoney         = 1500;
     if (gameData.firstSmallBlind <= 0)   gameData.firstSmallBlind    = 10;
+    if (gameData.raiseSmallBlindEveryHandsValue   < 1) gameData.raiseSmallBlindEveryHandsValue   = 8;
+    if (gameData.raiseSmallBlindEveryMinutesValue < 1) gameData.raiseSmallBlindEveryMinutesValue = 5;
+    if (gameData.guiSpeed < 1 || gameData.guiSpeed > 11) gameData.guiSpeed = 4;
 
-    // Defaults match Qt5 local game defaults
-    gameData.raiseIntervalMode              = RAISE_ON_HANDNUMBER;
-    gameData.raiseSmallBlindEveryHandsValue = 8;
-    gameData.raiseMode                      = DOUBLE_BLINDS;
-    gameData.guiSpeed                       = 4;
     gameData.delayBetweenHandsSec           = 7;
     gameData.playerActionTimeoutSec         = 20;
 
