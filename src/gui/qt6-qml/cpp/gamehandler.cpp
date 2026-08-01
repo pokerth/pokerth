@@ -2230,24 +2230,39 @@ void GameHandler::onShowdown()
     // 1) Aufgedeckte Hole-Cards der Spieler, die laut Engine zeigen müssen
     //    (wie showHoleCards → setMyCardsFlip(1,1) für die Post-River-Runde:
     //    "name shows [c0, c1] - \"Handname\"").
-    for (auto it = activeList->begin(); it != activeList->end(); ++it) {
-        const unsigned uid = (*it)->getMyUniqueID();
-        if (showdownFolded(uid, (*it)->getMyAction() == PLAYER_ACTION_FOLD)
-            || !showdownNeedsToShow(uid, (*it)->checkIfINeedToShowCards()))
-            continue;
-        int cards[2] = {-1, -1};
-        (*it)->getMyCards(cards);
-        if (cards[0] < 0 || cards[1] < 0)
-            continue;
-        QString line = QString::fromStdString((*it)->getMyName())
-                     + " shows [" + logCard(cards[0]) + ", " + logCard(cards[1]) + "]";
-        const int cardsValueInt = (*it)->getMyCardsValueInt();
-        if (cardsValueInt != -1) {
-            std::string handName = CardsValue::determineHandName(cardsValueInt, activeList);
-            if (!handName.empty())
-                line += " - \"" + QString::fromStdString(handName) + "\"";
+    //    NUR bei echtem Showdown (nonFold > 1). Haben alle bis auf einen gefoldet,
+    //    gibt es nichts aufzudecken – der Server schickt dann EndOfHandHideCards
+    //    (ohne cardsvalue) und ruft determinePlayerNeedToShowCards() gar nicht auf,
+    //    d. h. board->getPlayerNeedToShowCards() steht noch auf der Liste der
+    //    letzten Showdown-Hand (das Board lebt pro Spiel, nicht pro Hand). Ohne
+    //    dieses Gate loggte der Gewinner ein "shows [...]", obwohl er nichts
+    //    gezeigt hat – gefolgt vom echten zweiten "shows", wenn er den Show-Button
+    //    drückt. Der Widgets-Client gattert genauso
+    //    (gameTableImpl::postRiverRunAnimation2: nonfoldPlayersCounter != 1).
+    if (nonFold > 1) {
+        for (auto it = activeList->begin(); it != activeList->end(); ++it) {
+            const unsigned uid = (*it)->getMyUniqueID();
+            if (showdownFolded(uid, (*it)->getMyAction() == PLAYER_ACTION_FOLD)
+                || !showdownNeedsToShow(uid, (*it)->checkIfINeedToShowCards()))
+                continue;
+            int cards[2] = {-1, -1};
+            (*it)->getMyCards(cards);
+            if (cards[0] < 0 || cards[1] < 0)
+                continue;
+            QString line = QString::fromStdString((*it)->getMyName())
+                         + " shows [" + logCard(cards[0]) + ", " + logCard(cards[1]) + "]";
+            // 0 = "kein Blattwert" (clientstate.cpp/ClientHand setzen ihn zum Hand-
+            // start auf 0, der Server liefert ihn nur im Showdown mit). determineHandName(0)
+            // erfindet sonst ein Blatt ("High Card, Deuces") – die Engine prüft an
+            // derselben Stelle auf > 0 (Log::logHoleCardsHandName).
+            const int cardsValueInt = (*it)->getMyCardsValueInt();
+            if (cardsValueInt > 0) {
+                std::string handName = CardsValue::determineHandName(cardsValueInt, activeList);
+                if (!handName.empty())
+                    line += " - \"" + QString::fromStdString(handName) + "\"";
+            }
+            appendGameLog(line);
         }
-        appendGameLog(line);
     }
 
     // 2) Gewinner – Haupt-/Side-Pot via isMainPotWinner (highestWinnerCardsValue
@@ -2370,8 +2385,11 @@ void GameHandler::onPlayerShowCards(unsigned playerId)
         // (wie logFlipHoleCardsMsg mit state=1 im Widgets-Client).
         QString line = QString::fromStdString((*it)->getMyName())
                      + " shows [" + logCard(cards[0]) + ", " + logCard(cards[1]) + "]";
+        // Nur einen Blattnamen anhängen, wenn der Server einen Wert geliefert hat
+        // (AfterHandShowCardsMessage: "if (r.cardsvalue())"). 0 heißt "kein Wert" –
+        // determineHandName(0) würde ein Blatt erfinden ("High Card, Deuces").
         const int cardsValueInt = (*it)->getMyCardsValueInt();
-        if (cardsValueInt != -1) {
+        if (cardsValueInt > 0) {
             std::string handName = CardsValue::determineHandName(cardsValueInt, activeList);
             if (!handName.empty())
                 line += " - \"" + QString::fromStdString(handName) + "\"";
