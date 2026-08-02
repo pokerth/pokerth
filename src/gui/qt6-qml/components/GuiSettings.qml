@@ -73,6 +73,12 @@ Rectangle {
                                     SettingsManager.writeConfigInt("DarkMode", cfgVal)
                                     Config.StaticData.darkMode = cfgVal
                                     Config.Theme.darkMode = cfgVal
+                                    // Der Lobby-Chat-Verlauf trägt seine Farben als
+                                    // Platzhalter; ohne dieses Signal bliebe er in den
+                                    // Farben des alten Modus stehen (heller Text auf
+                                    // hellem Grund).
+                                    if (typeof Lobby !== "undefined" && Lobby)
+                                        Lobby.refreshChatColors()
                                 }
                             }
                         }

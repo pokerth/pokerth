@@ -199,7 +199,7 @@ public:
     
     QString myPlayerName() const { return m_myPlayerName; }
     unsigned myPlayerId() const { return m_myPlayerId; }
-    QStringList chatLog() const { return m_chatLog; }
+    QStringList chatLog() const;
     QObject* chatTranslator() const;
     bool isMyPlayerGuest() const;
     bool isCurrentPlayerAdmin() const { return m_isCurrentPlayerAdmin; }
@@ -354,6 +354,11 @@ public slots:
     Q_INVOKABLE QVariantMap currentGameInfo() const;
     // Countdown des AFK-Timeout-Popups stoppen (wie timeoutMsgBoxImpl::stopTimeout).
     Q_INVOKABLE void resetNetworkTimeout();
+    // Vom QML aufgerufen, wenn der Hell/Dunkel-Modus umgeschaltet wurde: der
+    // Verlauf trägt nur Farb-Platzhalter (chatcolors.h), es genügt also, die
+    // chatLog-Bindung neu auswerten zu lassen – der Verlauf wird dadurch samt
+    // Übersetzungen und Globus-Ankern in den neuen Farben ausgeliefert.
+    Q_INVOKABLE void refreshChatColors() { emit chatLogChanged(); }
 
 signals:
     void chatLineReady(const QString &formattedLine);
@@ -395,6 +400,8 @@ private:
     // benachrichtigt sowohl die Live-Verbraucher (chatLineReady) als auch die
     // bindbare chatLog-Property.
     void pushChatLine(const QString &line);
+    // Aktueller Anzeigemodus für die Chat-Farben (Config "DarkMode", 0 = hell).
+    bool chatDarkMode() const;
 
     boost::shared_ptr<Session> m_session;
     SoundEvents *m_soundEvents = nullptr;
@@ -407,7 +414,10 @@ private:
     
     QString m_myPlayerName;
     unsigned m_myPlayerId;
-    QStringList m_chatLog;      // formatierter Lobby-Chat-Verlauf (HTML-Zeilen)
+    // Formatierter Lobby-Chat-Verlauf (HTML-Zeilen). Die Textfarben stehen darin
+    // NUR als Rollen-Platzhalter (chatcolors.h) und werden erst in chatLog()
+    // zum aktuellen Hell/Dunkel-Modus aufgelöst.
+    QStringList m_chatLog;
     ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").

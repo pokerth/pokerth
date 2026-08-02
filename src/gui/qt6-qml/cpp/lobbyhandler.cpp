@@ -8,6 +8,7 @@
 #include "iosbackgroundsession.h"
 #include "chattranslator.h"
 #include "chatemotes.h"
+#include "chatcolors.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
 #include "configfile.h"
@@ -1270,16 +1271,14 @@ void LobbyHandler::postLocalChatNote(const QString &message)
     // Nur lokale Anzeige: dieselbe Timestamp-/Farb-/Emote-Aufbereitung wie ein
     // normaler Chat-Eintrag, aber kursiv-gedämpft (wie PMs) als Hinweis, dass
     // die Zeile nur der auslösende Nutzer sieht und NICHT gesendet wird.
-    const bool isDark     = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    const QString colorPM = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
-
-    QString escapedMsg = message.toHtmlEscaped();
+    QString escapedMsg = ChatColors::chatEscape(message);
     escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     escapedMsg = enlargeEmojis(escapedMsg);
 
     const QString tsPrefix = chatTimestampPrefix(m_config);
-    const QString line = tsPrefix + QLatin1String("<i><span style=\"color:")
-                         + colorPM + QLatin1String(";\">") + escapedMsg
+    const QString line = tsPrefix + QLatin1String("<i><span style=\"")
+                         + ChatColors::colorStyle(ChatColors::Muted)
+                         + QLatin1String(";\">") + escapedMsg
                          + QLatin1String("</span></i>");
     pushChatLine(line);
 }
@@ -1446,21 +1445,12 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
     if (chatBotWarnIgnored)
         return;
 
-    // Determine theme-aware colours (matches Qt-widget palette.link / palette.text)
-    const bool isDark       = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    // Theme-aware chat colours: the bright dark-mode gold/red wash out on the
-    // light chat background, so use dimmed variants (Theme.colorAccentDim etc.)
-    // in light mode – same values the QML palette uses.
-    const QString colorAccent = isDark ? QLatin1String("#E3C800") : QLatin1String("#b09a00"); // accent gold
-    const QString colorText   = isDark ? QLatin1String("#cdd3e0") : QLatin1String("#394150"); // secondary text
-    const QString colorDanger = isDark ? QLatin1String("#e05050") : QLatin1String("#c62828"); // chatbot warn
-
     // Detect /me action before escaping
     const bool isAction = message.startsWith(QLatin1String("/me "));
     const QString rawDisplay = isAction ? message.mid(4) : message;
 
     // HTML-escape user-supplied content (prevents tag injection)
-    QString escapedMsg = rawDisplay.toHtmlEscaped();
+    QString escapedMsg = ChatColors::chatEscape(rawDisplay);
     // ASCII-Kürzel auf dem rohen Text umsetzen, bevor Link-/Style-Markup
     // hinzukommt (verhindert Kollisionen mit "color:#..." o. Ä.).
     escapedMsg = applyChatEmoteShortcuts(escapedMsg);
@@ -1475,16 +1465,19 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
     if (isChatBot && !myNick.isEmpty() && rawDisplay.startsWith(myNick)) {
         // Chatbot addressing me: bold red
-        styledMsg = QLatin1String("<span style=\"font-weight:bold; color:") + colorDanger
+        styledMsg = QLatin1String("<span style=\"font-weight:bold; ")
+                    + ChatColors::colorStyle(ChatColors::Danger)
                     + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
     } else if (!myNick.isEmpty() && rawDisplay.contains(myNick, Qt::CaseInsensitive)) {
         // Mention: bold accent
         isMention = true;
-        styledMsg = QLatin1String("<span style=\"font-weight:bold; color:") + colorAccent
+        styledMsg = QLatin1String("<span style=\"font-weight:bold; ")
+                    + ChatColors::colorStyle(ChatColors::Accent)
                     + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
     } else {
         // All other messages (including own): normal text colour
-        styledMsg = QLatin1String("<span style=\"font-weight:normal; color:") + colorText
+        styledMsg = QLatin1String("<span style=\"font-weight:normal; ")
+                    + ChatColors::colorStyle(ChatColors::Text)
                     + QLatin1String(";\">") + escapedMsg + QLatin1String("</span>");
     }
 
@@ -1504,7 +1497,7 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
 
     // Build final line
     const QString tsPrefix    = chatTimestampPrefix(m_config);
-    const QString escapedName = playerName.toHtmlEscaped();
+    const QString escapedName = ChatColors::chatEscape(playerName);
     QString line;
     if (isAction) {
         line = tsPrefix + QLatin1String("<i>*")
@@ -1536,17 +1529,15 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     }
 
     // Colour for PMs: muted text (similar to chattools.cpp italic PM style)
-    const bool isDark      = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    const QString colorPM  = isDark ? QLatin1String("#a0acc4") : QLatin1String("#576378");
-
-    QString escapedMsg  = message.toHtmlEscaped();
+    QString escapedMsg  = ChatColors::chatEscape(message);
     escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     escapedMsg = enlargeEmojis(escapedMsg);
 
     const QString tsPrefix = chatTimestampPrefix(m_config);
-    QString line       = tsPrefix + QLatin1String("<i><span style=\"color:")
-                         + colorPM + QLatin1String(";\">")
-                         + playerName.toHtmlEscaped()
+    QString line       = tsPrefix + QLatin1String("<i><span style=\"")
+                         + ChatColors::colorStyle(ChatColors::Muted)
+                         + QLatin1String(";\">")
+                         + ChatColors::chatEscape(playerName)
                          + QLatin1String("(pm): ") + escapedMsg
                          + QLatin1String("</span></i>");
     // Eingehende private Nachrichten sind immer von anderen -> übersetzbar.
@@ -1556,6 +1547,24 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     pushChatLine(line);
 }
 
+bool LobbyHandler::chatDarkMode() const
+{
+    // Kein Config -> Dunkelmodus (Default der Oberfläche).
+    return !m_config || (m_config->readConfigInt("DarkMode") != 0);
+}
+
+QStringList LobbyHandler::chatLog() const
+{
+    // Farb-Platzhalter erst hier auflösen: dadurch färbt ein Hell/Dunkel-Wechsel
+    // auch den bereits empfangenen Verlauf um (siehe chatcolors.h).
+    const bool dark = chatDarkMode();
+    QStringList out;
+    out.reserve(m_chatLog.size());
+    for (const QString &line : m_chatLog)
+        out.append(ChatColors::expand(line, dark));
+    return out;
+}
+
 void LobbyHandler::pushChatLine(const QString &line)
 {
     m_chatLog.append(line);
@@ -1563,7 +1572,8 @@ void LobbyHandler::pushChatLine(const QString &line)
     if (m_chatLog.size() > kMaxLines)
         m_chatLog.erase(m_chatLog.begin(), m_chatLog.begin() + (m_chatLog.size() - kMaxLines));
     emit chatLogChanged();
-    emit chatLineReady(line);
+    // Live-Verbraucher bekommen die Zeile fertig eingefärbt (nicht mit Platzhaltern).
+    emit chatLineReady(ChatColors::expand(line, chatDarkMode()));
 }
 
 unsigned LobbyHandler::parsePrivateMessageTarget(QString &chatText) const
@@ -1951,9 +1961,8 @@ void LobbyHandler::onPlayerGameInvitation(unsigned gameId, unsigned playerIdWho,
     const QString game = QString::fromStdString(m_session->getClientGameInfo(gameId).name).toHtmlEscaped();
     const QString from = QString::fromStdString(m_session->getClientPlayerInfo(playerIdFrom).playerName).toHtmlEscaped();
     const QString tsPrefix = chatTimestampPrefix(m_config);
-    const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    const QString colorInvite = isDark ? QLatin1String("#8ab4f8") : QLatin1String("#1a5fb4"); // info blue
-    pushChatLine(tsPrefix + QStringLiteral("<span style=\"color:") + colorInvite + QStringLiteral(";\">")
+    pushChatLine(tsPrefix + QStringLiteral("<span style=\"")
+                 + ChatColors::colorStyle(ChatColors::Info) + QStringLiteral(";\">")
                  + tr("%1 has been invited to %2 by %3.").arg(who, game, from)
                  + QStringLiteral("</span>"));
 }
@@ -1968,9 +1977,9 @@ void LobbyHandler::onRejectedGameInvitation(unsigned gameId, unsigned playerIdWh
         ? tr("%1 cannot join %2 because he is busy.").arg(who, game)
         : tr("%1 has rejected the invitation to %2.").arg(who, game);
     const QString tsPrefix = chatTimestampPrefix(m_config);
-    const bool isDark  = !m_config || (m_config->readConfigInt("DarkMode") != 0);
-    const QString colorReject = isDark ? QLatin1String("#e0686d") : QLatin1String("#c62828"); // reject red
-    pushChatLine(tsPrefix + QStringLiteral("<span style=\"color:") + colorReject + QStringLiteral(";\">") + msg + QStringLiteral("</span>"));
+    pushChatLine(tsPrefix + QStringLiteral("<span style=\"")
+                 + ChatColors::colorStyle(ChatColors::Reject) + QStringLiteral(";\">")
+                 + msg + QStringLiteral("</span>"));
 }
 
 void LobbyHandler::adminBanPlayer(unsigned playerId)
