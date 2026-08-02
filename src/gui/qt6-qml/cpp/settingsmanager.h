@@ -42,6 +42,11 @@ class SettingsManager : public QObject
     // diese Property, um bei Änderungen sofort (ohne Client-Neustart) neu
     // auszuwerten – analog zum Revisions-Zähler des LobbyHandlers.
     Q_PROPERTY(int configRevision READ configRevision NOTIFY configRevisionChanged)
+    // Vom Betriebssystem gemeldeter Hell/Dunkel-Zustand. Nur relevant für die
+    // Einstellung "Automatisch" (DarkMode = 2), die ihm folgt – siehe
+    // darkmode.h. Ändert der Nutzer das System-Theme im laufenden Betrieb,
+    // meldet sich die Property neu und die Oberfläche zieht mit.
+    Q_PROPERTY(bool systemDark READ systemDark NOTIFY systemDarkChanged)
 
 public:
     explicit SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent = nullptr);
@@ -54,6 +59,7 @@ public:
     QString myName() const;
     QString myAvatar() const;
     int configRevision() const { return m_configRevision; }
+    bool systemDark() const;
 
     // Property setters
     void setLanguage(const QString &lang);
@@ -147,6 +153,7 @@ signals:
     void myNameChanged();
     void myAvatarChanged();
     void configRevisionChanged();
+    void systemDarkChanged();
 
 private:
     // Scannt <AppDataDir>/gfx/qml/<category>/* und <UserDataDir>/gfx/qml/<category>/*

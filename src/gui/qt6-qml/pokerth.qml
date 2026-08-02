@@ -207,13 +207,33 @@ ApplicationWindow {
         Config.Parameters.language = Config.StaticData.configLanguageToLocale(
                     SettingsManager ? SettingsManager.language : "")
         LanguageManager.switchLanguage(Config.Parameters.language)
-        // Initialise dark/light mode from stored preference
+        // Initialise dark/light mode from stored preference. "Automatisch"
+        // (2) folgt dem System – der Wert kommt aus C++ (darkmode.h) und wird
+        // von systemDarkSync nachgeführt, wenn das System-Theme wechselt.
         var dm = SettingsManager ? SettingsManager.readConfigInt("DarkMode") : 1
+        applySystemDark()
         Config.StaticData.darkMode = dm
         Config.Theme.darkMode = dm
         // Dekorative Effekte (Schatten/Glow/Blur) aus persistenter Einstellung.
         Config.Theme.effectsEnabled = SettingsManager
             ? SettingsManager.readConfigInt("QmlReduceEffects") === 0 : true
+    }
+
+    // Hell/Dunkel des Betriebssystems in die Singletons spiegeln (die eine
+    // Context-Property nicht selbst lesen können). Wirkt nur bei DarkMode =
+    // "Automatisch"; bei fest eingestelltem Hell/Dunkel bleibt der Wert
+    // ungenutzt.
+    function applySystemDark() {
+        var sd = SettingsManager ? SettingsManager.systemDark : true
+        Config.StaticData.systemDark = sd
+        Config.Theme.systemDark      = sd
+    }
+
+    // System-Theme-Wechsel im laufenden Betrieb (Windows/macOS Hell↔Dunkel).
+    Connections {
+        id: systemDarkSync
+        target: SettingsManager
+        function onSystemDarkChanged() { mainWindow.applySystemDark() }
     }
 
     function navigateBackFromTopBar() {

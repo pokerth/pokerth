@@ -9,6 +9,7 @@
 #include "chattranslator.h"
 #include "chatemotes.h"
 #include "chatcolors.h"
+#include "darkmode.h"
 #include "gui/chat_emote_shortcuts.h"
 #include "session.h"
 #include "configfile.h"
@@ -577,6 +578,14 @@ LobbyHandler::LobbyHandler(QObject *parent)
     m_chatTranslator = new ChatTranslator(&m_chatLog, this);
     connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
             this, &LobbyHandler::chatLogChanged);
+
+    // Bei DarkMode = "Automatisch" hängen die Chat-Farben am System-Theme:
+    // wechselt es im laufenden Betrieb, muss der Verlauf neu ausgeliefert
+    // werden (die Farb-Platzhalter werden erst in chatLog() aufgelöst).
+    if (QStyleHints *hints = QGuiApplication::styleHints()) {
+        connect(hints, &QStyleHints::colorSchemeChanged,
+                this, &LobbyHandler::chatLogChanged);
+    }
 }
 
 QObject* LobbyHandler::chatTranslator() const
@@ -1549,8 +1558,11 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
 
 bool LobbyHandler::chatDarkMode() const
 {
-    // Kein Config -> Dunkelmodus (Default der Oberfläche).
-    return !m_config || (m_config->readConfigInt("DarkMode") != 0);
+    // Kein Config -> Dunkelmodus (Default der Oberfläche). "Automatisch" löst
+    // DarkMode::resolve() über das System auf – dieselbe Semantik wie in QML.
+    if (!m_config)
+        return true;
+    return DarkMode::resolve(m_config->readConfigInt("DarkMode"));
 }
 
 QStringList LobbyHandler::chatLog() const

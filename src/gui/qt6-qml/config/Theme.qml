@@ -14,8 +14,12 @@ QtObject {
     // Set by ApplicationWindow and GuiSettings — same semantics as StaticData.darkMode
     // 0 = Hell (Light), 1 = Dunkel (Dark), 2 = Automatisch
     property int darkMode: 1
+    // Vom System gemeldeter Modus – ebenfalls von der ApplicationWindow gesetzt
+    // (Quelle: SettingsManager.systemDark), siehe StaticData.systemDark.
+    property bool systemDark: true
 
-    readonly property bool isDark: darkMode !== 0  // 0=Hell → false, alles andere (1=Dunkel, 2=Auto) → true
+    // 0=Hell → false, 1=Dunkel → true, 2=Automatisch → dem System folgen.
+    readonly property bool isDark: darkMode === 2 ? systemDark : darkMode !== 0
 
     // Dekorative Effekte (Schlagschatten, Glow, Blur) global an/aus. Auf
     // schwachen / passiv gekühlten Systemen (oder bei Software-Rendering ohne

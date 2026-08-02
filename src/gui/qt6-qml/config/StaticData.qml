@@ -10,8 +10,14 @@ QtObject {
     // 0 = Hell (Light), 1 = Dunkel (Dark), 2 = Automatisch
     // Synced from pokerth.qml Component.onCompleted and GuiSettings DarkMode ComboBox
     property int darkMode: 1
+    // Vom Betriebssystem gemeldeter Modus (SettingsManager.systemDark, C++:
+    // darkmode.h). Ein Singleton kann die Context-Property nicht selbst lesen,
+    // deshalb wird der Wert – wie darkMode – von pokerth.qml gesetzt und bei
+    // System-Theme-Wechseln nachgeführt.
+    property bool systemDark: true
 
-    readonly property bool isDark: darkMode !== 0  // 0=Hell → false, alles andere (1=Dunkel, 2=Auto) → true
+    // 0=Hell → false, 1=Dunkel → true, 2=Automatisch → dem System folgen.
+    readonly property bool isDark: darkMode === 2 ? systemDark : darkMode !== 0
 
     readonly property var languages: [
             { langName: "Deutsch (Deutsch)", code: "de_DE"},

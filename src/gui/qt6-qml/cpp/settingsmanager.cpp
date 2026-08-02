@@ -18,6 +18,7 @@
 
 #include "settingsmanager.h"
 #include "configfile.h"
+#include "darkmode.h"
 #include "game_defs.h"
 #include "ziputils.h"
 #include <QBuffer>
@@ -40,6 +41,17 @@
 SettingsManager::SettingsManager(boost::shared_ptr<ConfigFile> config, QObject *parent)
     : QObject(parent), m_config(config)
 {
+    // System-Theme-Wechsel im laufenden Betrieb an die Oberfläche melden
+    // (wirkt nur bei DarkMode = "Automatisch", siehe darkmode.h).
+    if (QStyleHints *hints = QGuiApplication::styleHints()) {
+        connect(hints, &QStyleHints::colorSchemeChanged,
+                this, &SettingsManager::systemDarkChanged);
+    }
+}
+
+bool SettingsManager::systemDark() const
+{
+    return DarkMode::systemPrefersDark();
 }
 
 QString SettingsManager::language() const
