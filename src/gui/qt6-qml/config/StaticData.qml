@@ -101,6 +101,9 @@ QtObject {
     }
 
     // col100=primary text … col700=background — inverted between dark and light.
+    // col700 ist IMMER der Seitenhintergrund (hell: grau). Inhalts-Boxen liegen
+    // darüber und haben eine eigene Rolle: Config.Theme.colorPanel / colorPopup
+    // (hell weiß, dunkel abgedunkelt) – siehe Theme.qml.
     // Using plain JS objects + property var so that changing `palette` triggers
     // re-evaluation of all `palette.secondary.colXXX` bindings reliably.
     readonly property var _dark: ({
@@ -109,7 +112,7 @@ QtObject {
     })
     readonly property var _light: ({
         secondary: { col100:"#1d222b", col200:"#394150", col300:"#576378",
-                     col400:"#7787a3", col500:"#a0acc4", col600:"#dce2ec", col700:"#f0f3f8" }
+                     col400:"#7787a3", col500:"#a0acc4", col600:"#dce2ec", col700:"#e3e8f0" }
     })
     property var palette: isDark ? _dark : _light
 

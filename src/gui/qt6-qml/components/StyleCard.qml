@@ -50,7 +50,7 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             radius: 4
             clip: true
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
 
             Image {
                 id: previewImg
@@ -122,7 +122,7 @@ Rectangle {
         anchors.margins: 8
         width: 28; height: 28; radius: 14
         color: removeArea.containsMouse ? Config.StaticData.palette.secondary.col500
-                                        : Config.StaticData.palette.secondary.col700
+                                        : Config.Theme.colorBox
 
         SvgIcon {
             anchors.centerIn: parent
@@ -154,7 +154,7 @@ Rectangle {
         anchors.rightMargin: 8 + (card.removable ? 34 : 0)
         width: 28; height: 28; radius: 14
         color: exportArea.containsMouse ? Config.StaticData.palette.secondary.col500
-                                        : Config.StaticData.palette.secondary.col700
+                                        : Config.Theme.colorBox
 
         SvgIcon {
             anchors.centerIn: parent

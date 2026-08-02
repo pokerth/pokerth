@@ -498,7 +498,7 @@ Rectangle {
 
         contentItem: Rectangle {
             radius: 10
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             clip: true
 
             Image {

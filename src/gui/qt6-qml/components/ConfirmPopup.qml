@@ -37,7 +37,7 @@ Popup {
     }
 
     background: Rectangle {
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         border.color: Config.StaticData.palette.secondary.col400
         border.width: 1
         radius: 8

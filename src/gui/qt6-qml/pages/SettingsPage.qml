@@ -24,7 +24,7 @@ Rectangle {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         height: Config.Theme.touchTarget
         visible: Config.Responsive.compact
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         z: 1
 
         RowLayout {
@@ -122,7 +122,7 @@ Rectangle {
                 anchors.fill: parent
                 anchors.margins: 1
                 radius: 4
-                color: Config.StaticData.palette.secondary.col700
+                color: Config.Theme.colorBox
             }
 
             ListView {
@@ -236,7 +236,7 @@ Rectangle {
                 anchors.margins: 1
                 radius: 4
                 visible: !Config.Responsive.compact
-                color: Config.StaticData.palette.secondary.col700
+                color: Config.Theme.colorBox
             }
 
             StackView {

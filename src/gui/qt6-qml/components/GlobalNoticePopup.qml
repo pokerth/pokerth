@@ -43,7 +43,7 @@ Popup {
     onOpened: noticeInput.forceActiveFocus()
 
     background: Rectangle {
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         border.color: Config.StaticData.palette.secondary.col400
         border.width: 1
         radius: 8
@@ -80,7 +80,7 @@ Popup {
             placeholderTextColor: Config.StaticData.palette.secondary.col400
             selectByMouse: true
             background: Rectangle {
-                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
+                color: Config.Theme.colorField
                 border.color: noticeInput.activeFocus
                               ? Config.StaticData.palette.secondary.col300
                               : Config.StaticData.palette.secondary.col500

@@ -17,7 +17,7 @@ Rectangle {
 
     z: -1
     radius: 5
-    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+    color: Config.Theme.colorPanel
 
     // Feinjustierung pro Verwendung möglich (Default = Theme-Tokens).
     property real shadowOpacity: Config.Theme.panelShadowOpacity

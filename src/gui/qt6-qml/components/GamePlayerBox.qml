@@ -398,7 +398,7 @@ Item {
         // Dunkles Theme passend zur Tischoberfläche.
         background: Rectangle {
             implicitWidth: 180
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.width: 1
             border.color: Config.StaticData.palette.secondary.col500
             radius: Config.Theme.radiusSmall

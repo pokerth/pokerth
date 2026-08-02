@@ -451,7 +451,7 @@ ItemDelegate {
     
     background: Rectangle {
         color: playerItem.hovered
-               ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.2)
+               ? Config.Theme.colorHover
                : "transparent"
         radius: 3
         Behavior on color { ColorAnimation { duration: 130 } }

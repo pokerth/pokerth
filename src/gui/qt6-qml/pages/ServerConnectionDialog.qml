@@ -106,7 +106,7 @@ Rectangle {
 
             Rectangle {
                 anchors.fill: parent
-                color: Config.StaticData.palette.secondary.col700
+                color: Config.Theme.colorBox
                 opacity: 0.92
                 radius: 5
             }

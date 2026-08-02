@@ -301,7 +301,7 @@ Rectangle {
                 Rectangle {
                     anchors.fill: parent
                     color: rankDelegate.index % 2 === 0
-                           ? Config.StaticData.palette.secondary.col700
+                           ? Config.Theme.colorBox
                            : Config.StaticData.palette.secondary.col600
                 }
 

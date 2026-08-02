@@ -367,7 +367,7 @@ ApplicationWindow {
             // Platz für den Tisch -> weniger Gegnerbox-Überlappung).
             Layout.preferredHeight: Config.Responsive.landscapeCompact ? 30 : 38
             Layout.alignment: Qt.AlignTop
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
 
             RowLayout {
                 id: topBarColumns
@@ -641,7 +641,7 @@ ApplicationWindow {
         }
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8
@@ -712,7 +712,7 @@ ApplicationWindow {
         property string message: ""
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8
@@ -759,7 +759,7 @@ ApplicationWindow {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8
@@ -816,7 +816,7 @@ ApplicationWindow {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8
@@ -878,7 +878,7 @@ ApplicationWindow {
         property string message: ""
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8

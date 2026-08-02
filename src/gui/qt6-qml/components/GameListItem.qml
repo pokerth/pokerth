@@ -73,7 +73,7 @@ Item {
         width: parent.width
         height: 52
         color: headerMouse.containsMouse
-               ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.2)
+               ? Config.Theme.colorHover
                : "transparent"
         radius: 3
 

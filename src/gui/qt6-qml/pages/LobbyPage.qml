@@ -129,7 +129,7 @@ Rectangle {
         y: 0
         x: lobbyPage.showingPlayerList ? 0 : -width
         z: 3
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         visible: Config.Responsive.compact
 
         Behavior on x {
@@ -205,7 +205,7 @@ Rectangle {
                 font.family: Config.StaticData.loadedFont.font.family
                 color: Config.StaticData.palette.secondary.col200
                 background: Rectangle {
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
+                    color: Config.Theme.colorField
                     radius: 3
                     border.width: 1
                     border.color: playerSearchField.activeFocus
@@ -280,7 +280,7 @@ Rectangle {
                     radius: 5
                     color: backArea.containsMouse
                            ? Config.StaticData.palette.secondary.col600
-                           : Config.StaticData.palette.secondary.col700
+                           : Config.Theme.colorBox
                     border.color: Config.StaticData.palette.secondary.col500
                     border.width: 1
 
@@ -350,7 +350,7 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                color: Config.Theme.colorPanel
                 radius: 6
 
                 ColumnLayout {
@@ -513,7 +513,7 @@ Rectangle {
                             width: ListView.view ? ListView.view.width : 0
                             height: 32
                             radius: 4
-                            color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.1)
+                            color: Config.Theme.colorPanelRow
 
                             RowLayout {
                                 anchors.fill: parent
@@ -611,7 +611,7 @@ Rectangle {
                 radius: 5
                 color: playerToggleArea.containsMouse
                        ? Config.StaticData.palette.secondary.col600
-                       : Config.StaticData.palette.secondary.col700
+                       : Config.Theme.colorBox
                 border.color: Config.StaticData.palette.secondary.col500
                 border.width: 1
 
@@ -648,7 +648,7 @@ Rectangle {
                 font.family: Config.StaticData.loadedFont.font.family
                 color: Config.StaticData.palette.secondary.col200
                 background: Rectangle {
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
+                    color: Config.Theme.colorField
                     radius: 3
                     border.width: 1
                     border.color: searchPlayerField.activeFocus
@@ -697,7 +697,7 @@ Rectangle {
                 visible: !Config.Responsive.compact
                 SplitView.preferredWidth: lobbyContentSplit.width / 4
                 SplitView.minimumWidth: 160
-                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                color: Config.Theme.colorPanel
                 radius: 5
 
                 PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
@@ -767,7 +767,7 @@ Rectangle {
                 Rectangle {
                     SplitView.fillHeight: true
                     SplitView.minimumHeight: Config.Responsive.compact ? lobbyCenterSplit.height / 3 : 0
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                    color: Config.Theme.colorPanel
                     radius: 5
 
                     PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
@@ -904,7 +904,7 @@ Rectangle {
                                     color: gameRow.selected
                                            ? Config.Theme.withAlpha(Config.Theme.colorAccent, 0.13)
                                            : gameRow.hovered
-                                             ? Qt.lighter(Config.StaticData.palette.secondary.col700, 1.3)
+                                             ? Config.Theme.colorHoverStrong
                                              : "transparent"
                                     radius: 3
                                     Behavior on color { ColorAnimation { duration: 130 } }
@@ -972,7 +972,7 @@ Rectangle {
                     visible: Config.Responsive.compact
                     SplitView.preferredHeight: lobbyCenterSplit.height / 2
                     SplitView.minimumHeight: lobbyCenterSplit.height / 3
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                    color: Config.Theme.colorPanel
                     radius: 5
 
                     PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
@@ -1087,7 +1087,7 @@ Rectangle {
                 Rectangle {
                     SplitView.preferredHeight: 200
                     SplitView.minimumHeight: lobbyRightSplit.height / 3
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                    color: Config.Theme.colorPanel
                     radius: 5
 
                     PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
@@ -1192,7 +1192,7 @@ Rectangle {
                                 width: ListView.view ? ListView.view.width : 0
                                 height: 30
                                 radius: 4
-                                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.1)
+                                color: Config.Theme.colorPanelRow
 
                                 RowLayout {
                                     anchors.fill: parent
@@ -1251,7 +1251,7 @@ Rectangle {
                 Rectangle {
                     SplitView.fillHeight: true
                     SplitView.minimumHeight: lobbyRightSplit.height / 3
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                    color: Config.Theme.colorPanel
                     radius: 5
 
                     PanelShadow { anchors.fill: parent; radius: parent.radius; color: parent.color }
@@ -1413,7 +1413,7 @@ Rectangle {
         property int pendingGameId: 0
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8
@@ -1501,7 +1501,7 @@ Rectangle {
         property bool answered: false
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8
@@ -1596,7 +1596,7 @@ Rectangle {
         property bool answered: false
 
         background: Rectangle {
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             border.color: Config.StaticData.palette.secondary.col400
             border.width: 1
             radius: 8

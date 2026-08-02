@@ -154,7 +154,7 @@ Rectangle {
                                    : (logsPage.selectedIndex === fileDelegate.index
                                       ? Config.Theme.colorAccent
                                       : (fileDelegate.index % 2 === 0
-                                         ? Config.StaticData.palette.secondary.col700
+                                         ? Config.Theme.colorBox
                                          : Config.StaticData.palette.secondary.col600))
                         }
                         contentItem: AppText {
@@ -333,7 +333,7 @@ Rectangle {
             Rectangle {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                color: Config.StaticData.palette.secondary.col700
+                color: Config.Theme.colorBox
                 border.color: Config.StaticData.palette.secondary.col500
                 border.width: 1
                 radius: 4

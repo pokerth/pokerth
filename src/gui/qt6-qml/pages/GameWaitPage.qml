@@ -162,7 +162,7 @@ Rectangle {
         y: 0
         x: gameWaitPage.showingPlayerList ? 0 : -width
         z: 3
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         visible: Config.Responsive.compact
 
         Behavior on x {
@@ -237,7 +237,7 @@ Rectangle {
                 font.family: Config.StaticData.loadedFont.font.family
                 color: Config.StaticData.palette.secondary.col200
                 background: Rectangle {
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.3)
+                    color: Config.Theme.colorField
                     radius: 3
                 }
                 placeholderTextColor: Qt.lighter(Config.StaticData.palette.secondary.col200, 1.5)
@@ -287,7 +287,7 @@ Rectangle {
         y: 0
         x: gameWaitPage.showingGameList ? 0 : gameWaitPage.width
         z: 3
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         visible: Config.Responsive.compact
 
         Behavior on x {
@@ -410,7 +410,7 @@ Rectangle {
                 radius: 5
                 color: playerToggleArea.containsMouse
                        ? Config.StaticData.palette.secondary.col600
-                       : Config.StaticData.palette.secondary.col700
+                       : Config.Theme.colorBox
                 border.color: Config.StaticData.palette.secondary.col500
                 border.width: 1
 
@@ -487,7 +487,7 @@ Rectangle {
                 radius: 5
                 color: gameListToggleArea.containsMouse
                        ? Config.StaticData.palette.secondary.col600
-                       : Config.StaticData.palette.secondary.col700
+                       : Config.Theme.colorBox
                 border.color: Config.StaticData.palette.secondary.col500
                 border.width: 1
 
@@ -536,7 +536,7 @@ Rectangle {
                 visible: !Config.Responsive.compact
                 SplitView.preferredWidth: waitBodySplit.width / 4
                 SplitView.minimumWidth: 160
-                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                color: Config.Theme.colorPanel
                 radius: 5
 
                 ColumnLayout {
@@ -606,7 +606,7 @@ Rectangle {
                 Rectangle {
                     SplitView.fillHeight: true
                     SplitView.minimumHeight: waitContentSplit.height / 3
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                    color: Config.Theme.colorPanel
                     radius: 6
 
                     ColumnLayout {
@@ -742,7 +742,7 @@ Rectangle {
                                 width: playerList.width
                                 height: 32
                                 radius: 4
-                                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.1)
+                                color: Config.Theme.colorPanelRow
 
                                 RowLayout {
                                     anchors.fill: parent
@@ -820,7 +820,7 @@ Rectangle {
                 Rectangle {
                     SplitView.preferredHeight: waitContentSplit.height / 3
                     SplitView.minimumHeight: waitContentSplit.height / 3
-                    color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                    color: Config.Theme.colorPanel
                     radius: 5
                     clip: true
 
@@ -850,7 +850,7 @@ Rectangle {
                                 opacity: gameWaitPage.suggestBusy ? 0.5 : 1.0
                                 color: suggestArea.containsMouse
                                        ? Config.StaticData.palette.secondary.col600
-                                       : Qt.darker(Config.StaticData.palette.secondary.col700, 1.1)
+                                       : Config.Theme.colorPanelRow
                                 border.width: 1
                                 border.color: Config.StaticData.palette.secondary.col500
 
@@ -976,7 +976,7 @@ Rectangle {
                 visible: !Config.Responsive.compact
                 SplitView.preferredWidth: waitBodySplit.width / 4
                 SplitView.minimumWidth: 160
-                color: Qt.darker(Config.StaticData.palette.secondary.col700, 1.2)
+                color: Config.Theme.colorPanel
                 radius: 5
 
                 ColumnLayout {

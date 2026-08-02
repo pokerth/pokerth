@@ -44,7 +44,7 @@ ComboBox {
     background: Rectangle {
         border.width: 1
         border.color: hoverArea.hovered ? Config.StaticData.palette.secondary.col100 : Config.StaticData.palette.secondary.col200
-        color: hoverArea.hovered ? Config.StaticData.palette.secondary.col500 : Config.StaticData.palette.secondary.col700
+        color: hoverArea.hovered ? Config.StaticData.palette.secondary.col500 : Config.Theme.colorBox
     }
 
     HoverHandler {

@@ -282,7 +282,7 @@ Rectangle {
                                 Rectangle {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 120
-                                    color: Config.StaticData.palette.secondary.col700 ?? "#222"
+                                    color: Config.Theme.colorBox ?? "#222"
                                     border.color: Config.StaticData.palette.secondary.col500
                                     border.width: 1
                                     radius: 3

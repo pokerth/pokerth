@@ -13,7 +13,7 @@ Drawer {
 
     background: Rectangle {
         anchors.fill: parent
-        color: Config.StaticData.palette.secondary.col700
+        color: Config.Theme.colorBox
         opacity: 0.8
         border.width: 0
     }

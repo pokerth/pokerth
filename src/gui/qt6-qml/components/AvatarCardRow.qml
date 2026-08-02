@@ -82,7 +82,7 @@ Item {
             anchors.fill: parent
             border.width: 1
             border.color: Config.StaticData.palette.secondary.col200
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             opacity: 0.9
             radius: 2
         }

@@ -18,7 +18,7 @@ AbstractButton {
                ? Config.Theme.colorSurface
                : customButton.hovered
                  ? Config.StaticData.palette.secondary.col600
-                 : Config.StaticData.palette.secondary.col700
+                 : Config.Theme.colorBox
         border.color: customButton.hovered || customButton.pressed
                       ? Config.Theme.colorTextPrimary
                       : Config.Theme.colorTextSecondary

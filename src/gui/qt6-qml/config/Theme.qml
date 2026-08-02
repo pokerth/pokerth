@@ -78,10 +78,33 @@ QtObject {
 
     // ── Colors (mirrors StaticData.palette for use without Config prefix) ────
     // Background levels
-    readonly property color colorBackground:    isDark ? "#1d222b" : "#f0f3f8"   // col700
+    readonly property color colorBackground:    isDark ? "#1d222b" : "#e3e8f0"   // col700
     readonly property color colorSurface:       isDark ? "#394150" : "#dce2ec"   // col600
     readonly property color colorSurfaceMid:    isDark ? "#576378" : "#a0acc4"   // col500
     readonly property color colorSurfaceLight:  isDark ? "#7787a3" : "#7787a3"   // col400
+
+    // ── Flächen-Rollen: Seitenhintergrund vs. Inhalts-Box ────────────────────
+    // Die Richtung kippt zwischen den Modi, deshalb genügt ein gemeinsames
+    // Qt.darker(colorBackground, f) nicht:
+    //   Dunkel: die Seite ist dunkel, Boxen liegen noch etwas TIEFER (abgedunkelt)
+    //           – so wie bisher, die Werte sind unverändert.
+    //   Hell:   die Seite ist grau, die Boxen sind WEISS (klassisches Karten-
+    //           Layout). Vorher war es umgekehrt (weiße Seite, graue Boxen) –
+    //           die Inhalte wirkten dadurch schmutzig statt hervorgehoben.
+    // colorField (Eingabefelder, Suchzeilen) bleibt in BEIDEN Modi abgesetzt:
+    // eingelassen wirkt ein Feld auch auf weißem Grund richtig.
+    readonly property color colorPanel:     isDark ? Qt.darker(colorBackground, 1.2) : "#ffffff"
+    readonly property color colorPanelRow:  isDark ? Qt.darker(colorBackground, 1.1) : "#f5f7fb"
+    readonly property color colorField:     isDark ? Qt.darker(colorBackground, 1.3) : "#eaeef6"
+    // Flächen, die im Dunkelmodus bewusst den Seitenton tragen (Popups, Dialoge,
+    // Karten, Overlays, Topbar, Buttons): dunkel bleibt alles exakt wie bisher,
+    // hell werden sie weiß und heben sich damit von der grauen Seite ab.
+    readonly property color colorBox:       isDark ? colorBackground : "#ffffff"
+    // Hover-Fläche transparenter Listenzeilen INNERHALB einer Box. Auch hier
+    // kippt die Richtung: dunkel wird aufgehellt, hell (Zeile liegt auf Weiß)
+    // leicht abgedunkelt – ein Aufhellen wäre auf Weiß unsichtbar.
+    readonly property color colorHover:       isDark ? Qt.lighter(colorBackground, 1.2) : "#eef2f8"
+    readonly property color colorHoverStrong: isDark ? Qt.lighter(colorBackground, 1.3) : "#e6ecf5"
 
     // Text / icon levels
     readonly property color colorTextPrimary:   isDark ? "#eff1f5" : "#1d222b"   // col100

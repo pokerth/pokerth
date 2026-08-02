@@ -58,7 +58,7 @@ Rectangle {
             Layout.alignment: Qt.AlignCenter
             Layout.preferredWidth: 270
             Layout.preferredHeight: 180
-            color: Config.StaticData.palette.secondary.col700
+            color: Config.Theme.colorBox
             radius: 5
             opacity: 0.8
 

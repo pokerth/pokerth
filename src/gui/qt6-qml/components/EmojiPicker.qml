@@ -16,7 +16,7 @@ Rectangle {
     // scrollendes Raster (Lobby/Game-Chat).
     property int rows: 0
 
-    color: Config.Theme.withAlpha(Config.StaticData.palette.secondary.col700, 0.98)
+    color: Config.Theme.withAlpha(Config.Theme.colorBox, 0.98)
     border.color: Config.StaticData.palette.secondary.col500
     border.width: 1
     radius: 8
