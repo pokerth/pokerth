@@ -754,16 +754,19 @@ ClientStateStartConnect::HandleSslHandshake(const boost::system::error_code& ec,
         } else {
             if (ec != boost::asio::error::operation_aborted) {
                 
-                // Try to get more detailed SSL error information
-                SSL* ssl = client->GetContext().GetSessionData()->GetSslStream()->native_handle();
-                if (ssl) {
-                    unsigned long ssl_err = ERR_get_error();
-                    if (ssl_err != 0) {
-                        char err_buf[256];
-                        ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
-                    }
+                // Without this the reason for a failed handshake is lost: the
+                // asio error alone only says "handshake failed", and the state
+                // machine turns it into a generic ERR_SOCK_CONNECT_FAILED.
+                LOG_ERROR("TLS handshake with " << client->GetContext().GetServerAddr()
+                          << ":" << client->GetContext().GetServerPort()
+                          << " failed: " << ec.message() << " [" << ec.category().name()
+                          << ":" << ec.value() << "], attempt " << (m_handshakeRetryCount + 1));
+                for (unsigned long ssl_err = ERR_get_error(); ssl_err != 0; ssl_err = ERR_get_error()) {
+                    char err_buf[256];
+                    ERR_error_string_n(ssl_err, err_buf, sizeof(err_buf));
+                    LOG_ERROR("TLS handshake OpenSSL detail: " << err_buf);
                 }
-                
+
                 // Retry handshake up to 1 time
                 if (m_handshakeRetryCount < 1) {
                     m_handshakeRetryCount++;

@@ -1152,16 +1152,6 @@ ClientThread::CreateContextSession()
         }
 
         sslCtx->set_verify_mode(boost::asio::ssl::verify_none);
-        const TlsPinning::ReportFunc reportMismatch = [](const string &msg) {
-            LOG_ERROR(msg);
-        };
-        if (TlsPinning::ApplyPins(*sslCtx, pins, reportMismatch)) {
-            LOG_MSG("TLS: connection to " << context.GetServerAddr()
-                    << " is pinned to " << pins.size() << " server key(s).");
-        } else {
-            LOG_MSG("TLS: no pinned key for " << context.GetServerAddr()
-                    << " - connection is encrypted, but the server is not authenticated.");
-        }
 
         SSL_CTX_set_info_callback(sslCtx->native_handle(), &ClientThread::SslInfoCallback);
 
@@ -1169,6 +1159,24 @@ ClientThread::CreateContextSession()
             new boost::asio::ssl::stream<boost::asio::ip::tcp::socket>(*m_ioService, *sslCtx));
 
         SSL_set_info_callback(sslStream->native_handle(), &ClientThread::SslInfoCallback);
+
+        // The pins have to go on the stream, never on the context above: sslCtx
+        // is local and is destroyed when this function returns, while the stream
+        // outlives it. asio's context destructor deletes the verify callback and
+        // clears SSL_CTX app data; its trampoline then rejects every certificate
+        // without ever calling us - a handshake failing with "certificate verify
+        // failed" and no pinning message of our own. The stream owns its SSL
+        // object, so the callback lives exactly as long as the connection.
+        const TlsPinning::ReportFunc reportMismatch = [](const string &msg) {
+            LOG_ERROR(msg);
+        };
+        if (TlsPinning::ApplyPins(*sslStream, pins, reportMismatch)) {
+            LOG_MSG("TLS: connection to " << context.GetServerAddr()
+                    << " is pinned to " << pins.size() << " server key(s).");
+        } else {
+            LOG_MSG("TLS: no pinned key for " << context.GetServerAddr()
+                    << " - connection is encrypted, but the server is not authenticated.");
+        }
 
         boost::shared_ptr<SessionData> session(new SessionData(sslStream, SESSION_ID_GENERIC, *this, *m_ioService, 0));
         context.SetSessionData(session);
