@@ -85,7 +85,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	myConfigState = OK;
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
-	configRev = 108;
+	// 109: ServerTlsCertFile / ServerTlsKeyFile hinzugekommen.
+	configRev = 109;
 
 	// standard defaults
 	logOnOffDefault = "1";
@@ -335,6 +336,13 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("ServerUseIpv6", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseSctp", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseTls", CONFIG_TYPE_INT, "0"));
+	// Absolute paths to the TLS material the server presents. The default points
+	// outside the source tree on purpose: the private key must not live in the
+	// repository, and in the docker setup /etc/tls is mounted into the
+	// container. Clearing an entry selects the historic location instead, the
+	// tls/ folder next to bin/ - see GetServerTlsCertFile().
+	configList.push_back(ConfigInfo("ServerTlsCertFile", CONFIG_TYPE_STRING, "/etc/tls/server.crt"));
+	configList.push_back(ConfigInfo("ServerTlsKeyFile", CONFIG_TYPE_STRING, "/etc/tls/server.key"));
 	configList.push_back(ConfigInfo("ServerUseWebSocket", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerUseWebSocketTls", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("ServerPort", CONFIG_TYPE_INT, "7234"));

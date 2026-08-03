@@ -22,14 +22,24 @@
 
 #include <string>
 
-// Returns the directory that holds the server TLS material (server.crt /
-// server.key), including a trailing path separator.
+// Resolve the certificate and the private key the server presents to its
+// clients. The configured paths come from ServerTlsCertFile / ServerTlsKeyFile
+// in the server config and are absolute, pointing outside the source tree: the
+// private key must not live in the repository, and in the docker setup the
+// directory holding it is mounted into the container. Hence the default
+// /etc/tls/server.crt and /etc/tls/server.key.
 //
-// The path is derived from the running executable's location (<exeDir>/../tls),
-// not from the current working directory. This keeps it independent of where
-// the server is launched from and, importantly, survives the daemon()
-// chdir("/") that the dedicated server performs in release builds - a plain
-// relative path such as "../tls" would break in both cases.
-std::string GetServerTlsDir();
+// Certificate and key are configured individually instead of being derived from
+// one directory, because a CA issued certificate does not follow the
+// server.crt / server.key naming - with certbot the pair is called
+// fullchain.pem / privkey.pem.
+//
+// Clearing an entry selects the historic location, the tls/ folder next to
+// bin/. That fallback is derived from the running executable's location
+// (<exeDir>/../tls), not from the current working directory, so it survives
+// both an arbitrary launch directory and the daemon() chdir("/") that the
+// dedicated server performs in release builds.
+std::string GetServerTlsCertFile(const std::string &configuredPath);
+std::string GetServerTlsKeyFile(const std::string &configuredPath);
 
 #endif

@@ -21,8 +21,11 @@
 #include <QCoreApplication>
 #include <QDir>
 
+namespace
+{
+
 std::string
-GetServerTlsDir()
+FallbackTlsFile(const char *fileName)
 {
 	// applicationDirPath() resolves the executable's directory (via
 	// /proc/self/exe on Linux), so it is absolute and independent of the
@@ -30,5 +33,30 @@ GetServerTlsDir()
 	// build/deploy layout, hence "<exeDir>/../tls".
 	const QString exeDir = QCoreApplication::applicationDirPath();
 	const QString tlsDir = QDir::cleanPath(exeDir + QLatin1String("/../tls")) + QLatin1Char('/');
-	return tlsDir.toStdString();
+	return (tlsDir + QLatin1String(fileName)).toStdString();
+}
+
+std::string
+ResolveTlsFile(const std::string &configuredPath, const char *fallbackFileName)
+{
+	if (configuredPath.empty())
+		return FallbackTlsFile(fallbackFileName);
+	// Configured paths are used verbatim; cleanPath only normalises separators
+	// and removes redundant elements, it does not resolve against the working
+	// directory, so a relative entry stays the caller's responsibility.
+	return QDir::cleanPath(QString::fromStdString(configuredPath)).toStdString();
+}
+
+}
+
+std::string
+GetServerTlsCertFile(const std::string &configuredPath)
+{
+	return ResolveTlsFile(configuredPath, "server.crt");
+}
+
+std::string
+GetServerTlsKeyFile(const std::string &configuredPath)
+{
+	return ResolveTlsFile(configuredPath, "server.key");
 }

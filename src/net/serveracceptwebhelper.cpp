@@ -39,9 +39,11 @@
 using namespace std;
 
 ServerAcceptWebHelper::ServerAcceptWebHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_context> ioService,
-		const string &webSocketResource, const string &webSocketOrigin, const bool &websocketTls)
+		const string &webSocketResource, const string &webSocketOrigin, const bool &websocketTls,
+		const string &tlsCertFile, const string &tlsKeyFile)
 	: m_ioService(ioService), m_serverCallback(serverCallback),
-	  m_webSocketResource(webSocketResource), m_webSocketOrigin(webSocketOrigin)
+	  m_webSocketResource(webSocketResource), m_webSocketOrigin(webSocketOrigin),
+	  m_tlsCertFile(tlsCertFile), m_tlsKeyFile(tlsKeyFile)
 {
 	m_tls = websocketTls;
 	if(m_tls){
@@ -203,11 +205,10 @@ context_ptr ServerAcceptWebHelper::on_tls_init(websocketpp::connection_hdl hdl) 
                          asio::ssl::context::no_sslv3 |
                          asio::ssl::context::single_dh_use);
 
-        // Cert and key are resolved relative to the executable, not the
-        // current working directory (see GetServerTlsDir).
-        const std::string tlsDir = GetServerTlsDir();
-        ctx->use_certificate_chain_file(tlsDir + "server.crt");
-        ctx->use_private_key_file(tlsDir + "server.key", asio::ssl::context::pem);
+        // Configured paths win, otherwise the tls/ folder next to the
+        // executable is used (see GetServerTlsCertFile).
+        ctx->use_certificate_chain_file(GetServerTlsCertFile(m_tlsCertFile));
+        ctx->use_private_key_file(GetServerTlsKeyFile(m_tlsKeyFile), asio::ssl::context::pem);
         std::string ciphers;
         ciphers = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA";
         if (SSL_CTX_set_cipher_list(ctx->native_handle() , ciphers.c_str()) != 1) {

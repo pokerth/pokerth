@@ -38,6 +38,7 @@
 #include <net/serverexception.h>
 #include <net/socket_msg.h>
 #include <net/socket_startup.h>
+#include <config/configfile.h>
 #include <core/loghelper.h>
 
 #include <boost/bind/bind.hpp>
@@ -75,8 +76,13 @@ ServerManager::Init(unsigned serverPort, unsigned websocketPort, bool ipv6, bool
 {
 	GetLobbyThread().Init(logDir);
 
+	// Both listeners present the same certificate. Cleared entries fall back to
+	// the tls/ folder next to the executable (see GetServerTlsCertFile).
+	const string tlsCertFile(GetConfig().readConfigString("ServerTlsCertFile"));
+	const string tlsKeyFile(GetConfig().readConfigString("ServerTlsKeyFile"));
+
 	if (proto & TRANSPORT_PROTOCOL_TCP) {
-		boost::shared_ptr<ServerAcceptInterface> tcpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::tcp>(GetGui(), m_ioService, serverTls));
+		boost::shared_ptr<ServerAcceptInterface> tcpAcceptHelper(new ServerAcceptHelper<boost::asio::ip::tcp>(GetGui(), m_ioService, serverTls, tlsCertFile, tlsKeyFile));
 		tcpAcceptHelper->Listen(serverPort, ipv6, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(tcpAcceptHelper);
 	}
@@ -88,7 +94,7 @@ ServerManager::Init(unsigned serverPort, unsigned websocketPort, bool ipv6, bool
 		}*/
 	if (proto & TRANSPORT_PROTOCOL_WEBSOCKET) {
 		boost::shared_ptr<ServerAcceptInterface> webAcceptHelper(
-			new ServerAcceptWebHelper(GetGui(), m_ioService, webSocketResource, webSocketOrigin, websocketTls));
+			new ServerAcceptWebHelper(GetGui(), m_ioService, webSocketResource, webSocketOrigin, websocketTls, tlsCertFile, tlsKeyFile));
 		webAcceptHelper->Listen(websocketPort, ipv6, logDir, m_lobbyThread);
 		m_acceptHelperPool.push_back(webAcceptHelper);
 	}

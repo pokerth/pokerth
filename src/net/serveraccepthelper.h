@@ -67,7 +67,8 @@ public:
     typedef typename P::endpoint P_endpoint;
     typedef typename P::socket P_socket;
 
-    ServerAcceptHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_context> ioService, bool tls)
+    ServerAcceptHelper(ServerCallback &serverCallback, boost::shared_ptr<boost::asio::io_context> ioService, bool tls,
+                       const std::string &tlsCertFile = std::string(), const std::string &tlsKeyFile = std::string())
         : m_ioService(ioService), m_serverCallback(serverCallback)
     {
         m_tls = tls;
@@ -81,11 +82,13 @@ public:
                     | boost::asio::ssl::context::no_sslv3
                 );
 
-                // Cert and key are resolved relative to the executable, not the
-                // current working directory (see GetServerTlsDir).
-                const std::string tlsDir = GetServerTlsDir();
-                m_sslContext->use_certificate_chain_file(tlsDir + "server.crt");
-                m_sslContext->use_private_key_file(tlsDir + "server.key", boost::asio::ssl::context::pem);
+                // Configured paths win, otherwise the tls/ folder next to the
+                // executable is used (see GetServerTlsCertFile).
+                const std::string certFile = GetServerTlsCertFile(tlsCertFile);
+                const std::string keyFile = GetServerTlsKeyFile(tlsKeyFile);
+                LOG_MSG("TLS certificate: " << certFile);
+                m_sslContext->use_certificate_chain_file(certFile);
+                m_sslContext->use_private_key_file(keyFile, boost::asio::ssl::context::pem);
 
                 std::string ciphers = "ECDHE-RSA-AES128-GCM-SHA256:...";
                 if (SSL_CTX_set_cipher_list(m_sslContext->native_handle(), ciphers.c_str()) != 1) {
