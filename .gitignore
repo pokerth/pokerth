@@ -9,7 +9,6 @@ Makefile.pokerth_server
 Makefile.pokerth_dbofficial
 Makefile.pokerth_qml-client
 bin/
-pokerth
 pokerth_qml-client
 moc_*
 *.o
