@@ -1152,7 +1152,10 @@ ClientThread::CreateContextSession()
         }
 
         sslCtx->set_verify_mode(boost::asio::ssl::verify_none);
-        if (TlsPinning::ApplyPins(*sslCtx, pins)) {
+        const TlsPinning::ReportFunc reportMismatch = [](const string &msg) {
+            LOG_ERROR(msg);
+        };
+        if (TlsPinning::ApplyPins(*sslCtx, pins, reportMismatch)) {
             LOG_MSG("TLS: connection to " << context.GetServerAddr()
                     << " is pinned to " << pins.size() << " server key(s).");
         } else {

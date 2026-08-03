@@ -30,13 +30,13 @@
  *****************************************************************************/
 
 #include <net/tlspinning.h>
-#include <core/loghelper.h>
 
 #include <openssl/evp.h>
 #include <openssl/sha.h>
 
 #include <algorithm>
 #include <cctype>
+#include <sstream>
 
 using namespace std;
 
@@ -73,7 +73,8 @@ EqualsIgnoreCase(const string &lhs, const char *rhs)
 }
 
 bool
-VerifyPinnedCert(bool /*preverified*/, boost::asio::ssl::verify_context &verifyCtx, const vector<string> &pins)
+VerifyPinnedCert(bool /*preverified*/, boost::asio::ssl::verify_context &verifyCtx, const vector<string> &pins,
+				 const TlsPinning::ReportFunc &reportMismatch)
 {
 	// preverified is deliberately ignored: the certificate is self-signed, so
 	// the chain check always fails. Trust comes from the pinned key alone.
@@ -92,9 +93,13 @@ VerifyPinnedCert(bool /*preverified*/, boost::asio::ssl::verify_context &verifyC
 	if (!pin.empty() && find(pins.begin(), pins.end(), pin) != pins.end())
 		return true;
 
-	LOG_ERROR("TLS pinning: server public key " << (pin.empty() ? string("<unreadable>") : pin)
-			  << " does not match any of the " << pins.size()
-			  << " pinned key(s) - aborting handshake.");
+	if (reportMismatch) {
+		ostringstream msg;
+		msg << "TLS pinning: server public key " << (pin.empty() ? string("<unreadable>") : pin)
+			<< " does not match any of the " << pins.size()
+			<< " pinned key(s) - aborting handshake.";
+		reportMismatch(msg.str());
+	}
 	return false;
 }
 
@@ -141,29 +146,29 @@ TlsPinning::ComputeSpkiPin(X509 *cert)
 }
 
 bool
-TlsPinning::ApplyPins(boost::asio::ssl::context &sslCtx, const vector<string> &pins)
+TlsPinning::ApplyPins(boost::asio::ssl::context &sslCtx, const vector<string> &pins, const ReportFunc &reportMismatch)
 {
 	if (pins.empty())
 		return false;
 
 	sslCtx.set_verify_mode(boost::asio::ssl::verify_peer);
 	sslCtx.set_verify_callback(
-		[pins](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
-		return VerifyPinnedCert(preverified, verifyCtx, pins);
+		[pins, reportMismatch](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
+		return VerifyPinnedCert(preverified, verifyCtx, pins, reportMismatch);
 	});
 	return true;
 }
 
 bool
-TlsPinning::ApplyPins(SslStream &sslStream, const vector<string> &pins)
+TlsPinning::ApplyPins(SslStream &sslStream, const vector<string> &pins, const ReportFunc &reportMismatch)
 {
 	if (pins.empty())
 		return false;
 
 	sslStream.set_verify_mode(boost::asio::ssl::verify_peer);
 	sslStream.set_verify_callback(
-		[pins](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
-		return VerifyPinnedCert(preverified, verifyCtx, pins);
+		[pins, reportMismatch](bool preverified, boost::asio::ssl::verify_context & verifyCtx) {
+		return VerifyPinnedCert(preverified, verifyCtx, pins, reportMismatch);
 	});
 	return true;
 }

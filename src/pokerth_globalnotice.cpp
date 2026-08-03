@@ -350,7 +350,10 @@ public:
 				if (find(pins.begin(), pins.end(), listPin) == pins.end())
 					pins.push_back(listPin);
 			}
-			if (!TlsPinning::ApplyPins(m_stream, pins))
+			const TlsPinning::ReportFunc reportMismatch = [](const string &msg) {
+				cerr << msg << endl;
+			};
+			if (!TlsPinning::ApplyPins(m_stream, pins, reportMismatch))
 				cerr << "warning: no pinned key for " << host
 					 << " - the connection is encrypted, but the server is not authenticated." << endl;
 

@@ -272,7 +272,8 @@ public:
             sslCtx_.set_verify_mode(ssl::verify_none);
             // Gegen den offiziellen Server wird der eingebaute Pin geprüft, für
             // lokale Testserver bleibt es beim reinen Transportschutz.
-            TlsPinning::ApplyPins(sslCtx_, TlsPinning::GetBuiltinPins(server_));
+            TlsPinning::ApplyPins(sslCtx_, TlsPinning::GetBuiltinPins(server_),
+                                  [](const string &msg) { cerr << msg << endl; });
             // Disable alte/unsichere Protokolle
             sslCtx_.set_options(
                 ssl::context::default_workarounds |

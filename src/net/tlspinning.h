@@ -38,6 +38,7 @@
 
 #include <openssl/x509.h>
 
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -52,6 +53,12 @@
 namespace TlsPinning
 {
 	typedef boost::asio::ssl::stream<boost::asio::ip::tcp::socket> SslStream;
+
+	// Sink for the diagnostic emitted when a server presents an unpinned key.
+	// Supplied by the caller instead of logging here, so that this file stays
+	// free of a logging dependency: the GUI client routes it to its log, the
+	// command line tools to stderr. An empty sink discards the message.
+	typedef std::function<void (const std::string &)> ReportFunc;
 
 	// Pins compiled into the client for a known lobby address. Empty for every
 	// other address, which leaves those connections unpinned.
@@ -72,8 +79,10 @@ namespace TlsPinning
 	// additionally has to be called before the stream using that context is
 	// constructed, because the verification settings are copied into the SSL
 	// object at that point.
-	bool ApplyPins(boost::asio::ssl::context &sslCtx, const std::vector<std::string> &pins);
-	bool ApplyPins(SslStream &sslStream, const std::vector<std::string> &pins);
+	bool ApplyPins(boost::asio::ssl::context &sslCtx, const std::vector<std::string> &pins,
+				   const ReportFunc &reportMismatch = ReportFunc());
+	bool ApplyPins(SslStream &sslStream, const std::vector<std::string> &pins,
+				   const ReportFunc &reportMismatch = ReportFunc());
 }
 
 #endif
