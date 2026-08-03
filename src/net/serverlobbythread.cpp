@@ -2006,7 +2006,8 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
         if (GetBanManager().IsAdminPlayer(dbPlayerData.id)) {
             tmpSession->GetPlayerData()->SetRights(PLAYER_RIGHTS_ADMIN);
         }
-        InitAfterLogin(tmpSession);
+        // Blacklisted avatars are reset before the session is initialised.
+        CheckAvatarBlacklist(tmpSession);
     } else {
         LOG_MSG("Authentication failed for player " << playerId << " (" << tmpSession->GetClientAddr() << ")");
         SessionError(tmpSession, ERR_NET_INVALID_PASSWORD);
