@@ -86,7 +86,10 @@ public:
                 // executable is used (see GetServerTlsCertFile).
                 const std::string certFile = GetServerTlsCertFile(tlsCertFile);
                 const std::string keyFile = GetServerTlsKeyFile(tlsKeyFile);
-                LOG_MSG("TLS certificate: " << certFile);
+                // Logged as an error so that the paths are in the log even when
+                // the message log level is off - without them a failure below is
+                // not diagnosable, and the pair is public information anyway.
+                LOG_ERROR("TLS (lobby): certificate " << certFile << ", key " << keyFile);
                 m_sslContext->use_certificate_chain_file(certFile);
                 m_sslContext->use_private_key_file(keyFile, boost::asio::ssl::context::pem);
 
@@ -101,7 +104,7 @@ public:
                 // SSL_CTX_set_info_callback(m_sslContext->native_handle(), &SslServerInfoCallback);
                 LOG_MSG("TLS context configured.");
              } catch (std::exception& e) {
-                 LOG_ERROR(e.what());
+                 LOG_ERROR("TLS (lobby) setup failed: " << e.what());
              }
          }
      }
