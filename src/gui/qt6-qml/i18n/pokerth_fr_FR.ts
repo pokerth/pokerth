@@ -660,6 +660,31 @@
         <source>Emoji-Reaktionen</source>
         <translation>Réactions emoji</translation>
     </message>
+    <message>
+        <location line="+311"/>
+        <source>Game Over</source>
+        <translation>Partie terminée</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Congratulations, you won the game!</source>
+        <translation>Félicitations, vous avez gagné la partie !</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 wins the game!</source>
+        <translation>%1 gagne la partie !</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Back to Menu</source>
+        <translation>Retour au menu</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>New Game</source>
+        <translation>Nouvelle partie</translation>
+    </message>
 </context>
 <context>
     <name>GamePlayerBox</name>
@@ -1170,7 +1195,7 @@
         <translation>Sombre</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Sprache:</source>
         <translation>Langue :</translation>
     </message>
@@ -1596,7 +1621,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1224"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1234"/>
         <source>Guests cannot send chat messages</source>
         <translation>Les invités ne peuvent pas envoyer de messages</translation>
     </message>
@@ -1611,7 +1636,7 @@
         <translation>Échec de l&apos;envoi du message</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+83"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>Le signalement de l&apos;avatar a été accepté par le serveur. Merci.</translation>
     </message>
@@ -1755,12 +1780,12 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Vous avez été retiré pour cause d&apos;inactivité.</translation>
     </message>
     <message>
-        <location line="+190"/>
+        <location line="+204"/>
         <location line="+39"/>
         <location line="+9"/>
         <location line="+152"/>
         <location line="+9"/>
-        <location line="+161"/>
+        <location line="+160"/>
         <location line="+9"/>
         <location line="+16"/>
         <location line="+11"/>
@@ -3576,7 +3601,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
     <message>
         <location line="+23"/>
         <source>Server address was not set.</source>
-        <translation>L'adresse du serveur n'a pas été spécifiée.</translation>
+        <translation>L&apos;adresse du serveur n&apos;a pas été spécifiée.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3586,17 +3611,17 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Impossible d'ouvrir un interface de connexion TCP.</translation>
+        <translation>Impossible d&apos;ouvrir un interface de connexion TCP.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossible d'initialiser l'adresse IP.</translation>
+        <translation>Impossible d&apos;initialiser l&apos;adresse IP.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Could not set the port for this type of address.</source>
-        <translation>Impossible de définir le port pour ce type d'adresse.</translation>
+        <translation>Impossible de définir le port pour ce type d&apos;adresse.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3606,17 +3631,17 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
     <message>
         <location line="+2"/>
         <source>Bind failed - please choose a different port.</source>
-        <translation>L'opération 'Bind' a échoué - veuillez sélectionner un autre port.</translation>
+        <translation>L&apos;opération &apos;Bind&apos; a échoué - veuillez sélectionner un autre port.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Erreur interne réseau : l'opération "listen" a échoué.</translation>
+        <translation>Erreur interne réseau : l&apos;opération &quot;listen&quot; a échoué.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L'exécution du serveur s'est terminée.</translation>
+        <translation>L&apos;exécution du serveur s&apos;est terminée.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3639,12 +3664,12 @@ Veuillez patienter un instant et réessayer.</translation>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Erreur interne réseau : l'opération "select" a échouée.</translation>
+        <translation>Erreur interne réseau : l&apos;opération &quot;select&quot; a échouée.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Erreur interne réseau : l'opération "send" a échouée.</translation>
+        <translation>Erreur interne réseau : l&apos;opération &quot;send&quot; a échouée.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3679,8 +3704,8 @@ Veuillez vous assurer que tous les joueurs utilisent la même version de PokerTH
         <location line="+3"/>
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
-        <translation>L'adresse de la liste des serveurs est invalide.
-Veuillez corriger l'adresse dans les paramètres.</translation>
+        <translation>L&apos;adresse de la liste des serveurs est invalide.
+Veuillez corriger l&apos;adresse dans les paramètres.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3704,14 +3729,14 @@ Veuillez vérifier que vous êtes directement connectés à internet.</translati
     <message>
         <location line="+2"/>
         <source>Could not open the target file when downloading the server list.</source>
-        <translation>Impossible d'ouvrir le fichier cible lors du téléchargement de la liste de serveurs.</translation>
+        <translation>Impossible d&apos;ouvrir le fichier cible lors du téléchargement de la liste de serveurs.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
         <translation>Le serveur PokerTH ne supporte pas cette version du jeu.
-Merci d'aller sur https://www.pokerth.net et de télécharger la dernière version.</translation>
+Merci d&apos;aller sur https://www.pokerth.net et de télécharger la dernière version.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3727,8 +3752,8 @@ Merci d'aller sur https://www.pokerth.net et de télécharger la dernière versi
         <location line="+2"/>
         <source>Invalid login.
 Please check your username and password.</source>
-        <translation>Nom d'utilisateur invalide.
-Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
+        <translation>Nom d&apos;utilisateur invalide.
+Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3788,12 +3813,12 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player could not be found.</source>
-        <translation>Erreur interne : le joueur courant n'a pas été trouvé.</translation>
+        <translation>Erreur interne : le joueur courant n&apos;a pas été trouvé.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The current player is not active.</source>
-        <translation>Erreur interne : le joueur courant n'est pas actif.</translation>
+        <translation>Erreur interne : le joueur courant n&apos;est pas actif.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3813,7 +3838,7 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
     <message>
         <location line="+2"/>
         <source>Your server connection timed out due to inactivity. You are very welcome to reconnect!</source>
-        <translation>Votre connexion au serveur a expirée pour cause d'inactivité. Vous êtes invités à vous reconnecter !</translation>
+        <translation>Votre connexion au serveur a expirée pour cause d&apos;inactivité. Vous êtes invités à vous reconnecter !</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3833,7 +3858,7 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>Le fichier d'avatar sélectionné est trop volumineux. Veuillez en choisir un autre.</translation>
+        <translation>Le fichier d&apos;avatar sélectionné est trop volumineux. Veuillez en choisir un autre.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3843,7 +3868,7 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Une erreur d'avatar interne est survenue. Merci de la signaler à un administrateur sur le tchat.</translation>
+        <translation>Une erreur d&apos;avatar interne est survenue. Merci de la signaler à un administrateur sur le tchat.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3853,7 +3878,7 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
     <message>
         <location line="+2"/>
         <source>The game could not be terminated.</source>
-        <translation>La partie n'a pas pu être terminée.</translation>
+        <translation>La partie n&apos;a pas pu être terminée.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3863,32 +3888,32 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
     <message>
         <location line="+2"/>
         <source>Internal error: The dealer could not be found.</source>
-        <translation>Erreur interne : le donneur n'a pas été trouvé.</translation>
+        <translation>Erreur interne : le donneur n&apos;a pas été trouvé.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Vous ne pouvez pas vous connecter pour l'instant. Veuillez réessayer dans quelques secondes.</translation>
+        <translation>Vous ne pouvez pas vous connecter pour l&apos;instant. Veuillez réessayer dans quelques secondes.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Erreur interne : l'authentification n'a pas pu être initialisée.</translation>
+        <translation>Erreur interne : l&apos;authentification n&apos;a pas pu être initialisée.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server does not support the required authentication method.</source>
-        <translation>Le serveur ne prend pas en charge la méthode d'authentification requise.</translation>
+        <translation>Le serveur ne prend pas en charge la méthode d&apos;authentification requise.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The server could not reach its database. Please try again later.</source>
-        <translation>Le serveur n'a pas pu joindre sa base de données. Veuillez réessayer plus tard.</translation>
+        <translation>Le serveur n&apos;a pas pu joindre sa base de données. Veuillez réessayer plus tard.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An internal error occured. (Error code %1)</source>
-        <translation>Une erreur interne est survenue. (Code d'erreur %1)</translation>
+        <translation>Une erreur interne est survenue. (Code d&apos;erreur %1)</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -3904,7 +3929,7 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+216"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+228"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
@@ -4209,7 +4234,7 @@ Veuillez vérifier votre nom d'utilisateur et mot de passe.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+87"/>
+        <location filename="../config/StaticData.qml" line="+93"/>
         <source>Fold</source>
         <translation>Se coucher</translation>
     </message>
@@ -4461,7 +4486,7 @@ aperçu</translation>
         <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+236"/>
         <source>Back</source>
         <translation>Retour</translation>
     </message>

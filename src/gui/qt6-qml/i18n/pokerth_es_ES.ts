@@ -660,6 +660,31 @@
         <source>Emoji-Reaktionen</source>
         <translation>Reacciones con emojis</translation>
     </message>
+    <message>
+        <location line="+311"/>
+        <source>Game Over</source>
+        <translation>Fin de la partida</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Congratulations, you won the game!</source>
+        <translation>¡Enhorabuena, has ganado la partida!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 wins the game!</source>
+        <translation>¡%1 gana la partida!</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Back to Menu</source>
+        <translation>Volver al menú</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>New Game</source>
+        <translation>Nueva partida</translation>
+    </message>
 </context>
 <context>
     <name>GamePlayerBox</name>
@@ -1170,7 +1195,7 @@
         <translation>Oscuro</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Sprache:</source>
         <translation>Idioma:</translation>
     </message>
@@ -1596,7 +1621,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1224"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1234"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
@@ -1611,7 +1636,7 @@
         <translation>No se pudo enviar el mensaje de chat</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+83"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>El informe sobre el avatar ha sido aceptado por el servidor. Gracias.</translation>
     </message>
@@ -1755,12 +1780,12 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Ha sido eliminado por inactividad.</translation>
     </message>
     <message>
-        <location line="+190"/>
+        <location line="+204"/>
         <location line="+39"/>
         <location line="+9"/>
         <location line="+152"/>
         <location line="+9"/>
-        <location line="+161"/>
+        <location line="+160"/>
         <location line="+9"/>
         <location line="+16"/>
         <location line="+11"/>
@@ -3611,7 +3636,7 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Error interno en la red: fallo en "listen".</translation>
+        <translation>Error interno en la red: fallo en &quot;listen&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3639,12 +3664,12 @@ Por favor, espere un momento e inténtelo de nuevo.</translation>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Error interno en la red: fallo en "select".</translation>
+        <translation>Error interno en la red: fallo en &quot;select&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Error interno en la red: fallo en "send".</translation>
+        <translation>Error interno en la red: fallo en &quot;send&quot;.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3904,7 +3929,7 @@ Compruebe el nombre de usuario y contraseña.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+216"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+228"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Imágenes (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
@@ -4209,7 +4234,7 @@ Compruebe el nombre de usuario y contraseña.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+87"/>
+        <location filename="../config/StaticData.qml" line="+93"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
@@ -4461,7 +4486,7 @@ vista previa</translation>
         <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+236"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>

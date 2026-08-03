@@ -660,6 +660,31 @@
         <source>Emoji-Reaktionen</source>
         <translation>Reações com emoji</translation>
     </message>
+    <message>
+        <location line="+311"/>
+        <source>Game Over</source>
+        <translation>Fim de jogo</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Congratulations, you won the game!</source>
+        <translation>Parabéns, ganhou o jogo!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 wins the game!</source>
+        <translation>%1 ganha o jogo!</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Back to Menu</source>
+        <translation>Voltar ao menu</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>New Game</source>
+        <translation>Novo jogo</translation>
+    </message>
 </context>
 <context>
     <name>GamePlayerBox</name>
@@ -1170,7 +1195,7 @@
         <translation>Escuro</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Sprache:</source>
         <translation>Idioma:</translation>
     </message>
@@ -1596,7 +1621,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1224"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1234"/>
         <source>Guests cannot send chat messages</source>
         <translation>Convidados não podem enviar mensagens no chat</translation>
     </message>
@@ -1611,7 +1636,7 @@
         <translation>Falha ao enviar mensagem no chat</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+83"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>O &quot;avatar&quot; denunciado foi aceite pelo servidor. Obrigado.</translation>
     </message>
@@ -1755,12 +1780,12 @@ Reintroduza a senha e tente novamente.</translation>
         <translation>Foi removido por inatividade.</translation>
     </message>
     <message>
-        <location line="+190"/>
+        <location line="+204"/>
         <location line="+39"/>
         <location line="+9"/>
         <location line="+152"/>
         <location line="+9"/>
-        <location line="+161"/>
+        <location line="+160"/>
         <location line="+9"/>
         <location line="+16"/>
         <location line="+11"/>
@@ -3586,7 +3611,7 @@ Reinicie o PokerTH para que os ficheiros de registo sejam guardados nessa pasta.
     <message>
         <location line="+2"/>
         <source>Could not create a socket for TCP communication.</source>
-        <translation>Não foi possível criar o "socket" para comunicação TCP.</translation>
+        <translation>Não foi possível criar o &quot;socket&quot; para comunicação TCP.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3823,17 +3848,17 @@ Verifoque o nome de utilizador e senha.</translation>
     <message>
         <location line="+2"/>
         <source>Too many manual blinds were set. Please reconfigure the manual blinds.</source>
-        <translation>Foram definidas muitas "blinds" manuais. Verfifique as suas definições.</translation>
+        <translation>Foram definidas muitas &quot;blinds&quot; manuais. Verfifique as suas definições.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>An invalid avatar file was configured. Please choose a different avatar.</source>
-        <translation>Configurou como "avatar" um ficheiro inválido. Por favor, escolha outro.</translation>
+        <translation>Configurou como &quot;avatar&quot; um ficheiro inválido. Por favor, escolha outro.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The selected avatar file is too large. Please choose a different avatar.</source>
-        <translation>O ficheiro de"avatar" escolhido é muito grande. Por favor, escolha outro.</translation>
+        <translation>O ficheiro de&quot;avatar&quot; escolhido é muito grande. Por favor, escolha outro.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3843,7 +3868,7 @@ Verifoque o nome de utilizador e senha.</translation>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Ocorreu um erro interno com o "avatar". Por favor, reporte-o ao administrador na sala de "chat".</translation>
+        <translation>Ocorreu um erro interno com o &quot;avatar&quot;. Por favor, reporte-o ao administrador na sala de &quot;chat&quot;.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3904,7 +3929,7 @@ Verifoque o nome de utilizador e senha.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+216"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+228"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Imagens (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
@@ -4209,7 +4234,7 @@ Verifoque o nome de utilizador e senha.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+87"/>
+        <location filename="../config/StaticData.qml" line="+93"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
@@ -4461,7 +4486,7 @@ Pré-visualização</translation>
         <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+236"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>

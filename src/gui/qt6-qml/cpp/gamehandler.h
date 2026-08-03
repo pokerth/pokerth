@@ -288,6 +288,10 @@ public:
     // Netzwerk: eigener Client-Ping aktualisiert → Netzwerkstatus-Ampel ableiten.
     Q_INVOKABLE void onPingUpdate(int minPing, int avgPing, int maxPing);
     Q_INVOKABLE void onBlindsSet(int smallBlind);
+    // Lokales Spiel: Turnierende prüfen (nur noch EIN Spieler mit Chips). Wird
+    // am Handende aufgerufen, BEVOR die nächste Hand gestartet wird. Liefert
+    // true, wenn das Spiel vorbei ist – dann darf keine weitere Hand folgen.
+    Q_INVOKABLE bool checkLocalGameOver();
     Q_INVOKABLE void onNextRoundCleanGui();
     Q_INVOKABLE void onDealFlopCards();
     Q_INVOKABLE void onDealTurnCard();
@@ -383,6 +387,10 @@ signals:
     // Bestätigung wie der Widget-Client (showHoleCards), obwohl die eigenen
     // Karten bereits offen liegen.
     void myCardsShown();
+    // Lokales Spiel zu Ende: nur noch ein Spieler hat Chips. QML zeigt darauf
+    // die Sieger-Meldung (neues Spiel / zurück zum Menü). winnerSeatId == 0
+    // bedeutet: der menschliche Spieler hat gewonnen.
+    void localGameFinished(const QString &winnerName, int winnerSeatId);
 
 protected:
     // App-weiter Filter: echte Nutzeraktivität (Maus/Tastatur) → ResetTimeout
@@ -559,6 +567,9 @@ private:
     // Schlüssel = Unique-Player-ID; nach Ablauf wird der Spieler wie ein
     // verlassener Online-Spieler behandelt (Sitz ausgeblendet).
     QMap<unsigned, QTimer*> m_bustedLocalTimers;
+    // Lokales Spiel beendet (nur noch ein Spieler mit Chips). Verhindert, dass
+    // checkLocalGameOver() das Spielende mehrfach meldet.
+    bool m_localGameOver = false;
 };
 
 #endif // GAMEHANDLER_H

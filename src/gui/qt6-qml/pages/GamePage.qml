@@ -2386,4 +2386,83 @@ Rectangle {
             }
         }
     }
+
+    // ── Spielende im lokalen Spiel ───────────────────────────────────────────
+    // Der GameHandler meldet das Turnierende (nur noch ein Spieler mit Chips)
+    // und startet keine weitere Hand mehr. Hier bekommt der Sieger seine
+    // Meldung – mit der Wahl, mit denselben Einstellungen neu zu starten oder
+    // zum Menü zurückzukehren (Pendant zum „Start"-Button des Widget-Clients).
+    Connections {
+        target: GameTable
+        function onLocalGameFinished(winnerName, winnerSeatId) {
+            gameOverPopup.winnerName = winnerName
+            gameOverPopup.humanWon = (winnerSeatId === 0)
+            gameOverPopup.open()
+        }
+    }
+
+    Popup {
+        id: gameOverPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        width: Math.min((parent ? parent.width : 380) * 0.85, 380)
+        closePolicy: Popup.CloseOnEscape
+
+        property string winnerName: ""
+        property bool humanWon: false
+
+        background: Rectangle {
+            color: Config.Theme.colorBox
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: gameOverPopup.availableWidth
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Game Over")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: gameOverPopup.humanWon
+                      ? qsTr("Congratulations, you won the game!")
+                      : qsTr("%1 wins the game!").arg(gameOverPopup.winnerName)
+                color: Config.StaticData.palette.secondary.col200
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: 12
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("Back to Menu")
+                    onClicked: {
+                        gameOverPopup.close()
+                        mainWindow.performLeaveGame()
+                    }
+                }
+                CustomButton {
+                    Layout.fillWidth: true
+                    text: qsTr("New Game")
+                    onClicked: {
+                        // Neues Spiel mit denselben Einstellungen – die Seite
+                        // bleibt stehen, GameHandler::setGame() setzt Tisch,
+                        // Verlauf und Chat zurück.
+                        gameOverPopup.close()
+                        GameTable.startLocalGame()
+                    }
+                }
+            }
+        }
+    }
 }

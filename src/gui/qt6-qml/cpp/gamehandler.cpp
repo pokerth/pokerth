@@ -179,6 +179,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
         m_soundEventHandler->newGameStarts();
 
     m_localGameExitRequested = false;
+    m_localGameOver = false;
     m_game = game;
     // Zuschauer-Modus des Netzwerk-Clients übernehmen (im lokalen Spiel immer
     // false). Steht bereits fest, wenn die Engine das Spiel meldet: der
@@ -1487,6 +1488,65 @@ void GameHandler::checkBustedLocalPlayers()
     }
 }
 
+bool GameHandler::checkLocalGameOver()
+{
+    // Nur im lokalen Spiel: im Netzwerkspiel entscheidet der Server über
+    // Spielende und Handstart.
+    if (!m_session || m_session->isNetworkClientRunning()) return false;
+    if (m_localGameExitRequested) return true;   // Spiel wurde bereits verlassen
+    if (m_localGameOver) return true;            // Sieger schon gemeldet
+
+    boost::shared_ptr<Game> game = m_session->getCurrentGame();
+    if (!game) return false;
+    boost::shared_ptr<HandInterface> hand = game->getCurrentHand();
+    if (!hand) return false;
+
+    // Turnierende exakt wie im Qt-Widgets-Client (gameTableImpl::postRiverRun-
+    // Animation6): hat nach der Pot-Verteilung nur noch EIN Spieler Chips, ist
+    // das Spiel vorbei. Ohne diese Prüfung startet der Client immer weiter neue
+    // Hände – der Sieger spielt endlos gegen sich selbst und zahlt dabei Blinds
+    // in einen Pot, den er sofort zurückgewinnt.
+    boost::shared_ptr<PlayerInterface> winner;
+    int playersWithCash = 0;
+    PlayerList activePlayers = hand->getActivePlayerList();
+    for (auto it = activePlayers->begin(); it != activePlayers->end(); ++it) {
+        if ((*it)->getMyCash() > 0) {
+            playersWithCash++;
+            winner = *it;
+        }
+    }
+    if (playersWithCash > 1) return false;
+
+    m_localGameOver = true;
+
+    // Log-Eintrag wie der Widgets-Client ("<Name> wins game <n>!").
+    if (winner)
+        appendGameLog(QString::fromStdString(winner->getMyName())
+                          + QStringLiteral(" wins game ")
+                          + QString::number(game->getMyGameID())
+                          + QStringLiteral("!"),
+                      LogGameWin);
+
+    // Kein Zug mehr möglich – Aktionsleiste stilllegen.
+    closeMyTurnWindow();
+    if (m_myTurn) {
+        m_myTurn = false;
+        emit myTurnChanged();
+    }
+    if (m_timeoutSeatId != -1) {
+        m_timeoutSeatId = -1;
+        emit timeoutChanged();
+    }
+    // Ausgeschiedene Spieler nicht mehr ausblenden: der Endstand soll stehen
+    // bleiben, solange die Sieger-Meldung offen ist.
+    qDeleteAll(m_bustedLocalTimers);
+    m_bustedLocalTimers.clear();
+
+    emit localGameFinished(winner ? QString::fromStdString(winner->getMyName()) : QString(),
+                           winner ? winner->getMyID() : -1);
+    return true;
+}
+
 void GameHandler::onBlindsSet(int smallBlind)
 {
     if (localGameCallbacksBlocked()) return;
@@ -1891,6 +1951,7 @@ void GameHandler::startLocalGame()
 {
     if (!m_session) return;
     m_localGameExitRequested = false;
+    m_localGameOver = false;
 
     // Alle Werte kommen aus der Konfiguration (Einstellungen → Lokales Spiel),
     // exakt wie im Widget-Client (startWindowImpl::startNewLocalGame ohne Dialog).

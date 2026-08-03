@@ -838,6 +838,13 @@ void QmlGuiInterface::postRiverRunAnimation1()
         return;
     }
     QTimer::singleShot(5500, gh, [gh, sessionForTimer]() {
+        // Turnierende? Wie der Widgets-Client (gameTableImpl::postRiverRun-
+        // Animation6) darf nach der letzten Hand KEINE weitere folgen, wenn nur
+        // noch ein Spieler Chips hat – sonst spielt der Sieger endlos allein
+        // weiter und zahlt dabei Blinds ein. checkLocalGameOver() meldet das
+        // Spielende an die QML-Seite (Sieger-Popup).
+        if (gh->checkLocalGameOver())
+            return;
         QMetaObject::invokeMethod(gh, "onNextRoundCleanGui", Qt::DirectConnection);
         if (sessionForTimer) {
             auto game = sessionForTimer->getCurrentGame();

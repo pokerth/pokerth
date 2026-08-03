@@ -660,6 +660,31 @@
         <source>Emoji-Reaktionen</source>
         <translation>Reazioni con emoji</translation>
     </message>
+    <message>
+        <location line="+311"/>
+        <source>Game Over</source>
+        <translation>Partita terminata</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Congratulations, you won the game!</source>
+        <translation>Congratulazioni, hai vinto la partita!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>%1 wins the game!</source>
+        <translation>%1 vince la partita!</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Back to Menu</source>
+        <translation>Torna al menu</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>New Game</source>
+        <translation>Nuova partita</translation>
+    </message>
 </context>
 <context>
     <name>GamePlayerBox</name>
@@ -1170,7 +1195,7 @@
         <translation>Scuro</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+36"/>
         <source>Sprache:</source>
         <translation>Lingua:</translation>
     </message>
@@ -1596,7 +1621,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1224"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1234"/>
         <source>Guests cannot send chat messages</source>
         <translation>Gli ospiti non possono inviare messaggi in chat</translation>
     </message>
@@ -1611,7 +1636,7 @@
         <translation>Impossibile inviare il messaggio in chat</translation>
     </message>
     <message>
-        <location line="+85"/>
+        <location line="+83"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>La segnalazione dell&apos;avatar è stata accettata dal server. Grazie mille.</translation>
     </message>
@@ -1755,12 +1780,12 @@ Reinserire la password e riprovare.</translation>
         <translation>Sei stato rimosso per inattività.</translation>
     </message>
     <message>
-        <location line="+190"/>
+        <location line="+204"/>
         <location line="+39"/>
         <location line="+9"/>
         <location line="+152"/>
         <location line="+9"/>
-        <location line="+161"/>
+        <location line="+160"/>
         <location line="+9"/>
         <location line="+16"/>
         <location line="+11"/>
@@ -3591,7 +3616,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+2"/>
         <source>Could not set the IP address.</source>
-        <translation>Impossibile impostare l'indirizzo IP.</translation>
+        <translation>Impossibile impostare l&apos;indirizzo IP.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3611,12 +3636,12 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;listen&quot; failed.</source>
-        <translation>Errore di rete interno: "listen" non riuscito.</translation>
+        <translation>Errore di rete interno: &quot;listen&quot; non riuscito.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Server execution was terminated.</source>
-        <translation>L'esecuzione del server è stata interrotta.</translation>
+        <translation>L&apos;esecuzione del server è stata interrotta.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3639,12 +3664,12 @@ Attendere un momento e riprovare.</translation>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;select&quot; failed.</source>
-        <translation>Errore di rete interno: "select" non riuscita.</translation>
+        <translation>Errore di rete interno: &quot;select&quot; non riuscita.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal network error: &quot;send&quot; failed.</source>
-        <translation>Errore di rete interno: "send" non riuscito.</translation>
+        <translation>Errore di rete interno: &quot;send&quot; non riuscito.</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -3680,7 +3705,7 @@ Assicurati che tutti i giocatori abbiano la stessa versione di PokerTH.</transla
         <source>Invalid server list URL.
 Please correct the address in the settings.</source>
         <translation>URL della lista server non valido.
-Correggi l'indirizzo nelle impostazioni.</translation>
+Correggi l&apos;indirizzo nelle impostazioni.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3711,7 +3736,7 @@ Assicurati di essere connesso direttamente ad internet.</translation>
         <source>The PokerTH server does not support this version of the game.
 Please go to https://www.pokerth.net and download the latest version.</source>
         <translation>Il server di PokerTH non supporta questa versione del gioco.
-Visita l'URL https://www.pokerth.net e scarica l'ultima versione.</translation>
+Visita l&apos;URL https://www.pokerth.net e scarica l&apos;ultima versione.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3843,7 +3868,7 @@ Controlla username e password.</translation>
     <message>
         <location line="+2"/>
         <source>An internal avatar error occured. Please report this to an admin in the lobby chat.</source>
-        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l'accaduto ad un admin nella chat prepartita.</translation>
+        <translation>Si è verificato un errore interno sugli avatar. Per favore, riferisci l&apos;accaduto ad un admin nella chat prepartita.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3868,12 +3893,12 @@ Controlla username e password.</translation>
     <message>
         <location line="+2"/>
         <source>You cannot login at this time. Please try again in a few seconds.</source>
-        <translation>Impossibile effettuare l'accesso. Riprova fra qualche istante.</translation>
+        <translation>Impossibile effettuare l&apos;accesso. Riprova fra qualche istante.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Internal error: The authentication could not be initialized.</source>
-        <translation>Errore interno: impossibile inizializzare l'autenticazione.</translation>
+        <translation>Errore interno: impossibile inizializzare l&apos;autenticazione.</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -3904,7 +3929,7 @@ Controlla username e password.</translation>
 <context>
     <name>SettingsManager</name>
     <message>
-        <location filename="../cpp/settingsmanager.cpp" line="+216"/>
+        <location filename="../cpp/settingsmanager.cpp" line="+228"/>
         <source>Images (*.png *.jpg *.jpeg *.gif)</source>
         <translation>Immagini (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
@@ -4209,7 +4234,7 @@ Controlla username e password.</translation>
 <context>
     <name>StaticData</name>
     <message>
-        <location filename="../config/StaticData.qml" line="+87"/>
+        <location filename="../config/StaticData.qml" line="+93"/>
         <source>Fold</source>
         <translation>Fold</translation>
     </message>
@@ -4461,7 +4486,7 @@ anteprima</translation>
         <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
-        <location line="+216"/>
+        <location line="+236"/>
         <source>Back</source>
         <translation>Indietro</translation>
     </message>
