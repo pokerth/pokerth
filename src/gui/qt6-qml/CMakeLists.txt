@@ -70,7 +70,11 @@ if(ANDROID)
     set(POKERTH_ANDROID_DATA_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../../data")
     file(GLOB_RECURSE POKERTH_ANDROID_DATA_FILES CONFIGURE_DEPENDS
          "${POKERTH_ANDROID_DATA_DIR}/gfx/avatars/*"
-         "${POKERTH_ANDROID_DATA_DIR}/gfx/qml/*")
+         "${POKERTH_ANDROID_DATA_DIR}/gfx/qml/*"
+         # misc/cacert.pem: Rueckfall-Wurzelzertifikate fuer den HTTPS-Download
+         # der Serverliste, falls der Android-Trust-Store nicht lesbar ist
+         # (siehe LoadSystemCaCertificates in downloadhelper.cpp).
+         "${POKERTH_ANDROID_DATA_DIR}/misc/*")
     list(SORT POKERTH_ANDROID_DATA_FILES)
 
     set(POKERTH_ANDROID_DATA_ENTRIES "")
