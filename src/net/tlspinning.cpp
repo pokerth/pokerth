@@ -55,9 +55,10 @@ struct BuiltinPin {
 // client release can be done through the <TLSPin> element of the server list,
 // which is fetched over a CA verified HTTPS connection.
 const BuiltinPin BUILTIN_PINS[] = {
-	// pokerth.net official server (CN=pokerth.net, self-signed, valid until
-	// 2036-07-22).
-	{ "pthsrv.pokerth.net", "5v/FaWVqoZ1rUAakY8KmjDMzDuY1Zk9oTSXcZFZk5kY=" }
+	// pokerth.net official server (CN=pokerth.net, self-signed, RSA 4096,
+	// valid until 2036-07-31). Key and certificate live in /etc/tls on the
+	// server host and are deliberately not part of this repository.
+	{ "pthsrv.pokerth.net", "hnyHDGXvmDBFU7MN5xXuiq4OaWWrnHNzqhKlEoSuAV4=" }
 };
 
 bool

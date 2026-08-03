@@ -23,7 +23,7 @@
 		<IPv6Address value="new.server.example.com"/>
 		<SCTP value="0"/>
 		<TLS value="on"/>
-		<TLSPin value="5v/FaWVqoZ1rUAakY8KmjDMzDuY1Zk9oTSXcZFZk5kY="/>
+		<TLSPin value="hnyHDGXvmDBFU7MN5xXuiq4OaWWrnHNzqhKlEoSuAV4="/>
 		<ProtobufPort value="7236"/>
 		<AvatarServerAddress value="new.server.example.com"/>
 	</Server>
