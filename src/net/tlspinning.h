@@ -28,43 +28,52 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
-/* Server data. */
+/* Certificate pinning for the TLS connection to a lobby server. */
 
-#ifndef _SERVERDATA_H_
-#define _SERVERDATA_H_
+#ifndef _TLSPINNING_H_
+#define _TLSPINNING_H_
+
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl.hpp>
+
+#include <openssl/x509.h>
 
 #include <string>
 #include <vector>
 
-struct ServerInfo {
-	ServerInfo() : id(0), supportsSctp(false), useTLS(true), port(0) {}
-	unsigned id;
-	std::string name;
-	std::string sponsor;
-	std::string country;
-	std::string ipv4addr;
-	std::string ipv6addr;
-	bool supportsSctp;
-	bool useTLS;  // Default: true for new servers, can be overridden by serverlist
-	int port;
-	std::string avatarServerAddr;
-	// Accepted server public keys, see TlsPinning. Empty means the connection is
-	// encrypted but not authenticated.
-	std::vector<std::string> tlsPins;
-};
+// The lobby servers use self-signed certificates, so the usual CA based
+// verification is not applicable: it would reject exactly the certificate we
+// want to talk to. Instead the SHA-256 hash of the server's SubjectPublicKeyInfo
+// is compared against a list of known good pins.
+//
+// The public key is hashed rather than the whole certificate for two reasons: a
+// certificate renewed with the same key pair keeps its pin, and no host name has
+// to match anything, so servers addressed by IP address work as well.
+namespace TlsPinning
+{
+	typedef boost::asio::ssl::stream<boost::asio::ip::tcp::socket> SslStream;
 
-struct ServerStats {
-	ServerStats()
-		: numberOfPlayersOnServer(0), numberOfGamesOpen(0), totalPlayersEverLoggedIn(0),
-		  totalGamesEverCreated(0), maxGamesOpen(0), maxPlayersLoggedIn(0) {}
-	unsigned numberOfPlayersOnServer;
-	unsigned numberOfGamesOpen;
-	unsigned totalPlayersEverLoggedIn;
-	unsigned totalGamesEverCreated;
-	unsigned maxGamesOpen;
-	unsigned maxPlayersLoggedIn;
-};
+	// Pins compiled into the client for a known lobby address. Empty for every
+	// other address, which leaves those connections unpinned.
+	std::vector<std::string> GetBuiltinPins(const std::string &serverAddr);
 
+	// base64(sha256(DER encoded SubjectPublicKeyInfo)), empty on error. Same
+	// value as:
+	//   openssl x509 -in cert.pem -pubkey -noout \
+	//     | openssl pkey -pubin -outform der \
+	//     | openssl dgst -sha256 -binary | openssl enc -base64
+	std::string ComputeSpkiPin(X509 *cert);
+
+	// Enforce the given pins, i.e. abort the handshake unless the server proves
+	// possession of one of the pinned keys. Returns false and changes nothing if
+	// pins is empty; the caller's settings then stay in effect.
+	//
+	// Both variants have to be called before the handshake. The context variant
+	// additionally has to be called before the stream using that context is
+	// constructed, because the verification settings are copied into the SSL
+	// object at that point.
+	bool ApplyPins(boost::asio::ssl::context &sslCtx, const std::vector<std::string> &pins);
+	bool ApplyPins(SslStream &sslStream, const std::vector<std::string> &pins);
+}
 
 #endif
-

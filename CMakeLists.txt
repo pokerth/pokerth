@@ -138,8 +138,9 @@ set(POKERTH_LIB_SRC
     src/net/servercallback.cpp 
     src/net/sessiondata.cpp 
     src/net/sessiondatacallback.cpp 
-    src/net/sessionmanager.cpp 
-    src/net/socket_startup.cpp 
+    src/net/sessionmanager.cpp
+    src/net/socket_startup.cpp
+    src/net/tlspinning.cpp
     src/net/clientexception.cpp 
     src/net/netcontext.cpp 
     src/net/netexception.cpp 

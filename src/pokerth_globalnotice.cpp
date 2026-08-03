@@ -47,6 +47,7 @@
 #include <third_party/protobuf/pokerth.pb.h>
 #include <net/netpacket.h>
 #include <net/downloadhelper.h>
+#include <net/tlspinning.h>
 #include <serverdata.h>
 #include <game_defs.h>
 
@@ -55,6 +56,7 @@
 #include <QFile>
 #include <QTemporaryDir>
 
+#include <algorithm>
 #include <chrono>
 #include <cstring>
 #include <iostream>
@@ -265,6 +267,15 @@ downloadServerList(const string &url)
 				if (parseOnOff(tlsNode.attribute("value").toStdString(), useTls))
 					serverInfo.useTLS = useTls;
 			}
+			// Gepinnte Serverschlüssel wie im GUI-Client, damit ein
+			// Schlüsselwechsel per Serverliste auch hier ankommt.
+			for (QDomElement pinNode = nextServer.firstChildElement("TLSPin");
+					!pinNode.isNull();
+					pinNode = pinNode.nextSiblingElement("TLSPin")) {
+				const string tlsPin = pinNode.attribute("value").toStdString();
+				if (!tlsPin.empty())
+					serverInfo.tlsPins.push_back(tlsPin);
+			}
 			servers.push_back(serverInfo);
 		}
 		nextServer = nextServer.nextSiblingElement("Server");
@@ -291,8 +302,9 @@ public:
 		  m_recvBuf(RECV_BUF_SIZE, 0),
 		  m_recvBufUsed(0)
 	{
-		// Wie im GUI-Client: die Serverzertifikate sind selbstsigniert, es wird
-		// nur der Transport verschlüsselt.
+		// Wie im GUI-Client: die Serverzertifikate sind selbstsigniert. Geprüft
+		// wird deshalb nicht gegen eine CA, sondern gegen den eingebauten Pin
+		// des Servers - siehe Connect(), wo der Zielhost bekannt ist.
 		m_sslCtx.set_verify_mode(ssl::verify_none);
 		m_sslCtx.set_options(
 			ssl::context::default_workarounds |
@@ -307,7 +319,7 @@ public:
 		Disconnect();
 	}
 
-	void Connect(const string &host, unsigned port)
+	void Connect(const string &host, unsigned port, const vector<string> &serverListPins = vector<string>())
 	{
 		tcp::resolver resolver(m_io);
 		boost::system::error_code ec;
@@ -331,6 +343,17 @@ public:
 		m_stream.lowest_layer().set_option(tcp::no_delay(true), ec);
 
 		if (m_useTls) {
+			// Dieses Werkzeug meldet sich mit einem Admin-Passwort an, ein
+			// unauthentifizierter Kanal wäre hier besonders teuer.
+			vector<string> pins(TlsPinning::GetBuiltinPins(host));
+			for (const string &listPin : serverListPins) {
+				if (find(pins.begin(), pins.end(), listPin) == pins.end())
+					pins.push_back(listPin);
+			}
+			if (!TlsPinning::ApplyPins(m_stream, pins))
+				cerr << "warning: no pinned key for " << host
+					 << " - the connection is encrypted, but the server is not authenticated." << endl;
+
 			done = false;
 			m_stream.async_handshake(
 				ssl::stream_base::client,
@@ -621,6 +644,7 @@ main(int argc, char *argv[])
 	string host;
 	unsigned port = vm["port"].as<unsigned>();
 	string serverName;
+	vector<string> serverListPins;
 
 	try {
 		if (vm.count("host")) {
@@ -658,6 +682,7 @@ main(int argc, char *argv[])
 			host = chosen->ipv4addr;
 			port = static_cast<unsigned>(chosen->port);
 			useTls = chosen->useTLS;
+			serverListPins = chosen->tlsPins;
 			serverName = chosen->name.empty() ? chosen->ipv4addr : chosen->name;
 			cout << "Using server \"" << serverName << "\" (" << host << ":" << port
 				 << ", TLS " << (useTls ? "on" : "off") << ")." << endl;
@@ -713,7 +738,7 @@ main(int argc, char *argv[])
 	try {
 		NoticeClient client(useTls, vm["timeout"].as<unsigned>());
 		cout << "Connecting to " << host << ":" << port << "..." << endl;
-		client.Connect(host, port);
+		client.Connect(host, port, serverListPins);
 
 		const bool accepted = sendGlobalNotice(client, userName, password, noticeText.toStdString());
 		client.Disconnect();

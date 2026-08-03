@@ -39,6 +39,9 @@
 #include <playerdata.h>
 #include <game_defs.h>
 
+#include <string>
+#include <vector>
+
 
 class ClientContext
 {
@@ -81,6 +84,17 @@ public:
 	void SetServerAddr(const std::string &serverAddr)
 	{
 		m_serverAddr = serverAddr;
+	}
+	// Server public keys the lobby connection is pinned to, as announced by the
+	// server list. Merged with the pins compiled into the client, see
+	// ClientThread::CreateContextSession().
+	const std::vector<std::string> &GetTlsPins() const
+	{
+		return m_tlsPins;
+	}
+	void SetTlsPins(const std::vector<std::string> &tlsPins)
+	{
+		m_tlsPins = tlsPins;
 	}
 	const std::string &GetServerPassword() const
 	{
@@ -197,6 +211,7 @@ private:
 	bool				m_tls;
 	int					m_addrFamily;
 	std::string			m_serverAddr;
+	std::vector<std::string> m_tlsPins;
 	std::string			m_serverPassword;
 	std::string			m_serverListUrl;
 	bool				m_useServerList;

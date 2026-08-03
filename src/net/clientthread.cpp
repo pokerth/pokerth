@@ -41,8 +41,10 @@
 #include <net/socket_msg.h>
 #include <net/net_helper.h>
 #include <net/asioreceivebuffer.h>
+#include <net/tlspinning.h>
 #include <core/avatarmanager.h>
 #include <core/loghelper.h>
+#include <algorithm>
 #include <vector>
 #include <clientenginefactory.h>
 #include <game.h>
@@ -1137,7 +1139,26 @@ ClientThread::CreateContextSession()
         boost::shared_ptr<boost::asio::ssl::context> sslCtx(
             new boost::asio::ssl::context(boost::asio::ssl::context::sslv23_client));
         
+        // Trust for the lobby connection comes from the pinned server key: the
+        // pins compiled into the client for known servers plus the pins the
+        // server list announces. Without any pin the connection stays encrypted
+        // but unauthenticated - a man in the middle could read the login data,
+        // which is why this is only acceptable for servers we know nothing about
+        // (LAN games, third party servers).
+        vector<string> pins(TlsPinning::GetBuiltinPins(context.GetServerAddr()));
+        for (const string &listPin : context.GetTlsPins()) {
+            if (find(pins.begin(), pins.end(), listPin) == pins.end())
+                pins.push_back(listPin);
+        }
+
         sslCtx->set_verify_mode(boost::asio::ssl::verify_none);
+        if (TlsPinning::ApplyPins(*sslCtx, pins)) {
+            LOG_MSG("TLS: connection to " << context.GetServerAddr()
+                    << " is pinned to " << pins.size() << " server key(s).");
+        } else {
+            LOG_MSG("TLS: no pinned key for " << context.GetServerAddr()
+                    << " - connection is encrypted, but the server is not authenticated.");
+        }
 
         SSL_CTX_set_info_callback(sslCtx->native_handle(), &ClientThread::SslInfoCallback);
 
@@ -1500,6 +1521,7 @@ ClientThread::UseServer(unsigned serverId)
 	context.SetServerPort((unsigned)useInfo.port);
 	context.SetAvatarServerAddr(useInfo.avatarServerAddr);
 	context.SetTls(useInfo.useTLS);  // Use TLS setting from serverlist
+	context.SetTlsPins(useInfo.tlsPins);
 }
 
 bool

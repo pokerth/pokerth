@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ServerList>
-	<!-- Example: New server with TLS enabled (default) -->
+	<!-- Example: New server with TLS enabled (default) and a pinned key.
+	     TLSPin is base64(sha256(DER SubjectPublicKeyInfo)) of the server
+	     certificate, i.e. the output of
+
+	       openssl s_client -connect host:port </dev/null 2>/dev/null \
+	         | openssl x509 -pubkey -noout \
+	         | openssl pkey -pubin -outform der \
+	         | openssl dgst -sha256 -binary | openssl enc -base64
+
+	     Clients accept only a server which proves possession of a pinned key,
+	     which is what protects the login data of a self-signed server against a
+	     man in the middle. The pin survives certificate renewals as long as the
+	     same key pair is reused. During a key rollover, list the old and the new
+	     pin. Without any TLSPin (and without a pin compiled into the client for
+	     this address) the connection stays encrypted but unauthenticated. -->
 	<Server id="1">
 		<Name value="PokerTH Official Server (TLS)"/>
 		<Sponsor value="PokerTH.net"/>
@@ -9,6 +23,7 @@
 		<IPv6Address value="new.server.example.com"/>
 		<SCTP value="0"/>
 		<TLS value="on"/>
+		<TLSPin value="5v/FaWVqoZ1rUAakY8KmjDMzDuY1Zk9oTSXcZFZk5kY="/>
 		<ProtobufPort value="7236"/>
 		<AvatarServerAddress value="new.server.example.com"/>
 	</Server>

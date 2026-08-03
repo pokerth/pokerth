@@ -38,6 +38,7 @@
 #include <third_party/protobuf/pokerth.pb.h>
 #include <third_party/protobuf/chatcleaner.pb.h>
 #include <net/netpacket.h>
+#include <net/tlspinning.h>
 #include <game_defs.h>
 
 #include <iostream>
@@ -269,6 +270,9 @@ public:
         
         if (useTls_) {
             sslCtx_.set_verify_mode(ssl::verify_none);
+            // Gegen den offiziellen Server wird der eingebaute Pin geprüft, für
+            // lokale Testserver bleibt es beim reinen Transportschutz.
+            TlsPinning::ApplyPins(sslCtx_, TlsPinning::GetBuiltinPins(server_));
             // Disable alte/unsichere Protokolle
             sslCtx_.set_options(
                 ssl::context::default_workarounds |

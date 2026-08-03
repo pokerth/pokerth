@@ -399,6 +399,17 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 			}
 			if (!avatarNode.isNull())
 				serverInfo.avatarServerAddr = avatarNode.attribute("value").toStdString();
+			// Optional: one or more pinned server public keys. The server list
+			// itself is fetched over a CA verified HTTPS connection, so pins
+			// distributed through it can be trusted, and a key can be rolled
+			// over without a client release.
+			for (QDomElement pinNode = nextServer.firstChildElement("TLSPin");
+					!pinNode.isNull();
+					pinNode = pinNode.nextSiblingElement("TLSPin")) {
+				const std::string tlsPin = pinNode.attribute("value").toStdString();
+				if (!tlsPin.empty())
+					serverInfo.tlsPins.push_back(tlsPin);
+			}
 
 			client->AddServerInfo(serverInfo.id, serverInfo);
 			nextServer = nextServer.nextSiblingElement();
