@@ -34,13 +34,17 @@
 #include "configfile.h"
 #include "gamedata.h"
 #include "changecompleteblindsdialogimpl.h"
+#include "communitysuggest.h"
+#include <QComboBox>
+#include <QLabel>
+#include <QHBoxLayout>
 #ifdef ANDROID
 #include "mobileinputhelper.h"
 #endif
 
 
-createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c)
-	: QDialog(parent), myConfig(c), currentGuestMode(false), currentPlayerName("")
+createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, ConfigFile *c, CommunitySuggest *suggest)
+	: QDialog(parent), myConfig(c), mySuggest(suggest), currentGuestMode(false), currentPlayerName("")
 {
 #ifdef __APPLE__
 	setWindowModality(Qt::ApplicationModal);
@@ -74,6 +78,37 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	connect( pushButton_createGame, SIGNAL( clicked() ), this, SLOT( createGame() ) );
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) );
 	connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
+
+	// ── Community-Turnier-Vorlagen (BBC / Monthly Cup / WEC) ────────────────
+	// Deckungsgleich mit den communityPresets des QML-Clients. blinds leer =
+	// „Blinds verdoppeln"; sonst feste manuelle Blindreihenfolge (BBC Steps).
+	myCommunityTemplates = QList<CommunityTemplate>{
+		{ "BBC Step 1", "step1", "", 3000, 15, false, 11, 5, 10,
+		  {20,25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000} },
+		{ "BBC Step 2", "step2", "", 4000, 20, false, 11, 5, 10,
+		  {25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000} },
+		{ "BBC Step 3", "step3", "", 5000, 25, false, 11, 5, 10,
+		  {30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000,25000} },
+		{ "BBC Step 4", "step4", "", 10000, 50, false, 11, 5, 10,
+		  {60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000,25000,30000,40000,50000} },
+		{ "Monthly Cup", "", "mcup", 10000, 50, true, 16, 5, 10, {} },
+		{ "Monthly Cup Final", "", "mcupfinal", 10000, 50, true, 22, 5, 12, {} },
+		{ "WEC", "wec", "", 10000, 50, true, 22, 5, 12, {} },
+		{ "WEC Monthly Final", "", "", 10000, 50, true, 25, 5, 15, {} },
+		{ "WEC Grand Final", "wec", "", 10000, 50, true, 35, 5, 25, {} }
+	};
+
+	label_communityTemplate = new QLabel(tr("Community template:"), this);
+	comboBox_communityTemplate = new QComboBox(this);
+	comboBox_communityTemplate->addItem(tr("Own settings"));
+	for (const CommunityTemplate &t : myCommunityTemplates)
+		comboBox_communityTemplate->addItem(t.name);   // Eigennamen, nicht übersetzt
+	QHBoxLayout *communityRow = new QHBoxLayout();
+	communityRow->addWidget(label_communityTemplate);
+	communityRow->addWidget(comboBox_communityTemplate);
+	// Als eigene Zeile unten in das bestehende Grid einhängen (spannt beide Spalten).
+	gridLayout->addLayout(communityRow, gridLayout->rowCount(), 0, 1, 2);
+	connect( comboBox_communityTemplate, SIGNAL(currentIndexChanged(int)), this, SLOT( applyCommunityTemplate() ) );
 }
 
 
@@ -267,6 +302,91 @@ void createInternetGameDialogImpl::gameTypeChanged()
 		myChangeCompleteBlindsDialog->spinBox_afterThisAlwaysRaiseValue->setValue(myConfig->readConfigInt("NetAfterMBAlwaysRaiseValue"));
 		myChangeCompleteBlindsDialog->radioButton_afterThisStayAtLastBlind->setChecked(myConfig->readConfigInt("NetAfterMBStayAtLastBlind"));
 	}
+
+	// Ein Wechsel des Spieltyps verwirft eine ggf. gewählte Community-Vorlage
+	// (die Werte oben sind bereits die Typ-Standardwerte) und aktualisiert die
+	// Sichtbarkeit der Vorlagen-Auswahl.
+	if (comboBox_communityTemplate) {
+		comboBox_communityTemplate->blockSignals(true);
+		comboBox_communityTemplate->setCurrentIndex(0);
+		comboBox_communityTemplate->blockSignals(false);
+		updateCommunityTemplateVisibility();
+	}
+}
+
+void createInternetGameDialogImpl::updateCommunityTemplateVisibility()
+{
+	if (!comboBox_communityTemplate)
+		return;
+	const bool inviteOnly = comboBox_gameType->itemData(
+	                            comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
+	const bool show = inviteOnly && !currentGuestMode
+	                  && myConfig && myConfig->readConfigInt("ShowCommunityContent");
+	label_communityTemplate->setVisible(show);
+	comboBox_communityTemplate->setVisible(show);
+}
+
+void createInternetGameDialogImpl::applyCommunityTemplate()
+{
+	const int idx = comboBox_communityTemplate->currentIndex();
+	if (idx <= 0) {
+		// „Eigene Einstellungen": Standardwerte des Spieltyps wiederherstellen.
+		gameTypeChanged();
+		return;
+	}
+	const CommunityTemplate &t = myCommunityTemplates.at(idx - 1);
+
+	lineEdit_gameName->setText(t.name);
+	// Monthly Cup: monatlich wechselnder Titel – aktuellen Prefix ziehen.
+	if (!t.titleCommand.isEmpty() && mySuggest) {
+		const QString title = mySuggest->gameTitlePrefix(t.titleCommand);
+		if (!title.isEmpty())
+			lineEdit_gameName->setText(title);
+	}
+
+	spinBox_quantityPlayers->setValue(10);
+	spinBox_startCash->setValue(t.startCash);
+	spinBox_netTimeOutPlayerAction->setValue(t.playerActionTimeout);
+	spinBox_netDelayBetweenHands->setValue(7);
+
+	changeCompleteBlindsDialogImpl *cb = myChangeCompleteBlindsDialog;
+	cb->spinBox_firstSmallBlind->setValue(t.firstSmallBlind);
+	cb->radioButton_raiseBlindsAtHands->setChecked(t.raiseOnHands);
+	cb->radioButton_raiseBlindsAtMinutes->setChecked(!t.raiseOnHands);
+	cb->spinBox_raiseSmallBlindEveryHands->setValue(t.raiseEveryHands);
+	cb->spinBox_raiseSmallBlindEveryMinutes->setValue(t.raiseEveryMinutes);
+	cb->listWidget_blinds->clear();
+	if (t.blinds.isEmpty()) {
+		cb->radioButton_alwaysDoubleBlinds->setChecked(true);
+		cb->radioButton_manualBlindsOrder->setChecked(false);
+	} else {
+		cb->radioButton_alwaysDoubleBlinds->setChecked(false);
+		cb->radioButton_manualBlindsOrder->setChecked(true);
+		for (int b : t.blinds)
+			cb->listWidget_blinds->addItem(QString::number(b, 10));
+		// Nach der festen Blindliste verdoppeln (BBC-Step-Konvention).
+		cb->radioButton_afterThisAlwaysDoubleBlinds->setChecked(true);
+		cb->radioButton_afterThisAlwaysRaiseAbout->setChecked(false);
+		cb->radioButton_afterThisStayAtLastBlind->setChecked(false);
+	}
+	radioButton_useSavedBlindsSettings->setChecked(true);
+}
+
+QString createInternetGameDialogImpl::selectedSuggestType() const
+{
+	if (!comboBox_communityTemplate)
+		return QString();
+	// Nicht isVisible() prüfen (Dialog ist beim Aufruf bereits geschlossen) –
+	// dieselben Bedingungen wie updateCommunityTemplateVisibility().
+	const bool inviteOnly = comboBox_gameType->itemData(
+	                            comboBox_gameType->currentIndex(), Qt::UserRole).toInt() == GAME_TYPE_INVITE_ONLY;
+	if (!inviteOnly || currentGuestMode
+	    || !myConfig || !myConfig->readConfigInt("ShowCommunityContent"))
+		return QString();
+	const int idx = comboBox_communityTemplate->currentIndex();
+	if (idx <= 0)
+		return QString();
+	return myCommunityTemplates.at(idx - 1).suggestType;
 }
 
 bool createInternetGameDialogImpl::eventFilter(QObject *obj, QEvent *event)

@@ -397,6 +397,26 @@
                </property>
               </widget>
              </item>
+             <item row="8" column="0" colspan="2">
+              <widget class="QCheckBox" name="checkBox_ShowCommunityContent">
+               <property name="toolTip">
+                <string>Shows the official community tournament templates (BBC Steps, Monthly Cup, WEC) when creating an invite-only game.</string>
+               </property>
+               <property name="text">
+                <string>Show community content (BBC/WEC templates)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="0" colspan="2">
+              <widget class="QCheckBox" name="checkBox_ShowCommunitySuggest">
+               <property name="toolTip">
+                <string>Adds a &quot;Suggest players&quot; button in the waiting room of your own BBC/WEC invite game. Only relevant for the few BBC/WEC admins.</string>
+               </property>
+               <property name="text">
+                <string>Suggest players in own community games</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </widget>

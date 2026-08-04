@@ -33,6 +33,9 @@
 #include "mynicklistsortfilterproxymodel.h"
 #include "startwindowimpl.h"
 #include "chattools.h"
+#include "communitysuggest.h"
+#include <QPushButton>
+#include <QGridLayout>
 #include "darkmodehelper.h"
 #include "core/appimage_utils.h"
 #include <QScreen>
@@ -52,7 +55,7 @@ using namespace std;
 
 
 gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
-	: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0)
+	: QDialog(parent), myW(NULL), myStartWindow(parent), myConfig(c), myCreateInternetGameDialog(NULL), mySuggest(NULL), pushButton_suggestPlayers(NULL), currentGameName(""), myPlayerId(0), isGameAdministrator(false), inGame(false), guestMode(false), blinkingButtonAnimationState(true), myChat(NULL), keyUpCounter(0), infoMsgToShowId(0), currentInvitationGameId(0), inviteDialogIsCurrentlyShown(false), autoStartTimerCounter(0), lastNickListFilterState(0)
 {
 
 	setupUi(this);
@@ -239,6 +242,15 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	myChat = new ChatTools(lineEdit_ChatInput, myConfig, INET_LOBBY_CHAT, textBrowser_ChatDisplay, myNickListModel, this);
 
+	// Community-„Suggest": gemeinsame Engine (persistenter 15-min-Cache) für den
+	// Create-Dialog (mcup-Titel) UND den Suggest-Button hier.
+	mySuggest = new CommunitySuggest();
+	pushButton_suggestPlayers = new QPushButton(tr("Suggest players"), this);
+	pushButton_suggestPlayers->setVisible(false);
+	if (QGridLayout *chatGrid = qobject_cast<QGridLayout*>(groupBox_lobbyChat->layout()))
+		chatGrid->addWidget(pushButton_suggestPlayers, 2, 0);
+	connect( pushButton_suggestPlayers, SIGNAL( clicked() ), this, SLOT( runCommunitySuggest() ) );
+
 	nickListContextMenu = new QMenu();
 	nickListInviteAction = new QAction(QIcon(":/gfx/list_add_user.png"), tr("Invite player"), nickListContextMenu);
 	nickListContextMenu->addAction(nickListInviteAction);
@@ -345,8 +357,69 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 	delete myChat;
 	myChat = NULL;
 
+	delete mySuggest;
+	mySuggest = NULL;
+
 	delete inviteOnlyInfoMsgBox;
 	inviteOnlyInfoMsgBox = NULL;
+}
+
+void gameLobbyDialogImpl::updateSuggestButtonVisibility()
+{
+	if (!pushButton_suggestPlayers)
+		return;
+	bool show = false;
+	if (isGameAdministrator && !myCreatedSuggestType.isEmpty() && mySession
+	    && myConfig && myConfig->readConfigInt("ShowCommunityContent")
+	    && myConfig->readConfigInt("ShowCommunitySuggest")) {
+		const unsigned gameId = mySession->getGameIdOfPlayer(mySession->getClientUniquePlayerId());
+		if (gameId != 0) {
+			GameInfo info(mySession->getClientGameInfo(gameId));
+			show = (info.data.gameType == GAME_TYPE_INVITE_ONLY);
+		}
+	}
+	pushButton_suggestPlayers->setVisible(show);
+}
+
+void gameLobbyDialogImpl::runCommunitySuggest()
+{
+	if (!mySuggest || !mySession || myCreatedSuggestType.isEmpty())
+		return;
+
+	// Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
+	const unsigned ownGameId = mySession->getGameIdOfPlayer(mySession->getClientUniquePlayerId());
+
+	QStringList idleNames;
+	QList<CommunitySuggest::PlayingPlayer> playing;
+	for (int row = 0; myNickListModel->item(row); ++row) {
+		QStandardItem *item = myNickListModel->item(row, 0);
+		if (!item)
+			continue;
+		const unsigned pid = item->data(Qt::UserRole).toUInt();
+		if (pid == 0)
+			continue;
+		PlayerInfo pinfo(mySession->getClientPlayerInfo(pid));
+		if (pinfo.isGuest)   // Gäste stehen weder in der DB noch auf der WEC-Liste.
+			continue;
+		const QString name = QString::fromUtf8(pinfo.playerName.c_str());
+		if (name.isEmpty())
+			continue;
+		const unsigned gameId = mySession->getGameIdOfPlayer(pid);
+		if (gameId == 0) {
+			idleNames << name;                       // idle
+		} else if (gameId != ownGameId) {            // an einem anderen Tisch
+			CommunitySuggest::PlayingPlayer pp;
+			pp.name = name;
+			pp.game = QString::fromUtf8(mySession->getClientGameInfo(gameId).name.c_str());
+			playing << pp;
+		}
+		// gameId == ownGameId → am eigenen Tisch: überspringen.
+	}
+
+	const QString message = mySuggest->suggest(myCreatedSuggestType, idleNames, playing);
+	// Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des bbcbot), nicht senden.
+	if (!message.isEmpty() && myChat)
+		myChat->showLocalNote(message);
 }
 
 void gameLobbyDialogImpl::setSession(boost::shared_ptr<Session> session)
@@ -359,11 +432,14 @@ void gameLobbyDialogImpl::createGame()
 {
 	assert(mySession);
 
-	myCreateInternetGameDialog = new createInternetGameDialogImpl(this, myConfig);
+	myCreateInternetGameDialog = new createInternetGameDialogImpl(this, myConfig, mySuggest);
 	PlayerInfo playerInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
 	myCreateInternetGameDialog->exec(guestMode, QString::fromUtf8(playerInfo.playerName.c_str()));
 
 	if (myCreateInternetGameDialog->result() == QDialog::Accepted ) {
+
+		// Suggest-Typ des eigenen Spiels merken (explizit aus der Vorlage).
+		myCreatedSuggestType = myCreateInternetGameDialog->selectedSuggestType();
 
 		GameData gameData;
 		// Set Game Data
@@ -540,7 +616,9 @@ void gameLobbyDialogImpl::removedFromGame(int /*reason*/)
 {
 	inGame = false;
 	isGameAdministrator = false;
+	myCreatedSuggestType.clear();
 	leftGameDialogUpdate();
+	updateSuggestButtonVisibility();
 }
 
 void gameLobbyDialogImpl::gameSelected(const QModelIndex &index)
@@ -1014,6 +1092,7 @@ void gameLobbyDialogImpl::clearDialog()
 	inGame = false;
 	isGameAdministrator = false;
 	myPlayerId = 0;
+	myCreatedSuggestType.clear();
 
 	showGameDescription(false);
 
@@ -1097,6 +1176,7 @@ void gameLobbyDialogImpl::joinedNetworkGame(unsigned playerId, QString playerNam
 	myPlayerId = playerId;
 	isGameAdministrator = isGameAdmin;
 	addConnectedPlayer(playerId, playerName, isGameAdmin);
+	updateSuggestButtonVisibility();
 
 	//show msgBox about invite only game
 	assert(mySession);
@@ -1305,6 +1385,7 @@ void gameLobbyDialogImpl::newGameAdmin(unsigned playerId, QString)
 	if (inGame && myPlayerId == playerId) {
 		isGameAdministrator = true;
 		checkPlayerQuantity();
+		updateSuggestButtonVisibility();
 	}
 }
 
@@ -1622,6 +1703,7 @@ void gameLobbyDialogImpl::showGameDescription(bool show)
 		tabWidget_playerSpectators->setTabText(0, tr("Players (%1)").arg(0));
 		tabWidget_playerSpectators->setTabText(1, tr("Spectators (%1)").arg(0));
 	}
+	updateSuggestButtonVisibility();
 }
 
 void gameLobbyDialogImpl::showWaitStartGameMsgBox()

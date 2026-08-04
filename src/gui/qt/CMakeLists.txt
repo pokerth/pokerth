@@ -30,6 +30,7 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     connecttoserverdialog/connecttoserverdialogimpl.cpp
     createnetworkgamedialog/createnetworkgamedialogimpl.cpp
     createinternetgamedialog/createinternetgamedialogimpl.cpp
+    communitysuggest/communitysuggest.cpp
     joinnetworkgamedialog/joinnetworkgamedialogimpl.cpp
     newlocalgamedialog/newgamedialogimpl.cpp
     settingsdialog/settingsdialogimpl.cpp
@@ -120,6 +121,7 @@ target_include_directories(pokerth_client PUBLIC
     aboutpokerth
     createnetworkgamedialog
     createinternetgamedialog
+    communitysuggest
     joinnetworkgamedialog
     newlocalgamedialog
     settingsdialog

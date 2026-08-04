@@ -129,18 +129,54 @@ GameHandler::GameHandler(QObject *parent)
     // nicht aushebelt) – nur eine Type_ResetTimeoutMessage setzt den In-Game-
     // Timer (21 min) zurück. Ohne dies wurde der QML-Client trotz aktiven
     // Spielens nach ~21 min vom Server gekickt (wie der Widgets-Client per
-    // eventFilter). App-weiter Filter, ratenbegrenzt.
+    // eventFilter). App-weiter Filter, ratenbegrenzt – welche Ereignisse als
+    // Aktivität zählen, steht bei isUserActivityEvent().
     m_afkResetTimer.start();
     if (qApp)
         qApp->installEventFilter(this);
 }
 
+// Zählt ein Ereignis als echte Nutzeraktivität (→ AFK-Timer des Servers
+// zurücksetzen)?
+//
+// WICHTIG – Shortcut: In einer reinen QGuiApplication (QML) prüft
+// QGuiApplicationPrivate::processKeyEvent den Tastendruck GEGEN DIE
+// QShortcutMap, BEVOR das Ereignis an das Fenster zugestellt wird, und kehrt
+// bei einem Treffer vorzeitig zurück. Ein von einem QML-Shortcut belegter
+// Tastendruck (F1–F8, Alt+…) läuft damit nie durch QCoreApplication::notify –
+// also auch nicht durch diesen App-weiten Filter. Sichtbar wird nur das danach
+// an das Shortcut-Objekt zugestellte QEvent::Shortcut. Ohne diesen Zweig blieb
+// ein Spieler, der ausschließlich per F-Tasten agiert (Fold/Call/Raise), für
+// den Server 21 min lang "inaktiv" und bekam die Timeout-Warnung, obwohl er
+// durchgehend spielte. Der Widget-Client ist davon nicht betroffen: dort löst
+// QApplication::notify die Shortcuts erst NACH den App-Filtern auf.
+//
+// Touch: QQuickWindow bekommt echte Touch-Ereignisse; die Maus-Synthese
+// passiert erst innerhalb der Item-Zustellung, nicht über notify. Ohne
+// TouchBegin/TouchUpdate gäbe es auf Android/iOS überhaupt keine Aktivität.
+static bool isUserActivityEvent(QEvent::Type t)
+{
+    switch (t) {
+    case QEvent::MouseButtonPress:
+    case QEvent::KeyPress:
+    case QEvent::Shortcut:
+    case QEvent::ShortcutOverride:
+    case QEvent::Wheel:
+    case QEvent::TouchBegin:
+    case QEvent::TouchUpdate:
+        return true;
+    default:
+        return false;
+    }
+}
+
 bool GameHandler::eventFilter(QObject *watched, QEvent *event)
 {
-    const QEvent::Type t = event->type();
-    if (t == QEvent::MouseButtonPress || t == QEvent::KeyPress) {
-        if (m_session && m_session->isNetworkClientRunning()
-            && m_afkResetTimer.elapsed() >= kAfkResetIntervalMs) {
+    if (isUserActivityEvent(event->type())) {
+        if (m_afkResetTimer.elapsed() >= kAfkResetIntervalMs
+            && m_session && m_session->isNetworkClientRunning()) {
+            qDebug() << "[AFK] ResetTimeout gesendet, ausgelöst von Event-Typ"
+                     << event->type();
             m_session->resetNetworkTimeout();
             m_afkResetTimer.restart();
         }

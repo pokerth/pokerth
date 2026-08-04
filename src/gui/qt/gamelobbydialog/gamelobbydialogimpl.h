@@ -51,6 +51,8 @@ class ChatTools;
 class startWindowImpl;
 class MyGameListSortFilterProxyModel;
 class MyNickListSortFilterProxyModel;
+class CommunitySuggest;
+class QPushButton;
 
 /**
 	@author FThauer FHammer <webmaster@pokerth.net>
@@ -86,6 +88,10 @@ public:
 public slots:
 
 	void createGame();
+	// Community-„Suggest": schlägt für das eigene BBC-/WEC-Invite-Spiel passende
+	// Spieler vor; das Ergebnis erscheint NUR lokal im Chat (wie die PM-Antwort
+	// des bbcbot an den Anfragenden).
+	void runCommunitySuggest();
 	void joinGame();
 	void gameSelected(const QModelIndex &);
 	void updateGameItem(QList <QStandardItem*>, unsigned gameId);
@@ -175,12 +181,20 @@ public slots:
 	void updateGameListStyleSheet();
 
 private:
+	// Sichtbarkeit des Suggest-Buttons: Admin des eigenen Invite-Spiels mit
+	// BBC-/WEC-Vorlage, Community-Inhalt + Suggest-Option aktiv.
+	void updateSuggestButtonVisibility();
 
 	gameTableImpl* myW;
 	startWindowImpl* myStartWindow;
 	ConfigFile *myConfig;
 	boost::shared_ptr<Session> mySession;
 	createInternetGameDialogImpl *myCreateInternetGameDialog;
+	CommunitySuggest *mySuggest;
+	// Suggest-Typ des eigenen erstellten Spiels ("step1".."step4"|"wec"|"").
+	// Explizit aus der gewählten Vorlage – NICHT aus dem (editierbaren) Namen.
+	QString myCreatedSuggestType;
+	QPushButton *pushButton_suggestPlayers;
 	QString currentGameName;
 	unsigned myPlayerId;
 	bool isGameAdministrator;

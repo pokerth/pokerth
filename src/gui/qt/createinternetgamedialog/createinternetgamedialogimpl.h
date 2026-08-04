@@ -43,14 +43,37 @@
 class Session;
 class ConfigFile;
 class changeCompleteBlindsDialogImpl;
+class CommunitySuggest;
+class QComboBox;
+class QLabel;
 
 class createInternetGameDialogImpl: public QDialog, public Ui::createInternetGameDialog
 {
 	Q_OBJECT
 public:
-	createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0);
+	// Offizielle Community-Turnier-Vorlagen (BBC Steps / Monthly Cup / WEC) –
+	// deckungsgleich mit den communityPresets des QML-Clients.
+	struct CommunityTemplate {
+		QString name;
+		QString suggestType;    // "step1".."step4" | "wec" | "" (kein Suggest)
+		QString titleCommand;   // "mcup"/"mcupfinal" (monatl. Titel) | ""
+		int startCash;
+		int firstSmallBlind;
+		bool raiseOnHands;
+		int raiseEveryHands;
+		int raiseEveryMinutes;
+		int playerActionTimeout;
+		QList<int> blinds;      // leer = Blinds verdoppeln
+	};
+
+	createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, CommunitySuggest *suggest = 0);
 
 	void exec(bool guestMode, QString playerName);
+
+	// Suggest-Typ der aktuell gewählten Community-Vorlage ("" wenn keine bzw.
+	// wenn kein Invite-Spiel/Community-Inhalt). Vom Warteraum nach dem Anlegen
+	// gelesen, um den Suggest-Button des eigenen Spiels zu steuern.
+	QString selectedSuggestType() const;
 	changeCompleteBlindsDialogImpl* getChangeCompleteBlindsDialog()
 	{
 		return myChangeCompleteBlindsDialog;
@@ -66,16 +89,26 @@ public slots:
 	void keyPressEvent ( QKeyEvent * event ) override;
 	void clearGamePassword(bool);
 	void gameTypeChanged();
+	// Wendet die gewählte Community-Vorlage auf das Formular an (bzw. stellt bei
+	// „Eigene Einstellungen" die Werte aus gameTypeChanged() wieder her).
+	void applyCommunityTemplate();
 
 	void callChangeBlindsDialog(bool);
 private:
+	// Sichtbarkeit der Vorlagen-Auswahl: nur bei Invite-Spiel + Community-Inhalt.
+	void updateCommunityTemplateVisibility();
 
 	ConfigFile *myConfig;
+	CommunitySuggest *mySuggest;
 	changeCompleteBlindsDialogImpl *myChangeCompleteBlindsDialog;
 	bool currentGuestMode;
 	QString currentPlayerName;
 	QLabel *startBlind;
 	QLabel *raiseMode;
+
+	QList<CommunityTemplate> myCommunityTemplates;
+	QLabel *label_communityTemplate;
+	QComboBox *comboBox_communityTemplate;
 
 };
 

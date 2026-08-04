@@ -626,6 +626,16 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 	}
 }
 
+void ChatTools::showLocalNote(QString message)
+{
+	// Nur lokale Anzeige (kursiv, wie eine eingehende PM) – wird NICHT gesendet.
+	if(!myTextBrowser)
+		return;
+	message = message.replace("<","&lt;").replace(">","&gt;");
+	message = wrapEmojisLarger(message, 20);
+	myTextBrowser->append("<i>" + message + "</i>");
+}
+
 void ChatTools::privateMessage(QString playerName, QString message)
 {
 	bool pm=true;

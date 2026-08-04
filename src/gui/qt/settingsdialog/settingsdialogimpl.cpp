@@ -361,6 +361,8 @@ void settingsDialogImpl::prepareDialog()
 		lineEdit_InternetGamePassword->setText(QString::fromUtf8(myConfig->readConfigString("InternetGamePassword").c_str()));
 	}
 	checkBox_UseLobbyChat->setChecked(myConfig->readConfigInt("UseLobbyChat"));
+	checkBox_ShowCommunityContent->setChecked(myConfig->readConfigInt("ShowCommunityContent"));
+	checkBox_ShowCommunitySuggest->setChecked(myConfig->readConfigInt("ShowCommunitySuggest"));
 	checkBox_InetGame_AutoLeaveTheTableAfterGameFinished->setChecked(myConfig->readConfigInt("NetAutoLeaveGameAfterFinish"));
 	comboBox_internetGameType->setCurrentIndex(myConfig->readConfigInt("InternetGameType"));
 	lineEdit_internetGameName->setText(QString::fromUtf8(myConfig->readConfigString("InternetGameName").c_str()));
@@ -924,6 +926,8 @@ void settingsDialogImpl::isAccepted()
 	myConfig->writeConfigInt("UseInternetGamePassword", checkBox_UseInternetGamePassword->isChecked());
 	myConfig->writeConfigString("InternetGamePassword", lineEdit_InternetGamePassword->text().toUtf8().constData());
 	myConfig->writeConfigInt("UseLobbyChat", checkBox_UseLobbyChat->isChecked());
+	myConfig->writeConfigInt("ShowCommunityContent", checkBox_ShowCommunityContent->isChecked());
+	myConfig->writeConfigInt("ShowCommunitySuggest", checkBox_ShowCommunitySuggest->isChecked());
 	myConfig->writeConfigInt("NetAutoLeaveGameAfterFinish", checkBox_InetGame_AutoLeaveTheTableAfterGameFinished->isChecked());
 	myConfig->writeConfigInt("InternetGameType", comboBox_internetGameType->currentIndex());
 	myConfig->writeConfigString("InternetGameName", lineEdit_internetGameName->text().toUtf8().constData());

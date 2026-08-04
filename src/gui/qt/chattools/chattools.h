@@ -64,6 +64,10 @@ public slots:
 	void sendMessage();
 	void receiveMessage(QString playerName, QString message, bool pm=false);
 	void privateMessage(QString playerName, QString message);
+	// Hängt eine Zeile NUR lokal an den eigenen Chat-Verlauf an (kein Senden,
+	// kein Broadcast) – für Hinweise, die nur der auslösende Nutzer sehen soll,
+	// z. B. das Community-„Suggest"-Ergebnis (wie die PM-Antwort des bbcbot).
+	void showLocalNote(QString message);
 	void clearChat();
 	// Wird nach dem Übernehmen der Einstellungen aufgerufen. Wendet den Schalter
 	// "AllowChatTranslation" auf den SICHTBAREN Verlauf an: bei Deaktivierung
