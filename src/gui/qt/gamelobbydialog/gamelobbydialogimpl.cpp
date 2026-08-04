@@ -368,16 +368,15 @@ void gameLobbyDialogImpl::updateSuggestButtonVisibility()
 {
 	if (!pushButton_suggestPlayers)
 		return;
-	bool show = false;
-	if (isGameAdministrator && !myCreatedSuggestType.isEmpty() && mySession
-	    && myConfig && myConfig->readConfigInt("ShowCommunityContent")
-	    && myConfig->readConfigInt("ShowCommunitySuggest")) {
-		const unsigned gameId = mySession->getGameIdOfPlayer(mySession->getClientUniquePlayerId());
-		if (gameId != 0) {
-			GameInfo info(mySession->getClientGameInfo(gameId));
-			show = (info.data.gameType == GAME_TYPE_INVITE_ONLY);
-		}
-	}
+	// Ein nicht-leeres myCreatedSuggestType impliziert bereits Invite-Spiel +
+	// Community-Inhalt + gewählte BBC-/WEC-Vorlage (siehe selectedSuggestType()).
+	// KEIN erneuter session-basierter GameType-Check – der schlug beim Self-Join
+	// fehl, weil getGameIdOfPlayer() dann noch 0 liefern kann.
+	const bool show = isGameAdministrator
+	                  && !myCreatedSuggestType.isEmpty()
+	                  && myConfig
+	                  && myConfig->readConfigInt("ShowCommunityContent")
+	                  && myConfig->readConfigInt("ShowCommunitySuggest");
 	pushButton_suggestPlayers->setVisible(show);
 }
 
