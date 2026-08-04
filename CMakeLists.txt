@@ -304,8 +304,19 @@ target_link_libraries(zlib_compress
     Boost::iostreams
 )
 
+# pokerth_lib deliberately ships no loghelper implementation: the dedicated
+# server needs loghelper_server.cpp, every client needs loghelper_client.cpp,
+# and both define the same internal_log_* symbols. So each executable linking
+# pokerth_lib has to pick its flavour - the GUI clients do it in their own
+# CMakeLists. These two CLI tools are client side, so they take the client one.
+# Without it they only link as long as no object they happen to pull out of the
+# archive uses LOG_*, which is what broke when downloadhelper.cpp started
+# logging its TLS verification (issue #516).
+# loghelper_init() is never called here, so the file sink stays closed and the
+# messages go to stdout/stderr - which is what a CLI tool wants anyway.
+
 # pokerth_bot - Headless bot client for automated testing
-add_executable(pokerth_bot src/pokerth_bot.cpp)
+add_executable(pokerth_bot src/pokerth_bot.cpp src/core/loghelper_client.cpp)
 target_link_libraries(pokerth_bot
     PRIVATE
     pokerth_lib
@@ -314,7 +325,7 @@ target_link_libraries(pokerth_bot
 target_include_directories(pokerth_bot PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 # pokerth_globalnotice - Admin CLI tool: log in and send a global notice
-add_executable(pokerth_globalnotice src/pokerth_globalnotice.cpp)
+add_executable(pokerth_globalnotice src/pokerth_globalnotice.cpp src/core/loghelper_client.cpp)
 target_link_libraries(pokerth_globalnotice
     PRIVATE
     pokerth_lib
