@@ -30,7 +30,7 @@
 #                     native code is compiled against     (default 28 = Qt 6.8+ floor)
 #   ANDROID_NDK_VERSION                                   (default 28.0.13004108)
 #   VERSION_NAME      versionName                         (default: from src/game_defs.h)
-#   VERSION_CODE      versionCode, must grow per upload   (default 23)
+#   VERSION_CODE      versionCode, must grow per upload   (default 26)
 #   BUILD_TYPE        Release | Debug                     (default Release)
 #   UNIVERSAL_APK     1 = also build a universal APK      (default 0)
 #   ANDROID_KEYSTORE        upload keystore; unsigned bundle if unset
@@ -97,7 +97,11 @@ MAVEN_CENTRAL_MIRROR="${MAVEN_CENTRAL_MIRROR:-https://maven-central.storage-down
 # Single source of truth for the release string (same #define the client reports
 # to the server), so the store listing can never drift from the binary.
 VERSION_NAME="${VERSION_NAME:-$(sed -n 's/^#define[[:space:]]*POKERTH_BETA_RELEASE_STRING[[:space:]]*"\([^"]*\)".*/\1/p' "$SCRIPT_DIR/src/game_defs.h")}"
-VERSION_CODE="${VERSION_CODE:-23}"
+# Bumped with every release, in step with docker/android/build_android.sh — a
+# local run without VERSION_CODE must not produce an APK that Android refuses to
+# install over the previous release (INSTALL_FAILED_VERSION_DOWNGRADE). The
+# workflows always pass their own code and never reach this default.
+VERSION_CODE="${VERSION_CODE:-26}"
 
 ANDROID_KEYSTORE="${ANDROID_KEYSTORE:-}"
 ANDROID_KEYSTORE_PASS="${ANDROID_KEYSTORE_PASS:-}"

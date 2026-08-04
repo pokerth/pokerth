@@ -32,7 +32,7 @@ Drawer {
         AppLabel {
             id: sideMenuLabel
             color: Config.StaticData.palette.secondary.col200
-            text: qsTr("PokerTH - v2.1.5")
+            text: qsTr("PokerTH - v2.1.6")
             Layout.alignment: Qt.AlignCenter
             Layout.bottomMargin: 24
             font.pointSize: 16

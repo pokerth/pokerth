@@ -27,8 +27,11 @@ on:
       api_level:
         description: "compileSdk/targetSdk (Play requires 36 for new apps from 2026-08-31)"
         type: choice
-        default: "35"
-        options: ["35", "36"]
+        # 36 since 2.1.6: the first Play upload will land on or after that date,
+        # and a bundle below the required targetSdk is rejected at upload time —
+        # after the full build. 35 stays selectable to reproduce an older bundle.
+        default: "36"
+        options: ["36", "35"]
       version_code:
         description: "versionCode — must be higher than every previous upload (default: 100 + run number)"
         type: string
@@ -68,7 +71,7 @@ jobs:
         uses: actions/checkout@v4
 
       # 100 + run number, never the bare run number: the local builds in
-      # docker/android/build_android.sh already shipped versionCode 20…24 as
+      # docker/android/build_android.sh already shipped versionCode 20…26 as
       # side-load APKs under the same package name, and Android refuses to
       # install a lower code over them ("App not installed" =
       # INSTALL_FAILED_VERSION_DOWNGRADE). The offset keeps every workflow build
