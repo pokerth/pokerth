@@ -66,6 +66,7 @@
 #include "soundevents.h"
 #include "gametablestylereader.h"
 #include "carddeckstylereader.h"
+#include "cardbackstylereader.h"
 #include <gamedata.h>
 #include <generic/serverguiwrapper.h>
 
@@ -164,11 +165,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 #endif
 
 	//Flipside festlegen;
-	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-		flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
-	} else {
-		flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
-	}
+	loadFlipside();
 
 	//Flipside Animation noch nicht erledigt
 	flipHolecardsAllInAlreadyDone = false;
@@ -1020,11 +1017,7 @@ void gameTableImpl::applySettings(settingsDialogImpl* mySettingsDialog)
 	}
 
 	//Flipside refresh
-	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
-		flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
-	} else {
-		flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
-	}
+	loadFlipside();
 	int j,k;
 	for (j=1; j<MAX_NUMBER_OF_PLAYERS; j++ ) {
 		for ( k=0; k<=1; k++ ) {
@@ -5133,6 +5126,24 @@ void gameTableImpl::updateReactionControlsVisibility()
 		myReactionButton->setVisible(reactionsEnabled);
 	if (myReactionAction)
 		myReactionAction->setVisible(reactionsEnabled);
+}
+
+void gameTableImpl::loadFlipside()
+{
+	// Eigene Bilddatei und Rückseiten-Stil schlagen die flipside.png des
+	// Kartenstapels; lässt sich eines von beiden nicht laden, wird auf den
+	// Stapel zurückgefallen, damit nie eine leere Rückseite entsteht.
+	if (myConfig->readConfigInt("FlipsideOwn") && myConfig->readConfigString("FlipsideOwnFile") != "") {
+		flipside = QPixmap::fromImage(QImage(QString::fromUtf8(myConfig->readConfigString("FlipsideOwnFile").c_str())));
+		if (!flipside.isNull()) return;
+	} else if (myConfig->readConfigInt("FlipsideStyle") && myConfig->readConfigString("FlipsideStyleFile") != "") {
+		CardBackStyleReader cardBackStyle;
+		cardBackStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("FlipsideStyleFile").c_str()));
+		flipside = QPixmap::fromImage(QImage(cardBackStyle.getBackside()));
+		if (!flipside.isNull()) return;
+	}
+
+	flipside = QPixmap::fromImage(QImage(myCardDeckStyle->getCurrentDir()+"flipside.png"));
 }
 
 void gameTableImpl::refreshSpectatorsDisplay()

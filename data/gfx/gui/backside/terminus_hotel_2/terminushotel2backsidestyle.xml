@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Widget card back style (Kartenrückseite) "Terminus Hotel 2".
+
+   Passend zum Widget-Tischstil "Terminus Hotel 2 - Widget Table". Anders als beim
+   Kartenstapel besteht ein Rückseiten-Stil aus genau einer Grafik; sie ersetzt
+   die flipside.png des gewählten Kartenstapels und lässt sich daher mit jedem
+   Stapel kombinieren (Einstellungen/Stil/Card Back).
+
+   Dateinamen sind relativ zu diesem XML zu verstehen.
+   Die Grafik muss die Kartengröße des Widget-Clients haben (48x76).
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Terminus Hotel 2 - Widget Card Back" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="BaShFX" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="03.08.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Backside value="backside.png" />
+  </CardBack>
+</PokerTH>

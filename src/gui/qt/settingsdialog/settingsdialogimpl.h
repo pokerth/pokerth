@@ -134,6 +134,12 @@ public slots:
 	void showCurrentCardDeckStylePreview();
 	void addCardDeckStyle();
 	void removeCardDeckStyle();
+
+#ifndef GUI_800x480
+	//separate card back styles are a desktop only feature
+	void showCurrentCardBackStylePreview();
+#endif
+
 	void removePlayerFromIgnoredPlayersList();
 	void resetSettings();
 

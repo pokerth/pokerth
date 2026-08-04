@@ -410,6 +410,9 @@ private:
 	// Reaktions-Bedienelemente (Picker-Auslöser) gemäß Einstellung
 	// "DisableEmojiReactions" ein-/ausblenden.
 	void updateReactionControlsVisibility();
+	// Kartenrückseite gemäß Einstellungen laden: eigene Bilddatei, eigener
+	// Rückseiten-Stil oder die flipside.png des gewählten Kartenstapels.
+	void loadFlipside();
 
 	boost::shared_ptr<GuiInterface> myServerGuiInterface;
 	guiLog *myGuiLog;

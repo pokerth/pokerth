@@ -34,6 +34,7 @@
 #include "mystylelistitem.h"
 #include "gametablestylereader.h"
 #include "carddeckstylereader.h"
+#include "cardbackstylereader.h"
 #include "configfile.h"
 #include <net/socket_startup.h>
 #include <QSet>
@@ -198,6 +199,9 @@ settingsDialogImpl::settingsDialogImpl(QWidget *parent, ConfigFile *c, selectAva
 	connect( pushButton_removeGameTableStyle, SIGNAL( clicked() ), this, SLOT( removeGameTableStyle()) );
 
 	connect( treeWidget_cardDeckStyles, SIGNAL( currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT ( showCurrentCardDeckStylePreview() ));
+#ifndef GUI_800x480
+	connect( treeWidget_cardBackStyles, SIGNAL( currentItemChanged(QTreeWidgetItem*, QTreeWidgetItem*) ), this, SLOT ( showCurrentCardBackStylePreview() ));
+#endif
 	connect( pushButton_addCardDeckStyle, SIGNAL( clicked() ), this, SLOT( addCardDeckStyle()) );
 	connect( pushButton_removeCardDeckStyle, SIGNAL( clicked() ), this, SLOT( removeCardDeckStyle()) );
 	connect( pushButton_internetGameRemoveIgnoredPlayer, SIGNAL( clicked()), this, SLOT( removePlayerFromIgnoredPlayersList()));
@@ -437,36 +441,33 @@ void settingsDialogImpl::prepareDialog()
 		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
 	}
 #else
-	// 	define PokerTH default GameTableStyle
+	// 	define the GameTableStyles distributed with PokerTH
 	treeWidget_gameTableStyles->clear();
 
-	GameTableStyleReader defaultTableStyle(myConfig, this);
-	defaultTableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-	if(defaultTableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList1;
-		tempStringList1 << defaultTableStyle.getStyleDescription() << defaultTableStyle.getStyleMaintainerName();
-		MyStyleListItem *defaultTableItem = new MyStyleListItem(tempStringList1, treeWidget_gameTableStyles);
-		defaultTableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-		defaultTableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		defaultTableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/default/defaulttablestyle.xml");
-		defaultTableItem->setData(2, Qt::ToolTipRole, defaultTableStyle.getMyStateToolTipInfo());
-		if(defaultTableStyle.getState()) defaultTableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else defaultTableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
-	//add danuxi1 table
-	GameTableStyleReader danuxi1TableStyle(myConfig, this);
-	danuxi1TableStyle.readStyleFile(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-	if(danuxi1TableStyle.getLoadedSuccessfull()) {
-		QStringList tempStringList2;
-		tempStringList2 << danuxi1TableStyle.getStyleDescription() << danuxi1TableStyle.getStyleMaintainerName();
-		MyStyleListItem *danuxi1TableItem = new MyStyleListItem(tempStringList2, treeWidget_gameTableStyles);
-		danuxi1TableItem->setData(0, 15, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-		danuxi1TableItem->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
-		danuxi1TableItem->setData(0, Qt::ToolTipRole, QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
-		danuxi1TableItem->setData(2, Qt::ToolTipRole, danuxi1TableStyle.getMyStateToolTipInfo());
-		if(danuxi1TableStyle.getState()) danuxi1TableItem->setIcon(2, QIcon(":/gfx/emblem-important.png"));
-		else danuxi1TableItem->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
-	}
+	// One list entry per shipped style. getFallBack() is checked because
+	// GameTableStyleReader silently substitutes the default style for a
+	// missing file, which would add the same entry twice.
+	auto addDistributedTableStyle = [this](const char *relStyleFile) {
+		const QString styleFile = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+QString::fromUtf8(relStyleFile);
+		GameTableStyleReader style(myConfig, this);
+		style.readStyleFile(styleFile);
+		if(style.getFallBack() || !style.getLoadedSuccessfull()) return;
+
+		QStringList columns;
+		columns << style.getStyleDescription() << style.getStyleMaintainerName();
+		MyStyleListItem *item = new MyStyleListItem(columns, treeWidget_gameTableStyles);
+		item->setData(0, 15, styleFile);
+		item->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+		item->setData(0, Qt::ToolTipRole, styleFile);
+		item->setData(2, Qt::ToolTipRole, style.getMyStateToolTipInfo());
+		if(style.getState()) item->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+		else item->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+	};
+
+	addDistributedTableStyle("gfx/gui/table/default/defaulttablestyle.xml");
+	addDistributedTableStyle("gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
+	addDistributedTableStyle("gfx/gui/table/mile_high_club/milehighclubtablestyle.xml");
+	addDistributedTableStyle("gfx/gui/table/terminus_hotel_2/terminushotel2tablestyle.xml");
 #endif
 
 	//load secondary styles into list (if fallback no entry)
@@ -649,6 +650,53 @@ void settingsDialogImpl::prepareDialog()
 	// 	refresh Card Deck Style Preview
 	showCurrentCardDeckStylePreview();
 
+#ifndef GUI_800x480
+	//CARD BACKS
+	// A card back style replaces the flipside.png of the selected card deck and
+	// can therefore be combined with any deck. Only styles distributed with
+	// PokerTH are listed here - anything else is covered by the "own picture"
+	// option in the same tab, so there is no add/remove here.
+	treeWidget_cardBackStyles->blockSignals(true);
+	treeWidget_cardBackStyles->clear();
+
+	auto addDistributedCardBackStyle = [this](const char *relStyleFile) {
+		const QString styleFile = QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+QString::fromUtf8(relStyleFile);
+		CardBackStyleReader style;
+		style.readStyleFile(styleFile);
+		if(!style.getLoadedSuccessfull()) return;
+
+		QStringList columns;
+		columns << style.getStyleDescription() << style.getStyleMaintainerName();
+		MyStyleListItem *item = new MyStyleListItem(columns, treeWidget_cardBackStyles);
+		item->setData(0, 15, styleFile);
+		item->setData(0, 16, POKERTH_DISTRIBUTED_STYLE);
+		item->setData(0, Qt::ToolTipRole, styleFile);
+		item->setData(2, Qt::ToolTipRole, style.getMyStateToolTipInfo());
+		if(style.getState()) item->setIcon(2, QIcon(":/gfx/emblem-important.png"));
+		else item->setIcon(2, QIcon(":/gfx/dialog_ok_apply.png"));
+	};
+
+	addDistributedCardBackStyle("gfx/gui/backside/mile_high_club/milehighclubbacksidestyle.xml");
+	addDistributedCardBackStyle("gfx/gui/backside/terminus_hotel_2/terminushotel2backsidestyle.xml");
+
+	treeWidget_cardBackStyles->sortItems(0, Qt::AscendingOrder);
+
+	//set current card back style from config file or fallback to first entry
+	const QString currentCardBackStyleFile = QString::fromUtf8(myConfig->readConfigString("FlipsideStyleFile").c_str());
+	QTreeWidgetItem *currentCardBackItem = nullptr;
+	for(int i=0; i < treeWidget_cardBackStyles->topLevelItemCount(); i++) {
+		if(treeWidget_cardBackStyles->topLevelItem(i)->data(0, 15).toString() == currentCardBackStyleFile) {
+			currentCardBackItem = treeWidget_cardBackStyles->topLevelItem(i);
+			break;
+		}
+	}
+	if(!currentCardBackItem) currentCardBackItem = treeWidget_cardBackStyles->topLevelItem(0);
+	if(currentCardBackItem) treeWidget_cardBackStyles->setCurrentItem(currentCardBackItem);
+
+	treeWidget_cardBackStyles->blockSignals(false);
+	showCurrentCardBackStylePreview();
+#endif
+
 	//adjust column sizes for styles treeWidgets
 	treeWidget_gameTableStyles->resizeColumnToContents(0);
 	treeWidget_gameTableStyles->resizeColumnToContents(1);
@@ -656,10 +704,24 @@ void settingsDialogImpl::prepareDialog()
 	treeWidget_cardDeckStyles->resizeColumnToContents(0);
 	treeWidget_cardDeckStyles->resizeColumnToContents(1);
 	treeWidget_cardDeckStyles->resizeColumnToContents(2);
+#ifndef GUI_800x480
+	treeWidget_cardBackStyles->resizeColumnToContents(0);
+	treeWidget_cardBackStyles->resizeColumnToContents(1);
+	treeWidget_cardBackStyles->resizeColumnToContents(2);
+#endif
 
 
 	radioButton_flipsideTux->setChecked(myConfig->readConfigInt("FlipsideTux"));
 	radioButton_flipsideOwn->setChecked(myConfig->readConfigInt("FlipsideOwn"));
+#ifndef GUI_800x480
+	radioButton_flipsideStyle->setChecked(myConfig->readConfigInt("FlipsideStyle"));
+	//without a single usable card back style the option has nothing to offer
+	if(!treeWidget_cardBackStyles->topLevelItemCount()) {
+		radioButton_flipsideStyle->setEnabled(false);
+		if(radioButton_flipsideStyle->isChecked()) radioButton_flipsideTux->setChecked(true);
+	}
+	treeWidget_cardBackStyles->setEnabled(radioButton_flipsideStyle->isChecked());
+#endif
 	if(radioButton_flipsideOwn->isChecked()) {
 		lineEdit_OwnFlipsideFilename->setEnabled(true);
 		pushButton_openFlipsidePicture->setEnabled(true);
@@ -907,6 +969,13 @@ void settingsDialogImpl::isAccepted()
 
 	myConfig->writeConfigInt("FlipsideTux", radioButton_flipsideTux->isChecked());
 	myConfig->writeConfigInt("FlipsideOwn", radioButton_flipsideOwn->isChecked());
+
+#ifndef GUI_800x480
+	myConfig->writeConfigInt("FlipsideStyle", radioButton_flipsideStyle->isChecked());
+	if(treeWidget_cardBackStyles->currentItem()) {
+		myConfig->writeConfigString("FlipsideStyleFile", treeWidget_cardBackStyles->currentItem()->data(0, 15).toString().toUtf8().constData());
+	}
+#endif
 
 	if(radioButton_flipsideOwn->isChecked()) {
 		QFile ownFlipsideFilename(lineEdit_OwnFlipsideFilename->text());
@@ -1483,6 +1552,27 @@ void settingsDialogImpl::setSelectedCardDeckStyleActivated()
 		}
 	}
 }
+
+#ifndef GUI_800x480
+void settingsDialogImpl::showCurrentCardBackStylePreview()
+{
+	QTreeWidgetItem* selectedItem = treeWidget_cardBackStyles->currentItem();
+	if(!selectedItem) return;
+
+	CardBackStyleReader style;
+	style.readStyleFile(selectedItem->data(0, 15).toString());
+	//the card back picture is its own preview, shown at its native size
+	label_cardBackStylePreview->setPixmap(QPixmap(style.getBackside()));
+
+	//mark the current selection as the active one
+	for(int i=0; i < treeWidget_cardBackStyles->topLevelItemCount(); i++) {
+		QTreeWidgetItem *item = treeWidget_cardBackStyles->topLevelItem(i);
+		if(item == selectedItem) {
+			item->setIcon(0, QIcon(QString::fromUtf8(myConfig->readConfigString("AppDataDir").c_str())+"/gfx/gui/misc/rating.png"));
+		} else item->setIcon(0, QIcon());
+	}
+}
+#endif
 
 void settingsDialogImpl::addCardDeckStyle()
 {

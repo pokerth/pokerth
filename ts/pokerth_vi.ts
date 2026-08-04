@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="vi_VN" sourcelanguage="en_US">
 <context>
+    <name>CardBackStyleReader</name>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="135"/>
+        <source>Everything OK!</source>
+        <translation>Tất cả mọi thiết lập đều hợp lệ!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="137"/>
+        <source>The card back picture is missing, please contact style maintainer for this issue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="139"/>
+        <source>Some style fields are missing, please contact style maintainer for this issue.</source>
+        <translation>Một vài thông tin về kiểu họa tiết bị thiếu, xin vui lòng liên hệ tác giả của phần họa tiết đó để hoàn thiện thông tin bị thiếu.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="141"/>
+        <source>This style is outdated, please contact style maintainer for this issue.</source>
+        <translation>Kiểu họa tiết này đã quá cũ, xin vui lòng liên hệ tác giả của kiểu họa tiết này để hoàn thiện phần họa tiết trên.</translation>
+    </message>
+</context>
+<context>
     <name>CardDeckStyleReader</name>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="86"/>
@@ -4404,6 +4427,11 @@ Hãy chọn một hình đại diện đúng kiểu với hệ thống!</transla
         <location filename="../src/gui/qt/settingsdialog.ui" line="658"/>
         <source>Use card back from card style</source>
         <translation>Sử dụng mặt sau lá bài từ kiểu lá bài</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
+        <source>Use separate card back style:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="785"/>

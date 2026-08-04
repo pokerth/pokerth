@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="hu">
 <context>
+    <name>CardBackStyleReader</name>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="135"/>
+        <source>Everything OK!</source>
+        <translation>Minden rendben!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="137"/>
+        <source>The card back picture is missing, please contact style maintainer for this issue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="139"/>
+        <source>Some style fields are missing, please contact style maintainer for this issue.</source>
+        <translation>Néhány mezőadat hiányzik, vedd fel a kapcsolatot a stílus készítőjével.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="141"/>
+        <source>This style is outdated, please contact style maintainer for this issue.</source>
+        <translation>Ez a stílus elavult, vedd fel a kapcsolatot a stílus készítőjével.</translation>
+    </message>
+</context>
+<context>
     <name>CardDeckStyleReader</name>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="86"/>
@@ -5604,6 +5627,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="658"/>
         <source>Use card back from card style</source>
         <translation>A kártyapakli stílus hátlapjának használata</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
+        <source>Use separate card back style:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="785"/>

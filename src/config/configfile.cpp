@@ -86,7 +86,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 
 	// !!!! Revisionsnummer der Configdefaults !!!!!
 	// 109: ServerTlsCertFile / ServerTlsKeyFile hinzugekommen.
-	configRev = 109;
+	// 110: FlipsideStyle / FlipsideStyleFile hinzugekommen (Widget-Kartenrückseiten-Stile).
+	configRev = 110;
 
 	// standard defaults
 	logOnOffDefault = "1";
@@ -269,7 +270,13 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AntiPeekMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AlternateFKeysUserActionMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("EnableBetInputFocusSwitch", CONFIG_TYPE_INT, "0"));
+	// Widget-Client, Kartenrückseite: entweder die flipside.png des gewählten
+	// Kartenstapels (FlipsideTux, Default), ein mitgelieferter Rückseiten-Stil
+	// (FlipsideStyle + FlipsideStyleFile, voller XML-Pfad wie bei Current*Style)
+	// oder eine beliebige eigene Bilddatei (FlipsideOwn + FlipsideOwnFile).
 	configList.push_back(ConfigInfo("FlipsideTux", CONFIG_TYPE_INT, "1"));
+	configList.push_back(ConfigInfo("FlipsideStyle", CONFIG_TYPE_INT, "0"));
+	configList.push_back(ConfigInfo("FlipsideStyleFile", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("FlipsideOwn", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("FlipsideOwnFile", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("GameTableStylesList", CONFIG_TYPE_STRING_LIST, "GameTableStyles"));

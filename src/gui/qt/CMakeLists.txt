@@ -42,6 +42,7 @@ set(POKERTH_CLIENT_SRC ../../pokerth.cpp
     startwindow/startwindowimpl.cpp
     styles/gametablestylereader.cpp
     styles/carddeckstylereader.cpp
+    styles/cardbackstylereader.cpp
     changecontentdialog/changecontentdialogimpl.cpp
     changecompleteblindsdialog/changecompleteblindsdialogimpl.cpp
     mymessagedialog/mymessagedialogimpl.cpp

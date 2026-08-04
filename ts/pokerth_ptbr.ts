@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="pt_BR">
 <context>
+    <name>CardBackStyleReader</name>
+    <message>
+        <source>Everything OK!</source>
+        <translation>Está tudo OK!</translation>
+    </message>
+    <message>
+        <source>The card back picture is missing, please contact style maintainer for this issue.</source>
+        <translation>A imagem do verso da carta está faltando, por favor contate o mantenedor dos estilos sobre este problema.</translation>
+    </message>
+    <message>
+        <source>Some style fields are missing, please contact style maintainer for this issue.</source>
+        <translation>Alguns estilos de campos estão faltando. por favor contate o mantenedor do estilo.</translation>
+    </message>
+    <message>
+        <source>This style is outdated, please contact style maintainer for this issue.</source>
+        <translation>O estilo está desatualizado. por favor contate o mentenedor do estilo.</translation>
+    </message>
+</context>
+<context>
     <name>CardDeckStyleReader</name>
     <message>
         <source>Card Deck Style Error</source>
@@ -5916,6 +5935,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>Use card back from card style</source>
         <translation>Use voltar carta para o estilo de carta</translation>
+    </message>
+    <message>
+        <source>Use separate card back style:</source>
+        <translation>Usar um estilo de verso separado:</translation>
     </message>
     <message>
         <source>Use custom card back picture:</source>

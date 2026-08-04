@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="fr">
 <context>
+    <name>CardBackStyleReader</name>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="135"/>
+        <source>Everything OK!</source>
+        <translation>Tout fonctionne !</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="137"/>
+        <source>The card back picture is missing, please contact style maintainer for this issue.</source>
+        <translation>L&apos;image de dos de carte est manquante, veuillez contacter le mainteneur du style pour qu&apos;il corrige ce problème.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="139"/>
+        <source>Some style fields are missing, please contact style maintainer for this issue.</source>
+        <translation>Certains champs sont manquants, veuillez contacter le mainteneur du style pour qu&apos;il corrige ce problème.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="141"/>
+        <source>This style is outdated, please contact style maintainer for this issue.</source>
+        <translation>Ce style est obsolète, veuillez contacter le mainteneur du style pour ce problème.</translation>
+    </message>
+</context>
+<context>
     <name>CardDeckStyleReader</name>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="86"/>
@@ -7107,6 +7130,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="658"/>
         <source>Use card back from card style</source>
         <translation>Utiliser l&apos;image de dos de cartes du style</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
+        <source>Use separate card back style:</source>
+        <translation>Utiliser un style de dos de carte séparé :</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="785"/>

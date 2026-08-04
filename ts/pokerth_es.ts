@@ -2,6 +2,29 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es">
 <context>
+    <name>CardBackStyleReader</name>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="135"/>
+        <source>Everything OK!</source>
+        <translation>Todo correcto.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="137"/>
+        <source>The card back picture is missing, please contact style maintainer for this issue.</source>
+        <translation>Falta la imagen del respaldo de la carta. Por favor, informe al autor del estilo sobre este problema.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="139"/>
+        <source>Some style fields are missing, please contact style maintainer for this issue.</source>
+        <translation>Faltan algunos campos del estilo. Por favor, informe al autor del estilo sobre este problema.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="141"/>
+        <source>This style is outdated, please contact style maintainer for this issue.</source>
+        <translation>Este estilo es obsoleto. Por favor, informe al autor del estilo sobre este problema.</translation>
+    </message>
+</context>
+<context>
     <name>CardDeckStyleReader</name>
     <message>
         <location filename="../src/gui/qt/styles/carddeckstylereader.cpp" line="86"/>
@@ -7146,6 +7169,11 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/gui/qt/settingsdialog.ui" line="658"/>
         <source>Use card back from card style</source>
         <translation>Utilizar respaldo del estilo de la carta</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
+        <source>Use separate card back style:</source>
+        <translation>Utilizar estilo de respaldo independiente:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="785"/>

@@ -2,6 +2,25 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="cs_CZ">
 <context>
+    <name>CardBackStyleReader</name>
+    <message>
+        <source>Everything OK!</source>
+        <translation>Vše v pořádku!</translation>
+    </message>
+    <message>
+        <source>The card back picture is missing, please contact style maintainer for this issue.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Some style fields are missing, please contact style maintainer for this issue.</source>
+        <translation>Některá pole stylů chybí. Kontaktujte, prosím, výrobce stylu balíčku karet.</translation>
+    </message>
+    <message>
+        <source>This style is outdated, please contact style maintainer for this issue.</source>
+        <translation>Tento styl je zastaralý. Kontaktujte, prosím, výrobce stylu balíčku karet.</translation>
+    </message>
+</context>
+<context>
     <name>CardDeckStyleReader</name>
     <message>
         <source>Card Deck Style Error</source>
@@ -4273,6 +4292,10 @@ Vložte platný obrázek!</translation>
     <message>
         <source>Use card back from card style</source>
         <translation>Použít rub karet podle stylu karet</translation>
+    </message>
+    <message>
+        <source>Use separate card back style:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Use custom card back picture:</source>
