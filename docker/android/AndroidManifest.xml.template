@@ -41,9 +41,42 @@
             <meta-data android:name="android.app.lib_name" android:value="${TARGET}"/>
             <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
         </activity>
+
+        <!-- Foreground-Service während einer Online-Session: schützt die
+             Server-Verbindung vor Doze/App-Freezer, wenn die App im
+             Hintergrund läuft. Reiner Java-Service im App-Prozess (bewusst
+             OHNE android.app.lib_name - Qt soll hier keinen eigenen
+             Service-Prozess starten). Start/Stop via JNI aus
+             androidconnectionservice.cpp.
+
+             ACHTUNG: Dieses Template ist die EINZIGE Quelle, die im Build
+             ankommt - build_android_qml.sh generiert daraus bei jedem Lauf
+             src/gui/qt6-qml/android/AndroidManifest.xml und überschreibt die
+             getrackte Datei. Änderungen dort allein bleiben wirkungslos.
+
+             Der Klassenname ist absolut (org.pokerth.qml.*), auch wenn
+             ${PACKAGE_NAME} beim Widget-Build ein anderer ist: die Java-Quelle
+             liegt nur im Package-Source-Dir des QML-Clients. Im Widget-APK ist
+             die Deklaration damit wirkungslos, aber harmlos - AndroidConnection-
+             Service wird dort nie aufgerufen. -->
+        <service
+            android:name="org.pokerth.qml.ConnectionService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Maintains the real-time TCP connection to the poker game server during an active online session, so the player does not lose the table seat while the app is briefly in the background."/>
+        </service>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Für den Partial-WakeLock und den WifiLock des ConnectionService:
+         der Foreground-Status allein verhindert weder CPU-Suspend noch den
+         WLAN-Stromsparmodus bei ausgeschaltetem Display. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 </manifest>
