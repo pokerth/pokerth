@@ -36,6 +36,7 @@
 #include "communitysuggest.h"
 #include <QPushButton>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include "darkmodehelper.h"
 #include "core/appimage_utils.h"
 #include <QScreen>
@@ -247,8 +248,19 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	mySuggest = new CommunitySuggest();
 	pushButton_suggestPlayers = new QPushButton(tr("Suggest players"), this);
 	pushButton_suggestPlayers->setVisible(false);
-	if (QGridLayout *chatGrid = qobject_cast<QGridLayout*>(groupBox_lobbyChat->layout()))
-		chatGrid->addWidget(pushButton_suggestPlayers, 2, 0);
+	// Oben RECHTS über dem Chat-Verlauf, kompakt (nicht über die volle Breite):
+	// Chat-Verlauf und -Eingabe eine Zeile nach unten schieben und darüber eine
+	// rechtsbündige Kopfzeile mit dem Button einhängen.
+	if (QGridLayout *chatGrid = qobject_cast<QGridLayout*>(groupBox_lobbyChat->layout())) {
+		chatGrid->removeWidget(textBrowser_ChatDisplay);
+		chatGrid->removeWidget(lineEdit_ChatInput);
+		QHBoxLayout *suggestRow = new QHBoxLayout();
+		suggestRow->addStretch();
+		suggestRow->addWidget(pushButton_suggestPlayers);
+		chatGrid->addLayout(suggestRow, 0, 0);
+		chatGrid->addWidget(textBrowser_ChatDisplay, 1, 0);
+		chatGrid->addWidget(lineEdit_ChatInput, 2, 0);
+	}
 	connect( pushButton_suggestPlayers, SIGNAL( clicked() ), this, SLOT( runCommunitySuggest() ) );
 
 	nickListContextMenu = new QMenu();
@@ -375,8 +387,7 @@ void gameLobbyDialogImpl::updateSuggestButtonVisibility()
 	const bool show = isGameAdministrator
 	                  && !myCreatedSuggestType.isEmpty()
 	                  && myConfig
-	                  && myConfig->readConfigInt("ShowCommunityContent")
-	                  && myConfig->readConfigInt("ShowCommunitySuggest");
+	                  && myConfig->readConfigInt("ShowCommunityContent");
 	pushButton_suggestPlayers->setVisible(show);
 }
 

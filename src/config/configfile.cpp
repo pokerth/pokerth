@@ -380,11 +380,12 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("InternetGameType", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetGameName", CONFIG_TYPE_STRING, "My Online Game"));
 	configList.push_back(ConfigInfo("InternetGameAllowSpectators", CONFIG_TYPE_INT, "1"));
-	// Community-Inhalte (BBC/WEC-Turnier-Vorlagen im Create-Dialog) und das
-	// optionale Admin-„Suggest"-Feature. Default wie im QML-Client: Inhalte an,
-	// Suggest aus (nur für wenige BBC/WEC-Admins relevant).
-	configList.push_back(ConfigInfo("ShowCommunityContent", CONFIG_TYPE_INT, "1"));
-	configList.push_back(ConfigInfo("ShowCommunitySuggest", CONFIG_TYPE_INT, "0"));
+	// EINE Option fürs gesamte Community-Turnier-Feature des Widget-Clients:
+	// BBC/WEC-Vorlagen im Create-Dialog + „Suggest players"-Button im Warteraum.
+	// (Im QML-Client steuert showCommunityContent zusätzlich die Ranking-Seiten –
+	// die es im Widget nicht gibt, daher hier genau ein Schalter.) Default aus:
+	// nur für die wenigen BBC/WEC-Admins relevant.
+	configList.push_back(ConfigInfo("ShowCommunityContent", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("UseLobbyChat", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("UseAdminIRC", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("AdminIRCServerAddress", CONFIG_TYPE_STRING, "chat.freenode.net"));

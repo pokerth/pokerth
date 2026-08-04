@@ -99,6 +99,57 @@ static void pokerthQmlMessageHandler(QtMsgType type, const QMessageLogContext & 
         abort();
 }
 
+// Erzwingt nach jeder Größenänderung einen vollständigen Neuaufbau des
+// Fensterinhalts.
+//
+// Hintergrund (Forum-Bug „QML - Button 'hit zone' is sometimes wrong",
+// Windows 10, 2.1.5): Zieht man das Fenster am UNTEREN Rand auf, präsentiert
+// das D3D11-RHI-Backend weiterhin den alten Frame. Die Szene ist korrekt für
+// die neue Größe layoutet – nur das Bild hängt hinterher: die obere App-Leiste
+// fehlt darin, unten bleibt ein gleich hoher Streifen unbemalt (man sieht
+// fremde Fenster durch). Da alle Klickzonen der GÜLTIGEN Geometrie folgen,
+// wirkt es, als lägen die Buttons ~15–40 px zu tief – im schlimmsten Fall
+// trifft ein zu hoch gezielter Fold-Klick den All-In-Button darüber.
+// Verschiebt man das Fenster an der Titelleiste, ist alles wieder korrekt:
+// EIN zusätzlicher Renderdurchlauf genügt, um den Zustand aufzulösen.
+// Bestätigt hat das der Melder per Backend-Test: mit QSG_RHI_BACKEND=opengl
+// tritt der Fehler nicht auf, QSG_RENDER_LOOP=basic ändert dagegen nichts.
+//
+// Genau diesen zusätzlichen Durchlauf stößt der Filter an. Das Nachzügler-
+// Update ist nötig, weil Windows während des interaktiven Resize-Loops die
+// Event-Schleife blockiert – der Timer feuert erst, wenn der Anwender die
+// Maus losgelassen hat und die letzte Größe wirklich feststeht.
+class ResizeRepaintGuard : public QObject
+{
+public:
+    explicit ResizeRepaintGuard(QQuickWindow *window)
+        : QObject(window), m_window(window)
+    {
+        m_settle.setSingleShot(true);
+        m_settle.setInterval(80);
+        QObject::connect(&m_settle, &QTimer::timeout, this, [this]() {
+            m_window->requestUpdate();
+        });
+        m_window->installEventFilter(this);
+    }
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override
+    {
+        if (watched == m_window
+            && (event->type() == QEvent::Resize || event->type() == QEvent::Expose)) {
+            m_window->requestUpdate();
+            m_settle.start();
+        }
+        // Nur mitlesen, nie schlucken.
+        return QObject::eventFilter(watched, event);
+    }
+
+private:
+    QQuickWindow *m_window;
+    QTimer m_settle;
+};
+
 int main(int argc, char *argv[])
 {
     // QT_QUICK_CONTROLS_STYLE wird beim frühen Style-Resolve ausgewertet.
@@ -290,6 +341,13 @@ int main(int argc, char *argv[])
         session.reset();
         delete guiInterface;
         return -1;
+    }
+
+    // Repaint-Absicherung für Größenänderungen (s. ResizeRepaintGuard). Der
+    // Guard hängt am Fenster und wird mit ihm zerstört.
+    for (QObject *root : engine.rootObjects()) {
+        if (auto *w = qobject_cast<QQuickWindow *>(root))
+            new ResizeRepaintGuard(w);
     }
 
     int result = app.exec();
