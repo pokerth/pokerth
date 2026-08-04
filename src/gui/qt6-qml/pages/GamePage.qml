@@ -221,6 +221,35 @@ Rectangle {
             actionBar.clickAction(which)
     }
 
+    // Diese GamePage ist die oberste im Stack – auch dann, wenn eine ANDERE Seite
+    // darüber liegt (Tisch-/Spieler-Statistik, Einstellungen, Community-Seiten).
+    // Genau dafür gibt es die Property: `visible` ist in dem Fall false, der
+    // Zug-Timer des Servers läuft aber weiter. Die Aktions-Tasten müssen dann
+    // erreichbar bleiben, sonst sind sie – aus Sicht des Spielers grundlos –
+    // stumm, bis er zufällig zum Tisch zurücknavigiert.
+    // Re-Eval bei jeder Navigation über depth/currentItem (Muster wie
+    // mainWindow.inLobbySession); find() sucht von oben, liefert also die
+    // zuletzt gepushte GamePage. Damit ist auch bei einer (durch die Push-Guards
+    // eigentlich verhinderten) zweiten GamePage im Stack immer nur EIN
+    // Shortcut-Satz aktiv – zwei aktive Shortcuts mit derselben Sequenz feuern
+    // in Qt gar nicht mehr, sondern nur noch activatedAmbiguously.
+    readonly property bool topGamePage: {
+        var view = gamePage.StackView.view
+        if (!view)
+            return false
+        var _d = view.depth
+        var _c = view.currentItem
+        return view.find(function(it) { return it && it.objectName === "gamePage" }) === gamePage
+    }
+
+    // Diagnose für genau diesen Fall: feuert der Shortcut mehrdeutig, wird die
+    // Aktion still verworfen. Ohne Log wäre das vom Spieler nicht von einer
+    // "kaputten" Taste zu unterscheiden.
+    function ambiguousShortcut(seq) {
+        console.warn("[SHORTCUT] '" + seq + "' ist mehrdeutig (zwei aktive Shortcuts "
+                     + "mit derselben Sequenz) – Aktion NICHT ausgeführt.")
+    }
+
     Shortcut {
         sequence: "Alt+L"
         context: Qt.ApplicationShortcut
@@ -264,53 +293,67 @@ Rectangle {
     // Für Zuschauer aus: die Action-Bar ist dann ausgeblendet (actionBar.visible),
     // ihre Bedienelemente wären also per Tastatur erreichbar, per Maus nicht.
     // F11 (Vollbild) bleibt bewusst auch für Zuschauer aktiv.
+    //
+    // Bedingung ist topGamePage (NICHT visible): F1–F5 greifen ins laufende Spiel
+    // ein und müssen auch dann funktionieren, wenn gerade eine andere Seite über
+    // dem Tisch liegt – der Zug-Timer läuft dort weiter. Die Panel-Toggles und die
+    // Spielmodus-Tasten unten bleiben dagegen an visible, sie bedienen nur die
+    // Oberfläche des Tisches.
     Shortcut {
         sequence: "F1"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible && !gamePage.spectating
+        enabled: gamePage.topGamePage && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "allin" : "fold")
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F1")
     }
     Shortcut {
         sequence: "F2"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible && !gamePage.spectating
+        enabled: gamePage.topGamePage && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "raise" : "call")
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F2")
     }
     Shortcut {
         sequence: "F3"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible && !gamePage.spectating
+        enabled: gamePage.topGamePage && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "call" : "raise")
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F3")
     }
     Shortcut {
         sequence: "F4"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible && !gamePage.spectating
+        enabled: gamePage.topGamePage && !gamePage.spectating
         onActivated: gamePage.fKeyAction(gamePage.fKeysAlternate ? "fold" : "allin")
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F4")
     }
     Shortcut {
         sequence: "F5"
         context: Qt.ApplicationShortcut
-        enabled: gamePage.visible && !gamePage.spectating
+        enabled: gamePage.topGamePage && !gamePage.spectating
         onActivated: if (GameTable && GameTable.canShowCards) GameTable.showMyCards()
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F5")
     }
     Shortcut {
         sequence: "F6"
         context: Qt.ApplicationShortcut
         enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(0)   // Manuell
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F6")
     }
     Shortcut {
         sequence: "F7"
         context: Qt.ApplicationShortcut
         enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(2)   // Auto Check/Fold
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F7")
     }
     Shortcut {
         sequence: "F8"
         context: Qt.ApplicationShortcut
         enabled: gamePage.visible && !gamePage.spectating
         onActivated: gamePage.applyPlayingMode(1)   // Auto Check/Call
+        onActivatedAmbiguously: gamePage.ambiguousShortcut("F8")
     }
 
     // gameBackground (Diamanten-Muster) entfernt – nicht mehr benötigt.

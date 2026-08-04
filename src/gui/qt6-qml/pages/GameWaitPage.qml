@@ -120,6 +120,13 @@ Rectangle {
         }
         function onGameStarted() {
             // console.log("[NAV] GameWaitPage.onGameStarted → pushing GamePage")
+            // Doppel-Push-Schutz (Muster wie openTableStatsPage/onPlayerStats-
+            // Requested): kommt gameStarted ein zweites Mal (Re-Join/Reconnect),
+            // läge sonst eine zweite GamePage im Stack. Deren Shortcuts sind zwar
+            // über topGamePage stillgelegt, aber der Tisch selbst wäre doppelt da.
+            if (mainStackView.currentItem
+                    && mainStackView.currentItem.objectName === "gamePage")
+                return
             mainStackView.push("GamePage.qml")
         }
         function onReturnToWaitRoom() {

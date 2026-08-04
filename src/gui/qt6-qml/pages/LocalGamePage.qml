@@ -317,6 +317,10 @@ Rectangle {
                 text: qsTr("Spiel starten")
                 Layout.fillWidth: true
                 onClicked: {
+                    // Doppelklick-Schutz: sonst liegen zwei GamePages im Stack.
+                    if (mainStackView.currentItem
+                            && mainStackView.currentItem.objectName === "gamePage")
+                        return
                     GameTable.startLocalGame()
                     mainStackView.push("GamePage.qml")
                 }
