@@ -1876,11 +1876,26 @@ QString LobbyHandler::playerInGameName(unsigned playerId) const
 // an (rejoinGameId). Das Popup dazu zeigt die LobbyPage (rejoinOfferGameId).
 void LobbyHandler::onRejoinPossible(unsigned gameId)
 {
-    qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId;
+    qDebug() << "[REJOIN] onRejoinPossible: gameId=" << gameId
+             << "autoRejoin=" << m_autoRejoin;
     if (m_rejoinOfferGameId == gameId)
         return;
     m_rejoinOfferGameId = gameId;
     emit rejoinOfferChanged();
+
+    // Nach einer automatischen Wiederverbindung ohne Rückfrage zurück an den
+    // Tisch: Der Spieler hat ihn nie freiwillig verlassen, ein Ja/Nein-Popup
+    // wäre hier nur eine Hürde - und die 5-Minuten-Frist des Servers läuft.
+    if (m_autoRejoin) {
+        m_autoRejoin = false;
+        qInfo() << "[REJOIN] auto-accepting after reconnect, gameId=" << gameId;
+        acceptRejoin();
+    }
+}
+
+void LobbyHandler::setAutoRejoin(bool on)
+{
+    m_autoRejoin = on;
 }
 
 void LobbyHandler::acceptRejoin()

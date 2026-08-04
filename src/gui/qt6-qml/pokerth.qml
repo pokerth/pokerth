@@ -25,6 +25,12 @@ ApplicationWindow {
         mainStackView.currentItem
         && mainStackView.currentItem.objectName !== "preLoaderPage"
 
+    // True zwischen Beginn einer automatischen Wiederverbindung und ihrem
+    // Ausgang. Trägt den Fall, dass die Wiederverbindung aufgegeben wird:
+    // die Lobby ist dann bereits abgebaut, inLobbySession also false, die
+    // Fehlermeldung muss den Spieler aber trotzdem erreichen.
+    property bool reconnectPending: false
+
     // True, sobald die Lobby betreten wurde (Lobby-Seite liegt im Stack) – steuert
     // die globale Statusleiste. Re-Eval bei jeder Navigation (depth/currentItem).
     readonly property bool inLobbySession: {
@@ -313,6 +319,9 @@ ApplicationWindow {
         // Bewusster Disconnect meldet keinen connectionFailed – eine offene
         // Timeout-Warnung der beendeten Session hier direkt schließen.
         timeoutWarningPopup.close()
+        // Wer bewusst geht, will nicht automatisch zurückgeholt werden.
+        if (typeof ServerConnection !== "undefined" && ServerConnection)
+            ServerConnection.abortAutoReconnect()
         if (typeof Lobby !== "undefined" && Lobby)
             Lobby.leaveServer()
         mainStackView.pop()
@@ -860,12 +869,82 @@ ApplicationWindow {
         }
     }
 
+    // ── Automatische Wiederverbindung läuft ───────────────────────────────
+    // Ein Verbindungsverlust im laufenden Betrieb (Android: App war im
+    // Hintergrund; Desktop: WLAN-Schlaf) wirft den Spieler nicht mehr sofort
+    // auf die Login-Seite: Der ServerConnectionHandler meldet sich still neu
+    // an, der LobbyHandler nimmt das Rejoin-Angebot des Servers automatisch
+    // an, und der vorhandene showLobby-Weg baut Lobby/Warteraum/Tisch wieder
+    // auf. Sichtbar ist davon nur dieser Hinweis – mit Abbruch-Möglichkeit,
+    // denn niemand soll gegen seinen Willen festgehalten werden.
+    Popup {
+        id: reconnectPopup
+        parent: Overlay.overlay
+        anchors.centerIn: parent
+        modal: true
+        padding: 20
+        width: Math.min(mainWindow.width * 0.85, 380)
+        // Nicht wegtippbar: Der Zustand endet von selbst (Erfolg, Aufgabe)
+        // oder über den Abbrechen-Knopf.
+        closePolicy: Popup.NoAutoClose
+
+        property int attempt: 0
+        property int maxAttempts: 0
+
+        background: Rectangle {
+            color: Config.Theme.colorBox
+            border.color: Config.StaticData.palette.secondary.col400
+            border.width: 1
+            radius: 8
+        }
+
+        ColumnLayout {
+            spacing: 12
+            width: reconnectPopup.availableWidth
+
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Connection interrupted")
+                color: Config.StaticData.palette.secondary.col100
+                font.pixelSize: 15
+                font.bold: true
+                wrapMode: Text.WordWrap
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: reconnectPopup.maxAttempts > 0
+                      ? qsTr("Reconnecting to the server… (attempt %1 of %2)")
+                        .arg(reconnectPopup.attempt).arg(reconnectPopup.maxAttempts)
+                      : qsTr("Reconnecting to the server…")
+                font.pixelSize: 13
+                wrapMode: Text.WordWrap
+            }
+            AppLabel {
+                Layout.fillWidth: true
+                text: qsTr("Your seat at the table stays reserved for a few minutes.")
+                font.pixelSize: 12
+                opacity: 0.8
+                wrapMode: Text.WordWrap
+            }
+            CustomButton {
+                Layout.fillWidth: true
+                text: qsTr("Cancel")
+                onClicked: {
+                    ServerConnection.abortAutoReconnect()
+                    reconnectPopup.close()
+                    mainWindow.reconnectPending = false
+                    mainStackView.pop(null)
+                    mainStackView.push("pages/ServerConnectionDialog.qml")
+                }
+            }
+        }
+    }
+
     // ── Verbindungsverlust nach dem Login (Lobby/Warteraum/Spiel) ──────────
     // Die Verbindungs-/Beitrittsseiten behandeln connectionFailed selbst
     // (Statuszeile während des Verbindens); nach dem Login gab es aber keinen
     // Konsumenten: Ein Verbindungsabbruch im laufenden Spiel blieb unsichtbar.
-    // Global melden und zur Login-Seite zurückkehren – nach dem erneuten Login
-    // bietet der Server ggf. das Rejoin ins laufende Spiel an (LobbyPage-Popup).
+    // Greift jetzt erst, wenn die automatische Wiederverbindung aufgegeben hat.
     Popup {
         id: connectionLostPopup
         parent: Overlay.overlay
@@ -912,24 +991,66 @@ ApplicationWindow {
 
     Connections {
         target: ServerConnection
+
+        // Beginn/Ende der automatischen Wiederverbindung (nur Android/iOS –
+        // am Desktop wird das Signal nie ausgelöst).
+        function onReconnectingChanged() {
+            if (ServerConnection.reconnecting) {
+                mainWindow.reconnectPending = true
+                timeoutWarningPopup.close()
+                leaveGameConfirmPopup.close()
+                leaveLobbyConfirmPopup.close()
+                // Wie beim harten Verbindungsverlust zur StartPage abbauen und
+                // die Verbindungsseite auflegen – deren onShowLobby bringt uns
+                // nach erfolgreichem Re-Login ohne Zutun zurück in die Lobby,
+                // von dort übernimmt der automatische Rejoin.
+                mainStackView.pop(null)
+                mainStackView.push("pages/ServerConnectionDialog.qml")
+                reconnectPopup.open()
+            } else {
+                reconnectPopup.close()
+            }
+        }
+
+        function onReconnectAttempt(attempt, maxAttempts) {
+            reconnectPopup.attempt = attempt
+            reconnectPopup.maxAttempts = maxAttempts
+        }
+
         function onConnectionFailed(errorMessage) {
             // Timeout-Warnung ist mit der Verbindung obsolet – IMMER schließen,
             // auch wenn die Lobby bereits verlassen wurde (sonst bleibt das
             // Popup nach Ablauf mangels aktivem OK-Button für immer offen).
             timeoutWarningPopup.close()
+            // Nach aufgegebener Wiederverbindung ist die Lobby längst abgebaut,
+            // inLobbySession also false – der Spieler braucht die Meldung aber
+            // gerade dann. reconnectPending trägt diesen Fall.
+            const afterReconnect = mainWindow.reconnectPending
             // Nur nach abgeschlossenem Login (Lobby im Stack) – während des
             // Verbindens zeigen die Verbindungsseiten den Fehler selbst an.
-            if (!mainWindow.inLobbySession)
+            if (!mainWindow.inLobbySession && !afterReconnect)
                 return
+            mainWindow.reconnectPending = false
+            reconnectPopup.close()
             // Offene Modals (Verlassen-Bestätigungen) schließen.
             leaveGameConfirmPopup.close()
             leaveLobbyConfirmPopup.close()
             connectionLostPopup.message = errorMessage
             // Zurück zur StartPage (baut Lobby-/Spiel-Seiten ab) und direkt die
             // Login-Seite öffnen, damit ein erneuter Login nur einen Tap kostet.
-            mainStackView.pop(null)
-            mainStackView.push("pages/ServerConnectionDialog.qml")
+            // Nach einer gescheiterten Wiederverbindung liegt die Login-Seite
+            // bereits oben – dann nicht noch einmal umbauen.
+            if (!afterReconnect) {
+                mainStackView.pop(null)
+                mainStackView.push("pages/ServerConnectionDialog.qml")
+            }
             connectionLostPopup.open()
+        }
+
+        // Erfolgreiche Wiederverbindung: Die Lobby ist wieder da, der Rejoin
+        // läuft automatisch weiter. Nur noch den Merker zurücksetzen.
+        function onShowLobby() {
+            mainWindow.reconnectPending = false
         }
     }
 

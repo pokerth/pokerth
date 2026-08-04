@@ -162,7 +162,7 @@
 <context>
     <name>AndroidConnectionService</name>
     <message>
-        <location filename="../cpp/androidconnectionservice.cpp" line="+25"/>
+        <location filename="../cpp/androidconnectionservice.cpp" line="+29"/>
         <source>Connected to the game server</source>
         <translation>Connecté au serveur de jeu</translation>
     </message>
@@ -1785,7 +1785,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <location line="+9"/>
         <location line="+152"/>
         <location line="+9"/>
-        <location line="+160"/>
+        <location line="+175"/>
         <location line="+9"/>
         <location line="+16"/>
         <location line="+11"/>
@@ -3559,7 +3559,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
         <translation>Aucune session disponible</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+24"/>
         <source>Connecting to server...</source>
         <translation>Connexion au serveur...</translation>
     </message>
@@ -3599,7 +3599,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
         <translation>Connecté avec succès !</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+32"/>
         <source>Server address was not set.</source>
         <translation>L&apos;adresse du serveur n&apos;a pas été spécifiée.</translation>
     </message>
@@ -3916,7 +3916,7 @@ Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
         <translation>Une erreur interne est survenue. (Code d&apos;erreur %1)</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+29"/>
         <source>Connection failed, retrying...</source>
         <translation>Échec de la connexion, nouvelle tentative...</translation>
     </message>
@@ -4481,12 +4481,12 @@ aperçu</translation>
 <context>
     <name>pokerth</name>
     <message>
-        <location filename="../pokerth.qml" line="+161"/>
+        <location filename="../pokerth.qml" line="+167"/>
         <source>PokerTH - v2.1.5</source>
         <translation>PokerTH - v2.1.5</translation>
     </message>
     <message>
-        <location line="+236"/>
+        <location line="+239"/>
         <source>Back</source>
         <translation>Retour</translation>
     </message>
@@ -4542,12 +4542,12 @@ aperçu</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location line="+215"/>
+        <location line="+285"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-180"/>
+        <location line="-250"/>
         <source>Server Message</source>
         <translation>Message du serveur</translation>
     </message>
@@ -4557,12 +4557,32 @@ aperçu</translation>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location line="+151"/>
+        <location line="+156"/>
+        <source>Connection interrupted</source>
+        <translation>Connexion interrompue</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Reconnecting to the server… (attempt %1 of %2)</source>
+        <translation>Reconnexion au serveur… (tentative %1 sur %2)</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Reconnecting to the server…</source>
+        <translation>Reconnexion au serveur…</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Your seat at the table stays reserved for a few minutes.</source>
+        <translation>Votre place à la table reste réservée pendant quelques minutes.</translation>
+    </message>
+    <message>
+        <location line="+48"/>
         <source>Connection lost</source>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location line="-499"/>
+        <location line="-569"/>
         <location line="+380"/>
         <location line="+22"/>
         <source>Leave Game</source>
@@ -4578,11 +4598,12 @@ et revenir au lobby ?</translation>
     <message>
         <location line="+10"/>
         <location line="+57"/>
+        <location line="+74"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location line="-454"/>
+        <location line="-528"/>
         <location line="+437"/>
         <location line="+22"/>
         <source>Leave Lobby</source>

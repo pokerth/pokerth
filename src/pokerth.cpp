@@ -218,6 +218,13 @@ int main(int argc, char *argv[])
     LobbyHandler *lobbyHandler = new LobbyHandler(&app);
     lobbyHandler->setConfig(myConfig.get());
 
+    // Automatische Wiederverbindung: Der ServerConnectionHandler schaltet das
+    // Rejoin im LobbyHandler scharf, damit das Angebot des Servers (InitAck)
+    // ohne Rückfrage angenommen wird und der Spieler wieder an seinem Tisch
+    // landet statt auf der Login-Seite.
+    QObject::connect(connectionHandler, &ServerConnectionHandler::autoRejoinArmed,
+                     lobbyHandler, &LobbyHandler::setAutoRejoin);
+
     GameHandler *gameHandler = new GameHandler(&app);
 
     LogHandler *logHandler = new LogHandler(myConfig.get(), &app);

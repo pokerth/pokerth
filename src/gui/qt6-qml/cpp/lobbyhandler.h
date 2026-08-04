@@ -275,6 +275,11 @@ public slots:
     // Antwort aus QML auf das Rejoin-Popup.
     Q_INVOKABLE void acceptRejoin();
     Q_INVOKABLE void declineRejoin();
+    // Vom ServerConnectionHandler während einer automatischen Wiederverbindung
+    // scharf geschaltet: Das Angebot des Servers dann ohne Rückfrage annehmen -
+    // der Spieler wollte den Tisch ja nie verlassen. Einmalig, das Flag fällt
+    // nach Gebrauch zurück.
+    void setAutoRejoin(bool on);
     // Server hat den Rejoin bestätigt (StartEvent rejoinEvent → SYNCREJOIN):
     // Warten auf den Beginn der nächsten Hand. Von QmlGuiInterface aufgerufen.
     void onRejoinSyncWait();
@@ -424,6 +429,7 @@ private:
     unsigned m_pendingInviteGameId = 0;
     // Vom Server angebotenes Rejoin nach Verbindungsabbruch (0 = keines).
     unsigned m_rejoinOfferGameId = 0;
+    bool m_autoRejoin = false;
     // true, solange wir nach angenommenem Rejoin auf die nächste Hand warten.
     bool m_rejoinWaiting = false;
     void setRejoinWaiting(bool waiting);
