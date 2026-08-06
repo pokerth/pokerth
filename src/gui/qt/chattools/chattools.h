@@ -108,7 +108,6 @@ public slots:
 	{
 		myStyle = theValue;
 	}
-	void refreshIgnoreList();
 
 signals:
 
@@ -123,6 +122,13 @@ protected:
 	bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
+
+	// Steht der Absender auf der Ignore-Liste? Wird bei JEDER Nachricht frisch
+	// aus der Konfiguration gelesen (wie überall sonst im Client, z. B.
+	// MyAvatarLabel/gameLobbyDialogImpl): Lobby- und Spiel-Chat sind getrennte
+	// ChatTools-Instanzen, eine zwischengespeicherte Liste lief zwangsläufig
+	// auseinander, sobald in nur einem der beiden ignoriert wurde.
+	bool nickIsOnIgnoreList(const QString &playerName) const;
 
 	void setupEmojiPickerAction();
 	void setupShortcodeCompleter();
@@ -185,8 +191,6 @@ private:
 	QList<QPair<QString, QString> > myShortcodeList;   // (code, emoji), sortiert
 	QHash<QString, QIcon> myShortcodeIconCache;
 	int myShortcodeTokenStart;
-
-	std::list<std::string> ignoreList;
 
 	// ── Chat-Übersetzung ────────────────────────────────────────────────
 	struct TranslateEntry {

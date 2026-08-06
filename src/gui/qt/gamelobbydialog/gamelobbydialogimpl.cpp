@@ -344,9 +344,6 @@ int gameLobbyDialogImpl::exec()
 		registeredUserMode();
 	}
 
-	// Bug #320: https://github.com/pokerth/pokerth/issues/320
-	myChat->refreshIgnoreList();
-
 #ifdef ANDROID
 	this->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 	
@@ -2102,7 +2099,6 @@ void gameLobbyDialogImpl::putPlayerOnIgnoreList()
 				playerIgnoreList.push_back(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
 				myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 				myConfig->writeBuffer();
-				myChat->refreshIgnoreList();
 			}
 		}
 	}
@@ -2119,7 +2115,6 @@ void gameLobbyDialogImpl::removePlayerFromIgnoreList()
 				playerIgnoreList.remove(QString("%1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str())).toUtf8().constData());
 				myConfig->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 				myConfig->writeBuffer();
-				myChat->refreshIgnoreList();
 			}
 		}
 	}

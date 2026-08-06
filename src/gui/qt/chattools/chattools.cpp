@@ -190,7 +190,6 @@ static const bool kTranslateHoverOnly = true;
 ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1), myTranslateHoverId(0)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
-	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
 	setupEmojiPickerAction();
 	setupShortcodeCompleter();
 
@@ -467,6 +466,12 @@ void ChatTools::sendMessage()
 
 void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 {
+	// Nachrichten ignorierter Spieler werden komplett verworfen – VOR der
+	// Reaktions-Behandlung, damit auch deren Emoji-Reaktionen stumm bleiben
+	// (sonst spielte der Tisch die Animation ab, weil der Ignore-Filter erst
+	// beim Anhängen an den Chat-Verlauf griff).
+	if(nickIsOnIgnoreList(playerName))
+		return;
 
 	// Emoji-Reaktionen (Konvention des QML-/Web-Clients): "/emoji 🎉" bzw.
 	// legacy "[R]🎉" – nur im Spiel-Chat. Nicht anzeigen, sondern als
@@ -567,19 +572,20 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 
 		}
 
-		bool nickFoundOnIgnoreList = false;
+		// Der Absender selbst ist oben schon abgefangen; hier bleibt nur noch
+		// die Chatbot-Warnung ÜBER einen ignorierten Spieler ("<Nick> …").
 		bool chatBotWarnNickFoundOnIgnoreList = false;
-		list<std::string>::iterator it1;
-		for(it1=ignoreList.begin(); it1 != ignoreList.end(); ++it1) {
-			if(playerName == QString::fromUtf8(it1->c_str())) {
-				nickFoundOnIgnoreList = true;
-			}
-			if(myChatType == INET_LOBBY_CHAT && playerName == "(chat bot)" && message.startsWith(QString::fromUtf8(it1->c_str()))) {
-				chatBotWarnNickFoundOnIgnoreList = true;
+		if(myChatType == INET_LOBBY_CHAT && playerName == "(chat bot)") {
+			const std::list<std::string> ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+			list<std::string>::const_iterator it1;
+			for(it1=ignoreList.begin(); it1 != ignoreList.end(); ++it1) {
+				if(message.startsWith(QString::fromUtf8(it1->c_str()))) {
+					chatBotWarnNickFoundOnIgnoreList = true;
+				}
 			}
 		}
 
-		if(!nickFoundOnIgnoreList && !chatBotWarnNickFoundOnIgnoreList) {
+		if(!chatBotWarnNickFoundOnIgnoreList) {
 			//play beep sound as notification
 			if(myChatType == INET_LOBBY_CHAT && message.contains(myNick, Qt::CaseInsensitive) && playerName != myNick) {
 				if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
@@ -960,9 +966,18 @@ void ChatTools::setChatTextEdited()
 	nickAutoCompletitionCounter = 0;
 }
 
-void ChatTools::refreshIgnoreList()
+bool ChatTools::nickIsOnIgnoreList(const QString &playerName) const
 {
-	ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+	if(!myConfig || playerName.isEmpty())
+		return false;
+
+	const std::list<std::string> ignoreList = myConfig->readConfigStringList("PlayerIgnoreList");
+	list<std::string>::const_iterator it1;
+	for(it1=ignoreList.begin(); it1 != ignoreList.end(); ++it1) {
+		if(playerName == QString::fromUtf8(it1->c_str()))
+			return true;
+	}
+	return false;
 }
 
 unsigned ChatTools::parsePrivateMessageTarget(QString &chatText)

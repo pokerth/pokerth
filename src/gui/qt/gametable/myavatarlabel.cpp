@@ -503,7 +503,6 @@ void MyAvatarLabel::putPlayerOnIgnoreList()
 			playerIgnoreList.push_back(list.at(myId).toUtf8().constData());
 			myW->getMyConfig()->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 			myW->getMyConfig()->writeBuffer();
-			myW->getMyChat()->refreshIgnoreList();
 		}
 	}
 }
@@ -525,7 +524,6 @@ void MyAvatarLabel::removePlayerFromIgnoreList()
 			playerIgnoreList.remove(list.at(myId).toUtf8().constData());
 			myW->getMyConfig()->writeConfigStringList("PlayerIgnoreList", playerIgnoreList);
 			myW->getMyConfig()->writeBuffer();
-			myW->getMyChat()->refreshIgnoreList();
 		}
 	}
 }
