@@ -1,0 +1,15 @@
+PokerTH ist ein Pokerspiel für die beliebte Variante Texas Hold'em.
+
+Spiele Einzelspielerpartien gegen bis zu neun Computergegner oder triff andere PokerTH-Spieler aus aller Welt in Internetspielen auf den offiziellen PokerTH-Servern. Auch Netzwerkspiele im lokalen LAN sind möglich.
+
+Funktionen:
+
+* Texas Hold'em mit bis zu zehn Spielern pro Tisch
+* Einzelspielerpartien gegen Computergegner
+* Online-Mehrspielermodus auf den offiziellen Servern, mit Lobby, Chat und privaten Spielen
+* Netzwerkspiele im lokalen Netz
+* Frei wählbare Tischstile und Kartendecks
+* Spielerstatistiken und Ranglisten auf pokerth.net
+* Keine Werbung, kein Tracking, keine In-App-Käufe — freie Software unter der AGPLv3
+
+PokerTH wird als freie Software entwickelt; der vollständige Quellcode ist auf GitHub verfügbar.

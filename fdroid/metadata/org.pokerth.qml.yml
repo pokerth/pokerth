@@ -1,0 +1,14 @@
+# Non-localized metadata for the QML client. Name, summary, description,
+# icon, screenshots and changelogs come from the fastlane trees next to this
+# file (metadata/org.pokerth.qml/<locale>/), which the workflow fills in.
+
+Categories:
+  - Games
+License: AGPL-3.0-or-later
+AuthorName: PokerTH GbR
+AuthorEmail: webmaster@pokerth.net
+WebSite: https://www.pokerth.net
+SourceCode: https://github.com/pokerth/pokerth
+IssueTracker: https://github.com/pokerth/pokerth/issues
+Changelog: https://github.com/pokerth/pokerth/blob/stable/ChangeLog
+Translation: https://github.com/pokerth/pokerth/tree/stable/src/gui/qt6-qml/i18n

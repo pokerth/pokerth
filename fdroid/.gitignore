@@ -1,0 +1,11 @@
+# Everything below is produced by `fdroid update` in the publish workflow or
+# pulled from the web server — the repository state lives on the server, not
+# in git.
+/repo/
+/archive/
+/tmp/
+/stats/
+/icon.png
+/keystore.p12
+/metadata/*/*/images/
+/metadata/*/*/changelogs/

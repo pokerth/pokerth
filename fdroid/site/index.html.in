@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+  Landing page for the PokerTH F-Droid repository. The publish workflow
+  substitutes %%REPO_URL%%, %%ADD_URL%%, %%FINGERPRINT%% and %%VERSION%% and
+  uploads the result next to repo/ and archive/.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PokerTH for Android — F-Droid repository</title>
+<style>
+  :root { color-scheme: light dark; --bg: #f6f6f4; --fg: #1c1c1a; --muted: #5c5c56;
+          --card: #ffffff; --border: #dcdcd6; --accent: #1d6b3a; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #16171a; --fg: #ececee; --muted: #a0a0a8; --card: #1f2126;
+            --border: #32343a; --accent: #4cbd77; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 2rem 1rem 4rem; background: var(--bg); color: var(--fg);
+         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 44rem; margin: 0 auto; }
+  header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  header img { width: 64px; height: 64px; }
+  h1 { font-size: 1.6rem; margin: 0; }
+  h2 { font-size: 1.1rem; margin: 2.5rem 0 .75rem; }
+  .sub { color: var(--muted); margin: .25rem 0 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+          padding: 1.25rem; }
+  .add { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+  .add img { width: 168px; height: 168px; background: #fff; padding: 8px; border-radius: 8px; }
+  a.button { display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+             padding: .6rem 1.1rem; border-radius: 8px; font-weight: 600; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; }
+  .fp { word-break: break-all; display: block; margin-top: .35rem; color: var(--muted); }
+  ol { padding-left: 1.2rem; }
+  footer { margin-top: 3rem; color: var(--muted); font-size: .875rem; }
+  footer a, main p a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="icon.png" alt="">
+    <div>
+      <h1>PokerTH for Android</h1>
+      <p class="sub">F-Droid repository · current version %%VERSION%%</p>
+    </div>
+  </header>
+
+  <div class="card add">
+    <img src="qr.png" alt="QR code for the repository address">
+    <div>
+      <p><a class="button" href="%%ADD_URL%%">Add repository to F-Droid</a></p>
+      <p class="sub">Scan the QR code in F-Droid, tap the button on your phone, or
+      add the address by hand:</p>
+      <code>%%REPO_URL%%</code>
+      <span class="fp mono">Fingerprint: %%FINGERPRINT%%</span>
+    </div>
+  </div>
+
+  <h2>Manually</h2>
+  <ol>
+    <li>Install the <a href="https://f-droid.org/">F-Droid</a> app.</li>
+    <li>Open <em>Settings → Repositories</em> and tap <em>+</em>.</li>
+    <li>Enter the address above and confirm — check that the fingerprint shown
+        matches the one on this page.</li>
+    <li>Update the app list; PokerTH now appears and updates like any other app.</li>
+  </ol>
+
+  <h2>Why a separate repository?</h2>
+  <p>f-droid.org compiles every app from source on its own build servers and does
+  not accept the prebuilt Qt libraries this client is built with. Rather than
+  leave Android users without an F-Droid path, we sign and host our own
+  repository — the same approach KDE and other Qt projects take.</p>
+
+  <h2>Which file does my phone get?</h2>
+  <p>Each release ships as separate APKs for 64-bit ARM, 32-bit ARM and x86_64,
+  plus a build for Android 8 devices. F-Droid picks the right one automatically.</p>
+
+  <footer>
+    PokerTH is free software under the AGPLv3 —
+    <a href="https://github.com/pokerth/pokerth">source code</a> ·
+    <a href="https://www.pokerth.net">pokerth.net</a>
+  </footer>
+</main>
+</body>
+</html>

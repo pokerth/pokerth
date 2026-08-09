@@ -52,12 +52,17 @@ jobs:
     steps:
       - id: pick
         run: |
+          # "code" is the ABI suffix of the versionCode (see "Resolve
+          # versionCode" below). An F-Droid repo may hold only one APK per
+          # (package, versionCode), so every variant of one release needs its
+          # own code, and the client installs the *highest* code the device
+          # can run: qt67/api26 < armeabi-v7a < arm64-v8a < x86_64.
           ALL='[
-            {"name":"widget-arm64",         "target":"pokerth_client",     "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28"},
-            {"name":"qml-arm64",            "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28"},
-            {"name":"qml-armv7",            "target":"pokerth_qml-client", "abi":"armeabi-v7a", "qt":"6.9.3", "api":"35", "min":"28"},
-            {"name":"qml-x86_64",           "target":"pokerth_qml-client", "abi":"x86_64",    "qt":"6.9.3", "api":"35", "min":"28"},
-            {"name":"qml-arm64-qt67-api26", "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.7.3", "api":"34", "min":"26"}
+            {"name":"widget-arm64",         "target":"pokerth_client",     "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28", "code":"3"},
+            {"name":"qml-arm64",            "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.9.3", "api":"35", "min":"28", "code":"3"},
+            {"name":"qml-armv7",            "target":"pokerth_qml-client", "abi":"armeabi-v7a", "qt":"6.9.3", "api":"35", "min":"28", "code":"2"},
+            {"name":"qml-x86_64",           "target":"pokerth_qml-client", "abi":"x86_64",    "qt":"6.9.3", "api":"35", "min":"28", "code":"4"},
+            {"name":"qml-arm64-qt67-api26", "target":"pokerth_qml-client", "abi":"arm64-v8a", "qt":"6.7.3", "api":"34", "min":"26", "code":"1"}
           ]'
           if [ "${{ inputs.variant }}" = "all" ]; then
             INCLUDE=$(echo "$ALL" | jq -c .)
@@ -83,6 +88,7 @@ jobs:
       ANDROID_API_LEVEL: ${{ matrix.api }}
       ANDROID_MIN_SDK: ${{ matrix.min }}
       VERSION_CODE_INPUT: ${{ inputs.version_code }}
+      ABI_CODE: ${{ matrix.code }}
       # The secrets context is not available in step `if:`, so fan it out here.
       HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' && 'true' || 'false' }}
 
@@ -97,8 +103,16 @@ jobs:
       # INSTALL_FAILED_VERSION_DOWNGRADE, which Android only shows as
       # "App not installed". The offset keeps every workflow build above them.
       # (GitHub expressions have no arithmetic, hence the step.)
+      #
+      # The base is then shifted one decimal place and the variant's ABI code
+      # appended, the scheme Play uses for ABI splits: every variant of a run
+      # gets its own versionCode, which the F-Droid repo (fdroid.yml) requires
+      # — it indexes one APK per (package, versionCode) and hands a device the
+      # highest code it can install. Base 137 → 1371 (qt67) … 1374 (x86_64).
       - name: Resolve versionCode
-        run: echo "VERSION_CODE=${VERSION_CODE_INPUT:-$((100 + GITHUB_RUN_NUMBER))}" >> "$GITHUB_ENV"
+        run: |
+          BASE="${VERSION_CODE_INPUT:-$((100 + GITHUB_RUN_NUMBER))}"
+          echo "VERSION_CODE=$((BASE * 10 + ABI_CODE))" >> "$GITHUB_ENV"
 
       # AGP needs JDK 17 (Qt 6.9 → AGP 8.8, Qt 6.7 kit raised to AGP 8.2).
       - name: Set up JDK 17

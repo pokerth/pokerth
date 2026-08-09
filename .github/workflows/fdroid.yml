@@ -1,0 +1,343 @@
+name: Publish F-Droid repo
+
+# Publishes PokerTH's *own* F-Droid repository — the same model KDE, Guardian
+# Project and Bitwarden use. f-droid.org itself compiles every app from source
+# on its build servers and does not accept prebuilt Qt from download.qt.io, so
+# an official listing would require building Qt for Android from source in the
+# F-Droid build recipe (what Krita does, with an 8-hour timeout). Instead we
+# sign our own repo index; users add it once by URL or QR code and then get
+# update notifications exactly like for any other F-Droid app.
+#
+# This workflow builds nothing. It takes the signed .apk artifacts that
+# android-apk.yml produced, merges them into the repo state already on the web
+# server, signs the index and rsyncs everything back. Runtime: a few minutes.
+#
+# Secrets (Settings → Secrets and variables → Actions → Secrets):
+#   FDROID_KEYSTORE_BASE64  keystore holding the repo *index* key — NOT the APK
+#                           signing key:  base64 -w0 fdroid-index.p12
+#   FDROID_KEYSTORE_PASS    keystore password
+#   FDROID_KEY_PASS         key password (falls back to the keystore password)
+#   FDROID_KEY_ALIAS        key alias inside that keystore
+#   FDROID_SSH_KEY          private SSH key with write access to the webroot
+#   FDROID_SSH_KNOWN_HOSTS  optional; without it the host key is scanned (TOFU)
+#
+# Variables (… → Variables):
+#   FDROID_SSH_HOST         e.g. pokerth.net
+#   FDROID_SSH_USER         SSH user on that host
+#   FDROID_SSH_PATH         absolute path of the fdroid dir in the webroot,
+#                           e.g. /var/www/pokerth.net/fdroid
+#
+# ⚠ The index key must never change. Clients pin its fingerprint; a new key
+#   means every user has to remove and re-add the repository. Back it up.
+#
+# See fdroid/README.md for the one-time setup (key creation, web server, CDN).
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: "android-apk.yml run to publish (empty: latest successful run)"
+        type: string
+        default: ""
+      dry_run:
+        description: "Build and sign the index, but do not touch the web server"
+        type: boolean
+        default: false
+
+# Never let two runs rewrite the repo index at the same time — the loser would
+# publish an index that does not match what is on the server.
+concurrency:
+  group: fdroid-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read # download-artifact needs this to reach another run's artifacts
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      # Which artifacts of the source run end up in the repo. The widget client
+      # (org.pokerth.widget) is deliberately left out; to ship it too, widen the
+      # pattern to PokerTH-apk-* and add fdroid/metadata/org.pokerth.widget.yml.
+      ARTIFACT_PATTERN: PokerTH-apk-qml-*
+      DRY_RUN: ${{ inputs.dry_run }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Secrets go through the environment, never through ${{ }} inside the
+      # script: the SSH key is multi-line and would tear the shell apart.
+      - name: Check configuration
+        env:
+          KEYSTORE: ${{ secrets.FDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASS: ${{ secrets.FDROID_KEYSTORE_PASS }}
+          KEY_ALIAS: ${{ secrets.FDROID_KEY_ALIAS }}
+          SSH_KEY: ${{ secrets.FDROID_SSH_KEY }}
+          SSH_HOST: ${{ vars.FDROID_SSH_HOST }}
+          SSH_USER: ${{ vars.FDROID_SSH_USER }}
+          SSH_PATH: ${{ vars.FDROID_SSH_PATH }}
+        run: |
+          missing=""
+          [ -n "$KEYSTORE" ]      || missing="$missing FDROID_KEYSTORE_BASE64"
+          [ -n "$KEYSTORE_PASS" ] || missing="$missing FDROID_KEYSTORE_PASS"
+          [ -n "$KEY_ALIAS" ]     || missing="$missing FDROID_KEY_ALIAS"
+          if [ "$DRY_RUN" != "true" ]; then
+            [ -n "$SSH_KEY" ]  || missing="$missing FDROID_SSH_KEY"
+            [ -n "$SSH_HOST" ] || missing="$missing FDROID_SSH_HOST"
+            [ -n "$SSH_USER" ] || missing="$missing FDROID_SSH_USER"
+            [ -n "$SSH_PATH" ] || missing="$missing FDROID_SSH_PATH"
+          fi
+          if [ -n "$missing" ]; then
+            echo "::error title=F-Droid publishing not configured::Missing:$missing — see fdroid/README.md"
+            exit 1
+          fi
+
+      # Without an explicit run id, take the newest successful android-apk.yml
+      # run. That is normally the release build one just kicked off.
+      - name: Resolve source run
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RUN_ID="${{ inputs.run_id }}"
+          if [ -z "$RUN_ID" ]; then
+            RUN_ID=$(gh run list --workflow android-apk.yml --status success \
+                       --limit 1 --json databaseId --jq '.[0].databaseId')
+          fi
+          [ -n "$RUN_ID" ] && [ "$RUN_ID" != "null" ] || {
+            echo "::error::No successful android-apk.yml run found"; exit 1; }
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+          echo "Publishing APKs from run https://github.com/${{ github.repository }}/actions/runs/$RUN_ID"
+
+      - name: Download APK artifacts
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ steps.source.outputs.run_id }}
+          github-token: ${{ github.token }}
+          pattern: ${{ env.ARTIFACT_PATTERN }}
+          merge-multiple: true
+          path: incoming
+
+      - name: Install fdroidserver
+        run: |
+          sudo apt-get update -qq
+          # libmagic1 → python-magic, librsvg2-bin → repo/app icon, qrencode →
+          # the QR code on the landing page.
+          sudo apt-get install -qq -y libmagic1 librsvg2-bin qrencode rsync
+          pipx install fdroidserver
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/fdroid" --version
+
+      # Everything the repo must be able to state about an APK is read straight
+      # out of the file, so a mislabeled or unsigned artifact is caught here and
+      # not by a user whose install silently fails.
+      - name: Inspect and validate APKs
+        id: apks
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          APKS=(incoming/*.apk)
+          if [ ${#APKS[@]} -eq 0 ]; then
+            echo "::error::Run ${{ steps.source.outputs.run_id }} has no artifacts matching $ARTIFACT_PATTERN"
+            exit 1
+          fi
+          AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -1)
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          : > apk-facts.tsv
+          for apk in "${APKS[@]}"; do
+            badging=$("$AAPT" dump badging "$apk")
+            pkg=$(sed -n "s/^package: name='\([^']*\)'.*/\1/p" <<< "$badging")
+            # Anchored on the leading blank: the badging line also carries
+            # platformBuildVersionName/-Code, and an unanchored pattern picks up
+            # whichever of them sed's backtracking happens to land on.
+            code=$(sed -n "s/.*[[:space:]]versionCode='\([^']*\)'.*/\1/p" <<< "$badging" | head -1)
+            name=$(sed -n "s/.*[[:space:]]versionName='\([^']*\)'.*/\1/p" <<< "$badging" | head -1)
+            abi=$(sed -n "s/^native-code: //p" <<< "$badging" | tr -d "'" | head -1)
+            if ! "$APKSIGNER" verify "$apk" > /dev/null 2>&1; then
+              echo "::error::$(basename "$apk") is not signed — rebuild with the ANDROID_KEYSTORE_* secrets set"
+              exit 1
+            fi
+            printf '%s\t%s\t%s\t%s\t%s\n' "$pkg" "$code" "$name" "$abi" "$apk" >> apk-facts.tsv
+          done
+          column -t apk-facts.tsv
+          # One APK per (package, versionCode) — otherwise the index would list
+          # a single ABI for the release and the rest would silently vanish.
+          if dupes=$(cut -f1,2 apk-facts.tsv | sort | uniq -d) && [ -n "$dupes" ]; then
+            echo "::error title=Duplicate versionCode::$dupes — every ABI needs its own versionCode (see the ABI_CODE scheme in android-apk.yml)"
+            exit 1
+          fi
+          echo "version_name=$(cut -f3 apk-facts.tsv | sort -u | head -1)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up SSH
+        if: inputs.dry_run != true
+        env:
+          SSH_KEY: ${{ secrets.FDROID_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.FDROID_SSH_KNOWN_HOSTS }}
+          SSH_HOST: ${{ vars.FDROID_SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_fdroid
+          chmod 600 ~/.ssh/id_fdroid
+          if [ -n "$KNOWN_HOSTS" ]; then
+            printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning title=Unpinned host key::FDROID_SSH_KNOWN_HOSTS is not set, falling back to ssh-keyscan"
+            ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          fi
+          chmod 600 ~/.ssh/known_hosts
+
+      # The server holds the repo's history: this runner starts empty, so the
+      # existing APKs have to come back down before `fdroid update` rebuilds the
+      # index — otherwise the new index would drop every previous version.
+      - name: Pull current repo state
+        if: inputs.dry_run != true
+        id: pull
+        run: |
+          mkdir -p fdroid/repo fdroid/archive
+          # Create both remote directories up front: an rsync from a path that
+          # does not exist fails, and a missing archive/ on the first run would
+          # otherwise permanently look like "nothing published yet".
+          ssh -i ~/.ssh/id_fdroid "${{ vars.FDROID_SSH_USER }}@${{ vars.FDROID_SSH_HOST }}" \
+            "mkdir -p '${{ vars.FDROID_SSH_PATH }}/repo' '${{ vars.FDROID_SSH_PATH }}/archive'"
+          if rsync -a -e "ssh -i ~/.ssh/id_fdroid" \
+               "${{ vars.FDROID_SSH_USER }}@${{ vars.FDROID_SSH_HOST }}:${{ vars.FDROID_SSH_PATH }}/repo/" fdroid/repo/ \
+             && rsync -a -e "ssh -i ~/.ssh/id_fdroid" \
+               "${{ vars.FDROID_SSH_USER }}@${{ vars.FDROID_SSH_HOST }}:${{ vars.FDROID_SSH_PATH }}/archive/" fdroid/archive/; then
+            echo "pulled=true" >> "$GITHUB_OUTPUT"
+            echo "Existing versions: $(ls fdroid/repo/*.apk 2>/dev/null | wc -l) APK(s) in repo, $(ls fdroid/archive/*.apk 2>/dev/null | wc -l) in archive"
+          else
+            # First publication: nothing to pull yet. Deploying then must not
+            # use --delete, so that a half-finished remote tree is never wiped.
+            echo "pulled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No repo found on the server — treating this as the first publication"
+          fi
+
+      # Icon and screenshots are generated from the sources that already exist
+      # in the tree, so the store listing can never drift from the app: the
+      # launcher SVG the APK itself uses, and the table style previews.
+      - name: Assemble repo tree
+        run: |
+          set -euo pipefail
+          mkdir -p fdroid/repo
+          cp incoming/*.apk fdroid/repo/
+
+          rsvg-convert -w 512 -h 512 src/gui/qt6-qml/resources/pokerth.svg -o fdroid/icon.png
+
+          META=fdroid/metadata/org.pokerth.qml
+          for locale in "$META"/*/; do
+            mkdir -p "$locale/images/phoneScreenshots"
+            cp fdroid/icon.png "$locale/images/icon.png"
+            i=1
+            for style in default greencasino wanted matrix star_trek discworld; do
+              cp "data/gfx/qml/table/$style/preview.png" \
+                 "$locale/images/phoneScreenshots/$(printf '%02d' $i)-$style.png"
+              i=$((i + 1))
+            done
+          done
+
+          # Changelogs are keyed by versionCode, so one hand-written file per
+          # release (fdroid/changelogs/<versionName>.txt) is fanned out to the
+          # ABI variants' codes.
+          while IFS=$'\t' read -r pkg code name abi apk; do
+            src="fdroid/changelogs/$name.txt"
+            [ -f "$src" ] || continue
+            for locale in "$META"/*/; do
+              mkdir -p "$locale/changelogs"
+              cp "$src" "$locale/changelogs/$code.txt"
+            done
+          done < apk-facts.tsv
+
+      - name: Build and sign the index
+        working-directory: fdroid
+        env:
+          FDROID_KEY_ALIAS: ${{ secrets.FDROID_KEY_ALIAS }}
+          FDROID_KEYSTORE_PASS: ${{ secrets.FDROID_KEYSTORE_PASS }}
+          # fdroidserver needs both; an unset key password means "same as the
+          # keystore password", which is how `fdroid init` creates them.
+          FDROID_KEY_PASS: ${{ secrets.FDROID_KEY_PASS || secrets.FDROID_KEYSTORE_PASS }}
+          KEYSTORE_BASE64: ${{ secrets.FDROID_KEYSTORE_BASE64 }}
+        run: |
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > keystore.p12
+          trap 'rm -f keystore.p12' EXIT
+          fdroid update --verbose --pretty --use-date-from-apk
+          keytool -list -v -keystore keystore.p12 -storetype PKCS12 \
+                  -alias "$FDROID_KEY_ALIAS" -storepass "$FDROID_KEYSTORE_PASS" \
+            | sed -n 's/^[[:space:]]*SHA256: //p' | head -1 | tr -d ': ' \
+            | tr 'A-Z' 'a-z' > ../fingerprint.txt
+          echo "Index fingerprint: $(cat ../fingerprint.txt)"
+
+      # The page users land on when they scan the QR code or follow a link from
+      # pokerth.net — it carries the fingerprint, which is what makes adding the
+      # repo tamper-proof.
+      - name: Render landing page
+        run: |
+          set -euo pipefail
+          FP=$(cat fingerprint.txt)
+          REPO_URL=$(sed -n 's/^repo_url:[[:space:]]*//p' fdroid/config.yml)
+          ADD_URL="$REPO_URL?fingerprint=$FP"
+          mkdir -p site
+          sed -e "s|%%REPO_URL%%|$REPO_URL|g" \
+              -e "s|%%ADD_URL%%|$ADD_URL|g" \
+              -e "s|%%FINGERPRINT%%|$FP|g" \
+              -e "s|%%VERSION%%|${{ steps.apks.outputs.version_name }}|g" \
+              fdroid/site/index.html.in > site/index.html
+          qrencode -o site/qr.png -s 8 -m 2 "$ADD_URL"
+          cp fdroid/icon.png site/icon.png
+          {
+            echo "### F-Droid repo"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Repo URL | \`$REPO_URL\` |"
+            echo "| Fingerprint | \`$FP\` |"
+            echo "| Add link | \`$ADD_URL\` |"
+            echo "| Version | ${{ steps.apks.outputs.version_name }} |"
+            echo ""
+            echo "APKs in this release:"
+            echo ""
+            echo '```'
+            column -t apk-facts.tsv
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Deploy to web server
+        if: inputs.dry_run != true
+        env:
+          # Only prune remote files when the current state was actually pulled;
+          # after a failed pull the local tree is not a superset of the remote
+          # one and --delete would take the repo's history with it.
+          DELETE: ${{ steps.pull.outputs.pulled == 'true' && '--delete' || '' }}
+        run: |
+          set -euo pipefail
+          SSH="ssh -i ~/.ssh/id_fdroid"
+          DEST="${{ vars.FDROID_SSH_USER }}@${{ vars.FDROID_SSH_HOST }}:${{ vars.FDROID_SSH_PATH }}"
+          # APKs first, index last: while the upload runs, clients keep reading
+          # the old index, which never points at a file that is not there yet.
+          rsync -a --info=stats1 -e "$SSH" $DELETE \
+                --exclude 'index*' --exclude 'entry*' \
+                fdroid/repo/ "$DEST/repo/"
+          rsync -a --info=stats1 -e "$SSH" $DELETE fdroid/archive/ "$DEST/archive/"
+          rsync -a --info=stats1 -e "$SSH" fdroid/repo/ "$DEST/repo/"
+          rsync -a --info=stats1 -e "$SSH" site/ "$DEST/"
+
+      - name: Upload repo index for inspection
+        uses: actions/upload-artifact@v4
+        with:
+          name: fdroid-index-${{ github.run_number }}
+          # Index and listing only — the APKs are megabytes and already exist
+          # as artifacts of the source run.
+          path: |
+            fdroid/repo/index-v*.json
+            fdroid/repo/index*.jar
+            fdroid/repo/entry.*
+            fdroid/repo/*.yml
+            site/
+            fingerprint.txt
+          if-no-files-found: warn
+          retention-days: 30

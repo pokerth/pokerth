@@ -1,0 +1,34 @@
+# Configuration for `fdroid update` — see fdroid/README.md and the workflow in
+# .github/workflows/fdroid.yml. Nothing secret lives here: fdroidserver resolves
+# {env: …} from the environment, which the workflow fills from repo secrets.
+#
+# repo_url MUST match the public URL the deployed repo/ directory ends up at
+# (FDROID_SSH_PATH mapped into the webroot). Clients store it together with the
+# index fingerprint, so changing it later means every user has to re-add the
+# repository.
+
+repo_url: https://www.pokerth.net/fdroid/repo
+repo_name: PokerTH
+repo_icon: icon.png
+repo_description: >-
+  Official repository of the PokerTH Android client, maintained by the PokerTH
+  developers. PokerTH is a free and open source Texas Hold'em poker game with
+  local games against computer opponents and online multiplayer on the official
+  PokerTH servers.
+
+archive_url: https://www.pokerth.net/fdroid/archive
+archive_name: PokerTH (archive)
+archive_description: >-
+  Older PokerTH releases, moved out of the main repository.
+# Counted in versionCodes, not releases — one release is up to four APKs (one
+# per ABI variant), so 12 keeps roughly the last three releases installable.
+archive_older: 12
+
+keystore: keystore.p12
+repo_keyalias: {env: FDROID_KEY_ALIAS}
+keystorepass: {env: FDROID_KEYSTORE_PASS}
+keypass: {env: FDROID_KEY_PASS}
+
+# A stable "latest APK" symlink would be ambiguous here: each release ships
+# several ABI-specific APKs, and F-Droid clients pick the right one themselves.
+make_current_version_link: false
