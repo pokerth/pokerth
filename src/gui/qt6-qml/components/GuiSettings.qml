@@ -127,9 +127,8 @@ Rectangle {
                         }
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "allowChatTranslationCheckbox"
-                        Layout.fillWidth: true
                         text: qsTr("Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)")
                         checked: (typeof SettingsManager !== "undefined" && SettingsManager)
                                  ? SettingsManager.readConfigInt("AllowChatTranslation") !== 0 : true
@@ -142,14 +141,6 @@ Rectangle {
                                 Lobby.chatTranslator.refreshEnabled()
                             if (typeof GameTable !== "undefined" && GameTable && GameTable.chatTranslator)
                                 GameTable.chatTranslator.refreshEnabled()
-                        }
-                        contentItem: Text {
-                            text: parent.text
-                            wrapMode: Text.Wrap
-                            leftPadding: parent.indicator.width + parent.spacing
-                            verticalAlignment: Text.AlignVCenter
-                            font: parent.font
-                            color: parent.Universal.foreground
                         }
                     }
 
@@ -181,7 +172,7 @@ Rectangle {
                         configKey: "ShowFlipCardsAnimation"
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "reduceEffectsCheckbox"
                         text: qsTr("Grafikeffekte reduzieren (Schatten/Glow) – für schwache Systeme")
                         checked: SettingsManager ? SettingsManager.readConfigInt("QmlReduceEffects") !== 0 : false
@@ -217,108 +208,46 @@ Rectangle {
                         defaultChecked: false
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "disableSplashScreenOnStartupCheckbox"
                         text: qsTr("Startbildschirm beim Startvorgang deaktivieren")
                         checked: SettingsManager ? SettingsManager.disableSplashScreen : false
                         onToggled: { if (SettingsManager) SettingsManager.disableSplashScreen = checked }
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "doNotTranslatePokerTermsCheckbox"
-                        Layout.fillWidth: true
                         text: qsTr("Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen")
                         checked: SettingsManager ? SettingsManager.readConfigInt("DontTranslateInternationalPokerStringsFromStyle") !== 0 : false
                         onToggled: { if (SettingsManager) SettingsManager.writeConfigInt("DontTranslateInternationalPokerStringsFromStyle", checked ? 1 : 0) }
-                        contentItem: Text {
-                            text: parent.text
-                            wrapMode: Text.Wrap
-                            leftPadding: parent.indicator.width + parent.spacing
-                            verticalAlignment: Text.AlignVCenter
-                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
-                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
-                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
-                            // umbrechenden Labels erscheinen groesser als alle anderen.
-                            font: parent.font
-                            // Universal.foreground statt palette.windowText: palette folgt
-                            // der SYSTEM-Palette und nicht dem Universal.theme, das
-                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
-                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
-                            // Universal.foreground ist exakt das, was der Style-Default der
-                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
-                            // umbrechende und einzeilige Labels identisch aus.
-                            color: parent.Universal.foreground
-                        }
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "showTooltipsCheckbox"
                         visible: !Config.Responsive.isMobile
                         height: visible ? implicitHeight : 0
-                        Layout.fillWidth: true
                         text: qsTr("Tooltips anzeigen")
                         checked: Config.Parameters.showTooltips
                         onCheckedChanged: Config.Parameters.showTooltips = checked
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         visible: Config.Responsive.compact
                         height: visible ? implicitHeight : 0
-                        Layout.fillWidth: true
                         text: qsTr("Tischzoom aktivieren (Wischen & Zoomen, nur Mobilmodus)")
                         checked: Config.Parameters.tableZoomEnabled
                         onCheckedChanged: Config.Parameters.tableZoomEnabled = checked
-                        contentItem: Text {
-                            text: parent.text
-                            wrapMode: Text.Wrap
-                            leftPadding: parent.indicator.width + parent.spacing
-                            verticalAlignment: Text.AlignVCenter
-                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
-                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
-                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
-                            // umbrechenden Labels erscheinen groesser als alle anderen.
-                            font: parent.font
-                            // Universal.foreground statt palette.windowText: palette folgt
-                            // der SYSTEM-Palette und nicht dem Universal.theme, das
-                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
-                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
-                            // Universal.foreground ist exakt das, was der Style-Default der
-                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
-                            // umbrechende und einzeilige Labels identisch aus.
-                            color: parent.Universal.foreground
-                        }
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "keepEmptySeatsCheckbox"
-                        Layout.fillWidth: true
                         text: qsTr("Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)")
                         checked: Config.Parameters.keepEmptySeats
                         onCheckedChanged: Config.Parameters.keepEmptySeats = checked
-                        contentItem: Text {
-                            text: parent.text
-                            wrapMode: Text.Wrap
-                            leftPadding: parent.indicator.width + parent.spacing
-                            verticalAlignment: Text.AlignVCenter
-                            // font durchreichen: der Style-Default (Universal/CheckBox.qml)
-                            // setzt font: control.font. Fehlt das, faellt dieser Text auf die
-                            // Standard-Schriftgroesse zurueck (gemessen: 12 statt 13) und die
-                            // umbrechenden Labels erscheinen groesser als alle anderen.
-                            font: parent.font
-                            // Universal.foreground statt palette.windowText: palette folgt
-                            // der SYSTEM-Palette und nicht dem Universal.theme, das
-                            // pokerth.qml aus dem DarkMode-Setting ableitet. Auf iOS/iPadOS
-                            // ist windowText schwarz -> schwarze Schrift auf dunklem Grund.
-                            // Universal.foreground ist exakt das, was der Style-Default der
-                            // uebrigen CheckBoxen nutzt (Universal/CheckBox.qml), also sehen
-                            // umbrechende und einzeilige Labels identisch aus.
-                            color: parent.Universal.foreground
-                        }
                     }
 
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "showCommunityContentCheckbox"
-                        Layout.fillWidth: true
                         text: qsTr("Community-Inhalte anzeigen")
                         checked: Config.Parameters.showCommunityContent
                         onCheckedChanged: Config.Parameters.showCommunityContent = checked
@@ -362,9 +291,8 @@ Rectangle {
                     // Optionales Admin-Feature (Spielerempfehlung im Warteraum
                     // eines eigenen BBC-/WEC-Invite-Spiels) – wie die Standard-
                     // Community nur bei aktivierten Community-Inhalten sichtbar.
-                    CheckBox {
+                    AppCheckBox {
                         objectName: "showCommunitySuggestCheckbox"
-                        Layout.fillWidth: true
                         Layout.leftMargin: 24
                         visible: Config.Parameters.showCommunityContent
                         Layout.preferredHeight: visible ? implicitHeight : 0

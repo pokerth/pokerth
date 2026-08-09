@@ -12,6 +12,7 @@
         <file>components/PlayerTurnGlow.qml</file>
         <file>components/PlayerWinnerOverlay.qml</file>
         <file>components/SettingsHeader.qml</file>
+        <file>components/AppCheckBox.qml</file>
         <file>components/ConfigCheckBox.qml</file>
         <file>components/RankingFilterField.qml</file>
         <file>components/CustomButton.qml</file>

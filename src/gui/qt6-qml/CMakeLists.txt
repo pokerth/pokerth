@@ -94,6 +94,7 @@ endif()
 
 set(QML_FILES
     pokerth.qml
+    components/AppCheckBox.qml
     components/AppLabel.qml
     components/AppText.qml
     components/AvatarCardRow.qml
