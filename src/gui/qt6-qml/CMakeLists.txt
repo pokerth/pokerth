@@ -118,6 +118,7 @@ set(QML_FILES
     components/EmojiPicker.qml
     components/ExampleAvatarPicker.qml
     components/GameActionBar.qml
+    components/GameAdminBadge.qml
     components/GameInfoPanel.qml
     components/GameListItem.qml
     components/GamePlayerBox.qml

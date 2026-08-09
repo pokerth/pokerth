@@ -1129,6 +1129,11 @@ QVariantList LobbyHandler::gamePlayersInGame(unsigned gameId) const
         entry.insert("playerName", QString::fromStdString(info.playerName));
         entry.insert("countryCode", QString::fromStdString(info.countryCode).toLower());
         entry.insert("isAdmin", info.isAdmin);
+        // Tisch-Admin (Ersteller/Host dieses Spiels) – strikt getrennt vom
+        // Server-Admin oben. adminPlayerId hält der ClientThread aktuell
+        // (UpdateGameInfoAdmin), die QML-Listen werden per gameListRevision neu
+        // ausgewertet.
+        entry.insert("isGameAdmin", gameInfo.adminPlayerId != 0 && playerId == gameInfo.adminPlayerId);
         entry.insert("isGuest", info.isGuest);
 
         QString avatarUrl;

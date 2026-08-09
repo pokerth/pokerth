@@ -41,6 +41,7 @@
         <file>components/PlayerActionIcon.qml</file>
         <file>components/PlayerListItem.qml</file>
         <file>components/GameListItem.qml</file>
+        <file>components/GameAdminBadge.qml</file>
         <file>components/GuiSettings.qml</file>
         <file>components/InternetGameSettings.qml</file>
         <file>components/LocalGameSettings.qml</file>

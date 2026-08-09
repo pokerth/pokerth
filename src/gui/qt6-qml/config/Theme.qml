@@ -183,6 +183,13 @@ QtObject {
     readonly property color colorStatusOpen:    isDark ? "#4CAF50" : "#2E7D32"
     readonly property color colorStatusFull:    isDark ? "#FFC107" : "#E65100"
 
+    // Tisch-Admin (Ersteller/Host eines Spiels) in den Spielerlisten von Lobby
+    // und Warteraum. Der Widget-Client hinterlegt diesen Eintrag grün – hier
+    // dieselbe Aussage: grünes Badge + dezent grün getönte Listenzeile.
+    readonly property color colorGameAdmin: colorStatusOpen
+    readonly property color colorGameAdminRow: Qt.tint(colorPanelRow,
+        Qt.rgba(colorGameAdmin.r, colorGameAdmin.g, colorGameAdmin.b, isDark ? 0.20 : 0.16))
+
     // Error / feedback text
     readonly property color colorError:          isDark ? "#FF5252" : "#C62828"
     readonly property color colorSuccessMessage: isDark ? "#2ecc71" : "#27ae60"

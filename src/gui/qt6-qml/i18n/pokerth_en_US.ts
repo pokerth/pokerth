@@ -528,6 +528,19 @@
     </message>
 </context>
 <context>
+    <name>GameAdminBadge</name>
+    <message>
+        <location filename="../components/GameAdminBadge.qml" line="+25"/>
+        <source>Admin</source>
+        <translation>Admin</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Game admin: starts the game and can kick players</source>
+        <translation>Game admin: starts the game and can kick players</translation>
+    </message>
+</context>
+<context>
     <name>GameInfoPanel</name>
     <message>
         <location filename="../components/GameInfoPanel.qml" line="+56"/>
@@ -646,7 +659,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2049"/>
+        <location filename="../pages/GamePage.qml" line="+2092"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>History &amp; Odds</translation>
     </message>
@@ -918,7 +931,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+187"/>
+        <location filename="../pages/GameWaitPage.qml" line="+194"/>
         <source>Players</source>
         <translation>Players</translation>
     </message>
@@ -947,48 +960,48 @@
     </message>
     <message>
         <location line="-264"/>
-        <location line="+676"/>
+        <location line="+684"/>
         <source>Game List</source>
         <translation>Game List</translation>
     </message>
     <message>
-        <location line="-625"/>
-        <location line="+637"/>
+        <location line="-633"/>
+        <location line="+645"/>
         <source>No game list filter</source>
         <translation>No game list filter</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+637"/>
+        <location line="-644"/>
+        <location line="+645"/>
         <source>Show open games</source>
         <translation>Show open games</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+637"/>
+        <location line="-644"/>
+        <location line="+645"/>
         <source>Show open &amp; non-full games</source>
         <translation>Show open &amp; non-full games</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+637"/>
+        <location line="-644"/>
+        <location line="+645"/>
         <source>Show open &amp; non-full &amp; non-private games</source>
         <translation>Show open &amp; non-full &amp; non-private games</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+637"/>
+        <location line="-644"/>
+        <location line="+645"/>
         <source>Show open &amp; non-full &amp; private games</source>
         <translation>Show open &amp; non-full &amp; private games</translation>
     </message>
     <message>
-        <location line="-636"/>
-        <location line="+637"/>
+        <location line="-644"/>
+        <location line="+645"/>
         <source>Show open &amp; non-full &amp; ranking games</source>
         <translation>Show open &amp; non-full &amp; ranking games</translation>
     </message>
     <message>
-        <location line="-563"/>
+        <location line="-571"/>
         <source>Game Info</source>
         <translation>Game Info</translation>
     </message>
@@ -1073,13 +1086,13 @@
         <translation>Players in game (%1)</translation>
     </message>
     <message>
-        <location line="-642"/>
-        <location line="+726"/>
+        <location line="-649"/>
+        <location line="+741"/>
         <source>Kick player</source>
         <translation>Kick player</translation>
     </message>
     <message>
-        <location line="-725"/>
+        <location line="-740"/>
         <source>Are you sure you want to kick &quot;%1&quot; from the game?</source>
         <translation>Are you sure you want to kick &quot;%1&quot; from the game?</translation>
     </message>
@@ -1089,7 +1102,7 @@
         <translation>Kick</translation>
     </message>
     <message>
-        <location line="+757"/>
+        <location line="+772"/>
         <source>Lobby Chat</source>
         <translation>Lobby Chat</translation>
     </message>
@@ -1200,7 +1213,7 @@
         <translation>Language:</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+67"/>
         <source>Ausblend-Animation für Verliererkarten</source>
         <translation>Fade-out animation for losing cards</translation>
     </message>
@@ -1245,27 +1258,27 @@
         <translation>Disable splash screen on startup</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
         <source>Internationale Pokerausdrücke (Check, Call, Raise) nicht übersetzen</source>
         <translation>Do not translate international poker terms (Check, Call, Raise)</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+9"/>
         <source>Tooltips anzeigen</source>
         <translation>Show tooltips</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
         <source>Tischzoom aktivieren (Wischen &amp; Zoomen, nur Mobilmodus)</source>
         <translation>Enable table zoom (swipe &amp; zoom, mobile mode only)</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+7"/>
         <source>Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)</source>
         <translation>Keep seats of players who left the table (remaining player boxes stay in place)</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
         <translation>Show community content</translation>
     </message>
@@ -1275,7 +1288,7 @@
         <translation>Default community:</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+56"/>
         <source>Fokus ins Einsatz-Eingabefeld setzen, wenn Sie an der Reihe sind</source>
         <translation>Set focus to bet input when it&apos;s your turn</translation>
     </message>
@@ -1295,17 +1308,17 @@
         <translation>Prevent accidental call after a big raise</translation>
     </message>
     <message>
-        <location line="-269"/>
+        <location line="-198"/>
         <source>Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)</source>
         <translation>Offer chat translation (globe symbol next to messages)</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+20"/>
         <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.</source>
         <translation>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message; the target language is the one selected above.</translation>
     </message>
     <message>
-        <location line="+210"/>
+        <location line="+147"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Suggest players in your own community games</translation>
     </message>
@@ -1621,7 +1634,7 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1234"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1239"/>
         <source>Guests cannot send chat messages</source>
         <translation>Guests cannot send chat messages</translation>
     </message>
@@ -1852,7 +1865,7 @@ Please reenter the password and try again.</translation>
 <context>
     <name>LobbyPage</name>
     <message>
-        <location filename="../pages/LobbyPage.qml" line="+1516"/>
+        <location filename="../pages/LobbyPage.qml" line="+1532"/>
         <source>Game invitation</source>
         <translation>Game invitation</translation>
     </message>
@@ -1872,13 +1885,13 @@ Please reenter the password and try again.</translation>
         <translation>Join</translation>
     </message>
     <message>
-        <location line="-494"/>
+        <location line="-502"/>
         <source>Create Game</source>
         <translation>Create Game</translation>
     </message>
     <message>
-        <location line="-735"/>
-        <location line="+793"/>
+        <location line="-743"/>
+        <location line="+801"/>
         <source>Game Info</source>
         <translation>Game Info</translation>
     </message>
@@ -1915,12 +1928,12 @@ Please reenter the password and try again.</translation>
     </message>
     <message>
         <location line="+115"/>
-        <location line="+279"/>
+        <location line="+287"/>
         <source>Lobby Chat</source>
         <translation>Lobby Chat</translation>
     </message>
     <message>
-        <location line="-602"/>
+        <location line="-610"/>
         <source>No game list filter</source>
         <translation>No game list filter</translation>
     </message>
@@ -1930,12 +1943,12 @@ Please reenter the password and try again.</translation>
         <translation>Player: %1</translation>
     </message>
     <message>
-        <location line="-884"/>
+        <location line="-892"/>
         <source>Players</source>
         <translation>Players</translation>
     </message>
     <message>
-        <location line="+998"/>
+        <location line="+1006"/>
         <source>Select a game to see details</source>
         <translation>Select a game to see details</translation>
     </message>
@@ -1945,7 +1958,7 @@ Please reenter the password and try again.</translation>
         <translation>Show open &amp; non-full &amp; non-private games</translation>
     </message>
     <message>
-        <location line="-618"/>
+        <location line="-626"/>
         <source>Report game name</source>
         <translation>Report game name</translation>
     </message>
@@ -1981,36 +1994,36 @@ Please reenter the password and try again.</translation>
     </message>
     <message>
         <location line="+168"/>
-        <location line="+499"/>
+        <location line="+507"/>
         <source>Sort alphabetically</source>
         <translation>Sort alphabetically</translation>
     </message>
     <message>
-        <location line="-498"/>
-        <location line="+499"/>
+        <location line="-506"/>
+        <location line="+507"/>
         <source>Sort by country</source>
         <translation>Sort by country</translation>
     </message>
     <message>
-        <location line="-498"/>
-        <location line="+499"/>
+        <location line="-506"/>
+        <location line="+507"/>
         <source>Display idle players</source>
         <translation>Display idle players</translation>
     </message>
     <message>
-        <location line="-412"/>
-        <location line="+788"/>
+        <location line="-420"/>
+        <location line="+796"/>
         <source>Report inappropriate game name</source>
         <translation>Report inappropriate game name</translation>
     </message>
     <message>
-        <location line="-780"/>
-        <location line="+787"/>
+        <location line="-788"/>
+        <location line="+795"/>
         <source>Close game (admin)</source>
         <translation>Close game (admin)</translation>
     </message>
     <message>
-        <location line="-750"/>
+        <location line="-758"/>
         <source>Players: %1 / %2</source>
         <translation>Players: %1 / %2</translation>
     </message>
@@ -2021,12 +2034,12 @@ Please reenter the password and try again.</translation>
     </message>
     <message>
         <location line="+33"/>
-        <location line="+731"/>
+        <location line="+739"/>
         <source>Type: %1</source>
         <translation>Type: %1</translation>
     </message>
     <message>
-        <location line="-720"/>
+        <location line="-728"/>
         <source>Small blind: %1</source>
         <translation>Small blind: %1</translation>
     </message>
@@ -2074,7 +2087,7 @@ Please reenter the password and try again.</translation>
     </message>
     <message>
         <location line="+12"/>
-        <location line="+679"/>
+        <location line="+687"/>
         <source>Players in game (%1)</source>
         <translation>Players in game (%1)</translation>
     </message>
@@ -2100,31 +2113,31 @@ Please reenter the password and try again.</translation>
         <translation>Connected Players</translation>
     </message>
     <message>
-        <location line="-649"/>
-        <location line="+834"/>
+        <location line="-657"/>
+        <location line="+842"/>
         <source>Spectate game</source>
         <translation>Spectate game</translation>
     </message>
     <message>
-        <location line="-833"/>
+        <location line="-841"/>
         <source>Are you sure you want to spectate the game:
 &quot;%1&quot;?</source>
         <translation>Are you sure you want to spectate the game:
 &quot;%1&quot;?</translation>
     </message>
     <message>
-        <location line="+938"/>
-        <location line="+279"/>
+        <location line="+946"/>
+        <location line="+287"/>
         <source>Global notice (admin)</source>
         <translation>Global notice (admin)</translation>
     </message>
     <message>
-        <location line="-116"/>
+        <location line="-124"/>
         <source>SB: %1 | Start cash: %2</source>
         <translation>SB: %1 | Start cash: %2</translation>
     </message>
     <message>
-        <location line="+264"/>
+        <location line="+272"/>
         <source>Privates Spiel</source>
         <translation>Private game</translation>
     </message>
@@ -2169,7 +2182,7 @@ Please reenter the password and try again.</translation>
         <translation>Rejoin</translation>
     </message>
     <message>
-        <location line="-965"/>
+        <location line="-973"/>
         <source>Show open &amp; non-full games</source>
         <translation>Show open &amp; non-full games</translation>
     </message>
@@ -2179,8 +2192,8 @@ Please reenter the password and try again.</translation>
         <translation>Show open games</translation>
     </message>
     <message>
-        <location line="-464"/>
-        <location line="+443"/>
+        <location line="-472"/>
+        <location line="+451"/>
         <source>search for player ...</source>
         <translation>search for player ...</translation>
     </message>
@@ -4481,12 +4494,12 @@ Preview</translation>
 <context>
     <name>pokerth</name>
     <message>
-        <location filename="../pokerth.qml" line="+167"/>
+        <location filename="../pokerth.qml" line="+175"/>
         <source>PokerTH - v2.1.6</source>
         <translation>PokerTH - v2.1.6</translation>
     </message>
     <message>
-        <location line="+239"/>
+        <location line="+248"/>
         <source>Back</source>
         <translation>Back</translation>
     </message>

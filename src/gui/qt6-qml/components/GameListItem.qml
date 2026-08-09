@@ -224,10 +224,19 @@ Item {
                     smooth: true
                 }
 
+                // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                GameAdminBadge {
+                    id: adminBadge
+                    visible: !!parent.modelData.isGameAdmin
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
                 AppText {
                     anchors.left: playerFlag.visible ? playerFlag.right : parent.left
                     anchors.leftMargin: playerFlag.visible ? 6 : 0
-                    anchors.right: parent.right
+                    anchors.right: adminBadge.visible ? adminBadge.left : parent.right
+                    anchors.rightMargin: adminBadge.visible ? 6 : 0
                     anchors.verticalCenter: parent.verticalCenter
                     text: parent.modelData.playerName || parent.modelData.name || ""
                     font.pixelSize: 11

@@ -510,10 +510,12 @@ Rectangle {
 
                         delegate: Rectangle {
                             required property var modelData
+                            readonly property bool gameAdmin: !!modelData.isGameAdmin
                             width: ListView.view ? ListView.view.width : 0
                             height: 32
                             radius: 4
-                            color: Config.Theme.colorPanelRow
+                            color: gameAdmin ? Config.Theme.colorGameAdminRow
+                                             : Config.Theme.colorPanelRow
 
                             RowLayout {
                                 anchors.fill: parent
@@ -561,6 +563,12 @@ Rectangle {
                                     font.bold: false
                                     Layout.fillWidth: true
                                     elide: Text.ElideRight
+                                }
+
+                                // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                                GameAdminBadge {
+                                    visible: gameAdmin
+                                    Layout.alignment: Qt.AlignVCenter
                                 }
                             }
                         }
@@ -1189,10 +1197,12 @@ Rectangle {
 
                             delegate: Rectangle {
                                 required property var modelData
+                                readonly property bool gameAdmin: !!modelData.isGameAdmin
                                 width: ListView.view ? ListView.view.width : 0
                                 height: 30
                                 radius: 4
-                                color: Config.Theme.colorPanelRow
+                                color: gameAdmin ? Config.Theme.colorGameAdminRow
+                                                 : Config.Theme.colorPanelRow
 
                                 RowLayout {
                                     anchors.fill: parent
@@ -1240,6 +1250,12 @@ Rectangle {
                                         font.bold: false
                                         Layout.fillWidth: true
                                         elide: Text.ElideRight
+                                    }
+
+                                    // Tisch-Admin (Host) hervorheben – wie im Widget-Client
+                                    GameAdminBadge {
+                                        visible: gameAdmin
+                                        Layout.alignment: Qt.AlignVCenter
                                     }
                                 }
                             }
