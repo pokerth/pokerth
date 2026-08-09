@@ -160,8 +160,16 @@ ApplicationWindow {
     // Initiale Portrait-Breite als untere Schranke – das Fenster darf nicht
     // schmaler werden als der Standard-Portrait-Modus, damit das Layout
     // (Slot-Spalten, Self-Box, Action-Buttons) immer komplett ins Bild passt.
-    minimumWidth: 390
-    minimumHeight: 600
+    //
+    // NUR DESKTOP. Auf Android/iOS gibt es kein frei skalierbares Fenster: die
+    // Fläche IST der Bildschirm. Eine Mindestbreite, die über der logischen
+    // Display-Breite liegt, lässt Qt die Szene breiter aufziehen als die
+    // Anzeige – der Rand wird abgeschnitten, der Spieler sieht "nicht die
+    // volle Breite". Genau das passiert auf verbreiteten 1080p-Phones: ein
+    // Samsung S20 FE (1080×2400) meldet je nach gerundetem devicePixelRatio
+    // 360×800 dp – 30 dp schmaler als die hier geforderten 390.
+    minimumWidth: Config.Responsive.isMobile ? 0 : 390
+    minimumHeight: Config.Responsive.isMobile ? 0 : 600
     // TRY to center the window, doesn't work on my Ubuntu but should work on other platforms.
     visible: true
     title: qsTr("PokerTH - v2.1.6")
@@ -192,7 +200,16 @@ ApplicationWindow {
         // 1920×1080 oder 2560×1440 würde das Fenster sonst entweder rausragen
         // oder sein Seitenverhältnis verlieren — beides hebelt den
         // landscapeCompact-Modus aus (Aspect-Schwelle 1.85).
-        if (screen) {
+        //
+        // Reine DESKTOP-Logik: Größe, Mindestgröße und Zentrierung ergeben nur
+        // dort einen Sinn, wo es ein Fenster IM Bildschirm gibt. Auf Android/
+        // iOS legt das System die Fläche fest (Vollbild); jede eigene Geometrie
+        // arbeitet dagegen. Konkret rechnete der Clamp auf einem 360×800-dp-
+        // Phone: scale = (360−20)/1024 = 0.33 → width = max(390, 340) = 390 und
+        // x = 180 − 195 = −15, also ein Fenster BREITER als das Display und
+        // dazu nach links versetzt → beide Ränder der Szene liegen außerhalb
+        // der Anzeige. Auf Mobil daher gar nichts anfassen.
+        if (!Config.Responsive.isMobile && screen) {
             var maxW = screen.width  - 20
             var maxH = screen.height - 60   // Taskleiste/Titelbar
             var scale = Math.min(maxW / width, maxH / height, 1.0)
@@ -200,13 +217,13 @@ ApplicationWindow {
                 width  = Math.max(minimumWidth,  Math.floor(width  * scale))
                 height = Math.max(minimumHeight, Math.floor(height * scale))
             }
+            x = screen.width / 2 - width / 2
+            y = screen.height / 2 - height / 2
         }
         Config.Responsive.windowWidth  = width
         Config.Responsive.windowHeight = height
         Config.Theme.windowWidth       = width
         Config.Theme.windowHeight      = height
-        x = screen.width / 2 - width / 2
-        y = screen.height / 2 - height / 2
         // Sprache kommt aus dem ConfigFile (Key "Language") – derselbe Wert, den
         // auch der Widgets-Client nutzt. Parameters.language ist nur noch der
         // Laufzeitwert für die Oberfläche.
