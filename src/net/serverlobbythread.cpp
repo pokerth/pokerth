@@ -1246,6 +1246,13 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
         }
         noAuth = true;
     } else if (initMessage.login() == InitMessage::unauthenticatedLogin) {
+        // The no-auth login is for LAN and dedicated no-auth servers only.
+        // Do not let a raw client bypass the account check on the official
+        // login server just by choosing a different protocol login type.
+        if (GetServerMode() == SERVER_MODE_INTERNET_AUTH) {
+            SessionError(session, ERR_NET_INVALID_PASSWORD);
+            return;
+        }
         playerName = initMessage.nickname();
         if (initMessage.has_avatarhash()) {
             memcpy(avatarMD5.GetData(), initMessage.avatarhash().data(), MD5_DATA_SIZE);
@@ -1634,16 +1641,14 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 				// Only allow private messages to players which are not in running games.
 				boost::shared_ptr<ServerGame> tmpGame = targetSession->GetGame();
 				if (!tmpGame || !tmpGame->IsRunning()) {
-					// DEPRECATED (Altclients): Global Notice als PM an bbcbot mit
-					// "gn "-Prefix und hartkodierter Nick-Liste. Der reguläre Weg
-					// ist Type_AdminGlobalNoticeMessage (Rechte aus der Admin-Liste
-					// der DB, wie kickban). Sobald alle Admins einen Client mit
-					// dieser Nachricht nutzen, kann dieser Block entfallen.
+					// Legacy clients send global notices as a private message to
+					// bbcbot. Apply the same database-backed admin check as the
+					// dedicated AdminGlobalNoticeMessage handler.
 					const std::string senderName = session->GetPlayerData()->GetName();
 					const std::string targetName = targetSession->GetPlayerData()->GetName();
 					const bool isTargetBbcbot = (targetName == "bbcbot");
-					const bool isSenderAllowed = (senderName == "bbcbot" || senderName == "sp0ck" || senderName == "boehmi" 
-					                              || senderName == "RankingKing" || senderName == "q4z1" || senderName == "Huckleberry");
+					const bool isSenderAllowed = GetBanManager().IsAdminPlayer(
+						session->GetPlayerData()->GetDBId());
 					
 					if (isTargetBbcbot && isSenderAllowed && chatRequest.chattext().substr(0, 3) == "gn ") {
 						// bbcbot pm from admins - global notice => /msg bbcbot gn This is a global Notice
@@ -1913,8 +1918,12 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		unsigned previousPlayerId = GetPlayerId(session->GetPlayerData()->GetName());
 		if (previousPlayerId != 0 && previousPlayerId != session->GetPlayerData()->GetUniqueId()) {
 #ifdef POKERTH_OFFICIAL_SERVER
-			// If this is a login server with a websocket connection, decline connection.
-			if (session->GetWebData()) {
+			// A guest has no account credential and must not replace an
+			// existing session just because it selected the same nickname.
+			// Preserve the established reconnect behavior for authenticated
+			// native clients.
+			if (session->GetWebData()
+					|| session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST) {
 				SessionError(session, ERR_NET_PLAYER_NAME_IN_USE);
 				return;
 			} else {
