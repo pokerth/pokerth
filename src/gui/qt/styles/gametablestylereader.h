@@ -138,6 +138,10 @@ public:
 	{
 		return ChatTextNickNotifyColor;
 	}
+	QString getChatLogBgColor() const
+	{
+		return ChatLogBgColor;
+	}
 	QString getLogWinnerMainPotColor() const
 	{
 		return LogWinnerMainPotColor;

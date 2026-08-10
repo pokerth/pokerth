@@ -45,6 +45,7 @@
 #include "gametablestylereader.h"
 #include "gamelobbydialogimpl.h"
 #include "soundevents.h"
+#include <cmath>
 #include <iostream>
 
 
@@ -71,6 +72,57 @@ public:
 private:
 	int myIconSize;
 };
+
+// ── Farbe des Spielernamens im Chat ─────────────────────────────────────────
+// Relative Luminanz und Kontrastverhältnis nach WCAG 2.1. Damit wird die
+// Namensfarbe gegen den TATSÄCHLICHEN Hintergrund des jeweiligen Verlaufs
+// geprüft, statt eine helle oder dunkle Oberfläche anzunehmen.
+double srgbToLinear(double c)
+{
+	return c <= 0.03928 ? c / 12.92 : std::pow((c + 0.055) / 1.055, 2.4);
+}
+
+double relativeLuminance(const QColor &c)
+{
+	return 0.2126 * srgbToLinear(c.redF())
+	       + 0.7152 * srgbToLinear(c.greenF())
+	       + 0.0722 * srgbToLinear(c.blueF());
+}
+
+double contrastRatio(const QColor &a, const QColor &b)
+{
+	const double la = relativeLuminance(a);
+	const double lb = relativeLuminance(b);
+	return (qMax(la, lb) + 0.05) / (qMin(la, lb) + 0.05);
+}
+
+// Namensfarbe zu einem gegebenen Hintergrund. Violett, weil sich dieser Ton von
+// allen anderen im Chat vergebenen Farben unterscheidet: grauer/weißer
+// Nachrichtentext, blaue Links und eigene Zeilen (Palette-Link), rote
+// Bot-Warnung und die gelbe Nick-Benachrichtigung der Tischstile. Die
+// Helligkeit wird so lange vom Hintergrund weggeschoben, bis der Kontrast
+// ausreicht – so bleibt der Name auf hellem Thema, dunklem Thema und auf jedem
+// (frei wählbaren) Tischstil-Filz lesbar.
+QColor nickColorForBackground(const QColor &bg)
+{
+	const double hue = 285.0 / 360.0;
+	const double sat = 0.72;
+	const bool darkBg = relativeLuminance(bg) < 0.18;
+
+	double lightness = darkBg ? 0.70 : 0.42;
+	QColor nick = QColor::fromHslF(hue, sat, lightness);
+	// Bis zum Zielkontrast (4.5:1, WCAG AA für normalen Text) aufhellen bzw.
+	// abdunkeln. Die Schranken verhindern eine Endlosschleife bei extremen
+	// Hintergründen (z. B. mittleres Grau, wo 4.5:1 mit dieser Sättigung nicht
+	// erreichbar ist) – dort bleibt es beim maximal möglichen Kontrast.
+	for(int i = 0; i < 30 && contrastRatio(nick, bg) < 4.5; ++i) {
+		lightness += darkBg ? 0.02 : -0.02;
+		if(lightness > 0.92 || lightness < 0.20)
+			break;
+		nick = QColor::fromHslF(hue, sat, lightness);
+	}
+	return nick;
+}
 
 bool isEmojiCodepoint(uint cp)
 {
@@ -187,7 +239,7 @@ static const bool kTranslateHoverOnly = false;
 static const bool kTranslateHoverOnly = true;
 #endif
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1), myTranslateHoverId(0)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myStyle(nullptr), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1), myTranslateHoverId(0)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	setupEmojiPickerAction();
@@ -464,6 +516,40 @@ void ChatTools::sendMessage()
 	}
 }
 
+QColor ChatTools::chatBackgroundColor() const
+{
+	// Spiel-Chat: der Verlauf bekommt seinen Hintergrund per Stylesheet aus dem
+	// Tischstil (setChatLogStyle), die Widget-Palette sagt darüber nichts aus.
+	if(myChatType == INGAME_CHAT && myStyle) {
+		const QColor styleBg("#" + myStyle->getChatLogBgColor());
+		if(styleBg.isValid())
+			return styleBg;
+	}
+
+	// Lobby-Chats: der QTextBrowser malt seine Fläche mit QPalette::Base. Immer
+	// die tatsächlich gesetzte Palette auswerten und NICHT die Dark-Mode-
+	// Einstellung: unter Windows 10 meldet Qt für "Auto" auch dann eine helle
+	// Systempalette, wenn Windows selbst dunkel läuft (Win10 reicht das an
+	// Qt-Anwendungen nicht durch) – der Verlauf ist dann hell, obwohl das
+	// System als dunkel gilt. Umgekehrt greift die erzwungene dunkle Palette
+	// aus DarkModeHelper hier automatisch.
+	if(myTextBrowser) {
+		const QPalette pal = myTextBrowser->palette();
+		QColor base = pal.color(QPalette::Base);
+		if(!base.isValid() || base.alpha() == 0)
+			base = pal.color(QPalette::Window);
+		if(base.isValid())
+			return base;
+	}
+	return QApplication::palette().color(QPalette::Base);
+}
+
+QString ChatTools::nickHtml(const QString &nickText) const
+{
+	return "<span style=\"color:" + nickColorForBackground(chatBackgroundColor()).name()
+	       + "; font-weight:bold;\">" + nickText.toHtmlEscaped() + "</span>";
+}
+
 void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 {
 	// Nachrichten ignorierter Spieler werden komplett verworfen – VOR der
@@ -606,12 +692,15 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 			if(isAction)
 				bodyHtml.replace("/me ", "");   // "/me " gehört nicht zum Nachrichtenkörper
 			QString lineNoGlobe;
+			// Der Name (samt Trenner) bekommt eine eigene, kräftige Farbe, damit
+			// er sich vom Nachrichtentext abhebt – bisher wurde er ungestylt
+			// angehängt und lief damit in der Textfarbe des Verlaufs mit.
 			if(isAction)
-				lineNoGlobe = "<i>*" + playerName + " " + bodyHtml + "</i>";
+				lineNoGlobe = "<i>" + nickHtml("*" + playerName) + " " + bodyHtml + "</i>";
 			else if(pm == true)
-				lineNoGlobe = "<i>" + playerName + "(pm): " + bodyHtml + "</i>";
+				lineNoGlobe = "<i>" + nickHtml(playerName + "(pm):") + " " + bodyHtml + "</i>";
 			else
-				lineNoGlobe = playerName + ": " + bodyHtml;
+				lineNoGlobe = nickHtml(playerName + ":") + " " + bodyHtml;
 
 			// Übersetzen-Symbol nur an Nachrichten anderer (die eigenen muss
 			// man nicht übersetzen).
@@ -777,7 +866,10 @@ void ChatTools::rebuildTranslateBlock(int id)
 	QString bodyLine = it->lineNoGlobe;
 	if(it->shown) {
 		const QString tb = ChatTranslatorCore::styledTranslation(it->bodyHtml, it->translated);
-		const int p = bodyLine.indexOf(it->bodyHtml);
+		// lastIndexOf: der Nachrichtenkörper steht am Zeilenende, davor liegt
+		// jetzt das Markup des eingefärbten Namens. Eine Suche von vorn könnte
+		// (bei unverpacktem Körper) in dessen style-Attribut treffen.
+		const int p = bodyLine.lastIndexOf(it->bodyHtml);
 		if(p >= 0)
 			bodyLine.replace(p, it->bodyHtml.size(), tb);
 	}

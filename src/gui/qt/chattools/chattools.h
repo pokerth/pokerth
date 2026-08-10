@@ -130,6 +130,13 @@ private:
 	// auseinander, sobald in nur einem der beiden ignoriert wurde.
 	bool nickIsOnIgnoreList(const QString &playerName) const;
 
+	// Tatsächliche Hintergrundfarbe des Chat-Verlaufs: im Spiel-Chat die Farbe
+	// des Tischstils, in den Lobby-Chats die gesetzte Palette des QTextBrowsers.
+	// Grundlage für eine Namensfarbe, die in jedem Thema lesbar bleibt.
+	QColor chatBackgroundColor() const;
+	// Spielername (mit Trenner) als eingefärbtes, fettes HTML-Fragment.
+	QString nickHtml(const QString &nickText) const;
+
 	void setupEmojiPickerAction();
 	void setupShortcodeCompleter();
 	void updateShortcodeCompletion();
