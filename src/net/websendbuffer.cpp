@@ -36,6 +36,8 @@
 
 using namespace std;
 
+// Keep the same one MiB per-session send backlog used by AsioSendBuffer.
+#define MAX_WEBSOCKET_SEND_QUEUE_SIZE (1024 * 1024)
 
 WebSendBuffer::WebSendBuffer()
 	: closeAfterSend(false)
@@ -68,6 +70,11 @@ WebSendBuffer::AsyncSendNextPacket(boost::shared_ptr<SessionData> session)
 void
 WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
+	// The connection is already being closed for an earlier send failure or
+	// backlog overflow. Do not add more data to WebSocket++'s queue meanwhile.
+	if (closeAfterSend)
+		return;
+
 	boost::shared_ptr<WebSocketData> webData = session->GetWebData();
 	const bool prefixed = webData && webData->lengthPrefixed;
 
@@ -86,7 +93,8 @@ WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost
 	if (webData && webData->endpoint) {
 		websocketpp::lib::error_code ec;
 		webData->endpoint->Send(webData->webHandle, string((const char *)buf, packetSize + headerSize), ec);
-		if (ec) {
+		if (ec || webData->endpoint->GetBufferedAmount(webData->webHandle)
+				> MAX_WEBSOCKET_SEND_QUEUE_SIZE) {
 			SetCloseAfterSend();
 		}
 	} else {
@@ -95,4 +103,3 @@ WebSendBuffer::InternalStorePacket(boost::shared_ptr<SessionData> session, boost
 
 	delete[] buf;
 }
-
