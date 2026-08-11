@@ -73,7 +73,8 @@ public:
 	bool HasAvatar(const MD5Buf &md5buf) const;
 	bool StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFileType, const unsigned char *data, size_t size, bool upload);
 
-	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, size_t fileHeaderSize);
+	// Validate the encoded format and its dimensions before the GUI decodes it.
+	static bool IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileData, size_t fileSize);
 
 	void RemoveOldAvatarCacheEntries();
 
