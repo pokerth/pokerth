@@ -255,10 +255,14 @@ QtObject {
     }
 
     function _suggestStep(step, idleNames, playingPlayers) {
+        // Step 1 rechnet mit festem Ticket=1 → praktisch jeder DB-Spieler
+        // qualifiziert sich. Die gerade spielenden dann NICHT mit vorschlagen,
+        // sonst wird die Liste zu lang (erst ab Step 2 einblenden).
+        var busy = step === 1 ? [] : _scoreStep(playingPlayers, step)
         return _buildMessage(
             "I suggest the following players for step " + step + ": ",
             _scoreStep(_asCandidates(idleNames), step),
-            _scoreStep(playingPlayers, step),
+            busy,
             12,
             "Sorry, no player found to suggest")
     }

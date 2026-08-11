@@ -195,16 +195,21 @@ QString CommunitySuggest::suggestStep(int step, const QStringList &idleNames,
 			continue;
 		idle << Scored{ it->name, s, QString() };
 	}
+	// Step 1 rechnet mit festem Ticket=1 → praktisch jeder DB-Spieler
+	// qualifiziert sich. Die gerade spielenden dann NICHT mit vorschlagen, sonst
+	// wird die Liste zu lang (erst ab Step 2 einblenden).
 	QList<Scored> busy;
-	for (const PlayingPlayer &p : playing) {
-		auto it = m_db.constFind(p.name.toLower());
-		if (it == m_db.constEnd())
-			continue;
-		const int tickets = step == 1 ? 1 : (step == 2 ? it->ts2 : (step == 3 ? it->ts3 : it->ts4));
-		const int s = score2(it->rating, tickets, it->games);
-		if (s <= 10)
-			continue;
-		busy << Scored{ it->name, s, p.game };
+	if (step != 1) {
+		for (const PlayingPlayer &p : playing) {
+			auto it = m_db.constFind(p.name.toLower());
+			if (it == m_db.constEnd())
+				continue;
+			const int tickets = step == 2 ? it->ts2 : (step == 3 ? it->ts3 : it->ts4);
+			const int s = score2(it->rating, tickets, it->games);
+			if (s <= 10)
+				continue;
+			busy << Scored{ it->name, s, p.game };
+		}
 	}
 	std::sort(idle.begin(), idle.end(), scoreDesc);
 	std::sort(busy.begin(), busy.end(), scoreDesc);
