@@ -132,6 +132,13 @@ public:
 
 	std::string GetRemoteIPAddressFromSocket() const;
 
+	// Real client address taken from a PROXY protocol header sent by a trusted
+	// proxy (see ServerAcceptHelper). If set, it wins over the socket peer, so
+	// that everything working on the client address - ranking same IP check,
+	// ban manager, ranking database - sees the actual player and not the proxy.
+	void SetProxyClientAddr(const std::string &addr);
+	std::string GetProxyClientAddr() const;
+
 	// New helpers
 	bool IsSsl() const;
 	boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> GetSslStream();
@@ -152,6 +159,7 @@ private:
 	boost::weak_ptr<ServerGame>		m_game;
 	State							m_state;
 	std::string						m_clientAddr;
+	std::string						m_proxyClientAddr;
 	boost::shared_ptr<ReceiveBuffer>	m_receiveBuffer;
 	boost::shared_ptr<SendBuffer>	m_sendBuffer;
 	bool							m_readyFlag;

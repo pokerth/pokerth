@@ -366,6 +366,11 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	// that legitimately funnel many players through one address (e.g. the web
 	// client proxy). Empty by default - only set this for hosts you control.
 	configList.push_back(ConfigInfo("ServerBruteForceProtectionExempt", CONFIG_TYPE_STRING, ""));
+	// Comma separated addresses which are allowed to announce the real client
+	// address in a PROXY protocol v1 header (web client proxy). Connections from
+	// any other address are never inspected, their header would just be an
+	// invalid TLS record. Empty by default - only set this for hosts you control.
+	configList.push_back(ConfigInfo("ServerProxyProtocolTrustedIPs", CONFIG_TYPE_STRING, ""));
 	configList.push_back(ConfigInfo("InternetServerConfigMode", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("InternetServerListAddress", CONFIG_TYPE_STRING, "pokerth.net/serverlist.xml.z"));
 	configList.push_back(ConfigInfo("InternetServerAddress", CONFIG_TYPE_STRING, "pokerth.6dns.org"));

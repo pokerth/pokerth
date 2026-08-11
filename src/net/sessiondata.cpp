@@ -310,6 +310,20 @@ SessionData::SetClientAddr(const std::string &addr)
 }
 
 void
+SessionData::SetProxyClientAddr(const std::string &addr)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_proxyClientAddr = addr;
+}
+
+std::string
+SessionData::GetProxyClientAddr() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_proxyClientAddr;
+}
+
+void
 SessionData::CloseSocketHandle()
 {
     if (m_socket) {
@@ -422,6 +436,10 @@ SessionData::GetRemoteIPAddressFromSocket() const
 {
     boost::mutex::scoped_lock lock(m_dataMutex);
     boost::system::error_code ec;
+
+    // A trusted proxy announced the real client address before the handshake.
+    if (!m_proxyClientAddr.empty())
+        return m_proxyClientAddr;
 
     if (m_sslStream) {
         try {

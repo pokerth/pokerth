@@ -36,6 +36,10 @@
 #include <boost/asio.hpp>
 #include <boost/asio/ssl.hpp>
 #include <string>
+#include <vector>
+#include <memory>
+#include <algorithm>
+#include <cstring>
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
@@ -292,86 +296,22 @@ protected:
             // Das erlaubt parallele Handshakes!
             startNextAccept();
 
-            if (m_tls) {
-                try {
-                    typedef boost::asio::ssl::stream<P_socket> ssl_stream_t;
-                    boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
-                    sslStream->next_layer() = std::move(*acceptedSocket);
-
-                    
-                    // Shared state to prevent timeout from closing an established connection
-                    auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
-                    auto peerAddrShared = std::make_shared<std::string>(peerAddr);
-                    
-                    // Create a timeout timer for the handshake (12 seconds - increased for slow clients)
-                    auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
-                    handshakeTimer->expires_after(std::chrono::seconds(12));
-                    
-                    // Wichtig: Alle Lambdas müssen thread-safe sein
-                    handshakeTimer->async_wait(
-                        [handshakeCompleted, sslStream, handshakeTimer, peerAddrShared](const boost::system::error_code& ec) {
-                            try {
-                                if (!ec && !handshakeCompleted->load(std::memory_order_acquire)) {
-                                    // Timeout: close the socket to abort the handshake (only if not completed)
-                                    boost::system::error_code closeEc;
-                                    sslStream->lowest_layer().close(closeEc);
-                                } else if (ec && ec != boost::asio::error::operation_aborted) {
-                                }
-                            } catch (const std::exception& e) {
-                                LOG_ERROR("[TLS-SERVER] Exception in handshake timer: " << e.what());
-                            } catch (...) {
-                                LOG_ERROR("[TLS-SERVER] Unknown exception in handshake timer");
-                            }
-                        });
-
-                    sslStream->async_handshake(
-                        boost::asio::ssl::stream_base::server,
-                        [this, sslStream, handshakeTimer, handshakeCompleted, peerAddrShared](const boost::system::error_code& error) {
-                            try {
-                                // Mark handshake as completed before any other action (memory_order_release für synchronization)
-                                bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
-                                
-                                
-                                // Only handle if this is the first completion (not a timeout-triggered close)
-                                if (!wasCompleted) {
-                                    handshakeTimer->cancel();
-                                    this->HandleHandshakeOnly(sslStream, error);
-                                } else {
-                                    // Handshake callback fired after timeout - socket already closed
-                                }
-                            } catch (const std::exception& e) {
-                                LOG_ERROR("[TLS-SERVER] Exception in handshake callback: " << e.what());
-                                try {
-                                    handshakeTimer->cancel();
-                                    boost::system::error_code ec;
-                                    sslStream->lowest_layer().close(ec);
-                                } catch (...) {}
-                            } catch (...) {
-                                LOG_ERROR("[TLS-SERVER] Unknown exception in handshake callback");
-                            }
-                        }
-                    );
-                } catch (const std::exception& e) {
-                    LOG_ERROR("[TLS-SERVER] Exception starting TLS handshake: " << e.what());
-                    // Socket cleanup
-                    try {
-                        boost::system::error_code ec;
-                        acceptedSocket->close(ec);
-                    } catch (...) {}
-                } catch (...) {
-                    LOG_ERROR("[TLS-SERVER] Unknown exception starting TLS handshake");
-                }
+            // A trusted proxy (the web client proxy) announces the real client
+            // address in a PROXY protocol v1 header before the TLS handshake.
+            // Only peers on the trust list are inspected at all - for everyone
+            // else such a header is simply an invalid TLS record and the
+            // handshake fails, so the address cannot be spoofed.
+            std::string peerIp;
+            try {
+                peerIp = acceptedSocket->remote_endpoint().address().to_string();
+            } catch (...) {
+            }
+            if (!peerIp.empty() && m_lobbyThread && GetLobbyThread().IsProxyProtocolTrusted(peerIp)) {
+                PeekProxyProtocolHeader(acceptedSocket, peerIp,
+                                        std::make_shared<std::vector<char> >(PROXY_V1_MAX_LEN),
+                                        StartProxyProtocolDeadline(acceptedSocket));
             } else {
-                try {
-                    boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
-                    GetLobbyThread().AddConnection(sessionData);
-                } catch (const std::exception& e) {
-                    LOG_ERROR("[TLS-SERVER] Exception creating non-TLS session: " << e.what());
-                    try {
-                        boost::system::error_code ec;
-                        acceptedSocket->close(ec);
-                    } catch (...) {}
-                }
+                ContinueAccept(acceptedSocket, std::string());
             }
         } else {
             LOG_ERROR("[TLS-SERVER] Accept failed: " << error.message() << " - starting new accept");
@@ -394,9 +334,254 @@ protected:
         }
     }
 
+    // Continue with the connection setup. proxyClientAddr is the real client
+    // address announced by a trusted proxy, empty for a direct connection.
+    void ContinueAccept(boost::shared_ptr<P_socket> acceptedSocket, const std::string &proxyClientAddr)
+    {
+        // Get peer endpoint for debug logging
+        std::string peerAddr;
+        try {
+            auto endpoint = acceptedSocket->remote_endpoint();
+            peerAddr = endpoint.address().to_string() + ":" + std::to_string(endpoint.port());
+        } catch (...) {
+            peerAddr = "unknown";
+        }
+        if (m_tls) {
+            try {
+                typedef boost::asio::ssl::stream<P_socket> ssl_stream_t;
+                boost::shared_ptr<ssl_stream_t> sslStream(new ssl_stream_t(*m_ioService, *m_sslContext));
+                sslStream->next_layer() = std::move(*acceptedSocket);
+
+                
+                // Shared state to prevent timeout from closing an established connection
+                auto handshakeCompleted = std::make_shared<std::atomic<bool>>(false);
+                auto peerAddrShared = std::make_shared<std::string>(peerAddr);
+                
+                // Create a timeout timer for the handshake (12 seconds - increased for slow clients)
+                auto handshakeTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
+                handshakeTimer->expires_after(std::chrono::seconds(12));
+                
+                // Wichtig: Alle Lambdas müssen thread-safe sein
+                handshakeTimer->async_wait(
+                    [handshakeCompleted, sslStream, handshakeTimer, peerAddrShared](const boost::system::error_code& ec) {
+                        try {
+                            if (!ec && !handshakeCompleted->load(std::memory_order_acquire)) {
+                                // Timeout: close the socket to abort the handshake (only if not completed)
+                                boost::system::error_code closeEc;
+                                sslStream->lowest_layer().close(closeEc);
+                            } else if (ec && ec != boost::asio::error::operation_aborted) {
+                            }
+                        } catch (const std::exception& e) {
+                            LOG_ERROR("[TLS-SERVER] Exception in handshake timer: " << e.what());
+                        } catch (...) {
+                            LOG_ERROR("[TLS-SERVER] Unknown exception in handshake timer");
+                        }
+                    });
+
+                sslStream->async_handshake(
+                    boost::asio::ssl::stream_base::server,
+                    [this, sslStream, handshakeTimer, handshakeCompleted, peerAddrShared, proxyClientAddr](const boost::system::error_code& error) {
+                        try {
+                            // Mark handshake as completed before any other action (memory_order_release für synchronization)
+                            bool wasCompleted = handshakeCompleted->exchange(true, std::memory_order_acq_rel);
+                            
+                            
+                            // Only handle if this is the first completion (not a timeout-triggered close)
+                            if (!wasCompleted) {
+                                handshakeTimer->cancel();
+                                this->HandleHandshakeOnly(sslStream, error, proxyClientAddr);
+                            } else {
+                                // Handshake callback fired after timeout - socket already closed
+                            }
+                        } catch (const std::exception& e) {
+                            LOG_ERROR("[TLS-SERVER] Exception in handshake callback: " << e.what());
+                            try {
+                                handshakeTimer->cancel();
+                                boost::system::error_code ec;
+                                sslStream->lowest_layer().close(ec);
+                            } catch (...) {}
+                        } catch (...) {
+                            LOG_ERROR("[TLS-SERVER] Unknown exception in handshake callback");
+                        }
+                    }
+                );
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] Exception starting TLS handshake: " << e.what());
+                // Socket cleanup
+                try {
+                    boost::system::error_code ec;
+                    acceptedSocket->close(ec);
+                } catch (...) {}
+            } catch (...) {
+                LOG_ERROR("[TLS-SERVER] Unknown exception starting TLS handshake");
+            }
+        } else {
+            try {
+                boost::shared_ptr<SessionData> sessionData(new SessionData(acceptedSocket, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService));
+                if (!proxyClientAddr.empty())
+                    sessionData->SetProxyClientAddr(proxyClientAddr);
+                GetLobbyThread().AddConnection(sessionData);
+            } catch (const std::exception& e) {
+                LOG_ERROR("[TLS-SERVER] Exception creating non-TLS session: " << e.what());
+                try {
+                    boost::system::error_code ec;
+                    acceptedSocket->close(ec);
+                } catch (...) {}
+            }
+        }
+    }
+
+    // PROXY protocol v1 (see the HAProxy specification): a single line
+    // "PROXY TCP4 <srcIP> <dstIP> <srcPort> <dstPort>\r\n" of at most 107 bytes,
+    // sent as the very first bytes of the connection - before the TLS handshake.
+    static constexpr std::size_t PROXY_V1_MAX_LEN = 107;
+    static constexpr std::size_t PROXY_V1_PREFIX_LEN = 6; // "PROXY "
+
+    // Guards the whole header phase, so that a trusted peer which connects but
+    // never sends anything cannot keep the socket around. Same budget as the
+    // TLS handshake timeout.
+    std::shared_ptr<boost::asio::steady_timer> StartProxyProtocolDeadline(boost::shared_ptr<P_socket> socket)
+    {
+        auto deadline = std::make_shared<boost::asio::steady_timer>(*m_ioService);
+        deadline->expires_after(std::chrono::seconds(12));
+        deadline->async_wait([socket](const boost::system::error_code &ec) {
+            if (!ec) {
+                boost::system::error_code closeEc;
+                socket->close(closeEc);
+            }
+        });
+        return deadline;
+    }
+
+    // The header is peeked at first and only consumed once it is complete. That
+    // way nothing is taken off the socket when the proxy does not send one -
+    // whether the header is sent is a toggle on the proxy side, and without the
+    // header the very same bytes are the start of the TLS handshake.
+    void PeekProxyProtocolHeader(boost::shared_ptr<P_socket> socket, const std::string &peerIp,
+                                 std::shared_ptr<std::vector<char> > buffer,
+                                 std::shared_ptr<boost::asio::steady_timer> deadline)
+    {
+        socket->async_receive(
+            boost::asio::buffer(*buffer), boost::asio::socket_base::message_peek,
+            [this, socket, peerIp, buffer, deadline](const boost::system::error_code &error, std::size_t bytes) {
+                if (error || bytes == 0) {
+                    deadline->cancel();
+                    boost::system::error_code closeEc;
+                    socket->close(closeEc);
+                    return;
+                }
+                const char *data = buffer->data();
+                if (std::memcmp(data, "PROXY ", std::min(bytes, PROXY_V1_PREFIX_LEN)) != 0) {
+                    // No header at all - nothing has been consumed, the bytes
+                    // still belong to the TLS handshake.
+                    deadline->cancel();
+                    ContinueAccept(socket, std::string());
+                    return;
+                }
+                static const char crlfPattern[] = { '\r', '\n' };
+                const char *end = data + bytes;
+                const char *crlf = std::search(data, end, crlfPattern, crlfPattern + 2);
+                if (crlf == end) {
+                    if (bytes >= PROXY_V1_MAX_LEN) {
+                        LOG_ERROR("Malformed PROXY protocol header from " << peerIp << " - closing connection.");
+                        deadline->cancel();
+                        boost::system::error_code closeEc;
+                        socket->close(closeEc);
+                        return;
+                    }
+                    // Header is still incomplete. Retry after a short delay - an
+                    // immediate re-peek would spin, because the bytes already
+                    // received keep the socket readable.
+                    auto retryTimer = std::make_shared<boost::asio::steady_timer>(*m_ioService);
+                    retryTimer->expires_after(std::chrono::milliseconds(20));
+                    retryTimer->async_wait([this, socket, peerIp, buffer, deadline, retryTimer](const boost::system::error_code &ec) {
+                        if (ec) {
+                            return;
+                        }
+                        PeekProxyProtocolHeader(socket, peerIp, buffer, deadline);
+                    });
+                    return;
+                }
+                const std::size_t headerLen = static_cast<std::size_t>(crlf - data) + 2;
+                const std::string header(data, headerLen - 2);
+                ConsumeProxyProtocolHeader(socket, peerIp, header, headerLen, deadline);
+            });
+    }
+
+    // Take exactly the header off the socket - not a single byte more, the rest
+    // is the TLS handshake.
+    void ConsumeProxyProtocolHeader(boost::shared_ptr<P_socket> socket, const std::string &peerIp,
+                                    const std::string &header, std::size_t headerLen,
+                                    std::shared_ptr<boost::asio::steady_timer> deadline)
+    {
+        auto sink = std::make_shared<std::vector<char> >(headerLen);
+        boost::asio::async_read(
+            *socket, boost::asio::buffer(*sink), boost::asio::transfer_exactly(headerLen),
+            [this, socket, peerIp, header, sink, deadline](const boost::system::error_code &error, std::size_t /*bytes*/) {
+                deadline->cancel();
+                if (error) {
+                    boost::system::error_code closeEc;
+                    socket->close(closeEc);
+                    return;
+                }
+                const std::string clientAddr = NormalizeToListenerFamily(ParseProxyProtocolV1(header));
+                if (clientAddr.empty()) {
+                    // "PROXY UNKNOWN" or an address we cannot parse: fall back
+                    // to the peer address, which is the proxy itself.
+                    LOG_MSG("PROXY protocol header from " << peerIp << " without usable client address (\"" << header << "\").");
+                } else {
+                    LOG_VERBOSE("PROXY protocol: connection via " << peerIp << " for client " << clientAddr << ".");
+                }
+                ContinueAccept(socket, clientAddr);
+            });
+    }
+
+    // A dual stack listener reports IPv4 peers as "::ffff:a.b.c.d". Announce a
+    // proxied IPv4 client the same way, otherwise a proxied and a directly
+    // connected player sharing one address would not compare equal in the
+    // ranking same address check or in the ban list.
+    std::string NormalizeToListenerFamily(const std::string &addr) const
+    {
+        if (addr.empty() || !m_endpoint || !m_endpoint->address().is_v6())
+            return addr;
+        boost::system::error_code ec;
+        boost::asio::ip::address parsed = boost::asio::ip::make_address(addr, ec);
+        if (ec || !parsed.is_v4())
+            return addr;
+        return "::ffff:" + addr;
+    }
+
+    // Returns the client address of a PROXY protocol v1 header, or an empty
+    // string for "PROXY UNKNOWN" and anything malformed.
+    static std::string ParseProxyProtocolV1(const std::string &header)
+    {
+        std::vector<std::string> token;
+        std::size_t start = 0;
+        while (start < header.size() && token.size() < 6) {
+            std::size_t sep = header.find(' ', start);
+            if (sep == std::string::npos)
+                sep = header.size();
+            if (sep > start)
+                token.push_back(header.substr(start, sep - start));
+            start = sep + 1;
+        }
+        if (token.size() < 3 || token[0] != "PROXY")
+            return std::string();
+        const bool isV4 = (token[1] == "TCP4");
+        const bool isV6 = (token[1] == "TCP6");
+        if (!isV4 && !isV6)
+            return std::string(); // UNKNOWN
+        boost::system::error_code ec;
+        boost::asio::ip::address addr = boost::asio::ip::make_address(token[2], ec);
+        if (ec || (isV4 && !addr.is_v4()) || (isV6 && !addr.is_v6()))
+            return std::string();
+        return addr.to_string();
+    }
+
     // HandleHandshakeOnly - does NOT start new async_accept (already started in HandleAccept)
     void HandleHandshakeOnly(boost::shared_ptr<boost::asio::ssl::stream<P_socket>> sslStream,
-                             const boost::system::error_code &error)
+                             const boost::system::error_code &error,
+                             const std::string &proxyClientAddr = std::string())
     {
         std::string peerAddr = "unknown";
         try {
@@ -408,6 +593,8 @@ protected:
             
             try {
                 boost::shared_ptr<SessionData> sessionData(new SessionData(sslStream, m_lobbyThread->GetNextSessionId(), m_lobbyThread->GetSessionDataCallback(), *m_ioService, 0));
+                if (!proxyClientAddr.empty())
+                    sessionData->SetProxyClientAddr(proxyClientAddr);
                 GetLobbyThread().AddConnection(sessionData);
             } catch (const std::exception& e) {
                 LOG_ERROR("[TLS-SERVER] EXCEPTION while creating/adding session: " << e.what());
@@ -415,7 +602,7 @@ protected:
                 LOG_ERROR("[TLS-SERVER] UNKNOWN EXCEPTION while creating/adding session");
             }
         } else {
-            
+
             // Try to get more detailed SSL error information
             SSL* ssl = sslStream->native_handle();
             if (ssl) {
@@ -426,7 +613,7 @@ protected:
                     ssl_err = ERR_get_error();
                 }
             }
-            
+
             // Close the SSL stream and socket immediately to free resources
             boost::system::error_code ec;
             sslStream->lowest_layer().close(ec);

@@ -2201,35 +2201,49 @@ ServerLobbyThread::AcquireLoginToken(const std::string &clientAddr)
 	return true;
 }
 
-bool
-ServerLobbyThread::IsLoginRateLimitExempt(const std::string &clientAddr) const
+namespace
 {
-	string exemptList(m_serverConfig.readConfigString("ServerBruteForceProtectionExempt"));
-	if (exemptList.empty() || clientAddr.empty())
+// Match an address against a comma separated list of plain addresses. The
+// address is compared as it is as well as in its IPv4-mapped IPv6 form,
+// because a dual stack listener reports IPv4 peers as "::ffff:a.b.c.d".
+bool
+IsAddressInList(const string &addrList, const string &addr)
+{
+	if (addrList.empty() || addr.empty())
 		return false;
 
-	// Comma separated list of plain addresses. Compare against the address as
-	// well as its IPv4-mapped IPv6 form, because a dual stack listener reports
-	// IPv4 peers as "::ffff:a.b.c.d".
-	const string mappedAddr("::ffff:" + clientAddr);
+	const string mappedAddr("::ffff:" + addr);
 	size_t start = 0;
-	while (start <= exemptList.size()) {
-		size_t sep = exemptList.find(',', start);
+	while (start <= addrList.size()) {
+		size_t sep = addrList.find(',', start);
 		if (sep == string::npos)
-			sep = exemptList.size();
-		string entry(exemptList, start, sep - start);
+			sep = addrList.size();
+		string entry(addrList, start, sep - start);
 		// Trim surrounding whitespace.
 		size_t first = entry.find_first_not_of(" \t");
 		if (first != string::npos) {
 			size_t last = entry.find_last_not_of(" \t");
 			entry = entry.substr(first, last - first + 1);
 			if (!entry.empty()
-					&& (entry == clientAddr || entry == mappedAddr || ("::ffff:" + entry) == clientAddr))
+					&& (entry == addr || entry == mappedAddr || ("::ffff:" + entry) == addr))
 				return true;
 		}
 		start = sep + 1;
 	}
 	return false;
+}
+}
+
+bool
+ServerLobbyThread::IsLoginRateLimitExempt(const std::string &clientAddr) const
+{
+	return IsAddressInList(m_serverConfig.readConfigString("ServerBruteForceProtectionExempt"), clientAddr);
+}
+
+bool
+ServerLobbyThread::IsProxyProtocolTrusted(const std::string &peerAddr) const
+{
+	return IsAddressInList(m_serverConfig.readConfigString("ServerProxyProtocolTrustedIPs"), peerAddr);
 }
 
 bool

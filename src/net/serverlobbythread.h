@@ -135,6 +135,11 @@ public:
 
 	SessionDataCallback &GetSessionDataCallback();
 
+	// True for addresses which are allowed to announce the real client address
+	// in a PROXY protocol v1 header, configured via
+	// "ServerProxyProtocolTrustedIPs" (the web client proxy).
+	bool IsProxyProtocolTrusted(const std::string &peerAddr) const;
+
 protected:
 
 	typedef std::deque<boost::shared_ptr<boost::asio::ip::tcp::socket> > ConnectQueue;
