@@ -64,6 +64,18 @@ QtObject {
     readonly property color colorSuitRed:   "#c0392b"   // ♥ ♦
     readonly property color colorSuitBlack: "#cdd3e0"   // ♠ ♣ (hell auf dunkler Box)
 
+    // ── Overlay auf dem Feuer-Hintergrund (Startseite, Login, PreLoader) ─────
+    // Hintergrund ist dort in BEIDEN Modi dasselbe dunkle Foto
+    // (resources/startWindowBackground.png), deshalb sind diese Farben – wie die
+    // Branding-Box selbst – fest und folgen NICHT dem Hell/Dunkel-Theme. Ein an
+    // isDark gekoppelter Wert würde im Hellmodus dunkle Schrift auf dunklem
+    // Feuerbild ergeben. Werte entsprechen --gold-dim / --text-hi der
+    // PokerTH-Palette des pokerth-web-client.
+    readonly property color colorOverlayText:      "#a0acc4"
+    readonly property color colorOverlayTextHi:    "#eff1f5"
+    // Abdunkelnder Verlauf hinter Overlay-Text (Scrim) – Deckkraft am Fensterrand
+    readonly property real  overlayScrimOpacity:   0.80
+
     // ── Border Radius ────────────────────────────────────────────────────────
     readonly property real radiusSmall:  4
     readonly property real radiusMedium: 8

@@ -178,11 +178,12 @@ Rectangle {
     // Querformat-Fenstern entfällt sie (Vorbild: Media-Query des Web-Clients).
     StartFooter {
         id: startFooter
-        anchors {
-            left: parent.left; right: parent.right; bottom: parent.bottom
-            bottomMargin: Config.Theme.compact ? 8 : 12
-        }
-        visible: startPage.height - startPageMainButtonsBox.height
-                 >= (startFooter.implicitHeight + Config.Theme.spacing) * 2
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
+        height: implicitHeight
+        // Freier Platz unterhalb der (mittig zentrierten) Box = (Seitenhöhe −
+        // Boxhöhe) / 2. Bleibt davon nicht die Fußzeile plus ein Abstand übrig,
+        // wird sie ausgeblendet, statt die Buttons zu überdecken.
+        visible: (startPage.height - startPageMainButtonsBox.height) / 2
+                 >= startFooter.implicitHeight + Config.Theme.spacing
     }
 }
