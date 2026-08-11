@@ -2530,7 +2530,21 @@ ServerLobbyThread::SendGameList(boost::shared_ptr<SessionData> s)
 	GameMap::const_iterator game_i = m_gameMap.begin();
 	GameMap::const_iterator game_end = m_gameMap.end();
 	while (game_i != game_end) {
-		GetSender().Send(s, CreateNetPacketGameListNew(*game_i->second));
+		const ServerGame &game = *game_i->second;
+		GetSender().Send(s, CreateNetPacketGameListNew(game));
+
+		// A native protocol packet is limited to MAX_PACKET_SIZE. Send existing
+		// spectators individually instead of growing GameListNew past that
+		// limit. This also keeps PlayerInfoRequestMessage batches small.
+		PlayerIdList spectatorIds = game.GetSpectatorIdList();
+		for (PlayerIdList::const_iterator id = spectatorIds.begin(); id != spectatorIds.end(); ++id) {
+			boost::shared_ptr<NetPacket> packet(new NetPacket);
+			packet->GetMsg()->set_messagetype(PokerTHMessage::Type_GameListSpectatorJoinedMessage);
+			GameListSpectatorJoinedMessage *message = packet->GetMsg()->mutable_gamelistspectatorjoinedmessage();
+			message->set_gameid(game.GetId());
+			message->set_playerid(*id);
+			GetSender().Send(s, packet);
+		}
 		++game_i;
 	}
 }
@@ -2707,14 +2721,6 @@ ServerLobbyThread::CreateNetPacketGameListNew(const ServerGame &game)
 	PlayerIdList::const_iterator end = tmpList.end();
 	while (i != end) {
 		netGameList->add_playerids(*i);
-		++i;
-	}
-
-	tmpList = game.GetSpectatorIdList();
-	i = tmpList.begin();
-	end = tmpList.end();
-	while (i != end) {
-		netGameList->add_spectatorids(*i);
 		++i;
 	}
 

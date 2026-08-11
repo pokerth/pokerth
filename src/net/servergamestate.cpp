@@ -94,6 +94,11 @@ using namespace boost::chrono;
 
 // Helper functions
 
+static bool CanAcceptSpectator(const boost::shared_ptr<ServerGame> &server)
+{
+	return server->GetSpectatorIdList().size() < SERVER_MAX_NUM_SPECTATORS_PER_GAME;
+}
+
 static void SendPlayerAction(ServerGame &server, boost::shared_ptr<PlayerInterface> player)
 {
 	if (!player.get())
@@ -235,6 +240,7 @@ SetPlayerResult(PlayerResult &playerResult, boost::shared_ptr<PlayerInterface> t
 }
 
 //-----------------------------------------------------------------------------
+
 
 ServerGameState::~ServerGameState()
 {
@@ -586,7 +592,7 @@ void
 ServerGameStateInit::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetPlayerData()) {
-		if (server->GetSpectatorIdList().size() >= SERVER_MAX_NUM_SPECTATORS_PER_GAME) {
+		if (!CanAcceptSpectator(server)) {
 			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
 		} else {
 			AcceptNewSession(server, session, true);
@@ -813,7 +819,10 @@ void
 ServerGameStateStartGame::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetPlayerData()) {
-		AcceptNewSession(server, session, true);
+		if (!CanAcceptSpectator(server))
+			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+		else
+			AcceptNewSession(server, session, true);
 	}
 }
 
@@ -959,9 +968,13 @@ void
 AbstractServerGameStateRunning::HandleNewSpectator(boost::shared_ptr<ServerGame> server, boost::shared_ptr<SessionData> session)
 {
 	if (session && session->GetPlayerData()) {
-		AcceptNewSession(server, session, true);
-		session->SetState(SessionData::SpectatorWaiting);
-		server->AddNewSpectator(session->GetPlayerData()->GetUniqueId());
+		if (!CanAcceptSpectator(server)) {
+			server->MoveSessionToLobby(session, NTF_NET_REMOVED_GAME_FULL);
+		} else {
+			AcceptNewSession(server, session, true);
+			session->SetState(SessionData::SpectatorWaiting);
+			server->AddNewSpectator(session->GetPlayerData()->GetUniqueId());
+		}
 	}
 }
 
@@ -1809,4 +1822,3 @@ ServerGameStateFinal::Instance()
 }
 
 //-----------------------------------------------------------------------------
-
