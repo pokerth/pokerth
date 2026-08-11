@@ -456,5 +456,51 @@ Rectangle {
                 }
             }
         }
+
+        // Wertungs-Erklärung – dieselbe "Ranking calculation", die unter der
+        // Rangliste auf pokerth.net/app.php/leaderboard steht. Werte bewusst
+        // wörtlich übernommen (nicht übersetzbar), nur die Beschriftungen sind
+        // übersetzt. Gilt allein für die PokerTH-Rangliste.
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.preferredHeight: calcColumn.implicitHeight + 16
+            color: Config.StaticData.palette.secondary.col600
+            border.color: Config.StaticData.palette.secondary.col500
+            border.width: 1
+            radius: 4
+
+            ColumnLayout {
+                id: calcColumn
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
+                spacing: 3
+
+                AppLabel {
+                    text: qsTr("Ranking calculation:")
+                    color: Config.StaticData.palette.secondary.col200
+                    font.pixelSize: Config.Theme.fontSizeCaption
+                    font.bold: true
+                }
+                AppLabel {
+                    Layout.fillWidth: true
+                    text: qsTr("Placement points:")
+                          + "  1. = 15 | 2. = 9 | 3. = 6 | 4. = 4 | 5. = 3 | 6. = 2 | 7. = 1"
+                    wrapMode: Text.WordWrap
+                    color: Config.StaticData.palette.secondary.col300
+                    font.pixelSize: Config.Theme.fontSizeCaption
+                }
+                AppLabel {
+                    Layout.fillWidth: true
+                    text: qsTr("Formula:")
+                          + "  25 * average * (1 - 10000 / (10000 + games^3))"
+                    wrapMode: Text.WordWrap
+                    color: Config.StaticData.palette.secondary.col300
+                    font.pixelSize: Config.Theme.fontSizeCaption
+                }
+            }
+        }
     }
 }

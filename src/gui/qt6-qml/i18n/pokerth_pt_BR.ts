@@ -3507,6 +3507,21 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
         <source>Next ▶</source>
         <translation>Próximo ▶</translation>
     </message>
+    <message>
+        <location line="+33"/>
+        <source>Ranking calculation:</source>
+        <translation>Cálculo do ranking:</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Placement points:</source>
+        <translation>Pontos por posição:</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Formula:</source>
+        <translation>Fórmula:</translation>
+    </message>
 </context>
 <context>
     <name>ResetSettings</name>
@@ -3552,7 +3567,7 @@ Reinicie o PokerTH para que os arquivos de log sejam salvos nele.</translation>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+230"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+235"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>
@@ -4272,7 +4287,7 @@ Por favor cheque seu usuário e senha.</translation>
 <context>
     <name>StartFooter</name>
     <message>
-        <location filename="../components/StartFooter.qml" line="+147"/>
+        <location filename="../components/StartFooter.qml" line="+197"/>
         <source>Privacy</source>
         <translation>Privacidade</translation>
     </message>
@@ -4285,7 +4300,7 @@ Por favor cheque seu usuário e senha.</translation>
 <context>
     <name>StartPage</name>
     <message>
-        <location filename="../pages/StartPage.qml" line="+117"/>
+        <location filename="../pages/StartPage.qml" line="+155"/>
         <source>Internetspiel</source>
         <translation>Jogo pela Internet</translation>
     </message>
