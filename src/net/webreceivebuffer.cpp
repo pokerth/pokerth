@@ -38,6 +38,7 @@ using namespace std;
 
 
 WebReceiveBuffer::WebReceiveBuffer()
+	: m_unparsablePackets(0)
 {
 }
 
@@ -102,6 +103,10 @@ WebReceiveBuffer::ScanPrefixedPackets(boost::shared_ptr<SessionData> session)
 			break; // Wait for the rest of the packet.
 		}
 		ProcessPacket(session, m_recvBuffer.data() + NET_HEADER_SIZE, packetSize);
+		if (session->GetState() == SessionData::Closed) {
+			m_recvBuffer.clear();
+			return;
+		}
 		m_recvBuffer.erase(0, packetSize + NET_HEADER_SIZE);
 	}
 }
@@ -112,15 +117,28 @@ WebReceiveBuffer::ProcessPacket(boost::shared_ptr<SessionData> session, const ch
 	boost::shared_ptr<NetPacket> tmpPacket;
 	try {
 		tmpPacket = NetPacket::Create(data, size);
-		if (!tmpPacket || !validator.IsValidPacket(*tmpPacket)) {
-			LOG_ERROR("Session " << session->GetId() << " - Invalid packet"
-					  << (tmpPacket ? string(": ") + std::to_string(tmpPacket->GetMsg()->messagetype()) : ""));
-			tmpPacket.reset();
+		if (!tmpPacket) {
+			++m_unparsablePackets;
+			LOG_ERROR("Session " << session->GetId() << " - Unparsable WebSocket packet ("
+					  << m_unparsablePackets << "/" << MAX_WEBSOCKET_UNPARSABLE_PACKETS << ").");
+			if (m_unparsablePackets >= MAX_WEBSOCKET_UNPARSABLE_PACKETS) {
+				LOG_ERROR("Session " << session->GetId()
+						  << " - Too many unparsable WebSocket packets - closing connection");
+				session->Close();
+			}
+			return;
+		}
+		if (!validator.IsValidPacket(*tmpPacket)) {
+			LOG_ERROR("Session " << session->GetId() << " - Invalid packet: "
+					  << tmpPacket->GetMsg()->messagetype() << " - closing connection");
+			session->Close();
+			return;
 		}
 	} catch (const exception &e) {
-		LOG_ERROR("Session " << session->GetId() << " - " << e.what());
+		LOG_ERROR("Session " << session->GetId() << " - " << e.what()
+				  << " - closing connection");
+		session->Close();
+		return;
 	}
-	if (tmpPacket) {
-		session->HandlePacket(tmpPacket);
-	}
+	session->HandlePacket(tmpPacket);
 }
