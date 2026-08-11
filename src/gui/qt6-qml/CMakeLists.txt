@@ -158,6 +158,7 @@ set(QML_FILES
     components/SettingsHeader.qml
     components/SideMenu.qml
     components/SoundSettings.qml
+    components/StartFooter.qml
     components/StatTile.qml
     components/StyleCard.qml
     components/StyleSettings.qml

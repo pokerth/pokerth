@@ -51,6 +51,7 @@
         <file>components/ResetSettings.qml</file>
         <file>components/SideMenu.qml</file>
         <file>components/SoundSettings.qml</file>
+        <file>components/StartFooter.qml</file>
         <file>components/StyleSettings.qml</file>
         <file>components/StyleCard.qml</file>
         <file>components/AvatarCardRow.qml</file>
@@ -131,6 +132,8 @@
         <file>resources/gavel.svg</file>
         <file>resources/gameTableHD.png</file>
         <file>resources/gameTableUHD.png</file>
+        <file>resources/discord.svg</file>
+        <file>resources/github.svg</file>
         <file>resources/globe.svg</file>
         <file>resources/hourglass.svg</file>
         <file>resources/monitor.svg</file>

@@ -170,4 +170,19 @@ Rectangle {
             }
         }
     }
+
+    // ── Fußzeile: Community-Links + Lizenz/Quelle ─────────────────────────
+    // Liegt als Overlay über der Flickable (wie im pokerth-web-client), damit
+    // die Branding-Box exakt so zentriert bleibt wie im Login-Dialog. Sie wird
+    // nur eingeblendet, wenn unter der Box genug Platz bleibt – auf niedrigen /
+    // Querformat-Fenstern entfällt sie (Vorbild: Media-Query des Web-Clients).
+    StartFooter {
+        id: startFooter
+        anchors {
+            left: parent.left; right: parent.right; bottom: parent.bottom
+            bottomMargin: Config.Theme.compact ? 8 : 12
+        }
+        visible: startPage.height - startPageMainButtonsBox.height
+                 >= (startFooter.implicitHeight + Config.Theme.spacing) * 2
+    }
 }

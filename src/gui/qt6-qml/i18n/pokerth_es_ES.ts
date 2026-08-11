@@ -507,7 +507,7 @@
 <context>
     <name>ForumNews</name>
     <message>
-        <location filename="../config/ForumNews.qml" line="+159"/>
+        <location filename="../config/ForumNews.qml" line="+163"/>
         <location line="+11"/>
         <source>The forum feed could not be loaded.</source>
         <translation>No se pudo cargar el canal del foro.</translation>
@@ -539,7 +539,7 @@
 <context>
     <name>ForumPostPage</name>
     <message>
-        <location filename="../pages/ForumPostPage.qml" line="+77"/>
+        <location filename="../pages/ForumPostPage.qml" line="+78"/>
         <source>Translation failed.</source>
         <translation>La traducción falló.</translation>
     </message>
@@ -4269,6 +4269,19 @@ Compruebe el nombre de usuario y contraseña.</translation>
         <location line="-5"/>
         <source>Lobby-Chat-Benachrichtigungen</source>
         <translation>Notificaciones del chat del lobby</translation>
+    </message>
+</context>
+<context>
+    <name>StartFooter</name>
+    <message>
+        <location filename="../components/StartFooter.qml" line="+147"/>
+        <source>Privacy</source>
+        <translation>Privacidad</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Source:</source>
+        <translation>Código fuente:</translation>
     </message>
 </context>
 <context>
