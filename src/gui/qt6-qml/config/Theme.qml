@@ -50,15 +50,45 @@ QtObject {
     // ── Branding-Box (Startseite & Login-Dialog teilen sich diese Werte, damit
     //    Box-Höhe und PokerTH-Icon beim Navigieren 1:1 identisch wirken) ────────
     readonly property real brandBoxWidth: 380
+    // Höhe, die Startseite und Login-Dialog unten für die Fußzeile (StartFooter)
+    // freihalten – Icon-Reihe plus zwei Textzeilen inkl. Abstand zur Box. Der
+    // Wert ist die Höhe der Fußzeile selbst (StartFooter.implicitHeight bindet
+    // daran), damit es nur EINE Quelle für diese Reservierung gibt.
+    readonly property real startFooterReserve: compact ? 104 : 116
     // Feste Zielhöhe; schrumpft nur, wenn das Fenster zu niedrig ist (kurze /
     // Querformat-Fenster). Beide Seiten nutzen exakt diesen Wert. Der Abzug
-    // reserviert die Topbar (38px) plus Außenabstand, damit die Box samt Rand
-    // in den sichtbaren Bereich (StackView) passt und zentriert bleibt.
-    readonly property real brandBoxHeight: Math.max(380, Math.min(540, windowHeight - 96))
+    // reserviert die Topbar (38px) plus Außenabstand sowie die Fußzeile, damit
+    // die Box samt Rand in den sichtbaren Bereich (StackView) passt und
+    // zentriert bleibt.
+    readonly property real brandBoxHeight:
+        Math.max(380, Math.min(540, windowHeight - 96 - startFooterReserve))
     // Icon-Größe an die Box-Höhe gekoppelt, gedeckelt auf 126 (Desktop) bzw.
     // 100 (schmale Phones), Boden 56 → läuft nie über.
     readonly property real brandLogoSize:
         Math.round(Math.max(56, Math.min(compact ? 100 : 126, 0.4 * brandBoxHeight - 76)))
+    // Untergrenze, bis zu der das Logo schrumpfen darf, bevor andere Elemente
+    // (Buttons) nachgeben müssen.
+    readonly property real brandLogoSizeMin: 56
+
+    // ── Geometrie des Branding-Headers (Logo + Kartensymbol-Reihe) ──────────
+    // Als Funktionen in den Tokens, damit ein Aufrufer aus seinem Höhenbudget
+    // die passende Logo-Größe ableiten kann, OHNE die gemessene Header-Höhe zu
+    // lesen – das ergäbe eine Bindungsschleife (kleineres Logo → mehr Platz →
+    // größeres Logo → …). BrandHeader selbst benutzt dieselben Funktionen, es
+    // gibt also nur eine Quelle für diese Geometrie.
+    function brandHeaderSpacing(logo)  { return Math.max(6, Math.round(logo * 0.07)) }
+    function brandHeaderSuitSize(logo) { return Math.max(13, logo * 0.16) }
+    // Zeilenhöhe der Kartensymbole ≈ Schriftgröße × 1.45 (mit Reserve gerundet).
+    function brandHeaderHeight(logo) {
+        return logo + brandHeaderSpacing(logo)
+               + Math.ceil(brandHeaderSuitSize(logo) * 1.45)
+    }
+    // Umkehrung von brandHeaderHeight(): größte Logo-Größe, deren Header noch in
+    // budget passt. Die drei Terme sind die Äste der Formel (Abstand bzw.
+    // Symbolgröße am Minimum oder proportional); das Minimum ist immer sicher.
+    function brandHeaderLogoForHeight(budget) {
+        return Math.floor(Math.min(budget - 25, (budget - 6) / 1.232, budget / 1.302))
+    }
 
     // Kartensymbole (♠ ♥ ♦ ♣) auf der dunklen Branding-Box
     readonly property color colorSuitRed:   "#c0392b"   // ♥ ♦

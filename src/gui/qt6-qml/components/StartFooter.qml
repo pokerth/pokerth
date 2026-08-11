@@ -39,7 +39,11 @@ Item {
     // überlappen (deren Fläche ist ohnehin dunkel und deckend).
     readonly property real  scrimFade:      32
 
-    implicitHeight: footerColumn.implicitHeight + bottomPadding
+    // Höhe kommt aus dem Token, das StartPage/Login-Dialog unten freihalten
+    // (Config.Theme.startFooterReserve) – eine Quelle für beide Seiten. Der
+    // Inhalt sitzt am unteren Rand, der Rest ist Abstand zur Box darüber.
+    implicitHeight: Math.max(Config.Theme.startFooterReserve,
+                             footerColumn.implicitHeight + bottomPadding)
 
     // Öffnet einen Link im externen Browser. NICHT direkt Qt.openUrlExternally:
     // Im AppImage/Bundle erbt QDesktopServices das gebundelte LD_LIBRARY_PATH →

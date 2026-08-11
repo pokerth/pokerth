@@ -25,28 +25,66 @@ Rectangle {
     readonly property real hPad: Config.Theme.margin
     readonly property real vPad: Config.Theme.margin
     readonly property real innerSpacing: Config.Theme.spacing
+    // Abstand zwischen Logo-Block und Button-Raster (Column-spacing).
+    readonly property real contentSpacing: 20
+
+    // ── Höhenbudget: die Fußzeile bleibt immer sichtbar ───────────────────
+    // Unten ist fest der Platz der Fußzeile reserviert; die Box weicht in
+    // dieser Reihenfolge aus: kleineres Logo → flachere Buttons → zweispaltig.
+    // Alle Vergleichshöhen werden aus Tokens berechnet und NICHT aus den
+    // gemessenen Höhen von Header/Box – sonst entstünde eine Binding-Schleife
+    // (kleineres Logo → mehr Platz → größeres Logo → …).
+    readonly property real footerReserve: Config.Theme.startFooterReserve
+    readonly property real minButtonHeight: 36
+    readonly property real boxBudget: height - Config.Theme.margin * 2 - footerReserve
+
+    readonly property int buttonCount: Config.Parameters.showCommunityContent ? 6 : 5
+
+    // Nicht schrumpfender Anteil der Box: Innenabstände + Zeilenabstände.
+    function chromeHeight(rows) {
+        return vPad * 2 + contentSpacing + (rows - 1) * innerSpacing
+    }
+    // Kleinstmögliche Box-Höhe (Logo und Buttons am Anschlag) – Grundlage für
+    // den Umschaltpunkt auf zwei Spalten und für die Sichtbarkeit der Fußzeile.
+    function minBoxHeight(rows) {
+        return chromeHeight(rows)
+               + Config.Theme.brandHeaderHeight(Config.Theme.brandLogoSizeMin)
+               + rows * minButtonHeight
+    }
 
     // ── Zweispaltiger Button-Modus ────────────────────────────────────────
-    // Passt die Box mit einspaltigen Buttons (inkl. Außenabstand) nicht in den
-    // sichtbaren Bereich (Android-Querformat, flache Desktop-Fenster), werden
-    // die Buttons zweispaltig angeordnet, statt vertikal zu scrollen –
-    // vorausgesetzt, die breitere Box passt horizontal. Die Vergleichshöhe
-    // wird aus den Design-Tokens berechnet statt aus der gemessenen Box-Höhe,
-    // sonst entstünde eine Binding-Schleife (zweispaltig → Box passt →
-    // wieder einspaltig → …).
-    readonly property int buttonCount: Config.Parameters.showCommunityContent ? 6 : 5
-    readonly property real singleColumnBoxHeight:
-        vPad * 2 + brandHeader.implicitHeight + startBoxContent.spacing
-        + buttonCount * Config.Theme.touchTarget
-        + (buttonCount - 1) * innerSpacing
+    // Reicht der Platz auch mit kleinstem Logo und flachen Buttons nicht, werden
+    // die Buttons zweispaltig angeordnet statt vertikal zu scrollen –
+    // vorausgesetzt, die breitere Box passt horizontal.
     readonly property real twoColumnBoxWidth: 620
     readonly property bool twoColumns:
-        singleColumnBoxHeight + Config.Theme.margin * 2 > height
+        minBoxHeight(buttonCount) > boxBudget
         && width >= twoColumnBoxWidth + Config.Theme.margin * 2
+    readonly property int buttonRows: twoColumns ? Math.ceil(buttonCount / 2) : buttonCount
+
+    // Buttons bleiben auf Touch-Größe, solange das Logo den Platz ausgleichen
+    // kann; erst wenn dieses am Minimum ist, werden sie flacher.
+    readonly property real buttonHeight:
+        Math.max(minButtonHeight,
+                 Math.min(Config.Theme.touchTarget,
+                          (boxBudget - chromeHeight(buttonRows)
+                           - Config.Theme.brandHeaderHeight(Config.Theme.brandLogoSizeMin))
+                          / buttonRows))
+    // Logo bekommt, was nach Buttons und Abständen übrig bleibt – gedeckelt auf
+    // die reguläre Größe (Config.Theme.brandLogoSize, wie im Login-Dialog).
+    readonly property real logoSize:
+        Math.max(Config.Theme.brandLogoSizeMin,
+                 Math.min(Config.Theme.brandLogoSize,
+                          Config.Theme.brandHeaderLogoForHeight(
+                              boxBudget - chromeHeight(buttonRows)
+                              - buttonRows * buttonHeight)))
 
     Flickable {
         id: startScroll
         anchors.fill: parent
+        // Unterer Rand bleibt für die Fußzeile frei – die Box zentriert sich im
+        // verbleibenden Bereich, statt die Fußzeile zu überdecken.
+        anchors.bottomMargin: startPage.footerReserve
         contentWidth: width
         contentHeight: startContent.implicitHeight
         clip: true
@@ -94,13 +132,13 @@ Rectangle {
                         rightMargin: startPage.hPad
                         topMargin: startPage.vPad
                     }
-                    spacing: 20
+                    spacing: startPage.contentSpacing
 
                     // ── PokerTH-Logo + Kartensymbole ─────────────────────────
                     BrandHeader {
                         id: brandHeader
                         anchors.horizontalCenter: parent.horizontalCenter
-                        logoSize: Config.Theme.brandLogoSize
+                        logoSize: startPage.logoSize
                     }
 
                     // ── Navigations-Buttons ───────────────────────────────────
@@ -117,7 +155,7 @@ Rectangle {
                             text: qsTr("Internetspiel")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
-                            Layout.preferredHeight: Config.Theme.touchTarget
+                            Layout.preferredHeight: startPage.buttonHeight
                             onClicked: mainStackView.push("ServerConnectionDialog.qml")
                         }
 
@@ -125,7 +163,7 @@ Rectangle {
                             text: qsTr("Lokales Spiel starten")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
-                            Layout.preferredHeight: Config.Theme.touchTarget
+                            Layout.preferredHeight: startPage.buttonHeight
                             onClicked: mainStackView.push("LocalGamePage.qml")
                         }
 
@@ -133,7 +171,7 @@ Rectangle {
                             text: qsTr("Netzwerkspiel erstellen")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
-                            Layout.preferredHeight: Config.Theme.touchTarget
+                            Layout.preferredHeight: startPage.buttonHeight
                             onClicked: mainStackView.push("NetworkGameCreatePage.qml")
                         }
 
@@ -141,7 +179,7 @@ Rectangle {
                             text: qsTr("Netzwerkspiel beitreten")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
-                            Layout.preferredHeight: Config.Theme.touchTarget
+                            Layout.preferredHeight: startPage.buttonHeight
                             onClicked: mainStackView.push("NetworkGameEnterPage.qml")
                         }
 
@@ -149,7 +187,7 @@ Rectangle {
                             text: qsTr("Community / Ranking")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
-                            Layout.preferredHeight: Config.Theme.touchTarget
+                            Layout.preferredHeight: startPage.buttonHeight
                             visible: Config.Parameters.showCommunityContent
                             // Über denselben Toggle wie der Globus → gemerkter
                             // Ranking-Stand wird wiederhergestellt.
@@ -162,7 +200,7 @@ Rectangle {
                             text: qsTr("Logs")
                             Layout.fillWidth: true
                             Layout.preferredWidth: 100
-                            Layout.preferredHeight: Config.Theme.touchTarget
+                            Layout.preferredHeight: startPage.buttonHeight
                             onClicked: mainStackView.push("LogsPage.qml")
                         }
                     }
@@ -172,18 +210,14 @@ Rectangle {
     }
 
     // ── Fußzeile: Community-Links + Lizenz/Quelle ─────────────────────────
-    // Liegt als Overlay über der Flickable (wie im pokerth-web-client), damit
-    // die Branding-Box exakt so zentriert bleibt wie im Login-Dialog. Sie wird
-    // nur eingeblendet, wenn unter der Box genug Platz bleibt – auf niedrigen /
-    // Querformat-Fenstern entfällt sie (Vorbild: Media-Query des Web-Clients).
+    // Sitzt im unten reservierten Streifen (footerReserve), den die Flickable
+    // freilässt – sie überdeckt die Box also nie. Ausgeblendet wird sie nur
+    // noch, wenn die Box selbst mit kleinstem Logo und flachen Buttons nicht
+    // mehr passt: dann wird gescrollt und der Streifen zusätzlich gebraucht.
     StartFooter {
         id: startFooter
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: implicitHeight
-        // Freier Platz unterhalb der (mittig zentrierten) Box = (Seitenhöhe −
-        // Boxhöhe) / 2. Bleibt davon nicht die Fußzeile plus ein Abstand übrig,
-        // wird sie ausgeblendet, statt die Buttons zu überdecken.
-        visible: (startPage.height - startPageMainButtonsBox.height) / 2
-                 >= startFooter.implicitHeight + Config.Theme.spacing
+        visible: startPage.boxBudget >= startPage.minBoxHeight(startPage.buttonRows)
     }
 }

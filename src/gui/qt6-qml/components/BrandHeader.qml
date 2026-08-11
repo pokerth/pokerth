@@ -9,9 +9,12 @@ Column {
     id: root
 
     property real logoSize: Config.Theme.brandLogoSize
-    readonly property real suitSize: Math.max(13, logoSize * 0.16)
+    // Abstände/Symbolgröße kommen aus den Theme-Funktionen, damit Aufrufer die
+    // Header-Höhe vorab berechnen können (Config.Theme.brandHeaderHeight) –
+    // siehe StartPage, die daraus ihr Logo-Budget ableitet.
+    readonly property real suitSize: Config.Theme.brandHeaderSuitSize(logoSize)
 
-    spacing: Math.max(6, Math.round(logoSize * 0.07))
+    spacing: Config.Theme.brandHeaderSpacing(logoSize)
 
     SvgIcon {
         anchors.horizontalCenter: parent.horizontalCenter

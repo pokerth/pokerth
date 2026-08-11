@@ -74,6 +74,11 @@ Rectangle {
     Flickable {
         id: serverConnScroller
         anchors.fill: parent
+        // Denselben unteren Streifen freihalten wie die StartPage (dort sitzt
+        // dort die Fußzeile). Sonst säße die Login-Box beim Navigieren von der
+        // Startseite hierher um den halben Streifen tiefer – sichtbarer Sprung,
+        // obwohl beide Boxen identisch aussehen sollen.
+        anchors.bottomMargin: Config.Theme.startFooterReserve
         contentWidth: serverConnScroller.width
         contentHeight: serverConnScrollContent.height
         boundsBehavior: Flickable.StopAtBounds
