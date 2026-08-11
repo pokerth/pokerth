@@ -129,7 +129,7 @@ Rectangle {
 
                     AppCheckBox {
                         objectName: "allowChatTranslationCheckbox"
-                        text: qsTr("Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)")
+                        text: qsTr("Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)")
                         checked: (typeof SettingsManager !== "undefined" && SettingsManager)
                                  ? SettingsManager.readConfigInt("AllowChatTranslation") !== 0 : true
                         onToggled: {
@@ -141,6 +141,9 @@ Rectangle {
                                 Lobby.chatTranslator.refreshEnabled()
                             if (typeof GameTable !== "undefined" && GameTable && GameTable.chatTranslator)
                                 GameTable.chatTranslator.refreshEnabled()
+                            // ... und den Globus der Forum-Beitragsseite.
+                            if (typeof Translator !== "undefined" && Translator)
+                                Translator.refreshEnabled()
                         }
                     }
 
@@ -149,7 +152,7 @@ Rectangle {
                         Layout.leftMargin: 28
                         Layout.bottomMargin: 4
                         wrapMode: Text.Wrap
-                        text: qsTr("Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.")
+                        text: qsTr("Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.")
                         color: Config.StaticData.palette.secondary.col400
                         font.pointSize: 10
                     }
@@ -244,6 +247,16 @@ Rectangle {
                         text: qsTr("Plätze verlassener Spieler am Tisch freihalten (verbleibende Spielerboxen bleiben an ihrem Platz)")
                         checked: Config.Parameters.keepEmptySeats
                         onCheckedChanged: Config.Parameters.keepEmptySeats = checked
+                    }
+
+                    // Forum-Neuigkeiten: Zeitungs-Icon in der Topbar mit Zähler
+                    // ungelesener Beiträge. Unabhängig von den Community-
+                    // Inhalten (offizielles PokerTH-Forum, nicht BBC/WEC).
+                    AppCheckBox {
+                        objectName: "showForumNewsCheckbox"
+                        text: qsTr("Forum-Neuigkeiten anzeigen")
+                        checked: Config.Parameters.showForumNews
+                        onCheckedChanged: Config.Parameters.showForumNews = checked
                     }
 
                     AppCheckBox {

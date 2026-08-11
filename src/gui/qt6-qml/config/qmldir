@@ -2,6 +2,7 @@ module Config
 singleton StaticData  StaticData.qml
 singleton BotSuggest  BotSuggest.qml
 singleton Community   Community.qml
+singleton ForumNews   ForumNews.qml
 singleton Parameters  Parameters.qml
 singleton Responsive  Responsive.qml
 singleton Theme       Theme.qml

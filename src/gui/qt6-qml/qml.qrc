@@ -68,9 +68,11 @@
         <file>components/ReactionPicker.qml</file>
         <file>components/GameActionBar.qml</file>
         <file>components/LobbyStatsBar.qml</file>
+        <file>components/ForumBadge.qml</file>
         <file>config/qmldir</file>
         <file>config/BotSuggest.qml</file>
         <file>config/Community.qml</file>
+        <file>config/ForumNews.qml</file>
         <file>config/Parameters.qml</file>
         <file>config/Responsive.qml</file>
         <file>config/StaticData.qml</file>
@@ -102,6 +104,8 @@
         <file>pages/LobbyCreateGamePage.qml</file>
         <file>pages/GameWaitPage.qml</file>
         <file>pages/LobbyPage.qml</file>
+        <file>pages/ForumNewsPage.qml</file>
+        <file>pages/ForumPostPage.qml</file>
         <file>resources/addReaction.svg</file>
         <file>resources/arrowUpLeft.svg</file>
         <file>resources/barChart.svg</file>
@@ -131,6 +135,7 @@
         <file>resources/hourglass.svg</file>
         <file>resources/monitor.svg</file>
         <file>resources/network.svg</file>
+        <file>resources/newspaper.svg</file>
         <file>resources/palette.svg</file>
         <file>resources/personAdd.svg</file>
         <file>resources/personRemove.svg</file>

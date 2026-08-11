@@ -1695,5 +1695,8 @@ Rectangle {
         // console.log("Game model count:", Lobby.gameListModel.rowCount())
         // Bereits vorhandenen Chat-Verlauf wiederherstellen (z.B. nach Rückkehr
         // aus einem Spiel).
+        // Zähler der Forum-Neuigkeiten beim Betreten der Lobby auffrischen
+        // (wie im Web-Client); die TTL im Singleton bremst die Abrufe.
+        Config.ForumNews.refresh(false)
     }
 }

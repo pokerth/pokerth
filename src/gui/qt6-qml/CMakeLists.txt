@@ -26,6 +26,7 @@ set(POKERTH_QML_CLIENT_SRC ../../pokerth.cpp
     cpp/lobbyhandler.cpp
     cpp/gamehandler.cpp
     cpp/chattranslator.cpp
+    cpp/texttranslator.cpp
     ../chattranslator/chattranslatorcore.cpp
     cpp/loghandler.cpp
     cpp/networkgamehandler.cpp
@@ -117,6 +118,7 @@ set(QML_FILES
     components/CustomToggle.qml
     components/EmojiPicker.qml
     components/ExampleAvatarPicker.qml
+    components/ForumBadge.qml
     components/GameActionBar.qml
     components/GameAdminBadge.qml
     components/GameInfoPanel.qml
@@ -165,6 +167,8 @@ set(QML_FILES
     pages/AboutPage.qml
     pages/BbcRankingPage.qml
     pages/CommunityRankingPage.qml
+    pages/ForumNewsPage.qml
+    pages/ForumPostPage.qml
     pages/GamePage.qml
     pages/GameTableStatsPage.qml
     pages/GameWaitPage.qml
@@ -184,6 +188,7 @@ set(QML_FILES
     pages/WecRankingPage.qml
     config/BotSuggest.qml
     config/Community.qml
+    config/ForumNews.qml
     config/Parameters.qml
     config/Responsive.qml
     config/StaticData.qml

@@ -505,6 +505,61 @@
     </message>
 </context>
 <context>
+    <name>ForumNews</name>
+    <message>
+        <location filename="../config/ForumNews.qml" line="+159"/>
+        <location line="+11"/>
+        <source>The forum feed could not be loaded.</source>
+        <translation>Could not load the forum feed.</translation>
+    </message>
+</context>
+<context>
+    <name>ForumNewsPage</name>
+    <message>
+        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <source>Forum news</source>
+        <translation>Forum news</translation>
+    </message>
+    <message>
+        <location line="+141"/>
+        <source>No entries.</source>
+        <translation>No entries.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Mark all as read</source>
+        <translation>Mark all as read</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Open the forum</source>
+        <translation>Open the forum</translation>
+    </message>
+</context>
+<context>
+    <name>ForumPostPage</name>
+    <message>
+        <location filename="../pages/ForumPostPage.qml" line="+77"/>
+        <source>Translation failed.</source>
+        <translation>Translation failed.</translation>
+    </message>
+    <message>
+        <location line="+91"/>
+        <source>Show the original post</source>
+        <translation>Show the original post</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Translate the post</source>
+        <translation>Translate the post</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Open in the forum</source>
+        <translation>Open in the forum</translation>
+    </message>
+</context>
+<context>
     <name>GameActionBar</name>
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
@@ -1213,7 +1268,7 @@
         <translation>Language:</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
         <translation>Fade-out animation for losing cards</translation>
     </message>
@@ -1223,7 +1278,17 @@
         <translation>Show timestamp in chat</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-30"/>
+        <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
+        <translation>Offer translation (globe symbol in chat and on forum posts)</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <translation>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message or a forum post; the target language is the one selected above.</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
         <translation>Animated Cards (Flip Animation)</translation>
     </message>
@@ -1278,6 +1343,11 @@
         <translation>Keep seats of players who left the table (remaining player boxes stay in place)</translation>
     </message>
     <message>
+        <location line="+10"/>
+        <source>Forum-Neuigkeiten anzeigen</source>
+        <translation>Show forum news</translation>
+    </message>
+    <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
         <translation>Show community content</translation>
@@ -1308,17 +1378,7 @@
         <translation>Prevent accidental call after a big raise</translation>
     </message>
     <message>
-        <location line="-198"/>
-        <source>Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)</source>
-        <translation>Offer chat translation (globe symbol next to messages)</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>Translation uses an external service (Google Translate, or MyMemory as a fallback). Nothing is sent until you tap the symbol of a message; the target language is the one selected above.</translation>
-    </message>
-    <message>
-        <location line="+147"/>
+        <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Suggest players in your own community games</translation>
     </message>
@@ -4494,7 +4554,7 @@ Preview</translation>
 <context>
     <name>pokerth</name>
     <message>
-        <location filename="../pokerth.qml" line="+175"/>
+        <location filename="../pokerth.qml" line="+188"/>
         <source>PokerTH - v2.1.6</source>
         <translation>PokerTH - v2.1.6</translation>
     </message>
@@ -4509,7 +4569,12 @@ Preview</translation>
         <translation>Menu</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+45"/>
+        <source>Forum news</source>
+        <translation>Forum news</translation>
+    </message>
+    <message>
+        <location line="+65"/>
         <source>Community / Ranking</source>
         <translation>Community / Ranking</translation>
     </message>
@@ -4519,7 +4584,7 @@ Preview</translation>
         <translation>Settings</translation>
     </message>
     <message>
-        <location line="+183"/>
+        <location line="+192"/>
         <source>Timeout Warning</source>
         <translation>Timeout Warning</translation>
     </message>
@@ -4595,8 +4660,8 @@ Preview</translation>
         <translation>Connection lost</translation>
     </message>
     <message>
-        <location line="-569"/>
-        <location line="+380"/>
+        <location line="-646"/>
+        <location line="+457"/>
         <location line="+22"/>
         <source>Leave Game</source>
         <translation>Leave Game</translation>
@@ -4616,8 +4681,8 @@ and go back to the lobby?</translation>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location line="-528"/>
-        <location line="+437"/>
+        <location line="-605"/>
+        <location line="+514"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
         <translation>Leave Lobby</translation>

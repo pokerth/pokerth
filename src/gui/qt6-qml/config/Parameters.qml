@@ -25,6 +25,11 @@ Settings {
 
     property bool showCommunityContent: true
 
+    // Forum-Neuigkeiten (Zeitungs-Icon in der Topbar mit Zähler ungelesener
+    // Beiträge, Liste + Beitragsansicht). Unabhängig von den Community-
+    // Inhalten: das Forum ist die offizielle PokerTH-Seite, nicht BBC/WEC.
+    property bool showForumNews: true
+
     // Vorausgewählte Ranglisten-Quelle ("pokerth" | "bbc" | "wec") für Table
     // Info und Player Stats, wenn Community-Inhalte aktiv sind. Auswahl siehe
     // Config.Community.entries.

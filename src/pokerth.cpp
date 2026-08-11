@@ -56,6 +56,7 @@
 #include "gui/qt6-qml/cpp/networkgamehandler.h"
 #include "gui/qt6-qml/cpp/qmlguiinterface.h"
 #include "gui/qt6-qml/cpp/screenhelper.h"
+#include "gui/qt6-qml/cpp/texttranslator.h"
 #include "gui/qt6-qml/cpp/webnetworkfactory.h"
 #include <core/loghelper.h>
 #include <cstdio>
@@ -324,10 +325,15 @@ int main(int argc, char *argv[])
     StyleProvider styleProvider(myConfig);
     LanguageManager langMgr(&engine);
     ScreenHelper screenHelper;
+    // Übersetzung beliebiger Texte (Globus auf der Forum-Beitragsseite) – nutzt
+    // denselben Dienst/Schalter wie die Chat-Übersetzung, ist aber nicht an
+    // eine Chat-Zeilenliste gebunden.
+    TextTranslator textTranslator(myConfig.get());
     engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
     engine.rootContext()->setContextProperty("StyleProvider", &styleProvider);
     engine.rootContext()->setContextProperty("LanguageManager", &langMgr);
     engine.rootContext()->setContextProperty("ScreenHelper", &screenHelper);
+    engine.rootContext()->setContextProperty("Translator", &textTranslator);
     engine.rootContext()->setContextProperty("ServerConnection", connectionHandler);
     engine.rootContext()->setContextProperty("Lobby", lobbyHandler);
     engine.rootContext()->setContextProperty("GameTable", gameHandler);

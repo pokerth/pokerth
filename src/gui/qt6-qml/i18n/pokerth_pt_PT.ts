@@ -505,6 +505,61 @@
     </message>
 </context>
 <context>
+    <name>ForumNews</name>
+    <message>
+        <location filename="../config/ForumNews.qml" line="+159"/>
+        <location line="+11"/>
+        <source>The forum feed could not be loaded.</source>
+        <translation>Não foi possível carregar o feed do fórum.</translation>
+    </message>
+</context>
+<context>
+    <name>ForumNewsPage</name>
+    <message>
+        <location filename="../pages/ForumNewsPage.qml" line="+58"/>
+        <source>Forum news</source>
+        <translation>Novidades do fórum</translation>
+    </message>
+    <message>
+        <location line="+141"/>
+        <source>No entries.</source>
+        <translation>Nenhuma entrada.</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Mark all as read</source>
+        <translation>Marcar tudo como lido</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Open the forum</source>
+        <translation>Abrir o fórum</translation>
+    </message>
+</context>
+<context>
+    <name>ForumPostPage</name>
+    <message>
+        <location filename="../pages/ForumPostPage.qml" line="+77"/>
+        <source>Translation failed.</source>
+        <translation>Falha na tradução.</translation>
+    </message>
+    <message>
+        <location line="+91"/>
+        <source>Show the original post</source>
+        <translation>Mostrar a mensagem original</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Translate the post</source>
+        <translation>Traduzir a mensagem</translation>
+    </message>
+    <message>
+        <location line="+143"/>
+        <source>Open in the forum</source>
+        <translation>Abrir no fórum</translation>
+    </message>
+</context>
+<context>
     <name>GameActionBar</name>
     <message>
         <location filename="../components/GameActionBar.qml" line="+997"/>
@@ -1213,7 +1268,7 @@
         <translation>Idioma:</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
         <source>Ausblend-Animation für Verliererkarten</source>
         <translation>Animação de desaparecimento das cartas perdedoras</translation>
     </message>
@@ -1223,7 +1278,17 @@
         <translation>Mostrar a hora no chat</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-30"/>
+        <source>Übersetzung anbieten (Globus-Symbol im Chat und bei Forum-Beiträgen)</source>
+        <translation>Oferecer tradução (ícone de globo no chat e nas mensagens do fórum)</translation>
+    </message>
+    <message>
+        <location line="+23"/>
+        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht oder eines Forum-Beitrags antippst; Zielsprache ist die oben gewählte Sprache.</source>
+        <translation>A tradução usa um serviço externo (Google Tradutor ou, em alternativa, o MyMemory). Nada é enviado até tocar no ícone de uma mensagem ou de uma mensagem do fórum; o idioma de destino é o selecionado acima.</translation>
+    </message>
+    <message>
+        <location line="+19"/>
         <source>Animierte Karten (Aufdeck-Animation)</source>
         <translation>Cartas animadas (animação ao virar)</translation>
     </message>
@@ -1278,6 +1343,11 @@
         <translation>Manter os lugares dos jogadores que saíram da mesa (as caixas dos jogadores restantes permanecem no lugar)</translation>
     </message>
     <message>
+        <location line="+10"/>
+        <source>Forum-Neuigkeiten anzeigen</source>
+        <translation>Mostrar novidades do fórum</translation>
+    </message>
+    <message>
         <location line="+7"/>
         <source>Community-Inhalte anzeigen</source>
         <translation>Mostrar conteúdos da comunidade</translation>
@@ -1308,17 +1378,7 @@
         <translation>Evitar Call acidental após um grande Raise</translation>
     </message>
     <message>
-        <location line="-198"/>
-        <source>Chat-Übersetzung anbieten (Globus-Symbol neben Nachrichten)</source>
-        <translation>Oferecer tradução do chat (ícone de globo junto às mensagens)</translation>
-    </message>
-    <message>
-        <location line="+20"/>
-        <source>Die Übersetzung nutzt einen externen Dienst (Google Übersetzer, ersatzweise MyMemory). Es wird erst etwas gesendet, wenn du das Symbol einer Nachricht antippst; Zielsprache ist die oben gewählte Sprache.</source>
-        <translation>A tradução usa um serviço externo (Google Tradutor ou, em alternativa, o MyMemory). Nada é enviado até tocar no ícone de uma mensagem; o idioma de destino é o selecionado acima.</translation>
-    </message>
-    <message>
-        <location line="+147"/>
+        <location line="-31"/>
         <source>Spieler in eigenen Community-Spielen vorschlagen</source>
         <translation>Sugerir jogadores nos seus próprios jogos da comunidade</translation>
     </message>
@@ -4494,7 +4554,7 @@ Pré-visualização</translation>
 <context>
     <name>pokerth</name>
     <message>
-        <location filename="../pokerth.qml" line="+175"/>
+        <location filename="../pokerth.qml" line="+188"/>
         <source>PokerTH - v2.1.6</source>
         <translation>PokerTH - v2.1.6</translation>
     </message>
@@ -4509,7 +4569,12 @@ Pré-visualização</translation>
         <translation>Menu</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+45"/>
+        <source>Forum news</source>
+        <translation>Novidades do fórum</translation>
+    </message>
+    <message>
+        <location line="+65"/>
         <source>Community / Ranking</source>
         <translation>Comunidade / Classificação</translation>
     </message>
@@ -4519,7 +4584,7 @@ Pré-visualização</translation>
         <translation>Definições</translation>
     </message>
     <message>
-        <location line="+183"/>
+        <location line="+192"/>
         <source>Timeout Warning</source>
         <translation>Aviso de interrupções</translation>
     </message>
@@ -4595,8 +4660,8 @@ Pré-visualização</translation>
         <translation>Ligação perdida</translation>
     </message>
     <message>
-        <location line="-569"/>
-        <location line="+380"/>
+        <location line="-646"/>
+        <location line="+457"/>
         <location line="+22"/>
         <source>Leave Game</source>
         <translation>Sair do Jogo</translation>
@@ -4616,8 +4681,8 @@ voltar para a sala?</translation>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location line="-528"/>
-        <location line="+437"/>
+        <location line="-605"/>
+        <location line="+514"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
         <translation>Sair da Sala</translation>

@@ -41,13 +41,20 @@ ApplicationWindow {
         }) !== null
     }
 
-    // Overlay-Seiten der Topbar-Icons (Settings + Community/Ranking inkl. der
-    // Unterseiten). Alles, was NICHT hier steht, gilt als Basisseite
-    // (Gametable, Lobby, Startseite) – dorthin wird beim Schließen zurückgesetzt.
+    // Overlay-Seiten der Topbar-Icons (Settings + Community/Ranking + Forum-
+    // Neuigkeiten inkl. der Unterseiten). Alles, was NICHT hier steht, gilt als
+    // Basisseite (Gametable, Lobby, Startseite) – dorthin wird beim Schließen
+    // zurückgesetzt.
     readonly property var settingsSectionPages: ["settingsPage"]
     readonly property var rankingSectionPages:
         ["communityRankingPage", "rankingPage", "bbcRankingPage", "wecRankingPage",
          "pokerthPlayerPage", "communityPlayerPage"]
+    readonly property var forumSectionPages: ["forumNewsPage", "forumPostPage"]
+
+    // Alle Overlay-Seiten zusammen – Grundlage von closeTopBarOverlay() und
+    // saveOverlayStack().
+    readonly property var overlaySectionPages:
+        settingsSectionPages.concat(rankingSectionPages, forumSectionPages)
 
     // Gemerkter Ranking-Unterstapel beim Schließen über den Globus, damit ein
     // erneutes Toggle wieder auf der letzten Ranking-Seite landet (statt auf der
@@ -59,17 +66,19 @@ ApplicationWindow {
         topBarSectionOpen(settingsSectionPages)
     readonly property bool rankingSectionActive:
         topBarSectionOpen(rankingSectionPages)
+    readonly property bool forumSectionActive:
+        topBarSectionOpen(forumSectionPages)
 
     function topBarSectionOpen(sectionPages) {
         var c = mainStackView.currentItem
         return c && sectionPages.indexOf(c.objectName) !== -1
     }
 
-    // Alle Settings-/Ranking-Overlay-Seiten vom Stack poppen, sodass die
+    // Alle Overlay-Seiten (Settings/Ranking/Forum) vom Stack poppen, sodass die
     // darunterliegende Basisseite (Gametable, Lobby oder Startseite) wieder
     // erscheint. Hält NIE auf der Zwischen-Auswahlseite (CommunityRankingPage).
     function closeTopBarOverlay() {
-        var overlay = settingsSectionPages.concat(rankingSectionPages)
+        var overlay = overlaySectionPages
         for (var i = mainStackView.depth - 1; i >= 0; --i) {
             var item = mainStackView.get(i)
             if (!item || overlay.indexOf(item.objectName) === -1) {
@@ -90,12 +99,16 @@ ApplicationWindow {
         case "pokerthPlayerPage":    return "pages/PokerthPlayerPage.qml"
         case "communityPlayerPage":  return "components/CommunityPlayerView.qml"
         case "settingsPage":         return "pages/SettingsPage.qml"
+        case "forumNewsPage":        return "pages/ForumNewsPage.qml"
+        case "forumPostPage":        return "pages/ForumPostPage.qml"
         }
         return ""
     }
 
     // Konstruktions-Properties, die eine Seite zum Wiederaufbau braucht.
     function overlayPropsFor(item) {
+        if (item.objectName === "forumPostPage")
+            return { post: item.post }
         if (item.objectName === "pokerthPlayerPage")
             return { playerId: item.playerId, username: item.username }
         if (item.objectName === "communityPlayerPage")
@@ -109,7 +122,7 @@ ApplicationWindow {
     // Aktuellen Ranking-Overlay-Unterstapel (über der Basisseite) als Liste von
     // { url, props } sichern, um ihn später 1:1 wiederherzustellen.
     function saveOverlayStack() {
-        var overlay = settingsSectionPages.concat(rankingSectionPages)
+        var overlay = overlaySectionPages
         var saved = []
         for (var i = mainStackView.depth - 1; i >= 0; --i) {
             var item = mainStackView.get(i)
@@ -452,6 +465,74 @@ ApplicationWindow {
                     Layout.horizontalStretchFactor: 2
                 }
 
+                // Forum-Neuigkeiten – wie das Ranking überall erreichbar. Der
+                // Zähler ungelesener Beiträge sitzt als Plakette am Icon; er
+                // darf KEIN Kind des Icons sein, sonst färbt dessen
+                // MultiEffect-Layer ihn mit ein.
+                Item {
+                    id: topBarForumButton
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
+                    visible: mainWindow.topBarIconsVisible && Config.Parameters.showForumNews
+
+                    ToolTip.visible: forumArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: qsTr("Forum news")
+
+                    SvgIcon {
+                        id: topBarForumIcon
+                        anchors.fill: parent
+                        source: "resources/newspaper.svg"
+                        layer.enabled: true
+                        layer.effect: MultiEffect {
+                            colorization: 1.0
+                            colorizationColor: mainWindow.forumSectionActive
+                                ? Config.Theme.colorAccent
+                                : forumArea.containsMouse
+                                    ? Config.StaticData.palette.secondary.col100
+                                    : Config.StaticData.palette.secondary.col200
+                        }
+                    }
+
+                    Rectangle {
+                        id: forumUnreadBadge
+                        visible: Config.ForumNews.unreadCount > 0
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.topMargin: -5
+                        anchors.rightMargin: -5
+                        width: Math.max(15, forumUnreadLabel.implicitWidth + 7)
+                        height: 15
+                        radius: 7.5
+                        color: Config.Theme.colorDanger
+                        border.color: Config.Theme.colorBox
+                        border.width: 1.5
+
+                        AppText {
+                            id: forumUnreadLabel
+                            anchors.centerIn: parent
+                            text: Config.ForumNews.unreadCount > 9
+                                  ? "9+" : Config.ForumNews.unreadCount
+                            color: "#FFFFFF"
+                            font.pixelSize: 9
+                            font.bold: true
+                        }
+                    }
+
+                    MouseArea {
+                        id: forumArea
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+
+                        onClicked: mainWindow.toggleTopBarSection(
+                            "pages/ForumNewsPage.qml",
+                            mainWindow.forumSectionPages)
+                    }
+                }
+
                 // Community / Ranking – überall erreichbar (auch in Lobby & Spiel).
                 SvgIcon {
                     id: topBarRankingIcon
@@ -622,6 +703,15 @@ ApplicationWindow {
     }
 
     SideMenu {}
+
+    // Der Forum-Abruf folgt der Einstellung: ausgeschaltet = kein Netzverkehr
+    // und kein Zähler. (Config.ForumNews darf die Parameters nicht selbst
+    // lesen – innerhalb des Moduls Config wäre das eine Zirkelabhängigkeit.)
+    Binding {
+        target: Config.ForumNews
+        property: "enabled"
+        value: Config.Parameters.showForumNews
+    }
 
     Connections {
         target: mainStackView
