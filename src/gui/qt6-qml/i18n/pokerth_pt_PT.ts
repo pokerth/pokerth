@@ -3343,8 +3343,8 @@ Reinicie o PokerTH para que os ficheiros de registo sejam guardados nessa pasta.
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.6</source>
-        <translation>PokerTH - v2.1.6</translation>
+        <source>PokerTH - v2.1.7</source>
+        <translation>PokerTH - v2.1.7</translation>
     </message>
 </context>
 <context>
@@ -4224,8 +4224,8 @@ Verifoque o nome de utilizador e senha.</translation>
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+35"/>
-        <source>PokerTH - v2.1.6</source>
-        <translation>PokerTH - v2.1.6</translation>
+        <source>PokerTH - v2.1.7</source>
+        <translation>PokerTH - v2.1.7</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -4583,8 +4583,8 @@ Pré-visualização</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+188"/>
-        <source>PokerTH - v2.1.6</source>
-        <translation>PokerTH - v2.1.6</translation>
+        <source>PokerTH - v2.1.7</source>
+        <translation>PokerTH - v2.1.7</translation>
     </message>
     <message>
         <location line="+248"/>

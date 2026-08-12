@@ -1,3 +1,22 @@
+2026-08-13 version 2.1.7:
+- new: latest forum news from pokerth.net in the client - unread counter in the top bar, and the posts are readable in the app itself (QML)
+- new: footer on the start page with links to Discord, the website and the sources, plus license and version (QML)
+- new: the table admin of a game is shown in the game list and on the game-wait page (QML)
+- new: the ranking page explains how the ranking is calculated (QML)
+- new: F-Droid repository for the Android client, including metadata and an index build workflow (android)
+- improvement: ignoring a player now also hides their emoji reactions (widget)
+- improvement: the chat shows the sender name in bold and in its own color, taken from the game table style (widget)
+- improvement: community suggest fine-tuned (QML & widget)
+- improvement: avatar images are checked against a size and dimension limit before they are decoded (client & server)
+- improvement: the server list download, its decompression and the number of entries it may contain are bounded now (client)
+- bugfix: the window forced a desktop minimum size on mobile - on 360 dp phones such as the Samsung S20 FE 5G the scene was drawn wider than the display and cut off at both edges (QML)
+- bugfix: login dialog styling (QML)
+- server: the official server accepted unauthenticated logins - the no-auth login mode is rejected on authenticated servers now, a guest session can no longer take over an existing name, and the legacy bbcbot command requires database admin rights
+- server: the WebSocket send queue is bounded like the TCP one, so a slow reader can no longer pile up an unbounded broadcast backlog
+- server: WebSocket sessions are closed when they send an invalid packet
+- server: spectator lists in lobby snapshots are bounded
+- server: players connecting through the web client proxy are seen with their real address now - a trusted proxy may announce it in a PROXY protocol header, so the same-IP check, the ban manager and the ranking no longer treat them all as one player
+
 2026-08-05 version 2.1.6:
 - new: the lobby connection verifies the server certificate now - the server list carries a pinned public key per entry, so a network attacker can no longer impersonate a lobby server (client & server, issue #515)
 - new: default4c card deck - four coloured suits (QML)

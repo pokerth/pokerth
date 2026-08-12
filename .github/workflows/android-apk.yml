@@ -98,7 +98,7 @@ jobs:
 
       # 100 + run number, never the bare run number: this workflow's run numbers
       # start at 1, while the local builds in docker/android/build_android.sh
-      # already shipped versionCode 20…26 as side-load APKs under the same
+      # already shipped versionCode 20…27 as side-load APKs under the same
       # package name. Installing a lower code over one of those fails with
       # INSTALL_FAILED_VERSION_DOWNGRADE, which Android only shows as
       # "App not installed". The offset keeps every workflow build above them.
