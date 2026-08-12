@@ -35,6 +35,8 @@
 
 #include <net/receivebuffer.h>
 
+#define MAX_WEBSOCKET_UNPARSABLE_PACKETS 10
+
 class WebReceiveBuffer : public ReceiveBuffer
 {
 public:
@@ -53,6 +55,9 @@ private:
 	// Accumulation buffer, only used in length-prefixed mode (packets may be
 	// split across or coalesced within websocket messages).
 	std::string m_recvBuffer;
+	// Keep the same tolerance for unparseable protobuf payloads as the native
+	// TCP receive path.  A peer which continues to send them is disconnected.
+	unsigned m_unparsablePackets;
 };
 
 #endif
