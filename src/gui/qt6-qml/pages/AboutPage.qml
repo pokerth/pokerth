@@ -86,10 +86,15 @@ Rectangle {
             anchors.margins: 8
             clip: true
             contentWidth: availableWidth
+            // Die vertikale Scrollleiste liegt ALS OVERLAY über dem Inhalt und
+            // ist in availableWidth nicht enthalten. Ohne diesen Abzug schneidet
+            // sie bei schmalem Fenster in den Text (gleiche Reservierung wie in
+            // StyleSettings).
+            readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
             TextEdit {
                 id: panelText
-                width: panelScroll.availableWidth
+                width: panelScroll.availableWidth - panelScroll.scrollBarSpace
                 readOnly: true
                 selectByMouse: true
                 textFormat: TextEdit.RichText
@@ -149,9 +154,12 @@ Rectangle {
                 clip: true
                 contentWidth: availableWidth
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                // Platz für die überlagernde Scrollleiste (siehe TextPanel),
+                // sonst liegt sie auf dem rechtsbündigen Projektlink.
+                readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                 ColumnLayout {
-                    width: aboutTab.availableWidth
+                    width: aboutTab.availableWidth - aboutTab.scrollBarSpace
                     spacing: 12
 
                     BrandHeader {

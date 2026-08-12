@@ -212,10 +212,14 @@ Rectangle {
                 clip: true
                 contentWidth: availableWidth
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+                // Die vertikale Scrollleiste liegt als Overlay über dem Inhalt
+                // und ist in availableWidth nicht enthalten - ohne Abzug
+                // schneidet sie bei schmalem Fenster in den Text.
+                readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
                 Column {
                     id: contentColumn
-                    width: postScroll.availableWidth
+                    width: postScroll.availableWidth - postScroll.scrollBarSpace
                     spacing: 10
 
                     Repeater {

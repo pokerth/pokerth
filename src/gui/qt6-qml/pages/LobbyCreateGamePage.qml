@@ -324,9 +324,13 @@ Rectangle {
         anchors.fill: parent
         contentWidth: availableWidth
         clip: true
+        // Die vertikale Scrollleiste liegt als Overlay über dem Inhalt und ist
+        // in availableWidth nicht enthalten - ohne Abzug schneidet sie bei
+        // schmalem Fenster in den Text.
+        readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
         ColumnLayout {
-            width: scrollView.availableWidth
+            width: scrollView.availableWidth - scrollView.scrollBarSpace
             spacing: 0
 
             // ── Header ───────────────────────────────────────────────────────

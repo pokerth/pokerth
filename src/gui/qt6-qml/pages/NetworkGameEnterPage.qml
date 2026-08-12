@@ -76,9 +76,13 @@ Rectangle {
         // Seitenaufbau sekundenlang auf, obwohl nichts zu scrollen ist.
         ScrollBar.vertical.policy: scrollView.contentHeight > scrollView.height + 1
                                    ? ScrollBar.AlwaysOn : ScrollBar.AlwaysOff
+        // Die Scrollleiste liegt als Overlay über dem Inhalt und ist in
+        // availableWidth nicht enthalten - ohne Abzug schneidet sie bei
+        // schmalem Fenster in den Text.
+        readonly property real scrollBarSpace: ScrollBar.vertical.visible ? 12 : 0
 
         ColumnLayout {
-            width: scrollView.availableWidth
+            width: scrollView.availableWidth - scrollView.scrollBarSpace
             spacing: 0
 
             // Header
