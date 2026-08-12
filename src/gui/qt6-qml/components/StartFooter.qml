@@ -39,9 +39,9 @@ Item {
     // überlappen (deren Fläche ist ohnehin dunkel und deckend).
     readonly property real  scrimFade:      32
 
-    // Höhe kommt aus dem Token, das StartPage/Login-Dialog unten freihalten
-    // (Config.Theme.startFooterReserve) – eine Quelle für beide Seiten. Der
-    // Inhalt sitzt am unteren Rand, der Rest ist Abstand zur Box darüber.
+    // Höhe kommt aus dem Token, das die StartPage unten freihält
+    // (Config.Theme.startFooterReserve) – eine Quelle für Reservierung und
+    // Fußzeile. Der Inhalt sitzt am unteren Rand, der Rest ist Abstand zur Box.
     implicitHeight: Math.max(Config.Theme.startFooterReserve,
                              footerColumn.implicitHeight + bottomPadding)
 

@@ -50,18 +50,18 @@ QtObject {
     // ── Branding-Box (Startseite & Login-Dialog teilen sich diese Werte, damit
     //    Box-Höhe und PokerTH-Icon beim Navigieren 1:1 identisch wirken) ────────
     readonly property real brandBoxWidth: 380
-    // Höhe, die Startseite und Login-Dialog unten für die Fußzeile (StartFooter)
-    // freihalten – Icon-Reihe plus zwei Textzeilen inkl. Abstand zur Box. Der
-    // Wert ist die Höhe der Fußzeile selbst (StartFooter.implicitHeight bindet
-    // daran), damit es nur EINE Quelle für diese Reservierung gibt.
+    // Höhe, die die Startseite unten für ihre Fußzeile (StartFooter) freihält –
+    // Icon-Reihe plus zwei Textzeilen inkl. Abstand zur Box. Der Wert ist die
+    // Höhe der Fußzeile selbst (StartFooter.implicitHeight bindet daran), damit
+    // es nur EINE Quelle für diese Reservierung gibt. Gilt nur für die
+    // Startseite: der Login-Dialog hat keine Fußzeile und behält den vollen
+    // Bereich, sonst würde seine Card unnötig gestaucht.
     readonly property real startFooterReserve: compact ? 104 : 116
     // Feste Zielhöhe; schrumpft nur, wenn das Fenster zu niedrig ist (kurze /
     // Querformat-Fenster). Beide Seiten nutzen exakt diesen Wert. Der Abzug
-    // reserviert die Topbar (38px) plus Außenabstand sowie die Fußzeile, damit
-    // die Box samt Rand in den sichtbaren Bereich (StackView) passt und
-    // zentriert bleibt.
-    readonly property real brandBoxHeight:
-        Math.max(380, Math.min(540, windowHeight - 96 - startFooterReserve))
+    // reserviert die Topbar (38px) plus Außenabstand, damit die Box samt Rand
+    // in den sichtbaren Bereich (StackView) passt und zentriert bleibt.
+    readonly property real brandBoxHeight: Math.max(380, Math.min(540, windowHeight - 96))
     // Icon-Größe an die Box-Höhe gekoppelt, gedeckelt auf 126 (Desktop) bzw.
     // 100 (schmale Phones), Boden 56 → läuft nie über.
     readonly property real brandLogoSize:

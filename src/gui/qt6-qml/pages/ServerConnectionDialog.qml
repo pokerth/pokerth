@@ -14,6 +14,10 @@ Rectangle {
     height: mainStackView.height
     color: "transparent"
 
+    // Innenabstand der Card (Rand → StackLayout). Wird auch für die
+    // Mindesthöhe der Card gebraucht, deshalb als Eigenschaft statt Literal.
+    readonly property real cardPadding: 28
+
     Image {
         id: serverConnectionBackground
         anchors.fill: parent
@@ -74,11 +78,6 @@ Rectangle {
     Flickable {
         id: serverConnScroller
         anchors.fill: parent
-        // Denselben unteren Streifen freihalten wie die StartPage (dort sitzt
-        // dort die Fußzeile). Sonst säße die Login-Box beim Navigieren von der
-        // Startseite hierher um den halben Streifen tiefer – sichtbarer Sprung,
-        // obwohl beide Boxen identisch aussehen sollen.
-        anchors.bottomMargin: Config.Theme.startFooterReserve
         contentWidth: serverConnScroller.width
         contentHeight: serverConnScrollContent.height
         boundsBehavior: Flickable.StopAtBounds
@@ -99,14 +98,21 @@ Rectangle {
             // Mindesthöhe = Viewport → Box bleibt vertikal zum Fensterrand
             // zentriert; bei zu niedrigem Fenster kann gescrollt werden.
             height: Math.max(serverConnScroller.height,
-                             Config.Theme.brandBoxHeight + Config.Theme.margin * 2)
+                             loginCard.height + Config.Theme.margin * 2)
 
         // Card – wie auf der StartPage (vertikal zentriert)
         Rectangle {
             id: loginCard
             anchors.centerIn: parent
             width: Math.min(parent.width - Config.Theme.margin * 2, Config.Theme.brandBoxWidth)
-            height: Config.Theme.brandBoxHeight
+            // Zielhöhe wie die Box der StartPage – wächst aber mit, wenn der
+            // Inhalt mehr braucht. Ohne dieses Maximum stauchte die feste Höhe
+            // auf niedrigen Fenstern (brandBoxHeight läuft auf seinen Boden von
+            // 380) den StackLayout unter seine Mindesthöhe: Die Buttons liefen
+            // unten aus der Card heraus, statt dass die Card mitwächst.
+            height: Math.max(Config.Theme.brandBoxHeight,
+                             mainStack.anchors.topMargin + mainStack.implicitHeight
+                             + serverConnectionPage.cardPadding)
             color: "transparent"
 
             Rectangle {
@@ -129,7 +135,7 @@ Rectangle {
             StackLayout {
                 id: mainStack
                 anchors.fill: parent
-                anchors.margins: 28
+                anchors.margins: serverConnectionPage.cardPadding
                 anchors.topMargin: loginLogo.y + loginLogo.height + 12   // Logo + Abstand
                 currentIndex: 0
 
