@@ -43,6 +43,7 @@
 
 #include <fstream>
 #include <cstring>
+#include <vector>
 
 #define MAX_NUMBER_OF_FILES			NetHelper::GetMaxNumberOfAvatarFiles()
 #define MAX_AVATAR_CACHE_AGE		NetHelper::GetMaxAvatarCacheAgeSec()
@@ -54,7 +55,7 @@
 #define GIF_HEADER_1 "GIF87a"
 #define GIF_HEADER_2 "GIF89a"
 #define GIF_HEADER_SIZE (sizeof(GIF_HEADER_1) - 1)
-#define MAX_HEADER_SIZE PNG_HEADER_SIZE
+#define MAX_AVATAR_PIXELS (1024 * 1024)
 
 
 using namespace std;
@@ -63,6 +64,69 @@ using namespace boost::filesystem;
 struct AvatarFileState {
 	std::ifstream		inputStream;
 };
+
+namespace
+{
+unsigned ReadBigEndian16(const unsigned char *data)
+{
+	return (static_cast<unsigned>(data[0]) << 8) | data[1];
+}
+
+unsigned ReadBigEndian32(const unsigned char *data)
+{
+	return (static_cast<unsigned>(data[0]) << 24)
+			| (static_cast<unsigned>(data[1]) << 16)
+			| (static_cast<unsigned>(data[2]) << 8)
+			| data[3];
+}
+
+bool HasSafeDimensions(unsigned width, unsigned height)
+{
+	return width != 0 && height != 0 && width <= MAX_AVATAR_PIXELS / height;
+}
+
+bool IsJpegWithSafeDimensions(const unsigned char *data, size_t size)
+{
+	if (size < JPG_HEADER_SIZE || memcmp(data, JPG_HEADER, JPG_HEADER_SIZE) != 0)
+		return false;
+
+	size_t pos = JPG_HEADER_SIZE;
+	while (pos < size) {
+		while (pos < size && data[pos] == 0xff)
+			++pos;
+		if (pos == size)
+			return false;
+
+		const unsigned marker = data[pos++];
+		if (marker == 0x00 || marker == 0x01 || marker == 0xd8 || marker == 0xd9)
+			continue;
+		if (marker == 0xda) // Start of scan before a frame header is invalid.
+			return false;
+		if (pos + 2 > size)
+			return false;
+
+		const unsigned segmentSize = ReadBigEndian16(data + pos);
+		pos += 2;
+		if (segmentSize < 2 || segmentSize - 2 > size - pos)
+			return false;
+
+		const bool isStartOfFrame =
+			(marker >= 0xc0 && marker <= 0xc3)
+			|| (marker >= 0xc5 && marker <= 0xc7)
+			|| (marker >= 0xc9 && marker <= 0xcb)
+			|| (marker >= 0xcd && marker <= 0xcf);
+		if (isStartOfFrame) {
+			if (segmentSize < 7)
+				return false;
+			const unsigned height = ReadBigEndian16(data + pos + 1);
+			const unsigned width = ReadBigEndian16(data + pos + 3);
+			return HasSafeDimensions(width, height);
+		}
+		pos += segmentSize - 2;
+	}
+	return false;
+}
+}
 
 AvatarManager::AvatarManager(bool useExternalServer, const std::string &externalServerAddress,
 							 const string &externalServerUser, const string &externalServerPassword)
@@ -155,12 +219,18 @@ AvatarManager::OpenAvatarFileForChunkRead(const std::string &fileName, unsigned 
 			std::streamoff posDiff(endPos - startPos);
 			outFileSize = (unsigned)posDiff;
 			if (outFileSize >= MIN_AVATAR_FILE_SIZE && outFileSize <= MAX_AVATAR_FILE_SIZE) {
-				// Validate type of file by verifying image header.
-				unsigned char fileHeader[MAX_HEADER_SIZE];
-				fileState->inputStream.read((char *)fileHeader, sizeof(fileHeader));
+				// Validate the complete small avatar file. A signature alone lets a
+				// highly compressed image allocate an excessive raster when Qt
+				// later decodes it for display.
+				vector<unsigned char> fileData(outFileSize);
+				fileState->inputStream.read((char *)&fileData[0], outFileSize);
+				const bool completeFileRead = fileState->inputStream.gcount()
+					== static_cast<std::streamsize>(outFileSize);
+				fileState->inputStream.clear();
 				fileState->inputStream.seekg(0, ios_base::beg);
 
-				if (IsValidAvatarFileType(outFileType, fileHeader, sizeof(fileHeader)))
+				if (completeFileRead
+						&& IsValidAvatarFileType(outFileType, &fileData[0], fileData.size()))
 					retVal = fileState;
 			}
 		}
@@ -386,28 +456,27 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 }
 
 bool
-AvatarManager::IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileHeader, size_t fileHeaderSize)
+AvatarManager::IsValidAvatarFileType(AvatarFileType avatarFileType, const unsigned char *fileData, size_t fileSize)
 {
 	bool validType = false;
 
 	switch (avatarFileType) {
 	case AVATAR_FILE_TYPE_PNG:
-		if (fileHeaderSize >= PNG_HEADER_SIZE
-				&& memcmp(fileHeader, PNG_HEADER, PNG_HEADER_SIZE) == 0) {
-			validType = true;
-		}
+		if (fileSize >= 24
+				&& memcmp(fileData, PNG_HEADER, PNG_HEADER_SIZE) == 0
+				&& memcmp(fileData + 12, "IHDR", 4) == 0)
+			validType = HasSafeDimensions(ReadBigEndian32(fileData + 16), ReadBigEndian32(fileData + 20));
 		break;
 	case AVATAR_FILE_TYPE_JPG:
-		if (fileHeaderSize >= JPG_HEADER_SIZE
-				&& memcmp(fileHeader, JPG_HEADER, JPG_HEADER_SIZE) == 0) {
-			validType = true;
-		}
+		validType = IsJpegWithSafeDimensions(fileData, fileSize);
 		break;
 	case AVATAR_FILE_TYPE_GIF:
-		if (fileHeaderSize >= GIF_HEADER_SIZE
-				&& (memcmp(fileHeader, GIF_HEADER_1, GIF_HEADER_SIZE) == 0
-					|| memcmp(fileHeader, GIF_HEADER_2, GIF_HEADER_SIZE) == 0)) {
-			validType = true;
+		if (fileSize >= 10
+				&& (memcmp(fileData, GIF_HEADER_1, GIF_HEADER_SIZE) == 0
+					|| memcmp(fileData, GIF_HEADER_2, GIF_HEADER_SIZE) == 0)) {
+			const unsigned width = fileData[6] | (static_cast<unsigned>(fileData[7]) << 8);
+			const unsigned height = fileData[8] | (static_cast<unsigned>(fileData[9]) << 8);
+			validType = HasSafeDimensions(width, height);
 		}
 		break;
 	case AVATAR_FILE_TYPE_UNKNOWN:
@@ -541,4 +610,3 @@ AvatarManager::InternalReadDirectory(const std::string &dir, AvatarMap &avatars)
 	}
 	return retVal;
 }
-
