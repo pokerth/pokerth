@@ -469,6 +469,7 @@ void settingsDialogImpl::prepareDialog()
 	addDistributedTableStyle("gfx/gui/table/danuxi1/danuxi1tablestyle.xml");
 	addDistributedTableStyle("gfx/gui/table/mile_high_club/milehighclubtablestyle.xml");
 	addDistributedTableStyle("gfx/gui/table/terminus_hotel_2/terminushotel2tablestyle.xml");
+	addDistributedTableStyle("gfx/gui/table/bbc_anthem/bbcanthemtablestyle.xml");
 #endif
 
 	//load secondary styles into list (if fallback no entry)
@@ -679,6 +680,7 @@ void settingsDialogImpl::prepareDialog()
 
 	addDistributedCardBackStyle("gfx/gui/backside/mile_high_club/milehighclubbacksidestyle.xml");
 	addDistributedCardBackStyle("gfx/gui/backside/terminus_hotel_2/terminushotel2backsidestyle.xml");
+	addDistributedCardBackStyle("gfx/gui/backside/bbc_anthem/bbcanthembacksidestyle.xml");
 
 	treeWidget_cardBackStyles->sortItems(0, Qt::AscendingOrder);
 

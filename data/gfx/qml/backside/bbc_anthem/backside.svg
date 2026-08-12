@@ -1,0 +1,132 @@
+<svg width="63mm" height="88mm" viewBox="0 0 630 880" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 1. Chrom-Effekt (Flüssiges Silber) für Rahmen und Medaillon -->
+    <linearGradient id="liquidChrome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4A4A4A" />
+      <stop offset="20%" stop-color="#D9D9D6" />
+      <stop offset="40%" stop-color="#FFFFFF" />
+      <stop offset="45%" stop-color="#7F7F7F" />
+      <stop offset="55%" stop-color="#F2F2F2" />
+      <stop offset="80%" stop-color="#A6A6A6" />
+      <stop offset="100%" stop-color="#262626" />
+    </linearGradient>
+
+    <!-- 2. Dunkler Metallverlauf für die 3D-Hintergrundfacetten -->
+    <linearGradient id="darkFacet" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D2D2D" />
+      <stop offset="100%" stop-color="#151515" />
+    </linearGradient>
+    
+    <!-- 3. Hellerer Metallverlauf zur Kreuzkontrastierung der Facetten -->
+    <linearGradient id="lightFacet" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3A3A3A" />
+      <stop offset="100%" stop-color="#1C111C" />
+    </linearGradient>
+
+    <!-- 4. Filter für echte, tiefe 3D-Schlagschatten -->
+    <filter id="luxuryShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- 1. Klassischer weißer Casino-Außenrand -->
+  <rect width="630" height="880" rx="40" ry="40" fill="#FFFFFF"/>
+  
+  <!-- 2. Hauptspiegel (Tiefschwarz als Raum-Grundlage) -->
+  <rect x="25" y="25" width="580" height="830" rx="25" ry="25" fill="#0D0D0D"/>
+
+  <!-- 3. DREIDIMENSIONALES KRISTALLGITTER -->
+  <g stroke="#0D0D0D" stroke-width="1.5">
+    <!-- Reihe 1 -->
+    <polygon points="25,25 170,25 97.5,148" fill="url(#darkFacet)"/>
+    <polygon points="170,25 315,25 242.5,148" fill="url(#lightFacet)"/>
+    <polygon points="315,25 460,25 387.5,148" fill="url(#darkFacet)"/>
+    <polygon points="460,25 605,25 532.5,148" fill="url(#lightFacet)"/>
+    
+    <!-- Reihe 2 -->
+    <polygon points="25,25 97.5,148 25,271" fill="url(#lightFacet)"/>
+    <polygon points="97.5,148 242.5,148 170,271" fill="url(#darkFacet)"/>
+    <polygon points="242.5,148 387.5,148 315,271" fill="url(#lightFacet)"/>
+    <polygon points="387.5,148 532.5,148 460,271" fill="url(#darkFacet)"/>
+    <polygon points="532.5,148 605,25 605,271" fill="url(#lightFacet)"/>
+
+    <!-- Reihe 3 -->
+    <polygon points="25,271 170,271 97.5,394" fill="url(#lightFacet)"/>
+    <polygon points="170,271 315,271 242.5,394" fill="url(#darkFacet)"/>
+    <polygon points="315,271 460,271 387.5,394" fill="url(#lightFacet)"/>
+    <polygon points="460,271 605,271 532.5,394" fill="url(#darkFacet)"/>
+
+    <!-- Symmetrische Spiegelung für die untere Hälfte -->
+    <polygon points="25,609 170,609 97.5,486" fill="url(#darkFacet)"/>
+    <polygon points="170,609 315,609 242.5,486" fill="url(#lightFacet)"/>
+    <polygon points="315,609 460,609 387.5,486" fill="url(#darkFacet)"/>
+    <polygon points="460,609 605,609 532.5,486" fill="url(#lightFacet)"/>
+
+    <polygon points="25,609 97.5,486 25,440" fill="url(#lightFacet)"/>
+    <polygon points="605,609 532.5,486 605,440" fill="url(#darkFacet)"/>
+
+    <!-- Untere Abschlussreihen -->
+    <polygon points="25,855 170,855 97.5,732" fill="url(#lightFacet)"/>
+    <polygon points="170,855 315,855 242.5,732" fill="url(#darkFacet)"/>
+    <polygon points="315,855 460,855 387.5,732" fill="url(#lightFacet)"/>
+    <polygon points="460,855 605,855 532.5,732" fill="url(#darkFacet)"/>
+
+    <polygon points="25,855 97.5,732 25,609" fill="url(#darkFacet)"/>
+    <polygon points="97.5,732 242.5,732 170,609" fill="url(#lightFacet)"/>
+    <polygon points="242.5,732 387.5,732 315,609" fill="url(#darkFacet)"/>
+    <polygon points="387.5,732 532.5,732 460,609" fill="url(#lightFacet)"/>
+    <polygon points="532.5,732 605,855 605,609" fill="url(#darkFacet)"/>
+  </g>
+
+  <!-- 4. Hochglanz-Chrom-Rahmen -->
+  <rect x="42" y="42" width="546" height="796" rx="18" ry="18" stroke="url(#liquidChrome)" stroke-width="5.5" fill="none" filter="url(#luxuryShadow)"/>
+  <rect x="54" y="54" width="522" height="772" rx="14" ry="12" stroke="#0D0D0D" stroke-width="2" fill="none"/>
+  <rect x="60" y="60" width="510" height="760" rx="11" ry="11" stroke="url(#liquidChrome)" stroke-width="1.5" stroke-dasharray="8,4" fill="none" opacity="0.8"/>
+
+  <!-- 5. REIN GEOMETRISCHE ECK-SCHILDER -->
+  <g fill="url(#liquidChrome)" stroke="#0D0D0D" stroke-width="1">
+    <polygon points="45,45 85,45 45,85" /> <circle cx="58" cy="58" r="2.5" fill="#FFFFFF" />
+    <polygon points="585,45 545,45 585,85" /> <circle cx="572" cy="58" r="2.5" fill="#FFFFFF" />
+    <polygon points="45,835 85,835 45,795" /> <circle cx="58" cy="822" r="2.5" fill="#FFFFFF" />
+    <polygon points="585,835 545,835 585,795" /> <circle cx="572" cy="822" r="2.5" fill="#FFFFFF" />
+  </g>
+
+  <!-- 6. SCHWEBENDES 3D-HEXAGON-MEDAILLON -->
+  <g filter="url(#luxuryShadow)">
+    <polygon points="315,300 425,360 425,520 315,580 205,520 205,360" fill="#151515" stroke="url(#liquidChrome)" stroke-width="6" />
+    <polygon points="315,315 410,370 410,510 315,565 220,510 220,370" fill="none" stroke="url(#liquidChrome)" stroke-width="1.5" stroke-dasharray="5,4" opacity="0.7" />
+    <polygon points="315,325 400,380 400,500 315,555 230,500 230,380" fill="#0D0D0D" stroke="url(#liquidChrome)" stroke-width="2" />
+  </g>
+
+  <!-- 7. DAS ZENTRALE CHROME-EMBLEM: Kompaktes Fluid-Schnitt-Logo -->
+  <g fill="url(#liquidChrome)" stroke="#0D0D0D" stroke-width="2" stroke-linejoin="round">
+    
+    <!-- LINKER CORTEX (Fließende Logo-Formen) -->
+    <!-- Frontallappen (Oben links) -->
+    <path d="M310,360 C275,360 250,380 250,410 C250,425 260,432 272,425 C282,420 295,415 310,415 Z" />
+    <!-- Parietallappen (Mitte links) -->
+    <path d="M252,420 C248,435 252,455 265,465 C275,472 282,460 282,448 C282,435 272,425 252,420 Z" />
+    <!-- Zentralwindung (Zentrum links) -->
+    <path d="M288,422 C295,422 300,435 295,448 C290,460 278,480 310,480 L310,492 C270,492 272,465 282,445 C288,432 282,422 288,422 Z" />
+    <!-- Occipitallappen (Unten links) -->
+    <path d="M310,425 C295,425 295,440 295,450 C295,465 305,472 310,472 Z" />
+
+    <!-- RECHTER CORTEX (Perfekt symmetrisch gespiegelt) -->
+    <!-- Frontallappen (Oben rechts) -->
+    <path d="M320,360 C355,360 380,380 380,410 C380,425 370,432 358,425 C348,420 335,415 320,415 Z" />
+    <!-- Parietallappen (Mitte rechts) -->
+    <path d="M378,420 C382,435 378,455 365,465 C355,472 348,460 348,448 C348,435 358,425 378,420 Z" />
+    <!-- Zentralwindung (Zentrum rechts) -->
+    <path d="M342,422 C335,422 330,435 335,448 C340,460 352,480 320,480 L320,492 C360,492 358,465 348,445 C342,432 348,422 342,422 Z" />
+    <!-- Occipitallappen (Unten rechts) -->
+    <path d="M320,425 C335,425 335,440 335,450 C335,465 325,472 320,472 Z" />
+
+    <!-- Hirnstamm / Basis (Unten zentriert) -->
+    <path d="M295,498 C295,515 310,525 311,525 L311,498 Z" />
+    <path d="M335,498 C335,515 320,525 319,525 L319,498 Z" />
+  </g>
+
+  <!-- Massiver, spiegelnder Kernpunkt exakt im Zentrum -->
+  <circle cx="315" cy="442" r="7" fill="url(#liquidChrome)" stroke="#0D0D0D" stroke-width="1.5" />
+  <circle cx="315" cy="442" r="2.5" fill="#FFFFFF" />
+</svg>

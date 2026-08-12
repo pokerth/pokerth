@@ -1,0 +1,16 @@
+<svg width="44" height="45" viewBox="0 0 44 45" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+  <!-- 1. Der 3D-Unterrand (Schattenkante: Hart schwarz, um 2.5 Pixel nach unten versetzt) -->
+  <circle cx="22" cy="24.5" r="18.5" fill="#111111" />
+
+  <!-- 2. Der Hauptkörper (Liegt leicht erhöht darüber für den 3D-Scheiben-Effekt) -->
+  <circle cx="22" cy="22" r="18.5" fill="#FFFFFF" stroke="#222222" stroke-width="1.5" />
+  
+  <!-- 3. Harter 3D-Glanzkeil (Simuliert Lichtreflexion am oberen Rand, absolut scharfe Kante) -->
+  <path d="M 6,18 C 8,10 14,6 22,6 C 30,6 36,10 38,18 C 34,11 28,9 22,9 C 16,9 10,11 6,18 Z" fill="#EAEAEA" opacity="0.8" />
+
+  <!-- 4. Innerer Zierring (Casino-Inlay in hartem Rot) -->
+  <circle cx="22" cy="22" r="13" fill="none" stroke="#C8102E" stroke-width="2" />
+
+  <!-- 5. Ultrafetter, perfekt zentrierter Buchstabe (Harter Kontrast) -->
+  <text x="22" y="29" font-family="'Arial Black', 'Impact', sans-serif" font-size="20" font-weight="900" fill="#111111" text-anchor="middle">D</text>
+</svg>
