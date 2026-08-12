@@ -53,6 +53,24 @@ using namespace std;
 namespace
 {
 
+bool
+WriteReplyData(TransferData *transferData, size_t maxFileSize)
+{
+	QByteArray data = transferData->networkReply->readAll();
+	if (data.isEmpty() || !transferData->targetFile)
+		return true;
+
+	const size_t receivedSize = static_cast<size_t>(data.size());
+	const size_t currentSize = static_cast<size_t>(transferData->targetFile->size());
+	if (maxFileSize != 0
+			&& (currentSize > maxFileSize || receivedSize > maxFileSize - currentSize)) {
+		LOG_ERROR("Download exceeds configured size limit.");
+		return false;
+	}
+
+	return transferData->targetFile->write(data) == data.size();
+}
+
 // Root certificates for verifying the download on Android.
 //
 // Android keeps its trust store as individual files named after a hash of the
@@ -122,7 +140,7 @@ DownloadHelper::~DownloadHelper()
 }
 
 void
-DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/, size_t /*filesize*/, const string &/*httpPost*/)
+DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName, const string &/*user*/, const string &/*password*/, size_t filesize, const string &/*httpPost*/)
 {
 	// Open target file for writing.
 	const QString targetPath = QString::fromStdString(targetFileName);
@@ -161,13 +179,22 @@ DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName
 #endif
 
 	GetData()->networkReply = GetData()->networkManager->get(request);
+	if (filesize != 0)
+		GetData()->networkReply->setReadBufferSize(static_cast<qint64>(filesize));
+
+	QObject::connect(GetData()->networkReply, &QNetworkReply::metaDataChanged, [this, filesize]() {
+		const QVariant contentLength = GetData()->networkReply->header(QNetworkRequest::ContentLengthHeader);
+		if (filesize != 0 && contentLength.isValid()
+				&& contentLength.toULongLong() > filesize) {
+			LOG_ERROR("Download exceeds configured size limit.");
+			GetData()->networkReply->abort();
+		}
+	});
 
 	// Connect signals to write data as it arrives
-	QObject::connect(GetData()->networkReply, &QNetworkReply::readyRead, [this]() {
-		QByteArray data = GetData()->networkReply->readAll();
-		if (GetData()->targetFile) {
-			GetData()->targetFile->write(data);
-		}
+	QObject::connect(GetData()->networkReply, &QNetworkReply::readyRead, [this, filesize]() {
+		if (!WriteReplyData(GetData().get(), filesize))
+			GetData()->networkReply->abort();
 	});
 
 	// Certificate errors are never ignored: doing so would let anyone on the
@@ -180,18 +207,16 @@ DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName
 				LOG_ERROR("TLS: rejecting download - " << error.errorString().toStdString());
 		});
 
-	QObject::connect(GetData()->networkReply, &QNetworkReply::finished, [this]() {
+	QObject::connect(GetData()->networkReply, &QNetworkReply::finished, [this, filesize]() {
 		if (GetData()->networkReply->error() == QNetworkReply::NoError) {
 			// Write any remaining data
-			QByteArray data = GetData()->networkReply->readAll();
-			if (GetData()->targetFile && !data.isEmpty()) {
-				GetData()->targetFile->write(data);
-			}
-			GetData()->errorCode = 0;
+			if (WriteReplyData(GetData().get(), filesize))
+				GetData()->errorCode = 0;
+			else
+				GetData()->errorCode = QNetworkReply::UnknownNetworkError;
 		} else {
 			GetData()->errorCode = GetData()->networkReply->error();
 		}
 		GetData()->finished = true;
 	});
 }
-

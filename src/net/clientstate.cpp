@@ -54,7 +54,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/foreach.hpp>
 #include <boost/iostreams/filtering_streambuf.hpp>
-#include <boost/iostreams/copy.hpp>
 #include <boost/iostreams/filter/zlib.hpp>
 #include <boost/filesystem.hpp>
 
@@ -88,6 +87,9 @@ using namespace boost::chrono;
 
 #define CLIENT_WAIT_TIMEOUT_MSEC	50
 #define CLIENT_CONNECT_TIMEOUT_SEC	12
+#define MAX_SERVERLIST_DOWNLOAD_SIZE (1024 * 1024)
+#define MAX_SERVERLIST_XML_SIZE (4 * 1024 * 1024)
+#define MAX_SERVERLIST_SERVERS 256
 
 
 ClientState::~ClientState()
@@ -236,7 +238,8 @@ ClientStateStartServerListDownload::Enter(boost::shared_ptr<ClientThread> client
 	} else {
 		// Download the server list.
 		boost::shared_ptr<DownloadHelper> downloader(new DownloadHelper);
-		downloader->Init(client->GetContext().GetServerListUrl(), tmpServerListPath.string());
+		downloader->Init(client->GetContext().GetServerListUrl(), tmpServerListPath.string(),
+				"", "", MAX_SERVERLIST_DOWNLOAD_SIZE);
 		ClientStateDownloadingServerList::Instance().SetDownloadHelper(downloader);
 		client->SetState(ClientStateDownloadingServerList::Instance());
 	}
@@ -325,6 +328,9 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 	ClientContext &context = client->GetContext();
 	path zippedServerListPath(context.GetCacheDir());
 	zippedServerListPath /= context.GetServerListUrl().substr(context.GetServerListUrl().find_last_of('/') + 1);
+	if (file_size(zippedServerListPath) > MAX_SERVERLIST_DOWNLOAD_SIZE)
+		throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
+
 	path xmlServerListPath;
 	if (zippedServerListPath.extension().string() == ".z") {
 		xmlServerListPath = zippedServerListPath;
@@ -337,7 +343,20 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 			boost::iostreams::filtering_streambuf<boost::iostreams::input> in;
 			in.push(boost::iostreams::zlib_decompressor());
 			in.push(inFile);
-			boost::iostreams::copy(in, outFile);
+			std::istream inputStream(&in);
+			char buffer[8192];
+			size_t xmlSize = 0;
+			while (inputStream.read(buffer, sizeof(buffer)) || inputStream.gcount() != 0) {
+				const size_t bytesRead = static_cast<size_t>(inputStream.gcount());
+				if (bytesRead > MAX_SERVERLIST_XML_SIZE - xmlSize)
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_UNZIP_FAILED, 0);
+				outFile.write(buffer, bytesRead);
+				if (!outFile)
+					throw ClientException(__FILE__, __LINE__, ERR_SOCK_UNZIP_FAILED, 0);
+				xmlSize += bytesRead;
+			}
+			if (!inputStream.eof())
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_UNZIP_FAILED, 0);
 		} catch (...) {
 			throw ClientException(__FILE__, __LINE__, ERR_SOCK_UNZIP_FAILED, 0);
 		}
@@ -357,6 +376,9 @@ ClientStateReadingServerList::Enter(boost::shared_ptr<ClientThread> client)
 		QDomElement nextServer = xmlDoc.documentElement().firstChildElement("Server");
 
 		while (!nextServer.isNull()) {
+			if (serverCount == MAX_SERVERLIST_SERVERS)
+				throw ClientException(__FILE__, __LINE__, ERR_SOCK_INVALID_SERVERLIST_XML, 0);
+
 			ServerInfo serverInfo;
 			{
 				int tmpId = nextServer.attribute("id").toInt();
@@ -2865,4 +2887,3 @@ ClientStateFinal::Instance()
     static ClientStateFinal state;
     return state;
 }
-
