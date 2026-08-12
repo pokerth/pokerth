@@ -4,7 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+99"/>
+        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <source>No changelog available.</source>
+        <translation>Nenhum registo de alterações disponível.</translation>
+    </message>
+    <message>
+        <location line="+84"/>
         <source>About PokerTH</source>
         <translation>Sobre o PokerTH</translation>
     </message>
@@ -20,11 +25,16 @@
     </message>
     <message>
         <location line="+0"/>
+        <source>Changelog</source>
+        <translation>Alterações</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Thanks to</source>
         <translation>Obrigado a</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+0"/>
         <source>License</source>
         <translation>Licença</translation>
     </message>
@@ -69,7 +79,7 @@
         <translation>Ranking online de resultados de mesas</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+43"/>
         <source>Project page:</source>
         <translation>Pagina do projeto:</translation>
     </message>
@@ -3569,7 +3579,7 @@ Reinicie o PokerTH para que os ficheiros de registo sejam guardados nessa pasta.
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+235"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
         <translation>Voltar</translation>
     </message>
@@ -4022,7 +4032,7 @@ Verifoque o nome de utilizador e senha.</translation>
         <translation>Imagens (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Selecionar estilo de mesa de jogo</translation>
     </message>

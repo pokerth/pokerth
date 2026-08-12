@@ -4,7 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+99"/>
+        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <source>No changelog available.</source>
+        <translation>Kein Changelog verfügbar.</translation>
+    </message>
+    <message>
+        <location line="+84"/>
         <source>About PokerTH</source>
         <translation>Über PokerTH</translation>
     </message>
@@ -20,11 +25,16 @@
     </message>
     <message>
         <location line="+0"/>
+        <source>Changelog</source>
+        <translation>Changelog</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Thanks to</source>
         <translation>Dank an</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+0"/>
         <source>License</source>
         <translation>Lizenz</translation>
     </message>
@@ -69,7 +79,7 @@
         <translation>- Online Ranking-Webseite mit Ergebnistabellen</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+43"/>
         <source>Project page:</source>
         <translation>Projektseite:</translation>
     </message>
@@ -3569,7 +3579,7 @@ Bitte PokerTH neu starten, damit die Logdateien dort abgelegt werden.</translati
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+235"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
         <translation>Zurück</translation>
     </message>
@@ -4022,7 +4032,7 @@ Bitte prüfen Sie Ihren Benutzernamen und Ihr Kennwort.</translation>
         <translation>Bilder (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Spieltisch-Stil auswählen</translation>
     </message>

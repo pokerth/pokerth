@@ -106,6 +106,20 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_changelog">
+      <attribute name="title">
+       <string>Changelog</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_changelog">
+       <item>
+        <widget class="QTextBrowser" name="textBrowser_changelog">
+         <property name="openLinks">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
        <string>Project</string>

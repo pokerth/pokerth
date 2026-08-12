@@ -4,7 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+99"/>
+        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <source>No changelog available.</source>
+        <translation>No hay registro de cambios disponible.</translation>
+    </message>
+    <message>
+        <location line="+84"/>
         <source>About PokerTH</source>
         <translation>Acerca de PokerTH</translation>
     </message>
@@ -20,11 +25,16 @@
     </message>
     <message>
         <location line="+0"/>
+        <source>Changelog</source>
+        <translation>Cambios</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Thanks to</source>
         <translation>Agradecimientos</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+0"/>
         <source>License</source>
         <translation>Licencia</translation>
     </message>
@@ -69,7 +79,7 @@
         <translation>- Página web con clasificación y tablas de resultados</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+43"/>
         <source>Project page:</source>
         <translation>Página del proyecto:</translation>
     </message>
@@ -3569,7 +3579,7 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+235"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
         <translation>Atrás</translation>
     </message>
@@ -4022,7 +4032,7 @@ Compruebe el nombre de usuario y contraseña.</translation>
         <translation>Imágenes (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Seleccionar estilo de mesa de juego</translation>
     </message>

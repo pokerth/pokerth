@@ -549,6 +549,10 @@ Zkontrolujte, že jste nahrávali platný PokerTH soubor záznamů.</translation
 <context>
     <name>aboutPokerth</name>
     <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>About</source>
         <translation>O hře</translation>
     </message>
@@ -1491,6 +1495,11 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>aboutPokerthImpl</name>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="162"/>
+        <source>No changelog available.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>

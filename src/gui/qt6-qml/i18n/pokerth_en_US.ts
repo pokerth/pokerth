@@ -4,7 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+99"/>
+        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <source>No changelog available.</source>
+        <translation>No changelog available.</translation>
+    </message>
+    <message>
+        <location line="+84"/>
         <source>About PokerTH</source>
         <translation>About PokerTH</translation>
     </message>
@@ -20,11 +25,16 @@
     </message>
     <message>
         <location line="+0"/>
+        <source>Changelog</source>
+        <translation>Changelog</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Thanks to</source>
         <translation>Thanks to</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+0"/>
         <source>License</source>
         <translation>License</translation>
     </message>
@@ -69,7 +79,7 @@
         <translation>- Online ranking website with result tables</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+43"/>
         <source>Project page:</source>
         <translation>Project page:</translation>
     </message>
@@ -3569,7 +3579,7 @@ Please restart PokerTH so that the log files are stored there.</translation>
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+235"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
         <translation>Back</translation>
     </message>
@@ -4022,7 +4032,7 @@ Please check your username and password.</translation>
         <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Select game table style</translation>
     </message>

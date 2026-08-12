@@ -43,6 +43,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+# Der ChangeLog wird im About-Dialog beider Clients angezeigt und dafür aus
+# <AppDataDir>misc/ gelesen - wie agpl.html und third_party_libs.txt. Gepflegt
+# wird weiterhin nur die Datei im Projektwurzelverzeichnis; sie wird hier zur
+# Configure-Zeit nach data/misc/ gespiegelt (COPYONLY registriert sie als
+# Configure-Abhängigkeit, eine Änderung löst also ein Re-Configure aus).
+# So landet sie automatisch in allen Paketen, denn die kopieren bzw.
+# installieren data/ komplett - und auf Android im Resource-Bundle des
+# QML-Clients, das data/misc/* ohnehin globt.
+# data/misc/ChangeLog ist deshalb generiert und nicht eingecheckt (.gitignore).
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/ChangeLog"
+               "${CMAKE_CURRENT_SOURCE_DIR}/data/misc/ChangeLog" COPYONLY)
+
 find_package(Boost REQUIRED COMPONENTS iostreams random thread filesystem program_options)
 find_package(OpenSSL REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Network)

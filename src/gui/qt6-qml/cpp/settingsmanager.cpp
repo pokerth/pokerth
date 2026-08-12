@@ -374,6 +374,13 @@ QString SettingsManager::thirdPartyLibsText() const
     return readMiscFile(QStringLiteral("third_party_libs.txt"));
 }
 
+QString SettingsManager::changelogText() const
+{
+    // misc/ChangeLog wird von CMake aus dem ChangeLog im Projektwurzel-
+    // verzeichnis gespiegelt (siehe CMakeLists.txt).
+    return readMiscFile(QStringLiteral("ChangeLog"));
+}
+
 QString SettingsManager::readMiscFile(const QString &fileName) const
 {
     // AppDataDir endet bereits mit einem Verzeichnis-Trennzeichen.

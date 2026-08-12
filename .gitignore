@@ -85,3 +85,7 @@ generate_matrix_backside.py
 # Font-Cache der Kartendeck-Generatoren (generate_*_deck.py)
 .cache/
 .claude/settings.json
+
+# von CMake (configure_file) aus dem ChangeLog im Projektwurzelverzeichnis
+# gespiegelt, damit der About-Dialog ihn aus <AppDataDir>misc/ lesen kann
+data/misc/ChangeLog

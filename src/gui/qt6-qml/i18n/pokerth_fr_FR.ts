@@ -4,7 +4,12 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../pages/AboutPage.qml" line="+99"/>
+        <location filename="../pages/AboutPage.qml" line="+45"/>
+        <source>No changelog available.</source>
+        <translation>Aucun journal des modifications disponible.</translation>
+    </message>
+    <message>
+        <location line="+84"/>
         <source>About PokerTH</source>
         <translation>À propos de PokerTH</translation>
     </message>
@@ -20,11 +25,16 @@
     </message>
     <message>
         <location line="+0"/>
+        <source>Changelog</source>
+        <translation>Changements</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>Thanks to</source>
         <translation>Remerciements à</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+0"/>
         <source>License</source>
         <translation>Licence</translation>
     </message>
@@ -69,7 +79,7 @@
         <translation>- Certaines parties sont enregistrées et vous pouvez consulter le classement des meilleurs joueurs en ligne</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+43"/>
         <source>Project page:</source>
         <translation>Site officiel : </translation>
     </message>
@@ -3569,7 +3579,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
 <context>
     <name>ServerConnectionDialog</name>
     <message>
-        <location filename="../pages/ServerConnectionDialog.qml" line="+235"/>
+        <location filename="../pages/ServerConnectionDialog.qml" line="+241"/>
         <source>Back</source>
         <translation>Retour</translation>
     </message>
@@ -4022,7 +4032,7 @@ Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
         <translation>Images (*.png *.jpg *.jpeg *.gif)</translation>
     </message>
     <message>
-        <location line="+229"/>
+        <location line="+236"/>
         <source>Spieltisch-Stil auswählen</source>
         <translation>Sélectionner un style de table de jeu</translation>
     </message>

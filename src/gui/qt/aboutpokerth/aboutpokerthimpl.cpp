@@ -146,4 +146,37 @@ aboutPokerthImpl::aboutPokerthImpl(QWidget *parent, ConfigFile *c)
 			textBrowser_thirdPartyLicenceText->setPlainText(string);
 		}
 	}
+
+	fillChangelog();
+}
+
+// ChangeLog-Tab: misc/ChangeLog wird von CMake aus dem ChangeLog im Projekt-
+// wurzelverzeichnis gespiegelt und liegt damit im selben Verzeichnis wie
+// agpl.html und third_party_libs.txt.
+// Die Versionszeilen ("2026-08-13 version 2.1.7:") werden fett gesetzt - ohne
+// eigene Farbe, damit es zu jedem Stylesheet passt.
+void aboutPokerthImpl::fillChangelog()
+{
+	QFile changelogFile(QDir::toNativeSeparators(myAppDataPath+"misc/ChangeLog"));
+	if (!changelogFile.exists() || !changelogFile.open(QIODevice::ReadOnly)) {
+		textBrowser_changelog->setHtml("<i>"+tr("No changelog available.")+"</i>");
+		return;
+	}
+
+	QTextStream stream(&changelogFile);
+	const QRegularExpression versionLine("^\\d{4}-\\d{2}-\\d{2}\\s+version\\s");
+	QString changelogHtml;
+	while (!stream.atEnd()) {
+		const QString line = stream.readLine();
+		if (line.trimmed().isEmpty()) {
+			changelogHtml.append("<br>");
+			continue;
+		}
+		const QString escaped = line.toHtmlEscaped();
+		if (versionLine.match(line).hasMatch())
+			changelogHtml.append("<b>"+escaped+"</b><br>");
+		else
+			changelogHtml.append(escaped+"<br>");
+	}
+	textBrowser_changelog->setHtml(changelogHtml);
 }

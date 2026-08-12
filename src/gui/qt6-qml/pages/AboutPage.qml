@@ -33,6 +33,36 @@ Rectangle {
             console.warn("AboutPage: konnte URL nicht öffnen:", link)
     }
 
+    // ChangeLog (Klartext aus <AppDataDir>misc/ChangeLog) als Rich-Text:
+    // Die Versionszeilen ("2026-08-13 version 2.1.7:") werden fett gesetzt,
+    // alles andere bleibt Zeile für Zeile stehen. Bewusst ohne eigene Farbe –
+    // der Gold-Akzent ist auf dem hellen Panel-Hintergrund nicht lesbar.
+    // Die Datei wird von CMake aus dem ChangeLog im Projektwurzelverzeichnis
+    // gespiegelt.
+    function changelogHtml() {
+        const raw = SettingsManager.changelogText()
+        if (!raw)
+            return "<i>" + qsTr("No changelog available.") + "</i>"
+
+        const lines = raw.split(/\r?\n/)
+        var html = ""
+        for (var i = 0; i < lines.length; ++i) {
+            const line = lines[i]
+            if (line.trim() === "") {
+                html += "<br>"
+                continue
+            }
+            const escaped = line.replace(/&/g, "&amp;")
+                                .replace(/</g, "&lt;")
+                                .replace(/>/g, "&gt;")
+            if (/^\d{4}-\d{2}-\d{2}\s+version\s/.test(line))
+                html += "<b>" + escaped + "</b><br>"
+            else
+                html += escaped + "<br>"
+        }
+        return html
+    }
+
     // Scrollbares Text-Panel im Stil der Logs-Vorschau. Links werden – wenn
     // aktiviert – über TapHandler + linkAt() geöffnet: onLinkActivated feuert
     // innerhalb einer Flickable nicht zuverlässig (Details siehe ChatBox).
@@ -104,8 +134,8 @@ Rectangle {
 
         CustomTabBar {
             id: aboutTabBar
-            model: [qsTr("About"), qsTr("Project"), qsTr("Thanks to"),
-                    qsTr("License"), qsTr("Third party libs")]
+            model: [qsTr("About"), qsTr("Changelog"), qsTr("Project"),
+                    qsTr("Thanks to"), qsTr("License"), qsTr("Third party libs")]
         }
 
         StackLayout {
@@ -179,6 +209,11 @@ Rectangle {
                         }
                     }
                 }
+            }
+
+            // Tab: Changelog – ChangeLog des Projekts
+            TextPanel {
+                text: aboutPage.changelogHtml()
             }
 
             // Tab: Projekt – Projektseite und Autoren (wie Widget-Client)

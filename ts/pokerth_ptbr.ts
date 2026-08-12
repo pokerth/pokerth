@@ -557,6 +557,10 @@ Por Favor, verifique se você está enviando o arquivo de log valido do PokerTH.
 <context>
     <name>aboutPokerth</name>
     <message>
+        <source>Changelog</source>
+        <translation>Alterações</translation>
+    </message>
+    <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2128,6 +2132,11 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>aboutPokerthImpl</name>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="162"/>
+        <source>No changelog available.</source>
+        <translation>Nenhum registro de alterações disponível.</translation>
+    </message>
     <message>
         <source>PokerTH %1</source>
         <translation>PokerTH %1</translation>

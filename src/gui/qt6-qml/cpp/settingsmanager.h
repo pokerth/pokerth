@@ -99,6 +99,7 @@ public:
     Q_INVOKABLE QString appVersion() const;
     Q_INVOKABLE QString licenseHtml() const;
     Q_INVOKABLE QString thirdPartyLibsText() const;
+    Q_INVOKABLE QString changelogText() const;
 
     // Liste der verfügbaren QML-Stile unter <AppDataDir>/gfx/qml/<table|cards>/*
     // sowie – für importierte Stile – <UserDataDir>/gfx/qml/<...>/*.

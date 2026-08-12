@@ -47,6 +47,9 @@ public:
 
 private:
 
+	// Füllt den ChangeLog-Tab aus <AppDataDir>misc/ChangeLog.
+	void fillChangelog();
+
 	ConfigFile *myConfig;
 	QString myAppDataPath;
 };

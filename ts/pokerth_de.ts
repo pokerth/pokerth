@@ -681,6 +681,12 @@ Bitte überprüfen Sie, ob Sie eine gültige PokerTH-Logdatei hochladen.</transl
 <context>
     <name>aboutPokerth</name>
     <message>
+        <location filename="../src/gui/qt/aboutpokerth.ui" line="111"/>
+        <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="142"/>
+        <source>Changelog</source>
+        <translation>Changelog</translation>
+    </message>
+    <message>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="40"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="64"/>
         <source>About</source>
@@ -2257,6 +2263,11 @@ p, li { white-space: pre-wrap; }
 </context>
 <context>
     <name>aboutPokerthImpl</name>
+    <message>
+        <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="162"/>
+        <source>No changelog available.</source>
+        <translation>Kein Changelog verfügbar.</translation>
+    </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="88"/>
         <source>PokerTH %1 for Android (API%2)</source>
