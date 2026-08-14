@@ -34,6 +34,7 @@
 #include <net/netexception.h>
 #include <net/socket_msg.h>
 #include <net/transferdata.h>
+#include <net/tlstrust.h>
 #include <sys/stat.h>
 
 #include <QUrl>
@@ -41,7 +42,6 @@
 #include <QHttpMultiPart>
 #include <QFile>
 #include <QFileInfo>
-#include <QSslSocket>
 
 #include <cstdio>
 
@@ -68,10 +68,7 @@ UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, 
 	QNetworkRequest request(qUrl);
 	request.setRawHeader("User-Agent", "PokerTH/2.0 (Qt Network)");
 
-	// Disable SSL certificate verification (matching old curl behavior)
-	QSslConfiguration sslConfig = request.sslConfiguration();
-	sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-	request.setSslConfiguration(sslConfig);
+	TlsTrust::ConfigureRequest(request);
 
 	// Set authentication if provided
 	if (!user.empty() || !password.empty()) {
@@ -126,4 +123,3 @@ UploadHelper::InternalInit(const string &/*url*/, const string &targetFileName, 
 		GetData()->finished = true;
 	});
 }
-

@@ -153,6 +153,7 @@ set(POKERTH_LIB_SRC
     src/net/sessionmanager.cpp
     src/net/socket_startup.cpp
     src/net/tlspinning.cpp
+    src/net/tlstrust.cpp
     src/net/clientexception.cpp 
     src/net/netcontext.cpp 
     src/net/netexception.cpp 
@@ -348,4 +349,3 @@ target_link_libraries(pokerth_globalnotice
     Qt6::Xml
 )
 target_include_directories(pokerth_globalnotice PRIVATE ${CMAKE_SOURCE_DIR}/src)
-
