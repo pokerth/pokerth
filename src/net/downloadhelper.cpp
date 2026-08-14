@@ -34,6 +34,7 @@
 #include <net/netexception.h>
 #include <net/socket_msg.h>
 #include <net/transferdata.h>
+#include <net/tlstrust.h>
 
 #include <core/loghelper.h>
 
@@ -42,9 +43,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
-#include <QSslCertificate>
-#include <QSslConfiguration>
-#include <QSslSocket>
 
 #include <cstdio>
 
@@ -69,63 +67,6 @@ WriteReplyData(TransferData *transferData, size_t maxFileSize)
 	}
 
 	return transferData->targetFile->write(data) == data.size();
-}
-
-// Root certificates for verifying the download on Android.
-//
-// Android keeps its trust store as individual files named after a hash of the
-// subject, which the OpenSSL build behind Qt does not discover on its own. That
-// gap used to be papered over by accepting every certificate error, which left
-// the server list download unauthenticated (issue #516).
-//
-// The device store is preferred because the system keeps it current, so a root
-// withdrawn or added after this release still takes effect. Only if it cannot be
-// read does the bundle shipped with the app apply. Returning an empty list makes
-// the caller fail the download instead of falling back to no verification.
-//
-// Note that these are the system roots only. Certificates a user installed by
-// hand live elsewhere and stay untrusted, which is what Android does for apps
-// since version 7 anyway - a device with an added interception CA cannot read
-// this traffic.
-//
-// Compiled on every platform (not just Android) so that the desktop build keeps
-// this code honest; it is only ever called there.
-QList<QSslCertificate>
-LoadSystemCaCertificates()
-{
-	// Android 14 moved the store into the conscrypt APEX, older releases keep
-	// it below /system. The entries are PEM with a trailing text dump.
-	static const char *const systemStores[] = {
-		"/apex/com.android.conscrypt/cacerts",
-		"/system/etc/security/cacerts"
-	};
-
-	for (const char *const store : systemStores) {
-		const QString pattern = QString::fromLatin1(store) + QLatin1String("/*");
-		QList<QSslCertificate> certs = QSslCertificate::fromPath(
-										   pattern, QSsl::Pem, QSslCertificate::PatternSyntax::Wildcard);
-		if (certs.isEmpty()) {
-			certs = QSslCertificate::fromPath(
-						pattern, QSsl::Der, QSslCertificate::PatternSyntax::Wildcard);
-		}
-		if (!certs.isEmpty()) {
-			LOG_MSG("TLS: using " << certs.size() << " root certificates from " << store << ".");
-			return certs;
-		}
-	}
-
-	// Shipped fallback, bundled into the Android resource next to the other
-	// data/ files (see the android data bundle in the QML client CMakeLists).
-	QList<QSslCertificate> bundled = QSslCertificate::fromPath(
-										 QLatin1String(":/android/android-data/misc/cacert.pem"), QSsl::Pem);
-	if (!bundled.isEmpty()) {
-		LOG_MSG("TLS: system trust store unreadable, using " << bundled.size()
-				<< " bundled root certificates.");
-		return bundled;
-	}
-
-	LOG_ERROR("TLS: no root certificates available - the download cannot be verified and will fail.");
-	return QList<QSslCertificate>();
 }
 
 }
@@ -167,16 +108,7 @@ DownloadHelper::InternalInit(const string &/*url*/, const string &targetFileName
 	QNetworkRequest request(qUrl);
 	request.setRawHeader("User-Agent", "PokerTH/2.0 (Qt Network)");
 
-#ifdef ANDROID
-	// Verify the peer against the device trust store (see LoadSystemCaCertificates).
-	// Everywhere else Qt already verifies with the platform defaults.
-	{
-		QSslConfiguration sslConfig = request.sslConfiguration();
-		sslConfig.setPeerVerifyMode(QSslSocket::VerifyPeer);
-		sslConfig.setCaCertificates(LoadSystemCaCertificates());
-		request.setSslConfiguration(sslConfig);
-	}
-#endif
+	TlsTrust::ConfigureRequest(request);
 
 	GetData()->networkReply = GetData()->networkManager->get(request);
 	if (filesize != 0)
