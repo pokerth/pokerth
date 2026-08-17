@@ -29,6 +29,18 @@ int score2(int rating, int tickets, int games)
 	return (tickets << 11) + (games << 4) + rating;
 }
 
+// Nachschlage-Schlüssel für den Abgleich Lobby-Nick ⇔ Botfile. Server-Nicks
+// dürfen führende/anhängende Leerzeichen enthalten (der registrierte Account
+// "tammnt " z. B.), die Botfiles führen denselben Spieler getrimmt – und
+// umgekehrt steht in der minidb auch "silver skies- " mit Leerzeichen. Ohne
+// diese Normalisierung fällt so ein Spieler stillschweigend aus jedem Vorschlag
+// heraus. Nur der Schlüssel wird getrimmt, der ausgegebene Name bleibt
+// unverändert (Namen dürfen Zierzeichen tragen, z. B. "* ghoti *").
+QString suggestKey(const QString &name)
+{
+	return name.trimmed().toLower();
+}
+
 struct Scored {
 	QString name;   // auszugebender Name (DB- bzw. WEC-Listenname)
 	int score;
@@ -119,9 +131,10 @@ bool CommunitySuggest::ensure(const QString &kind)
 	return *loaded;
 }
 
-// minidb.txt: Name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games. Name NICHT
-// trimmen (kann führende/anhängende Zeichen enthalten, z. B. "* ghoti *"); nur
-// Zeilen mit rating > 0 übernehmen (wie der Bot).
+// minidb.txt: Name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games. Der ausgegebene
+// Name wird NICHT getrimmt (kann führende/anhängende Zeichen enthalten, z. B.
+// "* ghoti *"), nur der Schlüssel (suggestKey); nur Zeilen mit rating > 0
+// übernehmen (wie der Bot).
 void CommunitySuggest::parseDb(const QByteArray &data)
 {
 	m_db.clear();
@@ -143,7 +156,7 @@ void CommunitySuggest::parseDb(const QByteArray &data)
 		e.ts4 = f.at(3).toInt();
 		e.rating = rating;
 		e.games = f.at(5).toInt();
-		m_db.insert(e.name.toLower(), e);
+		m_db.insert(suggestKey(e.name), e);
 	}
 }
 
@@ -156,7 +169,7 @@ void CommunitySuggest::parseWec(const QByteArray &data)
 		const QString name = line.trimmed();
 		if (name.isEmpty())
 			continue;
-		m_wec.insert(name.toLower(), name);
+		m_wec.insert(suggestKey(name), name);
 	}
 }
 
@@ -186,7 +199,7 @@ QString CommunitySuggest::suggestStep(int step, const QStringList &idleNames,
 {
 	QList<Scored> idle;
 	for (const QString &n : idleNames) {
-		auto it = m_db.constFind(n.toLower());
+		auto it = m_db.constFind(suggestKey(n));
 		if (it == m_db.constEnd())
 			continue;
 		const int tickets = step == 1 ? 1 : (step == 2 ? it->ts2 : (step == 3 ? it->ts3 : it->ts4));
@@ -201,7 +214,7 @@ QString CommunitySuggest::suggestStep(int step, const QStringList &idleNames,
 	QList<Scored> busy;
 	if (step != 1) {
 		for (const PlayingPlayer &p : playing) {
-			auto it = m_db.constFind(p.name.toLower());
+			auto it = m_db.constFind(suggestKey(p.name));
 			if (it == m_db.constEnd())
 				continue;
 			const int tickets = step == 2 ? it->ts2 : (step == 3 ? it->ts3 : it->ts4);
@@ -222,7 +235,7 @@ QString CommunitySuggest::suggestWec(const QStringList &idleNames,
 {
 	QList<Scored> idle;
 	for (const QString &n : idleNames) {
-		auto it = m_wec.constFind(n.toLower());
+		auto it = m_wec.constFind(suggestKey(n));
 		if (it == m_wec.constEnd())
 			continue;
 		// Zufalls-Score wie im Legacy-Bot → zufällige Reihenfolge.
@@ -230,7 +243,7 @@ QString CommunitySuggest::suggestWec(const QStringList &idleNames,
 	}
 	QList<Scored> busy;
 	for (const PlayingPlayer &p : playing) {
-		auto it = m_wec.constFind(p.name.toLower());
+		auto it = m_wec.constFind(suggestKey(p.name));
 		if (it == m_wec.constEnd())
 			continue;
 		busy << Scored{ it.value(), int(QRandomGenerator::global()->bounded(1, 1000000)), p.game };

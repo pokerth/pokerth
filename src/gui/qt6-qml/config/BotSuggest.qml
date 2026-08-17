@@ -77,6 +77,17 @@ QtObject {
         onResult(false, "")
     }
 
+    // Nachschlage-Schlüssel für den Abgleich Lobby-Nick ⇔ Botfile. Server-Nicks
+    // dürfen führende/anhängende Leerzeichen enthalten (der registrierte Account
+    // "tammnt " z. B.), die Botfiles führen denselben Spieler getrimmt – und
+    // umgekehrt steht in der minidb auch "silver skies- " mit Leerzeichen. Ohne
+    // diese Normalisierung fällt so ein Spieler stillschweigend aus jedem
+    // Vorschlag heraus. Nur der Schlüssel wird getrimmt, der ausgegebene Name
+    // bleibt unverändert (Namen dürfen Zierzeichen tragen, z. B. "* ghoti *").
+    function _key(name) {
+        return (name || "").trim().toLowerCase()
+    }
+
     // ── Laden + Cachen ───────────────────────────────────────────────────────
     function _fileName(kind) {
         if (kind === "wec") return "weclist.txt"
@@ -159,14 +170,15 @@ QtObject {
             var name = lines[i].trim()
             if (name.length === 0)
                 continue
-            set[name.toLowerCase()] = name
+            set[_key(name)] = name
         }
         return set
     }
 
-    // minidb.txt: Name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games.
-    // Name NICHT trimmen (kann führende/anhängende Zeichen enthalten, z. B.
-    // "* ghoti *"); nur Zeilen mit rating > 0 übernehmen (wie der Bot).
+    // minidb.txt: Name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games. Der
+    // ausgegebene Name wird NICHT getrimmt (kann führende/anhängende Zeichen
+    // enthalten, z. B. "* ghoti *"), nur der Schlüssel (_key); nur Zeilen mit
+    // rating > 0 übernehmen (wie der Bot).
     function _parseDb(text) {
         var map = ({})
         var lines = text.split(/\r?\n/)
@@ -181,7 +193,7 @@ QtObject {
             if (!(rating > 0))
                 continue
             var name = f[0]
-            map[name.toLowerCase()] = {
+            map[_key(name)] = {
                 name: name,
                 ts2: parseInt(f[1], 10) || 0,
                 ts3: parseInt(f[2], 10) || 0,
@@ -213,7 +225,7 @@ QtObject {
         var db = _cache.db.data
         var out = []
         for (var i = 0; i < candidates.length; ++i) {
-            var e = db[(candidates[i].name || "").toLowerCase()]
+            var e = db[_key(candidates[i].name)]
             if (!e)
                 continue
             var tickets = step === 1 ? 1 : (step === 2 ? e.ts2 : (step === 3 ? e.ts3 : e.ts4))
@@ -231,7 +243,7 @@ QtObject {
         var set = _cache.wec.data
         var out = []
         for (var i = 0; i < candidates.length; ++i) {
-            var orig = set[(candidates[i].name || "").toLowerCase()]
+            var orig = set[_key(candidates[i].name)]
             if (orig === undefined)
                 continue
             out.push({ dbName: orig, score: Math.random(), game: candidates[i].game })

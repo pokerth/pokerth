@@ -1272,12 +1272,25 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
         return;
     }
 
+	// Always trim the player name, just like the game name (see
+	// HandleNetPacketCreateGame). The name sent by the client becomes the
+	// session's display name below - it is never replaced by the value stored in
+	// the database. Trailing whitespace used to slip through: the login compares
+	// with "WHERE username = ?" on a PAD SPACE collation, which ignores trailing
+	// spaces, so "name " authenticated fine against the account "name" but was
+	// announced to every other client as "name ". Everything that maps by name
+	// (community player lists, ignore list, ban manager, chat) then treated that
+	// session as a different player. Trimming does not change which account is
+	// found - PAD SPACE matches the same row either way.
+	boost::trim(playerName);
+
 	// Check whether the player name is correct.
 	// Partly, this is also done in netpacket.
 	// However, some disallowed names are checked only here.
+	// A name consisting of nothing but whitespace is empty after the trim above
+	// and is rejected here.
 	if (playerName.empty()
 			|| playerName[0] == '#'
-			|| playerName[0] == ' '
 			|| playerName.substr(0, sizeof(SERVER_COMPUTER_PLAYER_NAME) - 1) == SERVER_COMPUTER_PLAYER_NAME) {
 		SessionError(session, ERR_NET_INVALID_PLAYER_NAME);
 		return;
