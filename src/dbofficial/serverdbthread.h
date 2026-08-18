@@ -34,7 +34,7 @@
 #define _SERVERDBTHREAD_H_
 
 #include <boost/asio.hpp>
-#include <boost/interprocess/sync/interprocess_semaphore.hpp>
+#include <boost/thread/condition_variable.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <queue>
 #include <db/serverdbinterface.h>
@@ -89,15 +89,27 @@ protected:
 	void EstablishDBConnection();
 	void HandleNextQuery();
 
+	// Queue handling. The queue itself is the only source of truth for
+	// "is there work?" - there is deliberately no second counter which
+	// could drift out of sync with it.
+	void EnqueueQuery(const boost::shared_ptr<AsyncDBQuery> &query);
+	void RequeueQuery(const boost::shared_ptr<AsyncDBQuery> &query);
+	bool WaitForQuery(unsigned timeoutSec);
+	size_t GetQueueSize() const;
+	// Fail all pending queries, so that no caller waits for a reply forever.
+	void DrainQueueWithError();
+
 	void SetConnected(bool isConnected);
 private:
 
 	boost::shared_ptr<boost::asio::io_context> m_ioService;
-	boost::interprocess::interprocess_semaphore m_semaphore;
 	ServerDBCallback &m_callback;
 	boost::shared_ptr<DBConnectionData> m_connData;
 	mutable boost::mutex m_asyncQueueMutex;
+	boost::condition_variable m_queueCondition;
 	AsyncDBQueryQueue m_asyncQueue;
+	size_t m_queueHighWater;
+	unsigned m_reconnectDelayMs;
 	DBIdManager m_dbIdManager;
 
 	mutable boost::mutex m_isConnectedMutex;

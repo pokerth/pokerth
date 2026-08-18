@@ -44,6 +44,7 @@
 #include <dbofficial/asyncdbplayerlastgames.h>
 #include <dbofficial/compositeasyncdbquery.h>
 #include <dbofficial/db_table_defs.h>
+#include <algorithm>
 #include <ctime>
 #include <sstream>
 #include <dbofficial/mysqlpp_compat.h>
@@ -55,6 +56,21 @@
 // to prevent the MySQL server from closing idle connections.
 // 30s is well below typical MySQL wait_timeout values.
 #define DB_KEEPALIVE_INTERVAL_SEC		30
+
+// Upper bound for the pending query queue. Reached only if the database is
+// unreachable for a long time while clients keep trying to log in. Queries
+// beyond that limit are failed immediately instead of growing the queue
+// without bound - a caller which gets an error can retry, a caller which
+// waits for a reply that never comes cannot.
+#define DB_MAX_QUEUE_SIZE				2000
+// Log the backlog once it grows beyond this, so a stalling DB is visible in
+// the server log while it happens, not only in hindsight.
+#define DB_QUEUE_WARN_SIZE				25
+// Queries slower than this are logged with their duration.
+#define DB_SLOW_QUERY_MS				2000
+// Reconnect backoff bounds.
+#define DB_RECONNECT_MIN_DELAY_MS		250
+#define DB_RECONNECT_MAX_DELAY_MS		5000
 
 #define QUERY_NICK_PREPARE				"nick_template"
 #define QUERY_LOGIN_PREPARE				"login_template"
@@ -82,7 +98,8 @@ struct DBConnectionData {
 };
 
 ServerDBThread::ServerDBThread(ServerDBCallback &cb, boost::shared_ptr<boost::asio::io_context> ioService)
-	: m_ioService(ioService), m_semaphore(0), m_callback(cb), m_isConnected(false), m_permanentError(false), m_previouslyConnected(false)
+	: m_ioService(ioService), m_callback(cb), m_queueHighWater(0), m_reconnectDelayMs(DB_RECONNECT_MIN_DELAY_MS),
+	  m_isConnected(false), m_permanentError(false), m_previouslyConnected(false)
 {
 	m_connData.reset(new DBConnectionData);
 }
@@ -95,7 +112,10 @@ void
 ServerDBThread::SignalTermination()
 {
 	Thread::SignalTermination();
-	m_semaphore.post();
+	// Take the queue lock before notifying: the waiting thread evaluates
+	// ShouldTerminate() while holding it, so this cannot be a lost wakeup.
+	boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+	m_queueCondition.notify_all();
 }
 
 void
@@ -136,11 +156,7 @@ ServerDBThread::AsyncPlayerLogin(unsigned requestId, const string &playerName)
 			QUERY_NICK_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -156,11 +172,7 @@ ServerDBThread::AsyncCheckAvatarBlacklist(unsigned requestId, const std::string 
 			QUERY_AVATAR_BLACKLIST_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -179,11 +191,7 @@ ServerDBThread::PlayerPostLogin(DB_id playerId, const std::string &avatarHash, c
 			QUERY_LOGIN_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -203,12 +211,7 @@ ServerDBThread::AsyncCreateGame(unsigned requestId, const string &gameName)
 			QUERY_CREATE_GAME_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -228,12 +231,7 @@ ServerDBThread::SetGamePlayerPlace(unsigned requestId, DB_id playerId, unsigned 
 			QUERY_GAME_PLAYER_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	// m_semaphore.post();
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -254,11 +252,7 @@ ServerDBThread::SetPlayerLastGames(unsigned requestId, DB_id playerId, std::vect
 			requestId,
 			QUERY_PLAYER_LASTGAMES_PREPARE,
 			params));
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -274,12 +268,7 @@ ServerDBThread::EndGame(unsigned requestId)
 				QUERY_END_GAME_PREPARE,
 				params));
 
-		{
-			boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-			m_asyncQueue.push(asyncQuery);
-		}
-		
-		m_semaphore.post();
+		EnqueueQuery(asyncQuery);
 	}
 	// Update the player scores.
 	{
@@ -290,12 +279,7 @@ ServerDBThread::EndGame(unsigned requestId)
 				QUERY_UPDATE_SCORE_PREPARE,
 				params));
 
-		{
-			boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-			m_asyncQueue.push(asyncQuery);
-		}
-		
-		m_semaphore.post();
+		EnqueueQuery(asyncQuery);
 	}
 }
 
@@ -324,12 +308,7 @@ ServerDBThread::AsyncReportAvatar(unsigned requestId, unsigned replyId, DB_id re
 			QUERY_REPORT_AVATAR_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -361,13 +340,7 @@ ServerDBThread::AsyncReportGame(unsigned requestId, unsigned replyId, DB_id *cre
 			QUERY_REPORT_GAME_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-
-	
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -377,13 +350,7 @@ ServerDBThread::AsyncQueryAdminPlayers(unsigned requestId)
 		new AsyncDBAdminPlayers(
 			requestId,
 			QUERY_ADMIN_PLAYER_PREPARE));
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-
-	
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -406,12 +373,7 @@ ServerDBThread::AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id pla
 			QUERY_BLOCK_PLAYER_PREPARE,
 			params));
 
-	{
-		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-		m_asyncQueue.push(asyncQuery);
-	}
-	
-	m_semaphore.post();
+	EnqueueQuery(asyncQuery);
 }
 
 bool
@@ -419,6 +381,94 @@ ServerDBThread::IsConnected() const
 {
 	boost::mutex::scoped_lock lock(m_isConnectedMutex);
 	return m_isConnected;
+}
+
+void
+ServerDBThread::EnqueueQuery(const boost::shared_ptr<AsyncDBQuery> &query)
+{
+	bool rejected = false;
+	size_t size = 0;
+	bool warn = false;
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		if (m_asyncQueue.size() >= (size_t)DB_MAX_QUEUE_SIZE) {
+			rejected = true;
+		} else {
+			m_asyncQueue.push(query);
+			size = m_asyncQueue.size();
+			// Report a growing backlog once per new high water mark, so the
+			// log shows a stalling database while it is happening.
+			if (size >= (size_t)DB_QUEUE_WARN_SIZE && size > m_queueHighWater) {
+				m_queueHighWater = size;
+				warn = true;
+			}
+		}
+	}
+	if (rejected) {
+		// Never leave the caller waiting for a reply that cannot come.
+		LOG_ERROR("DB query queue full (" << DB_MAX_QUEUE_SIZE
+			<< ") - failing query " << query->GetPreparedName() << ".");
+		query->HandleError(*m_ioService, m_callback);
+		return;
+	}
+	if (warn)
+		LOG_ERROR("DB query backlog growing: " << size << " queries pending.");
+	m_queueCondition.notify_one();
+}
+
+void
+ServerDBThread::RequeueQuery(const boost::shared_ptr<AsyncDBQuery> &query)
+{
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		m_asyncQueue.push(query);
+	}
+	m_queueCondition.notify_one();
+}
+
+size_t
+ServerDBThread::GetQueueSize() const
+{
+	boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+	return m_asyncQueue.size();
+}
+
+// Wait until there is at least one query in the queue, termination was
+// requested, or the keepalive interval elapsed. The queue itself is the
+// predicate - there is no separate counter that could get out of step with
+// it, so a query can never end up sitting in the queue unnoticed.
+bool
+ServerDBThread::WaitForQuery(unsigned timeoutSec)
+{
+	const boost::posix_time::ptime deadline =
+		boost::posix_time::microsec_clock::universal_time()
+		+ boost::posix_time::seconds(timeoutSec);
+	boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+	while (m_asyncQueue.empty() && !ShouldTerminate()) {
+		if (!m_queueCondition.timed_wait(lock, deadline))
+			break; // Keepalive interval elapsed.
+	}
+	if (m_asyncQueue.empty())
+		m_queueHighWater = 0;
+	return !m_asyncQueue.empty();
+}
+
+void
+ServerDBThread::DrainQueueWithError()
+{
+	AsyncDBQueryQueue pending;
+	{
+		boost::mutex::scoped_lock lock(m_asyncQueueMutex);
+		pending.swap(m_asyncQueue);
+		m_queueHighWater = 0;
+	}
+	if (!pending.empty())
+		LOG_ERROR("DB thread stopping with " << pending.size()
+			<< " pending queries - failing them all.");
+	while (!pending.empty()) {
+		pending.front()->HandleError(*m_ioService, m_callback);
+		pending.pop();
+	}
 }
 
 void
@@ -431,17 +481,16 @@ ServerDBThread::Main()
 			// to prevent the MySQL server from closing idle connections
 			// (default wait_timeout is often 28800s, but external/cloud
 			// MySQL hosts frequently use much shorter values like 60-300s).
-			bool hasWork = m_semaphore.timed_wait(
-				boost::posix_time::microsec_clock::universal_time()
-				+ boost::posix_time::seconds(DB_KEEPALIVE_INTERVAL_SEC));
+			bool hasWork = WaitForQuery(DB_KEEPALIVE_INTERVAL_SEC);
 			if (hasWork) {
 				// Validate the connection is still alive before executing.
 				// mysqlpp::Connection::connected() only checks local state;
-				// ping() actually talks to the server and auto-reconnects
-				// if the connection was dropped (e.g. by MySQL wait_timeout).
+				// ping() actually talks to the server.
 				if (!m_connData->conn.ping()) {
 					LOG_ERROR("DB connection lost before query execution, reconnecting...");
 					m_connData->conn.disconnect();
+					// The query stays queued and is picked up again after the
+					// reconnect - nothing was taken out of the queue here.
 					continue;
 				}
 				HandleNextQuery();
@@ -457,7 +506,9 @@ ServerDBThread::Main()
 			EstablishDBConnection();
 		}
 	}
+	SetConnected(false);
 	m_connData->conn.disconnect();
+	DrainQueueWithError();
 }
 
 bool
@@ -479,10 +530,15 @@ ServerDBThread::EstablishDBConnection()
 	if (!m_connData->conn.connect(
 				m_connData->database.c_str(), m_connData->host.c_str(), m_connData->user.c_str(), m_connData->pwd.c_str())) {
 		boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::ConnectFailed, &m_callback, m_connData->conn.error()));
-		if (!m_previouslyConnected)
+		if (!m_previouslyConnected) {
 			m_permanentError = true;
-		else
-			Msleep(250);
+		} else {
+			// Back off instead of hammering a database that is down; this
+			// also keeps the log readable during an outage.
+			Msleep(m_reconnectDelayMs);
+			if (m_reconnectDelayMs < DB_RECONNECT_MAX_DELAY_MS)
+				m_reconnectDelayMs = std::min<unsigned>(m_reconnectDelayMs * 2, DB_RECONNECT_MAX_DELAY_MS);
+		}
 	} else {
 		mysqlpp::Query prepareNick = m_connData->conn.query();
 		/*
@@ -551,10 +607,26 @@ ServerDBThread::EstablishDBConnection()
 							  prepareReportGame.error() + prepareAdminPlayer.error() + prepareBlockPlayer.error() + preparePlayerLastGames.error();
 			m_connData->conn.disconnect();
 			boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::ConnectFailed, &m_callback, tmpError));
-			m_permanentError = true;
+			if (!m_previouslyConnected) {
+				// Broken schema or credentials at startup - no point retrying.
+				m_permanentError = true;
+			} else {
+				// The statements were fine before, so this is a hiccup of the
+				// server we just reconnected to. Retrying is the only sane
+				// option: giving up would end the DB thread and leave every
+				// future login waiting for a reply forever.
+				LOG_ERROR("Failed to prepare statements after reconnect, retrying: " << tmpError);
+				Msleep(m_reconnectDelayMs);
+				if (m_reconnectDelayMs < DB_RECONNECT_MAX_DELAY_MS)
+					m_reconnectDelayMs = std::min<unsigned>(m_reconnectDelayMs * 2, DB_RECONNECT_MAX_DELAY_MS);
+			}
 		} else {
 			boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::ConnectSuccess, &m_callback));
 			m_previouslyConnected = true;
+			m_reconnectDelayMs = DB_RECONNECT_MIN_DELAY_MS;
+			const size_t pending = GetQueueSize();
+			if (pending)
+				LOG_MSG("DB connection ready with " << pending << " pending queries.");
 		}
 	}
 }
@@ -578,6 +650,12 @@ static bool IsTransientDBError(const string &error)
 	    && (error.find("2006") != string::npos       // CR_SERVER_GONE_ERROR
 	        || error.find("2013") != string::npos))  // CR_SERVER_LOST
 		return true;
+	// The prepared statements live in the MySQL session. If the client library
+	// silently reconnected underneath us they are gone, and every query fails
+	// with 1243 until we prepare them again - which only happens on a full
+	// reconnect. Treat it as connection loss so we do exactly that.
+	if (error.find("Unknown prepared statement handler") != string::npos) return true;
+	if (error.find("1243") != string::npos)                                return true;
 	return false;
 }
 
@@ -591,6 +669,10 @@ static bool IsConnectionLossError(const string &error)
 	if (error.find("lost connection") != string::npos)          return true;
 	if (error.find("2006") != string::npos)                     return true;
 	if (error.find("2013") != string::npos)                     return true;
+	// See IsTransientDBError: lost prepared statements can only be recovered
+	// by reconnecting, which re-prepares them.
+	if (error.find("Unknown prepared statement handler") != string::npos) return true;
+	if (error.find("1243") != string::npos)                     return true;
 	return false;
 }
 
@@ -606,6 +688,8 @@ ServerDBThread::HandleNextQuery()
 		}
 	}
 	if (nextQuery) {
+		const boost::posix_time::ptime queryStart =
+			boost::posix_time::microsec_clock::universal_time();
 		bool queryFailed = false;
 		// Number of immediate retries for transient errors (deadlock etc.)
 		// that do NOT require a full reconnect.
@@ -629,9 +713,13 @@ retry_query:
 					LOG_ERROR("Deferring query " + nextQuery->GetPreparedName()
 						+ " (defer #" + std::to_string(nextQuery->GetDeferCount())
 						+ ") – waiting for dependency.");
-					boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-					m_asyncQueue.push(nextQuery);
-					m_semaphore.post();
+					RequeueQuery(nextQuery);
+					// If this is the only queued query, the query it depends
+					// on has not been enqueued yet. Spinning through all
+					// deferrals within microseconds would drop it for no
+					// reason - give the producer a moment.
+					if (GetQueueSize() <= 1)
+						Msleep(20);
 				} else {
 					LOG_ERROR("Query " + nextQuery->GetPreparedName()
 						+ " deferred " + std::to_string(MAX_DEFER_COUNT)
@@ -686,8 +774,11 @@ retry_query:
 						}
 					}
 					// Non-transient error (e.g. syntax): do NOT disconnect,
-					// just drop the broken query and continue.
+					// just drop the broken query and continue. HandleError is
+					// mandatory here - without it a login query would simply
+					// vanish and the client would wait for an answer forever.
 					boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::QueryError, &m_callback, tmpError));
+					nextQuery->HandleError(*m_ioService, m_callback);
 					break;
 				}
 			}
@@ -741,12 +832,14 @@ retry_query:
 		
 		// If query failed due to connection loss, put it back in the queue
 		// so it can be retried after reconnection
-		if (queryFailed) {
-			boost::mutex::scoped_lock lock(m_asyncQueueMutex);
-			m_asyncQueue.push(nextQuery);
-			// Post semaphore again so the query will be processed after reconnection
-			m_semaphore.post();
-		}
+		if (queryFailed)
+			RequeueQuery(nextQuery);
+
+		const long elapsedMs = (boost::posix_time::microsec_clock::universal_time()
+			- queryStart).total_milliseconds();
+		if (elapsedMs >= DB_SLOW_QUERY_MS)
+			LOG_ERROR("Slow DB query " << nextQuery->GetPreparedName()
+				<< ": " << elapsedMs << " ms (" << GetQueueSize() << " queued).");
 	}
 }
 
