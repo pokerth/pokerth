@@ -1,6 +1,6 @@
 # Non-localized metadata for the QML client. Name, summary, description,
 # icon, screenshots and changelogs come from the fastlane trees next to this
-# file (metadata/org.pokerth.qml/<locale>/), which the workflow fills in.
+# file (metadata/net.pokerth.PokerTH_QML/<locale>/), which the workflow fills in.
 
 Categories:
   - Games

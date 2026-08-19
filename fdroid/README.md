@@ -21,8 +21,8 @@ dasselbe Modell wie KDE, Guardian Project oder Bitwarden.
 | Pfad | Inhalt |
 |---|---|
 | `config.yml` | Repo-Konfiguration für `fdroid update` (keine Geheimnisse) |
-| `metadata/org.pokerth.qml.yml` | nicht-lokalisierte App-Metadaten |
-| `metadata/org.pokerth.qml/<locale>/` | Fastlane-Texte (en-US, de) |
+| `metadata/net.pokerth.PokerTH_QML.yml` | nicht-lokalisierte App-Metadaten |
+| `metadata/net.pokerth.PokerTH_QML/<locale>/` | Fastlane-Texte (en-US, de) |
 | `changelogs/<versionName>.txt` | optionaler Changelog pro Release |
 | `site/index.html.in` | Vorlage der Landing-Page mit QR-Code |
 | `repo/`, `archive/`, `keystore.p12` | Laufzeit-Artefakte, nicht in git |

@@ -229,7 +229,7 @@ jobs:
 
           rsvg-convert -w 512 -h 512 src/gui/qt6-qml/resources/pokerth.svg -o fdroid/icon.png
 
-          META=fdroid/metadata/org.pokerth.qml
+          META=fdroid/metadata/net.pokerth.PokerTH_QML
           for locale in "$META"/*/; do
             mkdir -p "$locale/images/phoneScreenshots"
             cp fdroid/icon.png "$locale/images/icon.png"

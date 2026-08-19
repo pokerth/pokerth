@@ -47,7 +47,13 @@ set -euo pipefail
 BUILD_TARGET="${BUILD_TARGET:-pokerth_qml-client}"
 case "$BUILD_TARGET" in
   pokerth_qml-client)
-    PACKAGE_NAME="${ANDROID_PACKAGE_NAME:-org.pokerth.qml}"
+    # Permanent Google Play application id (chosen in the Play Console, can never
+    # be changed there). Shared with the iOS bundle id and the F-Droid app id;
+    # only macOS differs (net.pokerth.PokerTH). The ConnectionService Java class
+    # stays org.pokerth.qml.ConnectionService (absolute name in the manifest, its
+    # source lives under android/src/org/pokerth/qml/), so it keeps resolving
+    # regardless of this id.
+    PACKAGE_NAME="${ANDROID_PACKAGE_NAME:-net.pokerth.PokerTH_QML}"
     SCREEN_ORIENTATION="fullUser"
     GUI_SUBDIR="src/gui/qt6-qml"
     APP_LABEL="qml"

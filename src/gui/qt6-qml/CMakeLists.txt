@@ -355,7 +355,12 @@ if(IOS)
     target_link_libraries(pokerth_qml-client PRIVATE
         "-framework UIKit" "-framework Foundation")
 
-    set(POKERTH_IOS_BUNDLE_ID "org.pokerth.qml" CACHE STRING "CFBundleIdentifier der iOS-App")
+    # Gleiche App-Identität wie auf Android (net.pokerth.PokerTH_QML). Für den
+    # unsignierten Sideload-Flow (Sideloadly/AltStore re-signieren) funktioniert
+    # der Unterstrich. Hinweis: Apple erlaubt in der CFBundleIdentifier offiziell
+    # nur A–Z a–z 0–9 . und - — bei einer echten App-Store-Einreichung müsste der
+    # "_" zu "-" werden (net.pokerth.PokerTH-QML).
+    set(POKERTH_IOS_BUNDLE_ID "net.pokerth.PokerTH_QML" CACHE STRING "CFBundleIdentifier der iOS-App")
     set(POKERTH_IOS_VERSION   "2.1.7"           CACHE STRING "CFBundleShortVersionString der iOS-App")
     set(POKERTH_IOS_BUILD     "27"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
 
