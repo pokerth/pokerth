@@ -583,6 +583,31 @@ if [ "$ANDROID_API_LEVEL" -gt 35 ]; then
   set_gradle_property android.suppressUnsupportedCompileSdk "$ANDROID_API_LEVEL"
 fi
 
+# Keep native debug symbols out of the package. AGP strips the shipped .so but
+# otherwise stashes their full symbol tables in BUNDLE-METADATA/ — ~400 MB for
+# the four app libs plus Qt's ffmpeg lib, none of it delivered to a device, only
+# used for Play crash symbolication we don't rely on. 'none' drops the lot. This
+# covers every native lib (ours and Qt's), which per-lib stripping would not.
+BUILD_GRADLE="$ANDROID_BUILD_DIR/build.gradle"
+if [ -f "$BUILD_GRADLE" ] && ! grep -q "debugSymbolLevel" "$BUILD_GRADLE"; then
+  log "Disabling native debug symbols in the bundle (debugSymbolLevel 'none')…"
+  cat >> "$BUILD_GRADLE" <<'EOF'
+
+// Added by build_android_qml.sh: do not retain native debug symbols. AGP would
+// otherwise ship their full symbol tables in BUNDLE-METADATA/ (~400 MB), which
+// no device downloads — it only feeds Play crash symbolication we don't use.
+android {
+    buildTypes {
+        release {
+            ndk {
+                debugSymbolLevel 'none'
+            }
+        }
+    }
+}
+EOF
+fi
+
 chmod +x "$ANDROID_BUILD_DIR/gradlew"
 
 ########################################
