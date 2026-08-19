@@ -123,7 +123,7 @@ TlsPinning::ComputeSpkiPin(X509 *cert)
 	if (!cert)
 		return pin;
 
-	X509_PUBKEY *pubKey = X509_get_X509_PUBKEY(cert);
+	const X509_PUBKEY *pubKey = X509_get_X509_PUBKEY(cert);
 	if (!pubKey)
 		return pin;
 
