@@ -253,6 +253,16 @@ ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, 
 	myTranslator = new ChatTranslatorCore(myConfig, this);
 	connect(myTranslator, &ChatTranslatorCore::translated, this, &ChatTools::onChatTranslated);
 	if(myTextBrowser) {
+		// Bei gebündelten Libs (AppImage/Tarball/deb) hat der Dialog-Konstruktor
+		// vorher AppImageUtils::patchExternalLinks() aufgerufen; das hängt an
+		// JEDEN Browser mit openExternalLinks einen eigenen anchorClicked-Handler,
+		// der jede URL an den Desktop weiterreicht. Beim Globus-Klick landete so
+		// "pokerthtranslate:<id>" bei xdg-open ("Failed to open URL"), echte Links
+		// wurden doppelt geöffnet. Für diesen Verlauf sind WIR der einzige
+		// Link-Handler: fremde Verbindungen lösen, openExternalLinks abschalten
+		// (das lässt patchExternalLinks den Verlauf künftig auch auslassen).
+		QObject::disconnect(myTextBrowser, SIGNAL(anchorClicked(QUrl)), nullptr, nullptr);
+		myTextBrowser->setOpenExternalLinks(false);
 		myTextBrowser->setOpenLinks(false);
 		connect(myTextBrowser, &QTextBrowser::anchorClicked, this, &ChatTools::onChatAnchorClicked);
 		// Das Globus-Symbol soll nur an der Zeile UNTER DEM MAUSZEIGER stehen

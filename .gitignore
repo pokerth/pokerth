@@ -89,3 +89,7 @@ generate_matrix_backside.py
 # von CMake (configure_file) aus dem ChangeLog im Projektwurzelverzeichnis
 # gespiegelt, damit der About-Dialog ihn aus <AppDataDir>misc/ lesen kann
 data/misc/ChangeLog
+pokerth-play-feature-1024x500.png
+pokerth-play-screenshots.zip
+pokerth-play-screenshots-phone.zip
+pokerth-play-screenshots-tablet.zip
