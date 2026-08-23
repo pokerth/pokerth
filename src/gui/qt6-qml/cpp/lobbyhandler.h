@@ -191,6 +191,9 @@ public:
 
     void setSession(boost::shared_ptr<Session> session);
     void setConfig(ConfigFile *config);
+    // Gemeinsame SoundEvents-Instanz aus main() (nicht besessen) – siehe
+    // GameHandler::setSoundEvents().
+    void setSoundEvents(SoundEvents *soundEvents);
 
     PlayerListModel* playerListModel() { return &m_playerListModel; }
     QAbstractItemModel* playerListProxyModel() const { return m_playerListProxyModel; }
@@ -409,7 +412,7 @@ private:
     bool chatDarkMode() const;
 
     boost::shared_ptr<Session> m_session;
-    SoundEvents *m_soundEvents = nullptr;
+    SoundEvents *m_soundEvents = nullptr;   // nicht besessen
     ConfigFile *m_config;
     
     PlayerListModel m_playerListModel;

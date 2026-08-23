@@ -6,6 +6,9 @@
 #include <QStandardPaths>
 #include <QLoggingCategory>
 #include <cmath>
+#ifdef Q_OS_ANDROID
+#include <QGuiApplication>
+#endif
 
 // Diagnostic logging for the audio subsystem.  Warnings/criticals are always
 // visible; the verbose device/backend diagnostics use qCInfo and are enabled
@@ -62,6 +65,25 @@ static QUrl resolveSoundUrl(const QString& appDataPath, const QString& key)
 }
 
 // --- WavMixer implementation ---
+
+// Buffer size of the software mixer sink.  Kept in one place so the initial
+// sink and every later re-creation cannot drift apart.
+static int mixerSinkBufferSize()
+{
+#ifdef Q_OS_WIN
+    // WASAPI needs a larger buffer than PulseAudio/CoreAudio.  Small buffers
+    // cause underruns that trigger IdleState transitions, cutting off sounds
+    // mid-playback (e.g. blinds_raises WAVs).
+    return 44100 * 4 * 3 / 5;   // ~600ms
+#elif defined(Q_OS_ANDROID)
+    // Android/OpenSL ES: 4 buffers of ~50ms are enough to bridge normal
+    // scheduling jitter without an audible playback delay.  Longer stalls
+    // (app switch, process freeze) are recovered via WavMixer::readyRead().
+    return 44100 * 4 / 20;      // ~50ms
+#else
+    return 44100 * 4 / 5;       // ~200ms for PulseAudio/PipeWire/CoreAudio
+#endif
+}
 
 WavMixer::WavMixer(QObject* parent)
     : QIODevice(parent), volume(1.0f)
@@ -127,15 +149,25 @@ bool WavMixer::loadWav(const QString& key, const QString& filePath)
 
 void WavMixer::play(const QString& key)
 {
-    QMutexLocker lock(&mutex);
-    auto it = samples.constFind(key);
-    if (it == samples.constEnd())
-        return;
+    {
+        QMutexLocker lock(&mutex);
+        auto it = samples.constFind(key);
+        if (it == samples.constEnd())
+            return;
 
-    ActiveVoice voice;
-    voice.pcmData = &it->pcmData;
-    voice.position = 0;
-    voices.append(voice);
+        ActiveVoice voice;
+        voice.pcmData = &it->pcmData;
+        voice.position = 0;
+        voices.append(voice);
+    }
+
+    // Wake a sink that has dropped into IdleState.  A pull-mode QAudioSink
+    // stops pulling after a buffer underrun and only resumes when the source
+    // device emits readyRead() (see QAndroidAudioSink::readyRead()).  Without
+    // this signal the Android/OpenSL ES sink stays silent forever after the
+    // first buffer-queue starvation -- which is exactly what happens while
+    // the app is in the background.
+    emit readyRead();
 }
 
 void WavMixer::setVolume(float vol)
@@ -243,7 +275,15 @@ QtAudioPlayer::QtAudioPlayer(ConfigFile *config)
     // Connect device change signals
     connect(mediaDevices, &QMediaDevices::audioOutputsChanged,
             this, &QtAudioPlayer::onAudioOutputsChanged);
-    
+
+#ifdef Q_OS_ANDROID
+    // Rebuild the audio stream when the app returns from the background.
+    if (qGuiApp) {
+        connect(qGuiApp, &QGuiApplication::applicationStateChanged,
+                this, &QtAudioPlayer::onApplicationStateChanged);
+    }
+#endif
+
     initAudio();
 }
 
@@ -550,29 +590,8 @@ void QtAudioPlayer::initSoftwareMixerBackend(const QAudioDevice& device, float v
     }
 
     // Single persistent audio output - eliminates per-sound WASAPI session latency
-    QAudioFormat format;
-    format.setSampleRate(44100);
-    format.setChannelCount(2);
-    format.setSampleFormat(QAudioFormat::Int16);
-
     QAudioDevice sinkDevice = device.isNull() ? QMediaDevices::defaultAudioOutput() : device;
-    mixerSink = new QAudioSink(sinkDevice, format, this);
-    // WASAPI on Windows needs a larger buffer than PulseAudio/CoreAudio.
-    // Small buffers cause underruns that trigger IdleState transitions,
-    // cutting off sounds mid-playback (e.g. blinds_raises WAVs).
-    // Use 600ms on Windows to prevent stuttering/clipping, 200ms elsewhere.
-    // Android uses 50ms — sufficient for AAudio without audible latency.
-#ifdef Q_OS_WIN
-    mixerSink->setBufferSize(44100 * 4 * 3 / 5); // ~600ms for WASAPI
-#elif defined(Q_OS_ANDROID)
-    mixerSink->setBufferSize(44100 * 4 / 20);     // ~50ms for Android AAudio
-#else
-    mixerSink->setBufferSize(44100 * 4 / 5);      // ~200ms for PulseAudio/CoreAudio
-#endif
-
-    connectMixerSinkSignals();
-
-    mixerSink->start(mixer);
+    recreateMixerSink(sinkDevice);
 
     if (mixerSink->error() != QAudio::NoError) {
         qWarning() << "[Audio] Failed to start mixer sink:" << mixerSink->error();
@@ -597,6 +616,11 @@ void QtAudioPlayer::playSoundSoftwareMixer(const QString& key)
 {
     if (!mixer) return;
 
+    // No sink (e.g. dropped while the app is in the background on Android):
+    // queueing voices nobody consumes would just pile them up until the sink
+    // returns and then replay them all at once.
+    if (!mixerSink) return;
+
     mixer->play(key);
 
     // Safety: if the sink was stopped due to a device change or error,
@@ -609,6 +633,90 @@ void QtAudioPlayer::playSoundSoftwareMixer(const QString& key)
     }
 }
 
+void QtAudioPlayer::destroyMixerSink()
+{
+    if (!mixerSink)
+        return;
+
+    // Disconnect stateChanged BEFORE stopping so the handler cannot queue a
+    // spurious sink recreation that would fire after a fresh sink is already
+    // running.
+    mixerSink->disconnect(this);
+    m_stoppingMixerIntentionally = true;
+    mixerSink->stop();
+    m_stoppingMixerIntentionally = false;
+    delete mixerSink;
+    mixerSink = nullptr;
+}
+
+void QtAudioPlayer::recreateMixerSink(const QAudioDevice& device)
+{
+    destroyMixerSink();
+
+    QAudioFormat format;
+    format.setSampleRate(44100);
+    format.setChannelCount(2);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    mixerSink = new QAudioSink(device, format, this);
+    mixerSink->setBufferSize(mixerSinkBufferSize());
+    connectMixerSinkSignals();
+
+    if (mixer) {
+        if (!mixer->isOpen())
+            mixer->open(QIODevice::ReadOnly);
+        mixerSink->start(mixer);
+    }
+}
+
+#ifdef Q_OS_ANDROID
+void QtAudioPlayer::onApplicationStateChanged(Qt::ApplicationState state)
+{
+    // Android tears the audio path down under our feet when the app leaves
+    // the foreground: the process is frozen, the OpenSL ES buffer queue
+    // starves and the AudioTrack behind it can be invalidated by the system.
+    // Qt keeps reporting ActiveState for such a zombie stream, and simply
+    // restarting the existing QAudioSink does not help either -- the Android
+    // backend runs its player setup (AudioPlayer creation *and* output
+    // routing) only once per QAudioSink instance.  That is why sound stayed
+    // off until the whole app was restarted.
+    //
+    // So: drop the sink when the activity is stopped and build a brand new
+    // one when we come back.
+    if (backend != AudioBackend::SoftwareMixerBackend)
+        return;
+
+    if (state == Qt::ApplicationSuspended) {
+        m_sinkDroppedForBackground = (mixerSink != nullptr);
+        destroyMixerSink();
+        if (mixer)
+            mixer->stopAll();   // do not replay queued voices on resume
+    } else if (state == Qt::ApplicationActive && m_sinkDroppedForBackground) {
+        m_sinkDroppedForBackground = false;
+        if (!audioEnabled)
+            return;
+        // Give Android a moment to finish restoring the activity before
+        // grabbing an audio stream again.
+        QTimer::singleShot(RESUME_SINK_DELAY_MS, this, [this]() {
+            if (!audioEnabled || backend != AudioBackend::SoftwareMixerBackend)
+                return;
+            if (QGuiApplication::applicationState() != Qt::ApplicationActive)
+                return;
+            recreateMixerSink(selectedDevice.isNull()
+                                  ? QMediaDevices::defaultAudioOutput()
+                                  : selectedDevice);
+            if (mixerSink->error() != QAudio::NoError) {
+                qWarning() << "[Audio] Mixer sink failed to restart after resume:"
+                           << mixerSink->error();
+            } else {
+                qCInfo(lcAudio) << "Mixer sink recreated after returning from background"
+                                << "| state:" << mixerSink->state();
+            }
+        });
+    }
+}
+#endif // Q_OS_ANDROID
+
 void QtAudioPlayer::connectMixerSinkSignals()
 {
     if (!mixerSink)
@@ -616,10 +724,12 @@ void QtAudioPlayer::connectMixerSinkSignals()
 
     // Handle QAudioSink state transitions:
     //
-    // IdleState     — the internal buffer drained.  WavMixer always
-    //                 provides data (silence when idle), so this is a
-    //                 transient underrun.  Ignore it — the sink keeps
-    //                 pulling and recovers by itself.
+    // IdleState     — the sink ran out of data.  WavMixer always provides
+    //                 data (silence when idle), so this only happens when
+    //                 the stream starved, e.g. while the app was frozen in
+    //                 the background on Android.  Nothing to do here: the
+    //                 next WavMixer::play() emits readyRead(), which puts
+    //                 the sink back into ActiveState.
     //
     // StoppedState  — check the error code.  NoError means an
     //                 intentional stop (closeAudio / applyDeviceToEffects).
@@ -857,17 +967,7 @@ void QtAudioPlayer::closeAudio()
         winmmPoolOpen = false;
     }
 #endif
-    if (mixerSink) {
-        // Disconnect stateChanged BEFORE stopping so the handler cannot
-        // queue a spurious applyDeviceToEffects() call that would fire
-        // after initAudio() has already created a fresh sink.
-        mixerSink->disconnect(this);
-        m_stoppingMixerIntentionally = true;
-        mixerSink->stop();
-        m_stoppingMixerIntentionally = false;
-        delete mixerSink;
-        mixerSink = nullptr;
-    }
+    destroyMixerSink();
     if (mixer) {
         mixer->stopAll();
         mixer->close();
@@ -975,27 +1075,7 @@ void QtAudioPlayer::applyDeviceToEffects()
 #endif
     if (backend == AudioBackend::SoftwareMixerBackend) {
         // Recreate the audio sink with the new device
-        if (mixerSink) {
-            mixerSink->disconnect(this);
-            m_stoppingMixerIntentionally = true;
-            mixerSink->stop();
-            m_stoppingMixerIntentionally = false;
-            delete mixerSink;
-        }
-        QAudioFormat format;
-        format.setSampleRate(44100);
-        format.setChannelCount(2);
-        format.setSampleFormat(QAudioFormat::Int16);
-        mixerSink = new QAudioSink(deviceToUse, format, this);
-#ifdef Q_OS_WIN
-        mixerSink->setBufferSize(44100 * 4 * 3 / 5); // ~600ms for WASAPI
-#else
-        mixerSink->setBufferSize(44100 * 4 / 5);      // ~200ms
-#endif
-        connectMixerSinkSignals();
-        if (mixer) {
-            mixerSink->start(mixer);
-        }
+        recreateMixerSink(deviceToUse);
         return;
     }
     

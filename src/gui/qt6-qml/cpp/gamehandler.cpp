@@ -184,18 +184,18 @@ bool GameHandler::eventFilter(QObject *watched, QEvent *event)
     return QObject::eventFilter(watched, event);
 }
 
-GameHandler::~GameHandler()
-{
-    delete m_soundEventHandler;
-    m_soundEventHandler = nullptr;
-}
+GameHandler::~GameHandler() = default;
 
 void GameHandler::setConfig(ConfigFile *config)
 {
     m_config = config;
     if (m_chatTranslator)
         m_chatTranslator->setConfig(config);
-    ensureSoundEventHandler();
+}
+
+void GameHandler::setSoundEvents(SoundEvents *soundEvents)
+{
+    m_soundEventHandler = soundEvents;
 }
 
 QObject* GameHandler::chatTranslator() const
@@ -210,7 +210,6 @@ void GameHandler::setSession(boost::shared_ptr<Session> session)
 
 void GameHandler::setGame(boost::shared_ptr<Game> game)
 {
-    ensureSoundEventHandler();
     if (m_soundEventHandler)
         m_soundEventHandler->newGameStarts();
 
@@ -325,15 +324,8 @@ QStringList GameHandler::tableStatsNicks() const
 
 // ─── private helpers ────────────────────────────────────────────────────────
 
-void GameHandler::ensureSoundEventHandler()
-{
-    if (!m_soundEventHandler && m_config)
-        m_soundEventHandler = new SoundEvents(m_config);
-}
-
 void GameHandler::playYourTurnTimeoutSound()
 {
-    ensureSoundEventHandler();
     if (m_soundEventHandler)
         m_soundEventHandler->playSound("yourturn", 0);
 }
@@ -1140,7 +1132,6 @@ void GameHandler::onRefreshAction(int playerId, int playerAction)
         "", "fold", "check", "call", "bet", "raise", "allin"
     };
 
-    ensureSoundEventHandler();
     if (m_soundEventHandler)
         m_soundEventHandler->playSound(kActionSounds[playerAction], playerId);
 }
@@ -1586,7 +1577,6 @@ bool GameHandler::checkLocalGameOver()
 void GameHandler::onBlindsSet(int smallBlind)
 {
     if (localGameCallbacksBlocked()) return;
-    ensureSoundEventHandler();
     if (m_soundEventHandler)
         m_soundEventHandler->blindsWereSet(smallBlind);
 }

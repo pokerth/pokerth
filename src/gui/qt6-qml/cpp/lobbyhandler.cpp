@@ -623,9 +623,11 @@ QObject* LobbyHandler::chatTranslator() const
     return m_chatTranslator;
 }
 
-LobbyHandler::~LobbyHandler()
+LobbyHandler::~LobbyHandler() = default;
+
+void LobbyHandler::setSoundEvents(SoundEvents *soundEvents)
 {
-	delete m_soundEvents;
+    m_soundEvents = soundEvents;
 }
 
 void LobbyHandler::setSession(boost::shared_ptr<Session> session)
@@ -1347,8 +1349,6 @@ void LobbyHandler::onGamePlayerJoined()
         return;
     if (!m_session || m_currentGameId == 0)
         return;
-    if (!m_soundEvents && m_config)
-        m_soundEvents = new SoundEvents(m_config);
     if (!m_soundEvents)
         return;
     const GameInfo info = m_session->getClientGameInfo(m_currentGameId);
@@ -1362,8 +1362,6 @@ void LobbyHandler::onGamePlayerJoined()
 void LobbyHandler::onTimeoutWarning(int reason, int remainingSec)
 {
     // Audio-Hinweis: das Popup kann übersehen werden (Lobby wie ingame).
-    if (!m_soundEvents && m_config)
-        m_soundEvents = new SoundEvents(m_config);
     if (m_soundEvents)
         m_soundEvents->playSound("yourturn", 0);
     emit timeoutWarningReceived(reason, remainingSec);
@@ -1531,8 +1529,6 @@ void LobbyHandler::onLobbyChatMessage(const QString &playerName, const QString &
     // Sound notification on mention (wie chattools.cpp im Widgets-Client)
     if (isMention && playerName != myNick) {
         if (!m_config || m_config->readConfigInt("PlayLobbyChatNotification")) {
-            if (!m_soundEvents && m_config)
-                m_soundEvents = new SoundEvents(m_config);
             if (m_soundEvents)
                 m_soundEvents->playSound("lobbychatnotify", 0);
             emit lobbyChatMentionDetected();

@@ -90,6 +90,12 @@ private:
     void playSoundQSoundEffect(const QString& key);
     void playSoundPaPlay(const QString& key);
     void initSoftwareMixerBackend(const QAudioDevice& device, float volume);
+    void recreateMixerSink(const QAudioDevice& device);
+    void destroyMixerSink();
+#ifdef Q_OS_ANDROID
+    // Connected via PMF, so it does not have to be a moc-visible slot.
+    void onApplicationStateChanged(Qt::ApplicationState state);
+#endif
     void playSoundSoftwareMixer(const QString& key);
     void connectMixerSinkSignals();
     void initWinMMBackend(float volume);
@@ -143,4 +149,11 @@ private:
     // Debounce for Bluetooth reconnects etc.
     QTimer* deviceChangeDebounceTimer;
     static constexpr int DEVICE_CHANGE_DEBOUNCE_MS = 500;
+
+#ifdef Q_OS_ANDROID
+    // The mixer sink was dropped because the activity was stopped, and has
+    // to be built again once the app is in the foreground.
+    bool m_sinkDroppedForBackground = false;
+    static constexpr int RESUME_SINK_DELAY_MS = 250;
+#endif
 };

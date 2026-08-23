@@ -186,6 +186,10 @@ public:
     void setSession(boost::shared_ptr<Session> session);
     void setGame(boost::shared_ptr<Game> game);
     void setConfig(ConfigFile *config);
+    // Der Sound-Handler wird zentral in main() erzeugt und von Lobby- und
+    // Game-Handler gemeinsam benutzt (nicht besessen): jede SoundEvents-
+    // Instanz hält einen eigenen Audio-Stream.
+    void setSoundEvents(SoundEvents *soundEvents);
 
     // Called from QML to start a local game
     Q_INVOKABLE void startLocalGame();
@@ -399,7 +403,6 @@ protected:
 
 private:
     bool localGameCallbacksBlocked() const;
-    void ensureSoundEventHandler();
     void playYourTurnTimeoutSound();
     void refreshPlayerData();
     void refreshBoardCards();
@@ -454,7 +457,7 @@ private:
     boost::shared_ptr<Session> m_session;
     boost::shared_ptr<Game> m_game;
     ConfigFile *m_config = nullptr;
-    SoundEvents *m_soundEventHandler = nullptr;
+    SoundEvents *m_soundEventHandler = nullptr;   // nicht besessen
     QTimer *m_timeoutBeepTimer = nullptr;
     // Ratenbegrenzung für AFK-Reset (ResetTimeoutMessage). Wie der Widgets-
     // Client: höchstens alle paar Minuten senden, bei echter Nutzeraktivität.

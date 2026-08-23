@@ -58,6 +58,8 @@
 #include "gui/qt6-qml/cpp/screenhelper.h"
 #include "gui/qt6-qml/cpp/texttranslator.h"
 #include "gui/qt6-qml/cpp/webnetworkfactory.h"
+#include <soundevents.h>
+#include <memory>
 #include <core/loghelper.h>
 #include <cstdio>
 
@@ -267,8 +269,16 @@ int main(int argc, char *argv[])
     ServerConnectionHandler *connectionHandler = new ServerConnectionHandler(&app);
     connectionHandler->setConfig(myConfig.get());
     
+    // Genau ein Sound-Handler für die ganze App: jede SoundEvents-Instanz
+    // öffnet einen eigenen Audio-Stream – auf Android jeweils einen eigenen
+    // OpenSL-ES-Player, dessen Initialisierung zusätzlich das globale
+    // AudioManager-Routing neu setzt.  Lobby- und Game-Handler teilen sich
+    // deshalb diese Instanz (sie besitzen sie nicht).
+    std::unique_ptr<SoundEvents> soundEvents(new SoundEvents(myConfig.get()));
+
     LobbyHandler *lobbyHandler = new LobbyHandler(&app);
     lobbyHandler->setConfig(myConfig.get());
+    lobbyHandler->setSoundEvents(soundEvents.get());
 
     // Automatische Wiederverbindung: Der ServerConnectionHandler schaltet das
     // Rejoin im LobbyHandler scharf, damit das Angebot des Servers (InitAck)
@@ -278,6 +288,7 @@ int main(int argc, char *argv[])
                      lobbyHandler, &LobbyHandler::setAutoRejoin);
 
     GameHandler *gameHandler = new GameHandler(&app);
+    gameHandler->setSoundEvents(soundEvents.get());
 
     LogHandler *logHandler = new LogHandler(myConfig.get(), &app);
 
