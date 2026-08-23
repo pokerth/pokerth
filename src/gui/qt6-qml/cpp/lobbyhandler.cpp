@@ -40,8 +40,15 @@ public:
 
     void setSession(Session *session)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        beginFilterChange();
+#endif
         m_session = session;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
         invalidateFilter();
+#endif
     }
 
     void setFilterState(int state)
@@ -54,14 +61,23 @@ public:
             m_lastFilterStateAlpha = false;
         }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        beginFilterChange();
+#endif
         m_filterState = state;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
         invalidateFilter();
+#endif
         sort(0, Qt::AscendingOrder);
     }
 
     void refresh()
     {
+#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
         invalidateFilter();
+#endif
         sort(0, Qt::AscendingOrder);
     }
 
@@ -127,8 +143,15 @@ public:
 
     void setSession(Session *session)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        beginFilterChange();
+#endif
         m_session = session;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
         invalidateFilter();
+#endif
     }
 
     void setFilterMode(int mode)
@@ -139,8 +162,15 @@ public:
         if (m_filterMode == mode)
             return;
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        beginFilterChange();
+#endif
         m_filterMode = mode;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
         invalidateFilter();
+#endif
     }
 
     QHash<int, QByteArray> roleNames() const override
