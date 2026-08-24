@@ -590,7 +590,8 @@ ServerGame::KickPlayer(unsigned playerId)
 void
 ServerGame::InternalAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned playerIdWho, unsigned timeoutSec)
 {
-	if (IsRunning() && byWhom->GetPlayerData()) {
+	if (IsRunning() && byWhom->GetPlayerData()
+			&& byWhom->GetState() == SessionData::Game) {
 		// Retrieve only the number of human players.
 		size_t numPlayers = GetSessionManager().GetPlayerIdList(SessionData::Game).size();
 		if (numPlayers > 2) {
@@ -650,7 +651,8 @@ ServerGame::InternalDenyAskVoteKick(boost::shared_ptr<SessionData> byWhom, unsig
 void
 ServerGame::InternalVoteKick(boost::shared_ptr<SessionData> byWhom, unsigned petitionId, KickVote vote)
 {
-	if (IsRunning() && byWhom->GetPlayerData()) {
+	if (IsRunning() && byWhom->GetPlayerData()
+			&& byWhom->GetState() == SessionData::Game) {
 		// Check whether this is the valid petition id.
 		if (m_voteKickData && m_voteKickData->petitionId == petitionId) {
 			// Check whether the player already voted.
