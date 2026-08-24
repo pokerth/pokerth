@@ -1607,7 +1607,11 @@ ServerLobbyThread::HandleNetPacketRejoinGame(boost::shared_ptr<SessionData> sess
 
 	if (pos != m_gameMap.end()) {
 		boost::shared_ptr<ServerGame> game = pos->second;
-		MoveSessionToGame(game, session, rejoinGame.autoleave(), false);
+		if (game->IsRunning()) {
+			MoveSessionToGame(game, session, rejoinGame.autoleave(), false);
+		} else {
+			SendJoinGameFailed(session, rejoinGame.gameid(), NTF_NET_JOIN_REJOIN_FAILED);
+		}
 	} else {
 		SendJoinGameFailed(session, rejoinGame.gameid(), NTF_NET_JOIN_GAME_INVALID);
 	}
