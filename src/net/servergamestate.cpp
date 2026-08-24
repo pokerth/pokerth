@@ -1658,8 +1658,12 @@ ServerGameStateWaitPlayerAction::InternalProcessPacket(boost::shared_ptr<ServerG
 		// TODO consider game id.
 		Game &curGame = server->GetGame();
 		boost::shared_ptr<PlayerInterface> tmpPlayer = curGame.getPlayerByUniqueId(session->GetPlayerData()->GetUniqueId());
-		if (!tmpPlayer)
-			throw ServerException(__FILE__, __LINE__, ERR_NET_UNKNOWN_PLAYER_ID, 0);
+		if (!tmpPlayer) {
+			// Spectators share the game packet path but are not poker-engine
+			// players. Ignore player-only actions instead of treating them as
+			// a fatal error for the whole game.
+			return;
+		}
 
 		// Check whether this is the correct round.
 		PlayerActionCode code = ACTION_CODE_VALID;
