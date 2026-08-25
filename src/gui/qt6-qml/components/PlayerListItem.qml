@@ -11,6 +11,7 @@ ItemDelegate {
     required property int index
     required property int collapseResetCounter
     required property var listView
+    required property string searchFilter
 
     readonly property int playerListRevision: Lobby ? Lobby.playerListRevision : 0
     readonly property var playerEntry: {
@@ -27,8 +28,15 @@ ItemDelegate {
     // Portrait → bestehendes Expand/Collapse mit gestapelten Buttons.
     readonly property bool wideLayout: Config.Responsive.landscape
 
+    // ── Filter (Spielersuche) ────────────────────────────────────────
+    readonly property bool matchesFilter: {
+        var f = searchFilter.toLowerCase()
+        return f.length === 0 || displayName.toLowerCase().includes(f)
+    }
+
     width: listView.width
-    height: visible
+    visible: matchesFilter
+    height: matchesFilter
             ? ((!wideLayout && expanded && hasActions) ? expandedHeight : rowHeight)
             : 0
 

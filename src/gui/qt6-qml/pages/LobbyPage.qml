@@ -227,8 +227,7 @@ Rectangle {
                 delegate: PlayerListItem {
                     collapseResetCounter: lobbyPage.playerListCollapseResetCounter
                     listView: playerPanelList
-                    visible: (playerSearchField.text.length === 0 ||
-                             displayName.toLowerCase().includes(playerSearchField.text.toLowerCase()))
+                    searchFilter: playerSearchField.text
                 }
             }
 
@@ -736,6 +735,7 @@ Rectangle {
                         delegate: PlayerListItem {
                             collapseResetCounter: lobbyPage.playerListCollapseResetCounter
                             listView: playerListView
+                            searchFilter: searchPlayerField.text
                         }
                     }
 

@@ -261,8 +261,7 @@ Rectangle {
                 delegate: PlayerListItem {
                     collapseResetCounter: gameWaitPage.playerListCollapseResetCounter
                     listView: waitPagePlayerPanelList
-                    visible: (panelSearchField.text.length === 0 ||
-                             displayName.toLowerCase().includes(panelSearchField.text.toLowerCase()))
+                    searchFilter: panelSearchField.text
                 }
             }
 
@@ -570,6 +569,7 @@ Rectangle {
                         delegate: PlayerListItem {
                             collapseResetCounter: gameWaitPage.playerListCollapseResetCounter
                             listView: waitPagePlayerSidebarList
+                            searchFilter: ""
                         }
                     }
 
