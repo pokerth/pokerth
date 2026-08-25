@@ -283,14 +283,13 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 		const VoteKickRequestMessage &netVoteKick = packet->GetMsg()->votekickrequestmessage();
 		server->InternalVoteKick(session, netVoteKick.petitionid(), netVoteKick.votekick() ? KICK_VOTE_IN_FAVOUR : KICK_VOTE_AGAINST);
 	}
-	// Chat text is always allowed.
+	// Handle chat text.
 	else if (packet->GetMsg()->messagetype() == PokerTHMessage::Type_ChatRequestMessage) {
 		bool chatSent = false;
 		const ChatRequestMessage &netChatRequest = packet->GetMsg()->chatrequestmessage();
 		// Only forward if this player is known and not a guest.
 		if (session->GetPlayerData()->GetRights() != PLAYER_RIGHTS_GUEST) {
-			// Forward chat text to all players.
-			// TODO: Some limitation needed.
+			// Forward chat text to all players at a limited rate.
 			if (!netChatRequest.has_targetgameid()) {
 				if (!server->IsRunning()) {
 					server->GetLobbyThread().HandleChatRequest(session, netChatRequest);
@@ -300,7 +299,7 @@ AbstractServerGameStateReceiving::ProcessPacket(boost::shared_ptr<ServerGame> se
 				boost::shared_ptr<PlayerInterface> tmpPlayer (server->GetPlayerInterfaceFromGame(session->GetPlayerData()->GetUniqueId()));
 				// If we did not find the player, then the game did not start yet. Allow chat for now.
 				// Otherwise, check whether the player is muted.
-				if (!tmpPlayer || !tmpPlayer->isMuted()) {
+				if ((!tmpPlayer || !tmpPlayer->isMuted()) && session->AcquireChatToken()) {
 					boost::shared_ptr<NetPacket> packet(new NetPacket);
 					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
 					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();

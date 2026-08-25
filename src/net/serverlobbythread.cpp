@@ -1624,6 +1624,15 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 	// Guests are not allowed to chat.
 	if (session->GetPlayerData() && session->GetPlayerData()->GetRights() != PLAYER_RIGHTS_GUEST) {
 		if (!chatRequest.has_targetgameid() && !chatRequest.has_targetplayerid()) {
+			if (!session->AcquireChatToken()) {
+				boost::shared_ptr<NetPacket> packet(new NetPacket);
+				packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatRejectMessage);
+				ChatRejectMessage *netReject = packet->GetMsg()->mutable_chatrejectmessage();
+				netReject->set_chattext(chatRequest.chattext());
+				GetSender().Send(session, packet);
+				return;
+			}
+
 			string chatMsg(chatRequest.chattext());
 
 			boost::shared_ptr<NetPacket> packet(new NetPacket);
