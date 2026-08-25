@@ -66,6 +66,13 @@ public:
 
 	virtual void AsyncQueryAdminPlayers(unsigned requestId) = 0;
 	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active) = 0;
+
+	// Lobby activity logging. LogSessionStart opens a row for a connection that
+	// reached the lobby, LogSessionEnd completes it. Both are fire and forget:
+	// losing an activity row must never affect the session it describes.
+	virtual void LogSessionStart(unsigned sessionNo, DB_id playerId, const std::string &nick, bool isGuest,
+								 unsigned clientBuildId, const std::string &country, const std::string &ip) = 0;
+	virtual void LogSessionEnd(unsigned sessionNo, unsigned gameId, const std::string &closeReason) = 0;
 };
 
 #endif

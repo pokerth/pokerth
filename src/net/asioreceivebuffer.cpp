@@ -39,6 +39,7 @@
 #include <core/loghelper.h>
 #include <core/pokerthexception.h>
 #include <QDebug>
+#include <sstream>
 
 using namespace std;
 
@@ -170,6 +171,13 @@ AsioReceiveBuffer::HandleRead(boost::shared_ptr<SessionData> session, const boos
                 LOG_ERROR("Session " << session->GetId() << " (" << session->GetClientAddr() << playerInfo
                           << ") - Connection closed: " << error
                           << " (unsent: " << session->GetSendBuffer().GetPendingBytes() << " bytes)");
+                // Keep the cause for the activity log - by the time the lobby
+                // closes the session, the error is no longer in reach.
+                {
+                    std::ostringstream reasonStream;
+                    reasonStream << error;
+                    session->SetCloseReason(reasonStream.str());
+                }
                 session->Close();
             }
         } catch (const PokerTHException &) {

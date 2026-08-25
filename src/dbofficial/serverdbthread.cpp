@@ -42,8 +42,11 @@
 #include <dbofficial/asyncdbadminplayers.h>
 #include <dbofficial/asyncdbblockplayer.h>
 #include <dbofficial/asyncdbplayerlastgames.h>
+#include <dbofficial/asyncdbsessionstart.h>
+#include <dbofficial/asyncdbsessionend.h>
 #include <dbofficial/compositeasyncdbquery.h>
 #include <dbofficial/db_table_defs.h>
+#include <game_defs.h>
 #include <algorithm>
 #include <ctime>
 #include <sstream>
@@ -84,6 +87,8 @@
 #define QUERY_ADMIN_PLAYER_PREPARE		"admin_player_template"
 #define QUERY_BLOCK_PLAYER_PREPARE		"block_player_template"
 #define QUERY_PLAYER_LASTGAMES_PREPARE	"player_lastgames_template"
+#define QUERY_SESSION_START_PREPARE		"session_start_template"
+#define QUERY_SESSION_END_PREPARE		"session_end_template"
 
 using namespace std;
 
@@ -197,6 +202,89 @@ ServerDBThread::PlayerPostLogin(DB_id playerId, const std::string &avatarHash, c
 void
 ServerDBThread::PlayerLogout(DB_id /*playerId*/)
 {
+}
+
+
+void
+ServerDBThread::LogSessionStart(unsigned sessionNo, DB_id playerId, const string &nick, bool isGuest,
+								unsigned clientBuildId, const string &country, const string &ip)
+{
+	if (!IsActivityLoggingEnabled())
+		return;
+
+	// The run id is not passed here: it is prepended in AsyncDBSessionStart::Init(),
+	// because a guest can reach the lobby before the database connection exists.
+	//
+	// Note on the parameter encoding: the executor turns a parameter that reads
+	// exactly "NULL" into SQL NULL, which is how the optional columns below are
+	// left empty. A player whose nick is literally "NULL" therefore loses their
+	// activity row (nick is NOT NULL); nothing else about their session is
+	// affected.
+	list<string> params;
+	ostringstream paramStream;
+	paramStream << sessionNo;
+	params.push_back(paramStream.str());
+	if (playerId == DB_ID_INVALID) {
+		params.push_back("NULL");
+	} else {
+		paramStream.str("");
+		paramStream << playerId;
+		params.push_back(paramStream.str());
+	}
+	params.push_back(nick);
+	params.push_back(isGuest ? "1" : "0");
+	if (clientBuildId == 0) {
+		params.push_back("NULL");
+	} else {
+		paramStream.str("");
+		paramStream << clientBuildId;
+		params.push_back(paramStream.str());
+	}
+	params.push_back(country.empty() ? "NULL" : country);
+	params.push_back(ip.empty() ? "NULL" : ip);
+	params.push_back(mysqlpp::DateTime(time(NULL)));
+
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBSessionStart(
+			sessionNo,
+			QUERY_SESSION_START_PREPARE,
+			params));
+
+	EnqueueQuery(asyncQuery);
+}
+
+void
+ServerDBThread::LogSessionEnd(unsigned sessionNo, unsigned gameId, const string &closeReason)
+{
+	if (!IsActivityLoggingEnabled())
+		return;
+
+	// The row id is appended in AsyncDBSessionEnd::Init().
+	list<string> params;
+	const string now = mysqlpp::DateTime(time(NULL));
+	params.push_back(now);
+	// Second copy of the same timestamp: the duration is computed against the
+	// stored connect time, so the database does not have to be told it twice.
+	params.push_back(now);
+	// The lobby knows its own game ids; the column references the game table,
+	// so it has to be the database id of that game.
+	DB_id gameDbId = gameId ? m_dbIdManager.GetGameDBId(gameId) : DB_ID_INVALID;
+	if (gameDbId == DB_ID_INVALID) {
+		params.push_back("NULL");
+	} else {
+		ostringstream paramStream;
+		paramStream << gameDbId;
+		params.push_back(paramStream.str());
+	}
+	params.push_back(closeReason.empty() ? "NULL" : closeReason);
+
+	boost::shared_ptr<AsyncDBQuery> asyncQuery(
+		new AsyncDBSessionEnd(
+			sessionNo,
+			QUERY_SESSION_END_PREPARE,
+			params));
+
+	EnqueueQuery(asyncQuery);
 }
 
 void
@@ -507,6 +595,7 @@ ServerDBThread::Main()
 		}
 	}
 	SetConnected(false);
+	CloseServerRun();
 	m_connData->conn.disconnect();
 	DrainQueueWithError();
 }
@@ -521,6 +610,133 @@ bool
 ServerDBThread::HasDBConnection() const
 {
 	return m_connData->conn.connected();
+}
+
+
+
+bool
+ServerDBThread::PrepareActivityStatements()
+{
+	mysqlpp::Query prepareSessionStart = m_connData->conn.query();
+	prepareSessionStart
+			<< "PREPARE " QUERY_SESSION_START_PREPARE " FROM " << mysqlpp::quote
+			<< "INSERT INTO " DB_TABLE_SERVER_SESSION " (" DB_TABLE_SERVER_SESSION_COL_RUNID ", " DB_TABLE_SERVER_SESSION_COL_NO ", " DB_TABLE_SERVER_SESSION_COL_PLAYERID ", " DB_TABLE_SERVER_SESSION_COL_NICK ", " DB_TABLE_SERVER_SESSION_COL_ISGUEST ", " DB_TABLE_SERVER_SESSION_COL_BUILDID ", " DB_TABLE_SERVER_SESSION_COL_COUNTRY ", " DB_TABLE_SERVER_SESSION_COL_IP ", " DB_TABLE_SERVER_SESSION_COL_CONNECTED ") VALUES (?, ?, ?, ?, ?, ?, ?, INET6_ATON(?), ?)";
+
+	mysqlpp::Query prepareSessionEnd = m_connData->conn.query();
+	prepareSessionEnd
+			<< "PREPARE " QUERY_SESSION_END_PREPARE " FROM " << mysqlpp::quote
+			<< "UPDATE " DB_TABLE_SERVER_SESSION " SET " DB_TABLE_SERVER_SESSION_COL_DISCONNECTED " = ?, " DB_TABLE_SERVER_SESSION_COL_DURATION " = TIMESTAMPDIFF(SECOND, " DB_TABLE_SERVER_SESSION_COL_CONNECTED ", ?), " DB_TABLE_SERVER_SESSION_COL_GAMEID " = ?, " DB_TABLE_SERVER_SESSION_COL_CLOSEREASON " = ? WHERE " DB_TABLE_SERVER_SESSION_COL_ID " = ?";
+
+	if (!prepareSessionStart.exec() || !prepareSessionEnd.exec()) {
+		LOG_ERROR("Activity logging disabled: cannot prepare statements, is "
+			DB_TABLE_SERVER_SESSION " missing? ("
+			<< prepareSessionStart.error() << prepareSessionEnd.error() << ")");
+		return false;
+	}
+	return true;
+}
+
+bool
+ServerDBThread::IsActivityLoggingEnabled() const
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	return m_activityLogging;
+}
+
+void
+ServerDBThread::SetActivityLoggingEnabled(bool enabled)
+{
+	boost::mutex::scoped_lock lock(m_activityLoggingMutex);
+	m_activityLogging = enabled;
+}
+
+void
+ServerDBThread::OpenServerRun()
+{
+	// Once per process, not once per connection: a database hiccup is not a
+	// restart, and a run row for every reconnect would make the downtime
+	// between runs unreadable.
+	if (m_dbIdManager.GetServerRunId() != DB_ID_INVALID)
+		return;
+
+	// Converted up front: the query's generic stream operator would format the
+	// wrapper itself, not the SQL timestamp it converts to.
+	const string startedAt = mysqlpp::DateTime(time(NULL));
+
+	mysqlpp::Query insertRun = m_connData->conn.query();
+	insertRun
+			<< "INSERT INTO " DB_TABLE_SERVER_RUN
+			" (" DB_TABLE_SERVER_RUN_COL_STARTED ", " DB_TABLE_SERVER_RUN_COL_BUILDID ") VALUES ("
+			<< mysqlpp::quote << startedAt << ", "
+			// Client type 0 marks this as the server's own version, so a run
+			// row can never be mistaken for a client build.
+			<< MAKE_BUILD_ID(0, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, POKERTH_BETA_REVISION) << ")";
+	if (!insertRun.exec()) {
+		LOG_ERROR("Activity logging disabled: cannot write " DB_TABLE_SERVER_RUN " (" << insertRun.error() << ").");
+		return;
+	}
+
+	mysqlpp::Query idQuery = m_connData->conn.query();
+	idQuery << "SELECT LAST_INSERT_ID()";
+	mysqlpp::StoreQueryResult idResult = idQuery.store();
+	if (!idResult || idResult.num_rows() != 1) {
+		LOG_ERROR("Activity logging disabled: no run id (" << idQuery.error() << ").");
+		return;
+	}
+	DB_id runId = idResult[0][0];
+	if (runId == DB_ID_INVALID) {
+		LOG_ERROR("Activity logging disabled: run id is zero.");
+		return;
+	}
+	m_dbIdManager.SetServerRunId(runId);
+
+	// Sessions an earlier process left behind cannot be dated - it is unknown
+	// when their connection actually went away. Mark them instead of inventing
+	// an end time, so that "who is online" queries can skip them.
+	mysqlpp::Query cleanup = m_connData->conn.query();
+	cleanup
+			<< "UPDATE " DB_TABLE_SERVER_SESSION
+			" SET " DB_TABLE_SERVER_SESSION_COL_CLOSEREASON " = " << mysqlpp::quote << "server_gone"
+			<< " WHERE " DB_TABLE_SERVER_SESSION_COL_DISCONNECTED " IS NULL"
+			" AND " DB_TABLE_SERVER_SESSION_COL_CLOSEREASON " IS NULL"
+			" AND " DB_TABLE_SERVER_SESSION_COL_RUNID " <> " << runId;
+	if (!cleanup.exec())
+		LOG_ERROR("Could not mark stale sessions of previous runs (" << cleanup.error() << ").");
+
+	LOG_MSG("Activity logging active, server run #" << runId << ".");
+}
+
+void
+ServerDBThread::CloseServerRun()
+{
+	DB_id runId = m_dbIdManager.GetServerRunId();
+	if (runId == DB_ID_INVALID || !m_connData->conn.connected())
+		return;
+
+	const string now = mysqlpp::DateTime(time(NULL));
+
+	// On a clean shutdown every still-open session ends now, and that is worth
+	// recording: the queued close queries are about to be discarded with the
+	// rest of the queue, so this is the last chance to date them correctly.
+	mysqlpp::Query closeSessions = m_connData->conn.query();
+	closeSessions
+			<< "UPDATE " DB_TABLE_SERVER_SESSION
+			" SET " DB_TABLE_SERVER_SESSION_COL_DISCONNECTED " = " << mysqlpp::quote << now
+			<< ", " DB_TABLE_SERVER_SESSION_COL_DURATION " = TIMESTAMPDIFF(SECOND, "
+			DB_TABLE_SERVER_SESSION_COL_CONNECTED ", " << mysqlpp::quote << now
+			<< "), " DB_TABLE_SERVER_SESSION_COL_CLOSEREASON " = " << mysqlpp::quote << "server_stop"
+			<< " WHERE " DB_TABLE_SERVER_SESSION_COL_RUNID " = " << runId
+			<< " AND " DB_TABLE_SERVER_SESSION_COL_DISCONNECTED " IS NULL";
+	if (!closeSessions.exec())
+		LOG_ERROR("Could not close open sessions on shutdown (" << closeSessions.error() << ").");
+
+	mysqlpp::Query closeRun = m_connData->conn.query();
+	closeRun
+			<< "UPDATE " DB_TABLE_SERVER_RUN
+			" SET " DB_TABLE_SERVER_RUN_COL_STOPPED " = " << mysqlpp::quote << now
+			<< " WHERE " DB_TABLE_SERVER_RUN_COL_ID " = " << runId;
+	if (!closeRun.exec())
+		LOG_ERROR("Could not close server run #" << runId << " (" << closeRun.error() << ").");
 }
 
 void
@@ -624,6 +840,14 @@ ServerDBThread::EstablishDBConnection()
 			boost::asio::post(*m_ioService, boost::bind(&ServerDBCallback::ConnectSuccess, &m_callback));
 			m_previouslyConnected = true;
 			m_reconnectDelayMs = DB_RECONNECT_MIN_DELAY_MS;
+			// Deliberately after the mandatory statements and outside their
+			// all-or-nothing check: activity logging is a side channel, and a
+			// missing server_session table must cost the activity data, never
+			// the ability to log players in.
+			if (PrepareActivityStatements())
+				OpenServerRun();
+			else
+				SetActivityLoggingEnabled(false);
 			const size_t pending = GetQueueSize();
 			if (pending)
 				LOG_MSG("DB connection ready with " << pending << " pending queries.");

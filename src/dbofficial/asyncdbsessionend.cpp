@@ -28,72 +28,70 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Async database query: complete the lobby activity row of a closing session. */
 
+#include <dbofficial/asyncdbsessionend.h>
 #include <dbofficial/dbidmanager.h>
+#include <core/loghelper.h>
 
 
-void
-DBIdManager::AddGameId(unsigned gameId, DB_id databaseId)
+using namespace std;
+
+
+AsyncDBSessionEnd::AsyncDBSessionEnd(unsigned sessionNo, const string &preparedName, const list<string> &params)
+	: SingleAsyncDBQuery(sessionNo, preparedName, params)
 {
-	boost::mutex::scoped_lock lock(m_gameIdMapMutex);
-	m_gameIdMap[gameId] = databaseId;
+}
+
+AsyncDBSessionEnd::~AsyncDBSessionEnd()
+{
+}
+
+bool
+AsyncDBSessionEnd::Init(DBIdManager& idManager)
+{
+	if (m_initDone)
+		return true;
+
+	// Normally the insert for this session has already run, because the queue
+	// is FIFO and the session was opened before it was closed. It can still be
+	// pending though: a deferred insert is requeued at the *back*, so it can
+	// end up behind this update. Defer until the row exists. If the insert
+	// failed outright the id never arrives and the row stays open, which is
+	// what the server_gone cleanup on the next start is for.
+	DB_id sessionDbId = idManager.TakeSessionDBId(GetId());
+	if (sessionDbId == DB_ID_INVALID)
+		return false;
+
+	list<string> params;
+	GetParams(params);
+	ostringstream paramStream;
+	paramStream << sessionDbId;
+	// Row id is the last parameter, matching the WHERE clause of the update.
+	params.push_back(paramStream.str());
+	SetParams(params);
+
+	m_resolvedSessionDbId = sessionDbId;
+	m_initDone = true;
+	return true;
 }
 
 void
-DBIdManager::RemoveGameId(unsigned gameId)
+AsyncDBSessionEnd::HandleResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/, mysqlpp::StoreQueryResult& /*result*/, boost::asio::io_context &service, ServerDBCallback &cb)
 {
-	boost::mutex::scoped_lock lock(m_gameIdMapMutex);
-	m_gameIdMap.erase(gameId);
-}
-
-DB_id
-DBIdManager::GetGameDBId(unsigned gameId) const
-{
-	DB_id retVal = DB_ID_INVALID;
-
-	boost::mutex::scoped_lock lock(m_gameIdMapMutex);
-	DBMap::const_iterator pos = m_gameIdMap.find(gameId);
-	if (pos != m_gameIdMap.end()) {
-		retVal = pos->second;
-	}
-	return retVal;
-}
-
-
-void
-DBIdManager::SetServerRunId(DB_id runId)
-{
-	boost::mutex::scoped_lock lock(m_serverRunIdMutex);
-	m_serverRunId = runId;
-}
-
-DB_id
-DBIdManager::GetServerRunId() const
-{
-	boost::mutex::scoped_lock lock(m_serverRunIdMutex);
-	return m_serverRunId;
+	// This query does not produce a result.
+	HandleError(service, cb);
 }
 
 void
-DBIdManager::AddSessionId(unsigned sessionNo, DB_id databaseId)
+AsyncDBSessionEnd::HandleNoResult(mysqlpp::Query &/*query*/, DBIdManager& /*idManager*/, boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
 {
-	boost::mutex::scoped_lock lock(m_sessionIdMapMutex);
-	m_sessionIdMap[sessionNo] = databaseId;
+	// No action required.
 }
 
-DB_id
-DBIdManager::TakeSessionDBId(unsigned sessionNo)
+void
+AsyncDBSessionEnd::HandleError(boost::asio::io_context &/*service*/, ServerDBCallback &/*cb*/)
 {
-	// Taking instead of getting: a session is closed exactly once, so the
-	// entry is dead the moment it has been read. Leaving it behind would grow
-	// the map by one entry per connection for the lifetime of the server.
-	DB_id retVal = DB_ID_INVALID;
-
-	boost::mutex::scoped_lock lock(m_sessionIdMapMutex);
-	DBMap::iterator pos = m_sessionIdMap.find(sessionNo);
-	if (pos != m_sessionIdMap.end()) {
-		retVal = pos->second;
-		m_sessionIdMap.erase(pos);
-	}
-	return retVal;
+	LOG_ERROR("AsyncDBSessionEnd: UPDATE failed for session " + std::to_string(GetId())
+		+ " (row " + std::to_string(m_resolvedSessionDbId) + ").");
 }

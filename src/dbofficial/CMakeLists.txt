@@ -20,6 +20,8 @@ set(POKERTH_OFFICIAL_SERVER_SRC
     asyncdbadminplayers.cpp
     asyncdbblockplayer.cpp
     asyncdbplayerlastgames.cpp
+    asyncdbsessionstart.cpp
+    asyncdbsessionend.cpp
     dbidmanager.cpp
     ../gui/qt/qttools/nonqttoolswrapper.cpp
     ../gui/qt/qttools/nonqthelper/nonqthelper.cpp

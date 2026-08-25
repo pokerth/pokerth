@@ -458,6 +458,18 @@ ServerLobbyThread::CloseSession(boost::shared_ptr<SessionData> session)
 			// Save the session state FIRST before any other operation
 			SessionData::State oldState = session->GetState();
 			session->SetState(SessionData::Closed);
+
+			// Complete the activity row, but only for sessions that have one:
+			// LogSessionStart() runs when a session reaches the lobby, so
+			// anything closing before that never opened a row.
+			if (oldState & (SessionData::Established | SessionData::Game
+							| SessionData::Spectating | SessionData::SpectatorWaiting)) {
+				boost::shared_ptr<ServerGame> lastGame = session->GetGame();
+				m_database->LogSessionEnd(
+					session->GetId(),
+					lastGame ? lastGame->GetId() : 0,
+					session->GetCloseReason());
+			}
 			
 			// Cancel all timers FIRST to prevent timer callbacks from accessing closing session
 			try {
@@ -1187,6 +1199,9 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 	{
 		unsigned clientBuildId = initMessage.buildid();
 		unsigned clientType = BUILD_ID_GET_TYPE(clientBuildId);
+		// Kept beyond this check so that the activity log can report which
+		// client versions are actually in use.
+		session->SetClientBuildId(clientBuildId);
 
 		if (clientBuildId == 0) {
 			// Legacy client (pre-2.0.6) sends buildId=0 - no longer supported.
@@ -2014,6 +2029,18 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" (id:" << session->GetPlayerData()->GetUniqueId()
 		<< ", dbId:" << session->GetPlayerData()->GetDBId() << ") connected from " << session->GetClientAddr()
 		<< " - session #" << session->GetId() << ".");
+
+	// Open the activity row for this connection. Only sessions which got this
+	// far are logged, so that port scans and rejected clients do not show up as
+	// players. CloseSession() completes the row.
+	m_database->LogSessionStart(
+		session->GetId(),
+		session->GetPlayerData()->GetDBId(),
+		session->GetPlayerData()->GetName(),
+		session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST,
+		session->GetClientBuildId(),
+		session->GetPlayerData()->GetCountry(),
+		session->GetClientAddr());
 
 	{
 		boost::mutex::scoped_lock lock(m_statMutex);

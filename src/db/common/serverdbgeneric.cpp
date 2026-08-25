@@ -125,3 +125,14 @@ ServerDBGeneric::AsyncBlockPlayer(unsigned /*requestId*/, unsigned /*replyId*/, 
 {
 }
 
+
+void
+ServerDBGeneric::LogSessionStart(unsigned /*sessionNo*/, DB_id /*playerId*/, const std::string &/*nick*/, bool /*isGuest*/,
+								 unsigned /*clientBuildId*/, const std::string &/*country*/, const std::string &/*ip*/)
+{
+}
+
+void
+ServerDBGeneric::LogSessionEnd(unsigned /*sessionNo*/, unsigned /*gameId*/, const std::string &/*closeReason*/)
+{
+}

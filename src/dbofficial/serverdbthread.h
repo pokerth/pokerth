@@ -76,6 +76,10 @@ public:
 	virtual void AsyncQueryAdminPlayers(unsigned requestId);
 	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active);
 
+	virtual void LogSessionStart(unsigned sessionNo, DB_id playerId, const std::string &nick, bool isGuest,
+								 unsigned clientBuildId, const std::string &country, const std::string &ip);
+	virtual void LogSessionEnd(unsigned sessionNo, unsigned gameId, const std::string &closeReason);
+
 	bool IsConnected() const;
 
 protected:
@@ -87,6 +91,12 @@ protected:
 	bool HasPermanentError() const;
 	bool HasDBConnection() const;
 	void EstablishDBConnection();
+	// Activity logging bookkeeping, both run inside the database thread.
+	void OpenServerRun();
+	void CloseServerRun();
+	bool PrepareActivityStatements();
+	bool IsActivityLoggingEnabled() const;
+	void SetActivityLoggingEnabled(bool enabled);
 	void HandleNextQuery();
 
 	// Queue handling. The queue itself is the only source of truth for
@@ -111,6 +121,11 @@ private:
 	size_t m_queueHighWater;
 	unsigned m_reconnectDelayMs;
 	DBIdManager m_dbIdManager;
+
+	mutable boost::mutex m_activityLoggingMutex;
+	// Optimistic on purpose: sessions may need logging before the first
+	// database connection exists. Only a failing PREPARE turns it off.
+	bool m_activityLogging{true};
 
 	mutable boost::mutex m_isConnectedMutex;
 	bool m_isConnected;

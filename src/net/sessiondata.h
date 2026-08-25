@@ -143,6 +143,16 @@ public:
 	void SetProxyClientAddr(const std::string &addr);
 	std::string GetProxyClientAddr() const;
 
+	// Client build id from the init message, kept for the activity log so that
+	// version adoption can be read off the database.
+	void SetClientBuildId(unsigned buildId);
+	unsigned GetClientBuildId() const;
+
+	// Why the connection went away, as reported by the receive buffer. Set
+	// before the session is closed, read while closing it.
+	void SetCloseReason(const std::string &reason);
+	std::string GetCloseReason() const;
+
 	// New helpers
 	bool IsSsl() const;
 	boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> GetSslStream();
@@ -182,6 +192,8 @@ private:
 	std::string						m_nextGsaslMsg;
 	std::string						m_password;
 	boost::shared_ptr<PlayerData>	m_playerData;
+	unsigned						m_clientBuildId{0};
+	std::string						m_closeReason;
 
 	mutable boost::mutex			m_dataMutex;
 };

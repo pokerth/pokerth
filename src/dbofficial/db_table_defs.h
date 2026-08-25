@@ -77,4 +77,27 @@
 #define DB_TABLE_ADMIN_PLAYER						"admin_player"
 #define DB_TABLE_ADMIN_PLAYER_COL_PLAYERID			"admin_idplayer"
 
+// Lobby activity logging, see docs/server_activity_schema.sql.
+#define DB_TABLE_SERVER_RUN							"server_run"
+#define DB_TABLE_SERVER_RUN_COL_ID					"run_id"
+#define DB_TABLE_SERVER_RUN_COL_STARTED				"started_at"
+#define DB_TABLE_SERVER_RUN_COL_STOPPED				"stopped_at"
+#define DB_TABLE_SERVER_RUN_COL_BUILDID				"build_id"
+
+#define DB_TABLE_SERVER_SESSION						"server_session"
+#define DB_TABLE_SERVER_SESSION_COL_ID				"session_id"
+#define DB_TABLE_SERVER_SESSION_COL_RUNID			"run_id"
+#define DB_TABLE_SERVER_SESSION_COL_NO				"session_no"
+#define DB_TABLE_SERVER_SESSION_COL_PLAYERID		"player_id"
+#define DB_TABLE_SERVER_SESSION_COL_NICK			"nick"
+#define DB_TABLE_SERVER_SESSION_COL_ISGUEST			"is_guest"
+#define DB_TABLE_SERVER_SESSION_COL_BUILDID			"client_build_id"
+#define DB_TABLE_SERVER_SESSION_COL_COUNTRY			"country_iso"
+#define DB_TABLE_SERVER_SESSION_COL_IP				"ip"
+#define DB_TABLE_SERVER_SESSION_COL_CONNECTED		"connected_at"
+#define DB_TABLE_SERVER_SESSION_COL_DISCONNECTED	"disconnected_at"
+#define DB_TABLE_SERVER_SESSION_COL_DURATION		"duration_s"
+#define DB_TABLE_SERVER_SESSION_COL_GAMEID			"last_game_id"
+#define DB_TABLE_SERVER_SESSION_COL_CLOSEREASON		"close_reason"
+
 #endif // DB_TABLE_DEFS_H

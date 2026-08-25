@@ -28,72 +28,33 @@
  * shall include the source code for the parts of OpenSSL used as well       *
  * as that of the covered work.                                              *
  *****************************************************************************/
+/* Async database query: open a lobby activity row for a new session. */
 
-#include <dbofficial/dbidmanager.h>
+#ifndef _ASYNCDBSESSIONSTART_H_
+#define _ASYNCDBSESSIONSTART_H_
+
+#include <dbofficial/singleasyncdbquery.h>
 
 
-void
-DBIdManager::AddGameId(unsigned gameId, DB_id databaseId)
+class AsyncDBSessionStart : public SingleAsyncDBQuery
 {
-	boost::mutex::scoped_lock lock(m_gameIdMapMutex);
-	m_gameIdMap[gameId] = databaseId;
-}
+public:
+	AsyncDBSessionStart(unsigned sessionNo, const std::string &preparedName, const std::list<std::string> &params);
+	virtual ~AsyncDBSessionStart();
 
-void
-DBIdManager::RemoveGameId(unsigned gameId)
-{
-	boost::mutex::scoped_lock lock(m_gameIdMapMutex);
-	m_gameIdMap.erase(gameId);
-}
+	virtual bool Init(DBIdManager& idManager);
 
-DB_id
-DBIdManager::GetGameDBId(unsigned gameId) const
-{
-	DB_id retVal = DB_ID_INVALID;
+	virtual void HandleResult(mysqlpp::Query &query, DBIdManager& idManager, mysqlpp::StoreQueryResult& result, boost::asio::io_context &service, ServerDBCallback &cb);
+	virtual void HandleNoResult(mysqlpp::Query &query, DBIdManager& idManager, boost::asio::io_context &service, ServerDBCallback &cb);
+	virtual void HandleError(boost::asio::io_context &service, ServerDBCallback &cb);
 
-	boost::mutex::scoped_lock lock(m_gameIdMapMutex);
-	DBMap::const_iterator pos = m_gameIdMap.find(gameId);
-	if (pos != m_gameIdMap.end()) {
-		retVal = pos->second;
+	virtual bool RequiresResultSet() const
+	{
+		return false;
 	}
-	return retVal;
-}
 
+private:
+	bool m_initDone{false};
+};
 
-void
-DBIdManager::SetServerRunId(DB_id runId)
-{
-	boost::mutex::scoped_lock lock(m_serverRunIdMutex);
-	m_serverRunId = runId;
-}
-
-DB_id
-DBIdManager::GetServerRunId() const
-{
-	boost::mutex::scoped_lock lock(m_serverRunIdMutex);
-	return m_serverRunId;
-}
-
-void
-DBIdManager::AddSessionId(unsigned sessionNo, DB_id databaseId)
-{
-	boost::mutex::scoped_lock lock(m_sessionIdMapMutex);
-	m_sessionIdMap[sessionNo] = databaseId;
-}
-
-DB_id
-DBIdManager::TakeSessionDBId(unsigned sessionNo)
-{
-	// Taking instead of getting: a session is closed exactly once, so the
-	// entry is dead the moment it has been read. Leaving it behind would grow
-	// the map by one entry per connection for the lifetime of the server.
-	DB_id retVal = DB_ID_INVALID;
-
-	boost::mutex::scoped_lock lock(m_sessionIdMapMutex);
-	DBMap::iterator pos = m_sessionIdMap.find(sessionNo);
-	if (pos != m_sessionIdMap.end()) {
-		retVal = pos->second;
-		m_sessionIdMap.erase(pos);
-	}
-	return retVal;
-}
+#endif

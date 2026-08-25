@@ -327,6 +327,37 @@ SessionData::GetProxyClientAddr() const
 }
 
 void
+SessionData::SetClientBuildId(unsigned buildId)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_clientBuildId = buildId;
+}
+
+unsigned
+SessionData::GetClientBuildId() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_clientBuildId;
+}
+
+void
+SessionData::SetCloseReason(const std::string &reason)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	// The first reason wins: it names the actual cause, anything after it is a
+	// consequence of the close that is already under way.
+	if (m_closeReason.empty())
+		m_closeReason = reason;
+}
+
+std::string
+SessionData::GetCloseReason() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_closeReason;
+}
+
+void
 SessionData::CloseSocketHandle()
 {
     if (m_socket) {

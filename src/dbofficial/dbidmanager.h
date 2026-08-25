@@ -45,12 +45,26 @@ public:
 
 	DB_id GetGameDBId(unsigned gameId) const;
 
+	// Activity logging. The run id is set once per process, on the first
+	// successful database connection; session rows carry it so that a gap in
+	// the data can be told apart from a server that was not running.
+	void SetServerRunId(DB_id runId);
+	DB_id GetServerRunId() const;
+
+	void AddSessionId(unsigned sessionNo, DB_id databaseId);
+	DB_id TakeSessionDBId(unsigned sessionNo);
+
 protected:
 	typedef std::map<unsigned, DB_id> DBMap;
 
 private:
 	DBMap					m_gameIdMap;
 	mutable boost::mutex	m_gameIdMapMutex;
+
+	DBMap					m_sessionIdMap;
+	mutable boost::mutex	m_sessionIdMapMutex;
+	DB_id					m_serverRunId{DB_ID_INVALID};
+	mutable boost::mutex	m_serverRunIdMutex;
 };
 
 #endif // _DBIDMANAGER_H_
