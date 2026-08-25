@@ -357,9 +357,19 @@ Popup {
 
                         Rectangle {
                             id: bubble
-                            width: Math.min(parent.width * 0.85, bubbleText.implicitWidth + 20)
-                            height: bubbleColumn.implicitHeight + 12
-                            radius: 6
+
+                            readonly property int hPadding: 9
+                            readonly property int vPadding: 6
+                            // Die Blase muss BEIDE Zeilen tragen: bei einer kurzen
+                            // Nachricht ("hey!") ist der Zeitstempel das breitere
+                            // Element – ohne ihn zu berücksichtigen liefe er aus
+                            // der Blase heraus.
+                            readonly property real contentWidth:
+                                Math.max(bubbleText.implicitWidth, timeText.implicitWidth)
+
+                            width: Math.min(parent.width * 0.85, contentWidth + 2 * hPadding)
+                            height: bubbleColumn.implicitHeight + 2 * vPadding
+                            radius: 8
                             anchors.right: modelData.fromMe ? parent.right : undefined
                             anchors.left: modelData.fromMe ? undefined : parent.left
                             color: modelData.fromMe
@@ -375,8 +385,10 @@ Popup {
                                 anchors.left: parent.left
                                 anchors.right: parent.right
                                 anchors.top: parent.top
-                                anchors.margins: 6
-                                spacing: 1
+                                anchors.leftMargin: bubble.hPadding
+                                anchors.rightMargin: bubble.hPadding
+                                anchors.topMargin: bubble.vPadding
+                                spacing: 2
 
                                 AppText {
                                     id: bubbleText
@@ -388,11 +400,16 @@ Popup {
                                 }
 
                                 AppText {
+                                    id: timeText
                                     Layout.fillWidth: true
                                     horizontalAlignment: Text.AlignRight
                                     text: modelData.time
                                     font.pixelSize: 9
-                                    color: Config.Theme.colorTextMuted
+                                    // Auf der eingefärbten eigenen Blase wäre das
+                                    // feste Grau von colorTextMuted zu kontrastarm.
+                                    color: modelData.fromMe
+                                           ? Config.StaticData.palette.secondary.col200
+                                           : Config.Theme.colorTextMuted
                                 }
                             }
                         }
