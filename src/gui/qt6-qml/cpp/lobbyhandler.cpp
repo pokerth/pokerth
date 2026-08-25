@@ -889,19 +889,25 @@ bool LobbyHandler::canJoinGame(unsigned gameId) const
     if (playerCount >= maxPlayers)
         return false;
 
-    if (info.isPasswordProtected)
-        return false;
+    // Passwortgeschützte Spiele sind beitretbar: die LobbyPage fragt das
+    // Passwort vor dem Beitritt ab (joinPasswordPopup) und übergibt es an
+    // joinGame(); geprüft wird es serverseitig (ServerGame::CheckPassword).
 
     const int gameType = static_cast<int>(info.data.gameType);
-    if (gameType == GAME_TYPE_INVITE_ONLY || gameType == GAME_TYPE_REGISTERED_ONLY)
+
+    // Einladungsspiele werden ausschließlich über die Einladung selbst
+    // betreten (acceptGameInvitation), nie über die Spielliste.
+    if (gameType == GAME_TYPE_INVITE_ONLY)
         return false;
 
-    if (gameType == GAME_TYPE_RANKING) {
-        if (isMyPlayerGuest())
-            return false;
-    }
+    // Gäste dürfen serverseitig nur normalen Spielen beitreten
+    // (ServerLobbyThread::HandleNetPacketJoinGame).
+    if (gameType != GAME_TYPE_NORMAL && isMyPlayerGuest())
+        return false;
 
-    return gameType == GAME_TYPE_NORMAL || gameType == GAME_TYPE_RANKING;
+    return gameType == GAME_TYPE_NORMAL
+        || gameType == GAME_TYPE_REGISTERED_ONLY
+        || gameType == GAME_TYPE_RANKING;
 }
 
 bool LobbyHandler::canSpectateGame(unsigned gameId) const
