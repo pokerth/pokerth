@@ -1239,6 +1239,17 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 
     if (initMessage.login() == InitMessage::guestLogin) {
         // Gast-Login
+        // Optional restriction (off by default): allow only one guest per IP
+        // address and at most SERVER_MAX_GUEST_USERS_LOBBY guests in the lobby.
+        // The session itself does not have player data yet, so it is not
+        // counted by IsGuestAllowedToConnect().
+        if (m_serverConfig.readConfigInt("ServerRestrictGuestLogin") != 0
+                && !m_sessionManager.IsGuestAllowedToConnect(session->GetClientAddr())) {
+            LOG_MSG("Rejected guest login from " << session->GetClientAddr()
+                    << " - guest login is restricted on this server.");
+            SessionError(session, ERR_NET_SERVER_FULL);
+            return;
+        }
         playerName = initMessage.nickname();
         validGuest = true;
         if (initMessage.has_avatarhash()) {
