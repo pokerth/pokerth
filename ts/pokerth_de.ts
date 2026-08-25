@@ -4901,6 +4901,31 @@ Sie können nun Spieler einladen, indem Sie auf deren Nicknamen in der Spielerli
         <source>%1&apos;s game</source>
         <translation type="obsolete">%1&apos;s Spiel</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="267"/>
+        <source>Send private message</source>
+        <translation>Private Nachricht senden</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <source>Send private message to %1</source>
+        <translation>Private Nachricht an %1 senden</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <source>Send private message ...</source>
+        <translation>Private Nachricht senden ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <source>Private message</source>
+        <translation>Private Nachricht</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <source>Message to %1:</source>
+        <translation>Nachricht an %1:</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>

@@ -514,9 +514,7 @@ void ChatTools::sendMessage()
 				chatText.remove(0, 5);
 				unsigned playerId = parsePrivateMessageTarget(chatText);
 				if (playerId) {
-					mySession->sendPrivateChatMessage(playerId, chatText.toUtf8().constData());
-					QString tmp = tr("private message sent to player: %1");
-					myTextBrowser->append("<i>"+tmp.arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerId).playerName.c_str()))+"</i>");
+					sendPrivateMessage(playerId, chatText);
 				}
 			} else {
 				mySession->sendLobbyChatMessage(chatText.toUtf8().constData());
@@ -682,6 +680,16 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 		}
 
 		if(!chatBotWarnNickFoundOnIgnoreList) {
+			// Eingehende private Nachricht: IMMER ein Ton – sie ist direkt an
+			// einen selbst gerichtet und geht im laufenden Lobby-Chat sonst
+			// unter. Anders als der Nick-Treffer unten NICHT über
+			// "PlayLobbyChatNotification" abschaltbar; nur der globale
+			// Sound-Schalter (QtAudioPlayer) entscheidet. Bewusst nur in der
+			// Internet-Lobby-Instanz: dieselbe PM erreicht auch den LAN-Chat,
+			// sonst klänge es doppelt.
+			if(pm && myChatType == INET_LOBBY_CHAT && myLobby && myLobby->getMyW()) {
+				myLobby->getMyW()->getMySoundEventHandler()->playSound("lobbychatnotify",0);
+			}
 			//play beep sound as notification
 			if(myChatType == INET_LOBBY_CHAT && message.contains(myNick, Qt::CaseInsensitive) && playerName != myNick) {
 				if(myLobby->isVisible() && myConfig->readConfigInt("PlayLobbyChatNotification")) {
@@ -745,6 +753,45 @@ void ChatTools::privateMessage(QString playerName, QString message)
 {
 	bool pm=true;
 	receiveMessage(playerName, message, pm);
+}
+
+void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
+{
+	if(!mySession || !playerId || !myTextBrowser)
+		return;
+
+	message = message.trimmed();
+	// Gleiche 128-Byte-Grenze wie im Chat: längere Nachrichten verwirft der
+	// Paket-Validator des Servers.
+	static const int MAX_CHAT_TEXT_SIZE = 128;
+	while(message.toUtf8().size() > MAX_CHAT_TEXT_SIZE) {
+		message.chop(1);
+	}
+	if(message.isEmpty())
+		return;
+
+	mySession->sendPrivateChatMessage(playerId, message.toUtf8().constData());
+
+	const QString playerName = QString::fromUtf8(
+		mySession->getClientPlayerInfo(playerId).playerName.c_str());
+
+	// Bestätigung im eigenen Verlauf – gleiche Aufbereitung wie eine eingehende
+	// Nachricht (Escaping, ASCII-Kürzel, Links, größere Emojis), damit die Zeile
+	// nicht anders aussieht als der übrige Chat.
+	QString body = message;
+	body = body.replace("<","&lt;").replace(">","&gt;");
+	body = applyChatEmoteShortcuts(body);
+	body = body.replace(QRegularExpression("((?:https?)://\\S+)"), "<a href=\"\\1\">\\1</a>");
+	body = wrapEmojisLarger(body, 20);
+
+	// Bewusst die seit jeher übersetzte Bestätigungszeile – nur ergänzt um den
+	// Wortlaut, der bisher fehlte (eine gesendete PM war sonst nirgends
+	// nachlesbar).
+	// Gedankenstrich als Trenner (wie kTranslateGlobe bewusst ohne Nicht-ASCII
+	// im Quelltext, damit die Datei encodingunabhängig bleibt).
+	const QString separator = QStringLiteral(" ") + QChar(0x2013) + QStringLiteral(" ");
+	myTextBrowser->append("<i>" + tr("private message sent to player: %1").arg(nickHtml(playerName))
+	                      + separator + body + "</i>");
 }
 
 void ChatTools::clearChat()

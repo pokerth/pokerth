@@ -25,6 +25,23 @@ ApplicationWindow {
         mainStackView.currentItem
         && mainStackView.currentItem.objectName !== "preLoaderPage"
 
+    // ── Private Nachrichten (Posteingang) ──────────────────────────────────
+    // Zähler und Anzahl der Unterhaltungen für das Brief-Symbol der Kopfzeile.
+    // privateMessagesRevision ist die reaktive Abhängigkeit des Verlaufs.
+    readonly property int unreadPrivateMessages:
+        (typeof Lobby !== "undefined" && Lobby) ? Lobby.unreadPrivateMessages : 0
+    readonly property int privateConversationCount: {
+        var _rev = (typeof Lobby !== "undefined" && Lobby) ? Lobby.privateMessagesRevision : 0
+        return (typeof Lobby !== "undefined" && Lobby)
+                ? Lobby.privateConversationPartners().length : 0
+    }
+
+    // Öffnet den Posteingang; playerName leer => zuletzt aktives Gespräch.
+    // Die Spielerlisten der Seiten rufen das mit dem angeklickten Spieler auf.
+    function openPrivateMessages(playerName) {
+        privateMessageDialog.openWith(playerName)
+    }
+
     // True zwischen Beginn einer automatischen Wiederverbindung und ihrem
     // Ausgang. Trägt den Fall, dass die Wiederverbindung aufgegeben wird:
     // die Lobby ist dann bereits abgebaut, inLobbySession also false, die
@@ -463,6 +480,90 @@ ApplicationWindow {
                     id: topBarMenuSpace
                     Layout.fillWidth: true
                     Layout.horizontalStretchFactor: 2
+                }
+
+                // Posteingang für private Nachrichten. Steht links neben den
+                // Neuigkeiten und trägt – wie diese – seinen Zähler als
+                // Plakette am Icon (kein Kind des Icons: der MultiEffect-Layer
+                // würde sie sonst mit einfärben).
+                Item {
+                    id: topBarInboxButton
+                    Layout.preferredWidth: 24
+                    Layout.preferredHeight: 24
+                    Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
+                    // Am laufenden Tisch bewusst weg: dort sind PMs gesperrt.
+                    visible: mainWindow.topBarIconsVisible
+                             && !(typeof Lobby !== "undefined" && Lobby && Lobby.atRunningTable)
+                             && (mainWindow.privateConversationCount > 0)
+
+                    ToolTip.visible: inboxArea.containsMouse
+                                     && !Config.Responsive.isMobile && Config.Parameters.showTooltips
+                    ToolTip.delay: 600
+                    ToolTip.text: qsTr("Private messages")
+
+                    SvgIcon {
+                        id: topBarInboxIcon
+                        anchors.fill: parent
+                        source: "resources/mail.svg"
+                        layer.enabled: true
+                        layer.effect: MultiEffect {
+                            colorization: 1.0
+                            colorizationColor: inboxArea.containsMouse
+                                ? Config.StaticData.palette.secondary.col100
+                                : Config.StaticData.palette.secondary.col200
+                        }
+                    }
+
+                    Rectangle {
+                        id: inboxUnreadBadge
+                        visible: mainWindow.unreadPrivateMessages > 0
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.topMargin: -5
+                        anchors.rightMargin: -5
+                        width: Math.max(15, inboxUnreadLabel.implicitWidth + 7)
+                        height: 15
+                        radius: 7.5
+                        color: Config.Theme.colorDanger
+                        border.color: Config.Theme.colorBox
+                        border.width: 1.5
+
+                        AppText {
+                            id: inboxUnreadLabel
+                            anchors.centerIn: parent
+                            text: mainWindow.unreadPrivateMessages > 9
+                                  ? "9+" : mainWindow.unreadPrivateMessages
+                            color: "#FFFFFF"
+                            font.pixelSize: 9
+                            font.bold: true
+                        }
+
+                        // Kurz aufpoppen, sobald eine neue PM eintrifft – zusammen
+                        // mit dem Ton der Hinweis, dass etwas eingegangen ist.
+                        onVisibleChanged: if (visible) inboxPop.restart()
+                        Connections {
+                            target: (typeof Lobby !== "undefined") ? Lobby : null
+                            function onUnreadPrivateMessagesChanged() {
+                                if (mainWindow.unreadPrivateMessages > 0)
+                                    inboxPop.restart()
+                            }
+                        }
+                        SequentialAnimation {
+                            id: inboxPop
+                            NumberAnimation { target: inboxUnreadBadge; property: "scale"
+                                              from: 0.6; to: 1.2; duration: 110; easing.type: Easing.OutQuad }
+                            NumberAnimation { target: inboxUnreadBadge; property: "scale"
+                                              to: 1.0; duration: 130; easing.type: Easing.OutBack }
+                        }
+                    }
+
+                    MouseArea {
+                        id: inboxArea
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        onClicked: mainWindow.openPrivateMessages("")
+                    }
                 }
 
                 // Forum-Neuigkeiten – wie das Ranking überall erreichbar. Der
@@ -1094,6 +1195,14 @@ ApplicationWindow {
                 onClicked: connectionLostPopup.close()
             }
         }
+    }
+
+    // Posteingang für private Nachrichten. Bewusst hier und nicht in den Seiten:
+    // Kopfzeilen-Symbol und Brief-Symbol der Spielerliste sollen denselben
+    // Dialog öffnen, und ein Seitenwechsel darf ein offenes Gespräch nicht
+    // mitsamt der Seite verwerfen.
+    PrivateMessageDialog {
+        id: privateMessageDialog
     }
 
     Connections {

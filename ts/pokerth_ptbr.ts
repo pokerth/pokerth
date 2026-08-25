@@ -4177,6 +4177,26 @@ Sinta se avontade para convidar outro jogador clicando no apelido na lista de jo
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
         <translation>Você receberá mensagens de chat e convites de jogo deste usuário novamente! &lt;br&gt; Você realmente deseja remover jogador &lt;b&gt;%1&lt;/b&gt; a partir de sua lista de ignorados?</translation>
     </message>
+    <message>
+        <source>Send private message</source>
+        <translation>Enviar mensagem privada</translation>
+    </message>
+    <message>
+        <source>Send private message to %1</source>
+        <translation>Enviar mensagem privada para %1</translation>
+    </message>
+    <message>
+        <source>Send private message ...</source>
+        <translation>Enviar mensagem privada ...</translation>
+    </message>
+    <message>
+        <source>Private message</source>
+        <translation>Mensagem privada</translation>
+    </message>
+    <message>
+        <source>Message to %1:</source>
+        <translation>Mensagem para %1:</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>

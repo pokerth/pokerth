@@ -5312,6 +5312,31 @@ Puede invitar a otros jugadores pulsando con el botón derecho sobre su apodo en
         <source>%1&apos;s game</source>
         <translation type="obsolete">Partida de %1</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="267"/>
+        <source>Send private message</source>
+        <translation>Enviar mensaje privado</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <source>Send private message to %1</source>
+        <translation>Enviar mensaje privado a %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <source>Send private message ...</source>
+        <translation>Enviar mensaje privado ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <source>Private message</source>
+        <translation>Mensaje privado</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <source>Message to %1:</source>
+        <translation>Mensaje para %1:</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>

@@ -264,6 +264,8 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( pushButton_suggestPlayers, SIGNAL( clicked() ), this, SLOT( runCommunitySuggest() ) );
 
 	nickListContextMenu = new QMenu();
+	nickListSendPrivateMessageAction = new QAction(QIcon(":/gfx/mail.png"), tr("Send private message"), nickListContextMenu);
+	nickListContextMenu->addAction(nickListSendPrivateMessageAction);
 	nickListInviteAction = new QAction(QIcon(":/gfx/list_add_user.png"), tr("Invite player"), nickListContextMenu);
 	nickListContextMenu->addAction(nickListInviteAction);
 	nickListIgnorePlayerAction = new QAction(QIcon(":/gfx/im-ban-user.png"), tr("Ignore player"), nickListContextMenu);
@@ -311,6 +313,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 	connect( treeView_NickList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showNickListContextMenu(QPoint) ) );
 	connect( treeWidget_connectedPlayers, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showConnectedPlayersContextMenu(QPoint) ) );
 	connect( treeView_GameList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT( showGameListContextMenu(QPoint) ) );
+	connect( nickListSendPrivateMessageAction, SIGNAL(triggered()), this, SLOT( sendPrivateMessageToPlayer() ));
 	connect( nickListInviteAction, SIGNAL(triggered()), this, SLOT( invitePlayerToCurrentGame() ));
 	connect( nickListIgnorePlayerAction, SIGNAL(triggered()), this, SLOT( putPlayerOnIgnoreList() ));
 	connect( nickListUnignorePlayerAction, SIGNAL(triggered()), this, SLOT( removePlayerFromIgnoreList() ));
@@ -1932,6 +1935,21 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		assert(mySession);
 		unsigned playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
+		// Private Nachricht: nicht an sich selbst, nicht als Gast (der Server
+		// lässt Gäste gar nicht chatten) und nicht an Spieler an einem LAUFENDEN
+		// Tisch – dorthin stellt der Server PMs nicht zu (ServerLobbyThread::
+		// HandleNetPacketChatRequest), die Nachricht ginge kommentarlos verloren.
+		unsigned gameIdOfTarget = mySession->getGameIdOfPlayer(playerUid);
+		bool targetIsPlaying = gameIdOfTarget
+			&& mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED;
+		if(playerUid != mySession->getClientUniquePlayerId() && !guestMode && !targetIsPlaying) {
+			nickListSendPrivateMessageAction->setEnabled(true);
+			nickListSendPrivateMessageAction->setText(tr("Send private message to %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
+		} else {
+			nickListSendPrivateMessageAction->setEnabled(false);
+			nickListSendPrivateMessageAction->setText(tr("Send private message ..."));
+		}
+
 		if(inGame && mySession->getClientGameInfo(mySession->getClientCurrentGameId()).data.gameType == GAME_TYPE_INVITE_ONLY && playerUid != mySession->getClientUniquePlayerId() && !mySession->getClientPlayerInfo(playerUid).isGuest) {
 			nickListInviteAction->setEnabled(true);
 			nickListInviteAction->setText(tr("Invite %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
@@ -2005,6 +2023,21 @@ void gameLobbyDialogImpl::showGameListContextMenu(QPoint p)
 		tempPoint.setX(p.x()+5);
 		gameListContextMenu->popup(treeView_GameList->mapToGlobal(tempPoint));
 	}
+}
+
+void gameLobbyDialogImpl::sendPrivateMessageToPlayer()
+{
+	if(!myNickListSelectionModel->currentIndex().isValid())
+		return;
+
+	const unsigned playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
+	const QString playerName = QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str());
+
+	bool ok = false;
+	const QString message = QInputDialog::getText(this, tr("Private message"),
+	                        tr("Message to %1:").arg(playerName), QLineEdit::Normal, QString(), &ok);
+	if(ok)
+		myChat->sendPrivateMessage(playerUid, message);
 }
 
 void gameLobbyDialogImpl::invitePlayerToCurrentGame()

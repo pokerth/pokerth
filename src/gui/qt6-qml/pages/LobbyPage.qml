@@ -228,6 +228,8 @@ Rectangle {
                     collapseResetCounter: lobbyPage.playerListCollapseResetCounter
                     listView: playerPanelList
                     searchFilter: playerSearchField.text
+                    onPrivateMessageRequested: (playerId, playerName) =>
+                        mainWindow.openPrivateMessages(playerName)
                 }
             }
 
@@ -736,6 +738,8 @@ Rectangle {
                             collapseResetCounter: lobbyPage.playerListCollapseResetCounter
                             listView: playerListView
                             searchFilter: searchPlayerField.text
+                            onPrivateMessageRequested: (playerId, playerName) =>
+                                mainWindow.openPrivateMessages(playerName)
                         }
                     }
 

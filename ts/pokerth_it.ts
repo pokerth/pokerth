@@ -5327,6 +5327,31 @@ Sentiti libero di invitare altri giocatori cliccando col tasto destro sul nickna
         <source>You should not kick yourself from this game!</source>
         <translation>Non puoi auto-espellerti da questa partita!</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="267"/>
+        <source>Send private message</source>
+        <translation>Invia messaggio privato</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
+        <source>Send private message to %1</source>
+        <translation>Invia messaggio privato a %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
+        <source>Send private message ...</source>
+        <translation>Invia messaggio privato ...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
+        <source>Private message</source>
+        <translation>Messaggio privato</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
+        <source>Message to %1:</source>
+        <translation>Messaggio per %1:</translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>

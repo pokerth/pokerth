@@ -60,6 +60,7 @@
         <file>components/GameStatusBar.qml</file>
         <file>components/ConfirmPopup.qml</file>
         <file>components/GlobalNoticePopup.qml</file>
+        <file>components/PrivateMessageDialog.qml</file>
         <file>components/ExampleAvatarPicker.qml</file>
         <file>components/CommunityCards.qml</file>
         <file>components/WinningHandBadge.qml</file>
@@ -136,6 +137,7 @@
         <file>resources/github.svg</file>
         <file>resources/globe.svg</file>
         <file>resources/hourglass.svg</file>
+        <file>resources/mail.svg</file>
         <file>resources/monitor.svg</file>
         <file>resources/network.svg</file>
         <file>resources/newspaper.svg</file>
@@ -182,6 +184,7 @@
         <file>resources/threeLines.svg</file>
         <file>resources/toggleLeft.svg</file>
         <file>resources/toggleRight.svg</file>
+        <file>resources/trash.svg</file>
         <file>resources/trophy.svg</file>
         <file>resources/user.svg</file>
         <file>resources/users.svg</file>

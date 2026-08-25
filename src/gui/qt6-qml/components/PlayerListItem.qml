@@ -53,7 +53,8 @@ ItemDelegate {
     readonly property int rowHeight: 30
     readonly property int actionButtonHeight: 24
     readonly property int actionSpacing: 3
-    readonly property int actionCount: (canInvite ? 1 : 0)
+    readonly property int actionCount: (canSendPm ? 1 : 0)
+                                     + (canInvite ? 1 : 0)
                                      + (canIgnore ? 1 : 0)
                                      + (canUnignore ? 1 : 0)
                                      + (canShowPlayerStats ? 1 : 0)
@@ -68,15 +69,27 @@ ItemDelegate {
     readonly property bool canInvite: Lobby && Lobby.canInviteFromCurrentGame && !isSelf && !guestPlayer
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInAnyGame(targetPlayerId))
     readonly property bool canAdminModerate: Lobby && Lobby.isCurrentPlayerAdmin && !isSelf
+    // Private Nachricht: Gäste dürfen serverseitig gar nicht chatten, und der
+    // Server verwirft PMs an Spieler, die an einem LAUFENDEN Tisch sitzen –
+    // beides hier ausblenden, sonst käme statt der Nachricht nur ein
+    // "Chat rejected" zurück. gameListRevision hält die Prüfung reaktiv.
+    readonly property bool canSendPm: Lobby && !isSelf && !Lobby.isMyPlayerGuest
+        && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInRunningGame(targetPlayerId))
     readonly property bool canShowPlayerStats: !guestPlayer
     readonly property bool canIgnore: !isSelf && !guestPlayer && !playerIgnored
     readonly property bool canUnignore: !isSelf && !guestPlayer && playerIgnored
-    readonly property bool hasActions: canInvite || canAdminModerate || canIgnore || canUnignore || canShowPlayerStats
+    readonly property bool hasActions: canSendPm || canInvite || canAdminModerate || canIgnore || canUnignore || canShowPlayerStats
 
+    readonly property color pmColor: Config.StaticData.chartColor(3, true)
     readonly property color inviteColor: Config.StaticData.chartColor(0, true)
     readonly property color ignoreColor: Config.StaticData.chartColor(8, true)
     readonly property color statsColor: Config.StaticData.chartColor(9, true)
     readonly property color banColor: Config.StaticData.chartColor(5, true)
+
+    // Das Eingabe-Popup liegt bewusst in der Seite und nicht im Delegate:
+    // ein Listen-Update während des Tippens würde den Delegate (und damit den
+    // Text) verwerfen.
+    signal privateMessageRequested(int playerId, string playerName)
 
     // Rückfrage vor dem Einladen eines Spielers ins eigene Spiel.
     function confirmInvite() {
@@ -199,6 +212,14 @@ ItemDelegate {
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 
                 PlayerActionIcon {
+                    visible: playerItem.canSendPm
+                    source: "qrc:/resources/mail.svg"
+                    baseColor: playerItem.pmColor
+                    tooltipText: qsTr("Send private message")
+                    onTriggered: playerItem.privateMessageRequested(playerItem.targetPlayerId,
+                                                                   playerItem.displayName)
+                }
+                PlayerActionIcon {
                     visible: playerItem.canInvite
                     source: "qrc:/resources/personAdd.svg"
                     baseColor: playerItem.inviteColor
@@ -275,6 +296,43 @@ ItemDelegate {
             Layout.topMargin: 5
             spacing: 3
             
+            // Send private message
+            Button {
+                text: qsTr("Send private message")
+                visible: canSendPm
+                Layout.fillWidth: true
+                Layout.preferredHeight: 24
+                font.pixelSize: 10
+
+                HoverHandler {
+                    cursorShape: Qt.PointingHandCursor
+                }
+
+                background: Rectangle {
+                    color: parent.pressed ? Qt.darker(playerItem.pmColor, 1.35)
+                           : parent.hovered ? playerItem.pmColor
+                           : Qt.darker(playerItem.pmColor, 1.18)
+                    radius: 3
+                    border.width: 1
+                    border.color: Qt.darker(playerItem.pmColor, 1.55)
+                }
+
+                contentItem: AppText {
+                    text: parent.text
+                    color: "white"
+                    font.pixelSize: parent.font.pixelSize
+                    font.bold: true
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                onClicked: {
+                    playerItem.privateMessageRequested(playerItem.targetPlayerId,
+                                                       playerItem.displayName)
+                    playerItem.expanded = false
+                }
+            }
+
             // Invite to game
             Button {
                 text: qsTr("Invite to Game")

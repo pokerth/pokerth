@@ -3496,6 +3496,26 @@ Další hráče můžete pozvat pravým kliknutím na jejich přezdívku v sezna
         <source>You will receive chat messages and game invitations from this user again!&lt;br&gt;Do you really want to remove player &lt;b&gt;%1&lt;/b&gt; from your ignore list?</source>
         <translation>Tímto se vám budou znovu zobrazovat zprávy chatu a herní pozvánky!&lt;br&gt;Opravdu chcete hráče &lt;b&gt;%1&lt;/b&gt; odebrat ze seznamu ignorovaných?</translation>
     </message>
+    <message>
+        <source>Send private message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send private message to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send private message ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Private message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Message to %1:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>gameTable</name>

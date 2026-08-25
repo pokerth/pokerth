@@ -24,6 +24,15 @@
 #include <QUrl>
 #include <QStringList>
 #include <QDateTime>
+#include <QFileInfo>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <algorithm>
+
+// Wieviele Nachrichten einer Unterhaltung im Speicher/Dialog stehen. Die
+// SQLite-Datei behält alles, der Dialog zeigt das jüngste Fenster.
+static const int kPrivateMessagesLoaded = 500;
 
 
 class PlayerNickListSortFilterProxyModel : public QSortFilterProxyModel
@@ -651,6 +660,8 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
         m_chatLog.clear();
         emit chatLogChanged();
     }
+    // Der PM-Verlauf wird hier bewusst NICHT geleert (anders als der Lobby-Chat):
+    // er überdauert Sitzungen und liegt in privatemessages.sqlite.
 
     // Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
     // ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
@@ -663,7 +674,7 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
     // Spiel-Kontext zurücksetzen: Nach einem Verbindungsabbruch im Spiel kommt
     // kein onRemovedFromGame mehr - ohne Reset bliebe isInGame/currentGameId
     // über den Reconnect hinweg stehen.
-    m_gameRunning = false;
+    setGameRunning(false);
     if (m_isInGame) {
         m_isInGame = false;
         m_currentGameId = 0;
@@ -702,6 +713,9 @@ void LobbyHandler::setConfig(ConfigFile *config)
         storedGameListMode = 0;
 
     setGameListFilterMode(storedGameListMode);
+
+    // Posteingang der letzten Sitzungen einlesen (Pfad steht erst mit m_config fest).
+    loadPrivateMessages();
 }
 
 void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerName)
@@ -1291,6 +1305,11 @@ void LobbyHandler::sendChatMessage(const QString &message)
             adminSendGlobalNotice(text.mid(4));
         } else if (text.startsWith(QLatin1String("/msg "), Qt::CaseInsensitive)) {
             // Private message: /msg <nick> <text>  or  /msg "<nick with spaces>" <text>
+            // Am laufenden Tisch gesperrt – wie das PM-Symbol der Spielerliste.
+            if (m_gameRunning) {
+                emit errorOccurred(tr("Private messages are not available at the table."));
+                return;
+            }
             text.remove(0, 5);
             const unsigned targetId = parsePrivateMessageTarget(text);
             if (targetId == 0) {
@@ -1302,6 +1321,9 @@ void LobbyHandler::sendChatMessage(const QString &message)
                 text.chop(1);
             if (text.isEmpty()) return;
             m_session->sendPrivateChatMessage(targetId, text.toStdString());
+            const QString targetName = resolvedPlayerName(targetId);
+            pushPrivateMessageSentLine(targetName, text);
+            appendPrivateMessage(targetName, text, true);
         } else {
             // Lobby chat (includes /me actions — server echoes them back)
             while (!text.isEmpty() && text.toUtf8().size() > 128)
@@ -1591,6 +1613,368 @@ void LobbyHandler::onPrivateChatMessage(const QString &playerName, const QString
     if (m_chatTranslator)
         line = m_chatTranslator->decorate(line, message, escapedMsg);
     pushChatLine(line);
+
+    // Eine PM ist immer direkt an einen selbst gerichtet und geht im laufenden
+    // Lobby-Chat sonst unter: Ton IMMER (nur der globale Schalter
+    // "PlaySoundEffects" im Audio-Player entscheidet), zusätzlich der ungelesen-
+    // Zähler am Chat-Kopf. Anders als beim Nick-Treffer NICHT über
+    // "PlayLobbyChatNotification" abschaltbar.
+    if (m_soundEvents)
+        m_soundEvents->playSound("lobbychatnotify", 0);
+    appendPrivateMessage(playerName, message, false);
+}
+
+void LobbyHandler::setGameRunning(bool running)
+{
+    if (m_gameRunning == running)
+        return;
+    m_gameRunning = running;
+    emit gameRunningChanged();
+}
+
+// ── Privater Nachrichtenverlauf (Posteingang) ──────────────────────────────
+
+void LobbyHandler::appendPrivateMessage(const QString &playerName, const QString &message, bool fromMe)
+{
+    if (playerName.isEmpty())
+        return;
+    PrivateThread &thread = m_privateThreads[playerName];
+
+    QVariantMap entry;
+    entry.insert(QStringLiteral("fromMe"), fromMe);
+    entry.insert(QStringLiteral("text"), message);
+    // Vollständiger Zeitstempel: der Verlauf überdauert Sitzungen, "HH:mm"
+    // allein wäre bei einer Nachricht von vorgestern irreführend. Die
+    // Anzeigeform bildet privateConversation().
+    entry.insert(QStringLiteral("ts"),
+                 QDateTime::currentDateTime().toString(Qt::ISODate));
+    thread.messages.append(entry);
+
+    // Im Speicher nur ein Fenster des Gesprächs halten; die Datenbank behält
+    // den vollständigen Verlauf.
+    while (thread.messages.size() > kPrivateMessagesLoaded)
+        thread.messages.removeFirst();
+
+    thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
+    if (!fromMe)
+        ++thread.unread;
+
+    persistPrivateMessage(playerName, entry);
+    persistPrivateThreadMeta(playerName);
+
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
+    recountUnreadPrivateMessages();
+}
+
+void LobbyHandler::recountUnreadPrivateMessages()
+{
+    int total = 0;
+    for (auto it = m_privateThreads.constBegin(); it != m_privateThreads.constEnd(); ++it)
+        total += it->unread;
+    if (total == m_unreadPrivateMessages)
+        return;
+    m_unreadPrivateMessages = total;
+    emit unreadPrivateMessagesChanged();
+}
+
+namespace {
+
+// Ablageort des Posteingangs: eigene SQLite-Datei neben der config.xml, damit
+// er demselben Benutzerprofil folgt wie alle anderen Einstellungen – aber
+// getrennt von ihnen und von den Spiel-Logs bleibt.
+QString privateMessagesDbPath(ConfigFile *config)
+{
+    if (!config)
+        return QString();
+    const QString configPath = QString::fromUtf8(config->configFileName.c_str());
+    if (configPath.isEmpty())
+        return QString();
+    return QFileInfo(configPath).absolutePath() + QStringLiteral("/privatemessages.sqlite");
+}
+
+} // namespace
+
+void LobbyHandler::openPrivateMessageDb()
+{
+    if (!m_privateDbConn.isEmpty())
+        return;
+
+    const QString path = privateMessagesDbPath(m_config);
+    if (path.isEmpty())
+        return;
+
+    const QString connName = QStringLiteral("pokerth_pm");
+    bool opened = false;
+    // Eigener Gültigkeitsbereich: solange eine QSqlDatabase-Kopie lebt, warnt
+    // removeDatabase() über eine noch benutzte Verbindung.
+    {
+        QSqlDatabase db = QSqlDatabase::contains(connName)
+                          ? QSqlDatabase::database(connName, false)
+                          : QSqlDatabase::addDatabase(QStringLiteral("QSQLITE"), connName);
+        db.setConnectOptions(QStringLiteral("QSQLITE_BUSY_TIMEOUT=5000"));
+        db.setDatabaseName(path);
+        if (!db.open()) {
+            qWarning() << "[PM] cannot open private message database" << path << db.lastError().text();
+        } else {
+            QSqlQuery query(db);
+            // pm_thread: eine Zeile je Gesprächspartner (Ungelesen-Zähler und
+            // Sortierung), pm_message: die Nachrichten selbst.
+            opened =
+                query.exec(QStringLiteral(
+                    "CREATE TABLE IF NOT EXISTS pm_thread ("
+                    "  partner TEXT PRIMARY KEY,"
+                    "  unread INTEGER NOT NULL DEFAULT 0,"
+                    "  last_activity INTEGER NOT NULL DEFAULT 0)"))
+                && query.exec(QStringLiteral(
+                    "CREATE TABLE IF NOT EXISTS pm_message ("
+                    "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "  partner TEXT NOT NULL,"
+                    "  from_me INTEGER NOT NULL,"
+                    "  text TEXT NOT NULL,"
+                    "  ts TEXT NOT NULL)"))
+                && query.exec(QStringLiteral(
+                    "CREATE INDEX IF NOT EXISTS pm_message_partner ON pm_message (partner, id)"));
+            if (!opened) {
+                qWarning() << "[PM] cannot create private message tables:" << query.lastError().text();
+                db.close();
+            }
+        }
+    }
+
+    if (!opened) {
+        QSqlDatabase::removeDatabase(connName);
+        return;   // ohne Datenbank lebt der Verlauf nur bis zum Beenden
+    }
+    m_privateDbConn = connName;
+}
+
+void LobbyHandler::loadPrivateMessages()
+{
+    openPrivateMessageDb();
+    if (m_privateDbConn.isEmpty())
+        return;
+
+    QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
+    QSqlQuery threadQuery(db);
+    if (!threadQuery.exec(QStringLiteral(
+            "SELECT partner, unread, last_activity FROM pm_thread ORDER BY last_activity DESC"))) {
+        qWarning() << "[PM] cannot read conversations:" << threadQuery.lastError().text();
+        return;
+    }
+
+    QSqlQuery messageQuery(db);
+    // Nur die jüngsten Nachrichten in den Speicher holen; die Datenbank behält
+    // den vollständigen Verlauf.
+    messageQuery.prepare(QStringLiteral(
+        "SELECT from_me, text, ts FROM pm_message WHERE partner = :partner "
+        "ORDER BY id DESC LIMIT :limit"));
+
+    while (threadQuery.next()) {
+        const QString name = threadQuery.value(0).toString();
+        if (name.isEmpty())
+            continue;
+        PrivateThread thread;
+        thread.unread       = threadQuery.value(1).toInt();
+        thread.lastActivity = threadQuery.value(2).toLongLong();
+
+        messageQuery.bindValue(QStringLiteral(":partner"), name);
+        messageQuery.bindValue(QStringLiteral(":limit"), kPrivateMessagesLoaded);
+        if (messageQuery.exec()) {
+            while (messageQuery.next()) {
+                QVariantMap entry;
+                entry.insert(QStringLiteral("fromMe"), messageQuery.value(0).toInt() != 0);
+                entry.insert(QStringLiteral("text"),   messageQuery.value(1).toString());
+                entry.insert(QStringLiteral("ts"),     messageQuery.value(2).toString());
+                // Abfrage lief absteigend (jüngste zuerst) – vorne einfügen
+                // ergibt wieder die zeitliche Reihenfolge.
+                thread.messages.prepend(entry);
+            }
+        }
+        // Ungelesen kann nie mehr sein, als der Verlauf hergibt.
+        thread.unread = qBound(0, thread.unread, static_cast<int>(thread.messages.size()));
+        m_privateThreads.insert(name, thread);
+    }
+
+    if (!m_privateThreads.isEmpty()) {
+        ++m_privateMessagesRevision;
+        emit privateMessagesChanged();
+        recountUnreadPrivateMessages();
+    }
+}
+
+void LobbyHandler::persistPrivateMessage(const QString &playerName, const QVariantMap &entry)
+{
+    if (m_privateDbConn.isEmpty())
+        return;
+    QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
+    query.prepare(QStringLiteral(
+        "INSERT INTO pm_message (partner, from_me, text, ts) "
+        "VALUES (:partner, :fromMe, :text, :ts)"));
+    query.bindValue(QStringLiteral(":partner"), playerName);
+    query.bindValue(QStringLiteral(":fromMe"), entry.value(QStringLiteral("fromMe")).toBool() ? 1 : 0);
+    query.bindValue(QStringLiteral(":text"), entry.value(QStringLiteral("text")).toString());
+    query.bindValue(QStringLiteral(":ts"), entry.value(QStringLiteral("ts")).toString());
+    if (!query.exec())
+        qWarning() << "[PM] cannot store private message:" << query.lastError().text();
+}
+
+void LobbyHandler::persistPrivateThreadMeta(const QString &playerName)
+{
+    if (m_privateDbConn.isEmpty())
+        return;
+    const auto it = m_privateThreads.constFind(playerName);
+    if (it == m_privateThreads.constEnd())
+        return;
+    QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
+    // INSERT OR REPLACE statt UPSERT: die Tabelle besteht nur aus diesen drei
+    // Spalten, und ein Platzhalter darf so je genau einmal vorkommen.
+    query.prepare(QStringLiteral(
+        "INSERT OR REPLACE INTO pm_thread (partner, unread, last_activity) "
+        "VALUES (:partner, :unread, :last)"));
+    query.bindValue(QStringLiteral(":partner"), playerName);
+    query.bindValue(QStringLiteral(":unread"), it->unread);
+    query.bindValue(QStringLiteral(":last"), it->lastActivity);
+    if (!query.exec())
+        qWarning() << "[PM] cannot store conversation:" << query.lastError().text();
+}
+
+void LobbyHandler::persistDeletePrivateThread(const QString &playerName)
+{
+    if (m_privateDbConn.isEmpty())
+        return;
+    QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
+    QSqlQuery messageQuery(db);
+    messageQuery.prepare(QStringLiteral("DELETE FROM pm_message WHERE partner = :partner"));
+    messageQuery.bindValue(QStringLiteral(":partner"), playerName);
+    messageQuery.exec();
+    QSqlQuery threadQuery(db);
+    threadQuery.prepare(QStringLiteral("DELETE FROM pm_thread WHERE partner = :partner"));
+    threadQuery.bindValue(QStringLiteral(":partner"), playerName);
+    threadQuery.exec();
+}
+
+void LobbyHandler::deletePrivateConversation(const QString &playerName)
+{
+    if (m_privateThreads.remove(playerName) == 0)
+        return;
+    persistDeletePrivateThread(playerName);
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
+    recountUnreadPrivateMessages();
+}
+
+namespace {
+
+// Anzeigeform eines gespeicherten Zeitstempels: innerhalb desselben Tages nur
+// die Uhrzeit, davor zusätzlich das Datum.
+QString privateMessageDisplayTime(const QString &isoTimestamp)
+{
+    const QDateTime ts = QDateTime::fromString(isoTimestamp, Qt::ISODate);
+    if (!ts.isValid())
+        return QString();
+    if (ts.date() == QDate::currentDate())
+        return ts.toString(QStringLiteral("HH:mm"));
+    return ts.toString(QStringLiteral("dd.MM. HH:mm"));
+}
+
+} // namespace
+
+QVariantList LobbyHandler::privateConversationPartners() const
+{
+    QVariantList out;
+    out.reserve(m_privateThreads.size());
+    for (auto it = m_privateThreads.constBegin(); it != m_privateThreads.constEnd(); ++it) {
+        const PrivateThread &thread = it.value();
+        QVariantMap entry;
+        entry.insert(QStringLiteral("name"), it.key());
+        entry.insert(QStringLiteral("unread"), thread.unread);
+        entry.insert(QStringLiteral("playerId"), playerIdByName(it.key()));
+        entry.insert(QStringLiteral("lastActivity"), thread.lastActivity);
+        if (!thread.messages.isEmpty()) {
+            const QVariantMap last = thread.messages.last().toMap();
+            entry.insert(QStringLiteral("lastText"), last.value(QStringLiteral("text")));
+            entry.insert(QStringLiteral("lastTime"),
+                         privateMessageDisplayTime(last.value(QStringLiteral("ts")).toString()));
+            entry.insert(QStringLiteral("fromMe"), last.value(QStringLiteral("fromMe")));
+        } else {
+            entry.insert(QStringLiteral("lastText"), QString());
+            entry.insert(QStringLiteral("lastTime"), QString());
+            entry.insert(QStringLiteral("fromMe"), false);
+        }
+        out.append(entry);
+    }
+    // Neueste Unterhaltung zuerst (QHash ist unsortiert).
+    std::sort(out.begin(), out.end(), [](const QVariant &a, const QVariant &b) {
+        return a.toMap().value(QStringLiteral("lastActivity")).toLongLong()
+             > b.toMap().value(QStringLiteral("lastActivity")).toLongLong();
+    });
+    return out;
+}
+
+QVariantList LobbyHandler::privateConversation(const QString &playerName) const
+{
+    const auto it = m_privateThreads.constFind(playerName);
+    if (it == m_privateThreads.constEnd())
+        return QVariantList();
+    QVariantList out;
+    out.reserve(it->messages.size());
+    for (const QVariant &messageValue : it->messages) {
+        QVariantMap entry = messageValue.toMap();
+        entry.insert(QStringLiteral("time"),
+                     privateMessageDisplayTime(entry.value(QStringLiteral("ts")).toString()));
+        out.append(entry);
+    }
+    return out;
+}
+
+void LobbyHandler::ensurePrivateConversation(const QString &playerName)
+{
+    if (playerName.isEmpty() || m_privateThreads.contains(playerName))
+        return;
+    PrivateThread &thread = m_privateThreads[playerName];
+    // Ohne Zeitstempel stünde ein frisch geöffnetes (leeres) Gespräch immer
+    // ganz unten in der Liste, obwohl es gerade das aktive ist.
+    thread.lastActivity = QDateTime::currentMSecsSinceEpoch();
+    // Bewusst NICHT speichern: ein nur geöffnetes, leeres Gespräch soll nicht
+    // dauerhaft im Posteingang stehen. Die erste Nachricht legt die Zeile an.
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
+}
+
+void LobbyHandler::markPrivateConversationRead(const QString &playerName)
+{
+    const auto it = m_privateThreads.find(playerName);
+    if (it == m_privateThreads.end() || it->unread == 0)
+        return;
+    it->unread = 0;
+    persistPrivateThreadMeta(playerName);
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
+    recountUnreadPrivateMessages();
+}
+
+unsigned LobbyHandler::playerIdByName(const QString &playerName) const
+{
+    if (playerName.isEmpty())
+        return 0;
+    const int count = m_playerListModel.rowCount();
+    for (int i = 0; i < count; ++i) {
+        const QModelIndex idx = m_playerListModel.index(i);
+        if (m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString() == playerName)
+            return m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt();
+    }
+    return 0;
+}
+
+void LobbyHandler::sendPrivateMessageToName(const QString &playerName, const QString &message)
+{
+    const unsigned targetId = playerIdByName(playerName);
+    if (targetId == 0) {
+        emit errorOccurred(tr("%1 is not in the lobby at the moment.").arg(playerName));
+        return;
+    }
+    sendPrivateMessage(targetId, message);
 }
 
 bool LobbyHandler::chatDarkMode() const
@@ -1645,15 +2029,7 @@ unsigned LobbyHandler::parsePrivateMessageTarget(QString &chatText) const
     if (targetName.isEmpty() || chatText.isEmpty())
         return 0;
 
-    // Look up playerId by name in the player list model
-    const int count = m_playerListModel.rowCount();
-    for (int i = 0; i < count; ++i) {
-        const QModelIndex idx  = m_playerListModel.index(i);
-        const QString     name = m_playerListModel.data(idx, PlayerListModel::PlayerNameRole).toString();
-        if (name == targetName)
-            return m_playerListModel.data(idx, PlayerListModel::PlayerIdRole).toUInt();
-    }
-    return 0;
+    return playerIdByName(targetName);
 }
 
 void LobbyHandler::createGame(const QString &name, const QString &password,
@@ -1736,7 +2112,7 @@ void LobbyHandler::leaveServer()
     // Keine aktive Online-Session mehr → Foreground-Service beenden.
     AndroidConnectionService::stop();
     IosBackgroundSession::stop();
-    m_gameRunning = false;
+    setGameRunning(false);
     setRejoinWaiting(false);
     if (m_isSpectating) {
         m_isSpectating = false;
@@ -1754,7 +2130,7 @@ void LobbyHandler::onSelfJoinedGame()
 {
     // Frischer Beitritt → Warteraum (bei Rejoin in ein laufendes Spiel folgt
     // unmittelbar wieder onGameStarted).
-    m_gameRunning = false;
+    setGameRunning(false);
     m_currentGameId = m_session ? m_session->getClientCurrentGameId() : 0;
     // Ob der Server uns als Zuschauer aufgenommen hat, steht im JoinGameAck –
     // der ist bereits verarbeitet, wenn dieses Signal die GUI erreicht.
@@ -1787,7 +2163,7 @@ void LobbyHandler::onGameStarted()
     ++m_playerListRevision;
     emit playerListRevisionChanged();
 
-    m_gameRunning = true;
+    setGameRunning(true);
     // Wir sitzen am Tisch → ein evtl. laufendes Rejoin-Warten ist erledigt.
     setRejoinWaiting(false);
 
@@ -1800,14 +2176,14 @@ void LobbyHandler::onWaitGameDialog()
     // bleiben wir nach Spielende im (wieder geöffneten) Spiel; der Warteraum soll
     // das aktuelle Spiel weiter anzeigen. Wird der Spieler tatsächlich entfernt
     // (Auto-Leave/Kick), räumt das nachfolgende onRemovedFromGame den Zustand auf.
-    m_gameRunning = false;
+    setGameRunning(false);
     emit returnToWaitRoom();
 }
 
 void LobbyHandler::onRemovedFromGame(int reason)
 {
     m_isInGame = false;
-    m_gameRunning = false;
+    setGameRunning(false);
     // Deckt auch NTF_NET_REMOVED_START_FAILED ab: Der Server hat die Hand ohne
     // uns gestartet, das Warten auf den Rejoin ist damit hinfällig.
     setRejoinWaiting(false);
@@ -1895,6 +2271,16 @@ bool LobbyHandler::isPlayerInAnyGame(unsigned playerId) const
         }
     }
     return false;
+}
+
+bool LobbyHandler::isPlayerInRunningGame(unsigned playerId) const
+{
+    if (!m_session || playerId == 0)
+        return false;
+    const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+    if (gameId == 0)
+        return false;
+    return m_session->getClientGameInfo(gameId).mode == GAME_MODE_STARTED;
 }
 
 QString LobbyHandler::playerInGameName(unsigned playerId) const
@@ -2099,7 +2485,51 @@ void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &me
         emit errorOccurred(tr("Not connected to server"));
         return;
     }
-    m_session->sendPrivateChatMessage(targetPlayerId, message.toStdString());
+    if (targetPlayerId == 0)
+        return;
+    // Am laufenden Tisch bewusst gesperrt: private Absprachen während einer Hand
+    // sollen gar nicht erst möglich sein (der Server stellt PMs an Spieler in
+    // laufenden Spielen ohnehin nicht zu).
+    if (m_gameRunning) {
+        emit errorOccurred(tr("Private messages are not available at the table."));
+        return;
+    }
+    // Gäste dürfen serverseitig überhaupt nicht chatten (auch nicht privat) –
+    // dieselbe Meldung wie im Lobby-Chat, statt einer stillen Ablehnung.
+    if (isMyPlayerGuest()) {
+        emit errorOccurred(tr("Guests cannot send chat messages"));
+        return;
+    }
+    QString text = message.trimmed();
+    // Gleiche 128-Byte-Grenze wie im Chat: der Paket-Validator des Servers
+    // verwirft längere Nachrichten (und trennt im Zweifel die Verbindung).
+    while (!text.isEmpty() && text.toUtf8().size() > 128)
+        text.chop(1);
+    if (text.isEmpty())
+        return;
+    m_session->sendPrivateChatMessage(targetPlayerId, text.toStdString());
+    const QString targetName = resolvedPlayerName(targetPlayerId);
+    pushPrivateMessageSentLine(targetName, text);
+    appendPrivateMessage(targetName, text, true);
+}
+
+void LobbyHandler::pushPrivateMessageSentLine(const QString &targetName, const QString &message)
+{
+    // Gleiche Aufbereitung und Farbe wie eine EINGEHENDE PM (onPrivateChatMessage),
+    // nur mit "an <Name>" statt "<Name>(pm)". Der volle Text steht bewusst in der
+    // Zeile: eine gesendete PM taucht sonst nirgends im eigenen Verlauf auf.
+    QString escapedMsg = ChatColors::chatEscape(message);
+    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+    escapedMsg = enlargeEmojis(escapedMsg);
+
+    const QString tsPrefix = chatTimestampPrefix(m_config);
+    const QString line = tsPrefix + QLatin1String("<i><span style=\"")
+                         + ChatColors::colorStyle(ChatColors::Muted)
+                         + QLatin1String(";\">")
+                         + tr("Private message to %1:").arg(ChatColors::chatEscape(targetName))
+                         + QLatin1String(" ") + escapedMsg
+                         + QLatin1String("</span></i>");
+    pushChatLine(line);
 }
 
 // ── Player name helper ─────────────────────────────────────────────────────

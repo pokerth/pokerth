@@ -173,6 +173,10 @@ public slots:
 	void closeAllChildDialogs();
 	void reportBadGameName();
 	void adminActionCloseGame();
+	// Kontextmenü der Nickliste: private Nachricht an den gewählten Spieler.
+	// Text wird in einem kleinen Eingabedialog erfragt; die Bestätigung samt
+	// vollem Wortlaut erscheint anschließend im Lobby-Chat (ChatTools).
+	void sendPrivateMessageToPlayer();
 	void adminActionTotalKickBan();
 	void addConnectedSpectator(unsigned spectatorId, QString spectatorName);
 	void removeSpectator(unsigned spectatorId, QString);
@@ -226,6 +230,7 @@ private:
 	QMenu *gameListAdminSubMenu;
 	QAction *gameListAdminCloseGame;
 	QMenu *nickListContextMenu;
+	QAction *nickListSendPrivateMessageAction;
 	QAction *nickListInviteAction;
 	QAction *nickListIgnorePlayerAction;
 	QAction *nickListUnignorePlayerAction;

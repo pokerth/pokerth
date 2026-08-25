@@ -152,6 +152,13 @@ class LobbyHandler : public QObject
     Q_PROPERTY(QString myPlayerName READ myPlayerName NOTIFY myPlayerNameChanged)
     Q_PROPERTY(unsigned myPlayerId READ myPlayerId NOTIFY myPlayerIdChanged)
     Q_PROPERTY(bool isMyPlayerGuest READ isMyPlayerGuest NOTIFY gameContextChanged)
+    // Ungelesene private Nachrichten (Zähler am Posteingang-Symbol der
+    // Kopfzeile). Sinkt, sobald ein Gespräch im Dialog gelesen wird
+    // (markPrivateConversationRead).
+    Q_PROPERTY(int unreadPrivateMessages READ unreadPrivateMessages NOTIFY unreadPrivateMessagesChanged)
+    // Zähler-Property als reaktive Abhängigkeit für QML: der Verlauf selbst wird
+    // über Q_INVOKABLE-Funktionen gelesen (wie bei der Spielerliste).
+    Q_PROPERTY(int privateMessagesRevision READ privateMessagesRevision NOTIFY privateMessagesChanged)
     // Server-Admin (darf kickban / Spiele schließen) – authoritativ aus der
     // PlayerInfo der Session. Strikt getrennt vom Spiel-Admin (Host).
     Q_PROPERTY(bool isCurrentPlayerAdmin READ isCurrentPlayerAdmin NOTIFY isCurrentPlayerAdminChanged)
@@ -164,6 +171,9 @@ class LobbyHandler : public QObject
     Q_PROPERTY(int gameListRevision READ gameListRevision NOTIFY gameListRevisionChanged)
     Q_PROPERTY(int playerIgnoreListRevision READ playerIgnoreListRevision NOTIFY playerIgnoreListChanged)
     Q_PROPERTY(bool isInGame READ isInGame NOTIFY isInGameChanged)
+    // Sitzen wir an einem LAUFENDEN Tisch? Private Nachrichten sind dort
+    // bewusst gesperrt (Absprachen), und der Server stellt sie ohnehin nicht zu.
+    Q_PROPERTY(bool atRunningTable READ atRunningTable NOTIFY gameRunningChanged)
     // true, wenn wir dem aktuellen Spiel als Zuschauer beigetreten sind
     // (Auge-Icon in der Lobby). Zuschauer sitzen nicht am Tisch.
     Q_PROPERTY(bool isSpectating READ isSpectating NOTIFY isSpectatingChanged)
@@ -205,6 +215,27 @@ public:
     QStringList chatLog() const;
     QObject* chatTranslator() const;
     bool isMyPlayerGuest() const;
+    bool atRunningTable() const { return m_gameRunning; }
+    int unreadPrivateMessages() const { return m_unreadPrivateMessages; }
+    int privateMessagesRevision() const { return m_privateMessagesRevision; }
+    // ── Privater Nachrichtenverlauf (Posteingang) ──────────────────────────
+    // Gesprächspartner, neueste Unterhaltung zuerst:
+    // { name, unread, lastText, lastTime, fromMe, playerId } (playerId 0 = offline).
+    Q_INVOKABLE QVariantList privateConversationPartners() const;
+    // Verlauf einer Unterhaltung, älteste Nachricht zuerst:
+    // { fromMe, text, ts, time } (time = fertige Anzeigeform von ts).
+    Q_INVOKABLE QVariantList privateConversation(const QString &playerName) const;
+    // Legt einen (ggf. noch leeren) Gesprächsfaden an – damit der Dialog auch
+    // für einen Spieler öffnet, mit dem noch nie geschrieben wurde.
+    Q_INVOKABLE void ensurePrivateConversation(const QString &playerName);
+    Q_INVOKABLE void markPrivateConversationRead(const QString &playerName);
+    // Eine Unterhaltung endgültig aus dem Posteingang (und der Datei) entfernen.
+    Q_INVOKABLE void deletePrivateConversation(const QString &playerName);
+    // Antwort aus dem Dialog: die Spieler-Id wird beim Senden frisch aus der
+    // Spielerliste geholt (sie gilt nur für die aktuelle Sitzung des Partners).
+    Q_INVOKABLE void sendPrivateMessageToName(const QString &playerName, const QString &message);
+    // Spieler-Id zum Namen (0 = gerade nicht in der Lobby).
+    Q_INVOKABLE unsigned playerIdByName(const QString &playerName) const;
     bool isCurrentPlayerAdmin() const { return m_isCurrentPlayerAdmin; }
     bool isCurrentGameAdmin() const { return m_isCurrentGameAdmin; }
     bool canInviteFromCurrentGame() const;
@@ -319,6 +350,10 @@ public slots:
     Q_INVOKABLE void kickPlayer(unsigned playerId);
     Q_INVOKABLE void invitePlayer(unsigned playerId);
     Q_INVOKABLE bool isPlayerInAnyGame(unsigned playerId) const;
+    // Sitzt der Spieler an einem LAUFENDEN Tisch? Der Server verwirft private
+    // Nachrichten an solche Spieler (HandleNetPacketChatRequest) – die UI
+    // blendet die PM-Aktion deshalb aus, statt eine Zustellung vorzutäuschen.
+    Q_INVOKABLE bool isPlayerInRunningGame(unsigned playerId) const;
     Q_INVOKABLE QString playerInGameName(unsigned playerId) const;
     Q_INVOKABLE void adminBanPlayer(unsigned playerId);
     // Server-weite Durchsage (nur Server-Admins). Der Server prüft die
@@ -372,6 +407,8 @@ signals:
     void chatLineReady(const QString &formattedLine);
     void chatLogChanged();
     void lobbyChatMentionDetected();
+    void unreadPrivateMessagesChanged();
+    void privateMessagesChanged();
     void timeoutWarningReceived(int reason, int remainingSec);
     void networkMessageReceived(QString message);
     // Eingehende Spiel-Einladung → QML zeigt ein Ja/Nein-Popup.
@@ -398,6 +435,7 @@ signals:
     // native Player-Page des Spielers.
     void playerStatsRequested(const QString &playerName);
     void isInGameChanged();
+    void gameRunningChanged();
     void isSpectatingChanged();
     void currentGameIdChanged();
     void rejoinOfferChanged();
@@ -410,6 +448,24 @@ private:
     void pushChatLine(const QString &line);
     // Aktueller Anzeigemodus für die Chat-Farben (Config "DarkMode", 0 = hell).
     bool chatDarkMode() const;
+    // Bestätigung einer GESENDETEN privaten Nachricht im eigenen Chat-Verlauf –
+    // mit vollem Nachrichtentext, weil eine PM sonst spurlos im Verlauf fehlt.
+    // Wird von beiden Sendewegen benutzt (Chat-Kurzbefehl /msg und PM-Dialog).
+    void pushPrivateMessageSentLine(const QString &targetName, const QString &message);
+    // Trägt eine (gesendete oder empfangene) private Nachricht in den Verlauf des
+    // Gesprächspartners ein und meldet die Änderung an die Oberfläche.
+    void appendPrivateMessage(const QString &playerName, const QString &message, bool fromMe);
+    void recountUnreadPrivateMessages();
+    // Einzige Schreibstelle für m_gameRunning – meldet den Wechsel an QML.
+    void setGameRunning(bool running);
+    // Posteingang zwischen Sitzungen sichern – eigene SQLite-Datei neben der
+    // config.xml (privatemessages.sqlite). Eigene Datenbank, damit lange
+    // Unterhaltungen weder die Einstellungen noch die Spiel-Logs berühren.
+    void openPrivateMessageDb();
+    void loadPrivateMessages();
+    void persistPrivateMessage(const QString &playerName, const QVariantMap &entry);
+    void persistPrivateThreadMeta(const QString &playerName);
+    void persistDeletePrivateThread(const QString &playerName);
 
     boost::shared_ptr<Session> m_session;
     SoundEvents *m_soundEvents = nullptr;   // nicht besessen
@@ -422,6 +478,19 @@ private:
     
     QString m_myPlayerName;
     unsigned m_myPlayerId;
+    int m_unreadPrivateMessages = 0;
+    int m_privateMessagesRevision = 0;
+    // Privater Nachrichtenverlauf je Gesprächspartner: das im Dialog gezeigte
+    // Fenster der Unterhaltung (den vollständigen Verlauf hält die SQLite-Datei).
+    struct PrivateThread {
+        QVariantList messages;      // { fromMe, text, ts }
+        int unread = 0;
+        qint64 lastActivity = 0;    // ms since epoch, für die Sortierung
+    };
+    QHash<QString, PrivateThread> m_privateThreads;
+    // Verbindungsname der PM-Datenbank; leer = keine Datenbank (dann lebt der
+    // Verlauf nur bis zum Beenden).
+    QString m_privateDbConn;
     // Formatierter Lobby-Chat-Verlauf (HTML-Zeilen). Die Textfarben stehen darin
     // NUR als Rollen-Platzhalter (chatcolors.h) und werden erst in chatLog()
     // zum aktuellen Hell/Dunkel-Modus aufgelöst.

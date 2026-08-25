@@ -262,6 +262,8 @@ Rectangle {
                     collapseResetCounter: gameWaitPage.playerListCollapseResetCounter
                     listView: waitPagePlayerPanelList
                     searchFilter: panelSearchField.text
+                    onPrivateMessageRequested: (playerId, playerName) =>
+                        mainWindow.openPrivateMessages(playerName)
                 }
             }
 
@@ -570,6 +572,8 @@ Rectangle {
                             collapseResetCounter: gameWaitPage.playerListCollapseResetCounter
                             listView: waitPagePlayerSidebarList
                             searchFilter: ""
+                            onPrivateMessageRequested: (playerId, playerName) =>
+                                mainWindow.openPrivateMessages(playerName)
                         }
                     }
 
