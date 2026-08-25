@@ -491,8 +491,12 @@ ApplicationWindow {
                     Layout.preferredWidth: 24
                     Layout.preferredHeight: 24
                     Layout.margins: Config.Responsive.landscapeCompact ? 2 : 6
-                    // Am laufenden Tisch bewusst weg: dort sind PMs gesperrt.
+                    // Nur online: der Verlauf überdauert Sitzungen, ein Posteingang
+                    // auf der Startseite (ohne Verbindung) könnte aber nichts als
+                    // alte Nachrichten zeigen. Am laufenden Tisch ebenfalls weg –
+                    // dort sind PMs gesperrt.
                     visible: mainWindow.topBarIconsVisible
+                             && mainWindow.inLobbySession
                              && !(typeof Lobby !== "undefined" && Lobby && Lobby.atRunningTable)
                              && (mainWindow.privateConversationCount > 0)
 
@@ -1204,6 +1208,10 @@ ApplicationWindow {
     PrivateMessageDialog {
         id: privateMessageDialog
     }
+
+    // Verlässt man die Lobby (oder bricht die Verbindung ab), gehört auch der
+    // offene Posteingang weg – ohne Verbindung ließe sich darin nur noch lesen.
+    onInLobbySessionChanged: if (!inLobbySession) privateMessageDialog.close()
 
     Connections {
         target: ServerConnection
