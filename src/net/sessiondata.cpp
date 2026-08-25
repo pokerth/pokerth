@@ -50,6 +50,7 @@ using namespace boost::chrono;
 
 SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService)
 	: m_socket(sock), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	  m_chatWindowStart(std::chrono::steady_clock::now()), m_chatMessagesInWindow(0),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
@@ -59,6 +60,7 @@ SessionData::SessionData(boost::shared_ptr<boost::asio::ip::tcp::socket> sock, S
 
 SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService, int /*filler*/)
 	: m_webData(webData), m_id(id), m_state(SessionData::Init), m_readyFlag(false), m_wantsLobbyMsg(true),
+	  m_chatWindowStart(std::chrono::steady_clock::now()), m_chatMessagesInWindow(0),
 	  m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0), m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService),
 	  m_activityTimeoutTimer(ioService), m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
 {
@@ -69,6 +71,7 @@ SessionData::SessionData(boost::shared_ptr<WebSocketData> webData, SessionId id,
 SessionData::SessionData(boost::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> sslStream, SessionId id, SessionDataCallback &cb, boost::asio::io_context &ioService, int /*filler*/)
     : m_socket(), m_webData(), m_id(id), m_game(), m_state(SessionData::Init), m_clientAddr(),
       m_receiveBuffer(), m_sendBuffer(), m_readyFlag(false), m_wantsLobbyMsg(true),
+      m_chatWindowStart(std::chrono::steady_clock::now()), m_chatMessagesInWindow(0),
       m_activityTimeoutSec(0), m_activityWarningRemainingSec(0), m_globalTimeoutSec(0),
       m_initTimeoutTimer(ioService), m_globalTimeoutTimer(ioService), m_activityTimeoutTimer(ioService),
       m_callback(cb), m_authSession(NULL), m_curAuthStep(0)
@@ -394,6 +397,25 @@ SessionData::ResetGlobalTimeout()
 	}
 }
 
+bool
+SessionData::AcquireChatToken()
+{
+	static const unsigned CHAT_MESSAGES_PER_SECOND = 5;
+	boost::mutex::scoped_lock lock(m_dataMutex);
+
+	const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+	if (now - m_chatWindowStart >= std::chrono::seconds(1)) {
+		m_chatWindowStart = now;
+		m_chatMessagesInWindow = 0;
+	}
+
+	if (m_chatMessagesInWindow >= CHAT_MESSAGES_PER_SECOND)
+		return false;
+
+	++m_chatMessagesInWindow;
+	return true;
+}
+
 void
 SessionData::StartTimerActivityTimeout(unsigned timeoutSec, unsigned warningRemainingSec)
 {
@@ -466,4 +488,3 @@ SessionData::GetRemoteIPAddressFromSocket() const
 
     return std::string();
 }
-

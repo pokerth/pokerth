@@ -39,6 +39,7 @@ typedef unsigned SessionId;
 #include <boost/asio/steady_timer.hpp>
 #include <boost/thread.hpp>
 #include <boost/enable_shared_from_this.hpp>
+#include <chrono>
 #include <string>
 #include <vector>
 #include <boost/asio/ssl.hpp>
@@ -121,6 +122,9 @@ public:
 
 	void ResetActivityTimer();
 	void ResetGlobalTimeout();
+	// Limit broadcast chat independently for each connection. This prevents a
+	// client from turning the server's fan-out into an outgoing flood.
+	bool AcquireChatToken();
 
 	void StartTimerInitTimeout(unsigned timeoutSec);
 	void StartTimerGlobalTimeout(unsigned timeoutSec);
@@ -164,6 +168,8 @@ private:
 	boost::shared_ptr<SendBuffer>	m_sendBuffer;
 	bool							m_readyFlag;
 	bool							m_wantsLobbyMsg;
+	std::chrono::steady_clock::time_point	m_chatWindowStart;
+	unsigned						m_chatMessagesInWindow;
 	unsigned						m_activityTimeoutSec;
 	unsigned						m_activityWarningRemainingSec;
 	unsigned						m_globalTimeoutSec;
