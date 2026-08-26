@@ -12,10 +12,19 @@ Item {
     property string tooltipText: ""
     property int iconSize: 18
 
+    // Ist die Aktion für diese Zeile verfügbar? Ein inaktives Icon wird NICHT
+    // ausgeblendet (visible: false hätte es aus der Row entfernt und alle
+    // folgenden Icons nachrücken lassen), sondern behält seinen Platz und wird
+    // nur unsichtbar+tot geschaltet. So sitzt jedes Icon in allen Zeilen an
+    // derselben x-Position. Ob die Spalte überhaupt existiert, entscheidet der
+    // Aufrufer weiterhin über visible.
+    property bool active: true
+
     signal triggered()
 
     implicitWidth: visible ? iconSize + 6 : 0
     implicitHeight: iconSize + 6
+    opacity: active ? 1.0 : 0.0
 
     SvgIcon {
         id: img
@@ -38,7 +47,8 @@ Item {
     MouseArea {
         id: ma
         anchors.fill: parent
-        hoverEnabled: true
+        enabled: root.active
+        hoverEnabled: root.active
         cursorShape: Qt.PointingHandCursor
         onClicked: root.triggered()
     }

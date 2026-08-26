@@ -80,6 +80,19 @@ ItemDelegate {
     readonly property bool canUnignore: !isSelf && !guestPlayer && playerIgnored
     readonly property bool hasActions: canSendPm || canInvite || canAdminModerate || canIgnore || canUnignore || canShowPlayerStats
 
+    // ── Feste Icon-Spalten (Wide-Layout) ─────────────────────────────────────
+    // Damit jedes Icon in ALLEN Zeilen an derselben x-Position sitzt, behält ein
+    // für diese Zeile nicht verfügbares Icon seinen Platz (PlayerActionIcon.active)
+    // statt aus der Row zu fallen. Eine Spalte wird aber nur dann überhaupt
+    // reserviert, wenn die Aktion für die LISTE in Frage kommt – die Kickban-
+    // Spalte etwa nur für Server-Admins, sonst bliebe sie bei allen dauerhaft leer.
+    // Ignorieren/Entignorieren schließen sich aus und teilen sich eine Spalte.
+    readonly property bool slotPm: Lobby && !Lobby.isMyPlayerGuest
+    readonly property bool slotInvite: Lobby && Lobby.canInviteFromCurrentGame
+    readonly property bool slotIgnore: true
+    readonly property bool slotStats: true
+    readonly property bool slotAdmin: Lobby && Lobby.isCurrentPlayerAdmin
+
     readonly property color pmColor: Config.StaticData.chartColor(3, true)
     readonly property color inviteColor: Config.StaticData.chartColor(0, true)
     readonly property color ignoreColor: Config.StaticData.chartColor(8, true)
@@ -204,15 +217,19 @@ ItemDelegate {
                 ToolTip.delay: 400
             }
 
-            // Wide-Screen: Action-Icons inline, rechtsbündig.
+            // Wide-Screen: Action-Icons inline, rechtsbündig – in festen Spalten
+            // (siehe slot*-Properties oben). Die Row bleibt auch dann stehen,
+            // wenn für diese Zeile keine Aktion verfügbar ist, damit die Spalten
+            // über alle Zeilen dieselbe Breite behalten.
             Row {
                 id: wideActionsRow
-                visible: playerItem.wideLayout && playerItem.hasActions
+                visible: playerItem.wideLayout
                 spacing: 2
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 
                 PlayerActionIcon {
-                    visible: playerItem.canSendPm
+                    visible: playerItem.slotPm
+                    active: playerItem.canSendPm
                     source: "qrc:/resources/mail.svg"
                     baseColor: playerItem.pmColor
                     tooltipText: qsTr("Send private message")
@@ -220,35 +237,40 @@ ItemDelegate {
                                                                    playerItem.displayName)
                 }
                 PlayerActionIcon {
-                    visible: playerItem.canInvite
+                    visible: playerItem.slotInvite
+                    active: playerItem.canInvite
                     source: "qrc:/resources/personAdd.svg"
                     baseColor: playerItem.inviteColor
                     tooltipText: qsTr("Invite to Game")
                     onTriggered: playerItem.confirmInvite()
                 }
+                // Eine Spalte für beide Zustände: ignoriert ⇄ nicht ignoriert.
                 PlayerActionIcon {
-                    visible: playerItem.canIgnore
-                    source: "qrc:/resources/block.svg"
+                    visible: playerItem.slotIgnore
+                    active: playerItem.canIgnore || playerItem.canUnignore
+                    source: playerItem.playerIgnored ? "qrc:/resources/checkCircle.svg"
+                                                     : "qrc:/resources/block.svg"
                     baseColor: playerItem.ignoreColor
-                    tooltipText: qsTr("Ignore player")
-                    onTriggered: playerItem.confirmIgnore()
+                    tooltipText: playerItem.playerIgnored ? qsTr("Unignore player")
+                                                          : qsTr("Ignore player")
+                    onTriggered: {
+                        if (playerItem.playerIgnored)
+                            playerItem.confirmUnignore()
+                        else
+                            playerItem.confirmIgnore()
+                    }
                 }
                 PlayerActionIcon {
-                    visible: playerItem.canUnignore
-                    source: "qrc:/resources/checkCircle.svg"
-                    baseColor: playerItem.ignoreColor
-                    tooltipText: qsTr("Unignore player")
-                    onTriggered: playerItem.confirmUnignore()
-                }
-                PlayerActionIcon {
-                    visible: playerItem.canShowPlayerStats
+                    visible: playerItem.slotStats
+                    active: playerItem.canShowPlayerStats
                     source: "qrc:/resources/barChart.svg"
                     baseColor: playerItem.statsColor
                     tooltipText: qsTr("Show player stats")
                     onTriggered: { if (Lobby) Lobby.showPlayerStats(playerItem.targetPlayerId) }
                 }
                 PlayerActionIcon {
-                    visible: playerItem.canAdminModerate
+                    visible: playerItem.slotAdmin
+                    active: playerItem.canAdminModerate
                     source: "qrc:/resources/gavel.svg"
                     baseColor: playerItem.banColor
                     tooltipText: qsTr("Total kickban")
