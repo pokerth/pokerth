@@ -340,6 +340,8 @@ int main(int argc, char *argv[])
     // denselben Dienst/Schalter wie die Chat-Übersetzung, ist aber nicht an
     // eine Chat-Zeilenliste gebunden.
     TextTranslator textTranslator(myConfig.get());
+    // Derselbe Übersetzer bedient die Blasen im privaten Nachrichten-Dialog.
+    lobbyHandler->setTextTranslator(&textTranslator);
     engine.rootContext()->setContextProperty("SettingsManager", &settingsMgr);
     engine.rootContext()->setContextProperty("StyleProvider", &styleProvider);
     engine.rootContext()->setContextProperty("LanguageManager", &langMgr);

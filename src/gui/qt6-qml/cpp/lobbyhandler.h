@@ -13,6 +13,7 @@
 #include <QString>
 #include <QStringList>
 #include <QHash>
+#include <QPair>
 #include <QVariantMap>
 #include <boost/shared_ptr.hpp>
 
@@ -20,6 +21,7 @@ class Session;
 class SoundEvents;
 class ConfigFile;
 class ChatTranslator;
+class TextTranslator;
 struct GameInfo;
 
 // Model for players in lobby
@@ -218,6 +220,18 @@ public:
     // Gast-Status eines BELIEBIGEN Spielers. Gäste dürfen serverseitig gar nicht
     // chatten – an sie geht auch keine private Nachricht.
     Q_INVOKABLE bool isPlayerGuest(unsigned playerId) const;
+
+    // Übersetzer für die Blasen des privaten Nachrichten-Dialogs. Bewusst
+    // derselbe, den auch die Forum-Seite nutzt (TextTranslator, in pokerth.cpp
+    // erzeugt) – nicht der ChatTranslator, der ausschließlich auf Chat-ZEILEN
+    // arbeitet.
+    void setTextTranslator(TextTranslator *translator);
+
+    // Globus-Klick an einer PM-Blase: übersetzt die Nachricht bzw. blendet eine
+    // bereits geholte Übersetzung um. Der Zustand liegt – wie beim Chat-Verlauf –
+    // im Handler und nicht im QML: die Blase rendert einfach neu, sobald
+    // privateMessagesChanged() kommt.
+    Q_INVOKABLE void togglePrivateMessageTranslation(const QString &playerName, int index);
     bool atRunningTable() const { return m_gameRunning; }
     int unreadPrivateMessages() const { return m_unreadPrivateMessages; }
     int privateMessagesRevision() const { return m_privateMessagesRevision; }
@@ -469,6 +483,9 @@ private:
     void persistPrivateMessage(const QString &playerName, const QVariantMap &entry);
     void persistPrivateThreadMeta(const QString &playerName);
     void persistDeletePrivateThread(const QString &playerName);
+    // Antwort des Übersetzers auf eine PM-Blase (ignoriert fremde Request-Ids,
+    // der TextTranslator bedient auch die Forum-Seite).
+    void onPrivateMessageTranslated(int requestId, const QString &text, bool ok);
 
     boost::shared_ptr<Session> m_session;
     SoundEvents *m_soundEvents = nullptr;   // nicht besessen
@@ -499,6 +516,11 @@ private:
     // zum aktuellen Hell/Dunkel-Modus aufgelöst.
     QStringList m_chatLog;
     ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
+    TextTranslator *m_textTranslator = nullptr; // übersetzt einzelne PM-Blasen
+    // Laufende PM-Übersetzungen: Request-Id -> (Gesprächspartner, Zeitstempel).
+    // Über den Zeitstempel statt den Index, weil der Verlauf im Speicher vorne
+    // beschnitten wird und ein Index bis zur Antwort verrutschen könnte.
+    QHash<int, QPair<QString, QString>> m_pmTranslationRequests;
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;

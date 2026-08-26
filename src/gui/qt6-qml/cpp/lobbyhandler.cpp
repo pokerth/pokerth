@@ -7,6 +7,7 @@
 #include "androidconnectionservice.h"
 #include "iosbackgroundsession.h"
 #include "chattranslator.h"
+#include "texttranslator.h"
 #include "chatemotes.h"
 #include "chatcolors.h"
 #include "darkmode.h"
@@ -885,6 +886,93 @@ bool LobbyHandler::isMyPlayerGuest() const
 
     const PlayerInfo info = m_session->getClientPlayerInfo(m_myPlayerId);
     return info.isGuest;
+}
+
+void LobbyHandler::setTextTranslator(TextTranslator *translator)
+{
+    m_textTranslator = translator;
+    if (m_textTranslator) {
+        connect(m_textTranslator, &TextTranslator::translated,
+                this, &LobbyHandler::onPrivateMessageTranslated, Qt::UniqueConnection);
+    }
+}
+
+void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, int index)
+{
+    auto it = m_privateThreads.find(playerName);
+    if (it == m_privateThreads.end() || index < 0 || index >= it->messages.size())
+        return;
+
+    QVariantMap entry = it->messages.at(index).toMap();
+    // Nur eingehende Nachrichten – die eigenen sind bereits in der eigenen
+    // Sprache verfasst (dieselbe Regel wie im Chat-Verlauf).
+    if (entry.value(QStringLiteral("fromMe")).toBool()
+        || entry.value(QStringLiteral("translationPending")).toBool())
+        return;
+
+    // Bereits übersetzt: nur ein-/ausblenden, kein erneuter Netzabruf.
+    if (!entry.value(QStringLiteral("translation")).toString().isEmpty()) {
+        entry.insert(QStringLiteral("showTranslation"),
+                     !entry.value(QStringLiteral("showTranslation")).toBool());
+        it->messages[index] = entry;
+        ++m_privateMessagesRevision;
+        emit privateMessagesChanged();
+        return;
+    }
+
+    if (!m_textTranslator)
+        return;
+    const int requestId =
+        m_textTranslator->translate(entry.value(QStringLiteral("text")).toString());
+    if (requestId < 0)
+        return;
+
+    entry.insert(QStringLiteral("translationPending"), true);
+    entry.insert(QStringLiteral("translationFailed"), false);
+    it->messages[index] = entry;
+    m_pmTranslationRequests.insert(
+        requestId, qMakePair(playerName, entry.value(QStringLiteral("ts")).toString()));
+
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
+}
+
+void LobbyHandler::onPrivateMessageTranslated(int requestId, const QString &text, bool ok)
+{
+    if (!m_pmTranslationRequests.contains(requestId))
+        return;   // Anfrage einer anderen Ansicht (Forum-Seite).
+    const QPair<QString, QString> req = m_pmTranslationRequests.take(requestId);
+
+    auto it = m_privateThreads.find(req.first);
+    if (it == m_privateThreads.end())
+        return;
+    // Über den Zeitstempel suchen: der Verlauf kann zwischenzeitlich vorne
+    // beschnitten worden sein, ein gemerkter Index zeigte dann daneben.
+    int index = -1;
+    for (int i = 0; i < it->messages.size(); ++i) {
+        if (it->messages.at(i).toMap().value(QStringLiteral("ts")).toString() == req.second) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return;
+
+    QVariantMap entry = it->messages.at(index).toMap();
+    entry.insert(QStringLiteral("translationPending"), false);
+    if (ok && !text.trimmed().isEmpty()) {
+        entry.insert(QStringLiteral("translation"), text);
+        entry.insert(QStringLiteral("showTranslation"), true);
+        entry.insert(QStringLiteral("translationFailed"), false);
+    } else {
+        // Fehlschlag NICHT verschlucken: der Globus färbt sich um, ein weiterer
+        // Klick versucht es erneut.
+        entry.insert(QStringLiteral("translationFailed"), true);
+    }
+    it->messages[index] = entry;
+
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
 }
 
 bool LobbyHandler::isPlayerGuest(unsigned playerId) const

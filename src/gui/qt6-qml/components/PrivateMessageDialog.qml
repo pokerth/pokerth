@@ -63,82 +63,13 @@ Popup {
                                     ? Lobby.atRunningTable : false
 
     // ── Übersetzung eingehender Nachrichten ──────────────────────────────────
-    // NICHT über Lobby.chatTranslator: der operiert auf der chatLog-Liste seines
-    // Handlers und kennt nur Chat-ZEILEN (Globus als Pseudo-Link im einen großen
-    // RichText-Dokument). Hier ist jede Nachricht ein eigenes Delegate, das sein
-    // Symbol selbst zeichnet – dafür gibt es die globale Hülle "Translator"
-    // (TextTranslator, pokerth.cpp), die beliebige Texte übersetzt und schon die
-    // Forum-Beitragsseite bedient. Beide teilen sich den ChatTranslatorCore, also
-    // Dienst, Zielsprache und den Schalter "AllowChatTranslation".
-    readonly property var translator: (typeof Translator !== "undefined") ? Translator : null
-    readonly property bool canTranslate: translator ? translator.enabled : false
-
-    // Zustand je Nachricht: { text, pending, shown, failed }. Delegates werden beim
-    // Scrollen recycelt, der Zustand darf also nicht in ihnen liegen. Schlüssel
-    // ist Partner + Zeitstempel + Text – der Verlauf wächst nur hinten an, der
-    // Index wäre zwar auch stabil, aber nicht über einen Partnerwechsel hinweg.
-    property var translationState: ({})
-    // JS-Objekte melden Änderungen nicht an Bindings – dieser Zähler tut es.
-    property int translationRevision: 0
-    property var translationRequests: ({})   // Request-Id → Schlüssel
-
-    function translationKey(msg) {
-        return activePartner + "\u0001" + (msg.ts || "") + "\u0001" + (msg.text || "")
-    }
-
-    function translationFor(msg) {
-        var _rev = translationRevision
-        return translationState[translationKey(msg)] || null
-    }
-
-    // Globus-Klick: erste Anfrage holen, danach nur noch ein-/ausblenden
-    // (die Übersetzung bleibt gecacht, kein erneuter Netzabruf).
-    function toggleTranslation(msg) {
-        if (!canTranslate || !translator)
-            return
-        var key = translationKey(msg)
-        var st = translationState[key]
-        if (st && st.pending)
-            return
-        if (st && st.text.length > 0) {
-            st.shown = !st.shown
-            ++translationRevision
-            return
-        }
-        // Noch nichts geholt oder letzter Versuch gescheitert → (erneut) anfragen.
-        var reqId = translator.translate(msg.text || "")
-        if (reqId < 0)
-            return
-        translationState[key] = { text: "", pending: true, shown: false, failed: false }
-        translationRequests[reqId] = key
-        ++translationRevision
-    }
-
-    Connections {
-        target: (typeof Translator !== "undefined") ? Translator : null
-
-        function onTranslated(requestId, text, ok) {
-            var key = root.translationRequests[requestId]
-            if (key === undefined)
-                return
-            delete root.translationRequests[requestId]
-            var st = root.translationState[key]
-            if (!st)
-                return
-            st.pending = false
-            if (ok && text.trim().length > 0) {
-                st.text = text
-                st.shown = true
-                st.failed = false
-            } else {
-                // Fehlschlag NICHT verschlucken: der Globus färbt sich um und
-                // sagt im Tooltip, was los ist – ein weiterer Klick versucht es
-                // erneut. Sonst passiert beim Antippen scheinbar gar nichts.
-                st.failed = true
-            }
-            ++root.translationRevision
-        }
-    }
+    // Aufgeteilt wie beim Chat-Verlauf: Der ZUSTAND (Übersetzung, läuft gerade,
+    // ein-/ausgeblendet, fehlgeschlagen) liegt im Handler und reist in den
+    // Nachrichten-Einträgen mit; QML rendert nur neu, sobald der Handler seine
+    // Revision hochzählt. Hier steht deshalb nur noch die Sichtbarkeit des
+    // Symbols – der Schalter ist derselbe wie im Chat ("AllowChatTranslation").
+    readonly property bool canTranslate: (typeof Translator !== "undefined" && Translator)
+                                         ? Translator.enabled : false
 
     readonly property int maxBytes: 128
     // UTF-8-Länge (nicht Zeichen), weil der Server in Bytes begrenzt.
@@ -438,6 +369,7 @@ Popup {
 
                     delegate: Item {
                         required property var modelData
+                        required property int index
                         width: conversationView.width - (convScrollBar.visible ? 12 : 0)
                         height: bubble.height
 
@@ -461,11 +393,11 @@ Popup {
 
                             // Übersetzung: nur eingehende Nachrichten, und nur
                             // wenn die Funktion in den Optionen aktiv ist.
-                            readonly property var trState: root.translationFor(modelData)
-                            readonly property bool translationPending: !!(trState && trState.pending)
-                            readonly property bool translationFailed: !!(trState && trState.failed)
+                            readonly property bool translationPending: !!modelData.translationPending
+                            readonly property bool translationFailed: !!modelData.translationFailed
                             readonly property bool translationShown:
-                                !!(trState && trState.shown && trState.text.length > 0)
+                                !!modelData.showTranslation
+                                && (modelData.translation || "").length > 0
                             readonly property bool showGlobe: !modelData.fromMe
                                                               && root.canTranslate
                                                               && (modelData.text || "").length > 0
@@ -516,7 +448,7 @@ Popup {
                                 AppText {
                                     id: bubbleText
                                     Layout.fillWidth: true
-                                    text: bubble.translationShown ? bubble.trState.text
+                                    text: bubble.translationShown ? modelData.translation
                                                                   : (modelData.text || "")
                                     // Kursiv kennzeichnet die Übersetzung – wie im
                                     // Chat-Verlauf (ChatTranslatorCore.styledTranslation).
@@ -580,7 +512,11 @@ Popup {
                                             enabled: !bubble.translationPending
                                             hoverEnabled: true
                                             cursorShape: Qt.PointingHandCursor
-                                            onClicked: root.toggleTranslation(modelData)
+                                            onClicked: {
+                                                if (Lobby)
+                                                    Lobby.togglePrivateMessageTranslation(
+                                                        root.activePartner, index)
+                                            }
                                         }
 
                                         ToolTip.text: bubble.translationFailed
