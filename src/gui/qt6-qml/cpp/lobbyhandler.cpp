@@ -888,6 +888,17 @@ bool LobbyHandler::isMyPlayerGuest() const
     return info.isGuest;
 }
 
+// Index einer PM-Blase über ihre eindeutige msgId (-1 = nicht mehr im
+// Speicher-Fenster des Verlaufs).
+static int indexOfPrivateMessage(const QVariantList &messages, int messageId)
+{
+    for (int i = 0; i < messages.size(); ++i) {
+        if (messages.at(i).toMap().value(QStringLiteral("msgId")).toInt() == messageId)
+            return i;
+    }
+    return -1;
+}
+
 void LobbyHandler::setTextTranslator(TextTranslator *translator)
 {
     m_textTranslator = translator;
@@ -897,10 +908,13 @@ void LobbyHandler::setTextTranslator(TextTranslator *translator)
     }
 }
 
-void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, int index)
+void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, int messageId)
 {
     auto it = m_privateThreads.find(playerName);
-    if (it == m_privateThreads.end() || index < 0 || index >= it->messages.size())
+    if (it == m_privateThreads.end())
+        return;
+    const int index = indexOfPrivateMessage(it->messages, messageId);
+    if (index < 0)
         return;
 
     QVariantMap entry = it->messages.at(index).toMap();
@@ -930,8 +944,7 @@ void LobbyHandler::togglePrivateMessageTranslation(const QString &playerName, in
     entry.insert(QStringLiteral("translationPending"), true);
     entry.insert(QStringLiteral("translationFailed"), false);
     it->messages[index] = entry;
-    m_pmTranslationRequests.insert(
-        requestId, qMakePair(playerName, entry.value(QStringLiteral("ts")).toString()));
+    m_pmTranslationRequests.insert(requestId, qMakePair(playerName, messageId));
 
     ++m_privateMessagesRevision;
     emit privateMessagesChanged();
@@ -941,22 +954,14 @@ void LobbyHandler::onPrivateMessageTranslated(int requestId, const QString &text
 {
     if (!m_pmTranslationRequests.contains(requestId))
         return;   // Anfrage einer anderen Ansicht (Forum-Seite).
-    const QPair<QString, QString> req = m_pmTranslationRequests.take(requestId);
+    const QPair<QString, int> req = m_pmTranslationRequests.take(requestId);
 
     auto it = m_privateThreads.find(req.first);
     if (it == m_privateThreads.end())
         return;
-    // Über den Zeitstempel suchen: der Verlauf kann zwischenzeitlich vorne
-    // beschnitten worden sein, ein gemerkter Index zeigte dann daneben.
-    int index = -1;
-    for (int i = 0; i < it->messages.size(); ++i) {
-        if (it->messages.at(i).toMap().value(QStringLiteral("ts")).toString() == req.second) {
-            index = i;
-            break;
-        }
-    }
+    const int index = indexOfPrivateMessage(it->messages, req.second);
     if (index < 0)
-        return;
+        return;   // Nachricht ist inzwischen aus dem Speicher-Fenster gefallen.
 
     QVariantMap entry = it->messages.at(index).toMap();
     entry.insert(QStringLiteral("translationPending"), false);
@@ -1738,6 +1743,7 @@ void LobbyHandler::appendPrivateMessage(const QString &playerName, const QString
     PrivateThread &thread = m_privateThreads[playerName];
 
     QVariantMap entry;
+    entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
     entry.insert(QStringLiteral("fromMe"), fromMe);
     entry.insert(QStringLiteral("text"), message);
     // Vollständiger Zeitstempel: der Verlauf überdauert Sitzungen, "HH:mm"
@@ -1880,6 +1886,7 @@ void LobbyHandler::loadPrivateMessages()
         if (messageQuery.exec()) {
             while (messageQuery.next()) {
                 QVariantMap entry;
+                entry.insert(QStringLiteral("msgId"), m_nextPrivateMessageId++);
                 entry.insert(QStringLiteral("fromMe"), messageQuery.value(0).toInt() != 0);
                 entry.insert(QStringLiteral("text"),   messageQuery.value(1).toString());
                 entry.insert(QStringLiteral("ts"),     messageQuery.value(2).toString());

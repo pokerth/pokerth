@@ -230,8 +230,10 @@ public:
     // Globus-Klick an einer PM-Blase: übersetzt die Nachricht bzw. blendet eine
     // bereits geholte Übersetzung um. Der Zustand liegt – wie beim Chat-Verlauf –
     // im Handler und nicht im QML: die Blase rendert einfach neu, sobald
-    // privateMessagesChanged() kommt.
-    Q_INVOKABLE void togglePrivateMessageTranslation(const QString &playerName, int index);
+    // privateMessagesChanged() kommt. Adressiert wird über die msgId des
+    // Eintrags, NICHT über den Listenindex (der verschiebt sich, wenn der
+    // Verlauf im Speicher vorne beschnitten wird).
+    Q_INVOKABLE void togglePrivateMessageTranslation(const QString &playerName, int messageId);
     bool atRunningTable() const { return m_gameRunning; }
     int unreadPrivateMessages() const { return m_unreadPrivateMessages; }
     int privateMessagesRevision() const { return m_privateMessagesRevision; }
@@ -500,10 +502,15 @@ private:
     unsigned m_myPlayerId;
     int m_unreadPrivateMessages = 0;
     int m_privateMessagesRevision = 0;
+    // Laufende Nummer je Nachricht, nur für diese Sitzung. Sie adressiert eine
+    // Blase eindeutig – der Zeitstempel taugt dafür NICHT (Sekundenauflösung,
+    // zwei Nachrichten derselben Sekunde sind nicht unterscheidbar) und der
+    // Listenindex verschiebt sich beim Beschneiden des Verlaufs.
+    int m_nextPrivateMessageId = 1;
     // Privater Nachrichtenverlauf je Gesprächspartner: das im Dialog gezeigte
     // Fenster der Unterhaltung (den vollständigen Verlauf hält die SQLite-Datei).
     struct PrivateThread {
-        QVariantList messages;      // { fromMe, text, ts }
+        QVariantList messages;      // { msgId, fromMe, text, ts, ggf. translation* }
         int unread = 0;
         qint64 lastActivity = 0;    // ms since epoch, für die Sortierung
     };
@@ -517,10 +524,8 @@ private:
     QStringList m_chatLog;
     ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     TextTranslator *m_textTranslator = nullptr; // übersetzt einzelne PM-Blasen
-    // Laufende PM-Übersetzungen: Request-Id -> (Gesprächspartner, Zeitstempel).
-    // Über den Zeitstempel statt den Index, weil der Verlauf im Speicher vorne
-    // beschnitten wird und ein Index bis zur Antwort verrutschen könnte.
-    QHash<int, QPair<QString, QString>> m_pmTranslationRequests;
+    // Laufende PM-Übersetzungen: Request-Id -> (Gesprächspartner, msgId).
+    QHash<int, QPair<QString, int>> m_pmTranslationRequests;
     // Aktuell im QML-Popup angefragte Einladung (0 = keine). Verhindert, dass
     // mehrere Einladungs-Popups gleichzeitig erscheinen (weitere → "busy").
     unsigned m_pendingInviteGameId = 0;

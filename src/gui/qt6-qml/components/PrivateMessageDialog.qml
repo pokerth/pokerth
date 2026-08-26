@@ -369,7 +369,6 @@ Popup {
 
                     delegate: Item {
                         required property var modelData
-                        required property int index
                         width: conversationView.width - (convScrollBar.visible ? 12 : 0)
                         height: bubble.height
 
@@ -513,9 +512,12 @@ Popup {
                                             hoverEnabled: true
                                             cursorShape: Qt.PointingHandCursor
                                             onClicked: {
+                                                // Eindeutige msgId des Eintrags,
+                                                // nicht der Listenindex.
                                                 if (Lobby)
                                                     Lobby.togglePrivateMessageTranslation(
-                                                        root.activePartner, index)
+                                                        root.activePartner,
+                                                        modelData.msgId || 0)
                                             }
                                         }
 
