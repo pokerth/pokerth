@@ -1899,7 +1899,12 @@ Bitte geben Sie das Passwort erneut ein und versuchen Sie es noch einmal.</trans
         <translation>%1 hat die Einladung zu %2 abgelehnt.</translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+79"/>
+        <source>Guests cannot receive private messages.</source>
+        <translation>Gäste können keine privaten Nachrichten empfangen.</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Private message to %1:</source>
         <translation>Private Nachricht an %1:</translation>
     </message>
@@ -1944,7 +1949,7 @@ Bitte geben Sie das Passwort erneut ein und versuchen Sie es noch einmal.</trans
         <translation>Voll</translation>
     </message>
     <message>
-        <location line="-209"/>
+        <location line="-216"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 kann %2 nicht beitreten, da gerade beschäftigt.</translation>
     </message>

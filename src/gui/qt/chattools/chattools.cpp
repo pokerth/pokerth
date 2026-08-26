@@ -770,6 +770,15 @@ void ChatTools::sendPrivateMessage(unsigned playerId, QString message)
 	if(message.isEmpty())
 		return;
 
+	// Gäste können serverseitig gar nicht chatten – auch nicht als EMPFÄNGER.
+	// Die Prüfung sitzt hier, weil neben dem Kontextmenü (das die Aktion bereits
+	// ausblendet) auch der Chat-Befehl hier durchläuft; ohne sie verschwände so
+	// eine Nachricht kommentarlos.
+	if(mySession->getClientPlayerInfo(playerId).isGuest) {
+		showLocalNote(tr("Guests cannot receive private messages."));
+		return;
+	}
+
 	mySession->sendPrivateChatMessage(playerId, message.toUtf8().constData());
 
 	const QString playerName = QString::fromUtf8(

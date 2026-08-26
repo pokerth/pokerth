@@ -1898,7 +1898,12 @@ Por favor redigite a senha e tente novamente.</translation>
         <translation>%1 recusou o convite para %2.</translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+79"/>
+        <source>Guests cannot receive private messages.</source>
+        <translation>Convidados não podem receber mensagens privadas.</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Private message to %1:</source>
         <translation>Mensagem privada para %1:</translation>
     </message>
@@ -1943,7 +1948,7 @@ Por favor redigite a senha e tente novamente.</translation>
         <translation>Cheio</translation>
     </message>
     <message>
-        <location line="-209"/>
+        <location line="-216"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 não pode entrar em %2 porque está ocupado.</translation>
     </message>

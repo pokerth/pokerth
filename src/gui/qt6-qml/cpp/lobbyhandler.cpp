@@ -2518,6 +2518,13 @@ void LobbyHandler::sendPrivateMessage(unsigned targetPlayerId, const QString &me
         emit errorOccurred(tr("Guests cannot send chat messages"));
         return;
     }
+    // Umgekehrt genauso: an einen Gast stellt der Server nichts zu. Die Prüfung
+    // sitzt hier und nicht nur an den Buttons, weil das die einzige Engstelle
+    // ist, durch die JEDER Sendeweg läuft.
+    if (isPlayerGuest(targetPlayerId)) {
+        emit errorOccurred(tr("Guests cannot receive private messages."));
+        return;
+    }
     QString text = message.trimmed();
     // Gleiche 128-Byte-Grenze wie im Chat: der Paket-Validator des Servers
     // verwirft längere Nachrichten (und trennt im Zweifel die Verbindung).

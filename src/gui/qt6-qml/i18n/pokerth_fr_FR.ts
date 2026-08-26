@@ -1899,7 +1899,12 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>%1 a refusé l&apos;invitation à %2.</translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+79"/>
+        <source>Guests cannot receive private messages.</source>
+        <translation>Les invités ne peuvent pas recevoir de messages privés.</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Private message to %1:</source>
         <translation>Message privé à %1 :</translation>
     </message>
@@ -1944,7 +1949,7 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Complète</translation>
     </message>
     <message>
-        <location line="-209"/>
+        <location line="-216"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 ne peut pas rejoindre %2 car il est occupé.</translation>
     </message>
