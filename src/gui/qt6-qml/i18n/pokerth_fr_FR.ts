@@ -996,7 +996,7 @@
 <context>
     <name>GameWaitPage</name>
     <message>
-        <location filename="../pages/GameWaitPage.qml" line="+194"/>
+        <location filename="../pages/GameWaitPage.qml" line="+231"/>
         <source>Players</source>
         <translation>Joueurs</translation>
     </message>
@@ -1554,7 +1554,7 @@
 <context>
     <name>LobbyCreateGamePage</name>
     <message>
-        <location filename="../pages/LobbyCreateGamePage.qml" line="+347"/>
+        <location filename="../pages/LobbyCreateGamePage.qml" line="+307"/>
         <source>← Zurück</source>
         <translation>← Retour</translation>
     </message>
@@ -1704,19 +1704,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1291"/>
-        <location line="+1210"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1300"/>
+        <location line="+1218"/>
         <source>Guests cannot send chat messages</source>
         <translation>Les invités ne peuvent pas envoyer de messages</translation>
     </message>
     <message>
-        <location line="-1191"/>
-        <location line="+1185"/>
+        <location line="-1199"/>
+        <location line="+1193"/>
         <source>Private messages are not available at the table.</source>
         <translation>Les messages privés ne sont pas disponibles à la table.</translation>
     </message>
     <message>
-        <location line="-1179"/>
+        <location line="-1187"/>
         <source>Player not found</source>
         <translation>Joueur introuvable</translation>
     </message>
@@ -1870,15 +1870,15 @@ Veuillez ressaisir le mot de passe et réessayer.</translation>
         <translation>Vous avez été retiré pour cause d&apos;inactivité.</translation>
     </message>
     <message>
-        <location line="+487"/>
+        <location line="+486"/>
         <source>%1 is not in the lobby at the moment.</source>
-        <translation>%1 n'est pas dans le lobby pour le moment.</translation>
+        <translation>%1 n&apos;est pas dans le lobby pour le moment.</translation>
     </message>
     <message>
         <location line="+70"/>
         <location line="+39"/>
         <location line="+9"/>
-        <location line="+152"/>
+        <location line="+161"/>
         <location line="+9"/>
         <location line="+185"/>
         <location line="+9"/>
@@ -3185,7 +3185,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+200"/>
+        <location filename="../components/PlayerListItem.qml" line="+214"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 joue actuellement dans la partie &quot;%2&quot;.</translation>
     </message>
@@ -3196,13 +3196,13 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
     </message>
     <message>
         <location line="-104"/>
-        <location line="+129"/>
-        <location line="+112"/>
+        <location line="+134"/>
+        <location line="+116"/>
         <source>Invite to Game</source>
         <translation>Inviter à la partie</translation>
     </message>
     <message>
-        <location line="-240"/>
+        <location line="-249"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
         <translation>Voulez-vous vraiment inviter «&#xa0;%1&#xa0;» dans votre partie&#xa0;?</translation>
     </message>
@@ -3214,26 +3214,26 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
     <message>
         <location line="+6"/>
         <location line="+2"/>
-        <location line="+126"/>
+        <location line="+135"/>
         <location line="+141"/>
         <source>Ignore player</source>
         <translation>Ignorer le joueur</translation>
     </message>
     <message>
-        <location line="-268"/>
+        <location line="-277"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
         <translation>Voulez-vous vraiment ignorer «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+2"/>
-        <location line="+125"/>
-        <location line="+170"/>
+        <location line="+126"/>
+        <location line="+178"/>
         <source>Unignore player</source>
         <translation>Ne plus ignorer le joueur</translation>
     </message>
     <message>
-        <location line="-296"/>
+        <location line="-305"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
         <translation>Voulez-vous vraiment ne plus ignorer «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
     </message>
@@ -3243,21 +3243,21 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
         <translation>Voulez-vous vraiment bannir totalement «&#xa0;%1&#xa0;»&#xa0;?&gt;</translation>
     </message>
     <message>
-        <location line="+96"/>
-        <location line="+83"/>
+        <location line="+100"/>
+        <location line="+88"/>
         <source>Send private message</source>
         <translation>Envoyer un message privé</translation>
     </message>
     <message>
-        <location line="-54"/>
-        <location line="+199"/>
+        <location line="-55"/>
+        <location line="+200"/>
         <source>Show player stats</source>
         <translation>Afficher les statistiques du joueur</translation>
     </message>
     <message>
-        <location line="-325"/>
+        <location line="-334"/>
         <location line="+2"/>
-        <location line="+131"/>
+        <location line="+140"/>
         <location line="+228"/>
         <source>Total kickban</source>
         <translation>Kick/ban total</translation>
@@ -3383,7 +3383,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+165"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+246"/>
         <source>Private messages</source>
         <translation>Messages privés</translation>
     </message>
@@ -3419,17 +3419,32 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
         <translation>pas dans le lobby</translation>
     </message>
     <message>
-        <location line="+74"/>
+        <location line="+163"/>
+        <source>Show original</source>
+        <translation>Afficher l&apos;original</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Translate message</source>
+        <translation>Traduire le message</translation>
+    </message>
+    <message>
+        <location line="+18"/>
         <source>Private messages are not available at the table.</source>
         <translation>Les messages privés ne sont pas disponibles à la table.</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Guests cannot send chat messages</source>
         <translation>Les invités ne peuvent pas envoyer de messages</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location line="+1"/>
+        <source>Guests cannot receive private messages.</source>
+        <translation>Les invités ne peuvent pas recevoir de messages privés.</translation>
+    </message>
+    <message>
+        <location line="+21"/>
         <source>Message …</source>
         <translation>Message …</translation>
     </message>
@@ -4689,7 +4704,7 @@ aperçu</translation>
         <translation>Menu</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+52"/>
         <source>Private messages</source>
         <translation>Messages privés</translation>
     </message>
@@ -4785,8 +4800,8 @@ aperçu</translation>
         <translation>Connexion perdue</translation>
     </message>
     <message>
-        <location line="-730"/>
-        <location line="+541"/>
+        <location line="-734"/>
+        <location line="+545"/>
         <location line="+22"/>
         <source>Leave Game</source>
         <translation>Quitter la partie</translation>
@@ -4806,8 +4821,8 @@ et revenir au lobby ?</translation>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location line="-689"/>
-        <location line="+598"/>
+        <location line="-693"/>
+        <location line="+602"/>
         <location line="+22"/>
         <source>Leave Lobby</source>
         <translation>Quitter le lobby</translation>

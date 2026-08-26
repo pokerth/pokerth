@@ -215,6 +215,9 @@ public:
     QStringList chatLog() const;
     QObject* chatTranslator() const;
     bool isMyPlayerGuest() const;
+    // Gast-Status eines BELIEBIGEN Spielers. Gäste dürfen serverseitig gar nicht
+    // chatten – an sie geht auch keine private Nachricht.
+    Q_INVOKABLE bool isPlayerGuest(unsigned playerId) const;
     bool atRunningTable() const { return m_gameRunning; }
     int unreadPrivateMessages() const { return m_unreadPrivateMessages; }
     int privateMessagesRevision() const { return m_privateMessagesRevision; }

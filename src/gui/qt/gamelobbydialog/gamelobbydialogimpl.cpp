@@ -1974,14 +1974,17 @@ void gameLobbyDialogImpl::showNickListContextMenu(QPoint p)
 		assert(mySession);
 		unsigned playerUid = myNickListSelectionModel->currentIndex().data(Qt::UserRole).toUInt();
 
-		// Private Nachricht: nicht an sich selbst, nicht als Gast (der Server
-		// lässt Gäste gar nicht chatten) und nicht an Spieler an einem LAUFENDEN
-		// Tisch – dorthin stellt der Server PMs nicht zu (ServerLobbyThread::
+		// Private Nachricht: nicht an sich selbst, nicht als Gast und nicht AN
+		// einen Gast (der Server lässt Gäste gar nicht chatten, in keine der
+		// beiden Richtungen) und nicht an Spieler an einem LAUFENDEN Tisch –
+		// dorthin stellt der Server PMs nicht zu (ServerLobbyThread::
 		// HandleNetPacketChatRequest), die Nachricht ginge kommentarlos verloren.
 		unsigned gameIdOfTarget = mySession->getGameIdOfPlayer(playerUid);
 		bool targetIsPlaying = gameIdOfTarget
 			&& mySession->getClientGameInfo(gameIdOfTarget).mode == GAME_MODE_STARTED;
-		if(playerUid != mySession->getClientUniquePlayerId() && !guestMode && !targetIsPlaying) {
+		bool targetIsGuest = mySession->getClientPlayerInfo(playerUid).isGuest;
+		if(playerUid != mySession->getClientUniquePlayerId() && !guestMode
+		   && !targetIsGuest && !targetIsPlaying) {
 			nickListSendPrivateMessageAction->setEnabled(true);
 			nickListSendPrivateMessageAction->setText(tr("Send private message to %1").arg(QString::fromUtf8(mySession->getClientPlayerInfo(playerUid).playerName.c_str())));
 		} else {

@@ -50,10 +50,90 @@ Popup {
     }
     readonly property bool guestMode: (typeof Lobby !== "undefined" && Lobby)
                                       ? Lobby.isMyPlayerGuest : false
+    // Gäste können serverseitig gar nicht chatten und empfangen daher auch keine
+    // privaten Nachrichten – ein bestehendes Gespräch bleibt lesbar, aber tot.
+    readonly property bool partnerIsGuest: {
+        var _pm = pmRevision, _pl = playerRevision
+        return (typeof Lobby !== "undefined" && Lobby && activePartnerId !== 0)
+                ? Lobby.isPlayerGuest(activePartnerId) : false
+    }
     // Am laufenden Tisch sind PMs bewusst gesperrt (Absprachen); der Server
     // stellt sie dorthin ohnehin nicht zu.
     readonly property bool atTable: (typeof Lobby !== "undefined" && Lobby)
                                     ? Lobby.atRunningTable : false
+
+    // ── Übersetzung eingehender Nachrichten ──────────────────────────────────
+    // Der Lobby-Chat bettet den Globus als Pseudo-Link in sein RichText-Dokument
+    // ein, weil er EINE Textfläche ist und keine Zeilen-Delegates hat. Hier ist
+    // jede Nachricht ein eigenes Delegate: die Blase zeichnet ihr Symbol selbst
+    // und ruft den Übersetzer direkt über translateText() (ohne Chat-Zeilenbezug).
+    readonly property var translator: (typeof Lobby !== "undefined" && Lobby)
+                                      ? Lobby.chatTranslator : null
+    readonly property bool canTranslate: translator ? translator.enabled : false
+
+    // Zustand je Nachricht: { text, pending, shown }. Delegates werden beim
+    // Scrollen recycelt, der Zustand darf also nicht in ihnen liegen. Schlüssel
+    // ist Partner + Zeitstempel + Text – der Verlauf wächst nur hinten an, der
+    // Index wäre zwar auch stabil, aber nicht über einen Partnerwechsel hinweg.
+    property var translationState: ({})
+    // JS-Objekte melden Änderungen nicht an Bindings – dieser Zähler tut es.
+    property int translationRevision: 0
+    property var translationRequests: ({})   // Request-Id → Schlüssel
+
+    function translationKey(msg) {
+        return activePartner + "\u0001" + (msg.ts || "") + "\u0001" + (msg.text || "")
+    }
+
+    function translationFor(msg) {
+        var _rev = translationRevision
+        return translationState[translationKey(msg)] || null
+    }
+
+    // Globus-Klick: erste Anfrage holen, danach nur noch ein-/ausblenden
+    // (die Übersetzung bleibt gecacht, kein erneuter Netzabruf).
+    function toggleTranslation(msg) {
+        if (!canTranslate || !translator)
+            return
+        var key = translationKey(msg)
+        var st = translationState[key]
+        if (st && st.pending)
+            return
+        if (st && st.text.length > 0) {
+            st.shown = !st.shown
+            ++translationRevision
+            return
+        }
+        var reqId = translator.translateText(msg.text || "")
+        if (reqId < 0)
+            return
+        translationState[key] = { text: "", pending: true, shown: false }
+        translationRequests[reqId] = key
+        ++translationRevision
+    }
+
+    Connections {
+        target: root.translator
+        enabled: root.translator !== null
+        function onTextTranslated(requestId, text, ok) {
+            var key = root.translationRequests[requestId]
+            if (key === undefined)
+                return
+            delete root.translationRequests[requestId]
+            var st = root.translationState[key]
+            if (!st)
+                return
+            st.pending = false
+            // Fehlgeschlagen: Zustand verwerfen, damit ein erneuter Klick es
+            // nochmal versucht (statt dauerhaft tot dazustehen).
+            if (ok && text.trim().length > 0) {
+                st.text = text
+                st.shown = true
+            } else {
+                delete root.translationState[key]
+            }
+            ++root.translationRevision
+        }
+    }
 
     readonly property int maxBytes: 128
     // UTF-8-Länge (nicht Zeichen), weil der Server in Bytes begrenzt.
@@ -70,6 +150,7 @@ Popup {
         return b
     }
     readonly property bool canSend: activePartnerId !== 0 && !guestMode && !atTable
+                                    && !partnerIsGuest
                                     && messageInput.text.trim() !== ""
                                     && usedBytes <= maxBytes
 
@@ -372,12 +453,27 @@ Popup {
                             readonly property real textWidth:
                                 Math.min(Math.ceil(textMetrics.advanceWidth),
                                          maxWidth - 2 * hPadding)
+
+                            // Übersetzung: nur eingehende Nachrichten, und nur
+                            // wenn die Funktion in den Optionen aktiv ist.
+                            readonly property var trState: root.translationFor(modelData)
+                            readonly property bool translationPending: !!(trState && trState.pending)
+                            readonly property bool translationShown:
+                                !!(trState && trState.shown && trState.text.length > 0)
+                            readonly property bool showGlobe: !modelData.fromMe
+                                                              && root.canTranslate
+                                                              && (modelData.text || "").length > 0
+                            readonly property int globeSize: 13
+                            readonly property int footerSpacing: 4
+                            readonly property real footerWidth: timeText.implicitWidth
+                                + (showGlobe ? globeSize + footerSpacing : 0)
+
                             // Die Blase muss BEIDE Zeilen tragen: bei einer kurzen
-                            // Nachricht ("hey!") ist der Zeitstempel das breitere
-                            // Element – ohne ihn zu berücksichtigen liefe er aus
-                            // der Blase heraus.
+                            // Nachricht ("hey!") ist die Fußzeile aus Zeitstempel
+                            // (und ggf. Globus) das breitere Element – ohne sie zu
+                            // berücksichtigen liefe sie aus der Blase heraus.
                             readonly property real contentWidth:
-                                Math.max(textWidth, timeText.implicitWidth)
+                                Math.max(textWidth, footerWidth)
 
                             width: contentWidth + 2 * hPadding
                             height: bubbleColumn.implicitHeight + 2 * vPadding
@@ -392,11 +488,13 @@ Popup {
                                           ? Config.StaticData.chartColor(3, true)
                                           : Config.StaticData.palette.secondary.col500
 
-                            // Misst den Text ohne Umbruch (siehe textWidth oben).
+                            // Misst den ANGEZEIGTEN Text ohne Umbruch (siehe
+                            // textWidth oben) – also auch die Übersetzung, damit
+                            // die Blase beim Umschalten mitwächst.
                             TextMetrics {
                                 id: textMetrics
                                 font: bubbleText.font
-                                text: modelData.text
+                                text: bubbleText.text
                             }
 
                             ColumnLayout {
@@ -412,23 +510,78 @@ Popup {
                                 AppText {
                                     id: bubbleText
                                     Layout.fillWidth: true
-                                    text: modelData.text
+                                    text: bubble.translationShown ? bubble.trState.text
+                                                                  : (modelData.text || "")
+                                    // Kursiv kennzeichnet die Übersetzung – wie im
+                                    // Chat-Verlauf (ChatTranslatorCore.styledTranslation).
+                                    font.italic: bubble.translationShown
                                     font.pixelSize: 12
                                     color: Config.StaticData.palette.secondary.col100
                                     wrapMode: Text.Wrap
                                 }
 
-                                AppText {
-                                    id: timeText
+                                // Fußzeile: Zeitstempel, bei eingehenden
+                                // Nachrichten gefolgt vom Übersetzen-Globus in
+                                // der unteren rechten Ecke der Blase.
+                                RowLayout {
                                     Layout.fillWidth: true
-                                    horizontalAlignment: Text.AlignRight
-                                    text: modelData.time
-                                    font.pixelSize: 9
-                                    // Auf der eingefärbten eigenen Blase wäre das
-                                    // feste Grau von colorTextMuted zu kontrastarm.
-                                    color: modelData.fromMe
-                                           ? Config.StaticData.palette.secondary.col200
-                                           : Config.Theme.colorTextMuted
+                                    spacing: bubble.footerSpacing
+
+                                    Item { Layout.fillWidth: true }
+
+                                    AppText {
+                                        id: timeText
+                                        text: modelData.time
+                                        font.pixelSize: 9
+                                        // Auf der eingefärbten eigenen Blase wäre das
+                                        // feste Grau von colorTextMuted zu kontrastarm.
+                                        color: modelData.fromMe
+                                               ? Config.StaticData.palette.secondary.col200
+                                               : Config.Theme.colorTextMuted
+                                    }
+
+                                    Item {
+                                        visible: bubble.showGlobe
+                                        implicitWidth: bubble.globeSize
+                                        implicitHeight: bubble.globeSize
+                                        Layout.alignment: Qt.AlignVCenter
+                                        // Während der Abfrage blass und tot, sonst
+                                        // hervorgehoben, solange die Übersetzung steht.
+                                        opacity: bubble.translationPending ? 0.4
+                                                 : (globeArea.containsMouse || bubble.translationShown ? 1.0 : 0.75)
+
+                                        SvgIcon {
+                                            id: globeIcon
+                                            anchors.fill: parent
+                                            source: "qrc:/resources/globe.svg"
+                                            smooth: true
+                                            // Einfärbung per layer.effect statt MultiEffect-Kind:
+                                            // VectorImage ist kein Texture-Provider (siehe PlayerListItem).
+                                            layer.enabled: true
+                                            layer.effect: MultiEffect {
+                                                colorization: 1.0
+                                                colorizationColor: bubble.translationShown
+                                                    ? Config.StaticData.chartColor(3, true)
+                                                    : Config.Theme.colorTextMuted
+                                            }
+                                        }
+
+                                        MouseArea {
+                                            id: globeArea
+                                            anchors.fill: parent
+                                            enabled: !bubble.translationPending
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: root.toggleTranslation(modelData)
+                                        }
+
+                                        ToolTip.text: bubble.translationShown
+                                                      ? qsTr("Show original")
+                                                      : qsTr("Translate message")
+                                        ToolTip.visible: globeArea.containsMouse
+                                                         && Config.Parameters.showTooltips
+                                        ToolTip.delay: 400
+                                    }
                                 }
                             }
                         }
@@ -440,10 +593,12 @@ Popup {
                     Layout.fillWidth: true
                     Layout.leftMargin: 12
                     Layout.rightMargin: 12
-                    visible: root.guestMode || root.atTable
+                    visible: root.guestMode || root.atTable || root.partnerIsGuest
                     text: root.atTable
                           ? qsTr("Private messages are not available at the table.")
-                          : qsTr("Guests cannot send chat messages")
+                          : root.guestMode
+                            ? qsTr("Guests cannot send chat messages")
+                            : qsTr("Guests cannot receive private messages.")
                     font.pixelSize: 11
                     color: Config.Theme.colorTextMuted
                     wrapMode: Text.Wrap
@@ -460,6 +615,7 @@ Popup {
                         id: messageInput
                         Layout.fillWidth: true
                         enabled: root.activePartner !== "" && !root.guestMode && !root.atTable
+                                 && !root.partnerIsGuest
                         font.family: Config.StaticData.loadedFont.font.family
                         font.pixelSize: 13
                         color: Config.StaticData.palette.secondary.col100

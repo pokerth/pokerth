@@ -887,6 +887,15 @@ bool LobbyHandler::isMyPlayerGuest() const
     return info.isGuest;
 }
 
+bool LobbyHandler::isPlayerGuest(unsigned playerId) const
+{
+    if (!m_session || playerId == 0)
+        return false;
+
+    const PlayerInfo info = m_session->getClientPlayerInfo(playerId);
+    return info.isGuest;
+}
+
 bool LobbyHandler::canJoinGame(unsigned gameId) const
 {
     if (!m_session || gameId == 0)

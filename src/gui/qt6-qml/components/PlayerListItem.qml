@@ -69,11 +69,12 @@ ItemDelegate {
     readonly property bool canInvite: Lobby && Lobby.canInviteFromCurrentGame && !isSelf && !guestPlayer
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInAnyGame(targetPlayerId))
     readonly property bool canAdminModerate: Lobby && Lobby.isCurrentPlayerAdmin && !isSelf
-    // Private Nachricht: Gäste dürfen serverseitig gar nicht chatten, und der
-    // Server verwirft PMs an Spieler, die an einem LAUFENDEN Tisch sitzen –
-    // beides hier ausblenden, sonst käme statt der Nachricht nur ein
-    // "Chat rejected" zurück. gameListRevision hält die Prüfung reaktiv.
-    readonly property bool canSendPm: Lobby && !isSelf && !Lobby.isMyPlayerGuest
+    // Private Nachricht: Gäste dürfen serverseitig gar nicht chatten – weder
+    // als Absender noch als EMPFÄNGER –, und der Server verwirft PMs an Spieler,
+    // die an einem LAUFENDEN Tisch sitzen. Alles drei hier ausblenden, sonst
+    // käme statt der Nachricht nur ein "Chat rejected" zurück.
+    // gameListRevision hält die Prüfung reaktiv.
+    readonly property bool canSendPm: Lobby && !isSelf && !Lobby.isMyPlayerGuest && !guestPlayer
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInRunningGame(targetPlayerId))
     readonly property bool canShowPlayerStats: !guestPlayer
     readonly property bool canIgnore: !isSelf && !guestPlayer && !playerIgnored

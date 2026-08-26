@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStringList>
 #include <QHash>
+#include <QSet>
 
 class ConfigFile;
 class ChatTranslatorCore;
@@ -55,6 +56,14 @@ public:
 	// Vom QML aufgerufen, wenn auf das Globus-Symbol getippt wird.
 	Q_INVOKABLE void requestTranslation(int id);
 
+	// Übersetzt einen EINZELNEN Text ohne Bezug zu einer Chat-Zeile. Für
+	// Ansichten, die ihre Nachrichten als eigene Delegates zeichnen und das
+	// Globus-Symbol daher selbst setzen können (privater Nachrichten-Dialog) –
+	// dort gibt es weder chatLog-Zeile noch Pseudo-Link. Rückgabe: Request-Id
+	// für die Zuordnung der Antwort, -1 wenn deaktiviert oder Text leer.
+	// Ergebnis kommt asynchron über textTranslated().
+	Q_INVOKABLE int translateText(const QString &text);
+
 	// Vom QML gemeldete Chat-Zeile (Index in chatLog) unter dem Mauszeiger;
 	// -1 = keine. Nur an dieser Zeile erscheint das Globus-Symbol (auf Touch-
 	// Plattformen ohne Hover wirkungslos – dort bleiben alle Symbole sichtbar).
@@ -71,6 +80,8 @@ signals:
 	// Eine Zeile in chatLog wurde verändert – der Handler verbindet dies mit
 	// seinem eigenen chatLogChanged(), damit die QML-Bindung neu rendert.
 	void chatLogMutated();
+	// Antwort auf translateText(); requestId ist dessen Rückgabewert.
+	void textTranslated(int requestId, const QString &text, bool ok);
 
 private slots:
 	void onCoreTranslated(int requestId, const QString &text, bool ok);
@@ -104,6 +115,7 @@ private:
 	ChatTranslatorCore *m_core;
 	QHash<int, Pending> m_entries;   // Zeilen-id -> Zustand
 	QHash<int, int> m_reqToLine;     // Core-Request-id -> Zeilen-id
+	QSet<int> m_textReqs;            // Core-Request-ids aus translateText()
 	int m_nextId = 1;
 	int m_hoveredId = 0;             // Zeile unter dem Mauszeiger (0 = keine)
 };
