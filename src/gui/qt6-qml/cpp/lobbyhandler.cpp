@@ -1447,21 +1447,35 @@ void LobbyHandler::postLocalChatNote(const QString &message)
     // Nur lokale Anzeige: dieselbe Timestamp-/Farb-/Emote-Aufbereitung wie ein
     // normaler Chat-Eintrag, aber kursiv-gedämpft (wie PMs) als Hinweis, dass
     // die Zeile nur der auslösende Nutzer sieht und NICHT gesendet wird.
-    QString escapedMsg = ChatColors::chatEscape(message);
-    escapedMsg = applyChatEmoteShortcuts(escapedMsg);
-    escapedMsg = enlargeEmojis(escapedMsg);
-    // Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
-    // Zeile) kommen als Plaintext mit "\n" – im RichText-Chat wäre das nur ein
-    // Leerzeichen, also hier in <br> umsetzen (nach dem Escapen, damit kein
-    // Fremdtext das Markup beeinflusst).
-    escapedMsg.replace(QLatin1Char('\n'), QLatin1String("<br>"));
-
+    //
+    // Mehrzeilige Hinweise (Plaintext mit "\n", z. B. der Community-Vorschlag
+    // mit einem Spieler pro Zeile) werden zu MEHREREN chatLog-Einträgen – NICHT
+    // zu einem Eintrag mit eingebettetem <br>. Der Verlauf ist zwar ein
+    // einziges RichText-Dokument, die Übersetzen-Symbole ermitteln die Zeile
+    // unter dem Mauszeiger aber über deren Index in chatLog
+    // (ChatBox._updateHoverLine → ChatTranslator::setHoveredLine). Ein Eintrag
+    // mit eigenem Umbruch verschöbe diese Zuordnung für den gesamten Rest des
+    // Verlaufs: der Globus erschiene an einer anderen Zeile als der überfahrenen.
+    const QStringList parts = message.split(QLatin1Char('\n'));
     const QString tsPrefix = chatTimestampPrefix(m_config);
-    const QString line = tsPrefix + QLatin1String("<i><span style=\"")
-                         + ChatColors::colorStyle(ChatColors::Muted)
-                         + QLatin1String(";\">") + escapedMsg
-                         + QLatin1String("</span></i>");
-    pushChatLine(line);
+    bool first = true;
+    for (const QString &part : parts) {
+        if (part.trimmed().isEmpty())
+            continue;
+        QString escapedMsg = ChatColors::chatEscape(part);
+        escapedMsg = applyChatEmoteShortcuts(escapedMsg);
+        escapedMsg = enlargeEmojis(escapedMsg);
+
+        // Zeitstempel nur an der ersten Zeile – die Folgezeilen gehören
+        // sichtbar zu demselben Hinweis.
+        const QString line = (first ? tsPrefix : QString())
+                             + QLatin1String("<i><span style=\"")
+                             + ChatColors::colorStyle(ChatColors::Muted)
+                             + QLatin1String(";\">") + escapedMsg
+                             + QLatin1String("</span></i>");
+        pushChatLine(line);
+        first = false;
+    }
 }
 
 void LobbyHandler::onGamePlayerJoined()

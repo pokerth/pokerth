@@ -83,6 +83,11 @@ private:
 	// Setzt das Symbol der Zeile auf den aktuellen Zustand (Spinner / Globus /
 	// unsichtbarer Platzhalter) – no-op, wenn sich dadurch nichts ändert.
 	void updateGlobe(int id);
+	// Hängt einen lokalen Hinweis an den Verlauf, wenn BEIDE Übersetzungsdienste
+	// ausgefallen sind. Ohne ihn springt das Symbol nur wortlos von der Sanduhr
+	// zurück auf den Globus – für den Nutzer nicht von "kaputt" unterscheidbar.
+	// Gedrosselt, damit mehrere Klicks nicht denselben Hinweis wiederholen.
+	void postFailureNote();
 	// Blendet die Übersetzung ein/aus, indem der Nachrichtenkörper zwischen
 	// Original und Übersetzung ERSETZT wird.
 	void setBodyShown(int id, bool shown);
@@ -106,6 +111,7 @@ private:
 	QHash<int, int> m_reqToLine;     // Core-Request-id -> Zeilen-id
 	int m_nextId = 1;
 	int m_hoveredId = 0;             // Zeile unter dem Mauszeiger (0 = keine)
+	qint64 m_lastFailNoteMs = 0;     // Zeitpunkt des letzten Fehlschlag-Hinweises
 };
 
 #endif // _CHATTRANSLATOR_H_

@@ -279,6 +279,14 @@
     </message>
 </context>
 <context>
+    <name>ChatTranslator</name>
+    <message>
+        <location filename="../cpp/chattranslator.cpp" line="+265"/>
+        <source>Translation is currently unavailable. Please try again later.</source>
+        <translation>La traducción no está disponible en este momento. Inténtalo de nuevo más tarde.</translation>
+    </message>
+</context>
+<context>
     <name>CommunityPlayerView</name>
     <message>
         <location filename="../components/CommunityPlayerView.qml" line="+30"/>
@@ -1704,19 +1712,19 @@
 <context>
     <name>LobbyHandler</name>
     <message>
-        <location filename="../cpp/lobbyhandler.cpp" line="+1300"/>
-        <location line="+1218"/>
+        <location filename="../cpp/lobbyhandler.cpp" line="+1393"/>
+        <location line="+1239"/>
         <source>Guests cannot send chat messages</source>
         <translation>Los invitados no pueden enviar mensajes de chat</translation>
     </message>
     <message>
-        <location line="-1199"/>
-        <location line="+1193"/>
+        <location line="-1220"/>
+        <location line="+1214"/>
         <source>Private messages are not available at the table.</source>
         <translation>Los mensajes privados no están disponibles en la mesa.</translation>
     </message>
     <message>
-        <location line="-1187"/>
+        <location line="-1208"/>
         <source>Player not found</source>
         <translation>Jugador no encontrado</translation>
     </message>
@@ -1726,7 +1734,7 @@
         <translation>No se pudo enviar el mensaje de chat</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+98"/>
         <source>The avatar report was accepted by the server. Thank you.</source>
         <translation>El informe sobre el avatar ha sido aceptado por el servidor. Gracias.</translation>
     </message>
@@ -1870,7 +1878,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Ha sido eliminado por inactividad.</translation>
     </message>
     <message>
-        <location line="+486"/>
+        <location line="+488"/>
         <source>%1 is not in the lobby at the moment.</source>
         <translation>%1 no está en el lobby en este momento.</translation>
     </message>
@@ -1904,7 +1912,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Los invitados no pueden recibir mensajes privados.</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+34"/>
         <source>Private message to %1:</source>
         <translation>Mensaje privado a %1:</translation>
     </message>
@@ -1949,7 +1957,7 @@ Vuelva a introducir la contraseña e inténtelo de nuevo.</translation>
         <translation>Completa</translation>
     </message>
     <message>
-        <location line="-216"/>
+        <location line="-221"/>
         <source>%1 cannot join %2 because he is busy.</source>
         <translation>%1 no puede unirse a %2 porque está ocupado.</translation>
     </message>
@@ -3388,7 +3396,7 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+251"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+182"/>
         <source>Private messages</source>
         <translation>Mensajes privados</translation>
     </message>
@@ -3424,7 +3432,7 @@ Reinicia PokerTH para que los archivos de registro se guarden allí.</translatio
         <translation>no está en el lobby</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+173"/>
         <source>Translation failed.</source>
         <translation>La traducción falló.</translation>
     </message>

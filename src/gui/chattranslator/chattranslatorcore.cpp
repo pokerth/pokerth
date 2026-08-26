@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QDebug>
 
 ChatTranslatorCore::ChatTranslatorCore(ConfigFile *config, QObject *parent)
 	: QObject(parent)
@@ -130,6 +131,13 @@ void ChatTranslatorCore::onPrimaryReply()
 	const int id = reply->property("xlate_id").toInt();
 
 	if (reply->error() != QNetworkReply::NoError) {
+		// Ausfall des Primärdienstes protokollieren: Google drosselt den
+		// gtx-Endpunkt IP-weise (HTTP 429 "Sorry..."-Seite). Ohne diese Zeile
+		// ist von außen nicht unterscheidbar, ob der Dienst blockt oder die
+		// Antwort nur nicht geparst werden konnte.
+		qWarning() << "ChatTranslator: Google-Endpunkt fehlgeschlagen, HTTP"
+		           << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt()
+		           << reply->errorString() << "-> MyMemory";
 		startFallback(id, m_sourceById.value(id));
 		return;
 	}
@@ -165,14 +173,7 @@ void ChatTranslatorCore::onPrimaryReply()
 void ChatTranslatorCore::startFallback(int id, const QString &text)
 {
 	const QString tl = targetLang();
-	// MyMemory verlangt eine Quellsprache; die Auto-Erkennung von Google ist an
-	// dieser Stelle ausgefallen. Heuristik: Im internationalen Lobby-Chat ist
-	// Englisch die häufigste Fremdsprache. Ist der Client selbst englisch, lässt
-	// sich die Quelle nicht sinnvoll raten -> sauber abbrechen (Retry möglich).
-	const QString src = tl.startsWith(QLatin1String("en"))
-		? QString()
-		: QStringLiteral("en");
-	if (src.isEmpty() || text.isEmpty()) {
+	if (text.isEmpty()) {
 		m_sourceById.remove(id);
 		emit translated(id, QString(), false);
 		return;
@@ -181,7 +182,15 @@ void ChatTranslatorCore::startFallback(int id, const QString &text)
 	QUrl url(QStringLiteral("https://api.mymemory.translated.net/get"));
 	QUrlQuery query;
 	query.addQueryItem(QStringLiteral("q"), text);
-	query.addQueryItem(QStringLiteral("langpair"), src + QLatin1Char('|') + tl);
+	// MyMemory verlangt eine Quellsprache, kennt dafür aber "Autodetect" (die
+	// erkannte Sprache steht in der Antwort als responseData.detectedLanguage).
+	// Vorher stand hier fest "en" – mit Abbruch, wenn der Client selbst englisch
+	// eingestellt ist. Ein englischer Client hatte damit GAR KEINEN Fallback:
+	// fällt der Google-Endpunkt aus (er drosselt IP-weise mit HTTP 429), zeigte
+	// der Globus kurz die Sanduhr und danach sichtbar nichts. Zugleich wurde
+	// jede nicht-englische Nachricht als Englisch übersetzt.
+	query.addQueryItem(QStringLiteral("langpair"),
+	                   QStringLiteral("Autodetect|") + tl);
 	url.setQuery(query);
 
 	QNetworkRequest req(url);
@@ -199,18 +208,44 @@ void ChatTranslatorCore::onFallbackReply()
 		return;
 	reply->deleteLater();
 	const int id = reply->property("xlate_id").toInt();
-	m_sourceById.remove(id);
+	const QString source = m_sourceById.take(id);
 
 	if (reply->error() != QNetworkReply::NoError) {
 		emit translated(id, QString(), false);
 		return;
 	}
 	// Antwort: { "responseData": { "translatedText": "…" }, "responseStatus": 200 }
+	// responseStatus MUSS geprüft werden: im Fehlerfall (ungültiges Sprachpaar,
+	// aufgebrauchtes Tageskontingent der freien Nutzung) antwortet MyMemory mit
+	// HTTP 200 und schreibt den Warntext in GROSSBUCHSTABEN in translatedText –
+	// ungeprüft stünde diese Warnung als "Übersetzung" in der Chatzeile. Das
+	// Feld kommt mal als Zahl (200), mal als String ("403"), daher über QVariant.
 	const QJsonDocument doc = QJsonDocument::fromJson(reply->readAll());
 	QString text;
+	int status = 0;
 	if (doc.isObject()) {
-		const QJsonObject rd = doc.object().value(QStringLiteral("responseData")).toObject();
-		text = rd.value(QStringLiteral("translatedText")).toString();
+		const QJsonObject obj = doc.object();
+		status = obj.value(QStringLiteral("responseStatus")).toVariant().toInt();
+		text = obj.value(QStringLiteral("responseData")).toObject()
+		          .value(QStringLiteral("translatedText")).toString();
+	}
+	if (status != 200) {
+		// Sonderfall "quelle == ziel": darauf antwortet MyMemory mit 403
+		// "PLEASE SELECT TWO DISTINCT LANGUAGES" – die Nachricht ist bereits in
+		// der Sprache des Clients, es gibt also nichts zu übersetzen. Das ist
+		// KEIN Fehler: der Google-Endpunkt gibt in diesem Fall einfach den
+		// Originaltext zurück, und genau so verhält sich der Fallback jetzt
+		// auch. Betrifft vor allem englische Clients, für die Englisch im
+		// Lobby-Chat die häufigste Sprache ist.
+		if (text.contains(QLatin1String("DISTINCT LANGUAGES"), Qt::CaseInsensitive)
+		    && !source.isEmpty()) {
+			emit translated(id, source, true);
+			return;
+		}
+		qWarning() << "ChatTranslator: MyMemory-Fallback fehlgeschlagen, Status"
+		           << status << text.left(120);
+		emit translated(id, QString(), false);
+		return;
 	}
 	emit translated(id, text, !text.trimmed().isEmpty());
 }

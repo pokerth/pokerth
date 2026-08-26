@@ -33,6 +33,7 @@
 #include "gui/chat_emote_shortcuts.h"
 #include "chattranslatorcore.h"
 #include <QProxyStyle>
+#include <QDateTime>
 #include <QDesktopServices>
 #include "core/appimage_utils.h"
 #include <QTextDocument>
@@ -239,7 +240,7 @@ static const bool kTranslateHoverOnly = false;
 static const bool kTranslateHoverOnly = true;
 #endif
 
-ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myStyle(nullptr), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1), myTranslateHoverId(0)
+ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, QStandardItemModel *m, gameLobbyDialogImpl *lo) : nickAutoCompletitionCounter(0), myLineEdit(l), myNickListModel(m), myNickStringList(nullptr), myTextBrowser(b), myChatType(ct), myConfig(c), myNick(""), myStyle(nullptr), myLobby(lo), myEmojiPicker(nullptr), myShortcodeCompleter(nullptr), myShortcodeModel(nullptr), myShortcodeTokenStart(-1), myTranslator(nullptr), myTranslateNextId(1), myTranslateHoverId(0), myTranslateLastFailNoteMs(0)
 {
 	myNick = QString::fromUtf8(myConfig->readConfigString("MyName").c_str());
 	setupEmojiPickerAction();
@@ -1008,13 +1009,28 @@ void ChatTools::onChatTranslated(int requestId, const QString &text, bool ok)
 	if(it == myTranslateEntries.end())
 		return;
 	it->inFlight = false;
-	if(ok && !text.trimmed().isEmpty()) {
+	const bool haveText = ok && !text.trimmed().isEmpty();
+	if(haveText) {
 		it->translated = text;   // cachen (erneuter Klick blendet aus/ein)
 		it->shown = true;        // Übersetzung ersetzt das Original
 	}
 	// Spinner zurück auf Globus; ggf. Übersetzung einblenden. Bei Fehler bleibt
 	// das Original stehen (Globus erlaubt erneuten Versuch).
 	rebuildTranslateBlock(id);
+
+	// Fehlschlag sichtbar machen: sonst blitzt nur die Sanduhr auf und es
+	// passiert nichts – nicht davon zu unterscheiden, dass die Funktion kaputt
+	// ist. Gedrosselt, damit mehrere Klicks bei ausgefallenem Dienst nicht
+	// denselben Hinweis wiederholen.
+	if(!haveText) {
+		static const qint64 failNoteIntervalMs = 60 * 1000;
+		const qint64 now = QDateTime::currentMSecsSinceEpoch();
+		if(myTranslateLastFailNoteMs == 0
+		   || (now - myTranslateLastFailNoteMs) >= failNoteIntervalMs) {
+			myTranslateLastFailNoteMs = now;
+			showLocalNote(tr("Translation is currently unavailable. Please try again later."));
+		}
+	}
 }
 
 void ChatTools::checkInputLength(QString string)

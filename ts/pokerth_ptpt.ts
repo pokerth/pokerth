@@ -156,6 +156,11 @@ Por favor, selecione um baralho de cartas e tente novamente!</translation>
         <source>private message sent to player: %1</source>
         <translation>mensagem privado enviada para o jogador: %1</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="1024"/>
+        <source>Translation is currently unavailable. Please try again later.</source>
+        <translation>A tradução está indisponível de momento. Tente novamente mais tarde.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

@@ -204,6 +204,11 @@ Seleccione un estilo de baraja y vuelva a intentarlo.</translation>
         <source>private message sent to player: %1</source>
         <translation>mensaje privado enviado al jugador: %1</translation>
     </message>
+    <message>
+        <location filename="../src/gui/qt/chattools/chattools.cpp" line="1024"/>
+        <source>Translation is currently unavailable. Please try again later.</source>
+        <translation>La traducción no está disponible en este momento. Inténtalo de nuevo más tarde.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>

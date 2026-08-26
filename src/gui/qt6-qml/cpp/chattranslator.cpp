@@ -2,6 +2,7 @@
 #include "chattranslatorcore.h"
 
 #include <QRegularExpression>
+#include <QDateTime>
 
 // Symbole. 🌐 = Toggle (Übersetzung ein/aus), ⏳ = läuft. Über den Codepoint
 // bauen (nicht per "\xF0…"-Literal – das würde als Latin-1 gelesen und "ð…"-
@@ -13,6 +14,11 @@ static const QString kSpinnerGlyph = QString::fromUcs4(U"\U000023F3"); // ⏳
 // auffindbar), zeigt aber nichts an. Geschütztes Leerzeichen, weil normale
 // Leerzeichen am Zeilenende vom RichText-Renderer wegfallen können.
 static const QString kHiddenGlyph  = QStringLiteral("&nbsp;");
+
+// Abstand zwischen zwei Fehlschlag-Hinweisen. Klickt jemand bei ausgefallenem
+// Dienst mehrere Zeilen an, soll der Verlauf nicht mit demselben Hinweis
+// zulaufen.
+static const qint64 kFailNoteIntervalMs = 60 * 1000;
 
 // Hover-Modus: Auf Desktop erscheint der Globus nur an der Zeile unter dem
 // Mauszeiger (der Verlauf war sonst mit Symbolen zugepflastert). Auf Touch-
@@ -225,7 +231,8 @@ void ChatTranslator::finish(int id, const QString &translated, bool ok)
 		return;
 	it->inFlight = false;
 
-	if (ok && !translated.trimmed().isEmpty()) {
+	const bool haveText = ok && !translated.trimmed().isEmpty();
+	if (haveText) {
 		it->translated = translated;
 		setBodyShown(id, true); // Übersetzung einblenden (ersetzt das Original)
 	}
@@ -233,7 +240,31 @@ void ChatTranslator::finish(int id, const QString &translated, bool ok)
 	// die Zeile inzwischen weder eingeblendet ist noch unter der Maus liegt.
 	// NACH setBodyShown, weil das Symbol vom „shown"-Zustand abhängt.
 	updateGlobe(id);
-	// Bei Fehler bleibt das Original stehen; Globus erlaubt einen erneuten Versuch.
+	// Bei Fehler bleibt das Original stehen (Globus erlaubt einen erneuten
+	// Versuch) – dazu ein Hinweis, sonst sieht der Nutzer nur eine kurz
+	// aufblitzende Sanduhr und hält die Funktion für kaputt.
+	if (!haveText)
+		postFailureNote();
+}
+
+void ChatTranslator::postFailureNote()
+{
+	if (!m_chatLog)
+		return;
+	const qint64 now = QDateTime::currentMSecsSinceEpoch();
+	if (m_lastFailNoteMs != 0 && (now - m_lastFailNoteMs) < kFailNoteIntervalMs)
+		return;
+	m_lastFailNoteMs = now;
+
+	// Bewusst OHNE ChatColors-Platzhalter und ohne Zeitstempel: dieselbe Zeile
+	// landet im Lobby-Verlauf (Platzhalter werden dort expandiert) UND im
+	// Tisch-Chat (feste Themenfarben, keine Expansion). Ein neutrales Grau ist
+	// in beiden lesbar. Eine Zeile = ein Eintrag – die Zuordnung, über die
+	// setHoveredLine die Symbole findet, bleibt damit unberührt.
+	m_chatLog->append(QStringLiteral("<i><span style=\"color:#9e9e9e;\">")
+	                  + tr("Translation is currently unavailable. Please try again later.").toHtmlEscaped()
+	                  + QStringLiteral("</span></i>"));
+	emit chatLogMutated();
 }
 
 void ChatTranslator::refreshEnabled()

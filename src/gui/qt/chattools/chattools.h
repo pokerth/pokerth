@@ -218,6 +218,7 @@ private:
 	QHash<int, int> myTranslateReqToId;             // Core-Request-id -> Anchor-id
 	int myTranslateNextId;
 	int myTranslateHoverId;                         // Zeile unter der Maus (0 = keine)
+	qint64 myTranslateLastFailNoteMs;               // letzter Fehlschlag-Hinweis (Drosselung)
 };
 
 #endif

@@ -168,6 +168,10 @@ Por favor contate o criado do estilo via &quot;%4&quot;.</translation>
         <source>private message sent to player: %1</source>
         <translation>Mensagem privada enviada ao jogador: %1</translation>
     </message>
+    <message>
+        <source>Translation is currently unavailable. Please try again later.</source>
+        <translation>A tradução está indisponível no momento. Tente novamente mais tarde.</translation>
+    </message>
 </context>
 <context>
     <name>GameTableStyleReader</name>
