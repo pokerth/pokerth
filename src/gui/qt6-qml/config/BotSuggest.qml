@@ -379,9 +379,12 @@ QtObject {
         return out
     }
 
-    // Baut die Vorschlagszeile: zuerst idle Spieler, dann – an letzter Stelle –
-    // die gerade spielenden, je mit „(playing in game …)" annotiert. Beide
-    // Gruppen auf `limit` begrenzt; emptyText, falls beide leer.
+    // Baut den Vorschlagstext: Kopfzeile, danach EIN Spieler pro Zeile – zuerst
+    // die idle Spieler, dann an letzter Stelle die gerade spielenden, je mit
+    // „(playing in game …)" annotiert. Beide Gruppen auf `limit` begrenzt;
+    // emptyText, falls beide leer.
+    // Der Zeilenumbruch ist ein echtes "\n"; die Chat-Anzeige setzt es in <br>
+    // um (Lobby.postLocalChatNote), weil der Chat ein RichText-Dokument ist.
     function _buildMessage(headline, idleScored, busyScored, limit, emptyText) {
         if (idleScored.length === 0 && busyScored.length === 0)
             return emptyText
@@ -390,7 +393,7 @@ QtObject {
             parts.push(idleScored[i].dbName)
         for (var j = 0; j < busyScored.length && j < limit; ++j)
             parts.push(busyScored[j].dbName + " (playing in game " + busyScored[j].game + ")")
-        return headline + parts.join(", ")
+        return headline + "\n" + parts.join("\n")
     }
 
     function _suggestStep(step, idleNames, playingPlayers) {
@@ -399,7 +402,7 @@ QtObject {
         // sonst wird die Liste zu lang (erst ab Step 2 einblenden).
         var busy = step === 1 ? [] : _scoreStep(playingPlayers, step)
         return _buildMessage(
-            "I suggest the following players for step " + step + ": ",
+            "I suggest the following players for step " + step + ":",
             _scoreStep(_asCandidates(idleNames), step),
             busy,
             12,
@@ -408,7 +411,7 @@ QtObject {
 
     function _suggestWec(idleNames, playingPlayers) {
         return _buildMessage(
-            "I suggest the following players for wec: ",
+            "I suggest the following players for wec:",
             _scoreWec(_asCandidates(idleNames)),
             _scoreWec(playingPlayers),
             10,

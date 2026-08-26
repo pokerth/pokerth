@@ -1450,6 +1450,11 @@ void LobbyHandler::postLocalChatNote(const QString &message)
     QString escapedMsg = ChatColors::chatEscape(message);
     escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     escapedMsg = enlargeEmojis(escapedMsg);
+    // Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
+    // Zeile) kommen als Plaintext mit "\n" – im RichText-Chat wäre das nur ein
+    // Leerzeichen, also hier in <br> umsetzen (nach dem Escapen, damit kein
+    // Fremdtext das Markup beeinflusst).
+    escapedMsg.replace(QLatin1Char('\n'), QLatin1String("<br>"));
 
     const QString tsPrefix = chatTimestampPrefix(m_config);
     const QString line = tsPrefix + QLatin1String("<i><span style=\"")
@@ -2641,6 +2646,11 @@ void LobbyHandler::pushPrivateMessageSentLine(const QString &targetName, const Q
     QString escapedMsg = ChatColors::chatEscape(message);
     escapedMsg = applyChatEmoteShortcuts(escapedMsg);
     escapedMsg = enlargeEmojis(escapedMsg);
+    // Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
+    // Zeile) kommen als Plaintext mit "\n" – im RichText-Chat wäre das nur ein
+    // Leerzeichen, also hier in <br> umsetzen (nach dem Escapen, damit kein
+    // Fremdtext das Markup beeinflusst).
+    escapedMsg.replace(QLatin1Char('\n'), QLatin1String("<br>"));
 
     const QString tsPrefix = chatTimestampPrefix(m_config);
     const QString line = tsPrefix + QLatin1String("<i><span style=\"")

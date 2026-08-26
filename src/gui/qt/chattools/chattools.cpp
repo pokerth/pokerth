@@ -746,6 +746,10 @@ void ChatTools::showLocalNote(QString message)
 		return;
 	message = message.replace("<","&lt;").replace(">","&gt;");
 	message = wrapEmojisLarger(message, 20);
+	// Mehrzeilige Hinweise (z. B. der Community-Vorschlag mit einem Spieler pro
+	// Zeile) kommen als Plaintext mit "\n" – append() erwartet HTML, dort wäre
+	// das nur ein Leerzeichen. Erst nach dem Escapen ersetzen.
+	message = message.replace(QLatin1Char('\n'), QLatin1String("<br>"));
 	myTextBrowser->append("<i>" + message + "</i>");
 }
 

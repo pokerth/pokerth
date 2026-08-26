@@ -49,9 +49,12 @@ struct Scored {
 
 bool scoreDesc(const Scored &a, const Scored &b) { return a.score > b.score; }
 
-// Baut die Vorschlagszeile: zuerst idle Spieler, dann – an letzter Stelle – die
-// gerade spielenden, je mit " (playing in game …)" annotiert. Beide Gruppen auf
-// `limit` begrenzt; emptyText, falls beide leer.
+// Baut den Vorschlagstext: Kopfzeile, danach EIN Spieler pro Zeile – zuerst die
+// idle Spieler, dann an letzter Stelle die gerade spielenden, je mit
+// " (playing in game …)" annotiert. Beide Gruppen auf `limit` begrenzt;
+// emptyText, falls beide leer.
+// Der Zeilenumbruch ist ein echtes "\n"; die Chat-Anzeige setzt es in <br> um
+// (ChatTools::showLocalNote), weil der Chat-Verlauf HTML ist.
 QString buildMessage(const QString &headline, const QList<Scored> &idle,
                      const QList<Scored> &busy, int limit, const QString &emptyText)
 {
@@ -62,7 +65,7 @@ QString buildMessage(const QString &headline, const QList<Scored> &idle,
 		parts << idle.at(i).name;
 	for (int j = 0; j < busy.size() && j < limit; ++j)
 		parts << (busy.at(j).name + " (playing in game " + busy.at(j).game + ")");
-	return headline + parts.join(", ");
+	return headline + QLatin1Char('\n') + parts.join(QLatin1Char('\n'));
 }
 
 } // namespace
@@ -329,7 +332,7 @@ QString CommunitySuggest::suggestStep(int step, const QStringList &idleNames,
 	}
 	std::sort(idle.begin(), idle.end(), scoreDesc);
 	std::sort(busy.begin(), busy.end(), scoreDesc);
-	return buildMessage(QStringLiteral("I suggest the following players for step %1: ").arg(step),
+	return buildMessage(QStringLiteral("I suggest the following players for step %1:").arg(step),
 	                    idle, busy, 12, QStringLiteral("Sorry, no player found to suggest"));
 }
 
@@ -353,7 +356,7 @@ QString CommunitySuggest::suggestWec(const QStringList &idleNames,
 	}
 	std::sort(idle.begin(), idle.end(), scoreDesc);
 	std::sort(busy.begin(), busy.end(), scoreDesc);
-	return buildMessage(QStringLiteral("I suggest the following players for wec: "),
+	return buildMessage(QStringLiteral("I suggest the following players for wec:"),
 	                    idle, busy, 10, QStringLiteral("Sorry, no wec player found to suggest"));
 }
 
