@@ -208,23 +208,8 @@ void ChatTranslator::requestTranslation(int id)
 	m_reqToLine.insert(req, id);
 }
 
-int ChatTranslator::translateText(const QString &text)
-{
-	if (!enabled() || text.trimmed().isEmpty())
-		return -1;
-	const int requestId = m_core->translate(text);
-	m_textReqs.insert(requestId);
-	return requestId;
-}
-
 void ChatTranslator::onCoreTranslated(int requestId, const QString &text, bool ok)
 {
-	// Freistehende Anfrage (translateText) – kein Zeilen-Zustand zu pflegen.
-	if (m_textReqs.remove(requestId)) {
-		emit textTranslated(requestId, text, ok);
-		return;
-	}
-
 	auto rit = m_reqToLine.find(requestId);
 	if (rit == m_reqToLine.end())
 		return;

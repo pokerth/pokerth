@@ -63,15 +63,17 @@ Popup {
                                     ? Lobby.atRunningTable : false
 
     // ── Übersetzung eingehender Nachrichten ──────────────────────────────────
-    // Der Lobby-Chat bettet den Globus als Pseudo-Link in sein RichText-Dokument
-    // ein, weil er EINE Textfläche ist und keine Zeilen-Delegates hat. Hier ist
-    // jede Nachricht ein eigenes Delegate: die Blase zeichnet ihr Symbol selbst
-    // und ruft den Übersetzer direkt über translateText() (ohne Chat-Zeilenbezug).
-    readonly property var translator: (typeof Lobby !== "undefined" && Lobby)
-                                      ? Lobby.chatTranslator : null
+    // NICHT über Lobby.chatTranslator: der operiert auf der chatLog-Liste seines
+    // Handlers und kennt nur Chat-ZEILEN (Globus als Pseudo-Link im einen großen
+    // RichText-Dokument). Hier ist jede Nachricht ein eigenes Delegate, das sein
+    // Symbol selbst zeichnet – dafür gibt es die globale Hülle "Translator"
+    // (TextTranslator, pokerth.cpp), die beliebige Texte übersetzt und schon die
+    // Forum-Beitragsseite bedient. Beide teilen sich den ChatTranslatorCore, also
+    // Dienst, Zielsprache und den Schalter "AllowChatTranslation".
+    readonly property var translator: (typeof Translator !== "undefined") ? Translator : null
     readonly property bool canTranslate: translator ? translator.enabled : false
 
-    // Zustand je Nachricht: { text, pending, shown }. Delegates werden beim
+    // Zustand je Nachricht: { text, pending, shown, failed }. Delegates werden beim
     // Scrollen recycelt, der Zustand darf also nicht in ihnen liegen. Schlüssel
     // ist Partner + Zeitstempel + Text – der Verlauf wächst nur hinten an, der
     // Index wäre zwar auch stabil, aber nicht über einen Partnerwechsel hinweg.
@@ -103,18 +105,19 @@ Popup {
             ++translationRevision
             return
         }
-        var reqId = translator.translateText(msg.text || "")
+        // Noch nichts geholt oder letzter Versuch gescheitert → (erneut) anfragen.
+        var reqId = translator.translate(msg.text || "")
         if (reqId < 0)
             return
-        translationState[key] = { text: "", pending: true, shown: false }
+        translationState[key] = { text: "", pending: true, shown: false, failed: false }
         translationRequests[reqId] = key
         ++translationRevision
     }
 
     Connections {
-        target: root.translator
-        enabled: root.translator !== null
-        function onTextTranslated(requestId, text, ok) {
+        target: (typeof Translator !== "undefined") ? Translator : null
+
+        function onTranslated(requestId, text, ok) {
             var key = root.translationRequests[requestId]
             if (key === undefined)
                 return
@@ -123,13 +126,15 @@ Popup {
             if (!st)
                 return
             st.pending = false
-            // Fehlgeschlagen: Zustand verwerfen, damit ein erneuter Klick es
-            // nochmal versucht (statt dauerhaft tot dazustehen).
             if (ok && text.trim().length > 0) {
                 st.text = text
                 st.shown = true
+                st.failed = false
             } else {
-                delete root.translationState[key]
+                // Fehlschlag NICHT verschlucken: der Globus färbt sich um und
+                // sagt im Tooltip, was los ist – ein weiterer Klick versucht es
+                // erneut. Sonst passiert beim Antippen scheinbar gar nichts.
+                st.failed = true
             }
             ++root.translationRevision
         }
@@ -458,6 +463,7 @@ Popup {
                             // wenn die Funktion in den Optionen aktiv ist.
                             readonly property var trState: root.translationFor(modelData)
                             readonly property bool translationPending: !!(trState && trState.pending)
+                            readonly property bool translationFailed: !!(trState && trState.failed)
                             readonly property bool translationShown:
                                 !!(trState && trState.shown && trState.text.length > 0)
                             readonly property bool showGlobe: !modelData.fromMe
@@ -560,9 +566,11 @@ Popup {
                                             layer.enabled: true
                                             layer.effect: MultiEffect {
                                                 colorization: 1.0
-                                                colorizationColor: bubble.translationShown
-                                                    ? Config.StaticData.chartColor(3, true)
-                                                    : Config.Theme.colorTextMuted
+                                                colorizationColor: bubble.translationFailed
+                                                    ? Config.StaticData.chartColor(5, true)
+                                                    : bubble.translationShown
+                                                      ? Config.StaticData.chartColor(3, true)
+                                                      : Config.Theme.colorTextMuted
                                             }
                                         }
 
@@ -575,9 +583,11 @@ Popup {
                                             onClicked: root.toggleTranslation(modelData)
                                         }
 
-                                        ToolTip.text: bubble.translationShown
-                                                      ? qsTr("Show original")
-                                                      : qsTr("Translate message")
+                                        ToolTip.text: bubble.translationFailed
+                                                      ? qsTr("Translation failed.")
+                                                      : bubble.translationShown
+                                                        ? qsTr("Show original")
+                                                        : qsTr("Translate message")
                                         ToolTip.visible: globeArea.containsMouse
                                                          && Config.Parameters.showTooltips
                                         ToolTip.delay: 400

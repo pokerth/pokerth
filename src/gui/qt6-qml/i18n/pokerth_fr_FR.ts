@@ -3388,7 +3388,7 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
 <context>
     <name>PrivateMessageDialog</name>
     <message>
-        <location filename="../components/PrivateMessageDialog.qml" line="+246"/>
+        <location filename="../components/PrivateMessageDialog.qml" line="+251"/>
         <source>Private messages</source>
         <translation>Messages privés</translation>
     </message>
@@ -3424,7 +3424,12 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
         <translation>pas dans le lobby</translation>
     </message>
     <message>
-        <location line="+163"/>
+        <location line="+166"/>
+        <source>Translation failed.</source>
+        <translation>Échec de la traduction.</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>Show original</source>
         <translation>Afficher l&apos;original</translation>
     </message>
