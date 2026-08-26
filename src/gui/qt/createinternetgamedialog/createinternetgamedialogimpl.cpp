@@ -79,29 +79,15 @@ createInternetGameDialogImpl::createInternetGameDialogImpl(QWidget *parent, Conf
 	connect( checkBox_Password, SIGNAL( toggled(bool) ), this, SLOT( clearGamePassword(bool)) );
 	connect( comboBox_gameType, SIGNAL(currentIndexChanged(int)), this, SLOT( gameTypeChanged() ) );
 
-	// ── Community-Turnier-Vorlagen (BBC / Monthly Cup / WEC) ────────────────
-	// Deckungsgleich mit den communityPresets des QML-Clients. blinds leer =
-	// „Blinds verdoppeln"; sonst feste manuelle Blindreihenfolge (BBC Steps).
-	myCommunityTemplates = QList<CommunityTemplate>{
-		{ "BBC Step 1", "step1", "", 3000, 15, false, 11, 5, 10,
-		  {20,25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000} },
-		{ "BBC Step 2", "step2", "", 4000, 20, false, 11, 5, 10,
-		  {25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000} },
-		{ "BBC Step 3", "step3", "", 5000, 25, false, 11, 5, 10,
-		  {30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000,25000} },
-		{ "BBC Step 4", "step4", "", 10000, 50, false, 11, 5, 10,
-		  {60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000,25000,30000,40000,50000} },
-		{ "Monthly Cup", "", "mcup", 10000, 50, true, 16, 5, 10, {} },
-		{ "Monthly Cup Final", "", "mcupfinal", 10000, 50, true, 22, 5, 12, {} },
-		{ "WEC", "wec", "", 10000, 50, true, 22, 5, 12, {} },
-		{ "WEC Monthly Final", "", "", 10000, 50, true, 25, 5, 15, {} },
-		{ "WEC Grand Final", "wec", "", 10000, 50, true, 35, 5, 25, {} }
-	};
 
+	// ── Community-Turnier-Vorlagen (BBC / Monthly Cup / WEC) ────────────────
+	// Offizielle Turnier-Settings der Community, Tabelle in CommunitySuggest
+	// (deckungsgleich mit den communityPresets des QML-Clients). Nur für Spiele
+	// vom Typ "Nur eingeladene Spieler" und nur bei aktiviertem Community-Inhalt.
 	label_communityTemplate = new QLabel(tr("Community template:"), this);
 	comboBox_communityTemplate = new QComboBox(this);
 	comboBox_communityTemplate->addItem(tr("Own settings"));
-	for (const CommunityTemplate &t : myCommunityTemplates)
+	for (const CommunitySuggest::CommunityTemplate &t : CommunitySuggest::templates())
 		comboBox_communityTemplate->addItem(t.name);   // Eigennamen, nicht übersetzt
 	QHBoxLayout *communityRow = new QHBoxLayout();
 	communityRow->addWidget(label_communityTemplate);
@@ -334,7 +320,7 @@ void createInternetGameDialogImpl::applyCommunityTemplate()
 		gameTypeChanged();
 		return;
 	}
-	const CommunityTemplate &t = myCommunityTemplates.at(idx - 1);
+	const CommunitySuggest::CommunityTemplate &t = CommunitySuggest::templates().at(idx - 1);
 
 	lineEdit_gameName->setText(t.name);
 	// Monthly Cup: monatlich wechselnder Titel – aktuellen Prefix ziehen.
@@ -386,7 +372,7 @@ QString createInternetGameDialogImpl::selectedSuggestType() const
 	const int idx = comboBox_communityTemplate->currentIndex();
 	if (idx <= 0)
 		return QString();
-	return myCommunityTemplates.at(idx - 1).suggestType;
+	return CommunitySuggest::templates().at(idx - 1).suggestType;
 }
 
 bool createInternetGameDialogImpl::eventFilter(QObject *obj, QEvent *event)

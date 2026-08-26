@@ -2233,6 +2233,15 @@ QVariantMap LobbyHandler::currentGameInfo() const
     result.insert("playerActionTimeoutSec", info.data.playerActionTimeoutSec);
     result.insert("delayBetweenHandsSec",   info.data.delayBetweenHandsSec);
     result.insert("allowSpectators",    info.data.allowSpectators);
+    // Manuelle Blindreihenfolge: dient dem Community-Suggest als Fingerprint, um
+    // einen fremden BBC-Step-Tisch zu erkennen (der Tischname ist frei editierbar
+    // und taugt dafür nicht) – siehe Config.BotSuggest.suggestTypeForGameInfo.
+    QVariantList manualBlinds;
+    for (std::list<int>::const_iterator it = info.data.manualBlindsList.begin();
+         it != info.data.manualBlindsList.end(); ++it) {
+        manualBlinds.append(*it);
+    }
+    result.insert("manualBlinds",       manualBlinds);
     result.insert("playerCount",        static_cast<int>(info.players.size()));
     result.insert("adminPlayerId",      static_cast<int>(info.adminPlayerId));
     return result;

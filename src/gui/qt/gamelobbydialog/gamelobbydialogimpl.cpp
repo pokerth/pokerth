@@ -245,7 +245,7 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 
 	// Community-„Suggest": gemeinsame Engine (persistenter 15-min-Cache) für den
 	// Create-Dialog (mcup-Titel) UND den Suggest-Button hier.
-	mySuggest = new CommunitySuggest();
+	mySuggest = new CommunitySuggest(this);
 	pushButton_suggestPlayers = new QPushButton(tr("Suggest players"), this);
 	pushButton_suggestPlayers->setVisible(false);
 	// Oben RECHTS über dem Chat-Verlauf, kompakt (nicht über die volle Breite):
@@ -262,6 +262,10 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 		chatGrid->addWidget(lineEdit_ChatInput, 2, 0);
 	}
 	connect( pushButton_suggestPlayers, SIGNAL( clicked() ), this, SLOT( runCommunitySuggest() ) );
+	// Der BBC-Admin-Abgleich läuft asynchron; sobald er da ist, Button neu bewerten.
+	// Funktionszeiger-Syntax: updateSuggestButtonVisibility() ist kein Slot.
+	connect( mySuggest, &CommunitySuggest::bbcAdminResolved,
+	         this, &gameLobbyDialogImpl::updateSuggestButtonVisibility );
 
 	nickListContextMenu = new QMenu();
 	nickListSendPrivateMessageAction = new QAction(QIcon(":/gfx/mail.png"), tr("Send private message"), nickListContextMenu);
@@ -376,24 +380,59 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 	inviteOnlyInfoMsgBox = NULL;
 }
 
+// Suggest-Typ des aktuellen Tisches. Zwei Quellen, in dieser Reihenfolge:
+//   • ERSTELLER: myCreatedSuggestType, explizit aus der gewählten Vorlage. Ein
+//     nicht-leerer Wert impliziert bereits Invite-Spiel + Community-Inhalt
+//     (siehe selectedSuggestType()). KEIN erneuter session-basierter GameType-
+//     Check – der schlug beim Self-Join fehl, weil getGameIdOfPlayer() dann noch
+//     0 liefern kann.
+//   • BBC-ADMIN an einem FREMDEN Tisch: Der Typ steht nirgends im Protokoll und
+//     der Tischname taugt nicht als Quelle (frei editierbar), also aus den
+//     Spieleinstellungen ableiten (CommunitySuggest::suggestTypeForGame). Der
+//     Admin-Abgleich (bbcadmins.txt) läuft asynchron und wird erst angestoßen,
+//     wenn der rein lokale Fingerprint bereits „BBC-Step" sagt – an allen
+//     anderen Tischen kostet das Feature keinen Request. Bis die Antwort da ist,
+//     bleibt der Button aus; danach ruft bbcAdminResolved() hier erneut an.
+QString gameLobbyDialogImpl::effectiveSuggestType()
+{
+	if (!myConfig || !myConfig->readConfigInt("ShowCommunityContent") || guestMode)
+		return QString();
+
+	if (isGameAdministrator && !myCreatedSuggestType.isEmpty())
+		return myCreatedSuggestType;
+
+	if (!inGame || !mySession || !mySuggest)
+		return QString();
+
+	const GameInfo info(mySession->getClientGameInfo(mySession->getClientCurrentGameId()));
+	if (info.data.gameType != GAME_TYPE_INVITE_ONLY)
+		return QString();
+
+	const QString tableType = CommunitySuggest::suggestTypeForGame(
+	                              info.data.startMoney, info.data.firstSmallBlind,
+	                              info.data.manualBlindsList);
+	if (tableType.isEmpty())
+		return QString();
+
+	if (mySuggest->isBbcAdmin())
+		return tableType;
+
+	const PlayerInfo playerInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
+	mySuggest->requestBbcAdmin(QString::fromUtf8(playerInfo.playerName.c_str()));
+	return QString();
+}
+
 void gameLobbyDialogImpl::updateSuggestButtonVisibility()
 {
 	if (!pushButton_suggestPlayers)
 		return;
-	// Ein nicht-leeres myCreatedSuggestType impliziert bereits Invite-Spiel +
-	// Community-Inhalt + gewählte BBC-/WEC-Vorlage (siehe selectedSuggestType()).
-	// KEIN erneuter session-basierter GameType-Check – der schlug beim Self-Join
-	// fehl, weil getGameIdOfPlayer() dann noch 0 liefern kann.
-	const bool show = isGameAdministrator
-	                  && !myCreatedSuggestType.isEmpty()
-	                  && myConfig
-	                  && myConfig->readConfigInt("ShowCommunityContent");
-	pushButton_suggestPlayers->setVisible(show);
+	pushButton_suggestPlayers->setVisible(!effectiveSuggestType().isEmpty());
 }
 
 void gameLobbyDialogImpl::runCommunitySuggest()
 {
-	if (!mySuggest || !mySession || myCreatedSuggestType.isEmpty())
+	const QString suggestType = effectiveSuggestType();
+	if (!mySuggest || !mySession || suggestType.isEmpty())
 		return;
 
 	// Spieler am eigenen Tisch nicht vorschlagen – die sitzen ja bereits dort.
@@ -426,7 +465,7 @@ void gameLobbyDialogImpl::runCommunitySuggest()
 		// gameId == ownGameId → am eigenen Tisch: überspringen.
 	}
 
-	const QString message = mySuggest->suggest(myCreatedSuggestType, idleNames, playing);
+	const QString message = mySuggest->suggest(suggestType, idleNames, playing);
 	// Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des bbcbot), nicht senden.
 	if (!message.isEmpty() && myChat)
 		myChat->showLocalNote(message);

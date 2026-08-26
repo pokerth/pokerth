@@ -67,8 +67,110 @@ QString buildMessage(const QString &headline, const QList<Scored> &idle,
 
 } // namespace
 
-CommunitySuggest::CommunitySuggest()
+CommunitySuggest::CommunitySuggest(QObject *parent)
+	: QObject(parent)
 {
+}
+
+// Deckungsgleich mit den communityPresets des QML-Clients (Config.BotSuggest.presets).
+const QList<CommunitySuggest::CommunityTemplate> &CommunitySuggest::templates()
+{
+	static const QList<CommunityTemplate> table = QList<CommunityTemplate>{
+		{ "BBC Step 1", "step1", "", 3000, 15, false, 11, 5, 10,
+		  {20,25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000} },
+		{ "BBC Step 2", "step2", "", 4000, 20, false, 11, 5, 10,
+		  {25,30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000} },
+		{ "BBC Step 3", "step3", "", 5000, 25, false, 11, 5, 10,
+		  {30,40,50,60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000,25000} },
+		{ "BBC Step 4", "step4", "", 10000, 50, false, 11, 5, 10,
+		  {60,80,100,120,150,200,250,300,400,500,600,800,1000,1200,1500,2000,2500,3000,4000,5000,6000,8000,10000,12000,15000,20000,25000,30000,40000,50000} },
+		{ "Monthly Cup", "", "mcup", 10000, 50, true, 16, 5, 10, {} },
+		{ "Monthly Cup Final", "", "mcupfinal", 10000, 50, true, 22, 5, 12, {} },
+		{ "WEC", "wec", "", 10000, 50, true, 22, 5, 12, {} },
+		{ "WEC Monthly Final", "", "", 10000, 50, true, 25, 5, 15, {} },
+		{ "WEC Grand Final", "wec", "", 10000, 50, true, 35, 5, 25, {} }
+	};
+	return table;
+}
+
+QString CommunitySuggest::suggestTypeForGame(int startMoney, int firstSmallBlind,
+                                             const std::list<int> &manualBlinds)
+{
+	if (manualBlinds.empty())
+		return QString();
+	for (const CommunityTemplate &t : templates()) {
+		if (t.suggestType.isEmpty() || t.blinds.isEmpty())
+			continue;
+		if (t.startCash != startMoney || t.firstSmallBlind != firstSmallBlind)
+			continue;
+		if (t.blinds.size() != static_cast<int>(manualBlinds.size()))
+			continue;
+		bool same = true;
+		int i = 0;
+		for (int blind : manualBlinds) {
+			if (t.blinds.at(i++) != blind) {
+				same = false;
+				break;
+			}
+		}
+		if (same)
+			return t.suggestType;
+	}
+	return QString();
+}
+
+bool CommunitySuggest::isBbcAdmin() const
+{
+	return m_bbcAdmin;
+}
+
+void CommunitySuggest::applyBbcAdmin(const QString &nick)
+{
+	m_bbcAdmin = m_bbcAdmins.contains(suggestKey(nick));
+	emit bbcAdminResolved();
+}
+
+void CommunitySuggest::requestBbcAdmin(const QString &nick)
+{
+	if (nick.isEmpty() || m_bbcAdminInFlight)
+		return;
+
+	const qint64 now = QDateTime::currentMSecsSinceEpoch();
+	if (m_bbcAdminsLoaded && (now - m_bbcAdminsTs) < CACHE_TTL_MS) {
+		applyBbcAdmin(nick);   // frischer Cache ⇒ ohne Netz
+		return;
+	}
+	// Auch FEHLSCHLÄGE drosseln: der Aufrufer hängt an der Button-Sichtbarkeit
+	// und fragt bei jeder Änderung der Spielerliste erneut – ohne diese Sperre
+	// liefe bei fehlender/unerreichbarer Datei ein Download pro Join/Leave.
+	if (m_bbcAdminLastTry != 0 && (now - m_bbcAdminLastTry) < CACHE_TTL_MS)
+		return;
+	m_bbcAdminLastTry = now;
+
+	m_bbcAdminInFlight = true;
+	if (!m_bbcAdminNam)
+		m_bbcAdminNam = new QNetworkAccessManager(this);
+
+	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + QStringLiteral("bbcadmins.txt")));
+	request.setRawHeader("User-Agent", POKERTH_USER_AGENT);
+	request.setTransferTimeout(15000);
+
+	QNetworkReply *reply = m_bbcAdminNam->get(request);
+	const QString wanted = nick;
+	connect(reply, &QNetworkReply::finished, this, [this, reply, wanted]() {
+		m_bbcAdminInFlight = false;
+		const bool ok = reply->error() == QNetworkReply::NoError;
+		const QByteArray data = ok ? reply->readAll() : QByteArray();
+		reply->deleteLater();
+		if (ok && !data.isEmpty()) {
+			parseNameList(data, m_bbcAdmins);
+			m_bbcAdminsLoaded = true;
+			m_bbcAdminsTs = QDateTime::currentMSecsSinceEpoch();
+		}
+		// Fehlschlag ⇒ auf (ggf. abgelaufene) Altdaten zurückfallen; ist gar
+		// nichts da, bleibt der Button aus – wie ohne das Feature.
+		applyBbcAdmin(wanted);
+	});
 }
 
 bool CommunitySuggest::isSuggestType(const QString &type)
@@ -118,7 +220,7 @@ bool CommunitySuggest::ensure(const QString &kind)
 	const QByteArray data = download(filename);
 	if (!data.isEmpty()) {
 		if (kind == QLatin1String("wec"))
-			parseWec(data);
+			parseNameList(data, m_wec);
 		else if (kind == QLatin1String("gameslist"))
 			parseGameslist(data);
 		else
@@ -160,16 +262,17 @@ void CommunitySuggest::parseDb(const QByteArray &data)
 	}
 }
 
-// weclist.txt: ein Spielername pro Zeile → { lowercase: originalName }.
-void CommunitySuggest::parseWec(const QByteArray &data)
+// weclist.txt / bbcadmins.txt: ein Spielername pro Zeile → { lowercase:
+// originalName }. Beide Botfiles teilen dieses Format.
+void CommunitySuggest::parseNameList(const QByteArray &data, QHash<QString, QString> &target)
 {
-	m_wec.clear();
+	target.clear();
 	const QStringList lines = QString::fromUtf8(data).split(QRegularExpression(QStringLiteral("\\r?\\n")));
 	for (const QString &line : lines) {
 		const QString name = line.trimmed();
 		if (name.isEmpty())
 			continue;
-		m_wec.insert(suggestKey(name), name);
+		target.insert(suggestKey(name), name);
 	}
 }
 

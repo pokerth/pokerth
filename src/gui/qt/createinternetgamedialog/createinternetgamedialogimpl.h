@@ -53,18 +53,9 @@ class createInternetGameDialogImpl: public QDialog, public Ui::createInternetGam
 public:
 	// Offizielle Community-Turnier-Vorlagen (BBC Steps / Monthly Cup / WEC) –
 	// deckungsgleich mit den communityPresets des QML-Clients.
-	struct CommunityTemplate {
-		QString name;
-		QString suggestType;    // "step1".."step4" | "wec" | "" (kein Suggest)
-		QString titleCommand;   // "mcup"/"mcupfinal" (monatl. Titel) | ""
-		int startCash;
-		int firstSmallBlind;
-		bool raiseOnHands;
-		int raiseEveryHands;
-		int raiseEveryMinutes;
-		int playerActionTimeout;
-		QList<int> blinds;      // leer = Blinds verdoppeln
-	};
+	// Die Vorlagentabelle selbst liegt in CommunitySuggest (dieselbe Tabelle
+	// dient dort als Fingerprint zur Typ-Erkennung fremder Tische) – hier wird
+	// sie nur noch gelesen.
 
 	createInternetGameDialogImpl(QWidget *parent = 0, ConfigFile *c = 0, CommunitySuggest *suggest = 0);
 
@@ -106,7 +97,6 @@ private:
 	QLabel *startBlind;
 	QLabel *raiseMode;
 
-	QList<CommunityTemplate> myCommunityTemplates;
 	QLabel *label_communityTemplate;
 	QComboBox *comboBox_communityTemplate;
 

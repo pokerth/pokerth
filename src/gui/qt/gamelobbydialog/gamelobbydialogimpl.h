@@ -185,9 +185,11 @@ public slots:
 	void updateGameListStyleSheet();
 
 private:
-	// Sichtbarkeit des Suggest-Buttons: Admin des eigenen Invite-Spiels mit
-	// BBC-/WEC-Vorlage, Community-Inhalt + Suggest-Option aktiv.
+	// Sichtbarkeit des Suggest-Buttons: Ersteller des eigenen Invite-Spiels mit
+	// BBC-/WEC-Vorlage ODER BBC-Admin an einem fremden BBC-Step-Tisch, jeweils
+	// bei aktivem Community-Inhalt. Details bei effectiveSuggestType().
 	void updateSuggestButtonVisibility();
+	QString effectiveSuggestType();
 
 	gameTableImpl* myW;
 	startWindowImpl* myStartWindow;

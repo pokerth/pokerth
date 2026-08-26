@@ -9,8 +9,8 @@ import QtQuick
 //   • WEC: idle Spieler, die auf der WEC-Liste (weclist.txt) stehen, in
 //     zufälliger Reihenfolge (wie der Bot), Top 10.
 //
-// Die Botfiles werden per XHR von bbc.pokerth.net geladen und 15 Minuten
-// gecacht (danach beim nächsten Vorschlag frisch geholt). Der von Cloudflare
+// Die Botfiles (minidb.txt, weclist.txt, gameslist.txt, bbcadmins.txt) werden
+// per XHR von bbc.pokerth.net geladen und 15 Minuten gecacht (danach beim nächsten Vorschlag frisch geholt). Der von Cloudflare
 // erwartete User-Agent "PokerTH/2.0 (Qt Network)" wird global über die
 // WebNetworkAccessManagerFactory injiziert (siehe pokerth.cpp) – QML-XHR darf
 // den Header selbst nicht setzen, deshalb passiert das dort zentral.
@@ -22,19 +22,21 @@ QtObject {
 
     // Cache je Datei: data (geparst) + ts (Zeitpunkt des Ladens).
     property var _cache: ({ db: { data: null, ts: 0 }, wec: { data: null, ts: 0 },
-                            gameslist: { data: null, ts: 0 } })
+                            gameslist: { data: null, ts: 0 }, bbcadmins: { data: null, ts: 0 } })
     // Wartende Callbacks, solange eine Datei gerade geladen wird.
-    property var _queues: ({ db: [], wec: [], gameslist: [] })
-    property var _inflight: ({ db: false, wec: false, gameslist: false })
+    property var _queues: ({ db: [], wec: [], gameslist: [], bbcadmins: [] })
+    property var _inflight: ({ db: false, wec: false, gameslist: false, bbcadmins: false })
 
     // ── Community-Suggest-Typ des eigenen Spiels ─────────────────────────────
     // Der Suggest-Typ wird NICHT (mehr) aus dem Spielnamen geraten – das war
     // fragil (Groß/Kleinschreibung, verschobener/ergänzter Prefix ⇒ „WEC" wurde
     // nur bei exakt unverändertem Namen erkannt). Stattdessen trägt jedes Preset
     // seinen Typ explizit; beim Erstellen setzt LobbyCreateGamePage diesen Wert,
-    // der Warteraum (GameWaitPage) liest ihn. Der Suggest-Button erscheint ohnehin
-    // nur für den Ersteller, der beim Anlegen das Preset kennt – der Spielname
-    // darf also frei geändert werden.
+    // der Warteraum (GameWaitPage) liest ihn. Der Spielname darf also frei
+    // geändert werden.
+    // Gilt nur für den ERSTELLER. Ein beitretender BBC-Admin kennt diesen Wert
+    // nicht und leitet den Typ aus den Tischeinstellungen ab – ebenfalls ohne
+    // den Namen, siehe suggestTypeForGameInfo().
     // Werte: "step1".."step4", "wec" (Suggest möglich) oder "" (kein Suggest –
     // Monthly Cup, WEC Monthly Final, Nicht-Community-Spiele).
     property string createdSuggestType: ""
@@ -42,6 +44,129 @@ QtObject {
     // Ist der gesetzte Typ ein gültiges Suggest-Ziel? (Button-Sichtbarkeit)
     function isSuggestType(type) {
         return type === "wec" || /^step[1-4]$/.test(type || "")
+    }
+
+    // ── Community-Vorlagen ───────────────────────────────────────────────────
+    // Die Turniervorlagen liegen hier (nicht mehr in der Create-Page), weil sie
+    // zwei Aufgaben haben: die Formularfelder beim Erstellen füllen UND als
+    // Fingerprint dienen, um den Typ eines FREMDEN Tisches zu erkennen (siehe
+    // suggestTypeForGameInfo). Beides muss aus derselben Tabelle kommen.
+    readonly property var presets: [
+        // suggestType: expliziter Community-Suggest-Typ (statt Namens-Regex).
+        // Wird beim Erstellen an Config.BotSuggest.createdSuggestType übergeben;
+        // fehlt er, gibt es keinen Spielervorschlag (Monthly Cup, WEC Monthly
+        // Final). Siehe [[Config.BotSuggest]].
+        { name: "BBC Step 1", suggestType: "step1", startCash: 3000, firstSmallBlind: 15,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500,
+                   600, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000,
+                   10000, 12000, 15000] },
+        { name: "BBC Step 2", suggestType: "step2", startCash: 4000, firstSmallBlind: 20,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [25, 30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600,
+                   800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000,
+                   12000, 15000, 20000] },
+        { name: "BBC Step 3", suggestType: "step3", startCash: 5000, firstSmallBlind: 25,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800,
+                   1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000,
+                   12000, 15000, 20000, 25000] },
+        { name: "BBC Step 4", suggestType: "step4", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800, 1000, 1200,
+                   1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 15000,
+                   20000, 25000, 30000, 40000, 50000] },
+        // Monthly Cup: der Tischname wird serverseitig monatlich gepflegt
+        // (gameslist.txt, command "mcup"/"mcupfinal" → z. B. "July Cup",
+        // "August Cup"). titleCommand triggert das Ziehen des aktuellen Titels.
+        { name: "Monthly Cup", titleCommand: "mcup", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 16, raiseEveryMinutes: 5, playerActionTimeout: 10,
+          blinds: [] },
+        { name: "Monthly Cup Final", titleCommand: "mcupfinal", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
+          blinds: [] },
+        { name: "WEC", suggestType: "wec", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
+          blinds: [] },
+        { name: "WEC Monthly Final", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 25, raiseEveryMinutes: 5, playerActionTimeout: 15,
+          blinds: [] },
+        { name: "WEC Grand Final", suggestType: "wec", startCash: 10000, firstSmallBlind: 50,
+          raiseOnHands: true, raiseEveryHands: 35, raiseEveryMinutes: 5, playerActionTimeout: 25,
+          blinds: [] }
+    ]
+
+    // ── Typ-Erkennung fremder Tische ─────────────────────────────────────────
+    // Ein beitretender Spieler kennt createdSuggestType nicht (der steckt nur im
+    // Client des Erstellers) und das Protokoll überträgt keinen Vorlagen-Typ.
+    // Der Tischname taugt NICHT als Quelle – er ist frei editierbar. Stattdessen
+    // werden die tatsächlichen Spieleinstellungen gegen die Vorlagen geprüft:
+    // Startgeld + erster Small Blind + die vollständige manuelle Blindreihenfolge
+    // identifizieren einen BBC-Step eindeutig.
+    //
+    // Vorlagen OHNE feste Blindliste (Monthly Cup, WEC) werden bewusst
+    // übersprungen: „Blinds verdoppeln" mit 10000/50 ist keine Signatur, das
+    // träfe auch beliebige fremde Tische. Für die geht es weiterhin nur über den
+    // expliziten createdSuggestType des Erstellers.
+    //
+    // info: Lobby.currentGameInfo() (Felder startMoney, firstSmallBlind,
+    // manualBlinds). Rückgabe: "step1".."step4" oder "" (nicht erkannt).
+    function suggestTypeForGameInfo(info) {
+        if (!info)
+            return ""
+        var blinds = info.manualBlinds || []
+        if (blinds.length === 0)
+            return ""
+        for (var i = 0; i < presets.length; ++i) {
+            var p = presets[i]
+            if (!p.suggestType || !p.blinds || p.blinds.length === 0)
+                continue
+            if (p.startCash !== info.startMoney || p.firstSmallBlind !== info.firstSmallBlind)
+                continue
+            if (p.blinds.length !== blinds.length)
+                continue
+            var same = true
+            for (var b = 0; b < p.blinds.length; ++b) {
+                if (p.blinds[b] !== blinds[b]) {
+                    same = false
+                    break
+                }
+            }
+            if (same)
+                return p.suggestType
+        }
+        return ""
+    }
+
+    // ── BBC-Admin-Abgleich ───────────────────────────────────────────────────
+    // bbcadmins.txt (Format wie weclist.txt) entscheidet, ob der eigene Spieler
+    // an einem fremden BBC-Step-Tisch vorschlagen darf. Erst aufrufen, wenn der
+    // lokale Fingerprint bereits „BBC-Step" sagt – dann kostet das Feature für
+    // alle anderen Tische keinen einzigen Request.
+    // onResult(isAdmin): false auch, wenn die Datei (noch) nicht abrufbar ist.
+    property real _bbcAdminLastTry: 0
+
+    function isBbcAdmin(nick, onResult) {
+        if (!nick || nick.length === 0) {
+            onResult(false)
+            return
+        }
+        // Fehlschläge drosseln: die Anfrage hängt an der Button-Sichtbarkeit.
+        // Ohne diese Sperre liefe bei fehlender/unerreichbarer Datei ein
+        // Download pro Betreten eines Step-Tisches. Ein gefüllter Cache
+        // beantwortet die Frage ohnehin ohne Netz (_ensure).
+        var fresh = _cache.bbcadmins.data !== null
+                    && (Date.now() - _cache.bbcadmins.ts) < cacheTtlMs
+        if (!fresh && (Date.now() - _bbcAdminLastTry) < cacheTtlMs) {
+            onResult(false)
+            return
+        }
+        if (!fresh)
+            _bbcAdminLastTry = Date.now()
+        _ensure("bbcadmins", function(ok) {
+            var set = ok ? botSuggest._cache.bbcadmins.data : null
+            onResult(!!(set && set[botSuggest._key(nick)] !== undefined))
+        })
     }
 
     // Aktuellen „Game Title Prefix" eines Community-Spiels aus gameslist.txt.
@@ -92,6 +217,7 @@ QtObject {
     function _fileName(kind) {
         if (kind === "wec") return "weclist.txt"
         if (kind === "gameslist") return "gameslist.txt"
+        if (kind === "bbcadmins") return "bbcadmins.txt"
         return "minidb.txt"
     }
 
@@ -135,7 +261,7 @@ QtObject {
     }
 
     function _parse(kind, text) {
-        if (kind === "wec") return _parseWec(text)
+        if (kind === "wec" || kind === "bbcadmins") return _parseNameList(text)
         if (kind === "gameslist") return _parseGameslist(text)
         return _parseDb(text)
     }
@@ -162,8 +288,9 @@ QtObject {
         return map
     }
 
-    // weclist.txt: ein Spielername pro Zeile → { lowercase: originalName }.
-    function _parseWec(text) {
+    // weclist.txt / bbcadmins.txt: ein Spielername pro Zeile → { lowercase:
+    // originalName }. Beide Botfiles teilen dieses Format.
+    function _parseNameList(text) {
         var set = ({})
         var lines = text.split(/\r?\n/)
         for (var i = 0; i < lines.length; ++i) {

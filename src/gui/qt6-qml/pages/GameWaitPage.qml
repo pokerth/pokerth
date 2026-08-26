@@ -41,23 +41,60 @@ Rectangle {
     readonly property bool canKick: isGameAdmin && !isRanking
 
     // ── Community-„Suggest" (aus dem Legacy-bbcbot portiert) ─────────────────
-    // Nur der Ersteller eines Invite-Spiels (GameType 3) mit einem BBC-Step-/WEC-
-    // Preset kann passende, gerade idle Spieler vorschlagen. Der Suggest-Typ kommt
-    // EXPLIZIT aus dem Preset (Config.BotSuggest.createdSuggestType, beim Erstellen
-    // gesetzt) – NICHT aus dem frei editierbaren Spielnamen. Auswahllogik + das
-    // Cachen der Botfiles steckt im Singleton Config.BotSuggest.
-    readonly property bool canSuggest: Config.Parameters.showCommunityContent
+    // Vorschlagen darf zweierlei Publikum, in einem Invite-Spiel (GameType 3) und
+    // nur bei aktivierten Community-Einstellungen:
+    //   • der ERSTELLER seines eigenen Tisches – sein Typ kommt EXPLIZIT aus dem
+    //     Preset (Config.BotSuggest.createdSuggestType, beim Erstellen gesetzt);
+    //   • jeder BBC-ADMIN an einem fremden BBC-Step-Tisch – dort ist der Typ
+    //     nicht bekannt und wird aus den Spieleinstellungen abgeleitet
+    //     (Config.BotSuggest.suggestTypeForGameInfo; der Tischname ist frei
+    //     editierbar und wird bewusst NICHT herangezogen).
+    // Der BBC-Admin-Abgleich (bbcadmins.txt) läuft asynchron und erst, wenn der
+    // rein lokale Fingerprint bereits „BBC-Step" sagt – an allen anderen Tischen
+    // kostet das Feature keinen Request.
+    readonly property bool communitySuggestEnabled: Config.Parameters.showCommunityContent
         && Config.Parameters.showCommunitySuggest
-        && isGameAdmin
         && (info.gameType || 1) === 3
-        && Config.BotSuggest.isSuggestType(Config.BotSuggest.createdSuggestType)
+    // Typ des eigenen (erstellten) Tisches bzw. der aus den Settings erkannte Typ.
+    readonly property string ownSuggestType:
+        (isGameAdmin && Config.BotSuggest.isSuggestType(Config.BotSuggest.createdSuggestType))
+        ? Config.BotSuggest.createdSuggestType : ""
+    readonly property string tableSuggestType: communitySuggestEnabled
+        ? Config.BotSuggest.suggestTypeForGameInfo(info) : ""
+    // Nur BBC-Steps sind für fremde Admins freigegeben (WEC bleibt beim Ersteller).
+    readonly property bool needsBbcAdminCheck: communitySuggestEnabled
+        && ownSuggestType.length === 0
+        && /^step[1-4]$/.test(tableSuggestType)
+        && !(Lobby && Lobby.isMyPlayerGuest)
+    property bool bbcAdmin: false
+    readonly property string effectiveSuggestType: ownSuggestType.length > 0
+        ? ownSuggestType : (bbcAdmin ? tableSuggestType : "")
+    readonly property bool canSuggest: communitySuggestEnabled
+                                       && effectiveSuggestType.length > 0
     property bool suggestBusy: false
 
+    onNeedsBbcAdminCheckChanged: resolveBbcAdmin()
+    Component.onCompleted: resolveBbcAdmin()
+
+    // Angestoßen wird nur beim Wechsel auf „fremder BBC-Step-Tisch". Cache und
+    // Fehlschlag-Drosselung liegen in Config.BotSuggest, ein erneutes Betreten
+    // kostet also in aller Regel kein Netz.
+    function resolveBbcAdmin() {
+        if (!needsBbcAdminCheck || !Lobby)
+            return
+        var gameId = Lobby.currentGameId
+        Config.BotSuggest.isBbcAdmin(Lobby.myPlayerName, function(isAdmin) {
+            // Spättreffer nach Tischwechsel darf den Button nicht freischalten.
+            if (Lobby && Lobby.currentGameId === gameId)
+                gameWaitPage.bbcAdmin = isAdmin
+        })
+    }
+
     function runSuggest() {
-        if (!Lobby || suggestBusy)
+        if (!Lobby || suggestBusy || effectiveSuggestType.length === 0)
             return
         suggestBusy = true
-        Config.BotSuggest.suggestForType(Config.BotSuggest.createdSuggestType,
+        Config.BotSuggest.suggestForType(effectiveSuggestType,
             Lobby.idlePlayerNames(), Lobby.playingPlayerEntries(),
             function(ok, message) {
                 gameWaitPage.suggestBusy = false

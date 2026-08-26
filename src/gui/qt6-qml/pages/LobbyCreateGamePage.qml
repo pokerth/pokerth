@@ -31,50 +31,10 @@ Rectangle {
     // vom Typ "Nur eingeladene Spieler" und nur bei aktiviertem Community-
     // Inhalt wählbar. BBC Steps nutzen eine feste Blindliste (Erhöhung alle
     // 5 Minuten), Monthly Cup und WEC verdoppeln die Blinds nach Handzahl.
-    readonly property var communityPresets: [
-        // suggestType: expliziter Community-Suggest-Typ (statt Namens-Regex).
-        // Wird beim Erstellen an Config.BotSuggest.createdSuggestType übergeben;
-        // fehlt er, gibt es keinen Spielervorschlag (Monthly Cup, WEC Monthly
-        // Final). Siehe [[Config.BotSuggest]].
-        { name: "BBC Step 1", suggestType: "step1", startCash: 3000, firstSmallBlind: 15,
-          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
-          blinds: [20, 25, 30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500,
-                   600, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000,
-                   10000, 12000, 15000] },
-        { name: "BBC Step 2", suggestType: "step2", startCash: 4000, firstSmallBlind: 20,
-          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
-          blinds: [25, 30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600,
-                   800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000,
-                   12000, 15000, 20000] },
-        { name: "BBC Step 3", suggestType: "step3", startCash: 5000, firstSmallBlind: 25,
-          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
-          blinds: [30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800,
-                   1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000,
-                   12000, 15000, 20000, 25000] },
-        { name: "BBC Step 4", suggestType: "step4", startCash: 10000, firstSmallBlind: 50,
-          raiseOnHands: false, raiseEveryHands: 11, raiseEveryMinutes: 5, playerActionTimeout: 10,
-          blinds: [60, 80, 100, 120, 150, 200, 250, 300, 400, 500, 600, 800, 1000, 1200,
-                   1500, 2000, 2500, 3000, 4000, 5000, 6000, 8000, 10000, 12000, 15000,
-                   20000, 25000, 30000, 40000, 50000] },
-        // Monthly Cup: der Tischname wird serverseitig monatlich gepflegt
-        // (gameslist.txt, command "mcup"/"mcupfinal" → z. B. "July Cup",
-        // "August Cup"). titleCommand triggert das Ziehen des aktuellen Titels.
-        { name: "Monthly Cup", titleCommand: "mcup", startCash: 10000, firstSmallBlind: 50,
-          raiseOnHands: true, raiseEveryHands: 16, raiseEveryMinutes: 5, playerActionTimeout: 10,
-          blinds: [] },
-        { name: "Monthly Cup Final", titleCommand: "mcupfinal", startCash: 10000, firstSmallBlind: 50,
-          raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
-          blinds: [] },
-        { name: "WEC", suggestType: "wec", startCash: 10000, firstSmallBlind: 50,
-          raiseOnHands: true, raiseEveryHands: 22, raiseEveryMinutes: 5, playerActionTimeout: 12,
-          blinds: [] },
-        { name: "WEC Monthly Final", startCash: 10000, firstSmallBlind: 50,
-          raiseOnHands: true, raiseEveryHands: 25, raiseEveryMinutes: 5, playerActionTimeout: 15,
-          blinds: [] },
-        { name: "WEC Grand Final", suggestType: "wec", startCash: 10000, firstSmallBlind: 50,
-          raiseOnHands: true, raiseEveryHands: 35, raiseEveryMinutes: 5, playerActionTimeout: 25,
-          blinds: [] }
-    ]
+    // Community-Vorlagen liegen im Singleton Config.BotSuggest – dieselbe
+    // Tabelle dient dort der Typ-Erkennung fremder Tische (Settings-Fingerprint),
+    // sie darf deshalb nicht doppelt gepflegt werden.
+    readonly property var communityPresets: Config.BotSuggest.presets
     readonly property var activePreset: (Config.Parameters.showCommunityContent
                                          && isInviteOnly
                                          && presetCombo.currentIndex > 0)
