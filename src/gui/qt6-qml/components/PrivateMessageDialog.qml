@@ -360,14 +360,26 @@ Popup {
 
                             readonly property int hPadding: 9
                             readonly property int vPadding: 6
+                            readonly property real maxWidth: parent.width * 0.85
+                            // Die natürliche (ungebrochene) Textbreite wird
+                            // GEMESSEN statt am gewrappten Text abgelesen:
+                            // bubbleText hängt per Layout.fillWidth an der
+                            // Blasenbreite. Käme die ihrerseits aus dessen
+                            // implicitWidth, wäre das eine Schleife – Qt löst sie
+                            // zur kleineren Größe hin auf, übrig blieb die Breite
+                            // des Zeitstempels, und darin brach selbst "hello"
+                            // mitten im Wort um. TextMetrics hängt an nichts.
+                            readonly property real textWidth:
+                                Math.min(Math.ceil(textMetrics.advanceWidth),
+                                         maxWidth - 2 * hPadding)
                             // Die Blase muss BEIDE Zeilen tragen: bei einer kurzen
                             // Nachricht ("hey!") ist der Zeitstempel das breitere
                             // Element – ohne ihn zu berücksichtigen liefe er aus
                             // der Blase heraus.
                             readonly property real contentWidth:
-                                Math.max(bubbleText.implicitWidth, timeText.implicitWidth)
+                                Math.max(textWidth, timeText.implicitWidth)
 
-                            width: Math.min(parent.width * 0.85, contentWidth + 2 * hPadding)
+                            width: contentWidth + 2 * hPadding
                             height: bubbleColumn.implicitHeight + 2 * vPadding
                             radius: 8
                             anchors.right: modelData.fromMe ? parent.right : undefined
@@ -379,6 +391,13 @@ Popup {
                             border.color: modelData.fromMe
                                           ? Config.StaticData.chartColor(3, true)
                                           : Config.StaticData.palette.secondary.col500
+
+                            // Misst den Text ohne Umbruch (siehe textWidth oben).
+                            TextMetrics {
+                                id: textMetrics
+                                font: bubbleText.font
+                                text: modelData.text
+                            }
 
                             ColumnLayout {
                                 id: bubbleColumn
