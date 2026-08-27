@@ -37,7 +37,7 @@ ItemDelegate {
     width: listView.width
     visible: matchesFilter
     height: matchesFilter
-            ? ((!wideLayout && expanded && hasActions) ? expandedHeight : rowHeight)
+            ? ((showInGameLine || showActionColumn) ? expandedHeight : rowHeight)
             : 0
 
     // Default-Padding des ItemDelegate (Basic-Style: 12px) schiebt den Inhalt
@@ -61,10 +61,23 @@ ItemDelegate {
                                      + (canAdminModerate ? 1 : 0)
     // Zwei Zeilen à 13 px für die "spielt gerade in ..."-Info über den Buttons.
     readonly property int inGameLineHeight: 26
-    readonly property int expandedHeight: rowHeight + 5
-                                        + inGameLineHeight + actionSpacing
-                                        + (actionCount * actionButtonHeight)
-                                        + (Math.max(0, actionCount - 1) * actionSpacing)
+    readonly property int actionsBlockHeight: (actionCount * actionButtonHeight)
+                                            + (Math.max(0, actionCount - 1) * actionSpacing)
+    readonly property int expandedHeight: rowHeight
+                                        + (showInGameLine ? 5 + inGameLineHeight : 0)
+                                        + (showActionColumn ? actionSpacing + actionsBlockHeight : 0)
+
+    // ── Was zeigt der Aufklappbereich? ───────────────────────────────────────
+    // Portrait: die gestapelten Aktions-Buttons (die Icon-Zeile fehlt dort).
+    // Wide-Layout: die Aktionen sitzen bereits als Icons in der Zeile – aufklappen
+    // lohnt nur auf Touch-Geräten, denen der Hover-Tooltip mit der "spielt gerade
+    // in ..."-Info fehlt. Deshalb Geräte-Erkennung (Qt.platform.os) statt einer
+    // Auflösungs-Heuristik: ein Tablet im Landscape hat zwar Desktop-Geometrie,
+    // aber genauso wenig einen Mauszeiger wie ein Telefon.
+    readonly property bool showActionColumn: !wideLayout && expanded && hasActions
+    readonly property bool showInGameLine: expanded && (wideLayout ? Config.Responsive.isMobile
+                                                                  : hasActions)
+    readonly property bool expandable: wideLayout ? Config.Responsive.isMobile : hasActions
 
     readonly property bool isSelf: Lobby && targetPlayerId === Lobby.myPlayerId
     // gameListRevision als reaktive Abhängigkeit: erzwingt Neuauswertung
@@ -86,7 +99,7 @@ ItemDelegate {
     // falls der Spieler währenddessen einem Spiel bei- oder es verlässt.
     readonly property string inGameName: {
         var _rev = Lobby ? Lobby.gameListRevision : 0
-        return (Lobby && (nameHover.hovered || (expanded && !wideLayout)))
+        return (Lobby && (nameHover.hovered || expanded))
             ? Lobby.playerInGameName(targetPlayerId) : ""
     }
     readonly property bool canIgnore: !isSelf && !guestPlayer && !playerIgnored
@@ -164,8 +177,10 @@ ItemDelegate {
 
     // Wenn das Layout in Wide-Screen wechselt, eventuell offenen Expander
     // schließen – sonst bliebe der Item-Container unnötig hoch beim Resize.
+    // Auf Touch-Geräten bleibt er offen: dort trägt er auch im Wide-Layout
+    // noch die "spielt gerade in ..."-Zeile.
     onWideLayoutChanged: {
-        if (wideLayout) {
+        if (wideLayout && !expandable) {
             expanded = false
             if (listView.expandedPlayerIndex === playerItem.index)
                 listView.expandedPlayerIndex = -1
@@ -293,7 +308,7 @@ ItemDelegate {
                 Layout.preferredWidth: 16
                 Layout.preferredHeight: 16
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                visible: !playerItem.wideLayout && hasActions
+                visible: playerItem.expandable
                 // Einfärbung per layer.effect statt MultiEffect-Kind: VectorImage
                 // (Qt >= 6.8) ist kein Texture-Provider und darf nicht per source
                 // referenziert werden (sonst schwarz/zerrissen gerendert).
@@ -306,7 +321,7 @@ ItemDelegate {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (playerItem.hasActions) {
+                        if (playerItem.expandable) {
                             const opening = !playerItem.expanded
                             playerItem.listView.expandedPlayerIndex = opening ? playerItem.index : -1
                             playerItem.expanded = opening
@@ -319,7 +334,7 @@ ItemDelegate {
         
         // Portrait: Action-Buttons (aufgeklappt)
         ColumnLayout {
-            visible: !playerItem.wideLayout && expanded && hasActions
+            visible: playerItem.showInGameLine || playerItem.showActionColumn
             Layout.fillWidth: true
             Layout.topMargin: 5
             spacing: 3
@@ -328,6 +343,7 @@ ItemDelegate {
             // Telefon gibt es keinen Hover, also steht dieselbe Info hier –
             // gleicher Wortlaut, gleiche Quelle (playerItem.inGameName).
             AppText {
+                visible: playerItem.showInGameLine
                 Layout.fillWidth: true
                 Layout.preferredHeight: playerItem.inGameLineHeight
                 text: playerItem.inGameName !== ""
@@ -350,7 +366,7 @@ ItemDelegate {
             // Send private message
             Button {
                 text: qsTr("Send private message")
-                visible: canSendPm
+                visible: canSendPm && playerItem.showActionColumn
                 Layout.fillWidth: true
                 Layout.preferredHeight: 24
                 font.pixelSize: 10
@@ -387,7 +403,7 @@ ItemDelegate {
             // Invite to game
             Button {
                 text: qsTr("Invite to Game")
-                visible: canInvite
+                visible: canInvite && playerItem.showActionColumn
                 Layout.fillWidth: true
                 Layout.preferredHeight: 24
                 font.pixelSize: 10
@@ -423,7 +439,7 @@ ItemDelegate {
             // Ignore player
             Button {
                 text: qsTr("Ignore player")
-                visible: canIgnore
+                visible: canIgnore && playerItem.showActionColumn
                 Layout.fillWidth: true
                 Layout.preferredHeight: 24
                 font.pixelSize: 10
@@ -459,7 +475,7 @@ ItemDelegate {
             // Unignore player
             Button {
                 text: qsTr("Unignore player")
-                visible: canUnignore
+                visible: canUnignore && playerItem.showActionColumn
                 Layout.fillWidth: true
                 Layout.preferredHeight: 24
                 font.pixelSize: 10
@@ -495,7 +511,7 @@ ItemDelegate {
             // Show player stats (widget parity)
             Button {
                 text: qsTr("Show player stats")
-                visible: canShowPlayerStats
+                visible: canShowPlayerStats && playerItem.showActionColumn
                 Layout.fillWidth: true
                 Layout.preferredHeight: 24
                 font.pixelSize: 10
@@ -531,7 +547,7 @@ ItemDelegate {
             // Admin action (widget parity)
             Button {
                 text: qsTr("Total kickban")
-                visible: canAdminModerate
+                visible: canAdminModerate && playerItem.showActionColumn
                 Layout.fillWidth: true
                 Layout.preferredHeight: 24
                 font.pixelSize: 10
