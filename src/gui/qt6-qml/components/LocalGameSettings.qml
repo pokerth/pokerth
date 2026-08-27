@@ -82,6 +82,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Anzahl der Spieler:")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -98,6 +99,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Startkapital:")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -115,6 +117,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Erster Small Blind:")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -163,6 +166,7 @@ Rectangle {
 
                             Label {
                                 Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
                                 text: qsTr("Small Blind erhöhen alle:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: raiseBlindsAtHands.checked
@@ -204,6 +208,7 @@ Rectangle {
 
                             Label {
                                 Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
                                 text: qsTr("Small Blind erhöhen alle:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: raiseBlindsAtMinutes.checked
@@ -422,6 +427,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Spielgeschwindigkeit\n(1=langsam, 11=schnell):")
                             color: Config.StaticData.palette.secondary.col200
                         }

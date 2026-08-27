@@ -45,6 +45,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Anzahl der Spieler:")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -61,6 +62,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Startkapital:")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -78,6 +80,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Erster Small Blind:")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -126,6 +129,7 @@ Rectangle {
 
                             Label {
                                 Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
                                 text: qsTr("Small Blind erhöhen alle:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtHands.checked
@@ -167,6 +171,7 @@ Rectangle {
 
                             Label {
                                 Layout.fillWidth: true
+                                wrapMode: Text.WordWrap
                                 text: qsTr("Small Blind erhöhen alle:")
                                 color: Config.StaticData.palette.secondary.col200
                                 enabled: netRaiseBlindsAtMinutes.checked
@@ -255,6 +260,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Verzögerung zwischen Händen\n(Sekunden):")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -271,6 +277,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Timeout für Spieleraktion\n(Sekunden):")
                             color: Config.StaticData.palette.secondary.col200
                         }
@@ -300,6 +307,7 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
                             text: qsTr("Server-Port:")
                             color: Config.StaticData.palette.secondary.col200
                         }

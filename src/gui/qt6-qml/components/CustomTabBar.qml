@@ -30,12 +30,20 @@ TabBar {
             property bool isHovered: false
 
             width: tabButtons.model.length > 0 ? Math.floor(customTabBar.width / tabButtons.model.length) : implicitWidth
-            height: customTabBar.tabHeight
+            // Reicht die Tab-Breite für den Text nicht (schmale Portrait-
+            // Fenster, lange Übersetzungen), bricht die Beschriftung auf eine
+            // zweite Zeile um und die Leiste wächst mit – vorher wurde der
+            // Text stattdessen abgeschnitten („Third party li…“).
+            height: Math.max(customTabBar.tabHeight, tabLabel.implicitHeight)
+            implicitHeight: height
             padding: 0
             contentItem: Text {
+                id: tabLabel
                 text: modelData
                 font.pointSize: customTabBar.tabFontPointSize
                 width: tabButton.width
+                wrapMode: Text.WordWrap
+                maximumLineCount: 2
                 elide: Text.ElideRight
                 color: customTabBar.currentIndex === index || tabButton.isHovered ? Config.StaticData.palette.secondary.col100 : Config.StaticData.palette.secondary.col200
                 horizontalAlignment: Text.AlignHCenter
