@@ -59,7 +59,10 @@ ItemDelegate {
                                      + (canUnignore ? 1 : 0)
                                      + (canShowPlayerStats ? 1 : 0)
                                      + (canAdminModerate ? 1 : 0)
+    // Zwei Zeilen à 13 px für die "spielt gerade in ..."-Info über den Buttons.
+    readonly property int inGameLineHeight: 26
     readonly property int expandedHeight: rowHeight + 5
+                                        + inGameLineHeight + actionSpacing
                                         + (actionCount * actionButtonHeight)
                                         + (Math.max(0, actionCount - 1) * actionSpacing)
 
@@ -77,6 +80,15 @@ ItemDelegate {
     readonly property bool canSendPm: Lobby && !isSelf && !Lobby.isMyPlayerGuest && !guestPlayer
         && (Lobby.gameListRevision >= 0 && !Lobby.isPlayerInRunningGame(targetPlayerId))
     readonly property bool canShowPlayerStats: !guestPlayer
+    // "Spielt gerade in ..."-Info. Nur abfragen, wenn sie auch jemand sieht:
+    // Desktop beim Hovern über dem Namen, Touch im aufgeklappten Bereich
+    // (dort gibt es keinen Hover). gameListRevision als reaktive Abhängigkeit,
+    // falls der Spieler währenddessen einem Spiel bei- oder es verlässt.
+    readonly property string inGameName: {
+        var _rev = Lobby ? Lobby.gameListRevision : 0
+        return (Lobby && (nameHover.hovered || (expanded && !wideLayout)))
+            ? Lobby.playerInGameName(targetPlayerId) : ""
+    }
     readonly property bool canIgnore: !isSelf && !guestPlayer && !playerIgnored
     readonly property bool canUnignore: !isSelf && !guestPlayer && playerIgnored
     readonly property bool hasActions: canSendPm || canInvite || canAdminModerate || canIgnore || canUnignore || canShowPlayerStats
@@ -199,19 +211,12 @@ ItemDelegate {
                 elide: Text.ElideRight
 
                 // Desktop-Hover-Tooltip: "spielt in ..." / "spielt derzeit nicht"
-                // (Widget-Client zeigt dieselbe Info im Nickliste-Kontextmenü).
-                // Nur bei Hover abfragen; gameListRevision als reaktive
-                // Abhängigkeit, falls der Spieler währenddessen (bei)tritt.
-                readonly property string inGameName: {
-                    var _rev = Lobby ? Lobby.gameListRevision : 0
-                    return (Lobby && nameHover.hovered)
-                        ? Lobby.playerInGameName(playerItem.targetPlayerId) : ""
-                }
-
+                // (Widget-Client zeigt dieselbe Info im Nickliste-Kontextmenü,
+                // Touch-Geräte im aufgeklappten Bereich – siehe unten).
                 HoverHandler { id: nameHover }
 
-                ToolTip.text: inGameName !== ""
-                              ? qsTr("%1 is playing in \"%2\".").arg(displayName).arg(inGameName)
+                ToolTip.text: playerItem.inGameName !== ""
+                              ? qsTr("%1 is playing in \"%2\".").arg(displayName).arg(playerItem.inGameName)
                               : qsTr("%1 is not playing at the moment.").arg(displayName)
                 ToolTip.visible: nameHover.hovered && !Config.Responsive.isMobile
                                  && Config.Parameters.showTooltips
@@ -318,7 +323,30 @@ ItemDelegate {
             Layout.fillWidth: true
             Layout.topMargin: 5
             spacing: 3
-            
+
+            // Touch-Pendant zum Desktop-Hover-Tooltip über dem Namen: am
+            // Telefon gibt es keinen Hover, also steht dieselbe Info hier –
+            // gleicher Wortlaut, gleiche Quelle (playerItem.inGameName).
+            AppText {
+                Layout.fillWidth: true
+                Layout.preferredHeight: playerItem.inGameLineHeight
+                text: playerItem.inGameName !== ""
+                      ? qsTr("%1 is playing in \"%2\".").arg(playerItem.displayName)
+                                                         .arg(playerItem.inGameName)
+                      : qsTr("%1 is not playing at the moment.").arg(playerItem.displayName)
+                font.pixelSize: 10
+                color: playerItem.inGameName !== "" ? playerItem.inviteColor
+                                                    : Config.Theme.colorTextMuted
+                // Feste Höhe für zwei Zeilen: die Zeilenhöhe geht in
+                // expandedHeight ein, ein dynamischer Umbruch würde den
+                // aufgeklappten Bereich unten abschneiden.
+                wrapMode: Text.Wrap
+                maximumLineCount: 2
+                elide: Text.ElideRight
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
             // Send private message
             Button {
                 text: qsTr("Send private message")
