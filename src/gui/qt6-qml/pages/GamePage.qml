@@ -535,13 +535,23 @@ Rectangle {
             // hängen. Mit 71 wird topRow ≈ 45 → 2 Karten + Avatar passen
             // bequem nebeneinander. In Landscape (84) ist der 2-zeilige
             // Footer 44 px, topRow = 40 → Avatar/Karten sichtbar größer.
-            readonly property int oppBaseHeight: wide ? 84 : 71
+            //
+            // Sitz-Stil "inset" (Config.SeatStyle): der Einsatz steht im Sockel
+            // INNERHALB der Box – die Box wird dafür um betStripH höher. Diese
+            // Zusatzhöhe steckt bewusst in oppBaseHeight/selfBaseHeight, damit
+            // die komplette Platz-Bisektion unten (boxScale, Ellipsen-Radien,
+            // Community-Skala, Chat-/Info-Dock) automatisch mit der größeren Box
+            // rechnet und keine neuen Überlappungen entstehen. Die daraus
+            // ABGELEITETEN Maße (Boxbreite, Karten-/Avatarhöhe) rechnen sie
+            // wieder heraus – die Box wächst nur in der Höhe.
+            readonly property int betStripH: Config.SeatStyle.betStripExtra
+            readonly property int oppBaseHeight: (wide ? 84 : 71) + betStripH
             // Breite dynamisch: 2×hMargin + AvatarCardRow.implicitWidth.
             // AvatarCardRow: avatarH + gap(4) + 2·cardW + cardSpacing(4)
             //   Landscape: topRow=40, cardW=29 → 2×4 + 40 + 4 + 2×29 + 4 = 114
             //   Portrait : topRow=43, cardW=31 → 2×4 + 43 + 4 + 2×31 + 4 = 121
             readonly property int oppBaseWidth: {
-                var rowH = oppBaseHeight - (wide ? 44 : 28)
+                var rowH = oppBaseHeight - (wide ? 44 : 28) - betStripH
                 var cw   = Math.round(rowH * 120 / 168)
                 return 2 * 4 + rowH + 4 + 2 * cw + 4
             }
@@ -554,14 +564,15 @@ Rectangle {
             // Gegnerboxen, damit der Ring gleichmäßig wirkt.
             readonly property int selfBaseHeight:
                 spectating ? oppBaseHeight
-                           : (!wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96))
+                           : ((!wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96))
+                              + betStripH)
             // Self-Box-Breite dynamisch: identische Abstände wie Gegnerboxen.
             //   Compact  : cardsH=46, cardW=33, avW=46 → 2×4 + 46 + 4 + 2×33 + 4 = 128
             //   Landscape: cardsH=40, cardW=29, avW=40 → 2×4 + 40 + 4 + 2×29 + 4 = 114
             //   Portrait : cardsH=41, cardW=29, avW=41 → 2×4 + 41 + 4 + 2×29 + 4 = 115
             readonly property int selfBaseWidth: {
                 if (spectating) return oppBaseWidth
-                var cH  = selfBaseHeight - 12 - (Config.Responsive.landscape ? 32 : 18)
+                var cH  = selfBaseHeight - betStripH - 12 - (Config.Responsive.landscape ? 32 : 18)
                 var cW  = Math.round(cH * 120 / 168)
                 var avS = Math.min(cH, 60)
                 return 2 * 4 + avS + 4 + cW * 2 + 4

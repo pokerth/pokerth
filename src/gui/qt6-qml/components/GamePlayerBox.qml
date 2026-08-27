@@ -24,11 +24,19 @@ Item {
     // weitergereicht, damit ihr SVG-Raster die echte Bildschirmgröße trifft.
     property real cardRenderScale: 1.0
 
+    // Einsatz-Sockel im Sitz-Stil "inset" (Config.SeatStyle): der Einsatz steht
+    // IN der Box statt daneben, die Box wächst dafür genau um diese Höhe. 0 im
+    // Stil "classic". Aus jeder abgeleiteten Größe wieder herausgerechnet,
+    // damit die Box nur in der HÖHE wächst – Avatar, Karten und Boxbreite
+    // bleiben unverändert.
+    readonly property bool betInset: Config.SeatStyle.betInset
+    readonly property int betStripH: Config.SeatStyle.betStripExtra
+
     // Dynamische Breite: 2×hMargin(4) + AvatarCardRow.implicitWidth(avatarH+4+2·cardW+4)
-    readonly property int _topRowH: height - (wideLayout ? 44 : 28)
+    readonly property int _topRowH: height - (wideLayout ? 44 : 28) - betStripH
     readonly property int _cardW:   Math.round(_topRowH * 120 / 168)
     implicitWidth: 2 * 4 + _topRowH + 4 + 2 * _cardW + 4
-    implicitHeight: 84
+    implicitHeight: 84 + betStripH
 
     // Spielerdaten aus GameTable
     readonly property var seatData: (typeof GameTable !== "undefined" && GameTable && GameTable.players.length > seatIndex)
@@ -128,7 +136,10 @@ Item {
     // Nutzt height >= 76 als Proxy für tableZone.wide (oppBaseHeight = wide ? 84 : 71).
     // Bewusst NICHT Config.Responsive.landscape – die Tablezone kann breiter als
     // hoch sein, auch wenn das Gesamtfenster (inkl. Toolbar) hochformat-mäßig ist.
-    readonly property bool wideLayout: height >= 76
+    // Sockelhöhe herausrechnen: sonst würde eine Portrait-Box (71 + Sockel)
+    // fälschlich über die 76er-Schwelle rutschen und den 2-zeiligen
+    // Landscape-Footer bekommen.
+    readonly property bool wideLayout: (height - betStripH) >= 76
 
     // Nur anzeigen wenn der Sitz besetzt ist
     visible: root.seatData !== null && root.seatData.name !== ""
@@ -166,7 +177,8 @@ Item {
             id: cardRow
             x: playerBox.hMargin
             y: 4
-            height: root.wideLayout ? (parent.height - 44) : (parent.height - 28)
+            height: (root.wideLayout ? (parent.height - 44) : (parent.height - 28))
+                    - root.betStripH
 
             cardRenderScale: root.cardRenderScale
             card0: root.card0
@@ -184,7 +196,7 @@ Item {
             width: parent.width - 2 * playerBox.hMargin
             height: 15
             x: playerBox.hMargin
-            y: parent.height - height - 4
+            y: parent.height - height - 4 - root.betStripH
 
             AppText {
                 width: parent.width / 2
@@ -214,7 +226,7 @@ Item {
             width: parent.width - 2 * playerBox.hMargin
             height: 36
             x: playerBox.hMargin
-            y: parent.height - height - 4
+            y: parent.height - height - 4 - root.betStripH
 
             AppText {
                 anchors.left: parent.left
@@ -253,6 +265,16 @@ Item {
             }
         }
 
+        // Einsatz-Sockel am unteren Boxrand (Sitz-Stil "inset"). 1 px innerhalb
+        // des Rahmens von PlayerBoxBackground, damit dessen Rand sichtbar bleibt.
+        PlayerBetStrip {
+            visible: root.betInset
+            amount: root.bet
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 1
+        }
     }
 
     // Winner-Hervorhebung: goldener Rahmen (verdeckt die Karten NICHT) +
@@ -299,13 +321,15 @@ Item {
     // Seiten (betSide left/right): Button unter dem Einsatz, beides vertikal zentriert.
     Item {
         id: betGroup
-        visible: root.bet > 0 || root.buttonVisible
+        visible: (root.bet > 0 && !root.betInset) || root.buttonVisible
         z: 25
 
         readonly property bool split: root.betSplit
         readonly property bool horizontal: !split && (root.betSide === "bottom" || root.betSide === "top")
-        readonly property real betW: root.bet > 0 ? betRow.width : 0
-        readonly property real betH: root.bet > 0 ? betRow.height : 0
+        // Im Stil "inset" steckt der Einsatz im Box-Sockel – die Gruppe trägt
+        // dann nur noch den Dealer-/Blind-Puck.
+        readonly property real betW: (root.bet > 0 && !root.betInset) ? betRow.width : 0
+        readonly property real betH: (root.bet > 0 && !root.betInset) ? betRow.height : 0
         readonly property real btnW: root.buttonVisible ? buttonImg.width : 0
         readonly property real btnH: root.buttonVisible ? buttonImg.height : 0
 
@@ -323,7 +347,7 @@ Item {
 
         BetChip {
             id: betRow
-            visible: root.bet > 0
+            visible: root.bet > 0 && !root.betInset
             amount: root.bet
             textColor: "#f0f0f0"
             // split: Einsatz rechts NEBEN der Box; sonst innerhalb zentriert.
@@ -342,7 +366,10 @@ Item {
                : betGroup.horizontal
                ? (betGroup.width - width - 6)
                : (root.betSide === "right" ? 0 : (betGroup.width - width))
-            y: (betGroup.horizontal || betGroup.split)
+            // Seitlich (betSide left/right) saß der Puck im UNTEREN Slot, weil
+            // darüber der Einsatz stand. Steckt der Einsatz im Sockel, ist der
+            // Slot frei → Puck vertikal mittig neben die Box.
+            y: (betGroup.horizontal || betGroup.split || root.betInset)
                ? (betGroup.height - height) / 2
                : (betGroup.height * 5 / 6 - height / 2)
         }

@@ -5,4 +5,5 @@ singleton Community   Community.qml
 singleton ForumNews   ForumNews.qml
 singleton Parameters  Parameters.qml
 singleton Responsive  Responsive.qml
+singleton SeatStyle   SeatStyle.qml
 singleton Theme       Theme.qml

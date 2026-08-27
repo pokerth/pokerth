@@ -142,6 +142,7 @@ set(QML_FILES
     components/PlacementResult.qml
     components/PlayerActionBadge.qml
     components/PlayerActionIcon.qml
+    components/PlayerBetStrip.qml
     components/PlayerBoxBackground.qml
     components/PlayerListItem.qml
     components/PlayerSeasonCard.qml
@@ -193,6 +194,7 @@ set(QML_FILES
     config/ForumNews.qml
     config/Parameters.qml
     config/Responsive.qml
+    config/SeatStyle.qml
     config/StaticData.qml
     config/Theme.qml)
 

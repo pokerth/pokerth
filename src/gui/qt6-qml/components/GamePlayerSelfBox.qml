@@ -84,6 +84,13 @@ Rectangle {
     // (Name oben / Stack rechts unten). Im Portrait bleibt es 1-zeilig.
     readonly property bool twoLineInfo: Config.Responsive.landscape
 
+    // Einsatz-Sockel im Sitz-Stil "inset" (Config.SeatStyle): der Einsatz steht
+    // IN der Box statt darüber, die Box wächst dafür genau um diese Höhe.
+    // Der Sockel ist immer instanziiert – im Stil "classic" mit Höhe 0, sodass
+    // betStrip.top exakt auf parent.bottom liegt und der Info-Bereich darüber
+    // unverändert sitzt.
+    readonly property bool betInset: Config.SeatStyle.betInset
+
     color: "transparent"
 
     // Informationsdichte: gefoldet → dezent zurücknehmen, raus aus dem Spiel →
@@ -160,7 +167,7 @@ Rectangle {
     // Gegnerbox (Name oben, Stack rechts unten). Höhe 18 → 32 im Landscape.
     Item {
         id: bottomBar
-        anchors.bottom: parent.bottom
+        anchors.bottom: betStrip.top
         anchors.bottomMargin: root.vMargin
         anchors.left: parent.left
         anchors.leftMargin: root.hMargin
@@ -244,6 +251,21 @@ Rectangle {
         }
     }
 
+    // Einsatz-Sockel am unteren Boxrand (Sitz-Stil "inset"). 1 px innerhalb des
+    // Rahmens von PlayerBoxBackground, damit dessen Rand sichtbar bleibt. Im
+    // Stil "classic" bleibt er unsichtbar und 0 px hoch – dann liegt sein
+    // oberer Rand auf parent.bottom und der Info-Bereich sitzt wie zuvor.
+    PlayerBetStrip {
+        id: betStrip
+        visible: root.betInset
+        amount: root.bet
+        height: visible ? Math.max(0, Config.SeatStyle.betStripHeight - 1) : 0
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: visible ? 1 : 0
+    }
+
     // ── Strip OBERHALB der Box: Action-Indikator (Badge bzw. Timeout-Balken)
     //    rechtsbündig, Einsatz links davon. So werden die eigenen Hole-Cards
     //    nicht mehr verdeckt (waren zuvor mittig über den Karten platziert).
@@ -295,7 +317,7 @@ Rectangle {
         // sichtbar, rückt der Einsatz rechtsbündig an den Boxrand.
         BetChip {
             id: betRow
-            visible: root.bet > 0
+            visible: root.bet > 0 && !root.betInset
             amount: root.bet
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
