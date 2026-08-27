@@ -589,11 +589,41 @@ Popup {
                                : Config.Theme.colorTextMuted
                     }
 
-                    CustomButton {
-                        text: qsTr("Send")
+                    // Senden wie im Lobby-/Tisch-Chat (ChatBox): quadratischer
+                    // Icon-Knopf in Feldhöhe. Der beschriftete CustomButton war
+                    // hier mit 160×48 breiter als die halbe Eingabezeile.
+                    Button {
+                        Layout.preferredWidth: messageInput.implicitHeight
+                        Layout.preferredHeight: messageInput.implicitHeight
                         enabled: root.canSend
                         opacity: enabled ? 1.0 : 0.5
+                        // Kein Klick-Fokus: nach dem Senden per Maus bleibt der
+                        // Cursor im Eingabefeld, die nächste Nachricht geht
+                        // direkt per Enter raus.
+                        focusPolicy: Qt.NoFocus
                         onClicked: root.sendMessage()
+                        background: Item {}
+                        HoverHandler {
+                            id: sendHover
+                            cursorShape: Qt.PointingHandCursor
+                        }
+                        contentItem: Image {
+                            anchors.centerIn: parent
+                            width: 18; height: 18
+                            source: "../resources/send.svg"
+                            sourceSize: Qt.size(36, 36)
+                            fillMode: Image.PreserveAspectFit
+                            smooth: true
+                            antialiasing: true
+                            layer.enabled: true
+                            layer.effect: MultiEffect {
+                                colorization: 1.0
+                                colorizationColor: Config.Theme.colorChatSend
+                            }
+                        }
+                        ToolTip.text: qsTr("Send")
+                        ToolTip.visible: sendHover.hovered && Config.Parameters.showTooltips
+                        ToolTip.delay: 400
                     }
                 }
             }
