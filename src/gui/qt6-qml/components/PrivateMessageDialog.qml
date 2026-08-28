@@ -117,6 +117,14 @@ Popup {
             Lobby.markPrivateConversationRead(activePartner)
     }
 
+    // Der Posteingang gehört zum angemeldeten Konto: meldet man sich mit einem
+    // anderen Benutzer an, verschwinden die Gespräche des vorigen – ein noch
+    // ausgewähltes darf dann nicht stehen bleiben.
+    onPartnersChanged: {
+        if (activePartner !== "" && !hasPartner(activePartner))
+            activePartner = partners.length > 0 ? partners[0].name : ""
+    }
+
     function sendMessage() {
         if (!canSend)
             return

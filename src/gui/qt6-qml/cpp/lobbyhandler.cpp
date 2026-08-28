@@ -661,8 +661,11 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
         m_chatLog.clear();
         emit chatLogChanged();
     }
-    // Der PM-Verlauf wird hier bewusst NICHT geleert (anders als der Lobby-Chat):
-    // er überdauert Sitzungen und liegt in privatemessages.sqlite.
+    // Der PM-Verlauf überdauert Sitzungen (privatemessages.sqlite), gehört aber
+    // zu genau einem Konto: bis zum nächsten Login ist kein Besitzer bekannt,
+    // also bleibt der Posteingang leer. setMyPlayerInfo() lädt ihn dann für den
+    // Nick, mit dem man sich diesmal angemeldet hat.
+    setPrivateMessageOwner(QString());
 
     // Ein evtl. noch offenes Rejoin-Angebot gehört zur alten Verbindung;
     // ein neues kommt (falls möglich) mit dem InitAck der neuen Verbindung.
@@ -715,8 +718,10 @@ void LobbyHandler::setConfig(ConfigFile *config)
 
     setGameListFilterMode(storedGameListMode);
 
-    // Posteingang der letzten Sitzungen einlesen (Pfad steht erst mit m_config fest).
-    loadPrivateMessages();
+    // Der Posteingang wird hier NICHT gelesen: welcher Verlauf gilt, steht erst
+    // mit dem Login fest (siehe setPrivateMessageOwner). Nur die Datei anlegen /
+    // aufrüsten, deren Pfad jetzt bekannt ist.
+    openPrivateMessageDb();
 }
 
 void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerName)
@@ -861,6 +866,9 @@ void LobbyHandler::setMyPlayerInfo(unsigned playerId, const QString &playerName)
     if (m_myPlayerName != playerName) {
         m_myPlayerName = playerName;
         emit myPlayerNameChanged();
+        // Erster Punkt nach dem Login, an dem der eigene Nick feststeht: ab
+        // hier gilt der Posteingang dieses Kontos.
+        setPrivateMessageOwner(playerName);
     }
 
     emit gameContextChanged();
@@ -1815,6 +1823,20 @@ QString privateMessagesDbPath(ConfigFile *config)
     return QFileInfo(configPath).absolutePath() + QStringLiteral("/privatemessages.sqlite");
 }
 
+// Hat die Tabelle bereits die Besitzer-Spalte? (Erste Fassung der Datei kannte
+// nur EINEN Posteingang für die ganze Installation.)
+bool privateMessageTableHasOwner(const QSqlDatabase &db, const QString &table)
+{
+    QSqlQuery query(db);
+    if (!query.exec(QStringLiteral("PRAGMA table_info(%1)").arg(table)))
+        return false;
+    while (query.next()) {
+        if (query.value(1).toString() == QLatin1String("owner"))
+            return true;
+    }
+    return false;
+}
+
 } // namespace
 
 void LobbyHandler::openPrivateMessageDb()
@@ -1840,23 +1862,55 @@ void LobbyHandler::openPrivateMessageDb()
             qWarning() << "[PM] cannot open private message database" << path << db.lastError().text();
         } else {
             QSqlQuery query(db);
-            // pm_thread: eine Zeile je Gesprächspartner (Ungelesen-Zähler und
-            // Sortierung), pm_message: die Nachrichten selbst.
+            // Aufrüstung der ersten Fassung (ohne Besitzer): pm_message bekommt
+            // die Spalte angehängt, pm_thread braucht wegen des zusammen-
+            // gesetzten Primärschlüssels eine neue Tabelle. Die alten Zeilen
+            // bleiben zunächst besitzerlos (owner = "") und werden beim ersten
+            // Login übernommen – siehe loadPrivateMessages().
+            const QStringList tables = db.tables();
+            if (tables.contains(QLatin1String("pm_message"))
+                && !privateMessageTableHasOwner(db, QStringLiteral("pm_message"))) {
+                query.exec(QStringLiteral(
+                    "ALTER TABLE pm_message ADD COLUMN owner TEXT NOT NULL DEFAULT ''"));
+            }
+            if (tables.contains(QLatin1String("pm_thread"))
+                && !privateMessageTableHasOwner(db, QStringLiteral("pm_thread"))) {
+                query.exec(QStringLiteral("ALTER TABLE pm_thread RENAME TO pm_thread_v1"));
+            }
+            // Erneut nachsehen statt das Ergebnis der Umbenennung zu merken:
+            // so werden auch die Reste einer abgebrochenen Aufrüstung noch
+            // übernommen.
+            const bool migrateThreads = db.tables().contains(QLatin1String("pm_thread_v1"));
+
+            // pm_thread: eine Zeile je Konto und Gesprächspartner (Ungelesen-
+            // Zähler und Sortierung), pm_message: die Nachrichten selbst.
             opened =
                 query.exec(QStringLiteral(
                     "CREATE TABLE IF NOT EXISTS pm_thread ("
-                    "  partner TEXT PRIMARY KEY,"
+                    "  owner TEXT NOT NULL,"
+                    "  partner TEXT NOT NULL,"
                     "  unread INTEGER NOT NULL DEFAULT 0,"
-                    "  last_activity INTEGER NOT NULL DEFAULT 0)"))
+                    "  last_activity INTEGER NOT NULL DEFAULT 0,"
+                    "  PRIMARY KEY (owner, partner))"))
                 && query.exec(QStringLiteral(
                     "CREATE TABLE IF NOT EXISTS pm_message ("
                     "  id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    "  owner TEXT NOT NULL DEFAULT '',"
                     "  partner TEXT NOT NULL,"
                     "  from_me INTEGER NOT NULL,"
                     "  text TEXT NOT NULL,"
                     "  ts TEXT NOT NULL)"))
+                && query.exec(QStringLiteral("DROP INDEX IF EXISTS pm_message_partner"))
                 && query.exec(QStringLiteral(
-                    "CREATE INDEX IF NOT EXISTS pm_message_partner ON pm_message (partner, id)"));
+                    "CREATE INDEX IF NOT EXISTS pm_message_owner "
+                    "ON pm_message (owner, partner, id)"));
+
+            if (opened && migrateThreads) {
+                opened = query.exec(QStringLiteral(
+                    "INSERT OR IGNORE INTO pm_thread (owner, partner, unread, last_activity) "
+                    "SELECT '', partner, unread, last_activity FROM pm_thread_v1"))
+                    && query.exec(QStringLiteral("DROP TABLE pm_thread_v1"));
+            }
             if (!opened) {
                 qWarning() << "[PM] cannot create private message tables:" << query.lastError().text();
                 db.close();
@@ -1871,16 +1925,57 @@ void LobbyHandler::openPrivateMessageDb()
     m_privateDbConn = connName;
 }
 
+void LobbyHandler::setPrivateMessageOwner(const QString &owner)
+{
+    if (owner == m_privateMessagesOwner)
+        return;
+    m_privateMessagesOwner = owner;
+
+    // Was im Speicher steht, gehört dem vorigen Konto – erst wegräumen, dann
+    // den Verlauf des neuen Logins aus der Datenbank holen (bei leerem Namen
+    // bleibt der Posteingang leer).
+    m_privateThreads.clear();
+    // Laufende Übersetzungen zeigen auf Blasen, die es nicht mehr gibt; ihre
+    // Antworten sollen ins Leere laufen statt in den neuen Verlauf.
+    m_pmTranslationRequests.clear();
+    loadPrivateMessages();
+
+    ++m_privateMessagesRevision;
+    emit privateMessagesChanged();
+    recountUnreadPrivateMessages();
+}
+
 void LobbyHandler::loadPrivateMessages()
 {
     openPrivateMessageDb();
-    if (m_privateDbConn.isEmpty())
+    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
         return;
 
     QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
+
+    // Verlauf aus der Zeit vor der Kontotrennung (owner = "") gehört dem, der
+    // sich als Erster anmeldet – das ist der Benutzer, der ihn geschrieben hat.
+    // Danach gibt es keine besitzerlosen Zeilen mehr.
+    {
+        QSqlQuery adoptQuery(db);
+        adoptQuery.prepare(QStringLiteral(
+            "UPDATE OR REPLACE pm_thread SET owner = :owner WHERE owner = ''"));
+        adoptQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+        if (adoptQuery.exec() && adoptQuery.numRowsAffected() > 0) {
+            QSqlQuery adoptMessages(db);
+            adoptMessages.prepare(QStringLiteral(
+                "UPDATE pm_message SET owner = :owner WHERE owner = ''"));
+            adoptMessages.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+            adoptMessages.exec();
+        }
+    }
+
     QSqlQuery threadQuery(db);
-    if (!threadQuery.exec(QStringLiteral(
-            "SELECT partner, unread, last_activity FROM pm_thread ORDER BY last_activity DESC"))) {
+    threadQuery.prepare(QStringLiteral(
+        "SELECT partner, unread, last_activity FROM pm_thread WHERE owner = :owner "
+        "ORDER BY last_activity DESC"));
+    threadQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
+    if (!threadQuery.exec()) {
         qWarning() << "[PM] cannot read conversations:" << threadQuery.lastError().text();
         return;
     }
@@ -1889,8 +1984,9 @@ void LobbyHandler::loadPrivateMessages()
     // Nur die jüngsten Nachrichten in den Speicher holen; die Datenbank behält
     // den vollständigen Verlauf.
     messageQuery.prepare(QStringLiteral(
-        "SELECT from_me, text, ts FROM pm_message WHERE partner = :partner "
+        "SELECT from_me, text, ts FROM pm_message WHERE owner = :owner AND partner = :partner "
         "ORDER BY id DESC LIMIT :limit"));
+    messageQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
 
     while (threadQuery.next()) {
         const QString name = threadQuery.value(0).toString();
@@ -1918,22 +2014,22 @@ void LobbyHandler::loadPrivateMessages()
         thread.unread = qBound(0, thread.unread, static_cast<int>(thread.messages.size()));
         m_privateThreads.insert(name, thread);
     }
-
-    if (!m_privateThreads.isEmpty()) {
-        ++m_privateMessagesRevision;
-        emit privateMessagesChanged();
-        recountUnreadPrivateMessages();
-    }
+    // Die Meldung an die Oberfläche macht der einzige Aufrufer
+    // (setPrivateMessageOwner) – er muss sie ohnehin auch dann senden, wenn
+    // hier nichts zu laden war (Abmelden, Konto ohne Verlauf).
 }
 
 void LobbyHandler::persistPrivateMessage(const QString &playerName, const QVariantMap &entry)
 {
-    if (m_privateDbConn.isEmpty())
+    // Ohne bekannten Besitzer (noch nicht angemeldet) wird nichts gespeichert:
+    // der Verlauf ließe sich sonst keinem Konto zuordnen.
+    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
         return;
     QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
     query.prepare(QStringLiteral(
-        "INSERT INTO pm_message (partner, from_me, text, ts) "
-        "VALUES (:partner, :fromMe, :text, :ts)"));
+        "INSERT INTO pm_message (owner, partner, from_me, text, ts) "
+        "VALUES (:owner, :partner, :fromMe, :text, :ts)"));
+    query.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
     query.bindValue(QStringLiteral(":partner"), playerName);
     query.bindValue(QStringLiteral(":fromMe"), entry.value(QStringLiteral("fromMe")).toBool() ? 1 : 0);
     query.bindValue(QStringLiteral(":text"), entry.value(QStringLiteral("text")).toString());
@@ -1944,17 +2040,18 @@ void LobbyHandler::persistPrivateMessage(const QString &playerName, const QVaria
 
 void LobbyHandler::persistPrivateThreadMeta(const QString &playerName)
 {
-    if (m_privateDbConn.isEmpty())
+    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
         return;
     const auto it = m_privateThreads.constFind(playerName);
     if (it == m_privateThreads.constEnd())
         return;
     QSqlQuery query(QSqlDatabase::database(m_privateDbConn, false));
-    // INSERT OR REPLACE statt UPSERT: die Tabelle besteht nur aus diesen drei
+    // INSERT OR REPLACE statt UPSERT: die Tabelle besteht nur aus diesen vier
     // Spalten, und ein Platzhalter darf so je genau einmal vorkommen.
     query.prepare(QStringLiteral(
-        "INSERT OR REPLACE INTO pm_thread (partner, unread, last_activity) "
-        "VALUES (:partner, :unread, :last)"));
+        "INSERT OR REPLACE INTO pm_thread (owner, partner, unread, last_activity) "
+        "VALUES (:owner, :partner, :unread, :last)"));
+    query.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
     query.bindValue(QStringLiteral(":partner"), playerName);
     query.bindValue(QStringLiteral(":unread"), it->unread);
     query.bindValue(QStringLiteral(":last"), it->lastActivity);
@@ -1964,15 +2061,19 @@ void LobbyHandler::persistPrivateThreadMeta(const QString &playerName)
 
 void LobbyHandler::persistDeletePrivateThread(const QString &playerName)
 {
-    if (m_privateDbConn.isEmpty())
+    if (m_privateDbConn.isEmpty() || m_privateMessagesOwner.isEmpty())
         return;
     QSqlDatabase db = QSqlDatabase::database(m_privateDbConn, false);
     QSqlQuery messageQuery(db);
-    messageQuery.prepare(QStringLiteral("DELETE FROM pm_message WHERE partner = :partner"));
+    messageQuery.prepare(QStringLiteral(
+        "DELETE FROM pm_message WHERE owner = :owner AND partner = :partner"));
+    messageQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
     messageQuery.bindValue(QStringLiteral(":partner"), playerName);
     messageQuery.exec();
     QSqlQuery threadQuery(db);
-    threadQuery.prepare(QStringLiteral("DELETE FROM pm_thread WHERE partner = :partner"));
+    threadQuery.prepare(QStringLiteral(
+        "DELETE FROM pm_thread WHERE owner = :owner AND partner = :partner"));
+    threadQuery.bindValue(QStringLiteral(":owner"), m_privateMessagesOwner);
     threadQuery.bindValue(QStringLiteral(":partner"), playerName);
     threadQuery.exec();
 }

@@ -481,6 +481,12 @@ private:
     // config.xml (privatemessages.sqlite). Eigene Datenbank, damit lange
     // Unterhaltungen weder die Einstellungen noch die Spiel-Logs berühren.
     void openPrivateMessageDb();
+    // Wechselt den Besitzer des Posteingangs (eigener Nick). Der Verlauf ist
+    // pro Konto getrennt: nach einem Login mit einem anderen Benutzer darf
+    // weder dessen Verlauf sichtbar sein noch fortgeschrieben werden. Leerer
+    // Name = niemand angemeldet (Posteingang leer, es wird nichts gespeichert).
+    void setPrivateMessageOwner(const QString &owner);
+    // Liest den Verlauf des aktuellen Besitzers aus der Datenbank ein.
     void loadPrivateMessages();
     void persistPrivateMessage(const QString &playerName, const QVariantMap &entry);
     void persistPrivateThreadMeta(const QString &playerName);
@@ -518,6 +524,9 @@ private:
     // Verbindungsname der PM-Datenbank; leer = keine Datenbank (dann lebt der
     // Verlauf nur bis zum Beenden).
     QString m_privateDbConn;
+    // Konto, dem der geladene Posteingang gehört (eigener Nick). Leer, solange
+    // niemand angemeldet ist – dann bleibt der Verlauf leer.
+    QString m_privateMessagesOwner;
     // Formatierter Lobby-Chat-Verlauf (HTML-Zeilen). Die Textfarben stehen darin
     // NUR als Rollen-Platzhalter (chatcolors.h) und werden erst in chatLog()
     // zum aktuellen Hell/Dunkel-Modus aufgelöst.
