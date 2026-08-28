@@ -32,8 +32,17 @@ Item {
     readonly property bool betInset: Config.SeatStyle.betInset
     readonly property int betStripH: Config.SeatStyle.betStripExtra
 
+    // Höhe des Box-KÖRPERS (ohne Sockel). `height` ist die am Tisch permanent
+    // RESERVIERTE Höhe inklusive Sockel: der Körper sitzt oben im reservierten
+    // Bereich, der Sockel klappt nach unten in den freigehaltenen Rest auf.
+    // Dadurch wächst die Box nur, wenn wirklich ein Einsatz steht – ohne dass
+    // Nachbarboxen oder die Tisch-Skalierung sich bewegen.
+    readonly property int bodyH: height - betStripH
+    // Sockel nur bei tatsächlichem Einsatz aufklappen.
+    readonly property bool stripOpen: betInset && root.bet > 0
+
     // Dynamische Breite: 2×hMargin(4) + AvatarCardRow.implicitWidth(avatarH+4+2·cardW+4)
-    readonly property int _topRowH: height - (wideLayout ? 44 : 28) - betStripH
+    readonly property int _topRowH: bodyH - (wideLayout ? 44 : 28)
     readonly property int _cardW:   Math.round(_topRowH * 120 / 168)
     implicitWidth: 2 * 4 + _topRowH + 4 + 2 * _cardW + 4
     implicitHeight: 84 + betStripH
@@ -139,7 +148,7 @@ Item {
     // Sockelhöhe herausrechnen: sonst würde eine Portrait-Box (71 + Sockel)
     // fälschlich über die 76er-Schwelle rutschen und den 2-zeiligen
     // Landscape-Footer bekommen.
-    readonly property bool wideLayout: (height - betStripH) >= 76
+    readonly property bool wideLayout: bodyH >= 76
 
     // Nur anzeigen wenn der Sitz besetzt ist
     visible: root.seatData !== null && root.seatData.name !== ""
@@ -154,7 +163,12 @@ Item {
     // ── Hauptbox ────────────────────────────────────────────────────────────────
     Rectangle {
         id: playerBox
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        // Körper + (aufgeklappter) Sockel. Der Rest der reservierten Höhe
+        // bleibt leer, solange der Spieler nichts gesetzt hat.
+        height: root.bodyH + betStrip.height
         color: "transparent"
         property int hMargin: 4
 
@@ -177,8 +191,7 @@ Item {
             id: cardRow
             x: playerBox.hMargin
             y: 4
-            height: (root.wideLayout ? (parent.height - 44) : (parent.height - 28))
-                    - root.betStripH
+            height: root.wideLayout ? (root.bodyH - 44) : (root.bodyH - 28)
 
             cardRenderScale: root.cardRenderScale
             card0: root.card0
@@ -196,7 +209,7 @@ Item {
             width: parent.width - 2 * playerBox.hMargin
             height: 15
             x: playerBox.hMargin
-            y: parent.height - height - 4 - root.betStripH
+            y: root.bodyH - height - 4
 
             AppText {
                 width: parent.width / 2
@@ -226,7 +239,7 @@ Item {
             width: parent.width - 2 * playerBox.hMargin
             height: 36
             x: playerBox.hMargin
-            y: parent.height - height - 4 - root.betStripH
+            y: root.bodyH - height - 4
 
             AppText {
                 anchors.left: parent.left
@@ -268,21 +281,23 @@ Item {
         // Einsatz-Sockel am unteren Boxrand (Sitz-Stil "inset"). 1 px innerhalb
         // des Rahmens von PlayerBoxBackground, damit dessen Rand sichtbar bleibt.
         PlayerBetStrip {
-            visible: root.betInset
+            id: betStrip
+            open: root.stripOpen
             amount: root.bet
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            anchors.margins: 1
         }
-    }
 
-    // Winner-Hervorhebung: goldener Rahmen (verdeckt die Karten NICHT) +
-    // „WINNER"-Badge. Badge standardmäßig über der Box; nur die oberste Box
-    // (winnerBelow) zeigt es unterhalb, sonst stieße es am Bildschirmrand an.
-    PlayerWinnerOverlay {
-        active: root.isWinner
-        below: root.winnerBelow
+        // Winner-Hervorhebung: goldener Rahmen (verdeckt die Karten NICHT) +
+        // „WINNER"-Badge. Badge standardmäßig über der Box; nur die oberste Box
+        // (winnerBelow) zeigt es unterhalb, sonst stieße es am Bildschirmrand an.
+        // Kind von playerBox (nicht von root): der Rahmen soll den KÖRPER
+        // umschließen, nicht die darunter reservierte, leere Sockelhöhe.
+        PlayerWinnerOverlay {
+            active: root.isWinner
+            below: root.winnerBelow
+        }
     }
 
     // Aktions-Anzeige (Fold/Check/Call/Bet/Raise/All-In) – zentriert über den
@@ -380,7 +395,9 @@ Item {
     // darunterliegenden Elemente durch. Erscheint nur, wenn der Sitz einen
     // echten Online-Mitspieler trägt (hasContextActions).
     MouseArea {
-        anchors.fill: parent
+        // Nur über dem Boxkörper – die darunter reservierte Sockelhöhe ist
+        // leerer Tisch, dort darf kein Kontextmenü aufgehen.
+        anchors.fill: playerBox
         z: 30
         enabled: root.hasContextActions
         acceptedButtons: Qt.RightButton

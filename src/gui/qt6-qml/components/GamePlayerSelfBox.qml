@@ -90,6 +90,17 @@ Rectangle {
     // betStrip.top exakt auf parent.bottom liegt und der Info-Bereich darüber
     // unverändert sitzt.
     readonly property bool betInset: Config.SeatStyle.betInset
+    // Horizontale Abstände einheitlich: linker Außenrand = Abstand Avatar↔Karten
+    // = rechter Außenrand = hMargin. Gleiches Maß (4) wie bei den Gegnerboxen
+    // (GamePlayerBox.hMargin), damit Außenränder visuell konsistent sind.
+    readonly property int hMargin: 4
+    // Vertikale Abstände einheitlich: oberer Außenrand = Abstand Karten↔Text
+    // = unterer Außenrand = vMargin.
+    readonly property int vMargin: 4
+
+    // Höhe des Box-KÖRPERS (ohne Sockel) und Aufklapp-Zustand – s. bodyBox.
+    readonly property int bodyH: height - Config.SeatStyle.betStripExtra
+    readonly property bool stripOpen: betInset && root.bet > 0
 
     color: "transparent"
 
@@ -103,168 +114,183 @@ Rectangle {
     transformOrigin: Item.Center
     Behavior on scale { NumberAnimation { duration: 180; easing.type: Easing.OutQuad } }
 
-    // Hintergrund mit dezentem Verlauf + weichem Schlagschatten → angehobene Karte.
-    PlayerBoxBackground {}
-
-    // Highlight: gold Rahmen + weicher Glow wenn ich am Zug bin (Rahmen etwas
-    // kräftiger als bei den Gegnerboxen).
-    PlayerTurnGlow {
-        active: root.isAtTurn
-        borderWidth: 2
-    }
-
-    // ── Karten – zentriert über der Infozeile ────────────────────────────────
-    // Horizontale Abstände einheitlich: linker Außenrand = Abstand Avatar↔Karten
-    // = rechter Außenrand = hMargin. Gleiches Maß (4) wie bei den Gegnerboxen
-    // (GamePlayerBox.hMargin), damit Außenränder visuell konsistent sind.
-    readonly property int hMargin: 4
-    // Vertikale Abstände einheitlich: oberer Außenrand = Abstand Karten↔Text
-    // = unterer Außenrand = vMargin.
-    readonly property int vMargin: 4
-
+    // ── Boxkörper (ohne den Einsatz-Sockel) ──────────────────────────────────
+    // `root.height` ist die am Tisch permanent RESERVIERTE Höhe inklusive
+    // Sockel. Der Körper sitzt oben darin, der Sockel klappt nach unten in den
+    // freigehaltenen Rest auf. So wächst die Box nur bei tatsächlichem Einsatz,
+    // ohne dass sich Tisch-Skalierung oder Nachbarboxen bewegen.
     Item {
-        id: cardsArea
+        id: bodyBox
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.top: parent.top
-        anchors.topMargin: root.vMargin
-        anchors.bottom: bottomBar.top
-        anchors.bottomMargin: root.vMargin
-        anchors.left: parent.left
-        anchors.leftMargin: root.hMargin
-        anchors.right: parent.right
-        anchors.rightMargin: root.hMargin
+        height: root.bodyH + betStrip.height
 
-        AvatarCardRow {
-            id: cardRow
-            anchors.centerIn: parent
-            height: parent.height
-            maxAvatarSize: root.maxAvatarSize
-            cardRenderScale: root.cardRenderScale
-            card0: root.card0
-            card1: root.card1
-            fade0: root.fade0
-            fade1: root.fade1
-            antiPeek: root.antiPeek
-            showNetworkStatus: root.showPingState && root.pingState > 0
-            networkStatusColor: root.pingColor
-            networkPingAvg: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingAvg : -1
-            networkPingMin: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingMin : -1
-            networkPingMax: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingMax : -1
-            avatarSource: root.avatarSource
-            folded: root.folded
-            playerActive: root.playerActive
-        }
-    }
+        // Hintergrund mit dezentem Verlauf + weichem Schlagschatten → angehobene Karte.
+        PlayerBoxBackground {}
 
-    // Klick auf „Karten zeigen" → eigene Hole-Cards umdrehen als Bestätigung,
-    // dass man wirklich zeigt (analog Widget-Client: showHoleCards → Flip).
-    Connections {
-        target: (typeof GameTable !== "undefined") ? GameTable : null
-        function onMyCardsShown() { cardRow.playShowFlip() }
-    }
-
-    // ── Name + Stack – unterer Info-Bereich ─────────────────────────────────────
-    // Portrait: 1-zeilig (Name links, Stack rechts), Landscape: 2-zeilig wie
-    // Gegnerbox (Name oben, Stack rechts unten). Höhe 18 → 32 im Landscape.
-    Item {
-        id: bottomBar
-        anchors.bottom: betStrip.top
-        anchors.bottomMargin: root.vMargin
-        anchors.left: parent.left
-        anchors.leftMargin: root.hMargin
-        anchors.right: parent.right
-        anchors.rightMargin: root.hMargin
-        height: root.twoLineInfo ? 32 : 18
-
-        // Portrait: 1-zeilig
-        Row {
-            visible: !root.twoLineInfo
-            width: parent.width
-            height: parent.height
-            spacing: 5
-
-            AppText {
-                width: (parent.width - parent.spacing) / 2
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Text.AlignLeft
-                color: "#eff1f5"
-                font.pixelSize: 15
-                font.weight: Font.DemiBold
-                font.letterSpacing: 0.3
-                elide: Text.ElideRight
-                text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
-            }
-
-            AppText {
-                width: (parent.width - parent.spacing) / 2
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: Text.AlignRight
-                color: Config.Theme.colorAccent
-                font.pixelSize: 15
-                font.bold: true
-                text: root.selfData ? "$" + root.selfData.stack : "$0"
-            }
+        // Highlight: gold Rahmen + weicher Glow wenn ich am Zug bin (Rahmen etwas
+        // kräftiger als bei den Gegnerboxen).
+        PlayerTurnGlow {
+            active: root.isAtTurn
+            borderWidth: 2
         }
 
-        // Landscape: 2-zeilig (identisch zur Gegnerbox im wideLayout)
+        // ── Karten – zentriert über der Infozeile ────────────────────────────────
         Item {
-            visible: root.twoLineInfo
-            width: parent.width
-            height: parent.height
+            id: cardsArea
+            anchors.top: parent.top
+            anchors.topMargin: root.vMargin
+            anchors.bottom: bottomBar.top
+            anchors.bottomMargin: root.vMargin
+            anchors.left: parent.left
+            anchors.leftMargin: root.hMargin
+            anchors.right: parent.right
+            anchors.rightMargin: root.hMargin
 
-            AppText {
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.right: parent.right
-                anchors.rightMargin: 2
-                height: 16
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                color: "#eff1f5"
-                font.pixelSize: 15
-                font.weight: Font.DemiBold
-                font.letterSpacing: 0.3
-                elide: Text.ElideRight
-                text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
+            AvatarCardRow {
+                id: cardRow
+                anchors.centerIn: parent
+                height: parent.height
+                maxAvatarSize: root.maxAvatarSize
+                cardRenderScale: root.cardRenderScale
+                card0: root.card0
+                card1: root.card1
+                fade0: root.fade0
+                fade1: root.fade1
+                antiPeek: root.antiPeek
+                showNetworkStatus: root.showPingState && root.pingState > 0
+                networkStatusColor: root.pingColor
+                networkPingAvg: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingAvg : -1
+                networkPingMin: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingMin : -1
+                networkPingMax: (typeof GameTable !== "undefined" && GameTable) ? GameTable.pingMax : -1
+                avatarSource: root.avatarSource
+                folded: root.folded
+                playerActive: root.playerActive
+            }
+        }
+
+        // Klick auf „Karten zeigen" → eigene Hole-Cards umdrehen als Bestätigung,
+        // dass man wirklich zeigt (analog Widget-Client: showHoleCards → Flip).
+        Connections {
+            target: (typeof GameTable !== "undefined") ? GameTable : null
+            function onMyCardsShown() { cardRow.playShowFlip() }
+        }
+
+        // ── Name + Stack – unterer Info-Bereich ─────────────────────────────────────
+        // Portrait: 1-zeilig (Name links, Stack rechts), Landscape: 2-zeilig wie
+        // Gegnerbox (Name oben, Stack rechts unten). Höhe 18 → 32 im Landscape.
+        Item {
+            id: bottomBar
+            anchors.bottom: betStrip.top
+            anchors.bottomMargin: root.vMargin
+            anchors.left: parent.left
+            anchors.leftMargin: root.hMargin
+            anchors.right: parent.right
+            anchors.rightMargin: root.hMargin
+            height: root.twoLineInfo ? 32 : 18
+
+            // Portrait: 1-zeilig
+            Row {
+                visible: !root.twoLineInfo
+                width: parent.width
+                height: parent.height
+                spacing: 5
+
+                AppText {
+                    width: (parent.width - parent.spacing) / 2
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "#eff1f5"
+                    font.pixelSize: 15
+                    font.weight: Font.DemiBold
+                    font.letterSpacing: 0.3
+                    elide: Text.ElideRight
+                    text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
+                }
+
+                AppText {
+                    width: (parent.width - parent.spacing) / 2
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignRight
+                    color: Config.Theme.colorAccent
+                    font.pixelSize: 15
+                    font.bold: true
+                    text: root.selfData ? "$" + root.selfData.stack : "$0"
+                }
             }
 
-            Image {
-                visible: root.countryCode !== ""
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-                width: 22
-                height: 15
-                source: root.countryCode !== ""
-                    ? "qrc:/resources/cflags/" + root.countryCode + ".svg" : ""
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-            }
+            // Landscape: 2-zeilig (identisch zur Gegnerbox im wideLayout)
+            Item {
+                visible: root.twoLineInfo
+                width: parent.width
+                height: parent.height
 
-            AppText {
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                horizontalAlignment: Text.AlignRight
-                color: Config.Theme.colorAccent
-                font.pixelSize: 15
-                font.bold: true
-                text: root.selfData ? "$" + root.selfData.stack : "$0"
+                AppText {
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.rightMargin: 2
+                    height: 16
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                    color: "#eff1f5"
+                    font.pixelSize: 15
+                    font.weight: Font.DemiBold
+                    font.letterSpacing: 0.3
+                    elide: Text.ElideRight
+                    text: root.selfData && root.selfData.name !== "" ? root.selfData.name : qsTr("Du")
+                }
+
+                Image {
+                    visible: root.countryCode !== ""
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
+                    width: 22
+                    height: 15
+                    source: root.countryCode !== ""
+                        ? "qrc:/resources/cflags/" + root.countryCode + ".svg" : ""
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                }
+
+                AppText {
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    horizontalAlignment: Text.AlignRight
+                    color: Config.Theme.colorAccent
+                    font.pixelSize: 15
+                    font.bold: true
+                    text: root.selfData ? "$" + root.selfData.stack : "$0"
+                }
             }
+        }
+
+        // Einsatz-Sockel am unteren Boxrand (Sitz-Stil "inset"). Klappt nur auf,
+        // solange wirklich ein Einsatz steht; im Stil "classic" bleibt er dauerhaft
+        // 0 px hoch – dann liegt sein oberer Rand auf bodyBox.bottom und der
+        // Info-Bereich darüber sitzt exakt wie zuvor.
+        PlayerBetStrip {
+            id: betStrip
+            open: root.stripOpen
+            amount: root.bet
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+        }
+
+        // Winner-Hervorhebung: goldener Rahmen + „WINNER"-Badge über der Box.
+        // Kind von bodyBox: der Rahmen soll den KÖRPER umschließen, nicht die
+        // darunter reservierte, leere Sockelhöhe.
+        PlayerWinnerOverlay {
+            active: root.isWinner
+            gap: 3
+            badgeHeight: 18
+            badgeFontSize: 10
+            hPadding: 14
         }
     }
 
-    // Einsatz-Sockel am unteren Boxrand (Sitz-Stil "inset"). 1 px innerhalb des
-    // Rahmens von PlayerBoxBackground, damit dessen Rand sichtbar bleibt. Im
-    // Stil "classic" bleibt er unsichtbar und 0 px hoch – dann liegt sein
-    // oberer Rand auf parent.bottom und der Info-Bereich sitzt wie zuvor.
-    PlayerBetStrip {
-        id: betStrip
-        visible: root.betInset
-        amount: root.bet
-        height: visible ? Math.max(0, Config.SeatStyle.betStripHeight - 1) : 0
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.margins: visible ? 1 : 0
-    }
 
     // ── Strip OBERHALB der Box: Action-Indikator (Badge bzw. Timeout-Balken)
     //    rechtsbündig, Einsatz links davon. So werden die eigenen Hole-Cards
@@ -334,14 +360,5 @@ Rectangle {
         anchors.leftMargin: 6
         anchors.top: parent.top
         z: 25
-    }
-
-    // Winner-Hervorhebung: goldener Rahmen + „WINNER"-Badge über der Box.
-    PlayerWinnerOverlay {
-        active: root.isWinner
-        gap: 3
-        badgeHeight: 18
-        badgeFontSize: 10
-        hPadding: 14
     }
 }

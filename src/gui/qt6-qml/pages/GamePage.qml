@@ -1409,10 +1409,14 @@ Rectangle {
                 } else if (wide) {
                     nudge = 0
                 } else {
+                    // "TC": halbe Sockelhöhe nach unten (s. seatNudge im
+                    // Repeater-Delegate) – sonst schwebte die Emoji-Reaktion
+                    // über der Position, an der die Box OHNE Sockel säße.
                     nudge = (name === "L_lower" || name === "L_bottom"
                              || name === "R_lower" || name === "R_bottom") ? 14
                           : (name === "L_upper" || name === "TL"
                              || name === "R_upper" || name === "TR") ? -4
+                          : (name === "TC") ? betStripH * oppScale / 2
                           : 0
                 }
                 return { x: pos[0], y: pos[1], nudge: nudge, nudgeX: nudgeX }
@@ -1629,6 +1633,25 @@ Rectangle {
                         if (tableZone.wide)
                             return flankWide
                                 ? tableZone.oppBaseHeight * tableZone.boxScale * 0.6 : 0
+                        // Sitz-Stil "inset": der Einsatz-Sockel macht die Box
+                        // höher, und da sie um ihre Slot-Mitte zentriert ist,
+                        // wüchse die halbe Zusatzhöhe nach OBEN. Im Querformat
+                        // ist das unkritisch (topY in buildLandscapeSlots leitet
+                        // sich aus visualH ab, die Oberkante bleibt bei 12 px) –
+                        // im Hochformat sind die Slots dagegen statisch, und die
+                        // oberste Mitte-Box klebt mit y=0.075 dicht unter der
+                        // Status-Leiste. Sie um die halbe (skalierte) Sockelhöhe
+                        // nach unten setzen: der Sockel wächst dann
+                        // ausschließlich nach unten und die Oberkante liegt exakt
+                        // dort, wo sie im Stil "classic" liegt.
+                        //
+                        // Nötig, weil die feasibility-Probe der Bisektion
+                        // (visualH > 2*(0.075*height - 4)) am Skalen-Boden 0.55
+                        // nicht mehr greifen kann: ohne diesen Versatz ragte die
+                        // Box ab einer tableZone-Höhe < 387 px in die Leiste
+                        // (mit Sockel), statt wie bisher erst < 314 px.
+                        if (slotName === "TC")
+                            return tableZone.betStripH * tableZone.oppScale / 2
                         if (slotName === "L_lower" || slotName === "L_bottom"
                             || slotName === "R_lower" || slotName === "R_bottom") return 14
                         if (slotName === "L_upper" || slotName === "TL"
