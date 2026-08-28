@@ -18,8 +18,10 @@ Rectangle {
 
     readonly property var pages: Config.ReactionCatalog.pages
     readonly property int columns: 6
-    readonly property int cell: 36
-    readonly property int cellSpacing: 3
+    // Maße wie im Chat-Emoji-Picker (EmojiPicker.qml): Raster 38, Fläche 34,
+    // Glyphe 24.
+    readonly property int cell: 34
+    readonly property int cellSpacing: 4
     readonly property int rows: Math.ceil(30 / columns)
 
     // Aktuelle Seite; wird in der Konfiguration gemerkt (Web-Client:
@@ -151,7 +153,7 @@ Rectangle {
                                     anchors.centerIn: parent
                                     text: reactCell.modelData
                                     font.family: Config.StaticData.emojiFamily
-                                    font.pixelSize: 19
+                                    font.pixelSize: 24
                                 }
                                 MouseArea {
                                     id: reactArea
