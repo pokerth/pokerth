@@ -76,6 +76,7 @@
         <file>config/Community.qml</file>
         <file>config/ForumNews.qml</file>
         <file>config/Parameters.qml</file>
+        <file>config/ReactionCatalog.qml</file>
         <file>config/Responsive.qml</file>
         <file>config/StaticData.qml</file>
         <file>config/Theme.qml</file>

@@ -21,11 +21,16 @@ public:
 	                     const QStringList &emojis = QStringList(),
 	                     int columns = 10);
 
+	// Reaktions-Picker: die 90 Schnell-Reaktionen auf drei Seiten, dazu ein
+	// Pager ‹ N/3 › im Kopf (identisch zu QML-/Web-Client). startPage ist die
+	// zuletzt benutzte Seite, pageChanged meldet jeden Seitenwechsel.
+	static EmojiPicker *createReactionPicker(QWidget *parent, int startPage);
+
 	// Popup unterhalb (bzw. oberhalb, falls kein Platz) des Ankers anzeigen.
 	void showAt(QWidget *anchor);
 
-	// Die 30 Schnell-Reaktionen (identisch zu QML-/Web-Client).
-	static QStringList reactionEmojis();
+	// Die 90 Schnell-Reaktionen, drei Seiten à 30 (identisch zu QML-/Web-Client).
+	static QList<QStringList> reactionEmojiPages();
 	// Umfangreiche Standard-Auswahl für den Chat.
 	static QStringList defaultEmojis();
 	// Emoji als Icon rendern (für QLineEdit-Actions/Buttons).
@@ -42,9 +47,24 @@ public:
 
 signals:
 	void picked(const QString &emoji);
+	void pageChanged(int page);
 
 private:
+	// Konstruktor des mehrseitigen Reaktions-Pickers (siehe
+	// createReactionPicker).
+	EmojiPicker(QWidget *parent, const QList<QStringList> &pages,
+	            int columns, int startPage);
+
 	void buildGrid(const QStringList &emojis, int columns);
+	// Mehrseitiges Raster mit Pager im Kopf (Reaktions-Picker).
+	void buildPages(const QList<QStringList> &pages, int columns, int startPage);
+	QWidget *buildGridWidget(const QStringList &emojis, int columns, QWidget *parent);
+	void setCurrentPage(int page);
+
+	QStackedWidget *myPageStack = nullptr;
+	QLabel *myPageIcon = nullptr;
+	QLabel *myPageIndicator = nullptr;
+	int myCurrentPage = 0;
 };
 
 #endif // EMOJIPICKER_H

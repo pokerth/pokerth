@@ -407,6 +407,8 @@ private:
 	void playReactionAnimation(int seatId, const QString &emoji);
 	// Reaktions-Button oben links auf dem Spieltisch positionieren (Android).
 	void repositionReactionButton();
+	// Reaktions-Picker (drei Seiten à 30 Emojis) beim ersten Öffnen anlegen.
+	void ensureReactionPicker(QWidget *anchorParent);
 	// Reaktions-Bedienelemente (Picker-Auslöser) gemäß Einstellung
 	// "DisableEmojiReactions" ein-/ausblenden.
 	void updateReactionControlsVisibility();

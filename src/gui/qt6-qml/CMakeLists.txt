@@ -192,6 +192,7 @@ set(QML_FILES
     config/Community.qml
     config/ForumNews.qml
     config/Parameters.qml
+    config/ReactionCatalog.qml
     config/Responsive.qml
     config/StaticData.qml
     config/Theme.qml)
