@@ -2,14 +2,18 @@
  * PokerTH - The open source texas holdem engine                             *
  *                                                                           *
  * Overlay für die Emoji-Reaktions-Choreografie am Spieltisch – 1:1-Port     *
- * der QML-Komponente GameReactionFx: ein großes Emoji poppt am Sitz auf,    *
- * steigt mit Pendeln/Wackeln/Drehung auf und verblasst; dazu ein            *
- * Partikel-Burst (Funken/Konfetti/Tropfen/Münzen … je nach Emoji).          *
+ * der QML-Komponente GameReactionFx: ein großes Emoji erscheint am Sitz,    *
+ * spielt eine von 15 Choreografien (Aufstieg, Wackeln, Drehen, Fallen …)   *
+ * und verblasst; dazu ein Partikel-Burst (Funken/Konfetti/Tropfen/Münzen …  *
+ * je nach Emoji) und – bei 🤯/💣 & Co. – Druckwellen-Ringe.                 *
  *****************************************************************************/
 #ifndef REACTIONFX_H
 #define REACTIONFX_H
 
 #include <QtWidgets>
+
+// Keyframe-Tabelle einer Choreografie (Definition in reactionfx.cpp).
+struct ReactionAnim;
 
 class ReactionFxOverlay : public QWidget
 {
@@ -25,23 +29,33 @@ protected:
 
 private:
 	struct Particle {
-		QPixmap pm;            // gerendertes Partikelzeichen; leer = Konfetti
+		QPixmap pm;            // gerendertes Partikelzeichen (nur kind 0)
 		QColor color;
+		int kind = 0;          // 0 = Zeichen, 1 = farbiger Punkt, 2 = Konfetti
 		qreal w = 0, h = 0;    // Konfetti-Maße
-		int size = 14;         // Zielgröße (px)
+		qreal size = 14;       // Zielgröße (px)
 		qreal dx = 0, dy = 0;  // Ziel-Versatz
 		qreal g = 0;           // zusätzlicher Fall am Ende
 		qreal rot = 0;         // End-Rotation
 		int life = 1000;       // Lebensdauer ms
+		int delay = 0;         // Startverzögerung ms (Preset "boom")
+	};
+	struct Ring {
+		int delay = 0;         // Startverzögerung ms
+		int dur = 800;
+		QColor color;
+		qreal width = 3;
+		qreal to = 4;          // End-Skalierung (Startgröße 30 px, Skalierung 0.3)
 	};
 	struct Burst {
 		QString emoji;
 		QPixmap emojiPm;       // großes Emoji, vorgerendert (2× für Schärfe)
-		int anim = 0;          // 0 = pop, 1 = shake, 2 = spin
-		bool ring = false;     // Druckwellen-Ring (🤯)
+		const ReactionAnim *anim = nullptr;
 		QPoint anchor;
 		qint64 start = 0;
+		int life = 2000;       // Gesamtdauer inkl. Partikel und Ringe
 		QVector<Particle> particles;
+		QVector<Ring> rings;
 	};
 
 	void buildBurst(Burst &burst);

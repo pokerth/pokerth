@@ -599,10 +599,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	repositionReactionButton();
 	myReactionButton->show();
 	connect(myReactionButton, &QToolButton::clicked, this, [this]() {
-		if (!myReactionPicker) {
-			myReactionPicker = new EmojiPicker(this, EmojiPicker::reactionEmojis(), 6);
-			connect(myReactionPicker, &EmojiPicker::picked, this, &gameTableImpl::sendEmojiReaction);
-		}
+		ensureReactionPicker(this);
 		myReactionPicker->showAt(myReactionButton);
 	});
 #else
@@ -618,10 +615,7 @@ gameTableImpl::gameTableImpl(ConfigFile *c, QMainWindow *parent)
 	                                               QLineEdit::TrailingPosition);
 	myReactionAction->setToolTip(tr("Send reaction"));
 	connect(myReactionAction, &QAction::triggered, this, [this, reactionLineEdit]() {
-		if (!myReactionPicker) {
-			myReactionPicker = new EmojiPicker(reactionLineEdit, EmojiPicker::reactionEmojis(), 6);
-			connect(myReactionPicker, &EmojiPicker::picked, this, &gameTableImpl::sendEmojiReaction);
-		}
+		ensureReactionPicker(reactionLineEdit);
 		myReactionPicker->showAt(reactionLineEdit);
 	});
 #endif
@@ -5115,6 +5109,21 @@ void gameTableImpl::repositionReactionButton()
 		myReactionButton->move(6, 6);
 		myReactionButton->raise();
 	}
+}
+
+// Reaktions-Picker beim ersten Öffnen anlegen: 90 Emojis auf drei Seiten,
+// beginnend bei der zuletzt benutzten (wie im QML- und im Web-Client).
+void gameTableImpl::ensureReactionPicker(QWidget *anchorParent)
+{
+	if (myReactionPicker)
+		return;
+	myReactionPicker = EmojiPicker::createReactionPicker(
+		anchorParent, myConfig->readConfigInt("ReactionPickerPage"));
+	connect(myReactionPicker, &EmojiPicker::picked, this, &gameTableImpl::sendEmojiReaction);
+	connect(myReactionPicker, &EmojiPicker::pageChanged, this, [this](int page) {
+		myConfig->writeConfigInt("ReactionPickerPage", page);
+		myConfig->writeBuffer();
+	});
 }
 
 void gameTableImpl::updateReactionControlsVisibility()

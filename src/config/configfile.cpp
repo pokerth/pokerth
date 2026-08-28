@@ -260,6 +260,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("AccidentallyCallBlocker", CONFIG_TYPE_INT, "1"));
 	configList.push_back(ConfigInfo("DontHideAvatarsOfIgnored", CONFIG_TYPE_INT, "0"));
 	configList.push_back(ConfigInfo("DisableEmojiReactions", CONFIG_TYPE_INT, "0"));
+	// Zuletzt benutzte Seite des Reaktions-Pickers (0..2, drei Themenseiten).
+	configList.push_back(ConfigInfo("ReactionPickerPage", CONFIG_TYPE_INT, "0"));
 	// Chat-Übersetzung anbieten (Globus-Symbol neben eingehenden Nachrichten).
 	// Standardmäßig aktiv; es verlässt nichts den Client, bis der Nutzer das
 	// Symbol einer konkreten Zeile antippt (siehe ChatTranslator /

@@ -2196,8 +2196,8 @@ Rectangle {
                 onClicked: tableZone.showReactions = !tableZone.showReactions
             }
 
-            // Panel mit den Reaktions-Emojis (Grid, 6 Spalten – wie der
-            // Reaction-Picker des Web-Clients, dort 30 Emojis).
+            // Panel mit den Reaktions-Emojis (drei Seiten à 30, 6 Spalten –
+            // wie der Reaction-Picker des Web-Clients).
             ReactionPicker {
                 visible: tableZone.showReactions && gamePage.emojiReactionsEnabled
                 z: 210

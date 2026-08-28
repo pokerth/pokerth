@@ -20,6 +20,22 @@ EmojiPicker::EmojiPicker(QWidget *parent, const QStringList &emojis, int columns
 	buildGrid(emojis.isEmpty() ? defaultEmojis() : emojis, columns);
 }
 
+EmojiPicker::EmojiPicker(QWidget *parent, const QList<QStringList> &pages,
+                         int columns, int startPage)
+	: QWidget(parent, Qt::Popup)
+{
+	setAttribute(Qt::WA_DeleteOnClose, false);
+#ifdef Q_OS_ANDROID
+	setFocusPolicy(Qt::NoFocus);
+#endif
+	buildPages(pages, columns, startPage);
+}
+
+EmojiPicker *EmojiPicker::createReactionPicker(QWidget *parent, int startPage)
+{
+	return new EmojiPicker(parent, reactionEmojiPages(), 6, startPage);
+}
+
 void EmojiPicker::buildGrid(const QStringList &emojis, int columns)
 {
 	QVBoxLayout *outer = new QVBoxLayout(this);
@@ -29,8 +45,19 @@ void EmojiPicker::buildGrid(const QStringList &emojis, int columns)
 	scroll->setWidgetResizable(true);
 	scroll->setFrameShape(QFrame::NoFrame);
 	scroll->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	scroll->setWidget(buildGridWidget(emojis, columns, scroll));
+	outer->addWidget(scroll);
 
-	QWidget *grid = new QWidget(scroll);
+	const int cell = 48;
+	const int gridW = columns * cell + 24;
+	const int rows = (emojis.size() + columns - 1) / columns;
+	const int gridH = qMin(rows * cell + 12, 5 * cell + 12);
+	setFixedSize(gridW, gridH);
+}
+
+QWidget *EmojiPicker::buildGridWidget(const QStringList &emojis, int columns, QWidget *parent)
+{
+	QWidget *grid = new QWidget(parent);
 	QGridLayout *gl = new QGridLayout(grid);
 	gl->setContentsMargins(0, 0, 0, 0);
 	gl->setSpacing(2);
@@ -60,15 +87,80 @@ void EmojiPicker::buildGrid(const QStringList &emojis, int columns)
 			++row;
 		}
 	}
+	return grid;
+}
 
-	scroll->setWidget(grid);
-	outer->addWidget(scroll);
+// Mehrseitiges Raster mit kompaktem Pager ‹ 😀 1/3 › im Kopf – wie der
+// Reaktions-Picker des Web-Clients; die Pfeile laufen um.
+void EmojiPicker::buildPages(const QList<QStringList> &pages, int columns, int startPage)
+{
+	QVBoxLayout *outer = new QVBoxLayout(this);
+	outer->setContentsMargins(4, 4, 4, 4);
+	outer->setSpacing(4);
+
+	QHBoxLayout *pager = new QHBoxLayout();
+	pager->setContentsMargins(0, 0, 0, 0);
+	pager->setSpacing(6);
+	pager->addStretch();
+
+	QToolButton *prev = new QToolButton(this);
+	prev->setText(QString::fromUtf8("‹"));
+	prev->setAutoRaise(true);
+	prev->setFixedSize(22, 22);
+	prev->setFocusPolicy(Qt::NoFocus);
+	prev->setCursor(Qt::PointingHandCursor);
+	connect(prev, &QToolButton::clicked, this, [this]() { setCurrentPage(myCurrentPage - 1); });
+	pager->addWidget(prev);
+
+	myPageIcon = new QLabel(this);
+	pager->addWidget(myPageIcon);
+	myPageIndicator = new QLabel(this);
+	pager->addWidget(myPageIndicator);
+
+	QToolButton *next = new QToolButton(this);
+	next->setText(QString::fromUtf8("›"));
+	next->setAutoRaise(true);
+	next->setFixedSize(22, 22);
+	next->setFocusPolicy(Qt::NoFocus);
+	next->setCursor(Qt::PointingHandCursor);
+	connect(next, &QToolButton::clicked, this, [this]() { setCurrentPage(myCurrentPage + 1); });
+	pager->addWidget(next);
+
+	pager->addStretch();
+	outer->addLayout(pager);
+
+	myPageStack = new QStackedWidget(this);
+	for (const QStringList &page : pages)
+		myPageStack->addWidget(buildGridWidget(page, columns, myPageStack));
+	outer->addWidget(myPageStack);
 
 	const int cell = 48;
-	const int gridW = columns * cell + 24;
-	const int rows = (emojis.size() + columns - 1) / columns;
-	const int gridH = qMin(rows * cell + 12, 5 * cell + 12);
-	setFixedSize(gridW, gridH);
+	int rows = 0;
+	for (const QStringList &page : pages)
+		rows = qMax(rows, (page.size() + columns - 1) / columns);
+	setFixedSize(columns * cell + 24, rows * cell + 12 + 30);
+
+	myCurrentPage = -1;
+	setCurrentPage(startPage);
+}
+
+void EmojiPicker::setCurrentPage(int page)
+{
+	if (!myPageStack || myPageStack->count() == 0)
+		return;
+	const int count = myPageStack->count();
+	page = ((page % count) + count) % count;   // die Pfeile laufen um
+	if (page == myCurrentPage)
+		return;
+	myCurrentPage = page;
+	myPageStack->setCurrentIndex(page);
+	// Symbol der Seite (Emotionen / Stimmung & Gesten / Poker & Glück).
+	static const char *icons[] = {"😀", "👏", "♠️"};
+	if (myPageIcon && page < 3)
+		myPageIcon->setPixmap(emojiPixmap(QString::fromUtf8(icons[page]), 16));
+	if (myPageIndicator)
+		myPageIndicator->setText(QString("%1/%2").arg(page + 1).arg(count));
+	emit pageChanged(page);
 }
 
 void EmojiPicker::showAt(QWidget *anchor)
@@ -91,15 +183,35 @@ void EmojiPicker::showAt(QWidget *anchor)
 	show();
 }
 
-QStringList EmojiPicker::reactionEmojis()
+QList<QStringList> EmojiPicker::reactionEmojiPages()
 {
-	// Identisch zur Reaktions-Liste in QML- und Web-Client.
+	// Identisch zum Reaktions-Katalog in QML- und Web-Client:
+	// 90 Reaktionen auf drei thematischen Seiten.
 	return {
-		"🎉", "🥳", "👏", "🙌", "💪", "🤣",
-		"😂", "😬", "🤦", "😴", "👍", "😎",
-		"🤩", "👀", "🤔", "😱", "😡", "😤",
-		"🔥", "😮", "💰", "💎", "🎰", "🍀",
-		"🃏", "💀", "🤑", "🫵", "🫡", "🤫"
+		// Seite 1 – Emotionen
+		QStringList{
+			"😂", "🤣", "😅", "😭", "🥺", "😢",
+			"😏", "🙄", "😳", "🤪", "😇", "😍",
+			"🥰", "😘", "😬", "😴", "🤔", "👀",
+			"😮", "😱", "🤯", "😡", "😤", "🤢",
+			"🥴", "🙃", "🫣", "😐", "🥱", "🙈"
+		},
+		// Seite 2 – Stimmung & Gesten
+		QStringList{
+			"😎", "🤩", "🤡", "😈", "🫠", "🥶",
+			"🥵", "🎉", "🥳", "🍿", "👏", "🙌",
+			"💪", "👍", "👎", "🤝", "👊", "🙏",
+			"🤞", "🫵", "🫡", "🤫", "🤦", "💤",
+			"⏳", "🍺", "☕", "💣", "🚀", "⚡"
+		},
+		// Seite 3 – Poker & Glück
+		QStringList{
+			"💰", "🤑", "💵", "💎", "🎰", "🍀",
+			"🃏", "♠️", "🎲", "🎯", "🏆", "🥇",
+			"💸", "🪤", "👑", "🔥", "💀", "🦈",
+			"🐟", "🐔", "🫏", "🎩", "🧊", "🌪️",
+			"🧨", "📈", "📉", "🔮", "💯", "⭐"
+		}
 	};
 }
 
