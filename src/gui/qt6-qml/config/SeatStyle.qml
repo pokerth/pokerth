@@ -25,9 +25,17 @@ QtObject {
     // windowWidth/darkMode ebenfalls spiegelt).
     readonly property bool isMobile: Qt.platform.os === "android" || Qt.platform.os === "ios"
 
-    // Aktiver Sitz-Stil. Mobile bleibt vorerst bei "classic" – dort ist der
-    // Platz um die Boxen knapp und das Layout eigens dafür austariert.
-    property string variant: isMobile ? "classic" : "inset"
+    // Vorgabe der Plattform, solange der Nutzer nichts anderes gewählt hat:
+    // Mobile bleibt bei "classic" – dort ist der Platz um die Boxen knapp und
+    // das Layout eigens dafür austariert.
+    readonly property string platformDefault: isMobile ? "classic" : "inset"
+
+    // Aktiver Sitz-Stil. Wird – wie Theme.darkMode/effectsEnabled – extern von
+    // der ApplicationWindow (Init aus dem Config-Key "QmlSeatStyle") und von
+    // den Stil-Einstellungen (Live-Umschaltung) gesetzt; ein Singleton kann die
+    // SettingsManager-Context-Property nicht selbst lesen. Leerer Config-Wert
+    // bedeutet "Vorgabe der Plattform" und lässt diesen Default stehen.
+    property string variant: platformDefault
 
     readonly property bool betInset: variant === "inset"
 

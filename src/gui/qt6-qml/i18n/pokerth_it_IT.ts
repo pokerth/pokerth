@@ -732,7 +732,7 @@
 <context>
     <name>GamePage</name>
     <message>
-        <location filename="../pages/GamePage.qml" line="+2092"/>
+        <location filename="../pages/GamePage.qml" line="+2126"/>
         <source>Verlauf &amp; Chancen</source>
         <translation>Cronologia e probabilità</translation>
     </message>
@@ -775,7 +775,7 @@
 <context>
     <name>GamePlayerBox</name>
     <message>
-        <location filename="../components/GamePlayerBox.qml" line="+408"/>
+        <location filename="../components/GamePlayerBox.qml" line="+452"/>
         <location line="+26"/>
         <location line="+2"/>
         <source>Ignore player</source>
@@ -823,7 +823,7 @@
 <context>
     <name>GamePlayerSelfBox</name>
     <message>
-        <location filename="../components/GamePlayerSelfBox.qml" line="+187"/>
+        <location filename="../components/GamePlayerSelfBox.qml" line="+209"/>
         <location line="+33"/>
         <source>Du</source>
         <translation>Tu</translation>
@@ -2460,42 +2460,42 @@ Reinserire la password e riprovare.</translation>
         <translation>Giocatori e capitale iniziale</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Anzahl der Spieler:</source>
         <translation>Numero di giocatori:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Capitale iniziale:</translation>
     </message>
     <message>
-        <location line="+347"/>
+        <location line="+351"/>
         <source>Spiel-Einstellungsdialog bei neuem Spiel anzeigen</source>
         <translation>Mostra finestra impostazioni partita per nuova partita</translation>
     </message>
     <message>
-        <location line="-310"/>
+        <location line="-313"/>
         <source>Blinds erhöhen</source>
         <translation>Aumenta buio</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
         <translation>Ordine aumento buio</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
         <translation>Aumenta buio dopo numero di mani</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
         <translation>Aumenta buio in base al tempo</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+57"/>
         <location line="+101"/>
         <source>Blinds immer verdoppeln</source>
         <translation>Raddoppia sempre il buio</translation>
@@ -2507,23 +2507,23 @@ Reinserire la password e riprovare.</translation>
         <translation>Ordine buio manuale</translation>
     </message>
     <message>
-        <location line="-156"/>
+        <location line="-158"/>
         <source>Erster Small Blind:</source>
         <translation>Primo buio piccolo:</translation>
     </message>
     <message>
-        <location line="+48"/>
-        <location line="+41"/>
+        <location line="+49"/>
+        <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
         <translation>Aumenta buio piccolo ogni:</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-25"/>
         <source>Hände</source>
         <translation>Mani</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Minuten</source>
         <translation>Minuti</translation>
     </message>
@@ -2558,7 +2558,7 @@ Reinserire la password e riprovare.</translation>
         <translation>Velocità di gioco</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Spielgeschwindigkeit
 (1=langsam, 11=schnell):</source>
         <translation>Velocità di gioco
@@ -3028,37 +3028,37 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Giocatori e capitale iniziale</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Anzahl der Spieler:</source>
         <translation>Numero di giocatori:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Startkapital:</source>
         <translation>Capitale iniziale:</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+38"/>
         <source>Blinds erhöhen</source>
         <translation>Aumenta buio</translation>
     </message>
     <message>
-        <location line="+97"/>
+        <location line="+99"/>
         <source>Blind-Erhöhungsreihenfolge</source>
         <translation>Ordine aumento buio</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-87"/>
         <source>Blinds bei Anzahl der Hände erhöhen</source>
         <translation>Aumenta buio dopo numero di mani</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Blinds zeitbasiert erhöhen</source>
         <translation>Aumenta buio in base al tempo</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+57"/>
         <source>Blinds immer verdoppeln</source>
         <translation>Raddoppia sempre il buio</translation>
     </message>
@@ -3073,23 +3073,23 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Modifica ordine buio manuale...</translation>
     </message>
     <message>
-        <location line="-155"/>
+        <location line="-157"/>
         <source>Erster Small Blind:</source>
         <translation>Primo buio piccolo:</translation>
     </message>
     <message>
-        <location line="+48"/>
-        <location line="+41"/>
+        <location line="+49"/>
+        <location line="+42"/>
         <source>Small Blind erhöhen alle:</source>
         <translation>Aumenta buio piccolo ogni:</translation>
     </message>
     <message>
-        <location line="-24"/>
+        <location line="-25"/>
         <source>Hände</source>
         <translation>Mani</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+42"/>
         <source>Minuten</source>
         <translation>Minuti</translation>
     </message>
@@ -3099,14 +3099,14 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Impostazioni tempo</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Verzögerung zwischen Händen
 (Sekunden):</source>
         <translation>Ritardo tra le mani
 (secondi):</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+17"/>
         <source>Timeout für Spieleraktion
 (Sekunden):</source>
         <translation>Timeout azione giocatore
@@ -3118,7 +3118,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Impostazioni server</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+11"/>
         <source>Server-Port:</source>
         <translation>Porta del server:</translation>
     </message>
@@ -3198,24 +3198,26 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
 <context>
     <name>PlayerListItem</name>
     <message>
-        <location filename="../components/PlayerListItem.qml" line="+214"/>
+        <location filename="../components/PlayerListItem.qml" line="+234"/>
+        <location line="+116"/>
         <source>%1 is playing in &quot;%2&quot;.</source>
         <translation>%1 sta giocando in &quot;%2&quot;.</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="-115"/>
+        <location line="+117"/>
         <source>%1 is not playing at the moment.</source>
         <translation>%1 non sta giocando in questo momento.</translation>
     </message>
     <message>
-        <location line="-104"/>
-        <location line="+134"/>
-        <location line="+116"/>
+        <location line="-216"/>
+        <location line="+129"/>
+        <location line="+140"/>
         <source>Invite to Game</source>
         <translation>Invita alla partita</translation>
     </message>
     <message>
-        <location line="-249"/>
+        <location line="-268"/>
         <source>Are you sure you want to invite &quot;%1&quot; to your game?</source>
         <translation>Vuoi davvero invitare «%1» alla tua partita?</translation>
     </message>
@@ -3227,26 +3229,26 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
     <message>
         <location line="+6"/>
         <location line="+2"/>
-        <location line="+135"/>
-        <location line="+141"/>
+        <location line="+130"/>
+        <location line="+165"/>
         <source>Ignore player</source>
         <translation>Ignora giocatore</translation>
     </message>
     <message>
-        <location line="-277"/>
+        <location line="-296"/>
         <source>Are you sure you want to ignore &quot;%1&quot;?</source>
         <translation>Vuoi davvero ignorare «%1»?&gt;</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+2"/>
-        <location line="+126"/>
-        <location line="+178"/>
+        <location line="+121"/>
+        <location line="+202"/>
         <source>Unignore player</source>
         <translation>Non ignorare più il giocatore</translation>
     </message>
     <message>
-        <location line="-305"/>
+        <location line="-324"/>
         <source>Are you sure you want to unignore &quot;%1&quot;?</source>
         <translation>Vuoi davvero smettere di ignorare «%1»?&gt;</translation>
     </message>
@@ -3256,22 +3258,22 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Vuoi davvero espellere e bandire totalmente «%1»?&gt;</translation>
     </message>
     <message>
-        <location line="+100"/>
-        <location line="+88"/>
+        <location line="+95"/>
+        <location line="+112"/>
         <source>Send private message</source>
         <translation>Invia messaggio privato</translation>
     </message>
     <message>
-        <location line="-55"/>
-        <location line="+200"/>
+        <location line="-79"/>
+        <location line="+224"/>
         <source>Show player stats</source>
         <translation>Mostra statistiche giocatore</translation>
     </message>
     <message>
-        <location line="-334"/>
+        <location line="-353"/>
         <location line="+2"/>
-        <location line="+140"/>
-        <location line="+228"/>
+        <location line="+135"/>
+        <location line="+252"/>
         <source>Total kickban</source>
         <translation>Kickban totale</translation>
     </message>
@@ -3467,7 +3469,7 @@ Riavvia PokerTH affinché i file di log vengano salvati lì.</translation>
         <translation>Messaggio …</translation>
     </message>
     <message>
-        <location line="+23"/>
+        <location line="+54"/>
         <source>Send</source>
         <translation>Invia</translation>
     </message>
@@ -4534,7 +4536,7 @@ anteprima</translation>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+49"/>
         <source>Stil entfernen</source>
         <translation>Rimuovi stile</translation>
     </message>
@@ -4570,6 +4572,21 @@ anteprima</translation>
     </message>
     <message>
         <location line="+25"/>
+        <source>Einsatzanzeige:</source>
+        <translation>Visualizzazione della puntata:</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Einsatz in der Spielerbox</source>
+        <translation>Puntata dentro il riquadro del giocatore</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Einsatz neben der Spielerbox</source>
+        <translation>Puntata accanto al riquadro del giocatore</translation>
+    </message>
+    <message>
+        <location line="+9"/>
         <source>Verfügbare Spieltisch-Stile:</source>
         <translation>Stili tavolo disponibili:</translation>
     </message>
@@ -4606,7 +4623,7 @@ anteprima</translation>
         <translation>Aggiungi stile...</translation>
     </message>
     <message>
-        <location line="-232"/>
+        <location line="-266"/>
         <source>Stil exportieren</source>
         <translation>Esporta stile</translation>
     </message>
@@ -4712,7 +4729,7 @@ anteprima</translation>
         <translation>PokerTH - v2.1.7</translation>
     </message>
     <message>
-        <location line="+248"/>
+        <location line="+255"/>
         <source>Back</source>
         <translation>Indietro</translation>
     </message>

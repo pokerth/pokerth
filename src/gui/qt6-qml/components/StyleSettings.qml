@@ -77,6 +77,16 @@ Rectangle {
         refreshStyles()
     }
 
+    // Sitz-Stil der Spielerboxen umschalten (Einsatz im Sockel INNERHALB der
+    // Box oder außerhalb daneben). Config.SeatStyle ist der einzige Schalter,
+    // den Spielerboxen und Platzberechnung lesen – wirkt daher sofort auf einen
+    // offenen Tisch; der Config-Key hält die Wahl über den Neustart.
+    function applySeatStyle(variant) {
+        Config.SeatStyle.variant = variant
+        if (typeof SettingsManager !== "undefined" && SettingsManager)
+            SettingsManager.writeConfigString("QmlSeatStyle", variant)
+    }
+
     // Hinweis-Popup für Import-Warnungen und -Fehler (nur "OK").
     ConfirmPopup {
         id: importResultPopup
@@ -140,6 +150,30 @@ Rectangle {
 
                         Label {
                             Layout.fillWidth: true
+                            text: qsTr("Einsatzanzeige:")
+                            font.bold: true
+                            color: Config.StaticData.palette.secondary.col200
+                        }
+
+                        ButtonGroup { id: seatStyleGroup }
+
+                        RadioButton {
+                            text: qsTr("Einsatz in der Spielerbox")
+                            checked: Config.SeatStyle.variant === "inset"
+                            ButtonGroup.group: seatStyleGroup
+                            onClicked: styleSettings.applySeatStyle("inset")
+                        }
+
+                        RadioButton {
+                            text: qsTr("Einsatz neben der Spielerbox")
+                            checked: Config.SeatStyle.variant === "classic"
+                            ButtonGroup.group: seatStyleGroup
+                            onClicked: styleSettings.applySeatStyle("classic")
+                        }
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.topMargin: 8
                             text: qsTr("Verfügbare Spieltisch-Stile:")
                             font.bold: true
                             color: Config.StaticData.palette.secondary.col200
