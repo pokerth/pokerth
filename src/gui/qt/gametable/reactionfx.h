@@ -3,7 +3,7 @@
  *                                                                           *
  * Overlay für die Emoji-Reaktions-Choreografie am Spieltisch – 1:1-Port     *
  * der QML-Komponente GameReactionFx: ein großes Emoji erscheint am Sitz,    *
- * spielt eine von 15 Choreografien (Aufstieg, Wackeln, Drehen, Fallen …)   *
+ * spielt eine von 16 Choreografien (Aufstieg, Wackeln, Drehen, Fallen …)   *
  * und verblasst; dazu ein Partikel-Burst (Funken/Konfetti/Tropfen/Münzen …  *
  * je nach Emoji) und – bei 🤯/💣 & Co. – Druckwellen-Ringe.                 *
  *****************************************************************************/
@@ -34,9 +34,11 @@ private:
 		int kind = 0;          // 0 = Zeichen, 1 = farbiger Punkt, 2 = Konfetti
 		qreal w = 0, h = 0;    // Konfetti-Maße
 		qreal size = 14;       // Zielgröße (px)
+		qreal ox = 0, oy = 0;  // Start-Versatz (Preset "gunshot")
 		qreal dx = 0, dy = 0;  // Ziel-Versatz
 		qreal g = 0;           // zusätzlicher Fall am Ende
 		qreal rot = 0;         // End-Rotation
+		bool pulse = false;    // kurz aufblitzen statt voller Deckkraft
 		int life = 1000;       // Lebensdauer ms
 		int delay = 0;         // Startverzögerung ms (Preset "boom")
 	};

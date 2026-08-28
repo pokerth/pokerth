@@ -2,8 +2,8 @@ pragma Singleton
 import QtQuick
 
 // Katalog der Emoji-Reaktionen – Port des Web-Clients (Stand 2026-08-28):
-// 90 Reaktionen auf drei thematischen Seiten, 15 Choreografien und die
-// Partikel-Presets sparkle/shock/confetti/boom.
+// 90 Reaktionen auf drei thematischen Seiten, 16 Choreografien und die
+// Partikel-Presets sparkle/shock/confetti/boom/gunshot.
 //
 // Die Keyframes sind die CSS-Animationen rfx* des Web-Clients
 // (public/pokerth.css, dokumentiert in dessen docs/REACTIONS_FX.md); die
@@ -29,7 +29,7 @@ QtObject {
          "😎", "🤩", "🤡", "😈", "🫠", "🥶",
          "🥵", "🎉", "🥳", "🍿", "👏", "🙌",
          "💪", "👍", "👎", "🤝", "👊", "🙏",
-         "🤞", "🫵", "🫡", "🤫", "🤦", "💤",
+         "🤞", "🫵", "🫡", "🤫", "🤦", "🚬",
          "⏳", "🍺", "☕", "💣", "🚀", "⚡"
         ],
         [
@@ -37,7 +37,7 @@ QtObject {
          "🃏", "♠️", "🎲", "🎯", "🏆", "🥇",
          "💸", "🪤", "👑", "🔥", "💀", "🦈",
          "🐟", "🐔", "🫏", "🎩", "🧊", "🌪️",
-         "🧨", "📈", "📉", "🔮", "💯", "⭐"
+         "🔫", "📈", "📉", "🔮", "💯", "⭐"
         ]
     ]
 
@@ -47,7 +47,7 @@ QtObject {
     // ── Effekt-Katalog je Reaktion ──
     //   a: Choreografie des großen Emojis (siehe anims)
     //   p: Partikel-Spezifikation oder Preset "sparkle" | "shock" |
-    //      "confetti" | "boom"
+    //      "confetti" | "boom" | "gunshot"
     //      {chars, count, size, a0, a1, dist, g, life, rot, color}
     //      a0..a1 = Winkelbereich (Grad, 0=rechts, -90=oben), dist = Wurfweite,
     //      g = zusätzlicher Fall am Ende, life = Lebensdauer ms.
@@ -108,7 +108,7 @@ QtObject {
         "🫡": { a: "pop", p: "sparkle" },
         "🤫": { a: "pop", p: { chars: ["✦"], count: 4, size: 10, a0: 0, a1: 360, dist: 38, life: 600 } },
         "🤦": { a: "drop", p: { chars: ["💧"], count: 4, size: 12, a0: -120, a1: -60, dist: 42, g: 46, life: 700 } },
-        "💤": { a: "drop", p: { chars: ["💤"], count: 6, size: 15, a0: -130, a1: -50, dist: 56, g: -44, life: 1200 } },
+        "🚬": { a: "wobble", p: { chars: ["💨"], count: 7, size: 14, a0: -130, a1: -50, dist: 64, g: -46, life: 1400, rot: true } },
         "⏳": { a: "flip", p: { chars: ["✦"], count: 6, size: 11, a0: 0, a1: 360, dist: 48, life: 700 } },
         "🍺": { a: "wobble", p: { chars: ["🫧"], count: 9, size: 12, a0: -140, a1: -40, dist: 58, g: -50, life: 1100 } },
         "☕": { a: "pop", p: { chars: ["💨"], count: 5, size: 13, a0: -120, a1: -60, dist: 50, g: -40, life: 1000 } },
@@ -140,7 +140,7 @@ QtObject {
         "🎩": { a: "flip", p: { chars: ["✨"], count: 7, size: 12, a0: 0, a1: 360, dist: 54, life: 800 } },
         "🧊": { a: "shiver", p: { chars: ["❄️"], count: 7, size: 12, a0: 0, a1: 360, dist: 52, life: 850 } },
         "🌪️": { a: "tilt", p: { chars: ["🍃", "💨"], count: 10, size: 13, a0: 0, a1: 360, dist: 74, life: 950, rot: true } },
-        "🧨": { a: "shake", p: "shock" },
+        "🔫": { a: "recoil", p: "gunshot" },
         "📈": { a: "launch", p: { count: 8, size: 6, a0: -120, a1: -60, dist: 62, g: -30, life: 850, color: "#7ee37e" } },
         "📉": { a: "drop", p: { count: 8, size: 6, a0: 60, a1: 120, dist: 58, g: 70, life: 850, color: "#e05252" } },
         "🔮": { a: "shine", p: { chars: ["✨", "✦"], count: 8, size: 13, a0: 0, a1: 360, dist: 60, life: 900, rot: true } },
@@ -154,7 +154,7 @@ QtObject {
     // Grundgröße des großen Emojis (Skalierung 1.0).
     readonly property real baseSize: 34
 
-    // ── Die 15 Choreografien (CSS-Keyframes rfx*) ──
+    // ── Die 16 Choreografien (CSS-Keyframes rfx*) ──
     //   dur = Dauer in ms, e = Timing-Function als kubische Bézier-Kontroll-
     //   punkte; sie wirkt – wie in CSS – auf JEDEN Keyframe-Abschnitt einzeln.
     //   Kanäle (jeweils [Zeitanteil, Wert], fehlende Kanäle = Standardwert):
@@ -240,7 +240,20 @@ QtObject {
             y: [[0, -50], [0.2, -55], [0.45, -65], [1, -160]],
             s: [[0, 0.3], [0.2, 1.4], [0.45, 1.2], [1, 1]],
             r: [[0, 0], [0.2, 12], [0.45, 28], [1, 560]],
-            o: [[0, 0], [0.2, 1], [1, 0]] }
+            o: [[0, 0], [0.2, 1], [1, 0]] },
+        // 🔫: doppelter Rückstoß nach RECHTS (der Glyph zeigt nach links),
+        // dazu ein leichtes Hochreißen der Mündung. Der seitliche Versatz ist
+        // im Web-Client in Pixeln angegeben (14/4/10 px); geteilt durch
+        // pxPerPercent ergeben sich die CSS-Prozente dieses Kanals.
+        "recoil": { dur: 1500, e: [0, 0, 0.58, 1],
+            x: [[0, -50], [0.12, -50], [0.2, -41.25], [0.34, -47.5],
+                [0.42, -43.75], [0.56, -50], [1, -50]],
+            y: [[0, -50], [0.12, -50], [0.2, -52], [0.34, -52], [0.42, -54],
+                [0.56, -58], [1, -150]],
+            s: [[0, 0.4], [0.12, 1.35], [0.2, 1.3], [0.34, 1.25], [0.42, 1.28],
+                [0.56, 1.2], [1, 1]],
+            r: [[0.12, 0], [0.2, 9], [0.34, 2], [0.42, 6], [0.56, 0], [1, 0]],
+            o: [[0, 0], [0.12, 1], [1, 0]] }
     })
 
     // Effekt einer Reaktion; unbekannte Emojis bekommen den Standard.

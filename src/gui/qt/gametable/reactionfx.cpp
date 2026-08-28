@@ -215,6 +215,22 @@ const QHash<QString, ReactionAnim> &animTable()
 			a.o = {{0, 0}, {0.2, 1}, {1, 0}};
 			t.insert("tilt", a);
 		}
+		{
+			// 🔫: doppelter Rückstoß nach RECHTS (der Glyph zeigt nach links),
+			// dazu ein leichtes Hochreißen der Mündung. Der seitliche Versatz
+			// ist im Web-Client in Pixeln angegeben (14/4/10 px); geteilt durch
+			// kPxPerPercent ergeben sich die CSS-Prozente dieses Kanals.
+			ReactionAnim a = mk(1500, kEaseOut);
+			a.x = {{0, -50}, {0.12, -50}, {0.2, -41.25}, {0.34, -47.5},
+			       {0.42, -43.75}, {0.56, -50}, {1, -50}};
+			a.y = {{0, -50}, {0.12, -50}, {0.2, -52}, {0.34, -52}, {0.42, -54},
+			       {0.56, -58}, {1, -150}};
+			a.s = {{0, 0.4}, {0.12, 1.35}, {0.2, 1.3}, {0.34, 1.25}, {0.42, 1.28},
+			       {0.56, 1.2}, {1, 1}};
+			a.r = {{0.12, 0}, {0.2, 9}, {0.34, 2}, {0.42, 6}, {0.56, 0}, {1, 0}};
+			a.o = {{0, 0}, {0.12, 1}, {1, 0}};
+			t.insert("recoil", a);
+		}
 		return t;
 	}();
 	return table;
@@ -235,7 +251,8 @@ const ReactionAnim *animFor(const QString &name)
 // dist = Wurfweite, g = zusätzlicher Fall am Ende, life = Lebensdauer ms.
 // Ohne Zeichen werden farbige Punkte geworfen.
 struct FxSpec {
-	QString preset;        // "sparkle" | "shock" | "confetti" | "boom" | ""
+	QString preset;        // "sparkle" | "shock" | "confetti" | "boom" |
+	                       // "gunshot" | ""
 	QStringList chars;     // leer ⇒ farbige Punkte
 	int count = 0, size = 14, a0 = 0, a1 = 360, dist = 54, g = 0, life = 1000;
 	bool rot = false;
@@ -335,7 +352,7 @@ const QHash<QString, FxDef> &fxTable()
 			{ "🫡", "pop", preset("sparkle") },
 			{ "🤫", "pop", glyphs({"✦"}, 4, 10, 0, 360, 38, 0, 600) },
 			{ "🤦", "drop", glyphs({"💧"}, 4, 12, -120, -60, 42, 46, 700) },
-			{ "💤", "drop", glyphs({"💤"}, 6, 15, -130, -50, 56, -44, 1200) },
+			{ "🚬", "wobble", glyphs({"💨"}, 7, 14, -130, -50, 64, -46, 1400, true) },
 			{ "⏳", "flip", glyphs({"✦"}, 6, 11, 0, 360, 48, 0, 700) },
 			{ "🍺", "wobble", glyphs({"🫧"}, 9, 12, -140, -40, 58, -50, 1100) },
 			{ "☕", "pop", glyphs({"💨"}, 5, 13, -120, -60, 50, -40, 1000) },
@@ -367,7 +384,7 @@ const QHash<QString, FxDef> &fxTable()
 			{ "🎩", "flip", glyphs({"✨"}, 7, 12, 0, 360, 54, 0, 800) },
 			{ "🧊", "shiver", glyphs({"❄️"}, 7, 12, 0, 360, 52, 0, 850) },
 			{ "🌪️", "tilt", glyphs({"🍃", "💨"}, 10, 13, 0, 360, 74, 0, 950, true) },
-			{ "🧨", "shake", preset("shock") },
+			{ "🔫", "recoil", preset("gunshot") },
 			{ "📈", "launch", dots(8, 6, -120, -60, 62, -30, 850, false, "#7ee37e") },
 			{ "📉", "drop", dots(8, 6, 60, 120, 58, 70, 850, false, "#e05252") },
 			{ "🔮", "shine", glyphs({"✨", "✦"}, 8, 13, 0, 360, 60, 0, 900, true) },
@@ -443,6 +460,30 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 	// (Qt skaliert deren Glyphen nicht).
 	burst.emojiPm = EmojiPicker::emojiPixmap(burst.emoji, int(kBaseSize * 2));
 
+	// Partikel einer expliziten Spezifikation in den Winkelbereich a0..a1
+	// werfen.
+	auto spawn = [&burst](const FxSpec &spec, int delay) {
+		for (int i = 0; i < spec.count; ++i) {
+			Particle p;
+			p.kind = spec.chars.isEmpty() ? 1 : 0;
+			if (p.kind == 0)
+				p.pm = EmojiPicker::emojiPixmap(
+					spec.chars.at(QRandomGenerator::global()->bounded(spec.chars.size())),
+					spec.size * 2);
+			p.color = spec.color.isEmpty() ? QColor("#E3C800") : QColor(spec.color);
+			p.size = spec.size;
+			const double ang = rnd(spec.a0, spec.a1) * M_PI / 180.0;
+			const double d = spec.dist * rnd(0.55, 1.15);
+			p.dx = std::cos(ang) * d;
+			p.dy = std::sin(ang) * d;
+			p.g = spec.g;
+			p.rot = spec.rot ? rnd(-360, 360) : 0;
+			p.life = spec.life;
+			p.delay = delay;
+			burst.particles.append(p);
+		}
+	};
+
 	FxSpec spec = def.p;
 	int delay = 0;
 
@@ -492,27 +533,34 @@ void ReactionFxOverlay::buildBurst(Burst &burst)
 			burst.particles.append(p);
 		}
 		spec = FxSpec();   // keine weiteren Partikel
+	} else if (spec.preset == QLatin1String("gunshot")) {
+		// 🔫: Mündungsfeuer, ein goldenes Leuchtspur-Geschoss nach LINKS (der
+		// Glyph zeigt in allen Emoji-Fonts nach links), sein Funkenschweif und
+		// die nach rechts oben ausgeworfene Hülse. Das Emoji selbst spielt dazu
+		// die Choreografie "recoil".
+		Particle flash;                  // bleibt an der Laufmündung
+		flash.pm = EmojiPicker::emojiPixmap(QStringLiteral("💥"), 40);
+		flash.size = 20;
+		flash.ox = -20;
+		flash.dx = -30;
+		flash.pulse = true;
+		flash.life = 240;
+		burst.particles.append(flash);
+		Particle bullet;                 // das Geschoss
+		bullet.kind = 1;
+		bullet.color = QColor("#E3C800");
+		bullet.size = 7;
+		bullet.ox = -24;
+		bullet.dx = -195;
+		bullet.dy = 10;
+		bullet.life = 420;
+		burst.particles.append(bullet);
+		spawn(glyphs({"✦"}, 5, 9, 172, 188, 120, 0, 420), 0);
+		spawn(glyphs({"✨"}, 2, 10, -110, -60, 40, 55, 650), 0);
+		spec = FxSpec();   // keine weiteren Partikel
 	}
 
-	for (int i = 0; i < spec.count; ++i) {
-		Particle p;
-		p.kind = spec.chars.isEmpty() ? 1 : 0;
-		if (p.kind == 0)
-			p.pm = EmojiPicker::emojiPixmap(
-				spec.chars.at(QRandomGenerator::global()->bounded(spec.chars.size())),
-				spec.size * 2);
-		p.color = spec.color.isEmpty() ? QColor("#E3C800") : QColor(spec.color);
-		p.size = spec.size;
-		const double ang = rnd(spec.a0, spec.a1) * M_PI / 180.0;
-		const double d = spec.dist * rnd(0.55, 1.15);
-		p.dx = std::cos(ang) * d;
-		p.dy = std::sin(ang) * d;
-		p.g = spec.g;
-		p.rot = spec.rot ? rnd(-360, 360) : 0;
-		p.life = spec.life;
-		p.delay = delay;
-		burst.particles.append(p);
-	}
+	spawn(spec, delay);
 
 	// Gesamtdauer = längste Teilanimation (Emoji, Partikel, Ringe).
 	burst.life = burst.anim->dur;
@@ -562,18 +610,33 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 		if (pt < 0 || pt > p.life)
 			continue;
 		const qreal frac = qreal(pt) / p.life;
-		// Bahn: 65 % der Zeit zum Ziel (OutCubic), danach Fall um g (InQuad).
+		// Bahn: 65 % der Zeit vom Start- zum Zielpunkt (OutCubic), danach Fall
+		// um g (InQuad).
 		qreal px, py;
 		if (frac <= 0.65) {
 			const qreal e = QEasingCurve(QEasingCurve::OutCubic).valueForProgress(frac / 0.65);
-			px = p.dx * e;
-			py = p.dy * e;
+			px = p.ox + (p.dx - p.ox) * e;
+			py = p.oy + (p.dy - p.oy) * e;
 		} else {
 			const qreal e = QEasingCurve(QEasingCurve::InQuad).valueForProgress((frac - 0.65) / 0.35);
 			px = p.dx;
 			py = p.dy + p.g * e;
 		}
-		const qreal opacity = frac <= 0.65 ? 1.0 : 1.0 - (frac - 0.65) / 0.35;
+		qreal opacity = frac <= 0.65 ? 1.0 : 1.0 - (frac - 0.65) / 0.35;
+		// Mündungsfeuer: statt der vollen Deckkraft blitzt das Zeichen auf
+		// (Größe 0.4 → 1.25 → 0.7) und verblasst wieder.
+		qreal pulse = 1.0;
+		if (p.pulse) {
+			if (frac <= 0.35) {
+				pulse = 0.4 + (1.25 - 0.4) * (frac / 0.35);
+				opacity = frac / 0.35;
+			} else {
+				const qreal f = (frac - 0.35) / 0.65;
+				pulse = 1.25 + (0.7 - 1.25) * f;
+				opacity = 1.0 - f;
+			}
+		}
+		const qreal sz = p.size * pulse;
 
 		painter.save();
 		painter.translate(burst.anchor.x() + px, burst.anchor.y() + py);
@@ -586,10 +649,10 @@ void ReactionFxOverlay::drawBurst(QPainter &painter, const Burst &burst, qint64 
 		} else if (p.kind == 1) {       // farbiger Punkt
 			painter.setPen(Qt::NoPen);
 			painter.setBrush(p.color);
-			painter.drawEllipse(QPointF(0, 0), p.size / 2, p.size / 2);
+			painter.drawEllipse(QPointF(0, 0), sz / 2, sz / 2);
 		} else {                        // Emoji-/Zeichen-Partikel
 			painter.setRenderHint(QPainter::SmoothPixmapTransform);
-			painter.drawPixmap(QRectF(-p.size / 2, -p.size / 2, p.size, p.size),
+			painter.drawPixmap(QRectF(-sz / 2, -sz / 2, sz, sz),
 			                   p.pm, p.pm.rect());
 		}
 		painter.restore();

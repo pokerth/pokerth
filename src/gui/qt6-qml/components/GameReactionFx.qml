@@ -4,7 +4,7 @@ import QtQuick.Effects
 import "../config" as Config
 
 // Reaktions-Animation – Port der Web-Client-Choreografie (playReactionFx):
-// ein großes Emoji erscheint am Sitz des Spielers, spielt eine von 15
+// ein großes Emoji erscheint am Sitz des Spielers, spielt eine von 16
 // Choreografien (Aufstieg, Wackeln, Drehen, Fallen …) und verblasst; dazu ein
 // Partikel-Burst (Funken/Konfetti/Tropfen/Münzen … je nach Emoji).
 //
@@ -31,8 +31,10 @@ Item {
     }
 
     // ── Partikel einer Spezifikation/eines Presets erzeugen ─────────────────
-    // Rückgabe: Liste von {kind, ch, color, w, h, size, dx, dy, g, rot, life,
-    // delay}; kind = "glyph" (Emoji), "dot" (farbiger Punkt) oder "confetti".
+    // Rückgabe: Liste von {kind, ch, color, w, h, size, ox, oy, dx, dy, g, rot,
+    // pulse, life, delay}; kind = "glyph" (Emoji), "dot" (farbiger Punkt) oder
+    // "confetti". (ox, oy) ist der Startpunkt, (dx, dy) das Ziel – beide
+    // relativ zum Ankerpunkt.
     function buildParticles(spec) {
         var delay = 0
         if (spec === "sparkle")
@@ -57,13 +59,21 @@ Item {
                     kind: "confetti", ch: "",
                     color: cols[Math.floor(Math.random() * cols.length)],
                     w: 5 + Math.random() * 4, h: 7 + Math.random() * 4, size: 0,
+                    ox: 0, oy: 0,
                     dx: Math.cos(angC) * dC, dy: Math.sin(angC) * dC,
-                    g: 130, rot: Math.random() * 720 - 360,
+                    g: 130, rot: Math.random() * 720 - 360, pulse: false,
                     life: 1300 + Math.random() * 400, delay: 0
                 })
             }
             return conf
-        }
+        } else if (spec === "gunshot")
+            return gunshotParticles()
+        return spawn(spec, delay)
+    }
+
+    // Partikel einer expliziten Spezifikation in den Winkelbereich a0..a1
+    // werfen.
+    function spawn(spec, delay) {
         if (!spec || typeof spec !== "object")
             return []
         var pts = []
@@ -76,14 +86,38 @@ Item {
                 color: spec.color || "#E3C800",
                 w: 0, h: 0,
                 size: spec.size || (spec.chars ? 14 : 7),
+                ox: 0, oy: 0,
                 dx: Math.cos(ang) * d, dy: Math.sin(ang) * d,
                 g: spec.g || 0,
                 rot: spec.rot ? (Math.random() * 720 - 360) : 0,
+                pulse: false,
                 life: spec.life || 1000,
                 delay: delay
             })
         }
         return pts
+    }
+
+    // 🔫 "gunshot": Mündungsfeuer, ein goldenes Leuchtspur-Geschoss nach LINKS
+    // (der Glyph zeigt in allen Emoji-Fonts nach links), sein Funkenschweif und
+    // die nach rechts oben ausgeworfene Hülse. Das Emoji selbst spielt dazu die
+    // Choreografie "recoil".
+    function gunshotParticles() {
+        var pts = [
+            // Mündungsfeuer: bleibt an der Laufmündung und blitzt kurz auf.
+            { kind: "glyph", ch: "💥", color: "#E3C800", w: 0, h: 0, size: 20,
+              ox: -20, oy: 0, dx: -30, dy: 0, g: 0, rot: 0, pulse: true,
+              life: 240, delay: 0 },
+            // Das Geschoss.
+            { kind: "dot", ch: "", color: "#E3C800", w: 0, h: 0, size: 7,
+              ox: -24, oy: 0, dx: -195, dy: 10, g: 0, rot: 0, pulse: false,
+              life: 420, delay: 0 }
+        ]
+        return pts.concat(
+            spawn({ chars: ["✦"], count: 5, size: 9, a0: 172, a1: 188,
+                    dist: 120, life: 420 }, 0),
+            spawn({ chars: ["✨"], count: 2, size: 10, a0: -110, a1: -60,
+                    dist: 40, g: 55, life: 650 }, 0))
     }
 
     // Druckwellen-Ringe: goldener Ring beim Preset "shock", zwei breite
@@ -202,7 +236,10 @@ Item {
                 delegate: Item {
                     id: pt
                     required property var modelData
-                    x: 0; y: 0
+                    // Mündungsfeuer des Presets "gunshot": statt der vollen
+                    // Deckkraft blitzt das Zeichen auf und verblasst wieder.
+                    readonly property bool pulse: modelData.pulse === true
+                    x: modelData.ox; y: modelData.oy
                     opacity: 0
 
                     // Emoji-/Zeichen-Partikel …
@@ -231,10 +268,19 @@ Item {
                         color: pt.modelData.color
                     }
 
+                    // Aufblitzen: Größe 0.4 → 1.25 → 0.7 über die Lebensdauer.
+                    SequentialAnimation {
+                        running: pt.pulse
+                        PauseAnimation { duration: pt.modelData.delay }
+                        NumberAnimation { target: pt; property: "scale"; from: 0.4; to: 1.25
+                                          duration: pt.modelData.life * 0.35 }
+                        NumberAnimation { target: pt; property: "scale"; to: 0.7
+                                          duration: pt.modelData.life * 0.65 }
+                    }
+
                     SequentialAnimation {
                         running: true
                         PauseAnimation { duration: pt.modelData.delay }
-                        PropertyAction { target: pt; property: "opacity"; value: 1 }
                         ParallelAnimation {
                             NumberAnimation {
                                 target: pt; property: "x"; to: pt.modelData.dx
@@ -255,9 +301,11 @@ Item {
                                 duration: pt.modelData.life
                             }
                             SequentialAnimation {
-                                PauseAnimation { duration: pt.modelData.life * 0.65 }
+                                NumberAnimation { target: pt; property: "opacity"; to: 1
+                                                  duration: pt.pulse ? pt.modelData.life * 0.35 : 0 }
+                                PauseAnimation { duration: pt.pulse ? 0 : pt.modelData.life * 0.65 }
                                 NumberAnimation { target: pt; property: "opacity"; to: 0
-                                                  duration: pt.modelData.life * 0.35 }
+                                                  duration: pt.modelData.life * (pt.pulse ? 0.65 : 0.35) }
                             }
                         }
                     }
