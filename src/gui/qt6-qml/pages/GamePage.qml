@@ -535,13 +535,23 @@ Rectangle {
             // hängen. Mit 71 wird topRow ≈ 45 → 2 Karten + Avatar passen
             // bequem nebeneinander. In Landscape (84) ist der 2-zeilige
             // Footer 44 px, topRow = 40 → Avatar/Karten sichtbar größer.
-            readonly property int oppBaseHeight: wide ? 84 : 71
+            //
+            // Sitz-Stil "inset" (Config.SeatStyle): der Einsatz steht im Sockel
+            // INNERHALB der Box – die Box wird dafür um betStripH höher. Diese
+            // Zusatzhöhe steckt bewusst in oppBaseHeight/selfBaseHeight, damit
+            // die komplette Platz-Bisektion unten (boxScale, Ellipsen-Radien,
+            // Community-Skala, Chat-/Info-Dock) automatisch mit der größeren Box
+            // rechnet und keine neuen Überlappungen entstehen. Die daraus
+            // ABGELEITETEN Maße (Boxbreite, Karten-/Avatarhöhe) rechnen sie
+            // wieder heraus – die Box wächst nur in der Höhe.
+            readonly property int betStripH: Config.SeatStyle.betStripExtra
+            readonly property int oppBaseHeight: (wide ? 84 : 71) + betStripH
             // Breite dynamisch: 2×hMargin + AvatarCardRow.implicitWidth.
             // AvatarCardRow: avatarH + gap(4) + 2·cardW + cardSpacing(4)
             //   Landscape: topRow=40, cardW=29 → 2×4 + 40 + 4 + 2×29 + 4 = 114
             //   Portrait : topRow=43, cardW=31 → 2×4 + 43 + 4 + 2×31 + 4 = 121
             readonly property int oppBaseWidth: {
-                var rowH = oppBaseHeight - (wide ? 44 : 28)
+                var rowH = oppBaseHeight - (wide ? 44 : 28) - betStripH
                 var cw   = Math.round(rowH * 120 / 168)
                 return 2 * 4 + rowH + 4 + 2 * cw + 4
             }
@@ -554,14 +564,15 @@ Rectangle {
             // Gegnerboxen, damit der Ring gleichmäßig wirkt.
             readonly property int selfBaseHeight:
                 spectating ? oppBaseHeight
-                           : (!wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96))
+                           : ((!wide ? 82 : (Config.Responsive.landscapeCompact ? 94 : 96))
+                              + betStripH)
             // Self-Box-Breite dynamisch: identische Abstände wie Gegnerboxen.
             //   Compact  : cardsH=46, cardW=33, avW=46 → 2×4 + 46 + 4 + 2×33 + 4 = 128
             //   Landscape: cardsH=40, cardW=29, avW=40 → 2×4 + 40 + 4 + 2×29 + 4 = 114
             //   Portrait : cardsH=41, cardW=29, avW=41 → 2×4 + 41 + 4 + 2×29 + 4 = 115
             readonly property int selfBaseWidth: {
                 if (spectating) return oppBaseWidth
-                var cH  = selfBaseHeight - 12 - (Config.Responsive.landscape ? 32 : 18)
+                var cH  = selfBaseHeight - betStripH - 12 - (Config.Responsive.landscape ? 32 : 18)
                 var cW  = Math.round(cH * 120 / 168)
                 var avS = Math.min(cH, 60)
                 return 2 * 4 + avS + 4 + cW * 2 + 4
@@ -1398,10 +1409,14 @@ Rectangle {
                 } else if (wide) {
                     nudge = 0
                 } else {
+                    // "TC": halbe Sockelhöhe nach unten (s. seatNudge im
+                    // Repeater-Delegate) – sonst schwebte die Emoji-Reaktion
+                    // über der Position, an der die Box OHNE Sockel säße.
                     nudge = (name === "L_lower" || name === "L_bottom"
                              || name === "R_lower" || name === "R_bottom") ? 14
                           : (name === "L_upper" || name === "TL"
                              || name === "R_upper" || name === "TR") ? -4
+                          : (name === "TC") ? betStripH * oppScale / 2
                           : 0
                 }
                 return { x: pos[0], y: pos[1], nudge: nudge, nudgeX: nudgeX }
@@ -1618,6 +1633,25 @@ Rectangle {
                         if (tableZone.wide)
                             return flankWide
                                 ? tableZone.oppBaseHeight * tableZone.boxScale * 0.6 : 0
+                        // Sitz-Stil "inset": der Einsatz-Sockel macht die Box
+                        // höher, und da sie um ihre Slot-Mitte zentriert ist,
+                        // wüchse die halbe Zusatzhöhe nach OBEN. Im Querformat
+                        // ist das unkritisch (topY in buildLandscapeSlots leitet
+                        // sich aus visualH ab, die Oberkante bleibt bei 12 px) –
+                        // im Hochformat sind die Slots dagegen statisch, und die
+                        // oberste Mitte-Box klebt mit y=0.075 dicht unter der
+                        // Status-Leiste. Sie um die halbe (skalierte) Sockelhöhe
+                        // nach unten setzen: der Sockel wächst dann
+                        // ausschließlich nach unten und die Oberkante liegt exakt
+                        // dort, wo sie im Stil "classic" liegt.
+                        //
+                        // Nötig, weil die feasibility-Probe der Bisektion
+                        // (visualH > 2*(0.075*height - 4)) am Skalen-Boden 0.55
+                        // nicht mehr greifen kann: ohne diesen Versatz ragte die
+                        // Box ab einer tableZone-Höhe < 387 px in die Leiste
+                        // (mit Sockel), statt wie bisher erst < 314 px.
+                        if (slotName === "TC")
+                            return tableZone.betStripH * tableZone.oppScale / 2
                         if (slotName === "L_lower" || slotName === "L_bottom"
                             || slotName === "R_lower" || slotName === "R_bottom") return 14
                         if (slotName === "L_upper" || slotName === "TL"

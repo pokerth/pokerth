@@ -2,10 +2,15 @@ import QtQuick
 
 // Einsatz-Anzeige: Chip-Symbol + „$Betrag". Poppt beim Erscheinen kurz auf.
 // Sichtbarkeit/Position setzt der Aufrufer (z.B. visible: amount > 0).
+// Größen sind einstellbar, damit derselbe Chip sowohl frei neben der Box
+// (Sitz-Stil "classic") als auch im schmaleren Box-Sockel ("inset", s.
+// PlayerBetStrip) sitzen kann.
 Row {
     id: betChip
     property int amount: 0
     property color textColor: "#eff1f5"
+    property int iconSize: 20
+    property int fontSize: 14
     spacing: 2
     transformOrigin: Item.Center
 
@@ -17,7 +22,7 @@ Row {
     }
 
     Image {
-        width: 20; height: 20
+        width: betChip.iconSize; height: betChip.iconSize
         anchors.verticalCenter: parent.verticalCenter
         source: "qrc:resources/chipStack.svg"
         fillMode: Image.PreserveAspectFit
@@ -25,7 +30,7 @@ Row {
     AppText {
         anchors.verticalCenter: parent.verticalCenter
         color: betChip.textColor
-        font.pixelSize: 14
+        font.pixelSize: betChip.fontSize
         font.bold: true
         text: "$" + betChip.amount
     }

@@ -8,6 +8,7 @@
         <file>components/BlindButtonImage.qml</file>
         <file>components/PlayerActionBadge.qml</file>
         <file>components/PlayerTimeoutBar.qml</file>
+        <file>components/PlayerBetStrip.qml</file>
         <file>components/PlayerBoxBackground.qml</file>
         <file>components/PlayerTurnGlow.qml</file>
         <file>components/PlayerWinnerOverlay.qml</file>
@@ -78,6 +79,7 @@
         <file>config/Parameters.qml</file>
         <file>config/ReactionCatalog.qml</file>
         <file>config/Responsive.qml</file>
+        <file>config/SeatStyle.qml</file>
         <file>config/StaticData.qml</file>
         <file>config/Theme.qml</file>
         <file>i18n/pokerth_de_DE.ts</file>

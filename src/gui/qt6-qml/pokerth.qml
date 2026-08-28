@@ -270,6 +270,13 @@ ApplicationWindow {
         // Dekorative Effekte (Schatten/Glow/Blur) aus persistenter Einstellung.
         Config.Theme.effectsEnabled = SettingsManager
             ? SettingsManager.readConfigInt("QmlReduceEffects") === 0 : true
+        // Sitz-Stil der Spielerboxen (Einsatz im Sockel oder daneben). Ein
+        // leerer Wert bedeutet "Vorgabe der Plattform" – dann bleibt der
+        // Default des Singletons stehen.
+        var seatStyle = SettingsManager
+            ? SettingsManager.readConfigString("QmlSeatStyle") : ""
+        if (seatStyle === "inset" || seatStyle === "classic")
+            Config.SeatStyle.variant = seatStyle
     }
 
     // Hell/Dunkel des Betriebssystems in die Singletons spiegeln (die eine
