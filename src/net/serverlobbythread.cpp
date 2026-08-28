@@ -117,6 +117,33 @@ static bool IsTestOrDevAccount(const std::string &username) {
 	return false;
 }
 
+// Hilfsfunktion: Client-Typ aus dem High-Byte der buildId als Klartext.
+// Single token without spaces, so that log analysis can grep for it.
+static const char *GetClientTypeName(unsigned clientType)
+{
+	switch (clientType) {
+	case CLIENT_TYPE_QT_WIDGET:
+		return "QtWidget";
+	case CLIENT_TYPE_QML:
+		return "QML";
+	case CLIENT_TYPE_WEB:
+		return "Web";
+	default:
+		return "unknown";
+	}
+}
+
+// Hilfsfunktion: buildId als "<Typ> <major>.<minor>.<revision>" für die Logs.
+static std::string FormatClientBuildId(unsigned buildId)
+{
+	std::ostringstream stream;
+	stream << GetClientTypeName(BUILD_ID_GET_TYPE(buildId))
+		   << ' ' << ((buildId >> 16) & 0xFF)
+		   << '.' << ((buildId >> 8) & 0xFF)
+		   << '.' << (buildId & 0xFF);
+	return stream.str();
+}
+
 class InternalServerCallback : public SessionDataCallback, public ChatCleanerCallback, public ServerDBCallback
 {
 public:
@@ -1225,6 +1252,14 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 				SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
 				return;
 			}
+		} else if (clientType == CLIENT_TYPE_WEB) {
+			if (clientBuildId < MIN_BUILD_ID_WEB) {
+				LOG_MSG("Rejected Web client from " << session->GetClientAddr()
+						<< " - outdated version (buildId: 0x" << std::hex << clientBuildId
+						<< ", min required: 0x" << MIN_BUILD_ID_WEB << std::dec << ").");
+				SessionError(session, ERR_NET_VERSION_NOT_SUPPORTED);
+				return;
+			}
 		} else {
 			LOG_MSG("Rejected client with unknown type from " << session->GetClientAddr()
 					<< " (buildId: 0x" << std::hex << clientBuildId << std::dec << ").");
@@ -2028,7 +2063,8 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 
 	LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" (id:" << session->GetPlayerData()->GetUniqueId()
 		<< ", dbId:" << session->GetPlayerData()->GetDBId() << ") connected from " << session->GetClientAddr()
-		<< " - session #" << session->GetId() << ".");
+		<< " - session #" << session->GetId()
+		<< " - client: " << FormatClientBuildId(session->GetClientBuildId()) << ".");
 
 	// Open the activity row for this connection. Only sessions which got this
 	// far are logged, so that port scans and rejected clients do not show up as

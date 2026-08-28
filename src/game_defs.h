@@ -51,6 +51,7 @@
 // --- Client type identifiers (encoded in high byte of buildId) ---
 #define CLIENT_TYPE_QT_WIDGET	0x01	// Qt Widget client (final release: 2.1.7)
 #define CLIENT_TYPE_QML			0x02	// QML client (starting at 2.1.0)
+#define CLIENT_TYPE_WEB			0x03	// Browser client (pokerth-web-client, WebSocket)
 
 // --- Build ID encoding: (clientType << 24) | (major << 16) | (minor << 8) | revision ---
 #define MAKE_BUILD_ID(type, major, minor, rev) \
@@ -79,6 +80,11 @@
 #define MIN_BUILD_ID_QT_WIDGET	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, 2, 1, 6)
 // QML: min 2.1.6, current 2.1.7 (both allowed); update min to previous release with each new release
 #define MIN_BUILD_ID_QML		MAKE_BUILD_ID(CLIENT_TYPE_QML, 2, 1, 6)
+// Web: the browser client is developed and deployed independently of the
+// desktop releases, so no version floor is enforced (any 0.0.0+ build is
+// accepted). The exact version still ends up in the log and in the activity
+// row, which is what the client type is there for.
+#define MIN_BUILD_ID_WEB		MAKE_BUILD_ID(CLIENT_TYPE_WEB, 0, 0, 0)
 
 #define SQLITE_LOG_VERSION		1
 
