@@ -160,6 +160,13 @@ Rectangle {
             passwordToggle.checked = true
             passwordField.text = SettingsManager.readConfigString("InternetGamePassword")
         }
+        // Die Titel der Community-Spiele schon jetzt holen: bei der Auswahl
+        // einer Monthly-Cup-Vorlage steht der aktuelle Name (z. B. "August Cup
+        // Final") dann sofort im Feld, statt asynchron nachgereicht zu werden –
+        // sonst verschickt ein schneller Klick auf „Spiel erstellen" den
+        // Vorlagen-Fallbacknamen.
+        if (Config.Parameters.showCommunityContent)
+            Config.BotSuggest.prefetchGameTitles()
         formReady = true
     }
 

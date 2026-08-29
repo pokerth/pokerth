@@ -169,6 +169,15 @@ QtObject {
         })
     }
 
+    // gameslist.txt vorab in den Cache holen. Ohne das wird die Datei erst beim
+    // Wechsel auf eine Monthly-Cup-Vorlage geladen – der Titel trifft dann
+    // asynchron ein, und wer sofort auf „Spiel erstellen" klickt, verschickt den
+    // Vorlagen-Fallbacknamen („Monthly Cup Final" statt „August Cup Final").
+    // Beim Öffnen der Erstellen-Seite aufgerufen; die Datei ist ~1 kB.
+    function prefetchGameTitles() {
+        _ensure("gameslist", function(ok) {})
+    }
+
     // Aktuellen „Game Title Prefix" eines Community-Spiels aus gameslist.txt.
     // Für die Monthly-Cup-Tische wird dieser Titel serverseitig monatlich
     // gepflegt (z. B. "July Cup" / "August Cup", command "mcup"/"mcupfinal").
