@@ -36,7 +36,12 @@ public:
         PlayerNameRole,
         IsAdminRole,
         CountryCodeRole,
-        IsGuestRole
+        IsGuestRole,
+        // Tisch, an dem der Spieler sitzt oder zuschaut; 0 = idle. Bewusst ein
+        // Modelldatum und keine Abfrage der Session: Nur so bewertet der
+        // Idle-Filter des Proxys die Zeile beim Beitritt von selbst neu
+        // (dataChanged). Pendant zur Rolle 34 des Widget-Clients.
+        GameIdRole
     };
 
     explicit PlayerListModel(QObject *parent = nullptr);
@@ -48,6 +53,10 @@ public:
     int count() const { return m_players.count(); }
 
     void addPlayer(unsigned playerId, const QString &playerName, bool isAdmin = false, const QString &countryCode = QString(), bool isGuest = false);
+    // Schreibt die Tisch-Zugehörigkeit fort (0 = idle) und meldet nur echte
+    // Änderungen als dataChanged.
+    void setPlayerGameId(unsigned playerId, unsigned gameId);
+    QList<unsigned> playerIds() const;
     void removePlayer(unsigned playerId);
     void updatePlayer(unsigned playerId, const QString &newName);
     void updatePlayerInfo(unsigned playerId, const QString &playerName, bool isAdmin, const QString &countryCode = QString(), bool isGuest = false);
@@ -63,6 +72,7 @@ private:
         bool isAdmin;
         QString countryCode;
         bool isGuest;
+        unsigned gameId;
     };
     
     QList<PlayerInfo> m_players;
@@ -563,6 +573,10 @@ private:
     int m_playerIgnoreListRevision;
 
     void refreshGameInfo(unsigned gameId);
+    // Überträgt die Tisch-Zugehörigkeit aller Spieler aus der Session in das
+    // Spielerlisten-Modell (GameIdRole). Einziger Ort, an dem das Idle-Kriterium
+    // gepflegt wird; aufzurufen bei jedem Ereignis, das sie ändern kann.
+    void syncPlayerGameMembership();
     QString resolvedPlayerName(unsigned playerId) const;
     unsigned parsePrivateMessageTarget(QString &chatText) const;
 };

@@ -44,21 +44,7 @@ public:
         , m_filterState(0)
         , m_lastFilterStateCountry(false)
         , m_lastFilterStateAlpha(true)
-        , m_session(nullptr)
     {
-    }
-
-    void setSession(Session *session)
-    {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        beginFilterChange();
-#endif
-        m_session = session;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        endFilterChange(QSortFilterProxyModel::Direction::Rows);
-#else
-        invalidateFilter();
-#endif
     }
 
     void setFilterState(int state)
@@ -83,22 +69,6 @@ public:
         sort(0, Qt::AscendingOrder);
     }
 
-    // Bewertet den Filter für alle Zeilen neu. Nötig, weil das Idle-Kriterium
-    // (Modus 2) nicht im Quell-Modell steht, sondern in der Session
-    // (getGameIdOfPlayer): Setzt sich ein Spieler an einen Tisch, ändert sich
-    // keine Zeile des Quell-Modells – der Proxy bewertet von sich aus nichts neu.
-    // sort() taugt dafür NICHT: bei dynamicSortFilter und unveränderter
-    // Spalte/Reihenfolge kehrt QSortFilterProxyModel::sort() sofort zurück.
-    void refresh()
-    {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
-        beginFilterChange();
-        endFilterChange(QSortFilterProxyModel::Direction::Rows);
-#else
-        invalidateFilter();
-#endif
-    }
-
     QHash<int, QByteArray> roleNames() const override
     {
         return sourceModel() ? sourceModel()->roleNames() : QHash<int, QByteArray>();
@@ -111,12 +81,14 @@ protected:
             return false;
 
         if (m_filterState == 2) {
-            if (!m_session)
-                return false;
-
             QModelIndex idx = sourceModel()->index(sourceRow, 0, sourceParent);
-            unsigned playerId = sourceModel()->data(idx, PlayerListModel::PlayerIdRole).toUInt();
-            return m_session->getGameIdOfPlayer(playerId) == 0;
+            if (!idx.isValid())
+                return false;
+            // idle = an keinem Tisch. Die Zugehörigkeit steht als Rolle im
+            // Quell-Modell (LobbyHandler::syncPlayerGameMembership), nicht in
+            // der Session: Ändert sie sich, meldet das Modell dataChanged und
+            // der Proxy bewertet die Zeile von selbst neu.
+            return sourceModel()->data(idx, PlayerListModel::GameIdRole).toUInt() == 0;
         }
 
         return true;
@@ -146,7 +118,6 @@ private:
     int m_filterState;
     bool m_lastFilterStateCountry;
     bool m_lastFilterStateAlpha;
-    Session *m_session;
 };
 
 class GameListSortFilterProxyModel : public QSortFilterProxyModel
@@ -274,6 +245,8 @@ QVariant PlayerListModel::data(const QModelIndex &index, int role) const
         return player.countryCode;
     case IsGuestRole:
         return player.isGuest;
+    case GameIdRole:
+        return player.gameId;
     default:
         return QVariant();
     }
@@ -287,6 +260,7 @@ QHash<int, QByteArray> PlayerListModel::roleNames() const
     roles[IsAdminRole] = "isAdmin";
     roles[CountryCodeRole] = "countryCode";
     roles[IsGuestRole] = "isGuest";
+    roles[GameIdRole] = "gameId";
     return roles;
 }
 
@@ -307,6 +281,9 @@ void PlayerListModel::addPlayer(unsigned playerId, const QString &playerName, bo
     player.isAdmin = isAdmin;
     player.countryCode = countryCode;
     player.isGuest = isGuest;
+    // Neue Spieler starten als idle; den tatsächlichen Stand zieht
+    // LobbyHandler::syncPlayerGameMembership unmittelbar danach nach.
+    player.gameId = 0;
     m_players.append(player);
     m_playerIndexMap[playerId] = newRow;
     
@@ -334,6 +311,30 @@ void PlayerListModel::removePlayer(unsigned playerId)
     
     endRemoveRows();
     emit countChanged();
+}
+
+void PlayerListModel::setPlayerGameId(unsigned playerId, unsigned gameId)
+{
+    if (!m_playerIndexMap.contains(playerId))
+        return;
+
+    int row = m_playerIndexMap[playerId];
+    if (m_players[row].gameId == gameId)
+        return;
+
+    m_players[row].gameId = gameId;
+
+    QModelIndex idx = index(row);
+    emit dataChanged(idx, idx, {GameIdRole});
+}
+
+QList<unsigned> PlayerListModel::playerIds() const
+{
+    QList<unsigned> ids;
+    ids.reserve(m_players.count());
+    for (const PlayerInfo &player : m_players)
+        ids.append(player.id);
+    return ids;
 }
 
 void PlayerListModel::updatePlayer(unsigned playerId, const QString &newName)
@@ -695,8 +696,6 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
     }
     setCurrentGameAdmin(false);
 
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->setSession(m_session.get());
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     static_cast<GameListSortFilterProxyModel *>(m_gameListProxyModel)->setSession(m_session.get());
     ++m_playerListRevision;
     emit playerListRevisionChanged();
@@ -743,7 +742,9 @@ void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerN
     }
     const bool isAdmin = m_session ? m_session->getClientPlayerInfo(playerId).isAdmin : false;
     m_playerListModel.addPlayer(playerId, playerName, isAdmin, countryCode, isGuest);
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    // Der Neuzugang kann bereits an einem Tisch sitzen (z. B. Rejoin oder die
+    // erneut gesendete Spielerliste nach einem Resubscribe).
+    syncPlayerGameMembership();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
     ++m_gameListRevision;
@@ -761,7 +762,6 @@ void LobbyHandler::onLobbyPlayerJoined(unsigned playerId, const QString &playerN
 void LobbyHandler::onLobbyPlayerLeft(unsigned playerId)
 {
     m_playerListModel.removePlayer(playerId);
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
     ++m_gameListRevision;
@@ -788,7 +788,7 @@ void LobbyHandler::updatePlayerName(unsigned playerId, const QString &playerName
     }
     // Update in player list model
     m_playerListModel.updatePlayerInfo(playerId, playerName, serverAdmin, countryCode, isGuest);
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    syncPlayerGameMembership();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
     ++m_gameListRevision;
@@ -814,7 +814,7 @@ void LobbyHandler::onGameListNew(unsigned gameId, const QString &gameName)
     refreshGameInfo(gameId);
     ++m_gameListRevision;
     emit gameListRevisionChanged();
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    syncPlayerGameMembership();
     emit gameContextChanged();
 }
 
@@ -823,7 +823,7 @@ void LobbyHandler::onGameListRemove(unsigned gameId)
     m_gameListModel.removeGame(gameId);
     ++m_gameListRevision;
     emit gameListRevisionChanged();
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    syncPlayerGameMembership();
     emit gameContextChanged();
 }
 
@@ -833,7 +833,7 @@ void LobbyHandler::onGameListUpdateMode(unsigned gameId, int mode)
     refreshGameInfo(gameId);
     ++m_gameListRevision;
     emit gameListRevisionChanged();
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    syncPlayerGameMembership();
     emit gameContextChanged();
 }
 
@@ -842,13 +842,10 @@ void LobbyHandler::onGameListChanged(unsigned gameId)
     refreshGameInfo(gameId);
     ++m_gameListRevision;
     emit gameListRevisionChanged();
-    // Ein Spieler ist einem (offenen) Spiel beigetreten / hat es verlassen
-    // (SignalNetClientGameListPlayerJoined/Left mappen hierauf). Die Zugehörigkeit
-    // zu einem Spiel lebt in der Session (getGameIdOfPlayer), nicht im Quell-Modell –
-    // der Spielerlisten-Filter (Modus 2) wird daher nicht automatisch neu bewertet.
-    // Ohne expliziten refresh() verweilen beigetretene Spieler weiter in der
-    // "verfügbar"-Liste, bis ein anderes Event zufällig einen Refresh auslöst.
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
+    // Ein Spieler oder Zuschauer ist einem Spiel beigetreten / hat es verlassen
+    // (SignalNetClientGameListPlayerJoined/Left und die Zuschauer-Pendants mappen
+    // hierauf). Genau hier verlässt jemand die Idle-Liste bzw. kehrt in sie zurück.
+    syncPlayerGameMembership();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
     emit gameContextChanged();
@@ -1112,6 +1109,40 @@ void LobbyHandler::refreshGameInfo(unsigned gameId)
     m_gameListModel.updateGameInfo(gameId, info);
 }
 
+// Einziger Ort, an dem das Idle-Kriterium gepflegt wird: Aus den bekannten
+// Spielen wird für jeden Spieler der Lobby-Liste sein Tisch abgeleitet und als
+// GameIdRole ins Modell geschrieben. Zuschauer zählen dabei wie Mitspieler als
+// "an einem Tisch" (genauso markiert der Widget-Client sie als "active").
+// Setzt nur echte Änderungen ab, sodass der Aufruf bei jedem Lobby-Ereignis
+// billig bleibt; jede Änderung meldet das Modell als dataChanged, worauf der
+// Proxy die betroffene Zeile selbsttätig neu filtert.
+void LobbyHandler::syncPlayerGameMembership()
+{
+    if (!m_session)
+        return;
+
+    QHash<unsigned, unsigned> gameIdOfPlayer;
+    const int gameCount = m_gameListModel.rowCount();
+    for (int row = 0; row < gameCount; ++row) {
+        const unsigned gameId = m_gameListModel.data(
+            m_gameListModel.index(row), GameListModel::GameIdRole).toUInt();
+        if (gameId == 0)
+            continue;
+
+        const ::GameInfo info = m_session->getClientGameInfo(gameId);
+        for (const unsigned playerId : info.spectators)
+            gameIdOfPlayer.insert(playerId, gameId);
+        // Nach den Zuschauern, damit ein Sitzplatz eine etwaige veraltete
+        // Zuschauer-Zuordnung überschreibt.
+        for (const unsigned playerId : info.players)
+            gameIdOfPlayer.insert(playerId, gameId);
+    }
+
+    const QList<unsigned> playerIds = m_playerListModel.playerIds();
+    for (const unsigned playerId : playerIds)
+        m_playerListModel.setPlayerGameId(playerId, gameIdOfPlayer.value(playerId, 0));
+}
+
 QVariantMap LobbyHandler::playerListEntry(int row) const
 {
     QVariantMap entry;
@@ -1210,8 +1241,9 @@ QStringList LobbyHandler::idlePlayerNames() const
         // Gäste stehen weder in der BBC-Datenbank noch auf der WEC-Liste.
         if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
             continue;
-        // idle = sitzt an keinem Tisch (identisch zum Idle-Filter, Modus 2).
-        if (m_session->getGameIdOfPlayer(playerId) != 0)
+        // idle = an keinem Tisch – dieselbe Quelle wie der Idle-Filter (Modus 2),
+        // damit Vorschlag und sichtbare Liste nie auseinanderlaufen.
+        if (m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt() != 0)
             continue;
 
         QString playerName = m_playerListModel.data(index, PlayerListModel::PlayerNameRole).toString();
@@ -1253,7 +1285,7 @@ QVariantList LobbyHandler::playingPlayerEntries() const
         if (m_playerListModel.data(index, PlayerListModel::IsGuestRole).toBool())
             continue;
         // Nur Spieler, die aktuell an einem Tisch sitzen (Gegenstück zum Idle-Filter).
-        const unsigned gameId = m_session->getGameIdOfPlayer(playerId);
+        const unsigned gameId = m_playerListModel.data(index, PlayerListModel::GameIdRole).toUInt();
         if (gameId == 0)
             continue;
         // ... aber nicht die am eigenen Tisch.
@@ -2391,7 +2423,6 @@ void LobbyHandler::onGameStarted()
     // wird. Spiegelt das Verhalten des Widget-Clients (Nickliste leeren bei
     // MSG_NET_GAME_CLIENT_START).
     m_playerListModel.clear();
-    static_cast<PlayerNickListSortFilterProxyModel *>(m_playerListProxyModel)->refresh();
     ++m_playerListRevision;
     emit playerListRevisionChanged();
 
