@@ -207,9 +207,13 @@ Rectangle {
         }
 
         // Fußzeile wie im Web-Client: alles als gelesen markieren + Forum öffnen.
-        RowLayout {
+        // Im Hochformat untereinander – nebeneinander reicht die Breite für
+        // „Alles als gelesen markieren" nicht (CustomButton kürzt nicht).
+        GridLayout {
             Layout.fillWidth: true
-            spacing: 8
+            columns: forumPage.compact ? 1 : 2
+            columnSpacing: 8
+            rowSpacing: 8
 
             CustomButton {
                 Layout.fillWidth: true
