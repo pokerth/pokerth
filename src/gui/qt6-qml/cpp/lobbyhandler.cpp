@@ -83,12 +83,20 @@ public:
         sort(0, Qt::AscendingOrder);
     }
 
+    // Bewertet den Filter für alle Zeilen neu. Nötig, weil das Idle-Kriterium
+    // (Modus 2) nicht im Quell-Modell steht, sondern in der Session
+    // (getGameIdOfPlayer): Setzt sich ein Spieler an einen Tisch, ändert sich
+    // keine Zeile des Quell-Modells – der Proxy bewertet von sich aus nichts neu.
+    // sort() taugt dafür NICHT: bei dynamicSortFilter und unveränderter
+    // Spalte/Reihenfolge kehrt QSortFilterProxyModel::sort() sofort zurück.
     void refresh()
     {
-#if QT_VERSION < QT_VERSION_CHECK(6, 10, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 10, 0)
+        beginFilterChange();
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
+#else
         invalidateFilter();
 #endif
-        sort(0, Qt::AscendingOrder);
     }
 
     QHash<int, QByteArray> roleNames() const override
