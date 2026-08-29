@@ -1035,7 +1035,16 @@ Item {
                     onActivated: (index) => actionBar.applyPlayingMode(index)
                     // Popup nach oben öffnen – verhindert, dass er hinter
                     // der Android-Navigationsleiste verschwindet.
-                    popup.y: -popup.implicitHeight
+                    // WICHTIG: popup.height, NICHT popup.implicitHeight – die
+                    // implizite Höhe des Universal-Popups bleibt 0 (die Höhe
+                    // kommt aus dem Stil: min(contentItem.implicitHeight,
+                    // Fensterhöhe − Ränder)). Mit implicitHeight war y also
+                    // immer 0, das Popup klappte nach UNTEN und wurde nur von
+                    // Qt selbst in die FENSTER-Grenzen geschoben – unter Android
+                    // reicht das Fenster aber hinter die Navigationsleiste,
+                    // sodass der unterste Eintrag (Auto Check/Fold) im Hochformat
+                    // nicht mehr antippbar war.
+                    popup.y: -popup.height
 
                     contentItem: Text {
                         leftPadding: 8
