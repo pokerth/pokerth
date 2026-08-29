@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Disco QML table style – Pokertisch im Separee eines Clubs der Siebziger:
+   Spiegelkugel über der Tanzfläche, Neonschrift, Samt und Messing.
+
+   Die Tischgrafik zeigt den Tisch mittig im Bild, deshalb der center-Modus:
+   der Client zentriert das Bild auf den Mittelpunkt der Spieler-Ellipse.
+   table.png ist gegenüber der Vorlage (1576x998) oben um 95 und unten um 4 px
+   beschnitten, damit der Filz – die dunkle Spielfläche innerhalb der Holz-
+   umrandung – exakt in der Bildmitte liegt: Kanten bei x 128..1448 und
+   y 322..576, Mitte (788, 449) auf 1576x899. Der Client kennt keinen
+   Versatz-Tag: er zentriert das Bild starr auf communityCenterY, also
+   verschiebt AUSSCHLIESSLICH der Zuschnitt den Tisch gegen die Gemeinschafts-
+   karten. Gegenprobe am fertigen Preview: Filzmitte und Mitte der Kartenreihe
+   liegen 0,5 px auseinander.
+
+   Die Spiegelkugel hängt in table.png 155 px tiefer über der Tanzfläche als in
+   der Vorlage – sonst schnitte der obere Bildrand sie im Querformat auf halber
+   Höhe ab; ihr alter Platz ist mit gespiegelten Streifen des Perlenvorhangs
+   geschlossen.
+
+   Action-Buttons: Leuchtkacheln der Tanzfläche – Basisverlauf, Glanz auf der
+   oberen Hälfte, Neonkante oben, Schattenkante unten. Fold trägt bewusst die
+   matte Aubergine des Vorhangs, damit die drei aktiven Knöpfe die Neonfarben
+   tragen: Call Indigo, Raise Magenta, All-In Orange-Rot.
+
+   Pucks: dieselben Leuchtkacheln als Quadrat mit Lichthof – Dealer Magenta,
+   Small Blind Violett, Big Blind Orange. Alle Farben sind aus der Tanzfläche
+   der Vorlage gemessen.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Disco QML table style" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="29.08.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+     <!-- Crop-/Zoom-Faktor (>= 1.0): größer = Tisch größer / mehr Rand-Beschnitt.
+          Ohne Neubau justierbar – Wert ändern und Client neu starten. Höhere
+          Werte beschneiden im Querformat zuerst die Spiegelkugel am oberen
+          Rand. -->
+     <TableBackgroundZoom value="1.0" />
+
+     <!-- Eckenradius der Button-SVGs, in Einheiten ihrer 168x43-Zeichenfläche.
+          Der Client zeichnet Zustands-Rahmen (Vorwahl gold, primäre Aktion) als
+          Rechteck über das SVG und braucht dafür dessen Radius, sonst klaffen die
+          Ecken. Fehlt der Tag, gilt 9 (Radius der gebündelten Default-Buttons). -->
+     <ActionButtonBorderRadius value="7" />
+
+     <!-- Akzentfarbe der Spielerboxen: das Neon-Magenta von Tanzfläche und
+          "Good Times"-Schriftzug. Tönt Verlauf und Rahmen der Box; ohne den Tag
+          bleibt der neutrale Default-Look. -->
+     <PlayerBoxAccent value="#d1298f" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <!-- Alle vier Kacheln sind dunkel genug für helle Beschriftung; sie wird
+          leicht in die jeweilige Neonfarbe getönt statt aus den Verlaufs-Stops
+          abgeleitet. -->
+     <FoldButtonTextColor value="#f0e2f8" />
+     <CheckCallButtonTextColor value="#e6ecff" />
+     <BetRaiseButtonTextColor value="#ffe4f4" />
+     <AllInButtonTextColor value="#fff0e0" />
+
+     <!-- Farben der Chat-, Verlaufs- und Chancen-Box. Aus <PlayerBoxAccent>
+          abgeleitet: der Rahmen traegt den Akzent, die Flaechen nur einen
+          Hauch, die Schrift bleibt neutral. Unabhaengig vom Hell/Dunkel-Modus. -->
+     <ChatLogBackground value="#200f2c" />     <!-- Panel-Hintergrund -->
+     <ChatLogSurface value="#3a1d4d" />        <!-- Eingabefeld / Chat-Bubble -->
+     <ChatLogBorder value="#a4308c" />         <!-- Rahmen / Trennlinie -->
+     <ChatLogText value="#ffe2f4" />           <!-- Haupttext -->
+     <ChatLogTextSecondary value="#e0b0d8" />  <!-- Sekundärtext / Icons -->
+     <ChatLogTextMuted value="#a06fa8" />      <!-- gedämpfter Text / Platzhalter -->
+
+  </TableStyle>
+</PokerTH>

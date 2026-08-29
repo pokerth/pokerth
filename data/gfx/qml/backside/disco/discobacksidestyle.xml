@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card back style (Kartenrückseite) "Disco".
+
+   Spiegelkugel im Schwarzlicht – Gegenstück zum Tischstil "disco" und zum
+   Kartenstapel "blacklight_4c". Die Kugel ist eine echte Facettenkugel:
+   Breiten-/Längengitter, orthographisch projiziert, Rückseite verworfen, jede
+   Facette diffus beleuchtet mit hartem Glanzpunkt; knapp die Hälfte der Spiegel
+   fängt die Schwarzlichtfarben des Decks (Magenta, Cyan, Bernstein, Violett).
+   Die Lichtpunkte auf dem Karton sind das, was die Kugel in den Raum wirft.
+
+   Alles aus Pfaden und Verläufen – QtSvg kennt keine Filter. Rahmen wie bei den
+   neueren Rückseiten (matrix/stardust), hier in Magenta.
+
+   Erzeugt mit generate_disco_backside.py.
+-->
+<PokerTH>
+  <CardBack>
+     <StyleDescription value="Disco (QML/SVG)" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="29.08.2026" />
+     <PokerTHStyleFileVersion value="1" />
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+
+     <!-- Rückseiten-Grafik (SVG, beliebig skalierbar) -->
+     <Backside value="backside.svg" />
+  </CardBack>
+</PokerTH>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   QML card deck style "Blacklight 4c".
+
+   Vierfarbdeck in Schwarzlicht: Geometrie (Rangglyphen und Farbsymbole samt
+   Transformationen) ist 1:1 aus data/gfx/qml/cards/default4c übernommen – damit
+   bleiben Ranghöhen und Layout exakt die des Vorbilds. Neu sind die Farben und
+   das Leuchten.
+
+   Farben sind die invertierten default4c-Farben, auf Neon gezogen:
+     Karo  blau    #0039ff -> Bernstein #FFC400
+     Herz  rot     #d40000 -> Cyan      #00EFFF
+     Pik   schwarz #1a1a1a -> Weiß      #F2F0FF
+     Kreuz grün    #267126 -> Magenta   #FF4DE8
+   Die Kartenfläche ist entsprechend fast schwarz mit Violettstich.
+
+   QtSvg kennt keine Filter (feGaussianBlur), das Leuchten entsteht deshalb aus
+   sieben immer breiteren, immer schwächeren Konturen unter der Füllung. Der
+   schwache Neonrand der Karte hebt die dunkle Karte vom dunklen Tisch ab.
+
+   Erzeugt mit generate_blacklight_deck.py.
+
+   Engine-Index -> Karte (siehe CardImage.qml):
+     Farbe = floor(index / 13): 0-12 Karo(♦), 13-25 Herz(♥), 26-38 Pik(♠), 39-51 Kreuz(♣)
+     Rang  = index % 13:        0=2, 1=3, … 8=10, 9=Bube, 10=Dame, 11=König, 12=Ass
+-->
+<PokerTH>
+  <CardDeck>
+     <StyleDescription value="Blacklight 4c QML card deck" /><!-- Wird in der Stil-Auswahl angezeigt -->
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="29.08.2026" />
+     <PokerTHStyleFileVersion value="2" /><!-- Entspricht der vom Widget-Client unterstützten Version -->
+     <Preview value="preview.png" /><!-- Vorschaubild (nur Querformat – kein Portrait nötig) -->
+     <BigIndexesActionBottom value="0" /><!-- Action-Labels nicht zwingend unten -->
+  </CardDeck>
+</PokerTH>

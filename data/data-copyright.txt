@@ -92,6 +92,19 @@ gfx/qml/backside/matrix:
 	  (Rahmen/Layout eigenes Werk, PokerTH Development Team)
 
 
+gfx/qml/cards/blacklight_4c:
+
+	- 0.svg - 51.svg			--> Geometrie (Rang-Glyphen, Farbsymbole, Layout)
+						    aus gfx/qml/cards/default4c übernommen;
+						    Schwarzlichtfarben und Glow eigenes Werk
+						    (PokerTH Development Team)
+
+
+gfx/qml/backside/disco:
+
+	- backside.svg (Spiegelkugel)		--> eigenes Werk (PokerTH Development Team)
+
+
 gfx/avatars/default/misc:			--> donated by pokerth.net user: ZeiZei
 
 

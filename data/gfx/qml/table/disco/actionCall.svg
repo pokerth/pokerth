@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 43">
+  <!-- Disco: leuchtende Kachel der Tanzflaeche als Knopf – Basisverlauf, Glanz
+       auf der oberen Haelfte, Neonkante oben, Schattenkante unten.
+       Check/Call: Indigo – die kuehlen Kacheln am Rand der Tanzflaeche. -->
+  <defs>
+    <linearGradient id="base" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5f7bea"/>
+      <stop offset="0.52" stop-color="#2f43ad"/>
+      <stop offset="1" stop-color="#182262"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="166" height="41" rx="7" ry="7" fill="url(#base)"/>
+
+  <!-- Glanz der Glasflaeche ueber der Leuchtkachel -->
+  <rect x="4" y="3.5" width="160" height="16" rx="5" ry="5" fill="url(#gloss)"/>
+
+  <!-- Neonkante oben / Schattenkante unten -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M9 2.6H159" stroke="#c3cfff" stroke-opacity="0.7" stroke-width="1.2"/>
+    <path d="M9 40.6H159" stroke="#000000" stroke-opacity="0.42" stroke-width="1.6"/>
+  </g>
+
+  <rect x="1" y="1" width="166" height="41" rx="7" ry="7"
+        fill="none" stroke="#8ba0f4" stroke-width="1.4" stroke-opacity="0.85"/>
+</svg>
