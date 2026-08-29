@@ -30,7 +30,7 @@
 #                     native code is compiled against     (default 28 = Qt 6.8+ floor)
 #   ANDROID_NDK_VERSION                                   (default 28.0.13004108)
 #   VERSION_NAME      versionName                         (default: from src/game_defs.h)
-#   VERSION_CODE      versionCode, must grow per upload   (default 27)
+#   VERSION_CODE      versionCode, must grow per upload   (default 28)
 #   BUILD_TYPE        Release | Debug                     (default Release)
 #   UNIVERSAL_APK     1 = also build a universal APK      (default 0)
 #   ANDROID_KEYSTORE        upload keystore; unsigned bundle if unset
@@ -107,7 +107,7 @@ VERSION_NAME="${VERSION_NAME:-$(sed -n 's/^#define[[:space:]]*POKERTH_BETA_RELEA
 # local run without VERSION_CODE must not produce an APK that Android refuses to
 # install over the previous release (INSTALL_FAILED_VERSION_DOWNGRADE). The
 # workflows always pass their own code and never reach this default.
-VERSION_CODE="${VERSION_CODE:-27}"
+VERSION_CODE="${VERSION_CODE:-28}"
 
 ANDROID_KEYSTORE="${ANDROID_KEYSTORE:-}"
 ANDROID_KEYSTORE_PASS="${ANDROID_KEYSTORE_PASS:-}"

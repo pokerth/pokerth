@@ -3391,8 +3391,8 @@ Veuillez redémarrer PokerTH pour que les fichiers journaux y soient enregistré
     <name>PreLoader</name>
     <message>
         <location filename="../pages/PreLoader.qml" line="+143"/>
-        <source>PokerTH - v2.1.7</source>
-        <translation>PokerTH - v2.1.7</translation>
+        <source>PokerTH - v2.1.8</source>
+        <translation>PokerTH - v2.1.8</translation>
     </message>
 </context>
 <context>
@@ -4351,8 +4351,8 @@ Veuillez vérifier votre nom d&apos;utilisateur et mot de passe.</translation>
     <name>SideMenu</name>
     <message>
         <location filename="../components/SideMenu.qml" line="+35"/>
-        <source>PokerTH - v2.1.7</source>
-        <translation>PokerTH - v2.1.7</translation>
+        <source>PokerTH - v2.1.8</source>
+        <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -4725,8 +4725,8 @@ aperçu</translation>
     <name>pokerth</name>
     <message>
         <location filename="../pokerth.qml" line="+205"/>
-        <source>PokerTH - v2.1.7</source>
-        <translation>PokerTH - v2.1.7</translation>
+        <source>PokerTH - v2.1.8</source>
+        <translation>PokerTH - v2.1.8</translation>
     </message>
     <message>
         <location line="+255"/>

@@ -127,7 +127,7 @@ entsprechen (aktuell `https://www.pokerth.net/fdroid/repo`).
    den das Gerät ausführen kann. Deshalb steigt die Reihenfolge von Qt-6.7-Fallback
    über 32-Bit-ARM zu arm64 und x86_64.
 
-2. **Optional Changelog** anlegen: `fdroid/changelogs/2.1.7.txt` (Dateiname =
+2. **Optional Changelog** anlegen: `fdroid/changelogs/2.1.8.txt` (Dateiname =
    versionName). Der Workflow verteilt ihn auf die versionCodes aller Varianten.
 
 3. **Veröffentlichen** — `fdroid.yml` starten. Ohne Eingaben nimmt er den letzten

@@ -71,7 +71,7 @@ jobs:
         uses: actions/checkout@v4
 
       # 100 + run number, never the bare run number: the local builds in
-      # docker/android/build_android.sh already shipped versionCode 20…27 as
+      # docker/android/build_android.sh already shipped versionCode 20…28 as
       # side-load APKs under the same package name, and Android refuses to
       # install a lower code over them ("App not installed" =
       # INSTALL_FAILED_VERSION_DOWNGRADE). The offset keeps every workflow build

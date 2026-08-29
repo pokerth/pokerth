@@ -365,8 +365,8 @@ if(IOS)
     # nur A–Z a–z 0–9 . und - — bei einer echten App-Store-Einreichung müsste der
     # "_" zu "-" werden (net.pokerth.PokerTH-QML).
     set(POKERTH_IOS_BUNDLE_ID "net.pokerth.PokerTH_QML" CACHE STRING "CFBundleIdentifier der iOS-App")
-    set(POKERTH_IOS_VERSION   "2.1.7"           CACHE STRING "CFBundleShortVersionString der iOS-App")
-    set(POKERTH_IOS_BUILD     "27"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
+    set(POKERTH_IOS_VERSION   "2.1.8"           CACHE STRING "CFBundleShortVersionString der iOS-App")
+    set(POKERTH_IOS_BUILD     "28"              CACHE STRING "CFBundleVersion (Build-Nummer) der iOS-App")
 
     # Asset-Katalog mit dem App-Icon (1024er PNG, ohne Alpha – actool lehnt
     # transparente iOS-App-Icons ab). Xcode kompiliert ihn in Assets.car.
