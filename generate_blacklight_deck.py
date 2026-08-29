@@ -25,8 +25,14 @@ SUITS = [
 
 # Glow-Schichten: (Breite in Kartenkoordinaten, Deckkraft). Von aussen nach
 # innen, darueber liegt die volle Fuellung.
-GLOW = [(13.0, 0.045), (10.0, 0.06), (7.5, 0.08), (5.4, 0.11),
-        (3.6, 0.15), (2.3, 0.21), (1.2, 0.32)]
+GLOW = [(10.6, 0.038), (8.2, 0.05), (6.2, 0.07), (4.4, 0.095),
+        (3.0, 0.13), (1.9, 0.18), (1.0, 0.28)]
+
+# Die Rangglyphe wandert gegenueber default4c um 7 Einheiten nach oben. Dort
+# stehen Rang (Tinte y 26..94) und Farbsymbol (y 97..149) nur 3 Einheiten aus-
+# einander - eng genug, dass der Glow die Luecke schliesst. Mit dem Versatz sind
+# es 10 Einheiten, und der Satz steht mit 19 Einheiten Rand oben wie unten.
+RANK_LIFT = 7.0
 
 PATH_RE = re.compile(
     r'<path\s+d="([^"]+)"\s+transform="matrix\(([\d.\- ]+)\)"', re.S)
@@ -52,10 +58,13 @@ def main():
         assert len(hits) == 2, (idx, len(hits))
         suit = SUITS[idx // 13]
         parts = []
-        for d, m in hits:
+        for n, (d, m) in enumerate(hits):
             nums = [float(v) for v in m.split()]
+            if n == 0:                       # Rangglyphe: nach oben ruecken
+                nums[5] -= RANK_LIFT
             scale = nums[0]
-            parts.append(glow_group(d, "matrix(%s)" % m, scale, suit["ink"]))
+            matrix = " ".join("%g" % v for v in nums)
+            parts.append(glow_group(d, "matrix(%s)" % matrix, scale, suit["ink"]))
         svg = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 168">
   <!-- Blacklight 4c: Geometrie aus dem default4c-Deck, Farben invertiert
        (%s). Das Leuchten ist aus Konturen gebaut - QtSvg kann keine Filter. -->

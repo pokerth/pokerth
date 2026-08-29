@@ -18,6 +18,11 @@
    sieben immer breiteren, immer schwächeren Konturen unter der Füllung. Der
    schwache Neonrand der Karte hebt die dunkle Karte vom dunklen Tisch ab.
 
+   Abweichend von default4c sitzt die Rangglyphe 7 Einheiten höher: dort stehen
+   Rang (Tinte y 26..94) und Farbsymbol (y 97..149) nur 3 Einheiten auseinander,
+   was der Glow zuzieht. Jetzt sind es 10 Einheiten, und der Satz hat oben wie
+   unten 19 Einheiten Rand.
+
    Erzeugt mit generate_blacklight_deck.py.
 
    Engine-Index -> Karte (siehe CardImage.qml):
