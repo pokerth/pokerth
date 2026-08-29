@@ -45,13 +45,13 @@ Rectangle {
     // nur bei aktivierten Community-Einstellungen:
     //   • der ERSTELLER seines eigenen Tisches – sein Typ kommt EXPLIZIT aus dem
     //     Preset (Config.BotSuggest.createdSuggestType, beim Erstellen gesetzt);
-    //   • jeder BBC-ADMIN an einem fremden BBC-Step-Tisch – dort ist der Typ
-    //     nicht bekannt und wird aus den Spieleinstellungen abgeleitet
-    //     (Config.BotSuggest.suggestTypeForGameInfo; der Tischname ist frei
-    //     editierbar und wird bewusst NICHT herangezogen).
-    // Der BBC-Admin-Abgleich (bbcadmins.txt) läuft asynchron und erst, wenn der
-    // rein lokale Fingerprint bereits „BBC-Step" sagt – an allen anderen Tischen
-    // kostet das Feature keinen Request.
+    //   • jeder COMMUNITY-ADMIN an einem fremden Tisch seiner Community (BBC
+    //     Step bzw. WEC) – dort ist der Typ nicht bekannt und wird aus den
+    //     Spieleinstellungen abgeleitet (Config.BotSuggest.suggestTypeForGameInfo;
+    //     der Tischname ist frei editierbar und wird bewusst NICHT herangezogen).
+    // Der Admin-Abgleich (bbcadmins.txt / wecadmins.txt) läuft asynchron und
+    // erst, wenn der rein lokale Fingerprint bereits einen Suggest-Typ liefert –
+    // an allen anderen Tischen kostet das Feature keinen Request.
     readonly property bool communitySuggestEnabled: Config.Parameters.showCommunityContent
         && Config.Parameters.showCommunitySuggest
         && (info.gameType || 1) === 3
@@ -61,32 +61,42 @@ Rectangle {
         ? Config.BotSuggest.createdSuggestType : ""
     readonly property string tableSuggestType: communitySuggestEnabled
         ? Config.BotSuggest.suggestTypeForGameInfo(info) : ""
-    // Nur BBC-Steps sind für fremde Admins freigegeben (WEC bleibt beim Ersteller).
-    readonly property bool needsBbcAdminCheck: communitySuggestEnabled
+    // Für fremde Admins freigegeben ist jeder erkannte Community-Typ (BBC Step,
+    // WEC); die zuständige Adminliste wählt Config.BotSuggest anhand des Typs.
+    readonly property bool needsCommunityAdminCheck: communitySuggestEnabled
         && ownSuggestType.length === 0
-        && /^step[1-4]$/.test(tableSuggestType)
+        && Config.BotSuggest.isSuggestType(tableSuggestType)
         && !(Lobby && Lobby.isMyPlayerGuest)
-    property bool bbcAdmin: false
+    property bool communityAdmin: false
     readonly property string effectiveSuggestType: ownSuggestType.length > 0
-        ? ownSuggestType : (bbcAdmin ? tableSuggestType : "")
+        ? ownSuggestType : (communityAdmin ? tableSuggestType : "")
     readonly property bool canSuggest: communitySuggestEnabled
                                        && effectiveSuggestType.length > 0
     property bool suggestBusy: false
 
-    onNeedsBbcAdminCheckChanged: resolveBbcAdmin()
-    Component.onCompleted: resolveBbcAdmin()
+    // Auch der reine Typwechsel (Step ⇄ WEC) muss neu abgleichen: die beiden
+    // Communitys führen getrennte Adminlisten.
+    onNeedsCommunityAdminCheckChanged: resolveCommunityAdmin()
+    onTableSuggestTypeChanged: resolveCommunityAdmin()
+    Component.onCompleted: resolveCommunityAdmin()
 
-    // Angestoßen wird nur beim Wechsel auf „fremder BBC-Step-Tisch". Cache und
+    // Angestoßen wird nur beim Wechsel auf „fremder Community-Tisch". Cache und
     // Fehlschlag-Drosselung liegen in Config.BotSuggest, ein erneutes Betreten
     // kostet also in aller Regel kein Netz.
-    function resolveBbcAdmin() {
-        if (!needsBbcAdminCheck || !Lobby)
+    function resolveCommunityAdmin() {
+        // Ein früher gesetztes Admin-Flag gilt nur für den Typ, für den es
+        // ermittelt wurde – sonst schaltete ein BBC-Admin den Knopf an einem
+        // fremden WEC-Tisch frei (und umgekehrt).
+        communityAdmin = false
+        if (!needsCommunityAdminCheck || !Lobby)
             return
         var gameId = Lobby.currentGameId
-        Config.BotSuggest.isBbcAdmin(Lobby.myPlayerName, function(isAdmin) {
+        var type = tableSuggestType
+        Config.BotSuggest.isCommunityAdmin(type, Lobby.myPlayerName, function(isAdmin) {
             // Spättreffer nach Tischwechsel darf den Button nicht freischalten.
-            if (Lobby && Lobby.currentGameId === gameId)
-                gameWaitPage.bbcAdmin = isAdmin
+            if (Lobby && Lobby.currentGameId === gameId
+                && gameWaitPage.tableSuggestType === type)
+                gameWaitPage.communityAdmin = isAdmin
         })
     }
 

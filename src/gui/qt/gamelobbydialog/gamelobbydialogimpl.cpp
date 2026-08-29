@@ -262,9 +262,9 @@ gameLobbyDialogImpl::gameLobbyDialogImpl(startWindowImpl *parent, ConfigFile *c)
 		chatGrid->addWidget(lineEdit_ChatInput, 2, 0);
 	}
 	connect( pushButton_suggestPlayers, SIGNAL( clicked() ), this, SLOT( runCommunitySuggest() ) );
-	// Der BBC-Admin-Abgleich läuft asynchron; sobald er da ist, Button neu bewerten.
-	// Funktionszeiger-Syntax: updateSuggestButtonVisibility() ist kein Slot.
-	connect( mySuggest, &CommunitySuggest::bbcAdminResolved,
+	// Der Community-Admin-Abgleich läuft asynchron; sobald er da ist, Button neu
+	// bewerten. Funktionszeiger-Syntax: updateSuggestButtonVisibility() ist kein Slot.
+	connect( mySuggest, &CommunitySuggest::communityAdminResolved,
 	         this, &gameLobbyDialogImpl::updateSuggestButtonVisibility );
 
 	nickListContextMenu = new QMenu();
@@ -386,13 +386,14 @@ gameLobbyDialogImpl::~gameLobbyDialogImpl()
 //     (siehe selectedSuggestType()). KEIN erneuter session-basierter GameType-
 //     Check – der schlug beim Self-Join fehl, weil getGameIdOfPlayer() dann noch
 //     0 liefern kann.
-//   • BBC-ADMIN an einem FREMDEN Tisch: Der Typ steht nirgends im Protokoll und
-//     der Tischname taugt nicht als Quelle (frei editierbar), also aus den
-//     Spieleinstellungen ableiten (CommunitySuggest::suggestTypeForGame). Der
-//     Admin-Abgleich (bbcadmins.txt) läuft asynchron und wird erst angestoßen,
-//     wenn der rein lokale Fingerprint bereits „BBC-Step" sagt – an allen
-//     anderen Tischen kostet das Feature keinen Request. Bis die Antwort da ist,
-//     bleibt der Button aus; danach ruft bbcAdminResolved() hier erneut an.
+//   • COMMUNITY-ADMIN an einem FREMDEN Tisch: Der Typ steht nirgends im
+//     Protokoll und der Tischname taugt nicht als Quelle (frei editierbar), also
+//     aus den Spieleinstellungen ableiten (CommunitySuggest::suggestTypeForGame).
+//     Der Admin-Abgleich (bbcadmins.txt für Steps, wecadmins.txt für WEC) läuft
+//     asynchron und wird erst angestoßen, wenn der rein lokale Fingerprint
+//     bereits einen Typ liefert – an allen anderen Tischen kostet das Feature
+//     keinen Request. Bis die Antwort da ist, bleibt der Button aus; danach ruft
+//     communityAdminResolved() hier erneut an.
 QString gameLobbyDialogImpl::effectiveSuggestType()
 {
 	if (!myConfig || !myConfig->readConfigInt("ShowCommunityContent") || guestMode)
@@ -408,17 +409,15 @@ QString gameLobbyDialogImpl::effectiveSuggestType()
 	if (info.data.gameType != GAME_TYPE_INVITE_ONLY)
 		return QString();
 
-	const QString tableType = CommunitySuggest::suggestTypeForGame(
-	                              info.data.startMoney, info.data.firstSmallBlind,
-	                              info.data.manualBlindsList);
+	const QString tableType = CommunitySuggest::suggestTypeForGame(info.data);
 	if (tableType.isEmpty())
 		return QString();
 
-	if (mySuggest->isBbcAdmin())
+	if (mySuggest->isCommunityAdmin(tableType))
 		return tableType;
 
 	const PlayerInfo playerInfo(mySession->getClientPlayerInfo(mySession->getClientUniquePlayerId()));
-	mySuggest->requestBbcAdmin(QString::fromUtf8(playerInfo.playerName.c_str()));
+	mySuggest->requestCommunityAdmin(tableType, QString::fromUtf8(playerInfo.playerName.c_str()));
 	return QString();
 }
 

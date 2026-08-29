@@ -96,83 +96,115 @@ const QList<CommunitySuggest::CommunityTemplate> &CommunitySuggest::templates()
 	return table;
 }
 
-QString CommunitySuggest::suggestTypeForGame(int startMoney, int firstSmallBlind,
-                                             const std::list<int> &manualBlinds)
+QString CommunitySuggest::suggestTypeForGame(const GameData &data)
 {
-	if (manualBlinds.empty())
-		return QString();
 	for (const CommunityTemplate &t : templates()) {
-		if (t.suggestType.isEmpty() || t.blinds.isEmpty())
+		if (t.suggestType.isEmpty())
 			continue;
-		if (t.startCash != startMoney || t.firstSmallBlind != firstSmallBlind)
+		if (t.startCash != data.startMoney || t.firstSmallBlind != data.firstSmallBlind)
 			continue;
-		if (t.blinds.size() != static_cast<int>(manualBlinds.size()))
+		if (t.blinds.size() != static_cast<int>(data.manualBlindsList.size()))
 			continue;
-		bool same = true;
-		int i = 0;
-		for (int blind : manualBlinds) {
-			if (t.blinds.at(i++) != blind) {
-				same = false;
-				break;
+		if (!t.blinds.isEmpty()) {
+			bool same = true;
+			int i = 0;
+			for (int blind : data.manualBlindsList) {
+				if (t.blinds.at(i++) != blind) {
+					same = false;
+					break;
+				}
 			}
+			if (!same)
+				continue;
+		} else {
+			// Blinds verdoppeln (WEC): Startgeld + Small Blind sind hier keine
+			// Signatur, deshalb zusätzlich Raise-Intervall und Timeout prüfen.
+			const bool onHands = data.raiseIntervalMode == RAISE_ON_HANDNUMBER;
+			if (t.raiseOnHands != onHands)
+				continue;
+			if (onHands) {
+				if (t.raiseEveryHands != data.raiseSmallBlindEveryHandsValue)
+					continue;
+			} else if (t.raiseEveryMinutes != data.raiseSmallBlindEveryMinutesValue) {
+				continue;
+			}
+			if (t.playerActionTimeout != data.playerActionTimeoutSec)
+				continue;
 		}
-		if (same)
-			return t.suggestType;
+		return t.suggestType;
 	}
 	return QString();
 }
 
-bool CommunitySuggest::isBbcAdmin() const
+QString CommunitySuggest::adminFile(const QString &type)
 {
-	return m_bbcAdmin;
+	if (type == QLatin1String("wec"))
+		return QStringLiteral("wecadmins.txt");
+	static const QRegularExpression stepRe(QStringLiteral("^step[1-4]$"));
+	if (stepRe.match(type).hasMatch())
+		return QStringLiteral("bbcadmins.txt");
+	return QString();
 }
 
-void CommunitySuggest::applyBbcAdmin(const QString &nick)
+bool CommunitySuggest::isCommunityAdmin(const QString &type) const
 {
-	m_bbcAdmin = m_bbcAdmins.contains(suggestKey(nick));
-	emit bbcAdminResolved();
+	const QString file = adminFile(type);
+	if (file.isEmpty())
+		return false;
+	return m_admins.value(file).isAdmin;
 }
 
-void CommunitySuggest::requestBbcAdmin(const QString &nick)
+void CommunitySuggest::applyCommunityAdmin(const QString &file, const QString &nick)
 {
-	if (nick.isEmpty() || m_bbcAdminInFlight)
+	m_admins[file].isAdmin = m_admins[file].names.contains(suggestKey(nick));
+	emit communityAdminResolved();
+}
+
+void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString &nick)
+{
+	const QString file = adminFile(type);
+	if (file.isEmpty() || nick.isEmpty())
+		return;
+	AdminList &list = m_admins[file];
+	if (list.inFlight)
 		return;
 
 	const qint64 now = QDateTime::currentMSecsSinceEpoch();
-	if (m_bbcAdminsLoaded && (now - m_bbcAdminsTs) < CACHE_TTL_MS) {
-		applyBbcAdmin(nick);   // frischer Cache ⇒ ohne Netz
+	if (list.loaded && (now - list.ts) < CACHE_TTL_MS) {
+		applyCommunityAdmin(file, nick);   // frischer Cache ⇒ ohne Netz
 		return;
 	}
 	// Auch FEHLSCHLÄGE drosseln: der Aufrufer hängt an der Button-Sichtbarkeit
 	// und fragt bei jeder Änderung der Spielerliste erneut – ohne diese Sperre
 	// liefe bei fehlender/unerreichbarer Datei ein Download pro Join/Leave.
-	if (m_bbcAdminLastTry != 0 && (now - m_bbcAdminLastTry) < CACHE_TTL_MS)
+	if (list.lastTry != 0 && (now - list.lastTry) < CACHE_TTL_MS)
 		return;
-	m_bbcAdminLastTry = now;
+	list.lastTry = now;
 
-	m_bbcAdminInFlight = true;
-	if (!m_bbcAdminNam)
-		m_bbcAdminNam = new QNetworkAccessManager(this);
+	list.inFlight = true;
+	if (!m_adminNam)
+		m_adminNam = new QNetworkAccessManager(this);
 
-	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + QStringLiteral("bbcadmins.txt")));
+	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + file));
 	request.setRawHeader("User-Agent", POKERTH_USER_AGENT);
 	request.setTransferTimeout(15000);
 
-	QNetworkReply *reply = m_bbcAdminNam->get(request);
+	QNetworkReply *reply = m_adminNam->get(request);
 	const QString wanted = nick;
-	connect(reply, &QNetworkReply::finished, this, [this, reply, wanted]() {
-		m_bbcAdminInFlight = false;
+	connect(reply, &QNetworkReply::finished, this, [this, reply, file, wanted]() {
+		AdminList &entry = m_admins[file];
+		entry.inFlight = false;
 		const bool ok = reply->error() == QNetworkReply::NoError;
 		const QByteArray data = ok ? reply->readAll() : QByteArray();
 		reply->deleteLater();
 		if (ok && !data.isEmpty()) {
-			parseNameList(data, m_bbcAdmins);
-			m_bbcAdminsLoaded = true;
-			m_bbcAdminsTs = QDateTime::currentMSecsSinceEpoch();
+			parseNameList(data, entry.names);
+			entry.loaded = true;
+			entry.ts = QDateTime::currentMSecsSinceEpoch();
 		}
 		// Fehlschlag ⇒ auf (ggf. abgelaufene) Altdaten zurückfallen; ist gar
 		// nichts da, bleibt der Button aus – wie ohne das Feature.
-		applyBbcAdmin(wanted);
+		applyCommunityAdmin(file, wanted);
 	});
 }
 

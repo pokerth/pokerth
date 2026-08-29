@@ -11,9 +11,9 @@
  *
  * Bewusst SYNCHRON (QEventLoop) – identisch zum bbcbot-Download; dank Cache
  * passiert ein echter Download nur selten (erstmalig / nach Ablauf). Ausnahme
- * ist der BBC-Admin-Abgleich (bbcadmins.txt): der hängt an der Sichtbarkeit des
- * Suggest-Buttons statt an einem Klick und läuft deshalb asynchron – siehe
- * requestBbcAdmin().
+ * ist der Community-Admin-Abgleich (bbcadmins.txt / wecadmins.txt): der hängt an
+ * der Sichtbarkeit des Suggest-Buttons statt an einem Klick und läuft deshalb
+ * asynchron – siehe requestCommunityAdmin().
  *****************************************************************************/
 #ifndef COMMUNITYSUGGEST_H
 #define COMMUNITYSUGGEST_H
@@ -24,7 +24,7 @@
 #include <QHash>
 #include <QList>
 
-#include <list>
+#include "gamedata.h"
 
 QT_BEGIN_NAMESPACE
 class QNetworkAccessManager;
@@ -71,26 +71,31 @@ public:
 	// Tischname taugt NICHT als Quelle – er ist frei editierbar. Startgeld +
 	// erster Small Blind + die vollständige manuelle Blindreihenfolge
 	// identifizieren einen BBC-Step dagegen eindeutig.
-	// Vorlagen ohne feste Blindliste (Monthly Cup, WEC) werden übersprungen:
-	// „Blinds verdoppeln" mit 10000/50 ist keine Signatur, das träfe auch
-	// beliebige fremde Tische. Rückgabe: "step1".."step4" oder "" (unbekannt).
-	static QString suggestTypeForGame(int startMoney, int firstSmallBlind,
-	                                  const std::list<int> &manualBlinds);
+	// Die WEC-Vorlagen verdoppeln die Blinds und haben keine solche Liste; für
+	// sie müssen zusätzlich Raise-Intervall (Modus + Wert) und Aktions-Timeout
+	// passen – Startgeld + Small Blind allein wären keine Signatur. Bekannte
+	// Unschärfe: „Monthly Cup Final" hat exakt dieselben Einstellungen wie
+	// „WEC"; die beiden sind über die Einstellungen nicht trennbar (der
+	// Vorschlag landet nur lokal beim Klickenden, deshalb in Kauf genommen).
+	// Rückgabe: "step1".."step4", "wec" oder "" (unbekannt).
+	static QString suggestTypeForGame(const GameData &data);
 
-	// ── BBC-Admin-Abgleich (bbcadmins.txt, Format wie weclist.txt) ───────────
-	// Entscheidet, ob der eigene Spieler an einem FREMDEN BBC-Step-Tisch
-	// vorschlagen darf. Bewusst ASYNCHRON (anders als suggest()): der Abgleich
-	// hängt an der Sichtbarkeit des Buttons und liefe damit in den Signalpfaden
-	// des Warteraums – ein verschachtelter QEventLoop hätte dort die UI
-	// eingefroren. Erst aufrufen, wenn suggestTypeForGame bereits „BBC-Step"
-	// sagt; dann kostet das Feature an allen anderen Tischen keinen Request.
-	// Antwort kommt über bbcAdminResolved(); bis dahin liefert isBbcAdmin() false.
-	void requestBbcAdmin(const QString &nick);
-	bool isBbcAdmin() const;
+	// ── Community-Admin-Abgleich ────────────────────────────────────────────
+	// Je Community eine Adminliste im Format von weclist.txt: bbcadmins.txt für
+	// die BBC-Steps, wecadmins.txt für die WEC-Tische. Sie entscheidet, ob der
+	// eigene Spieler an einem FREMDEN Tisch dieser Community vorschlagen darf.
+	// Bewusst ASYNCHRON (anders als suggest()): der Abgleich hängt an der
+	// Sichtbarkeit des Buttons und liefe damit in den Signalpfaden des
+	// Warteraums – ein verschachtelter QEventLoop hätte dort die UI eingefroren.
+	// Erst aufrufen, wenn suggestTypeForGame bereits einen Typ liefert; dann
+	// kostet das Feature an allen anderen Tischen keinen Request. Antwort kommt
+	// über communityAdminResolved(); bis dahin liefert isCommunityAdmin() false.
+	void requestCommunityAdmin(const QString &type, const QString &nick);
+	bool isCommunityAdmin(const QString &type) const;
 
 signals:
 	// Ergebnis des Admin-Abgleichs liegt vor (auch bei Fehlschlag).
-	void bbcAdminResolved();
+	void communityAdminResolved();
 
 public:
 	// Erzeugt die Vorschlagszeile für den gegebenen Typ. idleNames = idle
@@ -117,6 +122,16 @@ private:
 		int games = 0;
 	};
 
+	// Zustand einer Adminliste (eine je Community-Datei).
+	struct AdminList {
+		QHash<QString, QString> names;   // key: lowercase name → Original
+		qint64 ts = 0;
+		qint64 lastTry = 0;              // drosselt auch fehlgeschlagene Versuche
+		bool loaded = false;
+		bool inFlight = false;
+		bool isAdmin = false;
+	};
+
 	// Datei sicherstellen (Download+Parse, wenn Cache älter als 15 min oder leer).
 	// kind: "db" | "wec" | "gameslist". Liefert true, wenn brauchbare Daten da sind.
 	bool ensure(const QString &kind);
@@ -126,8 +141,10 @@ private:
 	void parseNameList(const QByteArray &data, QHash<QString, QString> &target);
 	void parseGameslist(const QByteArray &data);
 
+	// Suggest-Typ → Dateiname der zuständigen Adminliste ("" = keine).
+	static QString adminFile(const QString &type);
 	// Ergebnis aus dem (ggf. gerade geladenen) Admin-Cache setzen + melden.
-	void applyBbcAdmin(const QString &nick);
+	void applyCommunityAdmin(const QString &file, const QString &nick);
 
 	QString suggestStep(int step, const QStringList &idleNames,
 	                    const QList<PlayingPlayer> &playing) const;
@@ -138,21 +155,17 @@ private:
 	QHash<QString, DbEntry> m_db;          // key: lowercase name
 	QHash<QString, QString> m_wec;         // key: lowercase name → Original
 	QHash<QString, QString> m_gameslist;   // key: command → title prefix
-	QHash<QString, QString> m_bbcAdmins;   // key: lowercase name → Original
 	qint64 m_dbTs = 0;
 	qint64 m_wecTs = 0;
 	qint64 m_gameslistTs = 0;
-	qint64 m_bbcAdminsTs = 0;
 	bool m_dbLoaded = false;
 	bool m_wecLoaded = false;
 	bool m_gameslistLoaded = false;
-	bool m_bbcAdminsLoaded = false;
 
-	// Asynchroner Pfad (nur bbcadmins.txt), siehe requestBbcAdmin().
-	QNetworkAccessManager *m_bbcAdminNam = 0;
-	qint64 m_bbcAdminLastTry = 0;   // drosselt auch fehlgeschlagene Versuche
-	bool m_bbcAdminInFlight = false;
-	bool m_bbcAdmin = false;
+	// Asynchroner Pfad (nur die Adminlisten), siehe requestCommunityAdmin();
+	// key: Dateiname ("bbcadmins.txt" / "wecadmins.txt").
+	QHash<QString, AdminList> m_admins;
+	QNetworkAccessManager *m_adminNam = 0;
 };
 
 #endif // COMMUNITYSUGGEST_H
