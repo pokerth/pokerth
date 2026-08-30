@@ -316,6 +316,15 @@ endif()
 
 target_compile_definitions(pokerth_qml-client PUBLIC QML_CLIENT)
 
+# -rdynamic: legt die Symbole des Clients in die dynamische Symboltabelle, damit
+# der Crash-Handler (loghelper_install_crash_handler, s. loghelper_client.cpp)
+# im Backtrace auch eigene Funktionen benennen kann und nicht nur die der Qt-
+# Bibliotheken. Kostet nur ein paar KB in der Binary. Nicht auf Android (kein
+# backtrace() in bionic, Handler dort ohnehin inaktiv) und nicht unter Windows.
+if(UNIX AND NOT ANDROID)
+    target_link_options(pokerth_qml-client PRIVATE -rdynamic)
+endif()
+
 # qDebug()-Aufrufe der Client-eigenen Quellen (z. B. die per-Aktion-
 # Instrumentierung [ACTDBG] im GameHandler aus der gelösten Freeze-Untersuchung)
 # zu Compile-Zeit zu No-ops machen → keine String-Formatierung/I/O pro Aktion

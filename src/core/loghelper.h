@@ -46,6 +46,13 @@ void loghelper_init(const std::string &logDir, int logLevel);
 // what makes the rare end-of-round freeze diagnosable after the fact.
 void loghelper_write_raw(const std::string &line);
 
+// Install a crash handler for SIGSEGV/SIGABRT/SIGBUS/SIGILL/SIGFPE. It appends a
+// "[CRASH]" marker plus a backtrace to the debug log opened by loghelper_init()
+// and then lets the default handler run, so the core dump is unaffected. Call
+// once, right after loghelper_init(). No-op without an open log file and on
+// platforms without backtrace() (Windows, Android).
+void loghelper_install_crash_handler();
+
 void internal_log_err(const std::string &msg);
 void internal_log_msg(const std::string &msg);
 void internal_log_level(const std::string &msg, int logLevel);

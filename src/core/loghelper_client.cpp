@@ -42,6 +42,19 @@
 #include <iomanip>
 #include <chrono>
 #include <ctime>
+#include <cstdio>
+
+// The crash handler needs backtrace() and POSIX signal/file calls. bionic
+// (Android) has no execinfo.h, Windows has neither - there the handler is a
+// no-op and only the [SHUTDOWN] marker distinguishes a crash from a clean exit.
+#if (defined(__linux__) && !defined(__ANDROID__)) || defined(__APPLE__)
+#define POKERTH_CRASH_HANDLER 1
+#include <csignal>
+#include <cstring>
+#include <execinfo.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 
 using namespace std;
@@ -60,6 +73,16 @@ std::mutex &logFileMutex()
 }
 std::ofstream g_logFile;
 bool g_logFileReady = false;
+#ifdef POKERTH_CRASH_HANDLER
+// Second, raw handle on the same file, opened O_APPEND alongside the stream.
+// The crash handler must not touch g_logFile: neither std::ofstream nor the
+// mutex above is async-signal-safe (and the mutex may well be held by the very
+// thread that just died), so it writes through this descriptor with write(2).
+int g_crashLogFd = -1;
+// Own stack for the handler, so a crash caused by stack exhaustion can still
+// run it. SIGSTKSZ is not a compile-time constant on newer glibc.
+char g_crashStack[65536];
+#endif
 
 // "2026-06-14 21:03:11.482 [t140123…] " – the thread id is the important bit:
 // it lets us see the GUI-thread vs network-thread interleaving that causes the
@@ -134,20 +157,32 @@ loghelper_init(const std::string &logDir, int logLevel)
 	const std::string sep = (last == '/' || last == '\\') ? "" : "/";
 	const std::string path = logDir + sep + "pokerth-debug.log";
 	// Rotate only here, at app start: if an existing log's first entry is older
-	// than LOG_ROTATE_HOURS, truncate instead of appending. A running session is
-	// never touched - the log grows for the whole session and is only cleared on
-	// the next start once it has aged past the rotation period.
+	// than LOG_ROTATE_HOURS, the file is moved aside to "pokerth-debug.log.1" and
+	// the session starts a fresh one. A running session is never touched - the log
+	// grows for the whole session and is only rotated on the next start once it has
+	// aged past the rotation period.
+	//
+	// Moving instead of truncating is what makes a crash analysable: the client is
+	// restarted right after it (to rejoin the table), and that restart used to wipe
+	// the very log that held the crash. One kept generation survives it; two files
+	// are still a bounded amount of disk.
 	std::time_t existingStart = 0;
-	const bool rotate = parseLogStart(path, existingStart) && rotationDue(existingStart);
-	const std::ios::openmode mode = rotate
-		? (std::ios::out | std::ios::trunc)
-		: (std::ios::out | std::ios::app);
-	g_logFile.open(path.c_str(), mode);
+	if (parseLogStart(path, existingStart) && rotationDue(existingStart)) {
+		const std::string previous = path + ".1";
+		// Windows: rename() fails if the target exists, so drop it first. If the
+		// move fails for any reason we simply keep appending - never lose lines.
+		std::remove(previous.c_str());
+		std::rename(path.c_str(), previous.c_str());
+	}
+	g_logFile.open(path.c_str(), std::ios::out | std::ios::app);
 	if (g_logFile.is_open()) {
 		g_logFileReady = true;
 		g_logFile << timestampPrefix()
 		          << "==== PokerTH client debug log started ===="
 		          << std::endl;
+#ifdef POKERTH_CRASH_HANDLER
+		g_crashLogFd = ::open(path.c_str(), O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0644);
+#endif
 	}
 }
 
@@ -165,6 +200,94 @@ loghelper_write_raw(const std::string &line)
 	g_logFile << timestampPrefix() << msg << std::endl; // endl → flush, so a
 	                                                    // freeze still leaves the
 	                                                    // last line on disk.
+}
+
+#ifdef POKERTH_CRASH_HANDLER
+namespace {
+
+// write(2) on the raw descriptor - the only file output allowed from a signal
+// handler (write/strlen/time/backtrace_symbols_fd are on the POSIX
+// async-signal-safe list, the iostream above is not).
+void crashWrite(const char *text)
+{
+	const ssize_t written = ::write(g_crashLogFd, text, std::strlen(text));
+	(void)written;   // nothing sensible left to do if even this fails
+}
+
+// Unsigned value to decimal or hex; snprintf() is not signal-safe.
+void crashWriteNumber(unsigned long long value, unsigned base)
+{
+	char buffer[32];
+	int pos = static_cast<int>(sizeof(buffer));
+	buffer[--pos] = '\0';
+	if (value == 0)
+		buffer[--pos] = '0';
+	while (value != 0 && pos > 0) {
+		const unsigned digit = static_cast<unsigned>(value % base);
+		buffer[--pos] = static_cast<char>(digit < 10 ? '0' + digit : 'a' + digit - 10);
+		value /= base;
+	}
+	crashWrite(buffer + pos);
+}
+
+void crashSignalHandler(int sig, siginfo_t *info, void *)
+{
+	if (g_crashLogFd >= 0) {
+		// No timestampPrefix() here: localtime_r() and ostringstream are not
+		// signal-safe. The epoch seconds pin the entry down well enough next to
+		// the timestamped lines above it.
+		crashWrite("\n[CRASH] signal ");
+		crashWriteNumber(static_cast<unsigned long long>(sig), 10);
+		if (info != nullptr) {
+			crashWrite(" at 0x");
+			crashWriteNumber(reinterpret_cast<unsigned long long>(info->si_addr), 16);
+		}
+		crashWrite(" epoch ");
+		crashWriteNumber(static_cast<unsigned long long>(::time(nullptr)), 10);
+		crashWrite("\n[CRASH] backtrace:\n");
+		void *frames[64];
+		const int count = ::backtrace(frames, static_cast<int>(sizeof(frames) / sizeof(frames[0])));
+		// _fd variant: resolves and writes without malloc(), unlike
+		// backtrace_symbols() - the heap may be exactly what is broken here.
+		::backtrace_symbols_fd(frames, count, g_crashLogFd);
+		crashWrite("[CRASH] end of backtrace\n");
+		::fsync(g_crashLogFd);
+	}
+	// Hand the signal back to its default action: SA_RESETHAND has already
+	// restored SIG_DFL and SA_NODEFER left the signal unblocked, so this raise()
+	// ends the process exactly as it would have without us - core dump included,
+	// so coredumpctl still gets its full backtrace.
+	::raise(sig);
+}
+
+} // namespace
+#endif
+
+void
+loghelper_install_crash_handler()
+{
+#ifdef POKERTH_CRASH_HANDLER
+	std::lock_guard<std::mutex> lock(logFileMutex());
+	if (g_crashLogFd < 0)
+		return;   // no log file (logging off, LogDir unusable) - nothing to write to
+
+	// Alternate stack: a stack overflow raises SIGSEGV with no room left for the
+	// handler's own frame; with SA_ONSTACK it runs on g_crashStack instead.
+	stack_t altStack{};
+	altStack.ss_sp = g_crashStack;
+	altStack.ss_size = sizeof(g_crashStack);
+	altStack.ss_flags = 0;
+	::sigaltstack(&altStack, nullptr);
+
+	struct sigaction action{};
+	action.sa_sigaction = crashSignalHandler;
+	::sigemptyset(&action.sa_mask);
+	action.sa_flags = SA_SIGINFO | SA_ONSTACK | SA_RESETHAND | SA_NODEFER;
+	// SIGABRT covers qFatal()/abort() and failed assertions, the rest are the
+	// hardware faults.
+	for (int sig : {SIGSEGV, SIGABRT, SIGBUS, SIGILL, SIGFPE})
+		::sigaction(sig, &action, nullptr);
+#endif
 }
 
 void

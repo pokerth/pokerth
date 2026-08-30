@@ -241,6 +241,11 @@ int main(int argc, char *argv[])
     // captured for after-the-fact analysis of the rare leave-game freeze.
     loghelper_init(myConfig->readConfigString("LogDir"), 1);
     qInstallMessageHandler(pokerthQmlMessageHandler);
+    // Crash-Handler direkt nach dem Log installieren – er schreibt in dessen
+    // Datei. Ab hier hinterlässt ein SIGSEGV/abort() eine [CRASH]-Zeile samt
+    // Backtrace, statt das Log einfach mitten im Satz abreißen zu lassen; das
+    // Coredump entsteht unverändert weiter (coredumpctl).
+    loghelper_install_crash_handler();
     qInfo().noquote() << "[BOOT] PokerTH QML client starting; debug log in"
                       << QString::fromStdString(myConfig->readConfigString("LogDir"));
 
@@ -428,6 +433,14 @@ int main(int argc, char *argv[])
     // writeBuffer(), Log-SQL via ~Session() oben, und die QtQuick-Settings
     // (Parameters.qml) sichern wir hier noch explizit auf Platte – beenden wir
     // den Prozess hart, ohne den fehlerhaften QML-/Qt-Teardown auszuführen.
+    // Abschluss-Marker: Fehlt er am Ende eines Log-Abschnitts, wurde die Session
+    // NICHT sauber beendet (Crash, Kill, Stromausfall) – ohne ihn ist im
+    // Nachhinein nicht zu unterscheiden, ob der Client abgestürzt ist oder der
+    // Spieler ihn geschlossen hat. Er steht bewusst hier, nach dem gesamten
+    // Teardown; stürzt danach doch noch etwas ab, schreibt der Crash-Handler
+    // seine [CRASH]-Zeile hinter diese Zeile.
+    loghelper_write_raw("[SHUTDOWN] clean exit (code " + std::to_string(result) + ")");
+
     if (QGuiApplication::platformName().startsWith(QLatin1String("wayland"))) {
         QSettings().sync();   // QtQuick-Settings (gemeinsamer QConfFile-Store) flushen
         std::cout.flush();
