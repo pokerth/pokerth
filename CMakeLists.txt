@@ -64,6 +64,15 @@ if(ANDROID)
     set(protobuf_MODULE_COMPATIBLE ON)
     # Force Protobuf to use emulated TLS instead of native TLS
     add_compile_options(-femulated-tls)  # WICHTIG: Emuliere TLS für Android
+
+    # 16-KB-Speicherseiten (Play-Anforderung seit Android 15, sonst startet die
+    # App auf solchen Geräten nicht): jede mitgelieferte .so muss ihre
+    # LOAD-Segmente auf 16 KB ausrichten. NDK r28 linkt bereits so, ältere NDKs
+    # nicht - die Flags explizit setzen, damit das Ergebnis nicht von der
+    # NDK-Version des Build-Runners abhängt. Bei r28 sind sie ein No-op.
+    # Geprüft wird das Ergebnis am fertigen Paket (build_android_qml.sh,
+    # "16 KB page alignment").
+    add_link_options(-Wl,-z,max-page-size=16384 -Wl,-z,common-page-size=16384)
 endif()
 
 # vcpkg uses CONFIG mode for all platforms

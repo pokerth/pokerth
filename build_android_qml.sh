@@ -617,6 +617,63 @@ fi
 chmod +x "$ANDROID_BUILD_DIR/gradlew"
 
 ########################################
+# 8. 16 KB page alignment check
+########################################
+
+# Google Play requires every shipped .so to align its LOAD segments to 16 KB
+# (0x4000) — on devices with 16 KB memory pages an unaligned library does not
+# load at all, and the Play Console reports it as "Recompile your app with 16 KB
+# native library alignment". Our own libraries get there through the linker
+# flags in CMakeLists.txt (add_link_options, Android branch); prebuilt third
+# party libraries (the Qt kit, the NDK's libc++_shared) can still violate it.
+# So the FINISHED package is checked and every offending library named — the
+# answer belongs in this build log, not in a Play Console warning after upload.
+check_16k_alignment() {
+  local pkg="$1"
+  local readelf tmp so aligns a v min total bad
+  readelf="$(ls "$ANDROID_NDK_ROOT"/toolchains/llvm/prebuilt/*/bin/llvm-readelf 2>/dev/null | head -1)"
+  echo ""
+  echo "16 KB page alignment ($(basename "$pkg")):"
+  if [ -z "$readelf" ]; then
+    echo "  SKIPPED — llvm-readelf not found in $ANDROID_NDK_ROOT"
+    return 0
+  fi
+  tmp="$(mktemp -d)"
+  # APK and AAB are both ZIPs: libraries live in lib/<abi>/ (AAB: base/lib/<abi>/).
+  unzip -q -o "$pkg" 'lib/*/*.so' 'base/lib/*/*.so' -d "$tmp" 2>/dev/null || true
+  total=0; bad=0
+  while IFS= read -r so; do
+    total=$((total + 1))
+    # Program headers: the last column of every LOAD line is its alignment.
+    aligns="$("$readelf" -lW "$so" 2>/dev/null | awk '$1 == "LOAD" { print $NF }')"
+    min=""
+    for a in $aligns; do
+      v=$((a))
+      if [ -z "$min" ] || [ "$v" -lt "$min" ]; then min=$v; fi
+    done
+    [ -n "$min" ] || min=0
+    if [ "$min" -lt 16384 ]; then
+      bad=$((bad + 1))
+      printf '  NOT ALIGNED (%s bytes): %s\n' "$min" "${so#"$tmp"/}"
+    fi
+  done < <(find "$tmp" -name '*.so' | sort)
+  rm -rf "$tmp"
+  if [ "$total" -eq 0 ]; then
+    echo "  no shared libraries found in the package"
+  elif [ "$bad" -eq 0 ]; then
+    echo "  OK — all $total shared libraries are aligned to 16 KB or more."
+  else
+    echo ""
+    echo "  WARNING: $bad of $total shared libraries are NOT 16 KB aligned."
+    echo "           Play flags this, and the app fails to start on devices with"
+    echo "           16 KB memory pages. Own libraries: check the linker flags in"
+    echo "           CMakeLists.txt. Qt/NDK libraries: only a newer Qt kit or NDK"
+    echo "           helps — they ship prebuilt and cannot be relinked here."
+  fi
+  return 0
+}
+
+########################################
 # 8a. Single-ABI APK path (PACKAGE_FORMAT=apk)
 ########################################
 
@@ -654,6 +711,8 @@ if [ "$PACKAGE_FORMAT" = "apk" ]; then
   # build log instead of from the device. In particular: a versionCode below the
   # one already installed, or a certificate other than the one that signed the
   # previous install, both fail with the same bare "App not installed".
+  check_16k_alignment "$FINAL_APK"
+
   log "APK contents (this is what the device checks on install):"
   "$BT_DIR/aapt2" dump badging "$FINAL_APK" |
     grep -E "^(package|sdkVersion|targetSdkVersion|native-code)" || true
@@ -708,6 +767,8 @@ else
   echo "WARNING: no ANDROID_KEYSTORE set — the bundle is UNSIGNED and Google Play"
   echo "         will reject it. It is only good for local inspection."
 fi
+
+check_16k_alignment "$FINAL_AAB"
 
 ########################################
 # 10. Universal APK for side-load testing
