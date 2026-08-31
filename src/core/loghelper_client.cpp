@@ -281,7 +281,8 @@ loghelper_install_crash_handler()
 
 	struct sigaction action{};
 	action.sa_sigaction = crashSignalHandler;
-	::sigemptyset(&action.sa_mask);
+	// No :: here - on macOS sigemptyset() is a macro, which cannot be qualified.
+	sigemptyset(&action.sa_mask);
 	action.sa_flags = SA_SIGINFO | SA_ONSTACK | SA_RESETHAND | SA_NODEFER;
 	// SIGABRT covers qFatal()/abort() and failed assertions, the rest are the
 	// hardware faults.
