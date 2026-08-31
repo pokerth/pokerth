@@ -39,6 +39,15 @@ QtObject {
     // Bisektion in GamePage.boxScale den gesamten Tisch.
     readonly property int betStripHeight: 20
 
+    // Platz, den Einsatz + Dealer-/Blind-Puck NEBEN der Box brauchen (Basis-
+    // Pixel, vgl. GamePlayerBox.betGroup: 8 px Abstand + Gruppenbreite).
+    //   "classic" – Chip-Icon 20 + Betrag (~40) → 8 + 60 = 68.
+    //   "inset"   – dort steht nur noch der Puck (32) → 8 + 32 = 40.
+    // Die Platz-Bisektion reserviert damit im Stil "classic" ehrlich den Raum,
+    // den der Einsatz neben der Box wirklich braucht (bisher pauschal 48), und
+    // gibt ihn im Stil "inset" für größere Boxen frei.
+    readonly property int betSideOutset: betInset ? 40 : 68
+
     // Zusatzhöhe, die eine Spielerbox für den Sockel braucht (0 bei "classic").
     // NUR diese Größe geht in die Box-Basismaße ein; alle abgeleiteten Maße
     // (Avatar-/Kartenreihe, Boxbreite) rechnen sie wieder heraus, damit die Box

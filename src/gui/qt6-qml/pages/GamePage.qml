@@ -582,7 +582,14 @@ Rectangle {
             readonly property real selfGapBase: opponentGapBase * 2
             // Vertikales Sicherheits-Padding zwischen Bottom-Seats und Self-Box.
             readonly property real selfBadgeGapBase: 8
-            readonly property real sideBadgeGapBase: 48
+            // Platz, den Einsatz/Puck NEBEN einer Box braucht. Auf Mobilgeräten
+            // aus dem Sitz-Stil abgeleitet (Config.SeatStyle.betSideOutset): im
+            // Stil "inset" steht dort nur noch der Dealer-Puck (40 statt 68) →
+            // die Bisektion darf die Boxen entsprechend größer machen; im Stil
+            // "classic" wird der Platz für den Einsatz-Chip dafür ehrlich
+            // reserviert. Desktop bleibt beim bisherigen Pauschalwert.
+            readonly property real sideBadgeGapBase:
+                Config.Responsive.isMobile ? Config.SeatStyle.betSideOutset : 48
             readonly property int landscapeRowCount: seatCount <= 4 ? 1
                 : seatCount <= 6 ? 2
                 : seatCount <= 8 ? 3
@@ -605,8 +612,8 @@ Rectangle {
                 // volle Obergrenze erreicht, die dicht besetzten Tische bleiben
                 // daher unverändert. Der Deckel SENKT nur (nie erhöht) und kann
                 // somit keine neuen Überlappungen erzeugen.
-                function fillCap(maxScale) {
-                    var base = 0.95
+                function fillCap(maxScale, minBase) {
+                    var base = (minBase === undefined) ? 0.95 : minBase
                     var t = Math.max(0, Math.min(1, (oppCnt - 1) / 5))
                     var countCap = base + (maxScale - base) * t
                     // Wenige Spieler bei großen (maximierten/Vollbild-) Fenstern
@@ -700,11 +707,17 @@ Rectangle {
                         var radiusXpix = Math.min(0.36 * width,
                                                   Math.max(0.22 * width,
                                                            0.5 * width - sideMargin - visualW / 2))
-                        // Im Compact-Landscape ragt die Bet-Badge von Player 5
-                        // (betSide="bottom") 39 Basis-Pixel unterhalb seiner Box heraus.
-                        // Diesen Bereich aus dem verfügbaren Ellipsen-Radius herausrechnen,
-                        // damit Community Cards nie durch eine Spielerbox verdeckt werden.
-                        var topBadgeExt = Config.Responsive.landscapeCompact ? 39 : 0
+                        // Reservierung für eine Bet-Badge UNTERHALB der obersten Box.
+                        // Auf Mobilgeräten 0: die oben-mittige Box zeigt Einsatz und
+                        // Puck seit betSplit LINKS/RECHTS neben sich (s. Repeater-
+                        // Delegate) – unterhalb hängt nichts mehr. buildLandscapeSlots()
+                        // rechnet den Zuschlag ohnehin nicht mit, die Probe war also
+                        // pessimistischer als das gezeichnete Layout und deckelte die
+                        // Boxen unnötig (im Stil "inset" mit der höheren Box umso mehr).
+                        // Den Abstand der Community zur obersten Box hält weiterhin
+                        // communityScale (topB) ein. Desktop-Ultrawide bleibt unverändert.
+                        var topBadgeExt = (Config.Responsive.landscapeCompact
+                                           && !Config.Responsive.isMobile) ? 39 : 0
                         // Desktop-Top-Pad 8 (statt 4): die oberste Gegnerbox bekommt
                         // mehr Abstand zur Status-/Info-Leiste. Muss mit `topY` in
                         // buildLandscapeSlots() identisch sein.
@@ -881,10 +894,22 @@ Rectangle {
                         s = lo
                     }
                 } else {
-                    // Portrait-Cap per Bisektion (analog Wide-Screen). Die
-                    // Slot-Positionen sind in Portrait statisch (slotPosPortrait),
-                    // daher gehen sie hier nur als Konstanten in die feasibility-
-                    // Probe ein. Constraints:
+                    // Portrait-Cap per Bisektion (analog Wide-Screen).
+                    //
+                    // MOBIL: die Probepunkte holen ihre Slots aus
+                    // buildPortraitSlots(sTest) – exakt der Funktion, die auch
+                    // das Layout zeichnet. Sie ist eine reine Funktion der Skala,
+                    // daher gibt es keine Zirkularität und keine zweite, leicht
+                    // abweichende Formel-Kopie wie im Querformat. Es bleiben nur
+                    // die Grenzen, die wirklich anliegen:
+                    //   • Bildschirmbreite (die Spalten rücken mit der Box mit)
+                    //   • Abstand der beiden Spalten inkl. Einsatz/Puck daneben
+                    //   • Mittelband für die Community-Reihe
+                    // Der Reihenabstand selbst ist durch die Konstruktion erfüllt;
+                    // die Paar-Schleife unten bleibt als Absicherung stehen.
+                    //
+                    // DESKTOP (statische Slots, slotPosPortraitFixed): unverändert
+                    // die alten Wand- und Paar-Constraints.
                     //   • Wand links/rechts:  Seitenspalten x=0.15/0.85
                     //   • Wand oben:          TC bei y=0.075
                     //   • Wand unten:         Bottom-Reihe (L_bottom/R_bottom
@@ -894,41 +919,56 @@ Rectangle {
                     //                         slotSeqPortrait[oppCnt] müssen
                     //                         entweder horizontal ODER vertikal
                     //                         genug Abstand zueinander haben.
-                    // Der frühere statische Cap konnte den Self-Box-Wandabstand
-                    // nicht modellieren; in breitem Portrait überlappten Bottom-
-                    // Reihe und Self-Box potentiell.
                     var gapP = 8
+                    var mobileP = Config.Responsive.isMobile
                     var seqP = (spectating ? slotSeqSpectate : slotSeqPortrait)[ringCnt] || []
-                    var posP = slotPosPortrait
 
                     function feasibleAtP(sTest) {
                         if (sTest <= 0) return false
                         var visualW = oppBaseWidth * sTest
                         var visualH = oppBaseHeight * sTest
                         var selfVisualH = selfBaseHeight * sTest
+                        var posP = mobileP ? buildPortraitSlots(sTest, ringCnt)
+                                           : slotPosPortraitFixed
+                        // Zwischen den beiden Spalten stehen sich zwei Boxen
+                        // gegenüber – im Stil "classic" trägt JEDE ihren Einsatz
+                        // zur Tischmitte hin, im Stil "inset" nur noch den Puck
+                        // (Config.SeatStyle.betSideOutset).
+                        var xNeeded = mobileP
+                            ? sTest * (oppBaseWidth + 2 * Config.SeatStyle.betSideOutset) + gapP
+                            : sTest * oppBaseWidth + gapP
+                        var yNeeded = sTest * oppBaseHeight + gapP
 
-                        // Wand-Checks
-                        if (visualW > 2 * (0.15 * width - 4)) return false
-                        if (visualH > 2 * (0.075 * height - 4)) return false
-                        if (spectating) {
-                            // Wand unten: der BC-Sitz (y=0.90) darf den unteren
-                            // Rand nicht berühren. Es gibt keine Self-Box.
-                            if (0.90 * height + visualH / 2 > height - 4) return false
-                        } else if (oppCnt >= 8) {
-                            // Self-Box vs. Bottom-Reihe (L_bottom/R_bottom bei oppCnt>=8).
-                            // seatNudge=+14 für diese Slots wird berücksichtigt:
-                            //   self_top    = height - 4 - selfVisualH  (scale-kompensierbares bottomMargin)
-                            //   bottom_kant = 0.785*height + 14 + visualH/2
-                            //   Abstand     = 0.215*height - 18 - selfVisualH - visualH/2
-                            //   Constraint  = Abstand >= gapP  →  0.215*H - 26 - ... >= 0
-                            if (0.215 * height - 26 - selfVisualH - visualH / 2 < gapP)
+                        if (mobileP) {
+                            // Wand links/rechts: nur noch die Bildschirmbreite –
+                            // die Spalten selbst wandern mit der Box nach außen.
+                            if (visualW > width - 8) return false
+                            // Mittelband muss die Community-Reihe tragen.
+                            var bandP = portraitBandAt(sTest, posP, seqP)
+                            if (bandP[1] - bandP[0] < portraitCommunityNeed(sTest))
                                 return false
+                        } else {
+                            // Wand-Checks
+                            if (visualW > 2 * (0.15 * width - 4)) return false
+                            if (visualH > 2 * (0.075 * height - 4)) return false
+                            if (spectating) {
+                                // Wand unten: der BC-Sitz (y=0.90) darf den unteren
+                                // Rand nicht berühren. Es gibt keine Self-Box.
+                                if (0.90 * height + visualH / 2 > height - 4) return false
+                            } else if (oppCnt >= 8) {
+                                // Self-Box vs. Bottom-Reihe (L_bottom/R_bottom bei oppCnt>=8).
+                                // seatNudge=+14 für diese Slots wird berücksichtigt:
+                                //   self_top    = height - 4 - selfVisualH  (scale-kompensierbares bottomMargin)
+                                //   bottom_kant = 0.785*height + 14 + visualH/2
+                                //   Abstand     = 0.215*height - 18 - selfVisualH - visualH/2
+                                //   Constraint  = Abstand >= gapP  →  0.215*H - 26 - ... >= 0
+                                if (0.215 * height - 26 - selfVisualH - visualH / 2 < gapP)
+                                    return false
+                            }
                         }
 
                         // Paar-Trennung
                         if (seqP.length < 2) return true
-                        var xNeeded = sTest * oppBaseWidth + gapP
-                        var yNeeded = sTest * oppBaseHeight + gapP
                         for (var i = 0; i < seqP.length - 1; i++) {
                             var a = posP[seqP[i]]
                             var b = posP[seqP[i + 1]]
@@ -941,7 +981,11 @@ Rectangle {
                         return true
                     }
 
-                    var loP = 0.55, hiP = fillCap(1.85)
+                    // Mobil darf die Obergrenze höher liegen (und der Boden des
+                    // Spielerzahl-Deckels ebenfalls): mit den dynamischen Reihen
+                    // begrenzt jetzt echte Geometrie statt fester Brüche, und ein
+                    // Zweier-Tisch im Hochformat soll den Platz auch nutzen.
+                    var loP = 0.55, hiP = mobileP ? fillCap(2.0, 1.15) : fillCap(1.85)
                     if (!feasibleAtP(loP)) {
                         s = loP
                     } else {
@@ -1004,7 +1048,12 @@ Rectangle {
                 // Reihe (~0.15·Höhe minus Box-Halbhöhe). Horizontal nur durch die
                 // Bildschirmbreite begrenzt. → deutlich größer als der frühere
                 // Seitenspalten-Cap (der fälschlich Boxen auf Community-Höhe annahm).
-                var vHalf = 0.15 * height - oppBaseHeight * boxScale / 2 - 6
+                // Mobil: das Mittelband ist nicht mehr fest 0.305·Höhe, sondern
+                // genau der Rest zwischen oberer und unterer Sitzgruppe
+                // (buildPortraitSlots) – die Karten füllen ihn aus.
+                var vHalf = Config.Responsive.isMobile
+                    ? (portraitBand[1] - portraitBand[0]) / 2 - 6
+                    : 0.15 * height - oppBaseHeight * boxScale / 2 - 6
                 var maxScaleV = vHalf > 0 ? vHalf / 62 : 0.55
                 var maxScaleScreen = Math.max(0, width - 16) / 264
                 return Math.max(0.55, Math.min(1.8, maxScaleV, maxScaleScreen))
@@ -1053,7 +1102,7 @@ Rectangle {
             // Portrait-Größen etwas weiter außen sitzen.
             // "BC" (bottom center) wird nur im Zuschauer-Modus benutzt: dort steht
             // dort statt der Self-Box ein gewöhnlicher Ring-Sitz (Sitz 0).
-            readonly property var slotPosPortrait: ({
+            readonly property var slotPosPortraitFixed: ({
                 "L_bottom": [0.15, 0.785],
                 "L_lower":  [0.15, 0.65],
                 "L_upper":  [0.15, 0.345],
@@ -1065,6 +1114,119 @@ Rectangle {
                 "R_bottom": [0.85, 0.785],
                 "BC":       [0.50, 0.90]
             })
+            // Hochformat auf MOBILGERÄTEN: die Sitz-Reihen werden – wie im
+            // Querformat (buildLandscapeSlots) – aus der tatsächlichen Boxgröße
+            // abgeleitet statt fest verdrahtet. Die statischen Brüche oben waren
+            // auf die früher 20 px niedrigere Box OHNE Einsatz-Sockel
+            // zugeschnitten: ihr Reihenabstand von 0,135·Höhe deckelte die
+            // Bisektion (Boxen wurden im Stil "inset" spürbar kleiner), während
+            // im Mittelband (0,305·Höhe, für die Community reserviert) Platz
+            // brach lag. Dynamisch verteilt bekommen die Boxen genau das, was
+            // Community-Reihe und Self-Box übrig lassen.
+            // Desktop-Hochformat (schmales Fenster) behält die festen Werte.
+            readonly property var slotPosPortrait:
+                Config.Responsive.isMobile ? buildPortraitSlots(boxScale, ringCount)
+                                           : slotPosPortraitFixed
+
+            // Reine Funktion der Skala (KEIN Zugriff auf boxScale) – damit sie
+            // sowohl das Layout zeichnen als auch in der Bisektions-Probe
+            // (feasibleAtP) den Probepunkt bewerten kann, ohne Zirkularität.
+            function buildPortraitSlots(s, ringCnt) {
+                var W = Math.max(width, 1)
+                var H = Math.max(height, 1)
+                var vW = oppBaseWidth  * s
+                var vH = oppBaseHeight * s
+                var selfVH = spectating ? 0 : selfBaseHeight * s
+                // Reihenabstand bewusst GRÖSSER als der Prüfabstand gapP (8) der
+                // Bisektion: sonst liegen konstruierter und geforderter Abstand
+                // exakt aufeinander und die Probe kippt am Rundungsfehler des
+                // Umwegs über die 0..1-Slot-Brüche (Boxen fielen dann auf den
+                // Skalen-Boden 0.55 zurück).
+                var gapY = Math.max(opponentGapBase, opponentGapBase * s)
+                // Spalten wandern mit der Box nach außen (4 px Rand), statt bei
+                // festen 15 %/85 % gegen die Bildschirmkante zu laufen.
+                var colX = Math.max(0.15, (4 + vW / 2) / W)
+                // Reihen von oben: die oberste Box klebt (samt Sockel) 4 px unter
+                // der Zonenkante, jede weitere Reihe eine Boxhöhe + Luft tiefer.
+                var step = vH + gapY
+                var yTC = 4 + vH / 2
+                var yTop = yTC + step
+                var yUpper = yTop + step
+                // Unterste Reihe: knapp über der Self-Box – bzw. als Zuschauer
+                // über dem Boden-Sitz BC, der dort die Self-Box ersetzt.
+                var yBC = H - 4 - vH / 2
+                var yBottom = spectating
+                    ? yBC - step
+                    : H - 4 - selfVH - Math.max(8, selfBadgeGapBase * s) - vH / 2
+                // Die Bottom-Reihe wird erst ab 8 Ring-Sitzen besetzt; solange sie
+                // leer bleibt, rückt die Lower-Reihe selbst an den unteren Anschlag.
+                var rc = (ringCnt === undefined) ? ringCount : ringCnt
+                var yLower = ((spectating ? rc - 1 : rc) >= 8) ? yBottom - step : yBottom
+                // Notbremse, wenn die Höhe selbst am Skalen-Boden (0.55) nicht für
+                // alle Reihen reicht: obere und untere Gruppe dürfen sich nicht
+                // durchdringen – sie rücken dann symmetrisch auf Mindestabstand
+                // auseinander (die Community hat in dem Fall kein Band mehr, die
+                // Boxen bleiben aber sauber gestapelt).
+                if (yLower - yUpper < step) {
+                    var mid = (yUpper + yLower) / 2
+                    yUpper = mid - step / 2
+                    yLower = mid + step / 2
+                }
+                return {
+                    "L_bottom": [colX,     yBottom / H],
+                    "L_lower":  [colX,     yLower  / H],
+                    "L_upper":  [colX,     yUpper  / H],
+                    "TL":       [colX,     yTop    / H],
+                    "TC":       [0.50,     yTC     / H],
+                    "TR":       [1 - colX, yTop    / H],
+                    "R_upper":  [1 - colX, yUpper  / H],
+                    "R_lower":  [1 - colX, yLower  / H],
+                    "R_bottom": [1 - colX, yBottom / H],
+                    "BC":       [0.50,     yBC     / H]
+                }
+            }
+
+            // Slots der OBEREN Sitzgruppe im Hochformat; alles andere zählt zur
+            // unteren. Dazwischen liegt das freie Mittelband mit der Community.
+            function portraitUpperSlot(name) {
+                return name === "TC" || name === "TL" || name === "TR"
+                    || name === "L_upper" || name === "R_upper"
+            }
+
+            // Freies Mittelband [oben, unten] in Pixeln: von der Unterkante der
+            // tiefsten Box der oberen Gruppe bis zur Oberkante der höchsten Box
+            // der unteren Gruppe bzw. der Self-Box.
+            function portraitBandAt(s, pos, seq) {
+                var vH = oppBaseHeight * s
+                var top = 4
+                var bottom = spectating ? height - 4 : height - 4 - selfBaseHeight * s
+                for (var i = 0; i < seq.length; ++i) {
+                    var p = pos[seq[i]]
+                    if (!p) continue
+                    var cy = p[1] * height
+                    if (portraitUpperSlot(seq[i])) {
+                        if (cy + vH / 2 > top) top = cy + vH / 2
+                    } else if (cy - vH / 2 < bottom) {
+                        bottom = cy - vH / 2
+                    }
+                }
+                return [top, bottom]
+            }
+
+            // Höhe, die die Community-Reihe (Karten 64 + Pott-Badge 40 + Winner-
+            // Badge 20) im Mittelband beanspruchen soll. Ihre Skala wächst mit
+            // den Boxen mit (0,8 · Boxskala) → die Bisektion vergrößert die
+            // Boxen nur so weit, wie die Kartenreihe proportional mitkommt.
+            function portraitCommunityNeed(s) {
+                var cs = Math.max(0.55, Math.min(0.8 * s, 1.8, Math.max(0, width - 16) / 264))
+                return 124 * cs + 20
+            }
+
+            // Mittelband der aktuellen Verteilung (nur im mobilen Hochformat).
+            readonly property var portraitBand:
+                (!wide && Config.Responsive.isMobile)
+                    ? portraitBandAt(boxScale, slotPosPortrait, slotSeq[ringCount] || [])
+                    : [0, 0]
             // Querformat: Slot-Abstände werden aus visueller Boxgröße,
             // Spieleranzahl und Self-Abstand berechnet statt als offene Ellipse
             // fest verdrahtet. Horizontaler und vertikaler Gegner-Abstand werden getrennt begrenzt;
@@ -1408,6 +1570,9 @@ Rectangle {
                     nudgeX = dir < 0 ? Math.min(0, d) : Math.max(0, d)
                 } else if (wide) {
                     nudge = 0
+                } else if (Config.Responsive.isMobile) {
+                    // Mobil: dynamische Reihen ohne Versatz (s. seatNudge).
+                    nudge = 0
                 } else {
                     // "TC": halbe Sockelhöhe nach unten (s. seatNudge im
                     // Repeater-Delegate) – sonst schwebte die Emoji-Reaktion
@@ -1462,6 +1627,10 @@ Rectangle {
                 // aus Gegnern UND Self-Box zu ziehen. Ohne Self-Box (Zuschauer)
                 // liegt der Ring symmetrisch um die Zonenmitte – dann gehören die
                 // Karten schlicht in die Mitte des freien Innenraums.
+                // Hochformat/Mobil: Mitte des freien Mittelbands (die Reihen
+                // sitzen dort nicht mehr symmetrisch um die Zonenmitte).
+                if (!wide && Config.Responsive.isMobile)
+                    return (portraitBand[0] + portraitBand[1]) / 2
                 if (!wide || Config.Responsive.landscapeCompact || spectating)
                     return (topOpponentBottomY + selfVisualTopY) / 2
                 var sumY = height - 12 - selfBaseHeight * boxScale / 2   // Self-Box-Mitte
@@ -1515,7 +1684,11 @@ Rectangle {
                 id: communityArea
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.verticalCenterOffset: tableZone.wide
+                // Hochformat/Desktop: knapp über der Zonenmitte (statische Slots
+                // liegen symmetrisch um 0.4975). Mobil bzw. Querformat: an der
+                // berechneten Community-Höhe (Mittelband bzw. Ellipsen-Lücke).
+                anchors.verticalCenterOffset:
+                    (tableZone.wide || Config.Responsive.isMobile)
                     ? tableZone.communityCenterY - tableZone.height / 2
                     : -tableZone.height * 0.0025 + 5
                 z: 0
@@ -1633,6 +1806,11 @@ Rectangle {
                         if (tableZone.wide)
                             return flankWide
                                 ? tableZone.oppBaseHeight * tableZone.boxScale * 0.6 : 0
+                        // Hochformat/Mobil: die Reihen kommen dynamisch aus der
+                        // Boxgröße (buildPortraitSlots) – Spreizung und
+                        // Sockel-Ausgleich stecken bereits in den Slot-Werten.
+                        if (Config.Responsive.isMobile)
+                            return 0
                         // Sitz-Stil "inset": der Einsatz-Sockel macht die Box
                         // höher, und da sie um ihre Slot-Mitte zentriert ist,
                         // wüchse die halbe Zusatzhöhe nach OBEN. Im Querformat
