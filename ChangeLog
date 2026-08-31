@@ -11,6 +11,7 @@
 - improvement: portrait mode fine-tuned - tab bar, local and network game settings, in-game action bar and the forum news page (QML)
 - improvement: icon alignment in the lobby player list (QML)
 - improvement: leading and trailing spaces in the user name are trimmed before login, so the same account cannot be addressed under several spellings (client & server)
+- improvement: a crash of the client is recognisable in the debug log now - it ends with a marker and a backtrace instead of simply breaking off, a cleanly closed session is marked as such, and the previous log is kept as one generation, so the restart right after a crash no longer overwrites the log that holds it (QML)
 - bugfix: filtered-out entries in the player search still occupied a row, and the search field in the lobby sidebar had no effect at all (QML)
 - bugfix: the idle filter in the lobby player list did not follow the tables - a player sitting down or leaving a game was only taken into or back into the list after the filter had been switched (QML)
 - bugfix: a game created right after a community template had been picked was sent with the template's fallback name ("Monthly Cup Final") instead of the current month's title (QML)
