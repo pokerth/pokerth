@@ -20,22 +20,17 @@ import QtQuick
 QtObject {
     id: root
 
-    // Wie Config.Responsive.isMobile. Bewusst dupliziert statt importiert: die
-    // Config-Singletons referenzieren einander nicht (s. Theme.qml, das
-    // windowWidth/darkMode ebenfalls spiegelt).
-    readonly property bool isMobile: Qt.platform.os === "android" || Qt.platform.os === "ios"
-
-    // Vorgabe der Plattform, solange der Nutzer nichts anderes gewählt hat:
-    // Mobile bleibt bei "classic" – dort ist der Platz um die Boxen knapp und
-    // das Layout eigens dafür austariert.
-    readonly property string platformDefault: isMobile ? "classic" : "inset"
+    // Vorgabe, solange der Nutzer nichts anderes gewählt hat – auf allen
+    // Plattformen gleich: der Sockel innerhalb der Box braucht rund um die
+    // Boxen keinen Platz und kommt gerade auf kleinen Tischen besser weg.
+    readonly property string defaultVariant: "inset"
 
     // Aktiver Sitz-Stil. Wird – wie Theme.darkMode/effectsEnabled – extern von
     // der ApplicationWindow (Init aus dem Config-Key "QmlSeatStyle") und von
     // den Stil-Einstellungen (Live-Umschaltung) gesetzt; ein Singleton kann die
     // SettingsManager-Context-Property nicht selbst lesen. Leerer Config-Wert
-    // bedeutet "Vorgabe der Plattform" und lässt diesen Default stehen.
-    property string variant: platformDefault
+    // bedeutet "Vorgabe" und lässt diesen Default stehen.
+    property string variant: defaultVariant
 
     readonly property bool betInset: variant === "inset"
 

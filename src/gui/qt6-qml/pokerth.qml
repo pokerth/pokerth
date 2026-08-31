@@ -271,8 +271,8 @@ ApplicationWindow {
         Config.Theme.effectsEnabled = SettingsManager
             ? SettingsManager.readConfigInt("QmlReduceEffects") === 0 : true
         // Sitz-Stil der Spielerboxen (Einsatz im Sockel oder daneben). Ein
-        // leerer Wert bedeutet "Vorgabe der Plattform" – dann bleibt der
-        // Default des Singletons stehen.
+        // leerer Wert bedeutet "Vorgabe" – dann bleibt der Default des
+        // Singletons stehen.
         var seatStyle = SettingsManager
             ? SettingsManager.readConfigString("QmlSeatStyle") : ""
         if (seatStyle === "inset" || seatStyle === "classic")

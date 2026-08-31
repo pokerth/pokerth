@@ -298,8 +298,8 @@ ConfigFile::ConfigFile(char *argv0, bool readonly) : noWriteAccess(readonly)
 	configList.push_back(ConfigInfo("QmlCardBackStyle", CONFIG_TYPE_STRING, "default"));
 	// QML-Client: Sitz-Stil der Spielerboxen (config/SeatStyle.qml) – wo der
 	// Einsatz eines Spielers steht. "inset" = im Sockel INNERHALB der Box,
-	// "classic" = ausserhalb daneben. Leer (Default) = Vorgabe der Plattform,
-	// also "inset" auf dem Desktop und "classic" auf Android/iOS.
+	// "classic" = ausserhalb daneben. Leer (Default) = Vorgabe des QML-
+	// Singletons, also "inset" auf allen Plattformen.
 	configList.push_back(ConfigInfo("QmlSeatStyle", CONFIG_TYPE_STRING, ""));
 	// QML-Client: dekorative Render-Effekte (Schlagschatten/Glow/Blur) global
 	// abschaltbar für schwache/passiv gekühlte Systeme bzw. Software-Rendering.
