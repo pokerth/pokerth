@@ -52,6 +52,19 @@
 
 using namespace std;
 
+// Der Client-Typ, mit dem sich dieses Binary am Server meldet. Einzige Stelle
+// der Entscheidung: QML_CLIENT_PRODUCTION_MODE gilt für Internet- wie für
+// LAN-Verbindungen, damit ein abgeschalteter Produktionsmodus nicht nur den
+// halben Client zurück auf den Widget-Typ stellt.
+static unsigned OwnClientType()
+{
+#if defined(QML_CLIENT) && QML_CLIENT_PRODUCTION_MODE
+	return CLIENT_TYPE_QML;
+#else
+	return CLIENT_TYPE_QT_WIDGET;
+#endif
+}
+
 Session::Session(GuiInterface *g, ConfigFile *c, Log *l)
 	: currentGameNum(0), myGui(g), myConfig(c), myLog(l), myGameType(GAME_TYPE_NONE)
 {
@@ -188,11 +201,7 @@ void Session::startInternetClient()
 	myGameType = GAME_TYPE_INTERNET;
 
 	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));  // shares Log ownership
-#if defined(QML_CLIENT) && QML_CLIENT_PRODUCTION_MODE
-	myNetClient->SetClientType(CLIENT_TYPE_QML);
-#else
-	myNetClient->SetClientType(CLIENT_TYPE_QT_WIDGET);
-#endif
+	myNetClient->SetClientType(OwnClientType());
 	bool useAvatarServer = myConfig->readConfigInt("UseAvatarServer") != 0;
 
 	myNetClient->Init(
@@ -222,9 +231,7 @@ void Session::startNetworkClient(const string &serverAddress, unsigned serverPor
 	myGameType = GAME_TYPE_NETWORK;
 
 	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));  // shares Log ownership
-#ifdef QML_CLIENT
-	myNetClient->SetClientType(CLIENT_TYPE_QML);
-#endif
+	myNetClient->SetClientType(OwnClientType());
 	myNetClient->Init(
 		serverAddress,
 		"",
@@ -254,9 +261,7 @@ void Session::startNetworkClientForLocalServer(const GameData &gameData)
 	myGameType = GAME_TYPE_NETWORK;
 
 	myNetClient.reset(new ClientThread(*myGui, *myAvatarManager, myLog));  // shares Log ownership
-#ifdef QML_CLIENT
-	myNetClient->SetClientType(CLIENT_TYPE_QML);
-#endif
+	myNetClient->SetClientType(OwnClientType());
 	bool useIpv6 = myConfig->readConfigInt("ServerUseIpv6") == 1;
 	const char *loopbackAddr = useIpv6 ? "::1" : "127.0.0.1";
 	myNetClient->Init(

@@ -138,9 +138,9 @@ static std::string FormatClientBuildId(unsigned buildId)
 {
 	std::ostringstream stream;
 	stream << GetClientTypeName(BUILD_ID_GET_TYPE(buildId))
-		   << ' ' << ((buildId >> 16) & 0xFF)
-		   << '.' << ((buildId >> 8) & 0xFF)
-		   << '.' << (buildId & 0xFF);
+		   << ' ' << BUILD_ID_GET_MAJOR(buildId)
+		   << '.' << BUILD_ID_GET_MINOR(buildId)
+		   << '.' << BUILD_ID_GET_REVISION(buildId);
 	return stream.str();
 }
 

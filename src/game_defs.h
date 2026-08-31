@@ -58,6 +58,9 @@
 	(((unsigned)(type) << 24) | ((unsigned)(major) << 16) | ((unsigned)(minor) << 8) | (unsigned)(rev))
 #define BUILD_ID_GET_TYPE(id)		(((id) >> 24) & 0xFF)
 #define BUILD_ID_GET_VERSION(id)	((id) & 0x00FFFFFF)
+#define BUILD_ID_GET_MAJOR(id)		(((id) >> 16) & 0xFF)
+#define BUILD_ID_GET_MINOR(id)		(((id) >> 8) & 0xFF)
+#define BUILD_ID_GET_REVISION(id)	((id) & 0xFF)
 
 // Build ID for the Qt Widget client (this binary)
 #define POKERTH_BUILD_ID	MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, POKERTH_BETA_REVISION)

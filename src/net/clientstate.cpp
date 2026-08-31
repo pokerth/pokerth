@@ -92,6 +92,20 @@ using namespace boost::chrono;
 #define MAX_SERVERLIST_SERVERS 256
 
 
+// Die buildId, mit der sich dieser Client meldet. Der Client-Typ steht erst zur
+// Laufzeit fest (Session::OwnClientType), deshalb hängt sie am Kontext und nicht
+// an einem Compile-Schalter: ein QML-Client sendet seine eigene Version, die der
+// Server gegen MIN_BUILD_ID_QML prüft, jeder andere die des Widget-Clients.
+// Auch der Versionsvergleich unten liest seine Werte hieraus, damit Meldung und
+// Anmeldung nie auseinanderlaufen.
+static unsigned GetOwnBuildId(const ClientContext &context)
+{
+	return context.GetClientType() == CLIENT_TYPE_QML
+		   ? MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
+		   : POKERTH_BUILD_ID;
+}
+
+
 ClientState::~ClientState()
 {
 }
@@ -1411,14 +1425,18 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 	if (tmpPacket->GetMsg()->messagetype() == PokerTHMessage::Type_AnnounceMessage) {
 		// Server has send announcement - check data.
 		const AnnounceMessage &netAnnounce = tmpPacket->GetMsg()->announcemessage();
-		// Check current game version.
-		if (netAnnounce.latestgameversion().majorversion() != POKERTH_VERSION_MAJOR
-				|| netAnnounce.latestgameversion().minorversion() != POKERTH_VERSION_MINOR) {
+		ClientContext &context = client->GetContext();
+		// Check current game version - gegen die Version des eigenen Clients,
+		// nicht gegen die des Widget-Clients. Beide folgen dem 2.1.x-Schema, das
+		// der Server ankündigt.
+		const unsigned ownBuildId = GetOwnBuildId(context);
+		if (netAnnounce.latestgameversion().majorversion() != BUILD_ID_GET_MAJOR(ownBuildId)
+				|| netAnnounce.latestgameversion().minorversion() != BUILD_ID_GET_MINOR(ownBuildId)) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_NEW_RELEASE_AVAILABLE);
-		} else if (POKERTH_BETA_REVISION && netAnnounce.latestbetarevision() != POKERTH_BETA_REVISION) {
+		} else if (BUILD_ID_GET_REVISION(ownBuildId)
+				   && netAnnounce.latestbetarevision() != BUILD_ID_GET_REVISION(ownBuildId)) {
 			client->GetCallback().SignalNetClientNotification(NTF_NET_OUTDATED_BETA);
 		}
-		ClientContext &context = client->GetContext();
 
 		// CASE 1: Authenticated login (username, challenge/response for password).
 		if (netAnnounce.servertype() == AnnounceMessage::serverTypeInternetAuth) {
@@ -1436,9 +1454,7 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			// Announce the version matching the client type. QML clients must
 			// send the QML version (the server's MIN_BUILD_ID_QML check uses it),
 			// otherwise a current server rejects them with "version not supported".
-			netInit->set_buildid(context.GetClientType() == CLIENT_TYPE_QML
-				? MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
-				: MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, POKERTH_BETA_REVISION));
+			netInit->set_buildid(GetOwnBuildId(context));
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
@@ -1522,9 +1538,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
             netInit->mutable_requestedversion()->set_majorversion(NET_VERSION_MAJOR);
             netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
             // Announce the version matching the client type (see above).
-            netInit->set_buildid(context.GetClientType() == CLIENT_TYPE_QML
-                ? MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
-                : MAKE_BUILD_ID(CLIENT_TYPE_QT_WIDGET, POKERTH_VERSION_MAJOR, POKERTH_VERSION_MINOR, POKERTH_BETA_REVISION));
+            netInit->set_buildid(GetOwnBuildId(context));
             
             // Include session GUID and server password BEFORE setting login type
             if (!context.GetSessionGuid().empty()) {
