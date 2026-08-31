@@ -8,8 +8,10 @@ import "../config" as Config
 Drawer {
     id: sideMenu
     width: Config.Responsive.compact ? mainWindow.width : mainWindow.width / 3
-    height: mainWindow.height - 38
-    y: 38
+    // Unter der Kopfzeile beginnen – die sitzt bei randloser Anzeige um den
+    // oberen Sicherheitsabstand tiefer (s. pokerth.qml).
+    y: 38 + mainWindow.safeAreaTop
+    height: mainWindow.height - y - mainWindow.safeAreaBottom
 
     background: Rectangle {
         anchors.fill: parent

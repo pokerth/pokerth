@@ -412,6 +412,33 @@ ApplicationWindow {
             mainStackView.pop()
     }
     
+    // ── Randlose Anzeige (Android 15+) ──────────────────────────────────────
+    // Ab targetSdk 35 zeichnet Android ZWINGEND randlos: das „Fullscreen“-Flag
+    // des App-Themes wird ignoriert, Status- und Navigationsleiste liegen über
+    // dem Fensterinhalt. Die Ränder, die dafür frei bleiben müssen, meldet
+    // SafeArea (QtQuick 6.9) – gekapselt in einer eigenen Datei, weil der Typ
+    // auf Qt 6.7 (Android-8-APK-Variante) noch nicht existiert und ein direkter
+    // Zugriff dort das ganze Fenster nicht mehr laden ließe. Scheitert der
+    // Loader, bleiben die Abstände 0 und alles ist wie bisher; ebenso, wenn die
+    // Plattform die Leisten selbst schon freihält.
+    Loader {
+        id: safeAreaLoader
+        anchors.fill: parent
+        z: -1
+        active: Config.Responsive.isMobile
+        source: "components/SafeAreaInsets.qml"
+    }
+    readonly property real safeAreaTop:
+        safeAreaLoader.item ? safeAreaLoader.item.insetTop : 0
+    readonly property real safeAreaBottom:
+        safeAreaLoader.item ? safeAreaLoader.item.insetBottom : 0
+    readonly property real safeAreaLeft:
+        safeAreaLoader.item ? safeAreaLoader.item.insetLeft : 0
+    readonly property real safeAreaRight:
+        safeAreaLoader.item ? safeAreaLoader.item.insetRight : 0
+
+    // Hintergrund bewusst OHNE Sicherheitsabstände: die Systemleisten sollen auf
+    // der App-Hintergrundfarbe liegen, nicht auf einem schwarzen Streifen.
     Rectangle {
         anchors.fill: parent
         color: Config.StaticData.palette.secondary.col700
@@ -420,6 +447,11 @@ ApplicationWindow {
     ColumnLayout {
         id: mainLayout
         anchors.fill: parent
+        // Inhalt aus Status-/Navigationsleiste und Notch heraushalten.
+        anchors.topMargin:    mainWindow.safeAreaTop
+        anchors.bottomMargin: mainWindow.safeAreaBottom
+        anchors.leftMargin:   mainWindow.safeAreaLeft
+        anchors.rightMargin:  mainWindow.safeAreaRight
         Layout.alignment: Qt.AlignTop
         spacing: 0
 

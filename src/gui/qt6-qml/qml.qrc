@@ -56,6 +56,7 @@
         <file>components/StyleSettings.qml</file>
         <file>components/StyleCard.qml</file>
         <file>components/AvatarCardRow.qml</file>
+        <file>components/SafeAreaInsets.qml</file>
         <file>components/BrandHeader.qml</file>
         <file>components/CardImage.qml</file>
         <file>components/GameStatusBar.qml</file>

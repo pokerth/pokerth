@@ -99,6 +99,7 @@ set(QML_FILES
     components/AppLabel.qml
     components/AppText.qml
     components/AvatarCardRow.qml
+    components/SafeAreaInsets.qml
     components/BetChip.qml
     components/BlindButtonImage.qml
     components/BrandHeader.qml
