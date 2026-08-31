@@ -16,6 +16,7 @@ es werden keine mehreren Haende durchgespielt - nur die beiden Tischvorschauen.
 
 Ablauf: Startseite -> "Lokales Spiel starten" -> "Spiel starten" -> Tisch ->
         Call (F2) + warten bis der Flop liegt (--preflop schaltet das ab) ->
+        Bet (F3), damit Einsaetze in den Boxen stehen (--no-flop-bet aus) ->
         Portrait-Screenshot -> F11 (Vollbild) -> Querformat-Screenshot ->
         skalieren -> in die Theme-Verzeichnisse.
 
@@ -42,10 +43,18 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # Klick-Koordinaten als Bruchteile der Fenster-Geometrie (Portrait 390x844),
-# verifiziert gegen den aktuellen QML-Client-Stand. Identisch zu den Werten in
-# record_pokerth_qml_localgame.py.
-FRAC_LOCALGAME = (195 / 390, 405 / 844)   # "Lokales Spiel starten" (Startseite)
+# verifiziert gegen den aktuellen QML-Client-Stand. Die Startseite hat seit
+# "Netzwerkspiel erstellen" eine Schaltflaeche mehr, deshalb liegt der lokale
+# Spielstart hoeher als in record_pokerth_qml_localgame.py (dort noch 405/844).
+FRAC_LOCALGAME = (195 / 390, 358 / 844)   # "Lokales Spiel starten" (Startseite)
 FRAC_STARTGAME = (288 / 390, 671 / 844)   # "Spiel starten" (Einstellungsseite)
+
+# Bildausschnitte, an denen abgelesen wird, ob eine Tastenaktion angekommen ist -
+# als Bruchteile (x0, y0, x1, y1) der Fenster-Geometrie. Beide Bereiche legt der
+# Client selbst an (Kartenreihe mittig, Kopfzeile oben), das Tisch-Thema tauscht
+# nur den Hintergrund: die Rechtecke gelten also fuer JEDES Thema.
+FRAC_BOARD  = (0.18, 0.42, 0.79, 0.49)   # Reihe der Gemeinschaftskarten (ohne Pot-Chip)
+FRAC_HEADER = (0.02, 0.02, 0.32, 0.08)   # "Gesamt:" / "Einsaetze:" links oben
 
 
 class ThemePreviewRecorder:
@@ -108,6 +117,58 @@ class ThemePreviewRecorder:
         time.sleep(0.2)
         self._run("xdotool", "click", "--clearmodifiers", "1")
 
+    def _grab_region(self, frac: tuple[float, float, float, float], dst: Path) -> None:
+        # Fenster-Ausschnitt als PNG - Grundlage fuer den Vorher/Nachher-Vergleich.
+        g = self._geom()
+        x0 = g.get("X", 0) + int(g.get("WIDTH", self.args.portrait_w) * frac[0])
+        y0 = g.get("Y", 0) + int(g.get("HEIGHT", self.args.portrait_h) * frac[1])
+        w = max(1, int(g.get("WIDTH", self.args.portrait_w) * (frac[2] - frac[0])))
+        h = max(1, int(g.get("HEIGHT", self.args.portrait_h) * (frac[3] - frac[1])))
+        raw = self.script_dir / "_theme_preview_region.png"
+        self._run("scrot", str(raw))
+        magick = shutil.which("magick") or shutil.which("convert")
+        subprocess.run([magick, str(raw), "-crop", f"{w}x{h}+{x0}+{y0}", "+repage", str(dst)],
+                       check=True)
+        raw.unlink(missing_ok=True)
+
+    def _region_changed(self, before: Path, after: Path) -> bool:
+        # Normierter RMSE-Abstand der beiden Ausschnitte. Der Client animiert in
+        # diesen Bereichen nichts, solange er auf den Menschen wartet - jede
+        # nennenswerte Abweichung heisst also: die Aktion ist angekommen.
+        cmp_bin = shutil.which("compare")
+        cmd = ([cmp_bin] if cmp_bin else [shutil.which("magick"), "compare"])
+        res = subprocess.run(cmd + ["-metric", "RMSE", str(before), str(after), "null:"],
+                             capture_output=True, text=True)
+        m = re.search(r"\(([0-9.eE+-]+)\)", res.stderr)
+        return bool(m) and float(m.group(1)) > 0.01
+
+    def _press_until_change(self, key: str, frac: tuple[float, float, float, float],
+                            tries: int, wait_sec: float, desc: str) -> bool:
+        # Taste druecken, bis sich der beobachtete Ausschnitt aendert. Ein Druck
+        # ins Leere (Austeil-Animation laeuft, Bots sind dran) bleibt folgenlos,
+        # ein zweiter kostet dann nichts - eine feste Wartezeit war dagegen mal
+        # zu kurz (Aktion verpufft) und mal zu lang (Runde schon weiter).
+        # Die Zahl der Versuche ist bewusst eng begrenzt: F3 waehrend der eigenen
+        # Aktion ist ein ERHOEHEN, und wer oft genug erhoeht, sitzt am Ende
+        # all-in neben dem Tisch - genau das hat die Vorschau schon zerlegt.
+        before = self.script_dir / "_theme_preview_before.png"
+        after = self.script_dir / "_theme_preview_after.png"
+        self._grab_region(frac, before)
+        self._run("xdotool", "windowactivate", "--sync", self.win_id, check=False)
+        try:
+            for _ in range(max(1, tries)):
+                self._run("xdotool", "key", "--clearmodifiers", key, check=False)
+                time.sleep(wait_sec)
+                self._grab_region(frac, after)
+                if self._region_changed(before, after):
+                    print(f"      {desc}: {key} angekommen")
+                    return True
+            print(f"      [WARN] {desc}: {key} blieb ohne Wirkung ({tries} Versuche)")
+            return False
+        finally:
+            before.unlink(missing_ok=True)
+            after.unlink(missing_ok=True)
+
     # ── Phasen ──────────────────────────────────────────────────────────────--
     def _start_services(self) -> None:
         print(f"[1/5] Starte Xvfb {self.display} ({self.display_res}x24) ...")
@@ -152,11 +213,21 @@ class ThemePreviewRecorder:
         # Praeflop liegen keine Community-Cards auf dem Tisch – die Vorschau
         # zeigt dann nur den leeren Filz. Also einmal callen (F2, s. GamePage.qml)
         # und den Bots Zeit lassen, bis der Flop faellt.
-        print("      Call (F2) und warte "
-              f"{self.args.flop_sec}s auf den Flop ...")
-        self._run("xdotool", "windowactivate", "--sync", self.win_id, check=False)
-        self._run("xdotool", "key", "--clearmodifiers", "F2", check=False)
-        time.sleep(self.args.flop_sec)
+        print(f"      Call (F2), bis der Flop liegt (max. {self.args.flop_tries}x) ...")
+        self._press_until_change("F2", FRAC_BOARD, self.args.flop_tries,
+                                 self.args.flop_sec, "Flop")
+        time.sleep(2.0)   # Austeil-Animation der drei Karten
+
+    def _bet_on_flop(self) -> None:
+        # Nach dem Flop setzt der Mensch selbst (F3 = Bet/Raise, s. GamePage.qml)
+        # und laesst den Bots ein paar Sekunden zum Mitgehen. Ohne diesen Schritt
+        # checkt die Runde oft komplett durch und in KEINER Box steht ein Einsatz
+        # - die Vorschau zeigte dann nicht, wo der Sitz-Stil den Einsatz ablegt.
+        print("      Bet (F3), bis der Einsatz in der Kopfzeile steht "
+              f"(max. {self.args.bet_tries}x) ...")
+        self._press_until_change("F3", FRAC_HEADER, self.args.bet_tries,
+                                 self.args.bet_sec, "Einsatz")
+        time.sleep(2.5)   # ein paar Bots ziehen mit, damit mehrere Boxen tragen
 
     def _write_scaled(self, raw: Path, targets: list[Path], size: str,
                       crop: str | None = None) -> None:
@@ -219,6 +290,8 @@ class ThemePreviewRecorder:
             styles["QmlCardDeckStyle"] = self.args.card_deck
         if self.args.card_back:
             styles["QmlCardBackStyle"] = self.args.card_back
+        if self.args.seat_style:
+            styles["QmlSeatStyle"] = self.args.seat_style
 
         cfg = Path(self.args.config).expanduser()
         if not cfg.exists():
@@ -247,6 +320,8 @@ class ThemePreviewRecorder:
             self._navigate_to_table()
             if not self.args.preflop:
                 self._advance_to_flop()
+                if not self.args.no_flop_bet:
+                    self._bet_on_flop()
             self._capture_portrait()
             self._capture_landscape()
             print("\nFertig - Theme-Vorschauen (Portrait + Querformat) erstellt.")
@@ -272,9 +347,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--preloader-sec", type=float, default=9.0)
     p.add_argument("--table-sec", type=float, default=7.0)
     # Vorschau nach dem Flop (Default) – erst dann liegen Community-Cards.
-    p.add_argument("--flop-sec", type=float, default=9.0)
+    # Wartezeit je Tastendruck und Zahl der Versuche (s. _press_until_change).
+    p.add_argument("--flop-sec", type=float, default=2.0)
+    p.add_argument("--flop-tries", type=int, default=8)
     p.add_argument("--preflop", action="store_true",
                    help="Vorschau schon praeflop aufnehmen (ohne Community-Cards)")
+    # Eigener Einsatz nach dem Flop, damit in den Spielerboxen Einsaetze stehen.
+    p.add_argument("--no-flop-bet", action="store_true",
+                   help="nach dem Flop nicht selbst setzen (Runde durchchecken lassen)")
+    p.add_argument("--bet-sec", type=float, default=2.5)
+    p.add_argument("--bet-tries", type=int, default=3)
     p.add_argument("--binary", default=str(REPO_ROOT / "build/bin/pokerth_qml-client"))
     # Welcher Spieltisch-Stil: bestimmt das Ziel-Verzeichnis
     # (data/gfx/qml/table/<style>/preview*.png).
@@ -285,6 +367,10 @@ def build_parser() -> argparse.ArgumentParser:
     # --set-table-style wirksam). Ohne Angabe bleibt der konfigurierte Stil.
     p.add_argument("--card-deck", default=None)
     p.add_argument("--card-back", default=None)
+    # Sitz-Stil (s. config/SeatStyle.qml): "inset" zeigt den Einsatz im Sockel
+    # INNERHALB der Spielerbox, "classic" daneben. Ohne Angabe bleibt der
+    # konfigurierte Wert - auf dem Desktop ist das die Vorgabe "inset".
+    p.add_argument("--seat-style", default=None, choices=["inset", "classic"])
     p.add_argument("--config", default=str(Path("~/.pokerth/config.xml").expanduser()))
     return p
 

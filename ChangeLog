@@ -4,6 +4,7 @@
 - new: the emoji reactions were reworked - 90 reactions on three themed pages, each with its own animation and particle effect, ported from the web client (QML & widget)
 - new: seat style - the bet of a player can be shown in a socket inside the player box or, as before, next to it; switchable in the style settings and applied to an open table right away (QML)
 - new: disco table theme with matching card backside, and the blacklight 4c card deck - four coloured suits (QML)
+- new: ivoire & chene table theme - a light oak table with ivory felt (by narmod) (QML)
 - new: in portrait mode the collapsed lobby row shows at which table a player is currently playing - the counterpart to the hover info on the desktop (QML)
 - improvement: the BBC and WEC suggest is available to every admin of the respective community at the table now, not only to the table admin - a WEC table is recognised by its settings just like a BBC step - and the invite templates may span several lines (QML & widget)
 - improvement: chat translation falls back more gracefully when a translation service does not answer or replies with an error (QML & widget)

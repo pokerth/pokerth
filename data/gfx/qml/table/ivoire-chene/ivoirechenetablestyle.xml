@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Ivoire & Chene — QML game table style (clair).
+
+   Photo d'une table ovale en chene clair (feutre ivoire, filet laiton,
+   porte-gobelets) dans une bibliotheque. Le centre du feutre est le centre
+   de l'image : cale sur le centre des cartes communes (align center).
+   Format identique aux styles officiels (racine <PokerTH><TableStyle>) :
+   compatible client QML et client web. Dateinamen relativ zu diesem XML.
+-->
+<PokerTH>
+  <TableStyle>
+     <StyleDescription value="Ivoire - Chene" />
+     <StyleMaintainerName value="PokerTH Development Team" />
+     <StyleMaintainerEMail value="webmaster@pokerth.net" />
+     <StyleCreateDate value="24.07.2026" />
+     <PokerTHStyleFileVersion value="3" />
+     <Preview value="preview.png" />
+     <PreviewPortrait value="preview_portrait.png" />
+
+     <Table value="table.png" />
+     <TableBackgroundAlign value="center" />
+
+     <!-- Eckenradius der Button-SVGs (deren Pfade runden mit 6.5), in
+          Einheiten der 168x43-Zeichenflaeche. Der Client zeichnet seine
+          Zustands-Rahmen als Rechteck darueber und braucht dafuer den
+          Radius; ohne den Tag gilt 9 und die Ecken klaffen. -->
+     <ActionButtonBorderRadius value="6.5" />
+
+     <DealerPuck value="dealerPuck.svg" />
+     <SmallBlindPuck value="smallblindPuck.svg" />
+     <BigBlindPuck value="bigblindPuck.svg" />
+
+     <FoldButton value="actionFold.svg" />
+     <CheckCallButton value="actionCall.svg" />
+     <BetRaiseButton value="actionRaise.svg" />
+     <AllInButton value="actionAllIn.svg" />
+
+     <ChatLogBackground value="#f5eee1" />
+     <ChatLogSurface value="#e9dcc4" />
+     <ChatLogBorder value="#c6ac82" />
+     <ChatLogText value="#3a2c1a" />
+     <ChatLogTextSecondary value="#5d4a30" />
+     <ChatLogTextMuted value="#8a755a" />
+
+  </TableStyle>
+</PokerTH>
