@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="137"/>
         <source>The card back picture is missing, please contact style maintainer for this issue.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отсутствует рисунок рубашки карты, свяжитесь с разработчиком стиля для исправления.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/styles/cardbackstylereader.cpp" line="139"/>
@@ -649,7 +649,7 @@ Please verify that you are uploading a valid PokerTH log file.</source>
         <location filename="../src/gui/qt/aboutpokerth.ui" line="111"/>
         <location filename="../src/gui/qt/gui_800x480/aboutpokerth_800x480.ui" line="142"/>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал изменений</translation>
     </message>
     <message>
         <source>About PokerTH 0.5</source>
@@ -1473,7 +1473,7 @@ p, li { white-space: pre-wrap; }
 &lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
 &lt;tr&gt;
 &lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Олеся Герасименко — translation-team@basealt.ru&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Олеся Герасименко — translation-team@basealt.ru&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:&apos;Nimbus Sans L&apos;; font-size:8pt;&quot;&gt;Артем Демин (artem78) — megabyte1024@ya.ru&lt;/span&gt;&lt;/p&gt; &lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -1481,7 +1481,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="162"/>
         <source>No changelog available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал изменений недоступен.</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="88"/>
@@ -1613,7 +1613,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="135"/>
         <source>code modernization, QML layout</source>
-        <translation type="unfinished"></translation>
+        <translation>модернизация кода, QML размещение</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/aboutpokerth/aboutpokerthimpl.cpp" line="137"/>
@@ -4114,27 +4114,27 @@ Feel free to invite other players by right-clicking on their nick in the availab
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="267"/>
         <source>Send private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправить личное сообщение</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1947"/>
         <source>Send private message to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправить личное сообщение к %1</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="1950"/>
         <source>Send private message ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправить личное сообщение ...</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2037"/>
         <source>Private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gamelobbydialog/gamelobbydialogimpl.cpp" line="2038"/>
         <source>Message to %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Личное сообщение к %1:</translation>
     </message>
 </context>
 <context>
@@ -5620,11 +5620,6 @@ p, li { white-space: pre-wrap; }
         <translation>Тёмный</translation>
     </message>
     <message>
-        <location filename="../src/gui/qt/settingsdialog.ui" line="259"/>
-        <source>Show left toolbox</source>
-        <translation>Показывать левую панель</translation>
-    </message>
-    <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="260"/>
         <source>Show 33%/50%/100% pot bet sizing buttons</source>
         <translation>Показывать кнопки ставок 33%/50%/100% от банка</translation>
@@ -6312,7 +6307,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/gui/qt/settingsdialog.ui" line="714"/>
         <source>Use separate card back style:</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать отдельный стиль рубашки:</translation>
     </message>
     <message>
         <location filename="../src/gui/qt/gui_800x480/settingsdialog_800x480.ui" line="785"/>
