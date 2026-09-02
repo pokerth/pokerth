@@ -623,17 +623,17 @@ LobbyHandler::LobbyHandler(QObject *parent)
     m_gameListProxyModel = gameProxy;
 
     // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
-    // Zeile stößt chatLogChanged() an, damit die QML-Bindung neu rendert.
+    // Zeile stößt (gebündelt) chatLogChanged() an, damit die QML-Bindung neu rendert.
     m_chatTranslator = new ChatTranslator(&m_chatLog, this);
     connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
-            this, &LobbyHandler::chatLogChanged);
+            this, &LobbyHandler::notifyChatLogChanged);
 
     // Bei DarkMode = "Automatisch" hängen die Chat-Farben am System-Theme:
     // wechselt es im laufenden Betrieb, muss der Verlauf neu ausgeliefert
     // werden (die Farb-Platzhalter werden erst in chatLog() aufgelöst).
     if (QStyleHints *hints = QGuiApplication::styleHints()) {
         connect(hints, &QStyleHints::colorSchemeChanged,
-                this, &LobbyHandler::chatLogChanged);
+                this, &LobbyHandler::notifyChatLogChanged);
     }
 }
 
@@ -668,7 +668,7 @@ void LobbyHandler::setSession(boost::shared_ptr<Session> session)
         m_chatTranslator->reset();
     if (!m_chatLog.isEmpty()) {
         m_chatLog.clear();
-        emit chatLogChanged();
+        notifyChatLogChanged();
     }
     // Der PM-Verlauf überdauert Sitzungen (privatemessages.sqlite), gehört aber
     // zu genau einem Konto: bis zum nächsten Login ist kein Besitzer bekannt,
@@ -2268,9 +2268,25 @@ void LobbyHandler::pushChatLine(const QString &line)
     const int kMaxLines = 400;
     if (m_chatLog.size() > kMaxLines)
         m_chatLog.erase(m_chatLog.begin(), m_chatLog.begin() + (m_chatLog.size() - kMaxLines));
-    emit chatLogChanged();
+    notifyChatLogChanged();
     // Live-Verbraucher bekommen die Zeile fertig eingefärbt (nicht mit Platzhaltern).
     emit chatLineReady(ChatColors::expand(line, chatDarkMode()));
+}
+
+void LobbyHandler::notifyChatLogChanged()
+{
+    // Sammelt alle Verlaufsänderungen eines Event-Loop-Durchlaufs zu einer
+    // einzigen Benachrichtigung (Begründung siehe lobbyhandler.h). Die
+    // Auslieferung selbst passiert per Queued Call: noch anstehende Zeilen
+    // desselben Durchlaufs (mehrzeiliger Hinweis, Salve beim Betreten) landen
+    // damit ebenfalls im selben Aufbau.
+    if (m_chatLogNotifyPending)
+        return;
+    m_chatLogNotifyPending = true;
+    QMetaObject::invokeMethod(this, [this]() {
+        m_chatLogNotifyPending = false;
+        emit chatLogChanged();
+    }, Qt::QueuedConnection);
 }
 
 unsigned LobbyHandler::parsePrivateMessageTarget(QString &chatText) const

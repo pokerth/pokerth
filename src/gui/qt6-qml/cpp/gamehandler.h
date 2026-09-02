@@ -402,6 +402,13 @@ protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
+    // Einzige Meldestelle für Änderungen am Chat-Verlauf. Bündelt mehrere
+    // Änderungen desselben Event-Loop-Durchlaufs zu EINEM chatLogChanged():
+    // jede Benachrichtigung liefert den kompletten Verlauf neu an QML aus, wo
+    // jede ChatBox daraus ihr komplettes RichText-Dokument neu aufbaut (das
+    // Umhängen des Übersetzen-Symbols löste das z. B. zweimal pro überfahrener
+    // Zeile aus). Pendant zu LobbyHandler::notifyChatLogChanged.
+    void notifyChatLogChanged();
     bool localGameCallbacksBlocked() const;
     void playYourTurnTimeoutSound();
     void refreshPlayerData();
@@ -503,6 +510,8 @@ private:
     int m_timeoutSec = 0;       // Dauer des Action-Timeouts in Sekunden
     GameLogModel m_gameLogModel; // Live-Aktions-Log (Spielverlauf) für das Overlay
     QStringList m_chatLog;      // In-Game-Chat-Verlauf
+    // Läuft bereits eine gebündelte chatLogChanged-Meldung? (notifyChatLogChanged)
+    bool m_chatLogNotifyPending = false;
     ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     bool m_hasHumanOpponents = false;
     bool m_canShowCards = false;

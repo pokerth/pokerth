@@ -412,7 +412,17 @@ Item {
                 // Resize) rechnet neu. Konstanter Gutter = deterministischer
                 // Umbruch, wie im GameInfoPanel (root.scrollGutter).
                 width: msgFlick.width - root.scrollGutter
-                text: root.chatModel.join("<br>")
+                // Das Dokument NUR aufbauen, solange die Box wirklich sichtbar
+                // ist. Derselbe Verlauf hängt in mehreren ChatBoxen gleichzeitig
+                // (Lobby-Chat: LobbyPage compact + wide + GameWaitPage), und die
+                // LobbyPage bleibt im StackView unter dem Warteraum liegen. Ein
+                // unsichtbares TextEdit parst seinen RichText trotzdem komplett
+                // neu – jede Chat-Zeile hätte also zwei tote Dokument-Neuaufbauten
+                // bezahlt, deren Kosten mit der Verlaufslänge wachsen.
+                // `visible` ist die EFFEKTIVE Sichtbarkeit (unsichtbares
+                // Elternteil ⇒ false); beim Wiedereinblenden wird der Verlauf in
+                // einem Zug nachgezogen.
+                text: root.visible ? root.chatModel.join("<br>") : ""
                 textFormat: TextEdit.RichText
                 wrapMode: TextEdit.Wrap
                 readOnly: true

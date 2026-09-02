@@ -230,6 +230,13 @@ static const QString kTranslateSpinner = QString::fromUcs4(U"\U000023F3"); // �
 // ende beim HTML-Import wegfallen – ohne Fragment gäbe es keinen Anker mehr.
 static const QString kTranslateHidden  = QStringLiteral("&nbsp;");
 
+// Obergrenze für den Chat-Verlauf (Textblöcke im Dokument). Ohne Grenze wuchs
+// das QTextDocument über die gesamte Sitzung: Speicher, Layout und die lineare
+// Blocksuche des Übersetzen-Symbols (findTranslateBlock, zweimal pro Zeile
+// unter dem Mauszeiger) wurden dabei immer teurer. Gleicher Wert wie im
+// QML-Client (LobbyHandler::pushChatLine).
+static const int kMaxChatBlocks = 400;
+
 // Hover-Modus: Auf Desktop erscheint der Globus nur an der Zeile unter dem
 // Mauszeiger (der Verlauf war sonst mit Symbolen zugepflastert). Auf Touch-
 // Geräten gibt es kein Hover – dort bleiben die Symbole sichtbar, sonst wäre
@@ -254,6 +261,10 @@ ChatTools::ChatTools(QLineEdit* l, ConfigFile *c, ChatType ct, QTextBrowser *b, 
 	myTranslator = new ChatTranslatorCore(myConfig, this);
 	connect(myTranslator, &ChatTranslatorCore::translated, this, &ChatTools::onChatTranslated);
 	if(myTextBrowser) {
+		// Verlaufslänge begrenzen (siehe kMaxChatBlocks). Der Verlauf ist
+		// read-only, die damit abgeschaltete Undo-Historie wird hier nicht
+		// gebraucht.
+		myTextBrowser->document()->setMaximumBlockCount(kMaxChatBlocks);
 		// Bei gebündelten Libs (AppImage/Tarball/deb) hat der Dialog-Konstruktor
 		// vorher AppImageUtils::patchExternalLinks() aufgerufen; das hängt an
 		// JEDEN Browser mit openExternalLinks einen eigenen anchorClicked-Handler,
@@ -730,6 +741,7 @@ void ChatTools::receiveMessage(QString playerName, QString message, bool pm)
 				e.lineNoGlobe = lineNoGlobe;
 				e.bodyHtml    = bodyHtml;
 				myTranslateEntries.insert(xid, e);
+				pruneTranslateEntries();
 				// Symbol ist zunächst unsichtbar – es erscheint erst, wenn die
 				// Maus über der Zeile steht (translateGlyph).
 				myTextBrowser->append(lineNoGlobe + " " + translateAnchorHtml(xid, translateGlyph(xid)));
@@ -945,6 +957,24 @@ void ChatTools::rebuildTranslateBlock(int id)
 			bodyLine.replace(p, it->bodyHtml.size(), tb);
 	}
 	replaceBlockContentHtml(block, bodyLine + " " + translateAnchorHtml(id, translateGlyph(id)));
+}
+
+void ChatTools::pruneTranslateEntries()
+{
+	if(myTranslateEntries.size() <= kMaxChatBlocks)
+		return;
+	// Jeder Eintrag gehört zu genau EINEM Textblock, und das Dokument hält
+	// höchstens kMaxChatBlocks Blöcke (die ältesten fallen vorn heraus). Die
+	// ids werden aufsteigend vergeben, also kann alles unterhalb dieser Grenze
+	// keine Zeile mehr im Verlauf haben.
+	const int oldestPossible = myTranslateNextId - kMaxChatBlocks;
+	QHash<int, TranslateEntry>::iterator it = myTranslateEntries.begin();
+	while(it != myTranslateEntries.end()) {
+		if(it.key() < oldestPossible)
+			it = myTranslateEntries.erase(it);
+		else
+			++it;
+	}
 }
 
 void ChatTools::refreshTranslationEnabled()

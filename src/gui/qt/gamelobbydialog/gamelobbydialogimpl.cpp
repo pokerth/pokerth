@@ -464,10 +464,24 @@ void gameLobbyDialogImpl::runCommunitySuggest()
 		// gameId == ownGameId → am eigenen Tisch: überspringen.
 	}
 
-	const QString message = mySuggest->suggest(suggestType, idleNames, playing);
-	// Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des bbcbot), nicht senden.
-	if (!message.isEmpty() && myChat)
-		myChat->showLocalNote(message);
+	// Der Vorschlag kommt asynchron: die Botfiles werden bei abgelaufenem Cache
+	// erst geladen (früher blockierte das die GUI in einem verschachtelten
+	// QEventLoop, und ein zweiter Klick stapelte eine weitere Schleife darauf).
+	// Solange sperren, damit derselbe Klick nicht mehrfach läuft.
+	if (pushButton_suggestPlayers)
+		pushButton_suggestPlayers->setEnabled(false);
+	mySuggest->suggest(suggestType, idleNames, playing, this,
+	                   [this](const QString &message) {
+		if (pushButton_suggestPlayers)
+			pushButton_suggestPlayers->setEnabled(true);
+		// Wer den Tisch inzwischen verlassen hat, bekommt keinen Vorschlag mehr
+		// in den Chat geschrieben.
+		if (!inGame)
+			return;
+		// Nur lokal beim Auslöser anzeigen (wie die PM-Antwort des bbcbot), nicht senden.
+		if (!message.isEmpty() && myChat)
+			myChat->showLocalNote(message);
+	});
 }
 
 void gameLobbyDialogImpl::setSession(boost::shared_ptr<Session> session)

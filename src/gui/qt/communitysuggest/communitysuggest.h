@@ -9,11 +9,13 @@
  * frisch). Der von Cloudflare erwartete User-Agent "PokerTH/2.0 (Qt Network)"
  * wird gesetzt (wie upload-/downloadhelper des Clients).
  *
- * Bewusst SYNCHRON (QEventLoop) – identisch zum bbcbot-Download; dank Cache
- * passiert ein echter Download nur selten (erstmalig / nach Ablauf). Ausnahme
- * ist der Community-Admin-Abgleich (bbcadmins.txt / wecadmins.txt): der hängt an
- * der Sichtbarkeit des Suggest-Buttons statt an einem Klick und läuft deshalb
- * asynchron – siehe requestCommunityAdmin().
+ * ALLE Downloads laufen asynchron. Früher zog suggest()/gameTitlePrefix() die
+ * Datei in einem verschachtelten QEventLoop – das fror bei jedem Ablauf des
+ * Caches die gesamte GUI ein (bis zum Transfer-Timeout von 15 s), und weil in
+ * dieser Schleife weiter Events verarbeitet wurden, konnte ein zweiter Klick
+ * eine weitere Schleife darüberstapeln. Ergebnisse kommen deshalb per Callback;
+ * der Aufrufer übergibt sich selbst als Kontextobjekt und wird nicht mehr
+ * gerufen, wenn er inzwischen zerstört wurde (wie connect(..., context, ...)).
  *****************************************************************************/
 #ifndef COMMUNITYSUGGEST_H
 #define COMMUNITYSUGGEST_H
@@ -23,6 +25,9 @@
 #include <QStringList>
 #include <QHash>
 #include <QList>
+#include <QPointer>
+
+#include <functional>
 
 #include "gamedata.h"
 
@@ -84,14 +89,18 @@ public:
 	// Je Community eine Adminliste im Format von weclist.txt: bbcadmins.txt für
 	// die BBC-Steps, wecadmins.txt für die WEC-Tische. Sie entscheidet, ob der
 	// eigene Spieler an einem FREMDEN Tisch dieser Community vorschlagen darf.
-	// Bewusst ASYNCHRON (anders als suggest()): der Abgleich hängt an der
-	// Sichtbarkeit des Buttons und liefe damit in den Signalpfaden des
-	// Warteraums – ein verschachtelter QEventLoop hätte dort die UI eingefroren.
+	// Der Abgleich hängt an der Sichtbarkeit des Buttons, läuft also in den
+	// Signalpfaden des Warteraums: Fehlschläge werden zusätzlich gedrosselt
+	// (lastTry), sonst liefe bei unerreichbarer Datei ein Download pro
+	// Join/Leave.
 	// Erst aufrufen, wenn suggestTypeForGame bereits einen Typ liefert; dann
 	// kostet das Feature an allen anderen Tischen keinen Request. Antwort kommt
 	// über communityAdminResolved(); bis dahin liefert isCommunityAdmin() false.
 	void requestCommunityAdmin(const QString &type, const QString &nick);
 	bool isCommunityAdmin(const QString &type) const;
+
+	// Ergebnis eines asynchronen Aufrufs (leerer String = nicht ermittelbar).
+	typedef std::function<void(const QString &)> ResultCallback;
 
 signals:
 	// Ergebnis des Admin-Abgleichs liegt vor (auch bei Fehlschlag).
@@ -102,15 +111,26 @@ public:
 	// Nicht-Gast-Spieler; playing = Nicht-Gast-Spieler an ANDEREN Tischen (der
 	// eigene Tisch wird vom Aufrufer bereits ausgefiltert). Bei Fehlschlag der
 	// (nötigen) Datei wird auf ggf. vorhandene Altdaten zurückgegriffen; ist gar
-	// nichts verfügbar, liefert die Funktion einen leeren String.
-	QString suggest(const QString &type,
-	                const QStringList &idleNames,
-	                const QList<PlayingPlayer> &playing);
+	// nichts verfügbar, kommt ein leerer String.
+	// onReady läuft sofort (frischer Cache) oder nach dem Download; context ist
+	// der Aufrufer, dessen Zerstörung den Callback verfallen lässt.
+	void suggest(const QString &type,
+	             const QStringList &idleNames,
+	             const QList<PlayingPlayer> &playing,
+	             QObject *context,
+	             const ResultCallback &onReady);
 
 	// Aktueller "Game Title Prefix" eines Community-Spiels aus gameslist.txt
-	// (z. B. command "mcup"/"mcupfinal" → "July Cup"/"July Cup Final"). "" wenn
-	// nicht ermittelbar.
-	QString gameTitlePrefix(const QString &command);
+	// (z. B. command "mcup"/"mcupfinal" → "July Cup"/"July Cup Final"). ""
+	// wenn nicht ermittelbar.
+	void gameTitlePrefix(const QString &command, QObject *context,
+	                     const ResultCallback &onReady);
+
+	// gameslist.txt vorab in den Cache holen (beim Öffnen des Erstellen-Dialogs
+	// aufrufen, die Datei ist ~1 kB). Ohne das käme der monatliche Titel erst
+	// nach dem Download an – wer sofort bestätigt, verschickte den
+	// Vorlagen-Fallbacknamen ("Monthly Cup Final" statt "August Cup Final").
+	void prefetchGameTitles();
 
 private:
 	struct DbEntry {
@@ -132,10 +152,20 @@ private:
 		bool isAdmin = false;
 	};
 
-	// Datei sicherstellen (Download+Parse, wenn Cache älter als 15 min oder leer).
-	// kind: "db" | "wec" | "gameslist". Liefert true, wenn brauchbare Daten da sind.
-	bool ensure(const QString &kind);
-	QByteArray download(const QString &filename) const;
+	// Zustand einer der drei Botfiles (minidb/weclist/gameslist).
+	struct FileCache {
+		qint64 ts = 0;                              // letztes erfolgreiches Laden
+		bool loaded = false;
+		bool inFlight = false;
+		QList<std::function<void(bool)> > queue;    // wartende Aufrufer
+	};
+
+	// Datei sicherstellen (Download+Parse, wenn Cache älter als 15 min oder
+	// leer). kind: "db" | "wec" | "gameslist". done(true) = brauchbare Daten da,
+	// sofort aus dem Cache oder nach dem Download; mehrere Aufrufer derselben
+	// Datei teilen sich EINEN Download (queue).
+	void ensure(const QString &kind, const std::function<void(bool)> &done);
+	static QString fileNameForKind(const QString &kind);
 
 	void parseDb(const QByteArray &data);
 	void parseNameList(const QByteArray &data, QHash<QString, QString> &target);
@@ -155,17 +185,13 @@ private:
 	QHash<QString, DbEntry> m_db;          // key: lowercase name
 	QHash<QString, QString> m_wec;         // key: lowercase name → Original
 	QHash<QString, QString> m_gameslist;   // key: command → title prefix
-	qint64 m_dbTs = 0;
-	qint64 m_wecTs = 0;
-	qint64 m_gameslistTs = 0;
-	bool m_dbLoaded = false;
-	bool m_wecLoaded = false;
-	bool m_gameslistLoaded = false;
+	// Ladezustand je Datei; key: kind ("db" | "wec" | "gameslist").
+	QHash<QString, FileCache> m_files;
 
-	// Asynchroner Pfad (nur die Adminlisten), siehe requestCommunityAdmin();
+	// Adminlisten, siehe requestCommunityAdmin();
 	// key: Dateiname ("bbcadmins.txt" / "wecadmins.txt").
 	QHash<QString, AdminList> m_admins;
-	QNetworkAccessManager *m_adminNam = 0;
+	QNetworkAccessManager *m_nam = 0;      // für alle Botfiles
 };
 
 #endif // COMMUNITYSUGGEST_H

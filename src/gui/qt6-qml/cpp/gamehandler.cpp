@@ -117,10 +117,10 @@ GameHandler::GameHandler(QObject *parent)
     });
 
     // Chat-Übersetzer operiert direkt auf m_chatLog; jede von ihm veränderte
-    // Zeile stößt chatLogChanged() an, damit die QML-Bindung neu rendert.
+    // Zeile stößt (gebündelt) chatLogChanged() an, damit die QML-Bindung neu rendert.
     m_chatTranslator = new ChatTranslator(&m_chatLog, this);
     connect(m_chatTranslator, &ChatTranslator::chatLogMutated,
-            this, &GameHandler::chatLogChanged);
+            this, &GameHandler::notifyChatLogChanged);
 
     // AFK-Reset: echte Nutzeraktivität (Maus/Tastatur) hält den serverseitigen
     // Inaktivitäts-Timeout zurück. WICHTIG: Spielaktionen (fold/call/raise)
@@ -251,7 +251,7 @@ void GameHandler::setGame(boost::shared_ptr<Game> game)
     setShowdownActive(false);
     m_gameLogModel.clear();
     m_chatLog.clear();
-    emit chatLogChanged();
+    notifyChatLogChanged();
     for (int i = 0; i < 10; ++i) {
         m_lastSeenAction[i] = 0;
         m_actionToken[i] = -1;
@@ -420,7 +420,20 @@ void GameHandler::appendChat(const QString &playerName, const QString &message)
     const int kMaxLines = 400;
     if (m_chatLog.size() > kMaxLines)
         m_chatLog.erase(m_chatLog.begin(), m_chatLog.begin() + (m_chatLog.size() - kMaxLines));
-    emit chatLogChanged();
+    notifyChatLogChanged();
+}
+
+void GameHandler::notifyChatLogChanged()
+{
+    // Siehe gamehandler.h: mehrere Änderungen eines Event-Loop-Durchlaufs
+    // ergeben einen einzigen Neuaufbau des Chat-Dokuments.
+    if (m_chatLogNotifyPending)
+        return;
+    m_chatLogNotifyPending = true;
+    QMetaObject::invokeMethod(this, [this]() {
+        m_chatLogNotifyPending = false;
+        emit chatLogChanged();
+    }, Qt::QueuedConnection);
 }
 
 void GameHandler::sendChat(const QString &message)

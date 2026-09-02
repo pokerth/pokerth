@@ -8,7 +8,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QEventLoop>
 #include <QDateTime>
 #include <QRegularExpression>
 #include <QRandomGenerator>
@@ -39,6 +38,16 @@ int score2(int rating, int tickets, int games)
 QString suggestKey(const QString &name)
 {
 	return name.trimmed().toLower();
+}
+
+// Anfrage auf eine Botfile-Datei. Der von Cloudflare erwartete User-Agent muss
+// an JEDER dieser Anfragen hängen, sonst antwortet der Filter statt der Datei.
+QNetworkRequest botFileRequest(const QString &filename)
+{
+	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + filename));
+	request.setRawHeader("User-Agent", POKERTH_USER_AGENT);
+	request.setTransferTimeout(15000);
+	return request;
 }
 
 struct Scored {
@@ -182,14 +191,10 @@ void CommunitySuggest::requestCommunityAdmin(const QString &type, const QString 
 	list.lastTry = now;
 
 	list.inFlight = true;
-	if (!m_adminNam)
-		m_adminNam = new QNetworkAccessManager(this);
+	if (!m_nam)
+		m_nam = new QNetworkAccessManager(this);
 
-	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + file));
-	request.setRawHeader("User-Agent", POKERTH_USER_AGENT);
-	request.setTransferTimeout(15000);
-
-	QNetworkReply *reply = m_adminNam->get(request);
+	QNetworkReply *reply = m_nam->get(botFileRequest(file));
 	const QString wanted = nick;
 	connect(reply, &QNetworkReply::finished, this, [this, reply, file, wanted]() {
 		AdminList &entry = m_admins[file];
@@ -216,56 +221,61 @@ bool CommunitySuggest::isSuggestType(const QString &type)
 	return stepRe.match(type).hasMatch();
 }
 
-QByteArray CommunitySuggest::download(const QString &filename) const
+QString CommunitySuggest::fileNameForKind(const QString &kind)
 {
-	QNetworkAccessManager manager;
-	QNetworkRequest request(QUrl(QString::fromLatin1(BASE_URL) + filename));
-	request.setRawHeader("User-Agent", POKERTH_USER_AGENT);
-	request.setTransferTimeout(15000);
-
-	QNetworkReply *reply = manager.get(request);
-	QEventLoop loop;
-	QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-	loop.exec();
-
-	QByteArray data;
-	if (reply->error() == QNetworkReply::NoError)
-		data = reply->readAll();
-	reply->deleteLater();
-	return data;
+	if (kind == QLatin1String("wec"))
+		return QStringLiteral("weclist.txt");
+	if (kind == QLatin1String("gameslist"))
+		return QStringLiteral("gameslist.txt");
+	return QStringLiteral("minidb.txt");
 }
 
-bool CommunitySuggest::ensure(const QString &kind)
+void CommunitySuggest::ensure(const QString &kind, const std::function<void(bool)> &done)
 {
+	FileCache &c = m_files[kind];
 	const qint64 now = QDateTime::currentMSecsSinceEpoch();
-	bool *loaded;
-	qint64 *ts;
-	QString filename;
-	if (kind == QLatin1String("wec")) {
-		loaded = &m_wecLoaded; ts = &m_wecTs; filename = QStringLiteral("weclist.txt");
-	} else if (kind == QLatin1String("gameslist")) {
-		loaded = &m_gameslistLoaded; ts = &m_gameslistTs; filename = QStringLiteral("gameslist.txt");
-	} else {
-		loaded = &m_dbLoaded; ts = &m_dbTs; filename = QStringLiteral("minidb.txt");
+	if (c.loaded && (now - c.ts) < CACHE_TTL_MS) {
+		done(true);   // frischer Cache ⇒ ohne Netz und ohne Umweg
+		return;
 	}
 
-	if (*loaded && (now - *ts) < CACHE_TTL_MS)
-		return true;
+	c.queue.append(done);
+	if (c.inFlight)
+		return;       // läuft schon: dieser Aufrufer hängt sich nur an
+	c.inFlight = true;
 
-	const QByteArray data = download(filename);
-	if (!data.isEmpty()) {
-		if (kind == QLatin1String("wec"))
-			parseNameList(data, m_wec);
-		else if (kind == QLatin1String("gameslist"))
-			parseGameslist(data);
-		else
-			parseDb(data);
-		*loaded = true;
-		*ts = now;
-		return true;
-	}
-	// Download fehlgeschlagen ⇒ auf (ggf. abgelaufene) Altdaten zurückfallen.
-	return *loaded;
+	if (!m_nam)
+		m_nam = new QNetworkAccessManager(this);
+
+	QNetworkReply *reply = m_nam->get(botFileRequest(fileNameForKind(kind)));
+	connect(reply, &QNetworkReply::finished, this, [this, reply, kind]() {
+		const QByteArray data = reply->error() == QNetworkReply::NoError
+		                        ? reply->readAll() : QByteArray();
+		reply->deleteLater();
+
+		FileCache &entry = m_files[kind];
+		entry.inFlight = false;
+		if (!data.isEmpty()) {
+			if (kind == QLatin1String("wec"))
+				parseNameList(data, m_wec);
+			else if (kind == QLatin1String("gameslist"))
+				parseGameslist(data);
+			else
+				parseDb(data);
+			entry.loaded = true;
+			entry.ts = QDateTime::currentMSecsSinceEpoch();
+		}
+		// Fehlschlag ⇒ auf (ggf. abgelaufene) Altdaten zurückfallen; ist gar
+		// nichts da, meldet der Callback false (der Aufrufer zeigt dann nichts).
+		const bool ok = entry.loaded;
+		// Warteschlange VOR dem Aufrufen kopieren und leeren: ein Callback darf
+		// ensure() erneut aufrufen, und das Einfügen in m_files würde die
+		// Referenz `entry` ungültig machen (QHash-Rehash).
+		const QList<std::function<void(bool)> > waiting = entry.queue;
+		entry.queue.clear();
+		for (int i = 0; i < waiting.size(); ++i)
+			waiting.at(i)(ok);
+	});
 }
 
 // minidb.txt: Name<TAB>ts2<TAB>ts3<TAB>ts4<TAB>rating<TAB>games. Der ausgegebene
@@ -392,27 +402,47 @@ QString CommunitySuggest::suggestWec(const QStringList &idleNames,
 	                    idle, busy, 10, QStringLiteral("Sorry, no wec player found to suggest"));
 }
 
-QString CommunitySuggest::suggest(const QString &type, const QStringList &idleNames,
-                                  const QList<PlayingPlayer> &playing)
+void CommunitySuggest::suggest(const QString &type, const QStringList &idleNames,
+                               const QList<PlayingPlayer> &playing,
+                               QObject *context, const ResultCallback &onReady)
 {
+	// Wächter für den Aufrufer: der Download läuft asynchron, der Dialog kann
+	// bis zur Antwort geschlossen (und zerstört) worden sein.
+	const QPointer<QObject> guard(context);
 	static const QRegularExpression stepRe(QStringLiteral("^step([1-4])$"));
 	const QRegularExpressionMatch m = stepRe.match(type);
 	if (m.hasMatch()) {
-		if (!ensure(QStringLiteral("db")))
-			return QString();
-		return suggestStep(m.captured(1).toInt(), idleNames, playing);
+		const int step = m.captured(1).toInt();
+		ensure(QStringLiteral("db"), [this, guard, context, onReady, step, idleNames, playing](bool ok) {
+			if (context && guard.isNull())
+				return;
+			onReady(ok ? suggestStep(step, idleNames, playing) : QString());
+		});
+		return;
 	}
 	if (type == QLatin1String("wec")) {
-		if (!ensure(QStringLiteral("wec")))
-			return QString();
-		return suggestWec(idleNames, playing);
+		ensure(QStringLiteral("wec"), [this, guard, context, onReady, idleNames, playing](bool ok) {
+			if (context && guard.isNull())
+				return;
+			onReady(ok ? suggestWec(idleNames, playing) : QString());
+		});
+		return;
 	}
-	return QString();
+	onReady(QString());
 }
 
-QString CommunitySuggest::gameTitlePrefix(const QString &command)
+void CommunitySuggest::gameTitlePrefix(const QString &command, QObject *context,
+                                       const ResultCallback &onReady)
 {
-	if (!ensure(QStringLiteral("gameslist")))
-		return QString();
-	return m_gameslist.value(command);
+	const QPointer<QObject> guard(context);
+	ensure(QStringLiteral("gameslist"), [this, guard, context, onReady, command](bool ok) {
+		if (context && guard.isNull())
+			return;
+		onReady(ok ? m_gameslist.value(command) : QString());
+	});
+}
+
+void CommunitySuggest::prefetchGameTitles()
+{
+	ensure(QStringLiteral("gameslist"), [](bool) {});
 }

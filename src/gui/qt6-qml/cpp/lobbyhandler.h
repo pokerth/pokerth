@@ -430,7 +430,7 @@ public slots:
     // Verlauf trägt nur Farb-Platzhalter (chatcolors.h), es genügt also, die
     // chatLog-Bindung neu auswerten zu lassen – der Verlauf wird dadurch samt
     // Übersetzungen und Globus-Ankern in den neuen Farben ausgeliefert.
-    Q_INVOKABLE void refreshChatColors() { emit chatLogChanged(); }
+    Q_INVOKABLE void refreshChatColors() { notifyChatLogChanged(); }
 
 signals:
     void chatLineReady(const QString &formattedLine);
@@ -475,6 +475,15 @@ private:
     // benachrichtigt sowohl die Live-Verbraucher (chatLineReady) als auch die
     // bindbare chatLog-Property.
     void pushChatLine(const QString &line);
+    // Einzige Meldestelle für Änderungen am Chat-Verlauf. Bündelt mehrere
+    // Änderungen desselben Event-Loop-Durchlaufs zu EINEM chatLogChanged():
+    // jede Benachrichtigung liefert den kompletten Verlauf (bis 400 Zeilen) neu
+    // an QML aus, wo jede ChatBox daraus ihr komplettes RichText-Dokument neu
+    // aufbaut. Ein mehrzeiliger Hinweis (postLocalChatNote, z. B. der
+    // Community-Vorschlag mit 13 Zeilen) löste das sonst 13-mal aus, das
+    // Umhängen des Übersetzen-Symbols zweimal pro überfahrener Zeile – und
+    // jeder dieser Aufbauten wird mit wachsendem Verlauf teurer.
+    void notifyChatLogChanged();
     // Aktueller Anzeigemodus für die Chat-Farben (Config "DarkMode", 0 = hell).
     bool chatDarkMode() const;
     // Bestätigung einer GESENDETEN privaten Nachricht im eigenen Chat-Verlauf –
@@ -541,6 +550,8 @@ private:
     // NUR als Rollen-Platzhalter (chatcolors.h) und werden erst in chatLog()
     // zum aktuellen Hell/Dunkel-Modus aufgelöst.
     QStringList m_chatLog;
+    // Läuft bereits eine gebündelte chatLogChanged-Meldung? (notifyChatLogChanged)
+    bool m_chatLogNotifyPending = false;
     ChatTranslator *m_chatTranslator = nullptr; // hängt Übersetzen-Symbole an und übersetzt sie
     TextTranslator *m_textTranslator = nullptr; // übersetzt einzelne PM-Blasen
     // Laufende PM-Übersetzungen: Request-Id -> (Gesprächspartner, msgId).

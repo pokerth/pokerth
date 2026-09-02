@@ -167,6 +167,11 @@ private:
 	// den zugehörigen Block im Dokument. So ERSETZT die Übersetzung den Text an
 	// gleicher Stelle (statt rechts daneben zu erscheinen).
 	void rebuildTranslateBlock(int id);
+	// Übersetzer-Einträge wegwerfen, deren Chat-Zeile aus dem (auf
+	// kMaxChatBlocks begrenzten) Verlauf herausgefallen ist. Ohne das wüchse je
+	// empfangener Fremdnachricht ein Eintrag mit Quelltext + Nachrichtenkörper
+	// über die ganze Sitzung mit, obwohl seine Zeile längst weg ist.
+	void pruneTranslateEntries();
 
 private slots:
 	// QTextBrowser-Links (openLinks ist aus): unser Pseudo-Schema übersetzt,

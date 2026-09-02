@@ -104,6 +104,13 @@ void createInternetGameDialogImpl::exec(bool guestMode, QString playerName)
 	currentGuestMode = guestMode;
 	currentPlayerName = playerName;
 	fillFormular(guestMode, playerName);
+	// gameslist.txt vorab holen (~1 kB): der monatlich wechselnde Titel der
+	// Monthly-Cup-Vorlagen kommt asynchron, ohne Vorabladen stünde beim
+	// sofortigen Bestätigen noch der Vorlagen-Fallbackname im Feld ("Monthly
+	// Cup Final" statt "August Cup Final"). Wie im QML-Client
+	// (Config.BotSuggest.prefetchGameTitles beim Öffnen der Erstellen-Seite).
+	if (mySuggest && !guestMode && myConfig && myConfig->readConfigInt("ShowCommunityContent"))
+		mySuggest->prefetchGameTitles();
 	QDialog::exec();
 }
 
@@ -323,11 +330,18 @@ void createInternetGameDialogImpl::applyCommunityTemplate()
 	const CommunitySuggest::CommunityTemplate &t = CommunitySuggest::templates().at(idx - 1);
 
 	lineEdit_gameName->setText(t.name);
-	// Monthly Cup: monatlich wechselnder Titel – aktuellen Prefix ziehen.
+	// Monthly Cup: monatlich wechselnder Titel – aktuellen Prefix ziehen. Der
+	// Download läuft asynchron (exec() holt die Datei vorab, meist ist sie also
+	// schon da). Der Titel wird nur noch eingesetzt, solange im Namensfeld
+	// unverändert der Vorlagenname steht: bis zur Antwort kann der Nutzer die
+	// Vorlage gewechselt oder einen eigenen Namen getippt haben.
 	if (!t.titleCommand.isEmpty() && mySuggest) {
-		const QString title = mySuggest->gameTitlePrefix(t.titleCommand);
-		if (!title.isEmpty())
-			lineEdit_gameName->setText(title);
+		const QString templateName = t.name;
+		mySuggest->gameTitlePrefix(t.titleCommand, this,
+		                           [this, templateName](const QString &title) {
+			if (!title.isEmpty() && lineEdit_gameName->text() == templateName)
+				lineEdit_gameName->setText(title);
+		});
 	}
 
 	spinBox_quantityPlayers->setValue(10);
