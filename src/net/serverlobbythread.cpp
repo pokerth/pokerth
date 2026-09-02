@@ -1742,18 +1742,17 @@ ServerLobbyThread::HandleNetPacketChatRequest(boost::shared_ptr<SessionData> ses
 						LOG_ERROR("Global Notice: " << chatRequest.chattext().substr(3) << " von " << senderName);
 						SendGlobalChat(chatRequest.chattext().substr(3));
 						chatSent = true;
-					} else {
+					} else if (session->AcquireChatToken()) {
+						boost::shared_ptr<NetPacket> packet(new NetPacket);
+						packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
+						ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
+						netChat->set_chattype(ChatMessage::chatTypePrivate);
+						netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
+						netChat->set_chattext(chatRequest.chattext());
 
-					boost::shared_ptr<NetPacket> packet(new NetPacket);
-					packet->GetMsg()->set_messagetype(PokerTHMessage::Type_ChatMessage);
-					ChatMessage *netChat = packet->GetMsg()->mutable_chatmessage();
-					netChat->set_chattype(ChatMessage::chatTypePrivate);
-					netChat->set_playerid(session->GetPlayerData()->GetUniqueId());
-					netChat->set_chattext(chatRequest.chattext());
-
-					GetSender().Send(targetSession, packet);
-					chatSent = true;
-				}
+						GetSender().Send(targetSession, packet);
+						chatSent = true;
+					}
 			      }
 			}
 		}
