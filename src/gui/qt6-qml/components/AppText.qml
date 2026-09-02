@@ -7,5 +7,8 @@ import "../config" as Config
 // Eigenschaften (color, font.pixelSize, font.bold, …) setzt der Aufrufer wie
 // bei einem gewöhnlichen Text.
 Text {
+    // User-controlled names and messages are plain text by default. Callers
+    // that intentionally render trusted markup can opt in explicitly.
+    textFormat: Text.PlainText
     font.family: Config.StaticData.loadedFont.font.family
 }
