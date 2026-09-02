@@ -1134,7 +1134,7 @@ ServerLobbyThread::DispatchPacket(boost::shared_ptr<SessionData> session, boost:
 void
 ServerLobbyThread::HandlePacket(boost::shared_ptr<SessionData> session, boost::shared_ptr<NetPacket> packet)
 {
-	if (session && packet) {
+	if (session && packet && session->GetState() != SessionData::Closed) {
 		if (packet->IsClientActivity()) {
 			session->ResetActivityTimer();
 			session->ResetGlobalTimeout();
@@ -1405,6 +1405,10 @@ void
 ServerLobbyThread::HandleNetPacketAvatarHeader(boost::shared_ptr<SessionData> session, const AvatarHeaderMessage &avatarHeader)
 {
 	if (session->GetPlayerData()) {
+		if (session->IsAuthenticationPending()) {
+			SessionError(session, ERR_SOCK_INVALID_STATE);
+			return;
+		}
 		if (avatarHeader.avatarsize() >= MIN_AVATAR_FILE_SIZE && avatarHeader.avatarsize() <= MAX_AVATAR_FILE_SIZE) {
 			boost::shared_ptr<AvatarFile> tmpAvatarFile(new AvatarFile);
 			tmpAvatarFile->fileData.reserve(avatarHeader.avatarsize());
@@ -1425,6 +1429,10 @@ void
 ServerLobbyThread::HandleNetPacketUnknownAvatar(boost::shared_ptr<SessionData> session, const UnknownAvatarMessage &/*unknownAvatar*/)
 {
 	if (session->GetPlayerData()) {
+		if (session->IsAuthenticationPending()) {
+			SessionError(session, ERR_SOCK_INVALID_STATE);
+			return;
+		}
 		// Free memory (just in case).
 		session->GetPlayerData()->SetNetAvatarFile(boost::shared_ptr<AvatarFile>());
 		session->GetPlayerData()->SetAvatarMD5(MD5Buf());
@@ -1449,6 +1457,10 @@ void
 ServerLobbyThread::HandleNetPacketAvatarEnd(boost::shared_ptr<SessionData> session, const AvatarEndMessage &/*avatarEnd*/)
 {
 	if (session->GetPlayerData()) {
+		if (session->IsAuthenticationPending()) {
+			SessionError(session, ERR_SOCK_INVALID_STATE);
+			return;
+		}
 		boost::shared_ptr<AvatarFile> tmpAvatar = session->GetPlayerData()->GetNetAvatarFile();
 		MD5Buf avatarMD5 = session->GetPlayerData()->GetAvatarMD5();
 		if (!avatarMD5.IsZero() && tmpAvatar.get()) {
@@ -2093,6 +2105,7 @@ void
 ServerLobbyThread::AuthenticatePlayer(boost::shared_ptr<SessionData> session)
 {
 	if(session->GetPlayerData()) {
+		session->SetAuthenticationPending(true);
 		m_database->AsyncPlayerLogin(session->GetPlayerData()->GetUniqueId(), session->GetPlayerData()->GetName());
 	}
 }
@@ -2108,6 +2121,7 @@ ServerLobbyThread::UserValid(unsigned playerId, const DBPlayerData &dbPlayerData
 
     std::string providedPassword = tmpSession->AuthGetPassword();
     if (!providedPassword.empty() && providedPassword == dbPlayerData.secret) {
+        tmpSession->SetAuthenticationPending(false);
         tmpSession->GetPlayerData()->SetDBId(dbPlayerData.id);
         tmpSession->GetPlayerData()->SetCountry(dbPlayerData.country);
         // Set admin rights if the player is in the admin list.

@@ -199,6 +199,20 @@ SessionData::AuthGetPassword() const
     return m_password;
 }
 
+void
+SessionData::SetAuthenticationPending(bool pending)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_authenticationPending = pending;
+}
+
+bool
+SessionData::IsAuthenticationPending() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_authenticationPending;
+}
+
 string
 SessionData::AuthGetNextOutMsg() const
 {
