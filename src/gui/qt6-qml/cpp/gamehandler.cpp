@@ -2498,11 +2498,21 @@ void GameHandler::onPlayerShowCards(unsigned playerId)
         // (wie logFlipHoleCardsMsg mit state=1 im Widgets-Client).
         QString line = QString::fromStdString((*it)->getMyName())
                      + " shows [" + logCard(cards[0]) + ", " + logCard(cards[1]) + "]";
-        // Nur einen Blattnamen anhängen, wenn der Server einen Wert geliefert hat
+        // Blattnamen nur anhängen, wenn der Server einen Wert geliefert hat
         // (AfterHandShowCardsMessage: "if (r.cardsvalue())"). 0 heißt "kein Wert" –
         // determineHandName(0) würde ein Blatt erfinden ("High Card, Deuces").
+        // UND nur, wenn alle fünf Boardkarten wirklich gelegt sind: die Engine
+        // würfelt Board und Hole-Cards beim Handstart komplett aus und berechnet
+        // den 7-Karten-Wert sofort (localhand.cpp), der Server schickt ihn seit
+        // dem Wegfall des roundBeforePostRiver-Gates immer mit. Zeigt der Sieger
+        // nach einem Fold-out (preflop/flop/turn) freiwillig seine Karten, wäre
+        // der Blattname aus nie gelegten Boardkarten gebildet – JJ erschiene als
+        // "Four of a Kind, Jacks". Ab GAME_STATE_RIVER liegen alle Boardkarten;
+        // der Widgets-Client gattert an derselben Stelle genauso
+        // (gameTableImpl::showHoleCards: currentRound < GAME_STATE_RIVER ⇒
+        // setMyCardsFlip(1,2), also Karten ohne Blattwert).
         const int cardsValueInt = (*it)->getMyCardsValueInt();
-        if (cardsValueInt > 0) {
+        if (cardsValueInt > 0 && hand->getCurrentRound() >= GAME_STATE_RIVER) {
             std::string handName = CardsValue::determineHandName(cardsValueInt, activeList);
             if (!handName.empty())
                 line += " - \"" + QString::fromStdString(handName) + "\"";
