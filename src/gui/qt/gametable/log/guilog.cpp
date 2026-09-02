@@ -44,6 +44,16 @@ using namespace std;
 #include <cstring>
 #include <QThread>
 
+namespace {
+
+// QTextBrowser renders the log as rich text.
+QString escapeHtml(const QString &text)
+{
+	return text.toHtmlEscaped();
+}
+
+}
+
 // Provide a tiny compatibility layer so guilog.cpp can keep using the old
 // sqlite3_get_table-style API but implemented on top of Qt's QSqlDatabase.
 // This allows fully removing the link against libsqlite3 while keeping the
@@ -310,11 +320,12 @@ void guiLog::logPlayerActionMsg(QString msg, int action, int setValue)
 	if (action >= 3) {
 		msg += "$"+QString::number(setValue,10)+".";
 	}
+	const QString escapedMsg = escapeHtml(msg);
 
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+msg+"</span>");
+	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedMsg+"</span>");
 #else
-	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+msg+"</span>");
+	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedMsg+"</span>");
 #endif
 
 
@@ -323,7 +334,7 @@ void guiLog::logPlayerActionMsg(QString msg, int action, int setValue)
 		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-			logFileStreamString += msg+"</br>\n";
+			logFileStreamString += escapedMsg+"</br>\n";
 
 			if(myConfig->readConfigInt("LogInterval") == 0) {
 				writeLogFileStream(logFileStreamString);
@@ -360,7 +371,7 @@ void guiLog::logNewGameHandMsg(int gameID, int handID)
 			//print cash only for active players
 			for(it_c=activePlayerList->begin(); it_c!=activePlayerList->end(); ++it_c) {
 
-				logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  QString::fromUtf8((*it_c)->getMyName().c_str()) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
+				logFileStreamString += "Seat " + QString::number((*it_c)->getMyID()+1,10) + ": <b>" +  escapeHtml(QString::fromUtf8((*it_c)->getMyName().c_str())) + "</b> ($" + QString::number((*it_c)->getMyCash()+(*it_c)->getMySet(),10)+")</br>";
 
 			}
 
@@ -372,14 +383,16 @@ void guiLog::logNewGameHandMsg(int gameID, int handID)
 
 void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString bbName)
 {
+	const QString escapedSbName = escapeHtml(sbName);
+	const QString escapedBbName = escapeHtml(bbName);
 
 	// log blinds
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+sbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
-	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+bbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
+	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedSbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
+	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedBbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
 #else
-	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+sbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
-	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+bbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
+	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedSbName+" posts small blind ($"+QString::number(sbSet,10)+")</span>");
+	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedBbName+" posts big blind ($"+QString::number(bbSet,10)+")</span>");
 #endif
 
 	if(HTML_LOG) {
@@ -389,8 +402,8 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
 
 			logFileStreamString += "BLINDS: ";
 
-			logFileStreamString += sbName+" ($"+QString::number(sbSet,10)+"), ";
-			logFileStreamString += bbName+" ($"+QString::number(bbSet,10)+")";
+			logFileStreamString += escapedSbName+" ($"+QString::number(sbSet,10)+"), ";
+			logFileStreamString += escapedBbName+" ($"+QString::number(bbSet,10)+")";
 
 			PlayerListConstIterator it_c;
 			boost::shared_ptr<Game> currentGame = myW->getSession()->getCurrentGame();
@@ -401,13 +414,13 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
 				if(activePlayerList->size() > 2) {
 					if((*it_c)->getMyButton() == BUTTON_DEALER) {
 
-						logFileStreamString += "</br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
+						logFileStreamString += "</br>" + escapeHtml(QString::fromUtf8((*it_c)->getMyName().c_str())) + " starts as dealer.";
 						break;
 					}
 				} else {
 					if((*it_c)->getMyButton() == BUTTON_SMALL_BLIND) {
 
-						logFileStreamString += "</br>" + QString::fromUtf8((*it_c)->getMyName().c_str()) + " starts as dealer.";
+						logFileStreamString += "</br>" + escapeHtml(QString::fromUtf8((*it_c)->getMyName().c_str())) + " starts as dealer.";
 						break;
 					}
 				}
@@ -424,18 +437,19 @@ void guiLog::logNewBlindsSetsMsg(int sbSet, int bbSet, QString sbName, QString b
 
 void guiLog::logPlayerWinsMsg(QString playerName, int pot, bool main)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 
 #ifdef GUI_800x480
 	if(main) {
-		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerMainPotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+"</span>");
+		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerMainPotColor()+";\">"+escapedPlayerName+" wins $"+QString::number(pot,10)+"</span>");
 	} else {
-		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerSidePotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
+		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerSidePotColor()+";\">"+escapedPlayerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
 	}
 #else
 	if(main) {
-		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerMainPotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+"</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerMainPotColor()+";\">"+escapedPlayerName+" wins $"+QString::number(pot,10)+"</span>");
 	} else {
-		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerSidePotColor()+";\">"+playerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getLogWinnerSidePotColor()+";\">"+escapedPlayerName+" wins $"+QString::number(pot,10)+" (side pot)</span>");
 	}
 #endif
 
@@ -444,7 +458,7 @@ void guiLog::logPlayerWinsMsg(QString playerName, int pot, bool main)
 		if(myConfig->readConfigInt("LogOnOff")) {
 			//if write logfiles is enabled
 
-			logFileStreamString += "</br><i>"+playerName+" wins $"+QString::number(pot,10);
+			logFileStreamString += "</br><i>"+escapedPlayerName+" wins $"+QString::number(pot,10);
 			if(!main) {
 				logFileStreamString += " (side pot)";
 			}
@@ -461,18 +475,19 @@ void guiLog::logPlayerWinsMsg(QString playerName, int pot, bool main)
 
 void guiLog::logPlayerSitsOut(QString playerName)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append("<i><span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">"+playerName+" sits out</span></i>");
+	myW->tabs.textBrowser_Log->append("<i><span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">"+escapedPlayerName+" sits out</span></i>");
 #else
-	myW->textBrowser_Log->append("<i><span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">"+playerName+" sits out</span></i>");
+	myW->textBrowser_Log->append("<i><span style=\"color:#"+myStyle->getLogPlayerSitsOutColor()+";\">"+escapedPlayerName+" sits out</span></i>");
 #endif
 
 	if(HTML_LOG) {
 
 		if(myConfig->readConfigInt("LogOnOff")) {
 
-			logFileStreamString += "</br><i><span style=\"font-size:smaller;\">"+playerName+" sits out</span></i>\n";
+			logFileStreamString += "</br><i><span style=\"font-size:smaller;\">"+escapedPlayerName+" sits out</span></i>\n";
 
 			if(myConfig->readConfigInt("LogInterval") == 0) {
 				writeLogFileStream(logFileStreamString);
@@ -553,6 +568,7 @@ void guiLog::logDealBoardCardsMsg(int roundID, int card1, int card2, int card3, 
 
 void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int cardsValueInt, QString showHas)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 
 	QString tempHandName;
 
@@ -561,16 +577,16 @@ void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int c
 		tempHandName = CardsValue::determineHandName(cardsValueInt,myW->getSession()->getCurrentGame()->getActivePlayerList()).c_str();
 
 #ifdef GUI_800x480
-		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"] - \""+tempHandName+"\"</span>");
+		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedPlayerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"] - \""+tempHandName+"\"</span>");
 #else
-		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"] - \""+tempHandName+"\"</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedPlayerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"] - \""+tempHandName+"\"</span>");
 #endif
 
 	} else {
 #ifdef GUI_800x480
-		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]</span>");
+		myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedPlayerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]</span>");
 #else
-		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+playerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]</span>");
+		myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\">"+escapedPlayerName+" "+showHas+" ["+translateCardCode(card1).at(0)+translateCardCode(card1).at(1)+","+translateCardCode(card2).at(0)+translateCardCode(card2).at(1)+"]</span>");
 #endif
 	}
 
@@ -583,7 +599,7 @@ void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int c
 
 				tempHandName.fromStdString(CardsValue::determineHandName(cardsValueInt,myW->getSession()->getCurrentGame()->getActivePlayerList()));
 
-				logFileStreamString += playerName+" "+showHas+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
+				logFileStreamString += escapedPlayerName+" "+showHas+" [ <b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"] - "+tempHandName+"</br>\n";
 
 				if(myConfig->readConfigInt("LogInterval") == 0) {
 					writeLogFileStream(logFileStreamString);
@@ -592,7 +608,7 @@ void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int c
 
 			} else {
 
-				logFileStreamString += playerName+" "+showHas+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
+				logFileStreamString += escapedPlayerName+" "+showHas+" [<b>"+translateCardCode(card1).at(0)+"</b>"+translateCardCode(card1).at(1)+",<b>"+translateCardCode(card2).at(0)+"</b>"+translateCardCode(card2).at(1)+"]"+"</br>\n";
 				if(myConfig->readConfigInt("LogInterval") == 0) {
 					writeLogFileStream(logFileStreamString);
 					logFileStreamString = "";
@@ -606,6 +622,7 @@ void guiLog::logFlipHoleCardsMsg(QString playerName, int card1, int card2, int c
 
 void guiLog::logPlayerLeftMsg(QString playerName, int removeReason)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 
 	QString action;
 	switch(removeReason) {
@@ -615,16 +632,16 @@ void guiLog::logPlayerLeftMsg(QString playerName, int removeReason)
 	}
 
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" "+action+" the game!</i></span>");
+	myW->tabs.textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+escapedPlayerName+" "+action+" the game!</i></span>");
 #else
-	myW->textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" "+action+" the game!</i></span>");
+	myW->textBrowser_Log->append( "<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+escapedPlayerName+" "+action+" the game!</i></span>");
 #endif
 
 	if(HTML_LOG) {
 
 		if(myConfig->readConfigInt("LogOnOff")) {
 
-			logFileStreamString += "<i>"+playerName+" "+action+" the game!</i><br>\n";
+			logFileStreamString += "<i>"+escapedPlayerName+" "+action+" the game!</i><br>\n";
 
 			if(myConfig->readConfigInt("LogInterval") == 0) {
 				writeLogFileStream(logFileStreamString);
@@ -637,18 +654,19 @@ void guiLog::logPlayerLeftMsg(QString playerName, int removeReason)
 
 void guiLog::logNewGameAdminMsg(QString playerName)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append( "<i><span style=\"color:#"+myStyle->getLogNewGameAdminColor()+";\">"+playerName+" is game admin now!</span></i>");
+	myW->tabs.textBrowser_Log->append( "<i><span style=\"color:#"+myStyle->getLogNewGameAdminColor()+";\">"+escapedPlayerName+" is game admin now!</span></i>");
 #else
-	myW->textBrowser_Log->append( "<i><span style=\"color:#"+myStyle->getLogNewGameAdminColor()+";\">"+playerName+" is game admin now!</span></i>");
+	myW->textBrowser_Log->append( "<i><span style=\"color:#"+myStyle->getLogNewGameAdminColor()+";\">"+escapedPlayerName+" is game admin now!</span></i>");
 #endif
 
 	if(HTML_LOG) {
 
 		if(myConfig->readConfigInt("LogOnOff")) {
 
-			logFileStreamString += "<i>"+playerName+" is game admin now!</i><br>\n";
+			logFileStreamString += "<i>"+escapedPlayerName+" is game admin now!</i><br>\n";
 
 			if(myConfig->readConfigInt("LogInterval") == 0) {
 				writeLogFileStream(logFileStreamString);
@@ -661,10 +679,11 @@ void guiLog::logNewGameAdminMsg(QString playerName)
 
 void guiLog::logPlayerJoinedMsg(QString playerName)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" has joined the game!</i></span>");
+	myW->tabs.textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+escapedPlayerName+" has joined the game!</i></span>");
 #else
-	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+playerName+" has joined the game!</i></span>");
+	myW->textBrowser_Log->append("<span style=\"color:#"+myStyle->getChatLogTextColor()+";\"><i>"+escapedPlayerName+" has joined the game!</i></span>");
 #endif
 }
 
@@ -680,18 +699,19 @@ void guiLog::logSpectatorJoinedMsg(QString playerName)
 
 void guiLog::logPlayerWinGame(QString playerName, int gameID)
 {
+	const QString escapedPlayerName = escapeHtml(playerName);
 
 #ifdef GUI_800x480
-	myW->tabs.textBrowser_Log->append( "<i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b><br>");
+	myW->tabs.textBrowser_Log->append( "<i><b>"+escapedPlayerName+" wins game " + QString::number(gameID,10)  +"!</i></b><br>");
 #else
-	myW->textBrowser_Log->append( "<i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b><br>");
+	myW->textBrowser_Log->append( "<i><b>"+escapedPlayerName+" wins game " + QString::number(gameID,10)  +"!</i></b><br>");
 #endif
 
 	if(HTML_LOG) {
 
 		if(myConfig->readConfigInt("LogOnOff")) {
 
-			logFileStreamString += "</br></br><i><b>"+playerName+" wins game " + QString::number(gameID,10)  +"!</i></b></br>\n";
+			logFileStreamString += "</br></br><i><b>"+escapedPlayerName+" wins game " + QString::number(gameID,10)  +"!</i></b></br>\n";
 
 			if(myConfig->readConfigInt("LogInterval") == 0) {
 				writeLogFileStream(logFileStreamString);
