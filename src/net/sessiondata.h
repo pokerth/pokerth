@@ -87,6 +87,8 @@ public:
 	std::string AuthGetUser() const;
 	void AuthSetPassword(const std::string &password);
 	std::string AuthGetPassword() const;
+	void SetAuthenticationPending(bool pending);
+	bool IsAuthenticationPending() const;
 	std::string AuthGetNextOutMsg() const;
 	int AuthGetCurStepNum() const;
 
@@ -191,6 +193,7 @@ private:
 	int								m_curAuthStep;
 	std::string						m_nextGsaslMsg;
 	std::string						m_password;
+	bool						m_authenticationPending{false};
 	boost::shared_ptr<PlayerData>	m_playerData;
 	unsigned						m_clientBuildId{0};
 	std::string						m_closeReason;
