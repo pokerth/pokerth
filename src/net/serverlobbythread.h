@@ -301,6 +301,7 @@ private:
 	boost::asio::steady_timer m_removeGameTimer;
 	boost::asio::steady_timer m_saveStatisticsTimer;
 	boost::asio::steady_timer m_loginLockTimer;
+	boost::asio::steady_timer m_avatarCleanupTimer;
 
 	boost::uuids::random_generator m_sessionIdGenerator;
 
