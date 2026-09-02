@@ -45,6 +45,15 @@ Rectangle {
         return count < maxPlayers ? Config.Theme.colorStatusOpen : Config.Theme.colorStatusFull
     }
 
+    function escapeHtml(value) {
+        return String(value === undefined || value === null ? "" : value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;")
+    }
+
     // Kontextaktionen für das ausgewählte Spiel (Bestätigung wie im Widget-Client)
     function requestReportGame() {
         if (!selectedGame) return
@@ -1541,8 +1550,8 @@ Rectangle {
             AppLabel {
                 Layout.fillWidth: true
                 text: qsTr("You have been invited to the game <b>%1</b> by <b>%2</b>.<br>Would you like to join this game?")
-                      .arg(inviteGamePopup.inviteGameName)
-                      .arg(inviteGamePopup.inviteFromName)
+                      .arg(lobbyPage.escapeHtml(inviteGamePopup.inviteGameName))
+                      .arg(lobbyPage.escapeHtml(inviteGamePopup.inviteFromName))
                 textFormat: Text.RichText
                 color: Config.StaticData.palette.secondary.col200
                 font.pixelSize: 13
