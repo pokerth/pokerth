@@ -123,12 +123,22 @@ TlsPinning::ComputeSpkiPin(X509 *cert)
 	if (!cert)
 		return pin;
 
+#ifdef LIBRESSL_VERSION_NUMBER
+	X509_PUBKEY *pubKey = X509_get_X509_PUBKEY(cert);
+	if (!pubKey)
+		return pin;
+
+	unsigned char *der = NULL;
+	int derSize = i2d_X509_PUBKEY(pubKey, &der);
+#else
 	const X509_PUBKEY *pubKey = X509_get_X509_PUBKEY(cert);
 	if (!pubKey)
 		return pin;
 
 	unsigned char *der = NULL;
 	const int derSize = i2d_X509_PUBKEY(pubKey, &der);
+#endif
+
 	if (der) {
 		if (derSize > 0) {
 			unsigned char digest[SHA256_DIGEST_LENGTH];
