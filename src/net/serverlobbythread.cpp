@@ -73,6 +73,7 @@
 #define SERVER_REMOVE_PLAYER_INTERVAL_MSEC			100
 #define SERVER_UPDATE_LOGIN_LOCK_INTERVAL_MSEC		1000
 #define SERVER_PROCESS_SEND_INTERVAL_MSEC			10
+#define SERVER_AVATAR_CACHE_CLEANUP_INTERVAL_SEC		86400
 
 #define SERVER_INIT_LOGIN_CLIENT_LOCK_SEC			NetHelper::GetLoginLockSec()
 #define SERVER_INIT_LOGIN_CLIENT_BURST				5		// inits one address may send back to back before the rate limit applies
@@ -296,6 +297,7 @@ ServerLobbyThread::ServerLobbyThread(GuiInterface &gui, ServerMode mode, ConfigF
 	  m_mode(mode), m_serverConfig(serverConfig), m_curGameId(0), m_curUniquePlayerId(0), m_curSessionId(INVALID_SESSION + 1),
 	  m_statDataChanged(false), m_removeGameTimer(*ioService),
 	  m_saveStatisticsTimer(*ioService), m_loginLockTimer(*ioService),
+	  m_avatarCleanupTimer(*ioService),
 	  m_startTime(boost::posix_time::second_clock::local_time())
 {
 	m_internalServerCallback.reset(new InternalServerCallback(*this));
@@ -1072,6 +1074,12 @@ ServerLobbyThread::RegisterTimers()
 	m_loginLockTimer.async_wait(
 		boost::bind(
 			&ServerLobbyThread::TimerUpdateClientLoginLock, shared_from_this(), boost::asio::placeholders::error));
+	// Remove stale and excess avatar cache entries periodically. The
+	// AvatarManager also enforces the limit after each new upload.
+	m_avatarCleanupTimer.expires_after(seconds(SERVER_AVATAR_CACHE_CLEANUP_INTERVAL_SEC));
+	m_avatarCleanupTimer.async_wait(
+		boost::bind(
+			&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 }
 
 void
@@ -1080,6 +1088,7 @@ ServerLobbyThread::CancelTimers()
 	m_removeGameTimer.cancel();
 	m_saveStatisticsTimer.cancel();
 	m_loginLockTimer.cancel();
+	m_avatarCleanupTimer.cancel();
 }
 
 void
@@ -2267,6 +2276,18 @@ ServerLobbyThread::TimerUpdateClientLoginLock(const boost::system::error_code &e
 		m_loginLockTimer.async_wait(
 			boost::bind(
 				&ServerLobbyThread::TimerUpdateClientLoginLock, shared_from_this(), boost::asio::placeholders::error));
+	}
+}
+
+void
+ServerLobbyThread::TimerCleanupAvatarCache(const boost::system::error_code &ec)
+{
+	if (!ec) {
+		m_avatarManager.RemoveOldAvatarCacheEntries();
+		m_avatarCleanupTimer.expires_after(seconds(SERVER_AVATAR_CACHE_CLEANUP_INTERVAL_SEC));
+		m_avatarCleanupTimer.async_wait(
+			boost::bind(
+				&ServerLobbyThread::TimerCleanupAvatarCache, shared_from_this(), boost::asio::placeholders::error));
 	}
 }
 

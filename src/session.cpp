@@ -97,9 +97,7 @@ bool Session::init()
 					  myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("AppDataDir")),
 					  myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("CacheDir")));
 	addOwnAvatar(myQtToolsInterface->stringFromUtf8(myConfig->readConfigString("MyAvatar")));
-#ifndef POKERTH_OFFICIAL_SERVER
 	myAvatarManager->RemoveOldAvatarCacheEntries();
-#endif
 	return retVal;
 }
 
@@ -659,4 +657,3 @@ bool Session::getAvatarFile(const MD5Buf &avatarMD5, std::string &fileName)
 	}
 	return retVal;
 }
-

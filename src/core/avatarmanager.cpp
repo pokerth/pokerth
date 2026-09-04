@@ -43,6 +43,7 @@
 
 #include <fstream>
 #include <cstring>
+#include <set>
 #include <vector>
 
 #define MAX_NUMBER_OF_FILES			NetHelper::GetMaxNumberOfAvatarFiles()
@@ -433,18 +434,41 @@ AvatarManager::StoreAvatarInCache(const MD5Buf &md5buf, AvatarFileType avatarFil
 				path tmpPath(cacheDir);
 				tmpPath /= (md5buf.ToString() + ext);
 				string fileName(tmpPath.string());
+				boost::mutex::scoped_lock cacheLock(m_cachedAvatarsMutex);
 				std::ofstream o(fileName.c_str(), ios_base::out | ios_base::binary | ios_base::trunc);
 				if (!o.fail()) {
 					o.write((const char *)data, size);
 					o.close();
+
+					// A hash is the cache key, so keep only one physical file
+					// for it. Otherwise a peer could store the same hash once
+					// under each supported extension and bypass the file limit.
+					const AvatarFileType fileTypes[] = {
+						AVATAR_FILE_TYPE_PNG, AVATAR_FILE_TYPE_JPG, AVATAR_FILE_TYPE_GIF
+					};
+					for (unsigned i = 0; i < sizeof(fileTypes) / sizeof(fileTypes[0]); ++i) {
+						string otherExt(GetAvatarFileExtension(fileTypes[i]));
+						if (otherExt != ext) {
+							path otherPath(cacheDir);
+							otherPath /= (md5buf.ToString() + otherExt);
+							boost::system::error_code removeError;
+							boost::filesystem::remove(otherPath, removeError);
+							if (removeError)
+								LOG_ERROR("Failed to remove duplicate avatar cache entry.");
+						}
+					}
+
 					if (upload && m_useExternalServer) {
 						m_uploader->QueueUpload(m_externalServerAddress, m_externalServerUser, m_externalServerPassword, fileName, size);
 					}
 
-					{
-						boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
-						m_cachedAvatars.insert(AvatarMap::value_type(md5buf, fileName));
-					}
+					m_cachedAvatars[md5buf] = fileName;
+					// Keep the cache bounded when a remote peer causes a new
+					// avatar to be stored. The periodic server cleanup handles
+					// stale entries, while this prevents upload bursts from
+					// growing the cache without bound between timer runs.
+					cacheLock.unlock();
+					RemoveOldAvatarCacheEntries();
 					retVal = true;
 				}
 			}
@@ -499,6 +523,33 @@ AvatarManager::RemoveOldAvatarCacheEntries()
 		// Never delete anything if we do not have a special cache dir set.
 		if (!cacheDir.empty()) {
 			boost::mutex::scoped_lock lock(m_cachedAvatarsMutex);
+			set<string> canonicalFiles;
+			for (AvatarMap::const_iterator i = m_cachedAvatars.begin(); i != m_cachedAvatars.end(); ++i)
+				canonicalFiles.insert(path(i->second).string());
+
+			// Remove avatar cache files which share a hash with a
+			// canonical entry but are not the selected file. This also
+			// cleans duplicates left by older server versions.
+			try {
+				directory_iterator i(cachePath);
+				directory_iterator end;
+				while (i != end) {
+					if (is_regular_file(i->status())) {
+						MD5Buf tmpBuf;
+						string fileString(i->path().string());
+						if (tmpBuf.FromString(i->path().stem().string())
+								&& canonicalFiles.find(fileString) == canonicalFiles.end()) {
+							boost::system::error_code removeError;
+							boost::filesystem::remove(i->path(), removeError);
+							if (removeError)
+								LOG_ERROR("Failed to remove duplicate avatar cache entry.");
+						}
+					}
+					++i;
+				}
+			} catch (...) {
+				LOG_ERROR("Exception caught when removing duplicate avatar cache entries.");
+			}
 
 			// First pass: Remove files which no longer exist.
 			// Count files and record age.
