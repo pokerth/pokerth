@@ -34,7 +34,7 @@ Log::~Log()
     std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
     // Flush any pending SQL statements before destruction
     // This is critical when LogInterval > 0 (batch logging)
-    if (!sql.empty()) {
+    if (!sql.empty() || !pendingPlayerLogs.empty()) {
         exec_transaction();
     }
     // Explicitly close and remove ALL database connections that belong to this
@@ -357,15 +357,9 @@ Log::logNewGameMsg(int gameID, int startCash, int startSmallBlind, unsigned deal
 				i = 1;
 				for(it_c = seatsList->begin(); it_c!=seatsList->end(); ++it_c) {
 					if((*it_c)->getMyActiveStatus()) {
-						sql += "INSERT INTO Player (";
-						sql += "UniqueGameID";
-						sql += ",Seat";
-					 sql += ",Player";
-					 sql += ") VALUES (";
-					 sql += boost::lexical_cast<string>(uniqueGameID);
-					 sql += "," + boost::lexical_cast<string>(i);
-					 sql += ",\"" + (*it_c)->getMyName() +"\"";
-					 sql += ");";
+						// Keep player names out of the SQL text; bind them when flushed.
+						pendingPlayerLogs.push_back(
+							PendingPlayerLog(uniqueGameID, i, (*it_c)->getMyName()));
 					}
 					i++;
 				}
@@ -846,7 +840,7 @@ Log::flushLog()
 	std::lock_guard<std::recursive_mutex> sqlLock(sqlMutex);
 	// Force flush pending SQL statements regardless of LogInterval
 	// Used when leaving game early to ensure all data is written
-	if (!sql.empty()) {
+	if (!sql.empty() || !pendingPlayerLogs.empty()) {
 		LOG_MSG("Log::flushLog: " << sql.size() << " bytes pending, thread="
 		        << (qulonglong)QThread::currentThreadId());
 		exec_transaction();
@@ -870,6 +864,7 @@ Log::exec_transaction()
         QSqlDatabase db = getDatabase();
         if (!(db.isValid() && db.isOpen())) {
             sql.clear();
+            pendingPlayerLogs.clear();
             return;
         }
         
@@ -913,6 +908,30 @@ Log::exec_transaction()
         start = pos + 1;
     }
 
+    if (!hasError && !pendingPlayerLogs.empty()) {
+        QSqlQuery playerQuery(db);
+        if (!playerQuery.prepare(QString::fromUtf8(
+                "INSERT INTO Player (UniqueGameID,Seat,Player) VALUES (?, ?, ?)"))) {
+            QSqlError qe = playerQuery.lastError();
+            cout << "Error preparing player log statement: "
+                 << qe.text().toStdString() << "." << endl;
+            hasError = true;
+        } else {
+            for (const PendingPlayerLog &pending : pendingPlayerLogs) {
+                playerQuery.bindValue(0, pending.uniqueGameID);
+                playerQuery.bindValue(1, pending.seat);
+                playerQuery.bindValue(2, QString::fromStdString(pending.name));
+                if (!playerQuery.exec()) {
+                    QSqlError qe = playerQuery.lastError();
+                    cout << "Error inserting player log: "
+                         << qe.text().toStdString() << "." << endl;
+                    hasError = true;
+                    break;
+                }
+            }
+        }
+    }
+
     if(hasError) {
         db.rollback();
         cout << "Transaction rolled back due to errors." << endl;
@@ -925,7 +944,9 @@ Log::exec_transaction()
             LOG_ERROR("Log::exec_transaction: COMMIT failed: " << err.text().toStdString());
         }
     }
+    pendingPlayerLogs.clear();
     } else {
         sql.clear();
+        pendingPlayerLogs.clear();
     }
 }

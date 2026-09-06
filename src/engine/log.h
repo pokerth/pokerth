@@ -7,6 +7,7 @@
 
 #include <string>
 #include <set>
+#include <vector>
 #include <atomic>
 #include <mutex>
 #include <boost/filesystem.hpp>
@@ -67,6 +68,15 @@ public:
 
 private:
 
+    struct PendingPlayerLog {
+        PendingPlayerLog(int gameId, int seatNumber, const std::string &playerName)
+            : uniqueGameID(gameId), seat(seatNumber), name(playerName) {}
+
+        int uniqueGameID;
+        int seat;
+        std::string name;
+    };
+
     void exec_transaction();
     QSqlDatabase getDatabase() const; // Verbindung zur bereits angelegten Logdatei (legt nichts an)
     QSqlDatabase getOrCreateDatabase(); // wie getDatabase(), legt die Logdatei beim ersten Eintrag an
@@ -81,6 +91,7 @@ private:
     int currentHandID;
     GameState currentRound;
     std::string sql;
+    std::vector<PendingPlayerLog> pendingPlayerLogs;
     std::set<std::string> loggedSitsOut;  // Track players already logged as "sits out"
 
     // Gesetzt, solange wir nur zuschauen (siehe setRecordingSuspended()). Wird
