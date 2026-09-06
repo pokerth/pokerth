@@ -975,8 +975,15 @@ ClientThread::StoreInTempAvatarFile(unsigned playerId, const vector<unsigned cha
 	AvatarFileMap::iterator pos = m_tempAvatarMap.find(playerId);
 	if (pos == m_tempAvatarMap.end())
 		throw ClientException(__FILE__, __LINE__, ERR_NET_INVALID_REQUEST_ID, 0);
-	// We trust the server (concerning size of the data).
-	std::copy(data.begin(), data.end(), back_inserter(pos->second->fileData));
+	AvatarFile &avatarFile = *pos->second;
+	if (avatarFile.fileData.size() > avatarFile.reportedSize
+			|| data.size() > avatarFile.reportedSize - avatarFile.fileData.size()) {
+		// Drop the partial transfer before rejecting the peer so an invalid
+		// stream cannot retain any accumulated data.
+		m_tempAvatarMap.erase(pos);
+		throw ClientException(__FILE__, __LINE__, ERR_NET_WRONG_AVATAR_SIZE, 0);
+	}
+	std::copy(data.begin(), data.end(), back_inserter(avatarFile.fileData));
 }
 
 void
@@ -1857,4 +1864,3 @@ ClientThread::WriteSessionGuidToFile() const
 		LOG_ERROR("[REJOIN] could not write guid.tmp at " << guidFileName);
 	}
 }
-
