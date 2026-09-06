@@ -67,7 +67,8 @@ public:
 	virtual void AsyncBlockPlayer(unsigned requestId, unsigned replyId, DB_id playerId, int valid, int active);
 
 	virtual void LogSessionStart(unsigned sessionNo, DB_id playerId, const std::string &nick, bool isGuest,
-								 unsigned clientBuildId, const std::string &country, const std::string &ip);
+								 unsigned clientBuildId, unsigned clientPlatform, const std::string &country,
+								 const std::string &ip);
 	virtual void LogSessionEnd(unsigned sessionNo, unsigned gameId, const std::string &closeReason);
 
 private:

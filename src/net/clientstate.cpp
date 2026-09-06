@@ -61,6 +61,10 @@
 #include <fstream>
 #include <sstream>
 
+#ifdef __APPLE__
+#include <TargetConditionals.h>
+#endif
+
 // TCP keepalive configuration (cross-platform)
 #ifdef _WIN32
 #include <winsock2.h>
@@ -103,6 +107,30 @@ static unsigned GetOwnBuildId(const ClientContext &context)
 	return context.GetClientType() == CLIENT_TYPE_QML
 		   ? MAKE_BUILD_ID(CLIENT_TYPE_QML, QML_VERSION_MAJOR, QML_VERSION_MINOR, QML_VERSION_REVISION)
 		   : POKERTH_BUILD_ID;
+}
+
+// Das Betriebssystem, auf dem dieses Binary läuft. Es steckt bewusst nicht in
+// der buildId: der Client-Typ dort sagt nur, welche GUI spricht, und der
+// QML-Client läuft auf Android wie auf dem Desktop. Ohne diese Angabe sind die
+// beiden am Server nicht zu unterscheiden.
+static InitMessage::ClientPlatform GetOwnClientPlatform()
+{
+#if defined(__ANDROID__)
+	// Vor __linux__ prüfen: Android definiert es ebenfalls.
+	return InitMessage::platformAndroid;
+#elif defined(_WIN32)
+	return InitMessage::platformWindows;
+#elif defined(__APPLE__)
+#	if TARGET_OS_IPHONE
+	return InitMessage::platformIos;
+#	else
+	return InitMessage::platformMac;
+#	endif
+#elif defined(__linux__)
+	return InitMessage::platformLinux;
+#else
+	return InitMessage::platformUnknown;
+#endif
 }
 
 
@@ -1455,6 +1483,7 @@ ClientStateStartSession::InternalHandlePacket(boost::shared_ptr<ClientThread> cl
 			// send the QML version (the server's MIN_BUILD_ID_QML check uses it),
 			// otherwise a current server rejects them with "version not supported".
 			netInit->set_buildid(GetOwnBuildId(context));
+			netInit->set_clientplatform(GetOwnClientPlatform());
 			if (!context.GetSessionGuid().empty()) {
 				netInit->set_mylastsessionid(context.GetSessionGuid());
 			}
@@ -1539,6 +1568,7 @@ ClientStateWaitEnterLogin::TimerLoop(const boost::system::error_code& ec, boost:
             netInit->mutable_requestedversion()->set_minorversion(NET_VERSION_MINOR);
             // Announce the version matching the client type (see above).
             netInit->set_buildid(GetOwnBuildId(context));
+            netInit->set_clientplatform(GetOwnClientPlatform());
             
             // Include session GUID and server password BEFORE setting login type
             if (!context.GetSessionGuid().empty()) {

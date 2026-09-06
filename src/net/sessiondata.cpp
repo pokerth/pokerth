@@ -355,6 +355,20 @@ SessionData::GetClientBuildId() const
 }
 
 void
+SessionData::SetClientPlatform(unsigned platform)
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	m_clientPlatform = platform;
+}
+
+unsigned
+SessionData::GetClientPlatform() const
+{
+	boost::mutex::scoped_lock lock(m_dataMutex);
+	return m_clientPlatform;
+}
+
+void
 SessionData::SetCloseReason(const std::string &reason)
 {
 	boost::mutex::scoped_lock lock(m_dataMutex);

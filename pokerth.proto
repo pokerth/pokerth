@@ -146,7 +146,10 @@ message AnnounceMessage {
 	required	uint32			numPlayersOnServer = 5;
 }
 
-// buildId contains a constant build id (specific for Windows/Linux/Mac builds)
+// buildId identifies the client type and its version, clientPlatform the
+// operating system it runs on. The two are independent: the QML client is
+// built for desktop and mobile alike, so its build id alone cannot tell an
+// Android login from a Linux one.
 message InitMessage {
 	required	AnnounceMessage.Version		requestedVersion = 1;
 	required	uint32			buildId = 2;
@@ -164,6 +167,17 @@ message InitMessage {
 	optional	bytes			clientUserData = 7;
 	// Ignored for guest login.
 	optional	bytes			avatarHash = 8;
+	// Operating system of the client. Added in 2.1.9; clients which do not
+	// send it are counted as platformUnknown.
+	enum ClientPlatform {
+		platformUnknown = 0;
+		platformWindows = 1;
+		platformLinux = 2;
+		platformMac = 3;
+		platformAndroid = 4;
+		platformIos = 5;
+	}
+	optional	ClientPlatform	clientPlatform = 9;
 }
 
 message AuthServerChallengeMessage {

@@ -39,6 +39,14 @@ CREATE TABLE IF NOT EXISTS `server_run` (
 -- `close_reason = 'server_gone'` on the next start, so they can be excluded
 -- without pretending to know when they ended.
 --
+-- `client_type` and `client_platform` are two different questions: the type is
+-- derived from the build id and says which client connected, the platform is
+-- reported separately by the client and says which operating system it ran on.
+-- The QML client ships for desktop and mobile with the same build id, so only
+-- the platform column tells an Android login from a Linux one. Clients before
+-- 2.1.9 do not report it and leave it NULL - see
+-- docs/server_activity_add_client_platform.sql for the migration that added it.
+--
 CREATE TABLE IF NOT EXISTS `server_session` (
   `session_id`      bigint unsigned NOT NULL AUTO_INCREMENT,
   `run_id`          int unsigned    NOT NULL,
@@ -48,7 +56,9 @@ CREATE TABLE IF NOT EXISTS `server_session` (
   `is_guest`        tinyint(1)      NOT NULL DEFAULT 0,
   `client_build_id` int unsigned    DEFAULT NULL COMMENT '(type << 24) | (major << 16) | (minor << 8) | revision',
   `client_type`     tinyint unsigned GENERATED ALWAYS AS (`client_build_id` >> 24) VIRTUAL
-                    COMMENT '1 = Qt widget, 2 = QML - derived, never stored twice',
+                    COMMENT '1 = Qt widget, 2 = QML, 3 = web - derived, never stored twice',
+  `client_platform` tinyint unsigned DEFAULT NULL
+                    COMMENT '1 = Windows, 2 = Linux, 3 = Mac, 4 = Android, 5 = iOS; NULL = not reported',
   `country_iso`     varchar(32)     DEFAULT NULL,
   `ip`              varbinary(16)   DEFAULT NULL COMMENT 'INET6_ATON form, holds both v4 and v6',
   `connected_at`    datetime        NOT NULL,
@@ -61,7 +71,8 @@ CREATE TABLE IF NOT EXISTS `server_session` (
   KEY `connected_at` (`connected_at`),
   KEY `player_connected` (`player_id`,`connected_at`),
   KEY `ip_connected` (`ip`,`connected_at`),
-  KEY `client_type` (`client_type`)
+  KEY `client_type` (`client_type`),
+  KEY `client_platform` (`client_platform`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -109,6 +120,14 @@ CREATE TABLE IF NOT EXISTS `server_session` (
 --     FROM server_session
 --    WHERE connected_at >= CURDATE() - INTERVAL 7 DAY
 --    GROUP BY client_build_id ORDER BY players DESC;
+--
+-- Platform split, the reason `client_platform` exists (NULL = client too old
+-- to report one):
+--
+--   SELECT client_platform, COUNT(*) AS logins, COUNT(DISTINCT player_id) AS players
+--     FROM server_session
+--    WHERE connected_at >= CURDATE() - INTERVAL 30 DAY
+--    GROUP BY client_platform ORDER BY logins DESC;
 --
 -- Who is online right now:
 --

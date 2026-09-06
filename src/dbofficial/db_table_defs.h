@@ -92,6 +92,7 @@
 #define DB_TABLE_SERVER_SESSION_COL_NICK			"nick"
 #define DB_TABLE_SERVER_SESSION_COL_ISGUEST			"is_guest"
 #define DB_TABLE_SERVER_SESSION_COL_BUILDID			"client_build_id"
+#define DB_TABLE_SERVER_SESSION_COL_PLATFORM		"client_platform"
 #define DB_TABLE_SERVER_SESSION_COL_COUNTRY			"country_iso"
 #define DB_TABLE_SERVER_SESSION_COL_IP				"ip"
 #define DB_TABLE_SERVER_SESSION_COL_CONNECTED		"connected_at"

@@ -134,12 +134,37 @@ static const char *GetClientTypeName(unsigned clientType)
 	}
 }
 
-// Hilfsfunktion: buildId als "<Typ> <major>.<minor>.<revision>" für die Logs.
-static std::string FormatClientBuildId(unsigned buildId)
+// Hilfsfunktion: gemeldete Plattform als Klartext. Ebenfalls ein Token ohne
+// Leerzeichen, aus dem gleichen Grund wie beim Client-Typ.
+static const char *GetClientPlatformName(unsigned platform)
+{
+	switch (platform) {
+	case InitMessage::platformWindows:
+		return "Windows";
+	case InitMessage::platformLinux:
+		return "Linux";
+	case InitMessage::platformMac:
+		return "Mac";
+	case InitMessage::platformAndroid:
+		return "Android";
+	case InitMessage::platformIos:
+		return "iOS";
+	default:
+		return "unknown";
+	}
+}
+
+// Hilfsfunktion: buildId und Plattform als "<Typ>/<Plattform> <major>.<minor>.<revision>"
+// für die Logs. Clients vor 2.1.9 melden keine Plattform, deren Zeilen bleiben
+// beim reinen "<Typ> <version>".
+static std::string FormatClientBuildId(unsigned buildId, unsigned platform)
 {
 	std::ostringstream stream;
-	stream << GetClientTypeName(BUILD_ID_GET_TYPE(buildId))
-		   << ' ' << BUILD_ID_GET_MAJOR(buildId)
+	stream << GetClientTypeName(BUILD_ID_GET_TYPE(buildId));
+	if (platform != InitMessage::platformUnknown) {
+		stream << '/' << GetClientPlatformName(platform);
+	}
+	stream << ' ' << BUILD_ID_GET_MAJOR(buildId)
 		   << '.' << BUILD_ID_GET_MINOR(buildId)
 		   << '.' << BUILD_ID_GET_REVISION(buildId);
 	return stream.str();
@@ -1238,6 +1263,11 @@ ServerLobbyThread::HandleNetPacketInit(boost::shared_ptr<SessionData> session, c
 		// Kept beyond this check so that the activity log can report which
 		// client versions are actually in use.
 		session->SetClientBuildId(clientBuildId);
+		// Optional since 2.1.9, and the only way to tell an Android login from
+		// a desktop one: both are the QML client type.
+		session->SetClientPlatform(initMessage.has_clientplatform()
+								   ? initMessage.clientplatform()
+								   : InitMessage::platformUnknown);
 
 		if (clientBuildId == 0) {
 			// Legacy client (pre-2.0.6) sends buildId=0 - no longer supported.
@@ -2084,7 +2114,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 	LOG_MSG("Player \"" << session->GetPlayerData()->GetName() << "\" (id:" << session->GetPlayerData()->GetUniqueId()
 		<< ", dbId:" << session->GetPlayerData()->GetDBId() << ") connected from " << session->GetClientAddr()
 		<< " - session #" << session->GetId()
-		<< " - client: " << FormatClientBuildId(session->GetClientBuildId()) << ".");
+		<< " - client: " << FormatClientBuildId(session->GetClientBuildId(), session->GetClientPlatform()) << ".");
 
 	// Open the activity row for this connection. Only sessions which got this
 	// far are logged, so that port scans and rejected clients do not show up as
@@ -2095,6 +2125,7 @@ ServerLobbyThread::EstablishSession(boost::shared_ptr<SessionData> session)
 		session->GetPlayerData()->GetName(),
 		session->GetPlayerData()->GetRights() == PLAYER_RIGHTS_GUEST,
 		session->GetClientBuildId(),
+		session->GetClientPlatform(),
 		session->GetPlayerData()->GetCountry(),
 		session->GetClientAddr());
 

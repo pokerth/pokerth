@@ -150,6 +150,13 @@ public:
 	void SetClientBuildId(unsigned buildId);
 	unsigned GetClientBuildId() const;
 
+	// Operating system reported by the client, as InitMessage::ClientPlatform.
+	// The build id only says which client type connected, and the QML client
+	// runs on desktop and mobile alike, so the platform is asked separately.
+	// 0 (platformUnknown) means the client did not report one.
+	void SetClientPlatform(unsigned platform);
+	unsigned GetClientPlatform() const;
+
 	// Why the connection went away, as reported by the receive buffer. Set
 	// before the session is closed, read while closing it.
 	void SetCloseReason(const std::string &reason);
@@ -196,6 +203,7 @@ private:
 	bool						m_authenticationPending{false};
 	boost::shared_ptr<PlayerData>	m_playerData;
 	unsigned						m_clientBuildId{0};
+	unsigned						m_clientPlatform{0};
 	std::string						m_closeReason;
 
 	mutable boost::mutex			m_dataMutex;

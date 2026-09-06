@@ -207,7 +207,8 @@ ServerDBThread::PlayerLogout(DB_id /*playerId*/)
 
 void
 ServerDBThread::LogSessionStart(unsigned sessionNo, DB_id playerId, const string &nick, bool isGuest,
-								unsigned clientBuildId, const string &country, const string &ip)
+								unsigned clientBuildId, unsigned clientPlatform, const string &country,
+								const string &ip)
 {
 	if (!IsActivityLoggingEnabled())
 		return;
@@ -238,6 +239,16 @@ ServerDBThread::LogSessionStart(unsigned sessionNo, DB_id playerId, const string
 	} else {
 		paramStream.str("");
 		paramStream << clientBuildId;
+		params.push_back(paramStream.str());
+	}
+	// platformUnknown (0) means the client did not report an OS - clients
+	// before 2.1.9 never do - and is stored as NULL, not as a platform of
+	// its own.
+	if (clientPlatform == 0) {
+		params.push_back("NULL");
+	} else {
+		paramStream.str("");
+		paramStream << clientPlatform;
 		params.push_back(paramStream.str());
 	}
 	params.push_back(country.empty() ? "NULL" : country);
@@ -620,7 +631,7 @@ ServerDBThread::PrepareActivityStatements()
 	mysqlpp::Query prepareSessionStart = m_connData->conn.query();
 	prepareSessionStart
 			<< "PREPARE " QUERY_SESSION_START_PREPARE " FROM " << mysqlpp::quote
-			<< "INSERT INTO " DB_TABLE_SERVER_SESSION " (" DB_TABLE_SERVER_SESSION_COL_RUNID ", " DB_TABLE_SERVER_SESSION_COL_NO ", " DB_TABLE_SERVER_SESSION_COL_PLAYERID ", " DB_TABLE_SERVER_SESSION_COL_NICK ", " DB_TABLE_SERVER_SESSION_COL_ISGUEST ", " DB_TABLE_SERVER_SESSION_COL_BUILDID ", " DB_TABLE_SERVER_SESSION_COL_COUNTRY ", " DB_TABLE_SERVER_SESSION_COL_IP ", " DB_TABLE_SERVER_SESSION_COL_CONNECTED ") VALUES (?, ?, ?, ?, ?, ?, ?, INET6_ATON(?), ?)";
+			<< "INSERT INTO " DB_TABLE_SERVER_SESSION " (" DB_TABLE_SERVER_SESSION_COL_RUNID ", " DB_TABLE_SERVER_SESSION_COL_NO ", " DB_TABLE_SERVER_SESSION_COL_PLAYERID ", " DB_TABLE_SERVER_SESSION_COL_NICK ", " DB_TABLE_SERVER_SESSION_COL_ISGUEST ", " DB_TABLE_SERVER_SESSION_COL_BUILDID ", " DB_TABLE_SERVER_SESSION_COL_PLATFORM ", " DB_TABLE_SERVER_SESSION_COL_COUNTRY ", " DB_TABLE_SERVER_SESSION_COL_IP ", " DB_TABLE_SERVER_SESSION_COL_CONNECTED ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, INET6_ATON(?), ?)";
 
 	mysqlpp::Query prepareSessionEnd = m_connData->conn.query();
 	prepareSessionEnd
