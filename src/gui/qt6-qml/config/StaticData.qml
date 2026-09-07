@@ -26,7 +26,8 @@ QtObject {
             { langName: "Italian (Italiano)", code: "it_IT"},
             { langName: "Spanish (Español)", code: "es_ES"},
             { langName: "Portuguese (Português)", code: "pt_PT"},
-            { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"}
+            { langName: "Portuguese, Brazil (Português do Brasil)", code: "pt_BR"},
+            { langName: "Chinese, Simplified (简体中文)", code: "zh_CN"}
         ]
 
     function findSupportedLocale(systemName) {
@@ -54,7 +55,7 @@ QtObject {
     // Widgets-Client seine .qm nicht mehr (pokerth.cpp lädt ungestrippt).
     readonly property var languageConfigCodes: ({
         "de_DE": "de", "en_US": "en", "es_ES": "es", "fr_FR": "fr",
-        "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt"
+        "it_IT": "it", "pt_BR": "ptbr", "pt_PT": "ptpt", "zh_CN": "zhcn"
     })
 
     // QML-Locale -> Config-Kurzcode (zum Schreiben).
@@ -66,7 +67,7 @@ QtObject {
     // Config-Wert -> QML-Locale (zum Lesen). Versteht sowohl den Kurzcode des
     // Widgets-Clients ("de", "ptbr") als auch einen Locale-Wert ("de_DE", der
     // Default ist QLocale::system().name()). Sprachen ohne QML-Übersetzung
-    // (z. B. "zhcn") landen auf der nächstbesten unterstützten Sprache; die
+    // (z. B. "cz") landen auf der nächstbesten unterstützten Sprache; die
     // Chat-Übersetzung folgt trotzdem weiterhin dem Config-Wert.
     function configLanguageToLocale(cfg) {
         if (!cfg || cfg === "")
